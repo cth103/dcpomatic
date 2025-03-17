@@ -69,11 +69,11 @@ void
 JSONServer::run (int port)
 try
 {
-	boost::asio::io_service io_service;
-	tcp::acceptor a (io_service, tcp::endpoint (tcp::v4 (), port));
+	dcpomatic::io_context io_context;
+	tcp::acceptor a(io_context, tcp::endpoint(tcp::v4(), port));
 	while (true) {
 		try {
-			auto s = make_shared<tcp::socket>(io_service);
+			auto s = make_shared<tcp::socket>(io_context);
 			a.accept (*s);
 			handle (s);
 		}

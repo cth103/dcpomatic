@@ -529,45 +529,43 @@ Writer::calculate_digests ()
 		job->sub (_("Computing digests"));
 	}
 
-	boost::asio::io_service service;
+	dcpomatic::io_context context;
 	boost::thread_group pool;
 
-	auto work = make_shared<boost::asio::io_service::work>(service);
+	{
+		auto work = dcpomatic::make_work_guard(context);
 
-	int const threads = max (1, Config::instance()->master_encoding_threads());
+		int const threads = max (1, Config::instance()->master_encoding_threads());
 
-	for (int i = 0; i < threads; ++i) {
-		pool.create_thread (boost::bind (&boost::asio::io_service::run, &service));
-	}
+		for (int i = 0; i < threads; ++i) {
+			pool.create_thread(boost::bind(&dcpomatic::io_context::run, &context));
+		}
 
-	std::function<void (int, int64_t, int64_t)> set_progress;
-	if (job) {
-		set_progress = boost::bind(&Writer::set_digest_progress, this, job.get(), _1, _2, _3);
-	} else {
-		set_progress = [](int, int64_t, int64_t) {
-			boost::this_thread::interruption_point();
-		};
-	}
+		std::function<void (int, int64_t, int64_t)> set_progress;
+		if (job) {
+			set_progress = boost::bind(&Writer::set_digest_progress, this, job.get(), _1, _2, _3);
+		} else {
+			set_progress = [](int, int64_t, int64_t) {
+				boost::this_thread::interruption_point();
+			};
+		}
 
-	int index = 0;
+		int index = 0;
 
-	for (auto& i: _reels) {
-		service.post(
-			boost::bind(
-				&ReelWriter::calculate_digests,
-				&i,
+		for (auto& i: _reels) {
+			dcpomatic::post(context, boost::bind(
+					&ReelWriter::calculate_digests,
+					&i,
+					std::function<void (int64_t, int64_t)>(boost::bind(set_progress, index, _1, _2))
+					));
+			++index;
+		}
+		dcpomatic::post(context, boost::bind(
+				&Writer::calculate_referenced_digests,
+				this,
 				std::function<void (int64_t, int64_t)>(boost::bind(set_progress, index, _1, _2))
 				));
-		++index;
 	}
-	service.post(
-		boost::bind(
-			&Writer::calculate_referenced_digests,
-			this,
-			std::function<void (int64_t, int64_t)>(boost::bind(set_progress, index, _1, _2))
-			));
-
-	work.reset ();
 
 	try {
 		pool.join_all ();
@@ -579,7 +577,7 @@ Writer::calculate_digests ()
 		pool.join_all ();
 	}
 
-	service.stop ();
+	context.stop();
 }
 
 

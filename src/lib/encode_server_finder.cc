@@ -91,7 +91,7 @@ EncodeServerFinder::stop ()
 		_search_thread.join();
 	} catch (...) {}
 
-	_listen_io_service.stop ();
+	_listen_io_context.stop();
 	try {
 		_listen_thread.join ();
 	} catch (...) {}
@@ -108,8 +108,8 @@ try
 	start_of_thread ("EncodeServerFinder-search");
 
 	boost::system::error_code error;
-	boost::asio::io_service io_service;
-	boost::asio::ip::udp::socket socket (io_service);
+	dcpomatic::io_context io_context;
+	boost::asio::ip::udp::socket socket(io_context);
 	socket.open (boost::asio::ip::udp::v4(), error);
 	if (error) {
 		throw NetworkError ("failed to set up broadcast socket");
@@ -135,7 +135,7 @@ try
 		/* Query our `definite' servers (if there are any) */
 		for (auto const& i: Config::instance()->servers()) {
 			try {
-				boost::asio::ip::udp::resolver resolver (io_service);
+				boost::asio::ip::udp::resolver resolver(io_context);
 				boost::asio::ip::udp::resolver::query query(i, fmt::to_string(HELLO_PORT));
 				boost::asio::ip::udp::endpoint end_point (*resolver.resolve(query));
 				socket.send_to (boost::asio::buffer(data.c_str(), data.size() + 1), end_point);
@@ -186,14 +186,14 @@ try {
 
 	try {
 		_listen_acceptor.reset (
-			new tcp::acceptor (_listen_io_service, tcp::endpoint(tcp::v4(), is_batch_converter ? BATCH_SERVER_PRESENCE_PORT : MAIN_SERVER_PRESENCE_PORT))
+			new tcp::acceptor(_listen_io_context, tcp::endpoint(tcp::v4(), is_batch_converter ? BATCH_SERVER_PRESENCE_PORT : MAIN_SERVER_PRESENCE_PORT))
 			);
 	} catch (...) {
 		boost::throw_exception(NetworkError(variant::insert_dcpomatic(_("Could not listen for remote encode servers.  Perhaps another instance of %1 is running."))));
 	}
 
 	start_accept ();
-	_listen_io_service.run ();
+	_listen_io_context.run();
 }
 catch (...)
 {

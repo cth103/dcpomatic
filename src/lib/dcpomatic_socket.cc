@@ -39,8 +39,8 @@ using std::weak_ptr;
 
 /** @param timeout Timeout in seconds */
 Socket::Socket (int timeout)
-	: _deadline (_io_service)
-	, _socket (_io_service)
+	: _deadline(_io_context)
+	, _socket(_io_context)
 	, _timeout (timeout)
 {
 	_deadline.expires_at (boost::posix_time::pos_infin);
@@ -69,7 +69,7 @@ Socket::connect (boost::asio::ip::tcp::endpoint endpoint)
 	boost::system::error_code ec = boost::asio::error::would_block;
 	_socket.async_connect (endpoint, boost::lambda::var(ec) = boost::lambda::_1);
 	do {
-		_io_service.run_one();
+		_io_context.run_one();
 	} while (ec == boost::asio::error::would_block);
 
 	if (ec) {
@@ -93,7 +93,7 @@ Socket::connect (boost::asio::ip::tcp::endpoint endpoint)
 void
 Socket::connect(string host_name, int port)
 {
-	boost::asio::ip::tcp::resolver resolver(_io_service);
+	boost::asio::ip::tcp::resolver resolver(_io_context);
 	boost::asio::ip::tcp::resolver::query query(host_name, fmt::to_string(port));
 	connect(*resolver.resolve(query));
 }
@@ -119,7 +119,7 @@ Socket::write (uint8_t const * data, int size)
 	boost::asio::async_write (_socket, boost::asio::buffer (data, size), boost::lambda::var(ec) = boost::lambda::_1);
 
 	do {
-		_io_service.run_one ();
+		_io_context.run_one();
 	} while (ec == boost::asio::error::would_block);
 
 	if (ec) {
@@ -160,7 +160,7 @@ Socket::read (uint8_t* data, int size)
 	boost::asio::async_read (_socket, boost::asio::buffer (data, size), boost::lambda::var(ec) = boost::lambda::_1);
 
 	do {
-		_io_service.run_one ();
+		_io_context.run_one();
 	} while (ec == boost::asio::error::would_block);
 
 	if (ec) {
@@ -294,7 +294,7 @@ Socket::set_deadline_from_now(int seconds)
 void
 Socket::run()
 {
-	_io_service.run_one();
+	_io_context.run_one();
 }
 
 void

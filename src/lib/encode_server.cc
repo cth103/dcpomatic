@@ -112,7 +112,7 @@ EncodeServer::~EncodeServer ()
 		}
 	}
 
-	_broadcast.io_service.stop ();
+	_broadcast.io_context.stop();
 	try {
 		_broadcast.thread.join ();
 	} catch (...) {}
@@ -274,7 +274,7 @@ try
 {
 	boost::asio::ip::udp::endpoint listen_endpoint(boost::asio::ip::udp::v4(), HELLO_PORT);
 
-	_broadcast.socket = new boost::asio::ip::udp::socket(_broadcast.io_service, listen_endpoint);
+	_broadcast.socket = new boost::asio::ip::udp::socket(_broadcast.io_context, listen_endpoint);
 
 	_broadcast.socket->async_receive_from (
 		boost::asio::buffer (_broadcast.buffer, sizeof (_broadcast.buffer)),
@@ -282,7 +282,7 @@ try
 		boost::bind (&EncodeServer::broadcast_received, this)
 		);
 
-	_broadcast.io_service.run ();
+	_broadcast.io_context.run();
 }
 catch (...)
 {

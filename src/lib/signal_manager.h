@@ -24,6 +24,7 @@
 
 
 #include "exception_store.h"
+#include "io_context.h"
 #include <boost/asio.hpp>
 #include <boost/thread.hpp>
 
@@ -39,7 +40,7 @@ class SignalManager : public ExceptionStore
 public:
 	/** Create a SignalManager.  Must be called from the UI thread */
 	SignalManager ()
-		: _work (_service)
+		: _work(dcpomatic::make_work_guard(_context))
 	{
 		_ui_thread = boost::this_thread::get_id ();
 	}
@@ -52,15 +53,15 @@ public:
 	/* Do something next time the UI is idle */
 	template <typename T>
 	void when_idle (T f) {
-		_service.post (f);
+		dcpomatic::post(_context, f);
 	}
 
 	/** Call this in the UI when it is idle.
 	 *  @return Number of idle handlers that were executed.
 	 */
 	size_t ui_idle () {
-		/* This executes one of the functors that has been post()ed to _service */
-		return _service.poll_one ();
+		/* This executes one of the functors that has been post()ed to _context */
+		return _context.poll_one();
 	}
 
 	/** This should wake the UI and make it call ui_idle() */
@@ -85,18 +86,18 @@ private:
 				store_current ();
 			}
 		} else {
-			/* non-UI thread; post to the service and wake up the UI */
-			_service.post (f);
+			/* non-UI thread; post to the context and wake up the UI */
+			dcpomatic::post(_context, f);
 			wake_ui ();
 		}
 	}
 
 	friend class Signaller;
 
-	/** A io_service which is used as the conduit for messages */
-	boost::asio::io_service _service;
-	/** Object required to keep io_service from stopping when it has nothing to do */
-	boost::asio::io_service::work _work;
+	/** A io_context which is used as the conduit for messages */
+	dcpomatic::io_context _context;
+	/** Object required to keep io_context from stopping when it has nothing to do */
+	dcpomatic::work_guard _work;
 	/** The UI thread's ID */
 	boost::thread::id _ui_thread;
 };

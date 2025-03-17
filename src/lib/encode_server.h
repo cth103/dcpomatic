@@ -85,7 +85,7 @@ private:
 		boost::asio::ip::udp::socket* socket;
 		char buffer[64];
 		boost::asio::ip::udp::endpoint send_endpoint;
-		boost::asio::io_service io_service;
+		dcpomatic::io_context io_context;
 
 	} _broadcast;
 };

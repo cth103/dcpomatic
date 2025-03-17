@@ -80,7 +80,7 @@ private:
 	/** Mutex for _servers */
 	mutable boost::mutex _servers_mutex;
 
-	boost::asio::io_service _listen_io_service;
+	dcpomatic::io_context _listen_io_context;
 	std::shared_ptr<boost::asio::ip::tcp::acceptor> _listen_acceptor;
 	bool _stop;
 

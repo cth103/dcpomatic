@@ -23,8 +23,9 @@
 #define DCPOMATIC_SERVER_H
 
 
-#include <boost/thread.hpp>
+#include "io_context.h"
 #include <boost/asio.hpp>
+#include <boost/thread.hpp>
 #include <boost/thread/condition.hpp>
 #include <string>
 
@@ -54,7 +55,7 @@ private:
 	void start_accept ();
 	void handle_accept (std::shared_ptr<Socket>, boost::system::error_code const &);
 
-	boost::asio::io_service _io_service;
+	dcpomatic::io_context _io_context;
 	boost::asio::ip::tcp::acceptor _acceptor;
 	int _timeout;
 	std::weak_ptr<Socket> _socket;

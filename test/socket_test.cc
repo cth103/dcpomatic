@@ -20,6 +20,7 @@
 
 
 #include "lib/dcpomatic_socket.h"
+#include "lib/io_context.h"
 #include "lib/server.h"
 #include <fmt/format.h>
 #include <boost/test/unit_test.hpp>

@@ -638,6 +638,14 @@ def configure(conf):
                            lib=deps,
                            uselib_store='BOOST_PROCESS')
 
+        conf.check_cxx(fragment="""
+                           #include <boost/asio.hpp>
+                           int main() { boost::asio::io_context context; }
+                           """,
+                       msg='Checking for boost::asio::io_context',
+                       define_name='DCPOMATIC_HAVE_BOOST_ASIO_IO_CONTEXT',
+                       mandatory=False)
+
     # sqlite3
     conf.check_cfg(package="sqlite3", args='--cflags --libs', uselib_store='SQLITE3', mandatory=True)
     conf.check_cxx(fragment="""

@@ -74,7 +74,7 @@ Butler::Butler (
 	)
 	: _film (film)
 	, _player (player)
-	, _prepare_work (new boost::asio::io_service::work(_prepare_service))
+	, _prepare_work(dcpomatic::make_work_guard(_prepare_context))
 	, _pending_seek_accurate (false)
 	, _suspended (0)
 	, _finished (false)
@@ -108,7 +108,7 @@ Butler::Butler (
 	LOG_TIMING("start-prepare-threads %1", boost::thread::hardware_concurrency() * 2);
 
 	for (size_t i = 0; i < boost::thread::hardware_concurrency() * 2; ++i) {
-		_prepare_pool.create_thread (bind (&boost::asio::io_service::run, &_prepare_service));
+		_prepare_pool.create_thread(bind(&dcpomatic::io_context::run, &_prepare_context));
 	}
 }
 
@@ -124,7 +124,7 @@ Butler::~Butler ()
 
 	_prepare_work.reset ();
 	_prepare_pool.join_all ();
-	_prepare_service.stop ();
+	_prepare_context.stop();
 
 	_thread.interrupt ();
 	try {
@@ -355,7 +355,7 @@ Butler::video (shared_ptr<PlayerVideo> video, DCPTime time)
 		return;
 	}
 
-	_prepare_service.post (bind(&Butler::prepare, this, weak_ptr<PlayerVideo>(video)));
+	dcpomatic::post(_prepare_context, bind(&Butler::prepare, this, weak_ptr<PlayerVideo>(video)));
 
 	_video.put (video, time);
 }

@@ -27,6 +27,7 @@
 #include "audio_ring_buffers.h"
 #include "change_signaller.h"
 #include "exception_store.h"
+#include "io_context.h"
 #include "text_ring_buffers.h"
 #include "text_type.h"
 #include "video_ring_buffers.h"
@@ -114,8 +115,8 @@ private:
 	TextRingBuffers _closed_caption;
 
 	boost::thread_group _prepare_pool;
-	boost::asio::io_service _prepare_service;
-	std::shared_ptr<boost::asio::io_service::work> _prepare_work;
+	dcpomatic::io_context _prepare_context;
+	boost::optional<dcpomatic::work_guard> _prepare_work;
 
 	/** mutex to protect _pending_seek_position, _pending_seek_accurate, _finished, _died, _stop_thread */
 	boost::mutex _mutex;

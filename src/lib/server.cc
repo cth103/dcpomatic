@@ -32,7 +32,7 @@ using std::shared_ptr;
 
 Server::Server (int port, int timeout)
 	: _terminate (false)
-	, _acceptor (_io_service, boost::asio::ip::tcp::endpoint (boost::asio::ip::tcp::v4(), port))
+	, _acceptor(_io_context, boost::asio::ip::tcp::endpoint (boost::asio::ip::tcp::v4(), port))
 	, _timeout (timeout)
 {
 
@@ -49,7 +49,7 @@ void
 Server::run ()
 {
 	start_accept ();
-	_io_service.run ();
+	_io_context.run();
 }
 
 
@@ -94,5 +94,5 @@ Server::stop ()
 	if (auto s = _socket.lock()) {
 		s->close();
 	}
-	_io_service.stop ();
+	_io_context.stop();
 }

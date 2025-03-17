@@ -21,6 +21,7 @@
 
 #include "lib/cross.h"
 #include "lib/ext.h"
+#include "lib/io_context.h"
 #include "test.h"
 #include <boost/algorithm/string.hpp>
 #include <boost/asio.hpp>
@@ -45,7 +46,7 @@ ext2_ls (vector<string> arguments)
 {
 	using namespace boost::process;
 
-	boost::asio::io_service ios;
+	dcpomatic::io_context ios;
 	future<string> data;
 	child ch (search_path("e2ls"), arguments, std_in.close(), std_out > data, ios);
 	ios.run();
@@ -105,7 +106,7 @@ BOOST_AUTO_TEST_CASE (disk_writer_test1)
 	BOOST_CHECK_EQUAL (system("/sbin/e2fsck -fn build/test/disk_writer_test1.partition"), 0);
 
 	{
-		boost::asio::io_service ios;
+		dcpomatic::io_context ios;
 		future<string> data;
 		child ch ("/sbin/tune2fs", args({"-l", partition.string()}), std_in.close(), std_out > data, ios);
 		ios.run();

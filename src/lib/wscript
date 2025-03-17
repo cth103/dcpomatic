@@ -144,6 +144,7 @@ sources = """
           image_proxy.cc
           image_store.cc
           internal_player_server.cc
+          io_context.cc
           j2k_image_proxy.cc
           job.cc
           job_manager.cc

@@ -18,9 +18,12 @@
 
 */
 
+
 #include "digester.h"
+#include "io_context.h"
 #include <boost/asio.hpp>
 #include <boost/scoped_ptr.hpp>
+
 
 /** @class Socket
  *  @brief A class to wrap a boost::asio::ip::tcp::socket with some things
@@ -93,7 +96,7 @@ private:
 	void finish_write_digest ();
 	void connect(boost::asio::ip::tcp::endpoint);
 
-	boost::asio::io_service _io_service;
+	dcpomatic::io_context _io_context;
 	boost::asio::deadline_timer _deadline;
 	boost::asio::ip::tcp::socket _socket;
 	int _timeout;
