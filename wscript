@@ -272,7 +272,7 @@ def configure(conf):
         conf.check_cfg(package='libcurl', args='libcurl >= 7.19.1 --cflags --libs', uselib_store='CURL', mandatory=True)
 
     # libicu
-    if conf.check_cfg(package='icu-i18n', args='--cflags --libs', uselib_store='ICU', mandatory=False) is None:
+    if conf.check_cfg(package='icu-i18n icu-uc', args='--cflags --libs', uselib_store='ICU', mandatory=False) is None:
         if conf.check_cfg(package='icu', args='--cflags --libs', uselib_store='ICU', mandatory=False) is None:
             conf.check_cxx(fragment="""
                             #include <unicode/ucsdet.h>
