@@ -59,11 +59,43 @@ Socket::check ()
 }
 
 
+#ifdef DCPOMATIC_HAVE_BOOST_ASIO_IP_BASIC_RESOLVER_RESULTS
+
 /** Blocking connect.
  *  @param endpoint End-point to connect to.
  */
 void
-Socket::connect (boost::asio::ip::tcp::endpoint endpoint)
+Socket::connect(boost::asio::ip::basic_resolver_results<boost::asio::ip::tcp> endpoints)
+{
+	set_deadline_from_now(_timeout);
+	boost::system::error_code ec = boost::asio::error::would_block;
+	boost::asio::async_connect(_socket, endpoints, boost::lambda::var(ec) = boost::lambda::_1);
+	do {
+		_io_context.run_one();
+	} while (ec == boost::asio::error::would_block);
+
+	if (ec) {
+		throw NetworkError (String::compose (_("error during async_connect (%1)"), ec.value ()));
+	}
+
+	if (!_socket.is_open ()) {
+		throw NetworkError (_("connect timed out"));
+	}
+
+	if (_send_buffer_size) {
+		boost::asio::socket_base::send_buffer_size new_size(*_send_buffer_size);
+		_socket.set_option(new_size);
+	}
+}
+
+#endif
+
+
+/** Blocking connect.
+ *  @param endpoint End-point to connect to.
+ */
+void
+Socket::connect(boost::asio::ip::tcp::endpoint endpoint)
 {
 	set_deadline_from_now(_timeout);
 	boost::system::error_code ec = boost::asio::error::would_block;
@@ -81,9 +113,6 @@ Socket::connect (boost::asio::ip::tcp::endpoint endpoint)
 	}
 
 	if (_send_buffer_size) {
-		boost::asio::socket_base::send_buffer_size old_size;
-		_socket.get_option(old_size);
-
 		boost::asio::socket_base::send_buffer_size new_size(*_send_buffer_size);
 		_socket.set_option(new_size);
 	}
@@ -94,8 +123,12 @@ void
 Socket::connect(string host_name, int port)
 {
 	boost::asio::ip::tcp::resolver resolver(_io_context);
+#ifdef DCPOMATIC_HAVE_BOOST_ASIO_IP_BASIC_RESOLVER_RESULTS
+	connect(resolver.resolve(host_name, fmt::to_string(port)));
+#else
 	boost::asio::ip::tcp::resolver::query query(host_name, fmt::to_string(port));
 	connect(*resolver.resolve(query));
+#endif
 }
 
 

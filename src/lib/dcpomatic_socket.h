@@ -46,6 +46,7 @@ public:
 	}
 
 	void set_send_buffer_size (int size);
+
 	void connect(std::string host_name, int port);
 	void connect(boost::asio::ip::address address, int port);
 
@@ -94,7 +95,10 @@ private:
 	bool check_read_digest ();
 	void start_write_digest ();
 	void finish_write_digest ();
-	void connect(boost::asio::ip::tcp::endpoint);
+	void connect(boost::asio::ip::tcp::endpoint endpoint);
+#ifdef DCPOMATIC_HAVE_BOOST_ASIO_IP_BASIC_RESOLVER_RESULTS
+	void connect(boost::asio::ip::basic_resolver_results<boost::asio::ip::tcp> endpoints);
+#endif
 
 	dcpomatic::io_context _io_context;
 	boost::asio::deadline_timer _deadline;

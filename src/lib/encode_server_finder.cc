@@ -136,9 +136,14 @@ try
 		for (auto const& i: Config::instance()->servers()) {
 			try {
 				boost::asio::ip::udp::resolver resolver(io_context);
+#ifdef DCPOMATIC_HAVE_BOOST_ASIO_IP_BASIC_RESOLVER_RESULTS
+				boost::asio::connect(socket, resolver.resolve(i, fmt::to_string(HELLO_PORT)));
+				socket.send(boost::asio::buffer(data.c_str(), data.size() + 1));
+#else
 				boost::asio::ip::udp::resolver::query query(i, fmt::to_string(HELLO_PORT));
-				boost::asio::ip::udp::endpoint end_point (*resolver.resolve(query));
-				socket.send_to (boost::asio::buffer(data.c_str(), data.size() + 1), end_point);
+				boost::asio::ip::udp::endpoint end_point(*resolver.resolve(query));
+				socket.send_to(boost::asio::buffer(data.c_str(), data.size() + 1), end_point);
+#endif
 			} catch (...) {
 
 			}
