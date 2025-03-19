@@ -111,7 +111,7 @@ argument_option(int& n, int argc, char* argv[], string short_name, string long_n
 
 template <class T>
 void
-argument_option (
+argument_option(
 	int& n,
 	int argc,
 	char* argv[],
@@ -146,8 +146,8 @@ argument_option (
 }
 
 
-CreateCLI::CreateCLI (int argc, char* argv[])
-	: version (false)
+CreateCLI::CreateCLI(int argc, char* argv[])
+	: version(false)
 {
 	optional<string> dcp_content_type_string;
 	string container_ratio_string;
@@ -284,7 +284,7 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 				c.gain = gain;
 				c.kdm = kdm;
 				c.cpl = cpl;
-				content.push_back (c);
+				content.push_back(c);
 				next_frame_type = VideoFrameType::TWO_D;
 				channel = {};
 				gain = {};
@@ -315,7 +315,7 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 	}
 
 	if (!container_ratio_string.empty()) {
-		_container_ratio = Ratio::from_id (container_ratio_string);
+		_container_ratio = Ratio::from_id(container_ratio_string);
 		if (!_container_ratio) {
 			error = String::compose("%1: unrecognised container ratio %2", argv[0], container_ratio_string);
 			return;
