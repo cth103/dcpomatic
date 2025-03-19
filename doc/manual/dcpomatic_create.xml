@@ -22,6 +22,7 @@
 <listitem><code>--j2k-bandwidth &lt;Mbit/s&gt;</code> &#8212; J2K bandwidth in Mbit/s</listitem>
 <listitem><code>--left-eye</code> &#8212; next piece of content is for the left eye</listitem>
 <listitem><code>--right-eye</code> &#8212; next piece of content is for the right eye</listitem>
+<listitem><code>--auto-crop</code> &#8212; next piece of content should be auto-cropped</listitem>
 <listitem><code>--channel &lt;channel&gt;</code> &#8212; next piece of content should be mapped to audio channel L, R, C, Lfe, Ls, Rs, BsL, BsR, HI, VI</listitem>
 <listitem><code>--gain</code> &#8212; next piece of content should have the given audio gain (in dB)</listitem>
 <listitem><code>--cpl &lt;id&gt;</code> &#8212; CPL ID to use from the next piece of content (which is a DCP)</listitem>

@@ -30,6 +30,7 @@
 #include "dcpomatic_log.h"
 #include "film.h"
 #include "image_content.h"
+#include "guess_crop.h"
 #include "job_manager.h"
 #include "ratio.h"
 #include "variant.h"
@@ -73,6 +74,7 @@ string CreateCLI::_help =
 	"      --j2k-bandwidth <Mbit/s>  J2K bandwidth in Mbit/s\n"
 	"      --left-eye                next piece of content is for the left eye\n"
 	"      --right-eye               next piece of content is for the right eye\n"
+	"      --auto-crop               next piece of content should be auto-cropped\n"
 	"      --channel <channel>       next piece of content should be mapped to audio channel L, R, C, Lfe, Ls, Rs, BsL, BsR, HI, VI\n"
 	"      --gain                    next piece of content should have the given audio gain (in dB)\n"
 	"      --cpl <id>                CPL ID to use from the next piece of content (which is a DCP)\n"
@@ -165,6 +167,7 @@ CreateCLI::CreateCLI(int argc, char* argv[])
 	int64_t video_bit_rate_int = 0;
 	optional<int> audio_channels;
 	auto next_frame_type = VideoFrameType::TWO_D;
+	auto next_auto_crop = false;
 	optional<dcp::Channel> channel;
 	optional<float> gain;
 	optional<boost::filesystem::path> kdm;
@@ -200,6 +203,9 @@ CreateCLI::CreateCLI(int argc, char* argv[])
 			claimed = true;
 		} else if (a == "--right-eye") {
 			next_frame_type = VideoFrameType::THREE_D_RIGHT;
+			claimed = true;
+		} else if (a == "--auto-crop") {
+			next_auto_crop = true;
 			claimed = true;
 		} else if (a == "--twok") {
 			_twok = true;
@@ -288,12 +294,14 @@ CreateCLI::CreateCLI(int argc, char* argv[])
 				Content c;
 				c.path = a;
 				c.frame_type = next_frame_type;
+				c.auto_crop = next_auto_crop;
 				c.channel = channel;
 				c.gain = gain;
 				c.kdm = kdm;
 				c.cpl = cpl;
 				content.push_back(c);
 				next_frame_type = VideoFrameType::TWO_D;
+				next_auto_crop = false;
 				channel = {};
 				gain = {};
 			}
@@ -477,6 +485,31 @@ CreateCLI::make_film(function<void (string)> error) const
 		for (auto film_content: film_content_list) {
 			if (film_content->video) {
 				film_content->video->set_frame_type(cli_content.frame_type);
+				if (cli_content.auto_crop) {
+					auto crop = guess_crop_by_brightness(
+						film,
+						film_content,
+						Config::instance()->auto_crop_threshold(),
+						std::min(
+							dcpomatic::ContentTime::from_seconds(1),
+							dcpomatic::ContentTime::from_frames(
+								film_content->video->length(),
+								film_content->video_frame_rate().get_value_or(24)
+							)
+						)
+					);
+
+					error(fmt::format(
+						"Cropped {} to {} left, {} right, {} top and {} bottom",
+						film_content->path(0).string(),
+						crop.left,
+						crop.right,
+						crop.top,
+						crop.bottom
+					));
+
+					film_content->video->set_crop(crop);
+				}
 			}
 			if (film_content->audio && cli_content.channel) {
 				for (auto stream: film_content->audio->streams()) {

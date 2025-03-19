@@ -20,11 +20,14 @@
 
 
 #include "lib/config.h"
+#include "lib/content.h"
 #include "lib/create_cli.h"
+#include "lib/dcp_content_type.h"
 #include "lib/film.h"
 #include "lib/ratio.h"
-#include "lib/dcp_content_type.h"
+#include "lib/video_content.h"
 #include "test.h"
+#include <fmt/format.h>
 #include <boost/test/unit_test.hpp>
 #include <boost/tokenizer.hpp>
 #include <boost/algorithm/string/predicate.hpp>
@@ -186,6 +189,26 @@ BOOST_AUTO_TEST_CASE (create_cli_test)
 	BOOST_CHECK_EQUAL(cc._fourk, true);
 	BOOST_CHECK (!cc.error);
 
+	cc = run("dcpomatic2_create --auto-crop foo.mp4 bar.mp4 --auto-crop baz.mp4");
+	BOOST_REQUIRE_EQUAL(cc.content.size(), 3U);
+	BOOST_CHECK(cc.content[0].auto_crop);
+	BOOST_CHECK(!cc.content[1].auto_crop);
+	BOOST_CHECK(cc.content[2].auto_crop);
+
+	cc = run("dcpomatic2_create --auto-crop foo.mp4 bar.mp4 --auto-crop baz.mp4");
+	BOOST_REQUIRE_EQUAL(cc.content.size(), 3U);
+	BOOST_CHECK(cc.content[0].auto_crop);
+	BOOST_CHECK(!cc.content[1].auto_crop);
+	BOOST_CHECK(cc.content[2].auto_crop);
+
+	auto pillarbox = TestPaths::private_data() / "pillarbox.png";
+	cc = run("dcpomatic2_create --auto-crop " + pillarbox.string());
+	auto film = cc.make_film(error);
+	BOOST_CHECK_EQUAL(film->content().size(), 1U);
+	BOOST_CHECK(film->content()[0]->video->actual_crop() == Crop(113, 262, 0, 0));
+	BOOST_CHECK_EQUAL(collected_error, fmt::format("Cropped {} to 113 left, 262 right, 0 top and 0 bottom", pillarbox.string()));
+	collected_error = "";
+
 	cc = run ("dcpomatic2_create --video-bit-rate 120 foo.mp4");
 	BOOST_REQUIRE_EQUAL (cc.content.size(), 1U);
 	BOOST_CHECK_EQUAL (cc.content[0].path, "foo.mp4");
@@ -203,7 +226,7 @@ BOOST_AUTO_TEST_CASE (create_cli_test)
 	BOOST_CHECK (*cc.content[1].channel == dcp::Channel::RIGHT);
 	BOOST_CHECK_EQUAL (cc.content[2].path, "test/data/Lfe.wav");
 	BOOST_CHECK (!cc.content[2].channel);
-	auto film = cc.make_film(out, error);
+	film = cc.make_film(error);
 	BOOST_CHECK_EQUAL(film->audio_channels(), 6);
 	BOOST_CHECK(collected_error.empty());
 
