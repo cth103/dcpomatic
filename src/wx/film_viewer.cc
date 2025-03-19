@@ -238,6 +238,7 @@ FilmViewer::create_butler()
 #endif
 
 	DCPOMATIC_ASSERT(_player);
+	_player->seek(_video_view->position(), true);
 
 	auto& audio = AudioBackend::instance()->rtaudio();
 
