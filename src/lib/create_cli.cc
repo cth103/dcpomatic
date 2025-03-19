@@ -54,6 +54,13 @@ static
 string
 help()
 {
+	string colour_conversions = "";
+	for (auto const& conversion: PresetColourConversion::all()) {
+		colour_conversions += conversion.id + ", ";
+	}
+	DCPOMATIC_ASSERT(colour_conversions.length() > 2);
+	colour_conversions = colour_conversions.substr(0, colour_conversions.length() - 2);
+
 	return string("\nSyntax: %1 [OPTION] <CONTENT> [OPTION] [<CONTENT> ...]\n") +
 		variant::insert_dcpomatic("  -v, --version                 show %1 version\n") +
 		"  -h, --help                    show this help\n"
@@ -79,6 +86,8 @@ help()
 		"      --left-eye                next piece of content is for the left eye\n"
 		"      --right-eye               next piece of content is for the right eye\n"
 		"      --auto-crop               next piece of content should be auto-cropped\n"
+		"      --colourspace             next piece of content is in the given colourspace: " + colour_conversions + "\n"
+		"      --colorspace              same as --colourspace\n"
 		"      --channel <channel>       next piece of content should be mapped to audio channel L, R, C, Lfe, Ls, Rs, BsL, BsR, HI, VI\n"
 		"      --gain                    next piece of content should have the given audio gain (in dB)\n"
 		"      --cpl <id>                CPL ID to use from the next piece of content (which is a DCP)\n"
@@ -171,6 +180,7 @@ CreateCLI::CreateCLI(int argc, char* argv[])
 	string template_name_string;
 	int64_t video_bit_rate_int = 0;
 	optional<int> audio_channels;
+	optional<string> next_colour_conversion;
 	auto next_frame_type = VideoFrameType::TWO_D;
 	auto next_auto_crop = false;
 	optional<dcp::Channel> channel;
@@ -255,6 +265,8 @@ CreateCLI::CreateCLI(int argc, char* argv[])
 		argument_option(i, argc, argv, "",   "--video-bit-rate",   &claimed, &error, &video_bit_rate_int);
 		/* Similar to below, not using string_to_int here causes on add compile error on Ubuntu 1{6,8}.04 */
 		argument_option(i, argc, argv, "-a", "--audio-channels",   &claimed, &error, &audio_channels, string_to_int);
+		argument_option(i, argc, argv, ""  , "--colourspace",      &claimed, &error, &next_colour_conversion, string_to_string);
+		argument_option(i, argc, argv, ""  , "--colorspace",       &claimed, &error, &next_colour_conversion, string_to_string);
 
 		std::function<optional<dcp::Channel> (string)> convert_channel = [](string channel) -> optional<dcp::Channel>{
 			if (channel == "L") {
@@ -297,10 +309,24 @@ CreateCLI::CreateCLI(int argc, char* argv[])
 				error = String::compose("%1: unrecognised option '%2'", argv[0], a) + String::compose(help(), argv[0]);
 				return;
 			} else {
+				if (next_colour_conversion) {
+					auto colour_conversions = PresetColourConversion::all();
+					if (!std::any_of(
+							colour_conversions.begin(),
+							colour_conversions.end(),
+							[next_colour_conversion](PresetColourConversion const& conversion) {
+								return conversion.id == *next_colour_conversion;
+							})) {
+						error = fmt::format("{}: {} is not a recognised colourspace", argv[0], *next_colour_conversion);
+						return;
+					}
+				}
+
 				Content c;
 				c.path = a;
 				c.frame_type = next_frame_type;
 				c.auto_crop = next_auto_crop;
+				c.colour_conversion = next_colour_conversion;
 				c.channel = channel;
 				c.gain = gain;
 				c.kdm = kdm;
@@ -308,6 +334,7 @@ CreateCLI::CreateCLI(int argc, char* argv[])
 				content.push_back(c);
 				next_frame_type = VideoFrameType::TWO_D;
 				next_auto_crop = false;
+				next_colour_conversion = {};
 				channel = {};
 				gain = {};
 			}
@@ -515,6 +542,9 @@ CreateCLI::make_film(function<void (string)> error) const
 					));
 
 					film_content->video->set_crop(crop);
+				}
+				if (cli_content.colour_conversion) {
+					film_content->video->set_colour_conversion(PresetColourConversion::from_id(*cli_content.colour_conversion).conversion);
 				}
 			}
 			if (film_content->audio && cli_content.channel) {

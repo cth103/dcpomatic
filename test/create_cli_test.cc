@@ -177,6 +177,18 @@ BOOST_AUTO_TEST_CASE (create_cli_test)
 	BOOST_CHECK_EQUAL (cc.content[1].frame_type, VideoFrameType::THREE_D_RIGHT);
 	BOOST_CHECK_EQUAL(cc._fourk, false);
 
+	cc = run ("dcpomatic2_create --colourspace rec1886 test/data/flat_red.png");
+	BOOST_REQUIRE_EQUAL(cc.content.size(), 1U);
+	BOOST_CHECK_EQUAL(cc.content[0].colour_conversion.get_value_or(""), "rec1886");
+	BOOST_CHECK(!cc.error);
+	auto film = cc.make_film(error);
+	BOOST_REQUIRE_EQUAL(film->content().size(), 1U);
+	BOOST_REQUIRE(static_cast<bool>(film->content()[0]->video->colour_conversion()));
+	BOOST_REQUIRE(film->content()[0]->video->colour_conversion() == PresetColourConversion::from_id("rec1886").conversion);
+
+	cc = run ("dcpomatic2_create --colourspace ostrobogulous foo.mp4");
+	BOOST_CHECK_EQUAL(cc.error.get_value_or(""), "dcpomatic2_create: ostrobogulous is not a recognised colourspace");
+
 	cc = run ("dcpomatic2_create --twok foo.mp4");
 	BOOST_REQUIRE_EQUAL (cc.content.size(), 1U);
 	BOOST_CHECK_EQUAL (cc.content[0].path, "foo.mp4");
@@ -210,7 +222,7 @@ BOOST_AUTO_TEST_CASE (create_cli_test)
 
 	auto pillarbox = TestPaths::private_data() / "pillarbox.png";
 	cc = run("dcpomatic2_create --auto-crop " + pillarbox.string());
-	auto film = cc.make_film(error);
+	film = cc.make_film(error);
 	BOOST_CHECK_EQUAL(film->content().size(), 1U);
 	BOOST_CHECK(film->content()[0]->video->actual_crop() == Crop(113, 262, 0, 0));
 	BOOST_CHECK_EQUAL(collected_error, fmt::format("Cropped {} to 113 left, 262 right, 0 top and 0 bottom", pillarbox.string()));
