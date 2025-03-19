@@ -116,11 +116,12 @@ private:
 			append (buffer);
 		}
 
-		append (entry->message ());
 		if (_log.size() > log_lines) {
 			emit (boost::bind (boost::ref (Removed), _log.front().length()));
 			_log.pop_front ();
 		}
+
+		append (entry->message ());
 		_last_time = *local;
 
 		auto encoded = dynamic_pointer_cast<const EncodedLogEntry> (entry);
