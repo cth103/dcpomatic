@@ -50,36 +50,40 @@ using std::vector;
 using boost::optional;
 
 
-string CreateCLI::_help =
-	string("\nSyntax: %1 [OPTION] <CONTENT> [OPTION] [<CONTENT> ...]\n") +
-	variant::insert_dcpomatic("  -v, --version                 show %1 version\n") +
-	"  -h, --help                    show this help\n"
-	"  -n, --name <name>             film name\n"
-	"  -t, --template <name>         template name\n"
-	"      --no-encrypt              make an unencrypted DCP\n"
-	"  -e, --encrypt                 make an encrypted DCP\n"
-	"  -c, --dcp-content-type <type> FTR, SHR, TLR, TST, XSN, RTG, TSR, POL, PSA or ADV\n"
-	"  -f, --dcp-frame-rate <rate>   set DCP video frame rate (otherwise guessed from content)\n"
-	"      --container-ratio <ratio> 119, 133, 137, 138, 166, 178, 185 or 239\n"
-	"  -s, --still-length <n>        number of seconds that still content should last\n"
-	"      --auto-crop-threshold <n> threshold to use for 'black' when auto-cropping\n"
-	"      --standard <standard>     SMPTE or interop (default SMPTE)\n"
-	"      --no-use-isdcf-name       do not use an ISDCF name; use the specified name unmodified\n"
-	"      --config <dir>            directory containing config.xml and cinemas.sqlite3\n"
-	"      --twok                    make a 2K DCP instead of choosing a resolution based on the content\n"
-	"      --fourk                   make a 4K DCP instead of choosing a resolution based on the content\n"
-	"  -a, --audio-channels <n>      specify the number of audio channels in the DCP\n"
-	"  -o, --output <dir>            output directory\n"
-	"      --twod                    make a 2D DCP\n"
-	"      --threed                  make a 3D DCP\n"
-	"      --j2k-bandwidth <Mbit/s>  J2K bandwidth in Mbit/s\n"
-	"      --left-eye                next piece of content is for the left eye\n"
-	"      --right-eye               next piece of content is for the right eye\n"
-	"      --auto-crop               next piece of content should be auto-cropped\n"
-	"      --channel <channel>       next piece of content should be mapped to audio channel L, R, C, Lfe, Ls, Rs, BsL, BsR, HI, VI\n"
-	"      --gain                    next piece of content should have the given audio gain (in dB)\n"
-	"      --cpl <id>                CPL ID to use from the next piece of content (which is a DCP)\n"
-	"      --kdm <file>              KDM for next piece of content\n";
+static
+string
+help()
+{
+	return string("\nSyntax: %1 [OPTION] <CONTENT> [OPTION] [<CONTENT> ...]\n") +
+		variant::insert_dcpomatic("  -v, --version                 show %1 version\n") +
+		"  -h, --help                    show this help\n"
+		"  -n, --name <name>             film name\n"
+		"  -t, --template <name>         template name\n"
+		"      --no-encrypt              make an unencrypted DCP\n"
+		"  -e, --encrypt                 make an encrypted DCP\n"
+		"  -c, --dcp-content-type <type> FTR, SHR, TLR, TST, XSN, RTG, TSR, POL, PSA or ADV\n"
+		"  -f, --dcp-frame-rate <rate>   set DCP video frame rate (otherwise guessed from content)\n"
+		"      --container-ratio <ratio> 119, 133, 137, 138, 166, 178, 185 or 239\n"
+		"  -s, --still-length <n>        number of seconds that still content should last\n"
+		"      --auto-crop-threshold <n> threshold to use for 'black' when auto-cropping\n"
+		"      --standard <standard>     SMPTE or interop (default SMPTE)\n"
+		"      --no-use-isdcf-name       do not use an ISDCF name; use the specified name unmodified\n"
+		"      --config <dir>            directory containing config.xml and cinemas.sqlite3\n"
+		"      --twok                    make a 2K DCP instead of choosing a resolution based on the content\n"
+		"      --fourk                   make a 4K DCP instead of choosing a resolution based on the content\n"
+		"  -a, --audio-channels <n>      specify the number of audio channels in the DCP\n"
+		"  -o, --output <dir>            output directory\n"
+		"      --twod                    make a 2D DCP\n"
+		"      --threed                  make a 3D DCP\n"
+		"      --j2k-bandwidth <Mbit/s>  J2K bandwidth in Mbit/s\n"
+		"      --left-eye                next piece of content is for the left eye\n"
+		"      --right-eye               next piece of content is for the right eye\n"
+		"      --auto-crop               next piece of content should be auto-cropped\n"
+		"      --channel <channel>       next piece of content should be mapped to audio channel L, R, C, Lfe, Ls, Rs, BsL, BsR, HI, VI\n"
+		"      --gain                    next piece of content should have the given audio gain (in dB)\n"
+		"      --cpl <id>                CPL ID to use from the next piece of content (which is a DCP)\n"
+		"      --kdm <file>              KDM for next piece of content\n";
+}
 
 
 template <class T>
@@ -185,7 +189,7 @@ CreateCLI::CreateCLI(int argc, char* argv[])
 		} else if (a == "-h" || a == "--help") {
 			error = "Create a film directory (ready for making a DCP) or metadata file from some content files.\n"
 				"A film directory will be created if -o or --output is specified, otherwise a metadata file\n"
-				"will be written to stdout.\n" + String::compose(_help, argv[0]);
+				"will be written to stdout.\n" + String::compose(help(), argv[0]);
 			return;
 		}
 
@@ -290,7 +294,7 @@ CreateCLI::CreateCLI(int argc, char* argv[])
 
 		if (!claimed) {
 			if (a.length() > 2 && a.substr(0, 2) == "--") {
-				error = String::compose("%1: unrecognised option '%2'", argv[0], a) + String::compose(_help, argv[0]);
+				error = String::compose("%1: unrecognised option '%2'", argv[0], a) + String::compose(help(), argv[0]);
 				return;
 			} else {
 				Content c;
