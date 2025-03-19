@@ -19,21 +19,29 @@
 */
 
 
+#include "audio_content.h"
 #include "compose.hpp"
 #include "config.h"
+#include "content_factory.h"
 #include "create_cli.h"
+#include "cross.h"
+#include "dcp_content.h"
 #include "dcp_content_type.h"
 #include "dcpomatic_log.h"
 #include "film.h"
+#include "image_content.h"
+#include "job_manager.h"
 #include "ratio.h"
 #include "variant.h"
+#include "video_content.h"
 #include <dcp/raw_convert.h>
 #include <fmt/format.h>
 #include <iostream>
 #include <string>
 
 
-using std::cout;
+using std::dynamic_pointer_cast;
+using std::function;
 using std::make_shared;
 using std::shared_ptr;
 using std::string;
@@ -386,7 +394,7 @@ CreateCLI::CreateCLI(int argc, char* argv[])
 
 
 shared_ptr<Film>
-CreateCLI::make_film() const
+CreateCLI::make_film(function<void (string)> error) const
 {
 	auto film = std::make_shared<Film>(output_dir);
 	dcpomatic_log = film->log();
@@ -435,6 +443,78 @@ CreateCLI::make_film() const
 	}
 
 	film->set_audio_channels(_audio_channels);
+
+	auto jm = JobManager::instance();
+
+	for (auto cli_content: content) {
+		auto const can = dcp::filesystem::canonical(cli_content.path);
+		vector<shared_ptr<::Content>> film_content_list;
+
+		if (dcp::filesystem::exists(can / "ASSETMAP") || (dcp::filesystem::exists(can / "ASSETMAP.xml"))) {
+			auto dcp = make_shared<DCPContent>(can);
+			film_content_list.push_back(dcp);
+			if (cli_content.kdm) {
+				dcp->add_kdm(dcp::EncryptedKDM(dcp::file_to_string(*cli_content.kdm)));
+			}
+			if (cli_content.cpl) {
+				dcp->set_cpl(*cli_content.cpl);
+			}
+		} else {
+			/* I guess it's not a DCP */
+			film_content_list = content_factory(can);
+		}
+
+		for (auto film_content: film_content_list) {
+			film->examine_and_add_content(film_content);
+		}
+
+		while (jm->work_to_do()) {
+			dcpomatic_sleep_seconds(1);
+		}
+
+		while (signal_manager->ui_idle() > 0) {}
+
+		for (auto film_content: film_content_list) {
+			if (film_content->video) {
+				film_content->video->set_frame_type(cli_content.frame_type);
+			}
+			if (film_content->audio && cli_content.channel) {
+				for (auto stream: film_content->audio->streams()) {
+					AudioMapping mapping(stream->channels(), film->audio_channels());
+					for (int channel = 0; channel < stream->channels(); ++channel) {
+						mapping.set(channel, *cli_content.channel, 1.0f);
+					}
+					stream->set_mapping(mapping);
+				}
+			}
+			if (film_content->audio && cli_content.gain) {
+				film_content->audio->set_gain(*cli_content.gain);
+			}
+		}
+	}
+
+	if (dcp_frame_rate) {
+		film->set_video_frame_rate(*dcp_frame_rate);
+	}
+
+	for (auto i: film->content()) {
+		auto ic = dynamic_pointer_cast<ImageContent>(i);
+		if (ic && ic->still()) {
+			ic->video->set_length(still_length.get_value_or(10) * 24);
+		}
+	}
+
+	if (jm->errors()) {
+		for (auto i: jm->get()) {
+			if (i->finished_in_error()) {
+				error(fmt::format("{}\n", i->error_summary()));
+				if (!i->error_details().empty()) {
+					error(fmt::format("{}\n", i->error_details()));
+				}
+			}
+		}
+		return {};
+	}
 
 	return film;
 }

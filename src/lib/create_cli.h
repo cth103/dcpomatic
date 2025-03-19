@@ -55,7 +55,7 @@ public:
 	boost::optional<std::string> error;
 	std::vector<Content> content;
 
-	std::shared_ptr<Film> make_film() const;
+	std::shared_ptr<Film> make_film(std::function<void (std::string)> error) const;
 
 private:
 	friend struct ::create_cli_test;

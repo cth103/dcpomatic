@@ -18,23 +18,14 @@
 
 */
 
-#include "lib/audio_content.h"
-#include "lib/config.h"
-#include "lib/content_factory.h"
+
 #include "lib/create_cli.h"
 #include "lib/cross.h"
-#include "lib/dcp_content.h"
-#include "lib/dcp_content_type.h"
 #include "lib/film.h"
-#include "lib/image_content.h"
-#include "lib/job.h"
-#include "lib/job_manager.h"
-#include "lib/ratio.h"
 #include "lib/signal_manager.h"
+#include "lib/state.h"
 #include "lib/util.h"
 #include "lib/version.h"
-#include "lib/version.h"
-#include "lib/video_content.h"
 #include <dcp/exceptions.h>
 #include <dcp/filesystem.h>
 #include <libxml++/libxml++.h>
@@ -91,79 +82,11 @@ main (int argc, char* argv[])
 	}
 
 	signal_manager = new SimpleSignalManager ();
-	auto jm = JobManager::instance ();
 
 	try {
-		auto film = cc.make_film();
-
-		for (auto cli_content: cc.content) {
-			auto const can = dcp::filesystem::canonical(cli_content.path);
-			vector<shared_ptr<Content>> film_content_list;
-
-			if (dcp::filesystem::exists(can / "ASSETMAP") || (dcp::filesystem::exists(can / "ASSETMAP.xml"))) {
-				auto dcp = make_shared<DCPContent>(can);
-				film_content_list.push_back (dcp);
-				if (cli_content.kdm) {
-					dcp->add_kdm (dcp::EncryptedKDM(dcp::file_to_string(*cli_content.kdm)));
-				}
-				if (cli_content.cpl) {
-					dcp->set_cpl(*cli_content.cpl);
-				}
-			} else {
-				/* I guess it's not a DCP */
-				film_content_list = content_factory (can);
-			}
-
-			for (auto film_content: film_content_list) {
-				film->examine_and_add_content (film_content);
-			}
-
-			while (jm->work_to_do ()) {
-				dcpomatic_sleep_seconds (1);
-			}
-
-			while (signal_manager->ui_idle() > 0) {}
-
-			for (auto film_content: film_content_list) {
-				if (film_content->video) {
-					film_content->video->set_frame_type (cli_content.frame_type);
-				}
-				if (film_content->audio && cli_content.channel) {
-					for (auto stream: film_content->audio->streams()) {
-						AudioMapping mapping(stream->channels(), film->audio_channels());
-						for (int channel = 0; channel < stream->channels(); ++channel) {
-							mapping.set(channel, *cli_content.channel, 1.0f);
-						}
-						stream->set_mapping (mapping);
-					}
-				}
-				if (film_content->audio && cli_content.gain) {
-					film_content->audio->set_gain (*cli_content.gain);
-				}
-			}
-		}
-
-		if (cc.dcp_frame_rate) {
-			film->set_video_frame_rate (*cc.dcp_frame_rate);
-		}
-
-		for (auto i: film->content()) {
-			auto ic = dynamic_pointer_cast<ImageContent> (i);
-			if (ic && ic->still()) {
-				ic->video->set_length(cc.still_length.get_value_or(10) * 24);
-			}
-		}
-
-		if (jm->errors ()) {
-			for (auto i: jm->get()) {
-				if (i->finished_in_error()) {
-					cerr << i->error_summary() << "\n";
-					if (!i->error_details().empty()) {
-					     cout << i->error_details() << "\n";
-					}
-				}
-			}
-			exit (EXIT_FAILURE);
+		auto film = cc.make_film([](string s) { cerr << s; });
+		if (!film) {
+			exit(EXIT_FAILURE);
 		}
 
 		if (cc.output_dir) {

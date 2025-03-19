@@ -60,6 +60,11 @@ run (string cmd)
 
 BOOST_AUTO_TEST_CASE (create_cli_test)
 {
+	string collected_error;
+	auto error = [&collected_error](string s) {
+		collected_error += s;
+	};
+
 	CreateCLI cc = run ("dcpomatic2_create --version");
 	BOOST_CHECK (!cc.error);
 	BOOST_CHECK (cc.version);
@@ -73,12 +78,14 @@ BOOST_AUTO_TEST_CASE (create_cli_test)
 
 	cc = run ("dcpomatic2_create -h");
 	BOOST_REQUIRE (cc.error);
+	BOOST_CHECK(collected_error.empty());
 
 	cc = run ("dcpomatic2_create x --name frobozz --template bar");
 	BOOST_CHECK (!cc.error);
 	BOOST_CHECK_EQUAL(cc._name, "frobozz");
 	BOOST_REQUIRE(cc._template_name);
 	BOOST_CHECK_EQUAL(*cc._template_name, "bar");
+	BOOST_CHECK(collected_error.empty());
 
 	cc = run ("dcpomatic2_create x --dcp-content-type FTR");
 	BOOST_CHECK (!cc.error);
@@ -186,18 +193,19 @@ BOOST_AUTO_TEST_CASE (create_cli_test)
 	BOOST_CHECK_EQUAL(*cc._video_bit_rate, 120000000);
 	BOOST_CHECK (!cc.error);
 
-	cc = run ("dcpomatic2_create --channel L fred.wav --channel R jim.wav sheila.wav");
+	cc = run ("dcpomatic2_create --channel L test/data/L.wav --channel R test/data/R.wav test/data/Lfe.wav");
 	BOOST_REQUIRE_EQUAL (cc.content.size(), 3U);
-	BOOST_CHECK_EQUAL (cc.content[0].path, "fred.wav");
+	BOOST_CHECK_EQUAL (cc.content[0].path, "test/data/L.wav");
 	BOOST_CHECK (cc.content[0].channel);
 	BOOST_CHECK (*cc.content[0].channel == dcp::Channel::LEFT);
-	BOOST_CHECK_EQUAL (cc.content[1].path, "jim.wav");
+	BOOST_CHECK_EQUAL (cc.content[1].path, "test/data/R.wav");
 	BOOST_CHECK (cc.content[1].channel);
 	BOOST_CHECK (*cc.content[1].channel == dcp::Channel::RIGHT);
-	BOOST_CHECK_EQUAL (cc.content[2].path, "sheila.wav");
+	BOOST_CHECK_EQUAL (cc.content[2].path, "test/data/Lfe.wav");
 	BOOST_CHECK (!cc.content[2].channel);
-	auto film = cc.make_film();
+	auto film = cc.make_film(out, error);
 	BOOST_CHECK_EQUAL(film->audio_channels(), 6);
+	BOOST_CHECK(collected_error.empty());
 
 	cc = run ("dcpomatic2_create --channel foo fred.wav");
 	BOOST_REQUIRE (cc.error);
@@ -230,20 +238,23 @@ BOOST_AUTO_TEST_CASE (create_cli_test)
 	BOOST_REQUIRE(cc.error);
 	BOOST_CHECK_EQUAL(*cc.error, "dcpomatic2_create: audio channel count must be even");
 
-	cc = run("dcpomatic2_create --channel L fred.wav --channel R jim.wav --channel C sheila.wav");
+	cc = run("dcpomatic2_create --channel L test/data/L.wav --channel R test/data/R.wav --channel C test/data/C.wav");
 	BOOST_CHECK(!cc.error);
-	film = cc.make_film();
+	film = cc.make_film(error);
 	BOOST_CHECK_EQUAL(film->audio_channels(), 6);
+	BOOST_CHECK(collected_error.empty());
 
-	cc = run("dcpomatic2_create --channel L fred.wav --channel R jim.wav --channel HI sheila.wav");
+	cc = run("dcpomatic2_create --channel L test/data/L.wav --channel R test/data/R.wav --channel HI test/data/sine_440.wav");
 	BOOST_CHECK(!cc.error);
-	film = cc.make_film();
+	film = cc.make_film(error);
 	BOOST_CHECK_EQUAL(film->audio_channels(), 8);
+	BOOST_CHECK(collected_error.empty());
 
-	cc = run("dcpomatic2_create --channel L fred.wav --channel R jim.wav --channel C sheila.wav --audio-channels 16");
+	cc = run("dcpomatic2_create --channel L test/data/L.wav --channel R test/data/R.wav --channel C test/data/C.wav --audio-channels 16");
 	BOOST_CHECK(!cc.error);
-	film = cc.make_film();
+	film = cc.make_film(error);
 	BOOST_CHECK_EQUAL(film->audio_channels(), 16);
+	BOOST_CHECK(collected_error.empty());
 }
 
 
@@ -251,63 +262,83 @@ BOOST_AUTO_TEST_CASE(create_cli_template_test)
 {
 	ConfigRestorer cr("test/data");
 
+	string collected_error;
+	auto error = [&collected_error](string s) {
+		collected_error += s;
+	};
+
 	auto cc = run("dcpomatic2_create test/data/flat_red.png");
-	auto film = cc.make_film();
+	auto film = cc.make_film(error);
 	BOOST_CHECK(!film->three_d());
+	BOOST_CHECK(collected_error.empty());
 
 	cc = run("dcpomatic2_create test/data/flat_red.png --template 2d");
-	film = cc.make_film();
+	film = cc.make_film(error);
 	BOOST_CHECK(!film->three_d());
+	BOOST_CHECK(collected_error.empty());
 
 	cc = run("dcpomatic2_create test/data/flat_red.png --template 2d --threed");
-	film = cc.make_film();
+	film = cc.make_film(error);
 	BOOST_CHECK(film->three_d());
+	BOOST_CHECK(collected_error.empty());
 
 	cc = run("dcpomatic2_create test/data/flat_red.png --template 3d");
-	film = cc.make_film();
+	film = cc.make_film(error);
 	BOOST_CHECK(film->three_d());
+	BOOST_CHECK(collected_error.empty());
 
 	cc = run("dcpomatic2_create test/data/flat_red.png --template 3d --twod");
-	film = cc.make_film();
+	film = cc.make_film(error);
 	BOOST_CHECK(!film->three_d());
+	BOOST_CHECK(collected_error.empty());
 
 	cc = run("dcpomatic2_create test/data/flat_red.png");
-	film = cc.make_film();
+	film = cc.make_film(error);
 	BOOST_CHECK(!film->encrypted());
+	BOOST_CHECK(collected_error.empty());
 
 	cc = run("dcpomatic2_create test/data/flat_red.png --template unencrypted");
-	film = cc.make_film();
+	film = cc.make_film(error);
 	BOOST_CHECK(!film->encrypted());
+	BOOST_CHECK(collected_error.empty());
 
 	cc = run("dcpomatic2_create test/data/flat_red.png --template unencrypted --encrypt");
-	film = cc.make_film();
+	film = cc.make_film(error);
 	BOOST_CHECK(film->encrypted());
+	BOOST_CHECK(collected_error.empty());
 
 	cc = run("dcpomatic2_create test/data/flat_red.png --template encrypted");
-	film = cc.make_film();
+	film = cc.make_film(error);
 	BOOST_CHECK(film->encrypted());
+	BOOST_CHECK(collected_error.empty());
 
 	cc = run("dcpomatic2_create test/data/flat_red.png --template encrypted --no-encrypt");
-	film = cc.make_film();
+	film = cc.make_film(error);
 	BOOST_CHECK(!film->encrypted());
+	BOOST_CHECK(collected_error.empty());
 
 	cc = run("dcpomatic2_create test/data/flat_red.png");
-	film = cc.make_film();
+	film = cc.make_film(error);
 	BOOST_CHECK(!film->interop());
+	BOOST_CHECK(collected_error.empty());
 
 	cc = run("dcpomatic2_create test/data/flat_red.png --template interop");
-	film = cc.make_film();
+	film = cc.make_film(error);
 	BOOST_CHECK(film->interop());
+	BOOST_CHECK(collected_error.empty());
 
 	cc = run("dcpomatic2_create test/data/flat_red.png --template interop --standard SMPTE");
-	film = cc.make_film();
+	film = cc.make_film(error);
 	BOOST_CHECK(!film->interop());
+	BOOST_CHECK(collected_error.empty());
 
 	cc = run("dcpomatic2_create test/data/flat_red.png --template smpte");
-	film = cc.make_film();
+	film = cc.make_film(error);
 	BOOST_CHECK(!film->interop());
+	BOOST_CHECK(collected_error.empty());
 
 	cc = run("dcpomatic2_create test/data/flat_red.png --template smpte --standard interop");
-	film = cc.make_film();
+	film = cc.make_film(error);
 	BOOST_CHECK(film->interop());
+	BOOST_CHECK(collected_error.empty());
 }
