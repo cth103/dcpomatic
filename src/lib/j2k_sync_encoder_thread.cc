@@ -25,6 +25,8 @@
 #include "j2k_sync_encoder_thread.h"
 #include <dcp/scope_guard.h>
 
+#include "i18n.h"
+
 
 J2KSyncEncoderThread::J2KSyncEncoderThread(J2KEncoder& encoder)
 	: J2KEncoderThread(encoder)
@@ -40,6 +42,11 @@ try
 	log_thread_start();
 
 	while (true) {
+		if (auto wait = backoff()) {
+			LOG_ERROR(N_("Encoder thread sleeping (due to backoff) for %1s"), wait);
+			boost::this_thread::sleep(boost::posix_time::seconds(wait));
+		}
+
 		LOG_TIMING("encoder-sleep thread=%1", thread_id());
 		auto frame = _encoder.pop();
 

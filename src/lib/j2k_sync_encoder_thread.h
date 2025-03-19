@@ -26,6 +26,11 @@ public:
 
 	virtual void log_thread_start() const = 0;
 	virtual std::shared_ptr<dcp::ArrayData> encode(DCPVideo const& frame) = 0;
+	/** @return number of seconds we should wait between attempts to use this thread
+	 *  for encoding. Used to avoid flooding non-responsive network servers with
+	 *  requests.
+	 */
+	virtual int backoff() const { return 0; }
 };
 
 

@@ -14,6 +14,10 @@ public:
 		return _server;
 	}
 
+	int backoff() const override {
+		return _remote_backoff;
+	}
+
 private:
 	EncodeServerDescription _server;
 	/** Number of seconds that we currently wait between attempts to connect to the server */

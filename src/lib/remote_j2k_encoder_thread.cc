@@ -61,22 +61,18 @@ RemoteJ2KEncoderThread::encode(DCPVideo const& frame)
 		}
 	} catch (std::exception& e) {
 		LOG_ERROR(
-			N_("Remote encode of %1 on %2 failed (%3); thread sleeping for %4s"),
+			N_("Remote encode of %1 on %2 failed (%3)"),
 			frame.index(), _server.host_name(), e.what(), _remote_backoff
 		);
 	} catch (...) {
 		LOG_ERROR(
-			N_("Remote encode of %1 on %2 failed; thread sleeping for %4s"),
+			N_("Remote encode of %1 on %2 failed"),
 			frame.index(), _server.host_name(), _remote_backoff
 		);
 	}
 
-	if (!encoded) {
-		if (_remote_backoff < 60) {
-			/* back off more */
-			_remote_backoff += 10;
-		}
-		boost::this_thread::sleep(boost::posix_time::seconds(_remote_backoff));
+	if (!encoded && _remote_backoff < 60) {
+		_remote_backoff += 10;
 	}
 
 	return encoded;
