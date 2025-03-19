@@ -69,7 +69,11 @@ enum {
 	ID_timer
 };
 
-static unsigned int const log_lines = 32;
+
+/* Make this longer than the tallest we might want the window to be.
+ * In an ideal world we'd scale it with the window size.
+ */
+static unsigned int const log_lines = 128;
 
 
 class ServerLog : public Log, public Signaller
