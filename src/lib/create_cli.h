@@ -40,7 +40,7 @@ public:
 
 	struct Content {
 		boost::filesystem::path path;
-		VideoFrameType frame_type;
+		VideoFrameType frame_type = VideoFrameType::TWO_D;
 		boost::optional<dcp::Channel> channel;
 		boost::optional<float> gain;
 		boost::optional<boost::filesystem::path> kdm;
