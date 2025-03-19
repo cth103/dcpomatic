@@ -109,6 +109,16 @@ guess_crop_by_brightness(shared_ptr<const Image> image, double threshold)
 			}
 			break;
 		}
+		case AV_PIX_FMT_XYZ12LE:
+		{
+			uint16_t const* data = reinterpret_cast<uint16_t*>(image->data()[0] + (start_x * 6) + (start_y * image->stride()[0]));
+			for (int p = 0; p < pixels; ++p) {
+				/* Just using Y */
+				brightest = std::max(brightest, static_cast<double>(data[1]) / 4096);
+				data += rows ? 3 : (image->stride()[0] / 2);
+			}
+			break;
+		}
 		default:
 			throw PixelFormatError("guess_crop_by_brightness()", image->pixel_format());
 		}

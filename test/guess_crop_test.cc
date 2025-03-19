@@ -21,14 +21,15 @@
 
 #include "lib/content.h"
 #include "lib/content_factory.h"
+#include "lib/dcp_content.h"
 #include "lib/guess_crop.h"
 #include "lib/video_content.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
-#include <iostream>
 #include <vector>
 
 
+using std::make_shared;
 using namespace dcpomatic;
 
 
@@ -57,3 +58,13 @@ BOOST_AUTO_TEST_CASE (guess_crop_image_test3)
 
 	BOOST_CHECK(guess_crop_by_brightness(film, content[0], 0.1, {}) == Crop(113, 262, 0, 0));
 }
+
+
+BOOST_AUTO_TEST_CASE(guess_crop_image_dcp_test)
+{
+	auto content = make_shared<DCPContent>("test/data/scaling_test_133_185");
+	auto film = new_test_film("guess_crop_image_dcp_test", { content });
+
+	BOOST_CHECK(guess_crop_by_brightness(film, content, 0.1, {}) == Crop(279, 279, 0, 0));
+}
+
