@@ -164,32 +164,22 @@ public:
 #endif
 			)
 	{
-		auto state_sizer = new wxFlexGridSizer (2, DCPOMATIC_SIZER_GAP, DCPOMATIC_SIZER_GAP);
+		auto state_sizer = new wxBoxSizer(wxHORIZONTAL);
 
-		add_label_to_sizer (state_sizer, this, _("Frames per second"), true);
+		add_label_to_sizer(state_sizer, this, _("Frames per second"), true, 0, 0);
 		_fps = new StaticText(this, {});
-		state_sizer->Add (_fps);
-
-		auto log_sizer = new wxFlexGridSizer (1, DCPOMATIC_SIZER_GAP, DCPOMATIC_SIZER_GAP);
-		log_sizer->AddGrowableCol (0, 1);
-
-		wxClientDC dc (this);
-		wxSize size = dc.GetTextExtent(char_to_wx("This is the length of the file label it should be quite long"));
-		int const height = (size.GetHeight() + 2) * log_lines;
-		SetSize (700, height + DCPOMATIC_SIZER_GAP * 2);
+		state_sizer->Add(_fps, 1, wxLEFT, DCPOMATIC_DIALOG_BORDER);
 
 		_text = new wxTextCtrl (
-			this, wxID_ANY, std_to_wx (server_log->get()), wxDefaultPosition, wxSize (-1, height),
+			this, wxID_ANY, std_to_wx (server_log->get()), wxDefaultPosition, wxDefaultSize,
 			wxTE_READONLY | wxTE_MULTILINE
 			);
 
-		log_sizer->Add (_text, 1, wxEXPAND);
-
-		wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
-		overall_sizer->Add (state_sizer, 0, wxALL, DCPOMATIC_SIZER_GAP);
-		overall_sizer->Add (log_sizer, 1, wxEXPAND | wxALL, DCPOMATIC_SIZER_GAP);
-		SetSizer (overall_sizer);
-		overall_sizer->Layout ();
+		auto overall_sizer = new wxBoxSizer(wxVERTICAL);
+		overall_sizer->Add(state_sizer, 0, wxLEFT | wxTOP | wxRIGHT, DCPOMATIC_DIALOG_BORDER);
+		overall_sizer->Add(_text, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
+		SetSizer(overall_sizer);
+		overall_sizer->Layout();
 
 		Bind (wxEVT_TIMER, boost::bind (&StatusDialog::update_state, this));
 		_timer.reset (new wxTimer (this));
@@ -197,6 +187,8 @@ public:
 
 		server_log->Appended.connect (bind (&StatusDialog::appended, this, _1));
 		server_log->Removed.connect (bind (&StatusDialog::removed, this, _1));
+
+		SetSize(800, 600);
 	}
 
 private:
