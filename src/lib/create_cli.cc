@@ -62,6 +62,7 @@ string CreateCLI::_help =
 	"  -f, --dcp-frame-rate <rate>   set DCP video frame rate (otherwise guessed from content)\n"
 	"      --container-ratio <ratio> 119, 133, 137, 138, 166, 178, 185 or 239\n"
 	"  -s, --still-length <n>        number of seconds that still content should last\n"
+	"      --auto-crop-threshold <n> threshold to use for 'black' when auto-cropping\n"
 	"      --standard <standard>     SMPTE or interop (default SMPTE)\n"
 	"      --no-use-isdcf-name       do not use an ISDCF name; use the specified name unmodified\n"
 	"      --config <dir>            directory containing config.xml and cinemas.sqlite3\n"
@@ -242,6 +243,7 @@ CreateCLI::CreateCLI(int argc, char* argv[])
 		argument_option(i, argc, argv, "-f", "--dcp-frame-rate",   &claimed, &error, &dcp_frame_rate_int);
 		argument_option(i, argc, argv, "",   "--container-ratio",  &claimed, &error, &container_ratio_string);
 		argument_option(i, argc, argv, "-s", "--still-length",     &claimed, &error, &still_length, string_to_nonzero_int);
+		argument_option(i, argc, argv, "",   "--auto-crop-threshold", &claimed, &error, &auto_crop_threshold, string_to_int);
 		/* See comment below about --cpl */
 		argument_option(i, argc, argv, "",   "--standard",         &claimed, &error, &standard_string, string_to_string);
 		argument_option(i, argc, argv, "",   "--config",           &claimed, &error, &config_dir, string_to_path);
@@ -489,7 +491,7 @@ CreateCLI::make_film(function<void (string)> error) const
 					auto crop = guess_crop_by_brightness(
 						film,
 						film_content,
-						Config::instance()->auto_crop_threshold(),
+						auto_crop_threshold.get_value_or(Config::instance()->auto_crop_threshold()),
 						std::min(
 							dcpomatic::ContentTime::from_seconds(1),
 							dcpomatic::ContentTime::from_frames(

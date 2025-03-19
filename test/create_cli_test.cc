@@ -201,6 +201,13 @@ BOOST_AUTO_TEST_CASE (create_cli_test)
 	BOOST_CHECK(!cc.content[1].auto_crop);
 	BOOST_CHECK(cc.content[2].auto_crop);
 
+	cc = run("dcpomatic2_create --auto-crop-threshold 42 --auto-crop foo.mp4 bar.mp4 --auto-crop baz.mp4");
+	BOOST_REQUIRE_EQUAL(cc.content.size(), 3U);
+	BOOST_CHECK(cc.content[0].auto_crop);
+	BOOST_CHECK(!cc.content[1].auto_crop);
+	BOOST_CHECK(cc.content[2].auto_crop);
+	BOOST_CHECK_EQUAL(cc.auto_crop_threshold.get_value_or(0), 42);
+
 	auto pillarbox = TestPaths::private_data() / "pillarbox.png";
 	cc = run("dcpomatic2_create --auto-crop " + pillarbox.string());
 	auto film = cc.make_film(error);
