@@ -199,7 +199,11 @@ private:
 
 	void removed (int n)
 	{
-		_text->Remove (0, n + 1);
+#ifdef DCPOMATIC_WINDOWS
+		_text->Remove(0, n + 2);
+#else
+		_text->Remove(0, n + 1);
+#endif
 	}
 
 	void update_state ()
