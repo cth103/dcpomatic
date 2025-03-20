@@ -1662,7 +1662,7 @@ Player::frames_done() const
 	optional<DCPTime> earliest_time;
 	std::tie(earliest_content, earliest_time) = earliest_piece_and_time();
 
-	return earliest_time.get_value_or({}).frames_round(film->video_frame_rate());
+	return earliest_time.get_value_or(film->length()).frames_round(film->video_frame_rate());
 }
 
 
@@ -1676,5 +1676,5 @@ Player::progress() const
 	optional<DCPTime> earliest_time;
 	std::tie(earliest_content, earliest_time) = earliest_piece_and_time();
 
-	return static_cast<float>(earliest_time.get_value_or({}).get()) / film->length().get();
+	return static_cast<float>(earliest_time.get_value_or(film->length()).get()) / film->length().get();
 }
