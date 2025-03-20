@@ -59,6 +59,7 @@ using std::make_shared;
 using std::shared_ptr;
 using std::string;
 using std::vector;
+using boost::optional;
 using namespace dcpomatic;
 
 
@@ -465,7 +466,7 @@ BOOST_AUTO_TEST_CASE(test_referencing_ov_with_missing_subtitle_in_some_reels)
 		42, 1, dcp::Time(0, 0, 5, 0, 24), dcp::Time(0, 0, 9, 0, 24),
 		0, dcp::HAlign::CENTER,
 		0, dcp::VAlign::CENTER,
-		0, dcp::Direction::LTR,
+		0, vector<dcp::Text::VariableZPosition>(), dcp::Direction::LTR,
 		"Hello",
 		dcp::Effect::NONE, dcp::Colour(0, 0, 0),
 		dcp::Time{}, dcp::Time{},

@@ -801,9 +801,9 @@ ReelWriter::empty_text_asset (TextType type, optional<DCPTextTrack> track, bool 
 		auto s = make_shared<dcp::InteropTextAsset>();
 		s->set_movie_title (film()->name());
 		if (is_open(type)) {
-			s->set_language (lang.first ? lang.first->to_string() : "Unknown");
+			s->set_language(lang.first ? lang.first->as_string() : "Unknown");
 		} else if (track->language) {
-			s->set_language (track->language->to_string());
+			s->set_language(track->language->as_string());
 		}
 		s->set_reel_number(fmt::to_string(_reel_index + 1));
 		asset = s;
@@ -814,7 +814,7 @@ ReelWriter::empty_text_asset (TextType type, optional<DCPTextTrack> track, bool 
 		if (is_open(type) && lang.first) {
 			s->set_language (*lang.first);
 		} else if (track && track->language) {
-			s->set_language (dcp::LanguageTag(track->language->to_string()));
+			s->set_language(dcp::LanguageTag(track->language->as_string()));
 		}
 		s->set_edit_rate (dcp::Fraction (film()->video_frame_rate(), 1));
 		s->set_reel_number (_reel_index + 1);
@@ -843,6 +843,7 @@ ReelWriter::empty_text_asset (TextType type, optional<DCPTextTrack> track, bool 
 				0.5,
 				dcp::VAlign::CENTER,
 				0,
+				vector<dcp::Text::VariableZPosition>(),
 				dcp::Direction::LTR,
 				" ",
 				dcp::Effect::NONE,
@@ -958,11 +959,11 @@ ReelWriter::write(PlayerText subs, TextType type, optional<DCPTextTrack> track, 
 
 	for (auto i: subs.bitmap) {
 		asset->add (
-			make_shared<dcp::TextImage>(
+			std::make_shared<dcp::TextImage>(
 				image_as_png(i.image),
 				dcp::Time(period.from.seconds() - _period.from.seconds(), tcr),
 				dcp::Time(period.to.seconds() - _period.from.seconds(), tcr),
-				i.rectangle.x, dcp::HAlign::LEFT, i.rectangle.y, dcp::VAlign::TOP, 0,
+				i.rectangle.x, dcp::HAlign::LEFT, i.rectangle.y, dcp::VAlign::TOP, 0, vector<dcp::Text::VariableZPosition>(),
 				dcp::Time(), dcp::Time()
 				)
 			);

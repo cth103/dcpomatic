@@ -411,7 +411,7 @@ TextContent::as_xml(xmlpp::Element* root) const
 	}
 	if (_language) {
 		auto lang = cxml::add_child(text, "Language");
-		lang->add_child_text (_language->to_string());
+		lang->add_child_text(_language->as_string());
 		lang->set_attribute("additional", _language_is_additional ? "1" : "0");
 	}
 }

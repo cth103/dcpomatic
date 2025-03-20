@@ -71,7 +71,7 @@ BOOST_AUTO_TEST_CASE(main_sound_configuration_test_51_vi)
 	BOOST_REQUIRE(msc);
 
 	/* We think this should say 51 not 71 at the start (#2580) */
-	BOOST_CHECK_EQUAL(msc->to_string(), "51/L,R,C,LFE,Ls,Rs,-,VIN");
+	BOOST_CHECK_EQUAL(msc->as_string(), "51/L,R,C,LFE,Ls,Rs,-,VIN");
 }
 
 
@@ -117,5 +117,5 @@ BOOST_AUTO_TEST_CASE(main_sound_configuration_test_71)
 	auto msc = cpl->main_sound_configuration();
 	BOOST_REQUIRE(msc);
 
-	BOOST_CHECK_EQUAL(msc->to_string(), "71/L,R,C,LFE,Lss,Rss,-,VIN,-,-,Lrs,Rrs");
+	BOOST_CHECK_EQUAL(msc->as_string(), "71/L,R,C,LFE,Lss,Rss,-,VIN,-,-,Lrs,Rrs");
 }

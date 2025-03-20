@@ -479,8 +479,8 @@ LIBDCP_ENABLE_WARNINGS
 	/* Render something to fontconfig to create its cache */
 	vector<StringText> subs;
 	dcp::TextString ss(
-		optional<string>(), false, false, false, dcp::Colour(), 42, 1, dcp::Time(), dcp::Time(), 0, dcp::HAlign::CENTER, 0, dcp::VAlign::CENTER, 0, dcp::Direction::LTR,
-		"Hello dolly", dcp::Effect::NONE, dcp::Colour(), dcp::Time(), dcp::Time(), 0, std::vector<dcp::Ruby>()
+		optional<string>(), false, false, false, dcp::Colour(), 42, 1, dcp::Time(), dcp::Time(), 0, dcp::HAlign::CENTER, 0, dcp::VAlign::CENTER, 0,
+		vector<dcp::Text::VariableZPosition>(), dcp::Direction::LTR, "Hello dolly", dcp::Effect::NONE, dcp::Colour(), dcp::Time(), dcp::Time(), 0, std::vector<dcp::Ruby>()
 		);
 	subs.push_back(StringText(ss, 0, make_shared<dcpomatic::Font>("foo"), dcp::SubtitleStandard::SMPTE_2014));
 	render_text(subs, dcp::Size(640, 480), DCPTime(), 24);

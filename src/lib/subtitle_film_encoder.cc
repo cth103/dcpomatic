@@ -145,7 +145,7 @@ SubtitleFilmEncoder::text(PlayerText subs, TextType type, optional<DCPTextTrack>
 			auto s = make_shared<dcp::InteropTextAsset>();
 			s->set_movie_title (_film->name());
 			if (lang.first) {
-				s->set_language (lang.first->to_string());
+				s->set_language(lang.first->as_string());
 			}
 			s->set_reel_number(fmt::to_string(_reel_index + 1));
 			_assets[_reel_index].first = s;

@@ -484,7 +484,7 @@ DCPPanel::film_changed(FilmProperty p)
 	{
 		auto al = _film->audio_language();
 		checked_set (_enable_audio_language, static_cast<bool>(al));
-		checked_set (_audio_language, al ? std_to_wx(al->to_string()) : wxString{});
+		checked_set(_audio_language, al ? std_to_wx(al->as_string()) : wxString{});
 		setup_dcp_name ();
 		setup_sensitivity ();
 		_audio_panel_sizer->Layout();

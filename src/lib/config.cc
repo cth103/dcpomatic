@@ -807,7 +807,7 @@ Config::write_config() const
 	cxml::add_text_child(root, "DefaultAudioDelay", fmt::to_string(_default_audio_delay));
 	if (_default_audio_language) {
 		/* [XML] DefaultAudioLanguage Default audio language to use for new films */
-		cxml::add_text_child(root, "DefaultAudioLanguage", _default_audio_language->to_string());
+		cxml::add_text_child(root, "DefaultAudioLanguage", _default_audio_language->as_string());
 	}
 	if (_default_kdm_directory) {
 		/* [XML:opt] DefaultKDMDirectory Default directory to write KDMs to. */
@@ -1111,7 +1111,7 @@ Config::write_config() const
 		_audio_mapping->as_xml(cxml::add_child(root, "AudioMapping"));
 	}
 	for (auto const& i: _custom_languages) {
-		cxml::add_text_child(root, "CustomLanguage", i.to_string());
+		cxml::add_text_child(root, "CustomLanguage", i.as_string());
 	}
 	for (auto const& initial: _initial_paths) {
 		if (initial.second) {

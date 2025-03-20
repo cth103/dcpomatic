@@ -284,6 +284,7 @@ TextDecoder::emit_plain_start(ContentTime from, sub::Subtitle const & sub_subtit
 				v_position,
 				v_align,
 				0,
+				vector<dcp::Text::VariableZPosition>(),
 				dcp::Direction::LTR,
 				remove_invalid_characters_for_xml(block.text),
 				dcp::Effect::NONE,

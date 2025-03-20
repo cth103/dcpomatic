@@ -50,7 +50,7 @@ DCPTextTrack::DCPTextTrack (string name_, optional<dcp::LanguageTag> language_)
 string
 DCPTextTrack::summary () const
 {
-	return String::compose("%1 (%2)", name, language ? language->to_string() : _("Unknown"));
+	return String::compose("%1 (%2)", name, language ? language->as_string() : _("Unknown"));
 }
 
 void
@@ -58,7 +58,7 @@ DCPTextTrack::as_xml (xmlpp::Element* parent) const
 {
 	cxml::add_text_child(parent, "Name", name);
 	if (language) {
-		cxml::add_text_child(parent, "Language", language->to_string());
+		cxml::add_text_child(parent, "Language", language->as_string());
 	}
 }
 

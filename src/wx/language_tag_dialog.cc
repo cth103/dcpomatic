@@ -96,7 +96,7 @@ LanguageTagDialog::populate_list ()
 			it.SetText (std_to_wx(i.description()));
 			_list->InsertItem (it);
 			it.SetColumn (1);
-			it.SetText (std_to_wx(i.to_string()));
+			it.SetText(std_to_wx(i.as_string()));
 			_list->SetItem (it);
 		}
 	};

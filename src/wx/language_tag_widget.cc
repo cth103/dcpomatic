@@ -78,7 +78,7 @@ LanguageTagWidget::set (optional<dcp::LanguageTag> tag)
 {
 	_tag = tag;
 	if (tag) {
-		checked_set (_language, std_to_wx(tag->to_string()));
+		checked_set(_language, std_to_wx(tag->as_string()));
 	} else {
 		checked_set(_language, wxString{});
 	}

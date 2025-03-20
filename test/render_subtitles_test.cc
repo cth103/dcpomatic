@@ -37,6 +37,9 @@
 
 using std::make_shared;
 using std::shared_ptr;
+using std::string;
+using std::vector;
+using boost::optional;
 
 
 static void
@@ -59,6 +62,7 @@ add(std::vector<StringText>& s, std::string text, bool italic, bool bold, bool u
 				1,
 				dcp::VAlign::TOP,
 				0,
+				vector<dcp::Text::VariableZPosition>(),
 				dcp::Direction::LTR,
 				text,
 				dcp::Effect::NONE,
@@ -133,6 +137,7 @@ BOOST_AUTO_TEST_CASE(render_text_with_newline_test)
 			0.5, dcp::HAlign::CENTER,
 			0.5, dcp::VAlign::CENTER,
 			0.0,
+			vector<dcp::Text::VariableZPosition>(),
 			dcp::Direction::LTR,
 			"Hello                     world",
 			dcp::Effect::NONE, dcp::Colour(0, 0, 0),
@@ -146,6 +151,7 @@ BOOST_AUTO_TEST_CASE(render_text_with_newline_test)
 			0.5, dcp::HAlign::CENTER,
 			0.5, dcp::VAlign::CENTER,
 			0.0,
+			vector<dcp::Text::VariableZPosition>(),
 			dcp::Direction::LTR,
 			"\n",
 			dcp::Effect::NONE, dcp::Colour(0, 0, 0),

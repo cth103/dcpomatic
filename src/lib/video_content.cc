@@ -304,7 +304,7 @@ VideoContent::as_xml(xmlpp::Element* element) const
 	cxml::add_text_child(element, "Range", _range == VideoRange::FULL ? "full" : "video");
 	_pixel_quanta.as_xml(cxml::add_child(element, "PixelQuanta"));
 	if (_burnt_subtitle_language) {
-		cxml::add_text_child(element, "BurntSubtitleLanguage", _burnt_subtitle_language->to_string());
+		cxml::add_text_child(element, "BurntSubtitleLanguage", _burnt_subtitle_language->as_string());
 	}
 }
 

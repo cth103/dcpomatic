@@ -442,13 +442,13 @@ Film::metadata(bool with_content_paths) const
 	for (auto i: _content_versions) {
 		cxml::add_text_child(root, "ContentVersion", i);
 	}
-	cxml::add_text_child(root, "NameLanguage", _name_language.to_string());
+	cxml::add_text_child(root, "NameLanguage", _name_language.as_string());
 	cxml::add_text_child(root, "TerritoryType", territory_type_to_string(_territory_type));
 	if (_release_territory) {
 		cxml::add_text_child(root, "ReleaseTerritory", _release_territory->subtag());
 	}
 	if (_sign_language_video_language) {
-		cxml::add_text_child(root, "SignLanguageVideoLanguage", _sign_language_video_language->to_string());
+		cxml::add_text_child(root, "SignLanguageVideoLanguage", _sign_language_video_language->as_string());
 	}
 	cxml::add_text_child(root, "VersionNumber", fmt::to_string(_version_number));
 	cxml::add_text_child(root, "Status", dcp::status_to_string(_status));
@@ -475,7 +475,7 @@ Film::metadata(bool with_content_paths) const
 	cxml::add_text_child(root, "UserExplicitContainer", _user_explicit_container ? "1" : "0");
 	cxml::add_text_child(root, "UserExplicitResolution", _user_explicit_resolution ? "1" : "0");
 	if (_audio_language) {
-		cxml::add_text_child(root, "AudioLanguage", _audio_language->to_string());
+		cxml::add_text_child(root, "AudioLanguage", _audio_language->as_string());
 	}
 	_playlist->as_xml(
 		cxml::add_child(root, "Playlist"),
@@ -1004,7 +1004,7 @@ Film::isdcf_name(bool if_created_now) const
 	auto entry_for_language = [](dcp::LanguageTag const& tag) {
 		/* Look up what we should be using for this tag in the DCNC name */
 		for (auto const& dcnc: dcp::dcnc_tags()) {
-			if (tag.to_string() == dcnc.first) {
+			if (tag.as_string() == dcnc.first) {
 				return dcnc.second;
 			}
 		}
