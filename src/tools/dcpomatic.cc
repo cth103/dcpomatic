@@ -1220,7 +1220,12 @@ private:
 	void set_menu_sensitivity ()
 	{
 		auto jobs = JobManager::instance()->get ();
-		auto const dcp_creation = std::any_of(jobs.begin(), jobs.end(), [](shared_ptr<const Job> job) { return dynamic_pointer_cast<const DCPTranscodeJob>(job); });
+		auto const dcp_creation = std::any_of(
+			jobs.begin(),
+			jobs.end(),
+			[](shared_ptr<const Job> job) {
+				return dynamic_pointer_cast<const DCPTranscodeJob>(job) && !job->finished();
+			});
 		bool const have_cpl = _film && !_film->cpls().empty ();
 		bool const have_single_selected_content = _film_editor->content_panel()->selected().size() == 1;
 		bool const have_selected_content = !_film_editor->content_panel()->selected().empty();
