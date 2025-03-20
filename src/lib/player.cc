@@ -702,7 +702,6 @@ Player::earliest_piece_and_time() const
 		if (t > piece->content->end(film)) {
 			piece->done = true;
 		} else {
-
 			/* Given two choices at the same time, pick the one with texts so we see it before
 			   the video.
 			*/
