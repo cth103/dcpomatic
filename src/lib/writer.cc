@@ -471,23 +471,14 @@ try
 
 			DCPOMATIC_ASSERT(item != _queue.rend());
 			++_pushed_to_disk;
-			/* For the log message below */
-			int const awaiting = _last_written[_queue.front().reel].frame() + 1;
-			lock.unlock ();
 
-			/* i is valid here, even though we don't hold a lock on the mutex,
-			   since list iterators are unaffected by insertion and only this
-			   thread could erase the last item in the list.
-			*/
-
-			LOG_GENERAL("Writer full; pushes %1 to disk while awaiting %2", item->frame, awaiting);
+			LOG_GENERAL("Writer full; pushes %1 to disk while awaiting %2", item->frame, _last_written[_queue.front().reel].frame() + 1);
 
 			item->encoded->write_via_temp(
 				film()->j2c_path(item->reel, item->frame, item->eyes, true),
 				film()->j2c_path(item->reel, item->frame, item->eyes, false)
 				);
 
-			lock.lock ();
 			item->encoded.reset();
 			--_queued_full_in_memory;
 			_full_condition.notify_all ();
