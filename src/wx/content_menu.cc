@@ -200,6 +200,7 @@ ContentMenu::popup (weak_ptr<Film> film, ContentList c, TimelineContentViewList 
 		}
 	} else {
 		_kdm->Enable (false);
+		_ov->Enable(false);
 		_set_dcp_settings->Enable (false);
 		_set_dcp_markers->Enable(false);
 	}
