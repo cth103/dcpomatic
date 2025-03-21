@@ -423,7 +423,7 @@ try
 			auto qi = _queue.front ();
 			_last_written[qi.reel].update (qi);
 			_queue.pop_front ();
-			if (qi.type == QueueItem::Type::FULL && qi.encoded) {
+			if (qi.encoded) {
 				--_queued_full_in_memory;
 			}
 
@@ -464,7 +464,7 @@ try
 			/* Find one from the back of the queue */
 			_queue.sort ();
 			auto item = _queue.rbegin();
-			while (item != _queue.rend() && (item->type != QueueItem::Type::FULL || !item->encoded)) {
+			while (item != _queue.rend() && !item->encoded) {
 				++item;
 			}
 
