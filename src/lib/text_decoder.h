@@ -27,7 +27,6 @@
 #include "decoder.h"
 #include "decoder_part.h"
 #include "rect.h"
-#include "content_text.h"
 #include "types.h"
 #include <dcp/subtitle_standard.h>
 #include <dcp/text_string.h>
@@ -44,25 +43,25 @@ class Image;
 class TextDecoder : public DecoderPart
 {
 public:
-	TextDecoder (Decoder* parent, std::shared_ptr<const TextContent>);
+	TextDecoder(Decoder* parent, std::shared_ptr<const TextContent>);
 
-	boost::optional<dcpomatic::ContentTime> position (std::shared_ptr<const Film>) const override {
+	boost::optional<dcpomatic::ContentTime> position(std::shared_ptr<const Film>) const override {
 		return _position;
 	}
 
-	void emit_bitmap_start (ContentBitmapText const& bitmap);
-	void emit_bitmap (dcpomatic::ContentTimePeriod period, std::shared_ptr<const Image> image, dcpomatic::Rect<double> rect);
+	void emit_bitmap_start(ContentBitmapText const& bitmap);
+	void emit_bitmap(dcpomatic::ContentTimePeriod period, std::shared_ptr<const Image> image, dcpomatic::Rect<double> rect);
 	void emit_plain_start(dcpomatic::ContentTime from, std::vector<dcp::TextString> s, dcp::SubtitleStandard valign_standard);
-	void emit_plain_start (dcpomatic::ContentTime from, sub::Subtitle const & subtitle);
+	void emit_plain_start(dcpomatic::ContentTime from, sub::Subtitle const & subtitle);
 	void emit_plain(dcpomatic::ContentTimePeriod period, std::vector<dcp::TextString> s, dcp::SubtitleStandard valign_standard);
-	void emit_plain (dcpomatic::ContentTimePeriod period, sub::Subtitle const & subtitle);
-	void emit_stop (dcpomatic::ContentTime to);
+	void emit_plain(dcpomatic::ContentTimePeriod period, sub::Subtitle const & subtitle);
+	void emit_stop(dcpomatic::ContentTime to);
 
-	void maybe_set_position (dcpomatic::ContentTime position);
+	void maybe_set_position(dcpomatic::ContentTime position);
 
-	void seek () override;
+	void seek() override;
 
-	std::shared_ptr<const TextContent> content () const {
+	std::shared_ptr<const TextContent> content() const {
 		return _content;
 	}
 

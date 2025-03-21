@@ -40,12 +40,12 @@ using boost::optional;
 using namespace dcpomatic;
 
 
-TextDecoder::TextDecoder (
+TextDecoder::TextDecoder(
 	Decoder* parent,
 	shared_ptr<const TextContent> content
 	)
-	: DecoderPart (parent)
-	, _content (content)
+	: DecoderPart(parent)
+	, _content(content)
 {
 
 }
@@ -53,9 +53,9 @@ TextDecoder::TextDecoder (
 
 /** Called by subclasses when an image subtitle is starting */
 void
-TextDecoder::emit_bitmap_start (ContentBitmapText const& bitmap)
+TextDecoder::emit_bitmap_start(ContentBitmapText const& bitmap)
 {
-	BitmapStart (bitmap);
+	BitmapStart(bitmap);
 	maybe_set_position(bitmap.from());
 }
 
@@ -77,7 +77,7 @@ set_forced_appearance(shared_ptr<const TextContent> content, StringText& subtitl
 		subtitle.set_fade_up_time(dcp::Time(content->fade_in()->seconds(), 1000));
 	}
 	if (content->fade_out()) {
-		subtitle.set_fade_down_time (dcp::Time(content->fade_out()->seconds(), 1000));
+		subtitle.set_fade_down_time(dcp::Time(content->fade_out()->seconds(), 1000));
 	}
 }
 
@@ -141,7 +141,7 @@ TextDecoder::emit_plain_start(ContentTime from, vector<dcp::TextString> subtitle
 
 
 void
-TextDecoder::emit_plain_start (ContentTime from, sub::Subtitle const & sub_subtitle)
+TextDecoder::emit_plain_start(ContentTime from, sub::Subtitle const & sub_subtitle)
 {
 	/* See if our next subtitle needs to be vertically placed on screen by us */
 	bool needs_placement = false;
@@ -173,14 +173,14 @@ TextDecoder::emit_plain_start (ContentTime from, sub::Subtitle const & sub_subti
 
 			if (!block.font_size.specified()) {
 				/* Fallback default font size if no other has been specified */
-				block.font_size.set_points (48);
+				block.font_size.set_points(48);
 			}
 
 			float v_position;
 			dcp::VAlign v_align;
 			if (needs_placement) {
-				DCPOMATIC_ASSERT (line.vertical_position.line);
-				double const multiplier = 1.2 * content()->line_spacing() * content()->y_scale() * block.font_size.proportional (72 * 11);
+				DCPOMATIC_ASSERT(line.vertical_position.line);
+				double const multiplier = 1.2 * content()->line_spacing() * content()->y_scale() * block.font_size.proportional(72 * 11);
 				switch (line.vertical_position.reference.get_value_or(sub::BOTTOM_OF_SCREEN)) {
 				case sub::BOTTOM_OF_SCREEN:
 				case sub::TOP_OF_SUBTITLE:
@@ -210,12 +210,12 @@ TextDecoder::emit_plain_start (ContentTime from, sub::Subtitle const & sub_subti
 					break;
 				}
 			} else {
-				DCPOMATIC_ASSERT (line.vertical_position.reference);
+				DCPOMATIC_ASSERT(line.vertical_position.reference);
 				if (line.vertical_position.proportional) {
 					v_position = line.vertical_position.proportional.get();
 				} else {
-					DCPOMATIC_ASSERT (line.vertical_position.line);
-					DCPOMATIC_ASSERT (line.vertical_position.lines);
+					DCPOMATIC_ASSERT(line.vertical_position.line);
+					DCPOMATIC_ASSERT(line.vertical_position.lines);
 					v_position = float(*line.vertical_position.line) / *line.vertical_position.lines;
 				}
 
@@ -274,11 +274,11 @@ TextDecoder::emit_plain_start (ContentTime from, sub::Subtitle const & sub_subti
 				block.bold,
 				block.underline,
 				dcp_colour(block.colour),
-				block.font_size.points (72 * 11),
+				block.font_size.points(72 * 11),
 				1.0,
-				dcp::Time (from.seconds(), 1000),
+				dcp::Time(from.seconds(), 1000),
 				/* XXX: hmm; this is a bit ugly (we don't know the to time yet) */
-				dcp::Time (),
+				dcp::Time(),
 				h_position,
 				h_align,
 				v_position,
@@ -294,8 +294,8 @@ TextDecoder::emit_plain_start (ContentTime from, sub::Subtitle const & sub_subti
 				   throwing an exception.  Since only DCP subs fill those in (and we don't
 				   use libsub for DCP subs) we can cheat by just putting 0 in here.
 				*/
-				dcp::Time (),
-				dcp::Time (),
+				dcp::Time(),
+				dcp::Time(),
 				0,
 				std::vector<dcp::Ruby>()
 				);
@@ -324,25 +324,25 @@ TextDecoder::emit_plain_start (ContentTime from, sub::Subtitle const & sub_subti
 
 
 void
-TextDecoder::emit_stop (ContentTime to)
+TextDecoder::emit_stop(ContentTime to)
 {
-	Stop (to);
+	Stop(to);
 }
 
 
 void
 TextDecoder::emit_plain(ContentTimePeriod period, vector<dcp::TextString> subtitles, dcp::SubtitleStandard valign_standard)
 {
-	emit_plain_start (period.from, subtitles, valign_standard);
-	emit_stop (period.to);
+	emit_plain_start(period.from, subtitles, valign_standard);
+	emit_stop(period.to);
 }
 
 
 void
-TextDecoder::emit_plain (ContentTimePeriod period, sub::Subtitle const& subtitles)
+TextDecoder::emit_plain(ContentTimePeriod period, sub::Subtitle const& subtitles)
 {
-	emit_plain_start (period.from, subtitles);
-	emit_stop (period.to);
+	emit_plain_start(period.from, subtitles);
+	emit_stop(period.to);
 }
 
 
@@ -351,22 +351,22 @@ TextDecoder::emit_plain (ContentTimePeriod period, sub::Subtitle const& subtitle
  *  of the video frame)
  */
 void
-TextDecoder::emit_bitmap (ContentTimePeriod period, shared_ptr<const Image> image, dcpomatic::Rect<double> rect)
+TextDecoder::emit_bitmap(ContentTimePeriod period, shared_ptr<const Image> image, dcpomatic::Rect<double> rect)
 {
-	emit_bitmap_start ({ period.from, image, rect });
-	emit_stop (period.to);
+	emit_bitmap_start({ period.from, image, rect });
+	emit_stop(period.to);
 }
 
 
 void
-TextDecoder::seek ()
+TextDecoder::seek()
 {
-	_position = ContentTime ();
+	_position = {};
 }
 
 
 void
-TextDecoder::maybe_set_position (dcpomatic::ContentTime position)
+TextDecoder::maybe_set_position(dcpomatic::ContentTime position)
 {
 	if (!_position || position > *_position) {
 		_position = position;
