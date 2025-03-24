@@ -19,6 +19,7 @@ subscribers.Add (wxT ("Austrian Film Museum"));
 subscribers.Add (wxT ("LightBender Post"));
 subscribers.Add (wxT ("Andres Sanchez"));
 subscribers.Add (wxT ("Irving Shapiro"));
+subscribers.Add (wxT ("Alex Shultz"));
 subscribers.Add (wxT ("Jussi Siponen"));
 subscribers.Add (wxT ("Jeremy Spracklen"));
 subscribers.Add (wxT ("John B. Thomas"));
