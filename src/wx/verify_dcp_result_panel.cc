@@ -543,6 +543,20 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 				_("More JPEG2000 frames (not listed) contain the wrong number of tile parts.")
 			);
 			break;
+		case dcp::VerificationNote::Code::INVALID_JPEG2000_RSIZ_FOR_2K:
+			add(
+				i.second,
+				_("A 2K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %n"),
+				_("More JPEG2000 frames (not listed) contain invalid Rsiz values.")
+			);
+			break;
+		case dcp::VerificationNote::Code::INVALID_JPEG2000_RSIZ_FOR_4K:
+			add(
+				i.second,
+				_("A 4K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %n"),
+				_("More JPEG2000 frames (not listed) contain invalid Rsiz values.")
+			);
+			break;
 		case dcp::VerificationNote::Code::MISSING_JPEG200_TLM_MARKER:
 			add(
 				i.second,
