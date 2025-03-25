@@ -131,6 +131,7 @@ def build(bld):
                  markers_test.cc
                  map_cli_test.cc
                  mca_subdescriptors_test.cc
+                 mpeg2_dcp_test.cc
                  no_use_video_test.cc
                  open_caption_test.cc
                  optimise_stills_test.cc
