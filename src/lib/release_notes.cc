@@ -72,15 +72,16 @@ find_release_notes(bool dark, optional<string> current)
 		return {};
 	}
 
+	/* It's been a while now since we added release notes.  Don't show them
+	 * for (potentially) long ago previous unknowns any more.
+	 */
+	if (!last) {
+		last = *current;
+	}
+
 	Config::instance()->set_last_release_notes_version(*current);
 
 	vector<string> notes;
-	if (!last) {
-		notes.push_back(_("In this version there are changes to the way that subtitles are positioned. "
-				  "Positioning should now be more correct, with respect to the standards, but you "
-				  "should check any subtitles in your project to make sure that they are placed "
-				  "where you want them."));
-	}
 
 	if (before(last, "2.17.19")) {
 		notes.push_back(_("The vertical offset control for some subtitles now works in the opposite direction "
