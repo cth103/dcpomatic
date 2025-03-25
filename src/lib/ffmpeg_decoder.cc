@@ -439,8 +439,8 @@ FFmpegDecoder::seek (ContentTime time, bool accurate)
 		AVSEEK_FLAG_BACKWARD
 		);
 
-	/* Force re-creation of filter graphs to reset them and hence to make sure
-	   they don't have any pre-seek frames knocking about.
+	/* Force re-creation of filter graphs to reset them, to make sure
+	   they don't have any pre-seek frames.
 	*/
 	_filter_graphs.clear();
 
