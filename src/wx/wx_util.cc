@@ -723,6 +723,8 @@ get_offsets (vector<Offset>& offsets)
 	offsets.push_back({_("UTC+4"),   dcp::UTCOffset(  4,   0)});
 	offsets.push_back({_("UTC+5"),   dcp::UTCOffset(  5,   0)});
 	offsets.push_back({_("UTC+5:30"),dcp::UTCOffset(  5,  30)});
+	/* Nepal Standard Time */
+	offsets.push_back({_("UTC+5:45"),dcp::UTCOffset(  5,  45)});
 	offsets.push_back({_("UTC+6"),   dcp::UTCOffset(  6,   0)});
 	offsets.push_back({_("UTC+7"),   dcp::UTCOffset(  7,   0)});
 	offsets.push_back({_("UTC+8"),   dcp::UTCOffset(  8,   0)});
