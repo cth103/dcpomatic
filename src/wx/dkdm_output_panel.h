@@ -42,13 +42,13 @@ class wxRadioButton;
 class DKDMOutputPanel : public wxPanel
 {
 public:
-	DKDMOutputPanel (wxWindow* parent);
+	DKDMOutputPanel(wxWindow* parent);
 
-	void setup_sensitivity ();
+	void setup_sensitivity();
 
-	boost::filesystem::path directory () const;
+	boost::filesystem::path directory() const;
 
-	std::pair<std::shared_ptr<Job>, int> make (
+	std::pair<std::shared_ptr<Job>, int> make(
 		std::list<KDMWithMetadataPtr > kdms,
 		std::string name,
 		std::function<bool (boost::filesystem::path)> confirm_overwrite
