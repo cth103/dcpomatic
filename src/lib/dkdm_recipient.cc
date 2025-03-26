@@ -58,6 +58,7 @@ kdm_for_dkdm_recipient (
 
 	dcp::NameFormat::Map name_values;
 	name_values['f'] = kdm.content_title_text();
+	name_values['r'] = recipient.name;
 	name_values['i'] = kdm.cpl_id();
 
 	return make_shared<KDMWithMetadata>(name_values, CinemaID(0), recipient.emails, kdm);
