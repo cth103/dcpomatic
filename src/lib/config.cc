@@ -150,7 +150,7 @@ Config::set_defaults()
 	_confirm_kdm_email = true;
 	_kdm_container_name_format = dcp::NameFormat("KDM_%f_%c");
 	_kdm_filename_format = dcp::NameFormat("KDM_%f_%c_%s");
-	_dkdm_filename_format = dcp::NameFormat("DKDM_%f_%c_%s");
+	_dkdm_filename_format = dcp::NameFormat("DKDM_%f_%r");
 	_dcp_metadata_filename_format = dcp::NameFormat("%t");
 	_dcp_asset_filename_format = dcp::NameFormat("%t");
 	_jump_to_selected = true;
@@ -550,8 +550,14 @@ try
 	_show_hints_before_make_dcp = f.optional_bool_child("ShowHintsBeforeMakeDCP").get_value_or(true);
 	_confirm_kdm_email = f.optional_bool_child("ConfirmKDMEmail").get_value_or(true);
 	_kdm_container_name_format = dcp::NameFormat(f.optional_string_child("KDMContainerNameFormat").get_value_or("KDM %f %c"));
-	_dkdm_filename_format = dcp::NameFormat(f.optional_string_child("DKDMFilenameFormat").get_value_or("DKDM %f %c %s"));
 	_kdm_filename_format = dcp::NameFormat(f.optional_string_child("KDMFilenameFormat").get_value_or("KDM_%f_%c_%s"));
+	_dkdm_filename_format = dcp::NameFormat(f.optional_string_child("DKDMFilenameFormat").get_value_or("DKDM_%f_%r"));
+	if (_dkdm_filename_format.specification() == "DKDM_%f_%c_%s" || _dkdm_filename_format.specification() == "DKDM %f %c %s") {
+		/* The DKDM filename format is one of our previous defaults, neither of which make any sense.
+		 * Fix to something more useful.
+		 */
+		_dkdm_filename_format = dcp::NameFormat("DKDM_%f_%r");
+	}
 	_dcp_metadata_filename_format = dcp::NameFormat(f.optional_string_child("DCPMetadataFilenameFormat").get_value_or("%t"));
 	_dcp_asset_filename_format = dcp::NameFormat(f.optional_string_child("DCPAssetFilenameFormat").get_value_or("%t"));
 	_jump_to_selected = f.optional_bool_child("JumpToSelected").get_value_or(true);
