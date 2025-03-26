@@ -113,6 +113,7 @@ DKDMDialog::DKDMDialog (wxWindow* parent, shared_ptr<const Film> film)
 	/* Bind */
 
 	_recipients->RecipientsChanged.connect (boost::bind(&DKDMDialog::setup_sensitivity, this));
+	_output->MethodChanged.connect(boost::bind(&DKDMDialog::setup_sensitivity, this));
 	_make->Bind (wxEVT_BUTTON, boost::bind(&DKDMDialog::make_clicked, this));
 	_cpl->Changed.connect(boost::bind(&DKDMDialog::setup_sensitivity, this));
 
@@ -129,7 +130,7 @@ DKDMDialog::setup_sensitivity ()
 {
 	_recipients->setup_sensitivity ();
 	_output->setup_sensitivity ();
-	_make->Enable (!_recipients->recipients().empty() && _cpl->has_selected());
+	_make->Enable(!_recipients->recipients().empty() && _cpl->has_selected() && _output->method_selected());
 }
 
 
