@@ -65,12 +65,8 @@ DKDMOutputPanel::DKDMOutputPanel(wxWindow* parent)
 	add_label_to_sizer(table, this, _("Filename format"), true, 0, wxALIGN_TOP | wxTOP | wxLEFT | wxRIGHT);
 	dcp::NameFormat::Map titles;
 	titles['f'] = wx_to_std(_("film name"));
-	titles['b'] = wx_to_std(_("from date/time"));
-	titles['e'] = wx_to_std(_("to date/time"));
 	dcp::NameFormat::Map ex;
 	ex['f'] = "Bambi";
-	ex['b'] = "2012/03/15 12:30";
-	ex['e'] = "2012/03/22 02:30";
 	_filename_format = new NameFormatEditor(this, Config::instance()->dkdm_filename_format(), titles, ex, ".xml");
 	table->Add(_filename_format->panel(), 1, wxEXPAND);
 

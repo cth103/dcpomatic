@@ -24,7 +24,6 @@
 #include "dkdm_dialog.h"
 #include "dkdm_output_panel.h"
 #include "kdm_cpl_panel.h"
-#include "kdm_timing_panel.h"
 #include "recipients_panel.h"
 #include "static_text.h"
 #include "wx_util.h"
@@ -81,14 +80,6 @@ DKDMDialog::DKDMDialog (wxWindow* parent, shared_ptr<const Film> film)
 	_recipients = new RecipientsPanel (this);
 	left->Add (_recipients, 1, wxEXPAND | wxBOTTOM, DCPOMATIC_SIZER_Y_GAP);
 
-	/* Sub-heading: Timing */
-	/// TRANSLATORS: translate the word "Timing" here; do not include the "KDM|" prefix
-	h = new StaticText (this, S_("KDM|Timing"));
-	h->SetFont (subheading_font);
-	right->Add (h);
-	_timing = new KDMTimingPanel (this);
-	right->Add (_timing);
-
 	/* Sub-heading: CPL */
 	h = new StaticText (this, _("CPL"));
 	h->SetFont (subheading_font);
@@ -122,7 +113,6 @@ DKDMDialog::DKDMDialog (wxWindow* parent, shared_ptr<const Film> film)
 	/* Bind */
 
 	_recipients->RecipientsChanged.connect (boost::bind(&DKDMDialog::setup_sensitivity, this));
-	_timing->TimingChanged.connect (boost::bind(&DKDMDialog::setup_sensitivity, this));
 	_make->Bind (wxEVT_BUTTON, boost::bind(&DKDMDialog::make_clicked, this));
 	_cpl->Changed.connect(boost::bind(&DKDMDialog::setup_sensitivity, this));
 
@@ -139,7 +129,7 @@ DKDMDialog::setup_sensitivity ()
 {
 	_recipients->setup_sensitivity ();
 	_output->setup_sensitivity ();
-	_make->Enable (!_recipients->recipients().empty() && _timing->valid() && _cpl->has_selected());
+	_make->Enable (!_recipients->recipients().empty() && _cpl->has_selected());
 }
 
 
@@ -162,7 +152,7 @@ DKDMDialog::make_clicked ()
 	list<KDMWithMetadataPtr> kdms;
 	try {
 		for (auto i: _recipients->recipients()) {
-			auto p = kdm_for_dkdm_recipient(film, _cpl->cpl(), i, _timing->from(), _timing->until());
+			auto p = kdm_for_dkdm_recipient(film, _cpl->cpl(), i);
 			if (p) {
 				kdms.push_back (p);
 			}

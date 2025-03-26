@@ -30,7 +30,6 @@ LIBDCP_ENABLE_WARNINGS
 class DKDMOutputPanel;
 class Film;
 class KDMCPLPanel;
-class KDMTimingPanel;
 class RecipientsPanel;
 class ScreensPanel;
 struct CPLSummary;
@@ -48,7 +47,6 @@ private:
 
 	std::weak_ptr<const Film> _film;
 	RecipientsPanel* _recipients;
-	KDMTimingPanel* _timing;
 	KDMCPLPanel* _cpl;
 	DKDMOutputPanel* _output;
 	wxButton* _make;

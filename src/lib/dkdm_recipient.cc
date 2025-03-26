@@ -36,9 +36,7 @@ KDMWithMetadataPtr
 kdm_for_dkdm_recipient (
 	shared_ptr<const Film> film,
 	boost::filesystem::path cpl,
-	DKDMRecipient const& recipient,
-	dcp::LocalTime valid_from,
-	dcp::LocalTime valid_to
+	DKDMRecipient const& recipient
 	)
 {
 	if (!recipient.recipient()) {
@@ -50,13 +48,16 @@ kdm_for_dkdm_recipient (
 		throw InvalidSignerError();
 	}
 
-	auto const decrypted_kdm = film->make_kdm(cpl, valid_from, valid_to);
+	auto start = signer->leaf().not_before();
+	start.add_days(1);
+	auto end = signer->leaf().not_after();
+	end.add_days(-1);
+
+	auto const decrypted_kdm = film->make_kdm(cpl, start, end);
 	auto const kdm = decrypted_kdm.encrypt(signer, recipient.recipient().get(), {}, dcp::Formulation::MODIFIED_TRANSITIONAL_1, true, 0);
 
 	dcp::NameFormat::Map name_values;
 	name_values['f'] = kdm.content_title_text();
-	name_values['b'] = valid_from.date() + " " + valid_from.time_of_day(true, false);
-	name_values['e'] = valid_to.date() + " " + valid_to.time_of_day(true, false);
 	name_values['i'] = kdm.cpl_id();
 
 	return make_shared<KDMWithMetadata>(name_values, CinemaID(0), recipient.emails, kdm);

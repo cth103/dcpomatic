@@ -49,8 +49,6 @@ KDMWithMetadataPtr
 kdm_for_dkdm_recipient (
 	std::shared_ptr<const Film> film,
 	boost::filesystem::path cpl,
-	DKDMRecipient const& recipient,
-	dcp::LocalTime valid_from,
-	dcp::LocalTime valid_to
+	DKDMRecipient const& recipient
 	);
 
