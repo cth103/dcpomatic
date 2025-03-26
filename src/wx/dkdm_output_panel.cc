@@ -66,9 +66,11 @@ DKDMOutputPanel::DKDMOutputPanel(wxWindow* parent)
 	dcp::NameFormat::Map titles;
 	titles['f'] = wx_to_std(_("film name"));
 	titles['r'] = wx_to_std(_("recipient name"));
+	titles['i'] = wx_to_std(_("CPL ID"));
 	dcp::NameFormat::Map ex;
 	ex['f'] = "Bambi";
 	ex['r'] = "Pathé";
+	ex['i'] = "1234-5678";
 	_filename_format = new NameFormatEditor(this, Config::instance()->dkdm_filename_format(), titles, ex, ".xml");
 	table->Add(_filename_format->panel(), 1, wxEXPAND);
 
