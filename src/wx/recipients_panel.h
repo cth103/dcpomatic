@@ -44,7 +44,9 @@ public:
 
 	void setup_sensitivity ();
 
+	/** @return List of selected recipients */
 	std::list<DKDMRecipient> recipients() const;
+
 	boost::signals2::signal<void ()> RecipientsChanged;
 
 private:

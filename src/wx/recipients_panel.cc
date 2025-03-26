@@ -177,14 +177,18 @@ RecipientsPanel::remove_recipient_clicked ()
 
 
 list<DKDMRecipient>
-RecipientsPanel::recipients () const
+RecipientsPanel::recipients() const
 {
-	list<DKDMRecipient> all;
 	DKDMRecipientList recipients;
-	for (auto const& recipient: recipients.dkdm_recipients()) {
-		all.push_back(recipient.second);
+
+	list<DKDMRecipient> result;
+	for (auto sel: _selected) {
+		if (auto recipient = recipients.dkdm_recipient(sel.second)) {
+			result.push_back(*recipient);
+		}
 	}
-	return all;
+
+	return result;
 }
 
 
