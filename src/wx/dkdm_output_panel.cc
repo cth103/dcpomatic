@@ -49,9 +49,11 @@ using std::exception;
 using std::function;
 using std::list;
 using std::make_pair;
+using std::make_shared;
 using std::pair;
 using std::shared_ptr;
 using std::string;
+using std::vector;
 
 
 DKDMOutputPanel::DKDMOutputPanel (wxWindow* parent)
@@ -173,14 +175,12 @@ DKDMOutputPanel::make (
 			);
 
 		if (_email->GetValue ()) {
-			job.reset (
-				new SendKDMEmailJob (
-					kdms,
-					_filename_format->get(),
-					_filename_format->get(),
-					name,
-					{}
-					)
+			job = make_shared<SendKDMEmailJob>(
+				kdms,
+				_filename_format->get(),
+				_filename_format->get(),
+				name,
+				vector<string>()
 				);
 		}
 
