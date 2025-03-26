@@ -82,7 +82,7 @@ help()
 		"  -o, --output <dir>            output directory\n"
 		"      --twod                    make a 2D DCP\n"
 		"      --threed                  make a 3D DCP\n"
-		"      --j2k-bandwidth <Mbit/s>  J2K bandwidth in Mbit/s\n"
+		"      --video-bit-rate <Mbit/s> J2K bandwidth in Mbit/s\n"
 		"      --left-eye                next piece of content is for the left eye\n"
 		"      --right-eye               next piece of content is for the right eye\n"
 		"      --auto-crop               next piece of content should be auto-cropped\n"
