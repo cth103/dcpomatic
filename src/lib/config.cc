@@ -550,8 +550,8 @@ try
 	_show_hints_before_make_dcp = f.optional_bool_child("ShowHintsBeforeMakeDCP").get_value_or(true);
 	_confirm_kdm_email = f.optional_bool_child("ConfirmKDMEmail").get_value_or(true);
 	_kdm_container_name_format = dcp::NameFormat(f.optional_string_child("KDMContainerNameFormat").get_value_or("KDM %f %c"));
-	_kdm_filename_format = dcp::NameFormat(f.optional_string_child("KDMFilenameFormat").get_value_or("KDM %f %c %s"));
 	_dkdm_filename_format = dcp::NameFormat(f.optional_string_child("DKDMFilenameFormat").get_value_or("DKDM %f %c %s"));
+	_kdm_filename_format = dcp::NameFormat(f.optional_string_child("KDMFilenameFormat").get_value_or("KDM_%f_%c_%s"));
 	_dcp_metadata_filename_format = dcp::NameFormat(f.optional_string_child("DCPMetadataFilenameFormat").get_value_or("%t"));
 	_dcp_asset_filename_format = dcp::NameFormat(f.optional_string_child("DCPAssetFilenameFormat").get_value_or("%t"));
 	_jump_to_selected = f.optional_bool_child("JumpToSelected").get_value_or(true);
