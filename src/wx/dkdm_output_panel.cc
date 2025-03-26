@@ -92,10 +92,18 @@ DKDMOutputPanel::DKDMOutputPanel(wxWindow* parent)
 	table->Add(_email, 1, wxEXPAND);
 	table->AddSpacer(0);
 
-	_write_to->bind(&DKDMOutputPanel::setup_sensitivity, this);
-	_email->bind(&DKDMOutputPanel::setup_sensitivity, this);
+	_write_to->bind(&DKDMOutputPanel::method_changed, this);
+	_email->bind(&DKDMOutputPanel::method_changed, this);
 
 	SetSizer(table);
+}
+
+
+void
+DKDMOutputPanel::method_changed()
+{
+	setup_sensitivity();
+	MethodChanged();
 }
 
 
@@ -197,3 +205,12 @@ DKDMOutputPanel::directory() const
 {
 	return wx_to_std(_folder->GetPath());
 }
+
+
+bool
+DKDMOutputPanel::method_selected() const
+{
+	return _write_to->GetValue() || _email->GetValue();
+}
+
+

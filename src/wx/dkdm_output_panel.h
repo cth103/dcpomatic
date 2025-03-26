@@ -54,7 +54,13 @@ public:
 		std::function<bool (boost::filesystem::path)> confirm_overwrite
 		);
 
+	bool method_selected() const;
+
+	boost::signals2::signal<void ()> MethodChanged;
+
 private:
+	void method_changed();
+
 	NameFormatEditor* _filename_format;
 	CheckBox* _write_to;
 #ifdef DCPOMATIC_USE_OWN_PICKER
