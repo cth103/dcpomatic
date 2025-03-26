@@ -293,7 +293,7 @@ private:
 
 			_frame = new DOMFrame(variant::wx::dcpomatic_verifier());
 			SetTopWindow(_frame);
-			_frame->SetSize({480, 640});
+			_frame->Maximize();
 			_frame->Show();
 		}
 		catch (exception& e)
