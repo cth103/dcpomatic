@@ -32,6 +32,7 @@ LIBDCP_ENABLE_WARNINGS
 
 
 using std::shared_ptr;
+using std::string;
 
 
 bool
@@ -68,6 +69,61 @@ has_mxf_mca_subdescriptors(shared_ptr<const Film> film)
 }
 
 
+string
+constraints_profile(shared_ptr<const Film> film)
+{
+	auto cpl = dcp::file_to_string(find_file(film->dir(film->dcp_name()), "cpl_"));
+	cxml::Document xml("CompositionPlaylist");
+	xml.read_string(cpl);
+
+	auto reel_list = xml.node_child("ReelList");
+	if (!reel_list) {
+		return {};
+	}
+
+	auto reel = reel_list->node_child("Reel");
+	if (!reel) {
+		return {};
+	}
+
+	auto asset_list = reel->node_child("AssetList");
+	if (!asset_list) {
+		return {};
+	}
+
+	auto meta_asset = asset_list->node_child("CompositionMetadataAsset");
+	if (!meta_asset) {
+		return {};
+	}
+
+	auto extension = meta_asset->node_child("ExtensionMetadataList");
+	if (!extension) {
+		return {};
+	}
+
+	auto metadata = extension->node_child("ExtensionMetadata");
+	if (!metadata) {
+		return {};
+	}
+
+	auto property_list = metadata->node_child("PropertyList");
+	if (!property_list) {
+		return {};
+	}
+
+	auto property = property_list->node_child("Property");
+	if (!property) {
+		return {};
+	}
+
+	if (auto value = property->optional_string_child("Value")) {
+		return *value;
+	}
+
+	return {};
+}
+
+
 BOOST_AUTO_TEST_CASE(bv21_extensions_used_when_not_limited)
 {
 	auto picture = content_factory("test/data/flat_red.png");
@@ -78,6 +134,8 @@ BOOST_AUTO_TEST_CASE(bv21_extensions_used_when_not_limited)
 
 	BOOST_CHECK(has_cpl_mca_subdescriptors(film));
 	BOOST_CHECK(has_mxf_mca_subdescriptors(film));
+	BOOST_CHECK(constraints_profile(film) == "SMPTE-RDD-52:2020-Bv2.1");
+
 }
 
 
@@ -92,5 +150,6 @@ BOOST_AUTO_TEST_CASE(bv21_extensions_not_used_when_limited)
 
 	BOOST_CHECK(!has_cpl_mca_subdescriptors(film));
 	BOOST_CHECK(!has_mxf_mca_subdescriptors(film));
+	BOOST_CHECK(constraints_profile(film) == "SMPTE-RDD-52:2020-Bv2.0");
 }
 

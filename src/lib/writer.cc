@@ -595,7 +595,8 @@ Writer::finish()
 	auto cpl = make_shared<dcp::CPL>(
 		film()->dcp_name(),
 		film()->dcp_content_type()->libdcp_kind(),
-		film()->interop() ? dcp::Standard::INTEROP : dcp::Standard::SMPTE
+		film()->interop() ? dcp::Standard::INTEROP : dcp::Standard::SMPTE,
+		film()->limit_to_smpte_bv20() ? dcp::Profile::SMPTE_BV20 : dcp::Profile::SMPTE_BV21
 		);
 
 	dcp.add (cpl);
@@ -705,7 +706,7 @@ Writer::finish()
 	if (dcpomatic::film::is_vf(film())) {
 		group_id = dcp::make_uuid();
 	}
-	dcp.write_xml(signer, !film()->limit_to_smpte_bv20(), Config::instance()->dcp_metadata_filename_format(), group_id);
+	dcp.write_xml(signer, Config::instance()->dcp_metadata_filename_format(), group_id);
 
 	LOG_GENERAL (
 		N_("Wrote %1 FULL, %2 FAKE, %3 REPEAT, %4 pushed to disk"), _full_written, _fake_written, _repeat_written, _pushed_to_disk
