@@ -38,40 +38,40 @@ using std::vector;
 void
 copy_dcp_settings_to_film(shared_ptr<const DCPContent> dcp, shared_ptr<Film> film)
 {
-	auto name = dcp->name ();
-	name = name.substr (0, name.find("_"));
-	film->set_name (name);
-	film->set_use_isdcf_name (true);
+	auto name = dcp->name();
+	name = name.substr(0, name.find("_"));
+	film->set_name(name);
+	film->set_use_isdcf_name(true);
 	if (dcp->content_kind()) {
-		film->set_dcp_content_type (DCPContentType::from_libdcp_kind(dcp->content_kind().get()));
+		film->set_dcp_content_type(DCPContentType::from_libdcp_kind(dcp->content_kind().get()));
 	}
-	film->set_encrypted (dcp->encrypted());
-	film->set_reel_type (ReelType::BY_VIDEO_CONTENT);
-	film->set_interop (dcp->standard() == dcp::Standard::INTEROP);
-	film->set_three_d (dcp->three_d());
+	film->set_encrypted(dcp->encrypted());
+	film->set_reel_type(ReelType::BY_VIDEO_CONTENT);
+	film->set_interop(dcp->standard() == dcp::Standard::INTEROP);
+	film->set_three_d(dcp->three_d());
 
 	if (dcp->video) {
 		if (auto size = dcp->video->size()) {
 			film->set_container(Ratio::nearest_from_ratio(size->ratio()));
 		}
-		film->set_resolution (dcp->resolution());
-		DCPOMATIC_ASSERT (dcp->video_frame_rate());
-		film->set_video_frame_rate (*dcp->video_frame_rate());
+		film->set_resolution(dcp->resolution());
+		DCPOMATIC_ASSERT(dcp->video_frame_rate());
+		film->set_video_frame_rate(*dcp->video_frame_rate());
 	}
 
 	if (dcp->audio) {
-		film->set_audio_channels (dcp->audio->stream()->channels());
+		film->set_audio_channels(dcp->audio->stream()->channels());
 	}
 
-	film->set_ratings (dcp->ratings());
-	film->set_content_versions (dcp->content_versions());
+	film->set_ratings(dcp->ratings());
+	film->set_content_versions(dcp->content_versions());
 }
 
 
 void
 copy_dcp_markers_to_film(shared_ptr<const DCPContent> dcp, shared_ptr<Film> film)
 {
-	film->clear_markers ();
+	film->clear_markers();
 	for (auto const& i: dcp->markers()) {
 		film->set_marker(i.first, dcpomatic::DCPTime(i.second.get()));
 	}
