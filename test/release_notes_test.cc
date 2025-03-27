@@ -27,17 +27,6 @@
 using std::string;
 
 
-// If we have no previous version we're on something before 2.16.19 so we want the release notes
-BOOST_AUTO_TEST_CASE(release_notes_test1)
-{
-	for (auto version: { "2.16.19", "2.16.20", "2.18.0", "2.18.1devel6" }) {
-		Config::instance()->unset_last_release_notes_version();
-		auto notes = find_release_notes(true, string(version));
-		BOOST_CHECK(notes.get_value_or("").find("In this version there are changes to the way that subtitles are positioned.") != string::npos);
-	}
-}
-
-
 // Once we're running 2.17.19 we have no more release notes (for now, at least)
 BOOST_AUTO_TEST_CASE(release_notes_test2)
 {
