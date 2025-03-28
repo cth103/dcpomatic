@@ -70,6 +70,7 @@ def build(bld):
                  colour_conversion_test.cc
                  config_test.cc
                  content_test.cc
+                 copy_dcp_details_to_film_test.cc
                  cpl_hash_test.cc
                  cpl_metadata_test.cc
                  create_cli_test.cc

@@ -168,6 +168,9 @@ DCPContent::DCPContent(cxml::ConstNodePtr node, boost::optional<boost::filesyste
 	}
 
 	_active_audio_channels = node->optional_number_child<int>("ActiveAudioChannels");
+	if (auto lang = node->optional_string_child("AudioLanguage")) {
+		_audio_language = dcp::LanguageTag(*lang);
+	}
 
 	for (auto non_zero: node->node_children("HasNonZeroEntryPoint")) {
 		try {
@@ -273,6 +276,7 @@ DCPContent::examine(shared_ptr<const Film> film, shared_ptr<Job> job, bool toler
 		as->set_mapping (m);
 
 		_active_audio_channels = examiner->active_audio_channels();
+		_audio_language = examiner->audio_language();
 	}
 
 	if (examiner->has_atmos()) {
@@ -456,6 +460,10 @@ DCPContent::as_xml(xmlpp::Element* element, bool with_paths, PathBehaviour path_
 
 	if (_active_audio_channels) {
 		cxml::add_text_child(element, "ActiveAudioChannels", fmt::to_string(*_active_audio_channels));
+	}
+
+	if (_audio_language) {
+		cxml::add_text_child(element, "AudioLanguage", _audio_language->as_string());
 	}
 
 	for (auto i = 0; i < static_cast<int>(TextType::COUNT); ++i) {

@@ -61,6 +61,7 @@ copy_dcp_settings_to_film(shared_ptr<const DCPContent> dcp, shared_ptr<Film> fil
 
 	if (dcp->audio) {
 		film->set_audio_channels(dcp->audio->stream()->channels());
+		film->set_audio_language(dcp->audio_language());
 	}
 
 	film->set_ratings(dcp->ratings());

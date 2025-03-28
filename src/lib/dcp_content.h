@@ -36,6 +36,7 @@
 #include <libcxml/cxml.h>
 #include <dcp/content_kind.h>
 #include <dcp/encrypted_kdm.h>
+#include <dcp/language_tag.h>
 #include <dcp/rating.h>
 
 
@@ -191,6 +192,13 @@ public:
 
 	int active_audio_channels() const;
 
+	/** @return a guess of the DCP's audio language; if there are multiple reels,
+	 *  and they have different langauges, this could be wrong.
+	 */
+	boost::optional<dcp::LanguageTag> audio_language () const {
+		return _audio_language;
+	}
+
 	void check_font_ids();
 
 private:
@@ -241,6 +249,7 @@ private:
 	EnumIndexedVector<bool, TextType> _has_non_zero_entry_point;
 
 	boost::optional<int> _active_audio_channels;
+	boost::optional<dcp::LanguageTag> _audio_language;
 };
 
 
