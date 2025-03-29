@@ -21,6 +21,7 @@
 
 #include "util.h"
 #include "../config.h"
+#include "../dcpomatic_log.h"
 #include <boost/process.hpp>
 #include <future>
 
@@ -37,17 +38,23 @@ get_gpu_names()
 	auto binary = Config::instance()->grok().binary_location / "gpu_lister";
 
 	bp::ipstream stream;
-	bp::child child(binary, bp::std_out > stream);
 
-	string line;
-	vector<string> gpu_names;
-	while (child.running() && std::getline(stream, line) && !line.empty()) {
-		gpu_names.push_back(line);
+	try {
+		bp::child child(binary, bp::std_out > stream);
+
+		string line;
+		vector<string> gpu_names;
+		while (child.running() && std::getline(stream, line) && !line.empty()) {
+			gpu_names.push_back(line);
+		}
+
+		child.wait();
+
+		return gpu_names;
+	} catch (std::exception& e) {
+		LOG_ERROR("Could not fetch GPU names: %1", e.what());
+		return {};
 	}
-
-	child.wait();
-
-	return gpu_names;
 }
 
 
