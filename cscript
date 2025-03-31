@@ -204,7 +204,8 @@ deb_depends['12'].extend(['libboost-filesystem1.74.0',
                           'libcurl4',
                           'libxerces-c3.2',
                           'libnanomsg5',
-                          'libfmt9'])
+                          'libfmt9',
+                          'libsqlite3-0'])
 
 deb_depends_gui['12'] = [ 'libxcb-xfixes0',
                           'libxcb-shape0',
