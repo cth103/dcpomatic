@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+<head>
 <script>
 	setInterval(function() {
 		status = fetch("/api/v1/status").then(response => {
@@ -75,16 +76,15 @@ td {
 
 
 </style>
-	<head>
 		<title>%1</title>
-	</head>
-	<body>
-		<button name="play" value="play" onclick="play()">Play</button>
-		<button name="Stop" value="Stop" onclick="stop()">Stop</button>
-		<table>
-			<tr><td>DCP</td><td><p id="dcp_name"></td></tr>
-			<tr><td>State</td><td><p id="playing"></td></tr>
-			<tr><td>Position</td><td><p id="position"></td></tr>
-		</table>
-	</body>
+</head>
+<body>
+	<button name="play" value="play" onclick="play()">Play</button>
+	<button name="stop" value="stop" onclick="stop()">Stop</button>
+	<table>
+		<tr><td>DCP</td><td><p id="dcp_name"></td></tr>
+		<tr><td>State</td><td><p id="playing"></td></tr>
+		<tr><td>Position</td><td><p id="position"></td></tr>
+	</table>
+</body>
 </html>
