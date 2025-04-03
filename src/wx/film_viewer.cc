@@ -382,7 +382,7 @@ FilmViewer::resume ()
 void
 FilmViewer::start ()
 {
-	if (!_film) {
+	if (!_film || _playing) {
 		return;
 	}
 
