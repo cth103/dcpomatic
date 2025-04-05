@@ -200,7 +200,7 @@ BOOST_AUTO_TEST_CASE(rfc_2822_date_test)
 		auto test = rfc_2822_date(day_index * day);
 		BOOST_CHECK(
 			test == fmt::format(format, hours, tz) ||
-			test == fmt::format(format, hours + 1, tz)
+			test == fmt::format(format, hours - 1, tz)
 		);
 	};
 
