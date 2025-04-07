@@ -538,6 +538,9 @@ private:
 		if (ev.IsShown() && !_first_shown_called) {
 			_film_editor->first_shown ();
 			_first_shown_called = true;
+#ifdef DCPOMATIC_WORKAROUND_MUTTER
+			signal_manager->when_idle([this]() { Maximize(); });
+#endif
 		}
 	}
 

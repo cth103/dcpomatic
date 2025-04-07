@@ -504,7 +504,7 @@ def configure_options(target, options, for_package=False):
         opt += ' --wx-config=%s/wx-config' % target.bin
 
     if target.platform == 'linux' and target.distro == 'ubuntu' and target.version == '24.04':
-        opt += ' --enable-grok'
+        opt += ' --enable-grok --workaround-mutter'
 
     if build_with_cpp17(target):
         opt += ' --c++17'

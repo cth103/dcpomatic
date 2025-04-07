@@ -71,6 +71,7 @@ def options(opt):
     opt.add_option('--static-sub',        action='store_true', default=False, help='link statically to libsub')
     opt.add_option('--static-curl',       action='store_true', default=False, help='link statically to libcurl')
     opt.add_option('--workaround-gssapi', action='store_true', default=False, help='link to gssapi_krb5')
+    opt.add_option('--workaround-mutter', action='store_true', default=False, help='work around window maximising bug on (e.g.) Ubuntu 24.04')
     opt.add_option('--use-lld',           action='store_true', default=False, help='use lld linker')
     opt.add_option('--enable-disk',       action='store_true', default=False, help='build dcpomatic2_disk tool; requires Boost process, lwext4 and nanomsg libraries')
     opt.add_option('--enable-grok',       action='store_true', default=False, help='build with support for grok J2K encoder')
@@ -147,6 +148,9 @@ def configure(conf):
 
     if conf.options.warnings_are_errors:
         conf.env.append_value('CXXFLAGS', '-Werror')
+
+    if conf.options.workaround_mutter:
+        conf.env.append_value('CXXFLAGS', '-DDCPOMATIC_WORKAROUND_MUTTER')
 
     if conf.env.SSE:
         conf.env.append_value('CXXFLAGS', ['-msse', '-mfpmath=sse'])
