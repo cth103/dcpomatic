@@ -3646,6 +3646,20 @@ PC from the CD or USB stick and it becomes a DCP-o-matic server
 without touching your standard operating system install.
 </para>
 
+<section>
+<title>Ports</title>
+
+<para>For encoding servers to work, some TCP/IP ports must be open.</para>
+
+<para>With the default configuration, encoding servers need to be able to receive
+requests on port 6192.  In order for masters to find a server automatically on
+the network, the server must also have port 6193 open.</para>
+
+<para>To be able to discover encoding servers on the network, the master must
+have port 6194 open (and also 6195 if the batch converter is being used).</para>
+
+</section>
+
 </section>
 
 <!-- ============================================================== -->
