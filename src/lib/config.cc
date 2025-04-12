@@ -1183,30 +1183,6 @@ Config::write_config() const
 }
 
 
-template <class T>
-void
-write_file(string root_node, string node, string version, list<shared_ptr<T>> things, boost::filesystem::path file)
-{
-	xmlpp::Document doc;
-	auto root = doc.create_root_node(root_node);
-	cxml::add_text_child(root, "Version", version);
-
-	for (auto i: things) {
-		i->as_xml(cxml::add_child(root, node));
-	}
-
-	try {
-		doc.write_to_file_formatted(file.string() + ".tmp");
-		dcp::filesystem::remove(file);
-		dcp::filesystem::rename(file.string() + ".tmp", file);
-	} catch (xmlpp::exception& e) {
-		string s = e.what();
-		trim(s);
-		throw FileError(s, file);
-	}
-}
-
-
 boost::filesystem::path
 Config::default_directory_or(boost::filesystem::path a) const
 {
