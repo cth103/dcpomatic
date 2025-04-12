@@ -487,6 +487,7 @@ try
 	check_subtitle_languages();
 	check_audio_language();
 	check_8_or_16_audio_channels();
+	check_video_alpha();
 
 	scan_content(film);
 
@@ -767,6 +768,22 @@ Hints::check_8_or_16_audio_channels()
 	auto const channels = film()->audio_channels();
 	if (film()->video_encoding() != VideoEncoding::MPEG2 && channels != 8 && channels != 16) {
 		hint(String::compose(_("Your DCP has %1 audio channels, rather than 8 or 16.  This may cause some distributors to raise QC errors when they check your DCP.  To avoid this, set the DCP audio channels to 8 or 16."), channels));
+	}
+}
+
+
+void
+Hints::check_video_alpha()
+{
+	for (auto content: film()->content()) {
+		if (content->video && content->video->has_alpha()) {
+			hint(fmt::format(
+					_("Some of your video content contains an alpha channel, and {} cannot be "
+					  "certain how to process it.  Check that your video looks correct in the "
+					  "preview, and if not try enabling or disabling the 'premultiply' video filter "
+					  "in the content Advanced Settings dialogue box."),
+					variant::dcpomatic()));
+		}
 	}
 }
 

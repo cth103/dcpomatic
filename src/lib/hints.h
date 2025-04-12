@@ -66,7 +66,6 @@ private:
 	void closed_caption(PlayerText text, dcpomatic::DCPTimePeriod period);
 	void open_subtitle(PlayerText text, dcpomatic::DCPTimePeriod period);
 
-
 	void check_certificates();
 	void check_interop();
 	void check_video_encoding();
@@ -87,6 +86,7 @@ private:
 	void check_subtitle_languages();
 	void check_audio_language();
 	void check_8_or_16_audio_channels();
+	void check_video_alpha();
 
 	boost::thread _thread;
 	/** This is used to make a partial DCP containing only the subtitles and closed captions that
