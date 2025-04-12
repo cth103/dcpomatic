@@ -75,7 +75,7 @@ using namespace boost::placeholders;
 
 Hints::Hints(weak_ptr<const Film> weak_film)
 	: WeakConstFilm(weak_film)
-	, _writer(new Writer(weak_film, weak_ptr<Job>(), film()->dir("hints") / dcpomatic::get_process_id(), true))
+	, _writer(make_shared<Writer>(weak_film, weak_ptr<Job>(), film()->dir("hints") / dcpomatic::get_process_id(), true))
 	, _analyser(film(), film()->playlist(), true, [](float) {})
 	, _stop(false)
 {
