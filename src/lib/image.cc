@@ -1728,3 +1728,12 @@ Image::crop(Crop crop) const
 	return out;
 }
 
+
+bool
+Image::has_alpha() const
+{
+	auto const d = av_pix_fmt_desc_get(_pixel_format);
+	DCPOMATIC_ASSERT(d);
+	return d->flags & AV_PIX_FMT_FLAG_ALPHA;
+}
+

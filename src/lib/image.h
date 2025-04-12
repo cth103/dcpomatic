@@ -99,6 +99,8 @@ public:
 		return _pixel_format;
 	}
 
+	bool has_alpha() const;
+
 	size_t memory_used () const;
 
 	static std::shared_ptr<const Image> ensure_alignment (std::shared_ptr<const Image> image, Alignment alignment);
