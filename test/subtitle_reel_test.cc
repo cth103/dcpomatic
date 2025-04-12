@@ -234,3 +234,28 @@ BOOST_AUTO_TEST_CASE (subtitles_split_at_reel_boundaries)
 	}
 }
 
+
+BOOST_AUTO_TEST_CASE(bad_subtitle_not_created_at_reel_boundaries)
+{
+	boost::filesystem::path const srt = "build/test/bad_subtitle_not_created_at_reel_boundaries.srt";
+	dcp::write_string_to_file("1\n00:00:10,000 -> 00:00:20,000\nHello world", srt);
+	auto content = content_factory(srt)[0];
+
+	auto film = new_test_film("bad_subtitle_not_created_at_reel_boundaries", { content });
+	film->set_reel_type(ReelType::CUSTOM);
+	content->text[0]->set_language(dcp::LanguageTag("de-DE"));
+	/* This is 1 frame after the start of the subtitle */
+	film->set_custom_reel_boundaries({dcpomatic::DCPTime::from_frames(241, 24)});
+
+	/* This is a tricky situation and the way DoM deals with it gives two Bv2.1
+	 * warnings, but these are "should" not "shall" so I think it's OK.
+	 */
+	make_and_verify_dcp(
+		film,
+		{
+			dcp::VerificationNote::Code::MISSING_CPL_METADATA,
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_DURATION,
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_SPACING,
+		});
+}
+

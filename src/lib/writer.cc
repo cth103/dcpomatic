@@ -846,7 +846,11 @@ Writer::write (PlayerText text, TextType type, optional<DCPTextTrack> track, DCP
 	}
 
 	auto back_off = [this](DCPTimePeriod period) {
-		period.to -= DCPTime::from_frames(2, film()->video_frame_rate());
+		auto const vfr = film()->video_frame_rate();
+		period.to -= DCPTime::from_frames(2, vfr);
+		if (period.duration().frames_floor(vfr) <= 0) {
+			period.to = period.from + DCPTime::from_frames(1, vfr);
+		}
 		return period;
 	};
 
@@ -860,7 +864,7 @@ Writer::write (PlayerText text, TextType type, optional<DCPTextTrack> track, DCP
 				_hanging_texts.push_back (HangingText{text, type, track, back_off(*overlap)});
 			}
 		}
-		/* Back off from the reel boundary by a couple of frames to avoid tripping checks
+		/* Try to back off from the reel boundary by a couple of frames to avoid tripping checks
 		 * for subtitles being too close together.
 		 */
 		period.to = (*reel)->period().to;
