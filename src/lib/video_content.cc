@@ -199,6 +199,7 @@ VideoContent::VideoContent(Content* parent, cxml::ConstNodePtr node, int version
 		_burnt_subtitle_language = dcp::LanguageTag(*burnt);
 	}
 
+	_has_alpha = node->optional_bool_child("HasAlpha").get_value_or(false);
 }
 
 
@@ -255,6 +256,7 @@ VideoContent::VideoContent(Content* parent, vector<shared_ptr<Content> > c)
 		}
 
 		_pixel_quanta = max(_pixel_quanta, c[i]->video->_pixel_quanta);
+		_has_alpha = _has_alpha | c[i]->video->_has_alpha;
 	}
 
 	_use = ref->use();
@@ -303,6 +305,7 @@ VideoContent::as_xml(xmlpp::Element* element) const
 	if (_burnt_subtitle_language) {
 		cxml::add_text_child(element, "BurntSubtitleLanguage", _burnt_subtitle_language->as_string());
 	}
+	cxml::add_text_child(element, "HasAlpha", _has_alpha ? "1" : "0");
 }
 
 void
@@ -315,6 +318,7 @@ VideoContent::take_from_examiner(shared_ptr<const Film> film, shared_ptr<VideoEx
 	auto const yuv = d->yuv();
 	auto const range = d->range();
 	auto const pixel_quanta = d->pixel_quanta();
+	auto const has_alpha = d->has_alpha();
 
 	ContentChangeSignaller cc1(_parent, VideoContentProperty::SIZE);
 	ContentChangeSignaller cc2(_parent, ContentProperty::LENGTH);
@@ -328,6 +332,7 @@ VideoContent::take_from_examiner(shared_ptr<const Film> film, shared_ptr<VideoEx
 		_yuv = yuv;
 		_range = range;
 		_pixel_quanta = pixel_quanta;
+		_has_alpha = has_alpha;
 	}
 
 	LOG_GENERAL("Video length obtained from header as %1 frames", _length);

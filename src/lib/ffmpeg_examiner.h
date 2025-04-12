@@ -59,6 +59,8 @@ public:
 
 	PixelQuanta pixel_quanta () const override;
 
+	bool has_alpha() const override;
+
 	AVColorRange color_range () const {
 		return video_codec_context()->color_range;
 	}
@@ -77,7 +79,6 @@ public:
 
 	boost::optional<int> bits_per_pixel () const;
 
-	bool has_alpha() const;
 
 	boost::optional<double> rotation () const {
 		return _rotation;

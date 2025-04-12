@@ -45,6 +45,9 @@ public:
 	PixelQuanta pixel_quanta () const override {
 		return {};
 	}
+	bool has_alpha() const override {
+		return false;
+	}
 
 private:
 	std::shared_ptr<dcp::PictureAsset> _asset;

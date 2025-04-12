@@ -192,6 +192,11 @@ public:
 		return _pixel_quanta;
 	}
 
+	bool has_alpha() const {
+		boost::mutex::scoped_lock lm(_mutex);
+		return _has_alpha;
+	}
+
 	bool use() const {
 		boost::mutex::scoped_lock lm(_mutex);
 		return _use;
@@ -261,6 +266,7 @@ private:
 	VideoRange _range;
 	PixelQuanta _pixel_quanta;
 	boost::optional<dcp::LanguageTag> _burnt_subtitle_language;
+	bool _has_alpha = false;
 };
 
 

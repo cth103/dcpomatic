@@ -68,6 +68,10 @@ public:
 		return {};
 	}
 
+	bool has_alpha() const override {
+		return false;
+	}
+
 	std::string name() const {
 		return _name;
 	}

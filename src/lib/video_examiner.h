@@ -53,4 +53,5 @@ public:
 	virtual bool yuv() const = 0;
 	virtual VideoRange range() const = 0;
 	virtual PixelQuanta pixel_quanta() const = 0;
+	virtual bool has_alpha() const = 0;
 };

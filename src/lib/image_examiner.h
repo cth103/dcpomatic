@@ -43,10 +43,14 @@ public:
 		/* See ::yuv - we're assuming the image is not YUV and so not subsampled */
 		return {};
 	}
+	bool has_alpha() const override {
+		return _has_alpha;
+	}
 
 private:
 	std::weak_ptr<const Film> _film;
 	std::shared_ptr<const ImageContent> _image_content;
 	boost::optional<dcp::Size> _video_size;
 	Frame _video_length;
+	bool _has_alpha = false;
 };
