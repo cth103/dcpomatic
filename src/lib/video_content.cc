@@ -71,15 +71,15 @@ using boost::optional;
 using namespace dcpomatic;
 
 
-VideoContent::VideoContent (Content* parent)
-	: ContentPart (parent)
-	, _use (true)
-	, _length (0)
-	, _frame_type (VideoFrameType::TWO_D)
-	, _yuv (true)
-	, _fade_in (0)
-	, _fade_out (0)
-	, _range (VideoRange::FULL)
+VideoContent::VideoContent(Content* parent)
+	: ContentPart(parent)
+	, _use(true)
+	, _length(0)
+	, _frame_type(VideoFrameType::TWO_D)
+	, _yuv(true)
+	, _fade_in(0)
+	, _fade_out(0)
+	, _range(VideoRange::FULL)
 {
 
 }
@@ -87,9 +87,9 @@ VideoContent::VideoContent (Content* parent)
 
 /** @param video_range_hint Video range to use if none is given in the XML */
 shared_ptr<VideoContent>
-VideoContent::from_xml (Content* parent, cxml::ConstNodePtr node, int version, VideoRange video_range_hint)
+VideoContent::from_xml(Content* parent, cxml::ConstNodePtr node, int version, VideoRange video_range_hint)
 {
-	if (!node->optional_number_child<int> ("VideoWidth")) {
+	if (!node->optional_number_child<int>("VideoWidth")) {
 		return {};
 	}
 
@@ -98,17 +98,17 @@ VideoContent::from_xml (Content* parent, cxml::ConstNodePtr node, int version, V
 
 
 /** @param video_range_hint Video range to use if none is given in the XML */
-VideoContent::VideoContent (Content* parent, cxml::ConstNodePtr node, int version, VideoRange video_range_hint)
-	: ContentPart (parent)
+VideoContent::VideoContent(Content* parent, cxml::ConstNodePtr node, int version, VideoRange video_range_hint)
+	: ContentPart(parent)
 {
 	_size = dcp::Size(node->number_child<int>("VideoWidth"), node->number_child<int>("VideoHeight"));
 
 	_use = node->optional_bool_child("Use").get_value_or(true);
-	_length = node->number_child<Frame> ("VideoLength");
+	_length = node->number_child<Frame>("VideoLength");
 
 	if (version <= 34) {
 		/* Snapshot of the VideoFrameType enum at version 34 */
-		switch (node->number_child<int> ("VideoFrameType")) {
+		switch (node->number_child<int>("VideoFrameType")) {
 		case 0:
 			_frame_type = VideoFrameType::TWO_D;
 			break;
@@ -129,17 +129,17 @@ VideoContent::VideoContent (Content* parent, cxml::ConstNodePtr node, int versio
 			break;
 		}
 	} else {
-		_frame_type = string_to_video_frame_type (node->string_child ("VideoFrameType"));
+		_frame_type = string_to_video_frame_type(node->string_child("VideoFrameType"));
 	}
 
-	_sample_aspect_ratio = node->optional_number_child<double> ("SampleAspectRatio");
-	_crop.left = node->number_child<int> ("LeftCrop");
-	_crop.right = node->number_child<int> ("RightCrop");
-	_crop.top = node->number_child<int> ("TopCrop");
-	_crop.bottom = node->number_child<int> ("BottomCrop");
+	_sample_aspect_ratio = node->optional_number_child<double>("SampleAspectRatio");
+	_crop.left = node->number_child<int>("LeftCrop");
+	_crop.right = node->number_child<int>("RightCrop");
+	_crop.top = node->number_child<int>("TopCrop");
+	_crop.bottom = node->number_child<int>("BottomCrop");
 
 	if (version <= 7) {
-		auto r = node->optional_string_child ("Ratio");
+		auto r = node->optional_string_child("Ratio");
 		if (r) {
 			_legacy_ratio = Ratio::from_id(r.get())->ratio();
 		}
@@ -164,22 +164,22 @@ VideoContent::VideoContent (Content* parent, cxml::ConstNodePtr node, int versio
 	} else {
 		_custom_ratio = node->optional_number_child<float>("CustomRatio");
 		if (node->optional_number_child<int>("CustomWidth")) {
-			_custom_size = dcp::Size (node->number_child<int>("CustomWidth"), node->number_child<int>("CustomHeight"));
+			_custom_size = dcp::Size(node->number_child<int>("CustomWidth"), node->number_child<int>("CustomHeight"));
 		}
 	}
 
-	if (node->optional_node_child ("ColourConversion")) {
-		_colour_conversion = ColourConversion (node->node_child ("ColourConversion"), version);
+	if (node->optional_node_child("ColourConversion")) {
+		_colour_conversion = ColourConversion(node->node_child("ColourConversion"), version);
 	}
 
-	_yuv = node->optional_bool_child("YUV").get_value_or (true);
+	_yuv = node->optional_bool_child("YUV").get_value_or(true);
 
 	if (version >= 39) {
 		_fade_in = node->number_child<Frame>("VideoFadeIn");
 		_fade_out = node->number_child<Frame>("VideoFadeOut");
 	} else if (version >= 32) {
-		_fade_in = node->number_child<Frame> ("FadeIn");
-		_fade_out = node->number_child<Frame> ("FadeOut");
+		_fade_in = node->number_child<Frame>("FadeIn");
+		_fade_out = node->number_child<Frame>("FadeOut");
 	} else {
 		_fade_in = _fade_out = 0;
 	}
@@ -199,84 +199,84 @@ VideoContent::VideoContent (Content* parent, cxml::ConstNodePtr node, int versio
 
 	auto burnt = node->optional_string_child("BurntSubtitleLanguage");
 	if (burnt) {
-		_burnt_subtitle_language = dcp::LanguageTag (*burnt);
+		_burnt_subtitle_language = dcp::LanguageTag(*burnt);
 	}
 
 }
 
 
-VideoContent::VideoContent (Content* parent, vector<shared_ptr<Content> > c)
-	: ContentPart (parent)
-	, _length (0)
-	, _yuv (false)
+VideoContent::VideoContent(Content* parent, vector<shared_ptr<Content> > c)
+	: ContentPart(parent)
+	, _length(0)
+	, _yuv(false)
 {
 	auto ref = c[0]->video;
-	DCPOMATIC_ASSERT (ref);
+	DCPOMATIC_ASSERT(ref);
 
 	for (size_t i = 1; i < c.size(); ++i) {
 
 		if (c[i]->video->use() != ref->use()) {
-			throw JoinError (_("Content to be joined must have all its video used or not used."));
+			throw JoinError(_("Content to be joined must have all its video used or not used."));
 		}
 
 		if (c[i]->video->size() != ref->size()) {
-			throw JoinError (_("Content to be joined must have the same picture size."));
+			throw JoinError(_("Content to be joined must have the same picture size."));
 		}
 
 		if (c[i]->video->frame_type() != ref->frame_type()) {
-			throw JoinError (_("Content to be joined must have the same video frame type."));
+			throw JoinError(_("Content to be joined must have the same video frame type."));
 		}
 
 		if (c[i]->video->requested_crop() != ref->requested_crop()) {
-			throw JoinError (_("Content to be joined must have the same crop."));
+			throw JoinError(_("Content to be joined must have the same crop."));
 		}
 
 		if (c[i]->video->custom_ratio() != ref->custom_ratio()) {
-			throw JoinError (_("Content to be joined must have the same custom ratio setting."));
+			throw JoinError(_("Content to be joined must have the same custom ratio setting."));
 		}
 
 		if (c[i]->video->custom_size() != ref->custom_size()) {
-			throw JoinError (_("Content to be joined must have the same custom size setting."));
+			throw JoinError(_("Content to be joined must have the same custom size setting."));
 		}
 
 		if (c[i]->video->colour_conversion() != ref->colour_conversion()) {
-			throw JoinError (_("Content to be joined must have the same colour conversion."));
+			throw JoinError(_("Content to be joined must have the same colour conversion."));
 		}
 
 		if (c[i]->video->fade_in() != ref->fade_in() || c[i]->video->fade_out() != ref->fade_out()) {
-			throw JoinError (_("Content to be joined must have the same fades."));
+			throw JoinError(_("Content to be joined must have the same fades."));
 		}
 
 		if (c[i]->video->burnt_subtitle_language() != ref->burnt_subtitle_language()) {
-			throw JoinError (_("Content to be joined must have the same burnt subtitle language."));
+			throw JoinError(_("Content to be joined must have the same burnt subtitle language."));
 		}
 
-		_length += c[i]->video->length ();
+		_length += c[i]->video->length();
 
-		if (c[i]->video->yuv ()) {
+		if (c[i]->video->yuv()) {
 			_yuv = true;
 		}
 
 		_pixel_quanta = max(_pixel_quanta, c[i]->video->_pixel_quanta);
 	}
 
-	_use = ref->use ();
-	_size = ref->size ();
-	_frame_type = ref->frame_type ();
-	_crop = ref->requested_crop ();
-	_custom_ratio = ref->custom_ratio ();
-	_colour_conversion = ref->colour_conversion ();
-	_fade_in = ref->fade_in ();
-	_fade_out = ref->fade_out ();
-	_range = ref->range ();
-	_burnt_subtitle_language = ref->burnt_subtitle_language ();
+	_use = ref->use();
+	_size = ref->size();
+	_frame_type = ref->frame_type();
+	_crop = ref->requested_crop();
+	_custom_ratio = ref->custom_ratio();
+	_colour_conversion = ref->colour_conversion();
+	_fade_in = ref->fade_in();
+	_fade_out = ref->fade_out();
+	_range = ref->range();
+	_burnt_subtitle_language = ref->burnt_subtitle_language();
 }
 
 
 void
 VideoContent::as_xml(xmlpp::Element* element) const
 {
-	boost::mutex::scoped_lock lm (_mutex);
+	boost::mutex::scoped_lock lm(_mutex);
 	cxml::add_text_child(element, "Use", _use ? "1" : "0");
 	cxml::add_text_child(element, "VideoLength", fmt::to_string(_length));
 	if (_size) {
@@ -312,19 +312,19 @@ void
 VideoContent::take_from_examiner(shared_ptr<const Film> film, shared_ptr<VideoExaminer> d)
 {
 	/* These examiner calls could call other content methods which take a lock on the mutex */
-	auto const vs = d->video_size ();
-	auto vl = d->video_length ();
-	auto const ar = d->sample_aspect_ratio ();
-	auto const yuv = d->yuv ();
-	auto const range = d->range ();
-	auto const pixel_quanta = d->pixel_quanta ();
+	auto const vs = d->video_size();
+	auto vl = d->video_length();
+	auto const ar = d->sample_aspect_ratio();
+	auto const yuv = d->yuv();
+	auto const range = d->range();
+	auto const pixel_quanta = d->pixel_quanta();
 
-	ContentChangeSignaller cc1 (_parent, VideoContentProperty::SIZE);
-	ContentChangeSignaller cc2 (_parent, ContentProperty::LENGTH);
-	ContentChangeSignaller cc3 (_parent, VideoContentProperty::RANGE);
+	ContentChangeSignaller cc1(_parent, VideoContentProperty::SIZE);
+	ContentChangeSignaller cc2(_parent, ContentProperty::LENGTH);
+	ContentChangeSignaller cc3(_parent, VideoContentProperty::RANGE);
 
 	{
-		boost::mutex::scoped_lock lm (_mutex);
+		boost::mutex::scoped_lock lm(_mutex);
 		_size = vs;
 		_length = vl;
 		_sample_aspect_ratio = ar;
@@ -333,7 +333,7 @@ VideoContent::take_from_examiner(shared_ptr<const Film> film, shared_ptr<VideoEx
 		_pixel_quanta = pixel_quanta;
 	}
 
-	LOG_GENERAL ("Video length obtained from header as %1 frames", _length);
+	LOG_GENERAL("Video length obtained from header as %1 frames", _length);
 
 	if (d->video_frame_rate()) {
 		_parent->set_video_frame_rate(film, d->video_frame_rate().get());
@@ -342,11 +342,11 @@ VideoContent::take_from_examiner(shared_ptr<const Film> film, shared_ptr<VideoEx
 
 /** @return string which includes everything about how this content looks */
 string
-VideoContent::identifier () const
+VideoContent::identifier() const
 {
 	char buffer[256];
 	auto const crop = actual_crop();
-	snprintf (
+	snprintf(
 		buffer, sizeof(buffer), "%d_%d_%d_%d_%d_%f_%d_%d%" PRId64 "_%" PRId64 "_%d",
 		(_use ? 1 : 0),
 		crop.left,
@@ -361,42 +361,42 @@ VideoContent::identifier () const
 		_range == VideoRange::FULL ? 0 : 1
 		);
 
-	string s (buffer);
+	string s(buffer);
 
 	if (colour_conversion()) {
-		s += "_" + colour_conversion().get().identifier ();
+		s += "_" + colour_conversion().get().identifier();
 	}
 
 	return s;
 }
 
 string
-VideoContent::technical_summary () const
+VideoContent::technical_summary() const
 {
 	string const size_string = size() ? String::compose("%1x%2", size()->width, size()->height) : _("unknown");
 
-	string s = String::compose (
+	string s = String::compose(
 		N_("video: length %1 frames, size %2"),
 		length_after_3d_combine(),
 		size_string
 		);
 
-	if (sample_aspect_ratio ()) {
-		s += String::compose (N_(", sample aspect ratio %1"), (sample_aspect_ratio().get ()));
+	if (sample_aspect_ratio()) {
+		s += String::compose(N_(", sample aspect ratio %1"), sample_aspect_ratio().get());
 	}
 
 	return s;
 }
 
 optional<dcp::Size>
-VideoContent::size_after_3d_split () const
+VideoContent::size_after_3d_split() const
 {
-	auto const s = size ();
+	auto const s = size();
 	if (!s) {
 		return {};
 	}
 
-	switch (frame_type ()) {
+	switch (frame_type()) {
 	case VideoFrameType::TWO_D:
 	case VideoFrameType::THREE_D:
 	case VideoFrameType::THREE_D_ALTERNATE:
@@ -409,13 +409,13 @@ VideoContent::size_after_3d_split () const
 		return dcp::Size(s->width, s->height / 2);
 	}
 
-	DCPOMATIC_ASSERT (false);
+	DCPOMATIC_ASSERT(false);
 	return {};
 }
 
 /** @return Video size after 3D split and crop */
 optional<dcp::Size>
-VideoContent::size_after_crop () const
+VideoContent::size_after_crop() const
 {
 	auto const after_3d = size_after_3d_split();
 	if (!after_3d) {
@@ -455,13 +455,13 @@ VideoContent::fade(shared_ptr<const Film> film, ContentTime time) const
 }
 
 string
-VideoContent::processing_description (shared_ptr<const Film> film)
+VideoContent::processing_description(shared_ptr<const Film> film)
 {
 	string d;
 	char buffer[256];
 
 	if (size() && size()->width && size()->height) {
-		d += String::compose (
+		d += String::compose(
 			_("Content video is %1x%2"),
 			size_after_3d_split()->width,
 			size_after_3d_split()->height
@@ -470,22 +470,22 @@ VideoContent::processing_description (shared_ptr<const Film> film)
 
 		auto ratio = size_after_3d_split()->ratio();
 
-		if (sample_aspect_ratio ()) {
-			snprintf (buffer, sizeof(buffer), _(", pixel aspect ratio %.2f:1"), sample_aspect_ratio().get());
+		if (sample_aspect_ratio()) {
+			snprintf(buffer, sizeof(buffer), _(", pixel aspect ratio %.2f:1"), sample_aspect_ratio().get());
 			d += buffer;
-			ratio *= sample_aspect_ratio().get ();
+			ratio *= sample_aspect_ratio().get();
 		}
 
-		snprintf (buffer, sizeof(buffer), _("\nDisplay aspect ratio %.2f:1"), ratio);
+		snprintf(buffer, sizeof(buffer), _("\nDisplay aspect ratio %.2f:1"), ratio);
 		d += buffer;
 	}
 
 	auto const crop = actual_crop();
 
 	if ((crop.left || crop.right || crop.top || crop.bottom) && size() != dcp::Size(0, 0)) {
-		auto const cropped = size_after_crop ();
+		auto const cropped = size_after_crop();
 		if (cropped) {
-			d += String::compose (
+			d += String::compose(
 				_("\nCropped to %1x%2"),
 				cropped->width, cropped->height
 				);
@@ -495,180 +495,180 @@ VideoContent::processing_description (shared_ptr<const Film> film)
 		}
 	}
 
-	auto const container_size = film->frame_size ();
-	auto const scaled = scaled_size (container_size);
+	auto const container_size = film->frame_size();
+	auto const scaled = scaled_size(container_size);
 
 	if (scaled && *scaled != size_after_crop()) {
-		d += String::compose (
+		d += String::compose(
 			_("\nScaled to %1x%2"),
 			scaled->width, scaled->height
 			);
 
-		snprintf (buffer, sizeof(buffer), _(" (%.2f:1)"), scaled->ratio());
+		snprintf(buffer, sizeof(buffer), _(" (%.2f:1)"), scaled->ratio());
 		d += buffer;
 	}
 
 	if (scaled && *scaled != container_size) {
-		d += String::compose (
+		d += String::compose(
 			_("\nPadded with black to fit container %1 (%2x%3)"),
-			film->container()->container_nickname (),
+			film->container()->container_nickname(),
 			container_size.width, container_size.height
 			);
 
-		snprintf (buffer, sizeof(buffer), _(" (%.2f:1)"), container_size.ratio());
+		snprintf(buffer, sizeof(buffer), _(" (%.2f:1)"), container_size.ratio());
 		d += buffer;
 	}
 
 	if (_parent->video_frame_rate()) {
-		double const vfr = _parent->video_frame_rate().get ();
+		double const vfr = _parent->video_frame_rate().get();
 
-		snprintf (buffer, sizeof(buffer), _("\nContent frame rate %.4f\n"), vfr);
+		snprintf(buffer, sizeof(buffer), _("\nContent frame rate %.4f\n"), vfr);
 		d += buffer;
 
-		FrameRateChange frc (vfr, film->video_frame_rate ());
-		d += frc.description ();
+		FrameRateChange frc(vfr, film->video_frame_rate());
+		d += frc.description();
 	}
 
 	return d;
 }
 
 void
-VideoContent::add_properties (list<UserProperty>& p) const
+VideoContent::add_properties(list<UserProperty>& p) const
 {
-	p.push_back (UserProperty (UserProperty::VIDEO, _("Length"), length (), _("video frames")));
+	p.push_back(UserProperty(UserProperty::VIDEO, _("Length"), length(), _("video frames")));
 	if (auto s = size()) {
 		p.push_back(UserProperty(UserProperty::VIDEO, _("Size"), String::compose("%1x%2", s->width, s->height)));
 	}
 }
 
 void
-VideoContent::set_length (Frame len)
+VideoContent::set_length(Frame len)
 {
-	maybe_set (_length, len, ContentProperty::LENGTH);
+	maybe_set(_length, len, ContentProperty::LENGTH);
 }
 
 void
-VideoContent::set_crop (Crop c)
+VideoContent::set_crop(Crop c)
 {
-	maybe_set (_crop, c, VideoContentProperty::CROP);
+	maybe_set(_crop, c, VideoContentProperty::CROP);
 }
 
 void
-VideoContent::set_left_crop (int c)
+VideoContent::set_left_crop(int c)
 {
-	maybe_set (_crop.left, c, VideoContentProperty::CROP);
+	maybe_set(_crop.left, c, VideoContentProperty::CROP);
 }
 
 void
-VideoContent::set_right_crop (int c)
+VideoContent::set_right_crop(int c)
 {
-	maybe_set (_crop.right, c, VideoContentProperty::CROP);
+	maybe_set(_crop.right, c, VideoContentProperty::CROP);
 }
 
 void
-VideoContent::set_top_crop (int c)
+VideoContent::set_top_crop(int c)
 {
-	maybe_set (_crop.top, c, VideoContentProperty::CROP);
+	maybe_set(_crop.top, c, VideoContentProperty::CROP);
 }
 
 void
-VideoContent::set_bottom_crop (int c)
+VideoContent::set_bottom_crop(int c)
 {
-	maybe_set (_crop.bottom, c, VideoContentProperty::CROP);
-}
-
-
-void
-VideoContent::set_frame_type (VideoFrameType t)
-{
-	maybe_set (_frame_type, t, VideoContentProperty::FRAME_TYPE);
-}
-
-void
-VideoContent::unset_colour_conversion ()
-{
-	maybe_set (_colour_conversion, boost::optional<ColourConversion> (), VideoContentProperty::COLOUR_CONVERSION);
-}
-
-void
-VideoContent::set_colour_conversion (ColourConversion c)
-{
-	maybe_set (_colour_conversion, c, VideoContentProperty::COLOUR_CONVERSION);
-}
-
-void
-VideoContent::set_fade_in (Frame t)
-{
-	maybe_set (_fade_in, t, VideoContentProperty::FADE_IN);
-}
-
-void
-VideoContent::set_fade_out (Frame t)
-{
-	maybe_set (_fade_out, t, VideoContentProperty::FADE_OUT);
-}
-
-void
-VideoContent::set_range (VideoRange r)
-{
-	maybe_set (_range, r, VideoContentProperty::RANGE);
-}
-
-void
-VideoContent::set_use (bool u)
-{
-	maybe_set (_use, u, VideoContentProperty::USE);
+	maybe_set(_crop.bottom, c, VideoContentProperty::CROP);
 }
 
 
 void
-VideoContent::set_burnt_subtitle_language (boost::optional<dcp::LanguageTag> language)
+VideoContent::set_frame_type(VideoFrameType t)
 {
-	maybe_set (_burnt_subtitle_language, language, VideoContentProperty::BURNT_SUBTITLE_LANGUAGE);
+	maybe_set(_frame_type, t, VideoContentProperty::FRAME_TYPE);
+}
+
+void
+VideoContent::unset_colour_conversion()
+{
+	maybe_set(_colour_conversion, boost::optional<ColourConversion>(), VideoContentProperty::COLOUR_CONVERSION);
+}
+
+void
+VideoContent::set_colour_conversion(ColourConversion c)
+{
+	maybe_set(_colour_conversion, c, VideoContentProperty::COLOUR_CONVERSION);
+}
+
+void
+VideoContent::set_fade_in(Frame t)
+{
+	maybe_set(_fade_in, t, VideoContentProperty::FADE_IN);
+}
+
+void
+VideoContent::set_fade_out(Frame t)
+{
+	maybe_set(_fade_out, t, VideoContentProperty::FADE_OUT);
+}
+
+void
+VideoContent::set_range(VideoRange r)
+{
+	maybe_set(_range, r, VideoContentProperty::RANGE);
+}
+
+void
+VideoContent::set_use(bool u)
+{
+	maybe_set(_use, u, VideoContentProperty::USE);
 }
 
 
 void
-VideoContent::take_settings_from (shared_ptr<const VideoContent> c)
+VideoContent::set_burnt_subtitle_language(boost::optional<dcp::LanguageTag> language)
+{
+	maybe_set(_burnt_subtitle_language, language, VideoContentProperty::BURNT_SUBTITLE_LANGUAGE);
+}
+
+
+void
+VideoContent::take_settings_from(shared_ptr<const VideoContent> c)
 {
 	if (c->_colour_conversion) {
-		set_colour_conversion (c->_colour_conversion.get());
+		set_colour_conversion(c->_colour_conversion.get());
 	} else {
-		unset_colour_conversion ();
+		unset_colour_conversion();
 	}
-	set_use (c->_use);
-	set_frame_type (c->_frame_type);
-	set_left_crop (c->_crop.left);
-	set_right_crop (c->_crop.right);
-	set_top_crop (c->_crop.top);
-	set_bottom_crop (c->_crop.bottom);
-	set_custom_ratio (c->_custom_ratio);
-	set_custom_size (c->_custom_size);
-	set_fade_in (c->_fade_in);
-	set_fade_out (c->_fade_out);
-	set_burnt_subtitle_language (c->_burnt_subtitle_language);
+	set_use(c->_use);
+	set_frame_type(c->_frame_type);
+	set_left_crop(c->_crop.left);
+	set_right_crop(c->_crop.right);
+	set_top_crop(c->_crop.top);
+	set_bottom_crop(c->_crop.bottom);
+	set_custom_ratio(c->_custom_ratio);
+	set_custom_size(c->_custom_size);
+	set_fade_in(c->_fade_in);
+	set_fade_out(c->_fade_out);
+	set_burnt_subtitle_language(c->_burnt_subtitle_language);
 	set_range(c->_range);
 }
 
 
 void
-VideoContent::modify_position (shared_ptr<const Film> film, DCPTime& pos) const
+VideoContent::modify_position(shared_ptr<const Film> film, DCPTime& pos) const
 {
-	pos = pos.round (film->video_frame_rate());
+	pos = pos.round(film->video_frame_rate());
 }
 
 void
-VideoContent::modify_trim_start (ContentTime& trim) const
+VideoContent::modify_trim_start(ContentTime& trim) const
 {
 	if (_parent->video_frame_rate()) {
-		trim = trim.round (_parent->video_frame_rate().get());
+		trim = trim.round(_parent->video_frame_rate().get());
 	}
 }
 
 
 /** @param film_container The size of the container for the DCP that we are working on */
 optional<dcp::Size>
-VideoContent::scaled_size (dcp::Size film_container)
+VideoContent::scaled_size(dcp::Size film_container)
 {
 	if (_custom_ratio) {
 		return fit_ratio_within(*_custom_ratio, film_container);
@@ -681,7 +681,7 @@ VideoContent::scaled_size (dcp::Size film_container)
 		return fit_ratio_within(_custom_size->ratio(), film_container);
 	}
 
-	auto size = size_after_crop ();
+	auto size = size_after_crop();
 	if (!size) {
 		return {};
 	}
@@ -700,26 +700,26 @@ VideoContent::scaled_size (dcp::Size film_container)
 		_legacy_ratio = {};
 	}
 
-	return _pixel_quanta.round (auto_size);
+	return _pixel_quanta.round(auto_size);
 }
 
 
 void
-VideoContent::set_custom_ratio (optional<float> ratio)
+VideoContent::set_custom_ratio(optional<float> ratio)
 {
-	maybe_set (_custom_ratio, ratio, VideoContentProperty::CUSTOM_RATIO);
+	maybe_set(_custom_ratio, ratio, VideoContentProperty::CUSTOM_RATIO);
 }
 
 
 void
-VideoContent::set_custom_size (optional<dcp::Size> size)
+VideoContent::set_custom_size(optional<dcp::Size> size)
 {
-	maybe_set (_custom_size, size, VideoContentProperty::CUSTOM_SIZE);
+	maybe_set(_custom_size, size, VideoContentProperty::CUSTOM_SIZE);
 }
 
 
 Crop
-VideoContent::actual_crop () const
+VideoContent::actual_crop() const
 {
 	return Crop(
 		_pixel_quanta.round_x(_crop.left),
