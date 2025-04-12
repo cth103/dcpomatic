@@ -185,6 +185,7 @@ ReelWriter::ReelWriter (
 			_mpeg2_picture_asset_writer = _mpeg2_picture_asset->start_write(new_asset_filename, behaviour);
 		}
 	} else {
+		DCPOMATIC_ASSERT(existing_asset_filename);
 		LOG_GENERAL("Re-using complete asset %1", *existing_asset_filename);
 		/* We already have a complete picture asset that we can just re-use */
 		/* XXX: what about if the encryption key changes? */
