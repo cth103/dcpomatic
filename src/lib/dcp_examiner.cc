@@ -65,13 +65,13 @@ using std::vector;
 using boost::optional;
 
 
-DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
+DCPExaminer::DCPExaminer(shared_ptr<const DCPContent> content, bool tolerant)
 {
 	shared_ptr<dcp::CPL> selected_cpl;
 
-	auto cpls = dcp::find_and_resolve_cpls (content->directories(), tolerant);
+	auto cpls = dcp::find_and_resolve_cpls(content->directories(), tolerant);
 
-	if (content->cpl ()) {
+	if (content->cpl()) {
 		/* Use the CPL that was specified, or that the content was using before */
 		auto iter = std::find_if(cpls.begin(), cpls.end(), [content](shared_ptr<dcp::CPL> cpl) { return cpl->id() == content->cpl().get(); });
 		if (iter == cpls.end()) {
@@ -111,7 +111,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 	}
 
 	if (!selected_cpl) {
-		throw DCPError ("No CPLs found in DCP");
+		throw DCPError("No CPLs found in DCP");
 	}
 
 	if (content->kdm()) {
@@ -122,12 +122,12 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 	_name = selected_cpl->content_title_text();
 	_content_kind = selected_cpl->content_kind();
 
-	LOG_GENERAL ("Selected CPL %1", _cpl);
+	LOG_GENERAL("Selected CPL %1", _cpl);
 
 	auto try_to_parse_language = [](optional<string> lang) -> boost::optional<dcp::LanguageTag> {
 		try {
 			if (lang) {
-				return dcp::LanguageTag (*lang);
+				return dcp::LanguageTag(*lang);
 			}
 		} catch (...) {}
 		return boost::none;
@@ -157,14 +157,14 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 				if (!_video_frame_rate) {
 					_video_frame_rate = fr;
 				} else if (_video_frame_rate.get() != fr) {
-					throw DCPError (_("Mismatched frame rates in DCP"));
+					throw DCPError(_("Mismatched frame rates in DCP"));
 				}
 
 				auto asset = reel->main_picture()->asset();
 				if (!_video_size) {
-					_video_size = asset->size ();
-				} else if (_video_size.get() != asset->size ()) {
-					throw DCPError (_("Mismatched video sizes in DCP"));
+					_video_size = asset->size();
+				} else if (_video_size.get() != asset->size()) {
+					throw DCPError(_("Mismatched video sizes in DCP"));
 				}
 
 				if (dynamic_pointer_cast<dcp::MPEG2PictureAsset>(asset)) {
@@ -188,18 +188,18 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 				if (!_audio_channels) {
 					_audio_channels = asset->channels();
 				} else if (_audio_channels.get() != asset->channels()) {
-					throw DCPError (_("Mismatched audio channel counts in DCP"));
+					throw DCPError(_("Mismatched audio channel counts in DCP"));
 				}
 
 				_active_audio_channels = std::max(_active_audio_channels.get_value_or(0), asset->active_channels());
 
 				if (!_audio_frame_rate) {
-					_audio_frame_rate = asset->sampling_rate ();
-				} else if (_audio_frame_rate.get() != asset->sampling_rate ()) {
-					throw DCPError (_("Mismatched audio sample rates in DCP"));
+					_audio_frame_rate = asset->sampling_rate();
+				} else if (_audio_frame_rate.get() != asset->sampling_rate()) {
+					throw DCPError(_("Mismatched audio sample rates in DCP"));
 				}
 
-				_audio_language = try_to_parse_language (asset->language());
+				_audio_language = try_to_parse_language(asset->language());
 				_audio_length += reel->main_sound()->actual_duration() * (asset->sampling_rate() * edit_rate.denominator / edit_rate.numerator);
 			}
 		}
@@ -273,7 +273,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 
 		if (reel->main_markers ()) {
 			auto rm = reel->main_markers()->get();
-			_markers.insert (rm.begin(), rm.end());
+			_markers.insert(rm.begin(), rm.end());
 		}
 
 		if (reel->atmos()) {
@@ -307,7 +307,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 	_encrypted = selected_cpl->any_encrypted();
 	_kdm_valid = true;
 
-	LOG_GENERAL_NC ("Check that everything encrypted has a key");
+	LOG_GENERAL_NC("Check that everything encrypted has a key");
 
 	/* Check first that anything encrypted has a key.  We must do this, as if we try to
 	 * read encrypted data with asdcplib without even offering a key it will just return
@@ -316,12 +316,12 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 	 */
 	try {
 		for (auto i: selected_cpl->reels()) {
-			LOG_GENERAL ("Reel %1", i->id());
+			LOG_GENERAL("Reel %1", i->id());
 			if (i->main_picture() && i->main_picture()->asset_ref().resolved()) {
 				auto pic = i->main_picture()->asset();
 				if (pic->encrypted() && !pic->key()) {
 					_kdm_valid = false;
-					LOG_GENERAL_NC ("Picture has no key");
+					LOG_GENERAL_NC("Picture has no key");
 					break;
 				}
 				auto j2k_mono = dynamic_pointer_cast<dcp::MonoJ2KPictureAsset>(pic);
@@ -330,12 +330,12 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 
 				if (j2k_mono) {
 					auto reader = j2k_mono->start_read();
-					reader->set_check_hmac (false);
+					reader->set_check_hmac(false);
 					reader->get_frame(0)->xyz_image();
 					_video_encoding = VideoEncoding::JPEG2000;
 				} else if (j2k_stereo) {
 					auto reader = j2k_stereo->start_read();
-					reader->set_check_hmac (false);
+					reader->set_check_hmac(false);
 					reader->get_frame(0)->xyz_image(dcp::Eye::LEFT);
 					_video_encoding = VideoEncoding::JPEG2000;
 				} else if (mpeg2_mono) {
@@ -351,11 +351,11 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 				auto sound = i->main_sound()->asset();
 				if (sound->encrypted() && !sound->key()) {
 					_kdm_valid = false;
-					LOG_GENERAL_NC ("Sound has no key");
+					LOG_GENERAL_NC("Sound has no key");
 					break;
 				}
 				auto reader = sound->start_read();
-				reader->set_check_hmac (false);
+				reader->set_check_hmac(false);
 				reader->get_frame(0);
 			}
 
@@ -364,7 +364,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 				auto mxf_sub = dynamic_pointer_cast<dcp::MXF>(sub);
 				if (mxf_sub && mxf_sub->encrypted() && !mxf_sub->key()) {
 					_kdm_valid = false;
-					LOG_GENERAL_NC ("Subtitle has no key");
+					LOG_GENERAL_NC("Subtitle has no key");
 					break;
 				}
 				sub->texts();
@@ -385,21 +385,21 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 				if (auto atmos = i->atmos()->asset()) {
 					if (atmos->encrypted() && !atmos->key()) {
 						_kdm_valid = false;
-						LOG_GENERAL_NC ("ATMOS sound has no key");
+						LOG_GENERAL_NC("ATMOS sound has no key");
 						break;
 					}
 					auto reader = atmos->start_read();
-					reader->set_check_hmac (false);
+					reader->set_check_hmac(false);
 					reader->get_frame(0);
 				}
 			}
 		}
 	} catch (dcp::ReadError& e) {
 		_kdm_valid = false;
-		LOG_GENERAL ("KDM is invalid: %1", e.what());
+		LOG_GENERAL("KDM is invalid: %1", e.what());
 	} catch (dcp::MiscError& e) {
 		_kdm_valid = false;
-		LOG_GENERAL ("KDM is invalid: %1", e.what());
+		LOG_GENERAL("KDM is invalid: %1", e.what());
 	}
 
 	_standard = selected_cpl->standard();

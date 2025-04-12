@@ -40,11 +40,11 @@ class DCPExaminer : public VideoExaminer, public AudioExaminer
 public:
 	DCPExaminer(std::shared_ptr<const DCPContent>, bool tolerant);
 
-	bool has_video () const override {
+	bool has_video() const override {
 		return _has_video;
 	}
 
-	boost::optional<double> video_frame_rate () const override {
+	boost::optional<double> video_frame_rate() const override {
 		return _video_frame_rate;
 	}
 
@@ -52,55 +52,55 @@ public:
 		return _video_size;
 	}
 
-	Frame video_length () const override {
+	Frame video_length() const override {
 		return _video_length;
 	}
 
-	bool yuv () const override {
+	bool yuv() const override {
 		return false;
 	}
 
-	VideoRange range () const override {
+	VideoRange range() const override {
 		return _video_range;
 	}
 
-	PixelQuanta pixel_quanta () const override {
+	PixelQuanta pixel_quanta() const override {
 		return {};
 	}
 
-	std::string name () const {
+	std::string name() const {
 		return _name;
 	}
 
-	bool encrypted () const {
+	bool encrypted() const {
 		return _encrypted;
 	}
 
-	bool needs_assets () const {
+	bool needs_assets() const {
 		return _needs_assets;
 	}
 
-	bool has_audio () const override {
+	bool has_audio() const override {
 		return _has_audio;
 	}
 
-	int audio_channels () const override {
-		return _audio_channels.get_value_or (0);
+	int audio_channels() const override {
+		return _audio_channels.get_value_or(0);
 	}
 
 	int active_audio_channels() const {
 		return _active_audio_channels.get_value_or(0);
 	}
 
-	Frame audio_length () const override {
+	Frame audio_length() const override {
 		return _audio_length;
 	}
 
-	int audio_frame_rate () const override {
-		return _audio_frame_rate.get_value_or (48000);
+	int audio_frame_rate() const override {
+		return _audio_frame_rate.get_value_or(48000);
 	}
 
-	boost::optional<dcp::LanguageTag> audio_language () const {
+	boost::optional<dcp::LanguageTag> audio_language() const {
 		return _audio_language;
 	}
 
@@ -108,11 +108,11 @@ public:
 	 *  Reels do not affect the return value of this method: if a DCP
 	 *  has any subtitles, type=TEXT_OPEN_SUBTITLE will return 1.
 	 */
-	int text_count (TextType type) const {
+	int text_count(TextType type) const {
 		return _text_count[type];
 	}
 
-	boost::optional<dcp::LanguageTag> open_subtitle_language () const {
+	boost::optional<dcp::LanguageTag> open_subtitle_language() const {
 		return _open_subtitle_language;
 	}
 
@@ -121,20 +121,20 @@ public:
 	}
 
 	DCPTextTrack dcp_subtitle_track(int i) const {
-		DCPOMATIC_ASSERT (i >= 0 && i < static_cast<int>(_dcp_subtitle_tracks.size()));
+		DCPOMATIC_ASSERT(i >= 0 && i < static_cast<int>(_dcp_subtitle_tracks.size()));
 		return _dcp_subtitle_tracks[i];
 	}
 
 	DCPTextTrack dcp_caption_track(int i) const {
-		DCPOMATIC_ASSERT (i >= 0 && i < static_cast<int>(_dcp_caption_tracks.size()));
+		DCPOMATIC_ASSERT(i >= 0 && i < static_cast<int>(_dcp_caption_tracks.size()));
 		return _dcp_caption_tracks[i];
 	}
 
-	bool kdm_valid () const {
+	bool kdm_valid() const {
 		return _kdm_valid;
 	}
 
-	boost::optional<dcp::Standard> standard () const {
+	boost::optional<dcp::Standard> standard() const {
 		return _standard;
 	}
 
@@ -142,44 +142,44 @@ public:
 		return _video_encoding;
 	}
 
-	bool three_d () const {
+	bool three_d() const {
 		return _three_d;
 	}
 
-	dcp::ContentKind content_kind () const {
+	dcp::ContentKind content_kind() const {
 		DCPOMATIC_ASSERT(_content_kind);
 		return *_content_kind;
 	}
 
-	std::string cpl () const {
+	std::string cpl() const {
 		return _cpl;
 	}
 
-	std::list<int64_t> reel_lengths () const {
+	std::list<int64_t> reel_lengths() const {
 		return _reel_lengths;
 	}
 
-	std::map<dcp::Marker, dcp::Time> markers () const {
+	std::map<dcp::Marker, dcp::Time> markers() const {
 		return _markers;
 	}
 
-	std::vector<dcp::Rating> ratings () const {
+	std::vector<dcp::Rating> ratings() const {
 		return _ratings;
 	}
 
-	std::vector<std::string> content_versions () const {
+	std::vector<std::string> content_versions() const {
 		return _content_versions;
 	}
 
-	bool has_atmos () const {
+	bool has_atmos() const {
 		return _has_atmos;
 	}
 
-	Frame atmos_length () const {
+	Frame atmos_length() const {
 		return _atmos_length;
 	}
 
-	dcp::Fraction atmos_edit_rate () const {
+	dcp::Fraction atmos_edit_rate() const {
 		return _atmos_edit_rate;
 	}
 
