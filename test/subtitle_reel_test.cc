@@ -254,7 +254,7 @@ BOOST_AUTO_TEST_CASE(bad_subtitle_not_created_at_reel_boundaries)
 		film,
 		{
 			dcp::VerificationNote::Code::MISSING_CPL_METADATA,
-			dcp::VerificationNote::Code::INVALID_SUBTITLE_DURATION,
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_DURATION_BV21,
 			dcp::VerificationNote::Code::INVALID_SUBTITLE_SPACING,
 		});
 }

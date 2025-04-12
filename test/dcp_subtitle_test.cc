@@ -276,7 +276,7 @@ BOOST_AUTO_TEST_CASE(entity_from_dcp_source)
 			dcp::VerificationNote::Code::MISSING_SUBTITLE_LANGUAGE,
 			dcp::VerificationNote::Code::INVALID_SUBTITLE_FIRST_TEXT_TIME,
 			dcp::VerificationNote::Code::MISSING_CPL_METADATA,
-			dcp::VerificationNote::Code::INVALID_SUBTITLE_DURATION,
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_DURATION_BV21,
 			dcp::VerificationNote::Code::INVALID_SUBTITLE_SPACING,
 		});
 
@@ -304,7 +304,7 @@ BOOST_AUTO_TEST_CASE(entity_from_dcp_source)
 			dcp::VerificationNote::Code::MISSING_SUBTITLE_LANGUAGE,
 			dcp::VerificationNote::Code::INVALID_SUBTITLE_FIRST_TEXT_TIME,
 			dcp::VerificationNote::Code::MISSING_CPL_METADATA,
-			dcp::VerificationNote::Code::INVALID_SUBTITLE_DURATION,
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_DURATION_BV21,
 			dcp::VerificationNote::Code::INVALID_SUBTITLE_SPACING,
 		});
 
@@ -338,7 +338,7 @@ BOOST_AUTO_TEST_CASE(dcp_subtitle_trim_test)
 		{
 			dcp::VerificationNote::Code::INVALID_SUBTITLE_FIRST_TEXT_TIME,
 			dcp::VerificationNote::Code::MISSING_CPL_METADATA,
-			dcp::VerificationNote::Code::INVALID_SUBTITLE_DURATION,
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_DURATION_BV21,
 		});
 
 	dcp::SMPTETextAsset asset(find_file(film->dir(film->dcp_name()), "sub_"));

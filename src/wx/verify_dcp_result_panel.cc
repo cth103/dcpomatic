@@ -361,6 +361,9 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 			add(i.second, _("The first subtitle or closed caption happens before 4s into the first reel."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_SUBTITLE_DURATION:
+			add(i.second, _("At least one subtitle has zero or negative duration."));
+			break;
+		case dcp::VerificationNote::Code::INVALID_SUBTITLE_DURATION_BV21:
 			add(i.second, _("At least one subtitle lasts less than 15 frames."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_SUBTITLE_SPACING:

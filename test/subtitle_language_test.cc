@@ -53,7 +53,7 @@ BOOST_AUTO_TEST_CASE (subtitle_language_interop_test)
 		{
 			dcp::VerificationNote::Code::INVALID_STANDARD,
 			dcp::VerificationNote::Code::INVALID_SUBTITLE_SPACING,
-			dcp::VerificationNote::Code::INVALID_SUBTITLE_DURATION
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_DURATION_BV21,
 		},
 		false,
 		/* clairmeta raises errors about subtitle spacing/duration */
@@ -78,7 +78,7 @@ BOOST_AUTO_TEST_CASE (subtitle_language_smpte_test)
 		{
 			dcp::VerificationNote::Code::MISSING_SUBTITLE_LANGUAGE,
 			dcp::VerificationNote::Code::INVALID_SUBTITLE_FIRST_TEXT_TIME,
-			dcp::VerificationNote::Code::INVALID_SUBTITLE_DURATION,
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_DURATION_BV21,
 			dcp::VerificationNote::Code::INVALID_SUBTITLE_SPACING,
 			dcp::VerificationNote::Code::MISSING_CPL_METADATA
 		});
@@ -105,7 +105,7 @@ BOOST_AUTO_TEST_CASE(subtitle_language_in_cpl_test)
 		film,
 		{
 			dcp::VerificationNote::Code::INVALID_SUBTITLE_FIRST_TEXT_TIME,
-			dcp::VerificationNote::Code::INVALID_SUBTITLE_DURATION,
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_DURATION_BV21,
 			dcp::VerificationNote::Code::INVALID_SUBTITLE_SPACING
 		});
 

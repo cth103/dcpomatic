@@ -222,7 +222,7 @@ BOOST_AUTO_TEST_CASE (reels_test4)
 		{
 			dcp::VerificationNote::Code::MISSING_SUBTITLE_LANGUAGE,
 			dcp::VerificationNote::Code::INVALID_SUBTITLE_FIRST_TEXT_TIME,
-			dcp::VerificationNote::Code::INVALID_SUBTITLE_DURATION
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_DURATION_BV21
 		});
 
 	check_dcp ("test/data/reels_test4", film->dir (film->dcp_name()));
@@ -393,7 +393,7 @@ BOOST_AUTO_TEST_CASE (reels_test10)
 			dcp::VerificationNote::Code::EXTERNAL_ASSET,
 			dcp::VerificationNote::Code::MISSING_SUBTITLE_LANGUAGE,
 			dcp::VerificationNote::Code::INVALID_SUBTITLE_FIRST_TEXT_TIME,
-			dcp::VerificationNote::Code::INVALID_SUBTITLE_DURATION,
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_DURATION_BV21,
 		},
 		false);
 }

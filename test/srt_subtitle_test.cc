@@ -193,7 +193,7 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test6)
 			dcp::VerificationNote::Code::MISSING_SUBTITLE_LANGUAGE,
 			dcp::VerificationNote::Code::INVALID_SUBTITLE_FIRST_TEXT_TIME,
 			dcp::VerificationNote::Code::MISSING_CPL_METADATA,
-			dcp::VerificationNote::Code::INVALID_SUBTITLE_DURATION,
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_DURATION_BV21,
 			dcp::VerificationNote::Code::INVALID_SUBTITLE_SPACING,
 		});
 
@@ -225,7 +225,7 @@ BOOST_AUTO_TEST_CASE(srt_subtitle_entity)
 			dcp::VerificationNote::Code::MISSING_SUBTITLE_LANGUAGE,
 			dcp::VerificationNote::Code::INVALID_SUBTITLE_FIRST_TEXT_TIME,
 			dcp::VerificationNote::Code::MISSING_CPL_METADATA,
-			dcp::VerificationNote::Code::INVALID_SUBTITLE_DURATION,
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_DURATION_BV21,
 			dcp::VerificationNote::Code::INVALID_SUBTITLE_SPACING,
 		});
 
