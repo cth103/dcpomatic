@@ -56,14 +56,11 @@ int const VideoContentProperty::BURNT_SUBTITLE_LANGUAGE = 10;
 
 using std::cout;
 using std::dynamic_pointer_cast;
-using std::fixed;
 using std::list;
 using std::make_shared;
 using std::max;
 using std::min;
 using std::pair;
-using std::setprecision;
-using std::setprecision;
 using std::shared_ptr;
 using std::string;
 using std::vector;
