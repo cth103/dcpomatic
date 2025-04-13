@@ -20,7 +20,7 @@ if [ "$1" == "--debug" ]; then
     gdb --args build/src/tools/dcpomatic2_player $*
 elif [ "$1" == "--valgrind" ]; then
     shift
-    valgrind --tool="memcheck" --suppressions=suppressions --track-fds=yes $binary $*
+    valgrind --tool="memcheck" --suppressions=suppressions --track-fds=yes --leak-check=full --show-reachable=yes $binary $*
 elif [ "$1" == "--callgrind" ]; then
     shift
     valgrind --tool="callgrind" $binary $*
