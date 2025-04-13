@@ -243,7 +243,7 @@ BOOST_AUTO_TEST_CASE(bad_subtitle_not_created_at_reel_boundaries)
 
 	auto film = new_test_film("bad_subtitle_not_created_at_reel_boundaries", { content });
 	film->set_reel_type(ReelType::CUSTOM);
-	content->text[0]->set_language(dcp::LanguageTag("de-DE"));
+	content->text[0]->set_language(dcp::LanguageTag("de"));
 	/* This is 1 frame after the start of the subtitle */
 	film->set_custom_reel_boundaries({dcpomatic::DCPTime::from_frames(241, 24)});
 
