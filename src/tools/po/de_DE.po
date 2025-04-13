@@ -57,7 +57,7 @@ msgstr "%s konnte nicht gestartet werden."
 
 #: src/tools/dcpomatic_batch.cc:88
 msgid "&Add Film...\tCtrl-A"
-msgstr "&Videodatei hinzufügen...\tCtrl-A"
+msgstr "&Projekt hinzufügen...\tCtrl-A"
 
 #: src/tools/dcpomatic_player.cc:610
 msgid "&Add OV..."
@@ -183,11 +183,11 @@ msgstr "Inhalt hinzufügen"
 
 #: src/tools/dcpomatic_batch.cc:177
 msgid "Add film"
-msgstr "Videodatei hinzufügen"
+msgstr "Projekt hinzufügen"
 
 #: src/tools/dcpomatic_batch.cc:177
 msgid "Add film for conversion"
-msgstr "Videodatei für die Umwandlung hinzufügen"
+msgstr "Projekt für die Umwandlung hinzufügen"
 
 #: src/tools/dcpomatic_kdm.cc:215
 msgid "Add folder..."
@@ -403,11 +403,11 @@ msgstr "DCP aus %s konnte nicht geladen werden"
 
 #: src/tools/dcpomatic_batch.cc:495
 msgid "Could not load film %1"
-msgstr "Videodatei %1 konnte nicht geladen werden"
+msgstr "Projekt %1 konnte nicht geladen werden"
 
 #: src/tools/dcpomatic.cc:1728
 msgid "Could not load film %1 (%2)"
-msgstr "Videodatei %1 (%2) konnte nicht geladen werden"
+msgstr "Projekt %1 (%2) konnte nicht geladen werden"
 
 #: src/tools/dcpomatic_player.cc:1355
 #, c-format
@@ -422,7 +422,7 @@ msgstr "DCP konnte nicht erstellt werden."
 #: src/tools/dcpomatic.cc:506
 #, c-format
 msgid "Could not open film at %s"
-msgstr "Konnte Projektdatei %s nicht laden"
+msgstr "Konnte Projekt %s nicht laden"
 
 #: src/tools/dcpomatic.cc:494
 #, c-format
@@ -658,7 +658,7 @@ msgstr "Die Datei %s existiert bereits. Überschreiben ?"
 #. project (Film) has been changed since it was last saved.
 #: src/tools/dcpomatic.cc:161 src/tools/dcpomatic.cc:189
 msgid "Film changed"
-msgstr "Videodatei wurde geändert"
+msgstr "Projekt wurde geändert"
 
 #: src/tools/dcpomatic_disk.cc:187
 msgid "Finding disks"
@@ -991,7 +991,7 @@ msgid ""
 "The DCP for this film will take up about %.1f GB, and the disk that you are "
 "using only has %.1f GB available.  Do you want to continue anyway?"
 msgstr ""
-"Das DCP für diesen Film wird etwa %.1f Gbyte groß. Auf dem ausgewählten "
+"Das DCP für dieses Projekt wird etwa %.1f Gbyte groß. Auf dem ausgewählten "
 "Laufwerk sind aber nur %.1f Gbyte frei. Möchten Sie trotzdem fortfahren ?"
 
 #: src/tools/dcpomatic_batch.cc:248
@@ -1001,7 +1001,7 @@ msgid ""
 "%.1f GB.  The disks that you are using only have %.1f GB available.  Do you "
 "want to add this film to the queue anyway?"
 msgstr ""
-"Die DCPs für diesen Film und weitere in der Warteschlange werden "
+"Die DCPs für dieses Projekt und weitere in der Warteschlange werden "
 "voraussichtlich etwa %.1f Gbyte groß. Auf dem ausgewählten Laufwerk sind "
 "aber nur %.1f Gbyte frei. Möchten Sie trotzdem fortfahren ?"
 
