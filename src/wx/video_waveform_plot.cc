@@ -56,12 +56,13 @@ int const VideoWaveformPlot::_x_axis_width = 52;
 VideoWaveformPlot::VideoWaveformPlot(wxWindow* parent, weak_ptr<const Film> film, FilmViewer& viewer)
 	: wxPanel (parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE)
 	, _film (film)
+	, _viewer(viewer)
 {
 #ifndef __WXOSX__
 	SetDoubleBuffered (true);
 #endif
 
-	_viewer_connection = viewer.ImageChanged.connect(boost::bind(&VideoWaveformPlot::set_image, this, _1));
+	_viewer_connection = _viewer.ImageChanged.connect(boost::bind(&VideoWaveformPlot::set_image, this));
 
 	Bind (wxEVT_PAINT, boost::bind(&VideoWaveformPlot::paint, this));
 	Bind (wxEVT_SIZE,  boost::bind(&VideoWaveformPlot::sized, this, _1));
@@ -186,7 +187,7 @@ VideoWaveformPlot::create_waveform ()
 
 
 void
-VideoWaveformPlot::set_image (shared_ptr<PlayerVideo> image)
+VideoWaveformPlot::set_image()
 {
 	if (!_enabled) {
 		return;
@@ -195,7 +196,7 @@ VideoWaveformPlot::set_image (shared_ptr<PlayerVideo> image)
 	/* We must copy the PlayerVideo here as we will call ::image() on it, potentially
 	   with a different pixel_format than was used when ::prepare() was called.
 	*/
-	_image = DCPVideo::convert_to_xyz(image->shallow_copy());
+	_image = DCPVideo::convert_to_xyz(_viewer.last_image()->shallow_copy());
 	_dirty = true;
 	Refresh ();
 }

@@ -56,7 +56,7 @@ private:
 	void paint ();
 	void sized (wxSizeEvent &);
 	void create_waveform ();
-	void set_image (std::shared_ptr<PlayerVideo>);
+	void set_image();
 	void mouse_moved (wxMouseEvent &);
 
 	std::weak_ptr<const Film> _film;
@@ -66,6 +66,8 @@ private:
 	bool _enabled = false;
 	int _component = 0;
 	int _contrast = 0;
+
+	FilmViewer& _viewer;
 
 	static int const _vertical_margin;
 	static int const _pixel_values;

@@ -155,7 +155,10 @@ public:
 
 	Frame average_latency() const;
 
-	boost::signals2::signal<void (std::shared_ptr<PlayerVideo>)> ImageChanged;
+	/** The image we are viewing changed: call last_image() to get the image */
+	boost::signals2::signal<void ()> ImageChanged;
+	std::shared_ptr<const PlayerVideo> last_image() const;
+
 	boost::signals2::signal<void ()> Started;
 	boost::signals2::signal<void ()> Stopped;
 	/** While playing back we reached the end of the film (emitted from GUI thread) */
@@ -221,6 +224,11 @@ private:
 	bool _idle_get = false;
 
 	boost::optional<dcpomatic::Rect<float>> _crop_guess;
+
+	/** Keep track of the image that we were talking about with the last
+	 *  emission of ImageChanged.
+	 */
+	std::shared_ptr<const PlayerVideo> _last_image;
 
 	boost::signals2::scoped_connection _config_changed_connection;
 };

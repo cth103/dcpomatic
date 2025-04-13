@@ -586,7 +586,7 @@ ContentMenu::auto_crop ()
 	});
 
 	/* Also update the dialog and view when we're looking at a different frame */
-	_auto_crop_viewer_connection = _viewer.ImageChanged.connect([this, guess_crop_for_content, update_viewer](shared_ptr<PlayerVideo>) {
+	_auto_crop_viewer_connection = _viewer.ImageChanged.connect([this, guess_crop_for_content, update_viewer]() {
 		auto const crop = guess_crop_for_content();
 		_auto_crop_dialog->set(crop);
 		update_viewer(crop);

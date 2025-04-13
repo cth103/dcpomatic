@@ -408,6 +408,12 @@ public:
 		add_accelerators ();
 	}
 
+	~DOMFrame()
+	{
+		/* This holds a reference to FilmViewer, so get rid of it first */
+		_video_waveform_dialog.reset();
+	}
+
 	void add_accelerators ()
 	{
 #ifdef __WXOSX__

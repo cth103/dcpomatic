@@ -864,7 +864,15 @@ FilmViewer::gets () const
 void
 FilmViewer::image_changed (shared_ptr<PlayerVideo> pv)
 {
-	emit (boost::bind(boost::ref(ImageChanged), pv));
+	_last_image = pv;
+	emit(boost::bind(boost::ref(ImageChanged)));
+}
+
+
+shared_ptr<const PlayerVideo>
+FilmViewer::last_image() const
+{
+	return _last_image;
 }
 
 
