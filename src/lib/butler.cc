@@ -60,7 +60,7 @@ using namespace boost::placeholders;
  *  @param alignment Same as above for the `alignment' value.
  *  @param fast Same as above for the `fast' flag.
  */
-Butler::Butler (
+Butler::Butler(
 	weak_ptr<const Film> film,
 	Player& player,
 	AudioMapping audio_mapping,
@@ -72,22 +72,22 @@ Butler::Butler (
 	bool prepare_only_proxy,
 	Audio audio
 	)
-	: _film (film)
-	, _player (player)
+	: _film(film)
+	, _player(player)
 	, _prepare_work(dcpomatic::make_work_guard(_prepare_context))
-	, _pending_seek_accurate (false)
-	, _suspended (0)
-	, _finished (false)
-	, _died (false)
-	, _stop_thread (false)
-	, _audio_mapping (audio_mapping)
-	, _audio_channels (audio_channels)
-	, _disable_audio (audio == Audio::DISABLED)
-	, _pixel_format (pixel_format)
-	, _video_range (video_range)
-	, _alignment (alignment)
-	, _fast (fast)
-	, _prepare_only_proxy (prepare_only_proxy)
+	, _pending_seek_accurate(false)
+	, _suspended(0)
+	, _finished(false)
+	, _died(false)
+	, _stop_thread(false)
+	, _audio_mapping(audio_mapping)
+	, _audio_channels(audio_channels)
+	, _disable_audio(audio == Audio::DISABLED)
+	, _pixel_format(pixel_format)
+	, _video_range(video_range)
+	, _alignment(alignment)
+	, _fast(fast)
+	, _prepare_only_proxy(prepare_only_proxy)
 {
 	_player_video_connection = _player.Video.connect(bind(&Butler::video, this, _1, _2));
 	_player_audio_connection = _player.Audio.connect(bind(&Butler::audio, this, _1, _2, _3));
@@ -96,9 +96,9 @@ Butler::Butler (
 	   get_video() to be called in response to this signal.
 	*/
 	_player_change_connection = _player.Change.connect(bind(&Butler::player_change, this, _1, _2), boost::signals2::at_front);
-	_thread = boost::thread (bind(&Butler::thread, this));
+	_thread = boost::thread(bind(&Butler::thread, this));
 #ifdef DCPOMATIC_LINUX
-	pthread_setname_np (_thread.native_handle(), "butler");
+	pthread_setname_np(_thread.native_handle(), "butler");
 #endif
 
 	/* Create some threads to do work on the PlayerVideos we are creating; at present this is used to
@@ -113,38 +113,38 @@ Butler::Butler (
 }
 
 
-Butler::~Butler ()
+Butler::~Butler()
 {
 	boost::this_thread::disable_interruption dis;
 
 	{
-		boost::mutex::scoped_lock lm (_mutex);
+		boost::mutex::scoped_lock lm(_mutex);
 		_stop_thread = true;
 	}
 
-	_prepare_work.reset ();
-	_prepare_pool.join_all ();
+	_prepare_work.reset();
+	_prepare_pool.join_all();
 	_prepare_context.stop();
 
-	_thread.interrupt ();
+	_thread.interrupt();
 	try {
-		_thread.join ();
+		_thread.join();
 	} catch (...) {}
 }
 
 /** Caller must hold a lock on _mutex */
 bool
-Butler::should_run () const
+Butler::should_run() const
 {
 	if (_video.size() >= MAXIMUM_VIDEO_READAHEAD * 10) {
 		/* This is way too big */
 		auto pos = _audio.peek();
 		if (pos) {
 			throw ProgrammingError
-				(__FILE__, __LINE__, String::compose ("Butler video buffers reached %1 frames (audio is %2 at %3)", _video.size(), _audio.size(), pos->get()));
+				(__FILE__, __LINE__, String::compose("Butler video buffers reached %1 frames (audio is %2 at %3)", _video.size(), _audio.size(), pos->get()));
 		} else {
 			throw ProgrammingError
-				(__FILE__, __LINE__, String::compose ("Butler video buffers reached %1 frames (audio is %2)", _video.size(), _audio.size()));
+				(__FILE__, __LINE__, String::compose("Butler video buffers reached %1 frames (audio is %2)", _video.size(), _audio.size()));
 		}
 	}
 
@@ -153,19 +153,19 @@ Butler::should_run () const
 		auto pos = _audio.peek();
 		if (pos) {
 			throw ProgrammingError
-				(__FILE__, __LINE__, String::compose ("Butler audio buffers reached %1 frames at %2 (video is %3)", _audio.size(), pos->get(), _video.size()));
+				(__FILE__, __LINE__, String::compose("Butler audio buffers reached %1 frames at %2 (video is %3)", _audio.size(), pos->get(), _video.size()));
 		} else {
 			throw ProgrammingError
-				(__FILE__, __LINE__, String::compose ("Butler audio buffers reached %1 frames (video is %3)", _audio.size(), _video.size()));
+				(__FILE__, __LINE__, String::compose("Butler audio buffers reached %1 frames (video is %3)", _audio.size(), _video.size()));
 		}
 	}
 
 	if (_video.size() >= MAXIMUM_VIDEO_READAHEAD * 2) {
-		LOG_WARNING ("Butler video buffers reached %1 frames (audio is %2)", _video.size(), _audio.size());
+		LOG_WARNING("Butler video buffers reached %1 frames (audio is %2)", _video.size(), _audio.size());
 	}
 
 	if (_audio.size() >= MAXIMUM_AUDIO_READAHEAD * 2) {
-		LOG_WARNING ("Butler audio buffers reached %1 frames (video is %2)", _audio.size(), _video.size());
+		LOG_WARNING("Butler audio buffers reached %1 frames (video is %2)", _audio.size(), _video.size());
 	}
 
 	if (_stop_thread || _finished || _died || _suspended) {
@@ -184,24 +184,24 @@ Butler::should_run () const
 
 
 void
-Butler::thread ()
+Butler::thread()
 try
 {
-	start_of_thread ("Butler");
+	start_of_thread("Butler");
 
 	while (true) {
-		boost::mutex::scoped_lock lm (_mutex);
+		boost::mutex::scoped_lock lm(_mutex);
 
 		/* Wait until we have something to do */
 		while (!should_run() && !_pending_seek_position) {
-			_summon.wait (lm);
+			_summon.wait(lm);
 		}
 
 		/* Do any seek that has been requested */
 		if (_pending_seek_position) {
 			_finished = false;
 			_player.seek(*_pending_seek_position, _pending_seek_accurate);
-			_pending_seek_position = optional<DCPTime> ();
+			_pending_seek_position = optional<DCPTime>();
 		}
 
 		/* Fill _video and _audio.  Don't try to carry on if a pending seek appears
@@ -209,33 +209,33 @@ try
 		   _video/_audio.
 		*/
 		while (should_run() && !_pending_seek_position) {
-			lm.unlock ();
+			lm.unlock();
 			bool const r = _player.pass();
-			lm.lock ();
+			lm.lock();
 			if (r) {
 				_finished = true;
-				_arrived.notify_all ();
+				_arrived.notify_all();
 				break;
 			}
-			_arrived.notify_all ();
+			_arrived.notify_all();
 		}
 	}
 } catch (boost::thread_interrupted) {
 	/* The butler thread is being terminated */
-	boost::mutex::scoped_lock lm (_mutex);
+	boost::mutex::scoped_lock lm(_mutex);
 	_finished = true;
-	_arrived.notify_all ();
+	_arrived.notify_all();
 } catch (std::exception& e) {
-	store_current ();
-	boost::mutex::scoped_lock lm (_mutex);
+	store_current();
+	boost::mutex::scoped_lock lm(_mutex);
 	_died = true;
-	_died_message = e.what ();
-	_arrived.notify_all ();
+	_died_message = e.what();
+	_arrived.notify_all();
 } catch (...) {
-	store_current ();
-	boost::mutex::scoped_lock lm (_mutex);
+	store_current();
+	boost::mutex::scoped_lock lm(_mutex);
 	_died = true;
-	_arrived.notify_all ();
+	_arrived.notify_all();
 }
 
 
@@ -244,9 +244,9 @@ try
  *  @param e if non-0 this is filled with an error code (if an error occurs) or is untouched if no error occurs.
  */
 pair<shared_ptr<PlayerVideo>, DCPTime>
-Butler::get_video (Behaviour behaviour, Error* e)
+Butler::get_video(Behaviour behaviour, Error* e)
 {
-	boost::mutex::scoped_lock lm (_mutex);
+	boost::mutex::scoped_lock lm(_mutex);
 
 	auto setup_error = [this](Error* e, Error::Code fallback) {
 		if (e) {
@@ -262,45 +262,45 @@ Butler::get_video (Behaviour behaviour, Error* e)
 	};
 
 	if (_video.empty() && (_finished || _died || (_suspended && behaviour == Behaviour::NON_BLOCKING))) {
-		setup_error (e, Error::Code::AGAIN);
+		setup_error(e, Error::Code::AGAIN);
 		return make_pair(shared_ptr<PlayerVideo>(), DCPTime());
 	}
 
 	/* Wait for data if we have none */
 	while (_video.empty() && !_finished && !_died) {
-		_arrived.wait (lm);
+		_arrived.wait(lm);
 	}
 
 	if (_video.empty()) {
-		setup_error (e, Error::Code::NONE);
+		setup_error(e, Error::Code::NONE);
 		return make_pair(shared_ptr<PlayerVideo>(), DCPTime());
 	}
 
-	auto const r = _video.get ();
-	_summon.notify_all ();
+	auto const r = _video.get();
+	_summon.notify_all();
 	return r;
 }
 
 
 optional<TextRingBuffers::Data>
-Butler::get_closed_caption ()
+Butler::get_closed_caption()
 {
-	boost::mutex::scoped_lock lm (_mutex);
-	return _closed_caption.get ();
+	boost::mutex::scoped_lock lm(_mutex);
+	return _closed_caption.get();
 }
 
 
 void
-Butler::seek (DCPTime position, bool accurate)
+Butler::seek(DCPTime position, bool accurate)
 {
-	boost::mutex::scoped_lock lm (_mutex);
+	boost::mutex::scoped_lock lm(_mutex);
 	_awaiting = optional<DCPTime>();
-	seek_unlocked (position, accurate);
+	seek_unlocked(position, accurate);
 }
 
 
 void
-Butler::seek_unlocked (DCPTime position, bool accurate)
+Butler::seek_unlocked(DCPTime position, bool accurate)
 {
 	if (_died) {
 		return;
@@ -310,45 +310,45 @@ Butler::seek_unlocked (DCPTime position, bool accurate)
 	_pending_seek_position = position;
 	_pending_seek_accurate = accurate;
 
-	_video.clear ();
-	_audio.clear ();
-	_closed_caption.clear ();
+	_video.clear();
+	_audio.clear();
+	_closed_caption.clear();
 
-	_summon.notify_all ();
+	_summon.notify_all();
 }
 
 
 void
-Butler::prepare (weak_ptr<PlayerVideo> weak_video)
+Butler::prepare(weak_ptr<PlayerVideo> weak_video)
 try
 {
-	auto video = weak_video.lock ();
+	auto video = weak_video.lock();
 	/* If the weak_ptr cannot be locked the video obviously no longer requires any work */
 	if (video) {
 		LOG_TIMING("start-prepare in %1", thread_id());
-		video->prepare (_pixel_format, _video_range, _alignment, _fast, _prepare_only_proxy);
+		video->prepare(_pixel_format, _video_range, _alignment, _fast, _prepare_only_proxy);
 		LOG_TIMING("finish-prepare in %1", thread_id());
 	}
 }
 catch (std::exception& e)
 {
-	store_current ();
-	boost::mutex::scoped_lock lm (_mutex);
+	store_current();
+	boost::mutex::scoped_lock lm(_mutex);
 	_died = true;
-	_died_message = e.what ();
+	_died_message = e.what();
 }
 catch (...)
 {
-	store_current ();
-	boost::mutex::scoped_lock lm (_mutex);
+	store_current();
+	boost::mutex::scoped_lock lm(_mutex);
 	_died = true;
 }
 
 
 void
-Butler::video (shared_ptr<PlayerVideo> video, DCPTime time)
+Butler::video(shared_ptr<PlayerVideo> video, DCPTime time)
 {
-	boost::mutex::scoped_lock lm (_mutex);
+	boost::mutex::scoped_lock lm(_mutex);
 
 	if (_pending_seek_position) {
 		/* Don't store any video in this case */
@@ -357,20 +357,20 @@ Butler::video (shared_ptr<PlayerVideo> video, DCPTime time)
 
 	dcpomatic::post(_prepare_context, bind(&Butler::prepare, this, weak_ptr<PlayerVideo>(video)));
 
-	_video.put (video, time);
+	_video.put(video, time);
 }
 
 
 void
-Butler::audio (shared_ptr<AudioBuffers> audio, DCPTime time, int frame_rate)
+Butler::audio(shared_ptr<AudioBuffers> audio, DCPTime time, int frame_rate)
 {
-	boost::mutex::scoped_lock lm (_mutex);
+	boost::mutex::scoped_lock lm(_mutex);
 	if (_pending_seek_position || _disable_audio) {
 		/* Don't store any audio in these cases */
 		return;
 	}
 
-	_audio.put (remap(audio, _audio_channels, _audio_mapping), time, frame_rate);
+	_audio.put(remap(audio, _audio_channels, _audio_mapping), time, frame_rate);
 }
 
 
@@ -381,22 +381,22 @@ Butler::audio (shared_ptr<AudioBuffers> audio, DCPTime time, int frame_rate)
  *  @return time of this audio, or unset if blocking was false and no data was available.
  */
 optional<DCPTime>
-Butler::get_audio (Behaviour behaviour, float* out, Frame frames)
+Butler::get_audio(Behaviour behaviour, float* out, Frame frames)
 {
-	boost::mutex::scoped_lock lm (_mutex);
+	boost::mutex::scoped_lock lm(_mutex);
 
 	while (behaviour == Behaviour::BLOCKING && !_finished && !_died && _audio.size() < frames) {
-		_arrived.wait (lm);
+		_arrived.wait(lm);
 	}
 
-	auto t = _audio.get (out, _audio_channels, frames);
-	_summon.notify_all ();
+	auto t = _audio.get(out, _audio_channels, frames);
+	_summon.notify_all();
 	return t;
 }
 
 
 pair<size_t, string>
-Butler::memory_used () const
+Butler::memory_used() const
 {
 	/* XXX: should also look at _audio.memory_used() */
 	return _video.memory_used();
@@ -404,7 +404,7 @@ Butler::memory_used () const
 
 
 void
-Butler::player_change (ChangeType type, int property)
+Butler::player_change(ChangeType type, int property)
 {
 	if (property == VideoContentProperty::CROP) {
 		if (type == ChangeType::DONE) {
@@ -416,15 +416,15 @@ Butler::player_change (ChangeType type, int property)
 		return;
 	}
 
-	boost::mutex::scoped_lock lm (_mutex);
+	boost::mutex::scoped_lock lm(_mutex);
 
 	if (type == ChangeType::PENDING) {
 		++_suspended;
 	} else if (type == ChangeType::DONE) {
 		--_suspended;
 		if (_died || _pending_seek_position) {
-			lm.unlock ();
-			_summon.notify_all ();
+			lm.unlock();
+			_summon.notify_all();
 			return;
 		}
 
@@ -439,32 +439,32 @@ Butler::player_change (ChangeType type, int property)
 			seek_to = next;
 		}
 
-		seek_unlocked (seek_to, true);
+		seek_unlocked(seek_to, true);
 		_awaiting = seek_to;
 	} else if (type == ChangeType::CANCELLED) {
 		--_suspended;
 	}
 
-	lm.unlock ();
-	_summon.notify_all ();
+	lm.unlock();
+	_summon.notify_all();
 }
 
 
 void
-Butler::text (PlayerText pt, TextType type, optional<DCPTextTrack> track, DCPTimePeriod period)
+Butler::text(PlayerText pt, TextType type, optional<DCPTextTrack> track, DCPTimePeriod period)
 {
 	if (type != TextType::CLOSED_CAPTION) {
 		return;
 	}
 
-	DCPOMATIC_ASSERT (track);
+	DCPOMATIC_ASSERT(track);
 
-	_closed_caption.put (pt, *track, period);
+	_closed_caption.put(pt, *track, period);
 }
 
 
 string
-Butler::Error::summary () const
+Butler::Error::summary() const
 {
 	switch (code)
 	{

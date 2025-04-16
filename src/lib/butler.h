@@ -50,12 +50,12 @@ public:
 		DISABLED
 	};
 
-	Butler (
+	Butler(
 		std::weak_ptr<const Film> film,
 		Player& player,
 		AudioMapping map,
 		int audio_channels,
-		std::function<AVPixelFormat (AVPixelFormat)> pixel_format,
+		std::function<AVPixelFormat(AVPixelFormat)> pixel_format,
 		VideoRange video_range,
 		Image::Alignment alignment,
 		bool fast,
@@ -63,12 +63,12 @@ public:
 		Audio audio
 		);
 
-	~Butler ();
+	~Butler();
 
-	Butler (Butler const&) = delete;
-	Butler& operator= (Butler const&) = delete;
+	Butler(Butler const&) = delete;
+	Butler& operator=(Butler const&) = delete;
 
-	void seek (dcpomatic::DCPTime position, bool accurate);
+	void seek(dcpomatic::DCPTime position, bool accurate);
 
 	class Error {
 	public:
@@ -82,7 +82,7 @@ public:
 		Code code = Code::NONE;
 		std::string message;
 
-		std::string summary () const;
+		std::string summary() const;
 	};
 
 	enum class Behaviour {
@@ -90,21 +90,21 @@ public:
 		NON_BLOCKING
 	};
 
-	std::pair<std::shared_ptr<PlayerVideo>, dcpomatic::DCPTime> get_video (Behaviour behaviour, Error* e = nullptr);
-	boost::optional<dcpomatic::DCPTime> get_audio (Behaviour behaviour, float* out, Frame frames);
-	boost::optional<TextRingBuffers::Data> get_closed_caption ();
+	std::pair<std::shared_ptr<PlayerVideo>, dcpomatic::DCPTime> get_video(Behaviour behaviour, Error* e = nullptr);
+	boost::optional<dcpomatic::DCPTime> get_audio(Behaviour behaviour, float* out, Frame frames);
+	boost::optional<TextRingBuffers::Data> get_closed_caption();
 
-	std::pair<size_t, std::string> memory_used () const;
+	std::pair<size_t, std::string> memory_used() const;
 
 private:
-	void thread ();
-	void video (std::shared_ptr<PlayerVideo> video, dcpomatic::DCPTime time);
-	void audio (std::shared_ptr<AudioBuffers> audio, dcpomatic::DCPTime time, int frame_rate);
-	void text (PlayerText pt, TextType type, boost::optional<DCPTextTrack> track, dcpomatic::DCPTimePeriod period);
-	bool should_run () const;
-	void prepare (std::weak_ptr<PlayerVideo> video);
-	void player_change (ChangeType type, int property);
-	void seek_unlocked (dcpomatic::DCPTime position, bool accurate);
+	void thread();
+	void video(std::shared_ptr<PlayerVideo> video, dcpomatic::DCPTime time);
+	void audio(std::shared_ptr<AudioBuffers> audio, dcpomatic::DCPTime time, int frame_rate);
+	void text(PlayerText pt, TextType type, boost::optional<DCPTextTrack> track, dcpomatic::DCPTimePeriod period);
+	bool should_run() const;
+	void prepare(std::weak_ptr<PlayerVideo> video);
+	void player_change(ChangeType type, int property);
+	void seek_unlocked(dcpomatic::DCPTime position, bool accurate);
 
 	std::weak_ptr<const Film> _film;
 	Player& _player;
