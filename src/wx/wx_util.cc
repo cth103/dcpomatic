@@ -785,7 +785,7 @@ small_button_size (wxWindow* parent, wxString text)
 bool
 gui_is_dark ()
 {
-#if defined(DCPOMATIC_OSX) && wxCHECK_VERSION(3, 1, 0)
+#if wxCHECK_VERSION(3, 1, 0)
 	auto appearance = wxSystemSettings::GetAppearance();
 	return appearance.IsDark();
 #else
