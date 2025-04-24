@@ -21,6 +21,7 @@
 
 #include <boost/filesystem.hpp>
 #include <string>
+#include <vector>
 
 
 class Nanomsg;
@@ -29,7 +30,7 @@ class Nanomsg;
 namespace dcpomatic {
 
 
-extern void write (std::vector<boost::filesystem::path> dcp_paths, std::string device, std::string posix_partition, Nanomsg* nanomsg);
+extern void write(std::vector<boost::filesystem::path> dcp_paths, std::string device, std::string posix_partition, Nanomsg* nanomsg);
 
 
 }
