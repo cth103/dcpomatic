@@ -34,7 +34,7 @@ namespace dcpomatic {
  *  subtitle) that overlap a specified time range in the given
  *  ContentList
  */
-ContentList overlaps (
+ContentList overlaps(
 	std::shared_ptr<const Film> film, ContentList cl, std::function<bool (std::shared_ptr<const Content>)> part, dcpomatic::DCPTime from, dcpomatic::DCPTime to
 	);
 

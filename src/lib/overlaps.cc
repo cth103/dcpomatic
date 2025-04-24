@@ -32,10 +32,10 @@ ContentList
 dcpomatic::overlaps(shared_ptr<const Film> film, ContentList cl, function<bool (shared_ptr<const Content>)> part, DCPTime from, DCPTime to)
 {
 	ContentList overlaps;
-	DCPTimePeriod period (from, to);
+	DCPTimePeriod period(from, to);
 	for (auto i: cl) {
 		if (part(i) && i->period(film).overlap(period)) {
-			overlaps.push_back (i);
+			overlaps.push_back(i);
 		}
 	}
 
