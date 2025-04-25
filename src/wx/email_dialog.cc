@@ -28,29 +28,29 @@ using std::string;
 using std::vector;
 
 
-EmailDialog::EmailDialog (wxWindow* parent)
-	: TableDialog (parent, _("Email address"), 2, 1, true)
+EmailDialog::EmailDialog(wxWindow* parent)
+	: TableDialog(parent, _("Email address"), 2, 1, true)
 {
-	add (_("Email address"), true);
+	add(_("Email address"), true);
 	_email = add(new wxTextCtrl(this, wxID_ANY, {}, wxDefaultPosition, wxSize(400, -1)));
 
-	layout ();
+	layout();
 
-	_email->SetFocus ();
+	_email->SetFocus();
 }
 
 
 void
-EmailDialog::set (string address)
+EmailDialog::set(string address)
 {
-	_email->SetValue (std_to_wx(address));
+	_email->SetValue(std_to_wx(address));
 }
 
 
 vector<string>
 EmailDialog::get() const
 {
-	auto s = wx_to_std (_email->GetValue ());
+	auto s = wx_to_std(_email->GetValue());
 	if (s.empty()) {
 		/* Invalid email address */
 		return {};

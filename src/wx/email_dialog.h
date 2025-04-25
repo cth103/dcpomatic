@@ -26,9 +26,9 @@
 class EmailDialog : public TableDialog
 {
 public:
-	explicit EmailDialog (wxWindow *);
+	explicit EmailDialog(wxWindow *);
 
-	void set (std::string);
+	void set(std::string);
 	std::vector<std::string> get() const;
 
 private:
