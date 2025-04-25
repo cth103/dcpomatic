@@ -82,6 +82,8 @@ FilmEditor::page_changed(wxBookCtrlEvent& ev)
 	if (_film && ev.GetOldSelection() < 2) {
 		_film->set_ui_state("FilmEditorTab", ev.GetSelection() == 0 ? "content" : "dcp");
 	}
+
+	ev.Skip();
 }
 
 
