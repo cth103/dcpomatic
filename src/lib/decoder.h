@@ -47,26 +47,26 @@ class VideoDecoder;
 class Decoder : public WeakConstFilm
 {
 public:
-	Decoder (std::weak_ptr<const Film> film);
-	virtual ~Decoder () {}
+	Decoder(std::weak_ptr<const Film> film);
+	virtual ~Decoder() {}
 
-	Decoder (Decoder const&) = delete;
-	Decoder& operator= (Decoder const&) = delete;
+	Decoder(Decoder const&) = delete;
+	Decoder& operator=(Decoder const&) = delete;
 
 	std::shared_ptr<VideoDecoder> video;
 	std::shared_ptr<AudioDecoder> audio;
 	std::list<std::shared_ptr<TextDecoder>> text;
 	std::shared_ptr<AtmosDecoder> atmos;
 
-	std::shared_ptr<TextDecoder> only_text () const;
+	std::shared_ptr<TextDecoder> only_text() const;
 
 	/** Do some decoding and perhaps emit video, audio or subtitle data.
 	 *  @return true if this decoder will emit no more data unless a seek() happens.
 	 */
-	virtual bool pass () = 0;
-	virtual void seek (dcpomatic::ContentTime time, bool accurate);
+	virtual bool pass() = 0;
+	virtual void seek(dcpomatic::ContentTime time, bool accurate);
 
-	virtual dcpomatic::ContentTime position () const;
+	virtual dcpomatic::ContentTime position() const;
 };
 
 

@@ -34,8 +34,8 @@ using std::weak_ptr;
 using namespace dcpomatic;
 
 
-Decoder::Decoder (weak_ptr<const Film> film)
-	: WeakConstFilm (film)
+Decoder::Decoder(weak_ptr<const Film> film)
+	: WeakConstFilm(film)
 {
 
 }
@@ -43,7 +43,7 @@ Decoder::Decoder (weak_ptr<const Film> film)
 
 /** @return Earliest time of content that the next pass() will emit */
 ContentTime
-Decoder::position () const
+Decoder::position() const
 {
 	optional<ContentTime> pos;
 	auto f = film();
@@ -76,24 +76,24 @@ Decoder::position () const
 
 
 void
-Decoder::seek (ContentTime, bool)
+Decoder::seek(ContentTime, bool)
 {
 	if (video) {
-		video->seek ();
+		video->seek();
 	}
 	if (audio) {
-		audio->seek ();
+		audio->seek();
 	}
 	for (auto i: text) {
-		i->seek ();
+		i->seek();
 	}
 }
 
 
 shared_ptr<TextDecoder>
-Decoder::only_text () const
+Decoder::only_text() const
 {
-	DCPOMATIC_ASSERT (text.size() < 2);
+	DCPOMATIC_ASSERT(text.size() < 2);
 	if (text.empty()) {
 		return {};
 	}
