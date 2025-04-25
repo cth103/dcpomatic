@@ -52,7 +52,6 @@ JobView::JobView(shared_ptr<Job> job, wxWindow* parent, wxWindow* container, wxF
 	, _table(table)
 	, _parent(parent)
 	, _container(container)
-	, _gauge(0)
 {
 
 }

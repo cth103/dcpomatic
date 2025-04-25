@@ -81,7 +81,7 @@ private:
 
 	wxWindow* _parent;
 	wxWindow* _container;
-	wxGauge* _gauge;
+	wxGauge* _gauge = nullptr;
 	wxStaticText* _message;
 	wxButton* _cancel;
 	wxButton* _details;
