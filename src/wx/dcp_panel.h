@@ -52,64 +52,64 @@ class DCPPanel
 public:
 	DCPPanel(wxNotebook *, std::shared_ptr<Film>, FilmViewer& viewer);
 
-	DCPPanel (DCPPanel const&) = delete;
-	DCPPanel& operator= (DCPPanel const&) = delete;
+	DCPPanel(DCPPanel const&) = delete;
+	DCPPanel& operator=(DCPPanel const&) = delete;
 
-	void set_film (std::shared_ptr<Film>);
-	void set_general_sensitivity (bool);
+	void set_film(std::shared_ptr<Film>);
+	void set_general_sensitivity(bool);
 
 	void film_changed(FilmProperty);
-	void film_content_changed (int);
+	void film_content_changed(int);
 
-	wxPanel* panel () const {
+	wxPanel* panel() const {
 		return _panel;
 	}
 
 private:
-	void name_changed ();
-	void use_isdcf_name_toggled ();
-	void copy_isdcf_name_button_clicked ();
-	void container_changed ();
-	void dcp_content_type_changed ();
+	void name_changed();
+	void use_isdcf_name_toggled();
+	void copy_isdcf_name_button_clicked();
+	void container_changed();
+	void dcp_content_type_changed();
 	void video_bit_rate_changed();
-	void frame_rate_choice_changed ();
-	void frame_rate_spin_changed ();
-	void best_frame_rate_clicked ();
-	void content_timeline_clicked ();
-	void audio_channels_changed ();
-	void resolution_changed ();
-	void three_d_changed ();
-	void standard_changed ();
-	void encrypted_toggled ();
-	void audio_processor_changed ();
-	void show_audio_clicked ();
-	void markers_clicked ();
-	void metadata_clicked ();
+	void frame_rate_choice_changed();
+	void frame_rate_spin_changed();
+	void best_frame_rate_clicked();
+	void content_timeline_clicked();
+	void audio_channels_changed();
+	void resolution_changed();
+	void three_d_changed();
+	void standard_changed();
+	void encrypted_toggled();
+	void audio_processor_changed();
+	void show_audio_clicked();
+	void markers_clicked();
+	void metadata_clicked();
 	void reels_clicked();
-	void reencode_j2k_changed ();
-	void enable_audio_language_toggled ();
-	void edit_audio_language_clicked ();
-	void audio_sample_rate_changed ();
+	void reencode_j2k_changed();
+	void enable_audio_language_toggled();
+	void edit_audio_language_clicked();
+	void audio_sample_rate_changed();
 
-	void setup_frame_rate_widget ();
-	void setup_container ();
-	void setup_dcp_name ();
-	void add_to_grid ();
-	void add_video_panel_to_grid ();
-	void add_audio_panel_to_grid ();
-	void add_audio_processors ();
+	void setup_frame_rate_widget();
+	void setup_container();
+	void setup_dcp_name();
+	void add_to_grid();
+	void add_video_panel_to_grid();
+	void add_audio_panel_to_grid();
+	void add_audio_processors();
 	void update_standards();
 	void set_standard();
 
-	int minimum_allowed_audio_channels () const;
+	int minimum_allowed_audio_channels() const;
 
-	wxPanel* make_general_panel ();
-	wxPanel* make_video_panel ();
-	wxPanel* make_audio_panel ();
+	wxPanel* make_general_panel();
+	wxPanel* make_video_panel();
+	wxPanel* make_audio_panel();
 
-	void config_changed (Config::Property p);
+	void config_changed(Config::Property p);
 
-	void setup_sensitivity ();
+	void setup_sensitivity();
 
 	wxPanel* _panel;
 	wxNotebook* _notebook;
