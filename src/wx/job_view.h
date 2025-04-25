@@ -42,26 +42,26 @@ class wxWindow;
 class JobView
 {
 public:
-	JobView (std::shared_ptr<Job> job, wxWindow* parent, wxWindow* container, wxFlexGridSizer* table);
-	virtual ~JobView () {}
+	JobView(std::shared_ptr<Job> job, wxWindow* parent, wxWindow* container, wxFlexGridSizer* table);
+	virtual ~JobView() {}
 
-	JobView (JobView const&) = delete;
-	JobView& operator= (JobView const&) = delete;
+	JobView(JobView const&) = delete;
+	JobView& operator=(JobView const&) = delete;
 
-	virtual int insert_position () const = 0;
-	virtual void job_list_changed () {}
+	virtual int insert_position() const = 0;
+	virtual void job_list_changed() {}
 
-	void setup ();
-	void maybe_pulse ();
-	void insert (int pos);
-	void detach ();
+	void setup();
+	void maybe_pulse();
+	void insert(int pos);
+	void detach();
 
-	std::shared_ptr<Job> job () const {
+	std::shared_ptr<Job> job() const {
 		return _job;
 	}
 
 protected:
-	virtual void finished ();
+	virtual void finished();
 
 	std::shared_ptr<Job> _job;
 	wxFlexGridSizer* _table;
@@ -72,12 +72,12 @@ protected:
 
 private:
 
-	virtual void finish_setup (wxWindow *, wxSizer *) {}
+	virtual void finish_setup(wxWindow *, wxSizer *) {}
 
-	void progress ();
-	void details_clicked (wxCommandEvent &);
-	void cancel_clicked (wxCommandEvent &);
-	void notify_clicked ();
+	void progress();
+	void details_clicked(wxCommandEvent &);
+	void cancel_clicked(wxCommandEvent &);
+	void notify_clicked();
 
 	wxWindow* _parent;
 	wxWindow* _container;
