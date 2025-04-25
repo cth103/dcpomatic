@@ -2647,7 +2647,7 @@ msgstr "Abspiellänge"
 
 #: src/wx/config_dialog.cc:861
 msgid "Play sound via"
-msgstr "Audio während Vorschau wiedergeben - über Ausgabegerät:"
+msgstr "Audio-Ausgabegerät"
 
 #: src/wx/config_dialog.cc:1043
 msgid "Playlist directory"
