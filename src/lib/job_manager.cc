@@ -48,32 +48,32 @@ using boost::optional;
 JobManager* JobManager::_instance = nullptr;
 
 
-JobManager::JobManager ()
+JobManager::JobManager()
 {
 
 }
 
 
 void
-JobManager::start ()
+JobManager::start()
 {
-	_scheduler = boost::thread (boost::bind(&JobManager::scheduler, this));
+	_scheduler = boost::thread(boost::bind(&JobManager::scheduler, this));
 #ifdef DCPOMATIC_LINUX
-	pthread_setname_np (_scheduler.native_handle(), "job-scheduler");
+	pthread_setname_np(_scheduler.native_handle(), "job-scheduler");
 #endif
 }
 
 
-JobManager::~JobManager ()
+JobManager::~JobManager()
 {
 	boost::this_thread::disable_interruption dis;
 
 	for (auto& i: _connections) {
-		i.disconnect ();
+		i.disconnect();
 	}
 
 	{
-		boost::mutex::scoped_lock lm (_mutex);
+		boost::mutex::scoped_lock lm(_mutex);
 		_terminate = true;
 		_schedule_condition.notify_all();
 	}
@@ -85,62 +85,62 @@ JobManager::~JobManager ()
 
 
 shared_ptr<Job>
-JobManager::add (shared_ptr<Job> j)
+JobManager::add(shared_ptr<Job> j)
 {
 	{
-		boost::mutex::scoped_lock lm (_mutex);
-		_jobs.push_back (j);
+		boost::mutex::scoped_lock lm(_mutex);
+		_jobs.push_back(j);
 		_schedule_condition.notify_all();
 	}
 
-	emit (boost::bind(boost::ref(JobAdded), weak_ptr<Job>(j)));
+	emit(boost::bind(boost::ref(JobAdded), weak_ptr<Job>(j)));
 
 	return j;
 }
 
 
 shared_ptr<Job>
-JobManager::add_after (shared_ptr<Job> after, shared_ptr<Job> j)
+JobManager::add_after(shared_ptr<Job> after, shared_ptr<Job> j)
 {
 	{
-		boost::mutex::scoped_lock lm (_mutex);
-		auto i = find (_jobs.begin(), _jobs.end(), after);
-		DCPOMATIC_ASSERT (i != _jobs.end());
-		_jobs.insert (i, j);
+		boost::mutex::scoped_lock lm(_mutex);
+		auto i = find(_jobs.begin(), _jobs.end(), after);
+		DCPOMATIC_ASSERT(i != _jobs.end());
+		_jobs.insert(i, j);
 		_schedule_condition.notify_all();
 	}
 
-	emit (boost::bind(boost::ref(JobAdded), weak_ptr<Job>(j)));
+	emit(boost::bind(boost::ref(JobAdded), weak_ptr<Job>(j)));
 
 	return j;
 }
 
 
 list<shared_ptr<Job>>
-JobManager::get () const
+JobManager::get() const
 {
-	boost::mutex::scoped_lock lm (_mutex);
+	boost::mutex::scoped_lock lm(_mutex);
 	return _jobs;
 }
 
 
 bool
-JobManager::work_to_do () const
+JobManager::work_to_do() const
 {
-	boost::mutex::scoped_lock lm (_mutex);
+	boost::mutex::scoped_lock lm(_mutex);
 	auto i = _jobs.begin();
 	while (i != _jobs.end() && (*i)->finished()) {
 		++i;
 	}
 
-	return i != _jobs.end ();
+	return i != _jobs.end();
 }
 
 
 bool
-JobManager::errors () const
+JobManager::errors() const
 {
-	boost::mutex::scoped_lock lm (_mutex);
+	boost::mutex::scoped_lock lm(_mutex);
 	for (auto i: _jobs) {
 		if (i->finished_in_error()) {
 			return true;
@@ -152,13 +152,13 @@ JobManager::errors () const
 
 
 void
-JobManager::scheduler ()
+JobManager::scheduler()
 {
-	start_of_thread ("JobManager");
+	start_of_thread("JobManager");
 
 	while (true) {
 
-		boost::mutex::scoped_lock lm (_mutex);
+		boost::mutex::scoped_lock lm(_mutex);
 
 		if (_terminate) {
 			break;
@@ -172,10 +172,10 @@ JobManager::scheduler ()
 			} else if (!have_running && !_paused && (i->is_new() || i->paused_by_priority())) {
 				/* We don't have a running job, and we should have one, so start/resume this */
 				if (i->is_new()) {
-					_connections.push_back (i->FinishedImmediate.connect(bind(&JobManager::job_finished, this)));
-					i->start ();
+					_connections.push_back(i->FinishedImmediate.connect(bind(&JobManager::job_finished, this)));
+					i->start();
 				} else {
-					i->resume ();
+					i->resume();
 				}
 				auto last = _last_active_job.lock();
 				emit(boost::bind(boost::ref(ActiveJobsChanged), last ? last->json_name() : std::string{}, i->json_name()));
@@ -192,10 +192,10 @@ JobManager::scheduler ()
 
 
 void
-JobManager::job_finished ()
+JobManager::job_finished()
 {
 	{
-		boost::mutex::scoped_lock lm (_mutex);
+		boost::mutex::scoped_lock lm(_mutex);
 		auto job = _last_active_job.lock();
 		emit(boost::bind(boost::ref(ActiveJobsChanged), job ? job->json_name() : string{}, optional<string>()));
 		_last_active_job = {};
@@ -206,11 +206,11 @@ JobManager::job_finished ()
 
 
 JobManager *
-JobManager::instance ()
+JobManager::instance()
 {
 	if (!_instance) {
-		_instance = new JobManager ();
-		_instance->start ();
+		_instance = new JobManager();
+		_instance->start();
 	}
 
 	return _instance;
@@ -218,7 +218,7 @@ JobManager::instance ()
 
 
 void
-JobManager::drop ()
+JobManager::drop()
 {
 	delete _instance;
 	_instance = nullptr;
@@ -226,7 +226,7 @@ JobManager::drop ()
 
 
 void
-JobManager::analyse_audio (
+JobManager::analyse_audio(
 	shared_ptr<const Film> film,
 	shared_ptr<const Playlist> playlist,
 	bool from_zero,
@@ -235,12 +235,12 @@ JobManager::analyse_audio (
 	)
 {
 	{
-		boost::mutex::scoped_lock lm (_mutex);
+		boost::mutex::scoped_lock lm(_mutex);
 
 		for (auto i: _jobs) {
-			auto a = dynamic_pointer_cast<AnalyseAudioJob> (i);
+			auto a = dynamic_pointer_cast<AnalyseAudioJob>(i);
 			if (a && a->path() == film->audio_analysis_path(playlist) && !i->finished_cancelled()) {
-				i->when_finished (connection, ready);
+				i->when_finished(connection, ready);
 				return;
 			}
 		}
@@ -249,20 +249,20 @@ JobManager::analyse_audio (
 	shared_ptr<AnalyseAudioJob> job;
 
 	{
-		boost::mutex::scoped_lock lm (_mutex);
+		boost::mutex::scoped_lock lm(_mutex);
 
-		job = make_shared<AnalyseAudioJob> (film, playlist, from_zero);
-		connection = job->Finished.connect (ready);
-		_jobs.push_back (job);
-		_schedule_condition.notify_all ();
+		job = make_shared<AnalyseAudioJob>(film, playlist, from_zero);
+		connection = job->Finished.connect(ready);
+		_jobs.push_back(job);
+		_schedule_condition.notify_all();
 	}
 
-	emit (boost::bind (boost::ref (JobAdded), weak_ptr<Job> (job)));
+	emit(boost::bind(boost::ref(JobAdded), weak_ptr<Job>(job)));
 }
 
 
 void
-JobManager::analyse_subtitles (
+JobManager::analyse_subtitles(
 	shared_ptr<const Film> film,
 	shared_ptr<Content> content,
 	boost::signals2::connection& connection,
@@ -270,12 +270,12 @@ JobManager::analyse_subtitles (
 	)
 {
 	{
-		boost::mutex::scoped_lock lm (_mutex);
+		boost::mutex::scoped_lock lm(_mutex);
 
 		for (auto i: _jobs) {
-			auto a = dynamic_pointer_cast<AnalyseSubtitlesJob> (i);
+			auto a = dynamic_pointer_cast<AnalyseSubtitlesJob>(i);
 			if (a && a->path() == film->subtitle_analysis_path(content) && !i->finished_cancelled()) {
-				i->when_finished (connection, ready);
+				i->when_finished(connection, ready);
 				return;
 			}
 		}
@@ -284,15 +284,15 @@ JobManager::analyse_subtitles (
 	shared_ptr<AnalyseSubtitlesJob> job;
 
 	{
-		boost::mutex::scoped_lock lm (_mutex);
+		boost::mutex::scoped_lock lm(_mutex);
 
 		job = make_shared<AnalyseSubtitlesJob>(film, content);
-		connection = job->Finished.connect (ready);
-		_jobs.push_back (job);
-		_schedule_condition.notify_all ();
+		connection = job->Finished.connect(ready);
+		_jobs.push_back(job);
+		_schedule_condition.notify_all();
 	}
 
-	emit (boost::bind(boost::ref(JobAdded), weak_ptr<Job>(job)));
+	emit(boost::bind(boost::ref(JobAdded), weak_ptr<Job>(job)));
 }
 
 
@@ -300,7 +300,7 @@ void
 JobManager::increase_priority (shared_ptr<Job> job)
 {
 	{
-		boost::mutex::scoped_lock lm (_mutex);
+		boost::mutex::scoped_lock lm(_mutex);
 		auto iter = std::find(_jobs.begin(), _jobs.end(), job);
 		if (iter == _jobs.begin() || iter == _jobs.end()) {
 			return;
@@ -314,10 +314,10 @@ JobManager::increase_priority (shared_ptr<Job> job)
 
 
 void
-JobManager::decrease_priority (shared_ptr<Job> job)
+JobManager::decrease_priority(shared_ptr<Job> job)
 {
 	{
-		boost::mutex::scoped_lock lm (_mutex);
+		boost::mutex::scoped_lock lm(_mutex);
 		auto iter = std::find(_jobs.begin(), _jobs.end(), job);
 		if (iter == _jobs.end() || std::next(iter) == _jobs.end()) {
 			return;
@@ -332,9 +332,9 @@ JobManager::decrease_priority (shared_ptr<Job> job)
 
 /** Pause all job processing */
 void
-JobManager::pause ()
+JobManager::pause()
 {
-	boost::mutex::scoped_lock lm (_mutex);
+	boost::mutex::scoped_lock lm(_mutex);
 	_paused = true;
 	_schedule_condition.notify_all();
 }
@@ -342,9 +342,9 @@ JobManager::pause ()
 
 /** Resume processing jobs after a previous pause() */
 void
-JobManager::resume ()
+JobManager::resume()
 {
-	boost::mutex::scoped_lock lm (_mutex);
+	boost::mutex::scoped_lock lm(_mutex);
 	_paused = false;
 	_schedule_condition.notify_all();
 }

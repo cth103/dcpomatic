@@ -39,7 +39,7 @@ class Content;
 struct threed_test7;
 
 
-extern bool wait_for_jobs ();
+extern bool wait_for_jobs();
 
 
 /** @class JobManager
@@ -48,20 +48,20 @@ extern bool wait_for_jobs ();
 class JobManager : public Signaller
 {
 public:
-	JobManager (JobManager const&) = delete;
-	JobManager& operator= (JobManager const&) = delete;
+	JobManager(JobManager const&) = delete;
+	JobManager& operator=(JobManager const&) = delete;
 
-	std::shared_ptr<Job> add (std::shared_ptr<Job>);
-	std::shared_ptr<Job> add_after (std::shared_ptr<Job> after, std::shared_ptr<Job> j);
-	std::list<std::shared_ptr<Job>> get () const;
-	bool work_to_do () const;
-	bool errors () const;
-	void increase_priority (std::shared_ptr<Job>);
-	void decrease_priority (std::shared_ptr<Job>);
-	void pause ();
-	void resume ();
-	bool paused () const {
-		boost::mutex::scoped_lock lm (_mutex);
+	std::shared_ptr<Job> add(std::shared_ptr<Job>);
+	std::shared_ptr<Job> add_after(std::shared_ptr<Job> after, std::shared_ptr<Job> j);
+	std::list<std::shared_ptr<Job>> get() const;
+	bool work_to_do() const;
+	bool errors() const;
+	void increase_priority(std::shared_ptr<Job>);
+	void decrease_priority(std::shared_ptr<Job>);
+	void pause();
+	void resume();
+	bool paused() const {
+		boost::mutex::scoped_lock lm(_mutex);
 		return _paused;
 	}
 
@@ -69,19 +69,19 @@ public:
 		return _last_active_job;
 	}
 
-	void analyse_audio (
+	void analyse_audio(
 		std::shared_ptr<const Film> film,
 		std::shared_ptr<const Playlist> playlist,
 		bool from_zero,
 		boost::signals2::connection& connection,
-		std::function<void (Job::Result)> ready
+		std::function<void(Job::Result)> ready
 		);
 
-	void analyse_subtitles (
+	void analyse_subtitles(
 		std::shared_ptr<const Film> film,
 		std::shared_ptr<Content> content,
 		boost::signals2::connection& connection,
-		std::function<void (Job::Result)> ready
+		std::function<void(Job::Result)> ready
 		);
 
 	void cancel_all_jobs();
@@ -90,19 +90,19 @@ public:
 	boost::signals2::signal<void ()> JobsReordered;
 	boost::signals2::signal<void (boost::optional<std::string>, boost::optional<std::string>)> ActiveJobsChanged;
 
-	static JobManager* instance ();
-	static void drop ();
+	static JobManager* instance();
+	static void drop();
 
 private:
 	/* This function is part of the test suite */
-	friend bool ::wait_for_jobs ();
+	friend bool ::wait_for_jobs();
 	friend struct threed_test7;
 
-	JobManager ();
-	~JobManager ();
-	void scheduler ();
-	void start ();
-	void job_finished ();
+	JobManager();
+	~JobManager();
+	void scheduler();
+	void start();
+	void job_finished();
 
 	mutable boost::mutex _mutex;
 	boost::condition _schedule_condition;
