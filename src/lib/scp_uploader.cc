@@ -122,18 +122,17 @@ LIBDCP_ENABLE_WARNINGS
 		throw NetworkError(String::compose(_("Could not open %1 to send"), from));
 	}
 
-	boost::uintmax_t buffer_size = 64 * 1024;
-	char buffer[buffer_size];
+	std::vector<char> buffer(64 * 1024);
 
 	while (to_do > 0) {
-		int const t = min(to_do, buffer_size);
-		size_t const read = f.read(buffer, 1, t);
+		int const t = min(to_do, buffer.size());
+		size_t const read = f.read(buffer.data(), 1, t);
 		if (read != size_t(t)) {
 			throw ReadFileError(from);
 		}
 
 LIBDCP_DISABLE_WARNINGS
-		int const r = ssh_scp_write(_scp, buffer, t);
+		int const r = ssh_scp_write(_scp, buffer.data(), t);
 LIBDCP_ENABLE_WARNINGS
 		if (r != SSH_OK) {
 			throw NetworkError(String::compose(_("Could not write to remote file (%1)"), ssh_get_error(_session)));
