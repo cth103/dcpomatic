@@ -37,35 +37,35 @@ using std::function;
 
 
 static size_t
-read_callback (void* ptr, size_t size, size_t nmemb, void* object)
+read_callback(void* ptr, size_t size, size_t nmemb, void* object)
 {
-	CurlUploader* u = reinterpret_cast<CurlUploader*> (object);
-	return u->read_callback (ptr, size, nmemb);
+	CurlUploader* u = reinterpret_cast<CurlUploader*>(object);
+	return u->read_callback(ptr, size, nmemb);
 }
 
 
 static int
-curl_debug_shim (CURL* curl, curl_infotype type, char* data, size_t size, void* userp)
+curl_debug_shim(CURL* curl, curl_infotype type, char* data, size_t size, void* userp)
 {
 	return reinterpret_cast<CurlUploader*>(userp)->debug(curl, type, data, size);
 }
 
 
-CurlUploader::CurlUploader (function<void (string)> set_status, function<void (float)> set_progress)
-	: Uploader (set_status, set_progress)
+CurlUploader::CurlUploader(function<void (string)> set_status, function<void (float)> set_progress)
+	: Uploader(set_status, set_progress)
 {
-	_curl = curl_easy_init ();
+	_curl = curl_easy_init();
 	if (!_curl) {
-		throw NetworkError (_("Could not start transfer"));
+		throw NetworkError(_("Could not start transfer"));
 	}
 
-	curl_easy_setopt (_curl, CURLOPT_READFUNCTION, ::read_callback);
-	curl_easy_setopt (_curl, CURLOPT_READDATA, this);
-	curl_easy_setopt (_curl, CURLOPT_UPLOAD, 1L);
-	curl_easy_setopt (_curl, CURLOPT_FTP_CREATE_MISSING_DIRS, 1L);
-	curl_easy_setopt (_curl, CURLOPT_READDATA, this);
-	curl_easy_setopt (_curl, CURLOPT_USERNAME, Config::instance()->tms_user().c_str());
-	curl_easy_setopt (_curl, CURLOPT_PASSWORD, Config::instance()->tms_password().c_str());
+	curl_easy_setopt(_curl, CURLOPT_READFUNCTION, ::read_callback);
+	curl_easy_setopt(_curl, CURLOPT_READDATA, this);
+	curl_easy_setopt(_curl, CURLOPT_UPLOAD, 1L);
+	curl_easy_setopt(_curl, CURLOPT_FTP_CREATE_MISSING_DIRS, 1L);
+	curl_easy_setopt(_curl, CURLOPT_READDATA, this);
+	curl_easy_setopt(_curl, CURLOPT_USERNAME, Config::instance()->tms_user().c_str());
+	curl_easy_setopt(_curl, CURLOPT_PASSWORD, Config::instance()->tms_password().c_str());
 	if (!Config::instance()->tms_passive()) {
 		curl_easy_setopt(_curl, CURLOPT_FTPPORT, "-");
 	}
@@ -75,39 +75,39 @@ CurlUploader::CurlUploader (function<void (string)> set_status, function<void (f
 }
 
 
-CurlUploader::~CurlUploader ()
+CurlUploader::~CurlUploader()
 {
-	curl_easy_cleanup (_curl);
+	curl_easy_cleanup(_curl);
 }
 
 
 void
-CurlUploader::create_directory (boost::filesystem::path)
+CurlUploader::create_directory(boost::filesystem::path)
 {
 	/* this is done by libcurl */
 }
 
 
 void
-CurlUploader::upload_file (boost::filesystem::path from, boost::filesystem::path to, boost::uintmax_t& transferred, boost::uintmax_t total_size)
+CurlUploader::upload_file(boost::filesystem::path from, boost::filesystem::path to, boost::uintmax_t& transferred, boost::uintmax_t total_size)
 {
-	curl_easy_setopt (
+	curl_easy_setopt(
 		_curl, CURLOPT_URL,
 		/* Use generic_string so that we get forward-slashes in the path, even on Windows */
-		String::compose ("ftp://%1/%2/%3", Config::instance()->tms_ip(), Config::instance()->tms_path(), to.generic_string ()).c_str ()
+		String::compose("ftp://%1/%2/%3", Config::instance()->tms_ip(), Config::instance()->tms_path(), to.generic_string()).c_str()
 		);
 
 	dcp::File file(from, "rb");
 	if (!file) {
-		throw NetworkError (String::compose (_("Could not open %1 to send"), from));
+		throw NetworkError(String::compose(_("Could not open %1 to send"), from));
 	}
 	_file = file.get();
 	_transferred = &transferred;
 	_total_size = total_size;
 
-	auto const r = curl_easy_perform (_curl);
+	auto const r = curl_easy_perform(_curl);
 	if (r != CURLE_OK) {
-		throw NetworkError (String::compose (_("Could not write to remote file (%1)"), curl_easy_strerror (r)));
+		throw NetworkError(String::compose(_("Could not write to remote file (%1)"), curl_easy_strerror(r)));
 	}
 
 	_file = nullptr;
@@ -115,14 +115,14 @@ CurlUploader::upload_file (boost::filesystem::path from, boost::filesystem::path
 
 
 size_t
-CurlUploader::read_callback (void* ptr, size_t size, size_t nmemb)
+CurlUploader::read_callback(void* ptr, size_t size, size_t nmemb)
 {
-	DCPOMATIC_ASSERT (_file);
+	DCPOMATIC_ASSERT(_file);
 	size_t const r = fread(ptr, size, nmemb, _file);
 	*_transferred += size * nmemb;
 
 	if (_total_size > 0) {
-		_set_progress ((double) *_transferred / _total_size);
+		_set_progress((double) *_transferred / _total_size);
 	}
 
 	return r;

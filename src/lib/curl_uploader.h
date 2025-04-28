@@ -27,15 +27,15 @@
 class CurlUploader : public Uploader
 {
 public:
-	CurlUploader (std::function<void (std::string)> set_status, std::function<void (float)> set_progress);
-	~CurlUploader ();
+	CurlUploader(std::function<void (std::string)> set_status, std::function<void (float)> set_progress);
+	~CurlUploader();
 
-	size_t read_callback (void* ptr, size_t size, size_t nmemb);
+	size_t read_callback(void* ptr, size_t size, size_t nmemb);
 	int debug(CURL* curl, curl_infotype type, char* data, size_t size);
 
 protected:
-	void create_directory (boost::filesystem::path directory) override;
-	void upload_file (boost::filesystem::path from, boost::filesystem::path to, boost::uintmax_t& transferred, boost::uintmax_t total_size) override;
+	void create_directory(boost::filesystem::path directory) override;
+	void upload_file(boost::filesystem::path from, boost::filesystem::path to, boost::uintmax_t& transferred, boost::uintmax_t total_size) override;
 
 private:
 	CURL* _curl;

@@ -32,15 +32,15 @@ class Job;
 class Uploader
 {
 public:
-	Uploader (std::function<void (std::string)> set_status, std::function<void (float)> set_progress);
-	virtual ~Uploader () {}
+	Uploader(std::function<void (std::string)> set_status, std::function<void (float)> set_progress);
+	virtual ~Uploader() {}
 
-	void upload (boost::filesystem::path directory);
+	void upload(boost::filesystem::path directory);
 
 protected:
 
-	virtual void create_directory (boost::filesystem::path directory) = 0;
-	virtual void upload_file (boost::filesystem::path from, boost::filesystem::path to, boost::uintmax_t& transferred, boost::uintmax_t total_size) = 0;
+	virtual void create_directory(boost::filesystem::path directory) = 0;
+	virtual void upload_file(boost::filesystem::path from, boost::filesystem::path to, boost::uintmax_t& transferred, boost::uintmax_t total_size) = 0;
 
 	std::function<void (float)> _set_progress;
 

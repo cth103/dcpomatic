@@ -29,12 +29,12 @@ LIBDCP_ENABLE_WARNINGS
 class SCPUploader : public Uploader
 {
 public:
-	SCPUploader (std::function<void (std::string)> set_status, std::function<void (float)> set_progress);
-	~SCPUploader ();
+	SCPUploader(std::function<void (std::string)> set_status, std::function<void (float)> set_progress);
+	~SCPUploader();
 
 protected:
-	virtual void create_directory (boost::filesystem::path directory) override;
-	virtual void upload_file (boost::filesystem::path from, boost::filesystem::path to, boost::uintmax_t& transferred, boost::uintmax_t total_size) override;
+	virtual void create_directory(boost::filesystem::path directory) override;
+	virtual void upload_file(boost::filesystem::path from, boost::filesystem::path to, boost::uintmax_t& transferred, boost::uintmax_t total_size) override;
 
 private:
 	ssh_session _session;
