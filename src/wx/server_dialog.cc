@@ -38,9 +38,6 @@ ServerDialog::ServerDialog (wxWindow* parent)
         wxSize size = dc.GetTextExtent(char_to_wx("255.255.255.255.255.255.255.255"));
         size.SetHeight (-1);
 
-        wxTextValidator validator (wxFILTER_INCLUDE_CHAR_LIST);
-        wxArrayString list;
-
 	add (_("Host name or IP address"), true);
 	_host = add(new wxTextCtrl(this, wxID_ANY, {}, wxDefaultPosition, size));
 
