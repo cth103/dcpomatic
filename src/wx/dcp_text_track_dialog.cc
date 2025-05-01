@@ -36,9 +36,9 @@ DCPTextTrackDialog::DCPTextTrackDialog (wxWindow* parent)
 	_language = new LanguageTagWidget(this, {}, boost::none);
 	add (_language->sizer());
 
-	_language->Changed.connect(boost::bind(&DCPTextTrackDialog::set_sensitivity, this));
+	_language->Changed.connect(boost::bind(&DCPTextTrackDialog::setup_sensitivity, this));
 
-	set_sensitivity();
+	setup_sensitivity();
 	layout ();
 }
 
@@ -52,7 +52,7 @@ DCPTextTrackDialog::get () const
 
 
 void
-DCPTextTrackDialog::set_sensitivity()
+DCPTextTrackDialog::setup_sensitivity()
 {
 	if (auto ok = dynamic_cast<wxButton *>(FindWindowById(wxID_OK, this))) {
 		ok->Enable(static_cast<bool>(_language->get()));

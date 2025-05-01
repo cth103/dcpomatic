@@ -39,7 +39,7 @@ public:
 	DCPTextTrack get () const;
 
 private:
-	void set_sensitivity();
+	void setup_sensitivity();
 
 	wxTextCtrl* _name;
 	LanguageTagWidget* _language;

@@ -68,7 +68,7 @@ public:
 			_timecode->set(*t, f->video_frame_rate());
 		}
 
-		set_sensitivity ();
+		setup_sensitivity();
 
 		_set_button->Bind(wxEVT_BUTTON, bind(&Marker::set, this));
 		_checkbox->bind(&Marker::checkbox_clicked, this);
@@ -78,11 +78,11 @@ public:
 private:
 	void checkbox_clicked ()
 	{
-		set_sensitivity ();
+		setup_sensitivity();
 		changed ();
 	}
 
-	void set_sensitivity ()
+	void setup_sensitivity()
 	{
 		_timecode->Enable(_checkbox->GetValue());
 		_set_button->Enable(_checkbox->GetValue());
