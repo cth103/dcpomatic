@@ -34,10 +34,10 @@ using std::string;
 using boost::optional;
 
 
-UpdateDialog::UpdateDialog (wxWindow* parent, optional<string> stable, optional<string> test)
-	: wxDialog (parent, wxID_ANY, _("Update"))
+UpdateDialog::UpdateDialog(wxWindow* parent, optional<string> stable, optional<string> test)
+	: wxDialog(parent, wxID_ANY, _("Update"))
 {
-	auto overall_sizer = new wxBoxSizer (wxVERTICAL);
+	auto overall_sizer = new wxBoxSizer(wxVERTICAL);
 
 	wxStaticText* message;
 
@@ -47,33 +47,33 @@ UpdateDialog::UpdateDialog (wxWindow* parent, optional<string> stable, optional<
 		message = new StaticText(this, variant::wx::insert_dcpomatic(_("New versions of %s are available.")));
 	}
 
-	overall_sizer->Add (message, 0, wxTOP | wxLEFT | wxRIGHT, DCPOMATIC_DIALOG_BORDER);
+	overall_sizer->Add(message, 0, wxTOP | wxLEFT | wxRIGHT, DCPOMATIC_DIALOG_BORDER);
 
 	auto table = new wxFlexGridSizer(3, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 
 	if (stable) {
 		add_label_to_sizer(table, this, _("Stable version"), true, 0, wxALIGN_CENTER_VERTICAL);
 		add_label_to_sizer(table, this, std_to_wx(stable.get()), true, 0, wxALIGN_CENTER_VERTICAL);
-		auto h = new wxHyperlinkCtrl (this, wxID_ANY, char_to_wx("dcpomatic.com/download"), char_to_wx("https://dcpomatic.com/download"));
-		table->Add (h, 0, wxALIGN_CENTER_VERTICAL, DCPOMATIC_DIALOG_BORDER);
+		auto h = new wxHyperlinkCtrl(this, wxID_ANY, char_to_wx("dcpomatic.com/download"), char_to_wx("https://dcpomatic.com/download"));
+		table->Add(h, 0, wxALIGN_CENTER_VERTICAL, DCPOMATIC_DIALOG_BORDER);
 	}
 
 	if (test) {
 		add_label_to_sizer(table, this, _("Test version"), true, 0, wxALIGN_CENTER_VERTICAL);
 		add_label_to_sizer(table, this, std_to_wx(test.get()), true, 0, wxALIGN_CENTER_VERTICAL);
-		auto h = new wxHyperlinkCtrl (this, wxID_ANY, char_to_wx("dcpomatic.com/test-download"), char_to_wx("https://dcpomatic.com/test-download"));
-		table->Add (h, 0, wxALIGN_CENTER_VERTICAL, DCPOMATIC_DIALOG_BORDER);
+		auto h = new wxHyperlinkCtrl(this, wxID_ANY, char_to_wx("dcpomatic.com/test-download"), char_to_wx("https://dcpomatic.com/test-download"));
+		table->Add(h, 0, wxALIGN_CENTER_VERTICAL, DCPOMATIC_DIALOG_BORDER);
 	}
 
 	add_label_to_sizer(table, this, _("Current version"), true, 0, wxALIGN_CENTER_VERTICAL);
 	add_label_to_sizer(table, this, char_to_wx(dcpomatic_version), true, 0, wxALIGN_CENTER_VERTICAL);
 
-	overall_sizer->Add (table, 0, wxTOP | wxLEFT | wxRIGHT, DCPOMATIC_DIALOG_BORDER);
+	overall_sizer->Add(table, 0, wxTOP | wxLEFT | wxRIGHT, DCPOMATIC_DIALOG_BORDER);
 
 	auto buttons = CreateButtonSizer (wxOK);
 	if (buttons) {
 		overall_sizer->Add (buttons, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 	}
 
-	SetSizerAndFit (overall_sizer);
+	SetSizerAndFit(overall_sizer);
 }

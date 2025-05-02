@@ -29,6 +29,6 @@ LIBDCP_ENABLE_WARNINGS
 class UpdateDialog : public wxDialog
 {
 public:
-	UpdateDialog (wxWindow *, boost::optional<std::string>, boost::optional<std::string>);
+	UpdateDialog(wxWindow *, boost::optional<std::string>, boost::optional<std::string>);
 };
 
