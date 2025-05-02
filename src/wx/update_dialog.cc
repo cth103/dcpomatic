@@ -70,9 +70,8 @@ UpdateDialog::UpdateDialog(wxWindow* parent, optional<string> stable, optional<s
 
 	overall_sizer->Add(table, 0, wxTOP | wxLEFT | wxRIGHT, DCPOMATIC_DIALOG_BORDER);
 
-	auto buttons = CreateButtonSizer (wxOK);
-	if (buttons) {
-		overall_sizer->Add (buttons, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
+	if (auto buttons = CreateButtonSizer(wxOK)) {
+		overall_sizer->Add(buttons, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 	}
 
 	SetSizerAndFit(overall_sizer);
