@@ -110,7 +110,7 @@ public:
 		_duration->SetRange(0, 259200);
 		_duration->SetValue(asset->duration().get_value_or(0));
 
-		intrinsic_duration->SetValue(wxString::Format(char_to_wx("%ld"), asset->intrinsic_duration()));
+		intrinsic_duration->SetValue(wxString::Format(char_to_wx("%" PRId64), asset->intrinsic_duration()));
 
 		_annotation_text->Bind(wxEVT_TEXT, boost::bind(&AssetPanel::annotation_text_changed, this));
 		_entry_point->Bind(wxEVT_SPINCTRL, boost::bind(&AssetPanel::entry_point_changed, this));
