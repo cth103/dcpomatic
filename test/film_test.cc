@@ -20,9 +20,14 @@
 
 
 #include "lib/content_factory.h"
+#include "lib/dcp_content.h"
 #include "lib/film.h"
+#include "lib/job_manager.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
+
+
+using std::make_shared;
 
 
 BOOST_AUTO_TEST_CASE(film_contains_atmos_content_test)
@@ -42,5 +47,42 @@ BOOST_AUTO_TEST_CASE(film_contains_atmos_content_test)
 
 	auto film4 = new_test_film("film_contains_atmos_content_test4", { image, sound });
 	BOOST_CHECK(!film4->contains_atmos_content());
+}
+
+
+BOOST_AUTO_TEST_CASE(film_possible_reel_types_test1)
+{
+	auto film = new_test_film("film_possible_reel_types_test1");
+	BOOST_CHECK_EQUAL(film->possible_reel_types().size(), 4U);
+
+	film->examine_and_add_content(content_factory("test/data/flat_red.png")[0]);
+	BOOST_REQUIRE(!wait_for_jobs());
+	BOOST_CHECK_EQUAL(film->possible_reel_types().size(), 4U);
+
+	auto dcp = make_shared<DCPContent>("test/data/reels_test2");
+	film->examine_and_add_content(dcp);
+	BOOST_REQUIRE(!wait_for_jobs());
+	BOOST_CHECK_EQUAL(film->possible_reel_types().size(), 4U);
+
+	/* If we don't do this the set_reference_video will be overridden by the Film's
+	 * check_settings_consistency() stuff.
+	 */
+	film->set_reel_type(ReelType::BY_VIDEO_CONTENT);
+	dcp->set_reference_video(true);
+	BOOST_CHECK_EQUAL(film->possible_reel_types().size(), 1U);
+}
+
+
+BOOST_AUTO_TEST_CASE(film_possible_reel_types_test2)
+{
+	auto film = new_test_film("film_possible_reel_types_test2");
+
+	auto dcp = make_shared<DCPContent>("test/data/dcp_digest_test_dcp");
+	film->examine_and_add_content(dcp);
+	BOOST_REQUIRE(!wait_for_jobs());
+	BOOST_CHECK_EQUAL(film->possible_reel_types().size(), 4U);
+
+	dcp->set_reference_video(true);
+	BOOST_CHECK_EQUAL(film->possible_reel_types().size(), 2U);
 }
 

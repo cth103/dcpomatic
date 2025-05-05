@@ -426,6 +426,9 @@ public:
 
 	void add_ffoc_lfoc(Markers& markers) const;
 
+	/** @return Reel types that are allowed given the current state of the film */
+	std::vector<ReelType> possible_reel_types() const;
+
 	void set_ui_state(std::string key, std::string value);
 	boost::optional<std::string> ui_state(std::string key) const;
 	void read_ui_state();
