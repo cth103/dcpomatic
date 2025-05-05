@@ -75,3 +75,39 @@ CPLSummary::CPLSummary (boost::filesystem::path p)
 }
 
 
+
+ReelType
+string_to_reel_type(string type)
+{
+	if (type == "single") {
+		return ReelType::SINGLE;
+	} else if (type == "by-video-content") {
+		return ReelType::BY_VIDEO_CONTENT;
+	} else if (type == "by-length") {
+		return ReelType::BY_LENGTH;
+	} else if (type == "custom") {
+		return ReelType::CUSTOM;
+	}
+
+	DCPOMATIC_ASSERT(false);
+	return ReelType::SINGLE;
+}
+
+
+string
+reel_type_to_string(ReelType type)
+{
+	switch (type) {
+	case ReelType::SINGLE:
+		return "single";
+	case ReelType::BY_VIDEO_CONTENT:
+		return "by-video-content";
+	case ReelType::BY_LENGTH:
+		return "by-length";
+	case ReelType::CUSTOM:
+		return "custom";
+	}
+
+	DCPOMATIC_ASSERT(false);
+	return "single";
+}

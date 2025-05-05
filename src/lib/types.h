@@ -113,6 +113,10 @@ enum class ReelType
 };
 
 
+std::string reel_type_to_string(ReelType type);
+ReelType string_to_reel_type(std::string type);
+
+
 struct CPLSummary
 {
 	CPLSummary (boost::filesystem::path p);
