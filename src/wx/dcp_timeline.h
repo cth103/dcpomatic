@@ -62,8 +62,10 @@ private:
 	void reel_mode_changed();
 	void maximum_reel_size_changed();
 	void film_changed(ChangeType type, FilmProperty property);
+	void film_content_changed(ChangeType type, int property);
 	std::shared_ptr<Film> film() const;
 	void setup_sensitivity();
+	void setup_reel_types();
 
 	void add_reel_boundary();
 	void remove_reel_boundary();
@@ -119,6 +121,7 @@ private:
 	wxMenuItem* _remove_reel_boundary;
 
 	boost::signals2::scoped_connection _film_connection;
+	boost::signals2::scoped_connection _film_content_connection;
 
 	std::vector<std::shared_ptr<ReelBoundary>> _reel_boundaries;
 };

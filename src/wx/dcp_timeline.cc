@@ -31,6 +31,7 @@
 #include "lib/atmos_content.h"
 #include "lib/audio_content.h"
 #include "lib/constants.h"
+#include "lib/dcp_content.h"
 #include "lib/film.h"
 #include "lib/text_content.h"
 #include "lib/video_content.h"
@@ -166,6 +167,7 @@ DCPTimeline::DCPTimeline(wxWindow* parent, shared_ptr<Film> film)
 	_canvas->Bind(wxEVT_MOTION, boost::bind(&DCPTimeline::mouse_moved, this, _1));
 
 	_film_connection = film->Change.connect(boost::bind(&DCPTimeline::film_changed, this, _1, _2));
+	_film_content_connection = film->ContentChange.connect(boost::bind(&DCPTimeline::film_content_changed, this, _1, _3));
 
 	_menu = new wxMenu;
 	_add_reel_boundary = _menu->Append(ID_add_reel_boundary, _("Add reel boundary"));
@@ -220,11 +222,59 @@ DCPTimeline::film_changed(ChangeType type, FilmProperty property)
 	case FilmProperty::CONTENT:
 	case FilmProperty::CONTENT_ORDER:
 		setup_pixels_per_second();
+		setup_reel_types();
 		Refresh();
 		break;
 	default:
 		break;
 	}
+}
+
+
+void
+DCPTimeline::film_content_changed(ChangeType type, int property)
+{
+	if (type != ChangeType::DONE) {
+		return;
+	}
+
+	if (
+		property == DCPContentProperty::NEEDS_KDM ||
+		property == DCPContentProperty::NEEDS_ASSETS ||
+		property == DCPContentProperty::REFERENCE_VIDEO ||
+		property == DCPContentProperty::REFERENCE_AUDIO ||
+		property == DCPContentProperty::REFERENCE_TEXT) {
+		setup_reel_types();
+	}
+}
+
+
+void
+DCPTimeline::setup_reel_types()
+{
+	auto const possible = film()->possible_reel_types();
+
+	if (static_cast<int>(possible.size()) != _reel_type->size()) {
+		_reel_type->clear();
+		for (auto type: possible) {
+			switch (type) {
+			case ReelType::SINGLE:
+				_reel_type->add_entry(_("Single reel"), reel_type_to_string(ReelType::SINGLE));
+				break;
+			case ReelType::BY_VIDEO_CONTENT:
+				_reel_type->add_entry(_("Split by video content"), reel_type_to_string(ReelType::BY_VIDEO_CONTENT));
+				break;
+			case ReelType::BY_LENGTH:
+				_reel_type->add_entry(_("Split by maximum reel size"), reel_type_to_string(ReelType::BY_LENGTH));
+				break;
+			case ReelType::CUSTOM:
+				_reel_type->add_entry(_("Custom"), reel_type_to_string(ReelType::CUSTOM));
+				break;
+			}
+		}
+	}
+
+	_reel_type->set_by_data(reel_type_to_string(film()->reel_type()));
 }
 
 
@@ -246,10 +296,7 @@ DCPTimeline::setup_reel_settings()
 	int r = 0;
 	add_label_to_sizer(sizer, _reel_settings, _("Reel mode"), true, wxGBPosition(r, 0));
 	_reel_type = new Choice(_reel_settings);
-	_reel_type->add_entry(_("Single reel"));
-	_reel_type->add_entry(_("Split by video content"));
-	_reel_type->add_entry(_("Split by maximum reel size"));
-	_reel_type->add_entry(_("Custom"));
+	setup_reel_types();
 	sizer->Add(_reel_type, wxGBPosition(r, 1));
 	++r;
 
