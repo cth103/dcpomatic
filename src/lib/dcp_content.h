@@ -201,6 +201,8 @@ public:
 
 	void check_font_ids();
 
+	std::list<dcpomatic::DCPTimePeriod> reels(std::shared_ptr<const Film> film) const;
+
 private:
 	friend struct reels_test5;
 
@@ -208,7 +210,6 @@ private:
 
 	void read_directory (boost::filesystem::path);
 	void read_sub_directory (boost::filesystem::path);
-	std::list<dcpomatic::DCPTimePeriod> reels (std::shared_ptr<const Film> film) const;
 	bool overlaps(std::shared_ptr<const Film> film, std::function<bool (std::shared_ptr<const Content>)> part) const;
 
 	std::string _name;
