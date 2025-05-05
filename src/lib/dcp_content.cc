@@ -141,7 +141,7 @@ DCPContent::DCPContent(cxml::ConstNodePtr node, boost::optional<boost::filesyste
 	}
 
 	if (auto encoding = node->optional_string_child("VideoEncoding")) {
-		_video_encoding = video_encoding_from_string(*encoding);
+		_video_encoding = string_to_video_encoding(*encoding);
 	}
 
 	_three_d = node->optional_bool_child("ThreeD").get_value_or (false);
@@ -657,6 +657,7 @@ DCPContent::reel_split_points (shared_ptr<const Film> film) const
 	}
 	return s;
 }
+
 
 bool
 DCPContent::can_reference_anything(shared_ptr<const Film> film, string& why_not) const

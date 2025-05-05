@@ -35,7 +35,7 @@ enum class VideoEncoding
 
 
 std::string video_encoding_to_string(VideoEncoding encoding);
-VideoEncoding video_encoding_from_string(std::string const& encoding);
+VideoEncoding string_to_video_encoding(std::string const& encoding);
 
 
 #endif

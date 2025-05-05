@@ -614,7 +614,7 @@ Film::read_metadata(optional<boost::filesystem::path> path)
 	_three_d = f.bool_child("ThreeD");
 	_interop = f.bool_child("Interop");
 	if (auto encoding = f.optional_string_child("VideoEncoding")) {
-		_video_encoding = video_encoding_from_string(*encoding);
+		_video_encoding = string_to_video_encoding(*encoding);
 	}
 	_limit_to_smpte_bv20 = f.optional_bool_child("LimitToSMPTEBv20").get_value_or(false);
 	_key = dcp::Key(f.string_child("Key"));

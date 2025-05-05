@@ -43,7 +43,7 @@ video_encoding_to_string(VideoEncoding encoding)
 
 
 VideoEncoding
-video_encoding_from_string(string const& encoding)
+string_to_video_encoding(string const& encoding)
 {
 	if (encoding == "jpeg2000") {
 		return VideoEncoding::JPEG2000;
