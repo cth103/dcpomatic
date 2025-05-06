@@ -318,7 +318,6 @@ public:
 		, _right_panel(new wxPanel(_splitter, wxID_ANY))
 		, _film_viewer(_right_panel)
 	{
-
 		auto bar = new wxMenuBar;
 		setup_menu (bar);
 		SetMenuBar (bar);
