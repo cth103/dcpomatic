@@ -141,6 +141,8 @@ public:
 
 	bool can_reference_text (std::shared_ptr<const Film> film, TextType type, std::string &) const;
 
+	bool reference_anything() const;
+
 	void set_cpl (std::string id);
 
 	boost::optional<std::string> cpl () const {

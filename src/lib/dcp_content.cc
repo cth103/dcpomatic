@@ -893,3 +893,15 @@ DCPContent::active_audio_channels() const
 		);
 }
 
+
+bool
+DCPContent::reference_anything() const
+{
+	if (reference_video() || reference_audio()) {
+		return true;
+	}
+
+	boost::mutex::scoped_lock lm(_mutex);
+	return find(_reference_text.begin(), _reference_text.end(), true) != _reference_text.end();
+}
+
