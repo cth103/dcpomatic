@@ -491,7 +491,7 @@ TextPanel::current_type () const
 {
 	if (_type->size()) {
 		if (auto type = _type->get_data()) {
-			return string_to_text_type(wx_to_std(*type));
+			return string_to_text_type(*type);
 		}
 	}
 

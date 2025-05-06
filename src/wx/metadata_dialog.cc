@@ -129,9 +129,8 @@ MetadataDialog::setup ()
 void
 MetadataDialog::territory_type_changed()
 {
-	auto data = _territory_type->get_data();
-	if (data) {
-		film()->set_territory_type(string_to_territory_type(wx_to_std(data->data())));
+	if (auto data = _territory_type->get_data()) {
+		film()->set_territory_type(string_to_territory_type(*data));
 	}
 }
 

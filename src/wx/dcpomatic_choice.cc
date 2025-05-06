@@ -141,15 +141,16 @@ Choice::get() const
 }
 
 
-optional<wxString>
+optional<string>
 Choice::get_data() const
 {
+
 	auto index = get();
 	if (!index) {
 		return {};
 	}
 
-	return dynamic_cast<wxStringClientData*>(GetClientObject(*index))->GetData();
+	return wx_to_std(dynamic_cast<wxStringClientData*>(GetClientObject(*index))->GetData());
 }
 
 

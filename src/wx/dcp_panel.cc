@@ -186,19 +186,19 @@ DCPPanel::standard_changed()
 		return;
 	}
 
-	if (*data == char_to_wx("interop")) {
+	if (*data == "interop") {
 		_film->set_interop(true);
 		_film->set_limit_to_smpte_bv20(false);
 		_film->set_video_encoding(VideoEncoding::JPEG2000);
-	} else if (*data == char_to_wx("smpte")) {
+	} else if (*data == "smpte") {
 		_film->set_interop(false);
 		_film->set_limit_to_smpte_bv20(false);
 		_film->set_video_encoding(VideoEncoding::JPEG2000);
-	} else if (*data == char_to_wx("smpte-bv20")) {
+	} else if (*data == "smpte-bv20") {
 		_film->set_interop(false);
 		_film->set_limit_to_smpte_bv20(true);
 		_film->set_video_encoding(VideoEncoding::JPEG2000);
-	} else if (*data == char_to_wx("mpeg2-interop")) {
+	} else if (*data == "mpeg2-interop") {
 		_film->set_interop(true);
 		_film->set_video_encoding(VideoEncoding::MPEG2);
 	}

@@ -46,7 +46,7 @@ public:
 	void set_by_data(wxString const& data);
 	void set_by_data(std::string const& data);
 	boost::optional<int> get() const;
-	boost::optional<wxString> get_data() const;
+	boost::optional<std::string> get_data() const;
 
 	template <typename... Args>
 	void bind(Args... args) {
