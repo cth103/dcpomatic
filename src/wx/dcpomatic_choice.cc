@@ -144,6 +144,9 @@ Choice::get() const
 optional<string>
 Choice::get_data() const
 {
+	if (size() == 0) {
+		return {};
+	}
 
 	auto index = get();
 	if (!index) {
