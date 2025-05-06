@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: LIBDCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-02-17 02:18+0100\n"
-"PO-Revision-Date: 2024-11-19 08:31+0800\n"
+"PO-Revision-Date: 2025-05-06 17:57+0800\n"
 "Last-Translator: Dian Li <xslidian@gmail.com>\n"
 "Language-Team: Chinese Simplified (Rov8 branch)\n"
 "Language: zh_CN\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 3.5\n"
+"X-Generator: Poedit 3.6\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
 #: src/lib/video_content.cc:525
@@ -136,42 +136,37 @@ msgid ""
 msgstr "%1 无法打开文件%2 (%3)。文件不存在或格式无法识别。"
 
 #: src/lib/film.cc:1707
-#, fuzzy
 msgid ""
 "%1 had to change your settings for referring to DCPs as OV.  Please review "
 "those settings to make sure they are what you want."
 msgstr ""
-"DCP-o-matic必须把您DCP的设置更改为OV。请重新检查设置确认设置内容是否为您的期"
-"望值。"
+"%1必须更改您DCP的设置为OV。请重新检查设置确认设置内容是否为您的期望值。"
 
 #: src/lib/film.cc:1673
-#, fuzzy
 msgid ""
 "%1 had to change your settings so that the film's frame rate is the same as "
 "that of your Atmos content."
-msgstr "DCP-o-matic必须更改您DCP的设置，使影片的帧率与 Atmos 内容一致。"
+msgstr "%1必须更改您DCP的设置，使影片的帧率与 Atmos 内容一致。"
 
 #: src/lib/film.cc:1720
 msgid ""
 "%1 had to remove one of your custom reel boundaries as it no longer lies "
 "within the film."
-msgstr "%1 必须删除一个自定义卷轴边界，因为它不再位于影片内"
+msgstr "%1 必须删除一个自定义卷轴边界，因为它不再位于影片内。"
 
 #: src/lib/film.cc:1718
 msgid ""
 "%1 had to remove some of your custom reel boundaries as they no longer lie "
 "within the film."
-msgstr "%1必须删除一些自定义卷轴边界，因为它不再位于影片中"
+msgstr "%1必须删除一些自定义卷轴边界，因为它不再位于影片中。"
 
 #: src/lib/ffmpeg_content.cc:121
-#, fuzzy
 msgid "%1 no longer supports the `%2' filter, so it has been turned off."
-msgstr "不支持的格式`%1'。"
+msgstr "%1 不再支持 %2 滤镜，因此它必须被关闭。"
 
 #: src/lib/config.cc:440 src/lib/config.cc:1259
-#, fuzzy
 msgid "%1 notification"
-msgstr "电子邮件提醒"
+msgstr "%1 提醒"
 
 #: src/lib/transcode_job.cc:180
 msgid "%1; %2/%3 frames"
@@ -257,49 +252,47 @@ msgid "; %1 remaining; finishing at %2%3"
 msgstr "; 剩余 %1 ; 完成于 %2%3"
 
 #: src/lib/analytics.cc:58
-#, fuzzy, c-format
+#, c-format
 msgid ""
-"<h2>You have made {} DCPs with {}!</h2><img width=\"20%%\" src=\"memory:me."
-"jpg\" align=\"center\"><font size=\"+1\"><p>Hello. I'm Carl and I'm the "
-"developer of {}. I work on it in my spare time (with the help of a volunteer "
-"team of testers and translators) and I release it as free software.<p>If you "
-"find {} useful, please consider a donation to the project. Financial support "
-"will help me to spend more time developing {} and making it better!"
-"<p><ul><li><a href=\"https://dcpomatic.com/donate_amount?amount=40\">Go to "
-"Paypal to donate €40</a><li><a href=\"https://dcpomatic.com/donate_amount?"
-"amount=20\">Go to Paypal to donate €20</a><li><a href=\"https://dcpomatic."
-"com/donate_amount?amount=10\">Go to Paypal to donate €10</a></ul><p>Thank "
-"you!</font>"
+"<h2>You have made {} DCPs with {}!</h2><img width=\"20%%\" "
+"src=\"memory:me.jpg\" align=\"center\"><font size=\"+1\"><p>Hello. I'm Carl "
+"and I'm the developer of {}. I work on it in my spare time (with the help of "
+"a volunteer team of testers and translators) and I release it as free "
+"software.<p>If you find {} useful, please consider a donation to the "
+"project. Financial support will help me to spend more time developing {} and "
+"making it better!<p><ul><li><a href=\"https://dcpomatic.com/donate_amount?"
+"amount=40\">Go to Paypal to donate €40</a><li><a href=\"https://"
+"dcpomatic.com/donate_amount?amount=20\">Go to Paypal to donate €20</a><li><a "
+"href=\"https://dcpomatic.com/donate_amount?amount=10\">Go to Paypal to "
+"donate €10</a></ul><p>Thank you!</font>"
 msgstr ""
-"<h2>您已经用 DCP-o-matic 创建了{} DCP！</h2><img width=\"20%%\" src=\"memory:"
-"me.jpg\" align=\"center\"><p>你好。我是卡尔，我是DCP-o-matic的开发者。我在业"
-"余时间（在一个优秀的测试员和翻译志愿者团队的帮助下）开发它，并将其作为开源软"
-"件发布。<p>如果您觉得DCP-o-matic对您有帮助，请考虑向该项目捐款。资金支持将帮"
-"助我花更多的时间开发DCP-o-matic并使其变得更好！<p><ul><li><a href=\"https://"
-"dcpomatic.com/donate_amount?amount=40\">去Paypal捐款40欧元</a><li><a "
-"href=\"https://dcpomatic.com/donate_amount?amount=20\">去Paypal捐款20欧元</"
-"a><li><a href=\"https://dcpomatic.com/donate_amount?amount=10\">去Paypal捐款"
-"10欧元</a></ul><p>谢谢您！"
+"<h2>您已经用 {} 创建了{} DCP！</h2><img width=\"20%%\" src=\"memory:me.jpg\" "
+"align=\"center\"><font size=\"+1\"><p>你好。我是卡尔，我是 {} 的开发者。我在"
+"业余时间（在一个优秀的测试员和翻译志愿者团队的帮助下）开发它，并将其作为开源"
+"软件发布。<p>如果您觉得 {} 对您有帮助，请考虑向该项目捐款。资金支持将帮助我花"
+"更多的时间开发 {} 并使其变得更好！<p><ul><li><a href=\"https://dcpomatic.com/"
+"donate_amount?amount=40\">去Paypal捐款40欧元</a><li><a href=\"https://"
+"dcpomatic.com/donate_amount?amount=20\">去Paypal捐款20欧元</a><li><a "
+"href=\"https://dcpomatic.com/donate_amount?amount=10\">去Paypal捐款10欧元</"
+"a></ul><p>谢谢您！</font>"
 
 #: src/lib/hints.cc:177
-#, fuzzy
 msgid ""
 "A few projectors have problems playing back very high bit-rate DCPs.  It is "
 "a good idea to drop the video bit rate down to about 200Mbit/s; this is "
 "unlikely to have any visible effect on the image."
 msgstr ""
-"有些放映设备不支持高码率DCP，我们推荐使用200Mbit/s以内的码率来进行打包，这种"
-"细微的调整是肉眼很难分辨的。"
+"有些放映设备不支持特别高码率的DCP，推荐将视频码流下降到200Mbit/s以内的来打"
+"包，这种细微的调整一般是肉眼很难分辨的。"
 
 #: src/lib/text_content.cc:250
-#, fuzzy
 msgid ""
 "A subtitle or closed caption file in this project is marked with the "
 "language '%1', which %2 does not recognise.  The file's language has been "
 "cleared."
 msgstr ""
-"此项目内有字幕或隐藏式字幕文件被标注为 DCP-o-matic 无法识别的“%1”语言。  该文"
-"件的语言字段已被清空。"
+"此项目内有字幕或隐藏式字幕文件被标注为 %2 无法识别的“%1”语言。 该文件的语言字"
+"段已被清空。"
 
 #: src/lib/ffmpeg_content.cc:645
 msgid "ARIB STD-B67 ('Hybrid log-gamma')"
@@ -527,9 +520,8 @@ msgid "Closed captions"
 msgstr "隐藏式字幕"
 
 #: src/lib/text_type.cc:83
-#, fuzzy
 msgid "Closed subtitles"
-msgstr "开放式字幕"
+msgstr "隐藏式字幕（非原语言）"
 
 #: src/lib/ffmpeg_content.cc:624
 msgid "Colour primaries"
@@ -729,24 +721,22 @@ msgid "Could not decode image (%1)"
 msgstr "无法解码图像(%1)"
 
 #: src/lib/unzipper.cc:76
-#, fuzzy
 msgid "Could not find file %1 in ZIP file"
-msgstr "无法打开下载的zip文件"
+msgstr "无法在zip文件中找到 %1 文件"
 
 #: src/lib/encode_server_finder.cc:192
-#, fuzzy
 msgid ""
 "Could not listen for remote encode servers.  Perhaps another instance of %1 "
 "is running."
-msgstr "无法侦听到远程编码服务器。可能另一个DCP-o-matic进程正在运行。"
+msgstr "无法侦听到远程编码服务器。可能另一个 %1 进程正在运行。"
 
 #: src/lib/job.cc:180 src/lib/job.cc:195
 msgid "Could not open %1"
-msgstr "无法打开%1"
+msgstr "无法打开 %1"
 
 #: src/lib/curl_uploader.cc:102 src/lib/scp_uploader.cc:122
 msgid "Could not open %1 to send"
-msgstr "无法打开%1并发送"
+msgstr "无法打开 %1 并发送"
 
 #: src/lib/internet.cc:167 src/lib/internet.cc:172
 msgid "Could not open downloaded ZIP file"
@@ -822,18 +812,22 @@ msgid ""
 "DCP-o-matic had to set your container to 1920x1080 as it's the only one that "
 "can be used with MPEG2 encoding."
 msgstr ""
+"DCP-o-matic必须将您的容器设置为1920x1080，因为它是唯一可以用于MPEG2编码的容"
+"器。"
 
 #: src/lib/film.cc:1737
 msgid ""
 "DCP-o-matic had to set your film to 2D as 3D is not yet supported with MPEG2 "
 "encoding."
-msgstr ""
+msgstr "DCP-o-matic必须将您的电影设置为2D，因为MPEG2编码尚不支持3D。"
 
 #: src/lib/film.cc:1741
 msgid ""
 "DCP-o-matic set your container to DCI Flat as it was previously 1920x1080 "
 "and that is not a standard ratio with JPEG2000 encoding."
 msgstr ""
+"DCP-o-matic将您的容器设置为DCI Flat，因为它以前是1920x1080，这不是JPEG2000编"
+"码的标准比率。"
 
 #: src/lib/datasat_ap2x.cc:28
 msgid "Datasat AP20 or AP25"
@@ -845,7 +839,6 @@ msgid "De-interlacing"
 msgstr "去除隔行"
 
 #: src/lib/config.cc:1247
-#, fuzzy
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -869,11 +862,11 @@ msgstr ""
 "该KDMS的有效期是从$START_TIME至$END_TIME有效。\n"
 "\n"
 "祝好，\n"
-"DCP-o-matic"
+"%1"
 
 #: src/lib/exceptions.cc:179
 msgid "Disk full when writing %1"
-msgstr ""
+msgstr "在写入 %1 时磁盘已满"
 
 #: src/lib/dolby_cp750.cc:31
 msgid "Dolby CP650 or CP750"
@@ -960,9 +953,8 @@ msgid "FCC"
 msgstr "FCC"
 
 #: src/lib/fcpxml_content.cc:92
-#, fuzzy
 msgid "FCP XML subtitles"
-msgstr "DCP XML字幕"
+msgstr "FCP XML 字幕"
 
 #: src/lib/scp_uploader.cc:69
 msgid "Failed to authenticate with server (%1)"
@@ -1042,6 +1034,8 @@ msgid ""
 "check your configuration and license, and ensure that you are connected to "
 "the internet."
 msgstr ""
+"GPU加速已启用，但grok解码器不工作。请检查您的配置和许可证，并确保您已连接到互"
+"联网。"
 
 #: src/lib/ffmpeg_content.cc:631
 msgid "Gamma 22 (BT470M)"
@@ -1092,25 +1086,23 @@ msgid "If you do use 25fps you should change your DCP standard to SMPTE."
 msgstr "如果您选择使用25fps，那就必须把DCP标准选线设置为SMPTE。"
 
 #: src/lib/hints.cc:259
-#, fuzzy
 msgid ""
 "In general it is now advisable to make SMPTE DCPs unless you have a "
 "particular reason to use Interop.  It is advisable to set your DCP to use "
 "the SMPTE standard in the \"DCP\" tab."
 msgstr ""
-"一般建议您使用SMPTE DCPS，除非您有特殊原因使用Interop。建议您在“DCP”选项卡中"
-"将DCP设置为使用SMPTE标准。"
+"一般来说，现在建议制作SMPTE DCP，除非您有特殊的理由使用Interop。建议在“DCP”选"
+"项卡中将DCP设置为使用SMPTE标准。"
 
 #: src/lib/release_notes.cc:79
-#, fuzzy
 msgid ""
 "In this version there are changes to the way that subtitles are positioned. "
 "Positioning should now be more correct, with respect to the standards, but "
 "you should check any subtitles in your project to make sure that they are "
 "placed where you want them."
 msgstr ""
-"在这个版本中，字幕的定位方式发生了变化。相对于标准，定位现在应该更加正确，但"
-"您仍应该检查项目中的任何字幕，以确保它们放在您想要的位置。"
+"在这个版本中，字幕的定位方式发生了变化。现在，相对于标准，定位应该更加正确，"
+"但您应该检查项目中的任何字幕，以确保它们放置在您想要的位置。"
 
 #: src/lib/hints.cc:623
 msgid ""
@@ -1119,9 +1111,8 @@ msgid ""
 msgstr "建议在DCP开始后至少4秒放置您的第一个字幕，以确保它能被看到。"
 
 #: src/lib/job.cc:170 src/lib/job.cc:205 src/lib/job.cc:265 src/lib/job.cc:275
-#, fuzzy
 msgid "It is not known what caused this error.  %1"
-msgstr "未知原因错误。"
+msgstr "未知原因错误。%1"
 
 #: src/lib/ffmpeg_content.cc:620
 msgid "JEDEC P22"
@@ -1242,14 +1233,12 @@ msgid "No CPLs found in DCP."
 msgstr "DCP中没有找到CPL文件。"
 
 #: src/lib/kdm_with_metadata.cc:217
-#, fuzzy
 msgid "No from address configured in the KDM Email tab of preferences"
-msgstr "首选项中配置的地址没有 KDM"
+msgstr "在首选项的KDM电子邮件选项卡中配置的地址为空"
 
 #: src/lib/kdm_with_metadata.cc:213 src/lib/send_notification_email_job.cc:70
-#, fuzzy
 msgid "No outgoing mail server configured in the Email tab of preferences"
-msgstr "没有配置偏好的邮件服务"
+msgstr "在首选项的电子邮件选项卡中未配置传出邮件服务器"
 
 #: src/lib/image_content.cc:132
 msgid "No valid image files were found in the folder."
@@ -1284,19 +1273,17 @@ msgid "Only the last piece of content to be joined can have an end trim."
 msgstr "只有最后一段被加入的内容才可以进行结束裁剪。"
 
 #: src/lib/text_type.cc:81
-#, fuzzy
 msgid "Open captions"
-msgstr "隐藏式字幕"
+msgstr "开放式字幕"
 
 #: src/lib/text_type.cc:79
 msgid "Open subtitles"
 msgstr "开放式字幕"
 
 #: src/lib/transcode_job.cc:116
-#, fuzzy
 msgid ""
 "Open the project in %1, check the settings, then save it before trying again."
-msgstr "在DCP-o-matic中打开项目，检查设置，然后保存后重试。"
+msgstr "在 %1 中打开项目，检查设置，然后保存后重试。"
 
 #: src/lib/filter.cc:92 src/lib/filter.cc:93 src/lib/filter.cc:94
 #: src/lib/filter.cc:95
@@ -1316,12 +1303,10 @@ msgid "P3"
 msgstr "P3"
 
 #: src/lib/util.cc:1196
-#, fuzzy
 msgid ""
 "Please report this problem by using Help -> Report a problem or via email to "
 "%1"
-msgstr ""
-"请提交这个问题，在帮助餐单中选择：通过Email反馈问题：carl@dcpomatic.com"
+msgstr "请提交这个问题，在帮助菜单中选择：通过Email反馈问题：%1"
 
 #: src/lib/dcp_content_type.cc:61
 msgid "Policy"
@@ -1329,7 +1314,7 @@ msgstr "政策相关"
 
 #: src/lib/filter.cc:107
 msgid "Premultiply alpha channel"
-msgstr ""
+msgstr "预乘alpha通道"
 
 #: src/lib/content.cc:499
 msgid "Prepared for video frame rate"
@@ -1592,7 +1577,6 @@ msgid "The certificate chain for signing is invalid (%1)"
 msgstr "证书签名无效(%1)"
 
 #: src/lib/hints.cc:743
-#, fuzzy
 msgid ""
 "The certificate chain that %1 uses for signing DCPs and KDMs contains a "
 "small error which will prevent DCPs from being validated correctly on some "
@@ -1600,12 +1584,11 @@ msgid ""
 "clicking the \"Re-make certificates and key...\" button in the Keys page of "
 "Preferences."
 msgstr ""
-"DCP-o-matic用于签名DCP和KDM的证书链包含一个小错误，这将阻止DCP在某些系统上被"
-"正确验证。建议您通过单击“首选项”的“密钥”页面中的“重新制作证书和密钥…”按钮来重"
-"新创建签名证书链。"
+"%1用于签名DCP和KDM的证书链包含一个小错误，这将阻止DCP在某些系统上正确验证。建"
+"议通过单击“首选项”的“密钥”页面中的“重新制作证书和密钥…”按钮来重新创建签名证书"
+"链。"
 
 #: src/lib/hints.cc:751
-#, fuzzy
 msgid ""
 "The certificate chain that %1 uses for signing DCPs and KDMs has a validity "
 "period that is too long.  This will cause problems playing back DCPs on some "
@@ -1613,9 +1596,9 @@ msgid ""
 "clicking the \"Re-make certificates and key...\" button in the Keys page of "
 "Preferences."
 msgstr ""
-"DCP-o-matic用于签署DCP和KDM的证书链的有效期太长。这将导致在某些系统上播放DCP"
-"时出现问题。建议您通过单击“首选项”的“密钥”页面中的“重新制作证书和密钥…”按钮来"
-"重新创建签名证书链。"
+"%1用于签名DCP和KDM的证书链的有效期太长。这将导致在某些系统上播放DCP时出现问"
+"题。建议通过单击“首选项”的“密钥”页面中的“重新制作证书和密钥…”按钮来重新创建签"
+"名证书链。"
 
 #: src/lib/video_decoder.cc:70
 msgid ""
@@ -1654,19 +1637,19 @@ msgid ""
 "DCPs encoded with JPEG2000 rather than MPEG2.  Make sure that your cinema "
 "really wants an old-style MPEG2 DCP."
 msgstr ""
+"欧洲、澳大利亚和北美的绝大多数电影院都希望DCP使用JPEG2000而不是MPEG2编码。确"
+"保你的电影院真的想要老式的MPEG2 DCP。"
 
 #: src/lib/release_notes.cc:86
-#, fuzzy
 msgid ""
 "The vertical offset control for some subtitles now works in the opposite "
 "direction to how it was before.   You should check any subtitles in your "
 "project to make sure that they are placed where you want them."
 msgstr ""
-"在这个版本中，字幕的定位方式发生了变化。相对于标准，定位现在应该更加正确，但"
-"您仍应该检查项目中的任何字幕，以确保它们放在您想要的位置。"
+"现在版本中的字幕的垂直偏移控制与以前版本中的方向相反。您应该检查项目中的所有"
+"字幕，以确保它们放置在您想要的位置。"
 
 #: src/lib/hints.cc:249
-#, fuzzy
 msgid ""
 "There is a large difference between the frame rate of your DCP and that of "
 "some of your content.  This will cause your audio to play back at a much "
@@ -1674,8 +1657,9 @@ msgid ""
 "rate to one closer to your content, provided that your target projection "
 "systems support your chosen DCP rate."
 msgstr ""
-"您的DCP和某些内容的帧速率不符。可能导致声画不同步。如果您的放映服务器支持当前"
-"速率，建议您将DCP帧速率设置为更接近当前原视频的速率。"
+"您的DCP的帧速率与某些内容的帧速率之间存在很大差异。这将导致您的音频以比应有音"
+"调低得多或高得多的音调播放。建议将DCP帧速率设置为更接近您的内容，前提是您的目"
+"标投影系统支持您选择的DCP速率。"
 
 #: src/lib/dcp_content.cc:715
 msgid "There is no video in this DCP"
@@ -1689,61 +1673,53 @@ msgid ""
 msgstr "内存不足，如您是32位系统，请重新设置运行线程数量来达到稳定运行。"
 
 #: src/lib/util.cc:1034
-#, fuzzy
 msgid "This KDM was made for %1 but not for its leaf certificate."
-msgstr "KDM是为DCP-o-matic生成，但不是为它的叶子证书生成。"
+msgstr "KDM是为 %1生成，但不是为它的叶子证书生成。"
 
 #: src/lib/util.cc:1032
-#, fuzzy
 msgid "This KDM was not made for %1's decryption certificate."
-msgstr "KDM不是为DCP-o-matic解密证书而生成。"
+msgstr "KDM不是为 %1 解密证书而生成。"
 
 #: src/lib/job.cc:142
-#, fuzzy
 msgid ""
 "This error has probably occurred because you are running the 32-bit version "
 "of %1 and trying to use too many encoding threads.  Please reduce the "
 "'number of threads %2 should use' in the General tab of Preferences and try "
 "again."
 msgstr ""
-"出现此错误可能是因为您正在运行32位版本的DCP-o-matic，并且试图使用太多编码线"
-"程。请在“首选项”的“常规”选项卡中减少“DCP-o-matic应该使用的线程数”，然后重试。"
+"出现此错误可能是因为您正在运行32位版本的 %1，并且试图使用太多编码线程。请在"
+"“首选项”的“常规”选项卡中减少“%2应该使用的线程数”，然后重试。"
 
 #: src/lib/job.cc:156
-#, fuzzy
 msgid ""
 "This error has probably occurred because you are running the 32-bit version "
 "of %1.  Please re-install %2 with the 64-bit installer and try again."
 msgstr ""
-"出现此错误可能是因为您正在运行32位版本的DCP-o-matic。请使用64位安装程序重新安"
-"装DCP-o-matic，然后重试。"
+"出现此错误可能是因为您正在运行32位版本的 %1。请使用64位安装程序重新安装 %2，"
+"然后重试。"
 
 #: src/lib/exceptions.cc:114
 msgid ""
 "This file is a KDM.  KDMs should be added to DCP content by right-clicking "
 "the content and choosing \"Add KDM\"."
 msgstr ""
-"这是一个KDM密钥文件。KDM密钥文件可以通过在你的DCP包上右键，点击“添加KDM文"
-"件”添加到DCP中。"
+"这是一个KDM密钥文件。KDM密钥文件可以通过在你的DCP包上右键，点击“添加KDM文件”"
+"添加到DCP中。"
 
 #: src/lib/film.cc:549
-#, fuzzy
 msgid ""
 "This film was created with a newer version of %1, and it cannot be loaded "
 "into this version.  Sorry!"
-msgstr ""
-"这一工程文件是使用新版DCP-o-matic创建的，无法被这一版本的DCP-o-matic加载。抱"
-"歉！"
+msgstr "这一工程文件是使用新版 %1 创建的，无法被这一版本的软件加载。抱歉！"
 
 #: src/lib/film.cc:530
-#, fuzzy
 msgid ""
 "This film was created with an older version of %1, and unfortunately it "
 "cannot be loaded into this version.  You will need to create a new Film, re-"
 "add your content and set it up again.  Sorry!"
 msgstr ""
-"这一工程文件是使用旧版本的DCP-o-matic创建的，很遗憾无法被这一版本的DCP-o-"
-"matic加载。您需要创建一个新的工程文件，重新添加内容并重新设置。抱歉！"
+"这一工程文件是使用旧版本的 %1 创建的，很遗憾无法被这一版本的软件加载。您需要"
+"创建一个新的工程文件，重新添加内容并重新设置。抱歉！"
 
 #: src/lib/job.cc:567
 msgid "Thursday"
@@ -1835,7 +1811,7 @@ msgstr "垂直翻转"
 
 #: src/lib/fcpxml.cc:69
 msgid "Video refers to missing asset %1"
-msgstr ""
+msgstr "视频指向丢失的资产 %1"
 
 #: src/lib/util.cc:644
 msgid "Visually impaired"
@@ -1862,14 +1838,13 @@ msgid "Yet Another Deinterlacing Filter"
 msgstr "反隔行扫描滤镜"
 
 #: src/lib/hints.cc:209
-#, fuzzy
 msgid ""
 "You are set up for a DCP at a frame rate of %1 fps.  This frame rate is not "
 "supported by all projectors.  It is advisable to change the DCP frame rate "
 "to %2 fps."
 msgstr ""
-"您设置的帧率为%1 fps的DCP。并非所有放映设备都支持此帧率。建议您将DCP帧率更改"
-"为%2 fps。"
+"您设置DCP的帧率为 %1 fps的DCP。并非所有放映设备都支持此帧率。建议您将DCP帧率"
+"更改为 %2 fps。"
 
 #: src/lib/hints.cc:193
 msgid ""
@@ -1887,14 +1862,13 @@ msgid ""
 msgstr "您设置的DCP帧速率为30fps，这不是所有放映设备都支持 ，请注意兼容问题。"
 
 #: src/lib/hints.cc:126
-#, fuzzy
 msgid ""
 "You are using %1's stereo-to-5.1 upmixer.  This is experimental and may "
 "result in poor-quality audio.  If you continue, you should listen to the "
 "resulting DCP in a cinema to make sure that it sounds good."
 msgstr ""
-"你用的是DCP-o-matic双声道转5.1环绕声的上混音器。这是实验性的功能，可能导致音"
-"频质量变差。如果你继续，你应该在影院试听完成的DCP声音以确认。"
+"你用的是 %1 双声道转5.1环绕声的上混音器。这是实验性的功能，可能导致音频质量变"
+"差。如果你继续，你应该在影院试听完成的DCP声音以确认。"
 
 #: src/lib/hints.cc:323
 msgid ""
@@ -1948,7 +1922,6 @@ msgstr ""
 "DCP 时出现 QC 报错。为防止这种情况，建议设置8或16个DCP音频通道。"
 
 #: src/lib/hints.cc:111
-#, fuzzy
 msgid ""
 "Your DCP has fewer than 6 audio channels.  This may cause problems on some "
 "projectors.  You may want to set the DCP to have 6 channels.  It does not "
@@ -1956,7 +1929,7 @@ msgid ""
 "silence."
 msgstr ""
 "您的DCP的音轨少于6个，某些放映设备可能不支持。但是如果您的内容没有这么多的音"
-"轨，您仍然可以设置成6个音轨，因为DCP-o-matic将用空白音轨补齐。"
+"轨，您可以设置成6个音轨， %1 将用空白音轨补齐。"
 
 #: src/lib/hints.cc:168
 msgid ""
@@ -2088,7 +2061,7 @@ msgstr "它的帧率与影片不一致。"
 msgid ""
 "it has a different number of audio channels than the project; set the "
 "project to have %1 channels."
-msgstr ""
+msgstr "它的音频通道数量与项目不同；将项目设置为具有 %1 个通道。"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:790
@@ -2118,21 +2091,18 @@ msgstr "它是SMPTE类型，而实际打包类型是 Interop。"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:765
-#, fuzzy
 msgid "it overlaps other audio content."
-msgstr "与其他音频内容重叠；请删除其他内容。"
+msgstr "与其他音频内容重叠。"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:800
-#, fuzzy
 msgid "it overlaps other text content."
-msgstr "与其他音频内容重叠；请删除其他内容。"
+msgstr "与其他文本内容重叠。"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:740
-#, fuzzy
 msgid "it overlaps other video content."
-msgstr "与其他视频内容重叠；请删除其他内容。"
+msgstr "与其他视频内容重叠。"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:695
