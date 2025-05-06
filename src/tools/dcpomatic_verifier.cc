@@ -24,10 +24,12 @@
  */
 
 
+#include "wx/about_dialog.h"
 #include "wx/check_box.h"
 #include "wx/dcpomatic_button.h"
 #include "wx/dir_picker_ctrl.h"
 #include "wx/editable_list.h"
+#include "wx/id.h"
 #include "wx/verify_dcp_progress_panel.h"
 #include "wx/verify_dcp_result_panel.h"
 #include "wx/wx_util.h"
@@ -37,6 +39,7 @@
 #include "lib/job_manager.h"
 #include "lib/verify_dcp_job.h"
 #include "lib/util.h"
+#include "lib/variant.h"
 #include <dcp/search.h>
 #include <dcp/verify_report.h>
 LIBDCP_DISABLE_WARNINGS
@@ -56,6 +59,11 @@ using std::vector;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
+
+
+enum {
+	ID_help_report_a_problem = DCPOMATIC_MAIN_MENU
+};
 
 
 class DirDialogWrapper : public wxDirDialog
@@ -99,6 +107,13 @@ public:
 	explicit DOMFrame(wxString const& title)
 		: wxFrame(nullptr, -1, title)
 	{
+		auto bar = new wxMenuBar;
+		setup_menu(bar);
+		SetMenuBar(bar);
+
+		Bind(wxEVT_MENU, boost::bind(&DOMFrame::file_exit, this), wxID_EXIT);
+		Bind(wxEVT_MENU, boost::bind(&DOMFrame::help_about, this), wxID_ABOUT);
+
 #ifdef DCPOMATIC_WINDOWS
 		SetIcon(wxIcon(std_to_wx("id")));
 #endif
@@ -154,6 +169,36 @@ public:
 	}
 
 private:
+	void file_exit()
+	{
+		Close();
+	}
+
+	void help_about()
+	{
+		AboutDialog dialog(this);
+		dialog.ShowModal();
+	}
+
+	void setup_menu(wxMenuBar* m)
+	{
+		auto help = new wxMenu;
+#ifdef DCPOMATIC_OSX
+		/* This just needs to be appended somewhere, it seems - it magically
+		 * gets moved to the right place.
+		 */
+		help->Append(wxID_EXIT, _("&Exit"));
+		help->Append(wxID_ABOUT, variant::wx::insert_dcpomatic(_("About %s")));
+#else
+		auto file = new wxMenu;
+		file->Append(wxID_EXIT, _("&Quit"));
+		m->Append(file, _("&File"));
+
+		help->Append(wxID_ABOUT, _("About"));
+#endif
+		m->Append(help, _("&Help"));
+	}
+
 	void setup_sensitivity()
 	{
 		auto const work = JobManager::instance()->work_to_do();
