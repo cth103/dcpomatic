@@ -41,6 +41,39 @@ Hello, and welcome to DCP-o-matic!
 
 </section>
 
+<section>
+<title>Available tools</title>
+
+<para>The full set of DCP-o-matic tools is as follows:</para>
+
+<segmentedlist>
+<?dbhtml list-presentation="list"?>
+<segtitle>DCP-o-matic</segtitle>
+<segtitle>Player</segtitle>
+<segtitle>Verifier</segtitle>
+<segtitle>Batch Converter</segtitle>
+<segtitle>Combiner</segtitle>
+<segtitle>Disk Writer</segtitle>
+<segtitle>KDM Creator</segtitle>
+<segtitle>Encode Server</segtitle>
+<segtitle>Editor</segtitle>
+<segtitle>Playlist Editor</segtitle>
+<seglistitem>
+<seg>make DCPs from video, audio and text files (including VFs) and make KDMs.</seg>
+<seg>play back DCPs and check them for errors.</seg>
+<seg>check one or more DCPs for errors.</seg>
+<seg>create DCPs from one or more projects previously created by the main DCP-o-matic tool.</seg>
+<seg>take several DCPs and combine them into a single DCP folder.</seg>
+<seg>format external hard drives to EXT2 format and copy DCPs onto them.</seg>
+<seg>create KDMs from DKDMs that were previously made in the main DCP-o-matic tool, or that were sent by other people.</seg>
+<seg>allow faster encoding of DCPs by connecting computers together over a network.</seg>
+<seg>edit the metadata of existing DCPs without changing the video, audio or text assets.</seg>
+<seg>create playlists to allow the player to be used for simple cinema-style playback.</seg>
+</seglistitem>
+</segmentedlist>
+
+</section>
+
 
 <!-- ============================================================== -->
 <section>
