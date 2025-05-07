@@ -275,6 +275,64 @@ private:
 };
 
 
+class PKLPanel : public wxPanel
+{
+public:
+	PKLPanel(wxWindow* parent, shared_ptr<dcp::PKL> pkl)
+		: wxPanel(parent, wxID_ANY)
+		, _pkl(pkl)
+	{
+		auto sizer = new wxGridBagSizer(DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+
+		int r = 0;
+
+		add_label_to_sizer(sizer, this, _("Annotation text"), true, wxGBPosition(r, 0));
+		_annotation_text = new wxTextCtrl(this, wxID_ANY, std_to_wx(pkl->annotation_text().get_value_or("")), wxDefaultPosition, wxSize(600, -1));
+		sizer->Add(_annotation_text, wxGBPosition(r, 1), wxDefaultSpan, wxEXPAND);
+		++r;
+
+		add_label_to_sizer(sizer, this, _("Issuer"), true, wxGBPosition(r, 0));
+		_issuer = new wxTextCtrl(this, wxID_ANY, std_to_wx(pkl->issuer()), wxDefaultPosition, wxSize(600, -1));
+		sizer->Add(_issuer, wxGBPosition(r, 1), wxDefaultSpan, wxEXPAND);
+		++r;
+
+		add_label_to_sizer(sizer, this, _("Creator"), true, wxGBPosition(r, 0));
+		_creator = new wxTextCtrl(this, wxID_ANY, std_to_wx(pkl->creator()), wxDefaultPosition, wxSize(600, -1));
+		sizer->Add(_creator, wxGBPosition(r, 1), wxDefaultSpan, wxEXPAND);
+		++r;
+
+		auto space = new wxBoxSizer(wxVERTICAL);
+		space->Add(sizer, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
+		SetSizerAndFit(space);
+
+		_annotation_text->Bind(wxEVT_TEXT, boost::bind(&PKLPanel::annotation_text_changed, this));
+		_issuer->Bind(wxEVT_TEXT, boost::bind(&PKLPanel::issuer_changed, this));
+		_creator->Bind(wxEVT_TEXT, boost::bind(&PKLPanel::creator_changed, this));
+	}
+
+private:
+	void annotation_text_changed()
+	{
+		_pkl->set_annotation_text(wx_to_std(_annotation_text->GetValue()));
+	}
+
+	void issuer_changed()
+	{
+		_pkl->set_issuer(wx_to_std(_issuer->GetValue()));
+	}
+
+	void creator_changed()
+	{
+		_pkl->set_creator(wx_to_std(_creator->GetValue()));
+	}
+
+	shared_ptr<dcp::PKL> _pkl;
+	wxTextCtrl* _annotation_text = nullptr;
+	wxTextCtrl* _issuer = nullptr;
+	wxTextCtrl* _creator = nullptr;
+};
+
+
 class DummyPanel : public wxPanel
 {
 public:
@@ -343,7 +401,10 @@ public:
 
 		_notebook->DeleteAllPages();
 		for (auto cpl: _dcp->cpls()) {
-			_notebook->AddPage(new CPLPanel(_notebook, cpl), std_to_wx(cpl->annotation_text().get_value_or(cpl->id())));
+			_notebook->AddPage(new CPLPanel(_notebook, cpl), wxString::Format(_("CPL: %s"), std_to_wx(cpl->annotation_text().get_value_or(cpl->id()))));
+		}
+		for (auto pkl: _dcp->pkls()) {
+			_notebook->AddPage(new PKLPanel(_notebook, pkl), wxString::Format(_("PKL: %s"), std_to_wx(pkl->annotation_text().get_value_or(pkl->id()))));
 		}
 	}
 
