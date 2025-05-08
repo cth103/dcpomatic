@@ -472,6 +472,12 @@ VideoPanel::film_content_changed(int property)
 			checked_set(_scale_custom, false);
 		}
 		setup_sensitivity();
+	} else if (
+		property == DCPContentProperty::REFERENCE_VIDEO ||
+		property == DCPContentProperty::REFERENCE_AUDIO ||
+		property == DCPContentProperty::REFERENCE_TEXT
+		) {
+		setup_sensitivity();
 	}
 }
 
