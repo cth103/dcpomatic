@@ -248,10 +248,12 @@ BOOST_AUTO_TEST_CASE(kdm_cli_specify_cinemas_file)
 
 	setup_test_config();
 
+	using namespace boost::filesystem;
+
 	vector<string> args = {
 		"kdm_cli",
 		"--cinemas-file",
-		"test/data/cinemas.sqlite3",
+		path(current_path() / "test/data/cinemas.sqlite3").string(),
 		"list-cinemas"
 	};
 

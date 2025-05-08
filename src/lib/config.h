@@ -396,9 +396,7 @@ public:
 		return _dkdms;
 	}
 
-	boost::filesystem::path cinemas_file() const {
-		return _cinemas_file;
-	}
+	boost::filesystem::path cinemas_file() const;
 
 	boost::filesystem::path dkdm_recipients_file() const {
 		return _dkdm_recipients_file;

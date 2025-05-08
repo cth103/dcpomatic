@@ -1736,6 +1736,17 @@ Config::cinemas_file_from_zip(boost::filesystem::path zip)
 }
 
 
+boost::filesystem::path
+Config::cinemas_file() const
+{
+	if (_cinemas_file.is_absolute()) {
+		return _cinemas_file;
+	}
+
+	return read_path("config.xml").parent_path() / _cinemas_file;
+}
+
+
 #ifdef DCPOMATIC_GROK
 
 Config::Grok::Grok()

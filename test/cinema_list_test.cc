@@ -215,7 +215,7 @@ BOOST_AUTO_TEST_CASE(update_screen_test)
 
 BOOST_AUTO_TEST_CASE(cinemas_list_copy_from_xml_test)
 {
-	ConfigRestorer cr("build/test/cinemas_list_copy_config");
+	ConfigRestorer cr(boost::filesystem::current_path() / "build/test/cinemas_list_copy_config");
 
 	dcp::filesystem::remove_all(*Config::override_path);
 	dcp::filesystem::create_directories(*Config::override_path);
