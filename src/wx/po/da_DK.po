@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-17 02:18+0100\n"
+"POT-Creation-Date: 2025-05-08 23:51+0200\n"
 "PO-Revision-Date: 2019-04-06 13:46+0200\n"
 "Last-Translator: FULL NAME &lt;EMAIL@ADDRESS&gt;\n"
 "Language-Team: LANGUAGE &lt;LL@li.org&gt;\n"
@@ -43,17 +43,17 @@ msgid "%"
 msgstr "%"
 
 #. TRANSLATORS: this will be used in the middle of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
-#: src/wx/verify_dcp_result_panel.cc:621
+#: src/wx/verify_dcp_result_panel.cc:131
 #, c-format
 msgid "%d Bv2.1 errors, "
 msgstr ""
 
-#: src/wx/dkdm_dialog.cc:195
+#: src/wx/dkdm_dialog.cc:186
 #, fuzzy, c-format
 msgid "%d DKDM written to %s"
 msgstr "%d KDM skrevet til %s"
 
-#: src/wx/dkdm_dialog.cc:195
+#: src/wx/dkdm_dialog.cc:186
 #, fuzzy, c-format
 msgid "%d DKDMs written to %s"
 msgstr "%d KDMer skrevet til %s"
@@ -68,13 +68,13 @@ msgstr "%d KDM skrevet til %s"
 msgid "%d KDMs written to %s"
 msgstr "%d KDMer skrevet til %s"
 
-#: src/wx/config_dialog.cc:971
+#: src/wx/sound_preferences_page.cc:184
 #, fuzzy, c-format
 msgid "%d channels on %s"
 msgstr "Lydkanaler: %d"
 
 #. TRANSLATORS: this will be used at the start of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
-#: src/wx/verify_dcp_result_panel.cc:613
+#: src/wx/verify_dcp_result_panel.cc:123
 #, c-format
 msgid "%d errors, "
 msgstr ""
@@ -84,8 +84,8 @@ msgstr ""
 msgid "%s %s"
 msgstr ""
 
-#: src/wx/player_config_dialog.cc:391
-#: src/wx/playlist_editor_config_dialog.cc:34
+#: src/wx/kdm_config_dialog.cc:191 src/wx/player_config_dialog.cc:399
+#: src/wx/playlist_editor_config_dialog.cc:38
 #, c-format
 msgid "%s Preferences"
 msgstr ""
@@ -101,7 +101,7 @@ msgstr ""
 msgid "%s audio - %s"
 msgstr "DCP-o-matic, lyd - %s"
 
-#: src/wx/full_config_dialog.cc:837
+#: src/wx/email_preferences_page.cc:191
 #, fuzzy, c-format
 msgid "%s test email"
 msgstr "Send som e-mail"
@@ -115,16 +115,12 @@ msgstr ""
 "(C) 2012-2019 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen, Brecht Sanders"
 
-#: src/wx/file_picker_ctrl.cc:64
-msgid "(None)"
-msgstr "(Ingen)"
-
-#: src/wx/full_config_dialog.cc:1555 src/wx/player_config_dialog.cc:124
+#: src/wx/full_config_dialog.cc:1206 src/wx/player_config_dialog.cc:128
 #, fuzzy, c-format
 msgid "(restart %s to change display mode)"
 msgstr "(genstart DCP-o-matic for at se all indstillinger)"
 
-#: src/wx/config_dialog.cc:153
+#: src/wx/general_preferences_page.cc:102
 #, fuzzy, c-format
 msgid "(restart %s to see language changes)"
 msgstr "(genstart DCP-o-matic for at se sprogændringerne)"
@@ -146,12 +142,12 @@ msgid "0dB (unchanged)"
 msgstr ""
 
 #. TRANSLATORS: this will be used in the middle of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
-#: src/wx/verify_dcp_result_panel.cc:618
+#: src/wx/verify_dcp_result_panel.cc:128
 msgid "1 Bv2.1 error, "
 msgstr ""
 
 #. TRANSLATORS: this will be used at the start of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
-#: src/wx/verify_dcp_result_panel.cc:610
+#: src/wx/verify_dcp_result_panel.cc:120
 msgid "1 error, "
 msgstr ""
 
@@ -171,7 +167,7 @@ msgstr "255"
 msgid "2D"
 msgstr "2D"
 
-#: src/wx/metadata_dialog.cc:315
+#: src/wx/metadata_dialog.cc:314
 msgid "2D version of 3D DCP"
 msgstr ""
 
@@ -227,12 +223,12 @@ msgstr "8 - 5.1/HH/VI"
 msgid "96kHz"
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:548
+#: src/wx/verify_dcp_result_panel.cc:629
 #, c-format
 msgid "<IssueDate> has an invalid value %n"
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:554
+#: src/wx/verify_dcp_result_panel.cc:635
 #, c-format
 msgid "<MainSoundConfiguration> is invalid (%n)"
 msgstr ""
@@ -257,60 +253,70 @@ msgstr ""
 msgid "A"
 msgstr "A"
 
-#: src/wx/verify_dcp_result_panel.cc:471
+#: src/wx/verify_dcp_result_panel.cc:538
 #, c-format
 msgid "A 2K JPEG2000 frame contains %n tile parts instead of 3."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:443
+#: src/wx/verify_dcp_result_panel.cc:552
+#, c-format
+msgid "A 2K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %n"
+msgstr ""
+
+#: src/wx/verify_dcp_result_panel.cc:510
 #, c-format
 msgid "A 2K JPEG2000 frame has %n POC marker(s) instead of 0."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:408
+#: src/wx/verify_dcp_result_panel.cc:475
 #, c-format
 msgid "A 2K JPEG2000 frame has %n guard bits instead of 1."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:478
+#: src/wx/verify_dcp_result_panel.cc:545
 #, c-format
 msgid "A 4K JPEG2000 frame contains %n tile parts instead of 6."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:450
+#: src/wx/verify_dcp_result_panel.cc:559
+#, c-format
+msgid "A 4K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %n"
+msgstr ""
+
+#: src/wx/verify_dcp_result_panel.cc:517
 #, c-format
 msgid "A 4K JPEG2000 frame has %n POC marker(s) instead of 1."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:415
+#: src/wx/verify_dcp_result_panel.cc:482
 #, c-format
 msgid "A 4K JPEG2000 frame has %n guard bits instead of 2."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:464
+#: src/wx/verify_dcp_result_panel.cc:531
 msgid "A JPEG2000 frame contains a POC marker in an invalid location."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:457
+#: src/wx/verify_dcp_result_panel.cc:524
 #, c-format
 msgid "A JPEG2000 frame contains an invalid POC marker (%n)."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:436
+#: src/wx/verify_dcp_result_panel.cc:503
 #, c-format
 msgid "A JPEG2000 frame has a code-block height of %n instead of 32."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:429
+#: src/wx/verify_dcp_result_panel.cc:496
 #, c-format
 msgid "A JPEG2000 frame has a code-block width of %n instead of 32."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:485
+#: src/wx/verify_dcp_result_panel.cc:566
 msgid "A JPEG2000 frame has no TLM marker."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:422
+#: src/wx/verify_dcp_result_panel.cc:489
 msgid "A JPEG2000 tile size does not match the image size."
 msgstr ""
 
@@ -319,7 +325,7 @@ msgstr ""
 msgid "A new version of %s is available."
 msgstr "En ny version af DCP-o-matic er tilgængelig."
 
-#: src/wx/verify_dcp_result_panel.cc:401
+#: src/wx/verify_dcp_result_panel.cc:468
 #, fuzzy, c-format
 msgid "A picture frame has an invalid JPEG2000 codestream (%n)."
 msgstr "Filmen i en spole har en ugyldig billedhastighed"
@@ -329,22 +335,22 @@ msgstr "Filmen i en spole har en ugyldig billedhastighed"
 msgid "A problem occurred when looking for hints (%s)"
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:490
+#: src/wx/verify_dcp_result_panel.cc:571
 msgid "A subtitle lasts longer than the reel it is in."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:570
+#: src/wx/verify_dcp_result_panel.cc:651
 #, c-format
 msgid ""
 "A subtitle or closed caption refers to a font with ID %id that does not have "
 "a corresponding <LoadFont> node."
 msgstr ""
 
-#: src/wx/config_dialog.cc:963
+#: src/wx/sound_preferences_page.cc:176
 msgid "ALSA"
 msgstr ""
 
-#: src/wx/config_dialog.cc:959
+#: src/wx/sound_preferences_page.cc:172
 msgid "ASIO"
 msgstr ""
 
@@ -433,7 +439,7 @@ msgstr "Trim indtil nuværende position"
 msgid "Add recipient"
 msgstr "Tilføj sal"
 
-#: src/wx/dcp_timeline.cc:171
+#: src/wx/dcp_timeline.cc:173
 msgid "Add reel boundary"
 msgstr ""
 
@@ -457,12 +463,12 @@ msgstr "Tilføj sal"
 msgid "Add video, image, sound or subtitle files to the film (Ctrl+A)."
 msgstr "Tilføj video-, billed-, lyd- eller undertekstfiler til filmen."
 
-#: src/wx/config_dialog.cc:303 src/wx/recipients_panel.cc:69
+#: src/wx/certificate_chain_editor.cc:89 src/wx/recipients_panel.cc:69
 #: src/wx/editable_list.h:141
 msgid "Add..."
 msgstr "Tilføj..."
 
-#: src/wx/config_dialog.cc:400
+#: src/wx/certificate_chain_editor.cc:186
 msgid ""
 "Adding this certificate would make the chain inconsistent, so it will not be "
 "added. Add certificates in order from root to intermediate to leaf."
@@ -476,7 +482,7 @@ msgid "Additional"
 msgstr ""
 
 #: src/wx/cinema_dialog.cc:70 src/wx/extra_kdm_email_dialog.cc:47
-#: src/wx/full_config_dialog.cc:906 src/wx/full_config_dialog.cc:1043
+#: src/wx/full_config_dialog.cc:694 src/wx/kdm_email_preferences_page.cc:80
 #: src/wx/recipient_dialog.cc:85
 msgid "Address"
 msgstr "Adresse"
@@ -485,8 +491,8 @@ msgstr "Adresse"
 msgid "Adjust white point to"
 msgstr "Juster hvidpunkt til"
 
-#: src/wx/full_config_dialog.cc:1523 src/wx/metadata_dialog.cc:79
-#: src/wx/player_config_dialog.cc:274
+#: src/wx/full_config_dialog.cc:1174 src/wx/kdm_config_dialog.cc:105
+#: src/wx/metadata_dialog.cc:79 src/wx/player_config_dialog.cc:274
 #, fuzzy
 msgid "Advanced"
 msgstr "Avanceret..."
@@ -505,12 +511,12 @@ msgstr "Avancerede KDM indstillinger"
 msgid "Advanced settings..."
 msgstr "Avanceret..."
 
-#: src/wx/config_dialog.cc:659 src/wx/config_dialog.cc:677
-#: src/wx/kdm_output_panel.cc:128
+#: src/wx/kdm_output_panel.cc:128 src/wx/keys_preferences_page.cc:89
+#: src/wx/keys_preferences_page.cc:107
 msgid "Advanced..."
 msgstr "Avanceret..."
 
-#: src/wx/metadata_dialog.cc:218 src/wx/rating_dialog.cc:136
+#: src/wx/metadata_dialog.cc:217 src/wx/rating_dialog.cc:136
 #: src/wx/rating_dialog.cc:292
 msgid "Agency"
 msgstr ""
@@ -519,25 +525,25 @@ msgstr ""
 msgid "All off"
 msgstr ""
 
-#: src/wx/full_config_dialog.cc:1414
+#: src/wx/full_config_dialog.cc:1065
 msgid "Allow any DCP frame rate"
 msgstr "Tillad vilkårlig DCP-billedhastighed"
 
-#: src/wx/full_config_dialog.cc:1420
+#: src/wx/full_config_dialog.cc:1071
 msgid "Allow creation of DCPs with 96kHz audio"
 msgstr ""
 
-#: src/wx/full_config_dialog.cc:1416
+#: src/wx/full_config_dialog.cc:1067
 #, fuzzy
 msgid "Allow full-frame and non-standard container ratios"
 msgstr "Tillad containerforhold, der ikke er standard"
 
-#: src/wx/full_config_dialog.cc:1421
+#: src/wx/full_config_dialog.cc:1072
 #, fuzzy
 msgid "Allow mapping to all audio channels"
 msgstr "Standard DCP lydkanaler"
 
-#: src/wx/full_config_dialog.cc:1422
+#: src/wx/full_config_dialog.cc:1073
 msgid "Allow use of SMPTE Bv2.0"
 msgstr ""
 
@@ -545,20 +551,20 @@ msgstr ""
 msgid "Alpha   0"
 msgstr "Alpha   0"
 
-#: src/wx/about_dialog.cc:184
+#: src/wx/about_dialog.cc:185
 msgid "Also supported by"
 msgstr "Også støttet af"
 
-#: src/wx/verify_dcp_result_panel.cc:211
+#: src/wx/verify_dcp_result_panel.cc:275
 msgid "An asset has an empty path in the ASSETMAP."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:533
+#: src/wx/verify_dcp_result_panel.cc:614
 #, c-format
 msgid "An invalid <ContentKind> %n has been used."
 msgstr ""
 
-#: src/wx/dkdm_output_panel.cc:192 src/wx/kdm_output_panel.cc:321
+#: src/wx/dkdm_output_panel.cc:200 src/wx/kdm_output_panel.cc:321
 msgid "An unknown exception occurred."
 msgstr "Der er sket en uhåndteret fejl."
 
@@ -603,20 +609,24 @@ msgstr ""
 "Er du sikker på at du vil sende emails til nedenstående adresser?\n"
 "\n"
 
-#: src/wx/verify_dcp_result_panel.cc:518
+#: src/wx/verify_dcp_result_panel.cc:599
 msgid "At least one <Text> node in a subtitle or closed caption is empty."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:333
+#: src/wx/verify_dcp_result_panel.cc:400
 msgid ""
 "At least one asset in a reel does not have the same duration as the others."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:303
+#: src/wx/verify_dcp_result_panel.cc:370
 msgid "At least one pair of subtitles is separated by less than 2 frames."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:300
+#: src/wx/verify_dcp_result_panel.cc:364
+msgid "At least one subtitle has zero or negative duration."
+msgstr ""
+
+#: src/wx/verify_dcp_result_panel.cc:367
 msgid "At least one subtitle lasts less than 15 frames."
 msgstr ""
 
@@ -647,7 +657,7 @@ msgid ""
 msgstr ""
 "Lyd bliver sendt fra indholdskanal %d til DCP-kanal %d med gain %.1fdB."
 
-#: src/wx/full_config_dialog.cc:737
+#: src/wx/email_preferences_page.cc:78
 msgid "Auto"
 msgstr ""
 
@@ -660,7 +670,7 @@ msgstr "Beskæring, top"
 msgid "Auto-crop..."
 msgstr ""
 
-#: src/wx/full_config_dialog.cc:147
+#: src/wx/full_config_dialog.cc:142
 msgid "Automatically analyse content audio"
 msgstr "Analyser lydindhold automatisk"
 
@@ -668,7 +678,7 @@ msgstr "Analyser lydindhold automatisk"
 msgid "B"
 msgstr "B"
 
-#: src/wx/full_config_dialog.cc:921 src/wx/full_config_dialog.cc:1058
+#: src/wx/full_config_dialog.cc:709 src/wx/kdm_email_preferences_page.cc:95
 msgid "BCC address"
 msgstr "BCC-adresse"
 
@@ -684,7 +694,8 @@ msgstr "Blå farvetone"
 msgid "Bottom"
 msgstr "Bund"
 
-#: src/wx/dir_picker_ctrl.cc:50 src/wx/kdm_cpl_panel.cc:48
+#: src/wx/dir_picker_ctrl.cc:49 src/wx/file_picker_ctrl.cc:64
+#: src/wx/file_picker_ctrl.cc:80 src/wx/kdm_cpl_panel.cc:48
 msgid "Browse..."
 msgstr "Gennemse..."
 
@@ -696,16 +707,16 @@ msgstr "Brænd undertekster ind i billedet"
 msgid "But I have to use fader"
 msgstr "Men jeg bliver nødt til at bruge fader"
 
-#: src/wx/full_config_dialog.cc:907 src/wx/full_config_dialog.cc:1044
+#: src/wx/full_config_dialog.cc:695 src/wx/kdm_email_preferences_page.cc:81
 msgid "CC addresses"
 msgstr "CC-adresse"
 
-#: src/wx/dkdm_dialog.cc:93 src/wx/kdm_cpl_panel.cc:45 src/wx/kdm_dialog.cc:98
+#: src/wx/dkdm_dialog.cc:84 src/wx/kdm_cpl_panel.cc:45 src/wx/kdm_dialog.cc:98
 #: src/wx/self_dkdm_dialog.cc:69
 msgid "CPL"
 msgstr "CPL"
 
-#: src/wx/kdm_cpl_panel.cc:57
+#: src/wx/dkdm_output_panel.cc:69 src/wx/kdm_cpl_panel.cc:57
 msgid "CPL ID"
 msgstr "CPL-ID"
 
@@ -713,7 +724,7 @@ msgstr "CPL-ID"
 msgid "CPL annotation text"
 msgstr "CPL-annotationstekst"
 
-#: src/wx/dkdm_output_panel.cc:188 src/wx/kdm_output_panel.cc:317
+#: src/wx/dkdm_output_panel.cc:196 src/wx/kdm_output_panel.cc:317
 msgid "CPL's content is not encrypted."
 msgstr "CPL'ens indhold er ikke krypteret."
 
@@ -722,7 +733,7 @@ msgid "Calculate..."
 msgstr "Beregn..."
 
 #: src/wx/invalid_certificate_period_dialog.cc:99 src/wx/job_view.cc:77
-#: src/wx/verify_dcp_progress_dialog.cc:49
+#: src/wx/verify_dcp_dialog.cc:63
 msgid "Cancel"
 msgstr "Annuller"
 
@@ -780,7 +791,7 @@ msgstr "Certifikatkæde"
 msgid "Certificate start"
 msgstr "Certifikatkæde"
 
-#: src/wx/metadata_dialog.cc:298
+#: src/wx/metadata_dialog.cc:297
 msgid "Chain"
 msgstr "Kæde"
 
@@ -796,11 +807,11 @@ msgstr "Kanaler"
 msgid "Check all"
 msgstr ""
 
-#: src/wx/config_dialog.cc:172
+#: src/wx/general_preferences_page.cc:200
 msgid "Check for testing updates on startup"
 msgstr "Søg efter test-opdateringer ved opstart"
 
-#: src/wx/config_dialog.cc:168
+#: src/wx/general_preferences_page.cc:196
 msgid "Check for updates on startup"
 msgstr "Søg efter opdateringer ved opstart"
 
@@ -812,7 +823,7 @@ msgstr "Vælg CPL..."
 msgid "Choose a DCP folder"
 msgstr "Vælg en DCP folder"
 
-#: src/wx/content_menu.cc:376
+#: src/wx/content_menu.cc:377
 msgid "Choose a file"
 msgstr "Vælg en fil"
 
@@ -820,7 +831,7 @@ msgstr "Vælg en fil"
 msgid "Choose a file or files"
 msgstr "Vælg en fil eller filer"
 
-#: src/wx/content_menu.cc:372 src/wx/content_panel.cc:636
+#: src/wx/content_menu.cc:373 src/wx/content_panel.cc:636
 msgid "Choose a folder"
 msgstr "Vælg en folder"
 
@@ -841,7 +852,7 @@ msgstr "Christie"
 msgid "Cinema"
 msgstr "biograf"
 
-#: src/wx/full_config_dialog.cc:125
+#: src/wx/general_preferences_page.cc:123
 msgid "Cinema and screen database file"
 msgstr "Biograf- og sals-database"
 
@@ -849,7 +860,7 @@ msgstr "Biograf- og sals-database"
 msgid "Click the button to set all selected content to the same value."
 msgstr "Klik denne knap for at give alt valgt indhold samme værdi."
 
-#: src/wx/verify_dcp_result_panel.cc:351
+#: src/wx/verify_dcp_result_panel.cc:418
 #, c-format
 msgid "Closed caption asset %n has a non-zero <EntryPoint>."
 msgstr ""
@@ -876,7 +887,7 @@ msgstr "Farvekonvertering"
 msgid "Colour|Custom"
 msgstr "Brugerdefineret"
 
-#: src/wx/full_config_dialog.cc:1272
+#: src/wx/full_config_dialog.cc:923
 #, fuzzy
 msgid "Company name"
 msgstr "Kopier som navn"
@@ -885,12 +896,12 @@ msgstr "Kopier som navn"
 msgid "Component"
 msgstr "Component"
 
-#: src/wx/full_config_dialog.cc:120
+#: src/wx/general_preferences_page.cc:118
 msgid "Configuration file"
 msgstr "Konfigurationsfil"
 
 #. TRANSLATORS: translate the word "Timing" here; do not include the "Config|" prefix
-#: src/wx/full_config_dialog.cc:1636 src/wx/player_config_dialog.cc:312
+#: src/wx/full_config_dialog.cc:1287 src/wx/player_config_dialog.cc:312
 msgid "Config|Timing"
 msgstr "Timing"
 
@@ -915,11 +926,11 @@ msgstr "Egenskaber for indhold"
 msgid "Content Type"
 msgstr "Indholdstype"
 
-#: src/wx/config_dialog.cc:1038
+#: src/wx/locations_preferences_page.cc:66
 msgid "Content directory"
 msgstr "Indholdsfolder"
 
-#: src/wx/content_version_dialog.cc:31 src/wx/content_version_dialog.cc:33
+#: src/wx/content_version_dialog.cc:32 src/wx/content_version_dialog.cc:34
 #: src/wx/interop_metadata_dialog.cc:64
 msgid "Content version"
 msgstr "Indholdsversion"
@@ -953,7 +964,7 @@ msgstr ""
 msgid "Copy the cinemas in the ZIP file to the original location at"
 msgstr ""
 
-#: src/wx/config_dialog.cc:958
+#: src/wx/sound_preferences_page.cc:171
 #, fuzzy
 msgid "CoreAudio"
 msgstr "Lyd"
@@ -972,17 +983,17 @@ msgstr "Kunne ikke analysere lyden."
 msgid "Could not find serial number %s"
 msgstr "Kunne ikke indlæse certifikat (%s)"
 
-#: src/wx/content_menu.cc:634
+#: src/wx/content_menu.cc:635
 #, fuzzy, c-format
 msgid "Could not find this content in the project \"%s\"."
 msgstr "Kunne ikke indlæse certifikat (%s)"
 
-#: src/wx/config_dialog.cc:384
+#: src/wx/certificate_chain_editor.cc:170
 #, c-format
 msgid "Could not import certificate (%s)"
 msgstr "Kunne ikke importere certifikat (%s)"
 
-#: src/wx/content_menu.cc:419
+#: src/wx/content_menu.cc:420
 msgid "Could not load KDM"
 msgstr "Kunne ikke indlæse KDM"
 
@@ -1001,7 +1012,7 @@ msgstr "Kunne ikke indlæse certifikat (%s)"
 msgid "Could not play content"
 msgstr "Kunne ikke indlæse KDM"
 
-#: src/wx/verify_dcp_result_panel.cc:190
+#: src/wx/verify_dcp_result_panel.cc:254
 #, fuzzy, c-format
 msgid "Could not read DCP (%n)"
 msgstr "Kunne ikke indlæse KDM"
@@ -1017,9 +1028,10 @@ msgstr "Kunne ikke indlæse KDM"
 msgid "Could not read certificate file (%1)"
 msgstr "Kunne ikke læse certifikatfil."
 
-#: src/wx/config_dialog.cc:409 src/wx/config_dialog.cc:596
-#: src/wx/recipient_dialog.cc:158 src/wx/recipient_dialog.cc:163
-#: src/wx/screen_dialog.cc:284 src/wx/screen_dialog.cc:290
+#: src/wx/certificate_chain_editor.cc:195
+#: src/wx/certificate_chain_editor.cc:382 src/wx/recipient_dialog.cc:158
+#: src/wx/recipient_dialog.cc:163 src/wx/screen_dialog.cc:284
+#: src/wx/screen_dialog.cc:290
 msgid "Could not read certificate file."
 msgstr "Kunne ikke læse certifikatfil."
 
@@ -1028,18 +1040,18 @@ msgstr "Kunne ikke læse certifikatfil."
 msgid "Could not read certificates from Qube server."
 msgstr "Kunne ikke læse certifikatfil."
 
-#: src/wx/config_dialog.cc:586
+#: src/wx/certificate_chain_editor.cc:372
 #, c-format
 msgid "Could not read key file; file is too long (%s)"
 msgstr "Kunne ikke læse nøgle fil, filen er for lang (%s)"
 
-#: src/wx/film_viewer.cc:637 src/wx/film_viewer.cc:679
+#: src/wx/film_viewer.cc:638 src/wx/film_viewer.cc:680
 msgid ""
 "Could not set up audio output.  There will be no audio during the preview."
 msgstr ""
 "Kunne ikke konfigurere lydudgang.  Der vil ikke være lyd under visningen."
 
-#: src/wx/full_config_dialog.cc:1181
+#: src/wx/full_config_dialog.cc:832
 msgid "Cover Sheet"
 msgstr "Cover Sheet"
 
@@ -1052,7 +1064,7 @@ msgstr "Generer DCP alligevel"
 msgid "Create in folder"
 msgstr "Opret i folder"
 
-#: src/wx/full_config_dialog.cc:1264
+#: src/wx/full_config_dialog.cc:915
 msgid "Creator"
 msgstr "Creator"
 
@@ -1074,7 +1086,7 @@ msgstr "Markør: %.1fdB ved %s"
 msgid "Cursor: none"
 msgstr "Markør: ingen"
 
-#: src/wx/dcp_timeline.cc:252 src/wx/rating_dialog.cc:51
+#: src/wx/dcp_timeline.cc:271 src/wx/rating_dialog.cc:51
 #, fuzzy
 msgid "Custom"
 msgstr "Spole|Brugerdefineret"
@@ -1083,8 +1095,8 @@ msgstr "Spole|Brugerdefineret"
 msgid "Custom scale"
 msgstr ""
 
-#: src/wx/audio_panel.cc:111 src/wx/config_dialog.cc:872
-#: src/wx/film_editor.cc:63 src/wx/player_information.cc:59
+#: src/wx/audio_panel.cc:111 src/wx/film_editor.cc:63
+#: src/wx/player_information.cc:59 src/wx/sound_preferences_page.cc:85
 msgid "DCP"
 msgstr "DCP"
 
@@ -1092,7 +1104,7 @@ msgstr "DCP"
 msgid "DCP Text Track"
 msgstr "DCP Tekstspor"
 
-#: src/wx/full_config_dialog.cc:1602
+#: src/wx/full_config_dialog.cc:1253
 msgid "DCP asset filename format"
 msgstr ""
 
@@ -1100,46 +1112,38 @@ msgstr ""
 msgid "DCP directory"
 msgstr "DCP-folder"
 
-#: src/wx/full_config_dialog.cc:1583
+#: src/wx/full_config_dialog.cc:1234
 msgid "DCP metadata filename format"
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:89
-msgid "DCP validates OK."
-msgstr "DCP er blevet valideret."
-
-#: src/wx/verify_dcp_result_dialog.cc:31
-msgid "DCP verification"
-msgstr "DCP verificering"
-
-#: src/wx/player_config_dialog.cc:135
+#: src/wx/kdm_config_dialog.cc:63 src/wx/player_config_dialog.cc:139
 msgid "Debug log file"
 msgstr "Debug logfil"
 
-#: src/wx/full_config_dialog.cc:1638
+#: src/wx/full_config_dialog.cc:1289
 #, fuzzy
 msgid "Debug: 3D"
 msgstr "Debug: decode"
 
-#: src/wx/full_config_dialog.cc:1648
+#: src/wx/full_config_dialog.cc:1299
 #, fuzzy
 msgid "Debug: audio analysis"
 msgstr "Standardlydforsinkelse"
 
-#: src/wx/full_config_dialog.cc:1642
+#: src/wx/full_config_dialog.cc:1293 src/wx/kdm_config_dialog.cc:142
 msgid "Debug: email sending"
 msgstr "Debug: afsendelse af e-mail"
 
-#: src/wx/full_config_dialog.cc:1640
+#: src/wx/full_config_dialog.cc:1291
 msgid "Debug: encode"
 msgstr "Debug: encode"
 
-#: src/wx/full_config_dialog.cc:1646
+#: src/wx/full_config_dialog.cc:1297 src/wx/player_config_dialog.cc:316
 #, fuzzy
 msgid "Debug: player"
 msgstr "Debug: decode"
 
-#: src/wx/full_config_dialog.cc:1644 src/wx/player_config_dialog.cc:314
+#: src/wx/full_config_dialog.cc:1295 src/wx/player_config_dialog.cc:314
 #, fuzzy
 msgid "Debug: video view"
 msgstr "Debug: encode"
@@ -1154,56 +1158,56 @@ msgstr "Dekodningsopløsning: %dx%d"
 msgid "Decode resolution: unknown"
 msgstr "Dekodningsopløsning: %dx%d"
 
-#: src/wx/config_dialog.cc:646 src/wx/config_dialog.cc:704
+#: src/wx/keys_preferences_page.cc:76 src/wx/keys_preferences_page.cc:134
 msgid "Decrypting KDMs"
 msgstr "Dekrypterer KDMere"
 
-#: src/wx/full_config_dialog.cc:132
+#: src/wx/full_config_dialog.cc:127
 #, fuzzy
 msgid "Default \"add file\" location"
 msgstr "Standardlydforsinkelse"
 
-#: src/wx/full_config_dialog.cc:339
+#: src/wx/full_config_dialog.cc:282
 msgid "Default KDM directory"
 msgstr "Standard KDM folder"
 
-#: src/wx/full_config_dialog.cc:351
+#: src/wx/full_config_dialog.cc:294
 #, fuzzy
 msgid "Default KDM duration"
 msgstr "Standard KDM folder"
 
-#: src/wx/full_config_dialog.cc:347
+#: src/wx/full_config_dialog.cc:290
 #, fuzzy
 msgid "Default KDM type"
 msgstr "Standard KDM folder"
 
-#: src/wx/full_config_dialog.cc:326
+#: src/wx/full_config_dialog.cc:269
 msgid "Default audio delay"
 msgstr "Standardlydforsinkelse"
 
-#: src/wx/full_config_dialog.cc:334
+#: src/wx/full_config_dialog.cc:277
 #, fuzzy
 msgid "Default audio language"
 msgstr "Standardlydforsinkelse"
 
-#: src/wx/full_config_dialog.cc:336
+#: src/wx/full_config_dialog.cc:279
 #, fuzzy
 msgid "Default audio language to use for new DCPs"
 msgstr "Standardfolder til nye film"
 
-#: src/wx/full_config_dialog.cc:317
+#: src/wx/full_config_dialog.cc:260
 msgid "Default directory for new films"
 msgstr "Standardfolder til nye film"
 
-#: src/wx/full_config_dialog.cc:309
+#: src/wx/full_config_dialog.cc:252
 msgid "Default duration of still images"
 msgstr "Standardvarighed af stillbilleder"
 
-#: src/wx/full_config_dialog.cc:291
+#: src/wx/full_config_dialog.cc:234
 msgid "Defaults"
 msgstr "Standardindstillinger"
 
-#: src/wx/export_subtitles_dialog.cc:50
+#: src/wx/export_subtitles_dialog.cc:52
 msgid "Define font in output and export font file"
 msgstr ""
 
@@ -1227,7 +1231,7 @@ msgstr "Detaljer..."
 msgid "Details..."
 msgstr "Detaljer..."
 
-#: src/wx/config_dialog.cc:960
+#: src/wx/sound_preferences_page.cc:173
 msgid "Direct Sound"
 msgstr ""
 
@@ -1280,11 +1284,11 @@ msgstr "Downloader certifikat"
 msgid "Dropped frames: %d"
 msgstr "Tabte billeder: %d"
 
-#: src/wx/player_config_dialog.cc:110
+#: src/wx/player_config_dialog.cc:114
 msgid "Dual-screen displays"
 msgstr "Multiskærme"
 
-#: src/wx/config_dialog.cc:966
+#: src/wx/sound_preferences_page.cc:179
 msgid "Dummy"
 msgstr ""
 
@@ -1329,7 +1333,7 @@ msgstr "Effekt"
 msgid "Effect colour"
 msgstr "Effektfarve"
 
-#: src/wx/full_config_dialog.cc:708 src/wx/full_config_dialog.cc:1026
+#: src/wx/email_preferences_page.cc:46 src/wx/full_config_dialog.cc:677
 msgid "Email"
 msgstr "E-mail"
 
@@ -1341,7 +1345,7 @@ msgstr "E-mail adresse"
 msgid "Email addresses for KDM delivery"
 msgstr "E-mailadresse til KDM-levering"
 
-#: src/wx/player_config_dialog.cc:96
+#: src/wx/player_config_dialog.cc:100
 msgid "Enable HTTP control interface on port"
 msgstr ""
 
@@ -1362,26 +1366,26 @@ msgstr "Slut"
 msgid "Enter your email address for the contact, not %s"
 msgstr "Indtast din mail-adresse som kontakt, ikke %s"
 
-#: src/wx/full_config_dialog.cc:1633 src/wx/player_config_dialog.cc:309
-#: src/wx/verify_dcp_result_panel.cc:53
+#: src/wx/full_config_dialog.cc:1284 src/wx/kdm_config_dialog.cc:140
+#: src/wx/player_config_dialog.cc:309 src/wx/verify_dcp_result_panel.cc:58
 msgid "Errors"
 msgstr "Fejl"
 
-#: src/wx/config_dialog.cc:653
+#: src/wx/keys_preferences_page.cc:83
 #, fuzzy
 msgid "Export KDM decryption leaf certificate..."
 msgstr "Eksporter KDM dekrypteringscertifikat..."
 
-#: src/wx/config_dialog.cc:655
+#: src/wx/keys_preferences_page.cc:85
 msgid "Export all KDM decryption settings..."
 msgstr "Eksporter alle KDM dekrypteringsindstillinger..."
 
-#: src/wx/config_dialog.cc:307
+#: src/wx/certificate_chain_editor.cc:93
 #, fuzzy
 msgid "Export certificate..."
 msgstr "Indlæs certifikat..."
 
-#: src/wx/config_dialog.cc:309
+#: src/wx/certificate_chain_editor.cc:95
 msgid "Export chain..."
 msgstr "Eksporter kæde..."
 
@@ -1395,7 +1399,8 @@ msgstr "åbne undertekster"
 msgid "Export video file"
 msgstr "Eksporter film"
 
-#: src/wx/config_dialog.cc:326 src/wx/full_config_dialog.cc:128
+#: src/wx/certificate_chain_editor.cc:112
+#: src/wx/general_preferences_page.cc:126
 msgid "Export..."
 msgstr "Eksporter..."
 
@@ -1404,11 +1409,11 @@ msgstr "Eksporter..."
 msgid "Extra addresses for KDM delivery"
 msgstr "E-mailadresse til KDM-levering"
 
-#: src/wx/full_config_dialog.cc:627
+#: src/wx/full_config_dialog.cc:570
 msgid "FTP (for Dolby)"
 msgstr "FTP (til Dolby)"
 
-#: src/wx/metadata_dialog.cc:288
+#: src/wx/metadata_dialog.cc:287
 #, fuzzy
 msgid "Facility"
 msgstr "Kvalitet"
@@ -1433,7 +1438,7 @@ msgstr ""
 msgid "File"
 msgstr "Fil"
 
-#: src/wx/dkdm_dialog.cc:151 src/wx/kdm_dialog.cc:179
+#: src/wx/dkdm_dialog.cc:142 src/wx/kdm_dialog.cc:179
 #, c-format
 msgid "File %s already exists.  Do you want to overwrite it?"
 msgstr "Filen %s eksisterer allerede. Vil du overskrive den?"
@@ -1443,7 +1448,7 @@ msgstr "Filen %s eksisterer allerede. Vil du overskrive den?"
 msgid "Filename"
 msgstr "Filmnavn"
 
-#: src/wx/dkdm_output_panel.cc:63 src/wx/short_kdm_output_panel.cc:118
+#: src/wx/dkdm_output_panel.cc:65 src/wx/short_kdm_output_panel.cc:118
 #: src/wx/tall_kdm_output_panel.cc:87
 msgid "Filename format"
 msgstr "Filnavn format"
@@ -1452,7 +1457,7 @@ msgstr "Filnavn format"
 msgid "Film name"
 msgstr "Filmnavn"
 
-#: src/wx/content_menu.cc:620
+#: src/wx/content_menu.cc:621
 msgid "Film to copy settings from"
 msgstr ""
 
@@ -1464,7 +1469,7 @@ msgstr "Filtre"
 msgid "Final"
 msgstr ""
 
-#: src/wx/full_config_dialog.cc:142
+#: src/wx/full_config_dialog.cc:137
 msgid ""
 "Find integrated loudness, true peak and loudness range when analysing audio"
 msgstr "Find integreret loudness, peak og lydstyrkeområde når lyden analyseres"
@@ -1525,21 +1530,21 @@ msgstr ""
 msgid "Format"
 msgstr "Format"
 
-#: src/wx/verify_dcp_result_panel.cc:247
+#: src/wx/verify_dcp_result_panel.cc:311
 #, c-format
 msgid ""
 "Frame %frame (timecode %timecode) in asset %f has an instantaneous bit rate "
 "that is close to the limit of 250Mbit/s."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:240
+#: src/wx/verify_dcp_result_panel.cc:304
 #, c-format
 msgid ""
 "Frame %frame (timecode %timecode) in asset %f has an instantaneous bit rate "
 "that is over the limit of 250Mbit/s."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:562
+#: src/wx/verify_dcp_result_panel.cc:643
 #, c-format
 msgid ""
 "Frame %frame has an image component that is too large (component %component "
@@ -1567,7 +1572,7 @@ msgstr "Gratis, open source-oprettelse af DCP fra næsten alt."
 msgid "From"
 msgstr "Fra"
 
-#: src/wx/full_config_dialog.cc:901 src/wx/full_config_dialog.cc:1034
+#: src/wx/full_config_dialog.cc:685 src/wx/kdm_email_preferences_page.cc:75
 #: src/wx/send_test_email_dialog.cc:28
 msgid "From address"
 msgstr "Fra adresse"
@@ -1584,7 +1589,7 @@ msgstr ""
 msgid "Full length"
 msgstr "Fuld længde"
 
-#: src/wx/dcp_timeline.cc:262
+#: src/wx/dcp_timeline.cc:309
 msgid "GB"
 msgstr "GB"
 
@@ -1605,8 +1610,9 @@ msgstr "Gainberegner"
 msgid "Gain for content channel %d in DCP channel %d"
 msgstr "Gain til indholdskanal %d i DCP-kanal %d"
 
-#: src/wx/config_dialog.cc:117 src/wx/content_properties_dialog.cc:74
-#: src/wx/full_config_dialog.cc:1629 src/wx/player_config_dialog.cc:305
+#: src/wx/content_properties_dialog.cc:74 src/wx/full_config_dialog.cc:1280
+#: src/wx/general_preferences_page.cc:66 src/wx/kdm_config_dialog.cc:136
+#: src/wx/player_config_dialog.cc:305
 msgid "General"
 msgstr "Generelt"
 
@@ -1647,7 +1653,7 @@ msgstr "Tips"
 msgid "Host"
 msgstr "Vært"
 
-#: src/wx/server_dialog.cc:40
+#: src/wx/server_dialog.cc:44
 msgid "Host name or IP address"
 msgstr "Værtsnavn eller IP-adresse"
 
@@ -1659,20 +1665,20 @@ msgstr "Jeg vil afspille dette på fader-niveau"
 msgid "ID"
 msgstr "ID"
 
-#: src/wx/full_config_dialog.cc:610
+#: src/wx/full_config_dialog.cc:553
 msgid "IP address"
 msgstr "IP-adresse"
 
-#: src/wx/full_config_dialog.cc:536
+#: src/wx/full_config_dialog.cc:479
 msgid "IP address / host name"
 msgstr "IP-adresse / værtsnavn"
 
-#: src/wx/full_config_dialog.cc:1425
+#: src/wx/full_config_dialog.cc:1076
 #, fuzzy
 msgid "ISDCF name part length"
 msgstr "ISDCF-navn"
 
-#: src/wx/full_config_dialog.cc:1240
+#: src/wx/full_config_dialog.cc:891
 msgid "Identifiers"
 msgstr ""
 
@@ -1699,7 +1705,7 @@ msgid ""
 "into the box below, then click OK."
 msgstr ""
 
-#: src/wx/config_dialog.cc:757
+#: src/wx/keys_preferences_page.cc:196
 msgid ""
 "If you continue with this operation you will no longer be able to use any "
 "DKDMs that you have created with the current certificates and key.  Also, "
@@ -1711,7 +1717,7 @@ msgstr ""
 "du har modtaget til disse certifikater være ubrugelige.  Fortsæt med "
 "forsigtighed!"
 
-#: src/wx/config_dialog.cc:807
+#: src/wx/keys_preferences_page.cc:246
 msgid ""
 "If you continue with this operation you will no longer be able to use any "
 "DKDMs that you have created.  Also, any KDMs that have been sent to you will "
@@ -1730,19 +1736,19 @@ msgstr ""
 msgid "Image X position"
 msgstr "Billede X position"
 
-#: src/wx/player_config_dialog.cc:112
+#: src/wx/player_config_dialog.cc:116
 msgid "Image on primary, controls on secondary"
 msgstr "Billede på primær, kontroller på sekundær"
 
-#: src/wx/player_config_dialog.cc:113
+#: src/wx/player_config_dialog.cc:117
 msgid "Image on secondary, controls on primary"
 msgstr "Billede på sekundær, kontroller på primær"
 
-#: src/wx/config_dialog.cc:657
+#: src/wx/keys_preferences_page.cc:87
 msgid "Import all KDM decryption settings..."
 msgstr "Importer alle KDM dekrypteringsindstillinger..."
 
-#: src/wx/config_dialog.cc:324
+#: src/wx/certificate_chain_editor.cc:110
 msgid "Import..."
 msgstr "Importer..."
 
@@ -1775,7 +1781,7 @@ msgstr ""
 msgid "Integrated loudness %.2f LUFS"
 msgstr "Integreret loudness %.2f LUFS"
 
-#: src/wx/config_dialog.cc:526
+#: src/wx/certificate_chain_editor.cc:312
 msgid "Intermediate"
 msgstr ""
 
@@ -1783,12 +1789,12 @@ msgstr ""
 msgid "Intermediate common name"
 msgstr ""
 
-#: src/wx/metadata_dialog.cc:208
+#: src/wx/metadata_dialog.cc:207
 #, fuzzy
 msgid "International texted"
 msgstr "CPL-annotationstekst"
 
-#: src/wx/metadata_dialog.cc:209
+#: src/wx/metadata_dialog.cc:208
 msgid "International textless"
 msgstr ""
 
@@ -1796,7 +1802,7 @@ msgstr ""
 msgid "Interop"
 msgstr "Interop"
 
-#: src/wx/config_dialog.cc:797
+#: src/wx/keys_preferences_page.cc:236
 #, fuzzy, c-format
 msgid "Invalid %s export file"
 msgstr "Ugyldig DCP-o-matic eksport fil"
@@ -1810,7 +1816,7 @@ msgstr "Download certifikat"
 msgid "Inverse 2.6 gamma correction on output"
 msgstr ""
 
-#: src/wx/full_config_dialog.cc:1256
+#: src/wx/full_config_dialog.cc:907
 msgid "Issuer"
 msgstr "Udsteder"
 
@@ -1829,11 +1835,11 @@ msgid ""
 "would cause the DCP's audio to clip.  The gain has not been changed."
 msgstr ""
 
-#: src/wx/config_dialog.cc:962
+#: src/wx/sound_preferences_page.cc:175
 msgid "JACK"
 msgstr ""
 
-#: src/wx/full_config_dialog.cc:1296
+#: src/wx/full_config_dialog.cc:947
 msgid "JPEG2000 comment"
 msgstr ""
 
@@ -1849,11 +1855,11 @@ msgstr "Spring til valgt indhold"
 msgid "KDM"
 msgstr ""
 
-#: src/wx/full_config_dialog.cc:880
+#: src/wx/kdm_email_preferences_page.cc:51
 msgid "KDM Email"
 msgstr "KDM-e-mail"
 
-#: src/wx/config_dialog.cc:1048
+#: src/wx/locations_preferences_page.cc:76
 msgid "KDM directory"
 msgstr "KDM-folder"
 
@@ -1862,7 +1868,7 @@ msgid "KDM type"
 msgstr "KDM-type"
 
 #. TRANSLATORS: translate the word "Timing" here; do not include the "KDM|" prefix
-#: src/wx/dkdm_dialog.cc:86 src/wx/kdm_dialog.cc:91
+#: src/wx/kdm_dialog.cc:91
 msgid "KDM|Timing"
 msgstr "Timing"
 
@@ -1870,7 +1876,7 @@ msgstr "Timing"
 msgid "Keep video and subtitles in sequence"
 msgstr "Hold video og undertekster i samme orden"
 
-#: src/wx/config_dialog.cc:634
+#: src/wx/keys_preferences_page.cc:64
 msgid "Keys"
 msgstr "Nøgler"
 
@@ -1879,7 +1885,7 @@ msgstr "Nøgler"
 msgid "LEQ(m) %.2fdB"
 msgstr ""
 
-#: src/wx/metadata_dialog.cc:219
+#: src/wx/metadata_dialog.cc:218
 msgid "Label"
 msgstr ""
 
@@ -1902,7 +1908,7 @@ msgstr ""
 msgid "Language of these subtitles"
 msgstr "Finder farver i disse undertekster..."
 
-#: src/wx/metadata_dialog.cc:285
+#: src/wx/metadata_dialog.cc:284
 msgid "Language used for any sign language video track"
 msgstr ""
 
@@ -1930,11 +1936,11 @@ msgstr ""
 msgid "Later"
 msgstr "Senere"
 
-#: src/wx/full_config_dialog.cc:1570
+#: src/wx/full_config_dialog.cc:1221
 msgid "Layout for short screen"
 msgstr ""
 
-#: src/wx/config_dialog.cc:524
+#: src/wx/certificate_chain_editor.cc:310
 msgid "Leaf"
 msgstr "Blad"
 
@@ -1942,11 +1948,11 @@ msgstr "Blad"
 msgid "Leaf common name"
 msgstr "Bladnavn"
 
-#: src/wx/config_dialog.cc:318
+#: src/wx/certificate_chain_editor.cc:104
 msgid "Leaf private key"
 msgstr "Privat nøgle for blad"
 
-#: src/wx/config_dialog.cc:336
+#: src/wx/certificate_chain_editor.cc:122
 msgid "Leaf private key does not match leaf certificate!"
 msgstr "Bladets private nøgle matcher ikke bladets certifikat!"
 
@@ -1986,11 +1992,12 @@ msgstr "Flyt indhold"
 msgid "Loading playlist and KDMs"
 msgstr "Signere DCPer og KDMer"
 
-#: src/wx/config_dialog.cc:1019
+#: src/wx/locations_preferences_page.cc:47
 msgid "Locations"
 msgstr "Placeringer"
 
-#: src/wx/full_config_dialog.cc:1627 src/wx/player_config_dialog.cc:303
+#: src/wx/full_config_dialog.cc:1278 src/wx/kdm_config_dialog.cc:134
+#: src/wx/player_config_dialog.cc:303
 msgid "Log"
 msgstr "Log"
 
@@ -2003,7 +2010,7 @@ msgstr "Lydstyrkeområde (Loudness range) %.2f LU"
 msgid "Lower priority"
 msgstr "Lavere prioritet"
 
-#: src/wx/metadata_dialog.cc:319
+#: src/wx/metadata_dialog.cc:318
 msgid "Luminance"
 msgstr ""
 
@@ -2058,7 +2065,7 @@ msgstr "Generer DCP"
 msgid "Make DKDM for DCP-o-matic"
 msgstr "Dan DKDM til DCP-o-matic"
 
-#: src/wx/dkdm_dialog.cc:62 src/wx/dkdm_dialog.cc:114
+#: src/wx/dkdm_dialog.cc:61 src/wx/dkdm_dialog.cc:105
 #, fuzzy
 msgid "Make DKDMs"
 msgstr "Fremstil KDM'er"
@@ -2075,7 +2082,7 @@ msgstr "Generer certifikatkæde"
 msgid "Many"
 msgstr ""
 
-#: src/wx/config_dialog.cc:871
+#: src/wx/sound_preferences_page.cc:84
 msgid "Mapping"
 msgstr ""
 
@@ -2101,30 +2108,30 @@ msgstr "Egenskaber..."
 msgid "Matrix"
 msgstr "Matrix"
 
-#: src/wx/full_config_dialog.cc:1391
+#: src/wx/full_config_dialog.cc:1042
 #, fuzzy
 msgid "Maximum JPEG2000 bit rate"
 msgstr "Maksimal JPEG2000-båndbredde"
 
-#: src/wx/full_config_dialog.cc:1400
+#: src/wx/full_config_dialog.cc:1051
 #, fuzzy
 msgid "Maximum MPEG2 bit rate"
 msgstr "Maksimal JPEG2000-båndbredde"
 
-#: src/wx/full_config_dialog.cc:1575
+#: src/wx/full_config_dialog.cc:1226
 msgid "Maximum number of frames to store per thread"
 msgstr "Maksimalt antal billeder der gemmes pr tråd"
 
-#: src/wx/dcp_timeline.cc:256
+#: src/wx/dcp_timeline.cc:303
 msgid "Maximum reel size"
 msgstr ""
 
-#: src/wx/dcp_panel.cc:819 src/wx/full_config_dialog.cc:1395
-#: src/wx/full_config_dialog.cc:1404
+#: src/wx/dcp_panel.cc:819 src/wx/full_config_dialog.cc:1046
+#: src/wx/full_config_dialog.cc:1055
 msgid "Mbit/s"
 msgstr "Mbit/s"
 
-#: src/wx/full_config_dialog.cc:1022
+#: src/wx/full_config_dialog.cc:673
 msgid "Message box"
 msgstr "Meddelelsesboks"
 
@@ -2140,76 +2147,81 @@ msgstr ""
 msgid "Mix audio down to stereo"
 msgstr "Mix lyd ned til stereo"
 
-#: src/wx/verify_dcp_result_panel.cc:472
+#: src/wx/verify_dcp_result_panel.cc:539
 msgid ""
 "More 2K JPEG2000 frames (not listed) contain the wrong number of tile parts."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:409
+#: src/wx/verify_dcp_result_panel.cc:476
 msgid ""
 "More 2K JPEG2000 frames (not listed) have an invalid number of guard bits."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:444
+#: src/wx/verify_dcp_result_panel.cc:511
 msgid "More 2K JPEG2000 frames (not listed) have too many POC markers."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:416
+#: src/wx/verify_dcp_result_panel.cc:483
 msgid ""
 "More 4K JPEG2000 frames (not listed) have an invalid number of guard bits."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:451
+#: src/wx/verify_dcp_result_panel.cc:518
 msgid "More 4K JPEG2000 frames (not listed) have too many POC markers."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:465
+#: src/wx/verify_dcp_result_panel.cc:532
 msgid ""
 "More JPEG2000 frames (not listed) contain POC markers in invalid locations."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:458
+#: src/wx/verify_dcp_result_panel.cc:525
 msgid "More JPEG2000 frames (not listed) contain invalid POC markers."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:479
+#: src/wx/verify_dcp_result_panel.cc:553 src/wx/verify_dcp_result_panel.cc:560
+#, fuzzy
+msgid "More JPEG2000 frames (not listed) contain invalid Rsiz values."
+msgstr "Filmen i en spole har en ugyldig billedhastighed"
+
+#: src/wx/verify_dcp_result_panel.cc:546
 msgid ""
 "More JPEG2000 frames (not listed) contain the wrong number of tile parts."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:437
+#: src/wx/verify_dcp_result_panel.cc:504
 msgid "More JPEG2000 frames (not listed) have an invalid code-block height."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:430
+#: src/wx/verify_dcp_result_panel.cc:497
 msgid "More JPEG2000 frames (not listed) have an invalid code-block width."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:486
+#: src/wx/verify_dcp_result_panel.cc:567
 msgid "More JPEG2000 frames (not listed) have no TLM marker."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:423
+#: src/wx/verify_dcp_result_panel.cc:490
 msgid "More JPEG2000 tile sizes (not listed) do not match the image size."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:248
+#: src/wx/verify_dcp_result_panel.cc:312
 msgid ""
 "More frames (not listed) have an instantaneous bit rate that is close to the "
 "limit of 250Mbit/s."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:241
+#: src/wx/verify_dcp_result_panel.cc:305
 msgid ""
 "More frames (not listed) have an instantaneous bit rate that is over the "
 "limit of 250Mbit/s."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:563
+#: src/wx/verify_dcp_result_panel.cc:644
 msgid "More frames (not listed) have image components that are too large."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:402
+#: src/wx/verify_dcp_result_panel.cc:469
 #, fuzzy
 msgid "More picture frames (not listed) have invalid JPEG2000 codestreams."
 msgstr "Filmen i en spole har en ugyldig billedhastighed"
@@ -2223,7 +2235,7 @@ msgstr "Trim efter nuværende position"
 msgid "Move configuration"
 msgstr "Flyt konfiguration"
 
-#: src/wx/move_to_dialog.cc:37
+#: src/wx/move_to_dialog.cc:36
 msgid "Move content"
 msgstr "Flyt indhold"
 
@@ -2239,7 +2251,7 @@ msgstr "Flyt det valgte indhold til senere i filmen."
 msgid "Move to start of reel"
 msgstr "Flyt til start af spolen"
 
-#: src/wx/video_panel.cc:487
+#: src/wx/video_panel.cc:493
 msgid "Multiple content selected"
 msgstr "Flere indholdselementer valgt"
 
@@ -2247,7 +2259,7 @@ msgstr "Flere indholdselementer valgt"
 msgid "Multiple values"
 msgstr "Flere værdier"
 
-#: src/wx/dir_picker_ctrl.cc:64
+#: src/wx/dir_picker_ctrl.cc:62
 msgid "My Documents"
 msgstr "Mine dokumenter"
 
@@ -2295,7 +2307,7 @@ msgstr "Nye versioner af DCP-o-matic er tilgængelige."
 msgid "Next"
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:229
+#: src/wx/verify_dcp_result_panel.cc:293
 msgid "No ASSETMAP or ASSETMAP.xml file was found."
 msgstr ""
 
@@ -2303,7 +2315,7 @@ msgstr ""
 msgid "No DCP loaded."
 msgstr "Ingen DCP indlæst."
 
-#: src/wx/verify_dcp_result_panel.cc:639
+#: src/wx/verify_dcp_result_panel.cc:692
 msgid "No SMPTE Bv2.1 errors found."
 msgstr ""
 
@@ -2316,27 +2328,26 @@ msgstr "Ingen lyd vil blive sendt fra indholdskanal %d til DCP-kanal %d."
 msgid "No content found in this folder."
 msgstr "Fandt intet indhold i denne folder."
 
-#: src/wx/verify_dcp_result_panel.cc:635
+#: src/wx/verify_dcp_result_panel.cc:688
 msgid "No errors found."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:643
+#: src/wx/verify_dcp_result_panel.cc:696
 msgid "No warnings found."
 msgstr ""
 
-#: src/wx/full_config_dialog.cc:1373
+#: src/wx/full_config_dialog.cc:1024
 #, fuzzy
 msgid "Non-standard"
 msgstr "Standard"
 
 #: src/wx/content_advanced_dialog.cc:74 src/wx/content_advanced_dialog.cc:156
 #: src/wx/content_advanced_dialog.cc:164 src/wx/dcp_panel.cc:1040
-#: src/wx/file_picker_ctrl.cc:80 src/wx/subtitle_appearance_dialog.cc:151
-#: src/wx/video_panel.cc:187
+#: src/wx/subtitle_appearance_dialog.cc:151 src/wx/video_panel.cc:187
 msgid "None"
 msgstr "Ingen"
 
-#: src/wx/verify_dcp_result_panel.cc:288
+#: src/wx/verify_dcp_result_panel.cc:352
 msgid "Not all subtitle assets specify the same <Language> tag."
 msgstr ""
 
@@ -2353,7 +2364,7 @@ msgstr ""
 msgid "Notes"
 msgstr "Noter"
 
-#: src/wx/full_config_dialog.cc:1005
+#: src/wx/full_config_dialog.cc:656
 msgid "Notifications"
 msgstr "Beskeder"
 
@@ -2361,12 +2372,12 @@ msgstr "Beskeder"
 msgid "Notify when complete"
 msgstr "Giv besked når afsluttet"
 
-#: src/wx/full_config_dialog.cc:110 src/wx/full_config_dialog.cc:115
+#: src/wx/full_config_dialog.cc:115 src/wx/full_config_dialog.cc:120
 #, fuzzy, c-format
 msgid "Number of threads %s should use"
 msgstr "Antal tråde DCP-o-matic skal bruge"
 
-#: src/wx/config_dialog.cc:965
+#: src/wx/sound_preferences_page.cc:178
 msgid "OSS"
 msgstr ""
 
@@ -2382,11 +2393,11 @@ msgstr "Off"
 msgid "Offset"
 msgstr "Offset"
 
-#: src/wx/full_config_dialog.cc:1566
+#: src/wx/full_config_dialog.cc:1217
 msgid "Only servers encode"
 msgstr "Kun servere indkoder"
 
-#: src/wx/full_config_dialog.cc:1654 src/wx/player_config_dialog.cc:320
+#: src/wx/full_config_dialog.cc:1305 src/wx/player_config_dialog.cc:322
 msgid "Open console window"
 msgstr "Åbn konsol vindue"
 
@@ -2395,7 +2406,7 @@ msgstr "Åbn konsol vindue"
 msgid "Open the timeline for the film (Ctrl+T)."
 msgstr "Åbn filmens tidslinie."
 
-#: src/wx/full_config_dialog.cc:1661 src/wx/player_config_dialog.cc:120
+#: src/wx/full_config_dialog.cc:1312 src/wx/player_config_dialog.cc:124
 msgid "OpenGL (faster)"
 msgstr ""
 
@@ -2422,7 +2433,7 @@ msgstr "Organisations enhed"
 msgid "Other trusted devices"
 msgstr ""
 
-#: src/wx/full_config_dialog.cc:725
+#: src/wx/email_preferences_page.cc:66
 msgid "Outgoing mail server"
 msgstr "Udgående mail server"
 
@@ -2445,16 +2456,16 @@ msgstr ""
 "Breddeindramning kan ikke sættes med mindre du brænder underteksterne ind i "
 "filmen"
 
-#: src/wx/config_dialog.cc:872 src/wx/dkdm_dialog.cc:108
-#: src/wx/kdm_dialog.cc:113 src/wx/self_dkdm_dialog.cc:76
+#: src/wx/dkdm_dialog.cc:99 src/wx/kdm_dialog.cc:113
+#: src/wx/self_dkdm_dialog.cc:76 src/wx/sound_preferences_page.cc:85
 msgid "Output"
 msgstr "Output"
 
-#: src/wx/export_subtitles_dialog.cc:60 src/wx/export_video_file_dialog.cc:98
+#: src/wx/export_subtitles_dialog.cc:62 src/wx/export_video_file_dialog.cc:98
 msgid "Output file"
 msgstr "Output"
 
-#: src/wx/export_subtitles_dialog.cc:64
+#: src/wx/export_subtitles_dialog.cc:68
 #, fuzzy
 msgid "Output folder"
 msgstr "Output"
@@ -2472,23 +2483,23 @@ msgstr "Videobilledhastighed"
 msgid "Overwrite this file with current configuration"
 msgstr "Overskriv denne fil med nuværende konfiguration"
 
-#: src/wx/verify_dcp_result_panel.cc:515
+#: src/wx/verify_dcp_result_panel.cc:596
 msgid "Part of the DCP could not be checked because no KDM was available."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:217
+#: src/wx/verify_dcp_result_panel.cc:281
 msgid ""
 "Parts of the DCP are written according to the Interop standard and parts "
 "according to SMPTE."
 msgstr ""
 
-#: src/wx/full_config_dialog.cc:606
+#: src/wx/full_config_dialog.cc:549
 #, fuzzy
 msgid "Passive mode"
 msgstr "Enkel indstilling"
 
 #: src/wx/credentials_download_certificate_panel.cc:54
-#: src/wx/full_config_dialog.cc:622 src/wx/full_config_dialog.cc:749
+#: src/wx/email_preferences_page.cc:90 src/wx/full_config_dialog.cc:565
 msgid "Password"
 msgstr "Password"
 
@@ -2508,7 +2519,7 @@ msgstr "Indsæt undertekst og tekstindstillinger"
 msgid "Paste video settings"
 msgstr "Indsæt videoindstillinger"
 
-#: src/wx/about_dialog.cc:176
+#: src/wx/about_dialog.cc:177
 msgid "Patrons"
 msgstr ""
 
@@ -2538,7 +2549,7 @@ msgstr "Ydeevne"
 msgid "Picture"
 msgstr ""
 
-#: src/wx/full_config_dialog.cc:738
+#: src/wx/email_preferences_page.cc:79
 msgid "Plain"
 msgstr ""
 
@@ -2550,11 +2561,11 @@ msgstr "Afspil"
 msgid "Play length"
 msgstr "Afspil længde"
 
-#: src/wx/config_dialog.cc:861
+#: src/wx/sound_preferences_page.cc:74
 msgid "Play sound via"
 msgstr "Afspil lyd via"
 
-#: src/wx/config_dialog.cc:1043
+#: src/wx/locations_preferences_page.cc:71
 msgid "Playlist directory"
 msgstr "Playliste-folder"
 
@@ -2579,7 +2590,7 @@ msgstr "Vent venligst; lyden analyseres..."
 msgid "Position"
 msgstr "Position"
 
-#: src/wx/metadata_dialog.cc:307 src/wx/smpte_metadata_dialog.cc:136
+#: src/wx/metadata_dialog.cc:306 src/wx/smpte_metadata_dialog.cc:136
 msgid "Pre-release"
 msgstr "Pre-release"
 
@@ -2591,12 +2602,12 @@ msgstr ""
 msgid "Processor"
 msgstr "Processor"
 
-#: src/wx/full_config_dialog.cc:1280
+#: src/wx/full_config_dialog.cc:931
 #, fuzzy
 msgid "Product name"
 msgstr "Produktkode"
 
-#: src/wx/full_config_dialog.cc:1288
+#: src/wx/full_config_dialog.cc:939
 #, fuzzy
 msgid "Product version"
 msgstr "Forkert version"
@@ -2605,11 +2616,11 @@ msgstr "Forkert version"
 msgid "Properties..."
 msgstr "Egenskaber..."
 
-#: src/wx/full_config_dialog.cc:602
+#: src/wx/full_config_dialog.cc:545
 msgid "Protocol"
 msgstr "Protokol"
 
-#: src/wx/config_dialog.cc:964
+#: src/wx/sound_preferences_page.cc:177
 msgid "PulseAudio"
 msgstr "PulseAudio"
 
@@ -2653,7 +2664,7 @@ msgstr "Genenkod JPEG2000 data fra input"
 msgid "Re-examine..."
 msgstr "Gen-undersøg..."
 
-#: src/wx/config_dialog.cc:331 src/wx/config_dialog.cc:679
+#: src/wx/certificate_chain_editor.cc:117 src/wx/keys_preferences_page.cc:109
 msgid "Re-make certificates and key..."
 msgstr "Gendan certifikater og nøgle..."
 
@@ -2683,11 +2694,11 @@ msgstr "Tilføj sal"
 msgid "Recipient certificate"
 msgstr "Modtager-certifikat"
 
-#: src/wx/dkdm_dialog.cc:78
+#: src/wx/dkdm_dialog.cc:77
 msgid "Recipients"
 msgstr ""
 
-#: src/wx/metadata_dialog.cc:311
+#: src/wx/metadata_dialog.cc:310
 msgid "Red band"
 msgstr "Red band"
 
@@ -2700,12 +2711,12 @@ msgstr "Rød farvetone"
 msgid "Reel %d"
 msgstr "Spole %d"
 
-#: src/wx/dcp_timeline.cc:68
+#: src/wx/dcp_timeline.cc:69
 #, c-format
 msgid "Reel %d to reel %d"
 msgstr ""
 
-#: src/wx/dcp_timeline.cc:247
+#: src/wx/dcp_timeline.cc:297
 #, fuzzy
 msgid "Reel mode"
 msgstr "Spole %d"
@@ -2731,15 +2742,15 @@ msgstr ""
 msgid "Region"
 msgstr ""
 
-#: src/wx/metadata_dialog.cc:212
+#: src/wx/metadata_dialog.cc:211
 msgid "Release territory"
 msgstr ""
 
-#: src/wx/metadata_dialog.cc:214
+#: src/wx/metadata_dialog.cc:213
 msgid "Release territory for this DCP"
 msgstr ""
 
-#: src/wx/config_dialog.cc:305 src/wx/content_menu.cc:117
+#: src/wx/certificate_chain_editor.cc:91 src/wx/content_menu.cc:117
 #: src/wx/content_panel.cc:285 src/wx/full_language_tag_dialog.cc:71
 #: src/wx/recipients_panel.cc:73 src/wx/templates_dialog.cc:61
 #: src/wx/editable_list.h:149
@@ -2759,7 +2770,7 @@ msgstr "Fjern biograf"
 msgid "Remove Screen"
 msgstr "Fjern sal"
 
-#: src/wx/dcp_timeline.cc:173
+#: src/wx/dcp_timeline.cc:175
 #, fuzzy
 msgid "Remove reel boundary"
 msgstr "Fjern sal"
@@ -2797,16 +2808,16 @@ msgstr "Gentag..."
 msgid "Report A Problem"
 msgstr "Rapporter Et Problem"
 
-#: src/wx/config_dialog.cc:876
+#: src/wx/sound_preferences_page.cc:89
 #, fuzzy
 msgid "Reset to default"
 msgstr "Nulstil til standard tekst"
 
-#: src/wx/full_config_dialog.cc:928 src/wx/full_config_dialog.cc:1065
+#: src/wx/full_config_dialog.cc:716 src/wx/kdm_email_preferences_page.cc:102
 msgid "Reset to default subject and text"
 msgstr "Nulstil til standard emne og tekst"
 
-#: src/wx/full_config_dialog.cc:1197
+#: src/wx/full_config_dialog.cc:848
 msgid "Reset to default text"
 msgstr "Nulstil til standard tekst"
 
@@ -2814,7 +2825,7 @@ msgstr "Nulstil til standard tekst"
 msgid "Resolution"
 msgstr "Opløsning"
 
-#: src/wx/player_config_dialog.cc:131
+#: src/wx/player_config_dialog.cc:135
 msgid "Respect KDM validity periods"
 msgstr "Respekter KDM gyldighedsperioder"
 
@@ -2835,7 +2846,7 @@ msgstr "Højre"
 msgid "Right click to change gain."
 msgstr "Højreklik for at ændre gain."
 
-#: src/wx/config_dialog.cc:522
+#: src/wx/certificate_chain_editor.cc:308
 msgid "Root"
 msgstr "Rod"
 
@@ -2847,7 +2858,7 @@ msgstr "Rodnavn"
 msgid "S-Gamut3"
 msgstr "S-Gamut3"
 
-#: src/wx/full_config_dialog.cc:626
+#: src/wx/full_config_dialog.cc:569
 msgid "SCP (for AAM and Doremi)"
 msgstr "SCP (til AAM og Doremi)"
 
@@ -2859,23 +2870,23 @@ msgstr "SMPTE"
 msgid "SMPTE (Bv2.0 only)"
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:55
+#: src/wx/verify_dcp_result_panel.cc:59
 msgid "SMPTE Bv2.1 errors"
 msgstr ""
 
-#: src/wx/full_config_dialog.cc:740
+#: src/wx/email_preferences_page.cc:81
 msgid "SSL"
 msgstr ""
 
-#: src/wx/full_config_dialog.cc:739
+#: src/wx/email_preferences_page.cc:80
 msgid "STARTTLS"
 msgstr ""
 
-#: src/wx/full_config_dialog.cc:153
+#: src/wx/full_config_dialog.cc:148
 msgid "Same place as last time"
 msgstr ""
 
-#: src/wx/full_config_dialog.cc:154
+#: src/wx/full_config_dialog.cc:149
 msgid "Same place as project"
 msgstr ""
 
@@ -2903,11 +2914,11 @@ msgstr ""
 msgid "Save over existing template"
 msgstr "Gem skabelon"
 
-#: src/wx/verify_dcp_result_panel.cc:65
+#: src/wx/verify_dcp_result_panel.cc:78
 msgid "Save report as HTML..."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:63
+#: src/wx/verify_dcp_result_panel.cc:76
 msgid "Save report as text..."
 msgstr ""
 
@@ -2932,7 +2943,7 @@ msgstr "Sale"
 msgid "Screens"
 msgstr "Sale"
 
-#: src/wx/full_config_dialog.cc:532
+#: src/wx/full_config_dialog.cc:475
 msgid "Search network for servers"
 msgstr "Søg efter servere på netværket"
 
@@ -2944,46 +2955,46 @@ msgstr "Vælg"
 msgid "Select CPL XML file"
 msgstr "Vælg CPL XML-fil"
 
-#: src/wx/config_dialog.cc:458 src/wx/config_dialog.cc:826
+#: src/wx/certificate_chain_editor.cc:244 src/wx/keys_preferences_page.cc:265
 #: src/wx/recipient_dialog.cc:171 src/wx/screen_dialog.cc:298
 msgid "Select Certificate File"
 msgstr "Vælg certifikatfil"
 
-#: src/wx/config_dialog.cc:375
+#: src/wx/certificate_chain_editor.cc:161
 #, fuzzy
 msgid "Select Certificate file"
 msgstr "Vælg certifikatfil"
 
-#: src/wx/config_dialog.cc:488
+#: src/wx/certificate_chain_editor.cc:274
 msgid "Select Chain File"
 msgstr "Vælg Kæde fil"
 
-#: src/wx/full_config_dialog.cc:194
+#: src/wx/general_preferences_page.cc:183
 msgid "Select Cinemas File"
 msgstr "Vælg Biografer fil"
 
-#: src/wx/config_dialog.cc:730
+#: src/wx/keys_preferences_page.cc:169
 msgid "Select Export File"
 msgstr "Vælg Eksport fil"
 
-#: src/wx/config_dialog.cc:764
+#: src/wx/keys_preferences_page.cc:203
 msgid "Select File To Import"
 msgstr "Vælg Fil der skal importeres"
 
-#: src/wx/content_menu.cc:409
+#: src/wx/content_menu.cc:410
 msgid "Select KDM"
 msgstr "Vælg KDM"
 
-#: src/wx/config_dialog.cc:612
+#: src/wx/certificate_chain_editor.cc:398
 msgid "Select Key File"
 msgstr "Vælg Nøglefil"
 
-#: src/wx/config_dialog.cc:578
+#: src/wx/certificate_chain_editor.cc:364
 #, fuzzy
 msgid "Select Key file"
 msgstr "Vælg Nøglefil"
 
-#: src/wx/content_menu.cc:463
+#: src/wx/content_menu.cc:464
 msgid "Select OV"
 msgstr "Vælg OV"
 
@@ -2991,19 +3002,19 @@ msgstr "Vælg OV"
 msgid "Select and move content"
 msgstr "Vælg og flyt indhold"
 
-#: src/wx/full_config_dialog.cc:126
+#: src/wx/general_preferences_page.cc:124
 msgid "Select cinema and screen database file"
 msgstr "Vælg biograf- og sals-database"
 
-#: src/wx/full_config_dialog.cc:121
+#: src/wx/general_preferences_page.cc:119
 msgid "Select configuration file"
 msgstr "Vælg konfigurationsfil"
 
-#: src/wx/player_config_dialog.cc:136
+#: src/wx/kdm_config_dialog.cc:64 src/wx/player_config_dialog.cc:140
 msgid "Select debug log file"
 msgstr "Vælg debuglog fil"
 
-#: src/wx/export_subtitles_dialog.cc:61 src/wx/export_video_file_dialog.cc:104
+#: src/wx/export_subtitles_dialog.cc:64 src/wx/export_video_file_dialog.cc:104
 msgid "Select output file"
 msgstr "Vælg output fil"
 
@@ -3012,7 +3023,7 @@ msgstr "Vælg output fil"
 msgid "Select..."
 msgstr "Vælg"
 
-#: src/wx/dkdm_output_panel.cc:93 src/wx/kdm_output_panel.cc:98
+#: src/wx/dkdm_output_panel.cc:95 src/wx/kdm_output_panel.cc:98
 msgid "Send by email"
 msgstr "Send som e-mail"
 
@@ -3029,7 +3040,7 @@ msgstr "Send logfiler"
 msgid "Send test email"
 msgstr "Send som e-mail"
 
-#: src/wx/full_config_dialog.cc:754
+#: src/wx/email_preferences_page.cc:95
 #, fuzzy
 msgid "Send test email..."
 msgstr "Send som e-mail"
@@ -3042,11 +3053,11 @@ msgstr "Sekvens"
 msgid "Serial number"
 msgstr "Serienummer"
 
-#: src/wx/server_dialog.cc:30
+#: src/wx/server_dialog.cc:34
 msgid "Server"
 msgstr "Server"
 
-#: src/wx/full_config_dialog.cc:519
+#: src/wx/full_config_dialog.cc:462
 msgid "Servers"
 msgstr "Servere"
 
@@ -3072,7 +3083,7 @@ msgstr "Indlæs fra fil..."
 msgid "Set from system font..."
 msgstr "Indlæs fra fil..."
 
-#: src/wx/config_dialog.cc:124
+#: src/wx/general_preferences_page.cc:73
 msgid "Set language"
 msgstr "Indstil sprog"
 
@@ -3110,7 +3121,7 @@ msgstr "Skygge"
 msgid "Show"
 msgstr ""
 
-#: src/wx/full_config_dialog.cc:1562
+#: src/wx/full_config_dialog.cc:1213
 msgid "Show experimental audio processors"
 msgstr ""
 
@@ -3132,15 +3143,15 @@ msgstr ""
 msgid "Show subtitle area"
 msgstr "åbne undertekster"
 
-#: src/wx/metadata_dialog.cc:284
+#: src/wx/metadata_dialog.cc:283
 msgid "Sign language video language"
 msgstr ""
 
-#: src/wx/config_dialog.cc:670 src/wx/config_dialog.cc:717
+#: src/wx/keys_preferences_page.cc:100 src/wx/keys_preferences_page.cc:156
 msgid "Signing DCPs and KDMs"
 msgstr "Signere DCPer og KDMer"
 
-#: src/wx/full_config_dialog.cc:1659 src/wx/player_config_dialog.cc:119
+#: src/wx/full_config_dialog.cc:1310 src/wx/player_config_dialog.cc:123
 #, fuzzy
 msgid "Simple (safer)"
 msgstr "Enkel indstilling"
@@ -3153,7 +3164,7 @@ msgstr "Simpel gamma"
 msgid "Simple gamma, linearised for small values"
 msgstr "Simpel gamma, lineariseret til små værdier"
 
-#: src/wx/dcp_timeline.cc:249
+#: src/wx/dcp_timeline.cc:262
 msgid "Single reel"
 msgstr "Enkelt spole"
 
@@ -3175,7 +3186,7 @@ msgstr "Udjævning"
 msgid "Snap"
 msgstr "Snap"
 
-#: src/wx/dcp_timeline.cc:267
+#: src/wx/dcp_timeline.cc:314
 msgid "Snap when dragging"
 msgstr ""
 
@@ -3185,22 +3196,22 @@ msgid ""
 "certificate validity periods.  What do you want to do?"
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:521
+#: src/wx/verify_dcp_result_panel.cc:602
 msgid ""
 "Some closed <Text> or <Image> nodes have different vertical alignments "
 "within a <Subtitle>."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:524
+#: src/wx/verify_dcp_result_panel.cc:605
 msgid ""
 "Some closed captions are not listed in the order of their vertical position."
 msgstr ""
 
-#: src/wx/config_dialog.cc:850 src/wx/dcp_referencing_dialog.cc:115
+#: src/wx/dcp_referencing_dialog.cc:115 src/wx/sound_preferences_page.cc:63
 msgid "Sound"
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:551
+#: src/wx/verify_dcp_result_panel.cc:632
 msgid "Sound assets do not all have the same channel count."
 msgstr ""
 
@@ -3209,15 +3220,15 @@ msgstr ""
 msgid "Sound processor"
 msgstr "Processor"
 
-#: src/wx/metadata_dialog.cc:207
+#: src/wx/metadata_dialog.cc:206
 msgid "Specific"
 msgstr ""
 
-#: src/wx/dcp_timeline.cc:251
+#: src/wx/dcp_timeline.cc:268
 msgid "Split by maximum reel size"
 msgstr ""
 
-#: src/wx/dcp_timeline.cc:250
+#: src/wx/dcp_timeline.cc:265
 msgid "Split by video content"
 msgstr "Opdel efter video indhold"
 
@@ -3235,11 +3246,11 @@ msgstr "Standard"
 msgid "Start"
 msgstr "Start"
 
-#: src/wx/move_to_dialog.cc:40
+#: src/wx/move_to_dialog.cc:39
 msgid "Start of reel"
 msgstr "Start på spole"
 
-#: src/wx/player_config_dialog.cc:102
+#: src/wx/player_config_dialog.cc:106
 msgid "Start player as"
 msgstr "Start afspiller som"
 
@@ -3255,12 +3266,12 @@ msgstr ""
 msgid "Stream"
 msgstr "Strøm"
 
-#: src/wx/metadata_dialog.cc:293
+#: src/wx/metadata_dialog.cc:292
 #, fuzzy
 msgid "Studio"
 msgstr "Lyd"
 
-#: src/wx/full_config_dialog.cc:897 src/wx/full_config_dialog.cc:1030
+#: src/wx/full_config_dialog.cc:681 src/wx/kdm_email_preferences_page.cc:71
 msgid "Subject"
 msgstr "Emne"
 
@@ -3274,7 +3285,7 @@ msgstr "Rodnavn"
 msgid "Subject organization name"
 msgstr "Vælg konfigurationsfil"
 
-#: src/wx/about_dialog.cc:180
+#: src/wx/about_dialog.cc:181
 msgid "Subscribers"
 msgstr "Abonnenter"
 
@@ -3283,17 +3294,17 @@ msgstr "Abonnenter"
 msgid "Subtitle appearance"
 msgstr "Underteksters udseende"
 
-#: src/wx/verify_dcp_result_panel.cc:345
+#: src/wx/verify_dcp_result_panel.cc:412
 #, c-format
 msgid "Subtitle asset %n has a non-zero <EntryPoint>."
 msgstr ""
 
-#: src/wx/export_subtitles_dialog.cc:58
+#: src/wx/export_subtitles_dialog.cc:60
 #, fuzzy
 msgid "Subtitle files (.mxf)|*.mxf"
 msgstr "MOV filer (*.mov)|*.mov"
 
-#: src/wx/export_subtitles_dialog.cc:58
+#: src/wx/export_subtitles_dialog.cc:60
 #, fuzzy
 msgid "Subtitle files (.xml)|*.xml"
 msgstr "MOV filer (*.mov)|*.mov"
@@ -3320,11 +3331,11 @@ msgstr "Undertekster: ja"
 msgid "System information"
 msgstr ""
 
-#: src/wx/full_config_dialog.cc:582
+#: src/wx/full_config_dialog.cc:525
 msgid "TMS"
 msgstr "TMS"
 
-#: src/wx/full_config_dialog.cc:614
+#: src/wx/full_config_dialog.cc:557
 msgid "Target path"
 msgstr "Destinationsfolder"
 
@@ -3344,22 +3355,22 @@ msgstr "Skabeloner"
 msgid "Temporary"
 msgstr ""
 
-#: src/wx/metadata_dialog.cc:303
+#: src/wx/metadata_dialog.cc:302
 #, fuzzy
 msgid "Temporary version"
 msgstr "Midlertidig version"
 
-#: src/wx/metadata_dialog.cc:205
+#: src/wx/metadata_dialog.cc:204
 #, fuzzy
 msgid "Territory type"
 msgstr "Område (f.eks. UK)"
 
-#: src/wx/full_config_dialog.cc:847 src/wx/full_config_dialog.cc:850
+#: src/wx/email_preferences_page.cc:201 src/wx/email_preferences_page.cc:204
 #, fuzzy
 msgid "Test email sending failed."
 msgstr "Debug: afsendelse af e-mail"
 
-#: src/wx/full_config_dialog.cc:853
+#: src/wx/email_preferences_page.cc:207
 #, fuzzy
 msgid "Test email sent."
 msgstr "Debug: afsendelse af e-mail"
@@ -3369,7 +3380,7 @@ msgstr "Debug: afsendelse af e-mail"
 msgid "Test version"
 msgstr "Testversion %s"
 
-#: src/wx/about_dialog.cc:251
+#: src/wx/about_dialog.cc:252
 msgid "Tested by"
 msgstr "Testet af"
 
@@ -3377,118 +3388,118 @@ msgstr "Testet af"
 msgid "The 'until' time must be after the 'from' time."
 msgstr "'Til' tidspunktet skal være efter 'fra' tidspunktet."
 
-#: src/wx/verify_dcp_result_panel.cc:579
+#: src/wx/verify_dcp_result_panel.cc:660
 #, c-format
 msgid "The <LabelText> in a <ContentVersion> in CPL %cpl is empty"
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:536
+#: src/wx/verify_dcp_result_panel.cc:617
 msgid ""
 "The <MainPictureActiveArea> is either not a multiple of 2, or is bigger than "
 "an asset."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:542
+#: src/wx/verify_dcp_result_panel.cc:623
 #, c-format
 msgid "The ASSETMAP %n has more than one asset with the same ID."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:496
+#: src/wx/verify_dcp_result_panel.cc:577
 msgid ""
 "The Asset ID in a timed text MXF is the same as the Resource ID or that of "
 "the contained XML."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:330
+#: src/wx/verify_dcp_result_panel.cc:397
 #, c-format
 msgid ""
 "The CPL %cpl has an <AnnotationText> which is not the same as its "
 "<ContentTitleText>."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:582
+#: src/wx/verify_dcp_result_panel.cc:663
 #, fuzzy, c-format
 msgid "The CPL %cpl has an invalid namespace %n"
 msgstr "Filmen i en spole har en ugyldig billedhastighed"
 
-#: src/wx/verify_dcp_result_panel.cc:387
+#: src/wx/verify_dcp_result_panel.cc:454
 #, c-format
 msgid "The CPL %cpl has encrypted content but is not signed."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:327
+#: src/wx/verify_dcp_result_panel.cc:394
 #, c-format
 msgid "The CPL %cpl has no <AnnotationText> tag."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:585
+#: src/wx/verify_dcp_result_panel.cc:666
 #, c-format
 msgid "The CPL %cpl has no <ContentVersion> tag"
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:381
+#: src/wx/verify_dcp_result_panel.cc:448
 #, c-format
 msgid "The CPL %cpl has no CPL extension metadata tag."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:375
+#: src/wx/verify_dcp_result_panel.cc:442
 #, c-format
 msgid "The CPL %cpl has no CPL metadata tag."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:378
+#: src/wx/verify_dcp_result_panel.cc:445
 #, c-format
 msgid "The CPL %cpl has no CPL metadata version number tag."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:384
+#: src/wx/verify_dcp_result_panel.cc:451
 #, c-format
 msgid "The CPL %f has an invalid CPL extension metadata tag (%n)"
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:369
+#: src/wx/verify_dcp_result_panel.cc:436
 #, c-format
 msgid "The DCP has a FFOC of %n instead of 1."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:372
+#: src/wx/verify_dcp_result_panel.cc:439
 #, c-format
 msgid "The DCP has a LFOC of %n instead of the reel duration minus one."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:339
+#: src/wx/verify_dcp_result_panel.cc:406
 msgid ""
 "The DCP has closed captions but not every reel has the same number of closed "
 "caption assets."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:396
+#: src/wx/verify_dcp_result_panel.cc:463
 msgid "The DCP has encrypted content, but not all its assets are encrypted."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:363
+#: src/wx/verify_dcp_result_panel.cc:430
 msgid "The DCP has no FFOC (first frame of content) marker."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:366
+#: src/wx/verify_dcp_result_panel.cc:433
 msgid "The DCP has no LFOC (last frame of content) marker."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:336
+#: src/wx/verify_dcp_result_panel.cc:403
 msgid "The DCP has subtitles but at least one reel has no subtitle asset."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:357
+#: src/wx/verify_dcp_result_panel.cc:424
 msgid ""
 "The DCP is a feature but has no FFEC (first frame of end credits) marker."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:360
+#: src/wx/verify_dcp_result_panel.cc:427
 msgid ""
 "The DCP is a feature but has no FFMC (first frame of moving credits) marker."
 msgstr ""
 
-#: src/wx/dkdm_dialog.cc:177 src/wx/kdm_dialog.cc:247
+#: src/wx/dkdm_dialog.cc:168 src/wx/kdm_dialog.cc:247
 #, c-format
 msgid ""
 "The KDM end period is after (or close to) the end of the signing "
@@ -3496,112 +3507,112 @@ msgid ""
 "or re-create your signing certificates in the %s preferences window."
 msgstr ""
 
-#: src/wx/dkdm_dialog.cc:172 src/wx/kdm_dialog.cc:242
+#: src/wx/dkdm_dialog.cc:163 src/wx/kdm_dialog.cc:242
 msgid ""
 "The KDM start period is before (or close to) the start of the signing "
 "certificate's validity period.  Use a later start time for this KDM."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:601
+#: src/wx/verify_dcp_result_panel.cc:682
 #, fuzzy, c-format
 msgid "The PKL %f has an invalid namespace %n"
 msgstr "Filmen i en spole har en ugyldig billedhastighed"
 
-#: src/wx/verify_dcp_result_panel.cc:393
+#: src/wx/verify_dcp_result_panel.cc:460
 #, c-format
 msgid ""
 "The PKL %n has an <AnnotationText> which does not match its CPL's "
 "<ContentTitleText>."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:390
+#: src/wx/verify_dcp_result_panel.cc:457
 #, c-format
 msgid "The PKL %n has encrypted content but is not signed."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:539
+#: src/wx/verify_dcp_result_panel.cc:620
 #, c-format
 msgid "The PKL %n has more than one asset with the same ID."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:202
+#: src/wx/verify_dcp_result_panel.cc:266
 #, fuzzy, c-format
 msgid "The PKL and CPL hashes disagree for picture asset %f."
 msgstr ""
 "Der er uoverensstemmelse mellem PKL og CPL hashværdierne for et billedeaktiv."
 
-#: src/wx/verify_dcp_result_panel.cc:208
+#: src/wx/verify_dcp_result_panel.cc:272
 #, fuzzy, c-format
 msgid "The PKL and CPL hashes disagree for sound asset %f."
 msgstr ""
 "Der er uoverensstemmelse mellem PKL og CPL hashværdierne for et lydaktiv."
 
-#: src/wx/verify_dcp_result_panel.cc:493
+#: src/wx/verify_dcp_result_panel.cc:574
 msgid ""
 "The Resource ID in a timed text MXF did not match the ID of the contained "
 "XML."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:573
+#: src/wx/verify_dcp_result_panel.cc:654
 #, c-format
 msgid "The SMPTE subtitle asset %id has <Text> nodes but no <LoadFont> node"
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:224
+#: src/wx/verify_dcp_result_panel.cc:288
 #, c-format
 msgid "The XML in %f is malformed (%n)."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:222
+#: src/wx/verify_dcp_result_panel.cc:286
 msgid "The XML in %f is malformed on line %l (%n)."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:276
+#: src/wx/verify_dcp_result_panel.cc:340
 #, c-format
 msgid ""
 "The XML in the closed caption asset %f takes up %n bytes which is over the "
 "256KB limit."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:567
+#: src/wx/verify_dcp_result_panel.cc:648
 #, c-format
 msgid ""
 "The XML in the subtitle asset %n has more than one namespace declaration."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:255
+#: src/wx/verify_dcp_result_panel.cc:319
 #, c-format
 msgid "The asset %f is 3D but its MXF is marked as 2D."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:214
+#: src/wx/verify_dcp_result_panel.cc:278
 #, c-format
 msgid "The asset %f is missing."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:235
+#: src/wx/verify_dcp_result_panel.cc:299
 #, c-format
 msgid "The asset %n has a duration of less than 1 second, which is invalid."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:232
+#: src/wx/verify_dcp_result_panel.cc:296
 #, c-format
 msgid ""
 "The asset %n has an intrinsic duration of less than 1 second, which is "
 "invalid."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:354
+#: src/wx/verify_dcp_result_panel.cc:421
 #, c-format
 msgid "The asset %n has no <Hash> in the CPL."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:576
+#: src/wx/verify_dcp_result_panel.cc:657
 #, c-format
 msgid "The asset with ID %id in the asset map actually has an id of %other_id"
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:348
+#: src/wx/verify_dcp_result_panel.cc:415
 #, c-format
 msgid "The closed caption asset %n has no <EntryPoint> tag."
 msgstr ""
@@ -3625,7 +3636,7 @@ msgid ""
 "Should DCP-o-matic try to unmount it now?"
 msgstr ""
 
-#: src/wx/wx_util.cc:827
+#: src/wx/wx_util.cc:829
 msgid ""
 "The existing configuration failed to load.  Default values will be used "
 "instead.  These may take a short time to create."
@@ -3640,26 +3651,26 @@ msgstr ""
 "Filen %s eksisterer allerede. Vil du bruge den som din nye konfiguration "
 "eller overskrive den med din nuværende konfiguration?"
 
-#: src/wx/verify_dcp_result_panel.cc:297
+#: src/wx/verify_dcp_result_panel.cc:361
 msgid ""
 "The first subtitle or closed caption happens before 4s into the first reel."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:557
+#: src/wx/verify_dcp_result_panel.cc:638
 #, c-format
 msgid ""
 "The font file for font ID \"%n\" was not found, or was not referred to in "
 "the ASSETMAP."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:282
+#: src/wx/verify_dcp_result_panel.cc:346
 #, c-format
 msgid ""
 "The fonts in the timed text asset %f take up %n bytes which is over the 10MB "
 "limit."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:199
+#: src/wx/verify_dcp_result_panel.cc:263
 #, fuzzy
 msgid ""
 "The hash (%calculated_hash) of the picture asset %f does not agree with the "
@@ -3669,7 +3680,7 @@ msgstr ""
 "Hashværdien for billedaktivet %s stemmer ikke overens med PKL filen. Det "
 "betyder formodentlig at aktivets fil er ødelagt."
 
-#: src/wx/verify_dcp_result_panel.cc:205
+#: src/wx/verify_dcp_result_panel.cc:269
 #, fuzzy
 msgid ""
 "The hash (%calculated_hash) of the sound asset %f does not agree with the "
@@ -3679,7 +3690,7 @@ msgstr ""
 "Hashværdien for lydaktivet %s stemmer ikke overens med PKL filen. Det "
 "betyder formodentlig at aktivets fil er ødelagt."
 
-#: src/wx/verify_dcp_result_panel.cc:193
+#: src/wx/verify_dcp_result_panel.cc:257
 #, fuzzy
 msgid ""
 "The hash (%reference_hash) of the CPL %cpl in the PKL does not agree with "
@@ -3689,7 +3700,7 @@ msgstr ""
 "CPLens hashværdi i PKLen stemmer ikke overens med CPLfilens. Det betyder "
 "formodentlig at CPL filen er ødelagt."
 
-#: src/wx/verify_dcp_result_panel.cc:261
+#: src/wx/verify_dcp_result_panel.cc:325
 #, c-format
 msgid "The invalid language tag %n is used."
 msgstr ""
@@ -3699,24 +3710,24 @@ msgstr ""
 msgid "The language that the film's title (\"%s\") is in"
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:196
+#: src/wx/verify_dcp_result_panel.cc:260
 #, fuzzy, c-format
 msgid "The picture in a reel has a frame rate of %n, which is not valid."
 msgstr "Filmen i en spole har en ugyldig billedhastighed"
 
-#: src/wx/verify_dcp_result_panel.cc:506
+#: src/wx/verify_dcp_result_panel.cc:587
 #, c-format
 msgid ""
 "The reel duration (%s) of some timed text is not the same as the "
 "ContainerDuration (%s) of its MXF."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:324
+#: src/wx/verify_dcp_result_panel.cc:391
 #, fuzzy, c-format
 msgid "The sound asset %f has an invalid bit depth of %n."
 msgstr "Filmen i en spole har en ugyldig billedhastighed"
 
-#: src/wx/verify_dcp_result_panel.cc:321
+#: src/wx/verify_dcp_result_panel.cc:388
 #, fuzzy, c-format
 msgid "The sound asset %f has an invalid frame rate of %n."
 msgstr "Filmen i en spole har en ugyldig billedhastighed"
@@ -3727,76 +3738,76 @@ msgid ""
 "newer (current) standard.  If in doubt, choose 'SMPTE'"
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:285
+#: src/wx/verify_dcp_result_panel.cc:349
 #, c-format
 msgid "The subtitle asset %f contains no <Language> tag."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:291
+#: src/wx/verify_dcp_result_panel.cc:355
 #, c-format
 msgid "The subtitle asset %f contains no <StartTime> tag."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:294
+#: src/wx/verify_dcp_result_panel.cc:358
 #, c-format
 msgid "The subtitle asset %f has a <StartTime> which is not zero."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:545
+#: src/wx/verify_dcp_result_panel.cc:626
 #, c-format
 msgid "The subtitle asset %n contains no subtitles."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:342
+#: src/wx/verify_dcp_result_panel.cc:409
 #, c-format
 msgid "The subtitle asset %n has no <EntryPoint> tag."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:279
+#: src/wx/verify_dcp_result_panel.cc:343
 #, c-format
 msgid ""
 "The timed text asset %f takes up %n bytes which is over the 115MB limit."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:273
+#: src/wx/verify_dcp_result_panel.cc:337
 #, c-format
 msgid ""
 "The video asset %f uses the frame rate %n which is invalid for 3D video."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:270
+#: src/wx/verify_dcp_result_panel.cc:334
 #, c-format
 msgid ""
 "The video asset %f uses the frame rate %n which is invalid for 4K video."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:267
+#: src/wx/verify_dcp_result_panel.cc:331
 #, fuzzy, c-format
 msgid "The video asset %f uses the invalid frame rate %n."
 msgstr "Filmen i en spole har en ugyldig billedhastighed"
 
-#: src/wx/verify_dcp_result_panel.cc:264
+#: src/wx/verify_dcp_result_panel.cc:328
 #, c-format
 msgid "The video asset %f uses the invalid image size %n."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:315
+#: src/wx/verify_dcp_result_panel.cc:382
 msgid "There are more than 3 closed caption lines in at least one place."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:306
+#: src/wx/verify_dcp_result_panel.cc:373
 msgid "There are more than 3 subtitle lines in at least one place."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:318
+#: src/wx/verify_dcp_result_panel.cc:385
 msgid "There are more than 32 characters in at least one closed caption line."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:309
+#: src/wx/verify_dcp_result_panel.cc:376
 msgid "There are more than 52 characters in at least one subtitle line."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:312
+#: src/wx/verify_dcp_result_panel.cc:379
 msgid "There are more than 79 characters in at least one subtitle line."
 msgstr ""
 
@@ -3808,11 +3819,11 @@ msgstr "Der er ingen tips endnu: check af projekt er stadig i gang."
 msgid "There are no hints: everything looks good!"
 msgstr "Der er ingen tips; det hele ser godt ud!"
 
-#: src/wx/verify_dcp_result_panel.cc:530
+#: src/wx/verify_dcp_result_panel.cc:611
 msgid "There is a <Duration> tag inside a <MainMarkers>."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:527
+#: src/wx/verify_dcp_result_panel.cc:608
 msgid "There is a <EntryPoint> tag inside a <MainMarkers>."
 msgstr ""
 
@@ -3825,7 +3836,7 @@ msgstr "Der er allerede en skabelon med dette navn. Vil du overskrive den?"
 msgid "There is not enough free memory to do that."
 msgstr "Der er ikke tilstrækkelig ledig hukommelse til at gøre dette."
 
-#: src/wx/film_viewer.cc:362
+#: src/wx/film_viewer.cc:363
 msgid ""
 "There was a problem starting audio playback.  Please try another audio "
 "output device in Preferences."
@@ -3835,29 +3846,29 @@ msgstr ""
 msgid "This CPL contains no encrypted assets."
 msgstr "Denne CPL indholder ikke krypterede aktiver."
 
-#: src/wx/verify_dcp_result_panel.cc:252
+#: src/wx/verify_dcp_result_panel.cc:316
 #, c-format
 msgid ""
 "This DCP refers to at the asset %n in another DCP (and perhaps others), so "
 "it is a \"version file\" (VF)"
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:258
+#: src/wx/verify_dcp_result_panel.cc:322
 msgid "This DCP uses the Interop standard, but it should be made with SMPTE."
 msgstr ""
 
-#: src/wx/content_menu.cc:444
+#: src/wx/content_menu.cc:445
 msgid ""
 "This KDM was made for one of the CPLs in this DCP, but not the currently "
 "selected one.  To play the currently-selected CPL you will need a different "
 "KDM."
 msgstr ""
 
-#: src/wx/content_menu.cc:439
+#: src/wx/content_menu.cc:440
 msgid "This KDM was not made for this DCP.  You will need a different one."
 msgstr ""
 
-#: src/wx/config_dialog.cc:391
+#: src/wx/certificate_chain_editor.cc:177
 msgid ""
 "This file contains other certificates (or other data) after its first "
 "certificate. Only the first certificate will be used."
@@ -3865,7 +3876,7 @@ msgstr ""
 "Denne fil indeholder andre certifikater (eller anden data) efter det første "
 "certifikat. Kun det første certifikat benyttes."
 
-#: src/wx/full_config_dialog.cc:838
+#: src/wx/email_preferences_page.cc:192
 #, c-format
 msgid "This is a test email from %s."
 msgstr ""
@@ -3894,7 +3905,7 @@ msgstr ""
 msgid "This playlist is empty."
 msgstr ""
 
-#: src/wx/full_config_dialog.cc:1300
+#: src/wx/full_config_dialog.cc:951
 #, c-format
 msgid ""
 "This will be written to the DCP's JPEG2000 data as a comment.  If it is "
@@ -3902,7 +3913,7 @@ msgid ""
 "used."
 msgstr ""
 
-#: src/wx/full_config_dialog.cc:1276
+#: src/wx/full_config_dialog.cc:927
 #, c-format
 msgid ""
 "This will be written to the DCP's MXF files as the 'company name'.  If it is "
@@ -3910,7 +3921,7 @@ msgid ""
 "used."
 msgstr ""
 
-#: src/wx/full_config_dialog.cc:1284
+#: src/wx/full_config_dialog.cc:935
 #, c-format
 msgid ""
 "This will be written to the DCP's MXF files as the 'product name'.  If it is "
@@ -3918,7 +3929,7 @@ msgid ""
 "used."
 msgstr ""
 
-#: src/wx/full_config_dialog.cc:1292
+#: src/wx/full_config_dialog.cc:943
 #, c-format
 msgid ""
 "This will be written to the DCP's MXF files as the 'product version'.  If it "
@@ -3926,14 +3937,14 @@ msgid ""
 "used."
 msgstr ""
 
-#: src/wx/full_config_dialog.cc:1268
+#: src/wx/full_config_dialog.cc:919
 #, c-format
 msgid ""
 "This will be written to the DCP's XML files as the <Creator>.  If it is "
 "blank, a default value mentioning %s will be used."
 msgstr ""
 
-#: src/wx/full_config_dialog.cc:1260
+#: src/wx/full_config_dialog.cc:911
 #, c-format
 msgid ""
 "This will be written to the DCP's XML files as the <Issuer>.  If it is "
@@ -3949,10 +3960,16 @@ msgstr "Tråde"
 msgid "Threshold"
 msgstr "grænseværdi"
 
-#: src/wx/config_dialog.cc:289 src/wx/screen_dialog.cc:55
+#: src/wx/certificate_chain_editor.cc:75 src/wx/screen_dialog.cc:55
 #: src/wx/screen_dialog.cc:179 src/wx/screen_dialog.cc:211
 msgid "Thumbprint"
 msgstr "Fingeraftryk"
+
+#: src/wx/verify_dcp_dialog.cc:56
+msgid ""
+"Tick to check details of the picture asset, such as frame sizes and JPEG2000 "
+"bitstream validity.  These checks are quite time-consuming."
+msgstr ""
 
 #: src/wx/content_timeline_dialog.cc:50
 msgid "Timeline"
@@ -3976,7 +3993,7 @@ msgstr "Timing"
 msgid "Title language"
 msgstr "Indstil sprog"
 
-#: src/wx/full_config_dialog.cc:1038 src/wx/send_test_email_dialog.cc:30
+#: src/wx/full_config_dialog.cc:689 src/wx/send_test_email_dialog.cc:30
 msgid "To address"
 msgstr "Fra adresse"
 
@@ -3988,7 +4005,7 @@ msgstr "Top"
 msgid "Track"
 msgstr ""
 
-#: src/wx/about_dialog.cc:172
+#: src/wx/about_dialog.cc:173
 msgid "Translated by"
 msgstr "Oversat af"
 
@@ -4022,7 +4039,7 @@ msgstr ""
 msgid "Trusted Device certificate"
 msgstr ""
 
-#: src/wx/audio_dialog.cc:125 src/wx/config_dialog.cc:281
+#: src/wx/audio_dialog.cc:125 src/wx/certificate_chain_editor.cc:67
 #: src/wx/video_panel.cc:79
 msgid "Type"
 msgstr "Type"
@@ -4039,15 +4056,15 @@ msgstr "UTC offset (tidszone)"
 msgid "UTC+1"
 msgstr "UTC+1"
 
-#: src/wx/wx_util.cc:731
+#: src/wx/wx_util.cc:733
 msgid "UTC+10"
 msgstr "UTC+10"
 
-#: src/wx/wx_util.cc:732
+#: src/wx/wx_util.cc:734
 msgid "UTC+11"
 msgstr "UTC+11"
 
-#: src/wx/wx_util.cc:733
+#: src/wx/wx_util.cc:735
 msgid "UTC+12"
 msgstr "UTC+12"
 
@@ -4071,23 +4088,28 @@ msgstr "UTC+5"
 msgid "UTC+5:30"
 msgstr "UTC+5:30"
 
-#: src/wx/wx_util.cc:726
+#: src/wx/wx_util.cc:727
+#, fuzzy
+msgid "UTC+5:45"
+msgstr "UTC+5"
+
+#: src/wx/wx_util.cc:728
 msgid "UTC+6"
 msgstr "UTC+6"
 
-#: src/wx/wx_util.cc:727
+#: src/wx/wx_util.cc:729
 msgid "UTC+7"
 msgstr "UTC+7"
 
-#: src/wx/wx_util.cc:728
+#: src/wx/wx_util.cc:730
 msgid "UTC+8"
 msgstr "UTC+8"
 
-#: src/wx/wx_util.cc:729
+#: src/wx/wx_util.cc:731
 msgid "UTC+9"
 msgstr "UTC+9"
 
-#: src/wx/wx_util.cc:730
+#: src/wx/wx_util.cc:732
 msgid "UTC+9:30"
 msgstr "UTC+9:30"
 
@@ -4165,7 +4187,7 @@ msgstr ""
 msgid "Update"
 msgstr "Opdater"
 
-#: src/wx/full_config_dialog.cc:595
+#: src/wx/full_config_dialog.cc:538
 #, fuzzy
 msgid "Upload DCP to TMS after creation"
 msgstr "Upload DCP til TMS når den er færdig"
@@ -4174,7 +4196,7 @@ msgstr "Upload DCP til TMS når den er færdig"
 msgid "Use ISDCF name"
 msgstr "Brug ISDCF-navn"
 
-#: src/wx/full_config_dialog.cc:359
+#: src/wx/full_config_dialog.cc:302
 #, fuzzy
 msgid "Use ISDCF name by default"
 msgstr "Brug ISDCF-navn"
@@ -4200,7 +4222,7 @@ msgid "Use this file as new configuration"
 msgstr "Benyt denne fil som ny konfiguration"
 
 #: src/wx/credentials_download_certificate_panel.cc:50
-#: src/wx/full_config_dialog.cc:618 src/wx/full_config_dialog.cc:745
+#: src/wx/email_preferences_page.cc:86 src/wx/full_config_dialog.cc:561
 msgid "User name"
 msgstr "Brugernavn"
 
@@ -4216,10 +4238,18 @@ msgstr ""
 msgid "Vendor"
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:655
+#: src/wx/verify_dcp_result_panel.cc:706
 #, fuzzy
 msgid "Verification report"
 msgstr "DCP verificering"
+
+#: src/wx/verify_dcp_dialog.cc:65
+msgid "Verify"
+msgstr ""
+
+#: src/wx/verify_dcp_dialog.cc:53
+msgid "Verify picture asset details"
+msgstr ""
 
 #: src/wx/smpte_metadata_dialog.cc:109 src/wx/system_information_dialog.cc:67
 #, fuzzy
@@ -4258,7 +4288,7 @@ msgstr ""
 "JPEG2000-båndbredde\n"
 "til ny-genererede data"
 
-#: src/wx/full_config_dialog.cc:1551 src/wx/player_config_dialog.cc:117
+#: src/wx/full_config_dialog.cc:1202 src/wx/player_config_dialog.cc:121
 msgid "Video display mode"
 msgstr ""
 
@@ -4282,12 +4312,12 @@ msgstr "Tekstningssprog (f.eks. FR)"
 msgid "View..."
 msgstr "Se..."
 
-#: src/wx/config_dialog.cc:961
+#: src/wx/sound_preferences_page.cc:174
 msgid "WASAPI"
 msgstr ""
 
-#: src/wx/full_config_dialog.cc:1631 src/wx/player_config_dialog.cc:307
-#: src/wx/verify_dcp_result_panel.cc:57
+#: src/wx/full_config_dialog.cc:1282 src/wx/kdm_config_dialog.cc:138
+#: src/wx/player_config_dialog.cc:307 src/wx/verify_dcp_result_panel.cc:60
 msgid "Warnings"
 msgstr "Advarsler"
 
@@ -4319,15 +4349,15 @@ msgstr "Gem alle KDMer i samme folder"
 msgid "Write each audio channel to its own stream"
 msgstr ""
 
-#: src/wx/export_subtitles_dialog.cc:42 src/wx/export_video_file_dialog.cc:83
+#: src/wx/export_subtitles_dialog.cc:44 src/wx/export_video_file_dialog.cc:83
 msgid "Write reels into separate files"
 msgstr "Gem spoler i seperate filer"
 
-#: src/wx/full_config_dialog.cc:137
+#: src/wx/full_config_dialog.cc:132
 msgid "Write relative content paths"
 msgstr ""
 
-#: src/wx/dkdm_output_panel.cc:75 src/wx/kdm_output_panel.cc:78
+#: src/wx/dkdm_output_panel.cc:77 src/wx/kdm_output_panel.cc:78
 #: src/wx/self_dkdm_dialog.cc:85
 msgid "Write to"
 msgstr "Skriv til"
@@ -4370,7 +4400,7 @@ msgstr ""
 "Du kan ikke ændre skærmens navn til '%s' da biografen allerede har en skærm "
 "med dette navn."
 
-#: src/wx/dkdm_output_panel.cc:136 src/wx/kdm_output_panel.cc:242
+#: src/wx/dkdm_output_panel.cc:146 src/wx/kdm_output_panel.cc:242
 msgid ""
 "You have selected some cinemas that have no configured email address.  Do "
 "you want to continue?"
@@ -4378,7 +4408,7 @@ msgstr ""
 "Du har valgt biografer der ikke har en email adresse konfigureret.  Ønsker "
 "du at fortsætte?"
 
-#: src/wx/dkdm_output_panel.cc:124 src/wx/kdm_output_panel.cc:232
+#: src/wx/dkdm_output_panel.cc:134 src/wx/kdm_output_panel.cc:232
 msgid ""
 "You must set up a mail server in Preferences before you can send emails."
 msgstr ""
@@ -4405,13 +4435,13 @@ msgid "Zoom out to whole film"
 msgstr "Zoom ud til hele filmen"
 
 #. TRANSLATORS: this will be used at the end of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
-#: src/wx/verify_dcp_result_panel.cc:629
+#: src/wx/verify_dcp_result_panel.cc:139
 #, c-format
 msgid "and %d warnings."
 msgstr ""
 
 #. TRANSLATORS: this will be used at the end of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
-#: src/wx/verify_dcp_result_panel.cc:626
+#: src/wx/verify_dcp_result_panel.cc:136
 msgid "and 1 warning."
 msgstr ""
 
@@ -4437,7 +4467,7 @@ msgstr ""
 msgid "content"
 msgstr "Indhold"
 
-#: src/wx/full_config_dialog.cc:1614
+#: src/wx/full_config_dialog.cc:1265
 msgid "content filename"
 msgstr "indholdsfilnavn"
 
@@ -4449,11 +4479,11 @@ msgstr ""
 msgid "dB"
 msgstr "dB"
 
-#: src/wx/full_config_dialog.cc:367
+#: src/wx/full_config_dialog.cc:310
 msgid "days"
 msgstr ""
 
-#: src/wx/name_format_editor.cc:82
+#: src/wx/name_format_editor.cc:79
 #, c-format
 msgid "e.g. %s"
 msgstr "f.eks. %s"
@@ -4467,23 +4497,23 @@ msgstr ""
 msgid "f"
 msgstr "b"
 
-#: src/wx/dkdm_output_panel.cc:65 src/wx/kdm_output_panel.cc:142
+#: src/wx/dkdm_output_panel.cc:67 src/wx/kdm_output_panel.cc:142
 msgid "film name"
 msgstr "filmnavn"
 
-#: src/wx/metadata_dialog.cc:334
+#: src/wx/metadata_dialog.cc:333
 msgid "foot lambert"
 msgstr ""
 
-#: src/wx/dkdm_output_panel.cc:66 src/wx/kdm_output_panel.cc:145
+#: src/wx/kdm_output_panel.cc:145
 msgid "from date/time"
 msgstr "fra dato/tid"
 
-#: src/wx/player_config_dialog.cc:105
+#: src/wx/player_config_dialog.cc:109
 msgid "full screen"
 msgstr "fuld skærm"
 
-#: src/wx/player_config_dialog.cc:106
+#: src/wx/player_config_dialog.cc:110
 #, fuzzy
 msgid "full screen with separate advanced controls"
 msgstr "fuld skærm med kontroller på anden skærm"
@@ -4498,12 +4528,12 @@ msgstr "t"
 msgid "m"
 msgstr "m"
 
-#: src/wx/full_config_dialog.cc:369
+#: src/wx/full_config_dialog.cc:312
 msgid "months"
 msgstr ""
 
 #. TRANSLATORS: this is an abbreviation for milliseconds, the unit of time
-#: src/wx/audio_panel.cc:101 src/wx/full_config_dialog.cc:330
+#: src/wx/audio_panel.cc:101 src/wx/full_config_dialog.cc:273
 msgid "ms"
 msgstr "ms"
 
@@ -4511,7 +4541,7 @@ msgstr "ms"
 msgid "not enabled"
 msgstr ""
 
-#: src/wx/full_config_dialog.cc:1613
+#: src/wx/full_config_dialog.cc:1264
 msgid "number of reels"
 msgstr "antal spoler"
 
@@ -4524,26 +4554,31 @@ msgstr "Faste tekster"
 msgid "open subtitles"
 msgstr "åbne undertekster"
 
-#: src/wx/config_dialog.cc:872
+#: src/wx/sound_preferences_page.cc:85
 #, fuzzy
 msgid "output"
 msgstr "Output"
 
-#: src/wx/full_config_dialog.cc:730
+#: src/wx/email_preferences_page.cc:71
 msgid "port"
 msgstr "port"
 
-#: src/wx/full_config_dialog.cc:734
+#: src/wx/email_preferences_page.cc:75
 #, fuzzy
 msgid "protocol"
 msgstr "Protokol"
 
-#: src/wx/full_config_dialog.cc:1612
+#: src/wx/dkdm_output_panel.cc:68
+#, fuzzy
+msgid "recipient name"
+msgstr "Tilføj sal"
+
+#: src/wx/full_config_dialog.cc:1263
 msgid "reel number"
 msgstr "spolenummer"
 
 #. TRANSLATORS: this is an abbreviation for "seconds"
-#: src/wx/full_config_dialog.cc:313 src/wx/timing_panel.cc:89
+#: src/wx/full_config_dialog.cc:256 src/wx/timing_panel.cc:89
 msgid "s"
 msgstr "s"
 
@@ -4559,7 +4594,7 @@ msgstr "grænseværdi"
 msgid "times"
 msgstr "gange"
 
-#: src/wx/dkdm_output_panel.cc:67 src/wx/kdm_output_panel.cc:146
+#: src/wx/kdm_output_panel.cc:146
 msgid "to date/time"
 msgstr "til dato/tid"
 
@@ -4567,13 +4602,14 @@ msgstr "til dato/tid"
 msgid "to fit DCP"
 msgstr ""
 
-#: src/wx/full_config_dialog.cc:1592
-msgid "type (cpl/pkl)"
-msgstr "type (cpl/pkl)"
-
-#: src/wx/full_config_dialog.cc:1611
+#: src/wx/full_config_dialog.cc:1262
 msgid "type (j2c/pcm/sub)"
 msgstr "type (j2c/pcm/sub)"
+
+#: src/wx/full_config_dialog.cc:1243
+#, fuzzy
+msgid "type(cpl/pkl)"
+msgstr "type (cpl/pkl)"
 
 #: src/wx/system_information_dialog.cc:61
 #, fuzzy
@@ -4593,11 +4629,11 @@ msgstr "indtil"
 msgid "vsync"
 msgstr ""
 
-#: src/wx/full_config_dialog.cc:368
+#: src/wx/full_config_dialog.cc:311
 msgid "weeks"
 msgstr ""
 
-#: src/wx/player_config_dialog.cc:104
+#: src/wx/player_config_dialog.cc:108
 msgid "window"
 msgstr "vindue"
 
@@ -4609,7 +4645,7 @@ msgstr "x"
 msgid "y"
 msgstr "y"
 
-#: src/wx/full_config_dialog.cc:370
+#: src/wx/full_config_dialog.cc:313
 msgid "years"
 msgstr ""
 
@@ -4619,6 +4655,15 @@ msgstr ""
 #: src/wx/drive_wipe_warning_dialog.cc:61
 msgid "yes"
 msgstr ""
+
+#~ msgid "(None)"
+#~ msgstr "(Ingen)"
+
+#~ msgid "DCP validates OK."
+#~ msgstr "DCP er blevet valideret."
+
+#~ msgid "DCP verification"
+#~ msgstr "DCP verificering"
 
 #~ msgid "(restart DCP-o-matic to see all ratios)"
 #~ msgstr "(genstart DCP-o-matic for at se all indstillinger)"

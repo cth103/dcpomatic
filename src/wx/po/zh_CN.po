@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libdcpomatic-wx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-17 02:18+0100\n"
+"POT-Creation-Date: 2025-05-08 23:51+0200\n"
 "PO-Revision-Date: 2025-05-06 18:01+0800\n"
 "Last-Translator: Dian Li <xslidian@gmail.com>\n"
 "Language-Team: Chinese Simplified (Rov8 branch)\n"
@@ -56,17 +56,17 @@ msgid "%"
 msgstr "%"
 
 #. TRANSLATORS: this will be used in the middle of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
-#: src/wx/verify_dcp_result_panel.cc:621
+#: src/wx/verify_dcp_result_panel.cc:131
 #, c-format
 msgid "%d Bv2.1 errors, "
 msgstr "%d Bv2.1 错误, "
 
-#: src/wx/dkdm_dialog.cc:195
+#: src/wx/dkdm_dialog.cc:186
 #, c-format
 msgid "%d DKDM written to %s"
 msgstr "%d DKDM 已写入 %s"
 
-#: src/wx/dkdm_dialog.cc:195
+#: src/wx/dkdm_dialog.cc:186
 #, c-format
 msgid "%d DKDMs written to %s"
 msgstr "%d DKDM 已写入 %s"
@@ -81,13 +81,13 @@ msgstr "%d KDM 保存到 %s"
 msgid "%d KDMs written to %s"
 msgstr "%d KDM 保存到 %s"
 
-#: src/wx/config_dialog.cc:971
+#: src/wx/sound_preferences_page.cc:184
 #, c-format
 msgid "%d channels on %s"
 msgstr "%d 声道，设备 %s"
 
 #. TRANSLATORS: this will be used at the start of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
-#: src/wx/verify_dcp_result_panel.cc:613
+#: src/wx/verify_dcp_result_panel.cc:123
 #, c-format
 msgid "%d errors, "
 msgstr "%d  错误, "
@@ -97,8 +97,8 @@ msgstr "%d  错误, "
 msgid "%s %s"
 msgstr "%s %s"
 
-#: src/wx/player_config_dialog.cc:391
-#: src/wx/playlist_editor_config_dialog.cc:34
+#: src/wx/kdm_config_dialog.cc:191 src/wx/player_config_dialog.cc:399
+#: src/wx/playlist_editor_config_dialog.cc:38
 #, c-format
 msgid "%s Preferences"
 msgstr "%s 偏好设置"
@@ -113,7 +113,7 @@ msgstr "%s 文件已经存在，所以不能用它创建工程。"
 msgid "%s audio - %s"
 msgstr "%s 音频 - %s"
 
-#: src/wx/full_config_dialog.cc:837
+#: src/wx/email_preferences_page.cc:191
 #, c-format
 msgid "%s test email"
 msgstr "%s发送测试邮件"
@@ -126,16 +126,12 @@ msgstr ""
 "(C) 2012-2025 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen, Aaron Boxer"
 
-#: src/wx/file_picker_ctrl.cc:64
-msgid "(None)"
-msgstr "(无)"
-
-#: src/wx/full_config_dialog.cc:1555 src/wx/player_config_dialog.cc:124
+#: src/wx/full_config_dialog.cc:1206 src/wx/player_config_dialog.cc:128
 #, c-format
 msgid "(restart %s to change display mode)"
 msgstr "(重启 %s可更改显示模式)"
 
-#: src/wx/config_dialog.cc:153
+#: src/wx/general_preferences_page.cc:102
 #, c-format
 msgid "(restart %s to see language changes)"
 msgstr "(重启 %s查看语言变化)"
@@ -157,12 +153,12 @@ msgid "0dB (unchanged)"
 msgstr "0dB(不变)"
 
 #. TRANSLATORS: this will be used in the middle of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
-#: src/wx/verify_dcp_result_panel.cc:618
+#: src/wx/verify_dcp_result_panel.cc:128
 msgid "1 Bv2.1 error, "
 msgstr "1 Bv2.1 错误, "
 
 #. TRANSLATORS: this will be used at the start of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
-#: src/wx/verify_dcp_result_panel.cc:610
+#: src/wx/verify_dcp_result_panel.cc:120
 msgid "1 error, "
 msgstr "1 错误, "
 
@@ -182,7 +178,7 @@ msgstr "255"
 msgid "2D"
 msgstr "2D"
 
-#: src/wx/metadata_dialog.cc:315
+#: src/wx/metadata_dialog.cc:314
 msgid "2D version of 3D DCP"
 msgstr "3D DCP的2D版本"
 
@@ -238,12 +234,12 @@ msgstr "8声道—5.1+听力障碍声道/视力障碍声道"
 msgid "96kHz"
 msgstr "96kHz"
 
-#: src/wx/verify_dcp_result_panel.cc:548
+#: src/wx/verify_dcp_result_panel.cc:629
 #, c-format
 msgid "<IssueDate> has an invalid value %n"
 msgstr "<IssueDate> 具有无效值 %n"
 
-#: src/wx/verify_dcp_result_panel.cc:554
+#: src/wx/verify_dcp_result_panel.cc:635
 #, c-format
 msgid "<MainSoundConfiguration> is invalid (%n)"
 msgstr "<MainSoundConfiguration> 不可用 (%n)"
@@ -266,60 +262,70 @@ msgstr "<i>请输入一个有效的邮箱地址，否则我们将无法解决您
 msgid "A"
 msgstr "A"
 
-#: src/wx/verify_dcp_result_panel.cc:471
+#: src/wx/verify_dcp_result_panel.cc:538
 #, c-format
 msgid "A 2K JPEG2000 frame contains %n tile parts instead of 3."
 msgstr "2K JPEG2000帧包含%n个图块部分，而不是3个。"
 
-#: src/wx/verify_dcp_result_panel.cc:443
+#: src/wx/verify_dcp_result_panel.cc:552
+#, fuzzy, c-format
+msgid "A 2K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %n"
+msgstr "JPEG2000帧包含无效的POC标记 (%n)。"
+
+#: src/wx/verify_dcp_result_panel.cc:510
 #, c-format
 msgid "A 2K JPEG2000 frame has %n POC marker(s) instead of 0."
 msgstr "2K JPEG2000帧具有 %n POC标记而不是0。"
 
-#: src/wx/verify_dcp_result_panel.cc:408
+#: src/wx/verify_dcp_result_panel.cc:475
 #, c-format
 msgid "A 2K JPEG2000 frame has %n guard bits instead of 1."
 msgstr "2K JPEG2000帧具有 %n 保护位而不是1。"
 
-#: src/wx/verify_dcp_result_panel.cc:478
+#: src/wx/verify_dcp_result_panel.cc:545
 #, c-format
 msgid "A 4K JPEG2000 frame contains %n tile parts instead of 6."
 msgstr "4K JPEG2000帧包含 %n 个图块部分，而不是6个。"
 
-#: src/wx/verify_dcp_result_panel.cc:450
+#: src/wx/verify_dcp_result_panel.cc:559
+#, fuzzy, c-format
+msgid "A 4K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %n"
+msgstr "JPEG2000帧包含无效的POC标记 (%n)。"
+
+#: src/wx/verify_dcp_result_panel.cc:517
 #, c-format
 msgid "A 4K JPEG2000 frame has %n POC marker(s) instead of 1."
 msgstr "4K JPEG2000帧具有 %n POC标记而不是1。"
 
-#: src/wx/verify_dcp_result_panel.cc:415
+#: src/wx/verify_dcp_result_panel.cc:482
 #, c-format
 msgid "A 4K JPEG2000 frame has %n guard bits instead of 2."
 msgstr "4K JPEG2000帧具有 %n 保护位 而不是2。"
 
-#: src/wx/verify_dcp_result_panel.cc:464
+#: src/wx/verify_dcp_result_panel.cc:531
 msgid "A JPEG2000 frame contains a POC marker in an invalid location."
 msgstr "JPEG2000帧在无效位置包含POC标记。"
 
-#: src/wx/verify_dcp_result_panel.cc:457
+#: src/wx/verify_dcp_result_panel.cc:524
 #, c-format
 msgid "A JPEG2000 frame contains an invalid POC marker (%n)."
 msgstr "JPEG2000帧包含无效的POC标记 (%n)。"
 
-#: src/wx/verify_dcp_result_panel.cc:436
+#: src/wx/verify_dcp_result_panel.cc:503
 #, c-format
 msgid "A JPEG2000 frame has a code-block height of %n instead of 32."
 msgstr "JPEG2000帧的代码块高度为 %n ，而不是32。"
 
-#: src/wx/verify_dcp_result_panel.cc:429
+#: src/wx/verify_dcp_result_panel.cc:496
 #, c-format
 msgid "A JPEG2000 frame has a code-block width of %n instead of 32."
 msgstr "JPEG2000帧的代码块宽度为 %n ，而不是32。"
 
-#: src/wx/verify_dcp_result_panel.cc:485
+#: src/wx/verify_dcp_result_panel.cc:566
 msgid "A JPEG2000 frame has no TLM marker."
 msgstr "JPEG2000帧没有TLM标记。"
 
-#: src/wx/verify_dcp_result_panel.cc:422
+#: src/wx/verify_dcp_result_panel.cc:489
 msgid "A JPEG2000 tile size does not match the image size."
 msgstr "JPEG2000图块大小与图像大小不匹配。"
 
@@ -328,7 +334,7 @@ msgstr "JPEG2000图块大小与图像大小不匹配。"
 msgid "A new version of %s is available."
 msgstr "发现新版本的%s可用。"
 
-#: src/wx/verify_dcp_result_panel.cc:401
+#: src/wx/verify_dcp_result_panel.cc:468
 #, c-format
 msgid "A picture frame has an invalid JPEG2000 codestream (%n)."
 msgstr "图片帧包含无效的JPEG2000码流（%n）"
@@ -338,11 +344,11 @@ msgstr "图片帧包含无效的JPEG2000码流（%n）"
 msgid "A problem occurred when looking for hints (%s)"
 msgstr "查找提示时出现问题 (%s)"
 
-#: src/wx/verify_dcp_result_panel.cc:490
+#: src/wx/verify_dcp_result_panel.cc:571
 msgid "A subtitle lasts longer than the reel it is in."
 msgstr "字幕的持续时间比卷轴长。"
 
-#: src/wx/verify_dcp_result_panel.cc:570
+#: src/wx/verify_dcp_result_panel.cc:651
 #, c-format
 msgid ""
 "A subtitle or closed caption refers to a font with ID %id that does not have "
@@ -350,11 +356,11 @@ msgid ""
 msgstr ""
 "字幕或隐藏字幕指的是 ID 为 %id 的字体，该字体没有相应的 <LoadFont> 节点。"
 
-#: src/wx/config_dialog.cc:963
+#: src/wx/sound_preferences_page.cc:176
 msgid "ALSA"
 msgstr "ALSA"
 
-#: src/wx/config_dialog.cc:959
+#: src/wx/sound_preferences_page.cc:172
 msgid "ASIO"
 msgstr "ASIO"
 
@@ -437,7 +443,7 @@ msgstr "添加/移动标记到当前位置"
 msgid "Add recipient"
 msgstr "添加接收者"
 
-#: src/wx/dcp_timeline.cc:171
+#: src/wx/dcp_timeline.cc:173
 msgid "Add reel boundary"
 msgstr "添加影片片段设置边界"
 
@@ -457,12 +463,12 @@ msgstr "添加变体"
 msgid "Add video, image, sound or subtitle files to the film (Ctrl+A)."
 msgstr "将视频、图片、声音或字幕文件添加到影片中（Ctrl+A）"
 
-#: src/wx/config_dialog.cc:303 src/wx/recipients_panel.cc:69
+#: src/wx/certificate_chain_editor.cc:89 src/wx/recipients_panel.cc:69
 #: src/wx/editable_list.h:141
 msgid "Add..."
 msgstr "添加..."
 
-#: src/wx/config_dialog.cc:400
+#: src/wx/certificate_chain_editor.cc:186
 msgid ""
 "Adding this certificate would make the chain inconsistent, so it will not be "
 "added. Add certificates in order from root to intermediate to leaf."
@@ -475,7 +481,7 @@ msgid "Additional"
 msgstr "附加内容"
 
 #: src/wx/cinema_dialog.cc:70 src/wx/extra_kdm_email_dialog.cc:47
-#: src/wx/full_config_dialog.cc:906 src/wx/full_config_dialog.cc:1043
+#: src/wx/full_config_dialog.cc:694 src/wx/kdm_email_preferences_page.cc:80
 #: src/wx/recipient_dialog.cc:85
 msgid "Address"
 msgstr "地址"
@@ -484,8 +490,8 @@ msgstr "地址"
 msgid "Adjust white point to"
 msgstr "调整白点到"
 
-#: src/wx/full_config_dialog.cc:1523 src/wx/metadata_dialog.cc:79
-#: src/wx/player_config_dialog.cc:274
+#: src/wx/full_config_dialog.cc:1174 src/wx/kdm_config_dialog.cc:105
+#: src/wx/metadata_dialog.cc:79 src/wx/player_config_dialog.cc:274
 msgid "Advanced"
 msgstr "高级"
 
@@ -501,12 +507,12 @@ msgstr "高级内容设置"
 msgid "Advanced settings..."
 msgstr "高级设置..."
 
-#: src/wx/config_dialog.cc:659 src/wx/config_dialog.cc:677
-#: src/wx/kdm_output_panel.cc:128
+#: src/wx/kdm_output_panel.cc:128 src/wx/keys_preferences_page.cc:89
+#: src/wx/keys_preferences_page.cc:107
 msgid "Advanced..."
 msgstr "高级…"
 
-#: src/wx/metadata_dialog.cc:218 src/wx/rating_dialog.cc:136
+#: src/wx/metadata_dialog.cc:217 src/wx/rating_dialog.cc:136
 #: src/wx/rating_dialog.cc:292
 msgid "Agency"
 msgstr "机构"
@@ -515,23 +521,23 @@ msgstr "机构"
 msgid "All off"
 msgstr "全部关闭"
 
-#: src/wx/full_config_dialog.cc:1414
+#: src/wx/full_config_dialog.cc:1065
 msgid "Allow any DCP frame rate"
 msgstr "允许任何DCP帧速率"
 
-#: src/wx/full_config_dialog.cc:1420
+#: src/wx/full_config_dialog.cc:1071
 msgid "Allow creation of DCPs with 96kHz audio"
 msgstr "允许使用96kHz音频创建DCP"
 
-#: src/wx/full_config_dialog.cc:1416
+#: src/wx/full_config_dialog.cc:1067
 msgid "Allow full-frame and non-standard container ratios"
 msgstr "允许全画幅和非标准画幅比例"
 
-#: src/wx/full_config_dialog.cc:1421
+#: src/wx/full_config_dialog.cc:1072
 msgid "Allow mapping to all audio channels"
 msgstr "允许映射到所有音频通道"
 
-#: src/wx/full_config_dialog.cc:1422
+#: src/wx/full_config_dialog.cc:1073
 msgid "Allow use of SMPTE Bv2.0"
 msgstr "允许使用SMPTE Bv2.0"
 
@@ -539,20 +545,20 @@ msgstr "允许使用SMPTE Bv2.0"
 msgid "Alpha   0"
 msgstr "透明度 0"
 
-#: src/wx/about_dialog.cc:184
+#: src/wx/about_dialog.cc:185
 msgid "Also supported by"
 msgstr "同时提供支持"
 
-#: src/wx/verify_dcp_result_panel.cc:211
+#: src/wx/verify_dcp_result_panel.cc:275
 msgid "An asset has an empty path in the ASSETMAP."
 msgstr "有资产在 ASSETMAP 中具有空路径。"
 
-#: src/wx/verify_dcp_result_panel.cc:533
+#: src/wx/verify_dcp_result_panel.cc:614
 #, c-format
 msgid "An invalid <ContentKind> %n has been used."
 msgstr "一个无效的 <ContentKind> %n 被使用。"
 
-#: src/wx/dkdm_output_panel.cc:192 src/wx/kdm_output_panel.cc:321
+#: src/wx/dkdm_output_panel.cc:200 src/wx/kdm_output_panel.cc:321
 msgid "An unknown exception occurred."
 msgstr "出现未知错误。"
 
@@ -596,20 +602,25 @@ msgstr ""
 "你确定要发送邮件到以下地址？\n"
 "\n"
 
-#: src/wx/verify_dcp_result_panel.cc:518
+#: src/wx/verify_dcp_result_panel.cc:599
 msgid "At least one <Text> node in a subtitle or closed caption is empty."
 msgstr "字幕或隐藏字幕中至少有一条 <Text> 为空。"
 
-#: src/wx/verify_dcp_result_panel.cc:333
+#: src/wx/verify_dcp_result_panel.cc:400
 msgid ""
 "At least one asset in a reel does not have the same duration as the others."
 msgstr "卷轴中至少一个资产的持续时间与其他资产的持续时间不同。"
 
-#: src/wx/verify_dcp_result_panel.cc:303
+#: src/wx/verify_dcp_result_panel.cc:370
 msgid "At least one pair of subtitles is separated by less than 2 frames."
 msgstr "至少一组字幕相隔少于2帧。"
 
-#: src/wx/verify_dcp_result_panel.cc:300
+#: src/wx/verify_dcp_result_panel.cc:364
+#, fuzzy
+msgid "At least one subtitle has zero or negative duration."
+msgstr "至少有一个字幕持续时间少于15帧。"
+
+#: src/wx/verify_dcp_result_panel.cc:367
 msgid "At least one subtitle lasts less than 15 frames."
 msgstr "至少有一个字幕持续时间少于15帧。"
 
@@ -639,7 +650,7 @@ msgid ""
 "Audio will be passed from %s channel %s to %s channel %s with gain %.1fdB."
 msgstr "音频将从 %s 通道 %s 传递到 %s 通道， %s 增益 %.1fdB。"
 
-#: src/wx/full_config_dialog.cc:737
+#: src/wx/email_preferences_page.cc:78
 msgid "Auto"
 msgstr "自动"
 
@@ -651,7 +662,7 @@ msgstr "自动裁切"
 msgid "Auto-crop..."
 msgstr "自动裁切..."
 
-#: src/wx/full_config_dialog.cc:147
+#: src/wx/full_config_dialog.cc:142
 msgid "Automatically analyse content audio"
 msgstr "自动解析源内容中的音频"
 
@@ -659,7 +670,7 @@ msgstr "自动解析源内容中的音频"
 msgid "B"
 msgstr "B"
 
-#: src/wx/full_config_dialog.cc:921 src/wx/full_config_dialog.cc:1058
+#: src/wx/full_config_dialog.cc:709 src/wx/kdm_email_preferences_page.cc:95
 msgid "BCC address"
 msgstr "抄送地址"
 
@@ -675,7 +686,8 @@ msgstr "蓝色色度"
 msgid "Bottom"
 msgstr "底部"
 
-#: src/wx/dir_picker_ctrl.cc:50 src/wx/kdm_cpl_panel.cc:48
+#: src/wx/dir_picker_ctrl.cc:49 src/wx/file_picker_ctrl.cc:64
+#: src/wx/file_picker_ctrl.cc:80 src/wx/kdm_cpl_panel.cc:48
 msgid "Browse..."
 msgstr "浏览..."
 
@@ -687,16 +699,16 @@ msgstr "烧录字幕到图像中"
 msgid "But I have to use fader"
 msgstr "但我需要使用推子"
 
-#: src/wx/full_config_dialog.cc:907 src/wx/full_config_dialog.cc:1044
+#: src/wx/full_config_dialog.cc:695 src/wx/kdm_email_preferences_page.cc:81
 msgid "CC addresses"
 msgstr "抄送地址"
 
-#: src/wx/dkdm_dialog.cc:93 src/wx/kdm_cpl_panel.cc:45 src/wx/kdm_dialog.cc:98
+#: src/wx/dkdm_dialog.cc:84 src/wx/kdm_cpl_panel.cc:45 src/wx/kdm_dialog.cc:98
 #: src/wx/self_dkdm_dialog.cc:69
 msgid "CPL"
 msgstr "CPL"
 
-#: src/wx/kdm_cpl_panel.cc:57
+#: src/wx/dkdm_output_panel.cc:69 src/wx/kdm_cpl_panel.cc:57
 msgid "CPL ID"
 msgstr "CPL ID"
 
@@ -704,7 +716,7 @@ msgstr "CPL ID"
 msgid "CPL annotation text"
 msgstr "CPL注释文本"
 
-#: src/wx/dkdm_output_panel.cc:188 src/wx/kdm_output_panel.cc:317
+#: src/wx/dkdm_output_panel.cc:196 src/wx/kdm_output_panel.cc:317
 msgid "CPL's content is not encrypted."
 msgstr "该CPL内容没有加密。"
 
@@ -713,7 +725,7 @@ msgid "Calculate..."
 msgstr "计算..."
 
 #: src/wx/invalid_certificate_period_dialog.cc:99 src/wx/job_view.cc:77
-#: src/wx/verify_dcp_progress_dialog.cc:49
+#: src/wx/verify_dcp_dialog.cc:63
 msgid "Cancel"
 msgstr "取消"
 
@@ -764,7 +776,7 @@ msgstr "证书结束"
 msgid "Certificate start"
 msgstr "证书开始"
 
-#: src/wx/metadata_dialog.cc:298
+#: src/wx/metadata_dialog.cc:297
 msgid "Chain"
 msgstr "链"
 
@@ -780,11 +792,11 @@ msgstr "通道"
 msgid "Check all"
 msgstr "检查全部"
 
-#: src/wx/config_dialog.cc:172
+#: src/wx/general_preferences_page.cc:200
 msgid "Check for testing updates on startup"
 msgstr "启动时检查测试版软件更新"
 
-#: src/wx/config_dialog.cc:168
+#: src/wx/general_preferences_page.cc:196
 msgid "Check for updates on startup"
 msgstr "启动时检查软件更新"
 
@@ -796,7 +808,7 @@ msgstr "选择CPL…"
 msgid "Choose a DCP folder"
 msgstr "选择一个DCP文件夹"
 
-#: src/wx/content_menu.cc:376
+#: src/wx/content_menu.cc:377
 msgid "Choose a file"
 msgstr "选择一个文件"
 
@@ -804,7 +816,7 @@ msgstr "选择一个文件"
 msgid "Choose a file or files"
 msgstr "选择一个或多个文件"
 
-#: src/wx/content_menu.cc:372 src/wx/content_panel.cc:636
+#: src/wx/content_menu.cc:373 src/wx/content_panel.cc:636
 msgid "Choose a folder"
 msgstr "选择一个文件夹"
 
@@ -824,7 +836,7 @@ msgstr "科视"
 msgid "Cinema"
 msgstr "影院"
 
-#: src/wx/full_config_dialog.cc:125
+#: src/wx/general_preferences_page.cc:123
 msgid "Cinema and screen database file"
 msgstr "影院和影厅数据库文件"
 
@@ -832,7 +844,7 @@ msgstr "影院和影厅数据库文件"
 msgid "Click the button to set all selected content to the same value."
 msgstr "单击该按钮可将所有选定的内容为相同的值。"
 
-#: src/wx/verify_dcp_result_panel.cc:351
+#: src/wx/verify_dcp_result_panel.cc:418
 #, c-format
 msgid "Closed caption asset %n has a non-zero <EntryPoint>."
 msgstr "隐藏式字幕资源 %n 具有非零 <EntryPoint>。"
@@ -858,7 +870,7 @@ msgstr "色彩转换"
 msgid "Colour|Custom"
 msgstr "色彩|自定义"
 
-#: src/wx/full_config_dialog.cc:1272
+#: src/wx/full_config_dialog.cc:923
 msgid "Company name"
 msgstr "公司名称"
 
@@ -866,12 +878,12 @@ msgstr "公司名称"
 msgid "Component"
 msgstr "结构"
 
-#: src/wx/full_config_dialog.cc:120
+#: src/wx/general_preferences_page.cc:118
 msgid "Configuration file"
 msgstr "配置文件"
 
 #. TRANSLATORS: translate the word "Timing" here; do not include the "Config|" prefix
-#: src/wx/full_config_dialog.cc:1636 src/wx/player_config_dialog.cc:312
+#: src/wx/full_config_dialog.cc:1287 src/wx/player_config_dialog.cc:312
 msgid "Config|Timing"
 msgstr "设置|时间"
 
@@ -896,11 +908,11 @@ msgstr "内容属性"
 msgid "Content Type"
 msgstr "内容类型"
 
-#: src/wx/config_dialog.cc:1038
+#: src/wx/locations_preferences_page.cc:66
 msgid "Content directory"
 msgstr "内容目录"
 
-#: src/wx/content_version_dialog.cc:31 src/wx/content_version_dialog.cc:33
+#: src/wx/content_version_dialog.cc:32 src/wx/content_version_dialog.cc:34
 #: src/wx/interop_metadata_dialog.cc:64
 msgid "Content version"
 msgstr "内容版本"
@@ -933,7 +945,7 @@ msgstr "将ZIP文件中的电影院复制到当前列表"
 msgid "Copy the cinemas in the ZIP file to the original location at"
 msgstr "将ZIP文件中的电影院复制到原始位置"
 
-#: src/wx/config_dialog.cc:958
+#: src/wx/sound_preferences_page.cc:171
 msgid "CoreAudio"
 msgstr "CoreAudio"
 
@@ -950,17 +962,17 @@ msgstr "无法分析字幕。"
 msgid "Could not find serial number %s"
 msgstr "无法找到序列号 %s"
 
-#: src/wx/content_menu.cc:634
+#: src/wx/content_menu.cc:635
 #, c-format
 msgid "Could not find this content in the project \"%s\"."
 msgstr "无法在项目“%s”中找到此内容。"
 
-#: src/wx/config_dialog.cc:384
+#: src/wx/certificate_chain_editor.cc:170
 #, c-format
 msgid "Could not import certificate (%s)"
 msgstr "无法导入证书文件 (%s)"
 
-#: src/wx/content_menu.cc:419
+#: src/wx/content_menu.cc:420
 msgid "Could not load KDM"
 msgstr "无法加载 KDM"
 
@@ -977,7 +989,7 @@ msgstr "无法载入证书 (%s)"
 msgid "Could not play content"
 msgstr "无法播放内容"
 
-#: src/wx/verify_dcp_result_panel.cc:190
+#: src/wx/verify_dcp_result_panel.cc:254
 #, c-format
 msgid "Could not read DCP (%n)"
 msgstr "无法读取 DCP (%n)"
@@ -992,9 +1004,10 @@ msgstr "无法读取 DCP: %s"
 msgid "Could not read certificate file (%1)"
 msgstr "无法读取证书文件 (%1)"
 
-#: src/wx/config_dialog.cc:409 src/wx/config_dialog.cc:596
-#: src/wx/recipient_dialog.cc:158 src/wx/recipient_dialog.cc:163
-#: src/wx/screen_dialog.cc:284 src/wx/screen_dialog.cc:290
+#: src/wx/certificate_chain_editor.cc:195
+#: src/wx/certificate_chain_editor.cc:382 src/wx/recipient_dialog.cc:158
+#: src/wx/recipient_dialog.cc:163 src/wx/screen_dialog.cc:284
+#: src/wx/screen_dialog.cc:290
 msgid "Could not read certificate file."
 msgstr "无法读取证书文件。"
 
@@ -1002,17 +1015,17 @@ msgstr "无法读取证书文件。"
 msgid "Could not read certificates from Qube server."
 msgstr "无法从 Qube 服务器读取证书。"
 
-#: src/wx/config_dialog.cc:586
+#: src/wx/certificate_chain_editor.cc:372
 #, c-format
 msgid "Could not read key file; file is too long (%s)"
 msgstr "无法读取Key文件，因为文件过长 (%s)"
 
-#: src/wx/film_viewer.cc:637 src/wx/film_viewer.cc:679
+#: src/wx/film_viewer.cc:638 src/wx/film_viewer.cc:680
 msgid ""
 "Could not set up audio output.  There will be no audio during the preview."
 msgstr "不能设置音频输出。因此预览时将没有音频输出。"
 
-#: src/wx/full_config_dialog.cc:1181
+#: src/wx/full_config_dialog.cc:832
 msgid "Cover Sheet"
 msgstr "封面"
 
@@ -1024,7 +1037,7 @@ msgstr "强制制作DCP"
 msgid "Create in folder"
 msgstr "创建文件夹"
 
-#: src/wx/full_config_dialog.cc:1264
+#: src/wx/full_config_dialog.cc:915
 msgid "Creator"
 msgstr "创建者"
 
@@ -1045,7 +1058,7 @@ msgstr "游标: %.1fdB 位于 %s"
 msgid "Cursor: none"
 msgstr "游标：无"
 
-#: src/wx/dcp_timeline.cc:252 src/wx/rating_dialog.cc:51
+#: src/wx/dcp_timeline.cc:271 src/wx/rating_dialog.cc:51
 msgid "Custom"
 msgstr "自定义"
 
@@ -1053,8 +1066,8 @@ msgstr "自定义"
 msgid "Custom scale"
 msgstr "自定义比例"
 
-#: src/wx/audio_panel.cc:111 src/wx/config_dialog.cc:872
-#: src/wx/film_editor.cc:63 src/wx/player_information.cc:59
+#: src/wx/audio_panel.cc:111 src/wx/film_editor.cc:63
+#: src/wx/player_information.cc:59 src/wx/sound_preferences_page.cc:85
 msgid "DCP"
 msgstr "DCP"
 
@@ -1062,7 +1075,7 @@ msgstr "DCP"
 msgid "DCP Text Track"
 msgstr "DCP文字轨道"
 
-#: src/wx/full_config_dialog.cc:1602
+#: src/wx/full_config_dialog.cc:1253
 msgid "DCP asset filename format"
 msgstr "DCP资产的文件名格式"
 
@@ -1070,43 +1083,35 @@ msgstr "DCP资产的文件名格式"
 msgid "DCP directory"
 msgstr "DCP目录"
 
-#: src/wx/full_config_dialog.cc:1583
+#: src/wx/full_config_dialog.cc:1234
 msgid "DCP metadata filename format"
 msgstr "DCP元数据的文件名格式"
 
-#: src/wx/verify_dcp_result_panel.cc:89
-msgid "DCP validates OK."
-msgstr "DCP是正常的。"
-
-#: src/wx/verify_dcp_result_dialog.cc:31
-msgid "DCP verification"
-msgstr "DCP验证"
-
-#: src/wx/player_config_dialog.cc:135
+#: src/wx/kdm_config_dialog.cc:63 src/wx/player_config_dialog.cc:139
 msgid "Debug log file"
 msgstr "Debug日志文件"
 
-#: src/wx/full_config_dialog.cc:1638
+#: src/wx/full_config_dialog.cc:1289
 msgid "Debug: 3D"
 msgstr "调试: 3D"
 
-#: src/wx/full_config_dialog.cc:1648
+#: src/wx/full_config_dialog.cc:1299
 msgid "Debug: audio analysis"
 msgstr "调试: 音频分析"
 
-#: src/wx/full_config_dialog.cc:1642
+#: src/wx/full_config_dialog.cc:1293 src/wx/kdm_config_dialog.cc:142
 msgid "Debug: email sending"
 msgstr "调试: 发送到邮箱"
 
-#: src/wx/full_config_dialog.cc:1640
+#: src/wx/full_config_dialog.cc:1291
 msgid "Debug: encode"
 msgstr "调试: 编码"
 
-#: src/wx/full_config_dialog.cc:1646
+#: src/wx/full_config_dialog.cc:1297 src/wx/player_config_dialog.cc:316
 msgid "Debug: player"
 msgstr "调试: 播放器"
 
-#: src/wx/full_config_dialog.cc:1644 src/wx/player_config_dialog.cc:314
+#: src/wx/full_config_dialog.cc:1295 src/wx/player_config_dialog.cc:314
 msgid "Debug: video view"
 msgstr "调试: 视频视图"
 
@@ -1119,51 +1124,51 @@ msgstr "解码分辨率: %dx%d"
 msgid "Decode resolution: unknown"
 msgstr "解码分辨率：未知"
 
-#: src/wx/config_dialog.cc:646 src/wx/config_dialog.cc:704
+#: src/wx/keys_preferences_page.cc:76 src/wx/keys_preferences_page.cc:134
 msgid "Decrypting KDMs"
 msgstr "KDM解密设置"
 
-#: src/wx/full_config_dialog.cc:132
+#: src/wx/full_config_dialog.cc:127
 msgid "Default \"add file\" location"
 msgstr "默认的“添加文件”位置"
 
-#: src/wx/full_config_dialog.cc:339
+#: src/wx/full_config_dialog.cc:282
 msgid "Default KDM directory"
 msgstr "默认KDM目录"
 
-#: src/wx/full_config_dialog.cc:351
+#: src/wx/full_config_dialog.cc:294
 msgid "Default KDM duration"
 msgstr "默认KDM持续时间"
 
-#: src/wx/full_config_dialog.cc:347
+#: src/wx/full_config_dialog.cc:290
 msgid "Default KDM type"
 msgstr "默认KDM类型"
 
-#: src/wx/full_config_dialog.cc:326
+#: src/wx/full_config_dialog.cc:269
 msgid "Default audio delay"
 msgstr "默认音频延迟"
 
-#: src/wx/full_config_dialog.cc:334
+#: src/wx/full_config_dialog.cc:277
 msgid "Default audio language"
 msgstr "默认音频语言"
 
-#: src/wx/full_config_dialog.cc:336
+#: src/wx/full_config_dialog.cc:279
 msgid "Default audio language to use for new DCPs"
 msgstr "新DCP的默认音频语言"
 
-#: src/wx/full_config_dialog.cc:317
+#: src/wx/full_config_dialog.cc:260
 msgid "Default directory for new films"
 msgstr "新工程默认目录"
 
-#: src/wx/full_config_dialog.cc:309
+#: src/wx/full_config_dialog.cc:252
 msgid "Default duration of still images"
 msgstr "默认静止图像持续时间(黑场)"
 
-#: src/wx/full_config_dialog.cc:291
+#: src/wx/full_config_dialog.cc:234
 msgid "Defaults"
 msgstr "默认"
 
-#: src/wx/export_subtitles_dialog.cc:50
+#: src/wx/export_subtitles_dialog.cc:52
 msgid "Define font in output and export font file"
 msgstr "定义输出和导出字体文件的字体"
 
@@ -1186,7 +1191,7 @@ msgstr "详情"
 msgid "Details..."
 msgstr "详情..."
 
-#: src/wx/config_dialog.cc:960
+#: src/wx/sound_preferences_page.cc:173
 msgid "Direct Sound"
 msgstr "直通声音"
 
@@ -1239,11 +1244,11 @@ msgstr "下载证书中"
 msgid "Dropped frames: %d"
 msgstr "丢帧: %d"
 
-#: src/wx/player_config_dialog.cc:110
+#: src/wx/player_config_dialog.cc:114
 msgid "Dual-screen displays"
 msgstr "双屏幕显示"
 
-#: src/wx/config_dialog.cc:966
+#: src/wx/sound_preferences_page.cc:179
 msgid "Dummy"
 msgstr "虚拟"
 
@@ -1287,7 +1292,7 @@ msgstr "效果"
 msgid "Effect colour"
 msgstr "效果颜色"
 
-#: src/wx/full_config_dialog.cc:708 src/wx/full_config_dialog.cc:1026
+#: src/wx/email_preferences_page.cc:46 src/wx/full_config_dialog.cc:677
 msgid "Email"
 msgstr "邮件"
 
@@ -1299,7 +1304,7 @@ msgstr "发件人地址"
 msgid "Email addresses for KDM delivery"
 msgstr "发送KDM到邮箱"
 
-#: src/wx/player_config_dialog.cc:96
+#: src/wx/player_config_dialog.cc:100
 msgid "Enable HTTP control interface on port"
 msgstr "在端口上启用 HTTP 控制接口"
 
@@ -1320,24 +1325,24 @@ msgstr "结束"
 msgid "Enter your email address for the contact, not %s"
 msgstr "请输入您的电子邮件地址，而不是 %s"
 
-#: src/wx/full_config_dialog.cc:1633 src/wx/player_config_dialog.cc:309
-#: src/wx/verify_dcp_result_panel.cc:53
+#: src/wx/full_config_dialog.cc:1284 src/wx/kdm_config_dialog.cc:140
+#: src/wx/player_config_dialog.cc:309 src/wx/verify_dcp_result_panel.cc:58
 msgid "Errors"
 msgstr "错误"
 
-#: src/wx/config_dialog.cc:653
+#: src/wx/keys_preferences_page.cc:83
 msgid "Export KDM decryption leaf certificate..."
 msgstr "导出 KDM 解密叶子证书..."
 
-#: src/wx/config_dialog.cc:655
+#: src/wx/keys_preferences_page.cc:85
 msgid "Export all KDM decryption settings..."
 msgstr "导出所有KDM加密设置…"
 
-#: src/wx/config_dialog.cc:307
+#: src/wx/certificate_chain_editor.cc:93
 msgid "Export certificate..."
 msgstr "导出证书..."
 
-#: src/wx/config_dialog.cc:309
+#: src/wx/certificate_chain_editor.cc:95
 msgid "Export chain..."
 msgstr "导出密钥…"
 
@@ -1349,7 +1354,8 @@ msgstr "导出字幕"
 msgid "Export video file"
 msgstr "导出视频文件"
 
-#: src/wx/config_dialog.cc:326 src/wx/full_config_dialog.cc:128
+#: src/wx/certificate_chain_editor.cc:112
+#: src/wx/general_preferences_page.cc:126
 msgid "Export..."
 msgstr "导出…"
 
@@ -1357,11 +1363,11 @@ msgstr "导出…"
 msgid "Extra addresses for KDM delivery"
 msgstr "KDM 交付具有额外地址"
 
-#: src/wx/full_config_dialog.cc:627
+#: src/wx/full_config_dialog.cc:570
 msgid "FTP (for Dolby)"
 msgstr "FTP (用于杜比服务器)"
 
-#: src/wx/metadata_dialog.cc:288
+#: src/wx/metadata_dialog.cc:287
 msgid "Facility"
 msgstr "机构"
 
@@ -1385,7 +1391,7 @@ msgstr "淡出时间"
 msgid "File"
 msgstr "文件"
 
-#: src/wx/dkdm_dialog.cc:151 src/wx/kdm_dialog.cc:179
+#: src/wx/dkdm_dialog.cc:142 src/wx/kdm_dialog.cc:179
 #, c-format
 msgid "File %s already exists.  Do you want to overwrite it?"
 msgstr "已存在文件 %s ，是否覆盖？"
@@ -1394,7 +1400,7 @@ msgstr "已存在文件 %s ，是否覆盖？"
 msgid "Filename"
 msgstr "文件名称"
 
-#: src/wx/dkdm_output_panel.cc:63 src/wx/short_kdm_output_panel.cc:118
+#: src/wx/dkdm_output_panel.cc:65 src/wx/short_kdm_output_panel.cc:118
 #: src/wx/tall_kdm_output_panel.cc:87
 msgid "Filename format"
 msgstr "文件名格式"
@@ -1403,7 +1409,7 @@ msgstr "文件名格式"
 msgid "Film name"
 msgstr "工程名称"
 
-#: src/wx/content_menu.cc:620
+#: src/wx/content_menu.cc:621
 msgid "Film to copy settings from"
 msgstr "从影片复制设置"
 
@@ -1415,7 +1421,7 @@ msgstr "过滤器"
 msgid "Final"
 msgstr "最终版"
 
-#: src/wx/full_config_dialog.cc:142
+#: src/wx/full_config_dialog.cc:137
 msgid ""
 "Find integrated loudness, true peak and loudness range when analysing audio"
 msgstr "发现响度，峰值和响度范围不合标准"
@@ -1476,21 +1482,21 @@ msgstr "视频标记"
 msgid "Format"
 msgstr "格式"
 
-#: src/wx/verify_dcp_result_panel.cc:247
+#: src/wx/verify_dcp_result_panel.cc:311
 #, c-format
 msgid ""
 "Frame %frame (timecode %timecode) in asset %f has an instantaneous bit rate "
 "that is close to the limit of 250Mbit/s."
 msgstr "视频资产 %f（时间码 %timecode）的至少一个%f帧接近250MBit/s的限制。"
 
-#: src/wx/verify_dcp_result_panel.cc:240
+#: src/wx/verify_dcp_result_panel.cc:304
 #, c-format
 msgid ""
 "Frame %frame (timecode %timecode) in asset %f has an instantaneous bit rate "
 "that is over the limit of 250Mbit/s."
 msgstr "视频资产 %f (时间码 %ti)的至少一个%f 帧超过250MBit/s的限制。"
 
-#: src/wx/verify_dcp_result_panel.cc:562
+#: src/wx/verify_dcp_result_panel.cc:643
 #, c-format
 msgid ""
 "Frame %frame has an image component that is too large (component %component "
@@ -1518,7 +1524,7 @@ msgstr "免费、开源的DCP打包软件。"
 msgid "From"
 msgstr "起始"
 
-#: src/wx/full_config_dialog.cc:901 src/wx/full_config_dialog.cc:1034
+#: src/wx/full_config_dialog.cc:685 src/wx/kdm_email_preferences_page.cc:75
 #: src/wx/send_test_email_dialog.cc:28
 msgid "From address"
 msgstr "发件人地址"
@@ -1535,7 +1541,7 @@ msgstr "完整 (JPEG, 0-255)"
 msgid "Full length"
 msgstr "总长度"
 
-#: src/wx/dcp_timeline.cc:262
+#: src/wx/dcp_timeline.cc:309
 msgid "GB"
 msgstr "GB"
 
@@ -1556,8 +1562,9 @@ msgstr "增益计算"
 msgid "Gain for content channel %d in DCP channel %d"
 msgstr "从内容通道  %d 到DCP %d 通道进行增益调整"
 
-#: src/wx/config_dialog.cc:117 src/wx/content_properties_dialog.cc:74
-#: src/wx/full_config_dialog.cc:1629 src/wx/player_config_dialog.cc:305
+#: src/wx/content_properties_dialog.cc:74 src/wx/full_config_dialog.cc:1280
+#: src/wx/general_preferences_page.cc:66 src/wx/kdm_config_dialog.cc:136
+#: src/wx/player_config_dialog.cc:305
 msgid "General"
 msgstr "普通"
 
@@ -1598,7 +1605,7 @@ msgstr "提示"
 msgid "Host"
 msgstr "服务器"
 
-#: src/wx/server_dialog.cc:40
+#: src/wx/server_dialog.cc:44
 msgid "Host name or IP address"
 msgstr "服务器地址或IP地址"
 
@@ -1610,19 +1617,19 @@ msgstr "我想使用推子回放"
 msgid "ID"
 msgstr "ID"
 
-#: src/wx/full_config_dialog.cc:610
+#: src/wx/full_config_dialog.cc:553
 msgid "IP address"
 msgstr "IP地址"
 
-#: src/wx/full_config_dialog.cc:536
+#: src/wx/full_config_dialog.cc:479
 msgid "IP address / host name"
 msgstr "IP地址/服务器地址"
 
-#: src/wx/full_config_dialog.cc:1425
+#: src/wx/full_config_dialog.cc:1076
 msgid "ISDCF name part length"
 msgstr "ISDCF名称部分长度"
 
-#: src/wx/full_config_dialog.cc:1240
+#: src/wx/full_config_dialog.cc:891
 msgid "Identifiers"
 msgstr "身份标识"
 
@@ -1666,7 +1673,7 @@ msgstr ""
 "\n"
 "然后单击确定。"
 
-#: src/wx/config_dialog.cc:757
+#: src/wx/keys_preferences_page.cc:196
 msgid ""
 "If you continue with this operation you will no longer be able to use any "
 "DKDMs that you have created with the current certificates and key.  Also, "
@@ -1676,7 +1683,7 @@ msgstr ""
 "如果继续执行此操作，您将无法再使用使用当前证书和密钥创建的任何DKDM。此外，为"
 "这些证书发送给您的任何KDM都将失效。请小心操作！"
 
-#: src/wx/config_dialog.cc:807
+#: src/wx/keys_preferences_page.cc:246
 msgid ""
 "If you continue with this operation you will no longer be able to use any "
 "DKDMs that you have created.  Also, any KDMs that have been sent to you will "
@@ -1694,19 +1701,19 @@ msgstr "忽略此内容的视频，仅使用音频，字幕和隐藏字幕"
 msgid "Image X position"
 msgstr "画面 X 轴位置"
 
-#: src/wx/player_config_dialog.cc:112
+#: src/wx/player_config_dialog.cc:116
 msgid "Image on primary, controls on secondary"
 msgstr "主屏幕显示画面，副屏幕显示控制器"
 
-#: src/wx/player_config_dialog.cc:113
+#: src/wx/player_config_dialog.cc:117
 msgid "Image on secondary, controls on primary"
 msgstr "主屏幕显示控制器，副屏幕显示画面"
 
-#: src/wx/config_dialog.cc:657
+#: src/wx/keys_preferences_page.cc:87
 msgid "Import all KDM decryption settings..."
 msgstr "导入所有KDM解密设置…"
 
-#: src/wx/config_dialog.cc:324
+#: src/wx/certificate_chain_editor.cc:110
 msgid "Import..."
 msgstr "导入…"
 
@@ -1739,7 +1746,7 @@ msgstr "输入变换功能"
 msgid "Integrated loudness %.2f LUFS"
 msgstr "平均响度 %.2f LUFS"
 
-#: src/wx/config_dialog.cc:526
+#: src/wx/certificate_chain_editor.cc:312
 msgid "Intermediate"
 msgstr "公钥"
 
@@ -1747,11 +1754,11 @@ msgstr "公钥"
 msgid "Intermediate common name"
 msgstr "公钥名称"
 
-#: src/wx/metadata_dialog.cc:208
+#: src/wx/metadata_dialog.cc:207
 msgid "International texted"
 msgstr "有文字的版本"
 
-#: src/wx/metadata_dialog.cc:209
+#: src/wx/metadata_dialog.cc:208
 msgid "International textless"
 msgstr "无文字版本"
 
@@ -1759,7 +1766,7 @@ msgstr "无文字版本"
 msgid "Interop"
 msgstr "Interop"
 
-#: src/wx/config_dialog.cc:797
+#: src/wx/keys_preferences_page.cc:236
 #, c-format
 msgid "Invalid %s export file"
 msgstr "无效的%s输出文件"
@@ -1772,7 +1779,7 @@ msgstr "无效的证书"
 msgid "Inverse 2.6 gamma correction on output"
 msgstr "输出时添加反转的2.6伽马值"
 
-#: src/wx/full_config_dialog.cc:1256
+#: src/wx/full_config_dialog.cc:907
 msgid "Issuer"
 msgstr "发行"
 
@@ -1790,11 +1797,11 @@ msgid ""
 "would cause the DCP's audio to clip.  The gain has not been changed."
 msgstr "无法修改该内容的增益，因为这会导致DCP的音频被剪切。音频修改无效。"
 
-#: src/wx/config_dialog.cc:962
+#: src/wx/sound_preferences_page.cc:175
 msgid "JACK"
 msgstr "JACK"
 
-#: src/wx/full_config_dialog.cc:1296
+#: src/wx/full_config_dialog.cc:947
 msgid "JPEG2000 comment"
 msgstr "JPEG2000注释"
 
@@ -1810,11 +1817,11 @@ msgstr "跳转到已选择的内容"
 msgid "KDM"
 msgstr "KDM"
 
-#: src/wx/full_config_dialog.cc:880
+#: src/wx/kdm_email_preferences_page.cc:51
 msgid "KDM Email"
 msgstr "邮件发送 KDM"
 
-#: src/wx/config_dialog.cc:1048
+#: src/wx/locations_preferences_page.cc:76
 msgid "KDM directory"
 msgstr "KDM目录"
 
@@ -1823,7 +1830,7 @@ msgid "KDM type"
 msgstr "KDM类型"
 
 #. TRANSLATORS: translate the word "Timing" here; do not include the "KDM|" prefix
-#: src/wx/dkdm_dialog.cc:86 src/wx/kdm_dialog.cc:91
+#: src/wx/kdm_dialog.cc:91
 msgid "KDM|Timing"
 msgstr "有效期"
 
@@ -1831,7 +1838,7 @@ msgstr "有效期"
 msgid "Keep video and subtitles in sequence"
 msgstr "保持视频序列和字幕序列"
 
-#: src/wx/config_dialog.cc:634
+#: src/wx/keys_preferences_page.cc:64
 msgid "Keys"
 msgstr "密钥"
 
@@ -1840,7 +1847,7 @@ msgstr "密钥"
 msgid "LEQ(m) %.2fdB"
 msgstr "LEQ(m) %.2fdB"
 
-#: src/wx/metadata_dialog.cc:219
+#: src/wx/metadata_dialog.cc:218
 msgid "Label"
 msgstr "标签"
 
@@ -1861,7 +1868,7 @@ msgstr "此内容的内置字幕语言"
 msgid "Language of these subtitles"
 msgstr "这些字幕的语言"
 
-#: src/wx/metadata_dialog.cc:285
+#: src/wx/metadata_dialog.cc:284
 msgid "Language used for any sign language video track"
 msgstr "用于手语视频轨道的语言"
 
@@ -1889,11 +1896,11 @@ msgstr "标题字幕的最后一帧"
 msgid "Later"
 msgstr "下移"
 
-#: src/wx/full_config_dialog.cc:1570
+#: src/wx/full_config_dialog.cc:1221
 msgid "Layout for short screen"
 msgstr "短屏幕布局"
 
-#: src/wx/config_dialog.cc:524
+#: src/wx/certificate_chain_editor.cc:310
 msgid "Leaf"
 msgstr "叶密钥"
 
@@ -1901,11 +1908,11 @@ msgstr "叶密钥"
 msgid "Leaf common name"
 msgstr "叶密钥通用名称"
 
-#: src/wx/config_dialog.cc:318
+#: src/wx/certificate_chain_editor.cc:104
 msgid "Leaf private key"
 msgstr "叶私钥"
 
-#: src/wx/config_dialog.cc:336
+#: src/wx/certificate_chain_editor.cc:122
 msgid "Leaf private key does not match leaf certificate!"
 msgstr "叶私钥与提供的叶证书不匹配!"
 
@@ -1942,11 +1949,12 @@ msgstr "加载内容"
 msgid "Loading playlist and KDMs"
 msgstr "加载播放列表和 KDMs"
 
-#: src/wx/config_dialog.cc:1019
+#: src/wx/locations_preferences_page.cc:47
 msgid "Locations"
 msgstr "位置"
 
-#: src/wx/full_config_dialog.cc:1627 src/wx/player_config_dialog.cc:303
+#: src/wx/full_config_dialog.cc:1278 src/wx/kdm_config_dialog.cc:134
+#: src/wx/player_config_dialog.cc:303
 msgid "Log"
 msgstr "日志"
 
@@ -1959,7 +1967,7 @@ msgstr "响度范围 %.2f LU"
 msgid "Lower priority"
 msgstr "低场优先"
 
-#: src/wx/metadata_dialog.cc:319
+#: src/wx/metadata_dialog.cc:318
 msgid "Luminance"
 msgstr "亮度"
 
@@ -2010,7 +2018,7 @@ msgstr "创建DCP"
 msgid "Make DKDM for DCP-o-matic"
 msgstr "创建DCP-o-matic的DKDM"
 
-#: src/wx/dkdm_dialog.cc:62 src/wx/dkdm_dialog.cc:114
+#: src/wx/dkdm_dialog.cc:61 src/wx/dkdm_dialog.cc:105
 msgid "Make DKDMs"
 msgstr "创建 DKDM"
 
@@ -2026,7 +2034,7 @@ msgstr "创建证书"
 msgid "Many"
 msgstr "很多"
 
-#: src/wx/config_dialog.cc:871
+#: src/wx/sound_preferences_page.cc:84
 msgid "Mapping"
 msgstr "映射"
 
@@ -2050,28 +2058,28 @@ msgstr "标记..."
 msgid "Matrix"
 msgstr "矩阵"
 
-#: src/wx/full_config_dialog.cc:1391
+#: src/wx/full_config_dialog.cc:1042
 msgid "Maximum JPEG2000 bit rate"
 msgstr "最大 JPEG2000 码率"
 
-#: src/wx/full_config_dialog.cc:1400
+#: src/wx/full_config_dialog.cc:1051
 msgid "Maximum MPEG2 bit rate"
 msgstr "最大MPEG2码率"
 
-#: src/wx/full_config_dialog.cc:1575
+#: src/wx/full_config_dialog.cc:1226
 msgid "Maximum number of frames to store per thread"
 msgstr "设置每个线程处理的最大帧数"
 
-#: src/wx/dcp_timeline.cc:256
+#: src/wx/dcp_timeline.cc:303
 msgid "Maximum reel size"
 msgstr "最大卷片大小"
 
-#: src/wx/dcp_panel.cc:819 src/wx/full_config_dialog.cc:1395
-#: src/wx/full_config_dialog.cc:1404
+#: src/wx/dcp_panel.cc:819 src/wx/full_config_dialog.cc:1046
+#: src/wx/full_config_dialog.cc:1055
 msgid "Mbit/s"
 msgstr "Mbit/s"
 
-#: src/wx/full_config_dialog.cc:1022
+#: src/wx/full_config_dialog.cc:673
 msgid "Message box"
 msgstr "信箱"
 
@@ -2087,76 +2095,81 @@ msgstr "元数据……"
 msgid "Mix audio down to stereo"
 msgstr "将所有音频轨混到一个双声道轨"
 
-#: src/wx/verify_dcp_result_panel.cc:472
+#: src/wx/verify_dcp_result_panel.cc:539
 msgid ""
 "More 2K JPEG2000 frames (not listed) contain the wrong number of tile parts."
 msgstr "2K JPEG2000帧（未列出）包含%n个图块部分。"
 
-#: src/wx/verify_dcp_result_panel.cc:409
+#: src/wx/verify_dcp_result_panel.cc:476
 msgid ""
 "More 2K JPEG2000 frames (not listed) have an invalid number of guard bits."
 msgstr "2K JPEG2000 帧（未列出）包含无效的保护位数。"
 
-#: src/wx/verify_dcp_result_panel.cc:444
+#: src/wx/verify_dcp_result_panel.cc:511
 msgid "More 2K JPEG2000 frames (not listed) have too many POC markers."
 msgstr "2K JPEG2000 帧（未列出）帧包含无效的POC标记。"
 
-#: src/wx/verify_dcp_result_panel.cc:416
+#: src/wx/verify_dcp_result_panel.cc:483
 msgid ""
 "More 4K JPEG2000 frames (not listed) have an invalid number of guard bits."
 msgstr "4K JPEG2000 帧（未列出）具有无效的保护位数。"
 
-#: src/wx/verify_dcp_result_panel.cc:451
+#: src/wx/verify_dcp_result_panel.cc:518
 msgid "More 4K JPEG2000 frames (not listed) have too many POC markers."
 msgstr "4K JPEG2000 帧包含无效的POC标记 (%n)。"
 
-#: src/wx/verify_dcp_result_panel.cc:465
+#: src/wx/verify_dcp_result_panel.cc:532
 msgid ""
 "More JPEG2000 frames (not listed) contain POC markers in invalid locations."
 msgstr "JPEG2000帧（未列出）在无效位置包含POC标记。"
 
-#: src/wx/verify_dcp_result_panel.cc:458
+#: src/wx/verify_dcp_result_panel.cc:525
 msgid "More JPEG2000 frames (not listed) contain invalid POC markers."
 msgstr "JPEG2000帧（未列出）包含无效的POC标记 (%n)。"
 
-#: src/wx/verify_dcp_result_panel.cc:479
+#: src/wx/verify_dcp_result_panel.cc:553 src/wx/verify_dcp_result_panel.cc:560
+#, fuzzy
+msgid "More JPEG2000 frames (not listed) contain invalid Rsiz values."
+msgstr "JPEG2000帧（未列出）包含无效的POC标记 (%n)。"
+
+#: src/wx/verify_dcp_result_panel.cc:546
 msgid ""
 "More JPEG2000 frames (not listed) contain the wrong number of tile parts."
 msgstr "JPEG2000帧（未列出）包含%n个图块部分。"
 
-#: src/wx/verify_dcp_result_panel.cc:437
+#: src/wx/verify_dcp_result_panel.cc:504
 msgid "More JPEG2000 frames (not listed) have an invalid code-block height."
 msgstr "JPEG2000帧（未列出）包含无效的码块高度。"
 
-#: src/wx/verify_dcp_result_panel.cc:430
+#: src/wx/verify_dcp_result_panel.cc:497
 msgid "More JPEG2000 frames (not listed) have an invalid code-block width."
 msgstr "JPEG2000帧（未列出）包含无效的码块宽度。"
 
-#: src/wx/verify_dcp_result_panel.cc:486
+#: src/wx/verify_dcp_result_panel.cc:567
 msgid "More JPEG2000 frames (not listed) have no TLM marker."
 msgstr "JPEG2000帧（未列出）缺少 TLM 标记。"
 
-#: src/wx/verify_dcp_result_panel.cc:423
+#: src/wx/verify_dcp_result_panel.cc:490
 msgid "More JPEG2000 tile sizes (not listed) do not match the image size."
 msgstr "JPEG2000图块大小与图像尺寸不匹配。"
 
-#: src/wx/verify_dcp_result_panel.cc:248
+#: src/wx/verify_dcp_result_panel.cc:312
 msgid ""
 "More frames (not listed) have an instantaneous bit rate that is close to the "
 "limit of 250Mbit/s."
 msgstr "视频资产 %f 的至少一个帧接近250MBit/s的限制。"
 
-#: src/wx/verify_dcp_result_panel.cc:241
+#: src/wx/verify_dcp_result_panel.cc:305
 msgid ""
 "More frames (not listed) have an instantaneous bit rate that is over the "
 "limit of 250Mbit/s."
 msgstr "视频资产 %f 的至少一个帧超过250MBit/s的限制。"
 
-#: src/wx/verify_dcp_result_panel.cc:563
+#: src/wx/verify_dcp_result_panel.cc:644
 msgid "More frames (not listed) have image components that are too large."
 msgstr "帧（未列出）包含过大的图像组件。"
 
-#: src/wx/verify_dcp_result_panel.cc:402
+#: src/wx/verify_dcp_result_panel.cc:469
 msgid "More picture frames (not listed) have invalid JPEG2000 codestreams."
 msgstr "图片帧（未列出）包含无效的JPEG2000码流(%n)"
 
@@ -2169,7 +2182,7 @@ msgstr "移动 %s 标记到当前位置"
 msgid "Move configuration"
 msgstr "移动设置"
 
-#: src/wx/move_to_dialog.cc:37
+#: src/wx/move_to_dialog.cc:36
 msgid "Move content"
 msgstr "移动内容"
 
@@ -2185,7 +2198,7 @@ msgstr "后移选择内容。"
 msgid "Move to start of reel"
 msgstr "移动到分卷的起始处"
 
-#: src/wx/video_panel.cc:487
+#: src/wx/video_panel.cc:493
 msgid "Multiple content selected"
 msgstr "已选择多个文件"
 
@@ -2193,7 +2206,7 @@ msgstr "已选择多个文件"
 msgid "Multiple values"
 msgstr "多值"
 
-#: src/wx/dir_picker_ctrl.cc:64
+#: src/wx/dir_picker_ctrl.cc:62
 msgid "My Documents"
 msgstr "我的文档"
 
@@ -2240,7 +2253,7 @@ msgstr "有新的版本%s可用。"
 msgid "Next"
 msgstr "下一步"
 
-#: src/wx/verify_dcp_result_panel.cc:229
+#: src/wx/verify_dcp_result_panel.cc:293
 msgid "No ASSETMAP or ASSETMAP.xml file was found."
 msgstr "找不到ASSETMAP或ASSETMAP.xml文件。"
 
@@ -2248,7 +2261,7 @@ msgstr "找不到ASSETMAP或ASSETMAP.xml文件。"
 msgid "No DCP loaded."
 msgstr "没有加载DCP。"
 
-#: src/wx/verify_dcp_result_panel.cc:639
+#: src/wx/verify_dcp_result_panel.cc:692
 msgid "No SMPTE Bv2.1 errors found."
 msgstr "未发现SMPTE Bv2.1错误。"
 
@@ -2261,26 +2274,25 @@ msgstr "没有音频将从 %s 通道“%s”传递到 %s 通道“%s”。"
 msgid "No content found in this folder."
 msgstr "文件夹中没有找到文件。"
 
-#: src/wx/verify_dcp_result_panel.cc:635
+#: src/wx/verify_dcp_result_panel.cc:688
 msgid "No errors found."
 msgstr "没有发现错误。"
 
-#: src/wx/verify_dcp_result_panel.cc:643
+#: src/wx/verify_dcp_result_panel.cc:696
 msgid "No warnings found."
 msgstr "没有发现任何警告。"
 
-#: src/wx/full_config_dialog.cc:1373
+#: src/wx/full_config_dialog.cc:1024
 msgid "Non-standard"
 msgstr "非标准设置（高级)"
 
 #: src/wx/content_advanced_dialog.cc:74 src/wx/content_advanced_dialog.cc:156
 #: src/wx/content_advanced_dialog.cc:164 src/wx/dcp_panel.cc:1040
-#: src/wx/file_picker_ctrl.cc:80 src/wx/subtitle_appearance_dialog.cc:151
-#: src/wx/video_panel.cc:187
+#: src/wx/subtitle_appearance_dialog.cc:151 src/wx/video_panel.cc:187
 msgid "None"
 msgstr "无"
 
-#: src/wx/verify_dcp_result_panel.cc:288
+#: src/wx/verify_dcp_result_panel.cc:352
 msgid "Not all subtitle assets specify the same <Language> tag."
 msgstr "不是所有字幕资源都指定相同的 <Language> 标签。"
 
@@ -2297,7 +2309,7 @@ msgstr "生效期为"
 msgid "Notes"
 msgstr "记录"
 
-#: src/wx/full_config_dialog.cc:1005
+#: src/wx/full_config_dialog.cc:656
 msgid "Notifications"
 msgstr "提醒"
 
@@ -2305,12 +2317,12 @@ msgstr "提醒"
 msgid "Notify when complete"
 msgstr "结束时提醒"
 
-#: src/wx/full_config_dialog.cc:110 src/wx/full_config_dialog.cc:115
+#: src/wx/full_config_dialog.cc:115 src/wx/full_config_dialog.cc:120
 #, c-format
 msgid "Number of threads %s should use"
 msgstr "将被使用的 %s 进程数量"
 
-#: src/wx/config_dialog.cc:965
+#: src/wx/sound_preferences_page.cc:178
 msgid "OSS"
 msgstr "开源软件"
 
@@ -2326,11 +2338,11 @@ msgstr "关闭"
 msgid "Offset"
 msgstr "偏移"
 
-#: src/wx/full_config_dialog.cc:1566
+#: src/wx/full_config_dialog.cc:1217
 msgid "Only servers encode"
 msgstr "仅在编码服务器编码"
 
-#: src/wx/full_config_dialog.cc:1654 src/wx/player_config_dialog.cc:320
+#: src/wx/full_config_dialog.cc:1305 src/wx/player_config_dialog.cc:322
 msgid "Open console window"
 msgstr "打开控制台窗口"
 
@@ -2338,7 +2350,7 @@ msgstr "打开控制台窗口"
 msgid "Open the timeline for the film (Ctrl+T)."
 msgstr "打开影片时间线(Ctrl+T)。"
 
-#: src/wx/full_config_dialog.cc:1661 src/wx/player_config_dialog.cc:120
+#: src/wx/full_config_dialog.cc:1312 src/wx/player_config_dialog.cc:124
 msgid "OpenGL (faster)"
 msgstr "OpenGL (加速)"
 
@@ -2364,7 +2376,7 @@ msgstr "组织"
 msgid "Other trusted devices"
 msgstr "其它可信设备(服务器设备)"
 
-#: src/wx/full_config_dialog.cc:725
+#: src/wx/email_preferences_page.cc:66
 msgid "Outgoing mail server"
 msgstr "发送邮件服务器地址"
 
@@ -2384,16 +2396,16 @@ msgstr "轮廓线宽度"
 msgid "Outline width cannot be set unless you are burning in subtitles."
 msgstr "只有选择烧录字幕才能显示轮廓线。"
 
-#: src/wx/config_dialog.cc:872 src/wx/dkdm_dialog.cc:108
-#: src/wx/kdm_dialog.cc:113 src/wx/self_dkdm_dialog.cc:76
+#: src/wx/dkdm_dialog.cc:99 src/wx/kdm_dialog.cc:113
+#: src/wx/self_dkdm_dialog.cc:76 src/wx/sound_preferences_page.cc:85
 msgid "Output"
 msgstr "输出"
 
-#: src/wx/export_subtitles_dialog.cc:60 src/wx/export_video_file_dialog.cc:98
+#: src/wx/export_subtitles_dialog.cc:62 src/wx/export_video_file_dialog.cc:98
 msgid "Output file"
 msgstr "输出文件"
 
-#: src/wx/export_subtitles_dialog.cc:64
+#: src/wx/export_subtitles_dialog.cc:68
 msgid "Output folder"
 msgstr "输出文件夹"
 
@@ -2409,22 +2421,22 @@ msgstr "覆盖已侦测到的视频帧率"
 msgid "Overwrite this file with current configuration"
 msgstr "使用当前设置改写这个文件"
 
-#: src/wx/verify_dcp_result_panel.cc:515
+#: src/wx/verify_dcp_result_panel.cc:596
 msgid "Part of the DCP could not be checked because no KDM was available."
 msgstr "由于没有可用的KDM，因此无法检查DCP。"
 
-#: src/wx/verify_dcp_result_panel.cc:217
+#: src/wx/verify_dcp_result_panel.cc:281
 msgid ""
 "Parts of the DCP are written according to the Interop standard and parts "
 "according to SMPTE."
 msgstr "DCP的部分根据Interop标准打包，部分根据SMPTE标准打包。"
 
-#: src/wx/full_config_dialog.cc:606
+#: src/wx/full_config_dialog.cc:549
 msgid "Passive mode"
 msgstr "被动模式"
 
 #: src/wx/credentials_download_certificate_panel.cc:54
-#: src/wx/full_config_dialog.cc:622 src/wx/full_config_dialog.cc:749
+#: src/wx/email_preferences_page.cc:90 src/wx/full_config_dialog.cc:565
 msgid "Password"
 msgstr "密码"
 
@@ -2444,7 +2456,7 @@ msgstr "粘贴字幕和位置设置"
 msgid "Paste video settings"
 msgstr "粘贴视频设置"
 
-#: src/wx/about_dialog.cc:176
+#: src/wx/about_dialog.cc:177
 msgid "Patrons"
 msgstr "赞助人"
 
@@ -2474,7 +2486,7 @@ msgstr "状态"
 msgid "Picture"
 msgstr "描述"
 
-#: src/wx/full_config_dialog.cc:738
+#: src/wx/email_preferences_page.cc:79
 msgid "Plain"
 msgstr "简单"
 
@@ -2486,11 +2498,11 @@ msgstr "播放"
 msgid "Play length"
 msgstr "播放长度"
 
-#: src/wx/config_dialog.cc:861
+#: src/wx/sound_preferences_page.cc:74
 msgid "Play sound via"
 msgstr "声音播放设备"
 
-#: src/wx/config_dialog.cc:1043
+#: src/wx/locations_preferences_page.cc:71
 msgid "Playlist directory"
 msgstr "播放列表目录"
 
@@ -2512,7 +2524,7 @@ msgstr "请稍等，正在解析音频..."
 msgid "Position"
 msgstr "位置"
 
-#: src/wx/metadata_dialog.cc:307 src/wx/smpte_metadata_dialog.cc:136
+#: src/wx/metadata_dialog.cc:306 src/wx/smpte_metadata_dialog.cc:136
 msgid "Pre-release"
 msgstr "预发布(点映版)"
 
@@ -2524,11 +2536,11 @@ msgstr "上一页"
 msgid "Processor"
 msgstr "处理方式"
 
-#: src/wx/full_config_dialog.cc:1280
+#: src/wx/full_config_dialog.cc:931
 msgid "Product name"
 msgstr "产品名称"
 
-#: src/wx/full_config_dialog.cc:1288
+#: src/wx/full_config_dialog.cc:939
 msgid "Product version"
 msgstr "产品版本"
 
@@ -2536,11 +2548,11 @@ msgstr "产品版本"
 msgid "Properties..."
 msgstr "属性..."
 
-#: src/wx/full_config_dialog.cc:602
+#: src/wx/full_config_dialog.cc:545
 msgid "Protocol"
 msgstr "协议"
 
-#: src/wx/config_dialog.cc:964
+#: src/wx/sound_preferences_page.cc:177
 msgid "PulseAudio"
 msgstr "PulseAudio"
 
@@ -2582,7 +2594,7 @@ msgstr "对输入内容重新进行JPEG2000编码"
 msgid "Re-examine..."
 msgstr "重新检查..."
 
-#: src/wx/config_dialog.cc:331 src/wx/config_dialog.cc:679
+#: src/wx/certificate_chain_editor.cc:117 src/wx/keys_preferences_page.cc:109
 msgid "Re-make certificates and key..."
 msgstr "重新创建证书和密钥..."
 
@@ -2610,11 +2622,11 @@ msgstr "接受者"
 msgid "Recipient certificate"
 msgstr "接受证书(设备)"
 
-#: src/wx/dkdm_dialog.cc:78
+#: src/wx/dkdm_dialog.cc:77
 msgid "Recipients"
 msgstr "收件人"
 
-#: src/wx/metadata_dialog.cc:311
+#: src/wx/metadata_dialog.cc:310
 msgid "Red band"
 msgstr "红色色带"
 
@@ -2627,12 +2639,12 @@ msgstr "红色色度"
 msgid "Reel %d"
 msgstr "卷 %d"
 
-#: src/wx/dcp_timeline.cc:68
+#: src/wx/dcp_timeline.cc:69
 #, c-format
 msgid "Reel %d to reel %d"
 msgstr "卷%d到卷%d"
 
-#: src/wx/dcp_timeline.cc:247
+#: src/wx/dcp_timeline.cc:297
 msgid "Reel mode"
 msgstr "卷轴模式"
 
@@ -2656,15 +2668,15 @@ msgstr "刷新"
 msgid "Region"
 msgstr "地区"
 
-#: src/wx/metadata_dialog.cc:212
+#: src/wx/metadata_dialog.cc:211
 msgid "Release territory"
 msgstr "发布区域"
 
-#: src/wx/metadata_dialog.cc:214
+#: src/wx/metadata_dialog.cc:213
 msgid "Release territory for this DCP"
 msgstr "此DCP的发布区域"
 
-#: src/wx/config_dialog.cc:305 src/wx/content_menu.cc:117
+#: src/wx/certificate_chain_editor.cc:91 src/wx/content_menu.cc:117
 #: src/wx/content_panel.cc:285 src/wx/full_language_tag_dialog.cc:71
 #: src/wx/recipients_panel.cc:73 src/wx/templates_dialog.cc:61
 #: src/wx/editable_list.h:149
@@ -2684,7 +2696,7 @@ msgstr "移除影院"
 msgid "Remove Screen"
 msgstr "移除放映服务器（证书）"
 
-#: src/wx/dcp_timeline.cc:173
+#: src/wx/dcp_timeline.cc:175
 msgid "Remove reel boundary"
 msgstr "移除厅放映（证书）"
 
@@ -2720,15 +2732,15 @@ msgstr "重复..."
 msgid "Report A Problem"
 msgstr "报告问题"
 
-#: src/wx/config_dialog.cc:876
+#: src/wx/sound_preferences_page.cc:89
 msgid "Reset to default"
 msgstr "恢复到默认"
 
-#: src/wx/full_config_dialog.cc:928 src/wx/full_config_dialog.cc:1065
+#: src/wx/full_config_dialog.cc:716 src/wx/kdm_email_preferences_page.cc:102
 msgid "Reset to default subject and text"
 msgstr "恢复到默认类别和文本"
 
-#: src/wx/full_config_dialog.cc:1197
+#: src/wx/full_config_dialog.cc:848
 msgid "Reset to default text"
 msgstr "恢复到默认文本"
 
@@ -2736,7 +2748,7 @@ msgstr "恢复到默认文本"
 msgid "Resolution"
 msgstr "分辨率"
 
-#: src/wx/player_config_dialog.cc:131
+#: src/wx/player_config_dialog.cc:135
 msgid "Respect KDM validity periods"
 msgstr "尊重KDM的有效期"
 
@@ -2757,7 +2769,7 @@ msgstr "右边"
 msgid "Right click to change gain."
 msgstr "右键单击以更改增益。"
 
-#: src/wx/config_dialog.cc:522
+#: src/wx/certificate_chain_editor.cc:308
 msgid "Root"
 msgstr "根"
 
@@ -2769,7 +2781,7 @@ msgstr "根名称"
 msgid "S-Gamut3"
 msgstr "索尼S-Gamut3"
 
-#: src/wx/full_config_dialog.cc:626
+#: src/wx/full_config_dialog.cc:569
 msgid "SCP (for AAM and Doremi)"
 msgstr "SCP (用于AAM和Doremi)"
 
@@ -2781,23 +2793,23 @@ msgstr "SMPTE"
 msgid "SMPTE (Bv2.0 only)"
 msgstr "SMPTE（仅Bv2.0）"
 
-#: src/wx/verify_dcp_result_panel.cc:55
+#: src/wx/verify_dcp_result_panel.cc:59
 msgid "SMPTE Bv2.1 errors"
 msgstr "SMPTE Bv2.1 错误"
 
-#: src/wx/full_config_dialog.cc:740
+#: src/wx/email_preferences_page.cc:81
 msgid "SSL"
 msgstr "SSL"
 
-#: src/wx/full_config_dialog.cc:739
+#: src/wx/email_preferences_page.cc:80
 msgid "STARTTLS"
 msgstr "STARTTLS"
 
-#: src/wx/full_config_dialog.cc:153
+#: src/wx/full_config_dialog.cc:148
 msgid "Same place as last time"
 msgstr "和上次相同的位置"
 
-#: src/wx/full_config_dialog.cc:154
+#: src/wx/full_config_dialog.cc:149
 msgid "Same place as project"
 msgstr "和项目相同的位置"
 
@@ -2822,11 +2834,11 @@ msgstr "另存为新名称"
 msgid "Save over existing template"
 msgstr "保存为现有模板"
 
-#: src/wx/verify_dcp_result_panel.cc:65
+#: src/wx/verify_dcp_result_panel.cc:78
 msgid "Save report as HTML..."
 msgstr "将报告保存为 HTML…"
 
-#: src/wx/verify_dcp_result_panel.cc:63
+#: src/wx/verify_dcp_result_panel.cc:76
 msgid "Save report as text..."
 msgstr "将报告保存为 TXT文本…"
 
@@ -2850,7 +2862,7 @@ msgstr "屏幕服务器"
 msgid "Screens"
 msgstr "屏幕服务器"
 
-#: src/wx/full_config_dialog.cc:532
+#: src/wx/full_config_dialog.cc:475
 msgid "Search network for servers"
 msgstr "搜索网络服务器（局域网）"
 
@@ -2862,44 +2874,44 @@ msgstr "选择"
 msgid "Select CPL XML file"
 msgstr "选择CPL文件"
 
-#: src/wx/config_dialog.cc:458 src/wx/config_dialog.cc:826
+#: src/wx/certificate_chain_editor.cc:244 src/wx/keys_preferences_page.cc:265
 #: src/wx/recipient_dialog.cc:171 src/wx/screen_dialog.cc:298
 msgid "Select Certificate File"
 msgstr "选择证书文件"
 
-#: src/wx/config_dialog.cc:375
+#: src/wx/certificate_chain_editor.cc:161
 msgid "Select Certificate file"
 msgstr "选择证书文件"
 
-#: src/wx/config_dialog.cc:488
+#: src/wx/certificate_chain_editor.cc:274
 msgid "Select Chain File"
 msgstr "选择私钥（密钥链）文件"
 
-#: src/wx/full_config_dialog.cc:194
+#: src/wx/general_preferences_page.cc:183
 msgid "Select Cinemas File"
 msgstr "选择影院文件"
 
-#: src/wx/config_dialog.cc:730
+#: src/wx/keys_preferences_page.cc:169
 msgid "Select Export File"
 msgstr "选择文件以输出"
 
-#: src/wx/config_dialog.cc:764
+#: src/wx/keys_preferences_page.cc:203
 msgid "Select File To Import"
 msgstr "选择文件以导入"
 
-#: src/wx/content_menu.cc:409
+#: src/wx/content_menu.cc:410
 msgid "Select KDM"
 msgstr "选择KDM"
 
-#: src/wx/config_dialog.cc:612
+#: src/wx/certificate_chain_editor.cc:398
 msgid "Select Key File"
 msgstr "选择密钥文件"
 
-#: src/wx/config_dialog.cc:578
+#: src/wx/certificate_chain_editor.cc:364
 msgid "Select Key file"
 msgstr "选择密钥文件"
 
-#: src/wx/content_menu.cc:463
+#: src/wx/content_menu.cc:464
 msgid "Select OV"
 msgstr "选择OV"
 
@@ -2907,19 +2919,19 @@ msgstr "选择OV"
 msgid "Select and move content"
 msgstr "选择并移动内容"
 
-#: src/wx/full_config_dialog.cc:126
+#: src/wx/general_preferences_page.cc:124
 msgid "Select cinema and screen database file"
 msgstr "选择电影和银幕的数据库文件"
 
-#: src/wx/full_config_dialog.cc:121
+#: src/wx/general_preferences_page.cc:119
 msgid "Select configuration file"
 msgstr "选择配置文件"
 
-#: src/wx/player_config_dialog.cc:136
+#: src/wx/kdm_config_dialog.cc:64 src/wx/player_config_dialog.cc:140
 msgid "Select debug log file"
 msgstr "选择debug日志文件"
 
-#: src/wx/export_subtitles_dialog.cc:61 src/wx/export_video_file_dialog.cc:104
+#: src/wx/export_subtitles_dialog.cc:64 src/wx/export_video_file_dialog.cc:104
 msgid "Select output file"
 msgstr "选择输出文件"
 
@@ -2927,7 +2939,7 @@ msgstr "选择输出文件"
 msgid "Select..."
 msgstr "选择…"
 
-#: src/wx/dkdm_output_panel.cc:93 src/wx/kdm_output_panel.cc:98
+#: src/wx/dkdm_output_panel.cc:95 src/wx/kdm_output_panel.cc:98
 msgid "Send by email"
 msgstr "通过电子邮件发送"
 
@@ -2943,7 +2955,7 @@ msgstr "发送日志"
 msgid "Send test email"
 msgstr "发送测试邮件"
 
-#: src/wx/full_config_dialog.cc:754
+#: src/wx/email_preferences_page.cc:95
 msgid "Send test email..."
 msgstr "发送测试邮件..."
 
@@ -2955,11 +2967,11 @@ msgstr "序列"
 msgid "Serial number"
 msgstr "序列号"
 
-#: src/wx/server_dialog.cc:30
+#: src/wx/server_dialog.cc:34
 msgid "Server"
 msgstr "服务器"
 
-#: src/wx/full_config_dialog.cc:519
+#: src/wx/full_config_dialog.cc:462
 msgid "Servers"
 msgstr "服务器"
 
@@ -2983,7 +2995,7 @@ msgstr "从文件中获取设置…"
 msgid "Set from system font..."
 msgstr "使用系统字体…"
 
-#: src/wx/config_dialog.cc:124
+#: src/wx/general_preferences_page.cc:73
 msgid "Set language"
 msgstr "设置语言"
 
@@ -3019,7 +3031,7 @@ msgstr "字幕阴影"
 msgid "Show"
 msgstr "显示"
 
-#: src/wx/full_config_dialog.cc:1562
+#: src/wx/full_config_dialog.cc:1213
 msgid "Show experimental audio processors"
 msgstr "显示实验音频配置"
 
@@ -3040,15 +3052,15 @@ msgstr "仅选中显示"
 msgid "Show subtitle area"
 msgstr "显示字幕区域"
 
-#: src/wx/metadata_dialog.cc:284
+#: src/wx/metadata_dialog.cc:283
 msgid "Sign language video language"
 msgstr "手语视频语言"
 
-#: src/wx/config_dialog.cc:670 src/wx/config_dialog.cc:717
+#: src/wx/keys_preferences_page.cc:100 src/wx/keys_preferences_page.cc:156
 msgid "Signing DCPs and KDMs"
 msgstr "签名DCP和KDM"
 
-#: src/wx/full_config_dialog.cc:1659 src/wx/player_config_dialog.cc:119
+#: src/wx/full_config_dialog.cc:1310 src/wx/player_config_dialog.cc:123
 msgid "Simple (safer)"
 msgstr "简单模式 (更安全)"
 
@@ -3060,7 +3072,7 @@ msgstr "简单伽马值"
 msgid "Simple gamma, linearised for small values"
 msgstr "简单伽马值，低位对齐"
 
-#: src/wx/dcp_timeline.cc:249
+#: src/wx/dcp_timeline.cc:262
 msgid "Single reel"
 msgstr "签名卷"
 
@@ -3081,7 +3093,7 @@ msgstr "平滑"
 msgid "Snap"
 msgstr "吸附"
 
-#: src/wx/dcp_timeline.cc:267
+#: src/wx/dcp_timeline.cc:314
 msgid "Snap when dragging"
 msgstr "拖动时吸附"
 
@@ -3091,23 +3103,23 @@ msgid ""
 "certificate validity periods.  What do you want to do?"
 msgstr "某些密钥超出有效期，密钥无效，希望如何处理？"
 
-#: src/wx/verify_dcp_result_panel.cc:521
+#: src/wx/verify_dcp_result_panel.cc:602
 msgid ""
 "Some closed <Text> or <Image> nodes have different vertical alignments "
 "within a <Subtitle>."
 msgstr ""
 "部分隐藏式 <Text> 或 <Image> 节点在 <Subtitle> 内的垂直方向排列位置有变化。"
 
-#: src/wx/verify_dcp_result_panel.cc:524
+#: src/wx/verify_dcp_result_panel.cc:605
 msgid ""
 "Some closed captions are not listed in the order of their vertical position."
 msgstr "部分隐藏式字幕未按其垂直方向位置列出。"
 
-#: src/wx/config_dialog.cc:850 src/wx/dcp_referencing_dialog.cc:115
+#: src/wx/dcp_referencing_dialog.cc:115 src/wx/sound_preferences_page.cc:63
 msgid "Sound"
 msgstr "声音"
 
-#: src/wx/verify_dcp_result_panel.cc:551
+#: src/wx/verify_dcp_result_panel.cc:632
 msgid "Sound assets do not all have the same channel count."
 msgstr "声音资源的声道数不一致。"
 
@@ -3115,15 +3127,15 @@ msgstr "声音资源的声道数不一致。"
 msgid "Sound processor"
 msgstr "声音处理器"
 
-#: src/wx/metadata_dialog.cc:207
+#: src/wx/metadata_dialog.cc:206
 msgid "Specific"
 msgstr "未指定"
 
-#: src/wx/dcp_timeline.cc:251
+#: src/wx/dcp_timeline.cc:268
 msgid "Split by maximum reel size"
 msgstr "按最大卷轴尺寸分割"
 
-#: src/wx/dcp_timeline.cc:250
+#: src/wx/dcp_timeline.cc:265
 msgid "Split by video content"
 msgstr "根据视频内容进行分割"
 
@@ -3140,11 +3152,11 @@ msgstr "标准"
 msgid "Start"
 msgstr "开始"
 
-#: src/wx/move_to_dialog.cc:40
+#: src/wx/move_to_dialog.cc:39
 msgid "Start of reel"
 msgstr "分卷起点"
 
-#: src/wx/player_config_dialog.cc:102
+#: src/wx/player_config_dialog.cc:106
 msgid "Start player as"
 msgstr "启动播放器为"
 
@@ -3160,11 +3172,11 @@ msgstr "停止"
 msgid "Stream"
 msgstr "流"
 
-#: src/wx/metadata_dialog.cc:293
+#: src/wx/metadata_dialog.cc:292
 msgid "Studio"
 msgstr "片厂"
 
-#: src/wx/full_config_dialog.cc:897 src/wx/full_config_dialog.cc:1030
+#: src/wx/full_config_dialog.cc:681 src/wx/kdm_email_preferences_page.cc:71
 msgid "Subject"
 msgstr "主题"
 
@@ -3176,7 +3188,7 @@ msgstr "主题通用名称"
 msgid "Subject organization name"
 msgstr "主体组织名称"
 
-#: src/wx/about_dialog.cc:180
+#: src/wx/about_dialog.cc:181
 msgid "Subscribers"
 msgstr "订阅者"
 
@@ -3184,16 +3196,16 @@ msgstr "订阅者"
 msgid "Subtitle appearance"
 msgstr "字幕外观"
 
-#: src/wx/verify_dcp_result_panel.cc:345
+#: src/wx/verify_dcp_result_panel.cc:412
 #, c-format
 msgid "Subtitle asset %n has a non-zero <EntryPoint>."
 msgstr "字幕文件 %n有非零 <EntryPoint>。"
 
-#: src/wx/export_subtitles_dialog.cc:58
+#: src/wx/export_subtitles_dialog.cc:60
 msgid "Subtitle files (.mxf)|*.mxf"
 msgstr "字幕文件 (.mxf)|*.mxf"
 
-#: src/wx/export_subtitles_dialog.cc:58
+#: src/wx/export_subtitles_dialog.cc:60
 msgid "Subtitle files (.xml)|*.xml"
 msgstr "字幕文件 (.xml)|*.xml"
 
@@ -3218,11 +3230,11 @@ msgstr "字幕: 开启"
 msgid "System information"
 msgstr "系统信息"
 
-#: src/wx/full_config_dialog.cc:582
+#: src/wx/full_config_dialog.cc:525
 msgid "TMS"
 msgstr "TMS"
 
-#: src/wx/full_config_dialog.cc:614
+#: src/wx/full_config_dialog.cc:557
 msgid "Target path"
 msgstr "目标路径"
 
@@ -3242,19 +3254,19 @@ msgstr "模板"
 msgid "Temporary"
 msgstr "临时"
 
-#: src/wx/metadata_dialog.cc:303
+#: src/wx/metadata_dialog.cc:302
 msgid "Temporary version"
 msgstr "临时版本"
 
-#: src/wx/metadata_dialog.cc:205
+#: src/wx/metadata_dialog.cc:204
 msgid "Territory type"
 msgstr "国别地区(例如:CN)"
 
-#: src/wx/full_config_dialog.cc:847 src/wx/full_config_dialog.cc:850
+#: src/wx/email_preferences_page.cc:201 src/wx/email_preferences_page.cc:204
 msgid "Test email sending failed."
 msgstr "未能发送测试邮件。"
 
-#: src/wx/full_config_dialog.cc:853
+#: src/wx/email_preferences_page.cc:207
 msgid "Test email sent."
 msgstr "测试邮件已发送。"
 
@@ -3262,7 +3274,7 @@ msgstr "测试邮件已发送。"
 msgid "Test version"
 msgstr "测试版"
 
-#: src/wx/about_dialog.cc:251
+#: src/wx/about_dialog.cc:252
 msgid "Tested by"
 msgstr "测试By"
 
@@ -3270,118 +3282,118 @@ msgstr "测试By"
 msgid "The 'until' time must be after the 'from' time."
 msgstr "结束时间必须大于开始时间。"
 
-#: src/wx/verify_dcp_result_panel.cc:579
+#: src/wx/verify_dcp_result_panel.cc:660
 #, c-format
 msgid "The <LabelText> in a <ContentVersion> in CPL %cpl is empty"
 msgstr "CPL %cpl中的<ContentVersion>中的<LabelText>为空"
 
-#: src/wx/verify_dcp_result_panel.cc:536
+#: src/wx/verify_dcp_result_panel.cc:617
 msgid ""
 "The <MainPictureActiveArea> is either not a multiple of 2, or is bigger than "
 "an asset."
 msgstr "<MainPictureActiveArea>不是2的倍数，或者大于资产。"
 
-#: src/wx/verify_dcp_result_panel.cc:542
+#: src/wx/verify_dcp_result_panel.cc:623
 #, c-format
 msgid "The ASSETMAP %n has more than one asset with the same ID."
 msgstr "ASSETMAP %n 中有一个以上的资产具有相同的ID。"
 
-#: src/wx/verify_dcp_result_panel.cc:496
+#: src/wx/verify_dcp_result_panel.cc:577
 msgid ""
 "The Asset ID in a timed text MXF is the same as the Resource ID or that of "
 "the contained XML."
 msgstr "时间文本 MXF 中的资产 ID 与资源 ID 或包含的 XML 的资源 ID 相同。"
 
-#: src/wx/verify_dcp_result_panel.cc:330
+#: src/wx/verify_dcp_result_panel.cc:397
 #, c-format
 msgid ""
 "The CPL %cpl has an <AnnotationText> which is not the same as its "
 "<ContentTitleText>."
 msgstr "CPL %cpl的 <AnnotationText> 与其 <ContentTitleText> 不同。"
 
-#: src/wx/verify_dcp_result_panel.cc:582
+#: src/wx/verify_dcp_result_panel.cc:663
 #, c-format
 msgid "The CPL %cpl has an invalid namespace %n"
 msgstr "声音资产 %cpl  的帧率 %n 非法"
 
-#: src/wx/verify_dcp_result_panel.cc:387
+#: src/wx/verify_dcp_result_panel.cc:454
 #, c-format
 msgid "The CPL %cpl has encrypted content but is not signed."
 msgstr "CPL %cpl已加密内容，但未签名。"
 
-#: src/wx/verify_dcp_result_panel.cc:327
+#: src/wx/verify_dcp_result_panel.cc:394
 #, c-format
 msgid "The CPL %cpl has no <AnnotationText> tag."
 msgstr "CPL %cpl没有 <AnnotationText> 标记。"
 
-#: src/wx/verify_dcp_result_panel.cc:585
+#: src/wx/verify_dcp_result_panel.cc:666
 #, c-format
 msgid "The CPL %cpl has no <ContentVersion> tag"
 msgstr "CPL %cpl没有 <AnnotationText> 标记"
 
-#: src/wx/verify_dcp_result_panel.cc:381
+#: src/wx/verify_dcp_result_panel.cc:448
 #, c-format
 msgid "The CPL %cpl has no CPL extension metadata tag."
 msgstr "CPL %cpl 没有CPL扩展元数据标记。"
 
-#: src/wx/verify_dcp_result_panel.cc:375
+#: src/wx/verify_dcp_result_panel.cc:442
 #, c-format
 msgid "The CPL %cpl has no CPL metadata tag."
 msgstr "CPL %cpl 没有CPL元数据标记。"
 
-#: src/wx/verify_dcp_result_panel.cc:378
+#: src/wx/verify_dcp_result_panel.cc:445
 #, c-format
 msgid "The CPL %cpl has no CPL metadata version number tag."
 msgstr "CPL %cpl 没有CPL元数据版本号标记。"
 
-#: src/wx/verify_dcp_result_panel.cc:384
+#: src/wx/verify_dcp_result_panel.cc:451
 #, c-format
 msgid "The CPL %f has an invalid CPL extension metadata tag (%n)"
 msgstr "CPL %f具有无效的CPL扩展元数据标记(%n)"
 
-#: src/wx/verify_dcp_result_panel.cc:369
+#: src/wx/verify_dcp_result_panel.cc:436
 #, c-format
 msgid "The DCP has a FFOC of %n instead of 1."
 msgstr "DCP的FFOC为%n，而不是1。"
 
-#: src/wx/verify_dcp_result_panel.cc:372
+#: src/wx/verify_dcp_result_panel.cc:439
 #, c-format
 msgid "The DCP has a LFOC of %n instead of the reel duration minus one."
 msgstr "DCP的LFOC为%n，而不是卷轴持续时间减1。"
 
-#: src/wx/verify_dcp_result_panel.cc:339
+#: src/wx/verify_dcp_result_panel.cc:406
 msgid ""
 "The DCP has closed captions but not every reel has the same number of closed "
 "caption assets."
 msgstr "DCP有隐藏字幕，但不是每一卷都有相同数量的隐藏字幕资产。"
 
-#: src/wx/verify_dcp_result_panel.cc:396
+#: src/wx/verify_dcp_result_panel.cc:463
 msgid "The DCP has encrypted content, but not all its assets are encrypted."
 msgstr "DCP具有已加密内容，但并非所有资产都已加密。"
 
-#: src/wx/verify_dcp_result_panel.cc:363
+#: src/wx/verify_dcp_result_panel.cc:430
 msgid "The DCP has no FFOC (first frame of content) marker."
 msgstr "DCP没有FFOC（内容的第一帧）标记。"
 
-#: src/wx/verify_dcp_result_panel.cc:366
+#: src/wx/verify_dcp_result_panel.cc:433
 msgid "The DCP has no LFOC (last frame of content) marker."
 msgstr "DCP没有LFOC（内容的最后一帧）标记。"
 
-#: src/wx/verify_dcp_result_panel.cc:336
+#: src/wx/verify_dcp_result_panel.cc:403
 msgid "The DCP has subtitles but at least one reel has no subtitle asset."
 msgstr "DCP有字幕，但至少有一个卷没有字幕资产。"
 
-#: src/wx/verify_dcp_result_panel.cc:357
+#: src/wx/verify_dcp_result_panel.cc:424
 msgid ""
 "The DCP is a feature but has no FFEC (first frame of end credits) marker."
 msgstr "此DCP被标记为影片的正片，但没有FFEC（片尾字幕的第一帧）标记。"
 
-#: src/wx/verify_dcp_result_panel.cc:360
+#: src/wx/verify_dcp_result_panel.cc:427
 msgid ""
 "The DCP is a feature but has no FFMC (first frame of moving credits) marker."
 msgstr "此DCP被标记为影片的正片，但没有FFMC（动态字幕的第一帧）标记。"
 
-#: src/wx/dkdm_dialog.cc:177 src/wx/kdm_dialog.cc:247
+#: src/wx/dkdm_dialog.cc:168 src/wx/kdm_dialog.cc:247
 #, c-format
 msgid ""
 "The KDM end period is after (or close to) the end of the signing "
@@ -3391,110 +3403,110 @@ msgstr ""
 "KDM终止时间在签署证书有效期结束之后 (或接近结束)。为此KDM设置较早的终止时间，"
 "或在%s首选项窗口中重新创建签名证书。"
 
-#: src/wx/dkdm_dialog.cc:172 src/wx/kdm_dialog.cc:242
+#: src/wx/dkdm_dialog.cc:163 src/wx/kdm_dialog.cc:242
 msgid ""
 "The KDM start period is before (or close to) the start of the signing "
 "certificate's validity period.  Use a later start time for this KDM."
 msgstr "KDM起始时间在签署证书生效之前 (或接近)。为此KDM设置较晚的起始时间。"
 
-#: src/wx/verify_dcp_result_panel.cc:601
+#: src/wx/verify_dcp_result_panel.cc:682
 #, c-format
 msgid "The PKL %f has an invalid namespace %n"
 msgstr "声音资产 %f 的帧率 %n 非法"
 
-#: src/wx/verify_dcp_result_panel.cc:393
+#: src/wx/verify_dcp_result_panel.cc:460
 #, c-format
 msgid ""
 "The PKL %n has an <AnnotationText> which does not match its CPL's "
 "<ContentTitleText>."
 msgstr "PKL%n具有与其CPL的 <ContentTitleText> 不匹配的 <AnnotationText> 。"
 
-#: src/wx/verify_dcp_result_panel.cc:390
+#: src/wx/verify_dcp_result_panel.cc:457
 #, c-format
 msgid "The PKL %n has encrypted content but is not signed."
 msgstr "PKL %n包含已加密内容，但未签名。"
 
-#: src/wx/verify_dcp_result_panel.cc:539
+#: src/wx/verify_dcp_result_panel.cc:620
 #, c-format
 msgid "The PKL %n has more than one asset with the same ID."
 msgstr "PKL %n 包含一个以上的资产具有相同的ID。"
 
-#: src/wx/verify_dcp_result_panel.cc:202
+#: src/wx/verify_dcp_result_panel.cc:266
 #, c-format
 msgid "The PKL and CPL hashes disagree for picture asset %f."
 msgstr "图片资产 %f 的 PKL 和 CPL 哈希值同该资产不一致。"
 
-#: src/wx/verify_dcp_result_panel.cc:208
+#: src/wx/verify_dcp_result_panel.cc:272
 #, c-format
 msgid "The PKL and CPL hashes disagree for sound asset %f."
 msgstr "音频资产 %f 的 PKL 和 CPL 哈希值同该资产不一致。"
 
-#: src/wx/verify_dcp_result_panel.cc:493
+#: src/wx/verify_dcp_result_panel.cc:574
 msgid ""
 "The Resource ID in a timed text MXF did not match the ID of the contained "
 "XML."
 msgstr "时间文本 MXF 中的资源 ID 与所包含的 XML 的 ID 不匹配。"
 
-#: src/wx/verify_dcp_result_panel.cc:573
+#: src/wx/verify_dcp_result_panel.cc:654
 #, c-format
 msgid "The SMPTE subtitle asset %id has <Text> nodes but no <LoadFont> node"
 msgstr "SMPTE 字幕资产 %id 有 <Text> 节点，但缺少 <LoadFont> 节点"
 
-#: src/wx/verify_dcp_result_panel.cc:224
+#: src/wx/verify_dcp_result_panel.cc:288
 #, c-format
 msgid "The XML in %f is malformed (%n)."
 msgstr "%f中的XML格式不正确(%n)。"
 
-#: src/wx/verify_dcp_result_panel.cc:222
+#: src/wx/verify_dcp_result_panel.cc:286
 msgid "The XML in %f is malformed on line %l (%n)."
 msgstr "%f 中的XML在第 %l 行格式不正确(%n)。"
 
-#: src/wx/verify_dcp_result_panel.cc:276
+#: src/wx/verify_dcp_result_panel.cc:340
 #, c-format
 msgid ""
 "The XML in the closed caption asset %f takes up %n bytes which is over the "
 "256KB limit."
 msgstr "隐藏式字幕资产 %f 中的XML占用了 %n 字节，超过了256KB的限制。"
 
-#: src/wx/verify_dcp_result_panel.cc:567
+#: src/wx/verify_dcp_result_panel.cc:648
 #, c-format
 msgid ""
 "The XML in the subtitle asset %n has more than one namespace declaration."
 msgstr "字幕资产 %n 中的 XML 包含多个命名空间声明。"
 
-#: src/wx/verify_dcp_result_panel.cc:255
+#: src/wx/verify_dcp_result_panel.cc:319
 #, c-format
 msgid "The asset %f is 3D but its MXF is marked as 2D."
 msgstr "此资产 %f 是3D的，但其MXF被标记为2D。"
 
-#: src/wx/verify_dcp_result_panel.cc:214
+#: src/wx/verify_dcp_result_panel.cc:278
 #, c-format
 msgid "The asset %f is missing."
 msgstr "缺少资产 %f。"
 
-#: src/wx/verify_dcp_result_panel.cc:235
+#: src/wx/verify_dcp_result_panel.cc:299
 #, c-format
 msgid "The asset %n has a duration of less than 1 second, which is invalid."
 msgstr "此资产 %n 的持续时间少于1秒，这是无效的。"
 
-#: src/wx/verify_dcp_result_panel.cc:232
+#: src/wx/verify_dcp_result_panel.cc:296
 #, c-format
 msgid ""
 "The asset %n has an intrinsic duration of less than 1 second, which is "
 "invalid."
 msgstr "此资产 %n 的持续时间小于1秒，这是无效的。"
 
-#: src/wx/verify_dcp_result_panel.cc:354
+#: src/wx/verify_dcp_result_panel.cc:421
 #, c-format
 msgid "The asset %n has no <Hash> in the CPL."
 msgstr "此资产 %n 在CPL中没有<Hash>。"
 
-#: src/wx/verify_dcp_result_panel.cc:576
+#: src/wx/verify_dcp_result_panel.cc:657
 #, c-format
 msgid "The asset with ID %id in the asset map actually has an id of %other_id"
 msgstr "资产映射中 ID 为 %id 的资产实际上具有 ID %other_id"
 
-#: src/wx/verify_dcp_result_panel.cc:348
+#: src/wx/verify_dcp_result_panel.cc:415
 #, c-format
 msgid "The closed caption asset %n has no <EntryPoint> tag."
 msgstr "隐藏式字幕资产 %n 没有 <EntryPoint> 标记。"
@@ -3520,7 +3532,7 @@ msgstr ""
 "\n"
 "DCP-o-matic是否应立即尝试卸载它？"
 
-#: src/wx/wx_util.cc:827
+#: src/wx/wx_util.cc:829
 msgid ""
 "The existing configuration failed to load.  Default values will be used "
 "instead.  These may take a short time to create."
@@ -3533,47 +3545,47 @@ msgid ""
 "or overwrite it with your current configuration?"
 msgstr "文件 %s 已经存在。您希望将它作为新设置或是用现有设置覆盖他？"
 
-#: src/wx/verify_dcp_result_panel.cc:297
+#: src/wx/verify_dcp_result_panel.cc:361
 msgid ""
 "The first subtitle or closed caption happens before 4s into the first reel."
 msgstr "第一个字幕或隐藏式字幕出现在第一卷4秒之前。"
 
-#: src/wx/verify_dcp_result_panel.cc:557
+#: src/wx/verify_dcp_result_panel.cc:638
 #, c-format
 msgid ""
 "The font file for font ID \"%n\" was not found, or was not referred to in "
 "the ASSETMAP."
 msgstr "字体文件 ID “%n” 未找到，或未在 ASSETMAP 中引用。"
 
-#: src/wx/verify_dcp_result_panel.cc:282
+#: src/wx/verify_dcp_result_panel.cc:346
 #, c-format
 msgid ""
 "The fonts in the timed text asset %f take up %n bytes which is over the 10MB "
 "limit."
 msgstr "字幕资产 %f 中的字体占用了 %n 字节，超过了10MB的限制。"
 
-#: src/wx/verify_dcp_result_panel.cc:199
+#: src/wx/verify_dcp_result_panel.cc:263
 msgid ""
 "The hash (%calculated_hash) of the picture asset %f does not agree with the "
 "PKL file (%reference_hash).  This probably means that the asset file is "
 "corrupt."
 msgstr "图片资产的哈希值与PKL文件中哈希值不一致。可能资产文件已损坏。"
 
-#: src/wx/verify_dcp_result_panel.cc:205
+#: src/wx/verify_dcp_result_panel.cc:269
 msgid ""
 "The hash (%calculated_hash) of the sound asset %f does not agree with the "
 "PKL file (%reference_hash).  This probably means that the asset file is "
 "corrupt."
 msgstr "声音资产的哈希值与PKL文件的哈希值不一致。可能资产文件已损坏。"
 
-#: src/wx/verify_dcp_result_panel.cc:193
+#: src/wx/verify_dcp_result_panel.cc:257
 msgid ""
 "The hash (%reference_hash) of the CPL %cpl in the PKL does not agree with "
 "the CPL file (%calculated_hash).  This probably means that the CPL file is "
 "corrupt."
 msgstr "PKL中CPL哈希值与CPL文件的哈希值不一致。可能CPL文件已损坏。"
 
-#: src/wx/verify_dcp_result_panel.cc:261
+#: src/wx/verify_dcp_result_panel.cc:325
 #, c-format
 msgid "The invalid language tag %n is used."
 msgstr "使用了无效的语言标记%n。"
@@ -3583,24 +3595,24 @@ msgstr "使用了无效的语言标记%n。"
 msgid "The language that the film's title (\"%s\") is in"
 msgstr "电影标题(“%s”)使用的语言"
 
-#: src/wx/verify_dcp_result_panel.cc:196
+#: src/wx/verify_dcp_result_panel.cc:260
 #, c-format
 msgid "The picture in a reel has a frame rate of %n, which is not valid."
 msgstr "分卷包含的图像内容帧速率 %n 非法。"
 
-#: src/wx/verify_dcp_result_panel.cc:506
+#: src/wx/verify_dcp_result_panel.cc:587
 #, c-format
 msgid ""
 "The reel duration (%s) of some timed text is not the same as the "
 "ContainerDuration (%s) of its MXF."
 msgstr "某些字幕文本的分卷持续时间 (%s) 与其MXF的容器持续时间 (%s) 不同。"
 
-#: src/wx/verify_dcp_result_panel.cc:324
+#: src/wx/verify_dcp_result_panel.cc:391
 #, c-format
 msgid "The sound asset %f has an invalid bit depth of %n."
 msgstr "声音资产 %f 的位深度 %n 无效。"
 
-#: src/wx/verify_dcp_result_panel.cc:321
+#: src/wx/verify_dcp_result_panel.cc:388
 #, c-format
 msgid "The sound asset %f has an invalid frame rate of %n."
 msgstr "声音资产 %f 的帧率 %n 无效。"
@@ -3613,76 +3625,76 @@ msgstr ""
 "DCP 应使用的标准。 Interop是较旧的标准，而 SMPTE 是更新（当前）标准。 如果您"
 "拿不准，请选择“SMPTE”"
 
-#: src/wx/verify_dcp_result_panel.cc:285
+#: src/wx/verify_dcp_result_panel.cc:349
 #, c-format
 msgid "The subtitle asset %f contains no <Language> tag."
 msgstr "字幕资产 %f 不包含<Language>标记。"
 
-#: src/wx/verify_dcp_result_panel.cc:291
+#: src/wx/verify_dcp_result_panel.cc:355
 #, c-format
 msgid "The subtitle asset %f contains no <StartTime> tag."
 msgstr "字幕资产 %f 不包含<StartTime>标记。"
 
-#: src/wx/verify_dcp_result_panel.cc:294
+#: src/wx/verify_dcp_result_panel.cc:358
 #, c-format
 msgid "The subtitle asset %f has a <StartTime> which is not zero."
 msgstr "字幕资产 %f 的<StartTime>不是零。"
 
-#: src/wx/verify_dcp_result_panel.cc:545
+#: src/wx/verify_dcp_result_panel.cc:626
 #, c-format
 msgid "The subtitle asset %n contains no subtitles."
 msgstr "字幕资源 %n 不包含字幕。"
 
-#: src/wx/verify_dcp_result_panel.cc:342
+#: src/wx/verify_dcp_result_panel.cc:409
 #, c-format
 msgid "The subtitle asset %n has no <EntryPoint> tag."
 msgstr "字幕资产 %n 没有<EntryPoint>标记。"
 
-#: src/wx/verify_dcp_result_panel.cc:279
+#: src/wx/verify_dcp_result_panel.cc:343
 #, c-format
 msgid ""
 "The timed text asset %f takes up %n bytes which is over the 115MB limit."
 msgstr "字幕文本资产 %f 占用了%n字节，超出了115MB的限制。"
 
-#: src/wx/verify_dcp_result_panel.cc:273
+#: src/wx/verify_dcp_result_panel.cc:337
 #, c-format
 msgid ""
 "The video asset %f uses the frame rate %n which is invalid for 3D video."
 msgstr "视频资产 %f 使用的帧速率 %n 对于3D视频无效。"
 
-#: src/wx/verify_dcp_result_panel.cc:270
+#: src/wx/verify_dcp_result_panel.cc:334
 #, c-format
 msgid ""
 "The video asset %f uses the frame rate %n which is invalid for 4K video."
 msgstr "视频资产 %f 使用的帧速率 %n 对4K视频无效。"
 
-#: src/wx/verify_dcp_result_panel.cc:267
+#: src/wx/verify_dcp_result_panel.cc:331
 #, c-format
 msgid "The video asset %f uses the invalid frame rate %n."
 msgstr "视频资产 %f 的帧率 %n 非法。"
 
-#: src/wx/verify_dcp_result_panel.cc:264
+#: src/wx/verify_dcp_result_panel.cc:328
 #, c-format
 msgid "The video asset %f uses the invalid image size %n."
 msgstr "视频资产 %f 使用了无效的图像大小 %n。"
 
-#: src/wx/verify_dcp_result_panel.cc:315
+#: src/wx/verify_dcp_result_panel.cc:382
 msgid "There are more than 3 closed caption lines in at least one place."
 msgstr "至少有一处有3条以上的隐藏式字幕行。"
 
-#: src/wx/verify_dcp_result_panel.cc:306
+#: src/wx/verify_dcp_result_panel.cc:373
 msgid "There are more than 3 subtitle lines in at least one place."
 msgstr "至少一处有超过 3 行字幕。"
 
-#: src/wx/verify_dcp_result_panel.cc:318
+#: src/wx/verify_dcp_result_panel.cc:385
 msgid "There are more than 32 characters in at least one closed caption line."
 msgstr "至少有一个隐藏字幕行中的字符超过32个。"
 
-#: src/wx/verify_dcp_result_panel.cc:309
+#: src/wx/verify_dcp_result_panel.cc:376
 msgid "There are more than 52 characters in at least one subtitle line."
 msgstr "至少有一个字幕行中的字符超过52个。"
 
-#: src/wx/verify_dcp_result_panel.cc:312
+#: src/wx/verify_dcp_result_panel.cc:379
 msgid "There are more than 79 characters in at least one subtitle line."
 msgstr "至少有一个字幕行中的字符超过79个。"
 
@@ -3694,11 +3706,11 @@ msgstr "尚无任何提示：检查工程中。"
 msgid "There are no hints: everything looks good!"
 msgstr "尚无任何提示：一切正常!"
 
-#: src/wx/verify_dcp_result_panel.cc:530
+#: src/wx/verify_dcp_result_panel.cc:611
 msgid "There is a <Duration> tag inside a <MainMarkers>."
 msgstr "在一个 <MainMarkers> 中有一个 <Duration> 标签。"
 
-#: src/wx/verify_dcp_result_panel.cc:527
+#: src/wx/verify_dcp_result_panel.cc:608
 msgid "There is a <EntryPoint> tag inside a <MainMarkers>."
 msgstr "在一个 <MainMarkers> 中有一个 <EntryPoint> 标签。"
 
@@ -3711,7 +3723,7 @@ msgstr "已存在同名模板，是否覆盖？"
 msgid "There is not enough free memory to do that."
 msgstr "内存不足。"
 
-#: src/wx/film_viewer.cc:362
+#: src/wx/film_viewer.cc:363
 msgid ""
 "There was a problem starting audio playback.  Please try another audio "
 "output device in Preferences."
@@ -3721,7 +3733,7 @@ msgstr "开始播放音频时出现问题。请在首选项中尝试其他音频
 msgid "This CPL contains no encrypted assets."
 msgstr "该CPL没有包含加密内容。"
 
-#: src/wx/verify_dcp_result_panel.cc:252
+#: src/wx/verify_dcp_result_panel.cc:316
 #, c-format
 msgid ""
 "This DCP refers to at the asset %n in another DCP (and perhaps others), so "
@@ -3730,11 +3742,11 @@ msgstr ""
 "此DCP引用了另一个DCP（可能还有其他DCP）中的资产 %n，因此它是一个“版本文件”"
 "（VF）"
 
-#: src/wx/verify_dcp_result_panel.cc:258
+#: src/wx/verify_dcp_result_panel.cc:322
 msgid "This DCP uses the Interop standard, but it should be made with SMPTE."
 msgstr "此DCP使用Interop标准，但应使用SMPTE制作。"
 
-#: src/wx/content_menu.cc:444
+#: src/wx/content_menu.cc:445
 msgid ""
 "This KDM was made for one of the CPLs in this DCP, but not the currently "
 "selected one.  To play the currently-selected CPL you will need a different "
@@ -3743,17 +3755,17 @@ msgstr ""
 "此KDM是为此DCP中的一个CPL制作的，但不是当前选择的这一个。要播放当前选择的"
 "CPL，您将需要对应的KDM。"
 
-#: src/wx/content_menu.cc:439
+#: src/wx/content_menu.cc:440
 msgid "This KDM was not made for this DCP.  You will need a different one."
 msgstr "这个KDM不是为这个DCP制作的。请更换KDM。"
 
-#: src/wx/config_dialog.cc:391
+#: src/wx/certificate_chain_editor.cc:177
 msgid ""
 "This file contains other certificates (or other data) after its first "
 "certificate. Only the first certificate will be used."
 msgstr "此文件包含多个证书（或其他数据）。将仅使用第一个证书。"
 
-#: src/wx/full_config_dialog.cc:838
+#: src/wx/email_preferences_page.cc:192
 #, c-format
 msgid "This is a test email from %s."
 msgstr "这是一封来自 %s 的测试邮件。"
@@ -3784,7 +3796,7 @@ msgstr "无法加载此播放列表，因为缺少某些内容。"
 msgid "This playlist is empty."
 msgstr "播放列表为空。"
 
-#: src/wx/full_config_dialog.cc:1300
+#: src/wx/full_config_dialog.cc:951
 #, c-format
 msgid ""
 "This will be written to the DCP's JPEG2000 data as a comment.  If it is "
@@ -3794,7 +3806,7 @@ msgstr ""
 "这将作为注释写入 DCP 的 JPEG2000 数据。如果为空，将使用 libdcp（一个内置的%s "
 "资源库）的默认值。"
 
-#: src/wx/full_config_dialog.cc:1276
+#: src/wx/full_config_dialog.cc:927
 #, c-format
 msgid ""
 "This will be written to the DCP's MXF files as the 'company name'.  If it is "
@@ -3804,7 +3816,7 @@ msgstr ""
 "这将作为 “公司名称” 写入DCP的MXF文件。如果为空，则将使用libdcp（一个内置的%s "
 "资源库） 的默认值。"
 
-#: src/wx/full_config_dialog.cc:1284
+#: src/wx/full_config_dialog.cc:935
 #, c-format
 msgid ""
 "This will be written to the DCP's MXF files as the 'product name'.  If it is "
@@ -3814,7 +3826,7 @@ msgstr ""
 "这将作为 “产品名称” 写入DCP的MXF文件。如果为空，则将使用libdcp（一个内置的%s "
 "资源库） 的默认值。"
 
-#: src/wx/full_config_dialog.cc:1292
+#: src/wx/full_config_dialog.cc:943
 #, c-format
 msgid ""
 "This will be written to the DCP's MXF files as the 'product version'.  If it "
@@ -3824,7 +3836,7 @@ msgstr ""
 "这将作为 “产品版本” 写入DCP的MXF文件。如果为空，则将使用libdcp（一个内置的%s "
 "资源库） 的默认值。"
 
-#: src/wx/full_config_dialog.cc:1268
+#: src/wx/full_config_dialog.cc:919
 #, c-format
 msgid ""
 "This will be written to the DCP's XML files as the <Creator>.  If it is "
@@ -3833,7 +3845,7 @@ msgstr ""
 "这将作为 “<Creator>” 写入DCP的XML文件。如果为空，则将使用libdcp（一个内置"
 "的%s 资源库） 的默认值。"
 
-#: src/wx/full_config_dialog.cc:1260
+#: src/wx/full_config_dialog.cc:911
 #, c-format
 msgid ""
 "This will be written to the DCP's XML files as the <Issuer>.  If it is "
@@ -3850,10 +3862,16 @@ msgstr "线程"
 msgid "Threshold"
 msgstr "阈"
 
-#: src/wx/config_dialog.cc:289 src/wx/screen_dialog.cc:55
+#: src/wx/certificate_chain_editor.cc:75 src/wx/screen_dialog.cc:55
 #: src/wx/screen_dialog.cc:179 src/wx/screen_dialog.cc:211
 msgid "Thumbprint"
 msgstr "指纹"
+
+#: src/wx/verify_dcp_dialog.cc:56
+msgid ""
+"Tick to check details of the picture asset, such as frame sizes and JPEG2000 "
+"bitstream validity.  These checks are quite time-consuming."
+msgstr ""
 
 #: src/wx/content_timeline_dialog.cc:50
 msgid "Timeline"
@@ -3876,7 +3894,7 @@ msgstr "计时器|计时器"
 msgid "Title language"
 msgstr "标题语言"
 
-#: src/wx/full_config_dialog.cc:1038 src/wx/send_test_email_dialog.cc:30
+#: src/wx/full_config_dialog.cc:689 src/wx/send_test_email_dialog.cc:30
 msgid "To address"
 msgstr "发送到地址"
 
@@ -3888,7 +3906,7 @@ msgstr "顶部"
 msgid "Track"
 msgstr "轨道"
 
-#: src/wx/about_dialog.cc:172
+#: src/wx/about_dialog.cc:173
 msgid "Translated by"
 msgstr "翻译"
 
@@ -3921,7 +3939,7 @@ msgstr "信任的设备"
 msgid "Trusted Device certificate"
 msgstr "信任的设备证书"
 
-#: src/wx/audio_dialog.cc:125 src/wx/config_dialog.cc:281
+#: src/wx/audio_dialog.cc:125 src/wx/certificate_chain_editor.cc:67
 #: src/wx/video_panel.cc:79
 msgid "Type"
 msgstr "类型"
@@ -3938,15 +3956,15 @@ msgstr "UTC偏差（时区）"
 msgid "UTC+1"
 msgstr "东1区"
 
-#: src/wx/wx_util.cc:731
+#: src/wx/wx_util.cc:733
 msgid "UTC+10"
 msgstr "东10区"
 
-#: src/wx/wx_util.cc:732
+#: src/wx/wx_util.cc:734
 msgid "UTC+11"
 msgstr "东11区"
 
-#: src/wx/wx_util.cc:733
+#: src/wx/wx_util.cc:735
 msgid "UTC+12"
 msgstr "东12区"
 
@@ -3970,23 +3988,28 @@ msgstr "东5区"
 msgid "UTC+5:30"
 msgstr "东5:30区 (印度，斯里兰卡)"
 
-#: src/wx/wx_util.cc:726
+#: src/wx/wx_util.cc:727
+#, fuzzy
+msgid "UTC+5:45"
+msgstr "东5区"
+
+#: src/wx/wx_util.cc:728
 msgid "UTC+6"
 msgstr "东6区"
 
-#: src/wx/wx_util.cc:727
+#: src/wx/wx_util.cc:729
 msgid "UTC+7"
 msgstr "东7区"
 
-#: src/wx/wx_util.cc:728
+#: src/wx/wx_util.cc:730
 msgid "UTC+8"
 msgstr "东8区 (北京时间)"
 
-#: src/wx/wx_util.cc:729
+#: src/wx/wx_util.cc:731
 msgid "UTC+9"
 msgstr "东9区"
 
-#: src/wx/wx_util.cc:730
+#: src/wx/wx_util.cc:732
 msgid "UTC+9:30"
 msgstr "东9:30区"
 
@@ -4063,7 +4086,7 @@ msgstr "未指定"
 msgid "Update"
 msgstr "更新"
 
-#: src/wx/full_config_dialog.cc:595
+#: src/wx/full_config_dialog.cc:538
 msgid "Upload DCP to TMS after creation"
 msgstr "制作好DCP后上传到TMS"
 
@@ -4071,7 +4094,7 @@ msgstr "制作好DCP后上传到TMS"
 msgid "Use ISDCF name"
 msgstr "使用ISDCF名称"
 
-#: src/wx/full_config_dialog.cc:359
+#: src/wx/full_config_dialog.cc:302
 msgid "Use ISDCF name by default"
 msgstr "默认使用ISDCF名称"
 
@@ -4096,7 +4119,7 @@ msgid "Use this file as new configuration"
 msgstr "将这个文件作为新设置"
 
 #: src/wx/credentials_download_certificate_panel.cc:50
-#: src/wx/full_config_dialog.cc:618 src/wx/full_config_dialog.cc:745
+#: src/wx/email_preferences_page.cc:86 src/wx/full_config_dialog.cc:561
 msgid "User name"
 msgstr "用户名"
 
@@ -4112,9 +4135,17 @@ msgstr "有效期至"
 msgid "Vendor"
 msgstr "供应商"
 
-#: src/wx/verify_dcp_result_panel.cc:655
+#: src/wx/verify_dcp_result_panel.cc:706
 msgid "Verification report"
 msgstr "DCP验证"
+
+#: src/wx/verify_dcp_dialog.cc:65
+msgid "Verify"
+msgstr ""
+
+#: src/wx/verify_dcp_dialog.cc:53
+msgid "Verify picture asset details"
+msgstr ""
 
 #: src/wx/smpte_metadata_dialog.cc:109 src/wx/system_information_dialog.cc:67
 msgid "Version"
@@ -4150,7 +4181,7 @@ msgstr ""
 "视频码率 \n"
 "用于新编码数据"
 
-#: src/wx/full_config_dialog.cc:1551 src/wx/player_config_dialog.cc:117
+#: src/wx/full_config_dialog.cc:1202 src/wx/player_config_dialog.cc:121
 msgid "Video display mode"
 msgstr "视频显示模式"
 
@@ -4172,12 +4203,12 @@ msgstr "视频内嵌的字幕语言是"
 msgid "View..."
 msgstr "视图窗口…"
 
-#: src/wx/config_dialog.cc:961
+#: src/wx/sound_preferences_page.cc:174
 msgid "WASAPI"
 msgstr "WASAPI"
 
-#: src/wx/full_config_dialog.cc:1631 src/wx/player_config_dialog.cc:307
-#: src/wx/verify_dcp_result_panel.cc:57
+#: src/wx/full_config_dialog.cc:1282 src/wx/kdm_config_dialog.cc:138
+#: src/wx/player_config_dialog.cc:307 src/wx/verify_dcp_result_panel.cc:60
 msgid "Warnings"
 msgstr "警告"
 
@@ -4209,15 +4240,15 @@ msgstr "将所有KDM保存到同一个文件夹中"
 msgid "Write each audio channel to its own stream"
 msgstr "将每个音频通道写入自己的流"
 
-#: src/wx/export_subtitles_dialog.cc:42 src/wx/export_video_file_dialog.cc:83
+#: src/wx/export_subtitles_dialog.cc:44 src/wx/export_video_file_dialog.cc:83
 msgid "Write reels into separate files"
 msgstr "将分卷写入到单独的文件中"
 
-#: src/wx/full_config_dialog.cc:137
+#: src/wx/full_config_dialog.cc:132
 msgid "Write relative content paths"
 msgstr "编写相对内容路径"
 
-#: src/wx/dkdm_output_panel.cc:75 src/wx/kdm_output_panel.cc:78
+#: src/wx/dkdm_output_panel.cc:77 src/wx/kdm_output_panel.cc:78
 #: src/wx/self_dkdm_dialog.cc:85
 msgid "Write to"
 msgstr "输出到"
@@ -4256,13 +4287,13 @@ msgid ""
 "screen with this name."
 msgstr "存在同名银幕！不能将银幕名称设置为 '%s' 。"
 
-#: src/wx/dkdm_output_panel.cc:136 src/wx/kdm_output_panel.cc:242
+#: src/wx/dkdm_output_panel.cc:146 src/wx/kdm_output_panel.cc:242
 msgid ""
 "You have selected some cinemas that have no configured email address.  Do "
 "you want to continue?"
 msgstr "您选择了一些没有邮箱信息的影院。需要继续吗？"
 
-#: src/wx/dkdm_output_panel.cc:124 src/wx/kdm_output_panel.cc:232
+#: src/wx/dkdm_output_panel.cc:134 src/wx/kdm_output_panel.cc:232
 msgid ""
 "You must set up a mail server in Preferences before you can send emails."
 msgstr "您必须先在偏好设置中设定邮件服务器才能发送邮件。"
@@ -4288,13 +4319,13 @@ msgid "Zoom out to whole film"
 msgstr "缩放以适应"
 
 #. TRANSLATORS: this will be used at the end of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
-#: src/wx/verify_dcp_result_panel.cc:629
+#: src/wx/verify_dcp_result_panel.cc:139
 #, c-format
 msgid "and %d warnings."
 msgstr "和%d个警告。"
 
 #. TRANSLATORS: this will be used at the end of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
-#: src/wx/verify_dcp_result_panel.cc:626
+#: src/wx/verify_dcp_result_panel.cc:136
 msgid "and 1 warning."
 msgstr "和1个警告。"
 
@@ -4318,7 +4349,7 @@ msgstr "结构"
 msgid "content"
 msgstr "内容"
 
-#: src/wx/full_config_dialog.cc:1614
+#: src/wx/full_config_dialog.cc:1265
 msgid "content filename"
 msgstr "内容文件名"
 
@@ -4330,11 +4361,11 @@ msgstr "自定义"
 msgid "dB"
 msgstr "dB"
 
-#: src/wx/full_config_dialog.cc:367
+#: src/wx/full_config_dialog.cc:310
 msgid "days"
 msgstr "天"
 
-#: src/wx/name_format_editor.cc:82
+#: src/wx/name_format_editor.cc:79
 #, c-format
 msgid "e.g. %s"
 msgstr "例如 %s"
@@ -4348,23 +4379,23 @@ msgstr "启用"
 msgid "f"
 msgstr "帧"
 
-#: src/wx/dkdm_output_panel.cc:65 src/wx/kdm_output_panel.cc:142
+#: src/wx/dkdm_output_panel.cc:67 src/wx/kdm_output_panel.cc:142
 msgid "film name"
 msgstr "项目名称"
 
-#: src/wx/metadata_dialog.cc:334
+#: src/wx/metadata_dialog.cc:333
 msgid "foot lambert"
 msgstr "朗伯(亮度单位)"
 
-#: src/wx/dkdm_output_panel.cc:66 src/wx/kdm_output_panel.cc:145
+#: src/wx/kdm_output_panel.cc:145
 msgid "from date/time"
 msgstr "从 日期/时间"
 
-#: src/wx/player_config_dialog.cc:105
+#: src/wx/player_config_dialog.cc:109
 msgid "full screen"
 msgstr "全屏"
 
-#: src/wx/player_config_dialog.cc:106
+#: src/wx/player_config_dialog.cc:110
 msgid "full screen with separate advanced controls"
 msgstr "在其他显示屏上全屏"
 
@@ -4378,12 +4409,12 @@ msgstr "小时"
 msgid "m"
 msgstr "分钟"
 
-#: src/wx/full_config_dialog.cc:369
+#: src/wx/full_config_dialog.cc:312
 msgid "months"
 msgstr "月"
 
 #. TRANSLATORS: this is an abbreviation for milliseconds, the unit of time
-#: src/wx/audio_panel.cc:101 src/wx/full_config_dialog.cc:330
+#: src/wx/audio_panel.cc:101 src/wx/full_config_dialog.cc:273
 msgid "ms"
 msgstr "毫秒"
 
@@ -4391,7 +4422,7 @@ msgstr "毫秒"
 msgid "not enabled"
 msgstr "未启用"
 
-#: src/wx/full_config_dialog.cc:1613
+#: src/wx/full_config_dialog.cc:1264
 msgid "number of reels"
 msgstr "分卷数量"
 
@@ -4403,24 +4434,29 @@ msgstr "隐藏式字幕"
 msgid "open subtitles"
 msgstr "开放式字幕"
 
-#: src/wx/config_dialog.cc:872
+#: src/wx/sound_preferences_page.cc:85
 msgid "output"
 msgstr "输出"
 
-#: src/wx/full_config_dialog.cc:730
+#: src/wx/email_preferences_page.cc:71
 msgid "port"
 msgstr "端口"
 
-#: src/wx/full_config_dialog.cc:734
+#: src/wx/email_preferences_page.cc:75
 msgid "protocol"
 msgstr "协议"
 
-#: src/wx/full_config_dialog.cc:1612
+#: src/wx/dkdm_output_panel.cc:68
+#, fuzzy
+msgid "recipient name"
+msgstr "接受者"
+
+#: src/wx/full_config_dialog.cc:1263
 msgid "reel number"
 msgstr "卷号"
 
 #. TRANSLATORS: this is an abbreviation for "seconds"
-#: src/wx/full_config_dialog.cc:313 src/wx/timing_panel.cc:89
+#: src/wx/full_config_dialog.cc:256 src/wx/timing_panel.cc:89
 msgid "s"
 msgstr "秒"
 
@@ -4436,7 +4472,7 @@ msgstr "最低"
 msgid "times"
 msgstr "时间"
 
-#: src/wx/dkdm_output_panel.cc:67 src/wx/kdm_output_panel.cc:146
+#: src/wx/kdm_output_panel.cc:146
 msgid "to date/time"
 msgstr "到 日期/时间"
 
@@ -4444,13 +4480,14 @@ msgstr "到 日期/时间"
 msgid "to fit DCP"
 msgstr "适合 DCP"
 
-#: src/wx/full_config_dialog.cc:1592
-msgid "type (cpl/pkl)"
-msgstr "类型（cpl/pkl）"
-
-#: src/wx/full_config_dialog.cc:1611
+#: src/wx/full_config_dialog.cc:1262
 msgid "type (j2c/pcm/sub)"
 msgstr "类型（j2c/pcm/sub）"
+
+#: src/wx/full_config_dialog.cc:1243
+#, fuzzy
+msgid "type(cpl/pkl)"
+msgstr "类型（cpl/pkl）"
 
 #: src/wx/system_information_dialog.cc:61
 msgid "unknown"
@@ -4469,11 +4506,11 @@ msgstr "终止"
 msgid "vsync"
 msgstr "垂直同步"
 
-#: src/wx/full_config_dialog.cc:368
+#: src/wx/full_config_dialog.cc:311
 msgid "weeks"
 msgstr "周"
 
-#: src/wx/player_config_dialog.cc:104
+#: src/wx/player_config_dialog.cc:108
 msgid "window"
 msgstr "窗口"
 
@@ -4485,7 +4522,7 @@ msgstr "x"
 msgid "y"
 msgstr "y"
 
-#: src/wx/full_config_dialog.cc:370
+#: src/wx/full_config_dialog.cc:313
 msgid "years"
 msgstr "年"
 
@@ -4495,6 +4532,15 @@ msgstr "年"
 #: src/wx/drive_wipe_warning_dialog.cc:61
 msgid "yes"
 msgstr "是"
+
+#~ msgid "(None)"
+#~ msgstr "(无)"
+
+#~ msgid "DCP validates OK."
+#~ msgstr "DCP是正常的。"
+
+#~ msgid "DCP verification"
+#~ msgstr "DCP验证"
 
 #~ msgid "I am sure"
 #~ msgstr "我确定"

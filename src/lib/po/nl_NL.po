@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-17 02:18+0100\n"
+"POT-Creation-Date: 2025-05-08 23:51+0200\n"
 "PO-Revision-Date: 2025-01-08 18:14+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 3.5\n"
 
-#: src/lib/video_content.cc:525
+#: src/lib/video_content.cc:527
 #, c-format
 msgid ""
 "\n"
@@ -27,7 +27,7 @@ msgstr ""
 "\n"
 "Content frame rate %.4f\n"
 
-#: src/lib/video_content.cc:489
+#: src/lib/video_content.cc:491
 msgid ""
 "\n"
 "Cropped to %1x%2"
@@ -35,7 +35,7 @@ msgstr ""
 "\n"
 "Bijgesneden naar %1x%2"
 
-#: src/lib/video_content.cc:479
+#: src/lib/video_content.cc:481
 #, c-format
 msgid ""
 "\n"
@@ -44,7 +44,7 @@ msgstr ""
 "\n"
 "Weergave-beeldverhouding %.2f:1"
 
-#: src/lib/video_content.cc:513
+#: src/lib/video_content.cc:515
 msgid ""
 "\n"
 "Padded with black to fit container %1 (%2x%3)"
@@ -52,7 +52,7 @@ msgstr ""
 "\n"
 "Opgevuld met zwart om in container %1 (%2x%3) te passen"
 
-#: src/lib/video_content.cc:503
+#: src/lib/video_content.cc:505
 msgid ""
 "\n"
 "Scaled to %1x%2"
@@ -60,7 +60,7 @@ msgstr ""
 "\n"
 "Geschaald naar %1x%2"
 
-#: src/lib/video_content.cc:507 src/lib/video_content.cc:518
+#: src/lib/video_content.cc:509 src/lib/video_content.cc:520
 #, c-format
 msgid " (%.2f:1)"
 msgstr " (%.2f:1)"
@@ -71,7 +71,7 @@ msgstr " (%.2f:1)"
 msgid " on %1"
 msgstr " op %1"
 
-#: src/lib/config.cc:1284
+#: src/lib/config.cc:1270
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -95,7 +95,7 @@ msgstr ""
 "Lengte: $LENGTH\n"
 "Grootte: $SIZE\n"
 
-#: src/lib/config.cc:1262
+#: src/lib/config.cc:1248
 msgid "$JOB_NAME: $JOB_STATUS"
 msgstr "$JOB_NAME: $JOB_STATUS"
 
@@ -107,7 +107,7 @@ msgstr "%1 (%2 GB) [%3]"
 msgid "%1 [Atmos]"
 msgstr "%1 [Atmos]"
 
-#: src/lib/dcp_content.cc:362
+#: src/lib/dcp_content.cc:366
 msgid "%1 [DCP]"
 msgstr "%1 [DCP]"
 
@@ -169,7 +169,7 @@ msgid "%1 no longer supports the `%2' filter, so it has been turned off."
 msgstr ""
 "%1 ondersteunt het filter `%2' niet langer, daarom is het uitgeschakeld."
 
-#: src/lib/config.cc:440 src/lib/config.cc:1259
+#: src/lib/config.cc:441 src/lib/config.cc:1245
 msgid "%1 notification"
 msgstr "%1 notificatie"
 
@@ -177,7 +177,7 @@ msgstr "%1 notificatie"
 msgid "%1; %2/%3 frames"
 msgstr "%1; %2/%3 frames"
 
-#: src/lib/video_content.cc:474
+#: src/lib/video_content.cc:476
 #, c-format
 msgid ", pixel aspect ratio %.2f:1"
 msgstr ", pixel-beeldverhouding %.2f:1"
@@ -258,32 +258,32 @@ msgid "; %1 remaining; finishing at %2%3"
 msgstr "; %1 resterend; klaar om %2%3"
 
 #: src/lib/analytics.cc:58
-#, c-format
+#, c-format, c++-format
 msgid ""
-"<h2>You have made {} DCPs with {}!</h2><img width=\"20%%\" src=\"memory:me."
-"jpg\" align=\"center\"><font size=\"+1\"><p>Hello. I'm Carl and I'm the "
-"developer of {}. I work on it in my spare time (with the help of a volunteer "
-"team of testers and translators) and I release it as free software.<p>If you "
-"find {} useful, please consider a donation to the project. Financial support "
-"will help me to spend more time developing {} and making it better!"
-"<p><ul><li><a href=\"https://dcpomatic.com/donate_amount?amount=40\">Go to "
-"Paypal to donate €40</a><li><a href=\"https://dcpomatic.com/donate_amount?"
-"amount=20\">Go to Paypal to donate €20</a><li><a href=\"https://dcpomatic."
-"com/donate_amount?amount=10\">Go to Paypal to donate €10</a></ul><p>Thank "
-"you!</font>"
+"<h2>You have made {} DCPs with {}!</h2><img width=\"20%%\" "
+"src=\"memory:me.jpg\" align=\"center\"><font size=\"+1\"><p>Hello. I'm Carl "
+"and I'm the developer of {}. I work on it in my spare time (with the help of "
+"a volunteer team of testers and translators) and I release it as free "
+"software.<p>If you find {} useful, please consider a donation to the "
+"project. Financial support will help me to spend more time developing {} and "
+"making it better!<p><ul><li><a href=\"https://dcpomatic.com/donate_amount?"
+"amount=40\">Go to Paypal to donate €40</a><li><a href=\"https://"
+"dcpomatic.com/donate_amount?amount=20\">Go to Paypal to donate €20</a><li><a "
+"href=\"https://dcpomatic.com/donate_amount?amount=10\">Go to Paypal to "
+"donate €10</a></ul><p>Thank you!</font>"
 msgstr ""
-"<h2>U heeft {} DCP's gemaakt met {}!</h2><img width=\"20%%\" src=\"memory:me."
-"jpg\" align=\"center\"><font size=\"+1\"><p>Hallo.  Ik ben Carl en ik ben de "
-"ontwikkelaar van {}.  Ik werk eraan in mijn vrije tijd (met de hulp van een "
-"vrijwilligersteam van testers en vertalers) en ik geef het vrij als gratis "
-"software.<p>Als u {} nuttig vindt, overweeg dan een donatie aan het "
-"project.  Financiële ondersteuning zal me helpen om meer tijd te besteden "
-"aan de ontwikkeling van {} en het beter te maken!<p><ul><li><a "
-"href=\"https://dcpomatic.com/donate_amount?amount=40\">Ga naar Paypal om €40 "
-"te doneren</a><li><a href=\"https://dcpomatic.com/donate_amount?"
-"amount=20\">Ga naar Paypal om €20 te doneren</a><li><a href=\"https://"
-"dcpomatic.com/donate_amount?amount=10\">Ga naar Paypal om €10 te doneren</"
-"a></ul><p>Dank u wel!</font>"
+"<h2>U heeft {} DCP's gemaakt met {}!</h2><img width=\"20%%\" "
+"src=\"memory:me.jpg\" align=\"center\"><font size=\"+1\"><p>Hallo.  Ik ben "
+"Carl en ik ben de ontwikkelaar van {}.  Ik werk eraan in mijn vrije tijd "
+"(met de hulp van een vrijwilligersteam van testers en vertalers) en ik geef "
+"het vrij als gratis software.<p>Als u {} nuttig vindt, overweeg dan een "
+"donatie aan het project.  Financiële ondersteuning zal me helpen om meer "
+"tijd te besteden aan de ontwikkeling van {} en het beter te maken!"
+"<p><ul><li><a href=\"https://dcpomatic.com/donate_amount?amount=40\">Ga naar "
+"Paypal om €40 te doneren</a><li><a href=\"https://dcpomatic.com/"
+"donate_amount?amount=20\">Ga naar Paypal om €20 te doneren</a><li><a "
+"href=\"https://dcpomatic.com/donate_amount?amount=10\">Ga naar Paypal om €10 "
+"te doneren</a></ul><p>Dank u wel!</font>"
 
 #: src/lib/hints.cc:177
 msgid ""
@@ -354,20 +354,20 @@ msgid ""
 msgstr ""
 "Ten minste één marker komt na het einde van het project en wordt genegeerd."
 
-#: src/lib/hints.cc:522
+#: src/lib/hints.cc:523
 msgid "At least one of your closed caption files is larger than "
 msgstr "Ten minste één van uw closed caption bestanden is groter dan "
 
-#: src/lib/hints.cc:515
+#: src/lib/hints.cc:516
 msgid "At least one of your closed caption files' XML part is larger than "
 msgstr ""
 "Ten minste één XML-gedeelte van uw closed caption bestanden is groter dan "
 
-#: src/lib/hints.cc:530
+#: src/lib/hints.cc:531
 msgid "At least one of your subtitle files is larger than "
 msgstr "Ten minste één van uw ondertitelbestanden is groter dan "
 
-#: src/lib/hints.cc:494
+#: src/lib/hints.cc:495
 msgid ""
 "At least one of your subtitle lines has more than 52 characters.  It is "
 "recommended to make each line 52 characters at most in length."
@@ -375,7 +375,7 @@ msgstr ""
 "Ten minste één van uw ondertitel-regels heeft meer dan 52 tekens.  Het wordt "
 "aanbevolen om niet meer dan 52 tekens in een regel te gebruiken."
 
-#: src/lib/hints.cc:496
+#: src/lib/hints.cc:497
 msgid ""
 "At least one of your subtitle lines has more than 79 characters.  You should "
 "make each line 79 characters at most in length."
@@ -383,7 +383,7 @@ msgstr ""
 "Ten minste één van uw ondertitel-regels heeft meer dan 79 tekens.  U moet "
 "elke regel maximaal 79 tekens lang maken."
 
-#: src/lib/hints.cc:663
+#: src/lib/hints.cc:664
 msgid ""
 "At least one of your subtitles has more than 3 lines.  It is advisable to "
 "use no more than 3 lines."
@@ -391,7 +391,7 @@ msgstr ""
 "Ten minste één van uw ondertitels heeft meer dan 3 regels.  Het is "
 "verstandig om niet meer dan 3 regels te gebruiken."
 
-#: src/lib/hints.cc:630
+#: src/lib/hints.cc:631
 msgid ""
 "At least one of your subtitles lasts less than 15 frames.  It is advisable "
 "to make each subtitle at least 15 frames long."
@@ -399,7 +399,7 @@ msgstr ""
 "Ten minste één van uw ondertitels duurt minder dan 15 frames.  Het is "
 "verstandig om elke ondertitel minstens 15 frames lang te maken."
 
-#: src/lib/hints.cc:635
+#: src/lib/hints.cc:636
 msgid ""
 "At least one of your subtitles starts less than 2 frames after the previous "
 "one.  It is advisable to make the gap between subtitles at least 2 frames."
@@ -407,7 +407,7 @@ msgstr ""
 "Ten minste één van uw ondertitels begint minder dan 2 frames na de vorige.  "
 "Het is verstandig om minstens 2 frames tussen ondertitels te laten."
 
-#: src/lib/hints.cc:706
+#: src/lib/hints.cc:707
 msgid ""
 "At least one piece of subtitle content has no specified language.  It is "
 "advisable to set the language for each piece of subtitle content in the "
@@ -527,7 +527,7 @@ msgstr "Controleer hun nieuwe instellingen en probeer het opnieuw."
 msgid "Checking content"
 msgstr "Controleren content"
 
-#: src/lib/reel_writer.cc:253
+#: src/lib/reel_writer.cc:254
 msgid "Checking existing image data"
 msgstr "Controleren bestaande beelddata"
 
@@ -583,11 +583,11 @@ msgstr "Kleurruimte"
 msgid "Combine DCPs"
 msgstr "Combineer DCP's"
 
-#: src/lib/content.cc:181
+#: src/lib/content.cc:182
 msgid "Computing digest"
 msgstr "Berekenen samenvatting"
 
-#: src/lib/writer.cc:529
+#: src/lib/writer.cc:521
 msgid "Computing digests"
 msgstr "Berekenen samenvattingen"
 
@@ -632,7 +632,7 @@ msgstr ""
 "Samen te voegen content moet beide hoofd-ondertitelingstalen zijn of beide "
 "aanvullend."
 
-#: src/lib/video_content.cc:219
+#: src/lib/video_content.cc:217
 msgid "Content to be joined must have all its video used or not used."
 msgstr ""
 "Video van samen te voegen content moet allemaal wel, of allemaal niet "
@@ -658,33 +658,33 @@ msgstr "Samen te voegen content moet dezelfde audio-vertraging hebben."
 msgid "Content to be joined must have the same audio gain."
 msgstr "Samen te voegen content moet dezelfde audio-versterking hebben."
 
-#: src/lib/video_content.cc:251
+#: src/lib/video_content.cc:249
 msgid "Content to be joined must have the same burnt subtitle language."
 msgstr ""
 "Samen te voegen content moet dezelfde taal voor ingebrande ondertitels "
 "hebben."
 
-#: src/lib/video_content.cc:243
+#: src/lib/video_content.cc:241
 msgid "Content to be joined must have the same colour conversion."
 msgstr "Samen te voegen content moet dezelfde kleurconversie hebben."
 
-#: src/lib/video_content.cc:231
+#: src/lib/video_content.cc:229
 msgid "Content to be joined must have the same crop."
 msgstr "Samen te voegen content moet dezelfde bijsnijding hebben."
 
-#: src/lib/video_content.cc:235
+#: src/lib/video_content.cc:233
 msgid "Content to be joined must have the same custom ratio setting."
 msgstr ""
 "Samen te voegen content moet dezelfde instelling voor aangepaste "
 "beeldverhouding hebben."
 
-#: src/lib/video_content.cc:239
+#: src/lib/video_content.cc:237
 msgid "Content to be joined must have the same custom size setting."
 msgstr ""
 "Samen te voegen content moet dezelfde instelling voor aangepaste grootte "
 "hebben."
 
-#: src/lib/video_content.cc:247
+#: src/lib/video_content.cc:245
 msgid "Content to be joined must have the same fades."
 msgstr "Samen te voegen content moet dezelfde fade-instelling hebben."
 
@@ -693,7 +693,7 @@ msgid "Content to be joined must have the same outline width."
 msgstr ""
 "Samen te voegen content moet dezelfde ondertitel omlijnings-breedte hebben."
 
-#: src/lib/video_content.cc:223
+#: src/lib/video_content.cc:221
 msgid "Content to be joined must have the same picture size."
 msgstr "Samen te voegen content moet dezelfde beeldgrootte hebben."
 
@@ -725,11 +725,11 @@ msgid "Content to be joined must have the same subtitle line spacing."
 msgstr ""
 "Samen te voegen content moet dezelfde regelafstand voor ondertitels hebben."
 
-#: src/lib/content.cc:124 src/lib/content.cc:128
+#: src/lib/content.cc:125 src/lib/content.cc:129
 msgid "Content to be joined must have the same video frame rate"
 msgstr "Samen te voegen content moet dezelfde video frame rate hebben"
 
-#: src/lib/video_content.cc:227
+#: src/lib/video_content.cc:225
 msgid "Content to be joined must have the same video frame type."
 msgstr "Samen te voegen content moet hetzelfde video frame type hebben."
 
@@ -749,7 +749,7 @@ msgstr "Samen te voegen content moet dezelfde ondertitel-stream gebruiken."
 msgid "Content to be joined must use the same text language."
 msgstr "Samen te voegen content moet dezelfde tekst-taal hebben."
 
-#: src/lib/video_content.cc:465
+#: src/lib/video_content.cc:467
 msgid "Content video is %1x%2"
 msgstr "Content-video is %1x%2"
 
@@ -777,7 +777,7 @@ msgstr "Kan beeld niet decoderen (%1)"
 msgid "Could not find file %1 in ZIP file"
 msgstr "Kan bestand %1 niet in ZIP-bestand vinden"
 
-#: src/lib/encode_server_finder.cc:192
+#: src/lib/encode_server_finder.cc:197
 msgid ""
 "Could not listen for remote encode servers.  Perhaps another instance of %1 "
 "is running."
@@ -801,7 +801,7 @@ msgstr "Kan gedownload ZIP-bestand niet openen"
 msgid "Could not open downloaded ZIP file (%1:%2: %3)"
 msgstr "Kan gedownload ZIP-bestand niet openen (%1:%2: %3)"
 
-#: src/lib/config.cc:1162
+#: src/lib/config.cc:1172
 msgid "Could not open file for writing"
 msgstr "Kan bestand niet openen om te schrijven"
 
@@ -817,7 +817,7 @@ msgstr "Kan ondertitels niet lezen (%1 / %2)"
 msgid "Could not start transfer"
 msgstr "Kan overdracht niet starten"
 
-#: src/lib/curl_uploader.cc:110 src/lib/scp_uploader.cc:139
+#: src/lib/curl_uploader.cc:110 src/lib/scp_uploader.cc:138
 msgid "Could not write to remote file (%1)"
 msgstr "Kan extern bestand niet schrijven (%1)"
 
@@ -895,7 +895,7 @@ msgstr "Datasat AP20 of AP25"
 msgid "De-interlacing"
 msgstr "Deinterlacing"
 
-#: src/lib/config.cc:1247
+#: src/lib/config.cc:1233
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -1021,7 +1021,7 @@ msgstr "Authenticatiefout met server (%1)"
 msgid "Failed to encode the DCP."
 msgstr "Encoderen van de DCP mislukt."
 
-#: src/lib/email.cc:230
+#: src/lib/email.cc:250
 msgid "Failed to send email"
 msgstr "Verzenden e-mail mislukt"
 
@@ -1029,11 +1029,11 @@ msgstr "Verzenden e-mail mislukt"
 msgid "Feature"
 msgstr "Feature"
 
-#: src/lib/content.cc:480
+#: src/lib/content.cc:468
 msgid "Filename"
 msgstr "Bestandsnaam"
 
-#: src/lib/content.cc:480
+#: src/lib/content.cc:468
 msgid "Filenames"
 msgstr "Bestandsnamen"
 
@@ -1049,7 +1049,7 @@ msgstr "Film"
 msgid "Finding length"
 msgstr "Bepalen lengte"
 
-#: src/lib/content.cc:490
+#: src/lib/content.cc:478
 msgid "Frame rate"
 msgstr "Frame rate"
 
@@ -1155,19 +1155,7 @@ msgstr ""
 "bepaalde reden heeft om Interop te gebruiken.  U wordt geadviseerd om de DCP-"
 "standaard op SMPTE in te stellen in het \"DCP\"-tabblad."
 
-#: src/lib/release_notes.cc:79
-msgid ""
-"In this version there are changes to the way that subtitles are positioned. "
-"Positioning should now be more correct, with respect to the standards, but "
-"you should check any subtitles in your project to make sure that they are "
-"placed where you want them."
-msgstr ""
-"In deze versie zijn er wijzigingen in de manier waarop ondertitels worden "
-"geplaatst.  De positionering zou nu correcter moeten zijn, met betrekking "
-"tot de standaarden, maar u moet alle ondertitels in uw project controleren "
-"om er zeker van te zijn dat ze worden geplaatst waar u ze wilt hebben."
-
-#: src/lib/hints.cc:623
+#: src/lib/hints.cc:624
 msgid ""
 "It is advisable to put your first subtitle at least 4 seconds after the "
 "start of the DCP to make sure it is seen."
@@ -1183,7 +1171,7 @@ msgstr "Het is onbekend hoe deze fout is ontstaan.  %1"
 msgid "JEDEC P22"
 msgstr "JEDEC P22"
 
-#: src/lib/config.cc:430 src/lib/config.cc:1244
+#: src/lib/config.cc:431 src/lib/config.cc:1230
 msgid "KDM delivery: $CPL_NAME"
 msgstr "KDM-levering: $CPL_NAME"
 
@@ -1212,7 +1200,7 @@ msgstr "Achter surround links (BsL)"
 msgid "Left surround"
 msgstr "Links surround (Ls)"
 
-#: src/lib/video_content.cc:538
+#: src/lib/video_content.cc:540
 msgid "Length"
 msgstr "Lengte"
 
@@ -1285,7 +1273,7 @@ msgstr "Ontbrekende verplichte instelling %1"
 msgid "Monday"
 msgstr "maandag"
 
-#: src/lib/writer.cc:782
+#: src/lib/writer.cc:773
 msgid "Mono"
 msgstr "Mono"
 
@@ -1317,7 +1305,7 @@ msgstr "Geen geldige beeldbestanden gevonden in de map."
 msgid "Noise reduction"
 msgstr "Ruisonderdrukking"
 
-#: src/lib/writer.cc:750 src/lib/writer.cc:757 src/lib/writer.cc:780
+#: src/lib/writer.cc:741 src/lib/writer.cc:748 src/lib/writer.cc:771
 msgid "None"
 msgstr "Geen"
 
@@ -1333,13 +1321,13 @@ msgstr "OK (%1 bezig, van %2 tot %3)"
 msgid "OK (ran for %1)"
 msgstr "OK (%1 bezig)"
 
-#: src/lib/content.cc:113
+#: src/lib/content.cc:114
 msgid "Only the first piece of content to be joined can have a start trim."
 msgstr ""
 "Alleen bij het eerste deel van samengevoegde content kan het begin "
 "bijgeknipt worden."
 
-#: src/lib/content.cc:117
+#: src/lib/content.cc:118
 msgid "Only the last piece of content to be joined can have an end trim."
 msgstr ""
 "Alleen bij het laatste deel van samengevoegde content kan het einde "
@@ -1393,7 +1381,7 @@ msgstr "Policy"
 msgid "Premultiply alpha channel"
 msgstr "Premultiply alpha channel"
 
-#: src/lib/content.cc:499
+#: src/lib/content.cc:487
 msgid "Prepared for video frame rate"
 msgstr "Voorbereid voor video frame rate"
 
@@ -1487,7 +1475,7 @@ msgstr "SMPTE 2085, Y'D'zD'x"
 msgid "SMPTE 240M"
 msgstr "SMPTE 240M"
 
-#: src/lib/hints.cc:688
+#: src/lib/hints.cc:689
 msgid ""
 "SMPTE DCPs with the type FTR (feature) should have markers for the first "
 "frame of end credits (FFEC) and the first frame of moving credits (FFMC).  "
@@ -1547,7 +1535,7 @@ msgstr "Short"
 msgid "Sign"
 msgstr "Sign"
 
-#: src/lib/video_content.cc:540
+#: src/lib/video_content.cc:542
 msgid "Size"
 msgstr "Grootte"
 
@@ -1583,7 +1571,7 @@ msgstr ""
 "Deze bestanden worden nu opnieuw onderzocht, dus het kan nodig zijn om hun "
 "instellingen te controleren."
 
-#: src/lib/hints.cc:604
+#: src/lib/hints.cc:605
 msgid ""
 "Some of your closed captions span more than %1 lines, so they will be "
 "truncated."
@@ -1591,7 +1579,7 @@ msgstr ""
 "Een deel van uw closed captions heeft meer dan %1 regels, dus worden ze "
 "afgekapt."
 
-#: src/lib/hints.cc:726
+#: src/lib/hints.cc:727
 msgid ""
 "Some of your content has audio but you have not set the audio language.  It "
 "is advisable to set the audio language in the \"DCP\" tab unless your audio "
@@ -1613,7 +1601,16 @@ msgstr "Een deel van uw content heeft een KDM nodig"
 msgid "Some of your content needs an OV"
 msgstr "Een deel van uw content heeft een OV nodig"
 
-#: src/lib/writer.cc:784
+#: src/lib/hints.cc:781
+#, c++-format
+msgid ""
+"Some of your video content contains an alpha channel, and {} cannot be "
+"certain how to process it.  Check that your video looks correct in the "
+"preview, and if not try enabling or disabling the 'premultiply' video filter "
+"in the content Advanced Settings dialogue box."
+msgstr ""
+
+#: src/lib/writer.cc:775
 msgid "Stereo"
 msgstr "Stereo"
 
@@ -1661,7 +1658,7 @@ msgstr "De certificaat-keten voor ondertekening is ongeldig"
 msgid "The certificate chain for signing is invalid (%1)"
 msgstr "De certificaat-keten voor ondertekening is ongeldig (%1)"
 
-#: src/lib/hints.cc:743
+#: src/lib/hints.cc:744
 msgid ""
 "The certificate chain that %1 uses for signing DCPs and KDMs contains a "
 "small error which will prevent DCPs from being validated correctly on some "
@@ -1675,7 +1672,7 @@ msgstr ""
 "keten opnieuw aan te maken door op de knop \"Maak certificaten en sleutel "
 "opnieuw...\" in het \"Sleutels\"-tabblad bij Voorkeuren te klikken."
 
-#: src/lib/hints.cc:751
+#: src/lib/hints.cc:752
 msgid ""
 "The certificate chain that %1 uses for signing DCPs and KDMs has a validity "
 "period that is too long.  This will cause problems playing back DCPs on some "
@@ -1734,7 +1731,7 @@ msgstr ""
 "Amerika verwacht DCP's die zijn gecodeerd met JPEG2000 in plaats van MPEG2.  "
 "Controleer of de bioscoop echt een ouderwetse MPEG2 DCP wil."
 
-#: src/lib/release_notes.cc:86
+#: src/lib/release_notes.cc:87
 msgid ""
 "The vertical offset control for some subtitles now works in the opposite "
 "direction to how it was before.   You should check any subtitles in your "
@@ -1760,7 +1757,7 @@ msgstr ""
 "op voorwaarde dat uw doelprojectiesystemen de door u gekozen DCP frame rate "
 "ondersteunen."
 
-#: src/lib/dcp_content.cc:715
+#: src/lib/dcp_content.cc:724
 msgid "There is no video in this DCP"
 msgstr "Deze DCP heeft geen video"
 
@@ -1790,9 +1787,9 @@ msgid ""
 "again."
 msgstr ""
 "Deze fout is waarschijnlijk opgetreden omdat u de 32-bits versie van %1 "
-"gebruikt en probeert te veel encoderings-threads te gebruiken.  Verminder a."
-"u.b. het 'Aantal threads dat %2 moet gebruiken' in het \"Algemeen\"-tabblad "
-"bij Voorkeuren en probeer het opnieuw."
+"gebruikt en probeert te veel encoderings-threads te gebruiken.  Verminder "
+"a.u.b. het 'Aantal threads dat %2 moet gebruiken' in het \"Algemeen\"-"
+"tabblad bij Voorkeuren en probeer het opnieuw."
 
 #: src/lib/job.cc:156
 msgid ""
@@ -1909,7 +1906,7 @@ msgstr "Upmix R"
 msgid "VI"
 msgstr "VI"
 
-#: src/lib/verify_dcp_job.cc:57
+#: src/lib/verify_dcp_job.cc:62
 msgid "Verify DCP"
 msgstr "Controleer DCP"
 
@@ -2009,7 +2006,7 @@ msgstr ""
 "U heeft meer dan één stuk Atmos-content en ze hebben niet dezelfde frame "
 "rate.  U moet een deel van de Atmos-content verwijderen."
 
-#: src/lib/hints.cc:611
+#: src/lib/hints.cc:612
 msgid ""
 "You have overlapping closed captions, which are not allowed in Interop "
 "DCPs.  Change your DCP standard to SMPTE."
@@ -2029,7 +2026,7 @@ msgstr ""
 msgid "You must add some content to the DCP before creating it"
 msgstr "U moet content aan de DCP toevoegen voor hij gemaakt kan worden"
 
-#: src/lib/hints.cc:769
+#: src/lib/hints.cc:770
 msgid ""
 "Your DCP has %1 audio channels, rather than 8 or 16.  This may cause some "
 "distributors to raise QC errors when they check your DCP.  To avoid this, "
@@ -2106,7 +2103,7 @@ msgstr "_reel%1"
 msgid "bits"
 msgstr "bits"
 
-#: src/lib/dcpomatic_socket.cc:78
+#: src/lib/dcpomatic_socket.cc:83 src/lib/dcpomatic_socket.cc:113
 msgid "connect timed out"
 msgstr "time-out van verbinding"
 
@@ -2130,11 +2127,11 @@ msgstr "kopiëren van %1"
 msgid "could not find stream information"
 msgstr "kan geen stream-informatie vinden"
 
-#: src/lib/reel_writer.cc:403
+#: src/lib/reel_writer.cc:404
 msgid "could not move atmos asset into the DCP (%1)"
 msgstr "kan Atmos asset niet naar de DCP verplaatsen (%1)"
 
-#: src/lib/reel_writer.cc:386
+#: src/lib/reel_writer.cc:387
 msgid "could not move audio asset into the DCP (%1)"
 msgstr "kan audio asset niet naar de DCP verplaatsen (%1)"
 
@@ -2158,19 +2155,24 @@ msgstr "kan niet lezen uit bestand %1 (%2)"
 msgid "could not write to file %1 (%2)"
 msgstr "kan niet schrijven naar bestand %1 (%2)"
 
-#: src/lib/dcpomatic_socket.cc:74
+#: src/lib/dcpomatic_socket.cc:109
 msgid "error during async_connect (%1)"
 msgstr "fout tijdens async_connect (%1)"
 
-#: src/lib/dcpomatic_socket.cc:149
+#: src/lib/dcpomatic_socket.cc:79
+#, fuzzy
+msgid "error during async_connect: (%1)"
+msgstr "fout tijdens async_connect (%1)"
+
+#: src/lib/dcpomatic_socket.cc:201
 msgid "error during async_read (%1)"
 msgstr "fout tijdens async_read (%1)"
 
-#: src/lib/dcpomatic_socket.cc:108
+#: src/lib/dcpomatic_socket.cc:160
 msgid "error during async_write (%1)"
 msgstr "fout tijdens async_write (%1)"
 
-#: src/lib/content.cc:492 src/lib/content.cc:501
+#: src/lib/content.cc:480 src/lib/content.cc:489
 msgid "frames per second"
 msgstr "frames per seconde"
 
@@ -2180,11 +2182,11 @@ msgid "h"
 msgstr "h"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:672
+#: src/lib/dcp_content.cc:681
 msgid "it has a different frame rate to the film."
 msgstr "hij heeft een andere frame rate dan de film."
 
-#: src/lib/dcp_content.cc:754
+#: src/lib/dcp_content.cc:763
 msgid ""
 "it has a different number of audio channels than the project; set the "
 "project to have %1 channels."
@@ -2193,7 +2195,7 @@ msgstr ""
 "in op %1 kanalen."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:790
+#: src/lib/dcp_content.cc:799
 msgid ""
 "it has a start trim so its subtitles or closed captions must be re-written."
 msgstr ""
@@ -2201,42 +2203,42 @@ msgstr ""
 "captions moeten opnieuw geschreven worden."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:725
+#: src/lib/dcp_content.cc:734
 msgid "it is 2K and the film is 4K."
 msgstr "hij is 2K en de film is 4k."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:722
+#: src/lib/dcp_content.cc:731
 msgid "it is 4K and the film is 2K."
 msgstr "hij is 4K en de film is 2K."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:660
+#: src/lib/dcp_content.cc:669
 msgid "it is Interop and the film is set to SMPTE."
 msgstr "hij is Interop en de film is SMPTE."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:664
+#: src/lib/dcp_content.cc:673
 msgid "it is SMPTE and the film is set to Interop."
 msgstr "hij is SMPTE en de film is Interop."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:765
+#: src/lib/dcp_content.cc:774
 msgid "it overlaps other audio content."
 msgstr "hij overlapt met andere audio-content."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:800
+#: src/lib/dcp_content.cc:809
 msgid "it overlaps other text content."
 msgstr "hij overlapt met andere tekst-content."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:740
+#: src/lib/dcp_content.cc:749
 msgid "it overlaps other video content."
 msgstr "hij overlapt met andere video-content."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:695
+#: src/lib/dcp_content.cc:704
 msgid ""
 "its reel lengths differ from those in the film; set the reel mode to 'split "
 "by video content'."
@@ -2245,7 +2247,7 @@ msgstr ""
 "'splits per video-content'."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:730
+#: src/lib/dcp_content.cc:739
 msgid "its video frame size differs from the film's."
 msgstr "zijn video-beeldgrootte verschilt van die in de film."
 
@@ -2263,7 +2265,7 @@ msgid "name"
 msgstr "naam"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:784
+#: src/lib/dcp_content.cc:793
 msgid ""
 "one of its closed caption has a non-zero entry point so it must be re-"
 "written."
@@ -2272,7 +2274,7 @@ msgstr ""
 "moet opnieuw geschreven worden."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:778
+#: src/lib/dcp_content.cc:787
 msgid ""
 "one of its subtitle reels has a non-zero entry point so it must be re-"
 "written."
@@ -2293,13 +2295,25 @@ msgstr "sRGB"
 msgid "still"
 msgstr "stilstaand beeld"
 
-#: src/lib/ffmpeg_examiner.cc:347 src/lib/video_content.cc:376
+#: src/lib/ffmpeg_examiner.cc:347 src/lib/video_content.cc:378
 msgid "unknown"
 msgstr "onbekend"
 
-#: src/lib/video_content.cc:538
+#: src/lib/video_content.cc:540
 msgid "video frames"
 msgstr "video frames"
+
+#~ msgid ""
+#~ "In this version there are changes to the way that subtitles are "
+#~ "positioned. Positioning should now be more correct, with respect to the "
+#~ "standards, but you should check any subtitles in your project to make "
+#~ "sure that they are placed where you want them."
+#~ msgstr ""
+#~ "In deze versie zijn er wijzigingen in de manier waarop ondertitels worden "
+#~ "geplaatst.  De positionering zou nu correcter moeten zijn, met betrekking "
+#~ "tot de standaarden, maar u moet alle ondertitels in uw project "
+#~ "controleren om er zeker van te zijn dat ze worden geplaatst waar u ze "
+#~ "wilt hebben."
 
 #~ msgid "Copying old video file"
 #~ msgstr "Kopiëren oud video-bestand"
