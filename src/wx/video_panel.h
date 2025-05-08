@@ -45,32 +45,32 @@ class wxToggleButton;
 class VideoPanel : public ContentSubPanel
 {
 public:
-	explicit VideoPanel (ContentPanel *);
+	explicit VideoPanel(ContentPanel *);
 
-	void create () override;
+	void create() override;
 	void film_changed(FilmProperty) override;
-	void film_content_changed (int) override;
-	void content_selection_changed () override;
+	void film_content_changed(int) override;
+	void content_selection_changed() override;
 
 private:
-	void colour_conversion_changed ();
-	void edit_colour_conversion_clicked ();
-	void range_changed ();
-	void fade_in_changed ();
-	void fade_out_changed ();
-	void add_to_grid () override;
-	void scale_fit_clicked ();
-	void scale_custom_clicked ();
-	bool scale_custom_edit_clicked ();
-	void left_right_link_clicked ();
-	void top_bottom_link_clicked ();
-	void left_crop_changed ();
-	void right_crop_changed ();
-	void top_crop_changed ();
-	void bottom_crop_changed ();
+	void colour_conversion_changed();
+	void edit_colour_conversion_clicked();
+	void range_changed();
+	void fade_in_changed();
+	void fade_out_changed();
+	void add_to_grid() override;
+	void scale_fit_clicked();
+	void scale_custom_clicked();
+	bool scale_custom_edit_clicked();
+	void left_right_link_clicked();
+	void top_bottom_link_clicked();
+	void left_crop_changed();
+	void right_crop_changed();
+	void top_crop_changed();
+	void bottom_crop_changed();
 
-	void setup_description ();
-	void setup_sensitivity ();
+	void setup_description();
+	void setup_sensitivity();
 
 	wxStaticText* _type_label;
 	ContentChoice<VideoContent, VideoFrameType>* _frame_type;
