@@ -43,12 +43,12 @@ class wxListCtrl;
 class SystemFontDialog : public wxDialog
 {
 public:
-	explicit SystemFontDialog (wxWindow* parent);
+	explicit SystemFontDialog(wxWindow* parent);
 
-	boost::optional<boost::filesystem::path> get_font () const;
+	boost::optional<boost::filesystem::path> get_font() const;
 
 private:
-	void setup_sensitivity ();
+	void setup_sensitivity();
 
 	wxListCtrl* _list;
 	std::vector<boost::filesystem::path> _fonts;

@@ -33,56 +33,56 @@ using std::string;
 using boost::optional;
 
 
-SystemFontDialog::SystemFontDialog (wxWindow* parent)
-	: wxDialog (parent, wxID_ANY, _("Choose a font"))
+SystemFontDialog::SystemFontDialog(wxWindow* parent)
+	: wxDialog(parent, wxID_ANY, _("Choose a font"))
 {
-	auto sizer = new wxBoxSizer (wxVERTICAL);
+	auto sizer = new wxBoxSizer(wxVERTICAL);
 
 	boost::filesystem::path fonts = "c:\\Windows\\Fonts";
-	auto windir = getenv ("windir");
+	auto windir = getenv("windir");
 	if (windir) {
-		fonts = boost::filesystem::path (windir) / "Fonts";
+		fonts = boost::filesystem::path(windir) / "Fonts";
 	}
 
 	for (auto i: dcp::filesystem::directory_iterator(fonts)) {
 		auto ext = i.path().extension().string();
-		transform (ext.begin(), ext.end(), ext.begin(), ::tolower);
+		transform(ext.begin(), ext.end(), ext.begin(), ::tolower);
 
 		if (ext == ".ttf") {
-			_fonts.push_back (i.path());
+			_fonts.push_back(i.path());
 		}
 	}
 
-	sort (_fonts.begin(), _fonts.end());
+	sort(_fonts.begin(), _fonts.end());
 
-	_list = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT | wxLC_NO_HEADER);
+	_list = new wxListCtrl(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT | wxLC_NO_HEADER);
 	_list->InsertColumn(0, wxString{});
-	_list->SetColumnWidth (0, 512);
-	sizer->Add (_list, 0, wxALL, DCPOMATIC_SIZER_X_GAP);
+	_list->SetColumnWidth(0, 512);
+	sizer->Add(_list, 0, wxALL, DCPOMATIC_SIZER_X_GAP);
 
 	int n = 0;
 	for (auto i: _fonts) {
 		_list->InsertItem(n++, std_to_wx(i.filename().stem().string()));
 	}
 
-	auto buttons = CreateSeparatedButtonSizer (wxOK | wxCANCEL);
+	auto buttons = CreateSeparatedButtonSizer(wxOK | wxCANCEL);
 	if (buttons) {
-		sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
+		sizer->Add(buttons, wxSizerFlags().Expand().DoubleBorder());
 	}
 
-	SetSizerAndFit (sizer);
+	SetSizerAndFit(sizer);
 
-	_list->Bind (wxEVT_LIST_ITEM_SELECTED, boost::bind (&SystemFontDialog::setup_sensitivity, this));
-	_list->Bind (wxEVT_LIST_ITEM_DESELECTED, boost::bind (&SystemFontDialog::setup_sensitivity, this));
+	_list->Bind(wxEVT_LIST_ITEM_SELECTED, boost::bind(&SystemFontDialog::setup_sensitivity, this));
+	_list->Bind(wxEVT_LIST_ITEM_DESELECTED, boost::bind(&SystemFontDialog::setup_sensitivity, this));
 
-	setup_sensitivity ();
+	setup_sensitivity();
 }
 
 
 optional<boost::filesystem::path>
-SystemFontDialog::get_font () const
+SystemFontDialog::get_font() const
 {
-	int const s = _list->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+	int const s = _list->GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
 	if (s == -1) {
 		return {};
 	}
@@ -96,10 +96,10 @@ SystemFontDialog::get_font () const
 
 
 void
-SystemFontDialog::setup_sensitivity ()
+SystemFontDialog::setup_sensitivity()
 {
-	auto ok = dynamic_cast<wxButton *> (FindWindowById(wxID_OK, this));
+	auto ok = dynamic_cast<wxButton *>(FindWindowById(wxID_OK, this));
 	if (ok) {
-		ok->Enable (_list->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED) != -1);
+		ok->Enable(_list->GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED) != -1);
 	}
 }
