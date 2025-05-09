@@ -38,13 +38,13 @@ class DirPickerCtrl : public wxPanel
 public:
 	DirPickerCtrl(wxWindow *, bool leaf = false);
 
-	wxString GetPath () const;
-	void SetPath (wxString);
+	wxString GetPath() const;
+	void SetPath(wxString);
 
 	boost::signals2::signal<void ()> Changed;
 
 private:
-	void browse_clicked ();
+	void browse_clicked();
 
 	Button* _folder;
 	wxString _path;

@@ -37,10 +37,10 @@ using namespace boost;
 
 
 DirPickerCtrl::DirPickerCtrl(wxWindow* parent, bool leaf)
-	: wxPanel (parent)
+	: wxPanel(parent)
 	, _leaf(leaf)
 {
-	_sizer = new wxBoxSizer (wxHORIZONTAL);
+	_sizer = new wxBoxSizer(wxHORIZONTAL);
 
         wxClientDC dc(parent);
         auto size = dc.GetTextExtent(char_to_wx("This is the length of the file label it should be quite long"));
@@ -48,18 +48,18 @@ DirPickerCtrl::DirPickerCtrl(wxWindow* parent, bool leaf)
 
 	_folder = new Button(this, _("Browse..."), wxDefaultPosition, size, wxBU_LEFT);
 	_sizer->Add(_folder, 1, wxEXPAND, 0);
-	SetSizer (_sizer);
+	SetSizer(_sizer);
 
 	_folder->Bind(wxEVT_BUTTON, boost::bind(&DirPickerCtrl::browse_clicked, this));
 }
 
 void
-DirPickerCtrl::SetPath (wxString p)
+DirPickerCtrl::SetPath(wxString p)
 {
 	_path = p;
 
 	if (_path == wxStandardPaths::Get().GetDocumentsDir()) {
-		_folder->SetLabel (_("My Documents"));
+		_folder->SetLabel(_("My Documents"));
 	} else {
 		if (_leaf) {
 			_folder->SetLabel(std_to_wx(boost::filesystem::path(wx_to_std(_path)).filename().string()));
@@ -68,23 +68,23 @@ DirPickerCtrl::SetPath (wxString p)
 		}
 	}
 
-	wxCommandEvent ev (wxEVT_DIRPICKER_CHANGED, wxID_ANY);
-	GetEventHandler()->ProcessEvent (ev);
+	wxCommandEvent ev(wxEVT_DIRPICKER_CHANGED, wxID_ANY);
+	GetEventHandler()->ProcessEvent(ev);
 
-	_sizer->Layout ();
-	SetMinSize (wxSize (max (400, _sizer->GetSize().GetWidth()), -1));
+	_sizer->Layout();
+	SetMinSize(wxSize(max(400, _sizer->GetSize().GetWidth()), -1));
 
-	Changed ();
+	Changed();
 }
 
 wxString
-DirPickerCtrl::GetPath () const
+DirPickerCtrl::GetPath() const
 {
 	return _path;
 }
 
 void
-DirPickerCtrl::browse_clicked ()
+DirPickerCtrl::browse_clicked()
 {
 	wxDirDialog dialog(this);
 	if (dialog.ShowModal() == wxID_OK) {
