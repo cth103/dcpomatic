@@ -125,7 +125,7 @@ LIBDCP_ENABLE_WARNINGS
 	std::vector<char> buffer(64 * 1024);
 
 	while (to_do > 0) {
-		int const t = min(to_do, buffer.size());
+		int const t = min(to_do, static_cast<uintmax_t>(buffer.size()));
 		size_t const read = f.read(buffer.data(), 1, t);
 		if (read != size_t(t)) {
 			throw ReadFileError(from);
