@@ -55,39 +55,39 @@ int const sampling_rate = 48000;
 
 
 static void
-push (AudioMerger& merger, int from, int to, int at)
+push(AudioMerger& merger, int from, int to, int at)
 {
 	auto buffers = make_shared<AudioBuffers>(1, to - from);
 	for (int i = 0; i < (to - from); ++i) {
 		buffers->data()[0][i] = from + i;
 	}
-	merger.push (buffers, DCPTime(at, sampling_rate));
+	merger.push(buffers, DCPTime(at, sampling_rate));
 }
 
 
 /* Basic mixing, 2 overlapping pushes */
-BOOST_AUTO_TEST_CASE (audio_merger_test1)
+BOOST_AUTO_TEST_CASE(audio_merger_test1)
 {
-	AudioMerger merger (sampling_rate);
+	AudioMerger merger(sampling_rate);
 
-	push (merger, 0, 64, 0);
-	push (merger, 0, 64, 22);
+	push(merger, 0, 64, 0);
+	push(merger, 0, 64, 22);
 
-	auto tb = merger.pull (DCPTime::from_frames (22, sampling_rate));
-	BOOST_REQUIRE (tb.size() == 1U);
-	BOOST_CHECK (tb.front().first != shared_ptr<const AudioBuffers> ());
-	BOOST_CHECK_EQUAL (tb.front().first->frames(), 22);
-	BOOST_CHECK_EQUAL (tb.front().second.get(), 0);
+	auto tb = merger.pull(DCPTime::from_frames(22, sampling_rate));
+	BOOST_REQUIRE(tb.size() == 1U);
+	BOOST_CHECK(tb.front().first != shared_ptr<const AudioBuffers>());
+	BOOST_CHECK_EQUAL(tb.front().first->frames(), 22);
+	BOOST_CHECK_EQUAL(tb.front().second.get(), 0);
 
 	/* And they should be a staircase */
 	for (int i = 0; i < 22; ++i) {
-		BOOST_CHECK_EQUAL (tb.front().first->data()[0][i], i);
+		BOOST_CHECK_EQUAL(tb.front().first->data()[0][i], i);
 	}
 
-	tb = merger.pull (DCPTime::from_frames (22 + 64, sampling_rate));
-	BOOST_REQUIRE (tb.size() == 1U);
-	BOOST_CHECK_EQUAL (tb.front().first->frames(), 64);
-	BOOST_CHECK_EQUAL (tb.front().second.get(), DCPTime::from_frames(22, sampling_rate).get());
+	tb = merger.pull(DCPTime::from_frames(22 + 64, sampling_rate));
+	BOOST_REQUIRE(tb.size() == 1U);
+	BOOST_CHECK_EQUAL(tb.front().first->frames(), 64);
+	BOOST_CHECK_EQUAL(tb.front().second.get(), DCPTime::from_frames(22, sampling_rate).get());
 
 	/* Check the sample values */
 	for (int i = 0; i < 64; ++i) {
@@ -95,97 +95,97 @@ BOOST_AUTO_TEST_CASE (audio_merger_test1)
 		if (i < (64 - 22)) {
 			correct += i + 22;
 		}
-		BOOST_CHECK_EQUAL (tb.front().first->data()[0][i], correct);
+		BOOST_CHECK_EQUAL(tb.front().first->data()[0][i], correct);
 	}
 }
 
 
 /* Push at non-zero time */
-BOOST_AUTO_TEST_CASE (audio_merger_test2)
+BOOST_AUTO_TEST_CASE(audio_merger_test2)
 {
-	AudioMerger merger (sampling_rate);
+	AudioMerger merger(sampling_rate);
 
-	push (merger, 0, 64, 9);
+	push(merger, 0, 64, 9);
 
 	/* There's nothing from 0 to 9 */
-	auto tb = merger.pull (DCPTime::from_frames (9, sampling_rate));
-	BOOST_CHECK_EQUAL (tb.size(), 0U);
+	auto tb = merger.pull(DCPTime::from_frames(9, sampling_rate));
+	BOOST_CHECK_EQUAL(tb.size(), 0U);
 
 	/* Then there's our data at 9 */
-	tb = merger.pull (DCPTime::from_frames (9 + 64, sampling_rate));
+	tb = merger.pull(DCPTime::from_frames(9 + 64, sampling_rate));
 
-	BOOST_CHECK_EQUAL (tb.front().first->frames(), 64);
-	BOOST_CHECK_EQUAL (tb.front().second.get(), DCPTime::from_frames(9, sampling_rate).get());
+	BOOST_CHECK_EQUAL(tb.front().first->frames(), 64);
+	BOOST_CHECK_EQUAL(tb.front().second.get(), DCPTime::from_frames(9, sampling_rate).get());
 
 	/* Check the sample values */
 	for (int i = 0; i < 64; ++i) {
-		BOOST_CHECK_EQUAL (tb.front().first->data()[0][i], i);
+		BOOST_CHECK_EQUAL(tb.front().first->data()[0][i], i);
 	}
 }
 
 
 /* Push two non contiguous blocks */
-BOOST_AUTO_TEST_CASE (audio_merger_test3)
+BOOST_AUTO_TEST_CASE(audio_merger_test3)
 {
-	AudioMerger merger (sampling_rate);
+	AudioMerger merger(sampling_rate);
 
-	push (merger, 0, 64, 17);
-	push (merger, 0, 64, 114);
+	push(merger, 0, 64, 17);
+	push(merger, 0, 64, 114);
 
 	/* Get them back */
 
-	auto tb = merger.pull (DCPTime::from_frames (100, sampling_rate));
-	BOOST_REQUIRE (tb.size() == 1U);
-	BOOST_CHECK_EQUAL (tb.front().first->frames(), 64);
-	BOOST_CHECK_EQUAL (tb.front().second.get(), DCPTime::from_frames(17, sampling_rate).get());
+	auto tb = merger.pull(DCPTime::from_frames(100, sampling_rate));
+	BOOST_REQUIRE(tb.size() == 1U);
+	BOOST_CHECK_EQUAL(tb.front().first->frames(), 64);
+	BOOST_CHECK_EQUAL(tb.front().second.get(), DCPTime::from_frames(17, sampling_rate).get());
 	for (int i = 0; i < 64; ++i) {
-		BOOST_CHECK_EQUAL (tb.front().first->data()[0][i], i);
+		BOOST_CHECK_EQUAL(tb.front().first->data()[0][i], i);
 	}
 
-	tb = merger.pull (DCPTime::from_frames (200, sampling_rate));
-	BOOST_REQUIRE (tb.size() == 1U);
-	BOOST_CHECK_EQUAL (tb.front().first->frames(), 64);
-	BOOST_CHECK_EQUAL (tb.front().second.get(), DCPTime::from_frames(114, sampling_rate).get());
+	tb = merger.pull(DCPTime::from_frames(200, sampling_rate));
+	BOOST_REQUIRE(tb.size() == 1U);
+	BOOST_CHECK_EQUAL(tb.front().first->frames(), 64);
+	BOOST_CHECK_EQUAL(tb.front().second.get(), DCPTime::from_frames(114, sampling_rate).get());
 	for (int i = 0; i < 64; ++i) {
-		BOOST_CHECK_EQUAL (tb.front().first->data()[0][i], i);
+		BOOST_CHECK_EQUAL(tb.front().first->data()[0][i], i);
 	}
 }
 
 
 /* Reply a sequence of calls to AudioMerger that resulted in a crash */
-BOOST_AUTO_TEST_CASE (audio_merger_test4)
+BOOST_AUTO_TEST_CASE(audio_merger_test4)
 {
 	dcp::File f("test/data/audio_merger_bug1.log", "r");
-	BOOST_REQUIRE (f);
+	BOOST_REQUIRE(f);
 	list<string> tokens;
 	char buf[64];
 	while (fscanf(f.get(), "%63s", buf) == 1) {
-		tokens.push_back (buf);
+		tokens.push_back(buf);
 	}
 
 	shared_ptr<AudioMerger> merger;
-	auto i = tokens.begin ();
+	auto i = tokens.begin();
 	while (i != tokens.end()) {
-		BOOST_CHECK (*i++ == "I/AM");
+		BOOST_CHECK(*i++ == "I/AM");
 		string const cmd = *i++;
 		if (cmd == "frame_rate") {
-			BOOST_REQUIRE (i != tokens.end());
-			merger.reset (new AudioMerger(dcp::raw_convert<int>(*i++)));
+			BOOST_REQUIRE(i != tokens.end());
+			merger.reset(new AudioMerger(dcp::raw_convert<int>(*i++)));
 		} else if (cmd == "clear") {
 			BOOST_REQUIRE(merger);
-			merger->clear ();
+			merger->clear();
 		} else if (cmd == "push") {
-			BOOST_REQUIRE (i != tokens.end());
+			BOOST_REQUIRE(i != tokens.end());
 			DCPTime time(dcp::raw_convert<DCPTime::Type>(*i++));
-			BOOST_REQUIRE (i != tokens.end());
+			BOOST_REQUIRE(i != tokens.end());
 			int const frames = dcp::raw_convert<int>(*i++);
 			auto buffers = make_shared<AudioBuffers>(1, frames);
-			BOOST_REQUIRE (merger);
-			merger->push (buffers, time);
+			BOOST_REQUIRE(merger);
+			merger->push(buffers, time);
 		} else if (cmd == "pull") {
-			BOOST_REQUIRE (i != tokens.end());
+			BOOST_REQUIRE(i != tokens.end());
 			DCPTime time(dcp::raw_convert<DCPTime::Type>(*i++));
-			merger->pull (time);
+			merger->pull(time);
 		}
 	}
 }
