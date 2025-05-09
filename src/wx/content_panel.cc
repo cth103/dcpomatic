@@ -131,7 +131,7 @@ private:
 			SetSashPosition(Config::instance()->main_content_divider_sash_position().get_value_or(_top_panel_minimum_size));
 		}
 
-		ev.Skip ();
+		ev.Skip();
 		_last_height = height;
 	}
 
@@ -246,99 +246,99 @@ private:
 
 
 ContentPanel::ContentPanel(wxNotebook* n, shared_ptr<Film> film, FilmViewer& viewer)
-	: _parent (n)
-	, _film (film)
-	, _film_viewer (viewer)
-	, _generally_sensitive (true)
-	, _ignore_deselect (false)
-	, _no_check_selection (false)
+	: _parent(n)
+	, _film(film)
+	, _film_viewer(viewer)
+	, _generally_sensitive(true)
+	, _ignore_deselect(false)
+	, _no_check_selection(false)
 {
 	_splitter = new LimitedContentPanelSplitter(n);
-	_top_panel = new wxPanel (_splitter);
+	_top_panel = new wxPanel(_splitter);
 
-	_menu = new ContentMenu (_splitter, _film_viewer);
+	_menu = new ContentMenu(_splitter, _film_viewer);
 
 	{
-		auto s = new wxBoxSizer (wxHORIZONTAL);
+		auto s = new wxBoxSizer(wxHORIZONTAL);
 
 		_content = new ContentListCtrl(_top_panel);
-		_content->DragAcceptFiles (true);
-		s->Add (_content, 1, wxEXPAND | wxTOP | wxBOTTOM, 6);
+		_content->DragAcceptFiles(true);
+		s->Add(_content, 1, wxEXPAND | wxTOP | wxBOTTOM, 6);
 
 		_content->InsertColumn(0, wxString{});
 		_content->SetColumnWidth(0, 2048);
 
-		auto b = new wxBoxSizer (wxVERTICAL);
+		auto b = new wxBoxSizer(wxVERTICAL);
 
-		_add_file = new Button (_top_panel, _("Add file(s)..."));
+		_add_file = new Button(_top_panel, _("Add file(s)..."));
 		_add_file->SetToolTip(_("Add video, image, sound or subtitle files to the film (Ctrl+A)."));
-		b->Add (_add_file, 0, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
+		b->Add(_add_file, 0, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
 
-		_add_folder = new Button (_top_panel, _("Add folder..."));
-		_add_folder->SetToolTip (_("Add a folder of image files (which will be used as a moving image sequence) or a folder of sound files."));
-		b->Add (_add_folder, 0, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
+		_add_folder = new Button(_top_panel, _("Add folder..."));
+		_add_folder->SetToolTip(_("Add a folder of image files (which will be used as a moving image sequence) or a folder of sound files."));
+		b->Add(_add_folder, 0, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
 
-		_add_dcp = new Button (_top_panel, _("Add DCP..."));
-		_add_dcp->SetToolTip (_("Add a DCP."));
-		b->Add (_add_dcp, 0, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
+		_add_dcp = new Button(_top_panel, _("Add DCP..."));
+		_add_dcp->SetToolTip(_("Add a DCP."));
+		b->Add(_add_dcp, 0, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
 
-		_remove = new Button (_top_panel, _("Remove"));
+		_remove = new Button(_top_panel, _("Remove"));
 		_remove->SetToolTip(_("Remove the selected piece of content from the film (Delete)."));
-		b->Add (_remove, 0, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
+		b->Add(_remove, 0, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
 
-		_earlier = new Button (_top_panel, _("Earlier"));
-		_earlier->SetToolTip (_("Move the selected piece of content earlier in the film."));
-		b->Add (_earlier, 0, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
+		_earlier = new Button(_top_panel, _("Earlier"));
+		_earlier->SetToolTip(_("Move the selected piece of content earlier in the film."));
+		b->Add(_earlier, 0, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
 
-		_later = new Button (_top_panel, _("Later"));
-		_later->SetToolTip (_("Move the selected piece of content later in the film."));
-		b->Add (_later, 0, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
+		_later = new Button(_top_panel, _("Later"));
+		_later->SetToolTip(_("Move the selected piece of content later in the film."));
+		b->Add(_later, 0, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
 
-		_timeline = new Button (_top_panel, _("Timeline..."));
+		_timeline = new Button(_top_panel, _("Timeline..."));
 		_timeline->SetToolTip(_("Open the timeline for the film (Ctrl+T)."));
-		b->Add (_timeline, 0, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
+		b->Add(_timeline, 0, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
 
-		s->Add (b, 0, wxALL, 4);
-		_top_panel->SetSizer (s);
+		s->Add(b, 0, wxALL, 4);
+		_top_panel->SetSizer(s);
 	}
 
-	_notebook = new wxNotebook (_splitter, wxID_ANY);
+	_notebook = new wxNotebook(_splitter, wxID_ANY);
 
-	_timing_panel = new TimingPanel (this, _film_viewer);
-	_notebook->AddPage (_timing_panel, _("Timing"), false);
-	_timing_panel->create ();
+	_timing_panel = new TimingPanel(this, _film_viewer);
+	_notebook->AddPage(_timing_panel, _("Timing"), false);
+	_timing_panel->create();
 
-	_content->Bind (wxEVT_LIST_ITEM_SELECTED, boost::bind (&ContentPanel::item_selected, this));
-	_content->Bind (wxEVT_LIST_ITEM_DESELECTED, boost::bind (&ContentPanel::item_deselected, this));
-	_content->Bind (wxEVT_LIST_ITEM_FOCUSED, boost::bind (&ContentPanel::item_focused, this));
-	_content->Bind (wxEVT_LIST_ITEM_RIGHT_CLICK, boost::bind (&ContentPanel::right_click, this, _1));
-	_content->Bind (wxEVT_DROP_FILES, boost::bind (&ContentPanel::files_dropped, this, _1));
-	_add_file->Bind (wxEVT_BUTTON, boost::bind (&ContentPanel::add_file_clicked, this));
-	_add_folder->Bind (wxEVT_BUTTON, boost::bind (&ContentPanel::add_folder_clicked, this));
-	_add_dcp->Bind (wxEVT_BUTTON, boost::bind (&ContentPanel::add_dcp_clicked, this));
-	_remove->Bind (wxEVT_BUTTON, boost::bind (&ContentPanel::remove_clicked, this, false));
-	_earlier->Bind (wxEVT_BUTTON, boost::bind (&ContentPanel::earlier_clicked, this));
-	_later->Bind (wxEVT_BUTTON, boost::bind (&ContentPanel::later_clicked, this));
-	_timeline->Bind	(wxEVT_BUTTON, boost::bind (&ContentPanel::timeline_clicked, this));
+	_content->Bind(wxEVT_LIST_ITEM_SELECTED, boost::bind(&ContentPanel::item_selected, this));
+	_content->Bind(wxEVT_LIST_ITEM_DESELECTED, boost::bind(&ContentPanel::item_deselected, this));
+	_content->Bind(wxEVT_LIST_ITEM_FOCUSED, boost::bind(&ContentPanel::item_focused, this));
+	_content->Bind(wxEVT_LIST_ITEM_RIGHT_CLICK, boost::bind(&ContentPanel::right_click, this, _1));
+	_content->Bind(wxEVT_DROP_FILES, boost::bind(&ContentPanel::files_dropped, this, _1));
+	_add_file->Bind(wxEVT_BUTTON, boost::bind(&ContentPanel::add_file_clicked, this));
+	_add_folder->Bind(wxEVT_BUTTON, boost::bind(&ContentPanel::add_folder_clicked, this));
+	_add_dcp->Bind(wxEVT_BUTTON, boost::bind(&ContentPanel::add_dcp_clicked, this));
+	_remove->Bind(wxEVT_BUTTON, boost::bind(&ContentPanel::remove_clicked, this, false));
+	_earlier->Bind(wxEVT_BUTTON, boost::bind(&ContentPanel::earlier_clicked, this));
+	_later->Bind(wxEVT_BUTTON, boost::bind(&ContentPanel::later_clicked, this));
+	_timeline->Bind	(wxEVT_BUTTON, boost::bind(&ContentPanel::timeline_clicked, this));
 
 	_content->SetDropTarget(new ContentDropTarget(this));
 }
 
 
 void
-ContentPanel::first_shown ()
+ContentPanel::first_shown()
 {
-	_splitter->first_shown (_top_panel, _notebook);
+	_splitter->first_shown(_top_panel, _notebook);
 }
 
 
 ContentList
-ContentPanel::selected ()
+ContentPanel::selected()
 {
 	ContentList sel;
 	long int s = -1;
 	while (true) {
-		s = _content->GetNextItem (s, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+		s = _content->GetNextItem(s, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
 		if (s == -1) {
 			break;
 		}
@@ -354,13 +354,13 @@ ContentPanel::selected ()
 
 
 ContentList
-ContentPanel::selected_video ()
+ContentPanel::selected_video()
 {
 	ContentList vc;
 
 	for (auto i: selected()) {
 		if (i->video) {
-			vc.push_back (i);
+			vc.push_back(i);
 		}
 	}
 
@@ -369,13 +369,13 @@ ContentPanel::selected_video ()
 
 
 ContentList
-ContentPanel::selected_audio ()
+ContentPanel::selected_audio()
 {
 	ContentList ac;
 
 	for (auto i: selected()) {
 		if (i->audio) {
-			ac.push_back (i);
+			ac.push_back(i);
 		}
 	}
 
@@ -384,13 +384,13 @@ ContentPanel::selected_audio ()
 
 
 ContentList
-ContentPanel::selected_text ()
+ContentPanel::selected_text()
 {
 	ContentList sc;
 
 	for (auto i: selected()) {
 		if (!i->text.empty()) {
-			sc.push_back (i);
+			sc.push_back(i);
 		}
 	}
 
@@ -399,14 +399,13 @@ ContentPanel::selected_text ()
 
 
 FFmpegContentList
-ContentPanel::selected_ffmpeg ()
+ContentPanel::selected_ffmpeg()
 {
 	FFmpegContentList sc;
 
 	for (auto i: selected()) {
-		auto t = dynamic_pointer_cast<FFmpegContent> (i);
-		if (t) {
-			sc.push_back (t);
+		if (auto t = dynamic_pointer_cast<FFmpegContent>(i)) {
+			sc.push_back(t);
 		}
 	}
 
@@ -420,43 +419,43 @@ ContentPanel::film_changed(FilmProperty p)
 	switch (p) {
 	case FilmProperty::CONTENT:
 	case FilmProperty::CONTENT_ORDER:
-		setup ();
+		setup();
 		break;
 	default:
 		break;
 	}
 
 	for (auto i: panels()) {
-		i->film_changed (p);
+		i->film_changed(p);
 	}
 }
 
 
 void
-ContentPanel::item_deselected ()
+ContentPanel::item_deselected()
 {
 	/* Maybe this is just a re-click on the same item; if not, _ignore_deselect will stay
 	   false and item_deselected_foo will handle the deselection.
 	*/
 	_ignore_deselect = false;
-	signal_manager->when_idle (boost::bind (&ContentPanel::item_deselected_idle, this));
+	signal_manager->when_idle(boost::bind(&ContentPanel::item_deselected_idle, this));
 }
 
 
 void
-ContentPanel::item_deselected_idle ()
+ContentPanel::item_deselected_idle()
 {
 	if (!_ignore_deselect) {
-		check_selection ();
+		check_selection();
 	}
 }
 
 
 void
-ContentPanel::item_selected ()
+ContentPanel::item_selected()
 {
 	_ignore_deselect = true;
-	check_selection ();
+	check_selection();
 }
 
 
@@ -468,16 +467,16 @@ ContentPanel::item_focused()
 
 
 void
-ContentPanel::check_selection ()
+ContentPanel::check_selection()
 {
 	if (_no_check_selection) {
 		return;
 	}
 
-	setup_sensitivity ();
+	setup_sensitivity();
 
 	for (auto i: panels()) {
-		i->content_selection_changed ();
+		i->content_selection_changed();
 	}
 
 	optional<DCPTime> go_to;
@@ -510,7 +509,7 @@ ContentPanel::check_selection ()
 	}
 
 	if (_timeline_dialog) {
-		_timeline_dialog->set_selection (selected());
+		_timeline_dialog->set_selection(selected());
 	}
 
 	/* Make required tabs visible */
@@ -543,11 +542,11 @@ ContentPanel::check_selection ()
 	int off = 0;
 
 	if (have_video && !_video_panel) {
-		_video_panel = new VideoPanel (this);
-		_notebook->InsertPage (off, _video_panel, _video_panel->name());
-		_video_panel->create ();
+		_video_panel = new VideoPanel(this);
+		_notebook->InsertPage(off, _video_panel, _video_panel->name());
+		_video_panel->create();
 	} else if (!have_video && _video_panel) {
-		_notebook->DeletePage (off);
+		_notebook->DeletePage(off);
 		_video_panel = nullptr;
 	}
 
@@ -556,11 +555,11 @@ ContentPanel::check_selection ()
 	}
 
 	if (have_audio && !_audio_panel) {
-		_audio_panel = new AudioPanel (this);
-		_notebook->InsertPage (off, _audio_panel, _audio_panel->name());
-		_audio_panel->create ();
+		_audio_panel = new AudioPanel(this);
+		_notebook->InsertPage(off, _audio_panel, _audio_panel->name());
+		_audio_panel->create();
 	} else if (!have_audio && _audio_panel) {
-		_notebook->DeletePage (off);
+		_notebook->DeletePage(off);
 		_audio_panel = nullptr;
 	}
 
@@ -570,11 +569,11 @@ ContentPanel::check_selection ()
 
 	for (int i = 0; i < static_cast<int>(TextType::COUNT); ++i) {
 		if (have_text[i] && !_text_panel[i]) {
-			_text_panel[i] = new TextPanel (this, static_cast<TextType>(i));
-			_notebook->InsertPage (off, _text_panel[i], _text_panel[i]->name());
-			_text_panel[i]->create ();
+			_text_panel[i] = new TextPanel(this, static_cast<TextType>(i));
+			_notebook->InsertPage(off, _text_panel[i], _text_panel[i]->name());
+			_text_panel[i]->create();
 		} else if (!have_text[i] && _text_panel[i]) {
-			_notebook->DeletePage (off);
+			_notebook->DeletePage(off);
 			_text_panel[i] = nullptr;
 		}
 		if (have_text[i]) {
@@ -587,22 +586,22 @@ ContentPanel::check_selection ()
 	auto done = false;
 	for (size_t i = 0; i < _notebook->GetPageCount(); ++i) {
 		if (_notebook->GetPage(i) == _last_selected_tab) {
-			_notebook->SetSelection (i);
+			_notebook->SetSelection(i);
 			done = true;
 		}
 	}
 
 	if (!done && _notebook->GetPageCount() > 0) {
-		_notebook->SetSelection (0);
+		_notebook->SetSelection(0);
 	}
 
-	setup_sensitivity ();
-	SelectionChanged ();
+	setup_sensitivity();
+	SelectionChanged();
 }
 
 
 void
-ContentPanel::add_file_clicked ()
+ContentPanel::add_file_clicked()
 {
 	/* This method is also called when Ctrl-A is pressed, so check that our notebook page
 	   is visible.
@@ -631,7 +630,7 @@ ContentPanel::add_file_clicked ()
 
 
 void
-ContentPanel::add_folder_clicked ()
+ContentPanel::add_folder_clicked()
 {
 	DirDialog dialog(_splitter, _("Choose a folder"), wxDD_DIR_MUST_EXIST, "AddFilesPath", dcpomatic::film::add_files_override_path(_film));
 	if (dialog.show()) {
@@ -652,14 +651,13 @@ ContentPanel::add_folder(boost::filesystem::path folder)
 		return;
 	}
 
-	if (content.empty ()) {
-		error_dialog (_parent, _("No content found in this folder."));
+	if (content.empty()) {
+		error_dialog(_parent, _("No content found in this folder."));
 		return;
 	}
 
 	for (auto i: content) {
-		auto ic = dynamic_pointer_cast<ImageContent> (i);
-		if (ic) {
+		if (auto ic = dynamic_pointer_cast<ImageContent>(i)) {
 			ImageSequenceDialog dialog(_splitter);
 
 			if (dialog.ShowModal() != wxID_OK) {
@@ -668,13 +666,13 @@ ContentPanel::add_folder(boost::filesystem::path folder)
 			ic->set_video_frame_rate(_film, dialog.frame_rate());
 		}
 
-		_film->examine_and_add_content (i);
+		_film->examine_and_add_content(i);
 	}
 }
 
 
 void
-ContentPanel::add_dcp_clicked ()
+ContentPanel::add_dcp_clicked()
 {
 	DirDialog dialog(_splitter, _("Choose a DCP folder"), wxDD_DIR_MUST_EXIST, "AddFilesPath", dcpomatic::film::add_files_override_path(_film));
 	if (dialog.show()) {
@@ -689,7 +687,7 @@ ContentPanel::add_dcp(boost::filesystem::path dcp)
 	try {
 		_film->examine_and_add_content(make_shared<DCPContent>(dcp));
 	} catch (ProjectFolderError &) {
-		error_dialog (
+		error_dialog(
 			_parent,
 			wxString::Format(
 				_(
@@ -708,7 +706,7 @@ ContentPanel::add_dcp(boost::filesystem::path dcp)
 
 /** @return true if this remove "click" should be ignored */
 bool
-ContentPanel::remove_clicked (bool hotkey)
+ContentPanel::remove_clicked(bool hotkey)
 {
 	/* If the method was called because Delete was pressed check that our notebook page
 	   is visible and that the content list is focused.
@@ -717,32 +715,32 @@ ContentPanel::remove_clicked (bool hotkey)
 		return true;
 	}
 
-	for (auto i: selected ()) {
-		_film->remove_content (i);
+	for (auto i: selected()) {
+		_film->remove_content(i);
 	}
 
-	check_selection ();
+	check_selection();
 	return false;
 }
 
 
 void
-ContentPanel::timeline_clicked ()
+ContentPanel::timeline_clicked()
 {
 	if (!_film || _film->content().empty()) {
 		return;
 	}
 
 	_timeline_dialog.reset(this, _film, _film_viewer);
-	_timeline_dialog->set_selection (selected());
-	_timeline_dialog->Show ();
+	_timeline_dialog->set_selection(selected());
+	_timeline_dialog->Show();
 }
 
 
 void
-ContentPanel::right_click (wxListEvent& ev)
+ContentPanel::right_click(wxListEvent& ev)
 {
-	_menu->popup (_film, selected (), TimelineContentViewList (), ev.GetPoint ());
+	_menu->popup(_film, selected(), TimelineContentViewList(), ev.GetPoint());
 }
 
 
@@ -750,39 +748,39 @@ ContentPanel::right_click (wxListEvent& ev)
 void
 ContentPanel::setup_sensitivity ()
 {
-	_add_file->Enable (_generally_sensitive);
-	_add_folder->Enable (_generally_sensitive);
-	_add_dcp->Enable (_generally_sensitive);
+	_add_file->Enable(_generally_sensitive);
+	_add_folder->Enable(_generally_sensitive);
+	_add_dcp->Enable(_generally_sensitive);
 
-	auto selection = selected ();
+	auto selection = selected();
 	auto video_selection = selected_video ();
-	auto audio_selection = selected_audio ();
+	auto audio_selection = selected_audio();
 
-	_remove->Enable   (_generally_sensitive && !selection.empty());
-	_earlier->Enable  (_generally_sensitive && selection.size() == 1);
-	_later->Enable    (_generally_sensitive && selection.size() == 1);
-	_timeline->Enable (_generally_sensitive && _film && !_film->content().empty());
+	_remove->Enable  (_generally_sensitive && !selection.empty());
+	_earlier->Enable (_generally_sensitive && selection.size() == 1);
+	_later->Enable   (_generally_sensitive && selection.size() == 1);
+	_timeline->Enable(_generally_sensitive && _film && !_film->content().empty());
 
 	if (_video_panel) {
-		_video_panel->Enable (_generally_sensitive && video_selection.size() > 0);
+		_video_panel->Enable(_generally_sensitive && video_selection.size() > 0);
 	}
 	if (_audio_panel) {
-		_audio_panel->Enable (_generally_sensitive && audio_selection.size() > 0);
+		_audio_panel->Enable(_generally_sensitive && audio_selection.size() > 0);
 	}
 	for (auto text: _text_panel) {
 		if (text) {
 			text->Enable(_generally_sensitive && selection.size() == 1 && !selection.front()->text.empty());
 		}
 	}
-	_timing_panel->Enable (_generally_sensitive);
+	_timing_panel->Enable(_generally_sensitive);
 }
 
 
 void
-ContentPanel::set_film (shared_ptr<Film> film)
+ContentPanel::set_film(shared_ptr<Film> film)
 {
 	if (_audio_panel) {
-		_audio_panel->set_film (film);
+		_audio_panel->set_film(film);
 	}
 
 	_film = film;
@@ -791,47 +789,47 @@ ContentPanel::set_film (shared_ptr<Film> film)
 	film_changed(FilmProperty::AUDIO_CHANNELS);
 
 	if (_film) {
-		check_selection ();
+		check_selection();
 	}
 
-	setup_sensitivity ();
+	setup_sensitivity();
 }
 
 
 void
-ContentPanel::set_general_sensitivity (bool s)
+ContentPanel::set_general_sensitivity(bool s)
 {
 	_generally_sensitive = s;
-	setup_sensitivity ();
+	setup_sensitivity();
 }
 
 
 void
-ContentPanel::earlier_clicked ()
+ContentPanel::earlier_clicked()
 {
-	auto sel = selected ();
+	auto sel = selected();
 	if (sel.size() == 1) {
-		_film->move_content_earlier (sel.front ());
-		check_selection ();
+		_film->move_content_earlier(sel.front());
+		check_selection();
 	}
 }
 
 
 void
-ContentPanel::later_clicked ()
+ContentPanel::later_clicked()
 {
-	auto sel = selected ();
+	auto sel = selected();
 	if (sel.size() == 1) {
-		_film->move_content_later (sel.front ());
-		check_selection ();
+		_film->move_content_later(sel.front());
+		check_selection();
 	}
 }
 
 
 void
-ContentPanel::set_selection (weak_ptr<Content> wc)
+ContentPanel::set_selection(weak_ptr<Content> wc)
 {
-	auto content = _film->content ();
+	auto content = _film->content();
 	for (size_t i = 0; i < content.size(); ++i) {
 		set_selected_state(i, content[i] == wc.lock());
 	}
@@ -839,31 +837,31 @@ ContentPanel::set_selection (weak_ptr<Content> wc)
 
 
 void
-ContentPanel::set_selection (ContentList cl)
+ContentPanel::set_selection(ContentList cl)
 {
 	{
 		_no_check_selection = true;
 		dcp::ScopeGuard sg = [this]() { _no_check_selection = false; };
 
-		auto content = _film->content ();
+		auto content = _film->content();
 		for (size_t i = 0; i < content.size(); ++i) {
 			set_selected_state(i, find(cl.begin(), cl.end(), content[i]) != cl.end());
 		}
 	}
 
-	check_selection ();
+	check_selection();
 }
 
 
 void
-ContentPanel::select_all ()
+ContentPanel::select_all()
 {
-	set_selection (_film->content());
+	set_selection(_film->content());
 }
 
 
 void
-ContentPanel::film_content_changed (int property)
+ContentPanel::film_content_changed(int property)
 {
 	if (
 		property == ContentProperty::PATH ||
@@ -872,25 +870,25 @@ ContentPanel::film_content_changed (int property)
 		property == DCPContentProperty::NAME
 		) {
 
-		setup ();
+		setup();
 	}
 
 	for (auto i: panels()) {
-		i->film_content_changed (property);
+		i->film_content_changed(property);
 	}
 }
 
 
 void
-ContentPanel::setup ()
+ContentPanel::setup()
 {
 	if (!_film) {
-		_content->DeleteAllItems ();
-		setup_sensitivity ();
+		_content->DeleteAllItems();
+		setup_sensitivity();
 		return;
 	}
 
-	auto content = _film->content ();
+	auto content = _film->content();
 	auto selection = selected();
 
 	vector<ContentListCtrl::Item> items;
@@ -898,11 +896,11 @@ ContentPanel::setup ()
 	for (auto i: content) {
 		bool const valid = paths_exist(i->paths()) && paths_exist(i->font_paths());
 
-		auto dcp = dynamic_pointer_cast<DCPContent> (i);
-		bool const needs_kdm = dcp && dcp->needs_kdm ();
-		bool const needs_assets = dcp && dcp->needs_assets ();
+		auto dcp = dynamic_pointer_cast<DCPContent>(i);
+		bool const needs_kdm = dcp && dcp->needs_kdm();
+		bool const needs_assets = dcp && dcp->needs_assets();
 
-		auto s = std_to_wx (i->summary ());
+		auto s = std_to_wx(i->summary());
 
 		if (!valid) {
 			s = _("MISSING: ") + s;
@@ -927,29 +925,29 @@ ContentPanel::setup ()
 		set_selection(selection);
 	}
 
-	setup_sensitivity ();
+	setup_sensitivity();
 }
 
 
 void
-ContentPanel::files_dropped (wxDropFilesEvent& event)
+ContentPanel::files_dropped(wxDropFilesEvent& event)
 {
 	if (!_film) {
 		return;
 	}
 
-	auto paths = event.GetFiles ();
+	auto paths = event.GetFiles();
 	vector<boost::filesystem::path> path_list;
 	for (int i = 0; i < event.GetNumberOfFiles(); i++) {
-		path_list.push_back (wx_to_std(paths[i]));
+		path_list.push_back(wx_to_std(paths[i]));
 	}
 
-	add_files (path_list);
+	add_files(path_list);
 }
 
 
 void
-ContentPanel::add_files (vector<boost::filesystem::path> paths)
+ContentPanel::add_files(vector<boost::filesystem::path> paths)
 {
 	if (!_film) {
 		return;
@@ -960,14 +958,14 @@ ContentPanel::add_files (vector<boost::filesystem::path> paths)
 	   alphabetical sort is expected here.
 	*/
 
-	std::sort (paths.begin(), paths.end(), CaseInsensitiveSorter());
+	std::sort(paths.begin(), paths.end(), CaseInsensitiveSorter());
 
 	/* XXX: check for lots of files here and do something */
 
 	try {
 		for (auto i: paths) {
 			for (auto j: content_factory(i)) {
-				_film->examine_and_add_content (j);
+				_film->examine_and_add_content(j);
 			}
 		}
 	} catch (exception& e) {
@@ -977,21 +975,21 @@ ContentPanel::add_files (vector<boost::filesystem::path> paths)
 
 
 list<ContentSubPanel*>
-ContentPanel::panels () const
+ContentPanel::panels() const
 {
 	list<ContentSubPanel*> p;
 	if (_video_panel) {
-		p.push_back (_video_panel);
+		p.push_back(_video_panel);
 	}
 	if (_audio_panel) {
-		p.push_back (_audio_panel);
+		p.push_back(_audio_panel);
 	}
 	for (auto text: _text_panel) {
 		if (text) {
 			p.push_back(text);
 		}
 	}
-	p.push_back (_timing_panel);
+	p.push_back(_timing_panel);
 	return p;
 }
 
