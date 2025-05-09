@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-05-08 23:51+0200\n"
-"PO-Revision-Date: 2025-02-17 23:21+0100\n"
+"PO-Revision-Date: 2025-05-09 01:49+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.5\n"
+"X-Generator: Poedit 3.6\n"
 
 #: src/wx/player_information.cc:112
 #, c-format
@@ -259,9 +259,10 @@ msgid "A 2K JPEG2000 frame contains %n tile parts instead of 3."
 msgstr "Een 2K JPEG2000-frame bevat %n tile parts in plaats van 3."
 
 #: src/wx/verify_dcp_result_panel.cc:552
-#, fuzzy, c-format
+#, c-format
 msgid "A 2K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %n"
-msgstr "Een JPEG2000-frame bevat een ongeldige POC marker (%n)."
+msgstr ""
+"Een 2K JPEG2000-frame bevat een ongeldige Rsiz (capabilities) waarde van %n"
 
 #: src/wx/verify_dcp_result_panel.cc:510
 #, c-format
@@ -279,9 +280,10 @@ msgid "A 4K JPEG2000 frame contains %n tile parts instead of 6."
 msgstr "Een 4K JPEG2000-frame bevat %n tile parts in plaats van 6."
 
 #: src/wx/verify_dcp_result_panel.cc:559
-#, fuzzy, c-format
+#, c-format
 msgid "A 4K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %n"
-msgstr "Een JPEG2000-frame bevat een ongeldige POC marker (%n)."
+msgstr ""
+"Een 4K JPEG2000-frame bevat een ongeldige Rsiz (capabilities) waarde van %n"
 
 #: src/wx/verify_dcp_result_panel.cc:517
 #, c-format
@@ -617,9 +619,9 @@ msgstr ""
 "Ten minste één paar ondertitels wordt gescheiden door minder dan 2 frames."
 
 #: src/wx/verify_dcp_result_panel.cc:364
-#, fuzzy
 msgid "At least one subtitle has zero or negative duration."
-msgstr "Ten minste één ondertitel duurt minder dan 15 frames."
+msgstr ""
+"Ten minste één ondertitel heeft een duur van nul of een negatieve duur."
 
 #: src/wx/verify_dcp_result_panel.cc:367
 msgid "At least one subtitle lasts less than 15 frames."
@@ -2154,9 +2156,8 @@ msgid "More JPEG2000 frames (not listed) contain invalid POC markers."
 msgstr "Meer JPEG2000-frames (niet vermeld) hebben ongeldige POC markers."
 
 #: src/wx/verify_dcp_result_panel.cc:553 src/wx/verify_dcp_result_panel.cc:560
-#, fuzzy
 msgid "More JPEG2000 frames (not listed) contain invalid Rsiz values."
-msgstr "Meer JPEG2000-frames (niet vermeld) hebben ongeldige POC markers."
+msgstr "Meer JPEG2000-frames (niet vermeld) hebben ongeldige Rsiz waarden."
 
 #: src/wx/verify_dcp_result_panel.cc:546
 msgid ""
@@ -3988,6 +3989,9 @@ msgid ""
 "Tick to check details of the picture asset, such as frame sizes and JPEG2000 "
 "bitstream validity.  These checks are quite time-consuming."
 msgstr ""
+"Vink dit aan om de details van de picture asset te controleren, zoals frame-"
+"groottes en de geldigheid van de JPEG2000-bitstream.  Deze controles zijn "
+"vrij tijdrovend."
 
 #: src/wx/content_timeline_dialog.cc:50
 msgid "Timeline"
@@ -4105,9 +4109,8 @@ msgid "UTC+5:30"
 msgstr "UTC+5:30"
 
 #: src/wx/wx_util.cc:727
-#, fuzzy
 msgid "UTC+5:45"
-msgstr "UTC+5"
+msgstr "UTC+5:45"
 
 #: src/wx/wx_util.cc:728
 msgid "UTC+6"
@@ -4257,11 +4260,11 @@ msgstr "Verificatierapport"
 
 #: src/wx/verify_dcp_dialog.cc:65
 msgid "Verify"
-msgstr ""
+msgstr "Controleer"
 
 #: src/wx/verify_dcp_dialog.cc:53
 msgid "Verify picture asset details"
-msgstr ""
+msgstr "Controleer picture asset details"
 
 #: src/wx/smpte_metadata_dialog.cc:109 src/wx/system_information_dialog.cc:67
 msgid "Version"
@@ -4571,9 +4574,8 @@ msgid "protocol"
 msgstr "protocol"
 
 #: src/wx/dkdm_output_panel.cc:68
-#, fuzzy
 msgid "recipient name"
-msgstr "Ontvanger"
+msgstr "naam ontvanger"
 
 #: src/wx/full_config_dialog.cc:1263
 msgid "reel number"
@@ -4609,7 +4611,6 @@ msgid "type (j2c/pcm/sub)"
 msgstr "type (j2c/pcm/sub)"
 
 #: src/wx/full_config_dialog.cc:1243
-#, fuzzy
 msgid "type(cpl/pkl)"
 msgstr "type (cpl/pkl)"
 
