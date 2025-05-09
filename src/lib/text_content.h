@@ -68,134 +68,134 @@ public:
 class TextContent : public ContentPart
 {
 public:
-	TextContent (Content* parent, TextType type, TextType original_type);
-	TextContent (Content* parent, std::vector<std::shared_ptr<Content>>);
-	TextContent (Content* parent, cxml::ConstNodePtr, int version, std::list<std::string>& notes);
+	TextContent(Content* parent, TextType type, TextType original_type);
+	TextContent(Content* parent, std::vector<std::shared_ptr<Content>>);
+	TextContent(Content* parent, cxml::ConstNodePtr, int version, std::list<std::string>& notes);
 
 	void as_xml(xmlpp::Element*) const;
-	std::string identifier () const;
-	void take_settings_from (std::shared_ptr<const TextContent> c);
+	std::string identifier() const;
+	void take_settings_from(std::shared_ptr<const TextContent> c);
 
-	void clear_fonts ();
-	void add_font (std::shared_ptr<dcpomatic::Font> font);
+	void clear_fonts();
+	void add_font(std::shared_ptr<dcpomatic::Font> font);
 	std::shared_ptr<dcpomatic::Font> get_font(std::string id) const;
 
-	void set_use (bool);
-	void set_burn (bool);
-	void set_x_offset (double);
-	void set_y_offset (double);
-	void set_x_scale (double);
-	void set_y_scale (double);
-	void set_colour (dcp::Colour);
-	void unset_colour ();
-	void set_effect (dcp::Effect);
-	void unset_effect ();
-	void set_effect_colour (dcp::Colour);
-	void unset_effect_colour ();
-	void set_line_spacing (double s);
-	void set_fade_in (dcpomatic::ContentTime);
-	void unset_fade_in ();
-	void set_fade_out (dcpomatic::ContentTime);
-	void set_outline_width (int);
-	void unset_fade_out ();
-	void set_type (TextType type);
-	void set_dcp_track (DCPTextTrack track);
-	void unset_dcp_track ();
-	void set_language (boost::optional<dcp::LanguageTag> language = boost::none);
-	void set_language_is_additional (bool additional);
+	void set_use(bool);
+	void set_burn(bool);
+	void set_x_offset(double);
+	void set_y_offset(double);
+	void set_x_scale(double);
+	void set_y_scale(double);
+	void set_colour(dcp::Colour);
+	void unset_colour();
+	void set_effect(dcp::Effect);
+	void unset_effect();
+	void set_effect_colour(dcp::Colour);
+	void unset_effect_colour();
+	void set_line_spacing(double s);
+	void set_fade_in(dcpomatic::ContentTime);
+	void unset_fade_in();
+	void set_fade_out(dcpomatic::ContentTime);
+	void set_outline_width(int);
+	void unset_fade_out();
+	void set_type(TextType type);
+	void set_dcp_track(DCPTextTrack track);
+	void unset_dcp_track();
+	void set_language(boost::optional<dcp::LanguageTag> language = boost::none);
+	void set_language_is_additional(bool additional);
 
-	bool use () const {
-		boost::mutex::scoped_lock lm (_mutex);
+	bool use() const {
+		boost::mutex::scoped_lock lm(_mutex);
 		return _use;
 	}
 
-	bool burn () const {
-		boost::mutex::scoped_lock lm (_mutex);
+	bool burn() const {
+		boost::mutex::scoped_lock lm(_mutex);
 		return _burn;
 	}
 
-	double x_offset () const {
-		boost::mutex::scoped_lock lm (_mutex);
+	double x_offset() const {
+		boost::mutex::scoped_lock lm(_mutex);
 		return _x_offset;
 	}
 
-	double y_offset () const {
-		boost::mutex::scoped_lock lm (_mutex);
+	double y_offset() const {
+		boost::mutex::scoped_lock lm(_mutex);
 		return _y_offset;
 	}
 
-	double x_scale () const {
-		boost::mutex::scoped_lock lm (_mutex);
+	double x_scale() const {
+		boost::mutex::scoped_lock lm(_mutex);
 		return _x_scale;
 	}
 
-	double y_scale () const {
-		boost::mutex::scoped_lock lm (_mutex);
+	double y_scale() const {
+		boost::mutex::scoped_lock lm(_mutex);
 		return _y_scale;
 	}
 
-	std::list<std::shared_ptr<dcpomatic::Font>> fonts () const {
-		boost::mutex::scoped_lock lm (_mutex);
+	std::list<std::shared_ptr<dcpomatic::Font>> fonts() const {
+		boost::mutex::scoped_lock lm(_mutex);
 		return _fonts;
 	}
 
-	boost::optional<dcp::Colour> colour () const {
-		boost::mutex::scoped_lock lm (_mutex);
+	boost::optional<dcp::Colour> colour() const {
+		boost::mutex::scoped_lock lm(_mutex);
 		return _colour;
 	}
 
-	boost::optional<dcp::Effect> effect () const {
-		boost::mutex::scoped_lock lm (_mutex);
+	boost::optional<dcp::Effect> effect() const {
+		boost::mutex::scoped_lock lm(_mutex);
 		return _effect;
 	}
 
-	boost::optional<dcp::Colour> effect_colour () const {
-		boost::mutex::scoped_lock lm (_mutex);
+	boost::optional<dcp::Colour> effect_colour() const {
+		boost::mutex::scoped_lock lm(_mutex);
 		return _effect_colour;
 	}
 
-	double line_spacing () const {
-		boost::mutex::scoped_lock lm (_mutex);
+	double line_spacing() const {
+		boost::mutex::scoped_lock lm(_mutex);
 		return _line_spacing;
 	}
 
-	boost::optional<dcpomatic::ContentTime> fade_in () const {
-		boost::mutex::scoped_lock lm (_mutex);
+	boost::optional<dcpomatic::ContentTime> fade_in() const {
+		boost::mutex::scoped_lock lm(_mutex);
 		return _fade_in;
 	}
 
-	boost::optional<dcpomatic::ContentTime> fade_out () const {
-		boost::mutex::scoped_lock lm (_mutex);
+	boost::optional<dcpomatic::ContentTime> fade_out() const {
+		boost::mutex::scoped_lock lm(_mutex);
 		return _fade_out;
 	}
 
-	int outline_width () const {
-		boost::mutex::scoped_lock lm (_mutex);
+	int outline_width() const {
+		boost::mutex::scoped_lock lm(_mutex);
 		return _outline_width;
 	}
 
-	TextType type () const {
-		boost::mutex::scoped_lock lm (_mutex);
+	TextType type() const {
+		boost::mutex::scoped_lock lm(_mutex);
 		return _type;
 	}
 
-	TextType original_type () const {
-		boost::mutex::scoped_lock lm (_mutex);
+	TextType original_type() const {
+		boost::mutex::scoped_lock lm(_mutex);
 		return _original_type;
 	}
 
-	boost::optional<DCPTextTrack> dcp_track () const {
-		boost::mutex::scoped_lock lm (_mutex);
+	boost::optional<DCPTextTrack> dcp_track() const {
+		boost::mutex::scoped_lock lm(_mutex);
 		return _dcp_track;
 	}
 
-	boost::optional<dcp::LanguageTag> language () const {
-		boost::mutex::scoped_lock lm (_mutex);
+	boost::optional<dcp::LanguageTag> language() const {
+		boost::mutex::scoped_lock lm(_mutex);
 		return _language;
 	}
 
-	bool language_is_additional () const {
-		boost::mutex::scoped_lock lm (_mutex);
+	bool language_is_additional() const {
+		boost::mutex::scoped_lock lm(_mutex);
 		return _language_is_additional;
 	}
 
@@ -204,8 +204,8 @@ public:
 private:
 	friend struct ffmpeg_pts_offset_test;
 
-	void font_changed ();
-	void connect_to_fonts ();
+	void font_changed();
+	void connect_to_fonts();
 	std::shared_ptr<dcpomatic::Font> get_font_unlocked(std::string id) const;
 
 	std::list<boost::signals2::connection> _font_connections;
