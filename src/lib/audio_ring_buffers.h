@@ -33,18 +33,18 @@
 class AudioRingBuffers
 {
 public:
-	AudioRingBuffers ();
+	AudioRingBuffers();
 
-	AudioRingBuffers (AudioBuffers const&) = delete;
-	AudioRingBuffers& operator= (AudioBuffers const&) = delete;
+	AudioRingBuffers(AudioBuffers const&) = delete;
+	AudioRingBuffers& operator=(AudioBuffers const&) = delete;
 
-	void put (std::shared_ptr<const AudioBuffers> data, dcpomatic::DCPTime time, int frame_rate);
-	boost::optional<dcpomatic::DCPTime> get (float* out, int channels, int frames);
-	boost::optional<dcpomatic::DCPTime> peek () const;
+	void put(std::shared_ptr<const AudioBuffers> data, dcpomatic::DCPTime time, int frame_rate);
+	boost::optional<dcpomatic::DCPTime> get(float* out, int channels, int frames);
+	boost::optional<dcpomatic::DCPTime> peek() const;
 
-	void clear ();
+	void clear();
 	/** @return number of frames currently available */
-	Frame size () const;
+	Frame size() const;
 
 private:
 	mutable boost::mutex _mutex;

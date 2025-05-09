@@ -35,7 +35,7 @@ using boost::optional;
 using namespace dcpomatic;
 
 
-AudioRingBuffers::AudioRingBuffers ()
+AudioRingBuffers::AudioRingBuffers()
 {
 
 }
@@ -43,17 +43,17 @@ AudioRingBuffers::AudioRingBuffers ()
 
 /** @param frame_rate Frame rate in use; this is only used to check timing consistency of the incoming data */
 void
-AudioRingBuffers::put (shared_ptr<const AudioBuffers> data, DCPTime time, int frame_rate)
+AudioRingBuffers::put(shared_ptr<const AudioBuffers> data, DCPTime time, int frame_rate)
 {
-	boost::mutex::scoped_lock lm (_mutex);
+	boost::mutex::scoped_lock lm(_mutex);
 
 	if (!_buffers.empty()) {
-		DCPOMATIC_ASSERT (_buffers.front().first->channels() == data->channels());
+		DCPOMATIC_ASSERT(_buffers.front().first->channels() == data->channels());
 		DCPTime const end = (_buffers.back().second + DCPTime::from_frames(_buffers.back().first->frames(), frame_rate));
 		if (labs(end.get() - time.get()) > 1) {
 			cout << "bad put " << to_string(_buffers.back().second) << " " << _buffers.back().first->frames() << " " << to_string(time) << "\n";
 		}
-		DCPOMATIC_ASSERT (labs(end.get() - time.get()) < 2);
+		DCPOMATIC_ASSERT(labs(end.get() - time.get()) < 2);
 	}
 
 	_buffers.push_back(make_pair(data, time));
@@ -62,14 +62,14 @@ AudioRingBuffers::put (shared_ptr<const AudioBuffers> data, DCPTime time, int fr
 
 /** @return time of the returned data; if it's not set this indicates an underrun */
 optional<DCPTime>
-AudioRingBuffers::get (float* out, int channels, int frames)
+AudioRingBuffers::get(float* out, int channels, int frames)
 {
-	boost::mutex::scoped_lock lm (_mutex);
+	boost::mutex::scoped_lock lm(_mutex);
 
 	optional<DCPTime> time;
 
 	while (frames > 0) {
-		if (_buffers.empty ()) {
+		if (_buffers.empty()) {
 			for (int i = 0; i < frames; ++i) {
 				for (int j = 0; j < channels; ++j) {
 					*out++ = 0;
@@ -78,14 +78,14 @@ AudioRingBuffers::get (float* out, int channels, int frames)
 			return time;
 		}
 
-		auto front = _buffers.front ();
+		auto front = _buffers.front();
 		if (!time) {
 			time = front.second + DCPTime::from_frames(_used_in_head, 48000);
 		}
 
-		int const to_do = min (frames, front.first->frames() - _used_in_head);
+		int const to_do = min(frames, front.first->frames() - _used_in_head);
 		float* const* p = front.first->data();
-		int const c = min (front.first->channels(), channels);
+		int const c = min(front.first->channels(), channels);
 		for (int i = 0; i < to_do; ++i) {
 			for (int j = 0; j < c; ++j) {
 				*out++ = p[j][i + _used_in_head];
@@ -98,7 +98,7 @@ AudioRingBuffers::get (float* out, int channels, int frames)
 		frames -= to_do;
 
 		if (_used_in_head == front.first->frames()) {
-			_buffers.pop_front ();
+			_buffers.pop_front();
 			_used_in_head = 0;
 		}
 	}
@@ -108,9 +108,9 @@ AudioRingBuffers::get (float* out, int channels, int frames)
 
 
 optional<DCPTime>
-AudioRingBuffers::peek () const
+AudioRingBuffers::peek() const
 {
-	boost::mutex::scoped_lock lm (_mutex);
+	boost::mutex::scoped_lock lm(_mutex);
 	if (_buffers.empty()) {
 		return {};
 	}
@@ -119,18 +119,18 @@ AudioRingBuffers::peek () const
 
 
 void
-AudioRingBuffers::clear ()
+AudioRingBuffers::clear()
 {
-	boost::mutex::scoped_lock lm (_mutex);
-	_buffers.clear ();
+	boost::mutex::scoped_lock lm(_mutex);
+	_buffers.clear();
 	_used_in_head = 0;
 }
 
 
 Frame
-AudioRingBuffers::size () const
+AudioRingBuffers::size() const
 {
-	boost::mutex::scoped_lock lm (_mutex);
+	boost::mutex::scoped_lock lm(_mutex);
 	Frame s = 0;
 	for (auto const& i: _buffers) {
 		s += i.first->frames();
