@@ -36,45 +36,45 @@ namespace xmlpp {
 class ColourConversion : public dcp::ColourConversion
 {
 public:
-	ColourConversion ();
-	explicit ColourConversion (dcp::ColourConversion);
-	ColourConversion (cxml::NodePtr, int version);
-	virtual ~ColourConversion () {}
+	ColourConversion();
+	explicit ColourConversion(dcp::ColourConversion);
+	ColourConversion(cxml::NodePtr, int version);
+	virtual ~ColourConversion() {}
 
 	virtual void as_xml(xmlpp::Element*) const;
-	std::string identifier () const;
+	std::string identifier() const;
 
-	boost::optional<size_t> preset () const;
+	boost::optional<size_t> preset() const;
 
-	static boost::optional<ColourConversion> from_xml (cxml::NodePtr, int version);
+	static boost::optional<ColourConversion> from_xml(cxml::NodePtr, int version);
 };
 
 class PresetColourConversion
 {
 public:
-	PresetColourConversion ();
-	PresetColourConversion (std::string n, std::string i, dcp::ColourConversion);
-	PresetColourConversion (cxml::NodePtr node, int version);
+	PresetColourConversion();
+	PresetColourConversion(std::string n, std::string i, dcp::ColourConversion);
+	PresetColourConversion(cxml::NodePtr node, int version);
 
 	ColourConversion conversion;
 	std::string name;
 	/** an internal short (non-internationalised) name for this preset */
 	std::string id;
 
-	static std::vector<PresetColourConversion> all () {
+	static std::vector<PresetColourConversion> all() {
 		return _presets;
 	}
 
-	static PresetColourConversion from_id (std::string id);
+	static PresetColourConversion from_id(std::string id);
 
-	static void setup_colour_conversion_presets ();
+	static void setup_colour_conversion_presets();
 
 private:
 	static std::vector<PresetColourConversion> _presets;
 };
 
-bool operator== (ColourConversion const &, ColourConversion const &);
-bool operator!= (ColourConversion const &, ColourConversion const &);
-bool operator== (PresetColourConversion const &, PresetColourConversion const &);
+bool operator==(ColourConversion const &, ColourConversion const &);
+bool operator!=(ColourConversion const &, ColourConversion const &);
+bool operator==(PresetColourConversion const &, PresetColourConversion const &);
 
 #endif
