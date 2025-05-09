@@ -37,54 +37,54 @@ using namespace dcpomatic;
 
 
 void
-VideoRingBuffers::put (shared_ptr<PlayerVideo> frame, DCPTime time)
+VideoRingBuffers::put(shared_ptr<PlayerVideo> frame, DCPTime time)
 {
-	boost::mutex::scoped_lock lm (_mutex);
-	_data.push_back (make_pair(frame, time));
+	boost::mutex::scoped_lock lm(_mutex);
+	_data.push_back(make_pair(frame, time));
 }
 
 
 pair<shared_ptr<PlayerVideo>, DCPTime>
-VideoRingBuffers::get ()
+VideoRingBuffers::get()
 {
-	boost::mutex::scoped_lock lm (_mutex);
-	if (_data.empty ()) {
+	boost::mutex::scoped_lock lm(_mutex);
+	if (_data.empty()) {
 		return {};
 	}
 	auto const r = _data.front();
-	_data.pop_front ();
+	_data.pop_front();
 	return r;
 }
 
 
 Frame
-VideoRingBuffers::size () const
+VideoRingBuffers::size() const
 {
-	boost::mutex::scoped_lock lm (_mutex);
-	return _data.size ();
+	boost::mutex::scoped_lock lm(_mutex);
+	return _data.size();
 }
 
 
 bool
-VideoRingBuffers::empty () const
+VideoRingBuffers::empty() const
 {
-	boost::mutex::scoped_lock lm (_mutex);
-	return _data.empty ();
+	boost::mutex::scoped_lock lm(_mutex);
+	return _data.empty();
 }
 
 
 void
-VideoRingBuffers::clear ()
+VideoRingBuffers::clear()
 {
-	boost::mutex::scoped_lock lm (_mutex);
-	_data.clear ();
+	boost::mutex::scoped_lock lm(_mutex);
+	_data.clear();
 }
 
 
 pair<size_t, string>
-VideoRingBuffers::memory_used () const
+VideoRingBuffers::memory_used() const
 {
-	boost::mutex::scoped_lock lm (_mutex);
+	boost::mutex::scoped_lock lm(_mutex);
 	size_t m = 0;
 	for (auto const& i: _data) {
 		m += i.first->memory_used();
@@ -94,11 +94,11 @@ VideoRingBuffers::memory_used () const
 
 
 void
-VideoRingBuffers::reset_metadata (shared_ptr<const Film> film, dcp::Size player_video_container_size)
+VideoRingBuffers::reset_metadata(shared_ptr<const Film> film, dcp::Size player_video_container_size)
 {
-	boost::mutex::scoped_lock lm (_mutex);
+	boost::mutex::scoped_lock lm(_mutex);
 	for (auto const& i: _data) {
-		i.first->reset_metadata (film, player_video_container_size);
+		i.first->reset_metadata(film, player_video_container_size);
 	}
 }
 

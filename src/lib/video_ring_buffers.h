@@ -36,21 +36,21 @@ class PlayerVideo;
 class VideoRingBuffers
 {
 public:
-	VideoRingBuffers () {}
+	VideoRingBuffers() {}
 
-	VideoRingBuffers (VideoRingBuffers const&) = delete;
-	VideoRingBuffers& operator= (VideoRingBuffers const&) = delete;
+	VideoRingBuffers(VideoRingBuffers const&) = delete;
+	VideoRingBuffers& operator=(VideoRingBuffers const&) = delete;
 
-	void put (std::shared_ptr<PlayerVideo> frame, dcpomatic::DCPTime time);
-	std::pair<std::shared_ptr<PlayerVideo>, dcpomatic::DCPTime> get ();
+	void put(std::shared_ptr<PlayerVideo> frame, dcpomatic::DCPTime time);
+	std::pair<std::shared_ptr<PlayerVideo>, dcpomatic::DCPTime> get();
 
-	void clear ();
-	Frame size () const;
-	bool empty () const;
+	void clear();
+	Frame size() const;
+	bool empty() const;
 
-	void reset_metadata (std::shared_ptr<const Film> film, dcp::Size player_video_container_size);
+	void reset_metadata(std::shared_ptr<const Film> film, dcp::Size player_video_container_size);
 
-	std::pair<size_t, std::string> memory_used () const;
+	std::pair<size_t, std::string> memory_used() const;
 
 private:
 	mutable boost::mutex _mutex;
