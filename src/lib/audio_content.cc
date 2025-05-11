@@ -50,15 +50,6 @@ using boost::optional;
 using namespace dcpomatic;
 
 
-/** Something stream-related has changed */
-int const AudioContentProperty::STREAMS = 200;
-int const AudioContentProperty::GAIN = 201;
-int const AudioContentProperty::DELAY = 202;
-int const AudioContentProperty::FADE_IN = 203;
-int const AudioContentProperty::FADE_OUT = 204;
-int const AudioContentProperty::USE_SAME_FADES_AS_VIDEO = 205;
-
-
 AudioContent::AudioContent (Content* parent)
 	: ContentPart (parent)
 	, _delay (Config::instance()->default_audio_delay())

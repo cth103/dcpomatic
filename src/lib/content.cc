@@ -57,14 +57,6 @@ using dcp::locale_convert;
 using namespace dcpomatic;
 
 
-int const ContentProperty::PATH = 400;
-int const ContentProperty::POSITION = 401;
-int const ContentProperty::LENGTH = 402;
-int const ContentProperty::TRIM_START = 403;
-int const ContentProperty::TRIM_END = 404;
-int const ContentProperty::VIDEO_FRAME_RATE = 405;
-
-
 Content::Content(DCPTime p)
 	: _position(p)
 {

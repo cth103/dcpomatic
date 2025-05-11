@@ -84,19 +84,6 @@ using namespace boost::placeholders;
 using namespace dcpomatic;
 
 
-int const PlayerProperty::VIDEO_CONTAINER_SIZE = 700;
-int const PlayerProperty::PLAYLIST = 701;
-int const PlayerProperty::FILM_CONTAINER = 702;
-int const PlayerProperty::FILM_VIDEO_FRAME_RATE = 703;
-int const PlayerProperty::DCP_DECODE_REDUCTION = 704;
-int const PlayerProperty::PLAYBACK_LENGTH = 705;
-int const PlayerProperty::IGNORE_VIDEO = 706;
-int const PlayerProperty::IGNORE_AUDIO = 707;
-int const PlayerProperty::IGNORE_TEXT = 708;
-int const PlayerProperty::ALWAYS_BURN_OPEN_SUBTITLES = 709;
-int const PlayerProperty::PLAY_REFERENCED = 710;
-
-
 Player::Player(shared_ptr<const Film> film, Image::Alignment subtitle_alignment, bool tolerant)
 	: _film(film)
 	, _suspended(0)

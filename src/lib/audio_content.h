@@ -40,12 +40,13 @@
 class AudioContentProperty
 {
 public:
-	static int const STREAMS;
-	static int const GAIN;
-	static int const DELAY;
-	static int const FADE_IN;
-	static int const FADE_OUT;
-	static int const USE_SAME_FADES_AS_VIDEO;
+	/** Something stream-related has changed */
+	static int constexpr STREAMS = 200;
+	static int constexpr GAIN = 201;
+	static int constexpr DELAY = 202;
+	static int constexpr FADE_IN = 203;
+	static int constexpr FADE_OUT = 204;
+	static int constexpr USE_SAME_FADES_AS_VIDEO = 205;
 };
 
 

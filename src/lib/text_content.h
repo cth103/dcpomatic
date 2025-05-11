@@ -38,24 +38,24 @@ namespace dcpomatic {
 class TextContentProperty
 {
 public:
-	static int const X_OFFSET;
-	static int const Y_OFFSET;
-	static int const X_SCALE;
-	static int const Y_SCALE;
-	static int const USE;
-	static int const BURN;
-	static int const FONTS;
-	static int const COLOUR;
-	static int const EFFECT;
-	static int const EFFECT_COLOUR;
-	static int const LINE_SPACING;
-	static int const FADE_IN;
-	static int const FADE_OUT;
-	static int const OUTLINE_WIDTH;
-	static int const TYPE;
-	static int const DCP_TRACK;
-	static int const LANGUAGE;
-	static int const LANGUAGE_IS_ADDITIONAL;
+	static int constexpr X_OFFSET = 500;
+	static int constexpr Y_OFFSET = 501;
+	static int constexpr X_SCALE = 502;
+	static int constexpr Y_SCALE = 503;
+	static int constexpr USE = 504;
+	static int constexpr BURN = 505;
+	static int constexpr FONTS = 506;
+	static int constexpr COLOUR = 507;
+	static int constexpr EFFECT = 508;
+	static int constexpr EFFECT_COLOUR = 509;
+	static int constexpr LINE_SPACING = 510;
+	static int constexpr FADE_IN = 511;
+	static int constexpr FADE_OUT = 512;
+	static int constexpr OUTLINE_WIDTH = 513;
+	static int constexpr TYPE = 514;
+	static int constexpr DCP_TRACK = 515;
+	static int constexpr LANGUAGE = 516;
+	static int constexpr LANGUAGE_IS_ADDITIONAL = 517;
 };
 
 

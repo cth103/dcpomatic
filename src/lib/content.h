@@ -58,12 +58,12 @@ class VideoContent;
 class ContentProperty
 {
 public:
-	static int const PATH;
-	static int const POSITION;
-	static int const LENGTH;
-	static int const TRIM_START;
-	static int const TRIM_END;
-	static int const VIDEO_FRAME_RATE;
+	static int constexpr PATH = 400;
+	static int constexpr POSITION = 401;
+	static int constexpr LENGTH = 402;
+	static int constexpr TRIM_START = 403;
+	static int constexpr TRIM_END = 404;
+	static int constexpr VIDEO_FRAME_RATE = 405;
 };
 
 

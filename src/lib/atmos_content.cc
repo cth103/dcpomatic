@@ -32,9 +32,6 @@ using std::string;
 using std::shared_ptr;
 
 
-int const AtmosContentProperty::EDIT_RATE = 700;
-
-
 AtmosContent::AtmosContent (Content* parent)
 	: ContentPart (parent)
 	, _length (0)

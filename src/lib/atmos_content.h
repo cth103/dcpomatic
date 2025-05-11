@@ -30,7 +30,7 @@ class Content;
 class AtmosContentProperty
 {
 public:
-	static int const EDIT_RATE;
+	static int constexpr EDIT_RATE = 700;
 };
 
 

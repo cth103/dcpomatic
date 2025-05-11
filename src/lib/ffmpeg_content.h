@@ -43,11 +43,11 @@ struct audio_sampling_rate_test;
 class FFmpegContentProperty
 {
 public:
-	static int const SUBTITLE_STREAMS;
+	static int constexpr SUBTITLE_STREAMS = 100;
 	/** The chosen subtitle stream, or something about it */
-	static int const SUBTITLE_STREAM;
-	static int const FILTERS;
-	static int const KDM;
+	static int constexpr SUBTITLE_STREAM = 101;
+	static int constexpr FILTERS = 102;
+	static int constexpr KDM = 103;
 };
 
 

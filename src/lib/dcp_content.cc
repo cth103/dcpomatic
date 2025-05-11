@@ -66,16 +66,6 @@ using dcp::raw_convert;
 using namespace dcpomatic;
 
 
-int const DCPContentProperty::NEEDS_ASSETS       = 600;
-int const DCPContentProperty::NEEDS_KDM          = 601;
-int const DCPContentProperty::REFERENCE_VIDEO    = 602;
-int const DCPContentProperty::REFERENCE_AUDIO    = 603;
-int const DCPContentProperty::REFERENCE_TEXT     = 604;
-int const DCPContentProperty::NAME               = 605;
-int const DCPContentProperty::TEXTS              = 606;
-int const DCPContentProperty::CPL                = 607;
-
-
 DCPContent::DCPContent (boost::filesystem::path p)
 	: _encrypted (false)
 	, _needs_assets (false)

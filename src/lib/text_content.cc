@@ -44,26 +44,6 @@ using boost::optional;
 using namespace dcpomatic;
 
 
-int const TextContentProperty::X_OFFSET = 500;
-int const TextContentProperty::Y_OFFSET = 501;
-int const TextContentProperty::X_SCALE = 502;
-int const TextContentProperty::Y_SCALE = 503;
-int const TextContentProperty::USE = 504;
-int const TextContentProperty::BURN = 505;
-int const TextContentProperty::FONTS = 506;
-int const TextContentProperty::COLOUR = 507;
-int const TextContentProperty::EFFECT = 508;
-int const TextContentProperty::EFFECT_COLOUR = 509;
-int const TextContentProperty::LINE_SPACING = 510;
-int const TextContentProperty::FADE_IN = 511;
-int const TextContentProperty::FADE_OUT = 512;
-int const TextContentProperty::OUTLINE_WIDTH = 513;
-int const TextContentProperty::TYPE = 514;
-int const TextContentProperty::DCP_TRACK = 515;
-int const TextContentProperty::LANGUAGE = 516;
-int const TextContentProperty::LANGUAGE_IS_ADDITIONAL = 517;
-
-
 TextContent::TextContent(Content* parent, TextType type, TextType original_type)
 	: ContentPart(parent)
 	, _use(false)

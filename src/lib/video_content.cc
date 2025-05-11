@@ -41,19 +41,6 @@
 #include "i18n.h"
 
 
-int const VideoContentProperty::USE               = 0;
-int const VideoContentProperty::SIZE              = 1;
-int const VideoContentProperty::FRAME_TYPE        = 2;
-int const VideoContentProperty::CROP              = 3;
-int const VideoContentProperty::COLOUR_CONVERSION = 4;
-int const VideoContentProperty::FADE_IN           = 5;
-int const VideoContentProperty::FADE_OUT          = 6;
-int const VideoContentProperty::RANGE             = 7;
-int const VideoContentProperty::CUSTOM_RATIO      = 8;
-int const VideoContentProperty::CUSTOM_SIZE       = 9;
-int const VideoContentProperty::BURNT_SUBTITLE_LANGUAGE = 10;
-
-
 using std::cout;
 using std::dynamic_pointer_cast;
 using std::list;

@@ -45,17 +45,17 @@ class Content;
 class VideoContentProperty
 {
 public:
-	static int const USE;
-	static int const SIZE;
-	static int const FRAME_TYPE;
-	static int const CROP;
-	static int const COLOUR_CONVERSION;
-	static int const FADE_IN;
-	static int const FADE_OUT;
-	static int const RANGE;
-	static int const CUSTOM_RATIO;
-	static int const CUSTOM_SIZE;
-	static int const BURNT_SUBTITLE_LANGUAGE;
+	static int constexpr USE = 0;
+	static int constexpr SIZE = 1;
+	static int constexpr FRAME_TYPE = 2;
+	static int constexpr CROP = 3;
+	static int constexpr COLOUR_CONVERSION = 4;
+	static int constexpr FADE_IN = 5;
+	static int constexpr FADE_OUT = 6;
+	static int constexpr RANGE = 7;
+	static int constexpr CUSTOM_RATIO = 8;
+	static int constexpr CUSTOM_SIZE = 9;
+	static int constexpr BURNT_SUBTITLE_LANGUAGE = 10;
 };
 
 

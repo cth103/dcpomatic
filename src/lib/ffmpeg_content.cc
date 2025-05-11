@@ -62,12 +62,6 @@ using boost::optional;
 using namespace dcpomatic;
 
 
-int const FFmpegContentProperty::SUBTITLE_STREAMS = 100;
-int const FFmpegContentProperty::SUBTITLE_STREAM = 101;
-int const FFmpegContentProperty::FILTERS = 102;
-int const FFmpegContentProperty::KDM = 103;
-
-
 FFmpegContent::FFmpegContent (boost::filesystem::path p)
 	: Content (p)
 {

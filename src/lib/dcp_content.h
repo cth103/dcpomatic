@@ -43,14 +43,14 @@
 class DCPContentProperty
 {
 public:
-	static int const NEEDS_KDM;
-	static int const NEEDS_ASSETS;
-	static int const REFERENCE_VIDEO;
-	static int const REFERENCE_AUDIO;
-	static int const REFERENCE_TEXT;
-	static int const NAME;
-	static int const TEXTS;
-	static int const CPL;
+	static int constexpr NEEDS_KDM = 600;
+	static int constexpr NEEDS_ASSETS = 601;
+	static int constexpr REFERENCE_VIDEO = 602;
+	static int constexpr REFERENCE_AUDIO = 603;
+	static int constexpr REFERENCE_TEXT = 604;
+	static int constexpr NAME = 605;
+	static int constexpr TEXTS = 606;
+	static int constexpr CPL = 607;
 };
 
 

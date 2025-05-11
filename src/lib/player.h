@@ -59,17 +59,17 @@ class ReferencedReelAsset;
 class PlayerProperty
 {
 public:
-	static int const VIDEO_CONTAINER_SIZE;
-	static int const PLAYLIST;
-	static int const FILM_CONTAINER;
-	static int const FILM_VIDEO_FRAME_RATE;
-	static int const DCP_DECODE_REDUCTION;
-	static int const PLAYBACK_LENGTH;
-	static int const IGNORE_VIDEO;
-	static int const IGNORE_AUDIO;
-	static int const IGNORE_TEXT;
-	static int const ALWAYS_BURN_OPEN_SUBTITLES;
-	static int const PLAY_REFERENCED;
+	static int constexpr VIDEO_CONTAINER_SIZE = 800;
+	static int constexpr PLAYLIST = 801;
+	static int constexpr FILM_CONTAINER = 802;
+	static int constexpr FILM_VIDEO_FRAME_RATE = 803;
+	static int constexpr DCP_DECODE_REDUCTION = 804;
+	static int constexpr PLAYBACK_LENGTH = 805;
+	static int constexpr IGNORE_VIDEO = 806;
+	static int constexpr IGNORE_AUDIO = 808;
+	static int constexpr IGNORE_TEXT = 808;
+	static int constexpr ALWAYS_BURN_OPEN_SUBTITLES = 809;
+	static int constexpr PLAY_REFERENCED = 810;
 };
 
 
