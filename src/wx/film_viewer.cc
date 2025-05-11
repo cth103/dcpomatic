@@ -457,21 +457,22 @@ FilmViewer::player_change(vector<int> properties)
 	bool update_ccap_tracks = false;
 
 	for (auto i: properties) {
-		if (
-			i == VideoContentProperty::CROP ||
-			i == VideoContentProperty::CUSTOM_RATIO ||
-			i == VideoContentProperty::CUSTOM_SIZE ||
-			i == VideoContentProperty::FADE_IN ||
-			i == VideoContentProperty::FADE_OUT ||
-			i == VideoContentProperty::COLOUR_CONVERSION ||
-			i == PlayerProperty::VIDEO_CONTAINER_SIZE ||
-			i == PlayerProperty::FILM_CONTAINER
-		   ) {
+		switch (i) {
+		case VideoContentProperty::CROP:
+		case VideoContentProperty::CUSTOM_RATIO:
+		case VideoContentProperty::CUSTOM_SIZE:
+		case VideoContentProperty::FADE_IN:
+		case VideoContentProperty::FADE_OUT:
+		case VideoContentProperty::COLOUR_CONVERSION:
+		case PlayerProperty::VIDEO_CONTAINER_SIZE:
+		case PlayerProperty::FILM_CONTAINER:
 			try_quick_refresh = true;
-		}
-
-		if (i == TextContentProperty::USE || i == TextContentProperty::TYPE || i == TextContentProperty::DCP_TRACK) {
+			break;
+		case TextContentProperty::USE:
+		case TextContentProperty::TYPE:
+		case TextContentProperty::DCP_TRACK:
 			update_ccap_tracks = true;
+			break;
 		}
 	}
 

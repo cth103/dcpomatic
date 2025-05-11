@@ -344,9 +344,11 @@ AudioDialog::content_change (ChangeType type, int p)
 		return;
 	}
 
-	if (p == AudioContentProperty::STREAMS) {
+	switch (p) {
+	case AudioContentProperty::STREAMS:
 		try_to_load_analysis ();
-	} else if (p == AudioContentProperty::GAIN) {
+		break;
+	case AudioContentProperty::GAIN:
 		if (_playlist->content().size() == 1 && _analysis) {
 			/* We can use a short-cut to render the effect of this
 			   change, rather than recalculating everything.
@@ -356,6 +358,7 @@ AudioDialog::content_change (ChangeType type, int p)
 		} else {
 			try_to_load_analysis ();
 		}
+		break;
 	}
 }
 

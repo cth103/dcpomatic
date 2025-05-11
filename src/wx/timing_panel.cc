@@ -224,8 +224,9 @@ TimingPanel::film_content_changed (int property)
 	   properties, and fill the controls with that value if so.
 	*/
 
-	if (property == ContentProperty::POSITION) {
-
+	switch (property) {
+	case ContentProperty::POSITION:
+	{
 		set<DCPTime> check;
 		for (auto i: _parent->selected()) {
 			check.insert (i->position ());
@@ -236,17 +237,15 @@ TimingPanel::film_content_changed (int property)
 		} else {
 			_position->clear ();
 		}
-
-	} else if (
-		property == ContentProperty::LENGTH ||
-		property == ContentProperty::VIDEO_FRAME_RATE ||
-		property == VideoContentProperty::FRAME_TYPE
-		) {
-
+		break;
+	}
+	case ContentProperty::LENGTH:
+	case ContentProperty::VIDEO_FRAME_RATE:
+	case VideoContentProperty::FRAME_TYPE:
 		update_full_length ();
-
-	} else if (property == ContentProperty::TRIM_START) {
-
+		break;
+	case ContentProperty::TRIM_START:
+	{
 		set<ContentTime> check;
 		for (auto i: _parent->selected()) {
 			check.insert (i->trim_start ());
@@ -257,9 +256,10 @@ TimingPanel::film_content_changed (int property)
 		} else {
 			_trim_start->clear ();
 		}
-
-	} else if (property == ContentProperty::TRIM_END) {
-
+		break;
+	}
+	case ContentProperty::TRIM_END:
+	{
 		set<ContentTime> check;
 		for (auto i: _parent->selected()) {
 			check.insert (i->trim_end ());
@@ -270,17 +270,18 @@ TimingPanel::film_content_changed (int property)
 		} else {
 			_trim_end->clear ();
 		}
+		break;
+	}
 	}
 
-	if (
-		property == ContentProperty::LENGTH ||
-		property == ContentProperty::TRIM_START ||
-		property == ContentProperty::TRIM_END ||
-		property == ContentProperty::VIDEO_FRAME_RATE ||
-		property == VideoContentProperty::FRAME_TYPE
-		) {
-
+	switch (property) {
+	case ContentProperty::LENGTH:
+	case ContentProperty::TRIM_START:
+	case ContentProperty::TRIM_END:
+	case ContentProperty::VIDEO_FRAME_RATE:
+	case VideoContentProperty::FRAME_TYPE:
 		update_play_length ();
+		break;
 	}
 
 	if (property == ContentProperty::VIDEO_FRAME_RATE) {

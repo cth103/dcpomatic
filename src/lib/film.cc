@@ -1571,10 +1571,13 @@ Film::active_frame_rate_change(DCPTime t) const
 void
 Film::playlist_content_change(ChangeType type, weak_ptr<Content> c, int p, bool frequent)
 {
-	if (p == ContentProperty::VIDEO_FRAME_RATE) {
+	switch (p) {
+	case ContentProperty::VIDEO_FRAME_RATE:
 		signal_change(type, FilmProperty::CONTENT);
-	} else if (p == AudioContentProperty::STREAMS) {
+		break;
+	case AudioContentProperty::STREAMS:
 		signal_change(type, FilmProperty::NAME);
+		break;
 	}
 
 	if (type == ChangeType::DONE) {

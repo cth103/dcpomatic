@@ -214,8 +214,9 @@ AudioPanel::film_changed (FilmProperty property)
 void
 AudioPanel::film_content_changed (int property)
 {
-	auto ac = _parent->selected_audio ();
-	if (property == AudioContentProperty::STREAMS) {
+	auto const ac = _parent->selected_audio();
+	switch (property) {
+	case AudioContentProperty::STREAMS:
 		if (ac.size() == 1) {
 			_mapping->set (ac.front()->audio->mapping());
 			_mapping->set_input_channels (ac.front()->audio->channel_names ());
@@ -242,13 +243,17 @@ AudioPanel::film_content_changed (int property)
 		setup_description ();
 		setup_peak ();
 		layout ();
-	} else if (property == AudioContentProperty::GAIN) {
+		break;
+	case AudioContentProperty::GAIN:
 		/* This is a bit aggressive but probably not so bad */
 		_peak_cache.clear();
 		setup_peak ();
-	} else if (property == ContentProperty::VIDEO_FRAME_RATE) {
+		break;
+	case ContentProperty::VIDEO_FRAME_RATE:
 		setup_description ();
-	} else if (property == AudioContentProperty::FADE_IN) {
+		break;
+	case AudioContentProperty::FADE_IN:
+	{
 		set<Frame> check;
 		for (auto i: ac) {
 			check.insert (i->audio->fade_in().get());
@@ -262,7 +267,10 @@ AudioPanel::film_content_changed (int property)
 		} else {
 			_fade_in->clear ();
 		}
-	} else if (property == AudioContentProperty::FADE_OUT) {
+		break;
+	}
+	case AudioContentProperty::FADE_OUT:
+	{
 		set<Frame> check;
 		for (auto i: ac) {
 			check.insert (i->audio->fade_out().get());
@@ -276,7 +284,10 @@ AudioPanel::film_content_changed (int property)
 		} else {
 			_fade_out->clear ();
 		}
-	} else if (property == AudioContentProperty::USE_SAME_FADES_AS_VIDEO) {
+		break;
+	}
+	case AudioContentProperty::USE_SAME_FADES_AS_VIDEO:
+	{
 		set<bool> check;
 		for (auto i: ac) {
 			check.insert(i->audio->use_same_fades_as_video());
@@ -288,6 +299,8 @@ AudioPanel::film_content_changed (int property)
 			_use_same_fades_as_video->set(false);
 		}
 		setup_sensitivity ();
+		break;
+	}
 	}
 }
 

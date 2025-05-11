@@ -519,22 +519,24 @@ DCPPanel::film_changed(FilmProperty p)
 void
 DCPPanel::film_content_changed(int property)
 {
-	if (property == AudioContentProperty::STREAMS ||
-	    property == TextContentProperty::USE ||
-	    property == TextContentProperty::BURN ||
-	    property == TextContentProperty::LANGUAGE ||
-	    property == TextContentProperty::LANGUAGE_IS_ADDITIONAL ||
-	    property == TextContentProperty::TYPE ||
-	    property == TextContentProperty::DCP_TRACK ||
-	    property == VideoContentProperty::CUSTOM_RATIO ||
-	    property == VideoContentProperty::CUSTOM_SIZE ||
-	    property == VideoContentProperty::BURNT_SUBTITLE_LANGUAGE ||
-	    property == VideoContentProperty::CROP ||
-	    property == DCPContentProperty::REFERENCE_VIDEO ||
-	    property == DCPContentProperty::REFERENCE_AUDIO ||
-	    property == DCPContentProperty::REFERENCE_TEXT) {
+	switch (property) {
+	case AudioContentProperty::STREAMS:
+	case TextContentProperty::USE:
+	case TextContentProperty::BURN:
+	case TextContentProperty::LANGUAGE:
+	case TextContentProperty::LANGUAGE_IS_ADDITIONAL:
+	case TextContentProperty::TYPE:
+	case TextContentProperty::DCP_TRACK:
+	case VideoContentProperty::CUSTOM_RATIO:
+	case VideoContentProperty::CUSTOM_SIZE:
+	case VideoContentProperty::BURNT_SUBTITLE_LANGUAGE:
+	case VideoContentProperty::CROP:
+	case DCPContentProperty::REFERENCE_VIDEO:
+	case DCPContentProperty::REFERENCE_AUDIO:
+	case DCPContentProperty::REFERENCE_TEXT:
 		setup_dcp_name();
 		setup_sensitivity();
+		break;
 	}
 }
 

@@ -412,7 +412,8 @@ TextPanel::film_content_changed (int property)
 		text = scs->text_of_original_type(_original_type);
 	}
 
-	if (property == FFmpegContentProperty::SUBTITLE_STREAMS) {
+	switch (property) {
+	case FFmpegContentProperty::SUBTITLE_STREAMS:
 		_stream->Clear ();
 		if (fcs) {
 			for (auto i: fcs->subtitle_streams()) {
@@ -427,11 +428,13 @@ TextPanel::film_content_changed (int property)
 		}
 		setup_sensitivity ();
 		clear_outline_subtitles ();
-	} else if (property == TextContentProperty::USE) {
+		break;
+	case TextContentProperty::USE:
 		checked_set (_use, text ? text->use() : false);
 		setup_sensitivity ();
 		clear_outline_subtitles ();
-	} else if (property == TextContentProperty::TYPE) {
+		break;
+	case TextContentProperty::TYPE:
 		if (text) {
 			_type->set_by_data(text_type_to_string(text->type()));
 		} else {
@@ -439,39 +442,49 @@ TextPanel::film_content_changed (int property)
 		}
 		setup_sensitivity ();
 		setup_visibility ();
-	} else if (property == TextContentProperty::BURN) {
+		break;
+	case TextContentProperty::BURN:
 		checked_set (_burn, text ? text->burn() : false);
-	} else if (property == TextContentProperty::X_OFFSET) {
+		break;
+	case TextContentProperty::X_OFFSET:
 		checked_set (_x_offset, text ? lrint (text->x_offset() * 100) : 0);
 		update_outline_subtitles_in_viewer ();
-	} else if (property == TextContentProperty::Y_OFFSET) {
+		break;
+	case TextContentProperty::Y_OFFSET:
 		checked_set (_y_offset, text ? lrint (text->y_offset() * 100) : 0);
 		update_outline_subtitles_in_viewer ();
-	} else if (property == TextContentProperty::X_SCALE) {
+		break;
+	case TextContentProperty::X_SCALE:
 		checked_set (_x_scale, text ? lrint (text->x_scale() * 100) : 100);
 		clear_outline_subtitles ();
-	} else if (property == TextContentProperty::Y_SCALE) {
+		break;
+	case TextContentProperty::Y_SCALE:
 		checked_set (_y_scale, text ? lrint (text->y_scale() * 100) : 100);
 		clear_outline_subtitles ();
-	} else if (property == TextContentProperty::LINE_SPACING) {
+		break;
+	case TextContentProperty::LINE_SPACING:
 		checked_set (_line_spacing, text ? lrint (text->line_spacing() * 100) : 100);
 		clear_outline_subtitles ();
-	} else if (property == TextContentProperty::DCP_TRACK) {
+		break;
+	case TextContentProperty::DCP_TRACK:
 		if (_dcp_track) {
 			update_dcp_track_selection ();
 		}
-	} else if (property == TextContentProperty::LANGUAGE) {
+		break;
+	case TextContentProperty::LANGUAGE:
 		if (_language) {
 			_language->set (text ? text->language() : boost::none);
 		}
-	} else if (property == TextContentProperty::LANGUAGE_IS_ADDITIONAL) {
+		break;
+	case TextContentProperty::LANGUAGE_IS_ADDITIONAL:
 		if (_language_type) {
 			_language_type->SetSelection (text ? (text->language_is_additional() ? 1 : 0) : 0);
 		}
-	} else if (property == DCPContentProperty::TEXTS) {
+		break;
+	case DCPContentProperty::TEXTS:
+	case ContentProperty::TRIM_START:
 		setup_sensitivity ();
-	} else if (property == ContentProperty::TRIM_START) {
-		setup_sensitivity ();
+		break;
 	}
 }
 

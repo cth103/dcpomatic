@@ -335,13 +335,21 @@ ContentTimeline::film_content_change(ChangeType type, int property, bool frequen
 
 	ensure_ui_thread ();
 
-	if (property == AudioContentProperty::STREAMS || property == VideoContentProperty::FRAME_TYPE) {
+	switch (property) {
+	case AudioContentProperty::STREAMS:
+	case VideoContentProperty::FRAME_TYPE:
 		recreate_views ();
-	} else if (property == ContentProperty::POSITION || property == ContentProperty::LENGTH) {
+		break;
+	case ContentProperty::POSITION:
+	case ContentProperty::LENGTH:
 		_reels_view->force_redraw ();
-	} else if (!frequent) {
-		setup_scrollbars ();
-		Refresh ();
+		break;
+	default:
+		if (!frequent) {
+			setup_scrollbars ();
+			Refresh ();
+		}
+		break;
 	}
 }
 

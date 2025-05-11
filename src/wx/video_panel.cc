@@ -379,11 +379,14 @@ VideoPanel::film_content_changed(int property)
 		fcs = dynamic_pointer_cast<FFmpegContent>(vcs);
 	}
 
-	if (property == ContentProperty::VIDEO_FRAME_RATE ||
-	    property == VideoContentProperty::FRAME_TYPE ||
-	    property == VideoContentProperty::CROP) {
+	switch (property) {
+	case ContentProperty::VIDEO_FRAME_RATE:
+	case VideoContentProperty::FRAME_TYPE:
+	case VideoContentProperty::CROP:
 		setup_description();
-	} else if (property == VideoContentProperty::COLOUR_CONVERSION) {
+		break;
+	case VideoContentProperty::COLOUR_CONVERSION:
+	{
 		boost::unordered_set<optional<ColourConversion>> check;
 		for (auto i: vc) {
 			check.insert(i->video->colour_conversion());
@@ -417,10 +420,13 @@ VideoPanel::film_content_changed(int property)
 		}
 
 		setup_sensitivity();
-
-	} else if (property == VideoContentProperty::USE) {
+		break;
+	}
+	case VideoContentProperty::USE:
 		setup_sensitivity();
-	} else if (property == VideoContentProperty::FADE_IN) {
+		break;
+	case VideoContentProperty::FADE_IN:
+	{
 		set<Frame> check;
 		for (auto i: vc) {
 			check.insert(i->video->fade_in());
@@ -434,7 +440,10 @@ VideoPanel::film_content_changed(int property)
 		} else {
 			_fade_in->clear();
 		}
-	} else if (property == VideoContentProperty::FADE_OUT) {
+		break;
+	}
+	case VideoContentProperty::FADE_OUT:
+	{
 		set<Frame> check;
 		for (auto i: vc) {
 			check.insert(i->video->fade_out());
@@ -448,7 +457,9 @@ VideoPanel::film_content_changed(int property)
 		} else {
 			_fade_out->clear();
 		}
-	} else if (property == VideoContentProperty::RANGE) {
+		break;
+	}
+	case VideoContentProperty::RANGE:
 		if (vcs) {
 			checked_set(_range, vcs->video->range() == VideoRange::FULL ? 0 : 1);
 		} else {
@@ -456,7 +467,10 @@ VideoPanel::film_content_changed(int property)
 		}
 
 		setup_sensitivity();
-	} else if (property == VideoContentProperty::CUSTOM_RATIO || property == VideoContentProperty::CUSTOM_SIZE) {
+		break;
+	case VideoContentProperty::CUSTOM_RATIO:
+	case VideoContentProperty::CUSTOM_SIZE:
+	{
 		set<Frame> check;
 		for (auto i: vc) {
 			check.insert(i->video->custom_ratio() || i->video->custom_size());
@@ -471,12 +485,13 @@ VideoPanel::film_content_changed(int property)
 		}
 		setup_sensitivity();
 		setup_description();
-	} else if (
-		property == DCPContentProperty::REFERENCE_VIDEO ||
-		property == DCPContentProperty::REFERENCE_AUDIO ||
-		property == DCPContentProperty::REFERENCE_TEXT
-		) {
+		break;
+	}
+	case DCPContentProperty::REFERENCE_VIDEO:
+	case DCPContentProperty::REFERENCE_AUDIO:
+	case DCPContentProperty::REFERENCE_TEXT:
 		setup_sensitivity();
+		break;
 	}
 }
 
