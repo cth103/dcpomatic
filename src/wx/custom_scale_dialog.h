@@ -31,15 +31,15 @@ LIBDCP_ENABLE_WARNINGS
 class CustomScaleDialog : public TableDialog
 {
 public:
-	CustomScaleDialog (wxWindow* parent, dcp::Size initial, dcp::Size film_container, boost::optional<float> custom_ratio, boost::optional<dcp::Size> custom_size);
+	CustomScaleDialog(wxWindow* parent, dcp::Size initial, dcp::Size film_container, boost::optional<float> custom_ratio, boost::optional<dcp::Size> custom_size);
 
-	boost::optional<float> custom_ratio () const;
-	boost::optional<dcp::Size> custom_size () const;
+	boost::optional<float> custom_ratio() const;
+	boost::optional<dcp::Size> custom_size() const;
 
 private:
-	void update_size_from_ratio ();
-	void update_ratio_from_size ();
-	void setup_sensitivity ();
+	void update_size_from_ratio();
+	void update_ratio_from_size();
+	void setup_sensitivity();
 
 	wxRadioButton* _ratio_to_fit;
 	wxTextCtrl* _ratio;
