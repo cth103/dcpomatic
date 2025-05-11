@@ -381,9 +381,7 @@ VideoPanel::film_content_changed(int property)
 
 	if (property == ContentProperty::VIDEO_FRAME_RATE ||
 	    property == VideoContentProperty::FRAME_TYPE ||
-	    property == VideoContentProperty::CROP ||
-	    property == VideoContentProperty::CUSTOM_RATIO ||
-	    property == VideoContentProperty::CUSTOM_SIZE) {
+	    property == VideoContentProperty::CROP) {
 		setup_description();
 	} else if (property == VideoContentProperty::COLOUR_CONVERSION) {
 		boost::unordered_set<optional<ColourConversion>> check;
@@ -472,6 +470,7 @@ VideoPanel::film_content_changed(int property)
 			checked_set(_scale_custom, false);
 		}
 		setup_sensitivity();
+		setup_description();
 	} else if (
 		property == DCPContentProperty::REFERENCE_VIDEO ||
 		property == DCPContentProperty::REFERENCE_AUDIO ||
