@@ -48,11 +48,11 @@ LIBDCP_ENABLE_WARNINGS
 #include <set>
 
 
-using std::string;
+using std::dynamic_pointer_cast;
 using std::set;
 using std::shared_ptr;
+using std::string;
 using std::weak_ptr;
-using std::dynamic_pointer_cast;
 using boost::optional;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
@@ -61,21 +61,21 @@ using dcp::locale_convert;
 using namespace dcpomatic;
 
 
-TimingPanel::TimingPanel (ContentPanel* p, FilmViewer& viewer)
+TimingPanel::TimingPanel(ContentPanel* p, FilmViewer& viewer)
 	/* horrid hack for apparent lack of context support with wxWidgets i18n code */
 	/// TRANSLATORS: translate the word "Timing" here; do not include the "Timing|" prefix
-	: ContentSubPanel (p, S_("Timing|Timing"))
-	, _viewer (viewer)
-	, _film_content_changed_suspender (boost::bind(&TimingPanel::film_content_changed, this, _1))
+	: ContentSubPanel(p, S_("Timing|Timing"))
+	, _viewer(viewer)
+	, _film_content_changed_suspender(boost::bind(&TimingPanel::film_content_changed, this, _1))
 {
 
 }
 
 
 void
-TimingPanel::create ()
+TimingPanel::create()
 {
-	wxSize size = TimecodeBase::size (this);
+	wxSize size = TimecodeBase::size(this);
 
 	for (int i = 0; i < 3; ++i) {
 		_colon[i] = create_label(this, char_to_wx(":"), false);
@@ -86,9 +86,9 @@ TimingPanel::create ()
 	//// TRANSLATORS: this is an abbreviation for "minutes"
 	_label.push_back(new StaticText(this, _("m"), wxDefaultPosition, size, wxALIGN_CENTRE_HORIZONTAL));
 	//// TRANSLATORS: this is an abbreviation for "seconds"
-	_label.push_back(new StaticText (this, _("s"), wxDefaultPosition, size, wxALIGN_CENTRE_HORIZONTAL));
+	_label.push_back(new StaticText(this, _("s"), wxDefaultPosition, size, wxALIGN_CENTRE_HORIZONTAL));
 	//// TRANSLATORS: this is an abbreviation for "frames"
-	_label.push_back(new StaticText (this, _("f"), wxDefaultPosition, size, wxALIGN_CENTRE_HORIZONTAL));
+	_label.push_back(new StaticText(this, _("f"), wxDefaultPosition, size, wxALIGN_CENTRE_HORIZONTAL));
 
 	if (GetLayoutDirection() == wxLayout_RightToLeft) {
 		std::reverse(_label.begin(), _label.end());
@@ -101,39 +101,39 @@ TimingPanel::create ()
 	}
 #endif
 
-	_position_label = create_label (this, _("Position"), true);
-	_position = new Timecode<DCPTime> (this);
-	_move_to_start_of_reel = new Button (this, _("Move to start of reel"));
-	_full_length_label = create_label (this, _("Full length"), true);
-	_full_length = new Timecode<DCPTime> (this);
-	_trim_start_label = create_label (this, _("Trim from start"), true);
-	_trim_start = new Timecode<ContentTime> (this);
-	_trim_start_to_playhead = new Button (this, _("Trim up to current position"));
-	_trim_end_label = create_label (this, _("Trim from end"), true);
-	_trim_end = new Timecode<ContentTime> (this);
-	_trim_end_to_playhead = new Button (this, _("Trim from current position to end"));
-	_play_length_label = create_label (this, _("Play length"), true);
-	_play_length = new Timecode<DCPTime> (this);
+	_position_label = create_label(this, _("Position"), true);
+	_position = new Timecode<DCPTime>(this);
+	_move_to_start_of_reel = new Button(this, _("Move to start of reel"));
+	_full_length_label = create_label(this, _("Full length"), true);
+	_full_length = new Timecode<DCPTime>(this);
+	_trim_start_label = create_label(this, _("Trim from start"), true);
+	_trim_start = new Timecode<ContentTime>(this);
+	_trim_start_to_playhead = new Button(this, _("Trim up to current position"));
+	_trim_end_label = create_label(this, _("Trim from end"), true);
+	_trim_end = new Timecode<ContentTime>(this);
+	_trim_end_to_playhead = new Button(this, _("Trim from current position to end"));
+	_play_length_label = create_label(this, _("Play length"), true);
+	_play_length = new Timecode<DCPTime>(this);
 
-	_position->Changed.connect    (boost::bind (&TimingPanel::position_changed, this));
-	_move_to_start_of_reel->Bind  (wxEVT_BUTTON, boost::bind (&TimingPanel::move_to_start_of_reel_clicked, this));
-	_full_length->Changed.connect (boost::bind (&TimingPanel::full_length_changed, this));
-	_trim_start->Changed.connect  (boost::bind (&TimingPanel::trim_start_changed, this));
-	_trim_start_to_playhead->Bind (wxEVT_BUTTON, boost::bind (&TimingPanel::trim_start_to_playhead_clicked, this));
-	_trim_end->Changed.connect    (boost::bind (&TimingPanel::trim_end_changed, this));
-	_trim_end_to_playhead->Bind   (wxEVT_BUTTON, boost::bind (&TimingPanel::trim_end_to_playhead_clicked, this));
-	_play_length->Changed.connect (boost::bind (&TimingPanel::play_length_changed, this));
+	_position->Changed.connect   (boost::bind(&TimingPanel::position_changed, this));
+	_move_to_start_of_reel->Bind (wxEVT_BUTTON, boost::bind(&TimingPanel::move_to_start_of_reel_clicked, this));
+	_full_length->Changed.connect(boost::bind(&TimingPanel::full_length_changed, this));
+	_trim_start->Changed.connect (boost::bind(&TimingPanel::trim_start_changed, this));
+	_trim_start_to_playhead->Bind(wxEVT_BUTTON, boost::bind(&TimingPanel::trim_start_to_playhead_clicked, this));
+	_trim_end->Changed.connect   (boost::bind(&TimingPanel::trim_end_changed, this));
+	_trim_end_to_playhead->Bind  (wxEVT_BUTTON, boost::bind(&TimingPanel::trim_end_to_playhead_clicked, this));
+	_play_length->Changed.connect(boost::bind(&TimingPanel::play_length_changed, this));
 
 	_viewer.ImageChanged.connect(boost::bind(&TimingPanel::setup_sensitivity, this));
 
-	setup_sensitivity ();
-	add_to_grid ();
+	setup_sensitivity();
+	add_to_grid();
 
-	_sizer->Layout ();
+	_sizer->Layout();
 }
 
 void
-TimingPanel::add_to_grid ()
+TimingPanel::add_to_grid()
 {
 	int r = 0;
 
@@ -145,80 +145,80 @@ TimingPanel::add_to_grid ()
 			add_label_to_sizer(labels, _colon[index++], false);
 		}
 	}
-	_grid->Add (labels, wxGBPosition(r, 1));
+	_grid->Add(labels, wxGBPosition(r, 1));
 	++r;
 
-	add_label_to_sizer (_grid, _position_label, true, wxGBPosition(r, 0));
-	_grid->Add (_position, wxGBPosition(r, 1));
+	add_label_to_sizer(_grid, _position_label, true, wxGBPosition(r, 0));
+	_grid->Add(_position, wxGBPosition(r, 1));
 	++r;
 
-	_grid->Add (_move_to_start_of_reel, wxGBPosition(r, 1));
+	_grid->Add(_move_to_start_of_reel, wxGBPosition(r, 1));
 	++r;
 
-	add_label_to_sizer (_grid, _full_length_label, true, wxGBPosition(r, 0));
-	_grid->Add (_full_length, wxGBPosition(r, 1));
+	add_label_to_sizer(_grid, _full_length_label, true, wxGBPosition(r, 0));
+	_grid->Add(_full_length, wxGBPosition(r, 1));
 	++r;
 
-	add_label_to_sizer (_grid, _trim_start_label, true, wxGBPosition(r, 0));
-	_grid->Add (_trim_start, wxGBPosition(r, 1));
+	add_label_to_sizer(_grid, _trim_start_label, true, wxGBPosition(r, 0));
+	_grid->Add(_trim_start, wxGBPosition(r, 1));
 	++r;
 
-	_grid->Add (_trim_start_to_playhead, wxGBPosition(r, 1));
+	_grid->Add(_trim_start_to_playhead, wxGBPosition(r, 1));
 	++r;
 
-	add_label_to_sizer (_grid, _trim_end_label, true, wxGBPosition(r, 0));
-	_grid->Add (_trim_end, wxGBPosition(r, 1));
+	add_label_to_sizer(_grid, _trim_end_label, true, wxGBPosition(r, 0));
+	_grid->Add(_trim_end, wxGBPosition(r, 1));
 	++r;
 
-	_grid->Add (_trim_end_to_playhead, wxGBPosition(r, 1));
+	_grid->Add(_trim_end_to_playhead, wxGBPosition(r, 1));
 	++r;
 
-	add_label_to_sizer (_grid, _play_length_label, true, wxGBPosition(r, 0));
-	_grid->Add (_play_length, wxGBPosition(r, 1));
+	add_label_to_sizer(_grid, _play_length_label, true, wxGBPosition(r, 0));
+	_grid->Add(_play_length, wxGBPosition(r, 1));
 	++r;
 
 	/* Completely speculative fix for #891 */
-	_grid->Layout ();
+	_grid->Layout();
 }
 
 void
-TimingPanel::update_full_length ()
+TimingPanel::update_full_length()
 {
 	set<DCPTime> check;
 	for (auto i: _parent->selected()) {
-		check.insert (i->full_length(_parent->film()));
+		check.insert(i->full_length(_parent->film()));
 	}
 
 	if (check.size() == 1) {
-		_full_length->set (_parent->selected().front()->full_length(_parent->film()), _parent->film()->video_frame_rate());
+		_full_length->set(_parent->selected().front()->full_length(_parent->film()), _parent->film()->video_frame_rate());
 	} else {
-		_full_length->clear ();
+		_full_length->clear();
 	}
 }
 
 void
-TimingPanel::update_play_length ()
+TimingPanel::update_play_length()
 {
 	set<DCPTime> check;
 	for (auto i: _parent->selected()) {
-		check.insert (i->length_after_trim(_parent->film()));
+		check.insert(i->length_after_trim(_parent->film()));
 	}
 
 	if (check.size() == 1) {
-		_play_length->set (_parent->selected().front()->length_after_trim(_parent->film()), _parent->film()->video_frame_rate());
+		_play_length->set(_parent->selected().front()->length_after_trim(_parent->film()), _parent->film()->video_frame_rate());
 	} else {
-		_play_length->clear ();
+		_play_length->clear();
 	}
 }
 
 void
-TimingPanel::film_content_changed (int property)
+TimingPanel::film_content_changed(int property)
 {
 	if (_film_content_changed_suspender.check(property)) {
 		return;
 	}
 
-	int const film_video_frame_rate = _parent->film()->video_frame_rate ();
+	int const film_video_frame_rate = _parent->film()->video_frame_rate();
 
 	/* Here we check to see if we have exactly one different value of various
 	   properties, and fill the controls with that value if so.
@@ -229,32 +229,32 @@ TimingPanel::film_content_changed (int property)
 	{
 		set<DCPTime> check;
 		for (auto i: _parent->selected()) {
-			check.insert (i->position ());
+			check.insert(i->position());
 		}
 
 		if (check.size() == 1) {
-			_position->set (_parent->selected().front()->position(), film_video_frame_rate);
+			_position->set(_parent->selected().front()->position(), film_video_frame_rate);
 		} else {
-			_position->clear ();
+			_position->clear();
 		}
 		break;
 	}
 	case ContentProperty::LENGTH:
 	case ContentProperty::VIDEO_FRAME_RATE:
 	case VideoContentProperty::FRAME_TYPE:
-		update_full_length ();
+		update_full_length();
 		break;
 	case ContentProperty::TRIM_START:
 	{
 		set<ContentTime> check;
 		for (auto i: _parent->selected()) {
-			check.insert (i->trim_start ());
+			check.insert(i->trim_start());
 		}
 
 		if (check.size() == 1) {
-			_trim_start->set (_parent->selected().front()->trim_start (), film_video_frame_rate);
+			_trim_start->set(_parent->selected().front()->trim_start(), film_video_frame_rate);
 		} else {
-			_trim_start->clear ();
+			_trim_start->clear();
 		}
 		break;
 	}
@@ -262,13 +262,13 @@ TimingPanel::film_content_changed (int property)
 	{
 		set<ContentTime> check;
 		for (auto i: _parent->selected()) {
-			check.insert (i->trim_end ());
+			check.insert(i->trim_end());
 		}
 
 		if (check.size() == 1) {
-			_trim_end->set (_parent->selected().front()->trim_end (), film_video_frame_rate);
+			_trim_end->set(_parent->selected().front()->trim_end(), film_video_frame_rate);
 		} else {
-			_trim_end->clear ();
+			_trim_end->clear();
 		}
 		break;
 	}
@@ -280,7 +280,7 @@ TimingPanel::film_content_changed (int property)
 	case ContentProperty::TRIM_END:
 	case ContentProperty::VIDEO_FRAME_RATE:
 	case VideoContentProperty::FRAME_TYPE:
-		update_play_length ();
+		update_play_length();
 		break;
 	}
 
@@ -289,7 +289,7 @@ TimingPanel::film_content_changed (int property)
 		shared_ptr<const Content> content;
 		for (auto i: _parent->selected()) {
 			if (i->video && i->video_frame_rate()) {
-				check_vc.insert (i->video_frame_rate().get());
+				check_vc.insert(i->video_frame_rate().get());
 				content = i;
 			}
 			if (i->audio && i->video_frame_rate()) {
@@ -304,41 +304,41 @@ TimingPanel::film_content_changed (int property)
 
 	bool have_still = false;
 	for (auto i: _parent->selected()) {
-		shared_ptr<const ImageContent> ic = dynamic_pointer_cast<const ImageContent> (i);
-		if (ic && ic->still ()) {
+		auto ic = dynamic_pointer_cast<const ImageContent>(i);
+		if (ic && ic->still()) {
 			have_still = true;
 		}
 	}
 
-	_full_length->set_editable (have_still);
-	_play_length->set_editable (!have_still);
-	setup_sensitivity ();
+	_full_length->set_editable(have_still);
+	_play_length->set_editable(!have_still);
+	setup_sensitivity();
 }
 
 void
-TimingPanel::position_changed ()
+TimingPanel::position_changed()
 {
-	DCPTime const pos = _position->get (_parent->film()->video_frame_rate ());
+	DCPTime const pos = _position->get(_parent->film()->video_frame_rate());
 	for (auto i: _parent->selected()) {
-		i->set_position (_parent->film(), pos);
+		i->set_position(_parent->film(), pos);
 	}
 }
 
 void
-TimingPanel::full_length_changed ()
+TimingPanel::full_length_changed()
 {
-	int const vfr = _parent->film()->video_frame_rate ();
-	Frame const len = _full_length->get (vfr).frames_round (vfr);
+	int const vfr = _parent->film()->video_frame_rate();
+	Frame const len = _full_length->get(vfr).frames_round(vfr);
 	for (auto i: _parent->selected()) {
-		shared_ptr<ImageContent> ic = dynamic_pointer_cast<ImageContent> (i);
-		if (ic && ic->still ()) {
-			ic->video->set_length (len);
+		shared_ptr<ImageContent> ic = dynamic_pointer_cast<ImageContent>(i);
+		if (ic && ic->still()) {
+			ic->video->set_length(len);
 		}
 	}
 }
 
 void
-TimingPanel::trim_start_changed ()
+TimingPanel::trim_start_changed()
 {
 	DCPTime const ph = _viewer.position();
 
@@ -348,7 +348,7 @@ TimingPanel::trim_start_changed ()
 	optional<FrameRateChange> ref_frc;
 	optional<DCPTime> ref_ph;
 
-	Suspender::Block bl = _film_content_changed_suspender.block ();
+	Suspender::Block bl = _film_content_changed_suspender.block();
 	for (auto i: _parent->selected()) {
 		if (i->position() <= ph && ph < i->end(_parent->film())) {
 			/* The playhead is in i.  Use it as a reference to work out
@@ -356,11 +356,11 @@ TimingPanel::trim_start_changed ()
 			   at the same frame of content that we're looking at pre-trim.
 			*/
 			ref = i;
-			ref_frc = _parent->film()->active_frame_rate_change (i->position ());
-			ref_ph = ph - i->position() + DCPTime (i->trim_start(), ref_frc.get());
+			ref_frc = _parent->film()->active_frame_rate_change(i->position());
+			ref_ph = ph - i->position() + DCPTime(i->trim_start(), ref_frc.get());
 		}
 
-		ContentTime const trim = _trim_start->get (i->video_frame_rate().get_value_or(_parent->film()->video_frame_rate()));
+		auto const trim = _trim_start->get(i->video_frame_rate().get_value_or(_parent->film()->video_frame_rate()));
 		i->set_trim_start(_parent->film(), trim);
 	}
 
@@ -372,14 +372,14 @@ TimingPanel::trim_start_changed ()
 }
 
 void
-TimingPanel::trim_end_changed ()
+TimingPanel::trim_end_changed()
 {
 	_viewer.set_coalesce_player_changes(true);
 
-	Suspender::Block bl = _film_content_changed_suspender.block ();
+	Suspender::Block bl = _film_content_changed_suspender.block();
 	for (auto i: _parent->selected()) {
-		ContentTime const trim = _trim_end->get (i->video_frame_rate().get_value_or(_parent->film()->video_frame_rate()));
-		i->set_trim_end (trim);
+		auto const trim = _trim_end->get(i->video_frame_rate().get_value_or(_parent->film()->video_frame_rate()));
+		i->set_trim_end(trim);
 	}
 
 	/* XXX: maybe playhead-off-the-end-of-the-film should be handled elsewhere */
@@ -391,53 +391,53 @@ TimingPanel::trim_end_changed ()
 }
 
 void
-TimingPanel::play_length_changed ()
+TimingPanel::play_length_changed()
 {
-	DCPTime const play_length = _play_length->get (_parent->film()->video_frame_rate());
-	Suspender::Block bl = _film_content_changed_suspender.block ();
+	DCPTime const play_length = _play_length->get(_parent->film()->video_frame_rate());
+	Suspender::Block bl = _film_content_changed_suspender.block();
 	for (auto i: _parent->selected()) {
-		FrameRateChange const frc = _parent->film()->active_frame_rate_change (i->position ());
+		auto const frc = _parent->film()->active_frame_rate_change(i->position());
 		auto dcp = max(DCPTime(), i->full_length(_parent->film()) - play_length);
-		i->set_trim_end (max(ContentTime(), ContentTime(dcp, frc) - i->trim_start()));
+		i->set_trim_end(max(ContentTime(), ContentTime(dcp, frc) - i->trim_start()));
 	}
 }
 
 
 void
-TimingPanel::content_selection_changed ()
+TimingPanel::content_selection_changed()
 {
-	setup_sensitivity ();
+	setup_sensitivity();
 
-	film_content_changed (ContentProperty::POSITION);
-	film_content_changed (ContentProperty::LENGTH);
-	film_content_changed (ContentProperty::TRIM_START);
-	film_content_changed (ContentProperty::TRIM_END);
-	film_content_changed (ContentProperty::VIDEO_FRAME_RATE);
+	film_content_changed(ContentProperty::POSITION);
+	film_content_changed(ContentProperty::LENGTH);
+	film_content_changed(ContentProperty::TRIM_START);
+	film_content_changed(ContentProperty::TRIM_END);
+	film_content_changed(ContentProperty::VIDEO_FRAME_RATE);
 }
 
 void
 TimingPanel::film_changed(FilmProperty p)
 {
 	if (p == FilmProperty::VIDEO_FRAME_RATE) {
-		update_full_length ();
-		update_play_length ();
+		update_full_length();
+		update_play_length();
 	}
 }
 
 void
-TimingPanel::trim_start_to_playhead_clicked ()
+TimingPanel::trim_start_to_playhead_clicked()
 {
-	auto film = _parent->film ();
-	DCPTime const ph = _viewer.position().floor(film->video_frame_rate());
+	auto film = _parent->film();
+	auto const ph = _viewer.position().floor(film->video_frame_rate());
 	optional<DCPTime> new_ph;
 
 	_viewer.set_coalesce_player_changes(true);
 
 	for (auto i: _parent->selected()) {
 		if (i->position() < ph && ph < i->end(film)) {
-			FrameRateChange const frc = film->active_frame_rate_change (i->position());
+			auto const frc = film->active_frame_rate_change(i->position());
 			i->set_trim_start(film, i->trim_start() + ContentTime(ph - i->position(), frc));
-			new_ph = i->position ();
+			new_ph = i->position();
 		}
 	}
 
@@ -449,29 +449,29 @@ TimingPanel::trim_start_to_playhead_clicked ()
 }
 
 void
-TimingPanel::trim_end_to_playhead_clicked ()
+TimingPanel::trim_end_to_playhead_clicked()
 {
-	auto film = _parent->film ();
+	auto film = _parent->film();
 	auto const ph = _viewer.position().floor(film->video_frame_rate());
 	for (auto i: _parent->selected()) {
 		if (i->position() < ph && ph < i->end(film)) {
-			FrameRateChange const frc = film->active_frame_rate_change (i->position ());
-			i->set_trim_end (ContentTime(i->position() + i->full_length(film) - ph, frc) - i->trim_start());
+			auto const frc = film->active_frame_rate_change(i->position());
+			i->set_trim_end(ContentTime(i->position() + i->full_length(film) - ph, frc) - i->trim_start());
 		}
 	}
 }
 
 void
-TimingPanel::setup_sensitivity ()
+TimingPanel::setup_sensitivity()
 {
-	bool const e = !_parent->selected().empty ();
+	bool const e = !_parent->selected().empty();
 
-	_position->Enable (e);
-	_move_to_start_of_reel->Enable (e);
-	_full_length->Enable (e);
-	_trim_start->Enable (e);
-	_trim_end->Enable (e);
-	_play_length->Enable (e);
+	_position->Enable(e);
+	_move_to_start_of_reel->Enable(e);
+	_full_length->Enable(e);
+	_trim_start->Enable(e);
+	_trim_end->Enable(e);
+	_play_length->Enable(e);
 
 	auto const ph = _viewer.position();
 	bool any_over_ph = false;
@@ -481,12 +481,12 @@ TimingPanel::setup_sensitivity ()
 		}
 	}
 
-	_trim_start_to_playhead->Enable (any_over_ph);
-	_trim_end_to_playhead->Enable (any_over_ph);
+	_trim_start_to_playhead->Enable(any_over_ph);
+	_trim_end_to_playhead->Enable(any_over_ph);
 }
 
 void
-TimingPanel::move_to_start_of_reel_clicked ()
+TimingPanel::move_to_start_of_reel_clicked()
 {
 	/* Find common position of all selected content, if it exists */
 
@@ -496,7 +496,7 @@ TimingPanel::move_to_start_of_reel_clicked ()
 			position = i->position();
 		} else {
 			if (position.get() != i->position()) {
-				position.reset ();
+				position.reset();
 				break;
 			}
 		}

@@ -29,24 +29,24 @@ class TimingPanel : public ContentSubPanel
 public:
 	TimingPanel(ContentPanel *, FilmViewer& viewer);
 
-	void create () override;
+	void create() override;
 	void film_changed(FilmProperty) override;
-	void film_content_changed (int) override;
-	void content_selection_changed () override;
+	void film_content_changed(int) override;
+	void content_selection_changed() override;
 
 private:
-	void position_changed ();
-	void move_to_start_of_reel_clicked ();
-	void full_length_changed ();
-	void trim_start_changed ();
-	void trim_start_to_playhead_clicked ();
-	void trim_end_changed ();
-	void trim_end_to_playhead_clicked ();
-	void play_length_changed ();
-	void update_full_length ();
-	void update_play_length ();
-	void setup_sensitivity ();
-	void add_to_grid () override;
+	void position_changed();
+	void move_to_start_of_reel_clicked();
+	void full_length_changed();
+	void trim_start_changed();
+	void trim_start_to_playhead_clicked();
+	void trim_end_changed();
+	void trim_end_to_playhead_clicked();
+	void play_length_changed();
+	void update_full_length();
+	void update_play_length();
+	void setup_sensitivity();
+	void add_to_grid() override;
 
 	FilmViewer& _viewer;
 
