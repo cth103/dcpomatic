@@ -31,9 +31,9 @@ class wxHtmlLinkEvent;
 class HTMLDialog : public wxDialog
 {
 public:
-	HTMLDialog (wxWindow* parent, wxString title, wxString html, bool ok = false);
+	HTMLDialog(wxWindow* parent, wxString title, wxString html, bool ok = false);
 	~HTMLDialog();
 
 private:
-	void link_clicked (wxHtmlLinkEvent& ev);
+	void link_clicked(wxHtmlLinkEvent& ev);
 };

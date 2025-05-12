@@ -35,10 +35,10 @@ using namespace boost::placeholders;
 #endif
 
 
-HTMLDialog::HTMLDialog (wxWindow* parent, wxString title, wxString html, bool ok)
-	: wxDialog (parent, wxID_ANY, title)
+HTMLDialog::HTMLDialog(wxWindow* parent, wxString title, wxString html, bool ok)
+	: wxDialog(parent, wxID_ANY, title)
 {
-	auto sizer = new wxBoxSizer (wxVERTICAL);
+	auto sizer = new wxBoxSizer(wxVERTICAL);
 
 	wxFileSystem::AddHandler(new wxMemoryFSHandler);
 
@@ -48,7 +48,7 @@ HTMLDialog::HTMLDialog (wxWindow* parent, wxString title, wxString html, bool ok
 		wxBitmap(bitmap_path("me.jpg"), wxBITMAP_TYPE_JPEG), wxBITMAP_TYPE_JPEG
 		);
 
-	auto h = new wxHtmlWindow (this);
+	auto h = new wxHtmlWindow(this);
 
 	if (gui_is_dark()) {
 		h->SetPage(wxString::Format(char_to_wx("<body text=\"white\">%s</body>"), html));
@@ -57,18 +57,18 @@ HTMLDialog::HTMLDialog (wxWindow* parent, wxString title, wxString html, bool ok
 		h->SetPage(html);
 	}
 
-	sizer->Add (h, 1, wxEXPAND | wxALL, 6);
+	sizer->Add(h, 1, wxEXPAND | wxALL, 6);
 
-	h->Bind (wxEVT_HTML_LINK_CLICKED, boost::bind(&HTMLDialog::link_clicked, this, _1));
+	h->Bind(wxEVT_HTML_LINK_CLICKED, boost::bind(&HTMLDialog::link_clicked, this, _1));
 
-	SetSizer (sizer);
-	sizer->Layout ();
+	SetSizer(sizer);
+	sizer->Layout();
 
 	/* Set width */
-	SetSize (800, -1);
+	SetSize(800, -1);
 
 	/* Set height */
-	SetSize (h->GetInternalRepresentation()->GetWidth(), h->GetInternalRepresentation()->GetHeight() + 256);
+	SetSize(h->GetInternalRepresentation()->GetWidth(), h->GetInternalRepresentation()->GetHeight() + 256);
 
 	if (ok) {
 		auto buttons = CreateSeparatedButtonSizer(wxOK);
@@ -86,7 +86,7 @@ HTMLDialog::~HTMLDialog()
 
 
 void
-HTMLDialog::link_clicked (wxHtmlLinkEvent& ev)
+HTMLDialog::link_clicked(wxHtmlLinkEvent& ev)
 {
 	wxLaunchDefaultBrowser(ev.GetLinkInfo().GetHref());
 }
