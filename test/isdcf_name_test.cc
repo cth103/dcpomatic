@@ -169,6 +169,18 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 	film->set_name ("LIKE SHOUTING");
 	BOOST_CHECK_EQUAL (film->isdcf_name(false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_MOS_4K_DI_20140704_PPF_SMPTE_OV");
 
+	/* And one with underscores */
+
+	film->set_name("LIKE_SHOUTING");
+	BOOST_CHECK_EQUAL(film->isdcf_name(false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_MOS_4K_DI_20140704_PPF_SMPTE_OV");
+
+	/* And one with hyphens */
+
+	film->set_name("LIKE-SHOUTING");
+	BOOST_CHECK_EQUAL(film->isdcf_name(false), "LIKE-SHOUTING_XSN-2_F-133_DE-fr_US-R_MOS_4K_DI_20140704_PPF_SMPTE_OV");
+
+	film->set_name("LIKE_SHOUTING");
+
 	/* Test audio channel markup */
 
 	film->set_audio_channels (6);
