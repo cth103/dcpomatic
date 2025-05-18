@@ -57,11 +57,7 @@ using namespace dcpomatic;
 
 
 /* Some of these tests produce slightly different outputs on different platforms / OS versions.
- * I'm not sure of the cause of these differences, but as it happens the tests on Ubuntu 24.04
- * produce the same results as on macOS, while the Ubuntu 22.04 results are slightly different.
- * Hence the hacks in this file to check for DCPOMATIC_OSX or the Ubuntu 24.04 version of Pango
- * (22.04 uses Pango 1.52.1, 24.04 is 1.50.6, macOS is 1.51.0).  Maybe it has nothing to do
- * with Pango, of course...
+ * I don't know why...
  */
 
 
@@ -80,7 +76,7 @@ BOOST_AUTO_TEST_CASE (burnt_subtitle_test_subrip)
 
 #if defined(DCPOMATIC_WINDOWS)
 	check_dcp("test/data/windows/burnt_subtitle_test_subrip", film);
-#elif defined(DCPOMATIC_OSX) || PANGO_VERSION_CHECK(1, 52, 1)
+#elif defined(DCPOMATIC_OSX)
 	check_dcp("test/data/mac/burnt_subtitle_test_subrip", film);
 #else
 	check_dcp("test/data/burnt_subtitle_test_subrip", film);
@@ -143,7 +139,7 @@ BOOST_AUTO_TEST_CASE (burnt_subtitle_test_onto_dcp)
 
 #if defined(DCPOMATIC_WINDOWS)
 	check_dcp("test/data/windows/burnt_subtitle_test_onto_dcp2", film2);
-#elif defined(DCPOMATIC_OSX) || PANGO_VERSION_CHECK(1, 52, 1)
+#elif defined(DCPOMATIC_OSX)
 	check_dcp("test/data/mac/burnt_subtitle_test_onto_dcp2", film2);
 #else
 	check_dcp("test/data/burnt_subtitle_test_onto_dcp2", film2);
@@ -172,7 +168,7 @@ BOOST_AUTO_TEST_CASE(burnt_subtitle_test_position)
 
 #if defined(DCPOMATIC_WINDOWS)
 		check_dcp(String::compose("test/data/windows/%1", name), film);
-#elif defined(DCPOMATIC_OSX) || PANGO_VERSION_CHECK(1, 52, 1)
+#elif defined(DCPOMATIC_OSX)
 		check_dcp(String::compose("test/data/mac/%1", name), film);
 #else
 		check_dcp(String::compose("test/data/%1", name), film);
