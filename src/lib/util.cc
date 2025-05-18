@@ -136,6 +136,7 @@ using namespace dcpomatic;
  */
 string program_name;
 bool is_batch_converter = false;
+bool running_tests = false;
 static boost::thread::id ui_thread;
 static boost::filesystem::path backtrace_file;
 
@@ -458,18 +459,22 @@ LIBDCP_ENABLE_WARNINGS
 
 #ifdef DCPOMATIC_WINDOWS
 	putenv("PANGOCAIRO_BACKEND=fontconfig");
-	if (dcp::filesystem::exists(resources_path() / "fonts.conf")) {
-		/* The actual application after installation */
-		putenv(String::compose("FONTCONFIG_PATH=%1", resources_path().string()).c_str());
+	if (running_tests) {
+		putenv("FONTCONFIG_PATH=fonts");
 	} else {
-		/* The place where fonts.conf is during tests */
-		putenv("FONTCONFIG_PATH=build\\fonts");
+		putenv(String::compose("FONTCONFIG_PATH=%1", resources_path().string()).c_str());
 	}
 #endif
 
 #ifdef DCPOMATIC_OSX
 	setenv("PANGOCAIRO_BACKEND", "fontconfig", 1);
-	setenv("FONTCONFIG_PATH", resources_path().string().c_str(), 1);
+	boost::filesystem::path fontconfig;
+	if (running_tests) {
+		fontconfig = directory_containing_executable().parent_path().parent_path() / "fonts";
+	} else {
+		fontconfig = resources_path();
+	}
+	setenv("FONTCONFIG_PATH", fontconfig.string().c_str(), 1);
 #endif
 
 	Pango::init();
@@ -1042,29 +1047,13 @@ decrypt_kdm_with_helpful_error(dcp::EncryptedKDM kdm)
 boost::filesystem::path
 default_font_file()
 {
-	boost::filesystem::path liberation_normal;
-	try {
-		liberation_normal = resources_path() / "LiberationSans-Regular.ttf";
-		if (!dcp::filesystem::exists(liberation_normal)) {
-			/* Hack for unit tests */
-			liberation_normal = resources_path() / "fonts" / "LiberationSans-Regular.ttf";
-		}
-	} catch (boost::filesystem::filesystem_error& e) {
-
+	if (running_tests) {
+		auto const liberation = directory_containing_executable().parent_path().parent_path() / "fonts" / "LiberationSans-Regular.ttf";
+		DCPOMATIC_ASSERT(dcp::filesystem::exists(liberation));
+		return liberation;
 	}
 
-	if (!dcp::filesystem::exists(liberation_normal)) {
-		liberation_normal = "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf";
-	}
-	if (!dcp::filesystem::exists(liberation_normal)) {
-		liberation_normal = "/usr/share/fonts/liberation-sans/LiberationSans-Regular.ttf";
-	}
-	if (!dcp::filesystem::exists(liberation_normal)) {
-		/* Fedora 41 puts it here */
-		liberation_normal = "/usr/share/fonts/liberation-sans-fonts/LiberationSans-Regular.ttf";
-	}
-
-	return liberation_normal;
+	return resources_path() / "LiberationSans-Regular.ttf";
 }
 
 

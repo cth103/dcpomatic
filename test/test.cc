@@ -156,6 +156,7 @@ struct TestConfig
 {
 	TestConfig ()
 	{
+		running_tests = true;
 		State::override_path = "build/test/state";
 		boost::filesystem::remove_all (*State::override_path);
 

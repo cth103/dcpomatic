@@ -25,6 +25,7 @@
 #include "dcpomatic_log.h"
 #include "exceptions.h"
 #include "log.h"
+#include "util.h"
 #include "variant.h"
 #include <dcp/filesystem.h>
 #include <glib.h>
@@ -99,7 +100,11 @@ resources_path()
 boost::filesystem::path
 libdcp_resources_path()
 {
-	return resources_path();
+	if (running_tests) {
+		return directory_containing_executable();
+	} else {
+		return resources_path();
+	}
 }
 
 

@@ -26,6 +26,7 @@
 #include "dcpomatic_log.h"
 #include "exceptions.h"
 #include "log.h"
+#include "util.h"
 #include <dcp/filesystem.h>
 #include <dcp/raw_convert.h>
 #include <dcp/warnings.h>
@@ -90,6 +91,7 @@ resources_path ()
 		return installed;
 	}
 
+	/* Fallback for running from the source tree */
 	return directory_containing_executable().parent_path().parent_path().parent_path();
 }
 
@@ -97,6 +99,10 @@ resources_path ()
 boost::filesystem::path
 libdcp_resources_path ()
 {
+	if (running_tests) {
+		return directory_containing_executable();
+	}
+
 	if (auto appdir = getenv("APPDIR")) {
 		return boost::filesystem::path(appdir) / "usr" / "share" / "libdcp";
 	}

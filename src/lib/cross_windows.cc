@@ -229,7 +229,11 @@ resources_path()
 boost::filesystem::path
 libdcp_resources_path()
 {
-	return resources_path();
+	if (running_tests) {
+		return directory_containing_executable();
+	} else {
+		return resources_path();
+	}
 }
 
 

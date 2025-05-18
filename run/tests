@@ -58,6 +58,9 @@ done
 if [ "$(uname)" == "Linux" ]; then 
     rm -f build/test/dcpomatic2_openssl
     mkdir -p build/test
+    cp -r ../libdcp/tags build/test
+    cp -r ../libdcp/xsd build/test
+    cp ../libdcp/ratings build/test
     # This must be our patched openssl or tests will fail
     if [ ! -f build/test/dcpomatic2_openssl ]; then
         ln -s ../../../openssl/apps/openssl build/test/dcpomatic2_openssl
@@ -75,13 +78,9 @@ if [ "$(uname)" == "Linux" ]; then
 fi
 
 if [ "$(uname)" == "Darwin" ]; then
-    resources=build/Resources
-    rm -rf $resources
-    mkdir -p $resources
-    cp fonts/*.ttf $resources
-    cp -r ../libdcp/tags $resources
-    cp -r ../libdcp/xsd $resources
-    cp ../libdcp/ratings $resources
+    cp -r ../libdcp/tags build/test
+    cp -r ../libdcp/xsd build/test
+    cp ../libdcp/ratings build/test
     rm -f build/test/openssl
     ln -s ../../../openssl/apps/openssl build/test/openssl
     # We need to find ffcmp in here
