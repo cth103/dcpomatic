@@ -1053,6 +1053,10 @@ default_font_file()
 		return liberation;
 	}
 
+#ifdef DCPOMATIC_DEBUG
+	return directory_containing_executable().parent_path().parent_path().parent_path() / "fonts" / "LiberationSans-Regular.ttf";
+#endif
+
 	return resources_path() / "LiberationSans-Regular.ttf";
 }
 
