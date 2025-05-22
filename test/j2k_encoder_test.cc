@@ -75,7 +75,7 @@ BOOST_AUTO_TEST_CASE(j2k_encoder_deadlock_test)
 				Eyes::BOTH,
 				Part::WHOLE,
 				optional<ColourConversion>(),
-				VideoRange::VIDEO,
+				VideoRange::FULL,
 				weak_ptr<Content>(),
 				optional<dcpomatic::ContentTime>(),
 				false

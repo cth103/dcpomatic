@@ -827,7 +827,7 @@ check_ffmpeg (boost::filesystem::path ref, boost::filesystem::path check, int au
 }
 
 void
-check_one_frame (boost::filesystem::path dcp_dir, int64_t index, boost::filesystem::path ref)
+check_one_frame(boost::filesystem::path dcp_dir, int64_t index, boost::filesystem::path ref, int tolerance)
 {
 	dcp::DCP dcp (dcp_dir);
 	dcp.read ();
@@ -845,11 +845,11 @@ check_one_frame (boost::filesystem::path dcp_dir, int64_t index, boost::filesyst
 	for (int y = 0; y < ref_image->size().height; ++y) {
 		for (int x = 0; x < ref_image->size().width; ++x) {
 			auto x_error = std::abs(ref_image->data(0)[off] - image->data(0)[off]);
-			BOOST_REQUIRE_MESSAGE(x_error == 0, "x component at " << x << "," << y << " differs by " << x_error);
+			BOOST_REQUIRE_MESSAGE(x_error <= tolerance, "x component at " << x << "," << y << " differs by " << x_error);
 			auto y_error = std::abs(ref_image->data(1)[off] - image->data(1)[off]);
-			BOOST_REQUIRE_MESSAGE(y_error == 0, "y component at " << x << "," << y << " differs by " << y_error);
+			BOOST_REQUIRE_MESSAGE(y_error <= tolerance, "y component at " << x << "," << y << " differs by " << y_error);
 			auto z_error = std::abs(ref_image->data(2)[off] - image->data(2)[off]);
-			BOOST_REQUIRE_MESSAGE(z_error == 0, "z component at " << x << "," << y << " differs by " << z_error);
+			BOOST_REQUIRE_MESSAGE(z_error <= tolerance, "z component at " << x << "," << y << " differs by " << z_error);
 			++off;
 		}
 	}

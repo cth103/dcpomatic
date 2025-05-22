@@ -101,8 +101,8 @@ DCPVideo::convert_to_xyz(shared_ptr<const PlayerVideo> frame)
 {
 	shared_ptr<dcp::OpenJPEGImage> xyz;
 
-	auto image = frame->image(bind(&PlayerVideo::keep_xyz_or_rgb, _1), VideoRange::FULL, false);
 	if (frame->colour_conversion()) {
+		auto image = frame->image([](AVPixelFormat) { return AV_PIX_FMT_RGB48LE; }, VideoRange::FULL, false);
 		xyz = dcp::rgb_to_xyz(
 			image->data()[0],
 			image->size(),
@@ -110,6 +110,7 @@ DCPVideo::convert_to_xyz(shared_ptr<const PlayerVideo> frame)
 			frame->colour_conversion().get()
 			);
 	} else {
+		auto image = frame->image([](AVPixelFormat) { return AV_PIX_FMT_XYZ12LE; }, VideoRange::FULL, false);
 		xyz = make_shared<dcp::OpenJPEGImage>(image->data()[0], image->size(), image->stride()[0]);
 	}
 
