@@ -128,16 +128,16 @@ DCPVideo::get_size() const
 void
 DCPVideo::convert_to_xyz(uint16_t* dst) const
 {
-	auto image = _frame->image(bind(&PlayerVideo::keep_xyz_or_rgb, _1), VideoRange::FULL, false);
-	if (_frame->colour_conversion()) {
-		dcp::rgb_to_xyz(
-			image->data()[0],
-			dst,
-			image->size(),
-			image->stride()[0],
-			_frame->colour_conversion().get()
-			);
-	}
+	DCPOMATIC_ASSERT(_frame->colour_conversion());
+
+	auto image = _frame->image([](AVPixelFormat) { return AV_PIX_FMT_RGB48LE; }, VideoRange::FULL, false);
+	dcp::rgb_to_xyz(
+		image->data()[0],
+		dst,
+		image->size(),
+		image->stride()[0],
+		_frame->colour_conversion().get()
+		);
 }
 
 
