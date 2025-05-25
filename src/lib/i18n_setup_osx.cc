@@ -24,6 +24,7 @@
 #include <fmt/format.h>
 #include <boost/filesystem.hpp>
 #include <libintl.h>
+#include <CoreFoundation/CoreFoundation.h>
 
 
 using std::string;
@@ -47,11 +48,26 @@ dcpomatic::setup_i18n(string forced_language)
 		putenv(strdup(s.c_str()));
 		s = fmt::format("LANG={}", forced_language);
 		putenv(strdup(s.c_str()));
-		s = fmt::format("LC_ALL={}", forced_language);
-		putenv(strdup(s.c_str()));
 	}
 
+	auto get_locale_value = [](CFLocaleKey key) {
+		CFLocaleRef cflocale = CFLocaleCopyCurrent();
+		auto value = (CFStringRef) CFLocaleGetValue(cflocale, key);
+		char buffer[64];
+		CFStringGetCString(value, buffer, sizeof(buffer), kCFStringEncodingUTF8);
+		CFRelease(cflocale);
+		return string(buffer);
+	};
+
+	/* We want to keep using the user's macOS-configured locale, partly because this feels
+	 * like the right thing to do but mostly because that's what the wxWidgets side will do,
+	 * and we must agree.
+	 */
+	auto lc = fmt::format("LC_ALL={}_{}", get_locale_value(kCFLocaleLanguageCode), get_locale_value(kCFLocaleCountryCode));
+	putenv(strdup(lc.c_str()));
+
 	setlocale(LC_ALL, "");
+
 	textdomain("libdcpomatic2");
 
 	bindtextdomain("libdcpomatic2", mo_path().string().c_str());
