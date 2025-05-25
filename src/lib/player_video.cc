@@ -116,7 +116,7 @@ PlayerVideo::set_text (PositionImage image)
 
 
 shared_ptr<Image>
-PlayerVideo::image (function<AVPixelFormat (AVPixelFormat)> pixel_format, VideoRange video_range, bool fast) const
+PlayerVideo::image(AVPixelFormat pixel_format, VideoRange video_range, bool fast) const
 {
 	/* XXX: this assumes that image() and prepare() are only ever called with the same parameters (except crop, inter size, out size, fade) */
 
@@ -136,13 +136,11 @@ PlayerVideo::raw_image () const
 
 
 /** Create an image for this frame.  A lock must be held on _mutex.
- *  @param pixel_format Function which is called to decide what pixel format the output image should be;
- *  it is passed the pixel format of the input image from the ImageProxy, and should return the desired
- *  output pixel format.  Two functions force and keep_xyz_or_rgb are provided for use here.
+ *  @param pixel_format Output image pixel format.
  *  @param fast true to be fast at the expense of quality.
  */
 void
-PlayerVideo::make_image (function<AVPixelFormat (AVPixelFormat)> pixel_format, VideoRange video_range, bool fast) const
+PlayerVideo::make_image(AVPixelFormat pixel_format, VideoRange video_range, bool fast) const
 {
 	_image_crop = _crop;
 	_image_inter_size = _inter_size;
@@ -185,7 +183,7 @@ PlayerVideo::make_image (function<AVPixelFormat (AVPixelFormat)> pixel_format, V
 	}
 
 	_image = prox.image->crop_scale_window (
-		total_crop, _inter_size, _out_size, yuv_to_rgb, _video_range, pixel_format (prox.image->pixel_format()), video_range, Image::Alignment::COMPACT, fast
+		total_crop, _inter_size, _out_size, yuv_to_rgb, _video_range, pixel_format, video_range, Image::Alignment::COMPACT, fast
 		);
 
 	if (_text) {
@@ -297,21 +295,8 @@ PlayerVideo::same (shared_ptr<const PlayerVideo> other) const
 }
 
 
-AVPixelFormat
-PlayerVideo::force (AVPixelFormat force_to)
-{
-	return force_to;
-}
-
-AVPixelFormat
-PlayerVideo::keep_xyz_or_rgb (AVPixelFormat p)
-{
-	return p == AV_PIX_FMT_XYZ12LE ? AV_PIX_FMT_XYZ12LE : AV_PIX_FMT_RGB48LE;
-}
-
-
 void
-PlayerVideo::prepare (function<AVPixelFormat (AVPixelFormat)> pixel_format, VideoRange video_range, Image::Alignment alignment, bool fast, bool proxy_only)
+PlayerVideo::prepare(AVPixelFormat pixel_format, VideoRange video_range, Image::Alignment alignment, bool fast, bool proxy_only)
 {
 	_in->prepare (alignment, _inter_size);
 	boost::mutex::scoped_lock lm (_mutex);

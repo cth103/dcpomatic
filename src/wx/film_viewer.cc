@@ -247,7 +247,7 @@ FilmViewer::create_butler()
 		*_player,
 		Config::instance()->audio_mapping(_audio_channels),
 		_audio_channels,
-		boost::bind(&PlayerVideo::force, AV_PIX_FMT_RGB24),
+		AV_PIX_FMT_RGB24,
 		VideoRange::FULL,
 		(opengl && _optimisation != Optimisation::NONE) ? Image::Alignment::COMPACT : Image::Alignment::PADDED,
 		true,

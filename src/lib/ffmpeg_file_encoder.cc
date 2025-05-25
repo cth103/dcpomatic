@@ -417,11 +417,7 @@ void
 FFmpegFileEncoder::video (shared_ptr<PlayerVideo> video, DCPTime time)
 {
 	/* All our output formats are video range at the moment */
-	auto image = video->image (
-		bind (&PlayerVideo::force, _pixel_format),
-		VideoRange::VIDEO,
-		false
-		);
+	auto image = video->image(_pixel_format, VideoRange::VIDEO, false);
 
 	auto frame = av_frame_alloc ();
 	DCPOMATIC_ASSERT (frame);

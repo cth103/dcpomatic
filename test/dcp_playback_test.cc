@@ -28,10 +28,6 @@
 
 
 using std::make_shared;
-using std::make_shared;
-#if BOOST_VERSION >= 106100
-using namespace boost::placeholders;
-#endif
 using namespace dcpomatic;
 
 
@@ -48,7 +44,7 @@ BOOST_AUTO_TEST_CASE (dcp_playback_test)
 		player,
 		AudioMapping(6, 6),
 		6,
-		boost::bind(&PlayerVideo::force, AV_PIX_FMT_RGB24),
+		AV_PIX_FMT_RGB24,
 		VideoRange::FULL,
 		Image::Alignment::PADDED,
 		true,
@@ -64,6 +60,6 @@ BOOST_AUTO_TEST_CASE (dcp_playback_test)
 		}
 		/* assuming DCP is 24fps/48kHz */
 		butler->get_audio (Butler::Behaviour::BLOCKING, audio_buffer.data(), 2000);
-		p.first->image(boost::bind(&PlayerVideo::force, AV_PIX_FMT_RGB24), VideoRange::FULL, true);
+		p.first->image(AV_PIX_FMT_RGB24, VideoRange::FULL, true);
 	}
 }

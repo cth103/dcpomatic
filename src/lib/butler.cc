@@ -31,7 +31,6 @@
 
 
 using std::cout;
-using std::function;
 using std::make_pair;
 using std::pair;
 using std::shared_ptr;
@@ -65,7 +64,7 @@ Butler::Butler(
 	Player& player,
 	AudioMapping audio_mapping,
 	int audio_channels,
-	function<AVPixelFormat (AVPixelFormat)> pixel_format,
+	AVPixelFormat pixel_format,
 	VideoRange video_range,
 	Image::Alignment alignment,
 	bool fast,

@@ -127,7 +127,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_image_video_range_expanded)
 		BOOST_REQUIRE (!player->pass());
 	}
 
-	auto image = player_video->image ([](AVPixelFormat f) { return f; }, VideoRange::FULL, false);
+	auto image = player_video->image(AV_PIX_FMT_RGB24, VideoRange::FULL, false);
 
 	for (int y = 0; y < size.height; ++y) {
 		uint8_t* p = image->data()[0] + y * image->stride()[0];

@@ -71,7 +71,7 @@ FFmpegFilmEncoder::FFmpegFilmEncoder(
 		_player,
 		mixdown_to_stereo ? stereo_map() : many_channel_map(),
 		_output_audio_channels,
-		boost::bind(&PlayerVideo::force, FFmpegFileEncoder::pixel_format(format)),
+		FFmpegFileEncoder::pixel_format(format),
 		VideoRange::VIDEO,
 		Image::Alignment::PADDED,
 		false,

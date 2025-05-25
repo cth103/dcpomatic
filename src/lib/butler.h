@@ -55,7 +55,7 @@ public:
 		Player& player,
 		AudioMapping map,
 		int audio_channels,
-		std::function<AVPixelFormat(AVPixelFormat)> pixel_format,
+		AVPixelFormat pixel_format,
 		VideoRange video_range,
 		Image::Alignment alignment,
 		bool fast,
@@ -135,7 +135,7 @@ private:
 
 	bool _disable_audio;
 
-	std::function<AVPixelFormat (AVPixelFormat)> _pixel_format;
+	AVPixelFormat _pixel_format;
 	VideoRange _video_range;
 	Image::Alignment _alignment;
 	bool _fast;

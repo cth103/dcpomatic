@@ -217,7 +217,7 @@ BOOST_AUTO_TEST_CASE (player_seek_test)
 	player.set_play_referenced();
 
 	auto butler = std::make_shared<Butler>(
-		film, player, AudioMapping(), 2, bind(PlayerVideo::force, AV_PIX_FMT_RGB24), VideoRange::FULL, Image::Alignment::PADDED, true, false, Butler::Audio::DISABLED
+		film, player, AudioMapping(), 2, AV_PIX_FMT_RGB24, VideoRange::FULL, Image::Alignment::PADDED, true, false, Butler::Audio::DISABLED
 		);
 
 	for (int i = 0; i < 10; ++i) {
@@ -225,7 +225,7 @@ BOOST_AUTO_TEST_CASE (player_seek_test)
 		butler->seek (t, true);
 		auto video = butler->get_video(Butler::Behaviour::BLOCKING, 0);
 		BOOST_CHECK_EQUAL(video.second.get(), t.get());
-		write_image(video.first->image(bind(PlayerVideo::force, AV_PIX_FMT_RGB24), VideoRange::FULL, true), String::compose("build/test/player_seek_test_%1.png", i));
+		write_image(video.first->image(AV_PIX_FMT_RGB24, VideoRange::FULL, true), String::compose("build/test/player_seek_test_%1.png", i));
 		/* This 14.08 is empirically chosen (hopefully) to accept changes in rendering between the reference and a test machine
 		   (17.10 and 16.04 seem to anti-alias a little differently) but to reject gross errors e.g. missing fonts or missing
 		   text altogether.
@@ -250,7 +250,7 @@ BOOST_AUTO_TEST_CASE (player_seek_test2)
 	player.set_play_referenced();
 
 	auto butler = std::make_shared<Butler>
-		(film, player, AudioMapping(), 2, bind(PlayerVideo::force, AV_PIX_FMT_RGB24), VideoRange::FULL, Image::Alignment::PADDED, true, false, Butler::Audio::DISABLED
+		(film, player, AudioMapping(), 2, AV_PIX_FMT_RGB24, VideoRange::FULL, Image::Alignment::PADDED, true, false, Butler::Audio::DISABLED
 		 );
 
 	butler->seek(DCPTime::from_seconds(5), true);
@@ -261,7 +261,7 @@ BOOST_AUTO_TEST_CASE (player_seek_test2)
 		auto video = butler->get_video(Butler::Behaviour::BLOCKING, 0);
 		BOOST_CHECK_EQUAL(video.second.get(), t.get());
 		write_image(
-			video.first->image(bind(PlayerVideo::force, AV_PIX_FMT_RGB24), VideoRange::FULL, true), String::compose("build/test/player_seek_test2_%1.png", i)
+			video.first->image(AV_PIX_FMT_RGB24, VideoRange::FULL, true), String::compose("build/test/player_seek_test2_%1.png", i)
 			);
 		check_image(TestPaths::private_data() / String::compose("player_seek_test2_%1.png", i), String::compose("build/test/player_seek_test2_%1.png", i), 14.08);
 	}
@@ -342,7 +342,7 @@ BOOST_AUTO_TEST_CASE (player_trim_crash)
 	Player player(film, Image::Alignment::COMPACT, false);
 	player.set_fast();
 	auto butler = std::make_shared<Butler>(
-		film, player, AudioMapping(), 6, bind(&PlayerVideo::force, AV_PIX_FMT_RGB24), VideoRange::FULL, Image::Alignment::COMPACT, true, false, Butler::Audio::ENABLED
+		film, player, AudioMapping(), 6, AV_PIX_FMT_RGB24, VideoRange::FULL, Image::Alignment::COMPACT, true, false, Butler::Audio::ENABLED
 		);
 
 	/* Wait for the butler to fill */
@@ -473,7 +473,7 @@ BOOST_AUTO_TEST_CASE (encrypted_dcp_with_no_kdm_gives_no_butler_error)
 	auto film2 = new_test_film("encrypted_dcp_with_no_kdm_gives_no_butler_error2", { content2 });
 
 	Player player(film, Image::Alignment::COMPACT, false);
-	Butler butler(film2, player, AudioMapping(), 2, bind(PlayerVideo::force, AV_PIX_FMT_RGB24), VideoRange::FULL, Image::Alignment::PADDED, true, false, Butler::Audio::ENABLED);
+	Butler butler(film2, player, AudioMapping(), 2, AV_PIX_FMT_RGB24, VideoRange::FULL, Image::Alignment::PADDED, true, false, Butler::Audio::ENABLED);
 
 	float buffer[2000 * 6];
 	for (int i = 0; i < length; ++i) {
@@ -619,7 +619,7 @@ BOOST_AUTO_TEST_CASE(two_d_in_three_d_duplicates)
 		}
 		last_time = time;
 
-		auto image = video->image([](AVPixelFormat) { return AV_PIX_FMT_RGB24; }, VideoRange::FULL, false);
+		auto image = video->image(AV_PIX_FMT_RGB24, VideoRange::FULL, false);
 		auto const size = image->size();
 		for (int y = 0; y < size.height; ++y) {
 			uint8_t* line = image->data()[0] + y * image->stride()[0];
@@ -669,7 +669,7 @@ BOOST_AUTO_TEST_CASE(three_d_in_two_d_chooses_left)
 		BOOST_CHECK(!last_time || time == *last_time + DCPTime::from_frames(1, 24));
 		last_time = time;
 
-		auto image = video->image([](AVPixelFormat) { return AV_PIX_FMT_RGB24; }, VideoRange::FULL, false);
+		auto image = video->image(AV_PIX_FMT_RGB24, VideoRange::FULL, false);
 		auto const size = image->size();
 		for (int y = 0; y < size.height; ++y) {
 			uint8_t* line = image->data()[0] + y * image->stride()[0];
@@ -722,7 +722,7 @@ BOOST_AUTO_TEST_CASE(unmapped_audio_does_not_raise_buffer_error)
 	content->audio->set_mapping(AudioMapping(6 * 2, MAX_DCP_AUDIO_CHANNELS));
 
 	Player player(film, Image::Alignment::COMPACT, false);
-	Butler butler(film, player, AudioMapping(), 2, bind(PlayerVideo::force, AV_PIX_FMT_RGB24), VideoRange::FULL, Image::Alignment::PADDED, true, false, Butler::Audio::ENABLED);
+	Butler butler(film, player, AudioMapping(), 2, AV_PIX_FMT_RGB24, VideoRange::FULL, Image::Alignment::PADDED, true, false, Butler::Audio::ENABLED);
 
 	/* Wait for the butler thread to run for a while; in the case under test it will throw an exception because
 	 * the video buffers are filled but no audio comes.
@@ -741,12 +741,12 @@ BOOST_AUTO_TEST_CASE(frames_are_copied_correctly_for_low_frame_rates)
 	film->set_video_frame_rate(30);
 
 	Player player(film, Image::Alignment::COMPACT, false);
-	Butler butler(film, player, AudioMapping(), 2, bind(PlayerVideo::force, AV_PIX_FMT_RGB24), VideoRange::FULL, Image::Alignment::PADDED, true, false, Butler::Audio::ENABLED);
+	Butler butler(film, player, AudioMapping(), 2, AV_PIX_FMT_RGB24, VideoRange::FULL, Image::Alignment::PADDED, true, false, Butler::Audio::ENABLED);
 
 	/* Check that only red frames come out - previously there would be some black ones mixed in */
 	for (auto i = 0; i < 24; ++i) {
 		auto frame = butler.get_video(Butler::Behaviour::BLOCKING);
-		auto image = frame.first->image([](AVPixelFormat) { return AV_PIX_FMT_RGB24; }, VideoRange::FULL, false);
+		auto image = frame.first->image(AV_PIX_FMT_RGB24, VideoRange::FULL, false);
 		for (int y = 0; y < image->size().height; ++y) {
 			uint8_t const* p = image->data()[0] + image->stride()[0] * y;
 			for (int x = 0; x < image->size().width; ++x) {

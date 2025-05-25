@@ -51,7 +51,7 @@ BOOST_AUTO_TEST_CASE(video_trim_test)
 		BOOST_REQUIRE(!player->pass());
 	}
 
-	image_as_png(first_video->image([](AVPixelFormat) { return AV_PIX_FMT_RGB24; }, VideoRange::FULL, true)).write("build/test/video_trim_test.png");
+	image_as_png(first_video->image(AV_PIX_FMT_RGB24, VideoRange::FULL, true)).write("build/test/video_trim_test.png");
 	check_image("test/data/video_trim_test.png", "build/test/video_trim_test.png");
 }
 
