@@ -27,13 +27,13 @@
 #ifdef DCPOMATIC_GROK
 #include "lib/grok/context.h"
 #endif
-#include "lib/log.h"
-#include "lib/signaller.h"
 #include "lib/cross.h"
 #include "lib/dcpomatic_log.h"
 #include "lib/encode_server.h"
 #include "lib/encoded_log_entry.h"
 #include "lib/log.h"
+#include "lib/log.h"
+#include "lib/signaller.h"
 #include "lib/signaller.h"
 #include "lib/util.h"
 #include <dcp/warnings.h>
@@ -42,8 +42,8 @@ LIBDCP_DISABLE_WARNINGS
 #include <wx/splash.h>
 #include <wx/taskbar.h>
 LIBDCP_ENABLE_WARNINGS
-#include <boost/thread.hpp>
 #include <boost/optional.hpp>
+#include <boost/thread.hpp>
 #include <iostream>
 
 
