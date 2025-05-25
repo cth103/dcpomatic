@@ -341,14 +341,17 @@ def build(bld):
     obj.name   = 'libdcpomatic2-wx'
     obj.export_includes = ['..']
     obj.uselib = 'BOOST_FILESYSTEM BOOST_THREAD BOOST_REGEX WXWIDGETS DCP SUB ZIP CXML RTAUDIO ICU AVUTIL '
+    obj.source = sources
     if bld.env.TARGET_LINUX:
         obj.uselib += 'GTK GL GLU '
+        obj.source += ' i18n_setup_linux.cc'
     if bld.env.TARGET_WINDOWS_64 or bld.env.TARGET_WINDOWS_32:
         obj.uselib += 'WINSOCK2 OLE32 DSOUND WINMM KSUSER GL GLU GLEW '
+        obj.source += ' i18n_setup_windows.cc'
     if bld.env.TARGET_OSX:
         obj.framework = ['CoreAudio', 'OpenGL']
+        obj.source += ' i18n_setup_osx.cc'
     obj.use = 'libdcpomatic2'
-    obj.source = sources
     obj.target = 'dcpomatic2-wx'
 
     i18n.po_to_mo(os.path.join('src', 'wx'), 'libdcpomatic2-wx', bld)

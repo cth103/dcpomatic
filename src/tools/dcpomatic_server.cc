@@ -18,6 +18,8 @@
 
 */
 
+
+#include "wx/i18n_setup.h"
 #include "wx/id.h"
 #include "wx/static_text.h"
 #include "wx/wx_signal_manager.h"
@@ -301,7 +303,7 @@ private:
 		auto splash = maybe_show_splash ();
 
 		dcpomatic_setup_path_encoding ();
-		dcpomatic_setup_i18n ();
+		dcpomatic::wx::setup_i18n();
 		dcpomatic_setup ();
 		Config::drop ();
 

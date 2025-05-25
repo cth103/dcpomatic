@@ -512,59 +512,6 @@ LIBDCP_ENABLE_WARNINGS
 	capture_ffmpeg_logs();
 }
 
-#ifdef DCPOMATIC_WINDOWS
-boost::filesystem::path
-mo_path()
-{
-	wchar_t buffer[512];
-	GetModuleFileName(0, buffer, 512 * sizeof(wchar_t));
-	boost::filesystem::path p(buffer);
-	p = p.parent_path();
-	p = p.parent_path();
-	p /= "locale";
-	return p;
-}
-#endif
-
-#ifdef DCPOMATIC_OSX
-boost::filesystem::path
-mo_path()
-{
-	return variant::dcpomatic_app() + "/Contents/Resources";
-}
-#endif
-
-void
-dcpomatic_setup_gettext_i18n(string lang)
-{
-#ifdef DCPOMATIC_LINUX
-	lang += ".UTF8";
-#endif
-
-	if (!lang.empty()) {
-		/* Override our environment language.  Note that the caller must not
-		   free the string passed into putenv().
-		*/
-		string s = String::compose("LANGUAGE=%1", lang);
-		putenv(strdup(s.c_str()));
-		s = String::compose("LANG=%1", lang);
-		putenv(strdup(s.c_str()));
-		s = String::compose("LC_ALL=%1", lang);
-		putenv(strdup(s.c_str()));
-	}
-
-	setlocale(LC_ALL, "");
-	textdomain("libdcpomatic2");
-
-#if defined(DCPOMATIC_WINDOWS) || defined(DCPOMATIC_OSX)
-	bindtextdomain("libdcpomatic2", mo_path().string().c_str());
-	bind_textdomain_codeset("libdcpomatic2", "UTF8");
-#endif
-
-#ifdef DCPOMATIC_LINUX
-	bindtextdomain("libdcpomatic2", LINUX_LOCALE_PREFIX);
-#endif
-}
 
 /** Compute a digest of the first and last `size' bytes of a set of files. */
 string

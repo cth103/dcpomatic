@@ -22,6 +22,7 @@
 #include "wx/dir_dialog.h"
 #include "wx/dir_picker_ctrl.h"
 #include "wx/editable_list.h"
+#include "wx/i18n_setup.h"
 #include "wx/wx_signal_manager.h"
 #include "wx/wx_util.h"
 #include "wx/wx_variant.h"
@@ -244,7 +245,7 @@ public:
 			   hasn't yet been called and there aren't any filters etc.
 			   set up yet.
 			*/
-			dcpomatic_setup_i18n ();
+			dcpomatic::wx::setup_i18n();
 
 			/* Set things up, including filters etc.
 			   which will now be internationalised correctly.

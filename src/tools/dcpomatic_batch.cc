@@ -22,6 +22,7 @@
 #include "wx/about_dialog.h"
 #include "wx/dcpomatic_button.h"
 #include "wx/full_config_dialog.h"
+#include "wx/i18n_setup.h"
 #include "wx/id.h"
 #include "wx/job_manager_view.h"
 #include "wx/servers_list_dialog.h"
@@ -447,7 +448,7 @@ class App : public wxApp
 		   hasn't yet been called and there aren't any filters etc.
 		   set up yet.
 		*/
-		dcpomatic_setup_i18n ();
+		dcpomatic::wx::setup_i18n();
 
 		/* Set things up, including filters etc.
 		   which will now be internationalised correctly.

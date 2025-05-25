@@ -21,6 +21,7 @@
 #include "wx/about_dialog.h"
 #include "wx/file_dialog.h"
 #include "wx/film_viewer.h"
+#include "wx/i18n_setup.h"
 #include "wx/id.h"
 #include "wx/nag_dialog.h"
 #include "wx/player_config_dialog.h"
@@ -1311,7 +1312,7 @@ private:
 			   hasn't yet been called and there aren't any filters etc.
 			   set up yet.
 			*/
-			dcpomatic_setup_i18n ();
+			dcpomatic::wx::setup_i18n();
 
 			/* Set things up, including filters etc.
 			   which will now be internationalised correctly.

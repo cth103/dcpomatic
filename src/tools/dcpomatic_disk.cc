@@ -21,6 +21,7 @@
 
 #include "wx/drive_wipe_warning_dialog.h"
 #include "wx/editable_list.h"
+#include "wx/i18n_setup.h"
 #include "wx/id.h"
 #include "wx/job_manager_view.h"
 #include "wx/message_dialog.h"
@@ -477,7 +478,7 @@ public:
 			   hasn't yet been called and there aren't any filters etc.
 			   set up yet.
 			*/
-			dcpomatic_setup_i18n ();
+			dcpomatic::wx::setup_i18n();
 
 			/* Set things up, including filters etc.
 			   which will now be internationalised correctly.

@@ -108,7 +108,6 @@ extern wxString std_to_wx (std::string);
 /** Convert UTF8-encoded char array to wxString */
 extern wxString char_to_wx(char const* s);
 
-extern void dcpomatic_setup_i18n ();
 extern wxString context_translation(char const* s);
 extern std::string string_client_data (wxClientData* o);
 extern wxString time_to_timecode (dcpomatic::DCPTime t, double fps);

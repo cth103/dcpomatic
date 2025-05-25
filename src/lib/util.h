@@ -66,7 +66,6 @@ extern std::string seconds_to_approximate_hms(int);
 extern double seconds(struct timeval);
 extern void dcpomatic_setup();
 extern void dcpomatic_setup_path_encoding();
-extern void dcpomatic_setup_gettext_i18n(std::string);
 extern std::string digest_head_tail(std::vector<boost::filesystem::path>, boost::uintmax_t size);
 extern std::string simple_digest(std::vector<boost::filesystem::path> paths);
 extern void ensure_ui_thread();
@@ -75,9 +74,6 @@ extern std::string short_audio_channel_name(int);
 extern bool valid_image_file(boost::filesystem::path);
 extern bool valid_sound_file(boost::filesystem::path);
 extern bool valid_j2k_file(boost::filesystem::path);
-#ifdef DCPOMATIC_WINDOWS
-extern boost::filesystem::path mo_path();
-#endif
 extern std::string tidy_for_filename(std::string);
 extern dcp::Size fit_ratio_within(float ratio, dcp::Size);
 extern void set_backtrace_file(boost::filesystem::path);

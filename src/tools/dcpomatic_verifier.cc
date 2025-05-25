@@ -29,6 +29,7 @@
 #include "wx/dcpomatic_button.h"
 #include "wx/dir_picker_ctrl.h"
 #include "wx/editable_list.h"
+#include "wx/i18n_setup.h"
 #include "wx/id.h"
 #include "wx/verify_dcp_progress_panel.h"
 #include "wx/verify_dcp_result_panel.h"
@@ -324,7 +325,7 @@ private:
 			   hasn't yet been called and there aren't any filters etc.
 			   set up yet.
 			*/
-			dcpomatic_setup_i18n();
+			dcpomatic::wx::setup_i18n();
 
 			/* Set things up, including filters etc.
 			   which will now be internationalised correctly.

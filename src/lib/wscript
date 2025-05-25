@@ -272,11 +272,11 @@ def build(bld):
 
     if bld.env.TARGET_WINDOWS_64 or bld.env.TARGET_WINDOWS_32:
         obj.uselib += ' WINSOCK2 DBGHELP SHLWAPI MSWSOCK BOOST_LOCALE SETUPAPI OLE32 UUID'
-        obj.source += ' cross_windows.cc'
+        obj.source += ' cross_windows.cc i18n_setup_windows.cc'
     if bld.env.TARGET_OSX:
-        obj.source += ' cross_osx.cc cross_unix.cc'
+        obj.source += ' cross_osx.cc cross_unix.cc i18n_setup_osx.cc'
     if bld.env.TARGET_LINUX:
-        obj.source += ' cross_linux.cc cross_unix.cc'
+        obj.source += ' cross_linux.cc cross_unix.cc i18n_setup_linux.cc'
     if bld.env.STATIC_DCPOMATIC:
         obj.uselib += ' XMLPP'
 
