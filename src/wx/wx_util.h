@@ -140,8 +140,10 @@ struct Offset
 
 extern int get_offsets (std::vector<Offset>& offsets);
 
+namespace dcpomatic {
 namespace wx {
 	extern wxString report_problem();
+}
 }
 
 

@@ -592,7 +592,7 @@ private:
 					_("An exception occurred: %s (%s)\n\n%s"),
 					std_to_wx(e.what()),
 					std_to_wx(e.file().string().c_str()),
-					wx::report_problem()
+					dcpomatic::wx::report_problem()
 					)
 				);
 		} catch (exception& e) {
@@ -601,11 +601,11 @@ private:
 				wxString::Format (
 					_("An exception occurred: %s\n\n%s"),
 					std_to_wx(e.what()),
-					wx::report_problem()
+					dcpomatic::wx::report_problem()
 					)
 				);
 		} catch (...) {
-			error_dialog(nullptr, wxString::Format(_("An unknown exception occurred. %s"), wx::report_problem()));
+			error_dialog(nullptr, wxString::Format(_("An unknown exception occurred. %s"), dcpomatic::wx::report_problem()));
 		}
 	}
 
