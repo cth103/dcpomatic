@@ -272,8 +272,8 @@ public:
 		: wxSplitterWindow(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSP_NOBORDER | wxSP_3DSASH | wxSP_LIVE_UPDATE)
 	{
 		/* This value doesn't really mean much but we just want to stop double-click on the
-		   divider from shrinking the left panel.
-		   */
+		 * divider from shrinking the left panel.
+		 */
 		SetMinimumPaneSize(64);
 
 		Bind(wxEVT_SIZE, boost::bind(&LimitedFrameSplitter::sized, this, _1));
