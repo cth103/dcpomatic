@@ -928,7 +928,7 @@ and DCP-o-matic will pick up the appropriate frames from each.
 <title>Colour conversion</title>
 
 <para>
-The <guilabel>Colour conversion</guilabel> setting specifies what
+The <guilabel>Colour</guilabel> setting specifies what
 colour transforms and gamma correction DCP-o-matic will use when
 converting the selected content into the XYZ colourspace for the DCP.
 </para>
@@ -993,6 +993,20 @@ are already in the XYZ colour space and require no conversion.
 DCP-o-matic's colour conversion processes are discussed in much more
 detail in a separate document <ulink
 url="https://dcpomatic.com/manual/colour.pdf">colour.pdf</ulink>.
+</para>
+
+<para>
+The <guilabel>Range</guilabel> should be set to the range of values
+used by your content.  If your content specifies its colours using the full
+range of possible values (for example, for 8-bit RGB if black is at 0 and
+white is at 255) specify <guilabel>Full (JPEG, 0-255)</guilabel>.  If your
+content uses the limited range (for example, 16 for Y as black and 235 for
+Y as white) you should specify <guilabel>Video (MPEG, 16-235)</guilabel>.
+</para>
+
+<para>
+In most cases DCP-o-matic will guess the correct <guilabel>Range</guilabel>
+setting from your content, so you should not usually need to adjust it.
 </para>
 
 </section>
