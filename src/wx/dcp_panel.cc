@@ -140,6 +140,11 @@ DCPPanel::DCPPanel(wxNotebook* n, shared_ptr<Film> film, FilmViewer& viewer)
 	Config::instance()->Changed.connect(boost::bind(&DCPPanel::config_changed, this, _1));
 
 	add_to_grid();
+
+	/* Allow the 3rd column to grow when the panel is made wider: the project name and
+	 * ISDCF name extend into this column.
+	 */
+	_grid->AddGrowableCol(2, 1);
 }
 
 
@@ -213,7 +218,7 @@ DCPPanel::add_to_grid()
 	auto name_sizer = new wxBoxSizer(wxHORIZONTAL);
 	name_sizer->Add(_name_label, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP);
 	name_sizer->Add(_name, 1, wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP);
-	_grid->Add(name_sizer, wxGBPosition(r, 0), wxGBSpan(1, 2), wxRIGHT | wxEXPAND, DCPOMATIC_DIALOG_BORDER);
+	_grid->Add(name_sizer, wxGBPosition(r, 0), wxGBSpan(1, 3), wxEXPAND);
 	++r;
 
 	int flags = wxALIGN_CENTER_VERTICAL;
@@ -229,7 +234,7 @@ DCPPanel::add_to_grid()
 	}
 	++r;
 
-	_grid->Add(_dcp_name, wxGBPosition(r, 0), wxGBSpan(1, 2), wxALIGN_CENTER_VERTICAL | wxEXPAND);
+	_grid->Add(_dcp_name, wxGBPosition(r, 0), wxGBSpan(1, 3), wxALIGN_CENTER_VERTICAL | wxEXPAND);
 	++r;
 
 	add_label_to_sizer(_grid, _dcp_content_type_label, true, wxGBPosition(r, 0));
