@@ -1016,7 +1016,7 @@ setting from your content, so you should not usually need to adjust it.
 <title>Other settings</title>
 
 <para>
-The <guilabel>crop</guilabel> settings can be used to crop your
+The <guilabel>Crop</guilabel> settings can be used to crop your
 content, which is often used to remove black borders from the edges of
 the image.  The specified number of pixels will be trimmed from each
 edge, and the content image in the right of the window will be updated
@@ -1024,7 +1024,7 @@ to show the effect of the crop.
 </para>
 
 <para>
-The <guilabel>fade in</guilabel> and <guilabel>fade out</guilabel>
+The <guilabel>Fade in</guilabel> and <guilabel>Fade out</guilabel>
 settings can be used to apply linear fades into and out of a piece of
 content.  Specify the time for each, clicking <guilabel>Set</guilabel>
 after making any changes.
