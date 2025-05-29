@@ -1236,6 +1236,7 @@ supported_by.Add (wxT ("The CWRU Film Society"));
 supported_by.Add (wxT ("Malibu Film Society"));
 supported_by.Add (wxT ("Sofos"));
 supported_by.Add (wxT ("Oliver Sohnius"));
+supported_by.Add (wxT ("Simon Sole"));
 supported_by.Add (wxT ("Udo Somma"));
 supported_by.Add (wxT ("Adam Sondej"));
 supported_by.Add (wxT ("Hong Sub Song"));
