@@ -42,7 +42,7 @@ class Socket;
 
 
 /** Everything needed to describe a video frame coming out of the player, but with the
- *  bits still their raw form.  We may want to combine the bits on a remote machine,
+ *  bits still in their raw form.  We may want to combine the bits on a remote machine,
  *  or maybe not even bother to combine them at all.
  */
 class PlayerVideo
