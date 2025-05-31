@@ -123,7 +123,7 @@ BOOST_AUTO_TEST_CASE (scaled_size_legacy_test)
 		/* 640x480 content that the user had asked to be stretched to 1.85:1 */
 		VideoContent vc (0);
 		vc._size = dcp::Size(640, 480);
-		vc._legacy_ratio = Ratio::from_id("185")->ratio();
+		vc._legacy_ratio = Ratio::from_id("185").ratio();
 		BOOST_CHECK_EQUAL(*vc.scaled_size(FLAT), FLAT);
 	}
 

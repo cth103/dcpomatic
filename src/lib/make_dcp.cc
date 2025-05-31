@@ -48,10 +48,6 @@ make_dcp (shared_ptr<Film> film, TranscodeJob::ChangedBehaviour behaviour)
 		throw BadSettingError (_("name"), _("Cannot contain slashes"));
 	}
 
-	if (film->container() == nullptr) {
-		throw MissingSettingError (_("container"));
-	}
-
 	if (film->content().empty()) {
 		throw runtime_error (_("You must add some content to the DCP before creating it"));
 	}

@@ -507,7 +507,7 @@ public:
 
 			if (i->video && i->video->size()) {
 				auto const r = Ratio::nearest_from_ratio(i->video->size()->ratio());
-				if (r->id() == "239") {
+				if (r.id() == "239") {
 					/* Any scope content means we use scope */
 					_film->set_container(r);
 				}

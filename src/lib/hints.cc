@@ -140,15 +140,15 @@ Hints::check_incorrect_container()
 	for (auto i: film()->content()) {
 		if (i->video && i->video->size()) {
 			auto const r = Ratio::nearest_from_ratio(i->video->scaled_size(film()->frame_size())->ratio());
-			if (r && r->id() == "239") {
+			if (r.id() == "239") {
 				++scope;
-			} else if (r && r->id() != "239" && r->id() != "235" && r->id() != "190") {
+			} else if (r.id() != "239" && r.id() != "235" && r.id() != "190") {
 				++narrower_than_scope;
 			}
 		}
 	}
 
-	string const film_container = film()->container()->id();
+	auto const film_container = film()->container().id();
 
 	if (scope && !narrower_than_scope && film_container == "185") {
 		hint(_("All of your content is in Scope (2.39:1) but your DCP's container is Flat (1.85:1).  This will letter-box your content inside a Flat (1.85:1) frame.  You may prefer to set your DCP's container to Scope (2.39:1) in the \"DCP\" tab."));
@@ -163,7 +163,7 @@ Hints::check_incorrect_container()
 void
 Hints::check_unusual_container()
 {
-	auto const film_container = film()->container()->id();
+	auto const film_container = film()->container().id();
 	if (film()->video_encoding() != VideoEncoding::MPEG2 && film_container != "185" && film_container != "239") {
 		hint(_("Your DCP uses an unusual container ratio.  This may cause problems on some projectors.  If possible, use Flat or Scope for the DCP container ratio."));
 	}

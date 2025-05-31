@@ -111,7 +111,7 @@ static void
 print_dump(function<void (string)> out, shared_ptr<Film> film)
 {
 	out(fmt::format("{}\n", film->dcp_name(true)));
-	out(fmt::format("{} at {}\n", film->container()->container_nickname(), film->resolution() == Resolution::TWO_K ? "2K" : "4K"));
+	out(fmt::format("{} at {}\n", film->container().container_nickname(), film->resolution() == Resolution::TWO_K ? "2K" : "4K"));
 	out(fmt::format("{}Mbit/s\n", film->video_bit_rate(film->video_encoding()) / 1000000));
 	out(fmt::format("Duration {}\n", film->length().timecode(film->video_frame_rate())));
 	out(fmt::format("Output {}fps {} {}kHz\n", film->video_frame_rate(), film->three_d() ? "3D" : "2D", film->audio_frame_rate() / 1000));

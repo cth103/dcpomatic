@@ -309,7 +309,7 @@ FilmViewer::calculate_sizes()
 	int const video_view_height = std::round(_video_view->get()->GetSize().y * scale);
 
 	auto const view_ratio = float(video_view_width) / video_view_height;
-	auto const film_ratio = container ? container->ratio() : 1.78;
+	auto const film_ratio = container.ratio();
 
 	dcp::Size out_size;
 	if (view_ratio < film_ratio) {

@@ -549,16 +549,16 @@ DCPPanel::setup_container()
 
 	wxArrayString new_ratios;
 	for (auto ratio: ratios) {
-		new_ratios.Add(std_to_wx(ratio->container_nickname()));
+		new_ratios.Add(std_to_wx(ratio.container_nickname()));
 	}
 
 	_container->set_entries(new_ratios);
 
-	auto iter = std::find_if(ratios.begin(), ratios.end(), [this](Ratio const* ratio) { return ratio == _film->container(); });
+	auto iter = std::find_if(ratios.begin(), ratios.end(), [this](Ratio const& ratio) { return ratio == _film->container(); });
 	DCPOMATIC_ASSERT(iter != ratios.end());
 
 	checked_set(_container, iter - ratios.begin());
-	auto const size = fit_ratio_within(_film->container()->ratio(), _film->full_frame());
+	auto const size = fit_ratio_within(_film->container().ratio(), _film->full_frame());
 	checked_set(_container_size, wxString::Format(char_to_wx("%dx%d"), size.width, size.height));
 
 	setup_dcp_name();

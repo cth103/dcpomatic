@@ -123,13 +123,16 @@ VideoContent::VideoContent(Content* parent, cxml::ConstNodePtr node, int version
 	_crop.bottom = node->number_child<int>("BottomCrop");
 
 	if (version <= 7) {
-			_legacy_ratio = Ratio::from_id(r.get())->ratio();
 		if (auto r = node->optional_string_child("Ratio")) {
+			if (auto ratio = Ratio::from_id_if_exists(r.get())) {
+				_legacy_ratio = ratio->ratio();
+			}
 		}
 	} else if (version <= 37) {
-		auto ratio = node->node_child("Scale")->optional_string_child("Ratio");
-		if (ratio) {
-			_legacy_ratio = Ratio::from_id(ratio.get())->ratio();
+		if (auto id = node->node_child("Scale")->optional_string_child("Ratio")) {
+			if (auto ratio = Ratio::from_id_if_exists(*id)) {
+				_legacy_ratio = ratio->ratio();
+			}
 		}
 		if (auto scale = node->node_child("Scale")->optional_bool_child("Scale")) {
 			if (*scale) {
@@ -497,7 +500,7 @@ VideoContent::processing_description(shared_ptr<const Film> film)
 	if (scaled && *scaled != container_size) {
 		d += String::compose(
 			_("\nPadded with black to fit container %1 (%2x%3)"),
-			film->container()->container_nickname(),
+			film->container().container_nickname(),
 			container_size.width, container_size.height
 			);
 

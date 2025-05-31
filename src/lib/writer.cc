@@ -731,8 +731,8 @@ Writer::write_cover_sheet()
 	if (!cpls.empty()) {
 		boost::algorithm::replace_all (text, "$CPL_FILENAME", cpls[0].cpl_file.filename().string());
 	}
-	boost::algorithm::replace_all (text, "$TYPE", film()->dcp_content_type()->pretty_name());
-	boost::algorithm::replace_all (text, "$CONTAINER", film()->container()->container_nickname());
+	boost::algorithm::replace_all(text, "$TYPE", film()->dcp_content_type()->pretty_name());
+	boost::algorithm::replace_all(text, "$CONTAINER", film()->container().container_nickname());
 
 	auto audio_language = film()->audio_language();
 	if (audio_language) {

@@ -19,6 +19,7 @@
 */
 
 
+#include "ratio.h"
 #include "video_frame_type.h"
 #include <dcp/types.h>
 #include <boost/optional.hpp>
@@ -28,7 +29,6 @@
 
 class DCPContentType;
 class Film;
-class Ratio;
 
 struct create_cli_test;
 
@@ -67,7 +67,7 @@ private:
 
 	boost::optional<std::string> _template_name;
 	std::string _name;
-	Ratio const* _container_ratio = nullptr;
+	boost::optional<Ratio> _container_ratio;
 	bool _no_encrypt = false;
 	bool _encrypt = false;
 	bool _twod = false;

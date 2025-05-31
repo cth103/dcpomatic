@@ -374,7 +374,7 @@ CreateCLI::CreateCLI(int argc, char* argv[])
 	}
 
 	if (!container_ratio_string.empty()) {
-		_container_ratio = Ratio::from_id(container_ratio_string);
+		_container_ratio = Ratio::from_id_if_exists(container_ratio_string);
 		if (!_container_ratio) {
 			error = String::compose("%1: unrecognised container ratio %2", argv[0], container_ratio_string);
 			return;
@@ -464,7 +464,7 @@ CreateCLI::make_film(function<void (string)> error) const
 	film->set_name(_name);
 
 	if (_container_ratio) {
-		film->set_container(_container_ratio);
+		film->set_container(*_container_ratio);
 	}
 	if (_dcp_content_type) {
 		film->set_dcp_content_type(_dcp_content_type);

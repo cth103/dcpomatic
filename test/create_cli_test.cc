@@ -102,7 +102,7 @@ BOOST_AUTO_TEST_CASE (create_cli_test)
 
 	cc = run ("dcpomatic2_create x --container-ratio 185");
 	BOOST_CHECK (!cc.error);
-	BOOST_CHECK_EQUAL(cc._container_ratio, Ratio::from_id("185"));
+	BOOST_CHECK(cc._container_ratio == Ratio::from_id("185"));
 
 	cc = run ("dcpomatic2_create x --container-ratio XXX");
 	BOOST_CHECK (cc.error);

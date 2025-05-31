@@ -39,7 +39,6 @@ vector<Ratio> Ratio::_ratios;
 void
 Ratio::setup_ratios()
 {
-	/* This must only be called once as we rely on the addresses of objects in _ratios staying the same */
 	DCPOMATIC_ASSERT(_ratios.empty());
 
 	_ratios.push_back(Ratio(float(1290) / 1080, "119", _("1.19"),              {},                      "119"));
@@ -59,19 +58,15 @@ Ratio::setup_ratios()
 }
 
 
-vector<Ratio const *>
+vector<Ratio>
 Ratio::all()
 {
-	vector<Ratio const *> pointers;
-	for (Ratio& ratio: _ratios) {
-		pointers.push_back(&ratio);
-	}
-	return pointers;
+	return _ratios;
 }
 
 
-Ratio const *
-Ratio::from_id(string i)
+optional<Ratio>
+Ratio::from_id_if_exists(string i)
 {
 	/* We removed the ratio with id 137; replace it with 138 */
 	if (i == "137") {
@@ -84,15 +79,24 @@ Ratio::from_id(string i)
 	}
 
 	if (j == _ratios.end()) {
-		return nullptr;
+		return {};
 	}
 
-	return &(*j);
+	return *j;
 }
 
 
-/** @return Ratio corresponding to a given fractional ratio (+/- 0.01), or 0 */
-Ratio const *
+Ratio
+Ratio::from_id(string id)
+{
+	auto ratio = Ratio::from_id_if_exists(id);
+	DCPOMATIC_ASSERT(ratio);
+	return *ratio;
+}
+
+
+/** @return Ratio corresponding to a given fractional ratio (+/- 0.01), or empty */
+optional<Ratio>
 Ratio::from_ratio(float r)
 {
 	auto j = _ratios.begin();
@@ -101,14 +105,14 @@ Ratio::from_ratio(float r)
 	}
 
 	if (j == _ratios.end()) {
-		return nullptr;
+		return {};
 	}
 
-	return &(*j);
+	return *j;
 }
 
 
-Ratio const *
+Ratio
 Ratio::nearest_from_ratio(float r)
 {
 	vector<Ratio>::const_iterator nearest = _ratios.end();
@@ -124,10 +128,10 @@ Ratio::nearest_from_ratio(float r)
 
 	DCPOMATIC_ASSERT(nearest != _ratios.end());
 
-	return &(*nearest);
+	return *nearest;
 }
 
-vector<Ratio const *>
+vector<Ratio>
 Ratio::containers()
 {
 	if (Config::instance()->allow_any_container()) {
@@ -149,4 +153,18 @@ Ratio::container_nickname() const
 	}
 
 	return *_container_nickname;
+}
+
+
+bool
+operator==(Ratio const& a, Ratio const& b)
+{
+	return a.id() == b.id();
+}
+
+
+bool
+operator!=(Ratio const& a, Ratio const& b)
+{
+	return a.id() != b.id();
 }

@@ -72,9 +72,9 @@ BOOST_AUTO_TEST_CASE (film_metadata_test)
 	auto g = make_shared<Film>(dir);
 	g->read_metadata ();
 
-	BOOST_CHECK_EQUAL (g->name(), "fred");
-	BOOST_CHECK_EQUAL (g->dcp_content_type(), DCPContentType::from_isdcf_name ("SHR"));
-	BOOST_CHECK_EQUAL (g->container(), Ratio::from_id ("185"));
+	BOOST_CHECK_EQUAL(g->name(), "fred");
+	BOOST_CHECK_EQUAL(g->dcp_content_type(), DCPContentType::from_isdcf_name ("SHR"));
+	BOOST_CHECK(g->container() == Ratio::from_id("185"));
 
 	g->write_metadata ();
 	check_xml ("test/data/metadata.xml.ref", dir.string() + "/metadata.xml", ignore);

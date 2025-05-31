@@ -36,6 +36,7 @@
 #include "film_property.h"
 #include "frame_rate_change.h"
 #include "named_channel.h"
+#include "ratio.h"
 #include "remembered_asset.h"
 #include "resolution.h"
 #include "signaller.h"
@@ -75,7 +76,6 @@ class Film;
 class Job;
 class Log;
 class Playlist;
-class Ratio;
 struct atmos_encrypted_passthrough_test;
 struct isdcf_name_test;
 struct isdcf_name_with_atmos;
@@ -216,7 +216,7 @@ public:
 		return _dcp_content_type;
 	}
 
-	Ratio const * container() const {
+	Ratio const& container() const {
 		return _container;
 	}
 
@@ -384,7 +384,7 @@ public:
 	void move_content_earlier(std::shared_ptr<Content>);
 	void move_content_later(std::shared_ptr<Content>);
 	void set_dcp_content_type(DCPContentType const *);
-	void set_container(Ratio const *, bool user_explicit = true);
+	void set_container(Ratio c, bool user_explicit = true);
 	void set_resolution(Resolution, bool user_explicit = true);
 	void set_encrypted(bool);
 	void set_video_bit_rate(VideoEncoding encoding, int64_t);
@@ -503,7 +503,7 @@ private:
 	/** The type of content that this Film represents (feature, trailer etc.) */
 	DCPContentType const * _dcp_content_type;
 	/** The container to put this Film in (flat, scope, etc.) */
-	Ratio const * _container;
+	Ratio _container;
 	/** DCP resolution (2K or 4K) */
 	Resolution _resolution;
 	bool _encrypted;

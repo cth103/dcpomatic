@@ -245,9 +245,7 @@ Film::~Film()
 string
 Film::video_identifier() const
 {
-	DCPOMATIC_ASSERT(container());
-
-	string s = container()->id()
+	string s = container().id()
 		+ "_" + resolution_to_string(_resolution)
 		+ "_" + _playlist->video_identifier()
 		+ "_" + fmt::to_string(_video_frame_rate)
@@ -402,10 +400,7 @@ Film::metadata(bool with_content_paths) const
 		cxml::add_text_child(root, "DCPContentType", _dcp_content_type->isdcf_name());
 	}
 
-	if (_container) {
-		cxml::add_text_child(root, "Container", _container->id());
-	}
-
+	cxml::add_text_child(root, "Container", _container.id());
 	cxml::add_text_child(root, "Resolution", resolution_to_string(_resolution));
 	cxml::add_text_child(root, "J2KVideoBitRate", fmt::to_string(_video_bit_rate[VideoEncoding::JPEG2000]));
 	cxml::add_text_child(root, "MPEG2VideoBitRate", fmt::to_string(_video_bit_rate[VideoEncoding::MPEG2]));
@@ -978,9 +973,7 @@ Film::isdcf_name(bool if_created_now) const
 		isdcf_name += "-" + fmt::to_string(video_frame_rate());
 	}
 
-	if (container()) {
-		isdcf_name += "_" + container()->isdcf_name();
-	}
+	isdcf_name += "_" + container().isdcf_name();
 
 	auto content_list = content();
 
@@ -992,7 +985,7 @@ Film::isdcf_name(bool if_created_now) const
 		if (first_video != content_list.end()) {
 			if (auto scaled_size = (*first_video)->video->scaled_size(frame_size())) {
 				auto first_ratio = lrintf(scaled_size->ratio() * 100);
-				auto container_ratio = lrintf(container()->ratio() * 100);
+				auto container_ratio = lrintf(container().ratio() * 100);
 				if (first_ratio != container_ratio) {
 					isdcf_name += "-" + fmt::to_string(first_ratio);
 				}
@@ -1166,7 +1159,7 @@ Film::set_dcp_content_type(DCPContentType const * t)
  *  DCP-o-matic is guessing the best container to use.
  */
 void
-Film::set_container(Ratio const * c, bool explicit_user)
+Film::set_container(Ratio c, bool explicit_user)
 {
 	FilmChangeSignaller ch(this, FilmProperty::CONTAINER);
 	_container = c;
@@ -1783,7 +1776,7 @@ Film::full_frame() const
 dcp::Size
 Film::frame_size() const
 {
-	return fit_ratio_within(container()->ratio(), full_frame());
+	return fit_ratio_within(container().ratio(), full_frame());
 }
 
 

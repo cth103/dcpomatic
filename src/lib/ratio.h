@@ -65,13 +65,14 @@ public:
 	}
 
 	static void setup_ratios();
-	static Ratio const * from_id(std::string i);
-	static Ratio const * from_ratio(float r);
-	static Ratio const * nearest_from_ratio(float r);
+	static Ratio from_id(std::string i);
+	static boost::optional<Ratio> from_id_if_exists(std::string i);
+	static boost::optional<Ratio> from_ratio(float r);
+	static Ratio nearest_from_ratio(float r);
 
-	static std::vector<Ratio const *> all();
+	static std::vector<Ratio> all();
 
-	static std::vector<Ratio const *> containers();
+	static std::vector<Ratio> containers();
 
 private:
 	float _ratio;
@@ -85,6 +86,10 @@ private:
 
 	static std::vector<Ratio> _ratios;
 };
+
+
+bool operator==(Ratio const& a, Ratio const& b);
+bool operator!=(Ratio const& a, Ratio const& b);
 
 
 #endif
