@@ -25,6 +25,7 @@
 
 
 #include "check_box.h"
+#include "dcpomatic_choice.h"
 #include "dir_picker_ctrl.h"
 #include "editable_list.h"
 #include "email_dialog.h"
@@ -53,6 +54,7 @@
 #include <dcp/certificate_chain.h>
 #include <dcp/exceptions.h>
 #include <dcp/locale_convert.h>
+#include <dcp/scope_guard.h>
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/filepicker.h>
@@ -299,6 +301,22 @@ private:
 		table->AddGrowableCol(1, 1);
 		_panel->GetSizer()->Add(table, 1, wxALL | wxEXPAND, _border);
 
+		_crop_output = new CheckBox(_panel, _("Crop output to"));
+		table->Add(_crop_output, 0, wxEXPAND);
+		auto s = new wxBoxSizer(wxHORIZONTAL);
+		_crop_output_ratio_preset = new Choice(_panel);
+		_crop_output_ratio_custom = new wxTextCtrl(_panel, wxID_ANY);
+
+		s->Add(_crop_output_ratio_preset, 0, wxEXPAND | wxRIGHT, DCPOMATIC_SIZER_X_GAP);
+		s->Add(_crop_output_ratio_custom, 0, wxEXPAND | wxRIGHT, DCPOMATIC_SIZER_X_GAP);
+		add_label_to_sizer(s, _panel, _(":1"), false, 0, wxALIGN_CENTER_VERTICAL);
+
+		for (auto ratio: Ratio::all()) {
+			_crop_output_ratio_preset->add_entry(ratio.image_nickname(), ratio.id());
+		}
+		_crop_output_ratio_preset->add_entry(_("Custom"), "custom");
+		table->Add(s, 1, wxEXPAND);
+
 		{
 			add_top_aligned_label_to_sizer(table, _panel, _("Log"));
 			auto t = new wxBoxSizer(wxVERTICAL);
@@ -333,6 +351,13 @@ private:
 #ifdef DCPOMATIC_WINDOWS
 		_win32_console->bind(&PlayerAdvancedPage::win32_console_changed, this);
 #endif
+		_crop_output->bind(&PlayerAdvancedPage::crop_output_changed, this);
+		_crop_output_ratio_preset->bind(&PlayerAdvancedPage::crop_output_ratio_preset_changed, this);
+		_crop_output_ratio_custom->Bind(wxEVT_TEXT, boost::bind(&PlayerAdvancedPage::crop_output_ratio_custom_changed, this));
+
+		checked_set(_crop_output, Config::instance()->player_crop_output_ratio().has_value());
+		set_crop_output_ratio_preset_from_config();
+		set_crop_output_ratio_custom_from_config();
 	}
 
 	void config_changed() override
@@ -348,6 +373,36 @@ private:
 #ifdef DCPOMATIC_WINDOWS
 		checked_set(_win32_console, config->win32_console());
 #endif
+
+		/* Don't update crop ratio stuff here as the controls are all interdependent
+		 * and nobody else is going to change the values.
+		 */
+	}
+
+	void set_crop_output_ratio_preset_from_config()
+	{
+		_ignore_crop_changes = true;
+		dcp::ScopeGuard sg = [this]() { _ignore_crop_changes = false; };
+
+		if (auto output_ratio = Config::instance()->player_crop_output_ratio()) {
+			auto ratio = Ratio::from_ratio(*output_ratio);
+			_crop_output_ratio_preset->set_by_data(ratio ? ratio->id() : "custom");
+		} else {
+			_crop_output_ratio_preset->set_by_data("185");
+		}
+	}
+
+	void set_crop_output_ratio_custom_from_config()
+	{
+		_ignore_crop_changes = true;
+		dcp::ScopeGuard sg = [this]() { _ignore_crop_changes = false; };
+
+		if (auto output_ratio = Config::instance()->player_crop_output_ratio()) {
+			auto ratio = Ratio::from_ratio(*output_ratio);
+			_crop_output_ratio_custom->SetValue(wxString::Format(char_to_wx("%.2f"), ratio ? ratio->ratio() : *output_ratio));
+		} else {
+			_crop_output_ratio_custom->SetValue(_("185"));
+		}
 	}
 
 	void log_changed()
@@ -374,6 +429,50 @@ private:
 		Config::instance()->set_log_types(types);
 	}
 
+	void crop_output_changed()
+	{
+		if (_crop_output->get()) {
+			Config::instance()->set_player_crop_output_ratio(1.85);
+			set_crop_output_ratio_preset_from_config();
+			set_crop_output_ratio_custom_from_config();
+		} else {
+			Config::instance()->unset_player_crop_output_ratio();
+		}
+		_crop_output_ratio_preset->Enable(_crop_output->get());
+		_crop_output_ratio_custom->Enable(_crop_output->get());
+	}
+
+	void crop_output_ratio_preset_changed()
+	{
+		if (!_crop_output->get() || _ignore_crop_changes) {
+			return;
+		}
+
+		optional<Ratio> ratio;
+
+		if (auto data = _crop_output_ratio_preset->get_data()) {
+			ratio = Ratio::from_id_if_exists(*data);
+		}
+
+		if (ratio) {
+			Config::instance()->set_player_crop_output_ratio(ratio->ratio());
+		} else {
+			Config::instance()->set_player_crop_output_ratio(locale_convert<float>(wx_to_std(_crop_output_ratio_custom->GetValue())));
+		}
+
+		set_crop_output_ratio_custom_from_config();
+	}
+
+	void crop_output_ratio_custom_changed()
+	{
+		if (!_crop_output->get() || _ignore_crop_changes) {
+			return;
+		}
+
+		Config::instance()->set_player_crop_output_ratio(locale_convert<float>(wx_to_std(_crop_output_ratio_custom->GetValue())));
+		set_crop_output_ratio_preset_from_config();
+	}
+
 #ifdef DCPOMATIC_WINDOWS
 	void win32_console_changed()
 	{
@@ -381,6 +480,10 @@ private:
 	}
 #endif
 
+	CheckBox* _crop_output = nullptr;
+	Choice* _crop_output_ratio_preset = nullptr;
+	wxTextCtrl* _crop_output_ratio_custom = nullptr;
+	bool _ignore_crop_changes = false;
 	CheckBox* _log_general = nullptr;
 	CheckBox* _log_warning = nullptr;
 	CheckBox* _log_error = nullptr;

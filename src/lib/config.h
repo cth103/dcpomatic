@@ -554,6 +554,10 @@ public:
 		return _playlist_editor_restricted_menus;
 	}
 
+	boost::optional<float> player_crop_output_ratio() const {
+		return _player_crop_output_ratio;
+	}
+
 	int image_display() const {
 		return _image_display;
 	}
@@ -1101,6 +1105,19 @@ public:
 		maybe_set(_player_mode, m);
 	}
 
+	void set_player_crop_output_ratio(float ratio) {
+		maybe_set(_player_crop_output_ratio, ratio);
+	}
+
+	void unset_player_crop_output_ratio() {
+		if (!_player_crop_output_ratio) {
+			return;
+		}
+
+		_player_crop_output_ratio = boost::none;
+		changed(OTHER);
+	}
+
 	void set_image_display(int n) {
 		maybe_set(_image_display, n);
 	}
@@ -1459,6 +1476,7 @@ private:
 	PlayerMode _player_mode;
 	bool _player_restricted_menus = false;
 	bool _playlist_editor_restricted_menus = false;
+	boost::optional<float> _player_crop_output_ratio;
 	int _image_display;
 	VideoViewType _video_view_type;
 	bool _respect_kdm_validity_periods;

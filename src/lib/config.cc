@@ -614,6 +614,8 @@ try
 	_player_restricted_menus = f.optional_bool_child("PlayerRestrictedMenus").get_value_or(false);
 	_playlist_editor_restricted_menus = f.optional_bool_child("PlaylistEditorRestrictedMenus").get_value_or(false);
 
+	_player_crop_output_ratio = f.optional_number_child<float>("PlayerCropOutputRatio");
+
 	_image_display = f.optional_number_child<int>("ImageDisplay").get_value_or(0);
 	auto vc = f.optional_string_child("VideoViewType");
 	if (vc && *vc == "opengl") {
@@ -1079,6 +1081,10 @@ Config::write_config() const
 
 	if (_playlist_editor_restricted_menus) {
 		cxml::add_text_child(root, "PlaylistEditorRestrictedMenus", "1");
+	}
+
+	if (_player_crop_output_ratio) {
+		cxml::add_text_child(root, "PlayerCropOutputRatio", fmt::to_string(*_player_crop_output_ratio));
 	}
 
 	/* [XML] ImageDisplay Screen number to put image on in dual-screen player mode. */

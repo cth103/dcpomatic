@@ -494,7 +494,7 @@ public:
 		}
 
 		/* Start off as Flat */
-		_film->set_container (Ratio::from_id("185"));
+		auto auto_ratio = Ratio::from_id("185");
 
 		_film->set_audio_channels (MAX_DCP_AUDIO_CHANNELS);
 
@@ -509,7 +509,7 @@ public:
 				auto const r = Ratio::nearest_from_ratio(i->video->size()->ratio());
 				if (r.id() == "239") {
 					/* Any scope content means we use scope */
-					_film->set_container(r);
+					auto_ratio = r;
 				}
 			}
 
@@ -539,6 +539,8 @@ public:
 			_cpl_menu->Remove (i);
 		}
 
+		auto const crop = Config::instance()->player_crop_output_ratio();
+
 		if (_film->content().size() == 1) {
 			/* Offer a CPL menu */
 			auto first = dynamic_pointer_cast<DCPContent>(_film->content().front());
@@ -553,6 +555,24 @@ public:
 					++id;
 				}
 			}
+
+			if (crop) {
+				auto size = _film->content()[0]->video->size().get_value_or({1998, 1080});
+				int pixels = 0;
+				if (*crop > (2048.0 / 1080.0)) {
+					pixels = (size.height - (size.width / *crop)) / 2;
+					_film->content()[0]->video->set_crop(Crop{0, 0, pixels, pixels});
+				} else {
+					pixels = (size.width - (size.height * *crop)) / 2;
+					_film->content()[0]->video->set_crop(Crop{pixels, pixels, 0, 0});
+				}
+			}
+		}
+
+		if (crop) {
+			_film->set_container(Ratio(*crop, "custom", "custom", {}, "custom"));
+		} else {
+			_film->set_container(auto_ratio);
 		}
 	}
 
