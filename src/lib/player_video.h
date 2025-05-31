@@ -111,6 +111,10 @@ public:
 		return _out_size;
 	}
 
+	Crop crop() const {
+		return _crop;
+	}
+
 	bool same (std::shared_ptr<const PlayerVideo> other) const;
 
 	size_t memory_used () const;
