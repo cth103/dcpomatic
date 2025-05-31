@@ -19,9 +19,9 @@
 */
 
 
+#include "config.h"
 #include "ratio.h"
 #include "util.h"
-#include "config.h"
 #include <dcp/types.h>
 #include <cfloat>
 
