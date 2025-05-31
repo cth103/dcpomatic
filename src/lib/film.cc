@@ -579,8 +579,7 @@ Film::read_metadata(optional<boost::filesystem::path> path)
 	}
 
 	{
-		auto c = f.optional_string_child("Container");
-		if (c) {
+		if (auto c = f.optional_string_child("Container")) {
 			_container = Ratio::from_id(c.get());
 		}
 	}

@@ -123,17 +123,15 @@ VideoContent::VideoContent(Content* parent, cxml::ConstNodePtr node, int version
 	_crop.bottom = node->number_child<int>("BottomCrop");
 
 	if (version <= 7) {
-		auto r = node->optional_string_child("Ratio");
-		if (r) {
 			_legacy_ratio = Ratio::from_id(r.get())->ratio();
+		if (auto r = node->optional_string_child("Ratio")) {
 		}
 	} else if (version <= 37) {
 		auto ratio = node->node_child("Scale")->optional_string_child("Ratio");
 		if (ratio) {
 			_legacy_ratio = Ratio::from_id(ratio.get())->ratio();
 		}
-		auto scale = node->node_child("Scale")->optional_bool_child("Scale");
-		if (scale) {
+		if (auto scale = node->node_child("Scale")->optional_bool_child("Scale")) {
 			if (*scale) {
 				/* This is what we used to call "no stretch" */
 				DCPOMATIC_ASSERT(_size);
@@ -181,8 +179,7 @@ VideoContent::VideoContent(Content* parent, cxml::ConstNodePtr node, int version
 		_pixel_quanta = PixelQuanta(pixel_quanta);
 	}
 
-	auto burnt = node->optional_string_child("BurntSubtitleLanguage");
-	if (burnt) {
+	if (auto burnt = node->optional_string_child("BurntSubtitleLanguage")) {
 		_burnt_subtitle_language = dcp::LanguageTag(*burnt);
 	}
 
