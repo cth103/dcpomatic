@@ -184,7 +184,7 @@ Config::set_defaults()
 	_christie_password = optional<string>();
 	_gdc_username = optional<string>();
 	_gdc_password = optional<string>();
-	_player_mode = PLAYER_MODE_WINDOW;
+	_player_mode = PlayerMode::WINDOW;
 	_player_restricted_menus = false;
 	_playlist_editor_restricted_menus = false;
 	_image_display = 0;
@@ -604,11 +604,11 @@ try
 
 	auto pm = f.optional_string_child("PlayerMode");
 	if (pm && *pm == "window") {
-		_player_mode = PLAYER_MODE_WINDOW;
+		_player_mode = PlayerMode::WINDOW;
 	} else if (pm && *pm == "full") {
-		_player_mode = PLAYER_MODE_FULL;
+		_player_mode = PlayerMode::FULL;
 	} else if (pm && *pm == "dual") {
-		_player_mode = PLAYER_MODE_DUAL;
+		_player_mode = PlayerMode::DUAL;
 	}
 
 	_player_restricted_menus = f.optional_bool_child("PlayerRestrictedMenus").get_value_or(false);
@@ -1062,13 +1062,13 @@ Config::write_config() const
 	   with separate (advanced) controls.
 	*/
 	switch (_player_mode) {
-	case PLAYER_MODE_WINDOW:
+	case PlayerMode::WINDOW:
 		cxml::add_text_child(root, "PlayerMode", "window");
 		break;
-	case PLAYER_MODE_FULL:
+	case PlayerMode::FULL:
 		cxml::add_text_child(root, "PlayerMode", "full");
 		break;
-	case PLAYER_MODE_DUAL:
+	case PlayerMode::DUAL:
 		cxml::add_text_child(root, "PlayerMode", "dual");
 		break;
 	}

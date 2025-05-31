@@ -536,10 +536,10 @@ public:
 		return _gdc_password;
 	}
 
-	enum PlayerMode {
-		PLAYER_MODE_WINDOW, ///< one window containing image and controls
-		PLAYER_MODE_FULL,   ///< just the image filling the screen
-		PLAYER_MODE_DUAL    ///< image on one monitor and extended controls on the other
+	enum class PlayerMode {
+		WINDOW, ///< one window containing image and controls
+		FULL,   ///< just the image filling the screen
+		DUAL    ///< image on one monitor and extended controls on the other
 	};
 
 	PlayerMode player_mode() const {

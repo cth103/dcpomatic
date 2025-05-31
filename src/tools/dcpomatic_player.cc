@@ -257,7 +257,7 @@ public:
 
 		Bind(wxEVT_CLOSE_WINDOW, boost::bind(&DOMFrame::close, this, _1));
 
-		if (Config::instance()->player_mode() == Config::PLAYER_MODE_DUAL) {
+		if (Config::instance()->player_mode() == Config::PlayerMode::DUAL) {
 			auto pc = new PlaylistControls (_overall_panel, _viewer);
 			_controls = pc;
 			pc->ResetFilm.connect (bind(&DOMFrame::reset_film_weak, this, _1));
@@ -347,10 +347,10 @@ public:
 		_main_sizer->Detach(_viewer.panel());
 		_main_sizer->Detach (_controls);
 		_main_sizer->Detach (_info);
-		if (mode != Config::PLAYER_MODE_DUAL) {
+		if (mode != Config::PlayerMode::DUAL) {
 			_main_sizer->Add(_viewer.panel(), 1, wxEXPAND);
 		}
-		_main_sizer->Add (_controls, mode == Config::PLAYER_MODE_DUAL ? 1 : 0, wxEXPAND | wxALL, 6);
+		_main_sizer->Add (_controls, mode == Config::PlayerMode::DUAL ? 1 : 0, wxEXPAND | wxALL, 6);
 		_main_sizer->Add (_info, 0, wxEXPAND | wxALL, 6);
 		_overall_panel->SetSizer (_main_sizer);
 		_overall_panel->Layout ();
@@ -901,10 +901,10 @@ private:
 
 	void view_full_screen ()
 	{
-		if (_mode == Config::PLAYER_MODE_FULL) {
-			_mode = Config::PLAYER_MODE_WINDOW;
+		if (_mode == Config::PlayerMode::FULL) {
+			_mode = Config::PlayerMode::WINDOW;
 		} else {
-			_mode = Config::PLAYER_MODE_FULL;
+			_mode = Config::PlayerMode::FULL;
 		}
 		setup_screen ();
 		setup_menu ();
@@ -912,10 +912,10 @@ private:
 
 	void view_dual_screen ()
 	{
-		if (_mode == Config::PLAYER_MODE_DUAL) {
-			_mode = Config::PLAYER_MODE_WINDOW;
+		if (_mode == Config::PlayerMode::DUAL) {
+			_mode = Config::PlayerMode::WINDOW;
 		} else {
-			_mode = Config::PLAYER_MODE_DUAL;
+			_mode = Config::PlayerMode::DUAL;
 		}
 		setup_screen ();
 		setup_menu ();
@@ -924,22 +924,22 @@ private:
 	void setup_menu ()
 	{
 		if (_view_full_screen) {
-			_view_full_screen->Check (_mode == Config::PLAYER_MODE_FULL);
+			_view_full_screen->Check (_mode == Config::PlayerMode::FULL);
 		}
 		if (_view_dual_screen) {
-			_view_dual_screen->Check (_mode == Config::PLAYER_MODE_DUAL);
+			_view_dual_screen->Check (_mode == Config::PlayerMode::DUAL);
 		}
 	}
 
 	void setup_screen ()
 	{
-		_controls->Show (_mode != Config::PLAYER_MODE_FULL);
-		_info->Show (_mode != Config::PLAYER_MODE_FULL);
-		_overall_panel->SetBackgroundColour (_mode == Config::PLAYER_MODE_FULL ? wxColour(0, 0, 0) : wxNullColour);
-		ShowFullScreen (_mode == Config::PLAYER_MODE_FULL);
-		_viewer.set_pad_black(_mode != Config::PLAYER_MODE_WINDOW);
+		_controls->Show (_mode != Config::PlayerMode::FULL);
+		_info->Show (_mode != Config::PlayerMode::FULL);
+		_overall_panel->SetBackgroundColour (_mode == Config::PlayerMode::FULL ? wxColour(0, 0, 0) : wxNullColour);
+		ShowFullScreen (_mode == Config::PlayerMode::FULL);
+		_viewer.set_pad_black(_mode != Config::PlayerMode::WINDOW);
 
-		if (_mode == Config::PLAYER_MODE_DUAL) {
+		if (_mode == Config::PlayerMode::DUAL) {
 			_dual_screen = new wxFrame(this, wxID_ANY, {});
 			_dual_screen->SetBackgroundColour (wxColour(0, 0, 0));
 			_dual_screen->ShowFullScreen (true);

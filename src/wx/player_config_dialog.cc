@@ -160,13 +160,13 @@ private:
 		auto config = Config::instance();
 
 		switch (config->player_mode()) {
-		case Config::PLAYER_MODE_WINDOW:
+		case Config::PlayerMode::WINDOW:
 			checked_set(_player_mode, 0);
 			break;
-		case Config::PLAYER_MODE_FULL:
+		case Config::PlayerMode::FULL:
 			checked_set(_player_mode, 1);
 			break;
-		case Config::PLAYER_MODE_DUAL:
+		case Config::PlayerMode::DUAL:
 			checked_set(_player_mode, 2);
 			break;
 		}
@@ -197,13 +197,13 @@ private:
 	{
 		switch (_player_mode->GetSelection()) {
 		case 0:
-			Config::instance()->set_player_mode(Config::PLAYER_MODE_WINDOW);
+			Config::instance()->set_player_mode(Config::PlayerMode::WINDOW);
 			break;
 		case 1:
-			Config::instance()->set_player_mode(Config::PLAYER_MODE_FULL);
+			Config::instance()->set_player_mode(Config::PlayerMode::FULL);
 			break;
 		case 2:
-			Config::instance()->set_player_mode(Config::PLAYER_MODE_DUAL);
+			Config::instance()->set_player_mode(Config::PlayerMode::DUAL);
 			break;
 		}
 	}
