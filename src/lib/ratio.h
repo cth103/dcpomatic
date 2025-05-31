@@ -34,44 +34,44 @@
 class Ratio
 {
 public:
-	Ratio (float ratio, std::string id, std::string in, boost::optional<std::string> cn, std::string d)
-		: _ratio (ratio)
-		, _id (id)
-		, _image_nickname (in)
-		, _container_nickname (cn)
-		, _isdcf_name (d)
+	Ratio(float ratio, std::string id, std::string in, boost::optional<std::string> cn, std::string d)
+		: _ratio(ratio)
+		, _id(id)
+		, _image_nickname(in)
+		, _container_nickname(cn)
+		, _isdcf_name(d)
 	{}
 
-	std::string id () const {
+	std::string id() const {
 		return _id;
 	}
 
-	std::string image_nickname () const {
+	std::string image_nickname() const {
 		return _image_nickname;
 	}
 
-	std::string container_nickname () const;
+	std::string container_nickname() const;
 
-	bool used_for_container () const {
+	bool used_for_container() const {
 		return static_cast<bool>(_container_nickname);
 	}
 
-	std::string isdcf_name () const {
+	std::string isdcf_name() const {
 		return _isdcf_name;
 	}
 
-	float ratio () const {
+	float ratio() const {
 		return _ratio;
 	}
 
-	static void setup_ratios ();
-	static Ratio const * from_id (std::string i);
-	static Ratio const * from_ratio (float r);
-	static Ratio const * nearest_from_ratio (float r);
+	static void setup_ratios();
+	static Ratio const * from_id(std::string i);
+	static Ratio const * from_ratio(float r);
+	static Ratio const * nearest_from_ratio(float r);
 
-	static std::vector<Ratio const *> all ();
+	static std::vector<Ratio const *> all();
 
-	static std::vector<Ratio const *> containers ();
+	static std::vector<Ratio const *> containers();
 
 private:
 	float _ratio;
