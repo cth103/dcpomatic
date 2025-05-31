@@ -130,10 +130,7 @@ Ratio::containers()
 		return all();
 	}
 
-	vector<Ratio const *> r;
-	r.push_back(Ratio::from_id("185"));
-	r.push_back(Ratio::from_id("239"));
-	return r;
+	return { Ratio::from_id("185"), Ratio::from_id("239") };
 }
 
 
