@@ -37,6 +37,7 @@ public:
 	void add_entry(wxString const& entry, wxString const& data);
 	void add_entry(wxString const& entry, std::string const& data);
 	void add_entry(std::string const& entry);
+	void add_entry(std::string const& entry, std::string const& data);
 	void set_entries(wxArrayString const& entries);
 
 	void clear();

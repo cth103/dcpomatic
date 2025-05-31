@@ -90,6 +90,13 @@ Choice::add_entry(wxString const& entry, string const& data)
 
 
 void
+Choice::add_entry(string const& entry, string const& data)
+{
+	add_entry(std_to_wx(entry), std_to_wx(data));
+}
+
+
+void
 Choice::set_entries(wxArrayString const& entries)
 {
 	if (GetStrings() == entries) {
