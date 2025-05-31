@@ -43,12 +43,16 @@ Ratio::setup_ratios()
 	DCPOMATIC_ASSERT(_ratios.empty());
 
 	_ratios.push_back(Ratio(float(1290) / 1080, "119", _("1.19"),              {},                      "119"));
+	_ratios.push_back(Ratio(float(1350) / 1080, "125", _("1.25"),              {},                      "125"));
 	_ratios.push_back(Ratio(float(1440) / 1080, "133", _("1.33 (4:3)"),        {},                      "133"));
 	_ratios.push_back(Ratio(float(1485) / 1080, "138", _("1.38 (Academy)"),    {},                      "137"));
 	_ratios.push_back(Ratio(float(1544) / 1080, "143", _("1.43 (IMAX)"),       {},                      "143"));
+	_ratios.push_back(Ratio(float(1620) / 1080, "150", _("1.50"),              {},                      "150"));
 	_ratios.push_back(Ratio(float(1800) / 1080, "166", _("1.66"),              {},                      "166"));
 	_ratios.push_back(Ratio(float(1920) / 1080, "178", _("1.78 (16:9 or HD)"), {},                      "178"));
 	_ratios.push_back(Ratio(float(1998) / 1080, "185", _("1.85 (Flat)"),       string(_("DCI Flat")),   "F"));
+	_ratios.push_back(Ratio(float(1716) /  858, "200", _("2.00"),              {},                      "200"));
+	_ratios.push_back(Ratio(float(2048) /  926, "221", _("2.21"),              {},                      "221"));
 	_ratios.push_back(Ratio(float(2048) /  872, "235", _("2.35 (35mm Scope)"), {},                      "S"));
 	_ratios.push_back(Ratio(float(2048) /  858, "239", _("2.39 (Scope)"),      string(_("DCI Scope")),  "S"));
 	_ratios.push_back(Ratio(float(2048) / 1080, "190", _("1.90 (Full frame)"), string(_("Full frame")), "C"));
