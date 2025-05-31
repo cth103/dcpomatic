@@ -19,6 +19,7 @@
 */
 
 
+#include "lib/crop.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/glcanvas.h>
@@ -134,6 +135,7 @@ private:
 	Last<Position<int>> _last_inter_position;
 	Last<dcp::Size> _last_inter_size;
 	Last<dcp::Size> _last_out_size;
+	Last<Crop> _last_crop;
 	Last<boost::optional<dcpomatic::Rect<float>>> _last_crop_guess;
 
 	boost::atomic<wxSize> _canvas_size;

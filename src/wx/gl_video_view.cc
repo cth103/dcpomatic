@@ -655,7 +655,7 @@ GLVideoView::set_image(shared_ptr<const PlayerVideo> pv)
 	video = Image::ensure_alignment(video, Image::Alignment::COMPACT);
 
 	/** If _optimisation is J2K we render a XYZ image, doing the colourspace
-	 *  conversion, scaling and video range conversion in the GL shader.
+	 *  conversion, cropping, scaling and video range conversion in the GL shader.
 	 *  Similarly for MPEG2 we do YUV -> RGB and scaling in the shader.
 	 *  Otherwise we render a RGB image without any shader-side processing.
 	 */
@@ -682,6 +682,7 @@ GLVideoView::set_image(shared_ptr<const PlayerVideo> pv)
 	auto const inter_position = pv->inter_position();
 	auto const inter_size = pv->inter_size();
 	auto const out_size = pv->out_size();
+	auto const crop = pv->crop();
 	auto const crop_guess = _viewer->crop_guess();
 
 	auto x_offset = std::max(0, (canvas_width - out_size.width) / 2);
@@ -692,13 +693,15 @@ GLVideoView::set_image(shared_ptr<const PlayerVideo> pv)
 	_last_inter_position.set_next(inter_position);
 	_last_inter_size.set_next(inter_size);
 	_last_out_size.set_next(out_size);
+	_last_crop.set_next(crop);
 	_last_crop_guess.set_next(crop_guess);
 
 	class Rectangle
 	{
 	public:
-		Rectangle(wxSize canvas_size, float x, float y, dcp::Size size)
+		Rectangle(wxSize canvas_size, float x, float y, dcp::Size size, Crop crop)
 			: _canvas_size(canvas_size)
+			, _crop(crop)
 		{
 			auto const x1 = x_pixels_to_gl(x);
 			auto const y1 = y_pixels_to_gl(y);
@@ -750,29 +753,34 @@ GLVideoView::set_image(shared_ptr<const PlayerVideo> pv)
 	private:
 		/* @param x x position in pixels where 0 is left and canvas_width is right on screen */
 		float x_pixels_to_gl(int x) const {
-			return (x * 2.0f / _canvas_size.GetWidth()) - 1.0f;
+			return ((x - _crop.left) * 2.0f / (_canvas_size.GetWidth() - _crop.right - _crop.left) - 1.0f);
 		}
 
 		/* @param y y position in pixels where 0 is top and canvas_height is bottom on screen */
 		float y_pixels_to_gl(int y) const {
-			return 1.0f - (y * 2.0f / _canvas_size.GetHeight());
+			return 1.0f - ((y - _crop.top) * 2.0f / (_canvas_size.GetHeight() - _crop.bottom - _crop.top));
 		}
 
 		wxSize _canvas_size;
+		Crop _crop;
 		float _vertices[20];
 	};
 
-	auto const sizing_changed = _last_canvas_size.changed() || _last_inter_position.changed() || _last_inter_size.changed() || _last_out_size.changed();
+	auto const sizing_changed = _last_canvas_size.changed() ||
+		_last_inter_position.changed() ||
+		_last_inter_size.changed() ||
+		_last_out_size.changed() ||
+		_last_crop.changed();
 
 	if (sizing_changed) {
 		const auto video = _optimisation == Optimisation::NONE
-			? Rectangle(canvas_size, x_offset, y_offset, out_size)
-			: Rectangle(canvas_size, inter_position.x + x_offset, inter_position.y + y_offset, inter_size);
+			? Rectangle(canvas_size, x_offset, y_offset, out_size, crop)
+			: Rectangle(canvas_size, inter_position.x + x_offset, inter_position.y + y_offset, inter_size, crop);
 
 		glBufferSubData(GL_ARRAY_BUFFER, array_buffer_video_offset, video.size(), video.vertices());
 		check_gl_error("glBufferSubData (video)");
 
-		const auto outline_content = Rectangle(canvas_size, inter_position.x + x_offset, inter_position.y + y_offset, inter_size);
+		const auto outline_content = Rectangle(canvas_size, inter_position.x + x_offset, inter_position.y + y_offset, inter_size, crop);
 		glBufferSubData(GL_ARRAY_BUFFER, array_buffer_outline_content_offset, outline_content.size(), outline_content.vertices());
 		check_gl_error("glBufferSubData (outline_content)");
 	}
@@ -782,14 +790,22 @@ GLVideoView::set_image(shared_ptr<const PlayerVideo> pv)
 			canvas_size,
 			inter_position.x + x_offset + inter_size.width * crop_guess->x,
 			inter_position.y + y_offset + inter_size.height * crop_guess->y,
-			dcp::Size(inter_size.width * crop_guess->width, inter_size.height * crop_guess->height)
+			dcp::Size(inter_size.width * crop_guess->width, inter_size.height * crop_guess->height),
+			crop
 			);
 		glBufferSubData(GL_ARRAY_BUFFER, array_buffer_crop_guess_offset, crop_guess_rectangle.size(), crop_guess_rectangle.vertices());
 		check_gl_error("glBufferSubData (crop_guess_rectangle)");
 	}
 
 	if (_have_subtitle_to_render) {
-		const auto subtitle = Rectangle(canvas_size, inter_position.x + x_offset + text->position.x, inter_position.y + y_offset + text->position.y, text->image->size());
+		const auto subtitle = Rectangle(
+			canvas_size,
+			inter_position.x + x_offset + text->position.x,
+			inter_position.y + y_offset + text->position.y,
+			text->image->size(),
+			crop
+		);
+
 		glBufferSubData(GL_ARRAY_BUFFER, array_buffer_subtitle_offset, subtitle.size(), subtitle.vertices());
 		check_gl_error("glBufferSubData (subtitle)");
 	}
