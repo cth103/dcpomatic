@@ -10,10 +10,10 @@ KDMs have their valid-from and to times expressed as a local time, with a timezo
 There have been various different UXs in DCP-o-matic to specify the timing and time zone for KDMs, and some discussion
 about the best way.
 
-Initially cinemas in DCP-o-matic had timezones.  Then the KDM UX would get local time, and it would be written to the
+Initially cinemas in DCP-o-matic had timezones.  Then the KDM UI would get local time, and it would be written to the
 KDMs with the appropriate timezone for the cinema.
 
-This was changed in \#2300 to remove timezone from the cinema and instead the KDM UX gets a local time with a time zone
+This was changed in \#2300 to remove timezone from the cinema and instead the KDM UI gets a local time with a time zone
 (e.g. 14:00 UTC+2) then the KDMs are written in UTC (i.e.\ 12:00) with the -00:00 timezone (meaning `unknown').
 
 The reason for this was that cinema timezones change with DST etc., people don't want to change them all the time, and
@@ -22,8 +22,8 @@ we don't want to try managing DSTs automatically.
 Then people said that this was no good, as DST is not a concern (KDMs shouldn't be issued so tightly that they could
 be messed up by DST errors) but timezones are definitely a concern as they can be up to 12 hours.
 
-Then in \#2473 it was changed so that cinemas once again have timezone but the KDM timezone is set by the KDM UX.
-The KDM UX timezone is prefilled with the cinema timezone, \emph{but only if that timezone is unique}.  If multiple
+Then in \#2473 it was changed so that cinemas once again have timezone but the KDM timezone is set by the KDM UI.
+The KDM UI timezone is prefilled with the cinema timezone, \emph{but only if that timezone is unique}.  If multiple
 cinemas are selected the default KDM UX timezone is UTC.
 
 Then Bert says this is no good because he makes KDMs for two different cinemas, one at UTC+9 and one at UTC+11.
