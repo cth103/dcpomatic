@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: DCP\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-05-08 23:51+0200\n"
-"PO-Revision-Date: 2025-01-24 15:43+0300\n"
+"PO-Revision-Date: 2025-06-08 20:12+0300\n"
 "Last-Translator: Mikhail Epshteyn <virus-2006@yandex.ru>\n"
 "Language-Team: Mikhail Epshteyn\n"
 "Language: ru\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 3.5\n"
+"X-Generator: Poedit 3.6\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SearchPath-0: .\n"
 
@@ -201,7 +201,7 @@ msgstr "1.66"
 
 #: src/lib/ratio.cc:50
 msgid "1.78 (16:9 or HD)"
-msgstr "1.78 (16:9 или  HD)"
+msgstr "1.78 (16:9 или HD)"
 
 #: src/lib/ratio.cc:51
 msgid "1.85 (Flat)"
@@ -1592,6 +1592,10 @@ msgid ""
 "preview, and if not try enabling or disabling the 'premultiply' video filter "
 "in the content Advanced Settings dialogue box."
 msgstr ""
+"Часть вашего видеоконтента содержит альфа-канал, и {} не может быть уверен, "
+"как его обработать. Проверьте, что ваше видео выглядит правильно в "
+"предварительном просмотре, и если нет, попробуйте включить или отключить "
+"видеофильтр 'premultiply' в диалоговом окне Дополнительных настроек контента."
 
 #: src/lib/writer.cc:775
 msgid "Stereo"
@@ -2142,9 +2146,8 @@ msgid "error during async_connect (%1)"
 msgstr "ошибка во время async_connect (%1)"
 
 #: src/lib/dcpomatic_socket.cc:79
-#, fuzzy
 msgid "error during async_connect: (%1)"
-msgstr "ошибка во время async_connect (%1)"
+msgstr "ошибка во время async_connect: (%1)"
 
 #: src/lib/dcpomatic_socket.cc:201
 msgid "error during async_read (%1)"

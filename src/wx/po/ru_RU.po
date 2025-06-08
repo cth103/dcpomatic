@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-05-08 23:51+0200\n"
-"PO-Revision-Date: 2025-01-24 15:41+0300\n"
+"PO-Revision-Date: 2025-06-08 21:02+0300\n"
 "Last-Translator: Mikhail Epshteyn <virus-2006@yandex.ru>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 3.5\n"
+"X-Generator: Poedit 3.6\n"
 
 #: src/wx/player_information.cc:112
 #, c-format
@@ -226,10 +226,9 @@ msgid "<IssueDate> has an invalid value %n"
 msgstr "<IssueDate> имеет недопустимое значение %n"
 
 #: src/wx/verify_dcp_result_panel.cc:635
-#, fuzzy, c-format
+#, c-format
 msgid "<MainSoundConfiguration> is invalid (%n)"
-msgstr ""
-"<MainSoundConfiguration> описывает неправильное количество каналов (%n)"
+msgstr "<MainSoundConfiguration> недопустима (%n)"
 
 #: src/wx/subtitle_appearance_dialog.cc:118
 msgid "<b>New colour</b>"
@@ -254,65 +253,67 @@ msgstr "A"
 #: src/wx/verify_dcp_result_panel.cc:538
 #, c-format
 msgid "A 2K JPEG2000 frame contains %n tile parts instead of 3."
-msgstr "2K JPEG2000 фрейм содержит %n части(ей) тайла вместо 3."
+msgstr "Кадр 2K JPEG2000 содержит %n части(ей) тайла вместо 3."
 
 #: src/wx/verify_dcp_result_panel.cc:552
-#, fuzzy, c-format
+#, c-format
 msgid "A 2K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %n"
-msgstr "Фрейм JPEG2000 содержит некорректный маркер POC (%n)."
+msgstr ""
+"Кадр 2K JPEG2000 содержит недопустимое значение Rsiz (возможности), равное %n"
 
 #: src/wx/verify_dcp_result_panel.cc:510
 #, c-format
 msgid "A 2K JPEG2000 frame has %n POC marker(s) instead of 0."
-msgstr "2K JPEG2000 фрейм содержит %n маркера(ов) POC вместо 3."
+msgstr "Кадр 2K JPEG2000 содержит %n маркера(ов) POC вместо 0."
 
 #: src/wx/verify_dcp_result_panel.cc:475
 #, c-format
 msgid "A 2K JPEG2000 frame has %n guard bits instead of 1."
-msgstr "2K JPEG2000 фрейм содержит %n защитных разряда(ов) вместо 1."
+msgstr "Кадр 2K JPEG2000 содержит %n защитных разряда(ов) вместо 1."
 
 #: src/wx/verify_dcp_result_panel.cc:545
 #, c-format
 msgid "A 4K JPEG2000 frame contains %n tile parts instead of 6."
-msgstr "4K JPEG2000 фрейм содержит %n части(ей) тайла вместо 6."
+msgstr "Кадр 4K JPEG2000 содержит %n части(ей) тайла вместо 6."
 
 #: src/wx/verify_dcp_result_panel.cc:559
-#, fuzzy, c-format
+#, c-format
 msgid "A 4K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %n"
-msgstr "Фрейм JPEG2000 содержит некорректный маркер POC (%n)."
+msgstr ""
+"Кадр 4K JPEG2000 содержит недопустимое значение Rsiz (возможности), равное %n"
 
 #: src/wx/verify_dcp_result_panel.cc:517
 #, c-format
 msgid "A 4K JPEG2000 frame has %n POC marker(s) instead of 1."
-msgstr "4K JPEG2000 фрейм содержит %n маркера(ов) POC вместо 3."
+msgstr "Кадр 4K JPEG2000 содержит %n маркера(ов) POC вместо 1."
 
 #: src/wx/verify_dcp_result_panel.cc:482
 #, c-format
 msgid "A 4K JPEG2000 frame has %n guard bits instead of 2."
-msgstr "4K JPEG2000 фрейм содержит %n защитных разряда(ов) вместо 1."
+msgstr "Кадр 4K JPEG2000 содержит %n защитных разряда(ов) вместо 2."
 
 #: src/wx/verify_dcp_result_panel.cc:531
 msgid "A JPEG2000 frame contains a POC marker in an invalid location."
-msgstr "Фрейм JPEG2000 содержит маркер POC в некорректном месте."
+msgstr "Кадр JPEG2000 содержит маркер POC в некорректном месте."
 
 #: src/wx/verify_dcp_result_panel.cc:524
 #, c-format
 msgid "A JPEG2000 frame contains an invalid POC marker (%n)."
-msgstr "Фрейм JPEG2000 содержит некорректный маркер POC (%n)."
+msgstr "Кадр JPEG2000 содержит некорректный маркер POC (%n)."
 
 #: src/wx/verify_dcp_result_panel.cc:503
 #, c-format
 msgid "A JPEG2000 frame has a code-block height of %n instead of 32."
-msgstr "Фрейм JPEG2000 имеет высоту кода блока %n вместо 32."
+msgstr "Кадр JPEG2000 имеет высоту кода блока %n вместо 32."
 
 #: src/wx/verify_dcp_result_panel.cc:496
 #, c-format
 msgid "A JPEG2000 frame has a code-block width of %n instead of 32."
-msgstr "Фрейм JPEG2000 имеет ширину кода блока %n вместо 32."
+msgstr "Кадр JPEG2000 имеет ширину кода блока %n вместо 32."
 
 #: src/wx/verify_dcp_result_panel.cc:566
 msgid "A JPEG2000 frame has no TLM marker."
-msgstr "Фрейм JPEG2000 не содержит маркер TLM."
+msgstr "Кадр JPEG2000 не содержит маркер TLM."
 
 #: src/wx/verify_dcp_result_panel.cc:489
 msgid "A JPEG2000 tile size does not match the image size."
@@ -343,7 +344,7 @@ msgid ""
 "A subtitle or closed caption refers to a font with ID %id that does not have "
 "a corresponding <LoadFont> node."
 msgstr ""
-"Субтитры или скрытая субтитры относятся к шрифту с идентификатором %id, "
+"Субтитры или скрытые субтитры относятся к шрифту с идентификатором %id, "
 "который не имеет соответствующего узла <LoadFont>."
 
 #: src/wx/sound_preferences_page.cc:176
@@ -400,7 +401,8 @@ msgid ""
 "Add a folder of image files (which will be used as a moving image sequence) "
 "or a folder of sound files."
 msgstr ""
-"Добавить папку последовательности изображений или папку звуковых файлов."
+"Добавьте папку с изображениями (которые будут использоваться в качестве "
+"последовательности движущихся изображений) или папку со звуковыми файлами."
 
 #: src/wx/full_language_tag_dialog.cc:69
 msgid "Add external"
@@ -424,7 +426,7 @@ msgstr "Добавить язык..."
 
 #: src/wx/text_panel.cc:346
 msgid "Add new..."
-msgstr "Добавить…"
+msgstr "Добавить новый…"
 
 #: src/wx/markers_panel.cc:257
 msgid "Add or move marker to current position"
@@ -527,7 +529,7 @@ msgstr "Разрешить нестандартные соотношения с�
 
 #: src/wx/full_config_dialog.cc:1072
 msgid "Allow mapping to all audio channels"
-msgstr "Разрешить пометку на все аудиоканалы"
+msgstr "Разрешить сопоставление (mapping) со всеми аудиоканалами"
 
 #: src/wx/full_config_dialog.cc:1073
 msgid "Allow use of SMPTE Bv2.0"
@@ -535,7 +537,7 @@ msgstr "Разрешить использование SMPTE Bv2.0"
 
 #: src/wx/rgba_colour_picker.cc:37
 msgid "Alpha   0"
-msgstr "Альфа  0"
+msgstr "Альфа   0"
 
 #: src/wx/about_dialog.cc:185
 msgid "Also supported by"
@@ -609,9 +611,8 @@ msgid "At least one pair of subtitles is separated by less than 2 frames."
 msgstr "Имеется пара субтитров, отделённых менее, чем двумя кадрами."
 
 #: src/wx/verify_dcp_result_panel.cc:364
-#, fuzzy
 msgid "At least one subtitle has zero or negative duration."
-msgstr "Имеется субтитр, длительность которого менее 15 кадров."
+msgstr "Имеется субтитр, длительность которого нулевая или отрицательная."
 
 #: src/wx/verify_dcp_result_panel.cc:367
 msgid "At least one subtitle lasts less than 15 frames."
@@ -733,7 +734,7 @@ msgstr "Нельзя использовать аудио этого DCP"
 
 #: src/wx/dcp_referencing_dialog.cc:201
 msgid "Cannot reference this DCP's closed captions"
-msgstr "Нельзя использовать субтитры этого DCP"
+msgstr "Нельзя использовать скрытые субтитры этого DCP"
 
 #: src/wx/dcp_referencing_dialog.cc:194
 msgid "Cannot reference this DCP's subtitles"
@@ -864,7 +865,7 @@ msgstr "Преобразование цвета"
 #. TRANSLATORS: translate the word "Custom" here; do not include the "Colour|" prefix
 #: src/wx/video_panel.cc:193
 msgid "Colour|Custom"
-msgstr "Настроить"
+msgstr "Colour|Настроить"
 
 #: src/wx/full_config_dialog.cc:923
 msgid "Company name"
@@ -881,7 +882,7 @@ msgstr "Конфигурационный файл"
 #. TRANSLATORS: translate the word "Timing" here; do not include the "Config|" prefix
 #: src/wx/full_config_dialog.cc:1287 src/wx/player_config_dialog.cc:312
 msgid "Config|Timing"
-msgstr "Тайминг"
+msgstr "Config|Тайминг"
 
 #: src/wx/confirm_kdm_email_dialog.cc:34
 msgid "Confirm KDM email"
@@ -924,7 +925,7 @@ msgstr "Контраст"
 
 #: src/wx/text_panel.cc:100
 msgid "Coord|Y"
-msgstr "Y"
+msgstr "Coord|Y"
 
 #: src/wx/dcp_panel.cc:91
 msgid "Copy as name"
@@ -1913,7 +1914,7 @@ msgstr "Ниже"
 
 #: src/wx/full_config_dialog.cc:1221
 msgid "Layout for short screen"
-msgstr ""
+msgstr "Макет для короткого экрана"
 
 #: src/wx/certificate_chain_editor.cc:310
 msgid "Leaf"
@@ -2159,11 +2160,10 @@ msgstr ""
 "POC."
 
 #: src/wx/verify_dcp_result_panel.cc:553 src/wx/verify_dcp_result_panel.cc:560
-#, fuzzy
 msgid "More JPEG2000 frames (not listed) contain invalid Rsiz values."
 msgstr ""
-"Другие кадры JPEG2000 (не указанные в списке) содержат недопустимые маркеры "
-"POC."
+"Другие кадры JPEG2000 (не указанные в списке) содержат недопустимые значения "
+"Rsiz."
 
 #: src/wx/verify_dcp_result_panel.cc:546
 msgid ""
@@ -2380,7 +2380,7 @@ msgstr "OSS"
 
 #: src/wx/dcp_referencing_dialog.cc:115
 msgid "OV DCP"
-msgstr ""
+msgstr "OV DCP"
 
 #: src/wx/audio_mapping_view.cc:86
 msgid "Off"
@@ -2685,7 +2685,7 @@ msgstr "Получатели"
 
 #: src/wx/metadata_dialog.cc:310
 msgid "Red band"
-msgstr "Red band"
+msgstr "Красная полоса"
 
 #: src/wx/colour_conversion_editor.cc:140
 msgid "Red chromaticity"
@@ -2715,7 +2715,7 @@ msgstr "Части фильма..."
 
 #: src/wx/dcp_referencing_dialog.cc:107
 msgid "Refer to"
-msgstr ""
+msgstr "Ссылаться на"
 
 #: src/wx/playlist_controls.cc:85 src/wx/playlist_controls.cc:99
 msgid "Refresh"
@@ -2938,7 +2938,6 @@ msgid "Select Certificate File"
 msgstr "Выберите файл сертификата"
 
 #: src/wx/certificate_chain_editor.cc:161
-#, fuzzy
 msgid "Select Certificate file"
 msgstr "Выберите файл сертификата"
 
@@ -2967,7 +2966,6 @@ msgid "Select Key File"
 msgstr "Выберите файл ключа"
 
 #: src/wx/certificate_chain_editor.cc:364
-#, fuzzy
 msgid "Select Key file"
 msgstr "Выберите файл ключа"
 
@@ -3240,7 +3238,7 @@ msgstr "Поток"
 # +
 #: src/wx/metadata_dialog.cc:292
 msgid "Studio"
-msgstr "Создатель контента"
+msgstr "Студия"
 
 #: src/wx/full_config_dialog.cc:681 src/wx/kdm_email_preferences_page.cc:71
 msgid "Subject"
@@ -3257,7 +3255,7 @@ msgstr "Название организации-субъекта"
 
 #: src/wx/about_dialog.cc:181
 msgid "Subscribers"
-msgstr "Финансовая помощь"
+msgstr "Абоненты"
 
 #: src/wx/subtitle_appearance_dialog.cc:61
 msgid "Subtitle appearance"
@@ -3270,11 +3268,11 @@ msgstr "Ресурс субтитров %n содержит ненулевой �
 
 #: src/wx/export_subtitles_dialog.cc:60
 msgid "Subtitle files (.mxf)|*.mxf"
-msgstr "Файлы субтитров (*.mov)|*.mov"
+msgstr "Файлы субтитров (*.mxf)|*.mxf"
 
 #: src/wx/export_subtitles_dialog.cc:60
 msgid "Subtitle files (.xml)|*.xml"
-msgstr "Файлы субтитров (*.mov)|*.mov"
+msgstr "Файлы субтитров (*.xml)|*.xml"
 
 #: src/wx/dcp_referencing_dialog.cc:115
 msgid "Subtitles"
@@ -3995,6 +3993,9 @@ msgid ""
 "Tick to check details of the picture asset, such as frame sizes and JPEG2000 "
 "bitstream validity.  These checks are quite time-consuming."
 msgstr ""
+"Установите флажок, чтобы проверить детали изображения, такие как размеры "
+"кадров и допустимость использования битового потока JPEG2000.  Эти проверки "
+"занимают довольно много времени."
 
 #: src/wx/content_timeline_dialog.cc:50
 msgid "Timeline"
@@ -4011,7 +4012,7 @@ msgstr "Тайминг"
 #. TRANSLATORS: translate the word "Timing" here; do not include the "Timing|" prefix
 #: src/wx/timing_panel.cc:67
 msgid "Timing|Timing"
-msgstr "Тайминг"
+msgstr "Timing|Тайминг"
 
 #: src/wx/smpte_metadata_dialog.cc:60
 msgid "Title language"
@@ -4112,9 +4113,8 @@ msgid "UTC+5:30"
 msgstr "UTC+5:30"
 
 #: src/wx/wx_util.cc:727
-#, fuzzy
 msgid "UTC+5:45"
-msgstr "UTC+5"
+msgstr "UTC+5:45"
 
 #: src/wx/wx_util.cc:728
 msgid "UTC+6"
@@ -4265,11 +4265,11 @@ msgstr "Отчет о проверке"
 
 #: src/wx/verify_dcp_dialog.cc:65
 msgid "Verify"
-msgstr ""
+msgstr "Проверить"
 
 #: src/wx/verify_dcp_dialog.cc:53
 msgid "Verify picture asset details"
-msgstr ""
+msgstr "Проверить детали изображения"
 
 #: src/wx/smpte_metadata_dialog.cc:109 src/wx/system_information_dialog.cc:67
 msgid "Version"
@@ -4579,9 +4579,8 @@ msgid "protocol"
 msgstr "протокол"
 
 #: src/wx/dkdm_output_panel.cc:68
-#, fuzzy
 msgid "recipient name"
-msgstr "Получатель"
+msgstr "имя получателя"
 
 #: src/wx/full_config_dialog.cc:1263
 msgid "reel number"
@@ -4617,7 +4616,6 @@ msgid "type (j2c/pcm/sub)"
 msgstr "тип (j2c/pcm/sub)"
 
 #: src/wx/full_config_dialog.cc:1243
-#, fuzzy
 msgid "type(cpl/pkl)"
 msgstr "тип (cpl/pkl)"
 

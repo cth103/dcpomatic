@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-05-08 23:51+0200\n"
-"PO-Revision-Date: 2025-01-24 15:43+0300\n"
+"PO-Revision-Date: 2025-06-08 19:54+0300\n"
 "Last-Translator: Mikhail Epshteyn <virus-2006@yandex.ru>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 3.5\n"
+"X-Generator: Poedit 3.6\n"
 
 #: src/tools/dcpomatic_kdm.cc:491
 #, c-format
@@ -36,17 +36,17 @@ msgstr ""
 #: src/tools/dcpomatic_player.cc:1364
 #, c-format
 msgid "%s could not start"
-msgstr "%s Не удалось запустить DCP-o-matic"
+msgstr "%s не удалось запустить"
 
 #: src/tools/dcpomatic_playlist.cc:687
 #, c-format
 msgid "%s could not start %s"
-msgstr "%s Не удалось запустить DCP-o-matic %s"
+msgstr "%s не удалось запустить %s"
 
 #: src/tools/dcpomatic_combiner.cc:269
 #, c-format
 msgid "%s could not start (%s)"
-msgstr "%s Не удалось запустить DCP-o-matic (%s)"
+msgstr "%s не удалось запустить (%s)"
 
 #: src/tools/dcpomatic.cc:1773 src/tools/dcpomatic_editor.cc:563
 #, c-format
@@ -59,7 +59,7 @@ msgstr "&Добавить проект...\tCtrl-A"
 
 #: src/tools/dcpomatic_player.cc:610
 msgid "&Add OV..."
-msgstr "Добавить OV…"
+msgstr "&Добавить OV…"
 
 #: src/tools/dcpomatic_player.cc:618
 msgid "&Close"
@@ -131,7 +131,7 @@ msgstr "&Сохранить\tCtrl-S"
 
 #: src/tools/dcpomatic_player.cc:613
 msgid "&Save frame to file...\tCtrl-S"
-msgstr "&Сохранить кард фильма в файл…\tCtrl-E"
+msgstr "&Сохранить кадр фильма в файл…\tCtrl-E"
 
 #: src/tools/dcpomatic.cc:1405
 msgid "&Send DCP to TMS"
@@ -247,7 +247,7 @@ msgstr ""
 #: src/tools/dcpomatic_server.cc:367
 #, c-format
 msgid "An unknown error has occurred with the %s."
-msgstr "Произошла неизвестная ошибка в сервере кодирования %s."
+msgstr "Произошла неизвестная ошибка с %s."
 
 #: src/tools/dcpomatic.cc:1024 src/tools/dcpomatic_kdm.cc:515
 msgid "An unknown exception occurred."
@@ -291,7 +291,7 @@ msgstr "Содержимое CPL-файла не зашифровано."
 #: src/tools/dcpomatic_editor.cc:404
 #, c-format
 msgid "CPL: %s"
-msgstr ""
+msgstr "CPL: %s"
 
 #: src/tools/dcpomatic.cc:1426 src/tools/dcpomatic_player.cc:660
 msgid "Check for updates"
@@ -304,7 +304,7 @@ msgstr "Выбрать папку с DCP"
 #: src/tools/dcpomatic.cc:1957 src/tools/dcpomatic.cc:1976
 #, c-format
 msgid "Close %s"
-msgstr "&Закрыть %s"
+msgstr "Закрыть %s"
 
 #: src/tools/dcpomatic.cc:167
 msgid "Close without saving film"
@@ -316,11 +316,11 @@ msgstr "Скрытые субтитры…"
 
 #: src/tools/dcpomatic_combiner.cc:127
 msgid "Combine"
-msgstr "Соеденить"
+msgstr "Объединить"
 
 #: src/tools/dcpomatic_combiner.cc:181
 msgid "Combining DCPs"
-msgstr "Соединить DCPs"
+msgstr "Объединение DCPs"
 
 #: src/tools/dcpomatic_editor.cc:217
 msgid "Content title text"
@@ -497,7 +497,7 @@ msgstr "Создать KDM-ключи"
 
 #: src/tools/dcpomatic_editor.cc:212 src/tools/dcpomatic_editor.cc:299
 msgid "Creator"
-msgstr "Создать"
+msgstr "Создатель"
 
 #: src/tools/dcpomatic_disk.cc:138
 msgid "DCP"
@@ -513,7 +513,7 @@ msgstr "DCPs"
 
 #: src/tools/dcpomatic_combiner.cc:191
 msgid "DCPs combined successfully."
-msgstr "DCPs соединены успешно."
+msgstr "DCPs бъединились успешно."
 
 #: src/tools/dcpomatic_kdm.cc:175
 msgid "DKDM"
@@ -563,8 +563,9 @@ msgid ""
 "Do you see a 'User Account Control' dialogue asking about "
 "dcpomatic2_disk_writer.exe?  If so, click 'Yes', then try again."
 msgstr ""
-"Вы видите в ’User Account Control’ диалог спрашивает о "
-"dcpomatic2_disk_writer.exe? Если так, нажмите ’Да’, затем попробуйте снова."
+"Вы видите в ’User Account Control (Контроль учетных записей)’ диалог "
+"спрашивает разрешения для dcpomatic2_disk_writer.exe? Нажмите ’Да’, затем "
+"попробуйте снова."
 
 #: src/tools/dcpomatic.cc:861
 #, c-format
@@ -645,7 +646,7 @@ msgstr "Экспорт..."
 
 #: src/tools/dcpomatic_player.cc:650
 msgid "Eye"
-msgstr ""
+msgstr "Смотреть"
 
 #: src/tools/dcpomatic.cc:1039 src/tools/dcpomatic_kdm.cc:362
 #, c-format
@@ -702,18 +703,18 @@ msgid ""
 "projects, not DCPs.  To import a DCP, create a new project with File -> New "
 "and then click the \"Add DCP...\" button."
 msgstr ""
-"Вы пытаетесь открыть DCP-пакет.  Файл -> Открыть загружает проекты DCP-o-"
-"matic %s, а не DCP-пакеты.  Для импорта DCP-пакета создайте новый проект "
-"(Файл -> Новый) и нажмите кнопку \"Добавить DCP...\"."
+"Вы пытаетесь открыть DCP-пакет.  Файл -> Открыть загружает проекты %s, а не "
+"DCP-пакеты.  Для импорта DCP-пакета создайте новый проект (Файл -> Новый) и "
+"нажмите кнопку \"Добавить DCP...\"."
 
 #. TRANSLATORS: translate the word "Timing" here; do not include the "KDM|" prefix
 #: src/tools/dcpomatic_kdm.cc:169
 msgid "KDM|Timing"
-msgstr "Тайминг"
+msgstr "KDM|Тайминг"
 
 #: src/tools/dcpomatic_player.cc:648
 msgid "Left"
-msgstr ""
+msgstr "Слева"
 
 #: src/tools/dcpomatic_playlist.cc:133
 msgid "Length"
@@ -787,7 +788,7 @@ msgstr "Открыть DCP в &плеере"
 
 #: src/tools/dcpomatic_editor.cc:343
 msgid "Open a DCP using File -> Open"
-msgstr "Открыть DCP используйте File -> Open"
+msgstr "Открыть DCP используйте Файл -> Открыть"
 
 #: src/tools/dcpomatic_kdm.cc:227
 msgid "Output"
@@ -800,7 +801,7 @@ msgstr "Вывод DCP папки"
 #: src/tools/dcpomatic_editor.cc:407
 #, c-format
 msgid "PKL: %s"
-msgstr ""
+msgstr "PKL: %s"
 
 #: src/tools/dcpomatic.cc:1376
 msgid "Paste settings...\tCtrl-V"
@@ -828,11 +829,11 @@ msgstr ""
 
 #: src/tools/dcpomatic_playlist.cc:417
 msgid "Question|N"
-msgstr "Н"
+msgstr "Question|Н"
 
 #: src/tools/dcpomatic_playlist.cc:417
 msgid "Question|Y"
-msgstr "Д"
+msgstr "Question|Д"
 
 #: src/tools/dcpomatic_server.cc:243
 msgid "Quit"
@@ -874,19 +875,19 @@ msgstr "Восстановить настройки по умолчанию"
 
 #: src/tools/dcpomatic_player.cc:649
 msgid "Right"
-msgstr ""
+msgstr "Справа"
 
 #: src/tools/dcpomatic.cc:1410
 msgid "S&how DCP in Explorer"
-msgstr "Открыть папку DCP"
+msgstr "П&оказать DCP в Проводнике"
 
 #: src/tools/dcpomatic.cc:1412
 msgid "S&how DCP in Files"
-msgstr "Открыть папку DCP"
+msgstr "П&оказать DCP в Файлах"
 
 #: src/tools/dcpomatic.cc:1408
 msgid "S&how DCP in Finder"
-msgstr "Открыть папку DCP"
+msgstr "П&оказать DCP в Finder"
 
 #: src/tools/dcpomatic_playlist.cc:320
 msgid "Save"
@@ -1202,9 +1203,8 @@ msgid "Up"
 msgstr "Вверх"
 
 #: src/tools/dcpomatic_player.cc:999
-#, fuzzy
 msgid "Verify DCP"
-msgstr "Проверить DCP..."
+msgstr "Проверить DCP"
 
 #: src/tools/dcpomatic_player.cc:658
 msgid "Verify DCP..."
