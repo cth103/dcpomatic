@@ -63,7 +63,7 @@ help(std::function<void (string)> out)
 	out("  -s, --soft-link  using soft links instead of copying");
 	out("  -d, --assets-dir look in this directory for assets (can be given more than once)");
 	out("  -r, --rename     rename all files to <uuid>.<mxf|xml>");
-	out("  --config <dir>   directory containing config.xml and cinemas.xml");
+	out("  --config <dir>   directory containing config.xml and cinemas.sqlite3");
 }
 
 
