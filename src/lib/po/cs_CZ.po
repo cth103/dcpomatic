@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-05-08 23:51+0200\n"
-"PO-Revision-Date: 2024-05-02 15:01+0200\n"
+"PO-Revision-Date: 2025-06-10 15:13+0200\n"
 "Last-Translator: Tomáš Begeni <begeni@razdva.cz>\n"
 "Language-Team: \n"
 "Language: cs_CZ\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.4.2\n"
+"X-Generator: Poedit 3.6\n"
 
 #: src/lib/video_content.cc:527
 #, c-format
@@ -124,53 +124,52 @@ msgid "%1 [video]"
 msgstr "%1 [video]"
 
 #: src/lib/job.cc:181 src/lib/job.cc:196
-#, fuzzy
 msgid ""
 "%1 could not open the file %2 (%3).  Perhaps it does not exist or is in an "
 "unexpected format."
 msgstr ""
-"DCP-o-matic nemohl otevřít soubor %1 (%2).  Možná, že soubor neexistuje nebo "
-"je v  nepodporovaném formátu."
+"%1 se nepodařilo otevřít soubor %2 (%3).  Možná neexistuje nebo je v "
+"nepodporovaném formátu."
 
 #: src/lib/film.cc:1707
-#, fuzzy
 msgid ""
 "%1 had to change your settings for referring to DCPs as OV.  Please review "
 "those settings to make sure they are what you want."
 msgstr ""
-"DCP-o-matic musel změnit vaše nastavení pro odkazování na DCPs jako OV.  "
-"Zkontrolujte prosím tato nastavení a ujistěte se, že je to to co chcete."
+"%1 musel změnit nastavení pro odkazování na DCP jako OV.  Zkontrolujte "
+"prosím tato nastavení a ujistěte se, že odpovídají vašim požadavkům."
 
 #: src/lib/film.cc:1673
-#, fuzzy
 msgid ""
 "%1 had to change your settings so that the film's frame rate is the same as "
 "that of your Atmos content."
 msgstr ""
-"DCP-o-matic musel změnit vaše nastavení tak, aby snímková frekvence filmu "
-"byla stejná jako u vašeho obsahu Atmos."
+"%1 musel změnit nastavení tak, aby snímková frekvence filmu byla stejná jako "
+"u obsahu Atmos."
 
 #: src/lib/film.cc:1720
 msgid ""
 "%1 had to remove one of your custom reel boundaries as it no longer lies "
 "within the film."
 msgstr ""
+"%1 musel odstranit jeden z vašich vlastních reelů, protože již neleží uvnitř "
+"filmu."
 
 #: src/lib/film.cc:1718
 msgid ""
 "%1 had to remove some of your custom reel boundaries as they no longer lie "
 "within the film."
 msgstr ""
+"%1 musel odstranit některé z vašich vlastních hranic reelů, protože již "
+"neleží uvnitř filmu."
 
 #: src/lib/ffmpeg_content.cc:121
-#, fuzzy
 msgid "%1 no longer supports the `%2' filter, so it has been turned off."
-msgstr "DCP-o-matic nepodporuje `%1' filter, takže filter bude vypnutý."
+msgstr "%1 již nepodporuje filtr `%2', proto byl vypnut."
 
 #: src/lib/config.cc:441 src/lib/config.cc:1245
-#, fuzzy
 msgid "%1 notification"
-msgstr "Emailové oznámení"
+msgstr "%1 oznámení"
 
 #: src/lib/transcode_job.cc:180
 msgid "%1; %2/%3 frames"
@@ -257,7 +256,7 @@ msgid "; %1 remaining; finishing at %2%3"
 msgstr "; %1 zbývajících; dokončení v %2%3"
 
 #: src/lib/analytics.cc:58
-#, fuzzy, c-format, c++-format
+#, c-format, c++-format
 msgid ""
 "<h2>You have made {} DCPs with {}!</h2><img width=\"20%%\" "
 "src=\"memory:me.jpg\" align=\"center\"><font size=\"+1\"><p>Hello. I'm Carl "
@@ -284,26 +283,23 @@ msgstr ""
 "Paypal a darovat€10</a></ul><p>Mockrát děkuji!</font>"
 
 #: src/lib/hints.cc:177
-#, fuzzy
 msgid ""
 "A few projectors have problems playing back very high bit-rate DCPs.  It is "
 "a good idea to drop the video bit rate down to about 200Mbit/s; this is "
 "unlikely to have any visible effect on the image."
 msgstr ""
-"Některé projektory mají problémy s přehráváním s velmi vysokou přenosovou "
-"rychlostí DCPs. Dobrým nápadem může být nastavení šířky pásma JPEG2000 pod "
-"200 MB/s; Je nepravděpodobné, že by toto nastvení mělo viditelný vliv na "
-"kvalitu obrázku."
+"Několik projektorů má problémy s přehráváním DCP s velmi vysokým datovým "
+"tokem.  Je vhodné snížit přenosovou rychlost videa na přibližně 200 Mbit/s; "
+"na obraz to pravděpodobně nebude mít žádný viditelný vliv."
 
 #: src/lib/text_content.cc:250
-#, fuzzy
 msgid ""
 "A subtitle or closed caption file in this project is marked with the "
 "language '%1', which %2 does not recognise.  The file's language has been "
 "cleared."
 msgstr ""
 "Soubor titulků nebo skrytých titulků v tomto projektu je označen jazykem "
-"‚%1‘, který DCP-o-matic nerozpozná.  Jazyk souboru byl vymazán."
+"„%1“, který %2 nerozpoznám.  Jazyk souboru byl vymazán."
 
 #: src/lib/ffmpeg_content.cc:645
 msgid "ARIB STD-B67 ('Hybrid log-gamma')"
@@ -543,9 +539,8 @@ msgid "Closed captions"
 msgstr "Skryté titulky"
 
 #: src/lib/text_type.cc:83
-#, fuzzy
 msgid "Closed subtitles"
-msgstr "Otevřít titulky"
+msgstr "Zavřené titulky"
 
 #: src/lib/ffmpeg_content.cc:624
 msgid "Colour primaries"
@@ -752,18 +747,16 @@ msgid "Could not decode image (%1)"
 msgstr "Nelze dekódovat obraz (%1)"
 
 #: src/lib/unzipper.cc:76
-#, fuzzy
 msgid "Could not find file %1 in ZIP file"
-msgstr "Nemohu otevřít ZIP soubor"
+msgstr "V souboru ZIP se nepodařilo najít soubor %1"
 
 #: src/lib/encode_server_finder.cc:197
-#, fuzzy
 msgid ""
 "Could not listen for remote encode servers.  Perhaps another instance of %1 "
 "is running."
 msgstr ""
-"Nemohu zkontrolovat vzdálené enkódovací servery. Možná je už DCP-o-matic "
-"zapnutý."
+"Nepodařilo se naslouchat vzdáleným serverům pro kódování.  Možná je spuštěna "
+"jiná instance %1."
 
 #: src/lib/job.cc:180 src/lib/job.cc:195
 msgid "Could not open %1"
@@ -847,18 +840,24 @@ msgid ""
 "DCP-o-matic had to set your container to 1920x1080 as it's the only one that "
 "can be used with MPEG2 encoding."
 msgstr ""
+"DCP-o-matic musel nastavit váš kontejner na 1920x1080, protože to je jediný "
+"kontejner, který lze použít s kódováním MPEG2."
 
 #: src/lib/film.cc:1737
 msgid ""
 "DCP-o-matic had to set your film to 2D as 3D is not yet supported with MPEG2 "
 "encoding."
 msgstr ""
+"DCP-o-matic musel váš film nastavit na 2D, protože 3D zatím není podporováno "
+"kódováním MPEG2."
 
 #: src/lib/film.cc:1741
 msgid ""
 "DCP-o-matic set your container to DCI Flat as it was previously 1920x1080 "
 "and that is not a standard ratio with JPEG2000 encoding."
 msgstr ""
+"DCP-o-matic nastavil kontejner na DCI Flat, protože dříve byl 1920x1080 a to "
+"není standardní poměr s kódováním JPEG2000."
 
 #: src/lib/datasat_ap2x.cc:28
 msgid "Datasat AP20 or AP25"
@@ -870,7 +869,6 @@ msgid "De-interlacing"
 msgstr "De-interlacing"
 
 #: src/lib/config.cc:1233
-#, fuzzy
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -889,16 +887,16 @@ msgstr ""
 "Prosím, najděte přiložené KDM pro $CPL_NAME.\n"
 "\n"
 "Kino: $CINEMA_NAME\n"
-"Sála(y): $SCREENS\n"
+"Sál(y): $SCREENS\n"
 "\n"
-"KDM jsou platné od $START_TIME do $END_TIME.\n"
+"KDM jsou platné od $START_TIME until $END_TIME\n"
 "\n"
 "Děkujeme a přejeme pěkný den,\n"
 "DCP-o-matic"
 
 #: src/lib/exceptions.cc:179
 msgid "Disk full when writing %1"
-msgstr ""
+msgstr "Disk plný při zápisu %1"
 
 #: src/lib/dolby_cp750.cc:31
 msgid "Dolby CP650 or CP750"
@@ -985,9 +983,8 @@ msgid "FCC"
 msgstr "FCC"
 
 #: src/lib/fcpxml_content.cc:92
-#, fuzzy
 msgid "FCP XML subtitles"
-msgstr "DCP XML titulky"
+msgstr "Titulky FCP XML"
 
 #: src/lib/scp_uploader.cc:69
 msgid "Failed to authenticate with server (%1)"
@@ -1067,6 +1064,8 @@ msgid ""
 "check your configuration and license, and ensure that you are connected to "
 "the internet."
 msgstr ""
+"GPU akcelerace je povolena, ale dekodér grok nefunguje.  Zkontrolujte prosím "
+"konfiguraci a licenci a ujistěte se, že jste připojeni k internetu."
 
 #: src/lib/ffmpeg_content.cc:631
 msgid "Gamma 22 (BT470M)"
@@ -1135,9 +1134,8 @@ msgstr ""
 "měli jistotu, že budou vidět."
 
 #: src/lib/job.cc:170 src/lib/job.cc:205 src/lib/job.cc:265 src/lib/job.cc:275
-#, fuzzy
 msgid "It is not known what caused this error.  %1"
-msgstr "Nevím, co zapříčinilo tuto chybu."
+msgstr "Není známo, co tuto chybu způsobilo.  %1"
 
 #: src/lib/ffmpeg_content.cc:620
 msgid "JEDEC P22"
@@ -1299,21 +1297,19 @@ msgid "Only the last piece of content to be joined can have an end trim."
 msgstr "Jen poslední část připojeného obsahu může být upravená od konce."
 
 #: src/lib/text_type.cc:81
-#, fuzzy
 msgid "Open captions"
-msgstr "Skryté titulky"
+msgstr "Otevřené titulky"
 
 #: src/lib/text_type.cc:79
 msgid "Open subtitles"
 msgstr "Otevřít titulky"
 
 #: src/lib/transcode_job.cc:116
-#, fuzzy
 msgid ""
 "Open the project in %1, check the settings, then save it before trying again."
 msgstr ""
-"Otevřete projekt v programu DCP-o-matic, zkontrolujte nastavení a před "
-"dalším pokusem jej uložte."
+"Otevřete projekt v %1, zkontrolujte nastavení a před dalším pokusem jej "
+"uložte."
 
 #: src/lib/filter.cc:92 src/lib/filter.cc:93 src/lib/filter.cc:94
 #: src/lib/filter.cc:95
@@ -1333,13 +1329,12 @@ msgid "P3"
 msgstr "P3"
 
 #: src/lib/util.cc:1196
-#, fuzzy
 msgid ""
 "Please report this problem by using Help -> Report a problem or via email to "
 "%1"
 msgstr ""
-"Nahlásit tento problém pomocí Nápovědy -> Nahlásit problém e-mailem na "
-"adresu carl@dcpomatic.com"
+"Nahlaste prosím tento problém pomocí Nápověda -> Nahlásit problém nebo e-"
+"mailem na adresu %1."
 
 #: src/lib/dcp_content_type.cc:61
 msgid "Policy"
@@ -1575,6 +1570,10 @@ msgid ""
 "preview, and if not try enabling or disabling the 'premultiply' video filter "
 "in the content Advanced Settings dialogue box."
 msgstr ""
+"Některý obsah videa obsahuje alfa kanál a {} nelze určit, jak jej "
+"zpracovat.  Zkontrolujte, zda vaše video vypadá v náhledu správně, a pokud "
+"ne, zkuste povolit nebo zakázat filtr videa „premultiply“ v dialogu "
+"Pokročilé nastavení obsahu."
 
 #: src/lib/writer.cc:775
 msgid "Stereo"
@@ -1625,7 +1624,6 @@ msgid "The certificate chain for signing is invalid (%1)"
 msgstr "Řetěz certifikátů pro podepisování je neplatný (%1)"
 
 #: src/lib/hints.cc:744
-#, fuzzy
 msgid ""
 "The certificate chain that %1 uses for signing DCPs and KDMs contains a "
 "small error which will prevent DCPs from being validated correctly on some "
@@ -1633,14 +1631,13 @@ msgid ""
 "clicking the \"Re-make certificates and key...\" button in the Keys page of "
 "Preferences."
 msgstr ""
-"Řetězec certifikátů, který DCP-o-matic používá k podepisování DCP a KDM, "
-"obsahuje malou chybu, která zabrání správnému ověření DCP na některých "
-"systémech. Je vhodné znovu vytvořit řetězec podpisových certifikátů "
-"kliknutím na tlačítko „Znovu vytvořit certifikáty a klíč…“ na stránce Klíče "
-"v Předvolbách."
+"Řetězec certifikátů, který %1 používá pro podepisování DCP a KDM, obsahuje "
+"malou chybu, která v některých systémech brání správnému ověření DCP.  "
+"Doporučujeme znovu vytvořit řetězec podpisového certifikátu kliknutím na "
+"tlačítko „Re-make certificates and key...“ (Znovu vytvořit certifikáty a "
+"klíče...) na stránce Keys (Klíče) v okně Preferences (Předvolby)."
 
 #: src/lib/hints.cc:752
-#, fuzzy
 msgid ""
 "The certificate chain that %1 uses for signing DCPs and KDMs has a validity "
 "period that is too long.  This will cause problems playing back DCPs on some "
@@ -1648,11 +1645,12 @@ msgid ""
 "clicking the \"Re-make certificates and key...\" button in the Keys page of "
 "Preferences."
 msgstr ""
-"Řetěz certifikátů, který DCP-o-matic používá k podepisování DCP a KDM, má "
-"příliš dlouhou dobu platnosti. To způsobí problémy s přehráváním DCP na "
-"některých systémech. Je vhodné znovu vytvořit řetězec podpisových "
-"certifikátů kliknutím na tlačítko „Znovu vytvořit certifikáty a klíč…“ na "
-"stránce Klíče v Předvolbách."
+"Řetězec certifikátů, který %1 používá pro podepisování DCP a KDM, má příliš "
+"dlouhou dobu platnosti.  To způsobuje problémy s přehráváním DCP na "
+"některých systémech. Doporučujeme znovu vytvořit řetězec podpisových "
+"certifikátů kliknutím na tlačítko „Re-make certificates and key...“ (Znovu "
+"vytvořit certifikáty a klíče...) na stránce Keys (Klíče) v okně Preferences "
+"(Předvolby)."
 
 #: src/lib/video_decoder.cc:70
 msgid ""
@@ -1694,18 +1692,19 @@ msgid ""
 "DCPs encoded with JPEG2000 rather than MPEG2.  Make sure that your cinema "
 "really wants an old-style MPEG2 DCP."
 msgstr ""
+"Převážná většina kin v Evropě, Austrálii a Severní Americe očekává DCP "
+"zakódované pomocí formátu JPEG2000, nikoli MPEG2.  Ujistěte se, že vaše kino "
+"skutečně chce DCP ve starém formátu MPEG2."
 
 #: src/lib/release_notes.cc:87
-#, fuzzy
 msgid ""
 "The vertical offset control for some subtitles now works in the opposite "
 "direction to how it was before.   You should check any subtitles in your "
 "project to make sure that they are placed where you want them."
 msgstr ""
-"V této verzi došlo ke změnám v umístění titulků.  Umístění by nyní mělo být "
-"správnější s ohledem na normy, ale měli byste zkontrolovat všechny titulky "
-"ve svém projektu, abyste se ujistili, že jsou umístěny tam, kde je chcete "
-"mít."
+"Ovládání vertikálního posunu u některých titulků nyní funguje v opačném "
+"směru než dříve.   Měli byste zkontrolovat všechny titulky ve svém projektu "
+"a ujistit se, že jsou umístěny tam, kde je chcete mít."
 
 #: src/lib/hints.cc:249
 msgid ""
@@ -1735,37 +1734,33 @@ msgstr ""
 "enkódovacích threadov v záložce Všeobecné, v nastavení."
 
 #: src/lib/util.cc:1034
-#, fuzzy
 msgid "This KDM was made for %1 but not for its leaf certificate."
-msgstr "KDM byl vytvořen pro DCP-o-matic, ale ne pro jeho koncový certifikát."
+msgstr "Tento KDM byl vytvořen pro %1, ale ne pro jeho listový certifikát."
 
 #: src/lib/util.cc:1032
-#, fuzzy
 msgid "This KDM was not made for %1's decryption certificate."
-msgstr "Tento KDM nebyl vyroben pro dešifrovací certifikát DCP-o-matic."
+msgstr "Tento KDM nebyl vytvořen pro dešifrovací certifikát %1."
 
 #: src/lib/job.cc:142
-#, fuzzy
 msgid ""
 "This error has probably occurred because you are running the 32-bit version "
 "of %1 and trying to use too many encoding threads.  Please reduce the "
 "'number of threads %2 should use' in the General tab of Preferences and try "
 "again."
 msgstr ""
-"K této chybě pravděpodobně došlo, protože používáte 32bitovou verzi DCP-o-"
-"matic a pokoušíte se použít příliš mnoho vláken kódování.  Snižte počet "
-"vláken, které by měl používat DCP-o-matic na kartě Obecné předvoleby a akci "
-"opakujte."
+"Tato chyba pravděpodobně nastala, protože používáte 32bitovou verzi %1 a "
+"snažíte se použít příliš mnoho kódovacích vláken.  Snižte prosím „počet "
+"vláken, která má %2 používat“ na kartě Obecné v Předvolbách a zkuste to "
+"znovu."
 
 #: src/lib/job.cc:156
-#, fuzzy
 msgid ""
 "This error has probably occurred because you are running the 32-bit version "
 "of %1.  Please re-install %2 with the 64-bit installer and try again."
 msgstr ""
-"K této chybě pravděpodobně došlo, protože používáte 32bitovou verzi DCP-o-"
-"matic.  Znovu nainstalujte DCP-o-matic pomocí 64bitového instalačního "
-"programu a akci opakujte."
+"Tato chyba se pravděpodobně vyskytla, protože používáte 32bitovou verzi %1.  "
+"Přeinstalujte prosím %2 pomocí 64bitového instalačního programu a zkuste to "
+"znovu."
 
 #: src/lib/exceptions.cc:114
 msgid ""
@@ -1776,24 +1771,22 @@ msgstr ""
 "tlačítkem myši na obsah a výběrem možnosti “Přidat KDM”."
 
 #: src/lib/film.cc:549
-#, fuzzy
 msgid ""
 "This film was created with a newer version of %1, and it cannot be loaded "
 "into this version.  Sorry!"
 msgstr ""
-"Tento film byl vytvořený novější verzí DCP-o-matic, a nemůže být načtený "
-"touto verzí. Omlouváme se !"
+"Tento film byl vytvořen v novější verzi %1 a nelze jej do této verze "
+"načíst.  Omlouváme se!"
 
 #: src/lib/film.cc:530
-#, fuzzy
 msgid ""
 "This film was created with an older version of %1, and unfortunately it "
 "cannot be loaded into this version.  You will need to create a new Film, re-"
 "add your content and set it up again.  Sorry!"
 msgstr ""
-"Tento film bol vytvořený starší verzí DCP-o-matic, a bohužel nemůže být "
-"načtený do do této verze. Budete muset vytvořit nový Film, znovu přidat váš "
-"obsah a znovu provést nastavení. Omlouváme se!"
+"Tento film byl vytvořen ve starší verzi %1 a bohužel jej nelze načíst do "
+"této verze.  Budete muset vytvořit nový film, znovu přidat obsah a znovu jej "
+"nastavit.  Omlouváme se!"
 
 #: src/lib/job.cc:567
 msgid "Thursday"
@@ -1885,7 +1878,7 @@ msgstr "Vertikální flip"
 
 #: src/lib/fcpxml.cc:69
 msgid "Video refers to missing asset %1"
-msgstr ""
+msgstr "Video odkazuje na chybějící asset %1"
 
 #: src/lib/util.cc:644
 msgid "Visually impaired"
@@ -1940,15 +1933,14 @@ msgstr ""
 "všemi projektory.  Mějte na paměti, že můžete mít potíže s kompatibilitou."
 
 #: src/lib/hints.cc:126
-#, fuzzy
 msgid ""
 "You are using %1's stereo-to-5.1 upmixer.  This is experimental and may "
 "result in poor-quality audio.  If you continue, you should listen to the "
 "resulting DCP in a cinema to make sure that it sounds good."
 msgstr ""
-"Používáte DCP-o-matic’s stereo-to-5.1 mixer. Ten je experimentální a může "
-"mít za následek špatnou kvalitu zvuku. Pokud budete pokračovat, měli byste "
-"poslouchat výsledný DCP v kině, abyste se ujistili, že to zní dobře."
+"Používáte upmixer %1 stereo-to-5.1.  Jedná se o experimentální funkci, která "
+"může mít za následek špatnou kvalitu zvuku.  Pokud budete pokračovat, měli "
+"byste si výsledný DCP poslechnout v kině, abyste se ujistili, že zní dobře."
 
 #: src/lib/hints.cc:323
 msgid ""
@@ -2005,16 +1997,16 @@ msgstr ""
 "Abyste tomu zabránili, nastavte zvukové kanály DCP na 8 nebo 16."
 
 #: src/lib/hints.cc:111
-#, fuzzy
 msgid ""
 "Your DCP has fewer than 6 audio channels.  This may cause problems on some "
 "projectors.  You may want to set the DCP to have 6 channels.  It does not "
 "matter if your content has fewer channels, as %1 will fill the extras with "
 "silence."
 msgstr ""
-"DCP má méně než 6 zvukových kanálů.  To může způsobit problémy na některých "
-"projektorech.  Možná budete chtít nastavit DCP na 6 kanálů..  Nezáleží na "
-"tom, zda má váš obsah méně kanálů, protože DCP-o-matic naplní doplňky tichem."
+"Váš DCP má méně než 6 zvukových kanálů.  To může u některých projektorů "
+"způsobit problémy.  Možná budete chtít nastavit DCP tak, aby měl 6 kanálů.  "
+"Nezáleží na tom, zda má váš obsah méně kanálů, protože %1 vyplní přídavky "
+"tichem."
 
 #: src/lib/hints.cc:168
 msgid ""
@@ -2124,9 +2116,8 @@ msgid "error during async_connect (%1)"
 msgstr "chyba při async_connect (%1)"
 
 #: src/lib/dcpomatic_socket.cc:79
-#, fuzzy
 msgid "error during async_connect: (%1)"
-msgstr "chyba při async_connect (%1)"
+msgstr "chyba při async_connect: (%1)"
 
 #: src/lib/dcpomatic_socket.cc:201
 msgid "error during async_read (%1)"
@@ -2155,6 +2146,7 @@ msgid ""
 "it has a different number of audio channels than the project; set the "
 "project to have %1 channels."
 msgstr ""
+"má jiný počet zvukových kanálů než projekt; nastavte projekt na %1 kanálů."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:799
@@ -2186,21 +2178,18 @@ msgstr "to je SMPTE a film je Interop."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:774
-#, fuzzy
 msgid "it overlaps other audio content."
-msgstr "překrývá jiný zvukový obsah; odstranit jiný obsah."
+msgstr "překrývá jiný zvukový obsah."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:809
-#, fuzzy
 msgid "it overlaps other text content."
-msgstr "překrývá jiný zvukový obsah; odstranit jiný obsah."
+msgstr "překrývá jiný textový obsah."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:749
-#, fuzzy
 msgid "it overlaps other video content."
-msgstr "překrývá se s jiným videoobsahem; odstranit jiný obsah."
+msgstr "překrývá jiný obsah videa."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:704

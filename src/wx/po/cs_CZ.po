@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-05-08 23:51+0200\n"
-"PO-Revision-Date: 2024-05-02 14:12+0200\n"
+"PO-Revision-Date: 2025-06-11 07:36+0200\n"
 "Last-Translator: Tomáš Begeni <begeni@razdva.cz>\n"
 "Language-Team: DCP-o-matic translators\n"
 "Language: cs_CZ\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.4.2\n"
+"X-Generator: Poedit 3.6\n"
 "X-Poedit-Bookmarks: -1,-1,-1,-1,369,-1,-1,-1,-1,-1\n"
 
 #: src/wx/player_information.cc:112
@@ -46,9 +46,9 @@ msgstr "%"
 
 #. TRANSLATORS: this will be used in the middle of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
 #: src/wx/verify_dcp_result_panel.cc:131
-#, fuzzy, c-format
+#, c-format
 msgid "%d Bv2.1 errors, "
-msgstr "1 Bv2.1 error, "
+msgstr "%d Bv2.1 chyba, "
 
 #: src/wx/dkdm_dialog.cc:186
 #, c-format
@@ -77,9 +77,9 @@ msgstr "%d kanály na %s"
 
 #. TRANSLATORS: this will be used at the start of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
 #: src/wx/verify_dcp_result_panel.cc:123
-#, fuzzy, c-format
+#, c-format
 msgid "%d errors, "
-msgstr "1 chyba, "
+msgstr "%d chyba, "
 
 #: src/wx/player_information.cc:208 src/wx/player_information.cc:210
 #, c-format
@@ -90,41 +90,40 @@ msgstr "%s %s"
 #: src/wx/playlist_editor_config_dialog.cc:38
 #, c-format
 msgid "%s Preferences"
-msgstr ""
+msgstr "%s Předvolby"
 
 #: src/wx/film_name_location_dialog.cc:156
-#, fuzzy, c-format
+#, c-format
 msgid "%s already exists as a file, so you cannot use it for a film."
-msgstr "%1 již existuje jako soubor, takže jej nemůžete použít pro film."
+msgstr "%s již existuje jako soubor, takže jej nelze použít pro film."
 
 #: src/wx/audio_dialog.cc:170 src/wx/audio_dialog.cc:172
-#, fuzzy, c-format
+#, c-format
 msgid "%s audio - %s"
-msgstr "DCP-o-matic zvuk - %s"
+msgstr "%s zvuk - %s"
 
 #: src/wx/email_preferences_page.cc:191
-#, fuzzy, c-format
+#, c-format
 msgid "%s test email"
-msgstr "Odeslat testovací e-mail"
+msgstr "%s testovací email"
 
 #: src/wx/about_dialog.cc:97
-#, fuzzy
 msgid ""
 "(C) 2012-2025 Carl Hetherington, Terrence Meiczinger\n"
 "Ole Laursen, Aaron Boxer"
 msgstr ""
-"© 2012-2024 Carl Hetherington, Terrence Meiczinger\n"
-" Ole Laursen"
+"(C) 2012-2025 Carl Hetherington, Terrence Meiczinger\n"
+"Ole Laursen, Aaron Boxer"
 
 #: src/wx/full_config_dialog.cc:1206 src/wx/player_config_dialog.cc:128
-#, fuzzy, c-format
+#, c-format
 msgid "(restart %s to change display mode)"
-msgstr "(restartujte DCP-o-matic, pro změnu režimu zobrazení)"
+msgstr "(restartujte %s pro změnu režimu zobrazení)"
 
 #: src/wx/general_preferences_page.cc:102
-#, fuzzy, c-format
+#, c-format
 msgid "(restart %s to see language changes)"
-msgstr "(restartujte DCP-o-matic, aby se změnil jazyk)"
+msgstr "(restartujte %s, abyste viděli změny jazyka)"
 
 #: src/wx/audio_mapping_view.cc:89
 msgid "+3dB"
@@ -230,9 +229,9 @@ msgid "<IssueDate> has an invalid value %n"
 msgstr "<IssueDate> má neplatnou hodnotu %n"
 
 #: src/wx/verify_dcp_result_panel.cc:635
-#, fuzzy, c-format
+#, c-format
 msgid "<MainSoundConfiguration> is invalid (%n)"
-msgstr "<MainSoundConfiguration> popisuje nesprávný počet kanálů (%n)"
+msgstr "<MainSoundConfiguration> ie neplatný (%n)"
 
 #: src/wx/subtitle_appearance_dialog.cc:118
 msgid "<b>New colour</b>"
@@ -260,9 +259,9 @@ msgid "A 2K JPEG2000 frame contains %n tile parts instead of 3."
 msgstr "Rámeček 2K JPEG2000 obsahuje %n dílů dlaždic místo 3."
 
 #: src/wx/verify_dcp_result_panel.cc:552
-#, fuzzy, c-format
+#, c-format
 msgid "A 2K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %n"
-msgstr "Snímek JPEG2000 obsahuje neplatnou značku POC (%n)."
+msgstr "Snímek 2K JPEG2000 obsahuje neplatnou hodnotu Rsiz (capabilities) %n"
 
 #: src/wx/verify_dcp_result_panel.cc:510
 #, c-format
@@ -280,9 +279,9 @@ msgid "A 4K JPEG2000 frame contains %n tile parts instead of 6."
 msgstr "Rámeček 4K JPEG2000 obsahuje %n dílků dlaždic místo 6."
 
 #: src/wx/verify_dcp_result_panel.cc:559
-#, fuzzy, c-format
+#, c-format
 msgid "A 4K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %n"
-msgstr "Snímek JPEG2000 obsahuje neplatnou značku POC (%n)."
+msgstr "Rámec 4K JPEG2000 obsahuje neplatnou hodnotu Rsiz (capabilities) %n"
 
 #: src/wx/verify_dcp_result_panel.cc:517
 #, c-format
@@ -295,9 +294,8 @@ msgid "A 4K JPEG2000 frame has %n guard bits instead of 2."
 msgstr "Rámeček 4K JPEG2000 má %n ochranných bitů místo 2."
 
 #: src/wx/verify_dcp_result_panel.cc:531
-#, fuzzy
 msgid "A JPEG2000 frame contains a POC marker in an invalid location."
-msgstr "Rámeček JPEG2000 obsahuje značku POC na neplatném místě."
+msgstr "Snímek JPEG2000 obsahuje značku POC na nesprávném místě."
 
 #: src/wx/verify_dcp_result_panel.cc:524
 #, c-format
@@ -323,14 +321,14 @@ msgid "A JPEG2000 tile size does not match the image size."
 msgstr "Velikost dlaždice JPEG2000 neodpovídá velikosti obrázku."
 
 #: src/wx/update_dialog.cc:45
-#, fuzzy, c-format
+#, c-format
 msgid "A new version of %s is available."
-msgstr "Je k dispozici nová verze DCP-o-matic."
+msgstr "K dispozici je nová verze %s."
 
 #: src/wx/verify_dcp_result_panel.cc:468
-#, fuzzy, c-format
+#, c-format
 msgid "A picture frame has an invalid JPEG2000 codestream (%n)."
-msgstr "Rámeček obrázku má neplatný codestream JPEG2000 (%n)"
+msgstr "Snímek má neplatný kódový tok JPEG2000 (%n)."
 
 #: src/wx/hints_dialog.cc:183
 #, c-format
@@ -361,7 +359,7 @@ msgstr "ASIO"
 #: src/wx/about_dialog.cc:43
 #, c-format
 msgid "About %s"
-msgstr ""
+msgstr "O produktu %s"
 
 #: src/wx/screens_panel.cc:268
 msgid "Add Cinema"
@@ -408,9 +406,8 @@ msgstr ""
 "se zvukovými soubory."
 
 #: src/wx/full_language_tag_dialog.cc:69
-#, fuzzy
 msgid "Add external"
-msgstr "Přidat obraz"
+msgstr "Přidat externí"
 
 #: src/wx/content_panel.cc:273
 msgid "Add file(s)..."
@@ -442,22 +439,19 @@ msgstr "Přidat adresáta"
 
 #: src/wx/dcp_timeline.cc:173
 msgid "Add reel boundary"
-msgstr ""
+msgstr "Přidání hranice reelu"
 
 #: src/wx/full_language_tag_dialog.cc:65
-#, fuzzy
 msgid "Add region"
-msgstr "Přidat obraz"
+msgstr "Přidat oblast"
 
 #: src/wx/full_language_tag_dialog.cc:63
-#, fuzzy
 msgid "Add script"
-msgstr "Přidat adresáta"
+msgstr "Přidat script"
 
 #: src/wx/full_language_tag_dialog.cc:67
-#, fuzzy
 msgid "Add variant"
-msgstr "Přidat adresáta"
+msgstr "Přidat variantu"
 
 #: src/wx/content_panel.cc:274
 msgid "Add video, image, sound or subtitle files to the film (Ctrl+A)."
@@ -520,7 +514,7 @@ msgstr "Agentura"
 
 #: src/wx/audio_mapping_view.cc:92
 msgid "All off"
-msgstr ""
+msgstr "Vše vypnuto"
 
 #: src/wx/full_config_dialog.cc:1065
 msgid "Allow any DCP frame rate"
@@ -564,9 +558,8 @@ msgid "An unknown exception occurred."
 msgstr "Došlo k neznámé výjimce."
 
 #: src/wx/short_kdm_output_panel.cc:100 src/wx/tall_kdm_output_panel.cc:81
-#, fuzzy
 msgid "Annotation text"
-msgstr "CPL anotace textu"
+msgstr "Text anotace"
 
 #: src/wx/text_panel.cc:113
 msgid "Appearance..."
@@ -618,9 +611,8 @@ msgid "At least one pair of subtitles is separated by less than 2 frames."
 msgstr "Alespoň jedna dvojice titulků je oddělena méně než 2 snímky."
 
 #: src/wx/verify_dcp_result_panel.cc:364
-#, fuzzy
 msgid "At least one subtitle has zero or negative duration."
-msgstr "Alespoň jeden titulek vydrží méně než 15 snímků."
+msgstr "Alespoň jeden titulek má nulovou nebo zápornou délku trvání."
 
 #: src/wx/verify_dcp_result_panel.cc:367
 msgid "At least one subtitle lasts less than 15 frames."
@@ -733,29 +725,24 @@ msgid "Cancel"
 msgstr "Zrušit"
 
 #: src/wx/dcp_referencing_dialog.cc:175
-#, fuzzy
 msgid "Cannot reference this DCP"
-msgstr "Nelze odkazovat na zvuk toto DCP."
+msgstr "Nelze odkazovat na tento DCP"
 
 #: src/wx/dcp_referencing_dialog.cc:187
-#, fuzzy
 msgid "Cannot reference this DCP's audio"
-msgstr "Nelze odkazovat na zvuk toto DCP."
+msgstr "Nelze odkazovat na zvuk tohoto DCP"
 
 #: src/wx/dcp_referencing_dialog.cc:201
-#, fuzzy
 msgid "Cannot reference this DCP's closed captions"
-msgstr "Nelze odkazovat na titulky tohoto DCP."
+msgstr "Nelze odkazovat na skryté titulky tohoto DCP"
 
 #: src/wx/dcp_referencing_dialog.cc:194
-#, fuzzy
 msgid "Cannot reference this DCP's subtitles"
-msgstr "Nelze odkazovat na titulky tohoto DCP."
+msgstr "Nelze odkazovat na titulky tohoto DCP"
 
 #: src/wx/dcp_referencing_dialog.cc:180
-#, fuzzy
 msgid "Cannot reference this DCP's video"
-msgstr "Nelze odkazovat na video tohoto DCP."
+msgstr "Nelze odkazovat na video tohoto DCP"
 
 #: src/wx/text_view.cc:76
 msgid "Caption"
@@ -862,9 +849,8 @@ msgid "Closed captions"
 msgstr "Skryté titulky"
 
 #: src/wx/short_kdm_output_panel.cc:75 src/wx/tall_kdm_output_panel.cc:100
-#, fuzzy
 msgid "Collection"
-msgstr "Skryté titulky"
+msgstr "Kolekce"
 
 #: src/wx/subtitle_appearance_dialog.cc:85 src/wx/video_panel.cc:185
 msgid "Colour"
@@ -944,15 +930,15 @@ msgstr "Kopírovat jako název"
 
 #: src/wx/content_menu.cc:106
 msgid "Copy settings from another project..."
-msgstr ""
+msgstr "Kopírovat nastavení z jiného projektu..."
 
 #: src/wx/load_config_from_zip_dialog.cc:31
 msgid "Copy the cinemas in the ZIP file over the current list at"
-msgstr ""
+msgstr "Zkopírovat kina ze souboru ZIP přes aktuální seznam na adrese"
 
 #: src/wx/load_config_from_zip_dialog.cc:37
 msgid "Copy the cinemas in the ZIP file to the original location at"
-msgstr ""
+msgstr "Zkopírujte kina v souboru ZIP do původního umístění na adrese"
 
 #: src/wx/sound_preferences_page.cc:171
 msgid "CoreAudio"
@@ -972,9 +958,9 @@ msgid "Could not find serial number %s"
 msgstr "Nelze najít sériové číslo %s"
 
 #: src/wx/content_menu.cc:635
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find this content in the project \"%s\"."
-msgstr "Nelze najít sériové číslo %s"
+msgstr "Tento obsah se nepodařilo najít v projektu „%s“."
 
 #: src/wx/certificate_chain_editor.cc:170
 #, c-format
@@ -986,9 +972,8 @@ msgid "Could not load KDM"
 msgstr "Nelze načíst KDM"
 
 #: src/wx/playlist_controls.cc:347
-#, fuzzy
 msgid "Could not load KDM."
-msgstr "Nelze načíst KDM"
+msgstr "Nelze načíst KDM."
 
 #: src/wx/screen_dialog.cc:78
 #, c-format
@@ -1000,9 +985,9 @@ msgid "Could not play content"
 msgstr "Obsah nelze přehrát"
 
 #: src/wx/verify_dcp_result_panel.cc:254
-#, fuzzy, c-format
+#, c-format
 msgid "Could not read DCP (%n)"
-msgstr "Nelze načíst DCP: %s"
+msgstr "Nelze načíst DCP (%n)"
 
 #: src/wx/gl_video_view.cc:139
 #, c-format
@@ -1056,9 +1041,8 @@ msgid "Crop"
 msgstr "Ořezat"
 
 #: src/wx/update_dialog.cc:68
-#, fuzzy
 msgid "Current version"
-msgstr "Verze obsahu"
+msgstr "Aktuální verze"
 
 #: src/wx/audio_dialog.cc:473
 #, c-format
@@ -1132,9 +1116,8 @@ msgid "Decode resolution: %dx%d"
 msgstr "Rozlišení dekódování: %dx%d"
 
 #: src/wx/player_information.cc:199
-#, fuzzy
 msgid "Decode resolution: unknown"
-msgstr "Rozlišení dekódování: %dx%d"
+msgstr "Rozlišení dekódování: neznámé"
 
 #: src/wx/keys_preferences_page.cc:76 src/wx/keys_preferences_page.cc:134
 msgid "Decrypting KDMs"
@@ -1191,9 +1174,8 @@ msgstr "Zpoždění"
 #. TRANSLATORS: Destination here refers to where some KDMs will be written or sent
 #. (a place on disk or some email addresses).
 #: src/wx/short_kdm_output_panel.cc:48
-#, fuzzy
 msgid "Destination"
-msgstr "Doba trvání"
+msgstr "Destinace"
 
 #: src/wx/screen_dialog.cc:137 src/wx/short_kdm_output_panel.cc:53
 msgid "Details"
@@ -1213,7 +1195,7 @@ msgstr "Distributor"
 
 #: src/wx/load_config_from_zip_dialog.cc:43
 msgid "Do not use the cinemas in the ZIP file"
-msgstr ""
+msgstr "Nepoužívejte kina v souboru ZIP"
 
 #: src/wx/dolby_doremi_certificate_panel.cc:242
 msgid "Dolby / Doremi"
@@ -1318,7 +1300,7 @@ msgstr "Emailová adresa pro odeslání KDM"
 
 #: src/wx/player_config_dialog.cc:100
 msgid "Enable HTTP control interface on port"
-msgstr ""
+msgstr "Povolení rozhraní HTTP na portu"
 
 #: src/wx/servers_list_dialog.cc:35
 msgid "Encoding Servers"
@@ -1423,7 +1405,7 @@ msgstr "Název filmu"
 
 #: src/wx/content_menu.cc:621
 msgid "Film to copy settings from"
-msgstr ""
+msgstr "Film pro kopírování nastavení z"
 
 #: src/wx/filter_dialog.cc:40
 msgid "Filters"
@@ -1461,9 +1443,8 @@ msgid "First frame of moving credits"
 msgstr "První snímek pohyblivých titulků"
 
 #: src/wx/markers.cc:33
-#, fuzzy
 msgid "First frame of ratings band"
-msgstr "První snímek pohyblivých titulků"
+msgstr "První snímek pásma hodnocení"
 
 #: src/wx/markers.cc:35
 msgid "First frame of title credits"
@@ -1498,18 +1479,22 @@ msgid "Format"
 msgstr "Formát"
 
 #: src/wx/verify_dcp_result_panel.cc:311
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Frame %frame (timecode %timecode) in asset %f has an instantaneous bit rate "
 "that is close to the limit of 250Mbit/s."
-msgstr "Alespoň jeden snímek obrazových dat %f je blízko limitu 250MBit/s."
+msgstr ""
+"Snímek %frame (časový kód %timecode) v aktivu %f má okamžitou přenosovou "
+"rychlost blízkou limitu 250Mbit/s."
 
 #: src/wx/verify_dcp_result_panel.cc:304
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Frame %frame (timecode %timecode) in asset %f has an instantaneous bit rate "
 "that is over the limit of 250Mbit/s."
-msgstr "Alespoň jeden snímek obrazových dat %f je blízko limitu 250MBit/s."
+msgstr ""
+"Snímek %frame (časový kód %timecode) v aktivu %f má okamžitou přenosovou "
+"rychlost, která přesahuje limit 250Mbit/s."
 
 #: src/wx/verify_dcp_result_panel.cc:643
 #, c-format
@@ -1789,9 +1774,9 @@ msgid "Interop"
 msgstr "Interop"
 
 #: src/wx/keys_preferences_page.cc:236
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid %s export file"
-msgstr "Neplatný soubor exportu DCP-o-matic"
+msgstr "Neplatný exportní soubor %s"
 
 #: src/wx/invalid_certificate_period_dialog.cc:33
 msgid "Invalid certificates"
@@ -1909,9 +1894,8 @@ msgid "Last frame of moving credits"
 msgstr "Poslední snímek pohyblivých titulků"
 
 #: src/wx/markers.cc:34
-#, fuzzy
 msgid "Last frame of ratings band"
-msgstr "Poslední snímek pohyblivých titulků"
+msgstr "Poslední snímek pásma hodnocení"
 
 #: src/wx/markers.cc:36
 msgid "Last frame of title credits"
@@ -1923,7 +1907,7 @@ msgstr "Později"
 
 #: src/wx/full_config_dialog.cc:1221
 msgid "Layout for short screen"
-msgstr ""
+msgstr "Rozložení pro krátkou obrazovku"
 
 #: src/wx/certificate_chain_editor.cc:310
 msgid "Leaf"
@@ -1963,19 +1947,16 @@ msgid "Load certificate..."
 msgstr "Načíst certifikát…"
 
 #: src/wx/load_config_from_zip_dialog.cc:29
-#, fuzzy
 msgid "Load configuration from ZIP file"
-msgstr "Konfigurační soubor"
+msgstr "Načtení konfigurace ze souboru ZIP"
 
 #: src/wx/playlist_controls.cc:406
-#, fuzzy
 msgid "Loading content"
-msgstr "Přesunout obsah"
+msgstr "Načítání obsahu"
 
 #: src/wx/playlist_controls.cc:334
-#, fuzzy
 msgid "Loading playlist and KDMs"
-msgstr "Podepsané DCP a KDM"
+msgstr "Načítání seznamu skladeb a KDM"
 
 #: src/wx/locations_preferences_page.cc:47
 msgid "Locations"
@@ -2012,9 +1993,8 @@ msgid "MOV / ProRes HQ"
 msgstr "MOV / ProRes"
 
 #: src/wx/export_video_file_dialog.cc:45
-#, fuzzy
 msgid "MOV / ProRes LT"
-msgstr "MOV / ProRes"
+msgstr "MOV / ProRes LT"
 
 #: src/wx/export_video_file_dialog.cc:50 src/wx/export_video_file_dialog.cc:51
 #: src/wx/export_video_file_dialog.cc:52
@@ -2030,9 +2010,8 @@ msgid "MP4 files (*.mp4)|*.mp4"
 msgstr "MP4 soubor (*.mp4)|*.mp4"
 
 #: src/wx/dcp_panel.cc:155
-#, fuzzy
 msgid "MPEG2 Interop"
-msgstr "Interop"
+msgstr "MPEG2 Interop"
 
 #. TRANSLATORS: Main and Additional here are a choice for whether a set of subtitles is in the "main" language of the
 #. film or an "additional" language.
@@ -2089,14 +2068,12 @@ msgid "Matrix"
 msgstr "Matrix"
 
 #: src/wx/full_config_dialog.cc:1042
-#, fuzzy
 msgid "Maximum JPEG2000 bit rate"
-msgstr "Maximální JPEG2000 šířka pásma (bandwidth)"
+msgstr "Maximální přenosová rychlost JPEG2000"
 
 #: src/wx/full_config_dialog.cc:1051
-#, fuzzy
 msgid "Maximum MPEG2 bit rate"
-msgstr "Maximální JPEG2000 šířka pásma (bandwidth)"
+msgstr "Maximální přenosová rychlost MPEG2"
 
 #: src/wx/full_config_dialog.cc:1226
 msgid "Maximum number of frames to store per thread"
@@ -2104,7 +2081,7 @@ msgstr "Maximální počet snímků pro uložení na jeden podproces"
 
 #: src/wx/dcp_timeline.cc:303
 msgid "Maximum reel size"
-msgstr ""
+msgstr "Maximální velikost reelu"
 
 #: src/wx/dcp_panel.cc:819 src/wx/full_config_dialog.cc:1046
 #: src/wx/full_config_dialog.cc:1055
@@ -2128,94 +2105,92 @@ msgid "Mix audio down to stereo"
 msgstr "Mix zvuk do sterea"
 
 #: src/wx/verify_dcp_result_panel.cc:539
-#, fuzzy
 msgid ""
 "More 2K JPEG2000 frames (not listed) contain the wrong number of tile parts."
-msgstr "Rámeček 2K JPEG2000 obsahuje %n dílů dlaždic místo 3."
+msgstr ""
+"Více snímků 2K JPEG2000 (neuvedených) obsahuje nesprávný počet částí dlaždic."
 
 #: src/wx/verify_dcp_result_panel.cc:476
 msgid ""
 "More 2K JPEG2000 frames (not listed) have an invalid number of guard bits."
 msgstr ""
+"Více snímků 2K JPEG2000 (neuvedených) má nesprávný počet ochranných bitů."
 
 #: src/wx/verify_dcp_result_panel.cc:511
-#, fuzzy
 msgid "More 2K JPEG2000 frames (not listed) have too many POC markers."
-msgstr "Snímek JPEG2000 obsahuje neplatnou značku POC (%n)."
+msgstr "Další snímky 2K JPEG2000 (neuvedené) mají příliš mnoho značek POC."
 
 #: src/wx/verify_dcp_result_panel.cc:483
 msgid ""
 "More 4K JPEG2000 frames (not listed) have an invalid number of guard bits."
 msgstr ""
+"Více snímků 4K JPEG2000 (neuvedených) má neplatný počet ochranných bitů."
 
 #: src/wx/verify_dcp_result_panel.cc:518
-#, fuzzy
 msgid "More 4K JPEG2000 frames (not listed) have too many POC markers."
-msgstr "Snímek JPEG2000 obsahuje neplatnou značku POC (%n)."
+msgstr "Více snímků 4K JPEG2000 (neuvedených) má příliš mnoho značek POC."
 
 #: src/wx/verify_dcp_result_panel.cc:532
-#, fuzzy
 msgid ""
 "More JPEG2000 frames (not listed) contain POC markers in invalid locations."
-msgstr "Rámeček JPEG2000 obsahuje značku POC na neplatném místě."
+msgstr ""
+"Více snímků JPEG2000 (neuvedených) obsahuje značky POC na neplatných místech."
 
 #: src/wx/verify_dcp_result_panel.cc:525
-#, fuzzy
 msgid "More JPEG2000 frames (not listed) contain invalid POC markers."
-msgstr "Snímek JPEG2000 obsahuje neplatnou značku POC (%n)."
+msgstr "Více snímků JPEG2000 (neuvedených) obsahuje neplatné značky POC."
 
 #: src/wx/verify_dcp_result_panel.cc:553 src/wx/verify_dcp_result_panel.cc:560
-#, fuzzy
 msgid "More JPEG2000 frames (not listed) contain invalid Rsiz values."
-msgstr "Snímek JPEG2000 obsahuje neplatnou značku POC (%n)."
+msgstr "Více snímků JPEG2000 (neuvedených) obsahuje neplatné hodnoty Rsiz."
 
 #: src/wx/verify_dcp_result_panel.cc:546
 msgid ""
 "More JPEG2000 frames (not listed) contain the wrong number of tile parts."
 msgstr ""
+"Více snímků JPEG2000 (neuvedených) obsahuje nesprávný počet částí dlaždic."
 
 #: src/wx/verify_dcp_result_panel.cc:504
-#, fuzzy
 msgid "More JPEG2000 frames (not listed) have an invalid code-block height."
-msgstr "Rámeček JPEG2000 obsahuje značku POC na neplatném místě."
+msgstr "Více snímků JPEG2000 (neuvedených) má neplatnou výšku bloku kódu."
 
 #: src/wx/verify_dcp_result_panel.cc:497
-#, fuzzy
 msgid "More JPEG2000 frames (not listed) have an invalid code-block width."
-msgstr "Rámeček JPEG2000 obsahuje značku POC na neplatném místě."
+msgstr "More JPEG2000 frames (not listed) have an invalid code-block width."
 
 #: src/wx/verify_dcp_result_panel.cc:567
-#, fuzzy
 msgid "More JPEG2000 frames (not listed) have no TLM marker."
-msgstr "Rámeček JPEG2000 nemá žádnou značku TLM."
+msgstr "Další snímky JPEG2000 (neuvedené) nemají značku TLM."
 
 #: src/wx/verify_dcp_result_panel.cc:490
-#, fuzzy
 msgid "More JPEG2000 tile sizes (not listed) do not match the image size."
-msgstr "Velikost dlaždice JPEG2000 neodpovídá velikosti obrázku."
+msgstr ""
+"Další velikosti dlaždic JPEG2000 (neuvedené) neodpovídají velikosti obrázku."
 
 #: src/wx/verify_dcp_result_panel.cc:312
-#, fuzzy
 msgid ""
 "More frames (not listed) have an instantaneous bit rate that is close to the "
 "limit of 250Mbit/s."
-msgstr "Alespoň jeden snímek obrazových dat %f je blízko limitu 250MBit/s."
+msgstr ""
+"Více snímků (neuvedených) má okamžitou přenosovou rychlost, která se blíží "
+"limitu 250 Mbit/s."
 
 #: src/wx/verify_dcp_result_panel.cc:305
-#, fuzzy
 msgid ""
 "More frames (not listed) have an instantaneous bit rate that is over the "
 "limit of 250Mbit/s."
-msgstr "Alespoň jeden snímek obrazových dat %f je blízko limitu 250MBit/s."
+msgstr ""
+"Více snímků (neuvedených v seznamu) má okamžitou přenosovou rychlost vyšší "
+"než limit 250 Mbit/s."
 
 #: src/wx/verify_dcp_result_panel.cc:644
 msgid "More frames (not listed) have image components that are too large."
-msgstr ""
+msgstr "Další snímky (neuvedené v seznamu) mají příliš velké obrazové složky."
 
 #: src/wx/verify_dcp_result_panel.cc:469
-#, fuzzy
 msgid "More picture frames (not listed) have invalid JPEG2000 codestreams."
-msgstr "Rámeček obrázku má neplatný codestream JPEG2000 (%n)"
+msgstr ""
+"Další snímky (neuvedené v seznamu) mají neplatné kódové proudy JPEG2000."
 
 #: src/wx/markers_panel.cc:249
 #, c-format
@@ -2273,9 +2248,8 @@ msgid "Name"
 msgstr "Název"
 
 #: src/wx/short_kdm_output_panel.cc:58
-#, fuzzy
 msgid "Name formats"
-msgstr "Formát nazvu souboru"
+msgstr "Názvy formátů"
 
 #: src/wx/player_information.cc:152
 msgid "Needs KDM"
@@ -2290,13 +2264,13 @@ msgid "New name"
 msgstr "Nové jméno"
 
 #: src/wx/update_dialog.cc:47
-#, fuzzy, c-format
+#, c-format
 msgid "New versions of %s are available."
-msgstr "Je k dispozici nová verze DCP-o-matic."
+msgstr "K dispozici jsou nové verze %s."
 
 #: src/wx/playlist_controls.cc:61
 msgid "Next"
-msgstr ""
+msgstr "Další"
 
 #: src/wx/verify_dcp_result_panel.cc:293
 msgid "No ASSETMAP or ASSETMAP.xml file was found."
@@ -2363,9 +2337,9 @@ msgid "Notify when complete"
 msgstr "Oznámit po dokončení"
 
 #: src/wx/full_config_dialog.cc:115 src/wx/full_config_dialog.cc:120
-#, fuzzy, c-format
+#, c-format
 msgid "Number of threads %s should use"
-msgstr "Počet vláken, které má DCP-o-matic použít"
+msgstr "Počet vláken %s by měl používat"
 
 #: src/wx/sound_preferences_page.cc:178
 msgid "OSS"
@@ -2373,7 +2347,7 @@ msgstr "OSS"
 
 #: src/wx/dcp_referencing_dialog.cc:115
 msgid "OV DCP"
-msgstr ""
+msgstr "OV DCP"
 
 #: src/wx/audio_mapping_view.cc:86
 msgid "Off"
@@ -2400,9 +2374,9 @@ msgid "OpenGL (faster)"
 msgstr "OpenGL (rychlejší)"
 
 #: src/wx/system_information_dialog.cc:83
-#, fuzzy, c-format
+#, c-format
 msgid "OpenGL renderer not supported by this %s version"
-msgstr "Vykreslovač OpenGL není touto verzí DCP-o-matic podporován"
+msgstr "Vykreslovač OpenGL není touto verzí %s podporován"
 
 #: src/wx/system_information_dialog.cc:51
 #: src/wx/system_information_dialog.cc:82
@@ -2530,7 +2504,7 @@ msgstr "Výkon"
 
 #: src/wx/dcp_referencing_dialog.cc:115
 msgid "Picture"
-msgstr ""
+msgstr "Obrázek"
 
 #: src/wx/email_preferences_page.cc:79
 msgid "Plain"
@@ -2553,9 +2527,8 @@ msgid "Playlist directory"
 msgstr "Adresář seznamu skladeb"
 
 #: src/wx/playlist_controls.cc:81
-#, fuzzy
 msgid "Playlists"
-msgstr "Přehrát"
+msgstr "Playlist"
 
 #: src/wx/report_problem_dialog.cc:116
 msgid ""
@@ -2579,7 +2552,7 @@ msgstr "Předběžné vydání"
 
 #: src/wx/playlist_controls.cc:62
 msgid "Previous"
-msgstr ""
+msgstr "Předchozí"
 
 #: src/wx/dcp_panel.cc:932
 msgid "Processor"
@@ -2610,9 +2583,9 @@ msgid "Quality"
 msgstr "Kvalita"
 
 #: src/wx/qube_certificate_panel.cc:92
-#, fuzzy, c-format
+#, c-format
 msgid "Qube %s"
-msgstr "Qube"
+msgstr "Qube %s"
 
 #: src/wx/colour_conversion_editor.cc:133
 msgid "RGB to XYZ conversion"
@@ -2691,29 +2664,27 @@ msgstr "Reel %d"
 #: src/wx/dcp_timeline.cc:69
 #, c-format
 msgid "Reel %d to reel %d"
-msgstr ""
+msgstr "Reel %d to reel %d"
 
 #: src/wx/dcp_timeline.cc:297
-#, fuzzy
 msgid "Reel mode"
-msgstr "Reel %d"
+msgstr "Režim realu"
 
 #: src/wx/dcp_timeline_dialog.cc:50
 msgid "Reels"
 msgstr "Reels"
 
 #: src/wx/dcp_panel.cc:115
-#, fuzzy
 msgid "Reels..."
-msgstr "Reels"
+msgstr "Reels..."
 
 #: src/wx/dcp_referencing_dialog.cc:107
 msgid "Refer to"
-msgstr ""
+msgstr "Viz.."
 
 #: src/wx/playlist_controls.cc:85 src/wx/playlist_controls.cc:99
 msgid "Refresh"
-msgstr ""
+msgstr "Obnovit"
 
 #: src/wx/region_subtag_dialog.cc:31
 msgid "Region"
@@ -2748,9 +2719,8 @@ msgid "Remove Screen"
 msgstr "Odstranit obraz"
 
 #: src/wx/dcp_timeline.cc:175
-#, fuzzy
 msgid "Remove reel boundary"
-msgstr "Odstranit obraz"
+msgstr "Odstranit hranice reelu"
 
 #: src/wx/content_panel.cc:286
 msgid "Remove the selected piece of content from the film (Delete)."
@@ -2875,26 +2845,24 @@ msgid "Sample rate"
 msgstr "Vzorkovací frekvence"
 
 #: src/wx/save_template_dialog.cc:41
-#, fuzzy
 msgid "Save as default"
-msgstr "Obnovit výchozí"
+msgstr "Uložit jako výchozí"
 
 #: src/wx/save_template_dialog.cc:45
 msgid "Save as new with name"
-msgstr ""
+msgstr "Uložit jako nový s názvem"
 
 #: src/wx/save_template_dialog.cc:43
-#, fuzzy
 msgid "Save over existing template"
-msgstr "Uložit šablonu"
+msgstr "Uložit přes stávající šablonu"
 
 #: src/wx/verify_dcp_result_panel.cc:78
 msgid "Save report as HTML..."
-msgstr ""
+msgstr "Uložit report jako HTML..."
 
 #: src/wx/verify_dcp_result_panel.cc:76
 msgid "Save report as text..."
-msgstr ""
+msgstr "Uložit zprávu jako text..."
 
 #: src/wx/save_template_dialog.cc:39
 msgid "Save template"
@@ -2934,7 +2902,6 @@ msgid "Select Certificate File"
 msgstr "Vybrat soubor s certifikátem"
 
 #: src/wx/certificate_chain_editor.cc:161
-#, fuzzy
 msgid "Select Certificate file"
 msgstr "Vybrat soubor s certifikátem"
 
@@ -2963,7 +2930,6 @@ msgid "Select Key File"
 msgstr "Vybrat soubor s klíčem"
 
 #: src/wx/certificate_chain_editor.cc:364
-#, fuzzy
 msgid "Select Key file"
 msgstr "Vybrat soubor s klíčem"
 
@@ -2992,9 +2958,8 @@ msgid "Select output file"
 msgstr "Vybrat výstupní soubor"
 
 #: src/wx/full_language_tag_dialog.cc:222
-#, fuzzy
 msgid "Select..."
-msgstr "Vybrat"
+msgstr "Vybrat…"
 
 #: src/wx/dkdm_output_panel.cc:95 src/wx/kdm_output_panel.cc:98
 msgid "Send by email"
@@ -3139,9 +3104,8 @@ msgid "Size: %dx%d"
 msgstr "Velikost: %dx%d"
 
 #: src/wx/player_information.cc:163
-#, fuzzy
 msgid "Size: unknown"
-msgstr "Maximum: neznámy"
+msgstr "Velikost: neznámá"
 
 #: src/wx/audio_dialog.cc:142
 msgid "Smoothing"
@@ -3153,7 +3117,7 @@ msgstr "Přichytit k objektům"
 
 #: src/wx/dcp_timeline.cc:314
 msgid "Snap when dragging"
-msgstr ""
+msgstr "Přichycení při přetahování"
 
 #: src/wx/invalid_certificate_period_dialog.cc:83
 msgid ""
@@ -3196,16 +3160,15 @@ msgstr "Specifický"
 
 #: src/wx/dcp_timeline.cc:268
 msgid "Split by maximum reel size"
-msgstr ""
+msgstr "Rozdělení podle maximální velikosti reelu"
 
 #: src/wx/dcp_timeline.cc:265
 msgid "Split by video content"
 msgstr "Rozdělení podle obsahu videa"
 
 #: src/wx/update_dialog.cc:55
-#, fuzzy
 msgid "Stable version"
-msgstr "Stabilní verze %s"
+msgstr "Stabilní verze"
 
 #: src/wx/dcp_panel.cc:110 src/wx/metadata_dialog.cc:78
 #: src/wx/rating_dialog.cc:50
@@ -3274,7 +3237,6 @@ msgid "Subtitle files (.xml)|*.xml"
 msgstr "Soubory titulků (.xml)|*.xml"
 
 #: src/wx/dcp_referencing_dialog.cc:115
-#, fuzzy
 msgid "Subtitles"
 msgstr "Titulky"
 
@@ -3336,9 +3298,8 @@ msgid "Test email sent."
 msgstr "Testovací e-mail odeslán."
 
 #: src/wx/update_dialog.cc:62
-#, fuzzy
 msgid "Test version"
-msgstr "Testovací verze %s"
+msgstr "Testovací verze"
 
 #: src/wx/about_dialog.cc:252
 msgid "Tested by"
@@ -3349,9 +3310,9 @@ msgid "The 'until' time must be after the 'from' time."
 msgstr "Čas 'do' musí být po čase 'od’."
 
 #: src/wx/verify_dcp_result_panel.cc:660
-#, fuzzy, c-format
+#, c-format
 msgid "The <LabelText> in a <ContentVersion> in CPL %cpl is empty"
-msgstr "<LabelText> v <ContentVersion> v CPL %id je prázdný"
+msgstr "<LabelText> v <ContentVersion> v CPL %cpl je prázdný"
 
 #: src/wx/verify_dcp_result_panel.cc:617
 msgid ""
@@ -3373,47 +3334,47 @@ msgstr ""
 "obsaženého XML."
 
 #: src/wx/verify_dcp_result_panel.cc:397
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The CPL %cpl has an <AnnotationText> which is not the same as its "
 "<ContentTitleText>."
 msgstr ""
-"CPL %n má <AnnotationText>který není stejný jako jeho <ContentTitleText>."
+"CPL %cpl má <AnnotationText>který není stejný jako jeho <ContentTitleText>."
 
 #: src/wx/verify_dcp_result_panel.cc:663
-#, fuzzy, c-format
+#, c-format
 msgid "The CPL %cpl has an invalid namespace %n"
-msgstr "Zvukový datový zdroj %f má neplatnou snímkovací frekvenci %n."
+msgstr "CPL %cpl má neplatný prostor názvů %n"
 
 #: src/wx/verify_dcp_result_panel.cc:454
-#, fuzzy, c-format
+#, c-format
 msgid "The CPL %cpl has encrypted content but is not signed."
-msgstr "CPL %n má šifrovaný obsah, ale není podepsaný."
+msgstr "CPL %cpl má zašifrovaný obsah, ale není podepsaný."
 
 #: src/wx/verify_dcp_result_panel.cc:394
-#, fuzzy, c-format
+#, c-format
 msgid "The CPL %cpl has no <AnnotationText> tag."
-msgstr "CPL %n nemá <AnnotationText> značky."
+msgstr "CPL %cpl nemá značku <AnnotationText>."
 
 #: src/wx/verify_dcp_result_panel.cc:666
-#, fuzzy, c-format
+#, c-format
 msgid "The CPL %cpl has no <ContentVersion> tag"
-msgstr "CPL %n nemá <AnnotationText> značky."
+msgstr "CPL %cpl nemá značku <ContentVersion>"
 
 #: src/wx/verify_dcp_result_panel.cc:448
-#, fuzzy, c-format
+#, c-format
 msgid "The CPL %cpl has no CPL extension metadata tag."
-msgstr "CPL %n nemá žádnou značku metadat rozšíření CPL."
+msgstr "CPL %cpl nemá metadatovou značku rozšíření CPL."
 
 #: src/wx/verify_dcp_result_panel.cc:442
-#, fuzzy, c-format
+#, c-format
 msgid "The CPL %cpl has no CPL metadata tag."
-msgstr "CPL %n nemá žádnou značku metadat CPL."
+msgstr "CPL %cpl nemá metadatovou značku CPL."
 
 #: src/wx/verify_dcp_result_panel.cc:445
-#, fuzzy, c-format
+#, c-format
 msgid "The CPL %cpl has no CPL metadata version number tag."
-msgstr "CPL %n nemá žádnou značku čísla verze metadat CPL."
+msgstr "CPL %cpl nemá značku s číslem verze metadat CPL."
 
 #: src/wx/verify_dcp_result_panel.cc:451
 #, c-format
@@ -3468,15 +3429,15 @@ msgstr ""
 "DCP je funkce, ale nemá žádnou značku FFMC (první snímek úvodních titulků)."
 
 #: src/wx/dkdm_dialog.cc:168 src/wx/kdm_dialog.cc:247
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The KDM end period is after (or close to) the end of the signing "
 "certificates' validity period.  Either use an earlier end time for this KDM "
 "or re-create your signing certificates in the %s preferences window."
 msgstr ""
-"Koncové období KDM je po (nebo blízko) konci doby platnosti podpisových "
-"certifikátů. Buď použijte dřívější čas ukončení tohoto KDM, nebo znovu "
-"vytvořte své podpisové certifikáty v okně předvoleb DCP-o-matic."
+"Konec období platnosti KDM je po konci (nebo blízko konce) období platnosti "
+"podpisových certifikátů.  Buď použijte dřívější dobu ukončení platnosti "
+"tohoto KDM, nebo znovu vytvořte podpisové certifikáty v okně předvoleb %s."
 
 #: src/wx/dkdm_dialog.cc:163 src/wx/kdm_dialog.cc:242
 msgid ""
@@ -3487,9 +3448,9 @@ msgstr ""
 "podpisového certifikátu. Použijte pro tento KDM pozdější čas zahájení."
 
 #: src/wx/verify_dcp_result_panel.cc:682
-#, fuzzy, c-format
+#, c-format
 msgid "The PKL %f has an invalid namespace %n"
-msgstr "Zvukový datový zdroj %f má neplatnou snímkovací frekvenci %n."
+msgstr "PKL %f má neplatný jmenný prostor %n"
 
 #: src/wx/verify_dcp_result_panel.cc:460
 #, c-format
@@ -3594,14 +3555,15 @@ msgid "The closed caption asset %n has no <EntryPoint> tag."
 msgstr "Uzavřený titulek majetku %n nemá <EntryPoint> značky."
 
 #: src/wx/film_name_location_dialog.cc:147
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The directory %s already exists and is not empty.  Are you sure you want to "
 "use it?"
-msgstr "Složka %1 již existuje a není prázdná.  Přejete si jí použít?"
+msgstr ""
+"Adresář %s již existuje a není prázdný.  Jste si jisti, že jej chcete použít?"
 
 #: src/wx/try_unmount_dialog.cc:44
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The drive <b>%s</b> is mounted.\n"
 "\n"
@@ -3609,11 +3571,11 @@ msgid ""
 "\n"
 "Should DCP-o-matic try to unmount it now?"
 msgstr ""
-"Disk <b>%s</b> ije připojen.\n"
+"Disk <b>%s</b> je připojena.\n"
 "\n"
-"Musí být odpojen, než do něj může DCP-o-matic zapisovat.\n"
+"Musí být připojen předtím %s než na něj bude možné zapisovat.\n"
 "\n"
-"Měl by se DCP-o-matic pokusit o odpojení hned?"
+"Měl by se ji DCP-o-matic pokusit odpojit nyní?"
 
 #: src/wx/wx_util.cc:829
 msgid ""
@@ -3657,34 +3619,33 @@ msgstr ""
 "limitem 10 MB."
 
 #: src/wx/verify_dcp_result_panel.cc:263
-#, fuzzy
 msgid ""
 "The hash (%calculated_hash) of the picture asset %f does not agree with the "
 "PKL file (%reference_hash).  This probably means that the asset file is "
 "corrupt."
 msgstr ""
-"Hodnota hash obrazového datového zdroje %f nesouhlasí se souborem PKL. To "
-"pravděpodobně znamená, že soubor se zdrojem dat je poškozen."
+"Hash (%calculated_hash) obrázkového aktiva %f nesouhlasí se souborem PKL "
+"(%reference_hash).  To pravděpodobně znamená, že soubor s aktivem je "
+"poškozený."
 
 #: src/wx/verify_dcp_result_panel.cc:269
-#, fuzzy
 msgid ""
 "The hash (%calculated_hash) of the sound asset %f does not agree with the "
 "PKL file (%reference_hash).  This probably means that the asset file is "
 "corrupt."
 msgstr ""
-"Hodnota hash zvukového datového zdroje %f nesouhlasí se souborem PKL.  To "
-"pravděpodobně znamená, že soubor datového zdroje je poškozen."
+"Hash (%calculated_hash) zvukového aktiva %f nesouhlasí se souborem PKL "
+"(%reference_hash).  To pravděpodobně znamená, že soubor s aktivem je "
+"poškozený."
 
 #: src/wx/verify_dcp_result_panel.cc:257
-#, fuzzy
 msgid ""
 "The hash (%reference_hash) of the CPL %cpl in the PKL does not agree with "
 "the CPL file (%calculated_hash).  This probably means that the CPL file is "
 "corrupt."
 msgstr ""
-"Hash CPL %n v PKL nesouhlasí se souborem CPL.  To pravděpodobně znamená, že "
-"soubor CPL je poškozen."
+"Hash (%reference_hash) CPL %cpl v PKL nesouhlasí se souborem CPL "
+"(%calculated_hash).  To pravděpodobně znamená, že soubor CPL je poškozený."
 
 #: src/wx/verify_dcp_result_panel.cc:325
 #, c-format
@@ -3711,9 +3672,9 @@ msgstr ""
 "trvání kontejneru (%s) mxf."
 
 #: src/wx/verify_dcp_result_panel.cc:391
-#, fuzzy, c-format
+#, c-format
 msgid "The sound asset %f has an invalid bit depth of %n."
-msgstr "Zvukový datový zdroj %f má neplatnou snímkovací frekvenci %n."
+msgstr "Zvukový prostředek %f má neplatnou bitovou hloubku %n."
 
 #: src/wx/verify_dcp_result_panel.cc:388
 #, c-format
@@ -3721,13 +3682,12 @@ msgid "The sound asset %f has an invalid frame rate of %n."
 msgstr "Zvukový datový zdroj %f má neplatnou snímkovací frekvenci %n."
 
 #: src/wx/dcp_panel.cc:138
-#, fuzzy
 msgid ""
 "The standard that the DCP should use.  Interop is older, and SMPTE is the "
 "newer (current) standard.  If in doubt, choose 'SMPTE'"
 msgstr ""
-"Jaký standard by měl DCP používat. Interop je starší a SMPTE je moderní "
-"standard. V případě pochybností zvolte „SMPTE“"
+"Standard, který by měl DCP používat.  Interop je starší a SMPTE je novější "
+"(aktuální) standard.  Pokud máte pochybnosti, zvolte „SMPTE“."
 
 #: src/wx/verify_dcp_result_panel.cc:349
 #, c-format
@@ -3880,95 +3840,94 @@ msgstr ""
 "certifikátu. Bude použit pouze první certifikát."
 
 #: src/wx/email_preferences_page.cc:192
-#, fuzzy, c-format
+#, c-format
 msgid "This is a test email from %s."
-msgstr "Toto je testovací e-mail od DCP-o-matic."
+msgstr "Toto je testovací e-mail od %s."
 
 #: src/wx/kdm_cpl_panel.cc:153 src/wx/kdm_cpl_panel.cc:156
 msgid "This is not a valid CPL file"
 msgstr "Nenachází se tu platný CPL soubor"
 
 #: src/wx/content_panel.cc:696
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "This looks like a %s project folder, which cannot be added to a different "
 "project.  Choose the DCP folder inside the %s project folder if that's what "
 "you want to import."
 msgstr ""
-"Vypadá to jako složka projektu DCP-o-matic, kterou nelze přidat do jiného "
-"projektu.  Zvolte složku DCP uvnitř složky projektu DCP-o-matic, pokud ji "
-"chcete importovat."
+"Vypadá to jako složka projektu %s, kterou nelze přidat do jiného projektu.  "
+"Zvolte složku DCP uvnitř složky projektu %s, pokud ji chcete importovat."
 
 #: src/wx/playlist_controls.cc:352
 msgid "This playlist cannot be loaded as a KDM is missing or incorrect."
 msgstr ""
+"Tento seznam skladeb nelze načíst, protože chybí nebo je nesprávný KDM."
 
 #: src/wx/playlist_controls.cc:318
 msgid "This playlist cannot be loaded as some content is missing."
-msgstr ""
+msgstr "Tento seznam skladeb nelze načíst, protože chybí nějaký obsah."
 
 #: src/wx/playlist_controls.cc:324
 msgid "This playlist is empty."
-msgstr ""
+msgstr "Tento seznam skladeb je prázdný."
 
 #: src/wx/full_config_dialog.cc:951
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "This will be written to the DCP's JPEG2000 data as a comment.  If it is "
 "blank, a default value mentioning libdcp (an internal %s library) will be "
 "used."
 msgstr ""
-"Toto se zapíše do dat DCP JPEG2000 jako komentář. Pokud je prázdné, použije "
-"se výchozí hodnota uvádějící libdcp (interní knihovna DCP-o-matic)."
+"Tento údaj bude zapsán do dat JPEG2000 DCP jako komentář.  Pokud je prázdný, "
+"použije se výchozí hodnota zmiňující libdcp (interní knihovna %s)."
 
 #: src/wx/full_config_dialog.cc:927
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "This will be written to the DCP's MXF files as the 'company name'.  If it is "
 "blank, a default value mentioning libdcp (an internal %s library) will be "
 "used."
 msgstr ""
-"Toto se zapíše do souborů MXF DCP jako „název společnosti“. Pokud je "
-"prázdné, použije se výchozí hodnota uvádějící libdcp (interní knihovna DCP-o-"
-"matic)."
+"Tento údaj se zapíše do souborů MXF DCP jako „název společnosti“.  Pokud je "
+"prázdný, použije se výchozí hodnota zmiňující libdcp (interní knihovna %s)."
 
 #: src/wx/full_config_dialog.cc:935
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "This will be written to the DCP's MXF files as the 'product name'.  If it is "
 "blank, a default value mentioning libdcp (an internal %s library) will be "
 "used."
 msgstr ""
-"Toto se zapíše do souborů MXF DCP jako „název produktu“. Pokud je prázdné, "
-"použije se výchozí hodnota uvádějící libdcp (interní knihovna DCP-o-matic)."
+"Tento údaj se zapíše do souborů MXF DCP jako „název produktu“.  Pokud je "
+"prázdný, použije se výchozí hodnota zmiňující libdcp (interní knihovna %s)."
 
 #: src/wx/full_config_dialog.cc:943
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "This will be written to the DCP's MXF files as the 'product version'.  If it "
 "is blank, a default value mentioning libdcp (an internal %s library) will be "
 "used."
 msgstr ""
-"Toto se zapíše do souborů MXF DCP jako „verze produktu“. Pokud je prázdné, "
-"použije se výchozí hodnota uvádějící libdcp (interní knihovna DCP-o-matic)."
+"Ta se zapíše do souborů MXF DCP jako „verze produktu“.  Pokud je prázdný, "
+"použije se výchozí hodnota zmiňující libdcp (interní knihovna %s)."
 
 #: src/wx/full_config_dialog.cc:919
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "This will be written to the DCP's XML files as the <Creator>.  If it is "
 "blank, a default value mentioning %s will be used."
 msgstr ""
-"To se zapíše do souborů XML DCP jako <Creator>. Pokud je prázdné, použije se "
-"výchozí hodnota uvádějící DCP-o-matic."
+"Ten se zapíše do souborů XML DCP jako <Creator>.  Pokud je prázdný, použije "
+"se výchozí hodnota uvádějící %s."
 
 #: src/wx/full_config_dialog.cc:911
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "This will be written to the DCP's XML files as the <Issuer>.  If it is "
 "blank, a default value mentioning %s will be used."
 msgstr ""
-"To se zapíše do souborů XML DCP jako <Issuer>. Pokud je prázdné, použije se "
-"výchozí hodnota uvádějící DCP-o-matic."
+"Tento údaj bude zapsán do souborů XML DCP jako <Issuer>.  Pokud je prázdný, "
+"použije se výchozí hodnota uvádějící %s."
 
 #: src/wx/servers_list_dialog.cc:53
 msgid "Threads"
@@ -3988,6 +3947,9 @@ msgid ""
 "Tick to check details of the picture asset, such as frame sizes and JPEG2000 "
 "bitstream validity.  These checks are quite time-consuming."
 msgstr ""
+"Zaškrtnutím zkontrolujete podrobnosti o obrazovém prostředku, například "
+"velikost snímků a platnost datového toku JPEG2000.  Tyto kontroly jsou "
+"poměrně časově náročné."
 
 #: src/wx/content_timeline_dialog.cc:50
 msgid "Timeline"
@@ -4105,9 +4067,8 @@ msgid "UTC+5:30"
 msgstr "UTC+5:30"
 
 #: src/wx/wx_util.cc:727
-#, fuzzy
 msgid "UTC+5:45"
-msgstr "UTC+5"
+msgstr "UTC+5:45"
 
 #: src/wx/wx_util.cc:728
 msgid "UTC+6"
@@ -4252,17 +4213,16 @@ msgid "Vendor"
 msgstr "Dodavatel"
 
 #: src/wx/verify_dcp_result_panel.cc:706
-#, fuzzy
 msgid "Verification report"
-msgstr "DCP ověření"
+msgstr "Ověřovací zpráva"
 
 #: src/wx/verify_dcp_dialog.cc:65
 msgid "Verify"
-msgstr ""
+msgstr "Ověřit"
 
 #: src/wx/verify_dcp_dialog.cc:53
 msgid "Verify picture asset details"
-msgstr ""
+msgstr "Ověření picture asset detailů"
 
 #: src/wx/smpte_metadata_dialog.cc:109 src/wx/system_information_dialog.cc:67
 msgid "Version"
@@ -4270,7 +4230,7 @@ msgstr "Verze"
 
 #: src/wx/dcp_referencing_dialog.cc:44
 msgid "Version file (VF) setup"
-msgstr ""
+msgstr "Nastavení souboru verze (VF)"
 
 #: src/wx/smpte_metadata_dialog.cc:86
 msgid "Version number"
@@ -4291,12 +4251,11 @@ msgid "Video Waveform"
 msgstr "Video Waveform"
 
 #: src/wx/dcp_panel.cc:817
-#, fuzzy
 msgid ""
 "Video bit rate\n"
 "for newly-encoded data"
 msgstr ""
-"JPEG2000 bandwidth (šířka pásma)\n"
+"Video bit rate\n"
 "pro nově kódovaná data"
 
 #: src/wx/full_config_dialog.cc:1202 src/wx/player_config_dialog.cc:121
@@ -4364,7 +4323,7 @@ msgstr "Zapisovat reely do samostatných souborů"
 
 #: src/wx/full_config_dialog.cc:132
 msgid "Write relative content paths"
-msgstr ""
+msgstr "Zápis relativních cest k obsahu"
 
 #: src/wx/dkdm_output_panel.cc:77 src/wx/kdm_output_panel.cc:78
 #: src/wx/self_dkdm_dialog.cc:85
@@ -4444,9 +4403,9 @@ msgstr "Oddálit na celý film"
 
 #. TRANSLATORS: this will be used at the end of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
 #: src/wx/verify_dcp_result_panel.cc:139
-#, fuzzy, c-format
+#, c-format
 msgid "and %d warnings."
-msgstr "a 1 varování."
+msgstr "a %d varování."
 
 #. TRANSLATORS: this will be used at the end of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
 #: src/wx/verify_dcp_result_panel.cc:136
@@ -4462,9 +4421,8 @@ msgid "closed captions"
 msgstr "skryté titulky"
 
 #: src/wx/text_panel.cc:568
-#, fuzzy
 msgid "closed subtitles"
-msgstr "otevřít titulky"
+msgstr "zavřené titulky"
 
 #: src/wx/video_waveform_dialog.cc:78
 msgid "component value"
@@ -4552,9 +4510,8 @@ msgid "number of reels"
 msgstr "počet reelů"
 
 #: src/wx/text_panel.cc:566
-#, fuzzy
 msgid "open captions"
-msgstr "Skryté titulky"
+msgstr "otevřené titulky"
 
 #: src/wx/text_panel.cc:565
 msgid "open subtitles"
@@ -4573,9 +4530,8 @@ msgid "protocol"
 msgstr "protokol"
 
 #: src/wx/dkdm_output_panel.cc:68
-#, fuzzy
 msgid "recipient name"
-msgstr "Příjemce"
+msgstr "jméno příjemce"
 
 #: src/wx/full_config_dialog.cc:1263
 msgid "reel number"
@@ -4611,18 +4567,17 @@ msgid "type (j2c/pcm/sub)"
 msgstr "typ (j2c/pcm/sub)"
 
 #: src/wx/full_config_dialog.cc:1243
-#, fuzzy
 msgid "type(cpl/pkl)"
-msgstr "typ (cpl/pkl)"
+msgstr "type(cpl/pkl)"
 
 #: src/wx/system_information_dialog.cc:61
 msgid "unknown"
 msgstr "neznámý"
 
 #: src/wx/system_information_dialog.cc:52
-#, fuzzy, c-format
+#, c-format
 msgid "unknown (OpenGL not enabled in %s)"
-msgstr "neznámý (OpenGL není v DCP-o-matic povoleno)"
+msgstr "neznámé (OpenGL není v %s povoleno)"
 
 #: src/wx/kdm_timing_panel.cc:70
 msgid "until"
