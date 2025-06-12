@@ -39,6 +39,8 @@ public:
 	void report();
 
 private:
+	void setup_sensitivity();
+
 	std::shared_ptr<Film> _film;
 
 	wxSizer* _overall_sizer;

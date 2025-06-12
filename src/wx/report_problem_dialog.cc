@@ -105,22 +105,30 @@ ReportProblemDialog::ReportProblemDialog(wxWindow* parent, shared_ptr<Film> film
 	_overall_sizer->SetSizeHints(this);
 
 	_summary->SetFocus();
+
+	_email->Bind(wxEVT_TEXT, boost::bind(&ReportProblemDialog::setup_sensitivity, this));
+
+	setup_sensitivity();
 }
 
 
 void
 ReportProblemDialog::report()
 {
-	if (_email->GetValue().IsEmpty()) {
-		error_dialog(this, _("Please enter an email address so that we can contact you with any queries about the problem."));
-		return;
-	}
-
 	if (_email->GetValue() == char_to_wx("carl@dcpomatic.com") || _email->GetValue() == char_to_wx("cth@carlh.net")) {
 		error_dialog(this, wxString::Format(_("Enter your email address for the contact, not %s"), _email->GetValue().data()));
 		return;
 	}
 
 	JobManager::instance()->add(make_shared<SendProblemReportJob>(_film, wx_to_std(_email->GetValue()), wx_to_std(_summary->GetValue())));
+}
+
+
+void
+ReportProblemDialog::setup_sensitivity()
+{
+	if (auto ok = dynamic_cast<wxButton *>(FindWindowById(wxID_OK, this))) {
+		ok->Enable(!_email->GetValue().IsEmpty());
+	}
 }
 
