@@ -40,21 +40,20 @@ using std::shared_ptr;
 /** @param parent Parent window.
  *  @param film Film that we are working on, or 0.
  */
-ReportProblemDialog::ReportProblemDialog (wxWindow* parent, shared_ptr<Film> film)
-	: wxDialog (parent, wxID_ANY, _("Report A Problem"))
-	, _film (film)
+ReportProblemDialog::ReportProblemDialog(wxWindow* parent, shared_ptr<Film> film)
+	: wxDialog(parent, wxID_ANY, _("Report A Problem"))
+	, _film(film)
 {
-	_overall_sizer = new wxBoxSizer (wxVERTICAL);
-	SetSizer (_overall_sizer);
+	_overall_sizer = new wxBoxSizer(wxVERTICAL);
+	SetSizer(_overall_sizer);
 
-	_table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
-	_table->AddGrowableCol (1, 1);
+	_table = new wxFlexGridSizer(2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+	_table->AddGrowableCol(1, 1);
 
-	_overall_sizer->Add (_table, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
+	_overall_sizer->Add(_table, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 
-	auto buttons = CreateSeparatedButtonSizer (wxOK | wxCANCEL);
-	if (buttons) {
-		_overall_sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
+	if (auto buttons = CreateSeparatedButtonSizer(wxOK | wxCANCEL)) {
+		_overall_sizer->Add(buttons, wxSizerFlags().Expand().DoubleBorder());
 	}
 
 	auto t = _("My problem is");
@@ -63,21 +62,21 @@ ReportProblemDialog::ReportProblemDialog (wxWindow* parent, shared_ptr<Film> fil
 	flags |= wxALIGN_RIGHT;
 	t += char_to_wx(":");
 #endif
-	auto m = new StaticText (this, t);
-	_table->Add (m, 1, flags, 6);
+	auto m = new StaticText(this, t);
+	_table->Add(m, 1, flags, 6);
 
 	_summary = new wxTextCtrl(this, wxID_ANY, {}, wxDefaultPosition, wxSize(320, 240), wxTE_MULTILINE);
-	_table->Add (_summary, 1, wxEXPAND | wxALIGN_TOP);
+	_table->Add(_summary, 1, wxEXPAND | wxALIGN_TOP);
 
-	_send_logs = new CheckBox (this, _("Send logs"));
-	_send_logs->SetValue (true);
-	_table->Add (_send_logs, 1, wxEXPAND);
-	_table->AddSpacer (0);
+	_send_logs = new CheckBox(this, _("Send logs"));
+	_send_logs->SetValue(true);
+	_table->Add(_send_logs, 1, wxEXPAND);
+	_table->AddSpacer(0);
 
-	add_label_to_sizer (_table, this, _("Your email address"), true, 0, wxALIGN_CENTRE_VERTICAL);
+	add_label_to_sizer(_table, this, _("Your email address"), true, 0, wxALIGN_CENTRE_VERTICAL);
 	_email = new wxTextCtrl(this, wxID_ANY, {});
-	_email->SetValue (std_to_wx (Config::instance()->kdm_from ()));
-	_table->Add (_email, 1, wxEXPAND);
+	_email->SetValue(std_to_wx(Config::instance()->kdm_from()));
+	_table->Add(_email, 1, wxEXPAND);
 
 	/* We can't use Wrap() here as it doesn't work with markup:
 	 * http://trac.wxwidgets.org/ticket/13389
@@ -98,30 +97,30 @@ ReportProblemDialog::ReportProblemDialog (wxWindow* parent, shared_ptr<Film> fil
 	}
 
 	auto n = new StaticText(this, {});
-	n->SetLabelMarkup (out);
-	_table->AddSpacer (0);
-	_table->Add (n, 1, wxEXPAND);
+	n->SetLabelMarkup(out);
+	_table->AddSpacer(0);
+	_table->Add(n, 1, wxEXPAND);
 
-	_overall_sizer->Layout ();
-	_overall_sizer->SetSizeHints (this);
+	_overall_sizer->Layout();
+	_overall_sizer->SetSizeHints(this);
 
-	_summary->SetFocus ();
+	_summary->SetFocus();
 }
 
 
 void
-ReportProblemDialog::report ()
+ReportProblemDialog::report()
 {
 	if (_email->GetValue().IsEmpty()) {
-		error_dialog (this, _("Please enter an email address so that we can contact you with any queries about the problem."));
+		error_dialog(this, _("Please enter an email address so that we can contact you with any queries about the problem."));
 		return;
 	}
 
 	if (_email->GetValue() == char_to_wx("carl@dcpomatic.com") || _email->GetValue() == char_to_wx("cth@carlh.net")) {
-		error_dialog (this, wxString::Format(_("Enter your email address for the contact, not %s"), _email->GetValue().data()));
+		error_dialog(this, wxString::Format(_("Enter your email address for the contact, not %s"), _email->GetValue().data()));
 		return;
 	}
 
-	JobManager::instance()->add (make_shared<SendProblemReportJob>(_film, wx_to_std(_email->GetValue()), wx_to_std(_summary->GetValue())));
+	JobManager::instance()->add(make_shared<SendProblemReportJob>(_film, wx_to_std(_email->GetValue()), wx_to_std(_summary->GetValue())));
 }
 
