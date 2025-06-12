@@ -407,13 +407,6 @@ DCPPanel::film_changed(FilmProperty p)
 	case FilmProperty::USE_ISDCF_NAME:
 	{
 		checked_set(_use_isdcf_name, _film->use_isdcf_name());
-		if (_film->use_isdcf_name()) {
-			/* We are going back to using an ISDCF name.  Remove anything after a _ in the current name,
-			   in case the user has clicked 'Copy as name' then re-ticked 'Use ISDCF name' (#1513).
-			*/
-			string const name = _film->name();
-			_film->set_name(name.substr(0, name.find("_")));
-		}
 		setup_dcp_name();
 		break;
 	}
@@ -709,8 +702,19 @@ DCPPanel::use_isdcf_name_toggled()
 		return;
 	}
 
-	_film->set_use_isdcf_name(_use_isdcf_name->GetValue());
+	auto const new_value = _use_isdcf_name->GetValue();
+
+	_film->set_use_isdcf_name(new_value);
+
+	if (new_value) {
+		/* We are going back to using an ISDCF name.  Remove anything after a _ in the current name,
+		   in case the user has clicked 'Copy as name' then re-ticked 'Use ISDCF name' (#1513).
+		*/
+		string const name = _film->name();
+		_film->set_name(name.substr(0, name.find("_")));
+	}
 }
+
 
 void
 DCPPanel::setup_dcp_name()
