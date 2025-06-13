@@ -1439,7 +1439,7 @@ private:
 		add_item (help, _("About"), wxID_ABOUT, ALWAYS);
 #endif
 		if (variant::show_report_a_problem()) {
-			add_item(help, _("Report a problem..."), ID_help_report_a_problem, NEEDS_FILM);
+			add_item(help, _("Report a problem..."), ID_help_report_a_problem, ALWAYS);
 		}
 
 		m->Append (_file_menu, _("&File"));
