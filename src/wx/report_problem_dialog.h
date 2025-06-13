@@ -34,7 +34,7 @@ class Film;
 class ReportProblemDialog : public wxDialog
 {
 public:
-	ReportProblemDialog(wxWindow* parent, std::shared_ptr<Film> film = std::shared_ptr<Film>());
+	explicit ReportProblemDialog(wxWindow* parent, std::shared_ptr<Film> film = std::shared_ptr<Film>());
 
 	void report();
 
