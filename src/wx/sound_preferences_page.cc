@@ -194,7 +194,7 @@ SoundPage::config_changed()
 
 	vector<NamedChannel> output;
 	for (int i = 0; i < channels; ++i) {
-		output.push_back(NamedChannel(fmt::to_string(i), i));
+		output.push_back(NamedChannel(fmt::to_string(i + 1), i));
 	}
 	_map->set_output_channels(output);
 
