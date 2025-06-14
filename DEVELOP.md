@@ -92,7 +92,7 @@ to load a script file called `stress` and start executing it.
 ## Adding a new language
 
 - Edit `src/wx/config_dialog.cc` to add the language to languages.
-- Add to `platform/windows/wscript`, `platform/osx/make_dmg.sh`, `cscript`.
+- Add to `platform/windows/wscript`, `platform/osx/make_dmg.sh`, `cscript.py`.
 - ./waf pot
 - cp build/src/lib/libdcpomatic.pot src/lib/po/$LANG.po
 - cp build/src/wx/libdcpomatic-wx.pot src/wx/po/$LANG.po
@@ -118,7 +118,7 @@ The manual PDF looks nice if vector screenshots are used.  These can be taken as
 ## Adding a new variant
 
 Files to edit:
-- `cscript`
+- `cscript.py`
 - `wscript`
 - `src/lib/variant.cc`
 - `src/tools/wscript`
