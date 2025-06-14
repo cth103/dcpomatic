@@ -323,11 +323,17 @@ public:
 
 	~DOMFrame ()
 	{
-		stop_http_server();
-		/* It's important that this is stopped before our frame starts destroying its children,
-		 * otherwise UI elements that it depends on will disappear from under it.
-		 */
-		_viewer.stop();
+		try {
+			stop_http_server();
+			/* It's important that this is stopped before our frame starts destroying its children,
+			 * otherwise UI elements that it depends on will disappear from under it.
+			 */
+			_viewer.stop();
+		} catch (std::exception& e) {
+			LOG_ERROR("Destructor threw %1", e.what());
+		} catch (...) {
+			LOG_ERROR_NC("Destructor threw");
+		}
 	}
 
 	void close(wxCloseEvent& ev)
