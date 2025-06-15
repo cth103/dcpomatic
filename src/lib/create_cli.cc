@@ -90,6 +90,8 @@ help()
 		"      --colorspace              same as --colourspace\n"
 		"      --channel <channel>       next piece of content should be mapped to audio channel L, R, C, Lfe, Ls, Rs, BsL, BsR, HI, VI\n"
 		"      --gain                    next piece of content should have the given audio gain (in dB)\n"
+		"      --fade-in <seconds>       next piece of content should have the given fade-in (in seconds)\n"
+		"      --fade-out <seconds>      next piece of content should have the given fade-out (in seconds)\n"
 		"      --cpl <id>                CPL ID to use from the next piece of content (which is a DCP)\n"
 		"      --kdm <file>              KDM for next piece of content\n";
 }
@@ -185,6 +187,8 @@ CreateCLI::CreateCLI(int argc, char* argv[])
 	auto next_auto_crop = false;
 	optional<dcp::Channel> channel;
 	optional<float> gain;
+	optional<float> fade_in;
+	optional<float> fade_out;
 	optional<boost::filesystem::path> kdm;
 	optional<string> cpl;
 
@@ -298,6 +302,8 @@ CreateCLI::CreateCLI(int argc, char* argv[])
 
 		argument_option(i, argc, argv, "", "--channel", &claimed, &error, &channel, convert_channel);
 		argument_option(i, argc, argv, "", "--gain", &claimed, &error, &gain);
+		argument_option(i, argc, argv, "", "--fade-in", &claimed, &error, &fade_in);
+		argument_option(i, argc, argv, "", "--fade-out", &claimed, &error, &fade_out);
 		argument_option(i, argc, argv, "", "--kdm", &claimed, &error, &kdm, string_to_path);
 		/* It shouldn't be necessary to use this string_to_string here, but using the other argument_option()
 		 * causes an odd compile error on Ubuntu 18.04.
@@ -329,6 +335,8 @@ CreateCLI::CreateCLI(int argc, char* argv[])
 				c.colour_conversion = next_colour_conversion;
 				c.channel = channel;
 				c.gain = gain;
+				c.fade_in = fade_in;
+				c.fade_out = fade_out;
 				c.kdm = kdm;
 				c.cpl = cpl;
 				content.push_back(c);
@@ -337,6 +345,8 @@ CreateCLI::CreateCLI(int argc, char* argv[])
 				next_colour_conversion = {};
 				channel = {};
 				gain = {};
+				fade_in = {};
+				fade_out = {};
 			}
 		}
 
@@ -517,6 +527,7 @@ CreateCLI::make_film(function<void (string)> error) const
 
 		for (auto film_content: film_content_list) {
 			if (auto video = film_content->video) {
+				auto const video_frame_rate = film_content->video_frame_rate().get_value_or(24);
 				video->set_frame_type(cli_content.frame_type);
 				if (cli_content.auto_crop) {
 					auto crop = guess_crop_by_brightness(
@@ -527,7 +538,7 @@ CreateCLI::make_film(function<void (string)> error) const
 							dcpomatic::ContentTime::from_seconds(1),
 							dcpomatic::ContentTime::from_frames(
 								video->length(),
-								film_content->video_frame_rate().get_value_or(24)
+								video_frame_rate
 							)
 						)
 					);
@@ -546,6 +557,12 @@ CreateCLI::make_film(function<void (string)> error) const
 				if (cli_content.colour_conversion) {
 					video->set_colour_conversion(PresetColourConversion::from_id(*cli_content.colour_conversion).conversion);
 				}
+				if (cli_content.fade_in) {
+					video->set_fade_in(dcpomatic::ContentTime::from_seconds(*cli_content.fade_in).frames_round(video_frame_rate));
+				}
+				if (cli_content.fade_out) {
+					video->set_fade_out(dcpomatic::ContentTime::from_seconds(*cli_content.fade_out).frames_round(video_frame_rate));
+				}
 			}
 			if (auto audio = film_content->audio) {
 				if (cli_content.channel) {
@@ -559,6 +576,12 @@ CreateCLI::make_film(function<void (string)> error) const
 				}
 				if (cli_content.gain) {
 					audio->set_gain(*cli_content.gain);
+				}
+				if (cli_content.fade_in) {
+					audio->set_fade_in(dcpomatic::ContentTime::from_seconds(*cli_content.fade_in));
+				}
+				if (cli_content.fade_out) {
+					audio->set_fade_out(dcpomatic::ContentTime::from_seconds(*cli_content.fade_out));
 				}
 			}
 		}

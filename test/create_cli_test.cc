@@ -19,6 +19,7 @@
 */
 
 
+#include "lib/audio_content.h"
 #include "lib/config.h"
 #include "lib/content.h"
 #include "lib/create_cli.h"
@@ -296,6 +297,30 @@ BOOST_AUTO_TEST_CASE (create_cli_test)
 	BOOST_CHECK(!cc.error);
 	film = cc.make_film(error);
 	BOOST_CHECK_EQUAL(film->audio_channels(), 16);
+	BOOST_CHECK(collected_error.empty());
+
+	 cc = run("dcpomatic2_create --channel L --fade-in 0.5 test/data/L.wav --channel R test/data/R.wav");
+	BOOST_CHECK(!cc.error);
+	film = cc.make_film(error);
+	BOOST_REQUIRE_EQUAL(film->content().size(), 2U);
+	BOOST_REQUIRE(film->content()[0]->audio);
+	BOOST_REQUIRE(film->content()[1]->audio);
+	BOOST_CHECK(film->content()[0]->audio->fade_in() == dcpomatic::ContentTime::from_seconds(0.5));
+	BOOST_CHECK(film->content()[0]->audio->fade_out() == dcpomatic::ContentTime{});
+	BOOST_CHECK(film->content()[1]->audio->fade_in() == dcpomatic::ContentTime{});
+	BOOST_CHECK(film->content()[1]->audio->fade_out() == dcpomatic::ContentTime{});
+	BOOST_CHECK(collected_error.empty());
+
+	cc = run("dcpomatic2_create --fade-out 0.25 test/data/L.wav --fade-in 1 test/data/red_24.mp4");
+	BOOST_CHECK(!cc.error);
+	film = cc.make_film(error);
+	BOOST_REQUIRE_EQUAL(film->content().size(), 2U);
+	BOOST_REQUIRE(film->content()[1]->audio);
+	BOOST_CHECK(film->content()[1]->audio->fade_in() == dcpomatic::ContentTime{});
+	BOOST_CHECK(film->content()[1]->audio->fade_out() == dcpomatic::ContentTime::from_seconds(0.25));
+	BOOST_REQUIRE(film->content()[0]->video);
+	BOOST_CHECK(film->content()[0]->video->fade_in() == 24);
+	BOOST_CHECK(film->content()[0]->video->fade_out() == 0);
 	BOOST_CHECK(collected_error.empty());
 }
 

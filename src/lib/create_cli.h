@@ -45,6 +45,8 @@ public:
 		boost::optional<std::string> colour_conversion;
 		boost::optional<dcp::Channel> channel;
 		boost::optional<float> gain;
+		boost::optional<float> fade_in;
+		boost::optional<float> fade_out;
 		boost::optional<boost::filesystem::path> kdm;
 		boost::optional<std::string> cpl;
 	};
