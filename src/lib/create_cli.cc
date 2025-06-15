@@ -547,9 +547,9 @@ CreateCLI::make_film(function<void (string)> error) const
 					video->set_colour_conversion(PresetColourConversion::from_id(*cli_content.colour_conversion).conversion);
 				}
 			}
-			if (film_content->audio) {
+			if (auto audio = film_content->audio) {
 				if (cli_content.channel) {
-					for (auto stream: film_content->audio->streams()) {
+					for (auto stream: audio->streams()) {
 						AudioMapping mapping(stream->channels(), film->audio_channels());
 						for (int channel = 0; channel < stream->channels(); ++channel) {
 							mapping.set(channel, *cli_content.channel, 1.0f);
@@ -558,7 +558,7 @@ CreateCLI::make_film(function<void (string)> error) const
 					}
 				}
 				if (cli_content.gain) {
-					film_content->audio->set_gain(*cli_content.gain);
+					audio->set_gain(*cli_content.gain);
 				}
 			}
 		}
