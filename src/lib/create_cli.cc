@@ -516,8 +516,8 @@ CreateCLI::make_film(function<void (string)> error) const
 		while (signal_manager->ui_idle() > 0) {}
 
 		for (auto film_content: film_content_list) {
-			if (film_content->video) {
-				film_content->video->set_frame_type(cli_content.frame_type);
+			if (auto video = film_content->video) {
+				video->set_frame_type(cli_content.frame_type);
 				if (cli_content.auto_crop) {
 					auto crop = guess_crop_by_brightness(
 						film,
@@ -526,7 +526,7 @@ CreateCLI::make_film(function<void (string)> error) const
 						std::min(
 							dcpomatic::ContentTime::from_seconds(1),
 							dcpomatic::ContentTime::from_frames(
-								film_content->video->length(),
+								video->length(),
 								film_content->video_frame_rate().get_value_or(24)
 							)
 						)
@@ -541,10 +541,10 @@ CreateCLI::make_film(function<void (string)> error) const
 						crop.bottom
 					));
 
-					film_content->video->set_crop(crop);
+					video->set_crop(crop);
 				}
 				if (cli_content.colour_conversion) {
-					film_content->video->set_colour_conversion(PresetColourConversion::from_id(*cli_content.colour_conversion).conversion);
+					video->set_colour_conversion(PresetColourConversion::from_id(*cli_content.colour_conversion).conversion);
 				}
 			}
 			if (film_content->audio && cli_content.channel) {
