@@ -30,8 +30,10 @@
 #include "lib/examine_content_job.h"
 #include "lib/job_manager.h"
 #include "lib/util.h"
+#include <dcp/cpl.h>
 #include <dcp/exceptions.h>
 #include <dcp/filesystem.h>
+#include <dcp/search.h>
 #include <dcp/warnings.h>
 #include <boost/filesystem.hpp>
 #include <boost/optional.hpp>
@@ -134,8 +136,17 @@ ContentView::update ()
 		if (i->finished_in_error()) {
 			error_dialog(this, std_to_wx(i->error_summary()) + char_to_wx(".\n"), std_to_wx(i->error_details()));
 		} else {
-			add (i->content());
-			_content.push_back (i->content());
+			if (auto dcp = dynamic_pointer_cast<DCPContent>(i->content())) {
+				for (auto cpl: dcp::find_and_resolve_cpls(dcp->directories(), true)) {
+					auto copy = dynamic_pointer_cast<DCPContent>(dcp->clone());
+					copy->set_cpl(cpl->id());
+					add(copy);
+					_content.push_back(copy);
+				}
+			} else {
+				add(i->content());
+				_content.push_back(i->content());
+			}
 		}
 	}
 }
@@ -170,13 +181,35 @@ ContentView::add (shared_ptr<Content> content)
 
 
 shared_ptr<Content>
-ContentView::get (string digest) const
+ContentView::get_by_digest(string digest) const
 {
-	for (auto i: _content) {
-		if (i->digest() == digest) {
-			return i;
-		}
+	auto iter = std::find_if(_content.begin(), _content.end(), [digest](shared_ptr<const Content> c) { return c->digest() == digest; });
+	if (iter == _content.end()) {
+		return {};
 	}
 
-	return {};
+	return *iter;
+}
+
+
+shared_ptr<Content>
+ContentView::get_by_cpl_id(string cpl_id) const
+{
+	auto iter = std::find_if(
+		_content.begin(),
+		_content.end(),
+		[cpl_id](shared_ptr<const Content> c) {
+			if (auto dcp = dynamic_pointer_cast<const DCPContent>(c)) {
+				if (dcp->cpl() && *dcp->cpl() == cpl_id) {
+					return true;
+				}
+			}
+			return false;
+		});
+
+	if (iter == _content.end()) {
+		return {};
+	}
+
+	return *iter;
 }

@@ -39,7 +39,8 @@ public:
 	std::shared_ptr<Content> selected () const;
 	void update ();
 
-	std::shared_ptr<Content> get (std::string digest) const override;
+	std::shared_ptr<Content> get_by_digest(std::string digest) const override;
+	std::shared_ptr<Content> get_by_cpl_id(std::string cpl_id) const override;
 
 private:
 	void add (std::shared_ptr<Content> content);

@@ -40,7 +40,7 @@ SPLEntry::SPLEntry (shared_ptr<Content> c)
 	if (dcp) {
 		name = dcp->name ();
 		DCPOMATIC_ASSERT (dcp->cpl());
-		id = *dcp->cpl();
+		id = dcp->cpl();
 		kind = dcp->content_kind().get_value_or(dcp::ContentKind::FEATURE);
 		encrypted = dcp->encrypted ();
 	} else {
@@ -53,5 +53,9 @@ SPLEntry::SPLEntry (shared_ptr<Content> c)
 void
 SPLEntry::as_xml (xmlpp::Element* e)
 {
-	cxml::add_text_child(e, "Digest", digest);
+	if (id) {
+		cxml::add_text_child(e, "CPL", *id);
+	} else {
+		cxml::add_text_child(e, "Digest", digest);
+	}
 }

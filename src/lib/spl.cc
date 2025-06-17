@@ -45,11 +45,18 @@ SPL::read (boost::filesystem::path path, ContentStore* store)
 	_id = doc.string_child("Id");
 	_name = doc.string_child("Name");
 	for (auto i: doc.node_children("Entry")) {
-		auto c = store->get(i->string_child("Digest"));
-		if (c) {
-			add (SPLEntry(c));
+		if (auto cpl = i->optional_string_child("CPL")) {
+			if (auto c = store->get_by_cpl_id(*cpl)) {
+				add(SPLEntry(c));
+			} else {
+				_missing = true;
+			}
 		} else {
-			_missing = true;
+			if (auto c = store->get_by_digest(i->string_child("Digest"))) {
+				add(SPLEntry(c));
+			} else {
+				_missing = true;
+			}
 		}
 	}
 }

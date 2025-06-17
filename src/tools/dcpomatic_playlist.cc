@@ -102,9 +102,14 @@ public:
 		return _content_view->selected();
 	}
 
-	shared_ptr<Content> get(string digest) const override
+	shared_ptr<Content> get_by_digest(string digest) const override
 	{
-		return _content_view->get(digest);
+		return _content_view->get_by_digest(digest);
+	}
+
+	shared_ptr<Content> get_by_cpl_id(string cpl_id) const override
+	{
+		return _content_view->get_by_cpl_id(cpl_id);
 	}
 
 private:
@@ -413,7 +418,7 @@ private:
 	void set_item(long N, SPLEntry e)
 	{
 		_list->SetItem(N, 0, std_to_wx(e.name));
-		_list->SetItem(N, 1, std_to_wx(e.id));
+		_list->SetItem(N, 1, std_to_wx(e.id.get_value_or("")));
 		_list->SetItem(N, 2, std_to_wx(e.kind->name()));
 		_list->SetItem(N, 3, e.encrypted ? S_("Question|Y") : S_("Question|N"));
 	}

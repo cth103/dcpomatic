@@ -24,11 +24,13 @@
 
 class Content;
 
+
 /** @class ContentStore
- *  @brief Parent for classes which store content and can return content with a given digest.
+ *  @brief Parent for classes which store content and can return content with a given digest or CPL ID.
  */
 class ContentStore
 {
 public:
-	virtual std::shared_ptr<Content> get (std::string digest) const = 0;
+	virtual std::shared_ptr<Content> get_by_digest(std::string digest) const = 0;
+	virtual std::shared_ptr<Content> get_by_cpl_id(std::string id) const = 0;
 };

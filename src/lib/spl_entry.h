@@ -46,7 +46,7 @@ public:
 	/** Digest of this content */
 	std::string digest;
 	/** CPL ID */
-	std::string id;
+	boost::optional<std::string> id;
 	boost::optional<dcp::ContentKind> kind;
 	bool encrypted;
 
