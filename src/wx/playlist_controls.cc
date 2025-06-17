@@ -380,7 +380,7 @@ void
 PlaylistControls::reset_film ()
 {
 	DCPOMATIC_ASSERT (_selected_playlist);
-	shared_ptr<Film> film (new Film(optional<boost::filesystem::path>()));
+	auto film = std::make_shared<Film>(optional<boost::filesystem::path>());
 	film->add_content (_playlists[*_selected_playlist].get()[_selected_playlist_position].content);
 	ResetFilm (film);
 }

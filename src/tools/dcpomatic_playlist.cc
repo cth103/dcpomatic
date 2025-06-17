@@ -248,7 +248,7 @@ private:
 			return;
 		}
 
-		shared_ptr<SignalSPL> spl(new SignalSPL(wx_to_std(_("New Playlist"))));
+		auto spl = std::make_shared<SignalSPL>(wx_to_std(_("New Playlist")));
 		add_playlist_to_model(spl);
 		add_playlist_to_view(spl);
 		_list->SetItemState(_list->GetItemCount() - 1, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
