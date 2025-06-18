@@ -36,8 +36,7 @@ SPLEntry::SPLEntry (shared_ptr<Content> c)
 	: content (c)
 	, digest (content->digest())
 {
-	auto dcp = dynamic_pointer_cast<DCPContent> (content);
-	if (dcp) {
+	if (auto dcp = dynamic_pointer_cast<DCPContent> (content)) {
 		name = dcp->name ();
 		DCPOMATIC_ASSERT (dcp->cpl());
 		id = dcp->cpl();
