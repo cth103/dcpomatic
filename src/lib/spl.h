@@ -37,13 +37,11 @@ class SPL
 public:
 	SPL ()
 		: _id (dcp::make_uuid())
-		, _missing (false)
 	{}
 
 	SPL (std::string name)
 		: _id (dcp::make_uuid())
 		, _name (name)
-		, _missing (false)
 	{}
 
 
@@ -91,7 +89,7 @@ private:
 	std::string _name;
 	std::vector<SPLEntry> _spl;
 	/** true if any content was missing when read() was last called on this SPL */
-	bool _missing;
+	bool _missing = false;
 };
 
 
