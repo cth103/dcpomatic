@@ -35,29 +35,28 @@ class ContentStore;
 class SPL
 {
 public:
-	SPL ()
-		: _id (dcp::make_uuid())
+	SPL()
+		: _id(dcp::make_uuid())
 	{}
 
-	SPL (std::string name)
-		: _id (dcp::make_uuid())
-		, _name (name)
+	SPL(std::string name)
+		: _id(dcp::make_uuid())
+		, _name(name)
 	{}
 
-
-	void add (SPLEntry e) {
-		_spl.push_back (e);
+	void add(SPLEntry e) {
+		_spl.push_back(e);
 	}
 
-	void remove (std::size_t index) {
-		_spl.erase (_spl.begin() + index);
+	void remove(std::size_t index) {
+		_spl.erase(_spl.begin() + index);
 	}
 
-	std::vector<SPLEntry> const & get () const {
+	std::vector<SPLEntry> const & get() const {
 		return _spl;
 	}
 
-	SPLEntry const & operator[] (std::size_t index) const {
+	SPLEntry const & operator[](std::size_t index) const {
 		return _spl[index];
 	}
 
@@ -65,22 +64,22 @@ public:
 		std::iter_swap(_spl.begin() + a, _spl.begin() + b);
 	}
 
-	void read (boost::filesystem::path path, ContentStore* store);
-	void write (boost::filesystem::path path) const;
+	void read(boost::filesystem::path path, ContentStore* store);
+	void write(boost::filesystem::path path) const;
 
-	std::string id () const {
+	std::string id() const {
 		return _id;
 	}
 
-	std::string name () const {
+	std::string name() const {
 		return _name;
 	}
 
-	void set_name (std::string name) {
+	void set_name(std::string name) {
 		_name = name;
 	}
 
-	bool missing () const {
+	bool missing() const {
 		return _missing;
 	}
 
@@ -101,14 +100,14 @@ public:
 		CONTENT,
 	};
 
-	SignalSPL () {}
+	SignalSPL() {}
 
-	SignalSPL (std::string name)
-		: SPL (name)
+	SignalSPL(std::string name)
+		: SPL(name)
 	{}
 
-	void set_name (std::string name) {
-		SPL::set_name (name);
+	void set_name(std::string name) {
+		SPL::set_name(name);
 		Changed(Change::NAME);
 	}
 
