@@ -37,9 +37,9 @@ class Content;
 class SPLEntry
 {
 public:
-	SPLEntry (std::shared_ptr<Content> c);
+	SPLEntry(std::shared_ptr<Content> c);
 
-	void as_xml (xmlpp::Element* e);
+	void as_xml(xmlpp::Element* e);
 
 	std::shared_ptr<Content> content;
 	std::string name;
@@ -51,7 +51,7 @@ public:
 	bool encrypted;
 
 private:
-	void construct (std::shared_ptr<Content> content);
+	void construct(std::shared_ptr<Content> content);
 };
 
 

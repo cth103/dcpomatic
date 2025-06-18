@@ -32,16 +32,16 @@ using std::shared_ptr;
 using std::dynamic_pointer_cast;
 
 
-SPLEntry::SPLEntry (shared_ptr<Content> c)
-	: content (c)
-	, digest (content->digest())
+SPLEntry::SPLEntry(shared_ptr<Content> c)
+	: content(c)
+	, digest(content->digest())
 {
-	if (auto dcp = dynamic_pointer_cast<DCPContent> (content)) {
-		name = dcp->name ();
-		DCPOMATIC_ASSERT (dcp->cpl());
+	if (auto dcp = dynamic_pointer_cast<DCPContent>(content)) {
+		name = dcp->name();
+		DCPOMATIC_ASSERT(dcp->cpl());
 		id = dcp->cpl();
 		kind = dcp->content_kind().get_value_or(dcp::ContentKind::FEATURE);
-		encrypted = dcp->encrypted ();
+		encrypted = dcp->encrypted();
 	} else {
 		name = content->path(0).filename().string();
 		kind = dcp::ContentKind::FEATURE;
@@ -50,7 +50,7 @@ SPLEntry::SPLEntry (shared_ptr<Content> c)
 
 
 void
-SPLEntry::as_xml (xmlpp::Element* e)
+SPLEntry::as_xml(xmlpp::Element* e)
 {
 	if (id) {
 		cxml::add_text_child(e, "CPL", *id);
