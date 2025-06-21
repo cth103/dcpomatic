@@ -25,7 +25,6 @@
 #include "time_picker.h"
 #include "wx_util.h"
 #include "lib/config.h"
-#include <dcp/utc_offset.h>
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/datectrl.h>
@@ -97,10 +96,6 @@ KDMTimingPanel::KDMTimingPanel (wxWindow* parent)
 
 	table->Add (_until_time, 0, wxALIGN_CENTER_VERTICAL);
 
-	add_label_to_sizer(table, this, _("UTC offset (time zone)"), true, 1, wxALIGN_CENTRE_VERTICAL);
-	_utc_offset = new Choice(this);
-	table->Add(_utc_offset, 0, wxALIGN_CENTRE_VERTICAL | wxLEFT, DCPOMATIC_SIZER_X_GAP);
-
 	overall_sizer->Add (table, 0, wxTOP, DCPOMATIC_SIZER_GAP);
 
 	_warning = new StaticText(this, {});
@@ -110,13 +105,6 @@ KDMTimingPanel::KDMTimingPanel (wxWindow* parent)
 	font.SetPointSize(font.GetPointSize() - 1);
 	_warning->SetForegroundColour (wxColour (255, 0, 0));
 	_warning->SetFont(font);
-
-	/* Default to UTC */
-	auto const sel = get_offsets(_offsets);
-	for (auto const& offset: _offsets) {
-		_utc_offset->add_entry(offset.name);
-	}
-	_utc_offset->set(sel);
 
 	/* I said I've been to the year 3000.  Not much has changed but they live underwater.  And your In-in-in-interop DCP
            is pretty fine.
@@ -128,38 +116,32 @@ KDMTimingPanel::KDMTimingPanel (wxWindow* parent)
 	_until_date->Bind (wxEVT_DATE_CHANGED, bind (&KDMTimingPanel::changed, this));
 	_from_time->Changed.connect (bind (&KDMTimingPanel::changed, this));
 	_until_time->Changed.connect (bind (&KDMTimingPanel::changed, this));
-	_utc_offset->bind(&KDMTimingPanel::utc_offset_changed, this);
 
 	SetSizer (overall_sizer);
 }
 
 
-dcp::LocalTime
+boost::posix_time::ptime
 KDMTimingPanel::from () const
 {
-	return local_time(_from_date, _from_time, utc_offset());
+	return posix_time(_from_date, _from_time);
 }
 
 
-dcp::LocalTime
-KDMTimingPanel::local_time(wxDatePickerCtrl* date_picker, TimePicker* time_picker, dcp::UTCOffset offset)
+boost::posix_time::ptime
+KDMTimingPanel::posix_time(wxDatePickerCtrl* date_picker, TimePicker* time_picker)
 {
-	auto const date = date_picker->GetValue ();
-	return dcp::LocalTime(
-		date.GetYear(),
-		date.GetMonth() + 1,
-		date.GetDay(),
-		time_picker->hours(),
-		time_picker->minutes(),
-		offset
-		);
+	auto const date = date_picker->GetValue();
+	return boost::posix_time::ptime(
+		boost::gregorian::date(date.GetYear(), date.GetMonth() + 1, date.GetDay()),
+		boost::posix_time::time_duration(time_picker->hours(), time_picker->minutes(), 0));
 }
 
 
-dcp::LocalTime
+boost::posix_time::ptime
 KDMTimingPanel::until () const
 {
-	return local_time(_until_date, _until_time, utc_offset());
+	return posix_time(_until_date, _until_time);
 }
 
 
@@ -181,38 +163,3 @@ KDMTimingPanel::changed () const
 
 	TimingChanged ();
 }
-
-
-dcp::UTCOffset
-KDMTimingPanel::utc_offset() const
-{
-	auto const sel = _utc_offset->get();
-	if (!sel || *sel >= int(_offsets.size())) {
-		return {};
-	}
-
-	return _offsets[*sel].offset;
-}
-
-
-void
-KDMTimingPanel::utc_offset_changed()
-{
-	_utc_offset_changed_once = true;
-	changed();
-}
-
-
-void
-KDMTimingPanel::suggest_utc_offset(dcp::UTCOffset offset)
-{
-	if (!_utc_offset_changed_once) {
-		for (size_t i = 0; i < _offsets.size(); ++i) {
-			if (_offsets[i].offset == offset) {
-				_utc_offset->set(i);
-				break;
-			}
-		}
-	}
-}
-

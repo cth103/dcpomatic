@@ -73,8 +73,8 @@ help(std::function<void (string)> out)
 	out("  -o, --output <path>                      output file or directory");
 	out("  -K, --filename-format <format>           filename format for KDMs");
 	out("  -Z, --container-name-format <format>     filename format for ZIP containers");
-	out("  -f, --valid-from <time>                  valid from time (e.g. \"2013-09-28T01:41:51+04:00\", \"2018-01-01T12:00:30\") or \"now\"");
-	out("  -t, --valid-to <time>                    valid to time (e.g. \"2014-09-28T01:41:51\")");
+	out("  -f, --valid-from <time>                  valid from time (in local time zone of the cinema) (e.g. \"2013-09-28 01:41:51\") or \"now\"");
+	out("  -t, --valid-to <time>                    valid to time (in local time zone of the cinema) (e.g. \"2014-09-28T01:41:51\")");
 	out("  -d, --valid-duration <duration>          valid duration (e.g. \"1 day\", \"4 hours\", \"2 weeks\")");
 	out("  -F, --formulation <formulation>          modified-transitional-1, multiple-modified-transitional-1, dci-any or dci-specific [default modified-transitional-1]");
 	out("  -p, --disable-forensic-marking-picture   disable forensic marking of pictures essences");
@@ -108,6 +108,17 @@ public:
 		: std::runtime_error(String::compose("%1: %2", program_name, message).c_str())
 	{}
 };
+
+
+static boost::posix_time::ptime
+time_from_string(string t)
+{
+	if (t == "now") {
+		return boost::posix_time::second_clock::local_time();
+	}
+
+	return boost::posix_time::time_from_string(t);
+}
 
 
 static boost::posix_time::time_duration
@@ -204,8 +215,8 @@ from_film(
 	boost::filesystem::path output,
 	dcp::NameFormat container_name_format,
 	dcp::NameFormat filename_format,
-	dcp::LocalTime valid_from,
-	dcp::LocalTime valid_to,
+	boost::posix_time::ptime valid_from,
+	boost::posix_time::ptime valid_to,
 	dcp::Formulation formulation,
 	bool disable_forensic_marking_picture,
 	optional<int> disable_forensic_marking_audio,
@@ -365,8 +376,8 @@ from_dkdm(
  	boost::filesystem::path output,
 	dcp::NameFormat container_name_format,
 	dcp::NameFormat filename_format,
-	dcp::LocalTime valid_from,
-	dcp::LocalTime valid_to,
+	boost::posix_time::ptime valid_from,
+	boost::posix_time::ptime valid_to,
 	dcp::Formulation formulation,
 	bool disable_forensic_marking_picture,
 	optional<int> disable_forensic_marking_audio,
@@ -384,12 +395,15 @@ from_dkdm(
 				continue;
 			}
 
+			dcp::LocalTime begin(valid_from, screen_details.cinema.utc_offset);
+			dcp::LocalTime end(valid_to, screen_details.cinema.utc_offset);
+
 			auto const kdm = kdm_from_dkdm(
 							dkdm,
 							screen_details.screen.recipient().get(),
 							screen_details.screen.trusted_device_thumbprints(),
-							valid_from,
-							valid_to,
+							begin,
+							end,
 							formulation,
 							disable_forensic_marking_picture,
 							disable_forensic_marking_audio
@@ -399,8 +413,8 @@ from_dkdm(
 			name_values['c'] = screen_details.cinema.name;
 			name_values['s'] = screen_details.screen.name;
 			name_values['f'] = kdm.content_title_text();
-			name_values['b'] = valid_from.date() + " " + valid_from.time_of_day(true, false);
-			name_values['e'] = valid_to.date() + " " + valid_to.time_of_day(true, false);
+			name_values['b'] = begin.date() + " " + begin.time_of_day(true, false);
+			name_values['e'] = end.date() + " " + end.time_of_day(true, false);
 			name_values['i'] = kdm.cpl_id();
 
 			kdms.push_back(make_shared<KDMWithMetadata>(name_values, screen_details.cinema_id, screen_details.cinema.emails, kdm));
@@ -437,22 +451,6 @@ dump_dkdm_group(shared_ptr<DKDMGroup> group, int indent, std::function<void (str
 }
 
 
-static
-dcp::LocalTime
-time_from_string(string time)
-{
-	if (time == "now") {
-		return {};
-	}
-
-	if (time.length() > 10 && time[10] == ' ') {
-		time[10] = 'T';
-	}
-
-	return dcp::LocalTime(time);
-}
-
-
 void
 dump_decryption_certificate(std::function<void (string)> out)
 {
@@ -482,8 +480,8 @@ try
 	/* trusted devices that we will use to make up a temporary cinema and screen */
 	vector<TrustedDevice> trusted_devices;
 	optional<dcp::EncryptedKDM> dkdm;
-	optional<dcp::LocalTime> valid_from;
-	optional<dcp::LocalTime> valid_to;
+	optional<boost::posix_time::ptime> valid_from;
+	optional<boost::posix_time::ptime> valid_to;
 	bool zip = false;
 	string command = "create";
 	optional<string> duration_string;
@@ -547,7 +545,7 @@ try
 			valid_from = time_from_string(optarg);
 			break;
 		case 't':
-			valid_to = dcp::LocalTime(optarg);
+			valid_to = time_from_string(optarg);
 			break;
 		case 'd':
 			duration_string = optarg;
@@ -709,12 +707,11 @@ try
 	}
 
 	if (duration_string) {
-		valid_to = valid_from.get();
-		valid_to->add(duration_from_string(*duration_string));
+		valid_to = valid_from.get() + duration_from_string(*duration_string);
 	}
 
 	if (verbose) {
-		out(String::compose("Making KDMs valid from %1 to %2", valid_from->as_string(), valid_to->as_string()));
+		out(String::compose("Making KDMs valid from %1 to %2", boost::posix_time::to_simple_string(valid_from.get()), boost::posix_time::to_simple_string(valid_to.get())));
 	}
 
 	string const thing = argv[optind];

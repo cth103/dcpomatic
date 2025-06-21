@@ -101,6 +101,9 @@ BOOST_AUTO_TEST_CASE (single_kdm_naming_test)
 	dcp::LocalTime until = sign_cert.not_after();
 	until.add_months (-2);
 
+	auto const from_string = from.date() + " " + from.time_of_day(true, false);
+	auto const until_string = until.date() + " " + until.time_of_day(true, false);
+
 	std::vector<KDMCertificatePeriod> period_checks;
 
 	auto cpl = cpls.front().cpl_file;
@@ -112,8 +115,8 @@ BOOST_AUTO_TEST_CASE (single_kdm_naming_test)
 			context.cinema_a,
 			*cinemas.cinema(context.cinema_a),
 			*cinemas.screen(context.cinema_a_screen_1),
-			from,
-			until,
+			boost::posix_time::time_from_string(from_string),
+			boost::posix_time::time_from_string(until_string),
 			dcp::Formulation::MODIFIED_TRANSITIONAL_1,
 			false,
 			optional<int>(),
@@ -165,6 +168,9 @@ BOOST_AUTO_TEST_CASE(directory_kdm_naming_test)
 	dcp::LocalTime until (sign_cert.not_after());
 	until.add_months (-2);
 
+	auto const from_string = from.date() + " " + from.time_of_day(true, false);
+	auto const until_string = until.date() + " " + until.time_of_day(true, false);
+
 	vector<pair<CinemaID, ScreenID>> screens = {
 		{ context.cinema_a, context.cinema_a_screen_2 },
 		{ context.cinema_b, context.cinema_b_screen_x },
@@ -188,8 +194,8 @@ BOOST_AUTO_TEST_CASE(directory_kdm_naming_test)
 				screen.first,
 				*cinemas.cinema(screen.first),
 				*cinemas.screen(screen.second),
-				from,
-				until,
+				boost::posix_time::time_from_string(from_string),
+				boost::posix_time::time_from_string(until_string),
 				dcp::Formulation::MODIFIED_TRANSITIONAL_1,
 				false,
 				optional<int>(),

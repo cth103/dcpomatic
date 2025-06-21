@@ -317,7 +317,7 @@ BOOST_AUTO_TEST_CASE(kdm_cli_time)
 	vector<string> args = {
 		"kdm_cli",
 		"--verbose",
-		"--valid-from", now.as_string(),
+		"--valid-from", "2025-01-28 01:41:51",
 		"--valid-duration", "2 weeks",
 		"-c", "Dean's Screens",
 		"-S", "Screen 2",

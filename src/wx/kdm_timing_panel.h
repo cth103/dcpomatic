@@ -39,31 +39,22 @@ class KDMTimingPanel : public wxPanel
 public:
 	explicit KDMTimingPanel (wxWindow* parent);
 
-	dcp::LocalTime from() const;
-	dcp::LocalTime until() const;
+	boost::posix_time::ptime from() const;
+	boost::posix_time::ptime until() const;
 
 	bool valid () const;
-
-	/** Give a UTC offset from a cinema that the user just selected.  If the user
-	 *  never changed the UTC offset in the panel, the suggested UTC will be set.
-	 */
-	void suggest_utc_offset(dcp::UTCOffset offset);
 
 	boost::signals2::signal<void ()> TimingChanged;
 
 private:
 	void changed () const;
-	void utc_offset_changed();
-	dcp::UTCOffset utc_offset() const;
 
-	static dcp::LocalTime local_time(wxDatePickerCtrl *, TimePicker *, dcp::UTCOffset offset);
+	static boost::posix_time::ptime posix_time(wxDatePickerCtrl *, TimePicker *);
 
 	wxDatePickerCtrl* _from_date;
 	wxDatePickerCtrl* _until_date;
 	TimePicker* _from_time;
 	TimePicker* _until_time;
-	Choice* _utc_offset;
-	bool _utc_offset_changed_once = false;
 	wxStaticText* _warning;
 	std::vector<Offset> _offsets;
 };

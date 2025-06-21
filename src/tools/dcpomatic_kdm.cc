@@ -835,7 +835,6 @@ private:
 
 	void screens_changed()
 	{
-		_timing->suggest_utc_offset(_screens->best_utc_offset());
 		setup_sensitivity();
 	}
 

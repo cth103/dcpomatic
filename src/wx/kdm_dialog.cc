@@ -143,7 +143,6 @@ KDMDialog::KDMDialog (wxWindow* parent, shared_ptr<const Film> film)
 void
 KDMDialog::screens_changed()
 {
-	_timing->suggest_utc_offset(_screens->best_utc_offset());
 	setup_sensitivity();
 }
 

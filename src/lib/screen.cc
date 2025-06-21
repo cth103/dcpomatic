@@ -57,8 +57,8 @@ kdm_for_screen (
 	CinemaID cinema_id,
 	Cinema const& cinema,
 	Screen const& screen,
-	dcp::LocalTime valid_from,
-	dcp::LocalTime valid_to,
+	boost::posix_time::ptime valid_from,
+	boost::posix_time::ptime valid_to,
 	dcp::Formulation formulation,
 	bool disable_forensic_marking_picture,
 	optional<int> disable_forensic_marking_audio,
@@ -69,14 +69,17 @@ kdm_for_screen (
 		return {};
 	}
 
-	period_checks.push_back(check_kdm_and_certificate_validity_periods(cinema.name, screen.name, screen.recipient().get(), valid_from, valid_to));
+	dcp::LocalTime const begin(valid_from, cinema.utc_offset);
+	dcp::LocalTime const end  (valid_to,   cinema.utc_offset);
+
+	period_checks.push_back(check_kdm_and_certificate_validity_periods(cinema.name, screen.name, screen.recipient().get(), begin, end));
 
 	auto signer = Config::instance()->signer_chain();
 	if (!signer->valid()) {
 		throw InvalidSignerError();
 	}
 
-	auto kdm = make_kdm(valid_from, valid_to).encrypt(
+	auto kdm = make_kdm(begin, end).encrypt(
 		signer, screen.recipient().get(), screen.trusted_device_thumbprints(), formulation, disable_forensic_marking_picture, disable_forensic_marking_audio
 		);
 
@@ -84,8 +87,8 @@ kdm_for_screen (
 	name_values['c'] = cinema.name;
 	name_values['s'] = screen.name;
 	name_values['f'] = kdm.content_title_text();
-	name_values['b'] = valid_from.date() + " " + valid_from.time_of_day(true, false);
-	name_values['e'] = valid_to.date() + " " + valid_to.time_of_day(true, false);
+	name_values['b'] = begin.date() + " " + begin.time_of_day(true, false);
+	name_values['e'] = end.date() + " " + end.time_of_day(true, false);
 	name_values['i'] = kdm.cpl_id();
 
 	return make_shared<KDMWithMetadata>(name_values, cinema_id, cinema.emails, kdm);
