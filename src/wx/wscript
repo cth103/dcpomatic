@@ -143,6 +143,7 @@ sources = """
           question_dialog.cc
           rating_dialog.cc
           qube_certificate_panel.cc
+          ratio_picker.cc
           recipients_panel.cc
           recipient_dialog.cc
           recreate_chain_dialog.cc
