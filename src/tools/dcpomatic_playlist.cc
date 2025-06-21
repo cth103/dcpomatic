@@ -24,6 +24,7 @@
 #include "wx/dcpomatic_button.h"
 #include "wx/i18n_setup.h"
 #include "wx/playlist_editor_config_dialog.h"
+#include "wx/spl_entry_dialog.h"
 #include "wx/wx_signal_manager.h"
 #include "wx/wx_util.h"
 #include "wx/wx_variant.h"
@@ -315,6 +316,7 @@ class PlaylistContent
 public:
 	PlaylistContent(wxPanel* parent, ContentDialog* content_dialog)
 		: _content_dialog(content_dialog)
+		, _parent(parent)
 		, _sizer(new wxBoxSizer(wxVERTICAL))
 	{
 		auto title = new wxBoxSizer(wxHORIZONTAL);
@@ -337,6 +339,7 @@ public:
 		_list->AppendColumn(_("CPL"), wxLIST_FORMAT_LEFT, 350);
 		_list->AppendColumn(_("Type"), wxLIST_FORMAT_LEFT, 100);
 		_list->AppendColumn(_("Encrypted"), wxLIST_FORMAT_CENTRE, 90);
+		_list->AppendColumn(_("Crop"), wxLIST_FORMAT_LEFT, 120);
 
 		list->Add(_list, 1, wxEXPAND | wxALL, DCPOMATIC_SIZER_GAP);
 
@@ -345,10 +348,12 @@ public:
 		_down = new Button(parent, _("Down"));
 		_add = new Button(parent, _("Add"));
 		_remove = new Button(parent, _("Remove"));
+		_edit = new Button(parent, _("Edit..."));
 		button_sizer->Add(_up, 0, wxEXPAND | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
 		button_sizer->Add(_down, 0, wxEXPAND | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
 		button_sizer->Add(_add, 0, wxEXPAND | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
 		button_sizer->Add(_remove, 0, wxEXPAND | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
+		button_sizer->Add(_edit, 0, wxEXPAND | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
 
 		list->Add(button_sizer, 0, wxALL, DCPOMATIC_SIZER_GAP);
 
@@ -362,6 +367,7 @@ public:
 		_down->Bind(wxEVT_BUTTON, bind(&PlaylistContent::down_clicked, this));
 		_add->Bind(wxEVT_BUTTON, bind(&PlaylistContent::add_clicked, this));
 		_remove->Bind(wxEVT_BUTTON, bind(&PlaylistContent::remove_clicked, this));
+		_edit->Bind(wxEVT_BUTTON, bind(&PlaylistContent::edit_clicked, this));
 
 		setup_sensitivity();
 	}
@@ -421,6 +427,7 @@ private:
 		_list->SetItem(N, 1, std_to_wx(e.id.get_value_or("")));
 		_list->SetItem(N, 2, std_to_wx(e.kind->name()));
 		_list->SetItem(N, 3, e.encrypted ? S_("Question|Y") : S_("Question|N"));
+		_list->SetItem(N, 4, e.crop_to_ratio ? wxString::Format(char_to_wx("%.2f"), *e.crop_to_ratio) : char_to_wx(""));
 	}
 
 	void setup_sensitivity()
@@ -435,6 +442,7 @@ private:
 		_down->Enable(have_list && selected != -1 && selected <(_list->GetItemCount() - 1));
 		_add->Enable(have_list);
 		_remove->Enable(have_list && num_selected > 0);
+		_edit->Enable(have_list && num_selected > 0);
 	}
 
 	void add_clicked()
@@ -493,7 +501,22 @@ private:
 		_list->DeleteItem(s);
 	}
 
+	void edit_clicked()
+	{
+		long int s = _list->GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+		if (s == -1) {
+			return;
+		}
+
+		SPLEntryDialog dialog(_parent, _playlist->get(s));
+		if (dialog.ShowModal() == wxID_OK) {
+			_playlist->set(s, dialog.get());
+			set_item(s, _playlist->get(s));
+		}
+	}
+
 	ContentDialog* _content_dialog;
+	wxWindow* _parent;
 	wxBoxSizer* _sizer;
 	wxTextCtrl* _name;
 	Button* _save_name;
@@ -502,6 +525,7 @@ private:
 	wxButton* _down;
 	wxButton* _add;
 	wxButton* _remove;
+	wxButton* _edit;
 	shared_ptr<SignalSPL> _playlist;
 };
 

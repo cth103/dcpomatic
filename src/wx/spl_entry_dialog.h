@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018-2021 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2025 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -19,42 +19,24 @@
 */
 
 
-#ifndef DCPOMATIC_SPL_ENTRY_H
-#define DCPOMATIC_SPL_ENTRY_H
+#include "table_dialog.h"
+#include "lib/spl.h"
 
 
-#include <libcxml/cxml.h>
-#include <dcp/content_kind.h>
-#include <libcxml/cxml.h>
+class RatioPicker;
 
 
-namespace xmlpp {
-	class Element;
-}
-
-class Content;
-
-
-class SPLEntry
+class SPLEntryDialog : public TableDialog
 {
 public:
-	SPLEntry(std::shared_ptr<Content> c, cxml::ConstNodePtr node = {});
+	SPLEntryDialog(wxWindow* parent, SPLEntry entry);
 
-	void as_xml(xmlpp::Element* e);
-
-	std::shared_ptr<Content> content;
-	std::string name;
-	/** Digest of this content */
-	std::string digest;
-	/** CPL ID */
-	boost::optional<std::string> id;
-	boost::optional<dcp::ContentKind> kind;
-	bool encrypted;
-	boost::optional<float> crop_to_ratio;
+	SPLEntry get() const;
 
 private:
-	void construct(std::shared_ptr<Content> content);
+	void crop_changed(boost::optional<float> ratio);
+
+	SPLEntry _entry;
+
+	RatioPicker* _crop;
 };
-
-
-#endif

@@ -23,6 +23,7 @@
 #include "dcpomatic_assert.h"
 #include "spl_entry.h"
 #include <dcp/warnings.h>
+#include <fmt/format.h>
 LIBDCP_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
 LIBDCP_ENABLE_WARNINGS
@@ -32,7 +33,7 @@ using std::dynamic_pointer_cast;
 using std::shared_ptr;
 
 
-SPLEntry::SPLEntry(shared_ptr<Content> c)
+SPLEntry::SPLEntry(shared_ptr<Content> c, cxml::ConstNodePtr node)
 	: content(c)
 	, digest(content->digest())
 {
@@ -46,6 +47,12 @@ SPLEntry::SPLEntry(shared_ptr<Content> c)
 		name = content->path(0).filename().string();
 		kind = dcp::ContentKind::FEATURE;
 	}
+
+	if (node) {
+		if (auto crop = node->optional_number_child<float>("CropToRatio")) {
+			crop_to_ratio = *crop;
+		}
+	}
 }
 
 
@@ -56,5 +63,8 @@ SPLEntry::as_xml(xmlpp::Element* e)
 		cxml::add_text_child(e, "CPL", *id);
 	} else {
 		cxml::add_text_child(e, "Digest", digest);
+	}
+	if (crop_to_ratio) {
+		cxml::add_text_child(e, "CropToRatio", fmt::to_string(*crop_to_ratio));
 	}
 }
