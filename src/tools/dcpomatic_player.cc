@@ -259,7 +259,7 @@ public:
 		if (Config::instance()->player_mode() == Config::PlayerMode::DUAL) {
 			auto pc = new PlaylistControls (_overall_panel, _viewer);
 			_controls = pc;
-			pc->ResetFilm.connect (bind(&DOMFrame::reset_film_weak, this, _1));
+			pc->ResetFilm.connect(bind(&DOMFrame::reset_film_weak, this, _1, _2));
 		} else {
 			_controls = new StandardControls (_overall_panel, _viewer, false);
 		}
@@ -463,24 +463,26 @@ public:
 		}
 	}
 
-	void reset_film_weak (weak_ptr<Film> weak_film)
+	void reset_film_weak(weak_ptr<Film> weak_film, optional<float> crop_to_ratio)
 	{
-		auto film = weak_film.lock ();
-		if (film) {
-			reset_film (film);
+		if (auto film = weak_film.lock()) {
+			reset_film(film, crop_to_ratio);
 		}
 	}
 
-	void reset_film(shared_ptr<Film> film = std::make_shared<Film>(boost::none))
+	void reset_film(shared_ptr<Film> film = std::make_shared<Film>(boost::none), optional<float> crop_to_ratio = {})
 	{
 		_film = film;
-		prepare_to_play_film();
 
+		if (!crop_to_ratio) {
+			crop_to_ratio = Config::instance()->player_crop_output_ratio();
+		}
 
+		prepare_to_play_film(crop_to_ratio);
 	}
 
 	/* _film is now something new: set up to play it */
-	void prepare_to_play_film()
+	void prepare_to_play_film(optional<float> crop_to_ratio)
 	{
 		if (_viewer.playing()) {
 			_viewer.stop();
@@ -532,8 +534,6 @@ public:
 			_cpl_menu->Remove (i);
 		}
 
-		auto const crop = Config::instance()->player_crop_output_ratio();
-
 		if (_film->content().size() == 1) {
 			/* Offer a CPL menu */
 			auto first = dynamic_pointer_cast<DCPContent>(_film->content().front());
@@ -549,21 +549,21 @@ public:
 				}
 			}
 
-			if (crop) {
+			if (crop_to_ratio) {
 				auto size = _film->content()[0]->video->size().get_value_or({1998, 1080});
 				int pixels = 0;
-				if (*crop > (2048.0 / 1080.0)) {
-					pixels = (size.height - (size.width / *crop)) / 2;
+				if (*crop_to_ratio > (2048.0 / 1080.0)) {
+					pixels = (size.height - (size.width / *crop_to_ratio)) / 2;
 					_film->content()[0]->video->set_crop(Crop{0, 0, pixels, pixels});
 				} else {
-					pixels = (size.width - (size.height * *crop)) / 2;
+					pixels = (size.width - (size.height * *crop_to_ratio)) / 2;
 					_film->content()[0]->video->set_crop(Crop{pixels, pixels, 0, 0});
 				}
 			}
 		}
 
-		if (crop) {
-			_film->set_container(Ratio(*crop, "custom", "custom", {}, "custom"));
+		if (crop_to_ratio) {
+			_film->set_container(Ratio(*crop_to_ratio, "custom", "custom", {}, "custom"));
 		} else {
 			_film->set_container(auto_ratio);
 		}
@@ -774,7 +774,7 @@ private:
 			}
 
 			auto job = make_shared<ExamineContentJob>(_film, dcp, true);
-			_examine_job_connection = job->Finished.connect(boost::bind(&DOMFrame::prepare_to_play_film, this);
+			_examine_job_connection = job->Finished.connect(boost::bind(&DOMFrame::prepare_to_play_film, this, Config::instance()->player_crop_output_ratio()));
 			JobManager::instance()->add(job);
 
 			display_progress(variant::wx::dcpomatic_player(), _("Loading content"));

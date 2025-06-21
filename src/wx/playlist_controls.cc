@@ -149,7 +149,7 @@ PlaylistControls::deselect_playlist ()
 		_selected_playlist = boost::none;
 		_spl_view->SetItemState (selected, 0, wxLIST_STATE_SELECTED);
 	}
-	ResetFilm(std::make_shared<Film>(optional<boost::filesystem::path>()));
+	ResetFilm(std::make_shared<Film>(optional<boost::filesystem::path>()), {});
 }
 
 void
@@ -380,8 +380,9 @@ PlaylistControls::reset_film ()
 {
 	DCPOMATIC_ASSERT (_selected_playlist);
 	auto film = std::make_shared<Film>(optional<boost::filesystem::path>());
-	film->add_content (_playlists[*_selected_playlist].get()[_selected_playlist_position].content);
-	ResetFilm (film);
+	auto entry = _playlists[*_selected_playlist].get(_selected_playlist_position);
+	film->add_content(entry.content);
+	ResetFilm(film, entry.crop_to_ratio);
 }
 
 void
@@ -425,7 +426,7 @@ PlaylistControls::viewer_finished ()
 	} else {
 		/* Finished the whole SPL */
 		_selected_playlist_position = 0;
-		ResetFilm(std::make_shared<Film>(optional<boost::filesystem::path>()));
+		ResetFilm(std::make_shared<Film>(optional<boost::filesystem::path>()), {});
 		_play_button->Enable (true);
 		_pause_button->Enable (false);
 	}
