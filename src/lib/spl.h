@@ -60,6 +60,10 @@ public:
 		return _spl[index];
 	}
 
+	void set(std::size_t index, SPLEntry entry) {
+		_spl[index] = std::move(entry);
+	}
+
 	void swap(size_t a, size_t b) {
 		std::iter_swap(_spl.begin() + a, _spl.begin() + b);
 	}
@@ -123,6 +127,11 @@ public:
 
 	void swap(size_t a, size_t b) {
 		SPL::swap(a, b);
+		Changed(Change::CONTENT);
+	}
+
+	void set(std::size_t index, SPLEntry entry) {
+		SPL::set(index, entry);
 		Changed(Change::CONTENT);
 	}
 
