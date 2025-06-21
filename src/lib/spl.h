@@ -56,7 +56,7 @@ public:
 		return _spl;
 	}
 
-	SPLEntry const & operator[](std::size_t index) const {
+	SPLEntry const& get(std::size_t index) const {
 		return _spl[index];
 	}
 

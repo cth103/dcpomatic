@@ -462,8 +462,8 @@ private:
 
 		_playlist->swap(s, s - 1);
 
-		set_item(s - 1, (*_playlist)[s-1]);
-		set_item(s, (*_playlist)[s]);
+		set_item(s - 1, _playlist->get(s - 1));
+		set_item(s, _playlist->get(s));
 	}
 
 	void down_clicked()
@@ -477,8 +477,8 @@ private:
 
 		_playlist->swap(s, s + 1);
 
-		set_item(s + 1, (*_playlist)[s+1]);
-		set_item(s, (*_playlist)[s]);
+		set_item(s + 1, _playlist->get(s + 1));
+		set_item(s, _playlist->get(s));
 	}
 
 	void remove_clicked()
