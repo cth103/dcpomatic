@@ -42,11 +42,11 @@ using dcp::ArrayData;
 
 
 Email::Email(string from, vector<string> to, string subject, string body)
-	: _from (from)
-	, _to (to)
-	, _subject (subject)
-	, _body (fix (body))
-	, _offset (0)
+	: _from(from)
+	, _to(to)
+	, _subject(subject)
+	, _body(fix(body))
+	, _offset(0)
 {
 
 }
@@ -55,8 +55,8 @@ Email::Email(string from, vector<string> to, string subject, string body)
 string
 Email::fix(string s) const
 {
-	boost::algorithm::replace_all (s, "\n", "\r\n");
-	boost::algorithm::replace_all (s, "\0", " ");
+	boost::algorithm::replace_all(s, "\n", "\r\n");
+	boost::algorithm::replace_all(s, "\0", " ");
 	return s;
 }
 
@@ -64,14 +64,14 @@ Email::fix(string s) const
 void
 Email::add_cc(string cc)
 {
-	_cc.push_back (cc);
+	_cc.push_back(cc);
 }
 
 
 void
 Email::add_bcc(string bcc)
 {
-	_bcc.push_back (bcc);
+	_bcc.push_back(bcc);
 }
 
 
@@ -82,29 +82,29 @@ Email::add_attachment(boost::filesystem::path file, string name, string mime_typ
 	a.file = dcp::ArrayData(file);
 	a.name = name;
 	a.mime_type = mime_type;
-	_attachments.push_back (a);
+	_attachments.push_back(a);
 }
 
 
 static size_t
-curl_data_shim (void* ptr, size_t size, size_t nmemb, void* userp)
+curl_data_shim(void* ptr, size_t size, size_t nmemb, void* userp)
 {
-	return reinterpret_cast<Email*>(userp)->get_data (ptr, size, nmemb);
+	return reinterpret_cast<Email*>(userp)->get_data(ptr, size, nmemb);
 }
 
 
 static int
-curl_debug_shim (CURL* curl, curl_infotype type, char* data, size_t size, void* userp)
+curl_debug_shim(CURL* curl, curl_infotype type, char* data, size_t size, void* userp)
 {
-	return reinterpret_cast<Email*>(userp)->debug (curl, type, data, size);
+	return reinterpret_cast<Email*>(userp)->debug(curl, type, data, size);
 }
 
 
 size_t
 Email::get_data(void* ptr, size_t size, size_t nmemb)
 {
-	size_t const t = min (_email.length() - _offset, size * nmemb);
-	memcpy (ptr, _email.substr (_offset, t).c_str(), t);
+	size_t const t = min(_email.length() - _offset, size * nmemb);
+	memcpy(ptr, _email.substr(_offset, t).c_str(), t);
 	_offset += t;
 	return t;
 }
@@ -133,7 +133,7 @@ void
 Email::send(string server, int port, EmailProtocol protocol, string user, string password)
 {
 	_email = "Date: " + rfc_2822_date(time(nullptr)) + "\r\n"
-		"To: " + address_list (_to) + "\r\n"
+		"To: " + address_list(_to) + "\r\n"
 		"From: " + _from + "\r\n";
 
 	if (!_cc.empty()) {
@@ -150,7 +150,7 @@ Email::send(string server, int port, EmailProtocol protocol, string user, string
 		boundary += chars[rand() % chars.length()];
 	}
 
-	if (!_attachments.empty ()) {
+	if (!_attachments.empty()) {
 		_email += "MIME-Version: 1.0\r\n"
 			"Content-Type: multipart/mixed; boundary=" + boundary + "\r\n";
 	}
@@ -158,7 +158,7 @@ Email::send(string server, int port, EmailProtocol protocol, string user, string
 	_email += "Subject: " + encode_rfc1342(_subject) + "\r\n" +
 		variant::insert_dcpomatic("User-Agent: %1\r\n\r\n");
 
-	if (!_attachments.empty ()) {
+	if (!_attachments.empty()) {
 		_email += "--" + boundary + "\r\n"
 			+ "Content-Type: text/plain; charset=utf-8\r\n\r\n";
 	}
@@ -171,88 +171,88 @@ Email::send(string server, int port, EmailProtocol protocol, string user, string
 			"Content-Transfer-Encoding: Base64\r\n"
 			"Content-Disposition: attachment; filename=" + encode_rfc1342(i.name) + "\r\n\r\n";
 
-		auto b64 = BIO_new (BIO_f_base64());
+		auto b64 = BIO_new(BIO_f_base64());
 		if (!b64) {
 			throw std::bad_alloc();
 		}
 
-		auto bio = BIO_new (BIO_s_mem());
+		auto bio = BIO_new(BIO_s_mem());
 		if (!bio) {
 			throw std::bad_alloc();
 		}
-		bio = BIO_push (b64, bio);
+		bio = BIO_push(b64, bio);
 
 		BIO_write(bio, i.file.data(), i.file.size());
-		(void) BIO_flush (bio);
+		(void) BIO_flush(bio);
 
 		char* out;
-		long int bytes = BIO_get_mem_data (bio, &out);
-		_email += fix (string (out, bytes));
+		long int bytes = BIO_get_mem_data(bio, &out);
+		_email += fix(string(out, bytes));
 
-		BIO_free_all (b64);
+		BIO_free_all(b64);
 	}
 
-	if (!_attachments.empty ()) {
+	if (!_attachments.empty()) {
 		_email += "\r\n--" + boundary + "--\r\n";
 	}
 
-	curl_global_init (CURL_GLOBAL_DEFAULT);
+	curl_global_init(CURL_GLOBAL_DEFAULT);
 
-	auto curl = curl_easy_init ();
+	auto curl = curl_easy_init();
 	if (!curl) {
-		throw NetworkError ("Could not initialise libcurl");
+		throw NetworkError("Could not initialise libcurl");
 	}
 
 	if ((protocol == EmailProtocol::AUTO && port == 465) || protocol == EmailProtocol::SSL) {
 		/* "SSL" or "Implicit TLS"; I think curl wants us to use smtps here */
-		curl_easy_setopt (curl, CURLOPT_URL, String::compose("smtps://%1:%2", server, port).c_str());
+		curl_easy_setopt(curl, CURLOPT_URL, String::compose("smtps://%1:%2", server, port).c_str());
 	} else {
-		curl_easy_setopt (curl, CURLOPT_URL, String::compose("smtp://%1:%2", server, port).c_str());
+		curl_easy_setopt(curl, CURLOPT_URL, String::compose("smtp://%1:%2", server, port).c_str());
 	}
 
-	if (!user.empty ()) {
-		curl_easy_setopt (curl, CURLOPT_USERNAME, user.c_str ());
+	if (!user.empty()) {
+		curl_easy_setopt(curl, CURLOPT_USERNAME, user.c_str());
 	}
-	if (!password.empty ()) {
-		curl_easy_setopt (curl, CURLOPT_PASSWORD, password.c_str());
+	if (!password.empty()) {
+		curl_easy_setopt(curl, CURLOPT_PASSWORD, password.c_str());
 	}
 
-	curl_easy_setopt (curl, CURLOPT_MAIL_FROM, _from.c_str());
+	curl_easy_setopt(curl, CURLOPT_MAIL_FROM, _from.c_str());
 
 	struct curl_slist* recipients = nullptr;
 	for (auto i: _to) {
-		recipients = curl_slist_append (recipients, i.c_str());
+		recipients = curl_slist_append(recipients, i.c_str());
 	}
 	for (auto i: _cc) {
-		recipients = curl_slist_append (recipients, i.c_str());
+		recipients = curl_slist_append(recipients, i.c_str());
 	}
 	for (auto i: _bcc) {
-		recipients = curl_slist_append (recipients, i.c_str());
+		recipients = curl_slist_append(recipients, i.c_str());
 	}
 
-	curl_easy_setopt (curl, CURLOPT_MAIL_RCPT, recipients);
+	curl_easy_setopt(curl, CURLOPT_MAIL_RCPT, recipients);
 
-	curl_easy_setopt (curl, CURLOPT_READFUNCTION, curl_data_shim);
-	curl_easy_setopt (curl, CURLOPT_READDATA, this);
-	curl_easy_setopt (curl, CURLOPT_UPLOAD, 1L);
+	curl_easy_setopt(curl, CURLOPT_READFUNCTION, curl_data_shim);
+	curl_easy_setopt(curl, CURLOPT_READDATA, this);
+	curl_easy_setopt(curl, CURLOPT_UPLOAD, 1L);
 
 	if (protocol == EmailProtocol::AUTO || protocol == EmailProtocol::STARTTLS) {
-		curl_easy_setopt (curl, CURLOPT_USE_SSL, (long) CURLUSESSL_TRY);
+		curl_easy_setopt(curl, CURLOPT_USE_SSL, (long) CURLUSESSL_TRY);
 	}
-	curl_easy_setopt (curl, CURLOPT_SSL_VERIFYPEER, 0L);
-	curl_easy_setopt (curl, CURLOPT_SSL_VERIFYHOST, 0L);
-	curl_easy_setopt (curl, CURLOPT_VERBOSE, 1L);
-	curl_easy_setopt (curl, CURLOPT_DEBUGFUNCTION, curl_debug_shim);
-	curl_easy_setopt (curl, CURLOPT_DEBUGDATA, this);
+	curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
+	curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
+	curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
+	curl_easy_setopt(curl, CURLOPT_DEBUGFUNCTION, curl_debug_shim);
+	curl_easy_setopt(curl, CURLOPT_DEBUGDATA, this);
 
-	auto const r = curl_easy_perform (curl);
+	auto const r = curl_easy_perform(curl);
 	if (r != CURLE_OK) {
 		throw NetworkError(_("Failed to send email"), String::compose("%1 sending to %2:%3", curl_easy_strerror(r), server, port));
 	}
 
-	curl_slist_free_all (recipients);
-	curl_easy_cleanup (curl);
-	curl_global_cleanup ();
+	curl_slist_free_all(recipients);
+	curl_easy_cleanup(curl);
+	curl_global_cleanup();
 }
 
 
@@ -264,7 +264,7 @@ Email::address_list(vector<string> addresses)
 		o += i + ", ";
 	}
 
-	return o.substr (0, o.length() - 2);
+	return o.substr(0, o.length() - 2);
 }
 
 
@@ -272,11 +272,11 @@ int
 Email::debug(CURL *, curl_infotype type, char* data, size_t size)
 {
 	if (type == CURLINFO_TEXT) {
-		_notes += string (data, size);
+		_notes += string(data, size);
 	} else if (type == CURLINFO_HEADER_IN) {
-		_notes += "<- " + string (data, size);
+		_notes += "<- " + string(data, size);
 	} else if (type == CURLINFO_HEADER_OUT) {
-		_notes += "-> " + string (data, size);
+		_notes += "-> " + string(data, size);
 	}
 	return 0;
 }

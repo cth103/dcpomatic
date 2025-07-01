@@ -29,23 +29,23 @@ class Email
 public:
 	Email(std::string from, std::vector<std::string> to, std::string subject, std::string body);
 
-	void add_cc (std::string cc);
-	void add_bcc (std::string bcc);
+	void add_cc(std::string cc);
+	void add_bcc(std::string bcc);
 	/** Add attachment, copying the contents of the file into memory */
-	void add_attachment (boost::filesystem::path file, std::string name, std::string mime_type);
+	void add_attachment(boost::filesystem::path file, std::string name, std::string mime_type);
 
-	void send (std::string server, int port, EmailProtocol protocol, std::string user = "", std::string password = "");
+	void send(std::string server, int port, EmailProtocol protocol, std::string user = "", std::string password = "");
 	void send_with_retry(std::string server, int port, EmailProtocol protocol, int retries, std::string user = "", std::string password = "");
 
-	std::string notes () const {
+	std::string notes() const {
 		return _notes;
 	}
 
-	size_t get_data (void* ptr, size_t size, size_t nmemb);
-	int debug (CURL* curl, curl_infotype type, char* data, size_t size);
+	size_t get_data(void* ptr, size_t size, size_t nmemb);
+	int debug(CURL* curl, curl_infotype type, char* data, size_t size);
 
 	/** @return full email, after send() has been called */
-	std::string email () const {
+	std::string email() const {
 		return _email;
 	}
 
@@ -53,8 +53,8 @@ public:
 
 private:
 
-	std::string fix (std::string s) const;
-	static std::string encode_rfc1342 (std::string subject);
+	std::string fix(std::string s) const;
+	static std::string encode_rfc1342(std::string subject);
 
 	std::string _from;
 	std::vector<std::string> _to;
