@@ -46,62 +46,62 @@ using namespace boost::placeholders;
 #endif
 
 
-UploadJob::UploadJob (shared_ptr<const Film> film)
-	: Job (film)
-	, _status (_("Waiting"))
+UploadJob::UploadJob(shared_ptr<const Film> film)
+	: Job(film)
+	, _status(_("Waiting"))
 {
 
 }
 
 
-UploadJob::~UploadJob ()
+UploadJob::~UploadJob()
 {
-	stop_thread ();
+	stop_thread();
 }
 
 
 string
-UploadJob::name () const
+UploadJob::name() const
 {
 	return _("Copy DCP to TMS");
 }
 
 
 string
-UploadJob::json_name () const
+UploadJob::json_name() const
 {
 	return N_("upload");
 }
 
 
 void
-UploadJob::run ()
+UploadJob::run()
 {
-	LOG_GENERAL_NC (N_("Upload job starting"));
+	LOG_GENERAL_NC(N_("Upload job starting"));
 
 	scoped_ptr<Uploader> uploader;
 	switch (Config::instance()->tms_protocol()) {
 	case FileTransferProtocol::SCP:
-		uploader.reset (new SCPUploader(bind (&UploadJob::set_status, this, _1), bind(&UploadJob::set_progress, this, _1, false)));
+		uploader.reset(new SCPUploader(bind(&UploadJob::set_status, this, _1), bind(&UploadJob::set_progress, this, _1, false)));
 		break;
 	case FileTransferProtocol::FTP:
-		uploader.reset (new CurlUploader(bind (&UploadJob::set_status, this, _1), bind(&UploadJob::set_progress, this, _1, false)));
+		uploader.reset(new CurlUploader(bind(&UploadJob::set_status, this, _1), bind(&UploadJob::set_progress, this, _1, false)));
 		break;
 	}
 
-	uploader->upload (_film->dir(_film->dcp_name()));
+	uploader->upload(_film->dir(_film->dcp_name()));
 
-	set_progress (1);
-	set_status (N_(""));
-	set_state (FINISHED_OK);
+	set_progress(1);
+	set_status(N_(""));
+	set_state(FINISHED_OK);
 }
 
 
 string
-UploadJob::status () const
+UploadJob::status() const
 {
-	boost::mutex::scoped_lock lm (_status_mutex);
-	auto s = Job::status ();
+	boost::mutex::scoped_lock lm(_status_mutex);
+	auto s = Job::status();
 	if (!_status.empty() && !finished_in_error()) {
 		s += N_("; ") + _status;
 	}
@@ -110,8 +110,8 @@ UploadJob::status () const
 
 
 void
-UploadJob::set_status (string s)
+UploadJob::set_status(string s)
 {
-	boost::mutex::scoped_lock lm (_status_mutex);
+	boost::mutex::scoped_lock lm(_status_mutex);
 	_status = s;
 }

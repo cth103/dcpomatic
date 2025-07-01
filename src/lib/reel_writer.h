@@ -64,7 +64,7 @@ namespace dcp {
 class ReelWriter : public WeakConstFilm
 {
 public:
-	ReelWriter (
+	ReelWriter(
 		std::weak_ptr<const Film> film,
 		dcpomatic::DCPTimePeriod period,
 		std::shared_ptr<Job> job,
@@ -74,16 +74,16 @@ public:
 		boost::filesystem::path output_dir
 		);
 
-	void write (std::shared_ptr<const dcp::Data> encoded, Frame frame, Eyes eyes);
+	void write(std::shared_ptr<const dcp::Data> encoded, Frame frame, Eyes eyes);
 	void fake_write(Frame frame, Eyes eyes);
-	void repeat_write (Frame frame, Eyes eyes);
-	void write (std::shared_ptr<const AudioBuffers> audio);
+	void repeat_write(Frame frame, Eyes eyes);
+	void write(std::shared_ptr<const AudioBuffers> audio);
 	void write(PlayerText text, TextType type, boost::optional<DCPTextTrack> track, dcpomatic::DCPTimePeriod period, FontIdMap const& fonts, std::shared_ptr<dcpomatic::Font> chosen_interop_font);
-	void write (std::shared_ptr<const dcp::AtmosFrame> atmos, AtmosMetadata metadata);
+	void write(std::shared_ptr<const dcp::AtmosFrame> atmos, AtmosMetadata metadata);
 	void write(std::shared_ptr<dcp::MonoMPEG2PictureFrame> image);
 
-	void finish (boost::filesystem::path output_dcp);
-	std::shared_ptr<dcp::Reel> create_reel (
+	void finish(boost::filesystem::path output_dcp);
+	std::shared_ptr<dcp::Reel> create_reel(
 		std::list<ReferencedReelAsset> const & refs,
 		boost::filesystem::path output_dcp,
 		bool ensure_subtitles,
@@ -91,13 +91,13 @@ public:
 		);
 	void calculate_digests(std::function<void (int64_t, int64_t)> set_progress);
 
-	Frame start () const;
+	Frame start() const;
 
-	dcpomatic::DCPTimePeriod period () const {
+	dcpomatic::DCPTimePeriod period() const {
 		return _period;
 	}
 
-	int first_nonexistent_frame () const {
+	int first_nonexistent_frame() const {
 		return _first_nonexistent_frame;
 	}
 
@@ -105,13 +105,13 @@ private:
 
 	friend struct ::write_frame_info_test;
 
-	Frame check_existing_picture_asset (boost::filesystem::path asset);
+	Frame check_existing_picture_asset(boost::filesystem::path asset);
 	bool existing_picture_frame_ok(dcp::File& asset_file, Frame frame);
-	std::shared_ptr<dcp::TextAsset> empty_text_asset (TextType type, boost::optional<DCPTextTrack> track, bool with_dummy) const;
+	std::shared_ptr<dcp::TextAsset> empty_text_asset(TextType type, boost::optional<DCPTextTrack> track, bool with_dummy) const;
 
-	std::shared_ptr<dcp::ReelPictureAsset> create_reel_picture (std::shared_ptr<dcp::Reel> reel, std::list<ReferencedReelAsset> const & refs) const;
-	void create_reel_sound (std::shared_ptr<dcp::Reel> reel, std::list<ReferencedReelAsset> const & refs) const;
-	void create_reel_text (
+	std::shared_ptr<dcp::ReelPictureAsset> create_reel_picture(std::shared_ptr<dcp::Reel> reel, std::list<ReferencedReelAsset> const & refs) const;
+	void create_reel_sound(std::shared_ptr<dcp::Reel> reel, std::list<ReferencedReelAsset> const & refs) const;
+	void create_reel_text(
 		std::shared_ptr<dcp::Reel> reel,
 		std::list<ReferencedReelAsset> const & refs,
 		int64_t duration,
@@ -119,7 +119,7 @@ private:
 		bool ensure_subtitles,
 		std::set<DCPTextTrack> ensure_closed_captions
 		) const;
-	void create_reel_markers (std::shared_ptr<dcp::Reel> reel) const;
+	void create_reel_markers(std::shared_ptr<dcp::Reel> reel) const;
 	float convert_vertical_position(StringText const& subtitle, dcp::SubtitleStandard to) const;
 
 	boost::filesystem::path _output_dir;

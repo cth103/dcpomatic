@@ -47,7 +47,7 @@ using dcp::Data;
 using namespace dcpomatic;
 
 
-PlayerVideo::PlayerVideo (
+PlayerVideo::PlayerVideo(
 	shared_ptr<const ImageProxy> in,
 	Crop crop,
 	boost::optional<double> fade,
@@ -61,55 +61,55 @@ PlayerVideo::PlayerVideo (
 	optional<ContentTime> video_time,
 	bool error
 	)
-	: _in (in)
-	, _crop (crop)
-	, _fade (fade)
-	, _inter_size (inter_size)
-	, _out_size (out_size)
-	, _eyes (eyes)
-	, _part (part)
-	, _colour_conversion (colour_conversion)
-	, _video_range (video_range)
-	, _content (content)
+	: _in(in)
+	, _crop(crop)
+	, _fade(fade)
+	, _inter_size(inter_size)
+	, _out_size(out_size)
+	, _eyes(eyes)
+	, _part(part)
+	, _colour_conversion(colour_conversion)
+	, _video_range(video_range)
+	, _content(content)
 	, _video_time(video_time)
-	, _error (error)
+	, _error(error)
 {
 
 }
 
 
-PlayerVideo::PlayerVideo (shared_ptr<cxml::Node> node, shared_ptr<Socket> socket)
+PlayerVideo::PlayerVideo(shared_ptr<cxml::Node> node, shared_ptr<Socket> socket)
 {
-	_crop = Crop (node);
-	_fade = node->optional_number_child<double> ("Fade");
+	_crop = Crop(node);
+	_fade = node->optional_number_child<double>("Fade");
 
-	_inter_size = dcp::Size (node->number_child<int> ("InterWidth"), node->number_child<int> ("InterHeight"));
-	_out_size = dcp::Size (node->number_child<int> ("OutWidth"), node->number_child<int> ("OutHeight"));
+	_inter_size = dcp::Size(node->number_child<int>("InterWidth"), node->number_child<int>("InterHeight"));
+	_out_size = dcp::Size(node->number_child<int>("OutWidth"), node->number_child<int>("OutHeight"));
 	_eyes = static_cast<Eyes>(node->number_child<int>("Eyes"));
 	_part = static_cast<Part>(node->number_child<int>("Part"));
 	_video_range = static_cast<VideoRange>(node->number_child<int>("VideoRange"));
-	_error = node->optional_bool_child("Error").get_value_or (false);
+	_error = node->optional_bool_child("Error").get_value_or(false);
 
 	/* Assume that the ColourConversion uses the current state version */
-	_colour_conversion = ColourConversion::from_xml (node, Film::current_state_version);
+	_colour_conversion = ColourConversion::from_xml(node, Film::current_state_version);
 
-	_in = image_proxy_factory (node->node_child("In"), socket);
+	_in = image_proxy_factory(node->node_child("In"), socket);
 
 	if (node->optional_number_child<int>("SubtitleX")) {
 
-		auto image = make_shared<Image> (
+		auto image = make_shared<Image>(
 			AV_PIX_FMT_BGRA, dcp::Size(node->number_child<int>("SubtitleWidth"), node->number_child<int>("SubtitleHeight")), Image::Alignment::PADDED
 			);
 
-		image->read_from_socket (socket);
+		image->read_from_socket(socket);
 
-		_text = PositionImage (image, Position<int>(node->number_child<int>("SubtitleX"), node->number_child<int>("SubtitleY")));
+		_text = PositionImage(image, Position<int>(node->number_child<int>("SubtitleX"), node->number_child<int>("SubtitleY")));
 	}
 }
 
 
 void
-PlayerVideo::set_text (PositionImage image)
+PlayerVideo::set_text(PositionImage image)
 {
 	_text = image;
 }
@@ -120,16 +120,16 @@ PlayerVideo::image(AVPixelFormat pixel_format, VideoRange video_range, bool fast
 {
 	/* XXX: this assumes that image() and prepare() are only ever called with the same parameters (except crop, inter size, out size, fade) */
 
-	boost::mutex::scoped_lock lm (_mutex);
+	boost::mutex::scoped_lock lm(_mutex);
 	if (!_image || _crop != _image_crop || _inter_size != _image_inter_size || _out_size != _image_out_size || _fade != _image_fade) {
-		make_image (pixel_format, video_range, fast);
+		make_image(pixel_format, video_range, fast);
 	}
 	return _image;
 }
 
 
 shared_ptr<const Image>
-PlayerVideo::raw_image () const
+PlayerVideo::raw_image() const
 {
 	return _in->image(Image::Alignment::COMPACT, _inter_size).image;
 }
@@ -147,7 +147,7 @@ PlayerVideo::make_image(AVPixelFormat pixel_format, VideoRange video_range, bool
 	_image_out_size = _out_size;
 	_image_fade = _fade;
 
-	auto prox = _in->image (Image::Alignment::PADDED, _inter_size);
+	auto prox = _in->image(Image::Alignment::PADDED, _inter_size);
 	_error = prox.error;
 
 	auto total_crop = _crop;
@@ -182,16 +182,16 @@ PlayerVideo::make_image(AVPixelFormat pixel_format, VideoRange video_range, bool
 		yuv_to_rgb = _colour_conversion.get().yuv_to_rgb();
 	}
 
-	_image = prox.image->crop_scale_window (
+	_image = prox.image->crop_scale_window(
 		total_crop, _inter_size, _out_size, yuv_to_rgb, _video_range, pixel_format, video_range, Image::Alignment::COMPACT, fast
 		);
 
 	if (_text) {
-		_image->alpha_blend (_text->image, _text->position);
+		_image->alpha_blend(_text->image, _text->position);
 	}
 
 	if (_fade) {
-		_image->fade (_fade.get ());
+		_image->fade(_fade.get());
 	}
 }
 
@@ -225,21 +225,21 @@ PlayerVideo::add_metadata(xmlpp::Element* element) const
 
 
 void
-PlayerVideo::write_to_socket (shared_ptr<Socket> socket) const
+PlayerVideo::write_to_socket(shared_ptr<Socket> socket) const
 {
-	_in->write_to_socket (socket);
+	_in->write_to_socket(socket);
 	if (_text) {
-		_text->image->write_to_socket (socket);
+		_text->image->write_to_socket(socket);
 	}
 }
 
 
 bool
-PlayerVideo::has_j2k () const
+PlayerVideo::has_j2k() const
 {
 	/* XXX: maybe other things */
 
-	auto j2k = dynamic_pointer_cast<const J2KImageProxy> (_in);
+	auto j2k = dynamic_pointer_cast<const J2KImageProxy>(_in);
 	if (!j2k) {
 		return false;
 	}
@@ -249,24 +249,24 @@ PlayerVideo::has_j2k () const
 
 
 shared_ptr<const dcp::Data>
-PlayerVideo::j2k () const
+PlayerVideo::j2k() const
 {
-	auto j2k = dynamic_pointer_cast<const J2KImageProxy> (_in);
-	DCPOMATIC_ASSERT (j2k);
-	return j2k->j2k ();
+	auto j2k = dynamic_pointer_cast<const J2KImageProxy>(_in);
+	DCPOMATIC_ASSERT(j2k);
+	return j2k->j2k();
 }
 
 
 Position<int>
-PlayerVideo::inter_position () const
+PlayerVideo::inter_position() const
 {
-	return Position<int> ((_out_size.width - _inter_size.width) / 2, (_out_size.height - _inter_size.height) / 2);
+	return Position<int>((_out_size.width - _inter_size.width) / 2, (_out_size.height - _inter_size.height) / 2);
 }
 
 
 /** @return true if this PlayerVideo is definitely the same as another, false if it is probably not */
 bool
-PlayerVideo::same (shared_ptr<const PlayerVideo> other) const
+PlayerVideo::same(shared_ptr<const PlayerVideo> other) const
 {
 	if (_crop != other->_crop ||
 	    _fade != other->_fade ||
@@ -284,30 +284,30 @@ PlayerVideo::same (shared_ptr<const PlayerVideo> other) const
 		return false;
 	}
 
-	if (_text && other->_text && !_text->same (other->_text.get ())) {
+	if (_text && other->_text && !_text->same(other->_text.get())) {
 		/* They both have texts but they are different */
 		return false;
 	}
 
 	/* Now neither has subtitles */
 
-	return _in->same (other->_in);
+	return _in->same(other->_in);
 }
 
 
 void
 PlayerVideo::prepare(AVPixelFormat pixel_format, VideoRange video_range, Image::Alignment alignment, bool fast, bool proxy_only)
 {
-	_in->prepare (alignment, _inter_size);
-	boost::mutex::scoped_lock lm (_mutex);
+	_in->prepare(alignment, _inter_size);
+	boost::mutex::scoped_lock lm(_mutex);
 	if (!_image && !proxy_only) {
-		make_image (pixel_format, video_range, fast);
+		make_image(pixel_format, video_range, fast);
 	}
 }
 
 
 size_t
-PlayerVideo::memory_used () const
+PlayerVideo::memory_used() const
 {
 	return _in->memory_used();
 }
@@ -315,7 +315,7 @@ PlayerVideo::memory_used () const
 
 /** @return Shallow copy of this; _in and _text are shared between the original and the copy */
 shared_ptr<PlayerVideo>
-PlayerVideo::shallow_copy () const
+PlayerVideo::shallow_copy() const
 {
 	return std::make_shared<PlayerVideo>(
 		_in,
@@ -338,7 +338,7 @@ PlayerVideo::shallow_copy () const
  *  @return true if this was possible, false if not.
  */
 bool
-PlayerVideo::reset_metadata (shared_ptr<const Film> film, dcp::Size player_video_container_size)
+PlayerVideo::reset_metadata(shared_ptr<const Film> film, dcp::Size player_video_container_size)
 {
 	auto content = _content.lock();
 	if (!content || !_video_time) {

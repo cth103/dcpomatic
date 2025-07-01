@@ -27,15 +27,15 @@
 #endif
 
 
-extern double db_to_linear (double db);
-extern double linear_to_db (double linear);
+extern double db_to_linear(double db);
+extern double linear_to_db(double linear);
 
 /** @return linear gain according to a logarithmic curve, for fading in.
  *  t < 0:       linear gain of 0
  *  0 >= t >= 1: logarithmic fade in curve
  *  t > 1:       linear gain of 1
  */
-extern float logarithmic_fade_in_curve (float t);
+extern float logarithmic_fade_in_curve(float t);
 
 
 /** @return linear gain according to a logarithmic curve, for fading out.
@@ -43,11 +43,11 @@ extern float logarithmic_fade_in_curve (float t);
  *  0 >= t >= 1: logarithmic fade out curve
  *  t < 0:       linear gain of 1
  */
-extern float logarithmic_fade_out_curve (float t);
+extern float logarithmic_fade_out_curve(float t);
 
 
 template <class T>
-T clamp (T val, T minimum, T maximum)
+T clamp(T val, T minimum, T maximum)
 {
 	return std::max(std::min(val, maximum), minimum);
 }

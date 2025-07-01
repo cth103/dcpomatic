@@ -48,7 +48,7 @@ class Socket;
 class PlayerVideo
 {
 public:
-	PlayerVideo (
+	PlayerVideo(
 		std::shared_ptr<const ImageProxy> image,
 		Crop crop,
 		boost::optional<double> fade,
@@ -63,51 +63,51 @@ public:
 		bool error
 		);
 
-	PlayerVideo (std::shared_ptr<cxml::Node>, std::shared_ptr<Socket>);
+	PlayerVideo(std::shared_ptr<cxml::Node>, std::shared_ptr<Socket>);
 
-	PlayerVideo (PlayerVideo const&) = delete;
-	PlayerVideo& operator= (PlayerVideo const&) = delete;
+	PlayerVideo(PlayerVideo const&) = delete;
+	PlayerVideo& operator=(PlayerVideo const&) = delete;
 
-	std::shared_ptr<PlayerVideo> shallow_copy () const;
+	std::shared_ptr<PlayerVideo> shallow_copy() const;
 
-	void set_text (PositionImage);
-	boost::optional<PositionImage> text () const {
+	void set_text(PositionImage);
+	boost::optional<PositionImage> text() const {
 		return _text;
 	}
 
 	void prepare(AVPixelFormat pixel_format, VideoRange video_range, Image::Alignment alignment, bool fast, bool proxy_only);
 	std::shared_ptr<Image> image(AVPixelFormat pixel_format, VideoRange video_range, bool fast) const;
-	std::shared_ptr<const Image> raw_image () const;
+	std::shared_ptr<const Image> raw_image() const;
 
 	void add_metadata(xmlpp::Element* element) const;
-	void write_to_socket (std::shared_ptr<Socket> socket) const;
+	void write_to_socket(std::shared_ptr<Socket> socket) const;
 
-	bool reset_metadata (std::shared_ptr<const Film> film, dcp::Size player_video_container_size);
+	bool reset_metadata(std::shared_ptr<const Film> film, dcp::Size player_video_container_size);
 
-	bool has_j2k () const;
-	std::shared_ptr<const dcp::Data> j2k () const;
+	bool has_j2k() const;
+	std::shared_ptr<const dcp::Data> j2k() const;
 
-	Eyes eyes () const {
+	Eyes eyes() const {
 		return _eyes;
 	}
 
-	void set_eyes (Eyes e) {
+	void set_eyes(Eyes e) {
 		_eyes = e;
 	}
 
-	boost::optional<ColourConversion> colour_conversion () const {
+	boost::optional<ColourConversion> colour_conversion() const {
 		return _colour_conversion;
 	}
 
 	/** @return Position of the content within the overall image once it has been scaled up */
-	Position<int> inter_position () const;
+	Position<int> inter_position() const;
 
 	/** @return Size of the content within the overall image once it has been scaled up */
-	dcp::Size inter_size () const {
+	dcp::Size inter_size() const {
 		return _inter_size;
 	}
 
-	dcp::Size out_size () const {
+	dcp::Size out_size() const {
 		return _out_size;
 	}
 
@@ -115,15 +115,15 @@ public:
 		return _crop;
 	}
 
-	bool same (std::shared_ptr<const PlayerVideo> other) const;
+	bool same(std::shared_ptr<const PlayerVideo> other) const;
 
-	size_t memory_used () const;
+	size_t memory_used() const;
 
-	std::weak_ptr<Content> content () const {
+	std::weak_ptr<Content> content() const {
 		return _content;
 	}
 
-	bool error () const {
+	bool error() const {
 		return _error;
 	}
 

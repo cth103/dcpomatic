@@ -30,16 +30,16 @@
 class UploadJob : public Job
 {
 public:
-	explicit UploadJob (std::shared_ptr<const Film>);
-	~UploadJob ();
+	explicit UploadJob(std::shared_ptr<const Film>);
+	~UploadJob();
 
-	std::string name () const override;
-	std::string json_name () const override;
-	void run () override;
-	std::string status () const override;
+	std::string name() const override;
+	std::string json_name() const override;
+	void run() override;
+	std::string status() const override;
 
 private:
-	void set_status (std::string);
+	void set_status(std::string);
 
 	mutable boost::mutex _status_mutex;
 	std::string _status;
