@@ -35,31 +35,31 @@ using std::vector;
 using namespace dcpomatic;
 
 
-StringTextFileDecoder::StringTextFileDecoder (shared_ptr<const Film> film, shared_ptr<const StringTextFileContent> content)
-	: Decoder (film)
-	, StringTextFile (content)
-	, _next (0)
+StringTextFileDecoder::StringTextFileDecoder(shared_ptr<const Film> film, shared_ptr<const StringTextFileContent> content)
+	: Decoder(film)
+	, StringTextFile(content)
+	, _next(0)
 {
-	text.push_back (make_shared<TextDecoder>(this, content->only_text()));
+	text.push_back(make_shared<TextDecoder>(this, content->only_text()));
 	update_position();
 }
 
 
 void
-StringTextFileDecoder::seek (ContentTime time, bool accurate)
+StringTextFileDecoder::seek(ContentTime time, bool accurate)
 {
 	/* It's worth back-tracking a little here as decoding is cheap and it's nice if we don't miss
 	   too many subtitles when seeking.
 	*/
-	time -= ContentTime::from_seconds (5);
+	time -= ContentTime::from_seconds(5);
 	if (time < ContentTime()) {
 		time = ContentTime();
 	}
 
-	Decoder::seek (time, accurate);
+	Decoder::seek(time, accurate);
 
 	_next = 0;
-	while (_next < _subtitles.size() && ContentTime::from_seconds (_subtitles[_next].from.all_as_seconds ()) < time) {
+	while (_next < _subtitles.size() && ContentTime::from_seconds(_subtitles[_next].from.all_as_seconds()) < time) {
 		++_next;
 	}
 
@@ -68,14 +68,14 @@ StringTextFileDecoder::seek (ContentTime time, bool accurate)
 
 
 bool
-StringTextFileDecoder::pass ()
+StringTextFileDecoder::pass()
 {
-	if (_next >= _subtitles.size ()) {
+	if (_next >= _subtitles.size()) {
 		return true;
 	}
 
-	ContentTimePeriod const p = content_time_period (_subtitles[_next]);
-	only_text()->emit_plain (p, _subtitles[_next]);
+	ContentTimePeriod const p = content_time_period(_subtitles[_next]);
+	only_text()->emit_plain(p, _subtitles[_next]);
 
 	++_next;
 
@@ -86,17 +86,17 @@ StringTextFileDecoder::pass ()
 
 
 ContentTimePeriod
-StringTextFileDecoder::content_time_period (sub::Subtitle s) const
+StringTextFileDecoder::content_time_period(sub::Subtitle s) const
 {
-	return ContentTimePeriod (
-		ContentTime::from_seconds (s.from.all_as_seconds()),
-		ContentTime::from_seconds (s.to.all_as_seconds())
+	return ContentTimePeriod(
+		ContentTime::from_seconds(s.from.all_as_seconds()),
+		ContentTime::from_seconds(s.to.all_as_seconds())
 		);
 }
 
 
 void
-StringTextFileDecoder::update_position ()
+StringTextFileDecoder::update_position()
 {
 	if (_next < _subtitles.size()) {
 		only_text()->maybe_set_position(
