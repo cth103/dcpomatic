@@ -133,7 +133,7 @@ public:
 		sizer->Add (_combine, 0, wxALL | wxALIGN_RIGHT, DCPOMATIC_DIALOG_BORDER);
 		overall_panel->SetSizer (sizer);
 		Fit ();
-		SetSize (768, GetSize().GetHeight() + 32);
+		SetSize(768, GetSize().GetHeight() + 96);
 
 		_combine->Bind (wxEVT_BUTTON, boost::bind(&DOMFrame::combine, this));
 		_output->Bind (wxEVT_DIRPICKER_CHANGED, boost::bind(&DOMFrame::setup_sensitivity, this));
