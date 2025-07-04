@@ -407,9 +407,9 @@ render_line(vector<StringText> subtitles, dcp::Size target, DCPTime time, int fr
 	}
 
 	auto const border_width = border_width_for_subtitle(first, target);
-	layout.size.width += 2 * ceil(border_width);
-	layout.size.height += 2 * ceil(border_width);
 	auto const shadow_offset = dcp_pixels_to_pixels(target, 4);
+	layout.size.width += 2 * ceil(border_width) + ceil(shadow_offset);
+	layout.size.height += 2 * ceil(border_width) + ceil(shadow_offset);
 
 	layout.size.width *= x_scale;
 	layout.size.height *= y_scale;
