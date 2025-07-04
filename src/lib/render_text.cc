@@ -361,9 +361,17 @@ setup_layout(vector<StringText> subtitles, dcp::Size target, DCPTime time, int f
 
 static
 float
+dcp_pixels_to_pixels(dcp::Size target, int pixels)
+{
+	return pixels * target.width / 2048.0;
+}
+
+
+static
+float
 border_width_for_subtitle(StringText const& subtitle, dcp::Size target)
 {
-	return subtitle.effect() == dcp::Effect::BORDER ? (subtitle.outline_width * target.width / 2048.0) : 0;
+	return subtitle.effect() == dcp::Effect::BORDER ? dcp_pixels_to_pixels(target, subtitle.outline_width) : 0;
 }
 
 
