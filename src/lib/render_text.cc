@@ -68,10 +68,10 @@ using namespace dcpomatic;
 static Glib::RefPtr<Pango::Layout>
 create_layout(string font_name, string markup)
 {
-	auto c_font_map = pango_cairo_font_map_new ();
-	DCPOMATIC_ASSERT (c_font_map);
-	auto font_map = Glib::wrap (c_font_map);
-	auto c_context = pango_font_map_create_context (c_font_map);
+	auto c_font_map = pango_cairo_font_map_new();
+	DCPOMATIC_ASSERT(c_font_map);
+	auto font_map = Glib::wrap(c_font_map);
+	auto c_context = pango_font_map_create_context(c_font_map);
 
 	cairo_font_options_t *options = cairo_font_options_create();
 	/* CAIRO_ANTIALIAS_BEST is totally broken here: see e.g.
@@ -82,8 +82,8 @@ create_layout(string font_name, string markup)
 	pango_cairo_context_set_font_options(c_context, options);
 	cairo_font_options_destroy(options);
 
-	DCPOMATIC_ASSERT (c_context);
-	auto context = Glib::wrap (c_context);
+	DCPOMATIC_ASSERT(c_context);
+	auto context = Glib::wrap(c_context);
 	auto layout = Pango::Layout::create(context);
 
 #ifdef DCPOMATIC_OLD_PANGOMM_API
@@ -91,9 +91,9 @@ create_layout(string font_name, string markup)
 #else
 	layout->set_alignment(Pango::Alignment::LEFT);
 #endif
-	Pango::FontDescription font (font_name);
-	layout->set_font_description (font);
-	layout->set_markup (markup);
+	Pango::FontDescription font(font_name);
+	layout->set_font_description(font);
+	layout->set_markup(markup);
 
 	return layout;
 }
@@ -159,33 +159,33 @@ marked_up(vector<StringText> subtitles, int target_height, float fade_factor, st
 
 
 static void
-set_source_rgba (Cairo::RefPtr<Cairo::Context> context, dcp::Colour colour, float fade_factor)
+set_source_rgba(Cairo::RefPtr<Cairo::Context> context, dcp::Colour colour, float fade_factor)
 {
-	context->set_source_rgba (float(colour.r) / 255, float(colour.g) / 255, float(colour.b) / 255, fade_factor);
+	context->set_source_rgba(float(colour.r) / 255, float(colour.g) / 255, float(colour.b) / 255, fade_factor);
 }
 
 
 static shared_ptr<Image>
-create_image (dcp::Size size)
+create_image(dcp::Size size)
 {
 	/* FFmpeg BGRA means first byte blue, second byte green, third byte red, fourth byte alpha.
 	 * This must be COMPACT as we're using it with Cairo::ImageSurface::create
 	 */
 	auto image = make_shared<Image>(AV_PIX_FMT_BGRA, size, Image::Alignment::COMPACT);
-	image->make_black ();
+	image->make_black();
 	return image;
 }
 
 
 static Cairo::RefPtr<Cairo::ImageSurface>
-create_surface (shared_ptr<Image> image)
+create_surface(shared_ptr<Image> image)
 {
 	/* XXX: I don't think it's guaranteed that format_stride_for_width will return a stride without any padding,
 	 * so it's lucky that this works.
 	 */
-	DCPOMATIC_ASSERT (image->alignment() == Image::Alignment::COMPACT);
-	DCPOMATIC_ASSERT (image->pixel_format() == AV_PIX_FMT_BGRA);
-	return Cairo::ImageSurface::create (
+	DCPOMATIC_ASSERT(image->alignment() == Image::Alignment::COMPACT);
+	DCPOMATIC_ASSERT(image->pixel_format() == AV_PIX_FMT_BGRA);
+	return Cairo::ImageSurface::create(
 		image->data()[0],
 #ifdef DCPOMATIC_OLD_CAIROMM_API
 		Cairo::FORMAT_ARGB32,
@@ -208,7 +208,7 @@ create_surface (shared_ptr<Image> image)
 
 
 static float
-calculate_fade_factor (StringText const& first, DCPTime time, int frame_rate)
+calculate_fade_factor(StringText const& first, DCPTime time, int frame_rate)
 {
 	float fade_factor = 1;
 
@@ -216,7 +216,7 @@ calculate_fade_factor (StringText const& first, DCPTime time, int frame_rate)
 	   the start of a frame it will be faded out.
 	*/
 	auto const fade_in_start = DCPTime::from_seconds(first.in().as_seconds()).round(frame_rate);
-	auto const fade_in_end = fade_in_start + DCPTime::from_seconds (first.fade_up_time().as_seconds ());
+	auto const fade_in_end = fade_in_start + DCPTime::from_seconds(first.fade_up_time().as_seconds());
 
 	if (fade_in_start <= time && time <= fade_in_end && fade_in_start != fade_in_end) {
 		fade_factor *= DCPTime(time - fade_in_start).seconds() / DCPTime(fade_in_end - fade_in_start).seconds();
@@ -230,7 +230,7 @@ calculate_fade_factor (StringText const& first, DCPTime time, int frame_rate)
 	 * fading out if we _do_ know when it will finish.
 	 */
 	if (first.out() != dcp::Time()) {
-		auto const fade_out_end = DCPTime::from_seconds (first.out().as_seconds()).round(frame_rate);
+		auto const fade_out_end = DCPTime::from_seconds(first.out().as_seconds()).round(frame_rate);
 		auto const fade_out_start = fade_out_end - DCPTime::from_seconds(first.fade_down_time().as_seconds());
 
 		if (fade_out_start <= time && time <= fade_out_end && fade_out_start != fade_out_end) {
@@ -377,7 +377,7 @@ render_line(vector<StringText> subtitles, dcp::Size target, DCPTime time, int fr
 	   nothing else yet.
 	*/
 
-	DCPOMATIC_ASSERT(!subtitles.empty ());
+	DCPOMATIC_ASSERT(!subtitles.empty());
 	auto const& first = subtitles.front();
 	auto const fade_factor = calculate_fade_factor(first, time, frame_rate);
 
@@ -388,19 +388,19 @@ render_line(vector<StringText> subtitles, dcp::Size target, DCPTime time, int fr
 	*/
 	float x_scale = 1;
 	float y_scale = 1;
-	if (fabs (first.aspect_adjust() - 1.0) > dcp::ASPECT_ADJUST_EPSILON) {
+	if (fabs(first.aspect_adjust() - 1.0) > dcp::ASPECT_ADJUST_EPSILON) {
 		if (first.aspect_adjust() < 1) {
-			x_scale = max (0.25f, first.aspect_adjust ());
+			x_scale = max(0.25f, first.aspect_adjust());
 			y_scale = 1;
 		} else {
 			x_scale = 1;
-			y_scale = 1 / min (4.0f, first.aspect_adjust ());
+			y_scale = 1 / min(4.0f, first.aspect_adjust());
 		}
 	}
 
 	auto const border_width = border_width_for_subtitle(first, target);
-	layout.size.width += 2 * ceil (border_width);
-	layout.size.height += 2 * ceil (border_width);
+	layout.size.width += 2 * ceil(border_width);
+	layout.size.height += 2 * ceil(border_width);
 
 	layout.size.width *= x_scale;
 	layout.size.height *= y_scale;
@@ -410,42 +410,42 @@ render_line(vector<StringText> subtitles, dcp::Size target, DCPTime time, int fr
 	int const y_offset = -layout.position.y + ceil(border_width);
 
 	auto image = create_image(layout.size);
-	auto surface = create_surface (image);
-	auto context = Cairo::Context::create (surface);
+	auto surface = create_surface(image);
+	auto context = Cairo::Context::create(surface);
 
-	context->set_line_width (1);
-	context->scale (x_scale, y_scale);
+	context->set_line_width(1);
+	context->scale(x_scale, y_scale);
 	layout.pango->update_from_cairo_context(context);
 
 	if (first.effect() == dcp::Effect::SHADOW) {
 		/* Drop-shadow effect */
-		set_source_rgba (context, first.effect_colour(), fade_factor);
-		context->move_to (x_offset + 4, y_offset + 4);
+		set_source_rgba(context, first.effect_colour(), fade_factor);
+		context->move_to(x_offset + 4, y_offset + 4);
 		layout.pango->add_to_cairo_context(context);
-		context->fill ();
+		context->fill();
 	}
 
 	if (first.effect() == dcp::Effect::BORDER) {
 		/* Border effect */
-		set_source_rgba (context, first.effect_colour(), fade_factor);
-		context->set_line_width (border_width);
+		set_source_rgba(context, first.effect_colour(), fade_factor);
+		context->set_line_width(border_width);
 #ifdef DCPOMATIC_OLD_CAIROMM_API
-		context->set_line_join (Cairo::LINE_JOIN_ROUND);
+		context->set_line_join(Cairo::LINE_JOIN_ROUND);
 #else
-		context->set_line_join (Cairo::Context::LineJoin::ROUND);
+		context->set_line_join(Cairo::Context::LineJoin::ROUND);
 #endif
-		context->move_to (x_offset, y_offset);
-		layout.pango->add_to_cairo_context (context);
-		context->stroke ();
+		context->move_to(x_offset, y_offset);
+		layout.pango->add_to_cairo_context(context);
+		context->stroke();
 	}
 
 	/* The actual subtitle */
-	context->move_to (x_offset, y_offset);
+	context->move_to(x_offset, y_offset);
 	layout.pango->show_in_cairo_context(context);
 
 	int const x = x_position(first.h_align(), first.h_position(), target.width, layout.size.width);
 	int const y = y_position(first.valign_standard, first.v_align(), first.v_position(), target.height, layout.baseline_to_bottom(border_width), layout.size.height);
-	return PositionImage (image, Position<int>(max (0, x), max(0, y)));
+	return PositionImage(image, Position<int>(max(0, x), max(0, y)));
 }
 
 
@@ -467,10 +467,10 @@ render_text(vector<StringText> subtitles, dcp::Size target, DCPTime time, int fr
 			if (different_v || different_h) {
 				/* We need a new line if any new positioning (horizontal or vertical) changes for this section */
 				images.push_back(render_line(pending, target, time, frame_rate));
-				pending.clear ();
+				pending.clear();
 			}
 		}
-		pending.push_back (i);
+		pending.push_back(i);
 	}
 
 	if (!pending.empty()) {
