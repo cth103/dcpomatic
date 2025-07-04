@@ -409,6 +409,7 @@ render_line(vector<StringText> subtitles, dcp::Size target, DCPTime time, int fr
 	auto const border_width = border_width_for_subtitle(first, target);
 	layout.size.width += 2 * ceil(border_width);
 	layout.size.height += 2 * ceil(border_width);
+	auto const shadow_offset = dcp_pixels_to_pixels(target, 4);
 
 	layout.size.width *= x_scale;
 	layout.size.height *= y_scale;
@@ -428,7 +429,7 @@ render_line(vector<StringText> subtitles, dcp::Size target, DCPTime time, int fr
 	if (first.effect() == dcp::Effect::SHADOW) {
 		/* Drop-shadow effect */
 		set_source_rgba(context, first.effect_colour(), fade_factor);
-		context->move_to(x_offset + 4, y_offset + 4);
+		context->move_to(x_offset + shadow_offset, y_offset + shadow_offset);
 		layout.pango->add_to_cairo_context(context);
 		context->fill();
 	}
