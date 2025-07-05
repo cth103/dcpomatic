@@ -34,38 +34,38 @@ using std::vector;
 
 
 string
-MidSideDecoder::name () const
+MidSideDecoder::name() const
 {
 	return _("Mid-side decoder");
 }
 
 
 string
-MidSideDecoder::id () const
+MidSideDecoder::id() const
 {
 	return N_("mid-side-decoder");
 }
 
 
 int
-MidSideDecoder::out_channels () const
+MidSideDecoder::out_channels() const
 {
 	return 3;
 }
 
 
 shared_ptr<AudioProcessor>
-MidSideDecoder::clone (int) const
+MidSideDecoder::clone(int) const
 {
 	return make_shared<MidSideDecoder>();
 }
 
 
 shared_ptr<AudioBuffers>
-MidSideDecoder::run (shared_ptr<const AudioBuffers> in, int channels)
+MidSideDecoder::run(shared_ptr<const AudioBuffers> in, int channels)
 {
-	int const N = min (channels, 3);
-	auto out = make_shared<AudioBuffers>(channels, in->frames ());
+	int const N = min(channels, 3);
+	auto out = make_shared<AudioBuffers>(channels, in->frames());
 	for (int i = 0; i < in->frames(); ++i) {
 		auto const left = in->data()[0][i];
 		auto const right = in->data()[1][i];
@@ -82,7 +82,7 @@ MidSideDecoder::run (shared_ptr<const AudioBuffers> in, int channels)
 	}
 
 	for (int i = N; i < channels; ++i) {
-		out->make_silent (i);
+		out->make_silent(i);
 	}
 
 	return out;
@@ -90,18 +90,18 @@ MidSideDecoder::run (shared_ptr<const AudioBuffers> in, int channels)
 
 
 void
-MidSideDecoder::make_audio_mapping_default (AudioMapping& mapping) const
+MidSideDecoder::make_audio_mapping_default(AudioMapping& mapping) const
 {
 	/* Just map the first two input channels to our M/S */
-	mapping.make_zero ();
+	mapping.make_zero();
 	for (int i = 0; i < min(2, mapping.input_channels()); ++i) {
-		mapping.set (i, i, 1);
+		mapping.set(i, i, 1);
 	}
 }
 
 
 vector<NamedChannel>
-MidSideDecoder::input_names () const
+MidSideDecoder::input_names() const
 {
 	return {
 		NamedChannel(_("Left"), 0),
