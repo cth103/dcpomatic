@@ -36,17 +36,17 @@ vector<unique_ptr<const AudioProcessor>> AudioProcessor::_non_experimental;
 
 
 void
-AudioProcessor::setup_audio_processors ()
+AudioProcessor::setup_audio_processors()
 {
-	_non_experimental.push_back (unique_ptr<AudioProcessor>(new MidSideDecoder()));
+	_non_experimental.push_back(unique_ptr<AudioProcessor>(new MidSideDecoder()));
 
-	_experimental.push_back (unique_ptr<AudioProcessor>(new UpmixerA(48000)));
-	_experimental.push_back (unique_ptr<AudioProcessor>(new UpmixerB(48000)));
+	_experimental.push_back(unique_ptr<AudioProcessor>(new UpmixerA(48000)));
+	_experimental.push_back(unique_ptr<AudioProcessor>(new UpmixerB(48000)));
 }
 
 
 AudioProcessor const *
-AudioProcessor::from_id (string id)
+AudioProcessor::from_id(string id)
 {
 	for (auto& i: _non_experimental) {
 		if (i->id() == id) {
@@ -65,17 +65,17 @@ AudioProcessor::from_id (string id)
 
 
 vector<AudioProcessor const *>
-AudioProcessor::visible ()
+AudioProcessor::visible()
 {
 	vector<AudioProcessor const *> raw;
 	if (Config::instance()->show_experimental_audio_processors()) {
 		for (auto& processor: _experimental) {
-			raw.push_back (processor.get());
+			raw.push_back(processor.get());
 		}
 	}
 
 	for (auto& processor: _non_experimental) {
-		raw.push_back (processor.get());
+		raw.push_back(processor.get());
 	}
 
 	return raw;
@@ -83,15 +83,15 @@ AudioProcessor::visible ()
 
 
 vector<AudioProcessor const *>
-AudioProcessor::all ()
+AudioProcessor::all()
 {
 	vector<AudioProcessor const *> raw;
 	for (auto& processor: _experimental) {
-		raw.push_back (processor.get());
+		raw.push_back(processor.get());
 	}
 
 	for (auto& processor: _non_experimental) {
-		raw.push_back (processor.get());
+		raw.push_back(processor.get());
 	}
 
 	return raw;

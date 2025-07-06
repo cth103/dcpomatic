@@ -47,28 +47,28 @@ class AudioMapping;
 class AudioProcessor
 {
 public:
-	virtual ~AudioProcessor () {}
+	virtual ~AudioProcessor() {}
 
 	/** @return User-visible (translated) name */
-	virtual std::string name () const = 0;
+	virtual std::string name() const = 0;
 	/** @return An internal identifier */
-	virtual std::string id () const = 0;
+	virtual std::string id() const = 0;
 	/** @return Number of output channels */
-	virtual int out_channels () const = 0;
+	virtual int out_channels() const = 0;
 	/** @return A clone of this AudioProcessor for operation at the specified sampling rate */
-	virtual std::shared_ptr<AudioProcessor> clone (int sampling_rate) const = 0;
+	virtual std::shared_ptr<AudioProcessor> clone(int sampling_rate) const = 0;
 	/** Process some data, returning the processed result truncated or padded to `channels' */
-	virtual std::shared_ptr<AudioBuffers> run (std::shared_ptr<const AudioBuffers>, int channels) = 0;
-	virtual void flush () {}
+	virtual std::shared_ptr<AudioBuffers> run(std::shared_ptr<const AudioBuffers>, int channels) = 0;
+	virtual void flush() {}
 	/** Make the supplied audio mapping into a sensible default for this processor */
-	virtual void make_audio_mapping_default (AudioMapping& mapping) const = 0;
+	virtual void make_audio_mapping_default(AudioMapping& mapping) const = 0;
 	/** @return the user-visible (translated) names of each of our inputs, in order */
-	virtual std::vector<NamedChannel> input_names () const = 0;
+	virtual std::vector<NamedChannel> input_names() const = 0;
 
-	static std::vector<AudioProcessor const *> all ();
-	static std::vector<AudioProcessor const *> visible ();
-	static void setup_audio_processors ();
-	static AudioProcessor const * from_id (std::string);
+	static std::vector<AudioProcessor const *> all();
+	static std::vector<AudioProcessor const *> visible();
+	static void setup_audio_processors();
+	static AudioProcessor const * from_id(std::string);
 
 private:
 	static std::vector<std::unique_ptr<const AudioProcessor>> _experimental;
