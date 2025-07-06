@@ -1882,7 +1882,7 @@ Film::should_be_enough_disk_space(double& required, double& available) const
  *  this is either the DCP or a AudioProcessor.
  */
 vector<NamedChannel>
-Film::audio_output_names() const
+Film::audio_output_channel_names() const
 {
 	if (audio_processor()) {
 		return audio_processor()->input_names();

@@ -163,7 +163,7 @@ public:
 		return _state_version;
 	}
 
-	std::vector<NamedChannel> audio_output_names() const;
+	std::vector<NamedChannel> audio_output_channel_names() const;
 	std::string audio_output_name() const;
 
 	void repeat_content(ContentList, int);
