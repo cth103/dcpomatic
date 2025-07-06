@@ -25,13 +25,16 @@
  */
 
 
+#include "lib/audio_content.h"
 #include "lib/audio_processor.h"
 #include "lib/analyse_audio_job.h"
+#include "lib/content_factory.h"
 #include "lib/dcp_content_type.h"
 #include "lib/job_manager.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/film.h"
 #include "test.h"
+#include <dcp/sound_asset.h>
 #include <boost/test/unit_test.hpp>
 
 
@@ -57,3 +60,52 @@ BOOST_AUTO_TEST_CASE (audio_processor_test)
 	make_and_verify_dcp (film, {dcp::VerificationNote::Code::MISSING_CPL_METADATA});
 	check_dcp ("test/data/audio_processor_test", film->dir (film->dcp_name ()));
 }
+
+
+
+/** Check that it's possible to pass data through the mid-side decoder via HI/VI etc. */
+BOOST_AUTO_TEST_CASE(audio_processor_pass_through_test)
+{
+	auto staircase = content_factory("test/data/staircase.wav")[0];
+
+	auto film = new_test_film("audio_processor_pass_through_test", { staircase });
+	film->set_audio_channels(16);
+	film->set_audio_processor(AudioProcessor::from_id("mid-side-decoder"));
+
+	AudioMapping mapping(1, 16);
+	mapping.set(0, dcp::Channel::HI, 1);
+	mapping.set(0, dcp::Channel::VI, 1);
+	mapping.set(0, dcp::Channel::MOTION_DATA, 1);
+	mapping.set(0, dcp::Channel::SYNC_SIGNAL, 1);
+	mapping.set(0, dcp::Channel::SIGN_LANGUAGE, 1);
+	staircase->audio->set_mapping(mapping);
+
+	make_and_verify_dcp(film, {dcp::VerificationNote::Code::MISSING_CPL_METADATA});
+
+	auto mxf = find_file(film->dir(film->dcp_name()), "pcm_");
+	dcp::SoundAsset asset(mxf);
+	auto reader = asset.start_read();
+	auto frame = reader->get_frame(0);
+	BOOST_REQUIRE(frame);
+
+	/* Check the first 512 samples */
+	for (auto i = 0; i < 512; ++i) {
+		BOOST_REQUIRE_EQUAL(frame->get(0, i), 0); // L
+		BOOST_REQUIRE_EQUAL(frame->get(1, i), 0); // R
+		BOOST_REQUIRE_EQUAL(frame->get(2, i), 0); // C
+		BOOST_REQUIRE_EQUAL(frame->get(3, i), 0); // Lfe
+		BOOST_REQUIRE_EQUAL(frame->get(4, i), 0); // Ls
+		BOOST_REQUIRE_EQUAL(frame->get(5, i), 0); // Rs
+		BOOST_REQUIRE_EQUAL(frame->get(6, i), i << 8); // HI
+		BOOST_REQUIRE_EQUAL(frame->get(7, i), i << 8); // VI
+		BOOST_REQUIRE_EQUAL(frame->get(8, i), 0); // LC
+		BOOST_REQUIRE_EQUAL(frame->get(9, i), 0); // RC
+		BOOST_REQUIRE_EQUAL(frame->get(10, i), 0); // BSL
+		BOOST_REQUIRE_EQUAL(frame->get(11, i), 0); // BSR
+		BOOST_REQUIRE_EQUAL(frame->get(12, i), i << 8); // Motion data
+		BOOST_REQUIRE_EQUAL(frame->get(13, i), i << 8); // Sync
+		BOOST_REQUIRE_EQUAL(frame->get(14, i), i << 8); // Sign language
+		BOOST_REQUIRE_EQUAL(frame->get(15, i), 0); // Unused
+	}
+}
+

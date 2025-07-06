@@ -74,7 +74,7 @@ UpmixerA::clone(int sampling_rate) const
 
 
 shared_ptr<AudioBuffers>
-UpmixerA::run(shared_ptr<const AudioBuffers> in, int channels)
+UpmixerA::do_run(shared_ptr<const AudioBuffers> in, int channels)
 {
 	/* Input L and R */
 	auto in_L = in->channel(0);

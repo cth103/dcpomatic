@@ -29,6 +29,7 @@
 
 
 #include "named_channel.h"
+#include <dcp/types.h>
 #include <memory>
 #include <string>
 #include <vector>
@@ -58,7 +59,7 @@ public:
 	/** @return A clone of this AudioProcessor for operation at the specified sampling rate */
 	virtual std::shared_ptr<AudioProcessor> clone(int sampling_rate) const = 0;
 	/** Process some data, returning the processed result truncated or padded to `channels' */
-	virtual std::shared_ptr<AudioBuffers> run(std::shared_ptr<const AudioBuffers>, int channels) = 0;
+	std::shared_ptr<AudioBuffers> run(std::shared_ptr<const AudioBuffers>, int channels);
 	virtual void flush() {}
 	/** Make the supplied audio mapping into a sensible default for this processor */
 	virtual void make_audio_mapping_default(AudioMapping& mapping) const = 0;
@@ -69,6 +70,10 @@ public:
 	static std::vector<AudioProcessor const *> visible();
 	static void setup_audio_processors();
 	static AudioProcessor const * from_id(std::string);
+	static std::vector<dcp::Channel> pass_through();
+
+protected:
+	virtual std::shared_ptr<AudioBuffers> do_run(std::shared_ptr<const AudioBuffers>, int channels) = 0;
 
 private:
 	static std::vector<std::unique_ptr<const AudioProcessor>> _experimental;

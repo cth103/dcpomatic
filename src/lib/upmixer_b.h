@@ -38,10 +38,12 @@ public:
 	std::string id() const override;
 	int out_channels() const override;
 	std::shared_ptr<AudioProcessor> clone(int) const override;
-	std::shared_ptr<AudioBuffers> run(std::shared_ptr<const AudioBuffers>, int channels) override;
 	void flush() override;
 	void make_audio_mapping_default(AudioMapping& mapping) const override;
 	std::vector<NamedChannel> input_names() const override;
+
+protected:
+	std::shared_ptr<AudioBuffers> do_run(std::shared_ptr<const AudioBuffers>, int channels) override;
 
 private:
 	LowPassAudioFilter _lfe;

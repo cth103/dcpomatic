@@ -25,7 +25,10 @@
 #include "upmixer_a.h"
 #include "upmixer_b.h"
 
+#include "i18n.h"
 
+
+using std::shared_ptr;
 using std::string;
 using std::unique_ptr;
 using std::vector;
@@ -95,4 +98,64 @@ AudioProcessor::all()
 	}
 
 	return raw;
+}
+
+
+shared_ptr<AudioBuffers>
+AudioProcessor::run(std::shared_ptr<const AudioBuffers> in, int channels)
+{
+	auto out = do_run(in, std::min(channels, out_channels()));
+
+	if (out->channels() < channels) {
+		out->set_channels(channels);
+	}
+
+	for (auto const pass: pass_through()) {
+		if (static_cast<int>(pass) < channels && static_cast<int>(pass) < out->channels()) {
+			out->copy_channel_from(in.get(), static_cast<int>(pass), static_cast<int>(pass));
+		}
+	}
+
+	return out;
+}
+
+
+void
+AudioProcessor::make_audio_mapping_default(AudioMapping& mapping) const
+{
+	mapping.make_zero();
+
+	auto const channels = std::min(mapping.input_channels(), mapping.output_channels());
+
+	for (auto pass: pass_through()) {
+		if (static_cast<int>(pass) < channels) {
+			mapping.set(pass, static_cast<int>(pass), 1);
+		}
+	}
+}
+
+
+vector<NamedChannel>
+AudioProcessor::input_names() const
+{
+	return {
+		NamedChannel(_("HI"), 6),
+		NamedChannel(_("VI"), 7),
+		NamedChannel(_("DBP"), 13),
+		NamedChannel(_("DBS"), 14),
+		NamedChannel(_("Sign"), 15)
+	};
+}
+
+
+vector<dcp::Channel>
+AudioProcessor::pass_through()
+{
+	return {
+		dcp::Channel::HI,
+		dcp::Channel::VI,
+		dcp::Channel::MOTION_DATA,
+		dcp::Channel::SYNC_SIGNAL,
+		dcp::Channel::SIGN_LANGUAGE
+	};
 }

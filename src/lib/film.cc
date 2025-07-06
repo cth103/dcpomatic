@@ -791,10 +791,23 @@ Film::mapped_audio_channels() const
 	list<int> mapped;
 
 	if (audio_processor()) {
-		/* Processors are mapped 1:1 to DCP outputs so we can work out mappings from there */
+		/* Assume all a processor's declared output channels are mapped */
 		for (int i = 0; i < audio_processor()->out_channels(); ++i) {
 			mapped.push_back(i);
 		}
+
+		/* Check to see if channels that the processor passes through are mapped */
+		auto pass = AudioProcessor::pass_through();
+		for (auto i: content()) {
+			if (i->audio) {
+				for (auto c: i->audio->mapping().mapped_output_channels()) {
+					if (std::find(pass.begin(), pass.end(), dcp::Channel(c)) != pass.end()) {
+						mapped.push_back(c);
+					}
+				}
+			}
+		}
+
 	} else {
 		for (auto i: content()) {
 			if (i->audio) {
@@ -1885,7 +1898,13 @@ vector<NamedChannel>
 Film::audio_output_channel_names() const
 {
 	if (audio_processor()) {
-		return audio_processor()->input_names();
+		vector<NamedChannel> channels;
+		for (auto input: audio_processor()->input_names()) {
+			if (input.index < audio_channels()) {
+				channels.push_back(input);
+			}
+		}
+		return channels;
 	}
 
 	DCPOMATIC_ASSERT(MAX_DCP_AUDIO_CHANNELS == 16);

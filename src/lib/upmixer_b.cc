@@ -70,7 +70,7 @@ UpmixerB::clone(int sampling_rate) const
 
 
 shared_ptr<AudioBuffers>
-UpmixerB::run(shared_ptr<const AudioBuffers> in, int channels)
+UpmixerB::do_run(shared_ptr<const AudioBuffers> in, int channels)
 {
 	auto out = make_shared<AudioBuffers>(channels, in->frames());
 
