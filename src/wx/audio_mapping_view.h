@@ -74,6 +74,8 @@ public:
 
 	void set_input_groups (std::vector<Group> const & groups);
 
+	void set_top_label(wxString top_label);
+
 	boost::signals2::signal<void (AudioMapping)> Changed;
 
 private:

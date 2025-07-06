@@ -591,3 +591,10 @@ AudioMappingView::left_width() const
 }
 
 
+void
+AudioMappingView::set_top_label(wxString top_label)
+{
+	_top_label = top_label;
+	Refresh();
+}
+

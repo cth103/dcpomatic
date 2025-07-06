@@ -164,6 +164,7 @@ public:
 	}
 
 	std::vector<NamedChannel> audio_output_names() const;
+	std::string audio_output_name() const;
 
 	void repeat_content(ContentList, int);
 

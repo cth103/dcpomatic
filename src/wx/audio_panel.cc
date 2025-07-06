@@ -195,6 +195,7 @@ AudioPanel::film_changed (FilmProperty property)
 	case FilmProperty::AUDIO_CHANNELS:
 	case FilmProperty::AUDIO_PROCESSOR:
 		_mapping->set_output_channels (_parent->film()->audio_output_names ());
+		_mapping->set_top_label(std_to_wx(_parent->film()->audio_output_name()));
 		setup_peak ();
 		setup_sensitivity();
 		break;

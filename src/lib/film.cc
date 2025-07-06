@@ -1901,6 +1901,18 @@ Film::audio_output_names() const
 	return n;
 }
 
+
+string
+Film::audio_output_name() const
+{
+	if (audio_processor()) {
+		return fmt::format(_("DCP (via {})"), audio_processor()->name());
+	}
+
+	return _("DCP");
+}
+
+
 void
 Film::repeat_content(ContentList c, int n)
 {
