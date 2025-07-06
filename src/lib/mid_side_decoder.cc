@@ -81,10 +81,6 @@ MidSideDecoder::run(shared_ptr<const AudioBuffers> in, int channels)
 		}
 	}
 
-	for (int i = N; i < channels; ++i) {
-		out->make_silent(i);
-	}
-
 	return out;
 }
 
