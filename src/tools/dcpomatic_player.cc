@@ -1361,11 +1361,11 @@ private:
 			}
 			_frame->Show ();
 
-			if (!_dcp_to_load.empty() && dcp::filesystem::is_directory(_dcp_to_load)) {
+			if (_dcp_to_load && dcp::filesystem::is_directory(*_dcp_to_load)) {
 				try {
-					_frame->load_dcp (_dcp_to_load);
+					_frame->load_dcp(*_dcp_to_load);
 				} catch (exception& e) {
-					error_dialog(nullptr, wxString::Format(_("Could not load DCP %s"), std_to_wx(_dcp_to_load)), std_to_wx(e.what()));
+					error_dialog(nullptr, wxString::Format(_("Could not load DCP %s"), std_to_wx(_dcp_to_load->string())), std_to_wx(e.what()));
 				}
 			}
 
@@ -1478,7 +1478,7 @@ private:
 	}
 
 	DOMFrame* _frame = nullptr;
-	string _dcp_to_load;
+	boost::optional<boost::filesystem::path> _dcp_to_load;
 	boost::optional<string> _stress;
 };
 
