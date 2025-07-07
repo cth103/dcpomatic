@@ -1403,7 +1403,17 @@ private:
 	bool OnCmdLineParsed (wxCmdLineParser& parser) override
 	{
 		if (parser.GetParamCount() > 0) {
-			_dcp_to_load = wx_to_std (parser.GetParam (0));
+			auto path = boost::filesystem::path(wx_to_std(parser.GetParam(0)));
+			/* Go at most two directories higher looking for a DCP that contains the file
+			 * that was passed in.
+			 */
+			for (int i = 0; i < 2; ++i) {
+				if (dcp::filesystem::is_directory(path) && contains_assetmap(path)) {
+					_dcp_to_load = path;
+					break;
+				}
+				path = path.parent_path();
+			}
 		}
 
 		wxString config;
