@@ -87,18 +87,18 @@ environment_info ()
 {
 	list<string> info;
 
-	info.push_back(String::compose("%1 %2 git %3 using %4", variant::dcpomatic(), dcpomatic_version, dcpomatic_git_commit, dependency_version_summary()));
+	info.push_back(fmt::format("{} {} git {} using {}", variant::dcpomatic(), dcpomatic_version, dcpomatic_git_commit, dependency_version_summary()));
 
 	{
 		char buffer[128];
 		gethostname (buffer, sizeof (buffer));
-		info.push_back (String::compose ("Host name %1", &buffer[0]));
+		info.push_back (fmt::format("Host name {}", &buffer[0]));
 	}
 
 #ifdef DCPOMATIC_DEBUG
-	info.push_back(variant::insert_dcpomatic("%1 built in debug mode."));
+	info.push_back(variant::insert_dcpomatic("{} built in debug mode."));
 #else
-	info.push_back(variant::insert_dcpomatic("%1 built in optimised mode."));
+	info.push_back(variant::insert_dcpomatic("{} built in optimised mode."));
 #endif
 #ifdef LIBDCP_DEBUG
 	info.push_back ("libdcp built in debug mode.");
@@ -111,8 +111,8 @@ environment_info ()
 	os_info.dwOSVersionInfoSize = sizeof (os_info);
 	GetVersionEx (&os_info);
 	info.push_back (
-		String::compose (
-			"Windows version %1.%2.%3",
+		fmt::format(
+			"Windows version {}.{}.{}",
 			(int) os_info.dwMajorVersion, (int) os_info.dwMinorVersion, (int) os_info.dwBuildNumber
 			)
 		);
@@ -143,9 +143,9 @@ environment_info ()
 #endif
 #endif
 
-	info.push_back (String::compose ("CPU: %1, %2 processors", cpu_info(), boost::thread::hardware_concurrency()));
+	info.push_back (fmt::format("CPU: {}, {} processors", cpu_info(), boost::thread::hardware_concurrency()));
 	for (auto const& i: mount_info()) {
-		info.push_back (String::compose("Mount: %1 %2", i.first, i.second));
+		info.push_back (fmt::format("Mount: {} {}", i.first, i.second));
 	}
 
 	return info;

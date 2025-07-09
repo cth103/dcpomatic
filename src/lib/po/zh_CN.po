@@ -36,10 +36,10 @@ msgstr ""
 #: src/lib/video_content.cc:478
 msgid ""
 "\n"
-"Cropped to %1x%2"
+"Cropped to {}x{}"
 msgstr ""
 "\n"
-"裁剪为 %1x%2"
+"裁剪为 {}x{}"
 
 #: src/lib/video_content.cc:468
 #, c-format
@@ -53,29 +53,29 @@ msgstr ""
 #: src/lib/video_content.cc:502
 msgid ""
 "\n"
-"Padded with black to fit container %1 (%2x%3)"
+"Padded with black to fit container {} ({}x{})"
 msgstr ""
 "\n"
-"填充为黑色，以适应打包宽高比 %1 (%2x%3)"
+"填充为黑色，以适应打包宽高比 {} ({}x{})"
 
 #: src/lib/video_content.cc:492
 msgid ""
 "\n"
-"Scaled to %1x%2"
+"Scaled to {}x{}"
 msgstr ""
 "\n"
-"缩放到 %1x%2"
+"缩放到 {}x{}"
 
 #: src/lib/video_content.cc:496 src/lib/video_content.cc:507
 #, c-format
 msgid " (%.2f:1)"
 msgstr " (%.2f:1)"
 
-#. TRANSLATORS: the %1 in this string will be filled in with a day of the week
+#. TRANSLATORS: the {} in this string will be filled in with a day of the week
 #. to say what day a job will finish.
 #: src/lib/job.cc:598
-msgid " on %1"
-msgstr " 于 %1"
+msgid " on {}"
+msgstr " 于 {}"
 
 #: src/lib/config.cc:1276
 msgid ""
@@ -106,71 +106,71 @@ msgid "$JOB_NAME: $JOB_STATUS"
 msgstr "$任务名称: $JOB_STATUS"
 
 #: src/lib/cross_common.cc:107
-msgid "%1 (%2 GB) [%3]"
-msgstr "%1 (%2 GB) [%3]"
+msgid "{} ({} GB) [{}]"
+msgstr "{} ({} GB) [{}]"
 
 #: src/lib/atmos_mxf_content.cc:96
-msgid "%1 [Atmos]"
-msgstr "%1 [全景声]"
+msgid "{} [Atmos]"
+msgstr "{} [全景声]"
 
 #: src/lib/dcp_content.cc:356
-msgid "%1 [DCP]"
-msgstr "%1 [DCP]"
+msgid "{} [DCP]"
+msgstr "{} [DCP]"
 
 #: src/lib/ffmpeg_content.cc:347
-msgid "%1 [audio]"
-msgstr "%1 [音频]"
+msgid "{} [audio]"
+msgstr "{} [音频]"
 
 #: src/lib/ffmpeg_content.cc:343
-msgid "%1 [movie]"
-msgstr "%1 [影片]"
+msgid "{} [movie]"
+msgstr "{} [影片]"
 
 #: src/lib/ffmpeg_content.cc:345 src/lib/video_mxf_content.cc:106
-msgid "%1 [video]"
-msgstr "%1 [视频]"
+msgid "{} [video]"
+msgstr "{} [视频]"
 
 #: src/lib/job.cc:181 src/lib/job.cc:196
 msgid ""
-"%1 could not open the file %2 (%3).  Perhaps it does not exist or is in an "
+"{} could not open the file {} ({}).  Perhaps it does not exist or is in an "
 "unexpected format."
-msgstr "%1 无法打开文件%2 (%3)。文件不存在或格式无法识别。"
+msgstr "{} 无法打开文件{} ({})。文件不存在或格式无法识别。"
 
 #: src/lib/film.cc:1702
 msgid ""
-"%1 had to change your settings for referring to DCPs as OV.  Please review "
+"{} had to change your settings for referring to DCPs as OV.  Please review "
 "those settings to make sure they are what you want."
 msgstr ""
-"%1必须更改您DCP的设置为OV。请重新检查设置确认设置内容是否为您的期望值。"
+"{}必须更改您DCP的设置为OV。请重新检查设置确认设置内容是否为您的期望值。"
 
 #: src/lib/film.cc:1668
 msgid ""
-"%1 had to change your settings so that the film's frame rate is the same as "
+"{} had to change your settings so that the film's frame rate is the same as "
 "that of your Atmos content."
-msgstr "%1必须更改您DCP的设置，使影片的帧率与 Atmos 内容一致。"
+msgstr "{}必须更改您DCP的设置，使影片的帧率与 Atmos 内容一致。"
 
 #: src/lib/film.cc:1715
 msgid ""
-"%1 had to remove one of your custom reel boundaries as it no longer lies "
+"{} had to remove one of your custom reel boundaries as it no longer lies "
 "within the film."
-msgstr "%1 必须删除一个自定义卷轴边界，因为它不再位于影片内。"
+msgstr "{} 必须删除一个自定义卷轴边界，因为它不再位于影片内。"
 
 #: src/lib/film.cc:1713
 msgid ""
-"%1 had to remove some of your custom reel boundaries as they no longer lie "
+"{} had to remove some of your custom reel boundaries as they no longer lie "
 "within the film."
-msgstr "%1必须删除一些自定义卷轴边界，因为它不再位于影片中。"
+msgstr "{}必须删除一些自定义卷轴边界，因为它不再位于影片中。"
 
 #: src/lib/ffmpeg_content.cc:115
-msgid "%1 no longer supports the `%2' filter, so it has been turned off."
-msgstr "%1 不再支持 %2 滤镜，因此它必须被关闭。"
+msgid "{} no longer supports the `{}' filter, so it has been turned off."
+msgstr "{} 不再支持 {} 滤镜，因此它必须被关闭。"
 
 #: src/lib/config.cc:441 src/lib/config.cc:1251
-msgid "%1 notification"
-msgstr "%1 提醒"
+msgid "{} notification"
+msgstr "{} 提醒"
 
 #: src/lib/transcode_job.cc:180
-msgid "%1; %2/%3 frames"
-msgstr "%1; %2/%3 帧"
+msgid "{}; {}/{} frames"
+msgstr "{}; {}/{} 帧"
 
 #: src/lib/video_content.cc:463
 #, c-format
@@ -260,12 +260,12 @@ msgstr "9"
 
 #. TRANSLATORS: fps here is an abbreviation for frames per second
 #: src/lib/transcode_job.cc:183
-msgid "; %1 fps"
-msgstr "; %1 fps"
+msgid "; {} fps"
+msgstr "; {} fps"
 
 #: src/lib/job.cc:603
-msgid "; %1 remaining; finishing at %2%3"
-msgstr "; 剩余 %1 ; 完成于 %2%3"
+msgid "; {} remaining; finishing at {}{}"
+msgstr "; 剩余 {} ; 完成于 {}{}"
 
 #: src/lib/analytics.cc:58
 #, c-format, c++-format
@@ -304,10 +304,10 @@ msgstr ""
 #: src/lib/text_content.cc:230
 msgid ""
 "A subtitle or closed caption file in this project is marked with the "
-"language '%1', which %2 does not recognise.  The file's language has been "
+"language '{}', which {} does not recognise.  The file's language has been "
 "cleared."
 msgstr ""
-"此项目内有字幕或隐藏式字幕文件被标注为 %2 无法识别的“%1”语言。 该文件的语言字"
+"此项目内有字幕或隐藏式字幕文件被标注为 {} 无法识别的“{}”语言。 该文件的语言字"
 "段已被清空。"
 
 #: src/lib/ffmpeg_content.cc:639
@@ -338,8 +338,8 @@ msgstr ""
 "画面在放映时存在左右黑边。建议把DCP容器设置为与素材相同宽高比的模式。"
 
 #: src/lib/job.cc:116
-msgid "An error occurred whilst handling the file %1."
-msgstr "处理文件 %1 时发生错误。"
+msgid "An error occurred whilst handling the file {}."
+msgstr "处理文件 {} 时发生错误。"
 
 #: src/lib/analyse_audio_job.cc:74
 msgid "Analysing audio"
@@ -407,12 +407,12 @@ msgstr ""
 "卡中为每段字幕内容设置语言。"
 
 #: src/lib/audio_content.cc:265
-msgid "Audio will be resampled from %1Hz to %2Hz"
-msgstr "音频重新采样频率设置为 %1Hz 到 %2Hz"
+msgid "Audio will be resampled from {}Hz to {}Hz"
+msgstr "音频重新采样频率设置为 {}Hz 到 {}Hz"
 
 #: src/lib/audio_content.cc:267
-msgid "Audio will be resampled to %1Hz"
-msgstr "音频将被重新采样至 %1Hz"
+msgid "Audio will be resampled to {}Hz"
+msgstr "音频将被重新采样至 {}Hz"
 
 #: src/lib/audio_content.cc:256
 msgid "Audio will not be resampled"
@@ -492,8 +492,8 @@ msgid "Cannot contain slashes"
 msgstr "不能包含斜杠"
 
 #: src/lib/exceptions.cc:79
-msgid "Cannot handle pixel format %1 during %2"
-msgstr "在 %2 不能处理图片格式 %1"
+msgid "Cannot handle pixel format {} during {}"
+msgstr "在 {} 不能处理图片格式 {}"
 
 #: src/lib/film.cc:1811
 msgid "Cannot make a KDM as this project is not encrypted."
@@ -713,8 +713,8 @@ msgid "Content to be joined must use the same text language."
 msgstr "添加的内容必须有相同的文字语言。"
 
 #: src/lib/video_content.cc:454
-msgid "Content video is %1x%2"
-msgstr "源视频分辨率是 %1x%2"
+msgid "Content video is {}x{}"
+msgstr "源视频分辨率是 {}x{}"
 
 #: src/lib/upload_job.cc:66
 msgid "Copy DCP to TMS"
@@ -723,9 +723,9 @@ msgstr "复制DCP到TMS"
 #: src/lib/copy_to_drive_job.cc:59
 #, fuzzy
 msgid ""
-"Copying %1\n"
-"to %2"
-msgstr "复制 %1 中"
+"Copying {}\n"
+"to {}"
+msgstr "复制 {} 中"
 
 #: src/lib/copy_to_drive_job.cc:120
 #, fuzzy
@@ -734,70 +734,70 @@ msgstr "合并 DCP"
 
 #: src/lib/copy_to_drive_job.cc:62
 #, fuzzy
-msgid "Copying DCPs to %1"
+msgid "Copying DCPs to {}"
 msgstr "复制DCP到TMS"
 
 #: src/lib/scp_uploader.cc:57
-msgid "Could not connect to server %1 (%2)"
-msgstr "无法连接到服务器 %1 (%2)"
+msgid "Could not connect to server {} ({})"
+msgstr "无法连接到服务器 {} ({})"
 
 #: src/lib/scp_uploader.cc:106
-msgid "Could not create remote directory %1 (%2)"
-msgstr "无法创建远程目录 %1 (%2)"
+msgid "Could not create remote directory {} ({})"
+msgstr "无法创建远程目录 {} ({})"
 
 #: src/lib/image_examiner.cc:65
-msgid "Could not decode JPEG2000 file %1 (%2)"
-msgstr "无法解码JPEG2000文件%1 (%2)"
+msgid "Could not decode JPEG2000 file {} ({})"
+msgstr "无法解码JPEG2000文件{} ({})"
 
 #: src/lib/ffmpeg_image_proxy.cc:164
-msgid "Could not decode image (%1)"
-msgstr "无法解码图像(%1)"
+msgid "Could not decode image ({})"
+msgstr "无法解码图像({})"
 
 #: src/lib/unzipper.cc:76
-msgid "Could not find file %1 in ZIP file"
-msgstr "无法在zip文件中找到 %1 文件"
+msgid "Could not find file {} in ZIP file"
+msgstr "无法在zip文件中找到 {} 文件"
 
 #: src/lib/encode_server_finder.cc:197
 msgid ""
-"Could not listen for remote encode servers.  Perhaps another instance of %1 "
+"Could not listen for remote encode servers.  Perhaps another instance of {} "
 "is running."
-msgstr "无法侦听到远程编码服务器。可能另一个 %1 进程正在运行。"
+msgstr "无法侦听到远程编码服务器。可能另一个 {} 进程正在运行。"
 
 #: src/lib/job.cc:180 src/lib/job.cc:195
-msgid "Could not open %1"
-msgstr "无法打开 %1"
+msgid "Could not open {}"
+msgstr "无法打开 {}"
 
 #: src/lib/curl_uploader.cc:102 src/lib/scp_uploader.cc:122
-msgid "Could not open %1 to send"
-msgstr "无法打开 %1 并发送"
+msgid "Could not open {} to send"
+msgstr "无法打开 {} 并发送"
 
 #: src/lib/internet.cc:167 src/lib/internet.cc:172
 msgid "Could not open downloaded ZIP file"
 msgstr "无法打开下载的zip文件"
 
 #: src/lib/internet.cc:179
-msgid "Could not open downloaded ZIP file (%1:%2: %3)"
-msgstr "无法打开下载的zip文件 (%1:%2: %3)"
+msgid "Could not open downloaded ZIP file ({}:{}: {})"
+msgstr "无法打开下载的zip文件 ({}:{}: {})"
 
 #: src/lib/config.cc:1178
 msgid "Could not open file for writing"
 msgstr "无法执行写入，目标文件无法打开"
 
 #: src/lib/ffmpeg_file_encoder.cc:271
-msgid "Could not open output file %1 (%2)"
-msgstr "无法打开输出文件 %1 (%2)"
+msgid "Could not open output file {} ({})"
+msgstr "无法打开输出文件 {} ({})"
 
 #: src/lib/dcp_subtitle.cc:60
-msgid "Could not read subtitles (%1 / %2)"
-msgstr "无法读取字幕 (%1 / %2)"
+msgid "Could not read subtitles ({} / {})"
+msgstr "无法读取字幕 ({} / {})"
 
 #: src/lib/curl_uploader.cc:59
 msgid "Could not start transfer"
 msgstr "无法开始传输"
 
 #: src/lib/curl_uploader.cc:110 src/lib/scp_uploader.cc:138
-msgid "Could not write to remote file (%1)"
-msgstr "写入远程文件 (%1)失败！"
+msgid "Could not write to remote file ({})"
+msgstr "写入远程文件 ({})失败！"
 
 #: src/lib/util.cc:601
 msgid "D-BOX primary"
@@ -883,7 +883,7 @@ msgid ""
 "The KDMs are valid from $START_TIME until $END_TIME.\n"
 "\n"
 "Best regards,\n"
-"%1"
+"{}"
 msgstr ""
 "亲爱的放映员\n"
 "\n"
@@ -895,35 +895,35 @@ msgstr ""
 "该KDMS的有效期是从$START_TIME至$END_TIME有效。\n"
 "\n"
 "祝好，\n"
-"%1"
+"{}"
 
 #: src/lib/exceptions.cc:179
-msgid "Disk full when writing %1"
-msgstr "在写入 %1 时磁盘已满"
+msgid "Disk full when writing {}"
+msgstr "在写入 {} 时磁盘已满"
 
 #: src/lib/dolby_cp750.cc:31
 msgid "Dolby CP650 or CP750"
 msgstr "杜比 CP650 或 CP750"
 
 #: src/lib/internet.cc:124
-msgid "Download failed (%1 error %2)"
-msgstr "下载失败 (%1 error %2)"
+msgid "Download failed ({} error {})"
+msgstr "下载失败 ({} error {})"
 
 #: src/lib/frame_rate_change.cc:94
 msgid "Each content frame will be doubled in the DCP.\n"
 msgstr "该DCP中每一帧将复制为两帧。\n"
 
 #: src/lib/frame_rate_change.cc:96
-msgid "Each content frame will be repeated %1 more times in the DCP.\n"
-msgstr "每个内容帧将在DCP中重复%1次。\n"
+msgid "Each content frame will be repeated {} more times in the DCP.\n"
+msgstr "每个内容帧将在DCP中重复{}次。\n"
 
 #: src/lib/send_kdm_email_job.cc:94
 msgid "Email KDMs"
 msgstr "邮件发送 KDM"
 
 #: src/lib/send_kdm_email_job.cc:97
-msgid "Email KDMs for %1"
-msgstr "通过电子邮件发送 %1 的 KDM"
+msgid "Email KDMs for {}"
+msgstr "通过电子邮件发送 {} 的 KDM"
 
 #: src/lib/send_notification_email_job.cc:53
 msgid "Email notification"
@@ -934,8 +934,8 @@ msgid "Email problem report"
 msgstr "通过邮件发送报告"
 
 #: src/lib/send_problem_report_job.cc:72
-msgid "Email problem report for %1"
-msgstr "通过邮件发送报告给 %1"
+msgid "Email problem report for {}"
+msgstr "通过邮件发送报告给 {}"
 
 #: src/lib/dcp_film_encoder.cc:120 src/lib/ffmpeg_film_encoder.cc:135
 msgid "Encoding"
@@ -946,12 +946,12 @@ msgid "Episode"
 msgstr "插曲"
 
 #: src/lib/exceptions.cc:86
-msgid "Error in subtitle file: saw %1 while expecting %2"
-msgstr "字幕文件错误: 执行为 %1 实际要求为%2"
+msgid "Error in subtitle file: saw {} while expecting {}"
+msgstr "字幕文件错误: 执行为 {} 实际要求为{}"
 
 #: src/lib/job.cc:625
-msgid "Error: %1"
-msgstr "错误: (%1)"
+msgid "Error: {}"
+msgstr "错误: ({})"
 
 #: src/lib/dcp_content_type.cc:69
 msgid "Event"
@@ -990,8 +990,8 @@ msgid "FCP XML subtitles"
 msgstr "FCP XML 字幕"
 
 #: src/lib/scp_uploader.cc:69
-msgid "Failed to authenticate with server (%1)"
-msgstr "无法与服务器进行身份验证 (%1)"
+msgid "Failed to authenticate with server ({})"
+msgstr "无法与服务器进行身份验证 ({})"
 
 #: src/lib/job.cc:140 src/lib/job.cc:154
 msgid "Failed to encode the DCP."
@@ -1043,8 +1043,8 @@ msgid "Full"
 msgstr "Full(全幅/1.90)"
 
 #: src/lib/ffmpeg_content.cc:564
-msgid "Full (0-%1)"
-msgstr "全幅 (0-%1)"
+msgid "Full (0-{})"
+msgstr "全幅 (0-{})"
 
 #: src/lib/ratio.cc:57
 msgid "Full frame"
@@ -1139,8 +1139,8 @@ msgid ""
 msgstr "建议在DCP开始后至少4秒放置您的第一个字幕，以确保它能被看到。"
 
 #: src/lib/job.cc:170 src/lib/job.cc:205 src/lib/job.cc:265 src/lib/job.cc:275
-msgid "It is not known what caused this error.  %1"
-msgstr "未知原因错误。%1"
+msgid "It is not known what caused this error.  {}"
+msgstr "未知原因错误。{}"
 
 #: src/lib/ffmpeg_content.cc:614
 msgid "JEDEC P22"
@@ -1192,8 +1192,8 @@ msgid "Limited"
 msgstr "限制"
 
 #: src/lib/ffmpeg_content.cc:557
-msgid "Limited / video (%1-%2)"
-msgstr "限制/视频 (%1-%2)"
+msgid "Limited / video ({}-{})"
+msgstr "限制/视频 ({}-{})"
 
 #: src/lib/ffmpeg_content.cc:629
 msgid "Linear"
@@ -1241,8 +1241,8 @@ msgid "Mismatched video sizes in DCP"
 msgstr "DCP中的视频分辨率不匹配"
 
 #: src/lib/exceptions.cc:72
-msgid "Missing required setting %1"
-msgstr "缺少必需的设置 %1"
+msgid "Missing required setting {}"
+msgstr "缺少必需的设置 {}"
 
 #: src/lib/job.cc:561
 msgid "Monday"
@@ -1285,12 +1285,12 @@ msgid "OK"
 msgstr "完成"
 
 #: src/lib/job.cc:622
-msgid "OK (ran for %1 from %2 to %3)"
-msgstr "完成 (运行用时 %1，预计从 %2 到 %3)"
+msgid "OK (ran for {} from {} to {})"
+msgstr "完成 (运行用时 {}，预计从 {} 到 {})"
 
 #: src/lib/job.cc:620
-msgid "OK (ran for %1)"
-msgstr "完成 (运行用时 %1)"
+msgid "OK (ran for {})"
+msgstr "完成 (运行用时 {})"
 
 #: src/lib/content.cc:106
 msgid "Only the first piece of content to be joined can have a start trim."
@@ -1310,8 +1310,8 @@ msgstr "开放式字幕"
 
 #: src/lib/transcode_job.cc:116
 msgid ""
-"Open the project in %1, check the settings, then save it before trying again."
-msgstr "在 %1 中打开项目，检查设置，然后保存后重试。"
+"Open the project in {}, check the settings, then save it before trying again."
+msgstr "在 {} 中打开项目，检查设置，然后保存后重试。"
 
 #: src/lib/filter.cc:92 src/lib/filter.cc:93 src/lib/filter.cc:94
 #: src/lib/filter.cc:95
@@ -1333,8 +1333,8 @@ msgstr "P3"
 #: src/lib/util.cc:1136
 msgid ""
 "Please report this problem by using Help -> Report a problem or via email to "
-"%1"
-msgstr "请提交这个问题，在帮助菜单中选择：通过Email反馈问题：%1"
+"{}"
+msgstr "请提交这个问题，在帮助菜单中选择：通过Email反馈问题：{}"
 
 #: src/lib/dcp_content_type.cc:61
 msgid "Policy"
@@ -1349,8 +1349,8 @@ msgid "Prepared for video frame rate"
 msgstr "准备视频帧率"
 
 #: src/lib/exceptions.cc:107
-msgid "Programming error at %1:%2 %3"
-msgstr "程序内部错误 %1:%2 %3"
+msgid "Programming error at {}:{} {}"
+msgstr "程序内部错误 {}:{} {}"
 
 #: src/lib/dcp_content_type.cc:65
 msgid "Promo"
@@ -1468,13 +1468,13 @@ msgid "SMPTE ST 432-1 D65 (2010)"
 msgstr "SMPTE ST 432-1 D65 (2010)"
 
 #: src/lib/scp_uploader.cc:47
-msgid "SSH error [%1]"
-msgstr "SSH 错误 [%1]"
+msgid "SSH error [{}]"
+msgstr "SSH 错误 [{}]"
 
 #: src/lib/scp_uploader.cc:63 src/lib/scp_uploader.cc:76
 #: src/lib/scp_uploader.cc:83
-msgid "SSH error [%1] (%2)"
-msgstr "SSH 错误 [%1] (%2)"
+msgid "SSH error [{}] ({})"
+msgstr "SSH 错误 [{}] ({})"
 
 #: src/lib/job.cc:571
 msgid "Saturday"
@@ -1501,8 +1501,8 @@ msgid "Size"
 msgstr "大小"
 
 #: src/lib/audio_content.cc:260
-msgid "Some audio will be resampled to %1Hz"
-msgstr "部分音频将被重新采样到%1Hz"
+msgid "Some audio will be resampled to {}Hz"
+msgstr "部分音频将被重新采样到{}Hz"
 
 #: src/lib/transcode_job.cc:121
 msgid "Some files have been changed since they were added to the project."
@@ -1531,9 +1531,9 @@ msgstr ""
 
 #: src/lib/hints.cc:605
 msgid ""
-"Some of your closed captions span more than %1 lines, so they will be "
+"Some of your closed captions span more than {} lines, so they will be "
 "truncated."
-msgstr "您的某些隐藏字幕跨度超过%1行，因此它将被截断，可能显示不完整。"
+msgstr "您的某些隐藏字幕跨度超过{}行，因此它将被截断，可能显示不完整。"
 
 #: src/lib/hints.cc:727
 msgid ""
@@ -1610,40 +1610,40 @@ msgid "The certificate chain for signing is invalid"
 msgstr "证书签名无效"
 
 #: src/lib/exceptions.cc:100
-msgid "The certificate chain for signing is invalid (%1)"
-msgstr "证书签名无效(%1)"
+msgid "The certificate chain for signing is invalid ({})"
+msgstr "证书签名无效({})"
 
 #: src/lib/hints.cc:744
 msgid ""
-"The certificate chain that %1 uses for signing DCPs and KDMs contains a "
+"The certificate chain that {} uses for signing DCPs and KDMs contains a "
 "small error which will prevent DCPs from being validated correctly on some "
 "systems.  It is advisable to re-create the signing certificate chain by "
 "clicking the \"Re-make certificates and key...\" button in the Keys page of "
 "Preferences."
 msgstr ""
-"%1用于签名DCP和KDM的证书链包含一个小错误，这将阻止DCP在某些系统上正确验证。建"
+"{}用于签名DCP和KDM的证书链包含一个小错误，这将阻止DCP在某些系统上正确验证。建"
 "议通过单击“首选项”的“密钥”页面中的“重新制作证书和密钥…”按钮来重新创建签名证书"
 "链。"
 
 #: src/lib/hints.cc:752
 msgid ""
-"The certificate chain that %1 uses for signing DCPs and KDMs has a validity "
+"The certificate chain that {} uses for signing DCPs and KDMs has a validity "
 "period that is too long.  This will cause problems playing back DCPs on some "
 "systems. It is advisable to re-create the signing certificate chain by "
 "clicking the \"Re-make certificates and key...\" button in the Keys page of "
 "Preferences."
 msgstr ""
-"%1用于签名DCP和KDM的证书链的有效期太长。这将导致在某些系统上播放DCP时出现问"
+"{}用于签名DCP和KDM的证书链的有效期太长。这将导致在某些系统上播放DCP时出现问"
 "题。建议通过单击“首选项”的“密钥”页面中的“重新制作证书和密钥…”按钮来重新创建签"
 "名证书链。"
 
 #: src/lib/video_decoder.cc:70
 msgid ""
-"The content file %1 is set as 3D but does not appear to contain 3D images.  "
+"The content file {} is set as 3D but does not appear to contain 3D images.  "
 "Please set it to 2D.  You can still make a 3D DCP from this content by "
 "ticking the 3D option in the DCP video tab."
 msgstr ""
-"内容文件%1设置为3D，但似乎不包含3D图像。请将其设置为2D。通过勾选DCP视频选项卡"
+"内容文件{}设置为3D，但似乎不包含3D图像。请将其设置为2D。通过勾选DCP视频选项卡"
 "中的3D选项，您仍然可以根据此内容制作3D DCP。"
 
 #: src/lib/job.cc:122
@@ -1653,20 +1653,20 @@ msgid ""
 msgstr "磁盘空间不足，清理磁盘空间以继续。"
 
 #: src/lib/playlist.cc:245
-msgid "The file %1 has been moved %2 milliseconds earlier."
-msgstr "文件 %1 被向前移动了 %2 毫秒。"
+msgid "The file {} has been moved {} milliseconds earlier."
+msgstr "文件 {} 被向前移动了 {} 毫秒。"
 
 #: src/lib/playlist.cc:240
-msgid "The file %1 has been moved %2 milliseconds later."
-msgstr "文件 %1 被向后移动了 %2 毫秒。"
+msgid "The file {} has been moved {} milliseconds later."
+msgstr "文件 {} 被向后移动了 {} 毫秒。"
 
 #: src/lib/playlist.cc:265
-msgid "The file %1 has been trimmed by %2 milliseconds less."
-msgstr "文件 %1 被缩短了 %2 毫秒。"
+msgid "The file {} has been trimmed by {} milliseconds less."
+msgstr "文件 {} 被缩短了 {} 毫秒。"
 
 #: src/lib/playlist.cc:260
-msgid "The file %1 has been trimmed by %2 milliseconds more."
-msgstr "文件 %1 被延长了 %2 毫秒。"
+msgid "The file {} has been trimmed by {} milliseconds more."
+msgstr "文件 {} 被延长了 {} 毫秒。"
 
 #: src/lib/hints.cc:268
 msgid ""
@@ -1710,29 +1710,29 @@ msgid ""
 msgstr "内存不足，如您是32位系统，请重新设置运行线程数量来达到稳定运行。"
 
 #: src/lib/util.cc:986
-msgid "This KDM was made for %1 but not for its leaf certificate."
-msgstr "KDM是为 %1生成，但不是为它的叶子证书生成。"
+msgid "This KDM was made for {} but not for its leaf certificate."
+msgstr "KDM是为 {}生成，但不是为它的叶子证书生成。"
 
 #: src/lib/util.cc:984
-msgid "This KDM was not made for %1's decryption certificate."
-msgstr "KDM不是为 %1 解密证书而生成。"
+msgid "This KDM was not made for {}'s decryption certificate."
+msgstr "KDM不是为 {} 解密证书而生成。"
 
 #: src/lib/job.cc:142
 msgid ""
 "This error has probably occurred because you are running the 32-bit version "
-"of %1 and trying to use too many encoding threads.  Please reduce the "
-"'number of threads %2 should use' in the General tab of Preferences and try "
+"of {} and trying to use too many encoding threads.  Please reduce the "
+"'number of threads {} should use' in the General tab of Preferences and try "
 "again."
 msgstr ""
-"出现此错误可能是因为您正在运行32位版本的 %1，并且试图使用太多编码线程。请在"
-"“首选项”的“常规”选项卡中减少“%2应该使用的线程数”，然后重试。"
+"出现此错误可能是因为您正在运行32位版本的 {}，并且试图使用太多编码线程。请在"
+"“首选项”的“常规”选项卡中减少“{}应该使用的线程数”，然后重试。"
 
 #: src/lib/job.cc:156
 msgid ""
 "This error has probably occurred because you are running the 32-bit version "
-"of %1.  Please re-install %2 with the 64-bit installer and try again."
+"of {}.  Please re-install {} with the 64-bit installer and try again."
 msgstr ""
-"出现此错误可能是因为您正在运行32位版本的 %1。请使用64位安装程序重新安装 %2，"
+"出现此错误可能是因为您正在运行32位版本的 {}。请使用64位安装程序重新安装 {}，"
 "然后重试。"
 
 #: src/lib/exceptions.cc:114
@@ -1745,17 +1745,17 @@ msgstr ""
 
 #: src/lib/film.cc:544
 msgid ""
-"This film was created with a newer version of %1, and it cannot be loaded "
+"This film was created with a newer version of {}, and it cannot be loaded "
 "into this version.  Sorry!"
-msgstr "这一工程文件是使用新版 %1 创建的，无法被这一版本的软件加载。抱歉！"
+msgstr "这一工程文件是使用新版 {} 创建的，无法被这一版本的软件加载。抱歉！"
 
 #: src/lib/film.cc:525
 msgid ""
-"This film was created with an older version of %1, and unfortunately it "
+"This film was created with an older version of {}, and unfortunately it "
 "cannot be loaded into this version.  You will need to create a new Film, re-"
 "add your content and set it up again.  Sorry!"
 msgstr ""
-"这一工程文件是使用旧版本的 %1 创建的，很遗憾无法被这一版本的软件加载。您需要"
+"这一工程文件是使用旧版本的 {} 创建的，很遗憾无法被这一版本的软件加载。您需要"
 "创建一个新的工程文件，重新添加内容并重新设置。抱歉！"
 
 #: src/lib/job.cc:567
@@ -1771,8 +1771,8 @@ msgid "Trailer"
 msgstr "预告片"
 
 #: src/lib/transcode_job.cc:75
-msgid "Transcoding %1"
-msgstr "转码中 %1"
+msgid "Transcoding {}"
+msgstr "转码中 {}"
 
 #: src/lib/dcp_content_type.cc:58
 msgid "Transitional"
@@ -1803,8 +1803,8 @@ msgid "Unknown error"
 msgstr "未知错误"
 
 #: src/lib/ffmpeg_decoder.cc:378
-msgid "Unrecognised audio sample format (%1)"
-msgstr "无法识别的音频采样格式 (%1)"
+msgid "Unrecognised audio sample format ({})"
+msgstr "无法识别的音频采样格式 ({})"
 
 #: src/lib/filter.cc:102
 msgid "Unsharp mask and Gaussian blur"
@@ -1851,8 +1851,8 @@ msgid "Vertical flip"
 msgstr "垂直翻转"
 
 #: src/lib/fcpxml.cc:69
-msgid "Video refers to missing asset %1"
-msgstr "视频指向丢失的资产 %1"
+msgid "Video refers to missing asset {}"
+msgstr "视频指向丢失的资产 {}"
 
 #: src/lib/util.cc:596
 msgid "Visually impaired"
@@ -1880,21 +1880,21 @@ msgstr "反隔行扫描滤镜"
 
 #: src/lib/hints.cc:209
 msgid ""
-"You are set up for a DCP at a frame rate of %1 fps.  This frame rate is not "
+"You are set up for a DCP at a frame rate of {} fps.  This frame rate is not "
 "supported by all projectors.  It is advisable to change the DCP frame rate "
-"to %2 fps."
+"to {} fps."
 msgstr ""
-"您设置DCP的帧率为 %1 fps的DCP。并非所有放映设备都支持此帧率。建议您将DCP帧率"
-"更改为 %2 fps。"
+"您设置DCP的帧率为 {} fps的DCP。并非所有放映设备都支持此帧率。建议您将DCP帧率"
+"更改为 {} fps。"
 
 #: src/lib/hints.cc:193
 msgid ""
-"You are set up for a DCP at a frame rate of %1 fps.  This frame rate is not "
+"You are set up for a DCP at a frame rate of {} fps.  This frame rate is not "
 "supported by all projectors.  You may want to consider changing your frame "
-"rate to %2 fps."
+"rate to {} fps."
 msgstr ""
-"您设置的帧率为%1 fps的DCP。并非所有放映设备都支持此帧率。建议您将帧率更改为 "
-"%2 fps。"
+"您设置的帧率为{} fps的DCP。并非所有放映设备都支持此帧率。建议您将帧率更改为 "
+"{} fps。"
 
 #: src/lib/hints.cc:203
 msgid ""
@@ -1904,11 +1904,11 @@ msgstr "您设置的DCP帧速率为30fps，这不是所有放映设备都支持 
 
 #: src/lib/hints.cc:126
 msgid ""
-"You are using %1's stereo-to-5.1 upmixer.  This is experimental and may "
+"You are using {}'s stereo-to-5.1 upmixer.  This is experimental and may "
 "result in poor-quality audio.  If you continue, you should listen to the "
 "resulting DCP in a cinema to make sure that it sounds good."
 msgstr ""
-"你用的是 %1 双声道转5.1环绕声的上混音器。这是实验性的功能，可能导致音频质量变"
+"你用的是 {} 双声道转5.1环绕声的上混音器。这是实验性的功能，可能导致音频质量变"
 "差。如果你继续，你应该在影院试听完成的DCP声音以确认。"
 
 #: src/lib/hints.cc:323
@@ -1921,10 +1921,10 @@ msgstr ""
 
 #: src/lib/hints.cc:307
 msgid ""
-"You have %1 files that look like they are VOB files from DVD. You should "
+"You have {} files that look like they are VOB files from DVD. You should "
 "join them to ensure smooth joins between the files."
 msgstr ""
-"您已经添加了 %1 个VOB文件，如果他们来自一张DVD，请确保您已经导入了所有文件，"
+"您已经添加了 {} 个VOB文件，如果他们来自一张DVD，请确保您已经导入了所有文件，"
 "否则可能无法正常播放。"
 
 #: src/lib/film.cc:1665
@@ -1955,22 +1955,22 @@ msgstr "在创建 DCP 之前，必须向其中添加一些内容"
 
 #: src/lib/hints.cc:770
 msgid ""
-"Your DCP has %1 audio channels, rather than 8 or 16.  This may cause some "
+"Your DCP has {} audio channels, rather than 8 or 16.  This may cause some "
 "distributors to raise QC errors when they check your DCP.  To avoid this, "
 "set the DCP audio channels to 8 or 16."
 msgstr ""
-"您的DCP具有 %1 个音频通道，而不是8或16个通道。这可能导致一些发行商在检查您的 "
+"您的DCP具有 {} 个音频通道，而不是8或16个通道。这可能导致一些发行商在检查您的 "
 "DCP 时出现 QC 报错。为防止这种情况，建议设置8或16个DCP音频通道。"
 
 #: src/lib/hints.cc:111
 msgid ""
 "Your DCP has fewer than 6 audio channels.  This may cause problems on some "
 "projectors.  You may want to set the DCP to have 6 channels.  It does not "
-"matter if your content has fewer channels, as %1 will fill the extras with "
+"matter if your content has fewer channels, as {} will fill the extras with "
 "silence."
 msgstr ""
 "您的DCP的音轨少于6个，某些放映设备可能不支持。但是如果您的内容没有这么多的音"
-"轨，您可以设置成6个音轨， %1 将用空白音轨补齐。"
+"轨，您可以设置成6个音轨， {} 将用空白音轨补齐。"
 
 #: src/lib/hints.cc:168
 msgid ""
@@ -1982,9 +1982,9 @@ msgstr ""
 
 #: src/lib/hints.cc:357
 msgid ""
-"Your audio level is very high (on %1).  You should reduce the gain of your "
+"Your audio level is very high (on {}).  You should reduce the gain of your "
 "audio content."
-msgstr "您的音频增益过大 (在%1)，请降低音频增益。"
+msgstr "您的音频增益过大 (在{})，请降低音频增益。"
 
 #: src/lib/playlist.cc:236
 msgid ""
@@ -2010,11 +2010,11 @@ msgstr "[静态图像]"
 msgid "[subtitles]"
 msgstr "[字幕]"
 
-#. TRANSLATORS: _reel%1 here is to be added to an export filename to indicate
-#. which reel it is.  Preserve the %1; it will be replaced with the reel number.
+#. TRANSLATORS: _reel{} here is to be added to an export filename to indicate
+#. which reel it is.  Preserve the {}; it will be replaced with the reel number.
 #: src/lib/ffmpeg_film_encoder.cc:152
-msgid "_reel%1"
-msgstr "_卷号%1"
+msgid "_reel{}"
+msgstr "_卷号{}"
 
 #: src/lib/audio_content.cc:306
 msgid "bits"
@@ -2033,57 +2033,57 @@ msgid "content type"
 msgstr "打包类型"
 
 #: src/lib/uploader.cc:79
-msgid "copying %1"
-msgstr "复制 %1 中"
+msgid "copying {}"
+msgstr "复制 {} 中"
 
 #: src/lib/ffmpeg.cc:119
 msgid "could not find stream information"
 msgstr "找不到流信息"
 
 #: src/lib/reel_writer.cc:404
-msgid "could not move atmos asset into the DCP (%1)"
-msgstr "无法将 Atmos asset移动到 DCP (%1)"
+msgid "could not move atmos asset into the DCP ({})"
+msgstr "无法将 Atmos asset移动到 DCP ({})"
 
 #: src/lib/reel_writer.cc:387
-msgid "could not move audio asset into the DCP (%1)"
-msgstr "无法将音频asset移动到 DCP (%1)"
+msgid "could not move audio asset into the DCP ({})"
+msgstr "无法将音频asset移动到 DCP ({})"
 
 #: src/lib/exceptions.cc:39
-msgid "could not open file %1 for read (%2)"
-msgstr "读取 %1文件失败(%2)"
+msgid "could not open file {} for read ({})"
+msgstr "读取 {}文件失败({})"
 
 #: src/lib/exceptions.cc:38
-msgid "could not open file %1 for read/write (%2)"
-msgstr "无法打开文件 %1 来读写 (%2)"
+msgid "could not open file {} for read/write ({})"
+msgstr "无法打开文件 {} 来读写 ({})"
 
 #: src/lib/exceptions.cc:39
-msgid "could not open file %1 for write (%2)"
-msgstr "写入 %1文件失败(%2)"
+msgid "could not open file {} for write ({})"
+msgstr "写入 {}文件失败({})"
 
 #: src/lib/exceptions.cc:58
-msgid "could not read from file %1 (%2)"
-msgstr "无法从文件 %1 中读取(%2)"
+msgid "could not read from file {} ({})"
+msgstr "无法从文件 {} 中读取({})"
 
 #: src/lib/exceptions.cc:65
-msgid "could not write to file %1 (%2)"
-msgstr "不能写入文件 %1 (%2)"
+msgid "could not write to file {} ({})"
+msgstr "不能写入文件 {} ({})"
 
 #: src/lib/dcpomatic_socket.cc:109
-msgid "error during async_connect (%1)"
-msgstr "异步连接错误 (%1)"
+msgid "error during async_connect ({})"
+msgstr "异步连接错误 ({})"
 
 #: src/lib/dcpomatic_socket.cc:79
 #, fuzzy
-msgid "error during async_connect: (%1)"
-msgstr "异步连接错误 (%1)"
+msgid "error during async_connect: ({})"
+msgstr "异步连接错误 ({})"
 
 #: src/lib/dcpomatic_socket.cc:201
-msgid "error during async_read (%1)"
-msgstr "异步读取错误 (%1)"
+msgid "error during async_read ({})"
+msgstr "异步读取错误 ({})"
 
 #: src/lib/dcpomatic_socket.cc:160
-msgid "error during async_write (%1)"
-msgstr "异步写入错误 (%1)"
+msgid "error during async_write ({})"
+msgstr "异步写入错误 ({})"
 
 #: src/lib/content.cc:472 src/lib/content.cc:481
 msgid "frames per second"
@@ -2102,8 +2102,8 @@ msgstr "它的帧率与影片不一致。"
 #: src/lib/dcp_content.cc:753
 msgid ""
 "it has a different number of audio channels than the project; set the "
-"project to have %1 channels."
-msgstr "它的音频通道数量与项目不同；将项目设置为具有 %1 个通道。"
+"project to have {} channels."
+msgstr "它的音频通道数量与项目不同；将项目设置为具有 {} 个通道。"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:789
@@ -2257,11 +2257,11 @@ msgstr "视频帧"
 #~ msgid "Content to be joined must have the same audio language."
 #~ msgstr "视频和音频增益必须相同。"
 
-#~ msgid "Could not start SCP session (%1)"
-#~ msgstr "无法启动 SCP (%1)"
+#~ msgid "Could not start SCP session ({})"
+#~ msgstr "无法启动 SCP ({})"
 
-#~ msgid "could not start SCP session (%1)"
-#~ msgstr "无法启动SCP (%1)"
+#~ msgid "could not start SCP session ({})"
+#~ msgstr "无法启动SCP ({})"
 
 #~ msgid "could not start SSH session"
 #~ msgstr "无法启动SSH"
@@ -2312,11 +2312,11 @@ msgstr "视频帧"
 
 #, fuzzy
 #~ msgid "Could not write whole file"
-#~ msgstr "写入远程文件 (%1)失败！"
+#~ msgstr "写入远程文件 ({})失败！"
 
 #, fuzzy
-#~ msgid "Could not decode image file %1 (%2)"
-#~ msgstr "无法解码图像文件(%1)"
+#~ msgid "Could not decode image file {} ({})"
+#~ msgstr "无法解码图像文件({})"
 
 #, fuzzy
 #~ msgid "it overlaps other subtitle content; remove the other content."
@@ -2335,10 +2335,10 @@ msgstr "视频帧"
 #~ msgstr "4:3"
 
 #~ msgid ""
-#~ "Your DCP frame rate (%1 fps) may cause problems in a few (mostly older) "
+#~ "Your DCP frame rate ({} fps) may cause problems in a few (mostly older) "
 #~ "projectors.  Use 24 or 48 frames per second to be on the safe side."
 #~ msgstr ""
-#~ "您的DCP帧速率（%1 fps）会使一部分电影放映机出现错误，请使用24 fps、48 "
+#~ "您的DCP帧速率（{} fps）会使一部分电影放映机出现错误，请使用24 fps、48 "
 #~ "fps、60 fps、96 fps 和 120 fps 等来保证能够正常放映。"
 
 #~ msgid "Finding length and subtitles"
@@ -2363,11 +2363,11 @@ msgstr "视频帧"
 #~ "of your audio content."
 #~ msgstr "您的音量已经接近上限，请降低音频增益防止爆音。"
 
-#~ msgid "could not create file %1"
-#~ msgstr "无法创建文件 (%1)"
+#~ msgid "could not create file {}"
+#~ msgstr "无法创建文件 ({})"
 
-#~ msgid "could not open file %1"
-#~ msgstr "无法打开文件 %1"
+#~ msgid "could not open file {}"
+#~ msgstr "无法打开文件 {}"
 
 #~ msgid "Computing audio digest"
 #~ msgstr "计算音频Hash"
@@ -2444,20 +2444,20 @@ msgstr "视频帧"
 #~ msgid "could not read encoded data"
 #~ msgstr "no se pudo leer la información codificada"
 
-#~ msgid "error during async_accept (%1)"
-#~ msgstr "error durante async_accept (%1)"
+#~ msgid "error during async_accept ({})"
+#~ msgstr "error durante async_accept ({})"
 
-#~ msgid "%1 channels, %2kHz, %3 samples"
-#~ msgstr "%1 canales, %2kHz, %3 muestras"
+#~ msgid "{} channels, {}kHz, {} samples"
+#~ msgstr "{} canales, {}kHz, {} muestras"
 
-#~ msgid "%1 frames; %2 frames per second"
-#~ msgstr "%1 imágenes; %2 imágenes per second"
+#~ msgid "{} frames; {} frames per second"
+#~ msgstr "{} imágenes; {} imágenes per second"
 
-#~ msgid "%1x%2 pixels (%3:1)"
-#~ msgstr "%1x%2 pixels (%3:1)"
+#~ msgid "{}x{} pixels ({}:1)"
+#~ msgstr "{}x{} pixels ({}:1)"
 
-#~ msgid "missing key %1 in key-value set"
-#~ msgstr "falta la clave %1 en el par clave-valor"
+#~ msgid "missing key {} in key-value set"
+#~ msgstr "falta la clave {} en el par clave-valor"
 
 #~ msgid "sRGB non-linearised"
 #~ msgstr "sRGB no-lineal"
@@ -2547,16 +2547,16 @@ msgstr "视频帧"
 #~ msgid "0%"
 #~ msgstr "0%"
 
-#~ msgid "first frame in moving image directory is number %1"
+#~ msgid "first frame in moving image directory is number {}"
 #~ msgstr ""
-#~ "primera imagen en el directorio de imagen en movimiento es la número %1"
+#~ "primera imagen en el directorio de imagen en movimiento es la número {}"
 
-#~ msgid "there are %1 images in the directory but the last one is number %2"
-#~ msgstr "hay %1 imágenes en el directorio, la última es la %2"
+#~ msgid "there are {} images in the directory but the last one is number {}"
+#~ msgstr "hay {} imágenes en el directorio, la última es la {}"
 
-#~ msgid "only %1 file(s) found in moving image directory"
+#~ msgid "only {} file(s) found in moving image directory"
 #~ msgstr ""
-#~ "solo el fichero(s) %1 se encuentra en el directorio de imagen en "
+#~ "solo el fichero(s) {} se encuentra en el directorio de imagen en "
 #~ "movimiento"
 
 #, fuzzy
@@ -2570,7 +2570,7 @@ msgstr "视频帧"
 #~ msgstr "firmando"
 
 #, fuzzy
-#~ msgid "Sound file: %1"
+#~ msgid "Sound file: {}"
 #~ msgstr "no se pudo abrir el fichero para lectura"
 
 #~ msgid "1.66 within Flat"
@@ -2586,15 +2586,15 @@ msgstr "视频帧"
 #~ msgid "4:3 within Flat"
 #~ msgstr "4:3 en Flat"
 
-#~ msgid "A/B transcode %1"
-#~ msgstr "Codificación A/B %1"
+#~ msgid "A/B transcode {}"
+#~ msgstr "Codificación A/B {}"
 
 #~ msgid "Cannot resample audio as libswresample is not present"
 #~ msgstr ""
 #~ "No se puede redimensionar el sonido porque no se encuentra libswresample"
 
-#~ msgid "Examine content of %1"
-#~ msgstr "Examinar contenido de %1"
+#~ msgid "Examine content of {}"
+#~ msgstr "Examinar contenido de {}"
 
 #~ msgid "Scope without stretch"
 #~ msgstr "Scope sin deformación"
@@ -2656,5 +2656,5 @@ msgstr "视频帧"
 #~ msgid "Source scaled to fit Scope preserving its aspect ratio"
 #~ msgstr "Fuente escalada a Scope conservando el ratio de aspecto"
 
-#~ msgid "adding to queue of %1"
-#~ msgstr "añadiendo a la cola de %1"
+#~ msgid "adding to queue of {}"
+#~ msgstr "añadiendo a la cola de {}"

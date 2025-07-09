@@ -118,8 +118,8 @@ run_ffprobe(boost::filesystem::path content, boost::filesystem::path out, bool e
 	}
 	string const redirect = err ? "2>" : ">";
 
-	auto const ffprobe = String::compose("\"%1\" %2 \"%3\" %4 \"%5\"", path.string(), args.empty() ? " " : args, content.string(), redirect, out.string());
-	LOG_GENERAL(N_("Probing with %1"), ffprobe);
+	auto const ffprobe = fmt::format("\"{}\" {} \"{}\" {} \"{}\"", path.string(), args.empty() ? " " : args, content.string(), redirect, out.string());
+	LOG_GENERAL(N_("Probing with {}"), ffprobe);
 	system(ffprobe.c_str());
 }
 
@@ -186,7 +186,7 @@ start_tool(string executable, string app)
 
 	pid_t pid = fork();
 	if (pid == 0) {
-		LOG_GENERAL("start_tool %1 %2 with path %3", executable, app, exe_path.string());
+		LOG_GENERAL("start_tool {} {} with path {}", executable, app, exe_path.string());
 		int const r = system(exe_path.string().c_str());
 		exit(WEXITSTATUS(r));
 	} else if (pid == -1) {
@@ -295,19 +295,19 @@ disk_appeared(DADiskRef disk, void* context)
 		LOG_DISK_NC("Disk with no BSDName appeared");
 		return;
 	}
-	LOG_DISK("%1 appeared", bsd_name);
+	LOG_DISK("{} appeared", bsd_name);
 
 	OSXDisk this_disk;
 	this_disk.bsd_name = bsd_name;
 
 	this_disk.device = string("/dev/") + this_disk.bsd_name;
-	LOG_DISK("Device is %1", this_disk.device);
+	LOG_DISK("Device is {}", this_disk.device);
 
 	CFDictionaryRef description = DADiskCopyDescription(disk);
 
 	this_disk.vendor = get_vendor(description);
 	this_disk.model = get_model(description);
-	LOG_DISK("Vendor/model: %1 %2", this_disk.vendor.get_value_or("[none]"), this_disk.model.get_value_or("[none]"));
+	LOG_DISK("Vendor/model: {} {}", this_disk.vendor.get_value_or("[none]"), this_disk.model.get_value_or("[none]"));
 
 	this_disk.mounted = is_mounted(description);
 
@@ -322,7 +322,7 @@ disk_appeared(DADiskRef disk, void* context)
 	this_disk.partition = string(this_disk.bsd_name).find("s", 5) != std::string::npos;
 
 	LOG_DISK(
-		"%1 %2 %3 %4 %5",
+		"{} {} {} {} {}",
 		this_disk.bsd_name,
 		this_disk.system ? "system" : "non-system",
 		this_disk.writeable ? "writeable" : "read-only",
@@ -364,7 +364,7 @@ Drive::get()
 	vector<Drive> drives;
 	for (auto const& disk: disks) {
 		if (!disk.system && !disk.partition && disk.writeable) {
-			LOG_DISK("Have a non-system writeable drive: %1", disk.device);
+			LOG_DISK("Have a non-system writeable drive: {}", disk.device);
 			drives.push_back({disk.device, disk.mounted, disk.size, disk.vendor, disk.model});
 		}
 	}
@@ -372,18 +372,18 @@ Drive::get()
 	/* Find mounted partitions and mark their drives mounted */
 	for (auto const& disk: disks) {
 		if (!disk.system && disk.partition && disk.mounted) {
-			LOG_DISK("Have a mounted non-system partition: %1 (%2)", disk.device, disk.bsd_name);
+			LOG_DISK("Have a mounted non-system partition: {} ({})", disk.device, disk.bsd_name);
 			if (boost::algorithm::starts_with(disk.bsd_name, "disk")) {
 				auto const second_s = disk.bsd_name.find('s', 4);
 				if (second_s != std::string::npos) {
 					/* We have a bsd_name of the form disk...s */
 					auto const drive_device = "/dev/" + disk.bsd_name.substr(0, second_s);
-					LOG_DISK("This belongs to the drive %1", drive_device);
+					LOG_DISK("This belongs to the drive {}", drive_device);
 					auto iter = std::find_if(drives.begin(), drives.end(), [drive_device](Drive const& drive) {
 						return drive.device() == drive_device;
 					});
 					if (iter != drives.end()) {
-						LOG_DISK("Marking %1 as mounted", drive_device);
+						LOG_DISK("Marking {} as mounted", drive_device);
 						iter->set_mounted();
 					}
 				}
@@ -391,9 +391,9 @@ Drive::get()
 		}
 	}
 
-	LOG_DISK("Drive::get() found %1 drives:", drives.size());
+	LOG_DISK("Drive::get() found {} drives:", drives.size());
 	for (auto const& drive: drives) {
-		LOG_DISK("%1 %2 mounted=%3", drive.description(), drive.device(), drive.mounted() ? "yes" : "no");
+		LOG_DISK("{} {} mounted={}", drive.description(), drive.device(), drive.mounted() ? "yes" : "no");
 	}
 
 	return drives;
@@ -429,7 +429,7 @@ void done_callback(DADiskRef, DADissenterRef dissenter, void* context)
 	auto state = reinterpret_cast<UnmountState*>(context);
 	state->callback = true;
 	if (dissenter) {
-		LOG_DISK("Error: %1", DADissenterGetStatus(dissenter));
+		LOG_DISK("Error: {}", DADissenterGetStatus(dissenter));
 	} else {
 		LOG_DISK_NC("Successful");
 		state->success = true;
@@ -451,7 +451,7 @@ Drive::unmount()
 	if (!disk) {
 		return false;
 	}
-	LOG_DISK("Requesting unmount of %1 from %2", _device, thread_id());
+	LOG_DISK("Requesting unmount of {} from {}", _device, thread_id());
 	UnmountState state;
 	DADiskUnmount(disk, kDADiskUnmountOptionWhole, &done_callback, &state);
 	CFRelease(disk);
@@ -465,7 +465,7 @@ Drive::unmount()
 	if (!state.callback) {
 		LOG_DISK_NC("End of unmount: timeout");
 	} else {
-		LOG_DISK("End of unmount: %1", state.success ? "success" : "failure");
+		LOG_DISK("End of unmount: {}", state.success ? "success" : "failure");
 	}
 	return state.success;
 }
@@ -492,7 +492,7 @@ LIBDCP_ENABLE_WARNINGS
 bool
 show_in_file_manager(boost::filesystem::path, boost::filesystem::path select)
 {
-	int r = system(String::compose("open -R \"%1\"", select.string()).c_str());
+	int r = system(fmt::format("open -R \"{}\"", select.string()).c_str());
 	return static_cast<bool>(WEXITSTATUS(r));
 }
 

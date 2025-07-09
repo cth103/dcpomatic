@@ -131,7 +131,7 @@ public:
 			setvbuf(hf_in, NULL, _IONBF, 128);
 			*stdin = *hf_in;
 
-			std::cout << variant::insert_dcpomatic_kdm_creator("%1 is starting.\n");
+			std::cout << variant::insert_dcpomatic_kdm_creator("{} is starting.\n");
 		}
 #endif
 

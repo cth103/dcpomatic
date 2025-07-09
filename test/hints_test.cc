@@ -98,7 +98,7 @@ BOOST_AUTO_TEST_CASE (hint_closed_caption_too_long)
 	check (
 		TextType::CLOSED_CAPTION,
 		"hint_closed_caption_too_long",
-		String::compose("At least one of your closed caption lines has more than %1 characters.  It is advisable to make each line %1 characters at most in length.", MAX_CLOSED_CAPTION_LENGTH, MAX_CLOSED_CAPTION_LENGTH)
+		fmt::format("At least one of your closed caption lines has more than {} characters.  It is advisable to make each line {} characters at most in length.", MAX_CLOSED_CAPTION_LENGTH, MAX_CLOSED_CAPTION_LENGTH)
 	      );
 }
 
@@ -108,7 +108,7 @@ BOOST_AUTO_TEST_CASE (hint_many_closed_caption_lines)
 	check (
 		TextType::CLOSED_CAPTION,
 		"hint_many_closed_caption_lines",
-		String::compose("Some of your closed captions span more than %1 lines, so they will be truncated.", MAX_CLOSED_CAPTION_LINES)
+		fmt::format("Some of your closed captions span more than {} lines, so they will be truncated.", MAX_CLOSED_CAPTION_LINES)
 	      );
 }
 
@@ -193,12 +193,12 @@ BOOST_AUTO_TEST_CASE (hint_subtitle_mxf_too_big)
 		}
 		fake_font.close();
 
-		auto content = content_factory(String::compose("test/data/%1%2.xml", name, i))[0];
+		auto content = content_factory(fmt::format("test/data/{}{}.xml", name, i))[0];
 		content->text[0]->set_type(TextType::OPEN_SUBTITLE);
 		content->text[0]->set_language(dcp::LanguageTag("en-US"));
 		film->examine_and_add_content(content);
 		BOOST_REQUIRE (!wait_for_jobs());
-		auto const font = content->text[0]->get_font(String::compose("font_%1", i));
+		auto const font = content->text[0]->get_font(fmt::format("font_{}", i));
 		BOOST_REQUIRE(font);
 		font->set_file("build/test/hint_subtitle_mxf_too_big.ttf");
 	}
@@ -220,7 +220,7 @@ BOOST_AUTO_TEST_CASE (hint_closed_caption_xml_too_big)
 
 	auto film = new_test_film(name);
 
-	dcp::File ccap(String::compose("build/test/%1.srt", name), "w");
+	dcp::File ccap(fmt::format("build/test/{}.srt", name), "w");
 	BOOST_REQUIRE (ccap);
 	for (int i = 0; i < 2048; ++i) {
 		fprintf(ccap.get(), "%d\n", i + 1);

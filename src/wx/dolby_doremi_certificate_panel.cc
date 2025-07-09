@@ -66,28 +66,28 @@ DolbyDoremiCertificatePanel::DolbyDoremiCertificatePanel (DownloadCertificateDia
 static void
 try_common(vector<Location>& locations, string prefix, string serial)
 {
-	auto files = ls_url(String::compose("%1%2xxx/", prefix, serial.substr(0, 3)));
+	auto files = ls_url(fmt::format("{}{}xxx/", prefix, serial.substr(0, 3)));
 
 	auto check = [&locations, prefix, files, serial](string format, string file) {
-		auto const zip = String::compose(format, serial);
+		auto const zip = fmt::format(format, serial);
 		if (find(files.begin(), files.end(), zip) != files.end()) {
 			locations.push_back({
-				String::compose("%1%2xxx/%3", prefix, serial.substr(0, 3), zip),
-				String::compose(file, serial)
+				fmt::format("{}{}xxx/{}", prefix, serial.substr(0, 3), zip),
+				fmt::format(file, serial)
 			});
 		}
 	};
 
-	check("Dolby-DCP2000-%1.dcicerts.zip", "Dolby-DCP2000-%1.cert.sha256.pem");
-	check("Dolby-DCP2000-%1.certs.zip", "Dolby-DCP2000-%1.cert.sha256.pem");
-	check("dcp2000-%1.dcicerts.zip", "dcp2000-%1.cert.sha256.pem");
-	check("dcp2000-%1.certs.zip", "dcp2000-%1.cert.sha256.pem");
-	check("Dolby-IMB-%1.dcicerts.zip", "Dolby-IMB-%1.cert.sha256.pem");
-	check("imb-%1.dcicerts.zip", "imb-%1.cert.sha256.pem");
-	check("Dolby-IMS1000-%1.dcicerts.zip", "Dolby-IMS1000-%1.cert.sha256.pem");
-	check("Dolby-IMS2000-%1.dcicerts.zip", "Dolby-IMS2000-%1.cert.sha256.pem");
-	check("cert_Dolby-IMS3000-%1-SMPTE.zip", "cert_Dolby-IMS3000-%1-SMPTE.pem");
-	check("ims-%1.dcicerts.zip", "ims-%1.cert.sha256.pem");
+	check("Dolby-DCP2000-{}.dcicerts.zip", "Dolby-DCP2000-{}.cert.sha256.pem");
+	check("Dolby-DCP2000-{}.certs.zip", "Dolby-DCP2000-{}.cert.sha256.pem");
+	check("dcp2000-{}.dcicerts.zip", "dcp2000-{}.cert.sha256.pem");
+	check("dcp2000-{}.certs.zip", "dcp2000-{}.cert.sha256.pem");
+	check("Dolby-IMB-{}.dcicerts.zip", "Dolby-IMB-{}.cert.sha256.pem");
+	check("imb-{}.dcicerts.zip", "imb-{}.cert.sha256.pem");
+	check("Dolby-IMS1000-{}.dcicerts.zip", "Dolby-IMS1000-{}.cert.sha256.pem");
+	check("Dolby-IMS2000-{}.dcicerts.zip", "Dolby-IMS2000-{}.cert.sha256.pem");
+	check("cert_Dolby-IMS3000-{}-SMPTE.zip", "cert_Dolby-IMS3000-{}-SMPTE.pem");
+	check("ims-{}.dcicerts.zip", "ims-{}.cert.sha256.pem");
 }
 
 
@@ -103,12 +103,12 @@ try_cat862(vector<Location>& locations, string prefix, string serial)
 		cat862 = "CAT862_617000_and_higher";
 	} else {
 		int const lower = serial_int - (serial_int % 1000);
-		cat862 = String::compose ("CAT862_%1-%2", lower, lower + 999);
+		cat862 = fmt::format("CAT862_{}-{}", lower, lower + 999);
 	}
 
 	locations.push_back({
-		String::compose("%1%2/cert_Dolby256-CAT862-%3.zip", prefix, cat862, serial_int),
-		String::compose("cert_Dolby256-CAT862-%1.pem.crt", serial_int)
+		fmt::format("{}{}/cert_Dolby256-CAT862-{}.zip", prefix, cat862, serial_int),
+		fmt::format("cert_Dolby256-CAT862-{}.pem.crt", serial_int)
 	});
 }
 
@@ -125,12 +125,12 @@ try_dsp100(vector<Location>& locations, string prefix, string serial)
 		dsp100 = "DSP100_3000_and_higher";
 	} else {
 		int const lower = serial_int - (serial_int % 1000);
-		dsp100 = String::compose ("DSP100_%1_thru_%2", lower, lower + 999);
+		dsp100 = fmt::format("DSP100_{}_thru_{}", lower, lower + 999);
 	}
 
 	locations.push_back({
-		String::compose("%1%2/cert_Dolby256-DSP100-%3.zip", prefix, dsp100, serial_int),
-		String::compose("cert_Dolby256-DSP100-%1.pem.crt", serial_int)
+		fmt::format("{}{}/cert_Dolby256-DSP100-{}.zip", prefix, dsp100, serial_int),
+		fmt::format("cert_Dolby256-DSP100-{}.pem.crt", serial_int)
 	});
 }
 
@@ -147,12 +147,12 @@ try_cat745(vector<Location>& locations, string prefix, string serial)
 		cat745 = "CAT745_6000_and_higher";
 	} else {
 		int const lower = serial_int - (serial_int % 1000);
-		cat745 = String::compose("CAT745_%1_thru_%2", lower, lower + 999);
+		cat745 = fmt::format("CAT745_{}_thru_{}", lower, lower + 999);
 	}
 
 	locations.push_back({
-		String::compose("%1%2/cert_Dolby-CAT745-%3.zip", prefix, cat745, serial_int),
-		String::compose("cert_Dolby-CAT745-%1.pem.crt", serial_int)
+		fmt::format("{}{}/cert_Dolby-CAT745-{}.zip", prefix, cat745, serial_int),
+		fmt::format("cert_Dolby-CAT745-{}.pem.crt", serial_int)
 	});
 }
 
@@ -164,8 +164,8 @@ try_cp850(vector<Location>& locations, string prefix, string serial)
 
 	int const lower = serial_int - (serial_int % 1000);
 	locations.push_back({
-		String::compose ("%1CP850_CAT1600_F%2-F%3/cert_RMB_SPB_MDE_FMA.Dolby-CP850-F%4.zip", prefix, lower, lower + 999, serial_int),
-		String::compose ("cert_RMB_SPB_MDE_FMA.Dolby-CP850-F%1.pem.crt", serial_int)
+		fmt::format("{}CP850_CAT1600_F{}-F{}/cert_RMB_SPB_MDE_FMA.Dolby-CP850-F{}.zip", prefix, lower, lower + 999, serial_int),
+		fmt::format("cert_RMB_SPB_MDE_FMA.Dolby-CP850-F{}.pem.crt", serial_int)
 	});
 }
 

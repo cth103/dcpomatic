@@ -105,7 +105,7 @@ Job::start ()
 void
 Job::run_wrapper ()
 {
-	start_of_thread (String::compose("Job-%1", json_name()));
+	start_of_thread (fmt::format("Job-{}", json_name()));
 
 	try {
 
@@ -113,7 +113,7 @@ Job::run_wrapper ()
 
 	} catch (dcp::FileError& e) {
 
-		string m = String::compose(_("An error occurred whilst handling the file %1."), e.filename().filename().string());
+		string m = fmt::format(_("An error occurred whilst handling the file {}."), e.filename().filename().string());
 
 		try {
 			auto const s = dcp::filesystem::space(e.filename());
@@ -138,9 +138,9 @@ Job::run_wrapper ()
 		/* 32-bit */
 		set_error (
 			_("Failed to encode the DCP."),
-			String::compose(
-				_("This error has probably occurred because you are running the 32-bit version of %1 and "
-				  "trying to use too many encoding threads.  Please reduce the 'number of threads %2 should "
+			fmt::format(
+				_("This error has probably occurred because you are running the 32-bit version of {} and "
+				  "trying to use too many encoding threads.  Please reduce the 'number of threads {} should "
 				  "use' in the General tab of Preferences and try again."),
 				variant::dcpomatic(),
 				variant::dcpomatic()
@@ -152,9 +152,9 @@ Job::run_wrapper ()
 		if (running_32_on_64()) {
 			set_error (
 				_("Failed to encode the DCP."),
-				String::compose(
-					_("This error has probably occurred because you are running the 32-bit version of %1.  "
-					  "Please re-install %2 with the 64-bit installer and try again."),
+				fmt::format(
+					_("This error has probably occurred because you are running the 32-bit version of {}.  "
+					  "Please re-install {} with the 64-bit installer and try again."),
 					variant::dcpomatic(),
 					variant::dcpomatic()
 					)
@@ -167,7 +167,7 @@ Job::run_wrapper ()
 		if (!done) {
 			set_error (
 				e.what (),
-				String::compose(_("It is not known what caused this error.  %1"), report_problem())
+				fmt::format(_("It is not known what caused this error.  {}"), report_problem())
 				);
 		}
 
@@ -177,8 +177,8 @@ Job::run_wrapper ()
 	} catch (OpenFileError& e) {
 
 		set_error (
-			String::compose (_("Could not open %1"), e.file().string()),
-			String::compose(_("%1 could not open the file %2 (%3).  Perhaps it does not exist or is in an unexpected format."),
+			fmt::format(_("Could not open {}"), e.file().string()),
+			fmt::format(_("{} could not open the file {} ({}).  Perhaps it does not exist or is in an unexpected format."),
 				variant::dcpomatic(),
 				dcp::filesystem::absolute(e.file()).string(),
 				e.what()
@@ -192,8 +192,8 @@ Job::run_wrapper ()
 
 		if (e.code() == boost::system::errc::no_such_file_or_directory) {
 			set_error (
-				String::compose (_("Could not open %1"), e.path1().string ()),
-				String::compose(_("%1 could not open the file %2 (%3).  Perhaps it does not exist or is in an unexpected format."),
+				fmt::format(_("Could not open {}"), e.path1().string ()),
+				fmt::format(_("{} could not open the file {} ({}).  Perhaps it does not exist or is in an unexpected format."),
 					variant::dcpomatic(),
 					dcp::filesystem::absolute(e.path1()).string(),
 					e.what()
@@ -202,7 +202,7 @@ Job::run_wrapper ()
 		} else {
 			set_error (
 				e.what (),
-				String::compose(_("It is not known what caused this error.  %1"), report_problem())
+				fmt::format(_("It is not known what caused this error.  {}"), report_problem())
 				);
 		}
 
@@ -262,7 +262,7 @@ Job::run_wrapper ()
 
 		set_error (
 			e.what (),
-			String::compose(_("It is not known what caused this error.  %1"), report_problem())
+			fmt::format(_("It is not known what caused this error.  {}"), report_problem())
 			);
 
 		set_progress (1);
@@ -272,7 +272,7 @@ Job::run_wrapper ()
 
 		set_error (
 			_("Unknown error"),
-			String::compose(_("It is not known what caused this error.  %1"), report_problem())
+			fmt::format(_("It is not known what caused this error.  {}"), report_problem())
 			);
 
 		set_progress (1);
@@ -493,7 +493,7 @@ Job::sub (string n)
 {
 	{
 		boost::mutex::scoped_lock lm (_progress_mutex);
-		LOG_GENERAL ("Sub-job %1 starting", n);
+		LOG_GENERAL ("Sub-job {} starting", n);
 		_sub_name = n;
 	}
 
@@ -527,7 +527,7 @@ void
 Job::set_error (string s, string d)
 {
 	if (_film) {
-		_film->log()->log (String::compose ("Error in job: %1 (%2)", s, d), LogEntry::TYPE_ERROR);
+		_film->log()->log (fmt::format("Error in job: {} ({})", s, d), LogEntry::TYPE_ERROR);
 	}
 
 	boost::mutex::scoped_lock lm (_state_mutex);
@@ -593,14 +593,14 @@ Job::status () const
 			snprintf (finish_string, sizeof(finish_string), "%02d:%02d", int(finish.time_of_day().hours()), int(finish.time_of_day().minutes()));
 			string day;
 			if (now.date() != finish.date()) {
-				/// TRANSLATORS: the %1 in this string will be filled in with a day of the week
+				/// TRANSLATORS: the {} in this string will be filled in with a day of the week
 				/// to say what day a job will finish.
-				day = String::compose (_(" on %1"), day_of_week_to_string(finish.date().day_of_week()));
+				day = fmt::format(_(" on {}"), day_of_week_to_string(finish.date().day_of_week()));
 			}
 			/// TRANSLATORS: "remaining; finishing at" here follows an amount of time that is remaining
 			/// on an operation; after it is an estimated wall-clock completion time.
-			s += String::compose(
-				_("; %1 remaining; finishing at %2%3"),
+			s += fmt::format(
+				_("; {} remaining; finishing at {}{}"),
 				seconds_to_approximate_hms(r), finish_string, day
 				);
 		}
@@ -617,12 +617,12 @@ Job::status () const
 			s = _("OK");
 		} else if (duration < 600) {
 			/* It took less than 10 minutes; it doesn't seem worth saying when it started and finished */
-			s = String::compose(_("OK (ran for %1)"), seconds_to_hms(duration));
+			s = fmt::format(_("OK (ran for {})"), seconds_to_hms(duration));
 		} else {
-			s = String::compose(_("OK (ran for %1 from %2 to %3)"),  seconds_to_hms(duration), time_string(_start_time), time_string(_finish_time));
+			s = fmt::format(_("OK (ran for {} from {} to {})"),  seconds_to_hms(duration), time_string(_start_time), time_string(_finish_time));
 		}
 	} else if (finished_in_error ()) {
-		s = String::compose (_("Error: %1"), error_summary ());
+		s = fmt::format(_("Error: {}"), error_summary ());
 	} else if (finished_cancelled ()) {
 		s = _("Cancelled");
 	}

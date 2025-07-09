@@ -109,7 +109,7 @@ FFmpegDecoder::FFmpegDecoder (shared_ptr<const Film> film, shared_ptr<const FFmp
 FFmpegDecoder::FlushResult
 FFmpegDecoder::flush ()
 {
-	LOG_DEBUG_PLAYER("Flush FFmpeg decoder: current state %1", static_cast<int>(_flush_state));
+	LOG_DEBUG_PLAYER("Flush FFmpeg decoder: current state {}", static_cast<int>(_flush_state));
 
 	switch (_flush_state) {
 	case FlushState::CODECS:
@@ -193,7 +193,7 @@ FFmpegDecoder::flush_fill()
 			   here.  I'm not sure if that's the right idea.
 			*/
 			if (a > ContentTime() && a < full_length) {
-				LOG_DEBUG_PLAYER("Flush inserts silence at %1", to_string(a));
+				LOG_DEBUG_PLAYER("Flush inserts silence at {}", to_string(a));
 				auto to_do = min (full_length - a, ContentTime::from_seconds (0.1));
 				auto silence = make_shared<AudioBuffers>(i->channels(), to_do.frames_ceil (i->frame_rate()));
 				silence->make_silent ();
@@ -220,12 +220,12 @@ FFmpegDecoder::pass ()
 	   Hence it makes sense to continue here in that case.
 	*/
 	if (r < 0 && r != AVERROR_INVALIDDATA) {
-		LOG_DEBUG_PLAYER("FFpmegDecoder::pass flushes because av_read_frame returned %1", r);
+		LOG_DEBUG_PLAYER("FFpmegDecoder::pass flushes because av_read_frame returned {}", r);
 		if (r != AVERROR_EOF) {
 			/* Maybe we should fail here, but for now we'll just finish off instead */
 			char buf[256];
 			av_strerror (r, buf, sizeof(buf));
-			LOG_ERROR (N_("error on av_read_frame (%1) (%2)"), &buf[0], r);
+			LOG_ERROR (N_("error on av_read_frame ({}) ({})"), &buf[0], r);
 		}
 
 		av_packet_free (&packet);
@@ -375,7 +375,7 @@ deinterleave_audio(AVFrame* frame)
 	break;
 
 	default:
-		throw DecodeError (String::compose(_("Unrecognised audio sample format (%1)"), static_cast<int>(format)));
+		throw DecodeError (fmt::format(_("Unrecognised audio sample format ({})"), static_cast<int>(format)));
 	}
 
 	return audio;
@@ -505,7 +505,7 @@ FFmpegDecoder::process_audio_frame (shared_ptr<FFmpegAudioStream> stream)
 			av_q2d(time_base))
 			+ _pts_offset;
 		LOG_DEBUG_PLAYER(
-			"Process audio with timestamp %1 (BET %2, timebase %3/%4, (PTS offset %5)",
+			"Process audio with timestamp {} (BET {}, timebase {}/{}, (PTS offset {})",
 			to_string(ct),
 			frame->best_effort_timestamp,
 			time_base.num,
@@ -526,7 +526,7 @@ FFmpegDecoder::process_audio_frame (shared_ptr<FFmpegAudioStream> stream)
 
 	if (ct < ContentTime()) {
 		LOG_WARNING (
-			"Crazy timestamp %1 for %2 samples in stream %3 (ts=%4 tb=%5, off=%6)",
+			"Crazy timestamp {} for {} samples in stream {} (ts={} tb={}, off={})",
 			to_string(ct),
 			data->frames(),
 			stream->id(),
@@ -554,10 +554,10 @@ FFmpegDecoder::decode_and_process_audio_packet (AVPacket* packet)
 	auto context = _codec_context[stream->index(_format_context)];
 	auto frame = audio_frame (stream);
 
-	LOG_DEBUG_PLAYER("Send audio packet on stream %1", stream->index(_format_context));
+	LOG_DEBUG_PLAYER("Send audio packet on stream {}", stream->index(_format_context));
 	int r = avcodec_send_packet (context, packet);
 	if (r < 0) {
-		LOG_WARNING("avcodec_send_packet returned %1 for an audio packet", r);
+		LOG_WARNING("avcodec_send_packet returned {} for an audio packet", r);
 	}
 	while (r >= 0) {
 		r = avcodec_receive_frame (context, frame);
@@ -587,7 +587,7 @@ FFmpegDecoder::decode_and_process_video_packet (AVPacket* packet)
 	do {
 		int r = avcodec_send_packet (context, packet);
 		if (r < 0) {
-			LOG_WARNING("avcodec_send_packet returned %1 for a video packet", r);
+			LOG_WARNING("avcodec_send_packet returned {} for a video packet", r);
 		}
 
 		/* EAGAIN means we should call avcodec_receive_frame and then re-send the same packet */

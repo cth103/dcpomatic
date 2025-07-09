@@ -109,7 +109,7 @@ GLVideoView::size_changed(wxSizeEvent const& ev)
 	int const width = std::round(ev.GetSize().GetWidth() * scale);
 	int const height = std::round(ev.GetSize().GetHeight() * scale);
 	_canvas_size = { width, height };
-	LOG_GENERAL("GLVideoView canvas size changed to %1x%2", width, height);
+	LOG_GENERAL("GLVideoView canvas size changed to {}x{}", width, height);
 	Sized();
 }
 
@@ -139,7 +139,7 @@ GLVideoView::check_for_butler_errors()
 		error_dialog(get(), wxString::Format(_("Could not read DCP: %s"), std_to_wx(e.what())));
 	}
 
-	LOG_DEBUG_PLAYER("Latency %1", _viewer->average_latency());
+	LOG_DEBUG_PLAYER("Latency {}", _viewer->average_latency());
 }
 
 
@@ -443,7 +443,7 @@ GLVideoView::setup_shaders()
 				log = string(log_char.data());
 			}
 			glDeleteShader(shader);
-			throw GLError(String::compose("Could not compile shader (%1)", log).c_str(), -1);
+			throw GLError(fmt::format("Could not compile shader ({})", log).c_str(), -1);
 		}
 		return shader;
 	};
@@ -471,7 +471,7 @@ GLVideoView::setup_shaders()
 			log = string(log_char.data());
 		}
 		glDeleteProgram(program);
-		throw GLError(String::compose("Could not link shader (%1)", log).c_str(), -1);
+		throw GLError(fmt::format("Could not link shader ({})", log).c_str(), -1);
 	}
 	glDeleteShader(vertex_shader);
 	glDeleteShader(fragment_shader);

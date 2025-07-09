@@ -64,7 +64,7 @@ DownloadCertificatePanel::load_certificate (boost::filesystem::path file, string
 		_certificate = dcp::Certificate (dcp::file_to_string(file));
 		_url = url;
 	} catch (dcp::MiscError& e) {
-		return String::compose(wx_to_std(_("Could not read certificate file (%1)")), e.what());
+		return fmt::format(wx_to_std(_("Could not read certificate file ({})")), e.what());
 	}
 	return {};
 }
@@ -77,7 +77,7 @@ DownloadCertificatePanel::load_certificate_from_chain (boost::filesystem::path f
 		_certificate = dcp::CertificateChain(dcp::file_to_string(file)).leaf();
 		_url = url;
 	} catch (dcp::MiscError& e) {
-		return String::compose(wx_to_std(_("Could not read certificate file (%1)")), e.what());
+		return fmt::format(wx_to_std(_("Could not read certificate file ({})")), e.what());
 	}
 	return {};
 }

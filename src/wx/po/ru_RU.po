@@ -1007,8 +1007,8 @@ msgstr "Не удалось прочитать DCP: %s"
 
 #: src/wx/download_certificate_panel.cc:67
 #: src/wx/download_certificate_panel.cc:80
-msgid "Could not read certificate file (%1)"
-msgstr "Не удалось прочитать файл сертификата (%1)"
+msgid "Could not read certificate file ({})"
+msgstr "Не удалось прочитать файл сертификата ({})"
 
 #: src/wx/certificate_chain_editor.cc:195
 #: src/wx/certificate_chain_editor.cc:382 src/wx/recipient_dialog.cc:158
@@ -1957,8 +1957,8 @@ msgid "Length"
 msgstr "Продолжительность"
 
 #: src/wx/player_information.cc:182
-msgid "Length: %1 (%2 frames)"
-msgstr "Продолжительность: %1 (%2 кадра(ов))"
+msgid "Length: {} ({} frames)"
+msgstr "Продолжительность: {} ({} кадра(ов))"
 
 #: src/wx/text_panel.cc:104
 msgid "Line spacing"

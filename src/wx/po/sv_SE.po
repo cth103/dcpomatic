@@ -94,7 +94,7 @@ msgstr "DVD-o-matic Inställningar"
 #, fuzzy, c-format
 msgid "%s already exists as a file, so you cannot use it for a film."
 msgstr ""
-"%1 finns redan som fil, så du kan inte använda det som namn på en film."
+"{} finns redan som fil, så du kan inte använda det som namn på en film."
 
 #: src/wx/audio_dialog.cc:170 src/wx/audio_dialog.cc:172
 #, fuzzy, c-format
@@ -1034,8 +1034,8 @@ msgstr "Kunde inte ladda DCP: %s"
 
 #: src/wx/download_certificate_panel.cc:67
 #: src/wx/download_certificate_panel.cc:80
-msgid "Could not read certificate file (%1)"
-msgstr "Kunde inte läsa certifikatfil (%1)"
+msgid "Could not read certificate file ({})"
+msgstr "Kunde inte läsa certifikatfil ({})"
 
 #: src/wx/certificate_chain_editor.cc:195
 #: src/wx/certificate_chain_editor.cc:382 src/wx/recipient_dialog.cc:158
@@ -1999,8 +1999,8 @@ msgid "Length"
 msgstr "Speltid"
 
 #: src/wx/player_information.cc:182
-msgid "Length: %1 (%2 frames)"
-msgstr "Speltid: %1 (%2 bildrutor)"
+msgid "Length: {} ({} frames)"
+msgstr "Speltid: {} ({} bildrutor)"
 
 #: src/wx/text_panel.cc:104
 msgid "Line spacing"
@@ -3666,7 +3666,7 @@ msgid ""
 "The directory %s already exists and is not empty.  Are you sure you want to "
 "use it?"
 msgstr ""
-"Mappen %1 finns redan och är inte tom. Är du säker på att du vill använda "
+"Mappen {} finns redan och är inte tom. Är du säker på att du vill använda "
 "den?"
 
 #: src/wx/try_unmount_dialog.cc:44

@@ -1020,8 +1020,8 @@ msgstr "Impossible de lire le DCP : %s"
 
 #: src/wx/download_certificate_panel.cc:67
 #: src/wx/download_certificate_panel.cc:80
-msgid "Could not read certificate file (%1)"
-msgstr "Impossible de lire le fichier de certificat (%1)"
+msgid "Could not read certificate file ({})"
+msgstr "Impossible de lire le fichier de certificat ({})"
 
 #: src/wx/certificate_chain_editor.cc:195
 #: src/wx/certificate_chain_editor.cc:382 src/wx/recipient_dialog.cc:158
@@ -1975,8 +1975,8 @@ msgid "Length"
 msgstr "Durée"
 
 #: src/wx/player_information.cc:182
-msgid "Length: %1 (%2 frames)"
-msgstr "Durée : %1 (%2 images)"
+msgid "Length: {} ({} frames)"
+msgstr "Durée : {} ({} images)"
 
 #: src/wx/text_panel.cc:104
 msgid "Line spacing"
@@ -3626,7 +3626,7 @@ msgid ""
 "The directory %s already exists and is not empty.  Are you sure you want to "
 "use it?"
 msgstr ""
-"Le répertoire %1 existe déjà et n'est pas vide.  Êtes-vous sûr de vouloir "
+"Le répertoire {} existe déjà et n'est pas vide.  Êtes-vous sûr de vouloir "
 "l'utiliser ?"
 
 #: src/wx/try_unmount_dialog.cc:44

@@ -94,7 +94,7 @@ msgstr ""
 #, fuzzy, c-format
 msgid "%s already exists as a file, so you cannot use it for a film."
 msgstr ""
-"%1 já existe como um arquivo, portanto você não pode usá-lo para um filme."
+"{} já existe como um arquivo, portanto você não pode usá-lo para um filme."
 
 #: src/wx/audio_dialog.cc:170 src/wx/audio_dialog.cc:172
 #, fuzzy, c-format
@@ -1040,7 +1040,7 @@ msgstr "Não foi possível carregar o KDM."
 #: src/wx/download_certificate_panel.cc:67
 #: src/wx/download_certificate_panel.cc:80
 #, fuzzy
-msgid "Could not read certificate file (%1)"
+msgid "Could not read certificate file ({})"
 msgstr "Não foi possível ler o arquivo de certificado."
 
 #: src/wx/certificate_chain_editor.cc:195
@@ -1994,8 +1994,8 @@ msgid "Length"
 msgstr "Duração"
 
 #: src/wx/player_information.cc:182
-msgid "Length: %1 (%2 frames)"
-msgstr "Duração: %1 (%2 quadros)"
+msgid "Length: {} ({} frames)"
+msgstr "Duração: {} ({} quadros)"
 
 #: src/wx/text_panel.cc:104
 msgid "Line spacing"
@@ -3654,7 +3654,7 @@ msgid ""
 "The directory %s already exists and is not empty.  Are you sure you want to "
 "use it?"
 msgstr ""
-"O diretório %1 já existe e não está vazio.  Tem certeza que deseja usá-lo?"
+"O diretório {} já existe e não está vazio.  Tem certeza que deseja usá-lo?"
 
 #: src/wx/try_unmount_dialog.cc:44
 #, c-format

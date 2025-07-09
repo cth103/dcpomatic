@@ -48,9 +48,9 @@ string
 mxf_regex(string part) {
 #ifdef DCPOMATIC_WINDOWS
 	/* Windows replaces . in filenames with _ */
-	return String::compose(".*flat_%1_png_.*\\.mxf", part);
+	return fmt::format(".*flat_{}_png_.*\\.mxf", part);
 #else
-	return String::compose(".*flat_%1\\.png_.*\\.mxf", part);
+	return fmt::format(".*flat_{}\\.png_.*\\.mxf", part);
 #endif
 };
 

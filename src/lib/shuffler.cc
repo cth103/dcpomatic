@@ -51,7 +51,7 @@ struct Comparator
 void
 Shuffler::video (weak_ptr<Piece> weak_piece, ContentVideo video)
 {
-	LOG_DEBUG_THREE_D("Shuffler::video time=%1 eyes=%2 part=%3", to_string(video.time), static_cast<int>(video.eyes), static_cast<int>(video.part));
+	LOG_DEBUG_THREE_D("Shuffler::video time={} eyes={} part={}", to_string(video.time), static_cast<int>(video.eyes), static_cast<int>(video.part));
 
 	if (video.eyes != Eyes::LEFT && video.eyes != Eyes::RIGHT) {
 		/* Pass through anything that we don't care about */
@@ -84,9 +84,9 @@ Shuffler::video (weak_ptr<Piece> weak_piece, ContentVideo video)
 				);
 
 		if (!store_front_in_sequence) {
-			string const store = _store.empty() ? "store empty" : String::compose("store front time=%1 eyes=%2", to_string(_store.front().second.time), static_cast<int>(_store.front().second.eyes));
-			string const last = _last ? String::compose("last time=%1 eyes=%2", to_string(_last->time), static_cast<int>(_last->eyes)) : "no last";
-			LOG_DEBUG_THREE_D("Shuffler not in sequence: %1 %2", store, last);
+			string const store = _store.empty() ? "store empty" : fmt::format("store front time={} eyes={}", to_string(_store.front().second.time), static_cast<int>(_store.front().second.eyes));
+			string const last = _last ? fmt::format("last time={} eyes={}", to_string(_last->time), static_cast<int>(_last->eyes)) : "no last";
+			LOG_DEBUG_THREE_D("Shuffler not in sequence: {} {}", store, last);
 		}
 
 		if (!store_front_in_sequence && _store.size() <= _max_size) {
@@ -98,10 +98,10 @@ Shuffler::video (weak_ptr<Piece> weak_piece, ContentVideo video)
 		}
 
 		if (_store.size() > _max_size) {
-			LOG_WARNING("Shuffler is full after receiving frame at %1; 3D sync may be incorrect.", to_string(video.time));
+			LOG_WARNING("Shuffler is full after receiving frame at {}; 3D sync may be incorrect.", to_string(video.time));
 		}
 
-		LOG_DEBUG_THREE_D("Shuffler emits time=%1 eyes=%2 store=%3", to_string(_store.front().second.time), static_cast<int>(_store.front().second.eyes), _store.size());
+		LOG_DEBUG_THREE_D("Shuffler emits time={} eyes={} store={}", to_string(_store.front().second.time), static_cast<int>(_store.front().second.eyes), _store.size());
 		Video (_store.front().first, _store.front().second);
 		_last = _store.front().second;
 		_store.pop_front ();

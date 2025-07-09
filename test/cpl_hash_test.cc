@@ -50,7 +50,7 @@ BOOST_AUTO_TEST_CASE (hash_added_to_imported_dcp_test)
 	make_and_verify_dcp (ov);
 
 	/* Remove <Hash> tags from the CPL */
-	for (auto i: directory_iterator(String::compose("build/test/%1/%2", ov_name, ov->dcp_name()))) {
+	for (auto i: directory_iterator(fmt::format("build/test/{}/{}", ov_name, ov->dcp_name()))) {
 		if (boost::algorithm::starts_with(i.path().filename().string(), "cpl_")) {
 			dcp::File in(i.path(), "r");
 			BOOST_REQUIRE (in);
@@ -69,7 +69,7 @@ BOOST_AUTO_TEST_CASE (hash_added_to_imported_dcp_test)
 	}
 
 	string const vf_name = "hash_added_to_imported_dcp_test_vf";
-	auto ov_content = make_shared<DCPContent>(String::compose("build/test/%1/%2", ov_name, ov->dcp_name()));
+	auto ov_content = make_shared<DCPContent>(fmt::format("build/test/{}/{}", ov_name, ov->dcp_name()));
 	auto vf = new_test_film(
 		vf_name, { ov_content }
 		);
@@ -79,7 +79,7 @@ BOOST_AUTO_TEST_CASE (hash_added_to_imported_dcp_test)
 
 	/* Check for Hash tags in the VF DCP */
 	int hashes = 0;
-	for (auto i: directory_iterator(String::compose("build/test/%1/%2", vf_name, vf->dcp_name()))) {
+	for (auto i: directory_iterator(fmt::format("build/test/{}/{}", vf_name, vf->dcp_name()))) {
 		if (boost::algorithm::starts_with(i.path().filename().string(), "cpl_")) {
 			dcp::File in(i.path(), "r");
 			BOOST_REQUIRE (in);

@@ -117,7 +117,7 @@ content_factory (boost::filesystem::path path)
 
 	if (dcp::filesystem::is_directory(path)) {
 
-		LOG_GENERAL("Look in directory %1", path.string());
+		LOG_GENERAL("Look in directory {}", path.string());
 
 		if (dcp::filesystem::is_empty(path)) {
 			return content;
@@ -130,17 +130,17 @@ content_factory (boost::filesystem::path path)
 		int read = 0;
 		for (dcp::filesystem::directory_iterator i(path); i != dcp::filesystem::directory_iterator() && read < 10; ++i) {
 
-			LOG_GENERAL("Checking file %1", i->path().string());
+			LOG_GENERAL("Checking file {}", i->path().string());
 
 			if (boost::starts_with(i->path().filename().string(), ".")) {
 				/* We ignore hidden files */
-				LOG_GENERAL("Ignored %1 (starts with .)", i->path().string());
+				LOG_GENERAL("Ignored {} (starts with .)", i->path().string());
 				continue;
 			}
 
 			if (!dcp::filesystem::is_regular_file(i->path())) {
 				/* Ignore things which aren't files (probably directories) */
-				LOG_GENERAL("Ignored %1 (not a regular file)", i->path().string());
+				LOG_GENERAL("Ignored {} (not a regular file)", i->path().string());
 				continue;
 			}
 

@@ -105,7 +105,7 @@ FilterGraph::setup(vector<Filter> const& filters)
 
 	int e = avfilter_graph_config (_graph, 0);
 	if (e < 0) {
-		throw DecodeError (String::compose(N_("could not configure filter graph (%1)"), e));
+		throw DecodeError (fmt::format(N_("could not configure filter graph ({})"), e));
 	}
 }
 

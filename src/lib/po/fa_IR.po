@@ -30,10 +30,10 @@ msgstr ""
 #: src/lib/video_content.cc:478
 msgid ""
 "\n"
-"Cropped to %1x%2"
+"Cropped to {}x{}"
 msgstr ""
 "\n"
-"بریده شد به %1x%2"
+"بریده شد به {}x{}"
 
 #: src/lib/video_content.cc:468
 #, c-format
@@ -47,29 +47,29 @@ msgstr ""
 #: src/lib/video_content.cc:502
 msgid ""
 "\n"
-"Padded with black to fit container %1 (%2x%3)"
+"Padded with black to fit container {} ({}x{})"
 msgstr ""
 "\n"
-"با نوار مشکی تا هم اندازه ظرف محتوا پوشیده شد %1 (%2x%3)"
+"با نوار مشکی تا هم اندازه ظرف محتوا پوشیده شد {} ({}x{})"
 
 #: src/lib/video_content.cc:492
 msgid ""
 "\n"
-"Scaled to %1x%2"
+"Scaled to {}x{}"
 msgstr ""
 "\n"
-"تغییر مقیاس به %1x%2"
+"تغییر مقیاس به {}x{}"
 
 #: src/lib/video_content.cc:496 src/lib/video_content.cc:507
 #, c-format
 msgid " (%.2f:1)"
 msgstr " (%.2f:1)"
 
-#. TRANSLATORS: the %1 in this string will be filled in with a day of the week
+#. TRANSLATORS: the {} in this string will be filled in with a day of the week
 #. to say what day a job will finish.
 #: src/lib/job.cc:598
-msgid " on %1"
-msgstr "  روی %1"
+msgid " on {}"
+msgstr "  روی {}"
 
 #: src/lib/config.cc:1276
 msgid ""
@@ -100,81 +100,81 @@ msgid "$JOB_NAME: $JOB_STATUS"
 msgstr "$نام_عملیات: $JOB_STATUS"
 
 #: src/lib/cross_common.cc:107
-msgid "%1 (%2 GB) [%3]"
-msgstr "%1 (%2 GB) [%3]"
+msgid "{} ({} GB) [{}]"
+msgstr "{} ({} GB) [{}]"
 
 #: src/lib/atmos_mxf_content.cc:96
-msgid "%1 [Atmos]"
-msgstr "%1 [دالبی اتمز]"
+msgid "{} [Atmos]"
+msgstr "{} [دالبی اتمز]"
 
 #: src/lib/dcp_content.cc:356
-msgid "%1 [DCP]"
-msgstr "%1 [دی سی پی]"
+msgid "{} [DCP]"
+msgstr "{} [دی سی پی]"
 
 #: src/lib/ffmpeg_content.cc:347
-msgid "%1 [audio]"
-msgstr "%1 [صدا]"
+msgid "{} [audio]"
+msgstr "{} [صدا]"
 
 #: src/lib/ffmpeg_content.cc:343
-msgid "%1 [movie]"
-msgstr "%1 [فیلم]"
+msgid "{} [movie]"
+msgstr "{} [فیلم]"
 
 #: src/lib/ffmpeg_content.cc:345 src/lib/video_mxf_content.cc:106
-msgid "%1 [video]"
-msgstr "%1 [ویدیو]"
+msgid "{} [video]"
+msgstr "{} [ویدیو]"
 
 #: src/lib/job.cc:181 src/lib/job.cc:196
 msgid ""
-"%1 could not open the file %2 (%3).  Perhaps it does not exist or is in an "
+"{} could not open the file {} ({}).  Perhaps it does not exist or is in an "
 "unexpected format."
 msgstr ""
-"%1 نمیتوان فایل %2(%3) را باز کرد. ممکن است فایل یا وجود نداشته باشد و یا "
+"{} نمیتوان فایل {}({}) را باز کرد. ممکن است فایل یا وجود نداشته باشد و یا "
 "فرمت مناسب نداشته باشد."
 
 #: src/lib/film.cc:1702
 msgid ""
-"%1 had to change your settings for referring to DCPs as OV.  Please review "
+"{} had to change your settings for referring to DCPs as OV.  Please review "
 "those settings to make sure they are what you want."
 msgstr ""
-"%1 مجبور شد برای ارجاع به یک دی سی پی به عنوان نسخه اصلی (OV) تنظیمات شما را "
+"{} مجبور شد برای ارجاع به یک دی سی پی به عنوان نسخه اصلی (OV) تنظیمات شما را "
 "تغییر دهد. لطفا آنها را بررسی کنید تا مطمئن شوید همان چیزی است که شما می "
 "خواهید."
 
 #: src/lib/film.cc:1668
 msgid ""
-"%1 had to change your settings so that the film's frame rate is the same as "
+"{} had to change your settings so that the film's frame rate is the same as "
 "that of your Atmos content."
 msgstr ""
-"%1 مجبور شد تنظیمات شما را تغییر دهد تا نرخ فریم فیلم برابر محتوای دالبی "
+"{} مجبور شد تنظیمات شما را تغییر دهد تا نرخ فریم فیلم برابر محتوای دالبی "
 "اتمز شما شود."
 
 #: src/lib/film.cc:1715
 msgid ""
-"%1 had to remove one of your custom reel boundaries as it no longer lies "
+"{} had to remove one of your custom reel boundaries as it no longer lies "
 "within the film."
 msgstr ""
-"%1 مجبور به حذف یکی از مرزهای تعیین شده شما برای ریل گردید به دلیل اینکه "
+"{} مجبور به حذف یکی از مرزهای تعیین شده شما برای ریل گردید به دلیل اینکه "
 "دیگر در داخل محدوده فیلم قرار نمی گرفت."
 
 #: src/lib/film.cc:1713
 msgid ""
-"%1 had to remove some of your custom reel boundaries as they no longer lie "
+"{} had to remove some of your custom reel boundaries as they no longer lie "
 "within the film."
 msgstr ""
-"%1 مجبور به حذف تعدادی از مرزهای تعیین شده شما برای ریل گردید به دلیل اینکه "
+"{} مجبور به حذف تعدادی از مرزهای تعیین شده شما برای ریل گردید به دلیل اینکه "
 "دیگر در داخل محدوده فیلم قرار نمی گرفتند."
 
 #: src/lib/ffmpeg_content.cc:115
-msgid "%1 no longer supports the `%2' filter, so it has been turned off."
-msgstr "%1 دیگر از فیلتر'2%' پشتیبانی نمیکند، بنابراین خاموش شده است."
+msgid "{} no longer supports the `{}' filter, so it has been turned off."
+msgstr "{} دیگر از فیلتر'2%' پشتیبانی نمیکند، بنابراین خاموش شده است."
 
 #: src/lib/config.cc:441 src/lib/config.cc:1251
-msgid "%1 notification"
-msgstr "%1 یادداشت"
+msgid "{} notification"
+msgstr "{} یادداشت"
 
 #: src/lib/transcode_job.cc:180
-msgid "%1; %2/%3 frames"
-msgstr "%1 ; %2/%3 فریمها"
+msgid "{}; {}/{} frames"
+msgstr "{} ; {}/{} فریمها"
 
 #: src/lib/video_content.cc:463
 #, c-format
@@ -265,12 +265,12 @@ msgstr "9"
 
 #. TRANSLATORS: fps here is an abbreviation for frames per second
 #: src/lib/transcode_job.cc:183
-msgid "; %1 fps"
-msgstr "; %1 فریم بر ثانیه"
+msgid "; {} fps"
+msgstr "; {} فریم بر ثانیه"
 
 #: src/lib/job.cc:603
-msgid "; %1 remaining; finishing at %2%3"
-msgstr "; %1 باقیمانده ; پایان در %2%3"
+msgid "; {} remaining; finishing at {}{}"
+msgstr "; {} باقیمانده ; پایان در {}{}"
 
 #: src/lib/analytics.cc:58
 #, c-format, c++-format
@@ -315,7 +315,7 @@ msgstr ""
 #: src/lib/text_content.cc:230
 msgid ""
 "A subtitle or closed caption file in this project is marked with the "
-"language '%1', which %2 does not recognise.  The file's language has been "
+"language '{}', which {} does not recognise.  The file's language has been "
 "cleared."
 msgstr ""
 "یک زیرنویس یا فایل زیرنویس با زبان '1%' در این پروژه مشخص شده است، که 2% "
@@ -352,8 +352,8 @@ msgstr ""
 "خود را مشابه با نسبت ابعاد محتوا تغییر دهید."
 
 #: src/lib/job.cc:116
-msgid "An error occurred whilst handling the file %1."
-msgstr "بروز خطا هنگام دسترسی به فایل %1."
+msgid "An error occurred whilst handling the file {}."
+msgstr "بروز خطا هنگام دسترسی به فایل {}."
 
 #: src/lib/analyse_audio_job.cc:74
 msgid "Analysing audio"
@@ -431,12 +431,12 @@ msgstr ""
 "زیرنویس\" زبان زیرنویس را تعیین کنید."
 
 #: src/lib/audio_content.cc:265
-msgid "Audio will be resampled from %1Hz to %2Hz"
-msgstr "صدا از %1هرتز به %2هرتز نمونه برداری مجدد میشود"
+msgid "Audio will be resampled from {}Hz to {}Hz"
+msgstr "صدا از {}هرتز به {}هرتز نمونه برداری مجدد میشود"
 
 #: src/lib/audio_content.cc:267
-msgid "Audio will be resampled to %1Hz"
-msgstr "صدا با %1هرتز نمونه برداری مجدد میشود"
+msgid "Audio will be resampled to {}Hz"
+msgstr "صدا با {}هرتز نمونه برداری مجدد میشود"
 
 #: src/lib/audio_content.cc:256
 msgid "Audio will not be resampled"
@@ -516,8 +516,8 @@ msgid "Cannot contain slashes"
 msgstr "نمیتواند شامل اسلش باشد"
 
 #: src/lib/exceptions.cc:79
-msgid "Cannot handle pixel format %1 during %2"
-msgstr "نمیتوان فرمت پیکسل %1 را همزمان با %2 کار کرد"
+msgid "Cannot handle pixel format {} during {}"
+msgstr "نمیتوان فرمت پیکسل {} را همزمان با {} کار کرد"
 
 #: src/lib/film.cc:1811
 msgid "Cannot make a KDM as this project is not encrypted."
@@ -740,8 +740,8 @@ msgid "Content to be joined must use the same text language."
 msgstr "محتوایی که الحاق میشود باید زبان نوشتاری مشابه داشته باشد."
 
 #: src/lib/video_content.cc:454
-msgid "Content video is %1x%2"
-msgstr "محتوای ویدیو  %1x%2 است"
+msgid "Content video is {}x{}"
+msgstr "محتوای ویدیو  {}x{} است"
 
 #: src/lib/upload_job.cc:66
 msgid "Copy DCP to TMS"
@@ -750,9 +750,9 @@ msgstr "کپی دی سی پی به تی ام اس"
 #: src/lib/copy_to_drive_job.cc:59
 #, fuzzy
 msgid ""
-"Copying %1\n"
-"to %2"
-msgstr "در حال کپی%1"
+"Copying {}\n"
+"to {}"
+msgstr "در حال کپی{}"
 
 #: src/lib/copy_to_drive_job.cc:120
 #, fuzzy
@@ -761,72 +761,72 @@ msgstr "ترکیب دی سی پی ها"
 
 #: src/lib/copy_to_drive_job.cc:62
 #, fuzzy
-msgid "Copying DCPs to %1"
+msgid "Copying DCPs to {}"
 msgstr "کپی دی سی پی به تی ام اس"
 
 #: src/lib/scp_uploader.cc:57
-msgid "Could not connect to server %1 (%2)"
-msgstr "ارتباط با سرور ممکن نیست %1(%2)"
+msgid "Could not connect to server {} ({})"
+msgstr "ارتباط با سرور ممکن نیست {}({})"
 
 #: src/lib/scp_uploader.cc:106
-msgid "Could not create remote directory %1 (%2)"
-msgstr "دایرکتوری راه دور ساخته نشد %1(%2)"
+msgid "Could not create remote directory {} ({})"
+msgstr "دایرکتوری راه دور ساخته نشد {}({})"
 
 #: src/lib/image_examiner.cc:65
-msgid "Could not decode JPEG2000 file %1 (%2)"
-msgstr "فایل JPEG2000 رمزگشایی نشد %1(%2)"
+msgid "Could not decode JPEG2000 file {} ({})"
+msgstr "فایل JPEG2000 رمزگشایی نشد {}({})"
 
 #: src/lib/ffmpeg_image_proxy.cc:164
-msgid "Could not decode image (%1)"
-msgstr "تصویر رمزگشایی نشد (%1)"
+msgid "Could not decode image ({})"
+msgstr "تصویر رمزگشایی نشد ({})"
 
 #: src/lib/unzipper.cc:76
-msgid "Could not find file %1 in ZIP file"
+msgid "Could not find file {} in ZIP file"
 msgstr "فایل 1% در فایل فشرده پیدا نشد"
 
 #: src/lib/encode_server_finder.cc:197
 msgid ""
-"Could not listen for remote encode servers.  Perhaps another instance of %1 "
+"Could not listen for remote encode servers.  Perhaps another instance of {} "
 "is running."
 msgstr ""
 "نمیتوان به سرورهای رمزگذاری راه دور گوش داد. ممکن است نسخه دیگری از 1% در "
 "حال اجرا باشد."
 
 #: src/lib/job.cc:180 src/lib/job.cc:195
-msgid "Could not open %1"
-msgstr "باز نشد %1"
+msgid "Could not open {}"
+msgstr "باز نشد {}"
 
 #: src/lib/curl_uploader.cc:102 src/lib/scp_uploader.cc:122
-msgid "Could not open %1 to send"
-msgstr "برای ارسال باز نشد %1"
+msgid "Could not open {} to send"
+msgstr "برای ارسال باز نشد {}"
 
 #: src/lib/internet.cc:167 src/lib/internet.cc:172
 msgid "Could not open downloaded ZIP file"
 msgstr "فایل فشرده دانلود شده باز نشد"
 
 #: src/lib/internet.cc:179
-msgid "Could not open downloaded ZIP file (%1:%2: %3)"
-msgstr "فایل فشرده دانلود شده باز نشد (%1:%2:%3)"
+msgid "Could not open downloaded ZIP file ({}:{}: {})"
+msgstr "فایل فشرده دانلود شده باز نشد ({}:{}:{})"
 
 #: src/lib/config.cc:1178
 msgid "Could not open file for writing"
 msgstr "فایل برای نوشتن باز نشد"
 
 #: src/lib/ffmpeg_file_encoder.cc:271
-msgid "Could not open output file %1 (%2)"
-msgstr "فایل خروجی باز نشد %1(%2)"
+msgid "Could not open output file {} ({})"
+msgstr "فایل خروجی باز نشد {}({})"
 
 #: src/lib/dcp_subtitle.cc:60
-msgid "Could not read subtitles (%1 / %2)"
-msgstr "نمیتوان زیرنویس ها را خواند(%1/%2)"
+msgid "Could not read subtitles ({} / {})"
+msgstr "نمیتوان زیرنویس ها را خواند({}/{})"
 
 #: src/lib/curl_uploader.cc:59
 msgid "Could not start transfer"
 msgstr "نمی توان انتقال را شروع کرد"
 
 #: src/lib/curl_uploader.cc:110 src/lib/scp_uploader.cc:138
-msgid "Could not write to remote file (%1)"
-msgstr "نمیتوان در فایل راه دور نوشت(%1)"
+msgid "Could not write to remote file ({})"
+msgstr "نمیتوان در فایل راه دور نوشت({})"
 
 #: src/lib/util.cc:601
 msgid "D-BOX primary"
@@ -914,7 +914,7 @@ msgid ""
 "The KDMs are valid from $START_TIME until $END_TIME.\n"
 "\n"
 "Best regards,\n"
-"%1"
+"{}"
 msgstr ""
 "سینمادار عزیز\n"
 "\n"
@@ -926,10 +926,10 @@ msgstr ""
 "اعتبار کلید از$START_TIMEتا $END_TIMEاست .\n"
 "\n"
 "با احترام,\n"
-"%1"
+"{}"
 
 #: src/lib/exceptions.cc:179
-msgid "Disk full when writing %1"
+msgid "Disk full when writing {}"
 msgstr "هنگام نوشتن 1% دیسک پر شد"
 
 #: src/lib/dolby_cp750.cc:31
@@ -937,24 +937,24 @@ msgid "Dolby CP650 or CP750"
 msgstr "دالبی CP650 یا CP750"
 
 #: src/lib/internet.cc:124
-msgid "Download failed (%1 error %2)"
-msgstr "دانلود با خطا مواجه شد(%1 خطا%2)"
+msgid "Download failed ({} error {})"
+msgstr "دانلود با خطا مواجه شد({} خطا{})"
 
 #: src/lib/frame_rate_change.cc:94
 msgid "Each content frame will be doubled in the DCP.\n"
 msgstr "هر فریم محتوا در دی سی پی دوبرابر خواهد شد.\n"
 
 #: src/lib/frame_rate_change.cc:96
-msgid "Each content frame will be repeated %1 more times in the DCP.\n"
-msgstr "هر فریم محتوا %1بار در دی سی پی تکرار خواهد شد.\n"
+msgid "Each content frame will be repeated {} more times in the DCP.\n"
+msgstr "هر فریم محتوا {}بار در دی سی پی تکرار خواهد شد.\n"
 
 #: src/lib/send_kdm_email_job.cc:94
 msgid "Email KDMs"
 msgstr "ایمیل کلیدها"
 
 #: src/lib/send_kdm_email_job.cc:97
-msgid "Email KDMs for %1"
-msgstr "ایمیل کلیدها برای %1"
+msgid "Email KDMs for {}"
+msgstr "ایمیل کلیدها برای {}"
 
 #: src/lib/send_notification_email_job.cc:53
 msgid "Email notification"
@@ -965,8 +965,8 @@ msgid "Email problem report"
 msgstr "گزارش مشکل ایمیل"
 
 #: src/lib/send_problem_report_job.cc:72
-msgid "Email problem report for %1"
-msgstr "گزارش مشکل ایمیل برای %1"
+msgid "Email problem report for {}"
+msgstr "گزارش مشکل ایمیل برای {}"
 
 #: src/lib/dcp_film_encoder.cc:120 src/lib/ffmpeg_film_encoder.cc:135
 msgid "Encoding"
@@ -977,12 +977,12 @@ msgid "Episode"
 msgstr "قسمت"
 
 #: src/lib/exceptions.cc:86
-msgid "Error in subtitle file: saw %1 while expecting %2"
+msgid "Error in subtitle file: saw {} while expecting {}"
 msgstr "خطا در فایل زیرنویس: % 1 دیدم در حالی که انتظار % 2 را داشتم"
 
 #: src/lib/job.cc:625
-msgid "Error: %1"
-msgstr "خطا: %1"
+msgid "Error: {}"
+msgstr "خطا: {}"
 
 #: src/lib/dcp_content_type.cc:69
 msgid "Event"
@@ -1022,8 +1022,8 @@ msgid "FCP XML subtitles"
 msgstr "زیرنویس های XML دی سی پی"
 
 #: src/lib/scp_uploader.cc:69
-msgid "Failed to authenticate with server (%1)"
-msgstr "احراز هویت با سرور ناموفق(%1)"
+msgid "Failed to authenticate with server ({})"
+msgstr "احراز هویت با سرور ناموفق({})"
 
 #: src/lib/job.cc:140 src/lib/job.cc:154
 msgid "Failed to encode the DCP."
@@ -1075,8 +1075,8 @@ msgid "Full"
 msgstr "کامل"
 
 #: src/lib/ffmpeg_content.cc:564
-msgid "Full (0-%1)"
-msgstr "کامل(0-%1)"
+msgid "Full (0-{})"
+msgstr "کامل(0-{})"
 
 #: src/lib/ratio.cc:57
 msgid "Full frame"
@@ -1174,7 +1174,7 @@ msgstr ""
 "دهید تا مطمئن شوید که دیده میشود."
 
 #: src/lib/job.cc:170 src/lib/job.cc:205 src/lib/job.cc:265 src/lib/job.cc:275
-msgid "It is not known what caused this error.  %1"
+msgid "It is not known what caused this error.  {}"
 msgstr "معلوم نیست چه چیزی باعث این خطا شده است. 1%"
 
 #: src/lib/ffmpeg_content.cc:614
@@ -1227,8 +1227,8 @@ msgid "Limited"
 msgstr "محدود شد"
 
 #: src/lib/ffmpeg_content.cc:557
-msgid "Limited / video (%1-%2)"
-msgstr "محدود شد/ویدیو (%1-%2)"
+msgid "Limited / video ({}-{})"
+msgstr "محدود شد/ویدیو ({}-{})"
 
 #: src/lib/ffmpeg_content.cc:629
 msgid "Linear"
@@ -1276,8 +1276,8 @@ msgid "Mismatched video sizes in DCP"
 msgstr "اندازه های ویدیو در دی سی پی مطابقت ندارند"
 
 #: src/lib/exceptions.cc:72
-msgid "Missing required setting %1"
-msgstr "تنظیم مورد نیاز وجود ندارد%1"
+msgid "Missing required setting {}"
+msgstr "تنظیم مورد نیاز وجود ندارد{}"
 
 #: src/lib/job.cc:561
 msgid "Monday"
@@ -1320,12 +1320,12 @@ msgid "OK"
 msgstr "مورد تایید"
 
 #: src/lib/job.cc:622
-msgid "OK (ran for %1 from %2 to %3)"
-msgstr "مورد تایید (اجرا شد %1 از %2 تا %3)"
+msgid "OK (ran for {} from {} to {})"
+msgstr "مورد تایید (اجرا شد {} از {} تا {})"
 
 #: src/lib/job.cc:620
-msgid "OK (ran for %1)"
-msgstr "مورد تایید (اجرا شد %1)"
+msgid "OK (ran for {})"
+msgstr "مورد تایید (اجرا شد {})"
 
 #: src/lib/content.cc:106
 msgid "Only the first piece of content to be joined can have a start trim."
@@ -1349,7 +1349,7 @@ msgstr "زیرنویس شروع فیلم"
 
 #: src/lib/transcode_job.cc:116
 msgid ""
-"Open the project in %1, check the settings, then save it before trying again."
+"Open the project in {}, check the settings, then save it before trying again."
 msgstr ""
 "بازکردن پروژه در 1%، بررسی تنظیمات، سپس قبل از تلاش مجدد یک بار پروژه را "
 "ذخیره کنید."
@@ -1374,7 +1374,7 @@ msgstr "پی3"
 #: src/lib/util.cc:1136
 msgid ""
 "Please report this problem by using Help -> Report a problem or via email to "
-"%1"
+"{}"
 msgstr ""
 "لطفا این مشکل را از طریق منوی \"راهنما --> گزارش یک مشکل\" و یا ارسال ایمیل "
 "به 1% گزارش دهید"
@@ -1392,8 +1392,8 @@ msgid "Prepared for video frame rate"
 msgstr "برای نرخ فریم ویدیو آماده است"
 
 #: src/lib/exceptions.cc:107
-msgid "Programming error at %1:%2 %3"
-msgstr "خطای برنامه نویسی در%1:%2 %3"
+msgid "Programming error at {}:{} {}"
+msgstr "خطای برنامه نویسی در{}:{} {}"
 
 #: src/lib/dcp_content_type.cc:65
 msgid "Promo"
@@ -1512,13 +1512,13 @@ msgid "SMPTE ST 432-1 D65 (2010)"
 msgstr "SMPTE ST 432-1 D65 (2010)"
 
 #: src/lib/scp_uploader.cc:47
-msgid "SSH error [%1]"
-msgstr "خطای اس اس اچ [%1]"
+msgid "SSH error [{}]"
+msgstr "خطای اس اس اچ [{}]"
 
 #: src/lib/scp_uploader.cc:63 src/lib/scp_uploader.cc:76
 #: src/lib/scp_uploader.cc:83
-msgid "SSH error [%1] (%2)"
-msgstr "خطای اس اس اچ [%1] (%2)"
+msgid "SSH error [{}] ({})"
+msgstr "خطای اس اس اچ [{}] ({})"
 
 #: src/lib/job.cc:571
 msgid "Saturday"
@@ -1545,8 +1545,8 @@ msgid "Size"
 msgstr "اندازه"
 
 #: src/lib/audio_content.cc:260
-msgid "Some audio will be resampled to %1Hz"
-msgstr "برخی صداها با %1هرتز مجدد نمونه برداری میشوند"
+msgid "Some audio will be resampled to {}Hz"
+msgstr "برخی صداها با {}هرتز مجدد نمونه برداری میشوند"
 
 #: src/lib/transcode_job.cc:121
 msgid "Some files have been changed since they were added to the project."
@@ -1576,7 +1576,7 @@ msgstr ""
 
 #: src/lib/hints.cc:605
 msgid ""
-"Some of your closed captions span more than %1 lines, so they will be "
+"Some of your closed captions span more than {} lines, so they will be "
 "truncated."
 msgstr ""
 "برخی از زیرنویس‌های شما بیش از % 1 خطوط را شامل می‌شوند، بنابراین کوتاه می‌شوند."
@@ -1656,12 +1656,12 @@ msgid "The certificate chain for signing is invalid"
 msgstr "زنجیره گواهینامه نامعتبر است"
 
 #: src/lib/exceptions.cc:100
-msgid "The certificate chain for signing is invalid (%1)"
-msgstr "زنجیره گواهینامه نامعتبر است(%1)"
+msgid "The certificate chain for signing is invalid ({})"
+msgstr "زنجیره گواهینامه نامعتبر است({})"
 
 #: src/lib/hints.cc:744
 msgid ""
-"The certificate chain that %1 uses for signing DCPs and KDMs contains a "
+"The certificate chain that {} uses for signing DCPs and KDMs contains a "
 "small error which will prevent DCPs from being validated correctly on some "
 "systems.  It is advisable to re-create the signing certificate chain by "
 "clicking the \"Re-make certificates and key...\" button in the Keys page of "
@@ -1674,7 +1674,7 @@ msgstr ""
 
 #: src/lib/hints.cc:752
 msgid ""
-"The certificate chain that %1 uses for signing DCPs and KDMs has a validity "
+"The certificate chain that {} uses for signing DCPs and KDMs has a validity "
 "period that is too long.  This will cause problems playing back DCPs on some "
 "systems. It is advisable to re-create the signing certificate chain by "
 "clicking the \"Re-make certificates and key...\" button in the Keys page of "
@@ -1687,11 +1687,11 @@ msgstr ""
 
 #: src/lib/video_decoder.cc:70
 msgid ""
-"The content file %1 is set as 3D but does not appear to contain 3D images.  "
+"The content file {} is set as 3D but does not appear to contain 3D images.  "
 "Please set it to 2D.  You can still make a 3D DCP from this content by "
 "ticking the 3D option in the DCP video tab."
 msgstr ""
-"فایل محتوای %1 سه بعدی است اما تصویر سه بعدی در آن نیست. لطفا آنرا دو بعدی "
+"فایل محتوای {} سه بعدی است اما تصویر سه بعدی در آن نیست. لطفا آنرا دو بعدی "
 "تنظیم کنید. شما هنوزمیتوانید از طریق زبانه دی سی پی و تیک زدن گزینه سه بعدی "
 "یک دی سی پی سه بعدی بسازید."
 
@@ -1703,20 +1703,20 @@ msgstr ""
 "فضای کافی در محل ذخیره فیلم وجود ندارد. پس از خالی کردن فضا مجددا تلاش کنید."
 
 #: src/lib/playlist.cc:245
-msgid "The file %1 has been moved %2 milliseconds earlier."
-msgstr "فایل %1 به مدت %2 میلی ثانیه جلوتر افتاد."
+msgid "The file {} has been moved {} milliseconds earlier."
+msgstr "فایل {} به مدت {} میلی ثانیه جلوتر افتاد."
 
 #: src/lib/playlist.cc:240
-msgid "The file %1 has been moved %2 milliseconds later."
-msgstr "فایل %1 به مدت %2 میلی ثانیه عقب تر افتاد."
+msgid "The file {} has been moved {} milliseconds later."
+msgstr "فایل {} به مدت {} میلی ثانیه عقب تر افتاد."
 
 #: src/lib/playlist.cc:265
-msgid "The file %1 has been trimmed by %2 milliseconds less."
-msgstr "فایل %1 به مدت %2 میلی ثانیه تنظیم وکوتاه شد."
+msgid "The file {} has been trimmed by {} milliseconds less."
+msgstr "فایل {} به مدت {} میلی ثانیه تنظیم وکوتاه شد."
 
 #: src/lib/playlist.cc:260
-msgid "The file %1 has been trimmed by %2 milliseconds more."
-msgstr "فایل %1 به مدت %2 میلی ثانیه تنظیم وبلند شد."
+msgid "The file {} has been trimmed by {} milliseconds more."
+msgstr "فایل {} به مدت {} میلی ثانیه تنظیم وبلند شد."
 
 #: src/lib/hints.cc:268
 msgid ""
@@ -1766,18 +1766,18 @@ msgstr ""
 "کاهش دهید."
 
 #: src/lib/util.cc:986
-msgid "This KDM was made for %1 but not for its leaf certificate."
+msgid "This KDM was made for {} but not for its leaf certificate."
 msgstr "این کلید برای 1% ساخته شده اما نه برای گواهی برگ آن."
 
 #: src/lib/util.cc:984
-msgid "This KDM was not made for %1's decryption certificate."
+msgid "This KDM was not made for {}'s decryption certificate."
 msgstr "این کلید برای گواهی نامه 1% ساخته نشده است."
 
 #: src/lib/job.cc:142
 msgid ""
 "This error has probably occurred because you are running the 32-bit version "
-"of %1 and trying to use too many encoding threads.  Please reduce the "
-"'number of threads %2 should use' in the General tab of Preferences and try "
+"of {} and trying to use too many encoding threads.  Please reduce the "
+"'number of threads {} should use' in the General tab of Preferences and try "
 "again."
 msgstr ""
 "این خطا ممکن است به دلیل استفاده شما از نسخه 32 بیتی 1% و استفاده از تعداد "
@@ -1787,7 +1787,7 @@ msgstr ""
 #: src/lib/job.cc:156
 msgid ""
 "This error has probably occurred because you are running the 32-bit version "
-"of %1.  Please re-install %2 with the 64-bit installer and try again."
+"of {}.  Please re-install {} with the 64-bit installer and try again."
 msgstr ""
 "این مشکل ممکن است به دلیل نصب نسخه 32 بیتی 1% پیش آمده باشد. لطفا پس ازنصب "
 "نسخه 64 بیتی 2% مجدد تلاش کنید."
@@ -1802,7 +1802,7 @@ msgstr ""
 
 #: src/lib/film.cc:544
 msgid ""
-"This film was created with a newer version of %1, and it cannot be loaded "
+"This film was created with a newer version of {}, and it cannot be loaded "
 "into this version.  Sorry!"
 msgstr ""
 "این فیلم با نسخه جدیدتر 1% ساخته شده، و در این نسخه قابل فراخوانی نیست. "
@@ -1810,7 +1810,7 @@ msgstr ""
 
 #: src/lib/film.cc:525
 msgid ""
-"This film was created with an older version of %1, and unfortunately it "
+"This film was created with an older version of {}, and unfortunately it "
 "cannot be loaded into this version.  You will need to create a new Film, re-"
 "add your content and set it up again.  Sorry!"
 msgstr ""
@@ -1831,8 +1831,8 @@ msgid "Trailer"
 msgstr "تبلیغ فیلم"
 
 #: src/lib/transcode_job.cc:75
-msgid "Transcoding %1"
-msgstr "ترنسکدینگ %1"
+msgid "Transcoding {}"
+msgstr "ترنسکدینگ {}"
 
 #: src/lib/dcp_content_type.cc:58
 msgid "Transitional"
@@ -1863,8 +1863,8 @@ msgid "Unknown error"
 msgstr "خطای ناشناخته"
 
 #: src/lib/ffmpeg_decoder.cc:378
-msgid "Unrecognised audio sample format (%1)"
-msgstr "فرمت نمونه صدای غیرقابل تشخیص(%1)"
+msgid "Unrecognised audio sample format ({})"
+msgstr "فرمت نمونه صدای غیرقابل تشخیص({})"
 
 #: src/lib/filter.cc:102
 msgid "Unsharp mask and Gaussian blur"
@@ -1911,7 +1911,7 @@ msgid "Vertical flip"
 msgstr "برگردان عمودی"
 
 #: src/lib/fcpxml.cc:69
-msgid "Video refers to missing asset %1"
+msgid "Video refers to missing asset {}"
 msgstr ""
 
 #: src/lib/util.cc:596
@@ -1940,22 +1940,22 @@ msgstr "با این حال یک فیلتر ضد اینترلیس دیگر"
 
 #: src/lib/hints.cc:209
 msgid ""
-"You are set up for a DCP at a frame rate of %1 fps.  This frame rate is not "
+"You are set up for a DCP at a frame rate of {} fps.  This frame rate is not "
 "supported by all projectors.  It is advisable to change the DCP frame rate "
-"to %2 fps."
+"to {} fps."
 msgstr ""
-"تنظیمات دی سی پی خود را روی نرخ فریم %1 گذاشته اید. این نرخ فریم روی همه "
-"پروژکتورها پشتیبانی نمیشود. توصیه میشود نرخ فریم دی سی پی را به %2 فریم بر "
+"تنظیمات دی سی پی خود را روی نرخ فریم {} گذاشته اید. این نرخ فریم روی همه "
+"پروژکتورها پشتیبانی نمیشود. توصیه میشود نرخ فریم دی سی پی را به {} فریم بر "
 "ثانیه تغییر دهید."
 
 #: src/lib/hints.cc:193
 msgid ""
-"You are set up for a DCP at a frame rate of %1 fps.  This frame rate is not "
+"You are set up for a DCP at a frame rate of {} fps.  This frame rate is not "
 "supported by all projectors.  You may want to consider changing your frame "
-"rate to %2 fps."
+"rate to {} fps."
 msgstr ""
-"تنظیمات دی سی پی خود را روی نرخ فریم %1 گذاشته اید. این نرخ فریم روی همه "
-"پروژکتورها پشتیبانی نمیشود. ممکن است بخواهید نرخ فریم را به %2 فریم بر ثانیه "
+"تنظیمات دی سی پی خود را روی نرخ فریم {} گذاشته اید. این نرخ فریم روی همه "
+"پروژکتورها پشتیبانی نمیشود. ممکن است بخواهید نرخ فریم را به {} فریم بر ثانیه "
 "تغییر دهید."
 
 #: src/lib/hints.cc:203
@@ -1968,7 +1968,7 @@ msgstr ""
 
 #: src/lib/hints.cc:126
 msgid ""
-"You are using %1's stereo-to-5.1 upmixer.  This is experimental and may "
+"You are using {}'s stereo-to-5.1 upmixer.  This is experimental and may "
 "result in poor-quality audio.  If you continue, you should listen to the "
 "resulting DCP in a cinema to make sure that it sounds good."
 msgstr ""
@@ -1987,10 +1987,10 @@ msgstr ""
 
 #: src/lib/hints.cc:307
 msgid ""
-"You have %1 files that look like they are VOB files from DVD. You should "
+"You have {} files that look like they are VOB files from DVD. You should "
 "join them to ensure smooth joins between the files."
 msgstr ""
-"شما%1 فایل دارید که به نظر میرسد فرمت آنها وی او بی و از دی وی دی هستند. "
+"شما{} فایل دارید که به نظر میرسد فرمت آنها وی او بی و از دی وی دی هستند. "
 "برای پرش نیافتادن بین فایلها باید آنها را به هم بچسبانید."
 
 #: src/lib/film.cc:1665
@@ -2023,11 +2023,11 @@ msgstr "شما قبل از ساخت دی س پی باید به آن تعدادی
 
 #: src/lib/hints.cc:770
 msgid ""
-"Your DCP has %1 audio channels, rather than 8 or 16.  This may cause some "
+"Your DCP has {} audio channels, rather than 8 or 16.  This may cause some "
 "distributors to raise QC errors when they check your DCP.  To avoid this, "
 "set the DCP audio channels to 8 or 16."
 msgstr ""
-"دی سی پی شما به جای 8 یا 16 کانال دارای %1 کانال صدا است. ممکن است هنگام صحت "
+"دی سی پی شما به جای 8 یا 16 کانال دارای {} کانال صدا است. ممکن است هنگام صحت "
 "سنجی دی سی پی شما توسط دفاتر پخش با خطای کیفی مواجه شود. برای پرهیز از خطا، "
 "تعداد کانالهای دی سی پی خود را روی 8 یا 16 قرار دهید."
 
@@ -2035,7 +2035,7 @@ msgstr ""
 msgid ""
 "Your DCP has fewer than 6 audio channels.  This may cause problems on some "
 "projectors.  You may want to set the DCP to have 6 channels.  It does not "
-"matter if your content has fewer channels, as %1 will fill the extras with "
+"matter if your content has fewer channels, as {} will fill the extras with "
 "silence."
 msgstr ""
 "دی سی پی شما کمتر از 6 کانال صدا دارد. این ممکن است در برخی پروژکتورها مشکل "
@@ -2053,10 +2053,10 @@ msgstr ""
 
 #: src/lib/hints.cc:357
 msgid ""
-"Your audio level is very high (on %1).  You should reduce the gain of your "
+"Your audio level is very high (on {}).  You should reduce the gain of your "
 "audio content."
 msgstr ""
-"گین صدای شما خیلی زیاد است(روی %1). شما باید گین محتوای خود را کاهش دهید."
+"گین صدای شما خیلی زیاد است(روی {}). شما باید گین محتوای خود را کاهش دهید."
 
 #: src/lib/playlist.cc:236
 msgid ""
@@ -2082,11 +2082,11 @@ msgstr "[تصویرثابت]"
 msgid "[subtitles]"
 msgstr "[زیرنویسها]"
 
-#. TRANSLATORS: _reel%1 here is to be added to an export filename to indicate
-#. which reel it is.  Preserve the %1; it will be replaced with the reel number.
+#. TRANSLATORS: _reel{} here is to be added to an export filename to indicate
+#. which reel it is.  Preserve the {}; it will be replaced with the reel number.
 #: src/lib/ffmpeg_film_encoder.cc:152
-msgid "_reel%1"
-msgstr "_حلقه%1"
+msgid "_reel{}"
+msgstr "_حلقه{}"
 
 #: src/lib/audio_content.cc:306
 msgid "bits"
@@ -2105,57 +2105,57 @@ msgid "content type"
 msgstr "نوع محتوا"
 
 #: src/lib/uploader.cc:79
-msgid "copying %1"
-msgstr "در حال کپی%1"
+msgid "copying {}"
+msgstr "در حال کپی{}"
 
 #: src/lib/ffmpeg.cc:119
 msgid "could not find stream information"
 msgstr "اطلاعات رشته پیدا نشد"
 
 #: src/lib/reel_writer.cc:404
-msgid "could not move atmos asset into the DCP (%1)"
-msgstr "دالبی اتمز قابل انتقال به داخل دی س پی نیست(%1)"
+msgid "could not move atmos asset into the DCP ({})"
+msgstr "دالبی اتمز قابل انتقال به داخل دی س پی نیست({})"
 
 #: src/lib/reel_writer.cc:387
-msgid "could not move audio asset into the DCP (%1)"
-msgstr "صدا قابل انتقال به داخل دی س پی نیست(%1)"
+msgid "could not move audio asset into the DCP ({})"
+msgstr "صدا قابل انتقال به داخل دی س پی نیست({})"
 
 #: src/lib/exceptions.cc:39
-msgid "could not open file %1 for read (%2)"
-msgstr "فایل باز نمیشود%1 برای خواندن(%2)"
+msgid "could not open file {} for read ({})"
+msgstr "فایل باز نمیشود{} برای خواندن({})"
 
 #: src/lib/exceptions.cc:38
-msgid "could not open file %1 for read/write (%2)"
-msgstr "فایل باز نمیشود%1 برای نوشتن/خواندن(%2)"
+msgid "could not open file {} for read/write ({})"
+msgstr "فایل باز نمیشود{} برای نوشتن/خواندن({})"
 
 #: src/lib/exceptions.cc:39
-msgid "could not open file %1 for write (%2)"
-msgstr "فایل باز نمیشود%1 برای نوشتن(%2)"
+msgid "could not open file {} for write ({})"
+msgstr "فایل باز نمیشود{} برای نوشتن({})"
 
 #: src/lib/exceptions.cc:58
-msgid "could not read from file %1 (%2)"
-msgstr "نمیتوان از فایل خواند%1(%2)"
+msgid "could not read from file {} ({})"
+msgstr "نمیتوان از فایل خواند{}({})"
 
 #: src/lib/exceptions.cc:65
-msgid "could not write to file %1 (%2)"
-msgstr "نمیتوان در فایل نوشت%1(%2)"
+msgid "could not write to file {} ({})"
+msgstr "نمیتوان در فایل نوشت{}({})"
 
 #: src/lib/dcpomatic_socket.cc:109
-msgid "error during async_connect (%1)"
-msgstr "خطا در هنگام async_connect (%1)"
+msgid "error during async_connect ({})"
+msgstr "خطا در هنگام async_connect ({})"
 
 #: src/lib/dcpomatic_socket.cc:79
 #, fuzzy
-msgid "error during async_connect: (%1)"
-msgstr "خطا در هنگام async_connect (%1)"
+msgid "error during async_connect: ({})"
+msgstr "خطا در هنگام async_connect ({})"
 
 #: src/lib/dcpomatic_socket.cc:201
-msgid "error during async_read (%1)"
-msgstr "خطا در هنگام async_read (%1)"
+msgid "error during async_read ({})"
+msgstr "خطا در هنگام async_read ({})"
 
 #: src/lib/dcpomatic_socket.cc:160
-msgid "error during async_write (%1)"
-msgstr "خطا در هنگام async_write (%1)"
+msgid "error during async_write ({})"
+msgstr "خطا در هنگام async_write ({})"
 
 #: src/lib/content.cc:472 src/lib/content.cc:481
 msgid "frames per second"
@@ -2174,7 +2174,7 @@ msgstr "نرخ فریم آن با فیلم یکسان نیست."
 #: src/lib/dcp_content.cc:753
 msgid ""
 "it has a different number of audio channels than the project; set the "
-"project to have %1 channels."
+"project to have {} channels."
 msgstr ""
 "تعداد کانالهای صدا با تعداد کانالهای صدای پروژه متفاوت است; تعداد کانالهای "
 "صدای پروژه را روی 1% قرار دهید."

@@ -408,7 +408,7 @@ get_device_number(HDEVINFO device_info, SP_DEVINFO_DATA* device_info_data)
 
 	auto r = SetupDiEnumDeviceInterfaces(device_info, device_info_data, &GUID_DEVICE_INTERFACE_DISK, 0, &device_interface_data);
 	if (!r) {
-		LOG_DISK("SetupDiEnumDeviceInterfaces failed (%1)", GetLastError());
+		LOG_DISK("SetupDiEnumDeviceInterfaces failed ({})", GetLastError());
 		return optional<int>();
 	}
 
@@ -443,7 +443,7 @@ get_device_number(HDEVINFO device_info, SP_DEVINFO_DATA* device_info_data)
 	free(device_detail_data);
 
 	if (device == INVALID_HANDLE_VALUE) {
-		LOG_DISK("CreateFileW failed with %1", GetLastError());
+		LOG_DISK("CreateFileW failed with {}", GetLastError());
 		return optional<int>();
 	}
 
@@ -473,7 +473,7 @@ typedef map<int, vector<boost::filesystem::path>> MountPoints;
 static void
 add_volume_mount_points(wchar_t* volume, MountPoints& mount_points)
 {
-	LOG_DISK("Looking at %1", wchar_to_utf8(volume));
+	LOG_DISK("Looking at {}", wchar_to_utf8(volume));
 
 	wchar_t volume_path_names[512];
 	vector<boost::filesystem::path> mp;
@@ -482,7 +482,7 @@ add_volume_mount_points(wchar_t* volume, MountPoints& mount_points)
 		wchar_t* p = volume_path_names;
 		while (*p != L'\0') {
 			mp.push_back(wchar_to_utf8(p));
-			LOG_DISK("Found mount point %1", wchar_to_utf8(p));
+			LOG_DISK("Found mount point {}", wchar_to_utf8(p));
 			p += wcslen(p) + 1;
 		}
 	}
@@ -559,7 +559,7 @@ Drive::get()
 		if (!SetupDiEnumDeviceInfo(device_info, i, &device_info_data)) {
 			DWORD e = GetLastError();
 			if (e != ERROR_NO_MORE_ITEMS) {
-				LOG_DISK("SetupDiEnumDeviceInfo failed (%1)", GetLastError());
+				LOG_DISK("SetupDiEnumDeviceInfo failed ({})", GetLastError());
 			}
 			break;
 		}
@@ -571,7 +571,7 @@ Drive::get()
 			continue;
 		}
 
-		string const physical_drive = String::compose("\\\\.\\PHYSICALDRIVE%1", *device_number);
+		string const physical_drive = fmt::format("\\\\.\\PHYSICALDRIVE{}", *device_number);
 
 		HANDLE device = CreateFileA(
 				physical_drive.c_str(), 0,
@@ -591,7 +591,7 @@ Drive::get()
 				&geom, sizeof(geom), &returned, 0
 				);
 
-		LOG_DISK("Having a look through %1 locked volumes", locked_volumes.size());
+		LOG_DISK("Having a look through {} locked volumes", locked_volumes.size());
 		bool locked = false;
 		for (auto const& i: locked_volumes) {
 			if (i.second == physical_drive) {
@@ -602,7 +602,7 @@ Drive::get()
 		if (r) {
 			uint64_t const disk_size = geom.Cylinders.QuadPart * geom.TracksPerCylinder * geom.SectorsPerTrack * geom.BytesPerSector;
 			drives.push_back(Drive(physical_drive, locked ? vector<boost::filesystem::path>() : mount_points[*device_number], disk_size, friendly_name, optional<string>()));
-			LOG_DISK("Added drive %1%2", drives.back().log_summary(), locked ? "(locked by us)" : "");
+			LOG_DISK("Added drive {}{}", drives.back().log_summary(), locked ? "(locked by us)" : "");
 		}
 
 		CloseHandle(device);
@@ -615,24 +615,24 @@ Drive::get()
 bool
 Drive::unmount()
 {
-	LOG_DISK("Unmounting %1 with %2 mount points", _device, _mount_points.size());
+	LOG_DISK("Unmounting {} with {} mount points", _device, _mount_points.size());
 	DCPOMATIC_ASSERT(_mount_points.size() == 1);
-	string const device_name = String::compose("\\\\.\\%1", _mount_points.front().string());
+	string const device_name = fmt::format("\\\\.\\{}", _mount_points.front().string());
 	string const truncated = device_name.substr(0, device_name.length() - 1);
-	LOG_DISK("Actually opening %1", truncated);
+	LOG_DISK("Actually opening {}", truncated);
 	HANDLE device = CreateFileA(truncated.c_str(), (GENERIC_READ | GENERIC_WRITE), FILE_SHARE_READ | FILE_SHARE_WRITE, 0, OPEN_EXISTING, 0, 0);
  	if (device == INVALID_HANDLE_VALUE) {
-		LOG_DISK("Could not open %1 for unmount (%2)", truncated, GetLastError());
+		LOG_DISK("Could not open {} for unmount ({})", truncated, GetLastError());
 		return false;
 	}
 	DWORD returned;
 	BOOL r = DeviceIoControl(device, FSCTL_LOCK_VOLUME, 0, 0, 0, 0, &returned, 0);
 	if (!r) {
-		LOG_DISK("Unmount of %1 failed (%2)", truncated, GetLastError());
+		LOG_DISK("Unmount of {} failed ({})", truncated, GetLastError());
 		return false;
 	}
 
-	LOG_DISK("Unmount of %1 succeeded", _device);
+	LOG_DISK("Unmount of {} succeeded", _device);
 	locked_volumes.push_back(make_pair(device, _device));
 
 	return true;

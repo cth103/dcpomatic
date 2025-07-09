@@ -77,7 +77,7 @@ VideoView::get_next_frame (bool non_blocking)
 		Butler::Error e;
 		auto pv = butler->get_video (non_blocking ? Butler::Behaviour::NON_BLOCKING : Butler::Behaviour::BLOCKING, &e);
 		if (e.code == Butler::Error::Code::DIED) {
-			LOG_ERROR ("Butler died with %1", e.summary());
+			LOG_ERROR ("Butler died with {}", e.summary());
 		}
 		if (!pv.first) {
 			return e.code == Butler::Error::Code::AGAIN ? AGAIN : FAIL;

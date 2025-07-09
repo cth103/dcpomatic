@@ -226,9 +226,9 @@ TextContent::TextContent(Content* parent, cxml::ConstNodePtr node, int version, 
 			 */
 			if (version <= 37) {
 				if (!lang->content().empty()) {
-					notes.push_back(String::compose(
-						_("A subtitle or closed caption file in this project is marked with the language '%1', "
-						  "which %2 does not recognise.  The file's language has been cleared."), lang->content(), variant::dcpomatic()));
+					notes.push_back(fmt::format(
+						_("A subtitle or closed caption file in this project is marked with the language '{}', "
+						  "which {} does not recognise.  The file's language has been cleared."), lang->content(), variant::dcpomatic()));
 				}
 			} else {
 				throw;

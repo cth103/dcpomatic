@@ -405,12 +405,12 @@ msgid "Could not load a DCP from %s"
 msgstr "无法从 %s 载入DCP"
 
 #: src/tools/dcpomatic_batch.cc:496
-msgid "Could not load film %1"
-msgstr "无法加载工程 %1"
+msgid "Could not load film {}"
+msgstr "无法加载工程 {}"
 
 #: src/tools/dcpomatic.cc:1735
-msgid "Could not load film %1 (%2)"
-msgstr "无法加载工程 %1 (%2)"
+msgid "Could not load film {} ({})"
+msgstr "无法加载工程 {} ({})"
 
 #: src/tools/dcpomatic_player.cc:1376
 #, c-format
@@ -1083,9 +1083,9 @@ msgstr ""
 
 #: src/tools/dcpomatic_combiner.cc:165
 msgid ""
-"The directory %1 already exists and is not empty.  Are you sure you want to "
+"The directory {} already exists and is not empty.  Are you sure you want to "
 "use it?"
-msgstr "目录 %1 已经存在且不为空。确定要使用它？"
+msgstr "目录 {} 已经存在且不为空。确定要使用它？"
 
 #: src/tools/dcpomatic_disk.cc:293
 msgid "The disk you selected is no longer available.  Please choose another."
@@ -1456,5 +1456,5 @@ msgstr "您没有选择文件夹。请确保您单击打开之前，选择一个
 #~ msgstr "&Analizar audio"
 
 #, fuzzy
-#~ msgid "The directory %1 already exists."
+#~ msgid "The directory {} already exists."
 #~ msgstr "La carpeta %s ya existe."

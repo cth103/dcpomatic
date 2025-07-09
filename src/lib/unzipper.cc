@@ -73,7 +73,7 @@ Unzipper::get(string const& filename) const
 {
 	auto file = zip_fopen(_zip, filename.c_str(), 0);
 	if (!file) {
-		throw runtime_error(String::compose(_("Could not find file %1 in ZIP file"), filename));
+		throw runtime_error(fmt::format(_("Could not find file {} in ZIP file"), filename));
 	}
 
 	dcp::ScopeGuard sg = [file]() { zip_fclose(file); };

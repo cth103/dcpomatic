@@ -62,7 +62,7 @@ Zipper::add(string name, string content)
 #else
 	if (zip_add(_zip, name.c_str(), source) == -1) {
 #endif
-		throw runtime_error(String::compose("failed to add data to ZIP archive (%1)", zip_strerror(_zip)));
+		throw runtime_error(fmt::format("failed to add data to ZIP archive ({})", zip_strerror(_zip)));
 	}
 }
 

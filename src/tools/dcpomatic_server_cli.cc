@@ -56,7 +56,7 @@ static void
 help (string n)
 {
 	cerr << "Syntax: " << n << " [OPTION]\n"
-	     << variant::insert_dcpomatic("  -v, --version      show %1 version\n")
+	     << variant::insert_dcpomatic("  -v, --version      show {} version\n")
 	     << "  -h, --help         show this help\n"
 	     << "  -t, --threads      number of parallel encoding threads to use\n"
 	     << "  --verbose          be verbose to stdout\n"
@@ -127,7 +127,7 @@ main (int argc, char* argv[])
 		server.run ();
 	} catch (boost::system::system_error& e) {
 		if (e.code() == boost::system::errc::address_in_use) {
-			cerr << program_name << variant::insert_dcpomatic(": address already in use.  Is another %1 server instance already running?\n");
+			cerr << program_name << variant::insert_dcpomatic(": address already in use.  Is another {} server instance already running?\n");
 			exit (EXIT_FAILURE);
 		}
 		cerr << program_name << ": " << e.what() << "\n";

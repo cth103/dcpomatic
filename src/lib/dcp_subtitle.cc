@@ -57,7 +57,7 @@ DCPSubtitle::load (boost::filesystem::path file) const
 	}
 
 	if (!sc) {
-		throw FileError(String::compose(_("Could not read subtitles (%1 / %2)"), interop_error, smpte_error), file);
+		throw FileError(fmt::format(_("Could not read subtitles ({} / {})"), interop_error, smpte_error), file);
 	}
 
 	return sc;

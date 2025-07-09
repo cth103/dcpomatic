@@ -181,7 +181,7 @@ public:
 		 */
 		dcpomatic_log = make_shared<FileLog>(State::write_path("disk.log"));
 		dcpomatic_log->set_types (dcpomatic_log->types() | LogEntry::TYPE_DISK);
-		LOG_DISK("dcpomatic_disk %1 started", dcpomatic_git_commit);
+		LOG_DISK("dcpomatic_disk {} started", dcpomatic_git_commit);
 
 		{
 			int constexpr seconds_to_look = 3;
@@ -202,7 +202,7 @@ public:
 
 #ifdef DCPOMATIC_WINDOWS
 		/* We must use ::shell here, it seems, to avoid error code 740 (related to privilege escalation) */
-		LOG_DISK("Starting writer process %1", disk_writer_path().string());
+		LOG_DISK("Starting writer process {}", disk_writer_path().string());
 		_writer = new boost::process::child (disk_writer_path(), boost::process::shell, boost::process::windows::hide);
 #endif
 
@@ -210,7 +210,7 @@ public:
 		if (getenv("DCPOMATIC_NO_START_WRITER")) {
 			LOG_DISK_NC("Not starting writer process as DCPOMATIC_NO_START_WRITER is set");
 		} else {
-			LOG_DISK("Starting writer process %1", disk_writer_path().string());
+			LOG_DISK("Starting writer process {}", disk_writer_path().string());
 			_writer = new boost::process::child (disk_writer_path());
 		}
 #endif
@@ -252,7 +252,7 @@ private:
 #ifdef DCPOMATIC_OSX
 	void uninstall()
 	{
-		system(String::compose("osascript \"%1/uninstall_disk.applescript\"", resources_path().string()).c_str());
+		system(fmt::format("osascript \"{}/uninstall_disk.applescript\"", resources_path().string()).c_str());
 	}
 #endif
 
@@ -303,12 +303,12 @@ private:
 				if (reply && reply->type() == DiskWriterBackEndResponse::Type::PONG) {
 					return true;
 				} else if (reply) {
-					LOG_DISK("Unexpected response %1 to ping received (attempt %2)", static_cast<int>(reply->type()), attempt);
+					LOG_DISK("Unexpected response {} to ping received (attempt {})", static_cast<int>(reply->type()), attempt);
 				} else {
-					LOG_DISK("No reply received from ping (attempt %1)", attempt);
+					LOG_DISK("No reply received from ping (attempt {})", attempt);
 				}
 			} else {
-				LOG_DISK("Could not send ping to writer (attempt %1)", attempt);
+				LOG_DISK("Could not send ping to writer (attempt {})", attempt);
 			}
 			dcpomatic_sleep_seconds (1);
 			return false;
@@ -353,7 +353,7 @@ private:
 				return;
 			}
 
-			LOG_DISK("Sending unmount request to disk writer for %1", drive.as_xml());
+			LOG_DISK("Sending unmount request to disk writer for {}", drive.as_xml());
 			if (!_nanomsg.send(DISK_WRITER_UNMOUNT "\n", 2000)) {
 				LOG_DISK_NC("Failed to send unmount request.");
 				throw CommunicationFailedError ();

@@ -225,12 +225,12 @@ BOOST_AUTO_TEST_CASE (player_seek_test)
 		butler->seek (t, true);
 		auto video = butler->get_video(Butler::Behaviour::BLOCKING, 0);
 		BOOST_CHECK_EQUAL(video.second.get(), t.get());
-		write_image(video.first->image(AV_PIX_FMT_RGB24, VideoRange::FULL, true), String::compose("build/test/player_seek_test_%1.png", i));
+		write_image(video.first->image(AV_PIX_FMT_RGB24, VideoRange::FULL, true), fmt::format("build/test/player_seek_test_{}.png", i));
 		/* This 14.08 is empirically chosen (hopefully) to accept changes in rendering between the reference and a test machine
 		   (17.10 and 16.04 seem to anti-alias a little differently) but to reject gross errors e.g. missing fonts or missing
 		   text altogether.
 		*/
-		check_image(TestPaths::private_data() / String::compose("player_seek_test_%1.png", i), String::compose("build/test/player_seek_test_%1.png", i), 14.08);
+		check_image(TestPaths::private_data() / fmt::format("player_seek_test_{}.png", i), fmt::format("build/test/player_seek_test_{}.png", i), 14.08);
 	}
 }
 
@@ -261,9 +261,9 @@ BOOST_AUTO_TEST_CASE (player_seek_test2)
 		auto video = butler->get_video(Butler::Behaviour::BLOCKING, 0);
 		BOOST_CHECK_EQUAL(video.second.get(), t.get());
 		write_image(
-			video.first->image(AV_PIX_FMT_RGB24, VideoRange::FULL, true), String::compose("build/test/player_seek_test2_%1.png", i)
+			video.first->image(AV_PIX_FMT_RGB24, VideoRange::FULL, true), fmt::format("build/test/player_seek_test2_{}.png", i)
 			);
-		check_image(TestPaths::private_data() / String::compose("player_seek_test2_%1.png", i), String::compose("build/test/player_seek_test2_%1.png", i), 14.08);
+		check_image(TestPaths::private_data() / fmt::format("player_seek_test2_{}.png", i), fmt::format("build/test/player_seek_test2_{}.png", i), 14.08);
 	}
 }
 

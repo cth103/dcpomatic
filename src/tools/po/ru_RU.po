@@ -403,12 +403,12 @@ msgid "Could not load a DCP from %s"
 msgstr "Не удалось загрузить DCP из %s"
 
 #: src/tools/dcpomatic_batch.cc:496
-msgid "Could not load film %1"
-msgstr "Не удалось загрузить проект %1"
+msgid "Could not load film {}"
+msgstr "Не удалось загрузить проект {}"
 
 #: src/tools/dcpomatic.cc:1735
-msgid "Could not load film %1 (%2)"
-msgstr "Не удалось загрузить проект %1 (%2)"
+msgid "Could not load film {} ({})"
+msgstr "Не удалось загрузить проект {} ({})"
 
 #: src/tools/dcpomatic_player.cc:1376
 #, c-format
@@ -1111,9 +1111,9 @@ msgstr ""
 
 #: src/tools/dcpomatic_combiner.cc:165
 msgid ""
-"The directory %1 already exists and is not empty.  Are you sure you want to "
+"The directory {} already exists and is not empty.  Are you sure you want to "
 "use it?"
-msgstr "Папка %1 уже существует и не пуста. Вы точно хотите использовать её?"
+msgstr "Папка {} уже существует и не пуста. Вы точно хотите использовать её?"
 
 #: src/tools/dcpomatic_disk.cc:293
 msgid "The disk you selected is no longer available.  Please choose another."

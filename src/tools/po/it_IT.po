@@ -30,7 +30,7 @@ msgstr "%d KDM scritte in %s"
 #: src/tools/dcpomatic_combiner.cc:175
 #, fuzzy, c-format
 msgid "%s already exists as a file, so you cannot use it for a DCP."
-msgstr "%1 esiste già il file, non è possibile usarlo per un nuovo film"
+msgstr "{} esiste già il file, non è possibile usarlo per un nuovo film"
 
 #: src/tools/dcpomatic_disk.cc:507 src/tools/dcpomatic_kdm.cc:945
 #: src/tools/dcpomatic_player.cc:1391
@@ -378,12 +378,12 @@ msgstr "Impossibile caricare DCP"
 #: src/tools/dcpomatic_player.cc:1368
 #, fuzzy, c-format
 msgid "Could not load DCP %s"
-msgstr "Impossibile caricare DCP %1."
+msgstr "Impossibile caricare DCP {}."
 
 #: src/tools/dcpomatic_player.cc:866
 #, fuzzy, c-format
 msgid "Could not load DCP %s."
-msgstr "Impossibile caricare DCP %1."
+msgstr "Impossibile caricare DCP {}."
 
 #: src/tools/dcpomatic_player.cc:626
 #, fuzzy, c-format
@@ -391,7 +391,7 @@ msgid ""
 "Could not load DCP.\n"
 "\n"
 "%s."
-msgstr "Impossibile caricare DCP %1."
+msgstr "Impossibile caricare DCP {}."
 
 #: src/tools/dcpomatic_player.cc:814
 msgid "Could not load KDM."
@@ -404,17 +404,17 @@ msgid "Could not load a DCP from %s"
 msgstr ""
 
 #: src/tools/dcpomatic_batch.cc:496
-msgid "Could not load film %1"
-msgstr "Impossibile caricare il film %1"
+msgid "Could not load film {}"
+msgstr "Impossibile caricare il film {}"
 
 #: src/tools/dcpomatic.cc:1735
-msgid "Could not load film %1 (%2)"
-msgstr "Impossibile caricare il film %1 (%2)"
+msgid "Could not load film {} ({})"
+msgstr "Impossibile caricare il film {} ({})"
 
 #: src/tools/dcpomatic_player.cc:1376
 #, fuzzy, c-format
 msgid "Could not load stress test file %s"
-msgstr "Impossibile caricare il film %1"
+msgstr "Impossibile caricare il film {}"
 
 #: src/tools/dcpomatic.cc:879
 msgid "Could not make DCP."
@@ -1084,9 +1084,9 @@ msgstr ""
 
 #: src/tools/dcpomatic_combiner.cc:165
 msgid ""
-"The directory %1 already exists and is not empty.  Are you sure you want to "
+"The directory {} already exists and is not empty.  Are you sure you want to "
 "use it?"
-msgstr "La cartella %1 esiste già e non è vuota.  Sei sicuro di volerla usare?"
+msgstr "La cartella {} esiste già e non è vuota.  Sei sicuro di volerla usare?"
 
 #: src/tools/dcpomatic_disk.cc:293
 msgid "The disk you selected is no longer available.  Please choose another."
@@ -1368,5 +1368,5 @@ msgstr ""
 #~ msgid "&Analyse audio"
 #~ msgstr "&Analizza audio"
 
-#~ msgid "The directory %1 already exists."
+#~ msgid "The directory {} already exists."
 #~ msgstr "La directory %s esiste gia'."

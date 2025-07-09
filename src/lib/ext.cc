@@ -114,13 +114,13 @@ write(boost::filesystem::path from, boost::filesystem::path to, uint64_t& total_
 	ext4_file out;
 	int r = ext4_fopen(&out, to.generic_string().c_str(), "wb");
 	if (r != EOK) {
-		throw CopyError(String::compose("Failed to open file %1", to.generic_string()), r, ext4_blockdev_errno);
+		throw CopyError(fmt::format("Failed to open file {}", to.generic_string()), r, ext4_blockdev_errno);
 	}
 
 	dcp::File in(from, "rb");
 	if (!in) {
 		ext4_fclose(&out);
-		throw CopyError(String::compose("Failed to open file %1", from.string()), 0);
+		throw CopyError(fmt::format("Failed to open file {}", from.string()), 0);
 	}
 
 	std::vector<uint8_t> buffer(block_size);
@@ -134,7 +134,7 @@ write(boost::filesystem::path from, boost::filesystem::path to, uint64_t& total_
 		size_t read = in.read(buffer.data(), 1, this_time);
 		if (read != this_time) {
 			ext4_fclose(&out);
-			throw CopyError(String::compose("Short read; expected %1 but read %2", this_time, read), 0, ext4_blockdev_errno);
+			throw CopyError(fmt::format("Short read; expected {} but read {}", this_time, read), 0, ext4_blockdev_errno);
 		}
 
 		digester.add(buffer.data(), this_time);
@@ -147,7 +147,7 @@ write(boost::filesystem::path from, boost::filesystem::path to, uint64_t& total_
 		}
 		if (written != this_time) {
 			ext4_fclose(&out);
-			throw CopyError(String::compose("Short write; expected %1 but wrote %2", this_time, written), 0, ext4_blockdev_errno);
+			throw CopyError(fmt::format("Short write; expected {} but wrote {}", this_time, written), 0, ext4_blockdev_errno);
 		}
 		remaining -= this_time;
 		total_remaining -= this_time;
@@ -171,12 +171,12 @@ string
 read(boost::filesystem::path from, boost::filesystem::path to, uint64_t& total_remaining, uint64_t total, Nanomsg* nanomsg)
 {
 	ext4_file in;
-	LOG_DISK("Opening %1 for read", to.generic_string());
+	LOG_DISK("Opening {} for read", to.generic_string());
 	int r = ext4_fopen(&in, to.generic_string().c_str(), "rb");
 	if (r != EOK) {
-		throw VerifyError(String::compose("Failed to open file %1", to.generic_string()), r);
+		throw VerifyError(fmt::format("Failed to open file {}", to.generic_string()), r);
 	}
-	LOG_DISK("Opened %1 for read", to.generic_string());
+	LOG_DISK("Opened {} for read", to.generic_string());
 
 	std::vector<uint8_t> buffer(block_size);
 	Digester digester;
@@ -188,7 +188,7 @@ read(boost::filesystem::path from, boost::filesystem::path to, uint64_t& total_r
 		r = ext4_fread(&in, buffer.data(), this_time, &read);
 		if (read != this_time) {
 			ext4_fclose(&in);
-			throw VerifyError(String::compose("Short read; expected %1 but read %2", this_time, read), 0);
+			throw VerifyError(fmt::format("Short read; expected {} but read {}", this_time, read), 0);
 		}
 
 		digester.add(buffer.data(), this_time);
@@ -228,7 +228,7 @@ static
 void
 copy(boost::filesystem::path from, boost::filesystem::path to, uint64_t& total_remaining, uint64_t total, vector<CopiedFile>& copied_files, Nanomsg* nanomsg)
 {
-	LOG_DISK("Copy %1 -> %2", from.string(), to.generic_string());
+	LOG_DISK("Copy {} -> {}", from.string(), to.generic_string());
 	from = dcp::filesystem::fix_long_path(from);
 
 	using namespace boost::filesystem;
@@ -238,7 +238,7 @@ copy(boost::filesystem::path from, boost::filesystem::path to, uint64_t& total_r
 	if (is_directory(from)) {
 		int r = ext4_dir_mk(cr.generic_string().c_str());
 		if (r != EOK) {
-			throw CopyError(String::compose("Failed to create directory %1", cr.generic_string()), r, ext4_blockdev_errno);
+			throw CopyError(fmt::format("Failed to create directory {}", cr.generic_string()), r, ext4_blockdev_errno);
 		}
 		set_timestamps_to_now(cr);
 
@@ -247,7 +247,7 @@ copy(boost::filesystem::path from, boost::filesystem::path to, uint64_t& total_r
 		}
 	} else {
 		string const write_digest = write(from, cr, total_remaining, total, nanomsg);
-		LOG_DISK("Wrote %1 %2 with %3", from.string(), cr.generic_string(), write_digest);
+		LOG_DISK("Wrote {} {} with {}", from.string(), cr.generic_string(), write_digest);
 		copied_files.push_back(CopiedFile(from, cr, write_digest));
 	}
 }
@@ -260,7 +260,7 @@ verify(vector<CopiedFile> const& copied_files, uint64_t total, Nanomsg* nanomsg)
 	uint64_t total_remaining = total;
 	for (auto const& i: copied_files) {
 		string const read_digest = read(i.from, i.to, total_remaining, total, nanomsg);
-		LOG_DISK("Read %1 %2 was %3 on write, now %4", i.from.string(), i.to.generic_string(), i.write_digest, read_digest);
+		LOG_DISK("Read {} {} was {} on write, now {}", i.from.string(), i.to.generic_string(), i.write_digest, read_digest);
 		if (read_digest != i.write_digest) {
 			throw VerifyError("Hash of written data is incorrect", 0);
 		}
@@ -348,7 +348,7 @@ try
 	close(fd);
 #endif
 
-	LOG_DISK("Writing to partition at %1 size %2; bd part size is %3", bdevs.partitions[0].part_offset, bdevs.partitions[0].part_size, bd->part_size);
+	LOG_DISK("Writing to partition at {} size {}; bd part size is {}", bdevs.partitions[0].part_offset, bdevs.partitions[0].part_size, bd->part_size);
 
 #ifdef DCPOMATIC_WINDOWS
 	file_windows_partition_set(bdevs.partitions[0].part_offset, bdevs.partitions[0].part_size);
@@ -426,17 +426,17 @@ try
 
 	disk_write_finished();
 } catch (CopyError& e) {
-	LOG_DISK("CopyError (from write): %1 %2 %3", e.message(), e.ext4_number().get_value_or(0), e.platform_number().get_value_or(0));
+	LOG_DISK("CopyError (from write): {} {} {}", e.message(), e.ext4_number().get_value_or(0), e.platform_number().get_value_or(0));
 	if (nanomsg) {
 		DiskWriterBackEndResponse::error(e.message(), e.ext4_number().get_value_or(0), e.platform_number().get_value_or(0)).write_to_nanomsg(*nanomsg, LONG_TIMEOUT);
 	}
 } catch (VerifyError& e) {
-	LOG_DISK("VerifyError (from write): %1 %2", e.message(), e.number());
+	LOG_DISK("VerifyError (from write): {} {}", e.message(), e.number());
 	if (nanomsg) {
 		DiskWriterBackEndResponse::error(e.message(), e.number(), 0).write_to_nanomsg(*nanomsg, LONG_TIMEOUT);
 	}
 } catch (exception& e) {
-	LOG_DISK("Exception (from write): %1", e.what());
+	LOG_DISK("Exception (from write): {}", e.what());
 	if (nanomsg) {
 		DiskWriterBackEndResponse::error(e.what(), 0, 0).write_to_nanomsg(*nanomsg, LONG_TIMEOUT);
 	}

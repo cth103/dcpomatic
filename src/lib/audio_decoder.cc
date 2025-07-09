@@ -84,7 +84,7 @@ AudioDecoder::emit(shared_ptr<const Film> film, AudioStreamPtr stream, shared_pt
 
 	if (need_reset) {
 		LOG_GENERAL (
-			"Reset audio position: was %1, new data at %2, slack: %3 frames (more than threshold %4)",
+			"Reset audio position: was {}, new data at {}, slack: {} frames (more than threshold {})",
 			_positions[stream],
 			time.frames_round(resampled_rate),
 			std::abs(_positions[stream] - time.frames_round(resampled_rate)),
@@ -107,7 +107,7 @@ AudioDecoder::emit(shared_ptr<const Film> film, AudioStreamPtr stream, shared_pt
 	} else {
 		if (stream->frame_rate() != resampled_rate) {
 			LOG_GENERAL (
-				"Creating new resampler from %1 to %2 with %3 channels",
+				"Creating new resampler from {} to {} with {} channels",
 				stream->frame_rate(),
 				resampled_rate,
 				stream->channels()
@@ -128,7 +128,7 @@ AudioDecoder::emit(shared_ptr<const Film> film, AudioStreamPtr stream, shared_pt
 		 * here.
 		 */
 		if (resampler->channels() != data->channels()) {
-			LOG_WARNING("Received audio data with an unexpected channel count of %1 instead of %2", data->channels(), resampler->channels());
+			LOG_WARNING("Received audio data with an unexpected channel count of {} instead of {}", data->channels(), resampler->channels());
 			auto data_copy = data->clone();
 			data_copy->set_channels(resampler->channels());
 			data = resampler->run(data_copy);

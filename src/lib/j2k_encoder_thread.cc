@@ -49,7 +49,7 @@ J2KEncoderThread::stop()
 	try {
 		_thread.join();
 	} catch (std::exception& e) {
-		LOG_ERROR("join() threw an exception: %1", e.what());
+		LOG_ERROR("join() threw an exception: {}", e.what());
 	} catch (...) {
 		LOG_ERROR_NC("join() threw an exception");
 	}

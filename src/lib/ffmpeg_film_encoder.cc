@@ -147,9 +147,9 @@ FFmpegFilmEncoder::go()
 		filename = dcp::filesystem::change_extension(filename, "");
 
 		if (files > 1) {
-			/// TRANSLATORS: _reel%1 here is to be added to an export filename to indicate
-			/// which reel it is.  Preserve the %1; it will be replaced with the reel number.
-			filename = filename.string() + String::compose(_("_reel%1"), i + 1);
+			/// TRANSLATORS: _reel{} here is to be added to an export filename to indicate
+			/// which reel it is.  Preserve the {}; it will be replaced with the reel number.
+			filename = filename.string() + fmt::format(_("_reel{}"), i + 1);
 		}
 
 		file_encoders.push_back (
@@ -198,7 +198,7 @@ FFmpegFilmEncoder::go()
 				}
 			} else {
 				if (e.code != Butler::Error::Code::FINISHED) {
-					throw DecodeError(String::compose("Error during decoding: %1", e.summary()));
+					throw DecodeError(fmt::format("Error during decoding: {}", e.summary()));
 				}
 			}
 		}
@@ -263,17 +263,17 @@ FFmpegFilmEncoder::FileEncoderSet::FileEncoderSet(
 		_encoders[Eyes::LEFT] = make_shared<FFmpegFileEncoder>(
 			video_frame_size, video_frame_rate, audio_frame_rate, channels, format,
 			// TRANSLATORS: L here is an abbreviation for "left", to indicate the left-eye part of a 3D export
-			audio_stream_per_channel, x264_crf, String::compose("%1_%2%3", output.string(), _("L"), extension)
+			audio_stream_per_channel, x264_crf, fmt::format("{}_{}{}", output.string(), _("L"), extension)
 			);
 		_encoders[Eyes::RIGHT] = make_shared<FFmpegFileEncoder>(
 			video_frame_size, video_frame_rate, audio_frame_rate, channels, format,
 			// TRANSLATORS: R here is an abbreviation for "right", to indicate the right-eye part of a 3D export
-			audio_stream_per_channel, x264_crf, String::compose("%1_%2%3", output.string(), _("R"), extension)
+			audio_stream_per_channel, x264_crf, fmt::format("{}_{}{}", output.string(), _("R"), extension)
 			);
 	} else {
 		_encoders[Eyes::BOTH] = make_shared<FFmpegFileEncoder>(
 			video_frame_size, video_frame_rate, audio_frame_rate, channels, format,
-			audio_stream_per_channel, x264_crf, String::compose("%1%2", output.string(), extension)
+			audio_stream_per_channel, x264_crf, fmt::format("{}{}", output.string(), extension)
 			);
 	}
 }

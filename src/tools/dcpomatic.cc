@@ -1488,7 +1488,7 @@ private:
 		for (size_t i = 0; i < history.size(); ++i) {
 			string s;
 			if (i < 9) {
-				s = String::compose ("&%1 %2", i + 1, history[i].string());
+				s = fmt::format("&{} {}", i + 1, history[i].string());
 			} else {
 				s = history[i].string();
 			}
@@ -1655,7 +1655,7 @@ private:
 			setvbuf(hf_in, NULL, _IONBF, 128);
 			*stdin = *hf_in;
 
-			cout << variant::insert_dcpomatic("%1 is starting.") << "\n";
+			cout << variant::insert_dcpomatic("{} is starting.") << "\n";
 		}
 #endif
 			wxInitAllImageHandlers ();
@@ -1732,7 +1732,7 @@ private:
 				try {
 					_frame->load_film (_film_to_load);
 				} catch (exception& e) {
-					error_dialog (nullptr, std_to_wx(String::compose(wx_to_std(_("Could not load film %1 (%2)")), _film_to_load)), std_to_wx(e.what()));
+					error_dialog (nullptr, std_to_wx(fmt::format(wx_to_std(_("Could not load film {} ({})")), _film_to_load)), std_to_wx(e.what()));
 				}
 			}
 

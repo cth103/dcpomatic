@@ -27,10 +27,10 @@ msgstr ""
 #: src/lib/video_content.cc:478
 msgid ""
 "\n"
-"Cropped to %1x%2"
+"Cropped to {}x{}"
 msgstr ""
 "\n"
-"Розмір при кадруванні: %1x%2"
+"Розмір при кадруванні: {}x{}"
 
 #: src/lib/video_content.cc:468
 #, c-format
@@ -44,29 +44,29 @@ msgstr ""
 #: src/lib/video_content.cc:502
 msgid ""
 "\n"
-"Padded with black to fit container %1 (%2x%3)"
+"Padded with black to fit container {} ({}x{})"
 msgstr ""
 "\n"
-"Заповнено чорним для підгонки контейнера %1 (%2x%3)"
+"Заповнено чорним для підгонки контейнера {} ({}x{})"
 
 #: src/lib/video_content.cc:492
 msgid ""
 "\n"
-"Scaled to %1x%2"
+"Scaled to {}x{}"
 msgstr ""
 "\n"
-"Розмір при масштабуванні: %1x%2"
+"Розмір при масштабуванні: {}x{}"
 
 #: src/lib/video_content.cc:496 src/lib/video_content.cc:507
 #, c-format
 msgid " (%.2f:1)"
 msgstr " (%.2f:1)"
 
-#. TRANSLATORS: the %1 in this string will be filled in with a day of the week
+#. TRANSLATORS: the {} in this string will be filled in with a day of the week
 #. to say what day a job will finish.
 #: src/lib/job.cc:598
-msgid " on %1"
-msgstr " на %1"
+msgid " on {}"
+msgstr " на {}"
 
 #: src/lib/config.cc:1276
 #, fuzzy
@@ -97,74 +97,74 @@ msgid "$JOB_NAME: $JOB_STATUS"
 msgstr "$JOB_NAME: $JOB_STATUS"
 
 #: src/lib/cross_common.cc:107
-msgid "%1 (%2 GB) [%3]"
+msgid "{} ({} GB) [{}]"
 msgstr ""
 
 #: src/lib/atmos_mxf_content.cc:96
-msgid "%1 [Atmos]"
-msgstr "%1 [Atmos]"
+msgid "{} [Atmos]"
+msgstr "{} [Atmos]"
 
 #: src/lib/dcp_content.cc:356
-msgid "%1 [DCP]"
-msgstr "%1 [DCP]"
+msgid "{} [DCP]"
+msgstr "{} [DCP]"
 
 #: src/lib/ffmpeg_content.cc:347
-msgid "%1 [audio]"
-msgstr "%1 [аудіо]"
+msgid "{} [audio]"
+msgstr "{} [аудіо]"
 
 #: src/lib/ffmpeg_content.cc:343
-msgid "%1 [movie]"
-msgstr "%1 [відео]"
+msgid "{} [movie]"
+msgstr "{} [відео]"
 
 #: src/lib/ffmpeg_content.cc:345 src/lib/video_mxf_content.cc:106
-msgid "%1 [video]"
-msgstr "%1 [відео]"
+msgid "{} [video]"
+msgstr "{} [відео]"
 
 #: src/lib/job.cc:181 src/lib/job.cc:196
 #, fuzzy
 msgid ""
-"%1 could not open the file %2 (%3).  Perhaps it does not exist or is in an "
+"{} could not open the file {} ({}).  Perhaps it does not exist or is in an "
 "unexpected format."
 msgstr ""
-"DCP-o-matic не вдалося відкрити файл %1 (%2). Можливо він не існує або має "
+"DCP-o-matic не вдалося відкрити файл {} ({}). Можливо він не існує або має "
 "неочікуваний формат."
 
 #: src/lib/film.cc:1702
 msgid ""
-"%1 had to change your settings for referring to DCPs as OV.  Please review "
+"{} had to change your settings for referring to DCPs as OV.  Please review "
 "those settings to make sure they are what you want."
 msgstr ""
 
 #: src/lib/film.cc:1668
 msgid ""
-"%1 had to change your settings so that the film's frame rate is the same as "
+"{} had to change your settings so that the film's frame rate is the same as "
 "that of your Atmos content."
 msgstr ""
 
 #: src/lib/film.cc:1715
 msgid ""
-"%1 had to remove one of your custom reel boundaries as it no longer lies "
+"{} had to remove one of your custom reel boundaries as it no longer lies "
 "within the film."
 msgstr ""
 
 #: src/lib/film.cc:1713
 msgid ""
-"%1 had to remove some of your custom reel boundaries as they no longer lie "
+"{} had to remove some of your custom reel boundaries as they no longer lie "
 "within the film."
 msgstr ""
 
 #: src/lib/ffmpeg_content.cc:115
 #, fuzzy
-msgid "%1 no longer supports the `%2' filter, so it has been turned off."
-msgstr "DCP-o-matic більше не підтримує фильтр `%1', тому він був вимкнений."
+msgid "{} no longer supports the `{}' filter, so it has been turned off."
+msgstr "DCP-o-matic більше не підтримує фильтр `{}', тому він був вимкнений."
 
 #: src/lib/config.cc:441 src/lib/config.cc:1251
 #, fuzzy
-msgid "%1 notification"
+msgid "{} notification"
 msgstr "E-mail повідомлення"
 
 #: src/lib/transcode_job.cc:180
-msgid "%1; %2/%3 frames"
+msgid "{}; {}/{} frames"
 msgstr ""
 
 #: src/lib/video_content.cc:463
@@ -254,12 +254,12 @@ msgstr ""
 
 #. TRANSLATORS: fps here is an abbreviation for frames per second
 #: src/lib/transcode_job.cc:183
-msgid "; %1 fps"
-msgstr "; %1 кадр/сек"
+msgid "; {} fps"
+msgstr "; {} кадр/сек"
 
 #: src/lib/job.cc:603
-msgid "; %1 remaining; finishing at %2%3"
-msgstr "; %1 залишилось; час завершення %2%3"
+msgid "; {} remaining; finishing at {}{}"
+msgstr "; {} залишилось; час завершення {}{}"
 
 #: src/lib/analytics.cc:58
 #, c-format, c++-format
@@ -291,7 +291,7 @@ msgstr ""
 #: src/lib/text_content.cc:230
 msgid ""
 "A subtitle or closed caption file in this project is marked with the "
-"language '%1', which %2 does not recognise.  The file's language has been "
+"language '{}', which {} does not recognise.  The file's language has been "
 "cleared."
 msgstr ""
 
@@ -327,8 +327,8 @@ msgstr ""
 "(1.85:1) на вкладці \"DCP\"."
 
 #: src/lib/job.cc:116
-msgid "An error occurred whilst handling the file %1."
-msgstr "Виникла помилка при зверненні до файлу %1."
+msgid "An error occurred whilst handling the file {}."
+msgstr "Виникла помилка при зверненні до файлу {}."
 
 #: src/lib/analyse_audio_job.cc:74
 #, fuzzy
@@ -395,12 +395,12 @@ msgid ""
 msgstr ""
 
 #: src/lib/audio_content.cc:265
-msgid "Audio will be resampled from %1Hz to %2Hz"
-msgstr "Аудіо буде ресемпловано з %1 Гц в %2 Гц"
+msgid "Audio will be resampled from {}Hz to {}Hz"
+msgstr "Аудіо буде ресемпловано з {} Гц в {} Гц"
 
 #: src/lib/audio_content.cc:267
-msgid "Audio will be resampled to %1Hz"
-msgstr "Аудіо будет ресемпловано в %1 Гц"
+msgid "Audio will be resampled to {}Hz"
+msgstr "Аудіо будет ресемпловано в {} Гц"
 
 #: src/lib/audio_content.cc:256
 msgid "Audio will not be resampled"
@@ -481,8 +481,8 @@ msgid "Cannot contain slashes"
 msgstr "Не може містити слеші"
 
 #: src/lib/exceptions.cc:79
-msgid "Cannot handle pixel format %1 during %2"
-msgstr "Неможливо обробити формат пікселя %1 під час %2"
+msgid "Cannot handle pixel format {} during {}"
+msgstr "Неможливо обробити формат пікселя {} під час {}"
 
 #: src/lib/film.cc:1811
 msgid "Cannot make a KDM as this project is not encrypted."
@@ -728,8 +728,8 @@ msgid "Content to be joined must use the same text language."
 msgstr "Для приєднання контенту має бути такий самий шрифт."
 
 #: src/lib/video_content.cc:454
-msgid "Content video is %1x%2"
-msgstr "Розмір контенту: %1x%2"
+msgid "Content video is {}x{}"
+msgstr "Розмір контенту: {}x{}"
 
 #: src/lib/upload_job.cc:66
 msgid "Copy DCP to TMS"
@@ -738,58 +738,58 @@ msgstr "Копіювати DCP на TMS (Theater Management System)"
 #: src/lib/copy_to_drive_job.cc:59
 #, fuzzy
 msgid ""
-"Copying %1\n"
-"to %2"
-msgstr "копіювання %1"
+"Copying {}\n"
+"to {}"
+msgstr "копіювання {}"
 
 #: src/lib/copy_to_drive_job.cc:120
 #, fuzzy
 msgid "Copying DCP"
-msgstr "копіювання %1"
+msgstr "копіювання {}"
 
 #: src/lib/copy_to_drive_job.cc:62
 #, fuzzy
-msgid "Copying DCPs to %1"
+msgid "Copying DCPs to {}"
 msgstr "Копіювати DCP на TMS (Theater Management System)"
 
 #: src/lib/scp_uploader.cc:57
-msgid "Could not connect to server %1 (%2)"
-msgstr "Не вдалося підключитися до серверу %1 (%2)"
+msgid "Could not connect to server {} ({})"
+msgstr "Не вдалося підключитися до серверу {} ({})"
 
 #: src/lib/scp_uploader.cc:106
-msgid "Could not create remote directory %1 (%2)"
-msgstr "Не вдалося створити віддалений каталог %1 (%2)"
+msgid "Could not create remote directory {} ({})"
+msgstr "Не вдалося створити віддалений каталог {} ({})"
 
 #: src/lib/image_examiner.cc:65
-msgid "Could not decode JPEG2000 file %1 (%2)"
-msgstr "Не вдалось декодувати JPEG2000-файл %1 (%2)"
+msgid "Could not decode JPEG2000 file {} ({})"
+msgstr "Не вдалось декодувати JPEG2000-файл {} ({})"
 
 #: src/lib/ffmpeg_image_proxy.cc:164
 #, fuzzy
-msgid "Could not decode image (%1)"
-msgstr "Не вдалося декодувати зображення (%1)"
+msgid "Could not decode image ({})"
+msgstr "Не вдалося декодувати зображення ({})"
 
 #: src/lib/unzipper.cc:76
 #, fuzzy
-msgid "Could not find file %1 in ZIP file"
+msgid "Could not find file {} in ZIP file"
 msgstr "Не вдалося відкрити завантажений ZIP-архів"
 
 #: src/lib/encode_server_finder.cc:197
 #, fuzzy
 msgid ""
-"Could not listen for remote encode servers.  Perhaps another instance of %1 "
+"Could not listen for remote encode servers.  Perhaps another instance of {} "
 "is running."
 msgstr ""
 "Не вдалося прослухати віддалений сервер кодування. Можливо працює ще одна "
 "копія DCP-o-matic."
 
 #: src/lib/job.cc:180 src/lib/job.cc:195
-msgid "Could not open %1"
-msgstr "Не вдалося відкрити %1"
+msgid "Could not open {}"
+msgstr "Не вдалося відкрити {}"
 
 #: src/lib/curl_uploader.cc:102 src/lib/scp_uploader.cc:122
-msgid "Could not open %1 to send"
-msgstr "Не вдалося відкрити %1 для відправки"
+msgid "Could not open {} to send"
+msgstr "Не вдалося відкрити {} для відправки"
 
 #: src/lib/internet.cc:167 src/lib/internet.cc:172
 msgid "Could not open downloaded ZIP file"
@@ -797,30 +797,30 @@ msgstr "Не вдалося відкрити завантажений ZIP-арх
 
 #: src/lib/internet.cc:179
 #, fuzzy
-msgid "Could not open downloaded ZIP file (%1:%2: %3)"
+msgid "Could not open downloaded ZIP file ({}:{}: {})"
 msgstr "Не вдалося відкрити завантажений ZIP-архів"
 
 #: src/lib/config.cc:1178
 #, fuzzy
 msgid "Could not open file for writing"
-msgstr "не вдалося відкрити файл %1 для запису (%2)"
+msgstr "не вдалося відкрити файл {} для запису ({})"
 
 #: src/lib/ffmpeg_file_encoder.cc:271
 #, fuzzy
-msgid "Could not open output file %1 (%2)"
-msgstr "не вдалося записати в файл %1 (%2)"
+msgid "Could not open output file {} ({})"
+msgstr "не вдалося записати в файл {} ({})"
 
 #: src/lib/dcp_subtitle.cc:60
-msgid "Could not read subtitles (%1 / %2)"
-msgstr "Не вдалося прочитати субтитри (%1 / %2)"
+msgid "Could not read subtitles ({} / {})"
+msgstr "Не вдалося прочитати субтитри ({} / {})"
 
 #: src/lib/curl_uploader.cc:59
 msgid "Could not start transfer"
 msgstr "Не вдалося почати передачу"
 
 #: src/lib/curl_uploader.cc:110 src/lib/scp_uploader.cc:138
-msgid "Could not write to remote file (%1)"
-msgstr "Не вдалося записати в віддалений файл (%1)"
+msgid "Could not write to remote file ({})"
+msgstr "Не вдалося записати в віддалений файл ({})"
 
 #: src/lib/util.cc:601
 msgid "D-BOX primary"
@@ -903,7 +903,7 @@ msgid ""
 "The KDMs are valid from $START_TIME until $END_TIME.\n"
 "\n"
 "Best regards,\n"
-"%1"
+"{}"
 msgstr ""
 "Шановний кіномеханик\n"
 "\n"
@@ -918,7 +918,7 @@ msgstr ""
 "DCP-o-matic"
 
 #: src/lib/exceptions.cc:179
-msgid "Disk full when writing %1"
+msgid "Disk full when writing {}"
 msgstr ""
 
 #: src/lib/dolby_cp750.cc:31
@@ -928,16 +928,16 @@ msgstr "Dolby CP650 и CP750"
 
 #: src/lib/internet.cc:124
 #, fuzzy
-msgid "Download failed (%1 error %2)"
-msgstr "Помилка завантаження (%1/%2 помилка %3)"
+msgid "Download failed ({} error {})"
+msgstr "Помилка завантаження ({}/{} помилка {})"
 
 #: src/lib/frame_rate_change.cc:94
 msgid "Each content frame will be doubled in the DCP.\n"
 msgstr "Кожний кадр контенту буде задвоено у DCP-пакеті.\n"
 
 #: src/lib/frame_rate_change.cc:96
-msgid "Each content frame will be repeated %1 more times in the DCP.\n"
-msgstr "Кожний кадр контенту буде повторений %1 раз у DCP-пакеті.\n"
+msgid "Each content frame will be repeated {} more times in the DCP.\n"
+msgstr "Кожний кадр контенту буде повторений {} раз у DCP-пакеті.\n"
 
 #: src/lib/send_kdm_email_job.cc:94
 msgid "Email KDMs"
@@ -945,8 +945,8 @@ msgstr "Відправка ключей"
 
 #: src/lib/send_kdm_email_job.cc:97
 #, fuzzy
-msgid "Email KDMs for %1"
-msgstr "Відправка ключей %1 по Email"
+msgid "Email KDMs for {}"
+msgstr "Відправка ключей {} по Email"
 
 #: src/lib/send_notification_email_job.cc:53
 msgid "Email notification"
@@ -957,8 +957,8 @@ msgid "Email problem report"
 msgstr "Повідомити про проблему"
 
 #: src/lib/send_problem_report_job.cc:72
-msgid "Email problem report for %1"
-msgstr "Помилка відправки ключей %1 по Email"
+msgid "Email problem report for {}"
+msgstr "Помилка відправки ключей {} по Email"
 
 #: src/lib/dcp_film_encoder.cc:120 src/lib/ffmpeg_film_encoder.cc:135
 msgid "Encoding"
@@ -969,12 +969,12 @@ msgid "Episode"
 msgstr ""
 
 #: src/lib/exceptions.cc:86
-msgid "Error in subtitle file: saw %1 while expecting %2"
-msgstr "Помилка у файлі субтитрів: знайдено %1, однак очікується %2"
+msgid "Error in subtitle file: saw {} while expecting {}"
+msgstr "Помилка у файлі субтитрів: знайдено {}, однак очікується {}"
 
 #: src/lib/job.cc:625
-msgid "Error: %1"
-msgstr "Помилка: (%1)"
+msgid "Error: {}"
+msgstr "Помилка: ({})"
 
 #: src/lib/dcp_content_type.cc:69
 msgid "Event"
@@ -1019,18 +1019,18 @@ msgid "FCP XML subtitles"
 msgstr "DCP XML субтитри"
 
 #: src/lib/scp_uploader.cc:69
-msgid "Failed to authenticate with server (%1)"
-msgstr "Помилка аутентифікації сервером (%1)"
+msgid "Failed to authenticate with server ({})"
+msgstr "Помилка аутентифікації сервером ({})"
 
 #: src/lib/job.cc:140 src/lib/job.cc:154
 #, fuzzy
 msgid "Failed to encode the DCP."
-msgstr "Помилка відправки email (%1)"
+msgstr "Помилка відправки email ({})"
 
 #: src/lib/email.cc:250
 #, fuzzy
 msgid "Failed to send email"
-msgstr "Помилка відправки email (%1)"
+msgstr "Помилка відправки email ({})"
 
 #: src/lib/dcp_content_type.cc:54
 msgid "Feature"
@@ -1075,8 +1075,8 @@ msgid "Full"
 msgstr "Повний"
 
 #: src/lib/ffmpeg_content.cc:564
-msgid "Full (0-%1)"
-msgstr "Повний (0-%1)"
+msgid "Full (0-{})"
+msgstr "Повний (0-{})"
 
 #: src/lib/ratio.cc:57
 msgid "Full frame"
@@ -1168,7 +1168,7 @@ msgstr ""
 
 #: src/lib/job.cc:170 src/lib/job.cc:205 src/lib/job.cc:265 src/lib/job.cc:275
 #, fuzzy
-msgid "It is not known what caused this error.  %1"
+msgid "It is not known what caused this error.  {}"
 msgstr "Невідомо, що викликало цю помилку."
 
 #: src/lib/ffmpeg_content.cc:614
@@ -1222,8 +1222,8 @@ msgstr "Обмежено"
 
 #: src/lib/ffmpeg_content.cc:557
 #, fuzzy
-msgid "Limited / video (%1-%2)"
-msgstr "Обмежено (%1-%2)"
+msgid "Limited / video ({}-{})"
+msgstr "Обмежено ({}-{})"
 
 #: src/lib/ffmpeg_content.cc:629
 msgid "Linear"
@@ -1271,8 +1271,8 @@ msgid "Mismatched video sizes in DCP"
 msgstr "Невідповідність розміру відео в DCP"
 
 #: src/lib/exceptions.cc:72
-msgid "Missing required setting %1"
-msgstr "Відсутнє обов'язкове налаштування %1"
+msgid "Missing required setting {}"
+msgstr "Відсутнє обов'язкове налаштування {}"
 
 #: src/lib/job.cc:561
 msgid "Monday"
@@ -1318,12 +1318,12 @@ msgstr ""
 
 #: src/lib/job.cc:622
 #, fuzzy
-msgid "OK (ran for %1 from %2 to %3)"
-msgstr "Готово! (виконано за %1)"
+msgid "OK (ran for {} from {} to {})"
+msgstr "Готово! (виконано за {})"
 
 #: src/lib/job.cc:620
-msgid "OK (ran for %1)"
-msgstr "Готово! (виконано за %1)"
+msgid "OK (ran for {})"
+msgstr "Готово! (виконано за {})"
 
 #: src/lib/content.cc:106
 msgid "Only the first piece of content to be joined can have a start trim."
@@ -1345,7 +1345,7 @@ msgstr "Текстові субтитри"
 
 #: src/lib/transcode_job.cc:116
 msgid ""
-"Open the project in %1, check the settings, then save it before trying again."
+"Open the project in {}, check the settings, then save it before trying again."
 msgstr ""
 
 #: src/lib/filter.cc:92 src/lib/filter.cc:93 src/lib/filter.cc:94
@@ -1368,7 +1368,7 @@ msgstr "P3"
 #: src/lib/util.cc:1136
 msgid ""
 "Please report this problem by using Help -> Report a problem or via email to "
-"%1"
+"{}"
 msgstr ""
 
 #: src/lib/dcp_content_type.cc:61
@@ -1384,8 +1384,8 @@ msgid "Prepared for video frame rate"
 msgstr "Підготовлене для частоти кадрів відео"
 
 #: src/lib/exceptions.cc:107
-msgid "Programming error at %1:%2 %3"
-msgstr "Помилка програмування %1:%2 %3"
+msgid "Programming error at {}:{} {}"
+msgstr "Помилка програмування {}:{} {}"
 
 #: src/lib/dcp_content_type.cc:65
 msgid "Promo"
@@ -1502,14 +1502,14 @@ msgstr "SMPTE ST 432-1 D65 (2010)"
 
 #: src/lib/scp_uploader.cc:47
 #, fuzzy
-msgid "SSH error [%1]"
-msgstr "Помилка SSH (%1)"
+msgid "SSH error [{}]"
+msgstr "Помилка SSH ({})"
 
 #: src/lib/scp_uploader.cc:63 src/lib/scp_uploader.cc:76
 #: src/lib/scp_uploader.cc:83
 #, fuzzy
-msgid "SSH error [%1] (%2)"
-msgstr "Помилка SSH (%1)"
+msgid "SSH error [{}] ({})"
+msgstr "Помилка SSH ({})"
 
 #: src/lib/job.cc:571
 msgid "Saturday"
@@ -1536,8 +1536,8 @@ msgid "Size"
 msgstr "Розмір"
 
 #: src/lib/audio_content.cc:260
-msgid "Some audio will be resampled to %1Hz"
-msgstr "Деяке аудіо будет ресемпловано в %1 Гц"
+msgid "Some audio will be resampled to {}Hz"
+msgstr "Деяке аудіо будет ресемпловано в {} Гц"
 
 #: src/lib/transcode_job.cc:121
 msgid "Some files have been changed since they were added to the project."
@@ -1560,7 +1560,7 @@ msgstr ""
 
 #: src/lib/hints.cc:605
 msgid ""
-"Some of your closed captions span more than %1 lines, so they will be "
+"Some of your closed captions span more than {} lines, so they will be "
 "truncated."
 msgstr ""
 
@@ -1639,12 +1639,12 @@ msgid "The certificate chain for signing is invalid"
 msgstr "Ланцюг сертифікатів для підпису невірний"
 
 #: src/lib/exceptions.cc:100
-msgid "The certificate chain for signing is invalid (%1)"
-msgstr "Ланцюг сертифікатів для підпису невірний (%1)"
+msgid "The certificate chain for signing is invalid ({})"
+msgstr "Ланцюг сертифікатів для підпису невірний ({})"
 
 #: src/lib/hints.cc:744
 msgid ""
-"The certificate chain that %1 uses for signing DCPs and KDMs contains a "
+"The certificate chain that {} uses for signing DCPs and KDMs contains a "
 "small error which will prevent DCPs from being validated correctly on some "
 "systems.  It is advisable to re-create the signing certificate chain by "
 "clicking the \"Re-make certificates and key...\" button in the Keys page of "
@@ -1653,7 +1653,7 @@ msgstr ""
 
 #: src/lib/hints.cc:752
 msgid ""
-"The certificate chain that %1 uses for signing DCPs and KDMs has a validity "
+"The certificate chain that {} uses for signing DCPs and KDMs has a validity "
 "period that is too long.  This will cause problems playing back DCPs on some "
 "systems. It is advisable to re-create the signing certificate chain by "
 "clicking the \"Re-make certificates and key...\" button in the Keys page of "
@@ -1662,7 +1662,7 @@ msgstr ""
 
 #: src/lib/video_decoder.cc:70
 msgid ""
-"The content file %1 is set as 3D but does not appear to contain 3D images.  "
+"The content file {} is set as 3D but does not appear to contain 3D images.  "
 "Please set it to 2D.  You can still make a 3D DCP from this content by "
 "ticking the 3D option in the DCP video tab."
 msgstr ""
@@ -1676,20 +1676,20 @@ msgstr ""
 "трохи місця та спробуйте знову."
 
 #: src/lib/playlist.cc:245
-msgid "The file %1 has been moved %2 milliseconds earlier."
-msgstr "Файл %1 переміщений на %2 мілісекунди раніше."
+msgid "The file {} has been moved {} milliseconds earlier."
+msgstr "Файл {} переміщений на {} мілісекунди раніше."
 
 #: src/lib/playlist.cc:240
-msgid "The file %1 has been moved %2 milliseconds later."
-msgstr "Файл %1 переміщений на %2 мілісекунди пізніше."
+msgid "The file {} has been moved {} milliseconds later."
+msgstr "Файл {} переміщений на {} мілісекунди пізніше."
 
 #: src/lib/playlist.cc:265
-msgid "The file %1 has been trimmed by %2 milliseconds less."
-msgstr "Файл %1 був обрізаний на %2 мілісекунд менше."
+msgid "The file {} has been trimmed by {} milliseconds less."
+msgstr "Файл {} був обрізаний на {} мілісекунд менше."
 
 #: src/lib/playlist.cc:260
-msgid "The file %1 has been trimmed by %2 milliseconds more."
-msgstr "Файл %1 був обрізаний на %2 мілісекунд більше."
+msgid "The file {} has been trimmed by {} milliseconds more."
+msgstr "Файл {} був обрізаний на {} мілісекунд більше."
 
 #: src/lib/hints.cc:268
 msgid ""
@@ -1735,19 +1735,19 @@ msgstr ""
 "\"Основні\"."
 
 #: src/lib/util.cc:986
-msgid "This KDM was made for %1 but not for its leaf certificate."
+msgid "This KDM was made for {} but not for its leaf certificate."
 msgstr ""
 
 #: src/lib/util.cc:984
-msgid "This KDM was not made for %1's decryption certificate."
+msgid "This KDM was not made for {}'s decryption certificate."
 msgstr ""
 
 #: src/lib/job.cc:142
 #, fuzzy
 msgid ""
 "This error has probably occurred because you are running the 32-bit version "
-"of %1 and trying to use too many encoding threads.  Please reduce the "
-"'number of threads %2 should use' in the General tab of Preferences and try "
+"of {} and trying to use too many encoding threads.  Please reduce the "
+"'number of threads {} should use' in the General tab of Preferences and try "
 "again."
 msgstr ""
 "Недостатньо пам'яті для виконання операції. Якщо у вас 32-бітна система, "
@@ -1757,7 +1757,7 @@ msgstr ""
 #: src/lib/job.cc:156
 msgid ""
 "This error has probably occurred because you are running the 32-bit version "
-"of %1.  Please re-install %2 with the 64-bit installer and try again."
+"of {}.  Please re-install {} with the 64-bit installer and try again."
 msgstr ""
 
 #: src/lib/exceptions.cc:114
@@ -1771,7 +1771,7 @@ msgstr ""
 #: src/lib/film.cc:544
 #, fuzzy
 msgid ""
-"This film was created with a newer version of %1, and it cannot be loaded "
+"This film was created with a newer version of {}, and it cannot be loaded "
 "into this version.  Sorry!"
 msgstr ""
 "Проект був створений більш новою версією DCP-o-matic і не може бути "
@@ -1780,7 +1780,7 @@ msgstr ""
 #: src/lib/film.cc:525
 #, fuzzy
 msgid ""
-"This film was created with an older version of %1, and unfortunately it "
+"This film was created with an older version of {}, and unfortunately it "
 "cannot be loaded into this version.  You will need to create a new Film, re-"
 "add your content and set it up again.  Sorry!"
 msgstr ""
@@ -1802,8 +1802,8 @@ msgstr "TRL (Трейлер)"
 
 #: src/lib/transcode_job.cc:75
 #, fuzzy
-msgid "Transcoding %1"
-msgstr "Транскодування %1"
+msgid "Transcoding {}"
+msgstr "Транскодування {}"
 
 #: src/lib/dcp_content_type.cc:58
 msgid "Transitional"
@@ -1835,8 +1835,8 @@ msgid "Unknown error"
 msgstr "Невідома помилка"
 
 #: src/lib/ffmpeg_decoder.cc:378
-msgid "Unrecognised audio sample format (%1)"
-msgstr "Нерозпізнаний формат аудіо (%1)"
+msgid "Unrecognised audio sample format ({})"
+msgstr "Нерозпізнаний формат аудіо ({})"
 
 #: src/lib/filter.cc:102
 msgid "Unsharp mask and Gaussian blur"
@@ -1883,7 +1883,7 @@ msgid "Vertical flip"
 msgstr "Перевернути по вертикалі"
 
 #: src/lib/fcpxml.cc:69
-msgid "Video refers to missing asset %1"
+msgid "Video refers to missing asset {}"
 msgstr ""
 
 #: src/lib/util.cc:596
@@ -1913,9 +1913,9 @@ msgstr "Ще один фільтр деінтерлейсинга"
 #: src/lib/hints.cc:209
 #, fuzzy
 msgid ""
-"You are set up for a DCP at a frame rate of %1 fps.  This frame rate is not "
+"You are set up for a DCP at a frame rate of {} fps.  This frame rate is not "
 "supported by all projectors.  It is advisable to change the DCP frame rate "
-"to %2 fps."
+"to {} fps."
 msgstr ""
 "Ви обрали для Interop DCP частоту кадрів, яка офіційно не підтримується. "
 "Радимо змінити частоту кадрів вашого DCP або замість цього зробити SMPTE DCP."
@@ -1923,9 +1923,9 @@ msgstr ""
 #: src/lib/hints.cc:193
 #, fuzzy
 msgid ""
-"You are set up for a DCP at a frame rate of %1 fps.  This frame rate is not "
+"You are set up for a DCP at a frame rate of {} fps.  This frame rate is not "
 "supported by all projectors.  You may want to consider changing your frame "
-"rate to %2 fps."
+"rate to {} fps."
 msgstr ""
 "Ви обрали для Interop DCP частоту кадрів, яка офіційно не підтримується. "
 "Радимо змінити частоту кадрів вашого DCP або замість цього зробити SMPTE DCP."
@@ -1942,7 +1942,7 @@ msgstr ""
 #: src/lib/hints.cc:126
 #, fuzzy
 msgid ""
-"You are using %1's stereo-to-5.1 upmixer.  This is experimental and may "
+"You are using {}'s stereo-to-5.1 upmixer.  This is experimental and may "
 "result in poor-quality audio.  If you continue, you should listen to the "
 "resulting DCP in a cinema to make sure that it sounds good."
 msgstr ""
@@ -1962,10 +1962,10 @@ msgstr ""
 
 #: src/lib/hints.cc:307
 msgid ""
-"You have %1 files that look like they are VOB files from DVD. You should "
+"You have {} files that look like they are VOB files from DVD. You should "
 "join them to ensure smooth joins between the files."
 msgstr ""
-"У вас %1 файлів, які схожі на VOB-файли з DVD. Вам необхідно об'єднати "
+"У вас {} файлів, які схожі на VOB-файли з DVD. Вам необхідно об'єднати "
 "(приєднати) їх, щоб гарантувати гладке з'єднання між файлами."
 
 #: src/lib/film.cc:1665
@@ -1994,7 +1994,7 @@ msgstr "Вам необхідно додати контент в DCP перед 
 
 #: src/lib/hints.cc:770
 msgid ""
-"Your DCP has %1 audio channels, rather than 8 or 16.  This may cause some "
+"Your DCP has {} audio channels, rather than 8 or 16.  This may cause some "
 "distributors to raise QC errors when they check your DCP.  To avoid this, "
 "set the DCP audio channels to 8 or 16."
 msgstr ""
@@ -2003,7 +2003,7 @@ msgstr ""
 msgid ""
 "Your DCP has fewer than 6 audio channels.  This may cause problems on some "
 "projectors.  You may want to set the DCP to have 6 channels.  It does not "
-"matter if your content has fewer channels, as %1 will fill the extras with "
+"matter if your content has fewer channels, as {} will fill the extras with "
 "silence."
 msgstr ""
 
@@ -2019,10 +2019,10 @@ msgstr ""
 
 #: src/lib/hints.cc:357
 msgid ""
-"Your audio level is very high (on %1).  You should reduce the gain of your "
+"Your audio level is very high (on {}).  You should reduce the gain of your "
 "audio content."
 msgstr ""
-"Рівень вашого аудіо занадто високий (на %1). Вам варто знизити рівень "
+"Рівень вашого аудіо занадто високий (на {}). Вам варто знизити рівень "
 "гучності вашого аудіо-контенту."
 
 #: src/lib/playlist.cc:236
@@ -2053,10 +2053,10 @@ msgstr "[статичний]"
 msgid "[subtitles]"
 msgstr "[субтитри]"
 
-#. TRANSLATORS: _reel%1 here is to be added to an export filename to indicate
-#. which reel it is.  Preserve the %1; it will be replaced with the reel number.
+#. TRANSLATORS: _reel{} here is to be added to an export filename to indicate
+#. which reel it is.  Preserve the {}; it will be replaced with the reel number.
 #: src/lib/ffmpeg_film_encoder.cc:152
-msgid "_reel%1"
+msgid "_reel{}"
 msgstr ""
 
 #: src/lib/audio_content.cc:306
@@ -2076,8 +2076,8 @@ msgid "content type"
 msgstr "тип контенту"
 
 #: src/lib/uploader.cc:79
-msgid "copying %1"
-msgstr "копіювання %1"
+msgid "copying {}"
+msgstr "копіювання {}"
 
 #: src/lib/ffmpeg.cc:119
 msgid "could not find stream information"
@@ -2085,52 +2085,52 @@ msgstr "не вдалося знайти інформацію про поток"
 
 #: src/lib/reel_writer.cc:404
 #, fuzzy
-msgid "could not move atmos asset into the DCP (%1)"
-msgstr "не вдалося перемістити аудіо в DCP-пакет (%1)"
+msgid "could not move atmos asset into the DCP ({})"
+msgstr "не вдалося перемістити аудіо в DCP-пакет ({})"
 
 #: src/lib/reel_writer.cc:387
-msgid "could not move audio asset into the DCP (%1)"
-msgstr "не вдалося перемістити аудіо в DCP-пакет (%1)"
+msgid "could not move audio asset into the DCP ({})"
+msgstr "не вдалося перемістити аудіо в DCP-пакет ({})"
 
 #: src/lib/exceptions.cc:39
 #, fuzzy
-msgid "could not open file %1 for read (%2)"
-msgstr "не вдалося відкрити файл %1 для читання (%2)"
+msgid "could not open file {} for read ({})"
+msgstr "не вдалося відкрити файл {} для читання ({})"
 
 #: src/lib/exceptions.cc:38
 #, fuzzy
-msgid "could not open file %1 for read/write (%2)"
-msgstr "не вдалося відкрити файл %1 для читання (%2)"
+msgid "could not open file {} for read/write ({})"
+msgstr "не вдалося відкрити файл {} для читання ({})"
 
 #: src/lib/exceptions.cc:39
 #, fuzzy
-msgid "could not open file %1 for write (%2)"
-msgstr "не вдалося відкрити файл %1 для запису (%2)"
+msgid "could not open file {} for write ({})"
+msgstr "не вдалося відкрити файл {} для запису ({})"
 
 #: src/lib/exceptions.cc:58
-msgid "could not read from file %1 (%2)"
-msgstr "не вдалося прочитати з файла %1 (%2)"
+msgid "could not read from file {} ({})"
+msgstr "не вдалося прочитати з файла {} ({})"
 
 #: src/lib/exceptions.cc:65
-msgid "could not write to file %1 (%2)"
-msgstr "не вдалося записати в файл %1 (%2)"
+msgid "could not write to file {} ({})"
+msgstr "не вдалося записати в файл {} ({})"
 
 #: src/lib/dcpomatic_socket.cc:109
-msgid "error during async_connect (%1)"
-msgstr "помилка під час async_connect (%1)"
+msgid "error during async_connect ({})"
+msgstr "помилка під час async_connect ({})"
 
 #: src/lib/dcpomatic_socket.cc:79
 #, fuzzy
-msgid "error during async_connect: (%1)"
-msgstr "помилка під час async_connect (%1)"
+msgid "error during async_connect: ({})"
+msgstr "помилка під час async_connect ({})"
 
 #: src/lib/dcpomatic_socket.cc:201
-msgid "error during async_read (%1)"
-msgstr "помилка під час async_read (%1)"
+msgid "error during async_read ({})"
+msgstr "помилка під час async_read ({})"
 
 #: src/lib/dcpomatic_socket.cc:160
-msgid "error during async_write (%1)"
-msgstr "помилка під час async_write (%1)"
+msgid "error during async_write ({})"
+msgstr "помилка під час async_write ({})"
 
 #: src/lib/content.cc:472 src/lib/content.cc:481
 msgid "frames per second"
@@ -2150,7 +2150,7 @@ msgstr "частота кадрів проекту відрізняється в
 #: src/lib/dcp_content.cc:753
 msgid ""
 "it has a different number of audio channels than the project; set the "
-"project to have %1 channels."
+"project to have {} channels."
 msgstr ""
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
@@ -2302,11 +2302,11 @@ msgstr "відеокадри"
 #~ msgid "Content to be joined must have the same audio language."
 #~ msgstr "Для приєднання контенту має бути таке саме посилення аудіо."
 
-#~ msgid "Could not start SCP session (%1)"
-#~ msgstr "Не вдалося запустити SCP-сесію (%1)"
+#~ msgid "Could not start SCP session ({})"
+#~ msgstr "Не вдалося запустити SCP-сесію ({})"
 
-#~ msgid "could not start SCP session (%1)"
-#~ msgstr "не вдалося запустити SCP-сесію (%1)"
+#~ msgid "could not start SCP session ({})"
+#~ msgstr "не вдалося запустити SCP-сесію ({})"
 
 #~ msgid "could not start SSH session"
 #~ msgstr "не вдалося запустити SSH-сесію"
@@ -2364,17 +2364,17 @@ msgstr "відеокадри"
 
 #, fuzzy
 #~ msgid "Could not write whole file"
-#~ msgstr "Не вдалося записати в віддалений файл (%1)"
+#~ msgstr "Не вдалося записати в віддалений файл ({})"
 
 #, fuzzy
-#~ msgid "Could not decode image file %1 (%2)"
-#~ msgstr "Не вдалося декодувати зображення (%1)"
+#~ msgid "Could not decode image file {} ({})"
+#~ msgstr "Не вдалося декодувати зображення ({})"
 
 #~ msgid "it overlaps other subtitle content; remove the other content."
 #~ msgstr "перекриває інші субтитри; приберіть інші субтитри."
 
 #~ msgid ""
-#~ "The DCP %1 was being referred to by this film.  This not now possible "
+#~ "The DCP {} was being referred to by this film.  This not now possible "
 #~ "because the reel sizes in the film no longer agree with those in the "
 #~ "imported DCP.\n"
 #~ "\n"
@@ -2383,7 +2383,7 @@ msgstr "відеокадри"
 #~ "After doing that you would need to re-tick the appropriate 'refer to "
 #~ "existing DCP' checkboxes."
 #~ msgstr ""
-#~ "Проект посилався на DCP %1. Тепер це неможливо, тому що розміри бобін у "
+#~ "Проект посилався на DCP {}. Тепер це неможливо, тому що розміри бобін у "
 #~ "проекті більше не відповідають розмірам бобін імпортованого DCP.\n"
 #~ "\n"
 #~ "Установка режима бобіни \"розділяти по відео-контенту\" можливо допоможе "
@@ -2405,10 +2405,10 @@ msgstr "відеокадри"
 #~ msgstr "4:3"
 
 #~ msgid ""
-#~ "Your DCP frame rate (%1 fps) may cause problems in a few (mostly older) "
+#~ "Your DCP frame rate ({} fps) may cause problems in a few (mostly older) "
 #~ "projectors.  Use 24 or 48 frames per second to be on the safe side."
 #~ msgstr ""
-#~ "Частота кадрів вашого DCP (%1 fps) може викликати проблеми на деяких (в "
+#~ "Частота кадрів вашого DCP ({} fps) може викликати проблеми на деяких (в "
 #~ "основному старих) проекторах. Використовуйте 24 або 48 кадрів в секунду "
 #~ "для повної впевненості."
 
@@ -2427,11 +2427,11 @@ msgstr "відеокадри"
 #~ msgstr ""
 #~ "KDM-ключ не розшифровує даний DCP. Можливо він призначений для іншого CPL."
 
-#~ msgid "could not create file %1"
-#~ msgstr "не вдалося створити файл %1"
+#~ msgid "could not create file {}"
+#~ msgstr "не вдалося створити файл {}"
 
-#~ msgid "could not open file %1"
-#~ msgstr "не вдалося відкрити файл %1"
+#~ msgid "could not open file {}"
+#~ msgstr "не вдалося відкрити файл {}"
 
 #~ msgid "Computing audio digest"
 #~ msgstr "Рендеринг аудіо"
@@ -2479,7 +2479,7 @@ msgstr "відеокадри"
 #~ msgid "could not run sample-rate converter"
 #~ msgstr "не удалось запустить конвертер частоты дискретизации"
 
-#~ msgid "could not run sample-rate converter for %1 samples (%2) (%3)"
+#~ msgid "could not run sample-rate converter for {} samples ({}) ({})"
 #~ msgstr ""
-#~ "не удалось запустить конвертер частоты дискретизации для %1 сэмплов (%2) "
-#~ "(%3)"
+#~ "не удалось запустить конвертер частоты дискретизации для {} сэмплов ({}) "
+#~ "({})"

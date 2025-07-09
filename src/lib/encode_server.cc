@@ -167,7 +167,7 @@ EncodeServer::process (shared_ptr<Socket> socket, struct timeval& after_read, st
 		socket->write (encoded.data(), encoded.size());
 	} catch (std::exception& e) {
 		cerr << "Send failed; frame " << dcp_video_frame.index() << "\n";
-		LOG_ERROR ("Send failed; frame %1", dcp_video_frame.index());
+		LOG_ERROR ("Send failed; frame {}", dcp_video_frame.index());
 		throw;
 	}
 
@@ -210,7 +210,7 @@ EncodeServer::worker_thread ()
 			ip = socket->socket().remote_endpoint().address().to_string();
 		} catch (std::exception& e) {
 			cerr << "Error: " << e.what() << "\n";
-			LOG_ERROR ("Error: %1", e.what());
+			LOG_ERROR ("Error: {}", e.what());
 		}
 
 		gettimeofday (&end, 0);
@@ -245,7 +245,7 @@ EncodeServer::worker_thread ()
 void
 EncodeServer::run ()
 {
-	LOG_GENERAL ("Server %1 (%2) starting with %3 threads", dcpomatic_version, dcpomatic_git_commit, _num_threads);
+	LOG_GENERAL ("Server {} ({}) starting with {} threads", dcpomatic_version, dcpomatic_git_commit, _num_threads);
 	if (_verbose) {
 		cout << variant::dcpomatic_encode_server() << " starting with " << _num_threads << " threads.\n";
 	}

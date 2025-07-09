@@ -69,7 +69,7 @@ BOOST_AUTO_TEST_CASE (image_filename_sorter_test2)
 {
 	vector<boost::filesystem::path> paths;
 	for (int i = 0; i < 100000; ++i) {
-		paths.push_back(String::compose("some.filename.with.%1.number.tiff", i));
+		paths.push_back(fmt::format("some.filename.with.{}.number.tiff", i));
 	}
 
 	std::random_device rd;
@@ -78,6 +78,6 @@ BOOST_AUTO_TEST_CASE (image_filename_sorter_test2)
 
 	sort (paths.begin(), paths.end(), ImageFilenameSorter());
 	for (int i = 0; i < 100000; ++i) {
-		BOOST_CHECK_EQUAL(paths[i].string(), String::compose("some.filename.with.%1.number.tiff", i));
+		BOOST_CHECK_EQUAL(paths[i].string(), fmt::format("some.filename.with.{}.number.tiff", i));
 	}
 }

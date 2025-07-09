@@ -94,12 +94,12 @@ CurlUploader::upload_file(boost::filesystem::path from, boost::filesystem::path 
 	curl_easy_setopt(
 		_curl, CURLOPT_URL,
 		/* Use generic_string so that we get forward-slashes in the path, even on Windows */
-		String::compose("ftp://%1/%2/%3", Config::instance()->tms_ip(), Config::instance()->tms_path(), to.generic_string()).c_str()
+		fmt::format("ftp://{}/{}/{}", Config::instance()->tms_ip(), Config::instance()->tms_path(), to.generic_string()).c_str()
 		);
 
 	dcp::File file(from, "rb");
 	if (!file) {
-		throw NetworkError(String::compose(_("Could not open %1 to send"), from.string()));
+		throw NetworkError(fmt::format(_("Could not open {} to send"), from.string()));
 	}
 	_file = file.get();
 	_transferred = &transferred;
@@ -107,7 +107,7 @@ CurlUploader::upload_file(boost::filesystem::path from, boost::filesystem::path 
 
 	auto const r = curl_easy_perform(_curl);
 	if (r != CURLE_OK) {
-		throw NetworkError(String::compose(_("Could not write to remote file (%1)"), curl_easy_strerror(r)));
+		throw NetworkError(fmt::format(_("Could not write to remote file ({})"), curl_easy_strerror(r)));
 	}
 
 	_file = nullptr;
@@ -133,7 +133,7 @@ int
 CurlUploader::debug(CURL *, curl_infotype type, char* data, size_t size)
 {
 	if (type == CURLINFO_TEXT && size > 0) {
-		LOG_GENERAL("CurlUploader: %1", string(data, size - 1));
+		LOG_GENERAL("CurlUploader: {}", string(data, size - 1));
 	}
 	return 0;
 }

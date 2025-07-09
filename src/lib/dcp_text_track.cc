@@ -51,7 +51,7 @@ DCPTextTrack::DCPTextTrack (string name_, optional<dcp::LanguageTag> language_)
 string
 DCPTextTrack::summary () const
 {
-	return String::compose("%1 (%2)", name, language ? language->as_string() : _("Unknown"));
+	return fmt::format("{} ({})", name, language ? language->as_string() : _("Unknown"));
 }
 
 void

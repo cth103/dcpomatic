@@ -254,7 +254,7 @@ ClosedCaptionsDialog::update_tracks (shared_ptr<const Film> film)
 
 	_track->Clear ();
 	for (auto const& i: _tracks) {
-		_track->Append(std_to_wx(String::compose("%1 (%2)", i.name, i.language ? i.language->as_string() : wx_to_std(_("Unknown")))));
+		_track->Append(std_to_wx(fmt::format("{} ({})", i.name, i.language ? i.language->as_string() : wx_to_std(_("Unknown")))));
 	}
 
 	if (_track->GetCount() > 0) {

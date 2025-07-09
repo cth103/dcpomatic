@@ -51,7 +51,7 @@ Resampler::Resampler (int in, int out, int channels)
 	int error;
 	_src = src_new (SRC_SINC_BEST_QUALITY, _channels, &error);
 	if (!_src) {
-		throw runtime_error (String::compose(N_("could not create sample-rate converter (%1)"), error));
+		throw runtime_error (fmt::format(N_("could not create sample-rate converter ({})"), error));
 	}
 }
 
@@ -73,7 +73,7 @@ Resampler::set_fast ()
 	int error;
 	_src = src_new (SRC_LINEAR, _channels, &error);
 	if (!_src) {
-		throw runtime_error (String::compose(N_("could not create sample-rate converter (%1)"), error));
+		throw runtime_error (fmt::format(N_("could not create sample-rate converter ({})"), error));
 	}
 }
 
@@ -119,8 +119,8 @@ Resampler::run (shared_ptr<const AudioBuffers> in)
 		int const r = src_process (_src, &data);
 		if (r) {
 			throw EncodeError (
-				String::compose (
-					N_("could not run sample-rate converter (%1) [processing %2 to %3, %4 channels]"),
+				fmt::format(
+					N_("could not run sample-rate converter ({}) [processing {} to {}, {} channels]"),
 					src_strerror (r),
 					in_frames,
 					max_resampled_frames,
@@ -174,7 +174,7 @@ Resampler::flush ()
 
 	int const r = src_process (_src, &data);
 	if (r) {
-		throw EncodeError (String::compose(N_("could not run sample-rate converter (%1)"), src_strerror(r)));
+		throw EncodeError (fmt::format(N_("could not run sample-rate converter ({})"), src_strerror(r)));
 	}
 
 	out->set_frames (out_offset + data.output_frames_gen);

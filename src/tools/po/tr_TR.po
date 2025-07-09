@@ -390,11 +390,11 @@ msgid "Could not load a DCP from %s"
 msgstr ""
 
 #: src/tools/dcpomatic_batch.cc:496
-msgid "Could not load film %1"
+msgid "Could not load film {}"
 msgstr ""
 
 #: src/tools/dcpomatic.cc:1735
-msgid "Could not load film %1 (%2)"
+msgid "Could not load film {} ({})"
 msgstr ""
 
 #: src/tools/dcpomatic_player.cc:1376
@@ -1054,7 +1054,7 @@ msgstr ""
 #: src/tools/dcpomatic_combiner.cc:165
 #, fuzzy
 msgid ""
-"The directory %1 already exists and is not empty.  Are you sure you want to "
+"The directory {} already exists and is not empty.  Are you sure you want to "
 "use it?"
 msgstr "Bitmemiş görevler var, çıkmak istediğinize emin misiniz?"
 

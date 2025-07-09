@@ -110,7 +110,7 @@ Hints::check_few_audio_channels()
 			variant::insert_dcpomatic(
 				_("Your DCP has fewer than 6 audio channels.  This may cause problems on some projectors.  "
 				  "You may want to set the DCP to have 6 channels.  It does not matter if your content has "
-				  "fewer channels, as %1 will fill the extras with silence.")
+				  "fewer channels, as {} will fill the extras with silence.")
 				)
 		    );
 	}
@@ -123,7 +123,7 @@ Hints::check_upmixers()
 	auto ap = film()->audio_processor();
 	if (ap && (ap->id() == "stereo-5.1-upmix-a" || ap->id() == "stereo-5.1-upmix-b")) {
 		hint(variant::insert_dcpomatic(
-				_("You are using %1's stereo-to-5.1 upmixer.  This is experimental and "
+				_("You are using {}'s stereo-to-5.1 upmixer.  This is experimental and "
 				  "may result in poor-quality audio.  If you continue, you should listen to the "
 				  "resulting DCP in a cinema to make sure that it sounds good.")
 				)
@@ -190,7 +190,7 @@ Hints::check_frame_rate()
 	case 25:
 	{
 		/* You might want to go to 24 */
-		string base = String::compose(_("You are set up for a DCP at a frame rate of %1 fps.  This frame rate is not supported by all projectors.  You may want to consider changing your frame rate to %2 fps."), 25, 24);
+		string base = fmt::format(_("You are set up for a DCP at a frame rate of {} fps.  This frame rate is not supported by all projectors.  You may want to consider changing your frame rate to {} fps."), 25, 24);
 		if (f->interop()) {
 			base += "  ";
 			base += _("If you do use 25fps you should change your DCP standard to SMPTE.");
@@ -206,7 +206,7 @@ Hints::check_frame_rate()
 	case 50:
 	case 60:
 		/* You almost certainly want to go to half frame rate */
-		hint(String::compose(_("You are set up for a DCP at a frame rate of %1 fps.  This frame rate is not supported by all projectors.  It is advisable to change the DCP frame rate to %2 fps."), f->video_frame_rate(), f->video_frame_rate() / 2));
+		hint(fmt::format(_("You are set up for a DCP at a frame rate of {} fps.  This frame rate is not supported by all projectors.  It is advisable to change the DCP frame rate to {} fps."), f->video_frame_rate(), f->video_frame_rate() / 2));
 		break;
 	}
 }
@@ -304,7 +304,7 @@ Hints::check_vob()
 	}
 
 	if (vob > 1) {
-		hint(String::compose(_("You have %1 files that look like they are VOB files from DVD. You should join them to ensure smooth joins between the files."), vob));
+		hint(fmt::format(_("You have {} files that look like they are VOB files from DVD. You should join them to ensure smooth joins between the files."), vob));
 	}
 }
 
@@ -353,8 +353,8 @@ Hints::check_loudness()
 		ch = ch.substr(0, ch.length() - 2);
 
 		if (!ch.empty()) {
-			hint(String::compose(
-					_("Your audio level is very high (on %1).  You should reduce the gain of your audio content."),
+			hint(fmt::format(
+					_("Your audio level is very high (on {}).  You should reduce the gain of your audio content."),
 					ch
 					)
 			     );
@@ -591,9 +591,9 @@ Hints::closed_caption(PlayerText text, DCPTimePeriod period)
 			if (!_long_ccap) {
 				_long_ccap = true;
 				hint(
-					String::compose(
-						"At least one of your closed caption lines has more than %1 characters.  "
-						"It is advisable to make each line %1 characters at most in length.",
+					fmt::format(
+						"At least one of your closed caption lines has more than {} characters.  "
+						"It is advisable to make each line {} characters at most in length.",
 						MAX_CLOSED_CAPTION_LENGTH,
 						MAX_CLOSED_CAPTION_LENGTH)
 				     );
@@ -602,7 +602,7 @@ Hints::closed_caption(PlayerText text, DCPTimePeriod period)
 	}
 
 	if (!_too_many_ccap_lines && lines > MAX_CLOSED_CAPTION_LINES) {
-		hint(String::compose(_("Some of your closed captions span more than %1 lines, so they will be truncated."), MAX_CLOSED_CAPTION_LINES));
+		hint(fmt::format(_("Some of your closed captions span more than {} lines, so they will be truncated."), MAX_CLOSED_CAPTION_LINES));
 		_too_many_ccap_lines = true;
 	}
 
@@ -741,7 +741,7 @@ Hints::check_certificates()
 	switch (*bad) {
 	case Config::BAD_SIGNER_UTF8_STRINGS:
 		hint(variant::insert_dcpomatic(
-				_("The certificate chain that %1 uses for signing DCPs and KDMs contains a small error "
+				_("The certificate chain that {} uses for signing DCPs and KDMs contains a small error "
 				  "which will prevent DCPs from being validated correctly on some systems.  It is advisable to "
 				  "re-create the signing certificate chain by clicking the \"Re-make certificates and key...\" "
 				  "button in the Keys page of Preferences.")
@@ -749,7 +749,7 @@ Hints::check_certificates()
 		break;
 	case Config::BAD_SIGNER_VALIDITY_TOO_LONG:
 		hint(variant::insert_dcpomatic(
-				_("The certificate chain that %1 uses for signing DCPs and KDMs has a validity period "
+				_("The certificate chain that {} uses for signing DCPs and KDMs has a validity period "
 				  "that is too long.  This will cause problems playing back DCPs on some systems. "
 				  "It is advisable to re-create the signing certificate chain by clicking the "
 				  "\"Re-make certificates and key...\" button in the Keys page of Preferences.")
@@ -767,7 +767,7 @@ Hints::check_8_or_16_audio_channels()
 {
 	auto const channels = film()->audio_channels();
 	if (film()->video_encoding() != VideoEncoding::MPEG2 && channels != 8 && channels != 16) {
-		hint(String::compose(_("Your DCP has %1 audio channels, rather than 8 or 16.  This may cause some distributors to raise QC errors when they check your DCP.  To avoid this, set the DCP audio channels to 8 or 16."), channels));
+		hint(fmt::format(_("Your DCP has {} audio channels, rather than 8 or 16.  This may cause some distributors to raise QC errors when they check your DCP.  To avoid this, set the DCP audio channels to 8 or 16."), channels));
 	}
 }
 

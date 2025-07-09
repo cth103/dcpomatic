@@ -1018,8 +1018,8 @@ msgstr "Kan DCP niet lezen: %s"
 
 #: src/wx/download_certificate_panel.cc:67
 #: src/wx/download_certificate_panel.cc:80
-msgid "Could not read certificate file (%1)"
-msgstr "Kan certificaat-bestand niet lezen (%1)"
+msgid "Could not read certificate file ({})"
+msgstr "Kan certificaat-bestand niet lezen ({})"
 
 #: src/wx/certificate_chain_editor.cc:195
 #: src/wx/certificate_chain_editor.cc:382 src/wx/recipient_dialog.cc:158
@@ -1964,8 +1964,8 @@ msgid "Length"
 msgstr "Lengte"
 
 #: src/wx/player_information.cc:182
-msgid "Length: %1 (%2 frames)"
-msgstr "Lengte: %1 (%2 frames)"
+msgid "Length: {} ({} frames)"
+msgstr "Lengte: {} ({} frames)"
 
 #: src/wx/text_panel.cc:104
 msgid "Line spacing"

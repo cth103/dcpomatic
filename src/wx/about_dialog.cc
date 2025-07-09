@@ -61,9 +61,9 @@ AboutDialog::AboutDialog(wxWindow* parent)
 
 	wxString s;
 	if (strcmp(dcpomatic_git_commit, "release") == 0) {
-		t = new StaticText(this, std_to_wx(String::compose("Version %1", dcpomatic_version)));
+		t = new StaticText(this, std_to_wx(fmt::format("Version {}", dcpomatic_version)));
 	} else {
-		t = new StaticText(this, std_to_wx(String::compose("Version %1 git %2", dcpomatic_version, dcpomatic_git_commit)));
+		t = new StaticText(this, std_to_wx(fmt::format("Version {} git {}", dcpomatic_version, dcpomatic_git_commit)));
 	}
 	t->SetFont(version_font);
 	sizer->Add(t, wxSizerFlags().Centre().Border(wxALL, 2));

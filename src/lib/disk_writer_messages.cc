@@ -72,24 +72,24 @@ DiskWriterBackEndResponse::write_to_nanomsg(Nanomsg& nanomsg, int timeout) const
 	switch (_type)
 	{
 		case Type::OK:
-			message = String::compose("%1\n", DISK_WRITER_OK);
+			message = fmt::format("{}\n", DISK_WRITER_OK);
 			break;
 		case Type::ERROR:
-			message = String::compose("%1\n%2\n%3\n%4\n", DISK_WRITER_ERROR, _error_message, _ext4_error_number, _platform_error_number);
+			message = fmt::format("{}\n{}\n{}\n{}\n", DISK_WRITER_ERROR, _error_message, _ext4_error_number, _platform_error_number);
 			break;
 		case Type::PONG:
-			message = String::compose("%1\n", DISK_WRITER_PONG);
+			message = fmt::format("{}\n", DISK_WRITER_PONG);
 			break;
 		case Type::FORMAT_PROGRESS:
-			message = String::compose("%1\n", DISK_WRITER_FORMAT_PROGRESS);
+			message = fmt::format("{}\n", DISK_WRITER_FORMAT_PROGRESS);
 			message += fmt::to_string(_progress) + "\n";
 			break;
 		case Type::COPY_PROGRESS:
-			message = String::compose("%1\n", DISK_WRITER_COPY_PROGRESS);
+			message = fmt::format("{}\n", DISK_WRITER_COPY_PROGRESS);
 			message += fmt::to_string(_progress) + "\n";
 			break;
 		case Type::VERIFY_PROGRESS:
-			message = String::compose("%1\n", DISK_WRITER_VERIFY_PROGRESS);
+			message = fmt::format("{}\n", DISK_WRITER_VERIFY_PROGRESS);
 			message += fmt::to_string(_progress) + "\n";
 			break;
 	}

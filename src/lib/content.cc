@@ -296,9 +296,9 @@ Content::clone() const
 string
 Content::technical_summary() const
 {
-	auto s = String::compose("%1 %2 %3", path_summary(), digest(), position().seconds());
+	auto s = fmt::format("{} {} {}", path_summary(), digest(), position().seconds());
 	if (_video_frame_rate) {
-		s += String::compose(" %1", *_video_frame_rate);
+		s += fmt::format(" {}", *_video_frame_rate);
 	}
 	return s;
 }
@@ -452,7 +452,7 @@ Content::add_properties(shared_ptr<const Film>, list<UserProperty>& p) const
 		}
 	}
 	if (paths_to_show < number_of_paths()) {
-		paths += String::compose("... and %1 more", number_of_paths() - paths_to_show);
+		paths += fmt::format("... and {} more", number_of_paths() - paths_to_show);
 	}
 	p.push_back(
 		UserProperty(

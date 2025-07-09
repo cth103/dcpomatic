@@ -72,7 +72,7 @@ TranscodeJob::~TranscodeJob ()
 string
 TranscodeJob::name () const
 {
-	return String::compose (_("Transcoding %1"), _film->name());
+	return fmt::format(_("Transcoding {}"), _film->name());
 }
 
 
@@ -113,7 +113,7 @@ TranscodeJob::run ()
 				set_progress (1);
 				set_error(
 					_("Files have changed since they were added to the project."),
-					variant::insert_dcpomatic(_("Open the project in %1, check the settings, then save it before trying again."))
+					variant::insert_dcpomatic(_("Open the project in {}, check the settings, then save it before trying again."))
 					);
 				set_state (FINISHED_ERROR);
 				return;
@@ -131,13 +131,13 @@ TranscodeJob::run ()
 		set_progress (1);
 		set_state (FINISHED_OK);
 
-		LOG_GENERAL(N_("Transcode job completed successfully: %1 fps"), dcp::locale_convert<string>(frames_per_second(), 2, true));
+		LOG_GENERAL(N_("Transcode job completed successfully: {} fps"), dcp::locale_convert<string>(frames_per_second(), 2, true));
 
 		if (variant::count_created_dcps() && dynamic_pointer_cast<DCPFilmEncoder>(_encoder)) {
 			try {
 				Analytics::instance()->successful_dcp_encode();
 			} catch (FileError& e) {
-				LOG_WARNING (N_("Failed to write analytics (%1)"), e.what());
+				LOG_WARNING (N_("Failed to write analytics ({})"), e.what());
 			}
 		}
 
@@ -177,10 +177,10 @@ TranscodeJob::status () const
 		return Job::status();
 	}
 
-	auto status = String::compose(_("%1; %2/%3 frames"), Job::status(), _encoder->frames_done(), _film->length().frames_round(_film->video_frame_rate()));
+	auto status = fmt::format(_("{}; {}/{} frames"), Job::status(), _encoder->frames_done(), _film->length().frames_round(_film->video_frame_rate()));
 	if (auto const fps = _encoder->current_rate()) {
 		/// TRANSLATORS: fps here is an abbreviation for frames per second
-		status += String::compose(_("; %1 fps"), dcp::locale_convert<string>(*fps, 1, true));
+		status += fmt::format(_("; {} fps"), dcp::locale_convert<string>(*fps, 1, true));
 	}
 
 	return status;

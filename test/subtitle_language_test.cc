@@ -60,7 +60,7 @@ BOOST_AUTO_TEST_CASE (subtitle_language_interop_test)
 		false
 		);
 
-	check_dcp(String::compose("test/data/%1", name), String::compose("build/test/%1/%2", name, film->dcp_name()));
+	check_dcp(fmt::format("test/data/{}", name), fmt::format("build/test/{}/{}", name, film->dcp_name()));
 }
 
 
@@ -87,7 +87,7 @@ BOOST_AUTO_TEST_CASE (subtitle_language_smpte_test)
 	 * differences in sound between the DCP and the reference to avoid test
 	 * failures for unrelated reasons.
 	 */
-	check_dcp(String::compose("test/data/%1", name), String::compose("build/test/%1/%2", name, film->dcp_name()), true);
+	check_dcp(fmt::format("test/data/{}", name), fmt::format("build/test/{}/{}", name, film->dcp_name()), true);
 }
 
 

@@ -55,7 +55,7 @@ using boost::optional;
 static void
 help(std::function<void (string)> out)
 {
-	out(String::compose("Syntax: %1 [OPTION} <cpl-file|ID> [<cpl-file|ID> ... ]", program_name));
+	out(fmt::format("Syntax: {} [OPTION} <cpl-file|ID> [<cpl-file|ID> ... ]", program_name));
 	out("  -V, --version    show libdcp version");
 	out("  -h, --help       show this help");
 	out("  -o, --output     output directory");
@@ -151,7 +151,7 @@ map_cli(int argc, char* argv[], std::function<void (string)> out)
 	}
 
 	if (dcp::filesystem::exists(*output_dir)) {
-		return String::compose("Output directory %1 already exists.", output_dir->string());
+		return fmt::format("Output directory {} already exists.", output_dir->string());
 	}
 
 	if (hard_link && soft_link) {
@@ -161,7 +161,7 @@ map_cli(int argc, char* argv[], std::function<void (string)> out)
 	boost::system::error_code ec;
 	dcp::filesystem::create_directory(*output_dir, ec);
 	if (ec) {
-		return String::compose("Could not create output directory %1: %2", output_dir->string(), ec.message());
+		return fmt::format("Could not create output directory {}: {}", output_dir->string(), ec.message());
 	}
 
 	/* Find all the assets in the asset directories.  This assumes that the asset directories are in fact
@@ -187,20 +187,20 @@ map_cli(int argc, char* argv[], std::function<void (string)> out)
 				cpl->resolve_refs(assets);
 				cpls.push_back(cpl);
 			} catch (std::exception& e) {
-				return String::compose("Could not read CPL %1: %2", filename_or_id, e.what());
+				return fmt::format("Could not read CPL {}: {}", filename_or_id, e.what());
 			}
 		} else {
 			auto cpl_iter = std::find_if(assets.begin(), assets.end(), [filename_or_id](shared_ptr<dcp::Asset> asset) {
 				return asset->id() == filename_or_id;
 			});
 			if (cpl_iter == assets.end()) {
-				return String::compose("Could not find CPL with ID %1", filename_or_id);
+				return fmt::format("Could not find CPL with ID {}", filename_or_id);
 			}
 			if (auto cpl = dynamic_pointer_cast<dcp::CPL>(*cpl_iter)) {
 				cpl->resolve_refs(assets);
 				cpls.push_back(cpl);
 			} else {
-				return String::compose("Could not find CPL with ID %1", filename_or_id);
+				return fmt::format("Could not find CPL with ID {}", filename_or_id);
 			}
 		}
 	}
@@ -225,17 +225,17 @@ map_cli(int argc, char* argv[], std::function<void (string)> out)
 		if (hard_link) {
 			dcp::filesystem::create_hard_link(input_path, output_path, ec);
 			if (ec) {
-				throw CopyError(String::compose("Could not hard-link asset %1: %2", input_path.string(), ec.message()));
+				throw CopyError(fmt::format("Could not hard-link asset {}: {}", input_path.string(), ec.message()));
 			}
 		} else if (soft_link) {
 			dcp::filesystem::create_symlink(input_path, output_path, ec);
 			if (ec) {
-				throw CopyError(String::compose("Could not soft-link asset %1: %2", input_path.string(), ec.message()));
+				throw CopyError(fmt::format("Could not soft-link asset {}: {}", input_path.string(), ec.message()));
 			}
 		} else {
 			dcp::filesystem::copy_file(input_path, output_path, ec);
 			if (ec) {
-				throw CopyError(String::compose("Could not copy asset %1: %2", input_path.string(), ec.message()));
+				throw CopyError(fmt::format("Could not copy asset {}: {}", input_path.string(), ec.message()));
 			}
 		}
 	};
@@ -263,7 +263,7 @@ map_cli(int argc, char* argv[], std::function<void (string)> out)
 			}
 
 			if (rename) {
-				output_path /= String::compose("%1%2", (*iter)->id(), dcp::filesystem::extension((*iter)->file().get()));
+				output_path /= fmt::format("{}{}", (*iter)->id(), dcp::filesystem::extension((*iter)->file().get()));
 				(*iter)->rename_file(output_path);
 			} else {
 				output_path /= (*iter)->file()->filename();
@@ -275,7 +275,7 @@ map_cli(int argc, char* argv[], std::function<void (string)> out)
 		} else {
 			boost::system::error_code ec;
 			dcp::filesystem::remove_all(*output_dir, ec);
-			throw CopyError(String::compose("Could not find required asset %1", asset_id));
+			throw CopyError(fmt::format("Could not find required asset {}", asset_id));
 		}
 	};
 
@@ -339,7 +339,7 @@ map_cli(int argc, char* argv[], std::function<void (string)> out)
 		dcp.set_issuer(Config::instance()->dcp_issuer());
 		dcp.write_xml(Config::instance()->signer_chain());
 	} catch (dcp::UnresolvedRefError& e) {
-		return String::compose("%1\nPerhaps you need to give a -d parameter to say where this asset is located.", e.what());
+		return fmt::format("{}\nPerhaps you need to give a -d parameter to say where this asset is located.", e.what());
 	}
 
 	return {};

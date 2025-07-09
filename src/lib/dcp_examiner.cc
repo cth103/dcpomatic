@@ -122,7 +122,7 @@ DCPExaminer::DCPExaminer(shared_ptr<const DCPContent> content, bool tolerant)
 	_name = selected_cpl->content_title_text();
 	_content_kind = selected_cpl->content_kind();
 
-	LOG_GENERAL("Selected CPL %1", _cpl);
+	LOG_GENERAL("Selected CPL {}", _cpl);
 
 	auto try_to_parse_language = [](optional<string> lang) -> boost::optional<dcp::LanguageTag> {
 		try {
@@ -133,11 +133,11 @@ DCPExaminer::DCPExaminer(shared_ptr<const DCPContent> content, bool tolerant)
 		return boost::none;
 	};
 
-	LOG_GENERAL("Looking at %1 reels", selected_cpl->reels().size());
+	LOG_GENERAL("Looking at {} reels", selected_cpl->reels().size());
 
 	int reel_index = 0;
 	for (auto reel: selected_cpl->reels()) {
-		LOG_GENERAL("Reel %1", reel->id());
+		LOG_GENERAL("Reel {}", reel->id());
 
 		if (reel->main_picture()) {
 			/* This will mean a VF can be displayed in the timeline even if its picture asset
@@ -147,10 +147,10 @@ DCPExaminer::DCPExaminer(shared_ptr<const DCPContent> content, bool tolerant)
 			_video_length += reel->main_picture()->actual_duration();
 
 			if (!reel->main_picture()->asset_ref().resolved()) {
-				LOG_GENERAL("Main picture %1 of reel %2 is missing", reel->main_picture()->id(), reel->id());
+				LOG_GENERAL("Main picture {} of reel {} is missing", reel->main_picture()->id(), reel->id());
 				_needs_assets = true;
 			} else {
-				LOG_GENERAL("Main picture %1 of reel %2 found", reel->main_picture()->id(), reel->id());
+				LOG_GENERAL("Main picture {} of reel {} found", reel->main_picture()->id(), reel->id());
 
 				auto const frac = reel->main_picture()->edit_rate();
 				float const fr = float(frac.numerator) / frac.denominator;
@@ -178,10 +178,10 @@ DCPExaminer::DCPExaminer(shared_ptr<const DCPContent> content, bool tolerant)
 			auto const edit_rate = reel->main_sound()->edit_rate();
 
 			if (!reel->main_sound()->asset_ref().resolved()) {
-				LOG_GENERAL("Main sound %1 of reel %2 is missing", reel->main_sound()->id(), reel->id());
+				LOG_GENERAL("Main sound {} of reel {} is missing", reel->main_sound()->id(), reel->id());
 				_needs_assets = true;
 			} else {
-				LOG_GENERAL("Main sound %1 of reel %2 found", reel->main_sound()->id(), reel->id());
+				LOG_GENERAL("Main sound {} of reel {} found", reel->main_sound()->id(), reel->id());
 
 				auto asset = reel->main_sound()->asset();
 
@@ -213,10 +213,10 @@ DCPExaminer::DCPExaminer(shared_ptr<const DCPContent> content, bool tolerant)
 					_has_non_zero_entry_point[type] = true;
 				}
 				if (!reel_asset->asset_ref().resolved()) {
-					LOG_GENERAL("Main %1 %2 of reel %3 is missing", name, reel_asset->id(), reel->id());
+					LOG_GENERAL("Main {} {} of reel {} is missing", name, reel_asset->id(), reel->id());
 					_needs_assets = true;
 				} else {
-					LOG_GENERAL("Main %1 %2 of reel %3 found", name, reel_asset->id(), reel->id());
+					LOG_GENERAL("Main {} {} of reel {} found", name, reel_asset->id(), reel->id());
 
 					_text_count[type] = 1;
 					language = try_to_parse_language(reel_asset->language());
@@ -255,10 +255,10 @@ DCPExaminer::DCPExaminer(shared_ptr<const DCPContent> content, bool tolerant)
 					_has_non_zero_entry_point[type] = true;
 				}
 				if (!text->asset_ref().resolved()) {
-					LOG_GENERAL("Closed %1 %2 of reel %3 is missing", name, text->id(), reel->id());
+					LOG_GENERAL("Closed {} {} of reel {} is missing", name, text->id(), reel->id());
 					_needs_assets = true;
 				} else {
-					LOG_GENERAL("Closed %1 %2 of reel %3 found", name, text->id(), reel->id());
+					LOG_GENERAL("Closed {} {} of reel {} found", name, text->id(), reel->id());
 
 					auto asset = text->asset();
 					for (auto const& font: asset->font_data()) {
@@ -316,7 +316,7 @@ DCPExaminer::DCPExaminer(shared_ptr<const DCPContent> content, bool tolerant)
 	 */
 	try {
 		for (auto i: selected_cpl->reels()) {
-			LOG_GENERAL("Reel %1", i->id());
+			LOG_GENERAL("Reel {}", i->id());
 			if (i->main_picture() && i->main_picture()->asset_ref().resolved()) {
 				auto pic = i->main_picture()->asset();
 				if (pic->encrypted() && !pic->key()) {
@@ -396,10 +396,10 @@ DCPExaminer::DCPExaminer(shared_ptr<const DCPContent> content, bool tolerant)
 		}
 	} catch (dcp::ReadError& e) {
 		_kdm_valid = false;
-		LOG_GENERAL("KDM is invalid: %1", e.what());
+		LOG_GENERAL("KDM is invalid: {}", e.what());
 	} catch (dcp::MiscError& e) {
 		_kdm_valid = false;
-		LOG_GENERAL("KDM is invalid: %1", e.what());
+		LOG_GENERAL("KDM is invalid: {}", e.what());
 	}
 
 	_standard = selected_cpl->standard();

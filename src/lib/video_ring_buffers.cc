@@ -89,7 +89,7 @@ VideoRingBuffers::memory_used() const
 	for (auto const& i: _data) {
 		m += i.first->memory_used();
 	}
-	return make_pair(m, String::compose("%1 frames", _data.size()));
+	return make_pair(m, fmt::format("{} frames", _data.size()));
 }
 
 

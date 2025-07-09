@@ -222,9 +222,9 @@ DCPDecoder::pass ()
 					);
 				}
 			} catch (dcp::MPEG2DecompressionError& e) {
-				LOG_ERROR("Failed to decompress MPEG video frame %1 (%2)", entry_point + frame, e.what());
+				LOG_ERROR("Failed to decompress MPEG video frame {} ({})", entry_point + frame, e.what());
 			} catch (dcp::ReadError& e) {
-				LOG_ERROR("Failed to read MPEG2 video frame %1 (%2)", entry_point + frame, e.what());
+				LOG_ERROR("Failed to read MPEG2 video frame {} ({})", entry_point + frame, e.what());
 			}
 		}
 	}

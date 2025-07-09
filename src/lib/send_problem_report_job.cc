@@ -69,7 +69,7 @@ SendProblemReportJob::name () const
 		return _("Email problem report");
 	}
 
-	return String::compose (_("Email problem report for %1"), _film->name());
+	return fmt::format(_("Email problem report for {}"), _film->name());
 }
 
 
@@ -109,7 +109,7 @@ SendProblemReportJob::run ()
 		body += "---<8----\n";
 	}
 
-	Email email(_from, {"report@dcpomatic.com"}, variant::insert_dcpomatic("%1 problem report"), body);
+	Email email(_from, {"report@dcpomatic.com"}, variant::insert_dcpomatic("{} problem report"), body);
 	email.send("main.carlh.net", 2525, EmailProtocol::STARTTLS);
 
 	set_progress (1);
