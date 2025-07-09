@@ -990,8 +990,8 @@ msgid ""
 "The DCP for this film will take up about %.1f GB, and the disk that you are "
 "using only has %.1f GB available.  Do you want to continue anyway?"
 msgstr ""
-"DCP dla tego Projektu zajmie około %1f GB, a na twoim dysku zostało już "
-"tylko %1f GB. Czy chcesz kontynuować?"
+"DCP dla tego Projektu zajmie około %.1f GB, a na twoim dysku zostało już "
+"tylko %.1f GB. Czy chcesz kontynuować?"
 
 #: src/tools/dcpomatic_batch.cc:249
 #, c-format
@@ -1000,8 +1000,8 @@ msgid ""
 "%.1f GB.  The disks that you are using only have %.1f GB available.  Do you "
 "want to add this film to the queue anyway?"
 msgstr ""
-"Paczki DCP dla tego Projektu i innych Projektów w kolejce zajmą około %1f "
-"GB. Twoje dyski mają dostępne jedynie %1f GB wolnego miejsca. Czy chcesz "
+"Paczki DCP dla tego Projektu i innych Projektów w kolejce zajmą około %.1f "
+"GB. Twoje dyski mają dostępne jedynie %.1f GB wolnego miejsca. Czy chcesz "
 "dodać ten Projekt do kolejki?"
 
 #: src/tools/dcpomatic_player.cc:374
