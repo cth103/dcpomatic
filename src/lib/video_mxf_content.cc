@@ -19,7 +19,6 @@
 */
 
 
-#include "compose.hpp"
 #include "film.h"
 #include "job.h"
 #include "video_content.h"

@@ -19,7 +19,6 @@
 */
 
 
-#include "compose.hpp"
 #include "constants.h"
 #include "dcpomatic_assert.h"
 #include "font_id_allocator.h"

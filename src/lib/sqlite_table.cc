@@ -20,7 +20,6 @@
 
 
 #include "dcpomatic_assert.h"
-#include "compose.hpp"
 #include "sqlite_table.h"
 #include "util.h"
 

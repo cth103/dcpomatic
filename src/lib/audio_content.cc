@@ -20,7 +20,6 @@
 
 
 #include "audio_content.h"
-#include "compose.hpp"
 #include "config.h"
 #include "constants.h"
 #include "exceptions.h"

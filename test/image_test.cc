@@ -26,7 +26,6 @@
  */
 
 
-#include "lib/compose.hpp"
 #include "lib/image.h"
 #include "lib/image_content.h"
 #include "lib/image_decoder.h"

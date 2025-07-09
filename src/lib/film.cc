@@ -30,7 +30,6 @@
 #include "audio_processor.h"
 #include "change_signaller.h"
 #include "cinema.h"
-#include "compose.hpp"
 #include "config.h"
 #include "constants.h"
 #include "cross.h"

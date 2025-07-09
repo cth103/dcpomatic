@@ -24,7 +24,6 @@
 #include "audio_content.h"
 #include "audio_decoder.h"
 #include "audio_processor.h"
-#include "compose.hpp"
 #include "config.h"
 #include "content_audio.h"
 #include "content_video.h"

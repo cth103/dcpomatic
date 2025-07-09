@@ -62,7 +62,6 @@
 #include "lib/audio_content.h"
 #include "lib/check_content_job.h"
 #include "lib/cinema.h"
-#include "lib/compose.hpp"
 #include "lib/config.h"
 #include "lib/constants.h"
 #include "lib/content.h"

@@ -28,7 +28,6 @@
 
 
 #include "audio_decoder.h"
-#include "compose.hpp"
 #include "dcp_film_encoder.h"
 #include "film.h"
 #include "j2k_encoder.h"

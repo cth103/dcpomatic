@@ -25,7 +25,6 @@
  */
 
 
-#include "lib/compose.hpp"
 #include "lib/config.h"
 #include "lib/dcp_content_type.h"
 #include "lib/film.h"

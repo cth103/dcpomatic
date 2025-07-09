@@ -29,7 +29,6 @@
 #include "audio_buffers.h"
 #include "audio_processor.h"
 #include "cinema_sound_processor.h"
-#include "compose.hpp"
 #include "config.h"
 #include "constants.h"
 #include "cross.h"

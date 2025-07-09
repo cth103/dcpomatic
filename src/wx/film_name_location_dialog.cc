@@ -26,7 +26,6 @@
 #ifdef DCPOMATIC_USE_OWN_PICKER
 #include "dir_picker_ctrl.h"
 #endif
-#include "lib/compose.hpp"
 #include "lib/config.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS

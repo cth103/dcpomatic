@@ -21,7 +21,6 @@
 
 #include "cinema_list.h"
 #include "colour_conversion.h"
-#include "compose.hpp"
 #include "config.h"
 #include "constants.h"
 #include "cross.h"

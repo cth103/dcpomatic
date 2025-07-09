@@ -20,7 +20,6 @@
 
 
 #include "log.h"
-#include "compose.hpp"
 #include <fmt/format.h>
 
 

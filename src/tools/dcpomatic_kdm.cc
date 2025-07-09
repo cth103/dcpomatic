@@ -42,7 +42,6 @@
 #include "wx/wx_variant.h"
 #include "lib/cinema.h"
 #include "lib/collator.h"
-#include "lib/compose.hpp"
 #include "lib/constants.h"
 #include "lib/config.h"
 #include "lib/cross.h"

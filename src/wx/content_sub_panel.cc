@@ -23,7 +23,6 @@
 #include "content_panel.h"
 #include "wx_util.h"
 #include "lib/dcp_content.h"
-#include "lib/compose.hpp"
 #include "lib/log.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS

@@ -25,7 +25,6 @@
 
 
 #include "analytics.h"
-#include "compose.hpp"
 #include "content.h"
 #include "config.h"
 #include "dcp_film_encoder.h"

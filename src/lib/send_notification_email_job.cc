@@ -23,7 +23,6 @@
 #include "exceptions.h"
 #include "config.h"
 #include "email.h"
-#include "compose.hpp"
 
 #include "i18n.h"
 

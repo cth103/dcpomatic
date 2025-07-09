@@ -24,7 +24,6 @@
  */
 
 
-#include "compose.hpp"
 #include "config.h"
 #include "cross.h"
 #include "dcp_video.h"

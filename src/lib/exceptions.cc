@@ -19,7 +19,6 @@
 */
 
 
-#include "compose.hpp"
 #include "exceptions.h"
 #include "sqlite_database.h"
 

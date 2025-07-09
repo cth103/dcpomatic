@@ -21,7 +21,6 @@
 
 #include "dcp_subtitle.h"
 #include "exceptions.h"
-#include "compose.hpp"
 #include <dcp/interop_text_asset.h>
 #include <dcp/smpte_text_asset.h>
 #include <memory>

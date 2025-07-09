@@ -20,7 +20,6 @@
 
 
 #include "butler.h"
-#include "compose.hpp"
 #include "cross.h"
 #include "dcpomatic_log.h"
 #include "exceptions.h"

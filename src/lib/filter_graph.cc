@@ -28,7 +28,6 @@
 #include "filter.h"
 #include "exceptions.h"
 #include "image.h"
-#include "compose.hpp"
 extern "C" {
 #include <libavfilter/buffersrc.h>
 #include <libavfilter/buffersink.h>

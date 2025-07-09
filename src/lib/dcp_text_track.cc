@@ -20,7 +20,6 @@
 
 
 #include "dcp_text_track.h"
-#include "compose.hpp"
 #include <fmt/format.h>
 #include <string>
 

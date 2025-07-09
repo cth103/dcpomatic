@@ -28,7 +28,6 @@
 #include "lib/audio_buffers.h"
 #include "lib/audio_content.h"
 #include "lib/butler.h"
-#include "lib/compose.hpp"
 #include "lib/config.h"
 #include "lib/constants.h"
 #include "lib/content_factory.h"

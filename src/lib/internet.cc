@@ -19,7 +19,6 @@
 */
 
 
-#include "compose.hpp"
 #include "cross.h"
 #include "exceptions.h"
 #include "scoped_temporary.h"

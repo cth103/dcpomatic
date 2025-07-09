@@ -22,7 +22,6 @@
 #include "download_certificate_dialog.h"
 #include "wx_util.h"
 #include "lib/internet.h"
-#include "lib/compose.hpp"
 #include "lib/config.h"
 
 using std::string;

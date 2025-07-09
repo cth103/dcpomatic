@@ -22,7 +22,6 @@
 #include "download_certificate_dialog.h"
 #include "download_certificate_panel.h"
 #include "wx_util.h"
-#include "lib/compose.hpp"
 #include "lib/signal_manager.h"
 #include <dcp/certificate_chain.h>
 #include <dcp/exceptions.h>

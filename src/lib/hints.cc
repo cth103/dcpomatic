@@ -22,7 +22,6 @@
 #include "audio_analysis.h"
 #include "audio_content.h"
 #include "audio_processor.h"
-#include "compose.hpp"
 #include "config.h"
 #include "constants.h"
 #include "content.h"

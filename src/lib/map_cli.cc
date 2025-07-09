@@ -19,7 +19,6 @@
 */
 
 
-#include "compose.hpp"
 #include "config.h"
 #include "util.h"
 #include <dcp/cpl.h>

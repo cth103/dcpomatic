@@ -19,7 +19,6 @@
 */
 
 
-#include "compose.hpp"
 #include "film.h"
 #include "kdm_with_metadata.h"
 #include "send_kdm_email_job.h"

@@ -39,7 +39,6 @@
 #include "string_text_file_content.h"
 #include "util.h"
 #include "video_mxf_content.h"
-#include "compose.hpp"
 #include <libcxml/cxml.h>
 #include <dcp/filesystem.h>
 #include <dcp/smpte_text_asset.h>

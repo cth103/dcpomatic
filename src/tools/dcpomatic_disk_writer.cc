@@ -19,7 +19,6 @@
 */
 
 
-#include "lib/compose.hpp"
 #include "lib/cross.h"
 #include "lib/dcpomatic_log.h"
 #include "lib/digester.h"

@@ -20,7 +20,6 @@
 
 
 #include "combine_dcp_job.h"
-#include "compose.hpp"
 #include "config.h"
 #include <dcp/combine.h>
 #include <dcp/exceptions.h>

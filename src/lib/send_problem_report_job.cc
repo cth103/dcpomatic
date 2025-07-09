@@ -19,7 +19,6 @@
 */
 
 
-#include "compose.hpp"
 #include "cross.h"
 #include "email.h"
 #include "environment_info.h"

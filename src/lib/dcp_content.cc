@@ -21,7 +21,6 @@
 
 #include "atmos_content.h"
 #include "audio_content.h"
-#include "compose.hpp"
 #include "config.h"
 #include "dcp_content.h"
 #include "dcp_decoder.h"

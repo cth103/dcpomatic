@@ -27,7 +27,6 @@
 #include "audio_buffers.h"
 #include "audio_content.h"
 #include "audio_decoder.h"
-#include "compose.hpp"
 #include "dcpomatic_log.h"
 #include "exceptions.h"
 #include "ffmpeg_audio_stream.h"

@@ -20,7 +20,6 @@
 
 
 #include "audio_content.h"
-#include "compose.hpp"
 #include "config.h"
 #include "content_factory.h"
 #include "create_cli.h"

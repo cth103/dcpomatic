@@ -21,7 +21,6 @@
 
 #include "uploader.h"
 #include "dcpomatic_assert.h"
-#include "compose.hpp"
 #include <memory>
 
 #include "i18n.h"

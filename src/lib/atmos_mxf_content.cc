@@ -21,7 +21,6 @@
 
 #include "atmos_content.h"
 #include "atmos_mxf_content.h"
-#include "compose.hpp"
 #include "film.h"
 #include "job.h"
 #include <asdcp/KM_log.h>

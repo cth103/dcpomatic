@@ -20,7 +20,6 @@
 
 
 #include "cross.h"
-#include "compose.hpp"
 #include "dcpomatic_assert.h"
 #include "dcpomatic_log.h"
 #include <dcp/warnings.h>

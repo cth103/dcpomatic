@@ -21,7 +21,6 @@
 
 #include "audio_buffers.h"
 #include "audio_filter_graph.h"
-#include "compose.hpp"
 #include "dcpomatic_assert.h"
 #include "exceptions.h"
 extern "C" {

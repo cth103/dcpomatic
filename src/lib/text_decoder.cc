@@ -19,7 +19,6 @@
 */
 
 
-#include "compose.hpp"
 #include "dcpomatic_log.h"
 #include "log.h"
 #include "text_content.h"

@@ -19,7 +19,6 @@
 */
 
 
-#include "compose.hpp"
 #include "config.h"
 #include "dcpomatic_log.h"
 #include "email.h"

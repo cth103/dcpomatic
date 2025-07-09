@@ -19,7 +19,6 @@
 */
 
 
-#include "compose.hpp"
 #include <string>
 
 

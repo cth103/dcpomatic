@@ -19,7 +19,6 @@
 */
 
 
-#include "compose.hpp"
 #include "cross.h"
 #include "log.h"
 #include "variant.h"

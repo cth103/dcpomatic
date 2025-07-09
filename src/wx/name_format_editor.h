@@ -23,7 +23,6 @@
 #define DCPOMATIC_NAME_FORMAT_EDITOR_H
 
 
-#include "lib/compose.hpp"
 #include <dcp/name_format.h>
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS

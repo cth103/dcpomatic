@@ -19,7 +19,6 @@
 */
 
 
-#include "compose.hpp"
 #include "dcpomatic_assert.h"
 #include "dcpomatic_log.h"
 #include "dcpomatic_socket.h"

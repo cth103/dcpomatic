@@ -28,7 +28,6 @@
 #include "log.h"
 #include "player.h"
 #include "player_video.h"
-#include "compose.hpp"
 #include <iostream>
 
 #include "i18n.h"

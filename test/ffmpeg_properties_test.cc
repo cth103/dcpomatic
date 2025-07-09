@@ -19,7 +19,6 @@
 */
 
 
-#include "lib/compose.hpp"
 #include "lib/content.h"
 #include "lib/content_factory.h"
 #include "lib/user_property.h"

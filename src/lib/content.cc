@@ -26,7 +26,6 @@
 
 #include "audio_content.h"
 #include "change_signaller.h"
-#include "compose.hpp"
 #include "content.h"
 #include "content_factory.h"
 #include "exceptions.h"

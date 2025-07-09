@@ -25,7 +25,6 @@
 #include "dcpomatic_log.h"
 #include "log.h"
 #include "resampler.h"
-#include "compose.hpp"
 #include <iostream>
 
 #include "i18n.h"

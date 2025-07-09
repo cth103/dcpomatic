@@ -24,7 +24,6 @@
  */
 
 
-#include "compose.hpp"
 #include "config.h"
 #include "curl_uploader.h"
 #include "dcpomatic_log.h"

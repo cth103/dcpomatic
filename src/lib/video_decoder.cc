@@ -19,7 +19,6 @@
 */
 
 
-#include "compose.hpp"
 #include "frame_interval_checker.h"
 #include "image.h"
 #include "j2k_image_proxy.h"

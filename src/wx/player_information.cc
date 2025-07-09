@@ -23,7 +23,6 @@
 #include "wx_util.h"
 #include "film_viewer.h"
 #include "lib/playlist.h"
-#include "lib/compose.hpp"
 #include "lib/video_content.h"
 #include "lib/audio_content.h"
 #include "lib/dcp_content.h"

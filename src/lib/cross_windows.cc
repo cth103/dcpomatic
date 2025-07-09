@@ -22,7 +22,6 @@
 #define UNICODE 1
 
 #include "cross.h"
-#include "compose.hpp"
 #include "log.h"
 #include "dcpomatic_log.h"
 #include "config.h"

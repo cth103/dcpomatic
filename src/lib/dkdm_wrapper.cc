@@ -19,7 +19,6 @@
 */
 
 
-#include "compose.hpp"
 #include "dkdm_wrapper.h"
 #include "dcpomatic_assert.h"
 #include <dcp/warnings.h>

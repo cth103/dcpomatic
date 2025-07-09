@@ -19,7 +19,6 @@
 */
 
 
-#include "compose.hpp"
 #include "config.h"
 #include "cross.h"
 #include "dcpomatic_log.h"

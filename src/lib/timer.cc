@@ -24,7 +24,6 @@
  */
 
 
-#include "compose.hpp"
 #include "timer.h"
 #include "util.h"
 #include <sys/time.h>

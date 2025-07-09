@@ -28,7 +28,6 @@
 #define DCPOMATIC_EXCEPTIONS_H
 
 
-#include "compose.hpp"
 extern "C" {
 #include <libavutil/pixfmt.h>
 }

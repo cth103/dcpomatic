@@ -38,7 +38,6 @@
 #include "wx/wx_signal_manager.h"
 #include "wx/wx_util.h"
 #include "wx/wx_variant.h"
-#include "lib/compose.hpp"
 #include "lib/config.h"
 #include "lib/constants.h"
 #include "lib/cross.h"

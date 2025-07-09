@@ -22,7 +22,6 @@
 #include "resampler.h"
 #include "audio_buffers.h"
 #include "exceptions.h"
-#include "compose.hpp"
 #include "dcpomatic_assert.h"
 #include <samplerate.h>
 #include <iostream>

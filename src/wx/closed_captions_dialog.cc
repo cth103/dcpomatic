@@ -23,7 +23,6 @@
 #include "film_viewer.h"
 #include "wx_util.h"
 #include "lib/butler.h"
-#include "lib/compose.hpp"
 #include "lib/constants.h"
 #include "lib/film.h"
 #include "lib/string_text.h"

@@ -24,7 +24,6 @@
  */
 
 
-#include "compose.hpp"
 #include "dcpomatic_assert.h"
 #include "dcpomatic_socket.h"
 #include "enum_indexed_vector.h"

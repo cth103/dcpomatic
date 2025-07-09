@@ -34,7 +34,6 @@
 #include "wx_variant.h"
 #include "lib/audio_content.h"
 #include "lib/case_insensitive_sorter.h"
-#include "lib/compose.hpp"
 #include "lib/config.h"
 #include "lib/content_factory.h"
 #include "lib/cross.h"

@@ -24,7 +24,6 @@
 #include "job.h"
 #include "config.h"
 #include "cross.h"
-#include "compose.hpp"
 #include <dcp/file.h>
 #include <dcp/filesystem.h>
 #include <dcp/warnings.h>

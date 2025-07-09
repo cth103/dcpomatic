@@ -20,7 +20,6 @@
 
 
 #include "colour_conversion.h"
-#include "compose.hpp"
 #include "config.h"
 #include "content.h"
 #include "dcpomatic_log.h"

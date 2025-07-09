@@ -19,7 +19,6 @@
 */
 
 
-#include "compose.hpp"
 #include "copy_to_drive_job.h"
 #include "dcpomatic_log.h"
 #include "disk_writer_messages.h"

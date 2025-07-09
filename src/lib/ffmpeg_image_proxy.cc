@@ -19,7 +19,6 @@
 */
 
 
-#include "compose.hpp"
 #include "cross.h"
 #include "dcpomatic_assert.h"
 #include "dcpomatic_socket.h"

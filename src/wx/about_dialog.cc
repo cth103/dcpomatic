@@ -27,7 +27,6 @@
 #include "static_text.h"
 #include "wx_util.h"
 #include "wx_variant.h"
-#include "lib/compose.hpp"
 #include "lib/variant.h"
 #include "lib/version.h"
 #include <dcp/warnings.h>

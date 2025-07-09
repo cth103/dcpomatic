@@ -24,7 +24,6 @@
  */
 
 
-#include "compose.hpp"
 #include "cross.h"
 #include "dcpomatic_assert.h"
 #include "exceptions.h"
