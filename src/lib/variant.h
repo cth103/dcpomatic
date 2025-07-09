@@ -20,6 +20,7 @@
 
 
 #include "compose.hpp"
+#include <string>
 
 
 namespace variant

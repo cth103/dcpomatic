@@ -22,6 +22,7 @@
 #include "dcpomatic_assert.h"
 #include "exceptions.h"
 #include "unzipper.h"
+#include <dcp/array_data.h>
 #include <dcp/filesystem.h>
 #include <dcp/scope_guard.h>
 #include <zip.h>
