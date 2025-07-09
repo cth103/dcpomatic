@@ -276,7 +276,7 @@ Config::backup()
 	auto copy_adding_number = [](path const& path_to_copy) {
 
 		auto add_number = [](path const& path, int number) {
-			return String::compose("%1.%2", path, number);
+			return String::compose("%1.%2", path.string(), number);
 		};
 
 		int n = 1;

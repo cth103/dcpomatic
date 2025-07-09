@@ -76,7 +76,7 @@ Uploader::upload_directory (boost::filesystem::path base, boost::filesystem::pat
 		if (is_directory(i.path())) {
 			upload_directory (base, i.path(), transferred, total_size);
 		} else {
-			_set_status(String::compose(_("copying %1"), i.path().filename()));
+			_set_status(String::compose(_("copying %1"), i.path().filename().string()));
 			upload_file (i.path(), remove_prefix (base, i.path()), transferred, total_size);
 		}
 	}

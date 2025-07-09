@@ -69,7 +69,7 @@ VideoDecoder::emit(shared_ptr<const Film> film, shared_ptr<const ImageProxy> ima
 					String::compose(
 						_("The content file %1 is set as 3D but does not appear to contain 3D images.  Please set it to 2D.  "
 						  "You can still make a 3D DCP from this content by ticking the 3D option in the DCP video tab."),
-						_content->path(0)
+						_content->path(0).string()
 						)
 					)
 				);

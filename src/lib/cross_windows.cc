@@ -617,7 +617,7 @@ Drive::unmount()
 {
 	LOG_DISK("Unmounting %1 with %2 mount points", _device, _mount_points.size());
 	DCPOMATIC_ASSERT(_mount_points.size() == 1);
-	string const device_name = String::compose("\\\\.\\%1", _mount_points.front());
+	string const device_name = String::compose("\\\\.\\%1", _mount_points.front().string());
 	string const truncated = device_name.substr(0, device_name.length() - 1);
 	LOG_DISK("Actually opening %1", truncated);
 	HANDLE device = CreateFileA(truncated.c_str(), (GENERIC_READ | GENERIC_WRITE), FILE_SHARE_READ | FILE_SHARE_WRITE, 0, OPEN_EXISTING, 0, 0);

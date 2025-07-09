@@ -171,7 +171,7 @@ ReelWriter::ReelWriter(
 
 		auto new_asset_filename = _output_dir / video_asset_filename(picture_asset, _reel_index, _reel_count, _content_summary);
 		if (_first_nonexistent_frame > 0) {
-			LOG_GENERAL("Re-using partial asset %1: has frames up to %2", *existing_asset_filename, _first_nonexistent_frame);
+			LOG_GENERAL("Re-using partial asset %1: has frames up to %2", existing_asset_filename->string(), _first_nonexistent_frame);
 			dcp::filesystem::rename(*existing_asset_filename, new_asset_filename);
 		}
 		remembered_assets.push_back(RememberedAsset(new_asset_filename.filename(), period, film()->video_identifier()));
@@ -186,7 +186,7 @@ ReelWriter::ReelWriter(
 		}
 	} else {
 		DCPOMATIC_ASSERT(existing_asset_filename);
-		LOG_GENERAL("Re-using complete asset %1", *existing_asset_filename);
+		LOG_GENERAL("Re-using complete asset %1", existing_asset_filename->string());
 		/* We already have a complete picture asset that we can just re-use */
 		/* XXX: what about if the encryption key changes? */
 		auto new_asset_filename = _output_dir / existing_asset_filename->filename();

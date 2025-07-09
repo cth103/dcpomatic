@@ -136,7 +136,7 @@ FontConfig::system_font_with_name(string name)
 			FcChar8* file;
 			if (FcPatternGetString(font, FC_FILE, 0, &file) == FcResultMatch) {
 				path = boost::filesystem::path(reinterpret_cast<char*>(file));
-				LOG_GENERAL("Found %1", *path);
+				LOG_GENERAL("Found %1", path->string());
 				break;
 			}
 		}
@@ -149,7 +149,7 @@ FontConfig::system_font_with_name(string name)
 	FcPatternDestroy(pattern);
 
 	if (path) {
-		LOG_GENERAL("Searched system for font %1, found %2", name, *path);
+		LOG_GENERAL("Searched system for font %1, found %2", name, path->string());
 	} else {
 		LOG_GENERAL("Searched system for font %1; nothing found", name);
 	}

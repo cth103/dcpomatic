@@ -176,7 +176,7 @@ write_files(
 			);
 
 		if (verbose) {
-			out(String::compose("Wrote %1 ZIP files to %2", N, output));
+			out(String::compose("Wrote %1 ZIP files to %2", N, output.string()));
 		}
 	} else {
 		int const N = write_files(
@@ -185,7 +185,7 @@ write_files(
 			);
 
 		if (verbose) {
-			out(String::compose("Wrote %1 KDM files to %2", N, output));
+			out(String::compose("Wrote %1 KDM files to %2", N, output.string()));
 		}
 	}
 }

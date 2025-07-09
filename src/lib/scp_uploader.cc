@@ -103,7 +103,7 @@ LIBDCP_DISABLE_WARNINGS
 	int const r = ssh_scp_push_directory(_scp, directory.generic_string().c_str(), S_IRWXU);
 LIBDCP_ENABLE_WARNINGS
 	if (r != SSH_OK) {
-		throw NetworkError(String::compose(_("Could not create remote directory %1 (%2)"), directory, ssh_get_error(_session)));
+		throw NetworkError(String::compose(_("Could not create remote directory %1 (%2)"), directory.string(), ssh_get_error(_session)));
 	}
 }
 
@@ -119,7 +119,7 @@ LIBDCP_ENABLE_WARNINGS
 
 	dcp::File f(from, "rb");
 	if (!f) {
-		throw NetworkError(String::compose(_("Could not open %1 to send"), from));
+		throw NetworkError(String::compose(_("Could not open %1 to send"), from.string()));
 	}
 
 	std::vector<char> buffer(64 * 1024);

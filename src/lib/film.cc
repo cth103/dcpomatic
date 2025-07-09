@@ -498,7 +498,7 @@ Film::write_metadata()
 	try {
 		metadata()->write_to_file_formatted(filename.string());
 	} catch (xmlpp::exception& e) {
-		throw FileError(String::compose("Could not write metadata file (%1)", e.what()), filename);
+		throw FileError(String::compose("Could not write metadata file (%1)", e.what()), filename.string());
 	}
 	set_dirty(false);
 }
@@ -2437,9 +2437,9 @@ Film::read_remembered_assets() const
 			assets.push_back(RememberedAsset(node));
 		}
 	} catch (std::exception& e) {
-		LOG_ERROR("Could not read assets file %1 (%2)", filename, e.what());
+		LOG_ERROR("Could not read assets file %1 (%2)", filename.string(), e.what());
 	} catch (...) {
-		LOG_ERROR("Could not read assets file %1", filename);
+		LOG_ERROR("Could not read assets file %1", filename.string());
 	}
 
 	return assets;
@@ -2459,9 +2459,9 @@ Film::write_remembered_assets(vector<RememberedAsset> const& assets) const
 	try {
 		doc->write_to_file_formatted(dcp::filesystem::fix_long_path(file(assets_file)).string());
 	} catch (std::exception& e) {
-		LOG_ERROR("Could not write assets file %1 (%2)", file(assets_file), e.what());
+		LOG_ERROR("Could not write assets file %1 (%2)", file(assets_file).string(), e.what());
 	} catch (...) {
-		LOG_ERROR("Could not write assets file %1", file(assets_file));
+		LOG_ERROR("Could not write assets file %1", file(assets_file).string());
 	}
 }
 

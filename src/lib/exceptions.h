@@ -515,17 +515,17 @@ private:
 
 	std::string get_message(SQLiteDatabase& db, char const* s)
 	{
-		return String::compose("%1 (in %2)", s, get_filename(db));
+		return String::compose("%1 (in %2)", s, get_filename(db).string());
 	}
 
 	std::string get_message(SQLiteDatabase& db, int rc)
 	{
-		return String::compose("%1 (in %2)", sqlite3_errstr(rc), get_filename(db));
+		return String::compose("%1 (in %2)", sqlite3_errstr(rc), get_filename(db).string());
 	}
 
 	std::string get_message(SQLiteDatabase& db, int rc, std::string doing)
 	{
-		return String::compose("%1 (while doing %2) (in %3)", sqlite3_errstr(rc), doing, get_filename(db));
+		return String::compose("%1 (while doing %2) (in %3)", sqlite3_errstr(rc), doing, get_filename(db).string());
 	}
 
 	boost::filesystem::path _filename;

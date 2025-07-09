@@ -754,7 +754,7 @@ Player::pass()
 	switch (which) {
 	case CONTENT:
 	{
-		LOG_DEBUG_PLAYER("Calling pass() on %1", earliest_content->content->path(0));
+		LOG_DEBUG_PLAYER("Calling pass() on %1", earliest_content->content->path(0).string());
 		earliest_content->done = earliest_content->decoder->pass();
 		auto dcp = dynamic_pointer_cast<DCPContent>(earliest_content->content);
 		if (dcp && !_play_referenced) {
@@ -844,14 +844,14 @@ Player::pass()
 	std::map<AudioStreamPtr, StreamState> alive_stream_states;
 
 	if (latest_last_push_end != have_pushed.end()) {
-		LOG_DEBUG_PLAYER("Leading audio stream is in %1 at %2", latest_last_push_end->second.piece->content->path(0), to_string(latest_last_push_end->second.last_push_end.get()));
+		LOG_DEBUG_PLAYER("Leading audio stream is in %1 at %2", latest_last_push_end->second.piece->content->path(0).string(), to_string(latest_last_push_end->second.last_push_end.get()));
 
 		/* Now make a list of those streams that are less than ignore_streams_behind behind the leader */
 		for (auto const& i: _stream_states) {
 			if (!i.second.last_push_end || (latest_last_push_end->second.last_push_end.get() - i.second.last_push_end.get()) < dcpomatic::DCPTime::from_seconds(ignore_streams_behind)) {
 				alive_stream_states.insert(i);
 			} else {
-				LOG_DEBUG_PLAYER("Ignoring stream %1 because it is too far behind", i.second.piece->content->path(0));
+				LOG_DEBUG_PLAYER("Ignoring stream %1 because it is too far behind", i.second.piece->content->path(0).string());
 			}
 		}
 	}
@@ -1162,7 +1162,7 @@ Player::audio(weak_ptr<Piece> weak_piece, AudioStreamPtr stream, ContentAudio co
 
 	/* And the end of this block in the DCP */
 	auto end = time + DCPTime::from_frames(content_audio.audio->frames(), rfr);
-	LOG_DEBUG_PLAYER("Received audio frame %1 covering %2 to %3 (%4)", content_audio.frame, to_string(time), to_string(end), piece->content->path(0).filename());
+	LOG_DEBUG_PLAYER("Received audio frame %1 covering %2 to %3 (%4)", content_audio.frame, to_string(time), to_string(end), piece->content->path(0).filename().string());
 
 	/* Remove anything that comes before the start or after the end of the content */
 	if (time < piece->content->position()) {

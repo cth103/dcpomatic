@@ -151,7 +151,7 @@ map_cli(int argc, char* argv[], std::function<void (string)> out)
 	}
 
 	if (dcp::filesystem::exists(*output_dir)) {
-		return String::compose("Output directory %1 already exists.", *output_dir);
+		return String::compose("Output directory %1 already exists.", output_dir->string());
 	}
 
 	if (hard_link && soft_link) {
@@ -161,7 +161,7 @@ map_cli(int argc, char* argv[], std::function<void (string)> out)
 	boost::system::error_code ec;
 	dcp::filesystem::create_directory(*output_dir, ec);
 	if (ec) {
-		return String::compose("Could not create output directory %1: %2", *output_dir, ec.message());
+		return String::compose("Could not create output directory %1: %2", output_dir->string(), ec.message());
 	}
 
 	/* Find all the assets in the asset directories.  This assumes that the asset directories are in fact

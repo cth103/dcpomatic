@@ -99,7 +99,7 @@ CurlUploader::upload_file(boost::filesystem::path from, boost::filesystem::path 
 
 	dcp::File file(from, "rb");
 	if (!file) {
-		throw NetworkError(String::compose(_("Could not open %1 to send"), from));
+		throw NetworkError(String::compose(_("Could not open %1 to send"), from.string()));
 	}
 	_file = file.get();
 	_transferred = &transferred;
