@@ -32,6 +32,7 @@
 extern "C" {
 #include <libavutil/pixfmt.h>
 }
+#include <fmt/format.h>
 #include <boost/filesystem.hpp>
 #include <boost/optional.hpp>
 #include <sqlite3.h>

@@ -25,8 +25,9 @@
  */
 
 
-#include "lib/image_filename_sorter.h"
 #include "lib/compose.hpp"
+#include "lib/image_filename_sorter.h"
+#include <fmt/format.h>
 #include <boost/test/unit_test.hpp>
 #include <algorithm>
 #include <random>

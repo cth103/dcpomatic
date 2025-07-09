@@ -20,6 +20,7 @@
 
 
 #include "variant.h"
+#include <fmt/format.h>
 
 
 static char const* _dcpomatic = "DCP-o-matic";

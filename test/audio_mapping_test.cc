@@ -25,10 +25,11 @@
  */
 
 
-#include <boost/test/unit_test.hpp>
 #include "lib/audio_mapping.h"
-#include "lib/constants.h"
 #include "lib/compose.hpp"
+#include "lib/constants.h"
+#include <boost/test/unit_test.hpp>
+#include <fmt/format.h>
 
 
 using std::list;

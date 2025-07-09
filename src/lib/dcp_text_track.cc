@@ -21,6 +21,7 @@
 
 #include "dcp_text_track.h"
 #include "compose.hpp"
+#include <fmt/format.h>
 #include <string>
 
 #include "i18n.h"

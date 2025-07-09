@@ -21,6 +21,7 @@
 
 #include "log.h"
 #include "compose.hpp"
+#include <fmt/format.h>
 
 
 /** The current log; set up by the front-ends when they have a Film to log into */

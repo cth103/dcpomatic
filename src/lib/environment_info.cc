@@ -36,6 +36,7 @@ extern "C" {
 #include <libavutil/pixfmt.h>
 }
 LIBDCP_ENABLE_WARNINGS
+#include <fmt/format.h>
 #include <boost/thread.hpp>
 
 #include "i18n.h"
