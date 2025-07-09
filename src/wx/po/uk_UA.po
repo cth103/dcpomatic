@@ -105,13 +105,12 @@ msgid "%s test email"
 msgstr "Відправити по email"
 
 #: src/wx/about_dialog.cc:97
-#, fuzzy
 msgid ""
 "(C) 2012-2025 Carl Hetherington, Terrence Meiczinger\n"
-"Ole Laursen, Aaron Boxer"
+"Aaron Boxer"
 msgstr ""
-"© 2012-2018 Carl Hetherington, Terrence Meiczinger\n"
-" Ole Laursen, Brecht Sanders"
+"(C) 2012-2025 Carl Hetherington, Terrence Meiczinger\n"
+"Aaron Boxer"
 
 #: src/wx/full_config_dialog.cc:1206 src/wx/player_config_dialog.cc:130
 #, fuzzy, c-format

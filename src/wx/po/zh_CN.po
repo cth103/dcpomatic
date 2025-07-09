@@ -121,10 +121,10 @@ msgstr "%s发送测试邮件"
 #: src/wx/about_dialog.cc:97
 msgid ""
 "(C) 2012-2025 Carl Hetherington, Terrence Meiczinger\n"
-"Ole Laursen, Aaron Boxer"
+"Aaron Boxer"
 msgstr ""
 "(C) 2012-2025 Carl Hetherington, Terrence Meiczinger\n"
-" Ole Laursen, Aaron Boxer"
+"Aaron Boxer"
 
 #: src/wx/full_config_dialog.cc:1206 src/wx/player_config_dialog.cc:130
 #, c-format
