@@ -668,7 +668,7 @@ BOOST_AUTO_TEST_CASE (make_black_test)
 			uint8_t* q = p;
 			for (int x = 0; x < bar->line_size()[0]; ++x) {
 				if (*q != 0) {
-					std::cerr << "x=" << x << ", (x%3)=" << (x%3) << "\n";
+					std::cerr << "x=" << x << ", (x % 3)=" << (x % 3) << "\n";
 				}
 				BOOST_CHECK_EQUAL (*q++, 0);
 			}
