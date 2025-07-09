@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-08 23:51+0200\n"
+"POT-Creation-Date: 2025-07-09 21:45+0200\n"
 "PO-Revision-Date: 2022-08-31 21:35+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 3.1.1\n"
 
-#: src/lib/video_content.cc:527
+#: src/lib/video_content.cc:514
 #, c-format
 msgid ""
 "\n"
@@ -26,7 +26,7 @@ msgstr ""
 "\n"
 "Tartalom képkockaszáma %.4f\n"
 
-#: src/lib/video_content.cc:491
+#: src/lib/video_content.cc:478
 msgid ""
 "\n"
 "Cropped to %1x%2"
@@ -34,7 +34,7 @@ msgstr ""
 "\n"
 "Méretre vágva: %1x%2"
 
-#: src/lib/video_content.cc:481
+#: src/lib/video_content.cc:468
 #, c-format
 msgid ""
 "\n"
@@ -43,7 +43,7 @@ msgstr ""
 "\n"
 "Megjelenítési arány: %.2f:1"
 
-#: src/lib/video_content.cc:515
+#: src/lib/video_content.cc:502
 msgid ""
 "\n"
 "Padded with black to fit container %1 (%2x%3)"
@@ -51,7 +51,7 @@ msgstr ""
 "\n"
 "Fekete kerettel körbekerítve, hogy beleférjen a %1 (%2x%3) konténerbe."
 
-#: src/lib/video_content.cc:505
+#: src/lib/video_content.cc:492
 msgid ""
 "\n"
 "Scaled to %1x%2"
@@ -59,7 +59,7 @@ msgstr ""
 "\n"
 "Skálázva a következő méretre: %1x%2"
 
-#: src/lib/video_content.cc:509 src/lib/video_content.cc:520
+#: src/lib/video_content.cc:496 src/lib/video_content.cc:507
 #, c-format
 msgid " (%.2f:1)"
 msgstr " (%.2f:1)"
@@ -70,7 +70,7 @@ msgstr " (%.2f:1)"
 msgid " on %1"
 msgstr " on %1"
 
-#: src/lib/config.cc:1270
+#: src/lib/config.cc:1276
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -94,7 +94,7 @@ msgstr ""
 "Hosszúság: $LENGTH\n"
 "Méret: $SIZE\n"
 
-#: src/lib/config.cc:1248
+#: src/lib/config.cc:1254
 msgid "$JOB_NAME: $JOB_STATUS"
 msgstr "$JOB_NAME: $JOB_STATUS"
 
@@ -106,19 +106,19 @@ msgstr "%1 (%2 GB) [%3]"
 msgid "%1 [Atmos]"
 msgstr "%1 [Atmos]"
 
-#: src/lib/dcp_content.cc:366
+#: src/lib/dcp_content.cc:356
 msgid "%1 [DCP]"
 msgstr "%1 [DCP]"
 
-#: src/lib/ffmpeg_content.cc:353
+#: src/lib/ffmpeg_content.cc:347
 msgid "%1 [audio]"
 msgstr "%1 [hang]"
 
-#: src/lib/ffmpeg_content.cc:349
+#: src/lib/ffmpeg_content.cc:343
 msgid "%1 [movie]"
 msgstr "%1 [film]"
 
-#: src/lib/ffmpeg_content.cc:351 src/lib/video_mxf_content.cc:106
+#: src/lib/ffmpeg_content.cc:345 src/lib/video_mxf_content.cc:106
 msgid "%1 [video]"
 msgstr "%1 [videó]"
 
@@ -128,35 +128,35 @@ msgid ""
 "unexpected format."
 msgstr ""
 
-#: src/lib/film.cc:1707
+#: src/lib/film.cc:1702
 msgid ""
 "%1 had to change your settings for referring to DCPs as OV.  Please review "
 "those settings to make sure they are what you want."
 msgstr ""
 
-#: src/lib/film.cc:1673
+#: src/lib/film.cc:1668
 msgid ""
 "%1 had to change your settings so that the film's frame rate is the same as "
 "that of your Atmos content."
 msgstr ""
 
-#: src/lib/film.cc:1720
+#: src/lib/film.cc:1715
 msgid ""
 "%1 had to remove one of your custom reel boundaries as it no longer lies "
 "within the film."
 msgstr ""
 
-#: src/lib/film.cc:1718
+#: src/lib/film.cc:1713
 msgid ""
 "%1 had to remove some of your custom reel boundaries as they no longer lie "
 "within the film."
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:121
+#: src/lib/ffmpeg_content.cc:115
 msgid "%1 no longer supports the `%2' filter, so it has been turned off."
 msgstr ""
 
-#: src/lib/config.cc:441 src/lib/config.cc:1245
+#: src/lib/config.cc:441 src/lib/config.cc:1251
 #, fuzzy
 msgid "%1 notification"
 msgstr "Email értesítés"
@@ -165,14 +165,18 @@ msgstr "Email értesítés"
 msgid "%1; %2/%3 frames"
 msgstr "%1; %2/%3 képkocka"
 
-#: src/lib/video_content.cc:476
+#: src/lib/video_content.cc:463
 #, c-format
 msgid ", pixel aspect ratio %.2f:1"
 msgstr ", pixel arány %.2f:1"
 
-#: src/lib/ratio.cc:45
+#: src/lib/ratio.cc:44
 msgid "1.19"
 msgstr "1.19"
+
+#: src/lib/ratio.cc:45
+msgid "1.25"
+msgstr ""
 
 #: src/lib/ratio.cc:46
 msgid "1.33 (4:3)"
@@ -187,34 +191,46 @@ msgid "1.43 (IMAX)"
 msgstr "1.43 (IMAX)"
 
 #: src/lib/ratio.cc:49
+msgid "1.50"
+msgstr ""
+
+#: src/lib/ratio.cc:50
 msgid "1.66"
 msgstr "1.66"
 
-#: src/lib/ratio.cc:50
+#: src/lib/ratio.cc:51
 msgid "1.78 (16:9 or HD)"
 msgstr "1.78 (16:9 vagy HD)"
 
-#: src/lib/ratio.cc:51
+#: src/lib/ratio.cc:52
 msgid "1.85 (Flat)"
 msgstr "1.85 (Flat)"
 
-#: src/lib/ratio.cc:54
+#: src/lib/ratio.cc:57
 msgid "1.90 (Full frame)"
 msgstr "1.90 (Teljes keret)"
 
-#: src/lib/util.cc:677
+#: src/lib/util.cc:629
 msgid "10"
 msgstr "10"
 
-#: src/lib/util.cc:683
+#: src/lib/util.cc:635
 msgid "16"
 msgstr "16"
 
-#: src/lib/ratio.cc:52
+#: src/lib/ratio.cc:53
+msgid "2.00"
+msgstr ""
+
+#: src/lib/ratio.cc:54
+msgid "2.21"
+msgstr ""
+
+#: src/lib/ratio.cc:55
 msgid "2.35 (35mm Scope)"
 msgstr "2.35 (35mm Scope)"
 
-#: src/lib/ratio.cc:53
+#: src/lib/ratio.cc:56
 msgid "2.39 (Scope)"
 msgstr "2.39 (Scope)"
 
@@ -232,7 +248,7 @@ msgstr ""
 "hogy ezt a DCP-t olyan projektoron játszod le, amely támogatja ezt, javasolt "
 "a 2K felbontás beállítása a “DCP->Video” menüpontban."
 
-#: src/lib/util.cc:676
+#: src/lib/util.cc:628
 msgid "9"
 msgstr "9"
 
@@ -284,7 +300,7 @@ msgstr ""
 "állítani, ez nagy eséllyel nem fog semmilyen vizuális változást eredményezni "
 "a képen."
 
-#: src/lib/text_content.cc:250
+#: src/lib/text_content.cc:230
 #, fuzzy
 msgid ""
 "A subtitle or closed caption file in this project is marked with the "
@@ -295,7 +311,7 @@ msgstr ""
 "lett megjelölve, amit a DCP-o-matic nem ismer fel. A fájl nyelve törölve "
 "lett."
 
-#: src/lib/ffmpeg_content.cc:645
+#: src/lib/ffmpeg_content.cc:639
 msgid "ARIB STD-B67 ('Hybrid log-gamma')"
 msgstr "ARIB STD-B67 (‘Hybrid log-gamma’)"
 
@@ -407,64 +423,64 @@ msgstr ""
 "“Tartalom→Időzített szöveg”, “Tartalom→Felirat megnyitása” vagy "
 "“Tartalom→Hangleíró felirat” menüpontokban."
 
-#: src/lib/audio_content.cc:274
+#: src/lib/audio_content.cc:265
 msgid "Audio will be resampled from %1Hz to %2Hz"
 msgstr "A hang újra lesz keverve %1Hz-ről %2Hz-re"
 
-#: src/lib/audio_content.cc:276
+#: src/lib/audio_content.cc:267
 msgid "Audio will be resampled to %1Hz"
 msgstr "A hang újra lesz keverve %1Hz-re"
 
-#: src/lib/audio_content.cc:265
+#: src/lib/audio_content.cc:256
 msgid "Audio will not be resampled"
 msgstr "A hang nem lesz újrakeverve"
 
-#: src/lib/ffmpeg_content.cc:639
+#: src/lib/ffmpeg_content.cc:633
 msgid "BT1361 extended colour gamut"
 msgstr "BT1361 extended colour gamut"
 
-#: src/lib/ffmpeg_content.cc:607
+#: src/lib/ffmpeg_content.cc:601
 msgid "BT2020"
 msgstr "BT2020"
 
-#: src/lib/ffmpeg_content.cc:662
+#: src/lib/ffmpeg_content.cc:656
 msgid "BT2020 constant luminance"
 msgstr "BT2020 constant luminance"
 
-#: src/lib/ffmpeg_content.cc:641
+#: src/lib/ffmpeg_content.cc:635
 msgid "BT2020 for a 10-bit system"
 msgstr "BT2020 for a 10-bit system"
 
-#: src/lib/ffmpeg_content.cc:642
+#: src/lib/ffmpeg_content.cc:636
 msgid "BT2020 for a 12-bit system"
 msgstr "BT2020 for a 12-bit system"
 
-#: src/lib/ffmpeg_content.cc:661
+#: src/lib/ffmpeg_content.cc:655
 msgid "BT2020 non-constant luminance"
 msgstr "BT2020 non-constant luminance"
 
-#: src/lib/ffmpeg_content.cc:666
+#: src/lib/ffmpeg_content.cc:660
 msgid "BT2100"
 msgstr "BT2100"
 
-#: src/lib/ffmpeg_content.cc:603
+#: src/lib/ffmpeg_content.cc:597
 msgid "BT470BG"
 msgstr "BT470BG"
 
-#: src/lib/ffmpeg_content.cc:657
+#: src/lib/ffmpeg_content.cc:651
 msgid "BT470BG (BT601-6)"
 msgstr "BT470BG (BT601-6)"
 
-#: src/lib/ffmpeg_content.cc:602
+#: src/lib/ffmpeg_content.cc:596
 msgid "BT470M"
 msgstr "BT470M"
 
-#: src/lib/ffmpeg_content.cc:599 src/lib/ffmpeg_content.cc:628
-#: src/lib/ffmpeg_content.cc:653
+#: src/lib/ffmpeg_content.cc:593 src/lib/ffmpeg_content.cc:622
+#: src/lib/ffmpeg_content.cc:647
 msgid "BT709"
 msgstr "BT709"
 
-#: src/lib/ffmpeg_content.cc:673
+#: src/lib/ffmpeg_content.cc:667
 msgid "Bits per pixel"
 msgstr "Bits per pixel"
 
@@ -472,15 +488,15 @@ msgstr "Bits per pixel"
 msgid "Bob Weaver Deinterlacing Filter"
 msgstr "Bob Weaver Deinterlacing Filter"
 
-#: src/lib/util.cc:678
+#: src/lib/util.cc:630
 msgid "BsL"
 msgstr "BsL"
 
-#: src/lib/util.cc:679
+#: src/lib/util.cc:631
 msgid "BsR"
 msgstr "BsR"
 
-#: src/lib/util.cc:670
+#: src/lib/util.cc:622
 msgid "C"
 msgstr "C"
 
@@ -496,15 +512,15 @@ msgstr "Nem tartalmazhat / jeleket"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Nem kezelhető a %1 pixel formátum %2 közben"
 
-#: src/lib/film.cc:1816
+#: src/lib/film.cc:1811
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr "Nem lehet KDM-et létrehozni, mivel ez a projekt nem titkosított."
 
-#: src/lib/util.cc:639
+#: src/lib/util.cc:591
 msgid "Centre"
 msgstr "Közép"
 
-#: src/lib/audio_content.cc:312
+#: src/lib/audio_content.cc:303
 msgid "Channels"
 msgstr "Csatornák"
 
@@ -520,11 +536,11 @@ msgstr "Tartalom vizsgálata"
 msgid "Checking existing image data"
 msgstr "Meglévő kép adatok ellenőrzése"
 
-#: src/lib/ffmpeg_content.cc:665
+#: src/lib/ffmpeg_content.cc:659
 msgid "Chroma-derived constant luminance"
 msgstr "Chroma-derived constant luminance"
 
-#: src/lib/ffmpeg_content.cc:664
+#: src/lib/ffmpeg_content.cc:658
 msgid "Chroma-derived non-constant luminance"
 msgstr "Chroma-derived non-constant luminance"
 
@@ -541,7 +557,7 @@ msgstr "Hangleíró felirat"
 msgid "Closed subtitles"
 msgstr "Felirat megnyitása"
 
-#: src/lib/ffmpeg_content.cc:624
+#: src/lib/ffmpeg_content.cc:618
 msgid "Colour primaries"
 msgstr "Elsődleges színek"
 
@@ -555,17 +571,17 @@ msgstr "Elsődleges színek"
 #. file is limited, so that not all possible values are valid.
 #. TRANSLATORS: this means that the range of pixel values used in this
 #. file is full, so that all possible pixel values are valid.
-#: src/lib/ffmpeg_content.cc:556 src/lib/ffmpeg_content.cc:563
-#: src/lib/ffmpeg_content.cc:570 src/lib/ffmpeg_content.cc:580
-#: src/lib/ffmpeg_content.cc:585 src/lib/ffmpeg_content.cc:590
+#: src/lib/ffmpeg_content.cc:550 src/lib/ffmpeg_content.cc:557
+#: src/lib/ffmpeg_content.cc:564 src/lib/ffmpeg_content.cc:574
+#: src/lib/ffmpeg_content.cc:579 src/lib/ffmpeg_content.cc:584
 msgid "Colour range"
 msgstr "Színtartomány"
 
-#: src/lib/ffmpeg_content.cc:649
+#: src/lib/ffmpeg_content.cc:643
 msgid "Colour transfer characteristic"
 msgstr "Színátviteli jellemzők"
 
-#: src/lib/ffmpeg_content.cc:670
+#: src/lib/ffmpeg_content.cc:664
 msgid "Colourspace"
 msgstr "Színtér"
 
@@ -573,7 +589,7 @@ msgstr "Színtér"
 msgid "Combine DCPs"
 msgstr "DCPk egyesítése"
 
-#: src/lib/content.cc:182
+#: src/lib/content.cc:174
 msgid "Computing digest"
 msgstr "Digitális ujjlenyomatok létrehozása"
 
@@ -589,148 +605,165 @@ msgstr "Gratulálok!"
 msgid "Content and DCP have the same rate.\n"
 msgstr "A tartalom és a DCP aránya azonos.\n"
 
-#: src/lib/audio_content.cc:315
+#: src/lib/audio_content.cc:306
 #, fuzzy
 msgid "Content bit depth"
 msgstr "tartalom típusa"
 
-#: src/lib/audio_content.cc:313
+#: src/lib/audio_content.cc:304
 #, fuzzy
 msgid "Content sample rate"
 msgstr "Tartalom mintavételezési frekvenciája"
 
-#: src/lib/ffmpeg_content.cc:157
+#: src/lib/ffmpeg_content.cc:151
 msgid "Content to be joined must all have or not have audio"
 msgstr ""
 "A beszúrni kívánt tartalomnak végig vagy egyáltalán nem kell hangjának lennie"
 
-#: src/lib/ffmpeg_content.cc:160
+#: src/lib/ffmpeg_content.cc:154
 msgid "Content to be joined must all have or not have subtitles or captions"
 msgstr ""
 "A beszúrni kívánt tartalomnak végig vagy egyáltalán nem kell feliratának "
 "vagy hangleíró feliratának lennie"
 
-#: src/lib/ffmpeg_content.cc:154
+#: src/lib/ffmpeg_content.cc:148
 msgid "Content to be joined must all have or not have video"
 msgstr ""
 "A beszúrni kívánt tartalomnak végig vagy egyáltalán nem kell videót "
 "tartalmaznia"
 
-#: src/lib/text_content.cc:322
+#: src/lib/text_content.cc:302
 msgid ""
 "Content to be joined must both be main subtitle languages or both additional."
 msgstr ""
 "A beszúrni kívánt tartalomnak vagy fő feliratnak vagy mellékes feliratnak "
 "kell lennie."
 
-#: src/lib/video_content.cc:217
+#: src/lib/video_content.cc:204
 msgid "Content to be joined must have all its video used or not used."
 msgstr ""
 "A beszúrni kívánt tartalomnak végig vagy egyáltalán nem kell a videóját "
 "használni."
 
-#: src/lib/text_content.cc:277
+#: src/lib/text_content.cc:257
 msgid "Content to be joined must have the same 'burn subtitles' setting."
 msgstr "A beszúrni kívánt tartalomnak "
 
-#: src/lib/text_content.cc:273
+#: src/lib/text_content.cc:253
 msgid "Content to be joined must have the same 'use subtitles' setting."
 msgstr ""
 
-#: src/lib/audio_content.cc:115
+#: src/lib/audio_content.cc:106
 msgid "Content to be joined must have the same audio delay."
 msgstr ""
 
-#: src/lib/audio_content.cc:111
+#: src/lib/audio_content.cc:102
 msgid "Content to be joined must have the same audio gain."
 msgstr ""
 
-#: src/lib/video_content.cc:249
+#: src/lib/video_content.cc:236
 msgid "Content to be joined must have the same burnt subtitle language."
 msgstr ""
 
-#: src/lib/video_content.cc:241
+#: src/lib/video_content.cc:228
 msgid "Content to be joined must have the same colour conversion."
 msgstr ""
 
-#: src/lib/video_content.cc:229
+#: src/lib/video_content.cc:216
 msgid "Content to be joined must have the same crop."
 msgstr ""
 
-#: src/lib/video_content.cc:233
+#: src/lib/video_content.cc:220
 msgid "Content to be joined must have the same custom ratio setting."
 msgstr ""
 
-#: src/lib/video_content.cc:237
+#: src/lib/video_content.cc:224
 msgid "Content to be joined must have the same custom size setting."
 msgstr ""
 
-#: src/lib/video_content.cc:245
+#: src/lib/video_content.cc:232
 msgid "Content to be joined must have the same fades."
 msgstr ""
 
-#: src/lib/text_content.cc:305
+#: src/lib/text_content.cc:285
 msgid "Content to be joined must have the same outline width."
 msgstr ""
 
-#: src/lib/video_content.cc:221
+#: src/lib/video_content.cc:208
 msgid "Content to be joined must have the same picture size."
 msgstr ""
 
-#: src/lib/text_content.cc:281
+#: src/lib/text_content.cc:261
 msgid "Content to be joined must have the same subtitle X offset."
 msgstr ""
 
-#: src/lib/text_content.cc:289
+#: src/lib/text_content.cc:269
 msgid "Content to be joined must have the same subtitle X scale."
 msgstr ""
 
-#: src/lib/text_content.cc:285
+#: src/lib/text_content.cc:265
 msgid "Content to be joined must have the same subtitle Y offset."
 msgstr ""
 
-#: src/lib/text_content.cc:293
+#: src/lib/text_content.cc:273
 msgid "Content to be joined must have the same subtitle Y scale."
 msgstr ""
 
-#: src/lib/text_content.cc:301
+#: src/lib/text_content.cc:281
 msgid "Content to be joined must have the same subtitle fades."
 msgstr ""
 
-#: src/lib/text_content.cc:297
+#: src/lib/text_content.cc:277
 msgid "Content to be joined must have the same subtitle line spacing."
 msgstr ""
 
-#: src/lib/content.cc:125 src/lib/content.cc:129
+#: src/lib/content.cc:117 src/lib/content.cc:121
 msgid "Content to be joined must have the same video frame rate"
 msgstr ""
 
-#: src/lib/video_content.cc:225
+#: src/lib/video_content.cc:212
 msgid "Content to be joined must have the same video frame type."
 msgstr ""
 
-#: src/lib/text_content.cc:314
+#: src/lib/text_content.cc:294
 msgid "Content to be joined must use the same DCP track."
 msgstr ""
 
-#: src/lib/text_content.cc:310 src/lib/text_content.cc:330
+#: src/lib/text_content.cc:290 src/lib/text_content.cc:310
 msgid "Content to be joined must use the same fonts."
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:181
+#: src/lib/ffmpeg_content.cc:175
 msgid "Content to be joined must use the same subtitle stream."
 msgstr ""
 
-#: src/lib/text_content.cc:318
+#: src/lib/text_content.cc:298
 msgid "Content to be joined must use the same text language."
 msgstr ""
 
-#: src/lib/video_content.cc:467
+#: src/lib/video_content.cc:454
 msgid "Content video is %1x%2"
 msgstr ""
 
 #: src/lib/upload_job.cc:66
 msgid "Copy DCP to TMS"
+msgstr "DCP másolása a TMS-re"
+
+#: src/lib/copy_to_drive_job.cc:59
+#, fuzzy
+msgid ""
+"Copying %1\n"
+"to %2"
+msgstr "%1 másolása"
+
+#: src/lib/copy_to_drive_job.cc:120
+#, fuzzy
+msgid "Copying DCP"
+msgstr "DCPk egyesítése"
+
+#: src/lib/copy_to_drive_job.cc:62
+#, fuzzy
+msgid "Copying DCPs to %1"
 msgstr "DCP másolása a TMS-re"
 
 #: src/lib/scp_uploader.cc:57
@@ -776,7 +809,7 @@ msgstr ""
 msgid "Could not open downloaded ZIP file (%1:%2: %3)"
 msgstr ""
 
-#: src/lib/config.cc:1172
+#: src/lib/config.cc:1178
 msgid "Could not open file for writing"
 msgstr ""
 
@@ -796,27 +829,27 @@ msgstr ""
 msgid "Could not write to remote file (%1)"
 msgstr ""
 
-#: src/lib/util.cc:649
+#: src/lib/util.cc:601
 msgid "D-BOX primary"
 msgstr "D-BOX elsődleges"
 
-#: src/lib/util.cc:650
+#: src/lib/util.cc:602
 msgid "D-BOX secondary"
 msgstr "D-BOX másodlagos"
 
-#: src/lib/util.cc:680
+#: src/lib/util.cc:632
 msgid "DBP"
 msgstr "DBP"
 
-#: src/lib/util.cc:681
+#: src/lib/util.cc:633
 msgid "DBS"
 msgstr "DBS"
 
-#: src/lib/ratio.cc:51
+#: src/lib/ratio.cc:52
 msgid "DCI Flat"
 msgstr "DCI Flat"
 
-#: src/lib/ratio.cc:53
+#: src/lib/ratio.cc:56
 msgid "DCI Scope"
 msgstr "DCI Scope"
 
@@ -824,7 +857,7 @@ msgstr "DCI Scope"
 msgid "DCP XML subtitles"
 msgstr "DCP XML feliratok"
 
-#: src/lib/audio_content.cc:336
+#: src/lib/audio_content.cc:327
 msgid "DCP sample rate"
 msgstr ""
 
@@ -837,19 +870,19 @@ msgstr ""
 msgid "DCP will use every other frame of the content.\n"
 msgstr ""
 
-#: src/lib/film.cc:1733
+#: src/lib/film.cc:1728
 msgid ""
 "DCP-o-matic had to set your container to 1920x1080 as it's the only one that "
 "can be used with MPEG2 encoding."
 msgstr ""
 
-#: src/lib/film.cc:1737
+#: src/lib/film.cc:1732
 msgid ""
 "DCP-o-matic had to set your film to 2D as 3D is not yet supported with MPEG2 "
 "encoding."
 msgstr ""
 
-#: src/lib/film.cc:1741
+#: src/lib/film.cc:1736
 msgid ""
 "DCP-o-matic set your container to DCI Flat as it was previously 1920x1080 "
 "and that is not a standard ratio with JPEG2000 encoding."
@@ -864,7 +897,7 @@ msgstr "Datasat AP20 vagy AP25"
 msgid "De-interlacing"
 msgstr ""
 
-#: src/lib/config.cc:1233
+#: src/lib/config.cc:1239
 #, fuzzy
 msgid ""
 "Dear Projectionist\n"
@@ -976,7 +1009,7 @@ msgstr "Feliratok és hangleíró feliratok vizsgálata"
 msgid "Extracting"
 msgstr "Kicsomagolás"
 
-#: src/lib/ffmpeg_content.cc:656
+#: src/lib/ffmpeg_content.cc:650
 msgid "FCC"
 msgstr "FCC"
 
@@ -1001,11 +1034,11 @@ msgstr ""
 msgid "Feature"
 msgstr ""
 
-#: src/lib/content.cc:468
+#: src/lib/content.cc:460
 msgid "Filename"
 msgstr ""
 
-#: src/lib/content.cc:468
+#: src/lib/content.cc:460
 msgid "Filenames"
 msgstr ""
 
@@ -1013,7 +1046,7 @@ msgstr ""
 msgid "Files have changed since they were added to the project."
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:606
+#: src/lib/ffmpeg_content.cc:600
 msgid "Film"
 msgstr ""
 
@@ -1021,7 +1054,12 @@ msgstr ""
 msgid "Finding length"
 msgstr ""
 
-#: src/lib/content.cc:478
+#: src/lib/copy_to_drive_job.cc:113
+#, fuzzy
+msgid "Formatting drive"
+msgstr "Digitális ujjlenyomatok létrehozása"
+
+#: src/lib/content.cc:470
 msgid "Frame rate"
 msgstr ""
 
@@ -1029,31 +1067,31 @@ msgstr ""
 msgid "Friday"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:590
+#: src/lib/ffmpeg_content.cc:584
 msgid "Full"
 msgstr "Teljes"
 
-#: src/lib/ffmpeg_content.cc:570
+#: src/lib/ffmpeg_content.cc:564
 msgid "Full (0-%1)"
 msgstr ""
 
-#: src/lib/ratio.cc:54
+#: src/lib/ratio.cc:57
 msgid "Full frame"
 msgstr "Teljes keret"
 
-#: src/lib/audio_content.cc:343
+#: src/lib/audio_content.cc:334
 msgid "Full length in audio samples at DCP rate"
 msgstr ""
 
-#: src/lib/audio_content.cc:330
+#: src/lib/audio_content.cc:321
 msgid "Full length in audio samples at content rate"
 msgstr ""
 
-#: src/lib/audio_content.cc:337
+#: src/lib/audio_content.cc:328
 msgid "Full length in video frames at DCP rate"
 msgstr ""
 
-#: src/lib/audio_content.cc:323
+#: src/lib/audio_content.cc:314
 msgid "Full length in video frames at content rate"
 msgstr ""
 
@@ -1064,11 +1102,11 @@ msgid ""
 "the internet."
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:631
+#: src/lib/ffmpeg_content.cc:625
 msgid "Gamma 22 (BT470M)"
 msgstr "Gamma 22 (BT470M)"
 
-#: src/lib/ffmpeg_content.cc:632
+#: src/lib/ffmpeg_content.cc:626
 msgid "Gamma 28 (BT470BG)"
 msgstr "Gamma 28 (BT470BG)"
 
@@ -1076,11 +1114,11 @@ msgstr "Gamma 28 (BT470BG)"
 msgid "Gradient debander"
 msgstr ""
 
-#: src/lib/util.cc:674
+#: src/lib/util.cc:626
 msgid "HI"
 msgstr ""
 
-#: src/lib/util.cc:643
+#: src/lib/util.cc:595
 msgid "Hearing impaired"
 msgstr ""
 
@@ -1096,15 +1134,15 @@ msgstr ""
 msgid "Horizontal flip"
 msgstr "Függőleges elforgatás"
 
-#: src/lib/audio_content.cc:313 src/lib/audio_content.cc:336
+#: src/lib/audio_content.cc:304 src/lib/audio_content.cc:327
 msgid "Hz"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:640
+#: src/lib/ffmpeg_content.cc:634
 msgid "IEC61966-2-1 (sRGB or sYCC)"
 msgstr "IEC61966-2-1 (sRGB vagy sYCC)"
 
-#: src/lib/ffmpeg_content.cc:638
+#: src/lib/ffmpeg_content.cc:632
 msgid "IEC61966-2-4"
 msgstr "IEC61966-2-4"
 
@@ -1129,11 +1167,11 @@ msgstr ""
 msgid "It is not known what caused this error.  %1"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:620
+#: src/lib/ffmpeg_content.cc:614
 msgid "JEDEC P22"
 msgstr "JEDEC P22"
 
-#: src/lib/config.cc:431 src/lib/config.cc:1230
+#: src/lib/config.cc:431 src/lib/config.cc:1236
 msgid "KDM delivery: $CPL_NAME"
 msgstr ""
 
@@ -1142,56 +1180,56 @@ msgid "Kernel deinterlacer"
 msgstr ""
 
 #. TRANSLATORS: L here is an abbreviation for "left", to indicate the left-eye part of a 3D export
-#: src/lib/ffmpeg_film_encoder.cc:266 src/lib/util.cc:668
+#: src/lib/ffmpeg_film_encoder.cc:266 src/lib/util.cc:620
 msgid "L"
 msgstr "L"
 
-#: src/lib/mid_side_decoder.cc:107 src/lib/util.cc:637
+#: src/lib/mid_side_decoder.cc:107 src/lib/util.cc:589
 msgid "Left"
 msgstr "Bal"
 
-#: src/lib/util.cc:645
+#: src/lib/util.cc:597
 msgid "Left centre"
 msgstr "Bal közép"
 
-#: src/lib/util.cc:647
+#: src/lib/util.cc:599
 msgid "Left rear surround"
 msgstr "Bal hátsó térhangzás"
 
-#: src/lib/util.cc:641
+#: src/lib/util.cc:593
 msgid "Left surround"
 msgstr "Bal térhangzás"
 
-#: src/lib/video_content.cc:540
+#: src/lib/video_content.cc:527
 msgid "Length"
 msgstr "Hossz"
 
-#: src/lib/util.cc:671
+#: src/lib/util.cc:623
 msgid "Lfe"
 msgstr "Lfe"
 
-#: src/lib/util.cc:640
+#: src/lib/util.cc:592
 msgid "Lfe (sub)"
 msgstr "Lfe (mély)"
 
-#: src/lib/ffmpeg_content.cc:585
+#: src/lib/ffmpeg_content.cc:579
 msgid "Limited"
 msgstr "Limitált"
 
-#: src/lib/ffmpeg_content.cc:563
+#: src/lib/ffmpeg_content.cc:557
 #, fuzzy
 msgid "Limited / video (%1-%2)"
 msgstr "Limitált (%1-%2)"
 
-#: src/lib/ffmpeg_content.cc:635
+#: src/lib/ffmpeg_content.cc:629
 msgid "Linear"
 msgstr "Lineáris"
 
-#: src/lib/ffmpeg_content.cc:636
+#: src/lib/ffmpeg_content.cc:630
 msgid "Logarithmic (100:1 range)"
 msgstr "Logaritmikus (100:1 intervallum)"
 
-#: src/lib/ffmpeg_content.cc:637
+#: src/lib/ffmpeg_content.cc:631
 msgid "Logarithmic (316:1 range)"
 msgstr "Logaritmikus (316:1 intervallum)"
 
@@ -1199,7 +1237,7 @@ msgstr "Logaritmikus (316:1 intervallum)"
 msgid "Lost communication between main and writer processes"
 msgstr "Elveszett a kommunikáció és a fő és az író folyamat között"
 
-#: src/lib/util.cc:672
+#: src/lib/util.cc:624
 msgid "Ls"
 msgstr "Ls"
 
@@ -1283,11 +1321,11 @@ msgstr "OK (eltelt idő: %1)"
 msgid "OK (ran for %1)"
 msgstr "OK (eltelt idő: %1)"
 
-#: src/lib/content.cc:114
+#: src/lib/content.cc:106
 msgid "Only the first piece of content to be joined can have a start trim."
 msgstr ""
 
-#: src/lib/content.cc:118
+#: src/lib/content.cc:110
 msgid "Only the last piece of content to be joined can have an end trim."
 msgstr ""
 
@@ -1321,11 +1359,11 @@ msgstr "Kifogyott a memória"
 msgid "Overcomplete wavelet denoiser"
 msgstr ""
 
-#: src/lib/colour_conversion.cc:293
+#: src/lib/colour_conversion.cc:291
 msgid "P3"
 msgstr "P3"
 
-#: src/lib/util.cc:1196
+#: src/lib/util.cc:1136
 #, fuzzy
 msgid ""
 "Please report this problem by using Help -> Report a problem or via email to "
@@ -1342,7 +1380,7 @@ msgstr "Policy"
 msgid "Premultiply alpha channel"
 msgstr ""
 
-#: src/lib/content.cc:487
+#: src/lib/content.cc:479
 msgid "Prepared for video frame rate"
 msgstr ""
 
@@ -1359,11 +1397,11 @@ msgid "Public Service Announcement"
 msgstr "Public Service Announcement"
 
 #. TRANSLATORS: R here is an abbreviation for "right", to indicate the right-eye part of a 3D export
-#: src/lib/ffmpeg_film_encoder.cc:271 src/lib/util.cc:669
+#: src/lib/ffmpeg_film_encoder.cc:271 src/lib/util.cc:621
 msgid "R"
 msgstr "R"
 
-#: src/lib/ffmpeg_content.cc:652
+#: src/lib/ffmpeg_content.cc:646
 msgid "RGB / sRGB (IEC61966-2-1)"
 msgstr "RGB / sRGB (IEC61966-2-1)"
 
@@ -1371,35 +1409,35 @@ msgstr "RGB / sRGB (IEC61966-2-1)"
 msgid "Rating"
 msgstr "Rating"
 
-#: src/lib/colour_conversion.cc:294
+#: src/lib/colour_conversion.cc:292
 msgid "Rec. 1886"
 msgstr "Rec. 1886"
 
-#: src/lib/colour_conversion.cc:295
+#: src/lib/colour_conversion.cc:293
 msgid "Rec. 2020"
 msgstr "Rec. 2020"
 
-#: src/lib/colour_conversion.cc:291
+#: src/lib/colour_conversion.cc:289
 msgid "Rec. 601"
 msgstr "Rec. 601"
 
-#: src/lib/colour_conversion.cc:292
+#: src/lib/colour_conversion.cc:290
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
-#: src/lib/mid_side_decoder.cc:108 src/lib/util.cc:638
+#: src/lib/mid_side_decoder.cc:108 src/lib/util.cc:590
 msgid "Right"
 msgstr "Jobb"
 
-#: src/lib/util.cc:646
+#: src/lib/util.cc:598
 msgid "Right centre"
 msgstr "Jobb közép"
 
-#: src/lib/util.cc:648
+#: src/lib/util.cc:600
 msgid "Right rear surround"
 msgstr "Jobb hátsó térhangzás"
 
-#: src/lib/util.cc:642
+#: src/lib/util.cc:594
 msgid "Right surround"
 msgstr "Jobb térhangzás"
 
@@ -1411,28 +1449,28 @@ msgstr "90 fokos elforgatás óramutatóval ellentétes irányba"
 msgid "Rotate 90 degrees clockwise"
 msgstr "90 fokos elforgatás óramutatóval megegyező irányba"
 
-#: src/lib/util.cc:673
+#: src/lib/util.cc:625
 msgid "Rs"
 msgstr "Rs"
 
-#: src/lib/colour_conversion.cc:296
+#: src/lib/colour_conversion.cc:294
 msgid "S-Gamut3/S-Log3"
 msgstr "S-Gamut3/S-Log3"
 
-#: src/lib/ffmpeg_content.cc:604 src/lib/ffmpeg_content.cc:633
+#: src/lib/ffmpeg_content.cc:598 src/lib/ffmpeg_content.cc:627
 msgid "SMPTE 170M (BT601)"
 msgstr "SMPTE 170M (BT601)"
 
-#: src/lib/ffmpeg_content.cc:658
+#: src/lib/ffmpeg_content.cc:652
 msgid "SMPTE 170M (BT601-6)"
 msgstr "SMPTE 170M (BT601-6)"
 
-#: src/lib/ffmpeg_content.cc:663
+#: src/lib/ffmpeg_content.cc:657
 msgid "SMPTE 2085, Y'D'zD'x"
 msgstr "SMPTE 2085, Y'D'zD'x"
 
-#: src/lib/ffmpeg_content.cc:605 src/lib/ffmpeg_content.cc:634
-#: src/lib/ffmpeg_content.cc:659
+#: src/lib/ffmpeg_content.cc:599 src/lib/ffmpeg_content.cc:628
+#: src/lib/ffmpeg_content.cc:653
 msgid "SMPTE 240M"
 msgstr "SMPTE 240M"
 
@@ -1447,23 +1485,23 @@ msgstr ""
 "jelölőkkel. Javasolt a jelölők hozzáadása a ‘Jelölők’ gombra kattintva a "
 "“DCP” fülön."
 
-#: src/lib/ffmpeg_content.cc:643
+#: src/lib/ffmpeg_content.cc:637
 msgid "SMPTE ST 2084 for 10, 12, 14 and 16 bit systems"
 msgstr "SMPTE ST 2084 a 10, 12, 14 és 16 bit rendszerekre"
 
-#: src/lib/ffmpeg_content.cc:644
+#: src/lib/ffmpeg_content.cc:638
 msgid "SMPTE ST 428-1"
 msgstr "SMPTE ST 428-1"
 
-#: src/lib/ffmpeg_content.cc:608
+#: src/lib/ffmpeg_content.cc:602
 msgid "SMPTE ST 428-1 (CIE 1931 XYZ)"
 msgstr "SMPTE ST 428-1 (CIE 1931 XYZ)"
 
-#: src/lib/ffmpeg_content.cc:609
+#: src/lib/ffmpeg_content.cc:603
 msgid "SMPTE ST 431-2 (2011)"
 msgstr "SMPTE ST 431-2 (2011)"
 
-#: src/lib/ffmpeg_content.cc:610
+#: src/lib/ffmpeg_content.cc:604
 msgid "SMPTE ST 432-1 D65 (2010)"
 msgstr "SMPTE ST 432-1 D65 (2010)"
 
@@ -1492,15 +1530,15 @@ msgstr "Email küldése"
 msgid "Short"
 msgstr "Short"
 
-#: src/lib/util.cc:682
+#: src/lib/util.cc:634
 msgid "Sign"
 msgstr "Aláírás"
 
-#: src/lib/video_content.cc:542
+#: src/lib/video_content.cc:529
 msgid "Size"
 msgstr "Méret"
 
-#: src/lib/audio_content.cc:269
+#: src/lib/audio_content.cc:260
 msgid "Some audio will be resampled to %1Hz"
 msgstr ""
 
@@ -1536,15 +1574,15 @@ msgid ""
 "has no spoken parts."
 msgstr ""
 
-#: src/lib/make_dcp.cc:73
+#: src/lib/make_dcp.cc:69
 msgid "Some of your content is missing"
 msgstr ""
 
-#: src/lib/make_dcp.cc:77
+#: src/lib/make_dcp.cc:73
 msgid "Some of your content needs a KDM"
 msgstr ""
 
-#: src/lib/make_dcp.cc:80
+#: src/lib/make_dcp.cc:76
 msgid "Some of your content needs an OV"
 msgstr ""
 
@@ -1594,7 +1632,7 @@ msgstr "Test"
 msgid "Text subtitles"
 msgstr ""
 
-#: src/lib/make_dcp.cc:60
+#: src/lib/make_dcp.cc:56
 msgid "The DCP is empty, perhaps because all the content has zero length."
 msgstr ""
 
@@ -1676,7 +1714,7 @@ msgid ""
 "systems support your chosen DCP rate."
 msgstr ""
 
-#: src/lib/dcp_content.cc:724
+#: src/lib/dcp_content.cc:714
 msgid "There is no video in this DCP"
 msgstr ""
 
@@ -1687,11 +1725,11 @@ msgid ""
 "tab of Preferences."
 msgstr ""
 
-#: src/lib/util.cc:1034
+#: src/lib/util.cc:986
 msgid "This KDM was made for %1 but not for its leaf certificate."
 msgstr ""
 
-#: src/lib/util.cc:1032
+#: src/lib/util.cc:984
 msgid "This KDM was not made for %1's decryption certificate."
 msgstr ""
 
@@ -1715,13 +1753,13 @@ msgid ""
 "the content and choosing \"Add KDM\"."
 msgstr ""
 
-#: src/lib/film.cc:549
+#: src/lib/film.cc:544
 msgid ""
 "This film was created with a newer version of %1, and it cannot be loaded "
 "into this version.  Sorry!"
 msgstr ""
 
-#: src/lib/film.cc:530
+#: src/lib/film.cc:525
 msgid ""
 "This film was created with an older version of %1, and unfortunately it "
 "cannot be loaded into this version.  You will need to create a new Film, re-"
@@ -1780,19 +1818,19 @@ msgstr ""
 msgid "Unsharp mask and Gaussian blur"
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:556 src/lib/ffmpeg_content.cc:580
-#: src/lib/ffmpeg_content.cc:598 src/lib/ffmpeg_content.cc:600
-#: src/lib/ffmpeg_content.cc:601 src/lib/ffmpeg_content.cc:627
-#: src/lib/ffmpeg_content.cc:629 src/lib/ffmpeg_content.cc:630
-#: src/lib/ffmpeg_content.cc:654 src/lib/ffmpeg_content.cc:655
+#: src/lib/ffmpeg_content.cc:550 src/lib/ffmpeg_content.cc:574
+#: src/lib/ffmpeg_content.cc:592 src/lib/ffmpeg_content.cc:594
+#: src/lib/ffmpeg_content.cc:595 src/lib/ffmpeg_content.cc:621
+#: src/lib/ffmpeg_content.cc:623 src/lib/ffmpeg_content.cc:624
+#: src/lib/ffmpeg_content.cc:648 src/lib/ffmpeg_content.cc:649
 msgid "Unspecified"
 msgstr "Nincs megadva"
 
-#: src/lib/colour_conversion.cc:249
+#: src/lib/colour_conversion.cc:247
 msgid "Untitled"
 msgstr "Név nélküli"
 
-#: src/lib/util.cc:651 src/lib/util.cc:652
+#: src/lib/util.cc:603 src/lib/util.cc:604
 msgid "Unused"
 msgstr "Nem használt"
 
@@ -1804,13 +1842,17 @@ msgstr ""
 msgid "Upmix R"
 msgstr ""
 
-#: src/lib/util.cc:675
+#: src/lib/util.cc:627
 msgid "VI"
 msgstr "VI"
 
 #: src/lib/verify_dcp_job.cc:62
 msgid "Verify DCP"
 msgstr "DCP ellenőrzése"
+
+#: src/lib/copy_to_drive_job.cc:127
+msgid "Verifying copied files"
+msgstr ""
 
 #: src/lib/filter.cc:92
 msgid "Vertical flip"
@@ -1820,7 +1862,7 @@ msgstr ""
 msgid "Video refers to missing asset %1"
 msgstr ""
 
-#: src/lib/util.cc:644
+#: src/lib/util.cc:596
 msgid "Visually impaired"
 msgstr ""
 
@@ -1836,7 +1878,7 @@ msgstr ""
 msgid "Wednesday"
 msgstr "Szerda"
 
-#: src/lib/ffmpeg_content.cc:660
+#: src/lib/ffmpeg_content.cc:654
 msgid "YCOCG"
 msgstr "YCOCG"
 
@@ -1883,7 +1925,7 @@ msgid ""
 "join them to ensure smooth joins between the files."
 msgstr ""
 
-#: src/lib/film.cc:1670
+#: src/lib/film.cc:1665
 msgid ""
 "You have more than one piece of Atmos content, and they do not have the same "
 "frame rate.  You must remove some Atmos content."
@@ -1901,7 +1943,7 @@ msgid ""
 "likely to cause problems on playback."
 msgstr ""
 
-#: src/lib/make_dcp.cc:56
+#: src/lib/make_dcp.cc:52
 msgid "You must add some content to the DCP before creating it"
 msgstr ""
 
@@ -1962,7 +2004,7 @@ msgstr "[felirat]"
 msgid "_reel%1"
 msgstr "_reel%1"
 
-#: src/lib/audio_content.cc:315
+#: src/lib/audio_content.cc:306
 msgid "bits"
 msgstr ""
 
@@ -1974,11 +2016,7 @@ msgstr "időtúllépés csatlakozás közben"
 msgid "connecting"
 msgstr "csatlakozás"
 
-#: src/lib/make_dcp.cc:52
-msgid "container"
-msgstr "konténer"
-
-#: src/lib/make_dcp.cc:64
+#: src/lib/make_dcp.cc:60
 msgid "content type"
 msgstr "tartalom típusa"
 
@@ -2035,81 +2073,81 @@ msgstr "hiba az olvasás közben (%1)"
 msgid "error during async_write (%1)"
 msgstr "hiba az írás közben (%1)"
 
-#: src/lib/content.cc:480 src/lib/content.cc:489
+#: src/lib/content.cc:472 src/lib/content.cc:481
 msgid "frames per second"
 msgstr "képkocka per másodperc"
 
 #. TRANSLATORS: h here is an abbreviation for hours
-#: src/lib/util.cc:211
+#: src/lib/util.cc:212
 msgid "h"
 msgstr "óra"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:681
+#: src/lib/dcp_content.cc:671
 msgid "it has a different frame rate to the film."
 msgstr ""
 
-#: src/lib/dcp_content.cc:763
+#: src/lib/dcp_content.cc:753
 msgid ""
 "it has a different number of audio channels than the project; set the "
 "project to have %1 channels."
 msgstr ""
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:799
+#: src/lib/dcp_content.cc:789
 msgid ""
 "it has a start trim so its subtitles or closed captions must be re-written."
 msgstr ""
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:734
+#: src/lib/dcp_content.cc:724
 msgid "it is 2K and the film is 4K."
 msgstr ""
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:731
+#: src/lib/dcp_content.cc:721
 msgid "it is 4K and the film is 2K."
 msgstr ""
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:669
+#: src/lib/dcp_content.cc:659
 msgid "it is Interop and the film is set to SMPTE."
 msgstr ""
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:673
+#: src/lib/dcp_content.cc:663
 msgid "it is SMPTE and the film is set to Interop."
 msgstr ""
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:774
+#: src/lib/dcp_content.cc:764
 msgid "it overlaps other audio content."
 msgstr ""
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:809
+#: src/lib/dcp_content.cc:799
 msgid "it overlaps other text content."
 msgstr ""
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:749
+#: src/lib/dcp_content.cc:739
 msgid "it overlaps other video content."
 msgstr ""
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:704
+#: src/lib/dcp_content.cc:694
 msgid ""
 "its reel lengths differ from those in the film; set the reel mode to 'split "
 "by video content'."
 msgstr ""
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:739
+#: src/lib/dcp_content.cc:729
 msgid "its video frame size differs from the film's."
 msgstr ""
 
 #. TRANSLATORS: m here is an abbreviation for minutes
-#: src/lib/util.cc:220
+#: src/lib/util.cc:221
 msgid "m"
 msgstr "perc"
 
@@ -2122,25 +2160,25 @@ msgid "name"
 msgstr "név"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:793
+#: src/lib/dcp_content.cc:783
 msgid ""
 "one of its closed caption has a non-zero entry point so it must be re-"
 "written."
 msgstr ""
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:787
+#: src/lib/dcp_content.cc:777
 msgid ""
 "one of its subtitle reels has a non-zero entry point so it must be re-"
 "written."
 msgstr ""
 
 #. TRANSLATORS: s here is an abbreviation for seconds
-#: src/lib/util.cc:230
+#: src/lib/util.cc:231
 msgid "s"
 msgstr "másodperc"
 
-#: src/lib/colour_conversion.cc:290
+#: src/lib/colour_conversion.cc:288
 msgid "sRGB"
 msgstr "sRGB"
 
@@ -2148,13 +2186,16 @@ msgstr "sRGB"
 msgid "still"
 msgstr "még"
 
-#: src/lib/ffmpeg_examiner.cc:347 src/lib/video_content.cc:378
+#: src/lib/ffmpeg_examiner.cc:347 src/lib/video_content.cc:365
 msgid "unknown"
 msgstr "ismeretlen"
 
-#: src/lib/video_content.cc:540
+#: src/lib/video_content.cc:527
 msgid "video frames"
 msgstr "videó képkockái"
+
+#~ msgid "container"
+#~ msgstr "konténer"
 
 #~ msgid "DCP-o-matic notification"
 #~ msgstr "DCP-o-matic értesítés"

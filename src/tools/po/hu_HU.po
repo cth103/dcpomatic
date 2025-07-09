@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-08 23:51+0200\n"
+"POT-Creation-Date: 2025-07-09 21:45+0200\n"
 "PO-Revision-Date: 2022-09-17 10:54+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -17,188 +17,188 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 3.1.1\n"
 
-#: src/tools/dcpomatic_kdm.cc:491
+#: src/tools/dcpomatic_kdm.cc:492
 #, c-format
 msgid "%d KDM written to %s"
 msgstr "%d KDM írása a(z) %s helyre sikeres"
 
-#: src/tools/dcpomatic_kdm.cc:491
+#: src/tools/dcpomatic_kdm.cc:492
 #, c-format
 msgid "%d KDMs written to %s"
 msgstr "%d KDMek írása a(z) %s helyre sikeres"
 
-#: src/tools/dcpomatic_combiner.cc:174
+#: src/tools/dcpomatic_combiner.cc:175
 #, fuzzy, c-format
 msgid "%s already exists as a file, so you cannot use it for a DCP."
 msgstr "A(z) %s fájl már létezik. Felül kívánod írni?"
 
-#: src/tools/dcpomatic_disk.cc:506 src/tools/dcpomatic_kdm.cc:945
-#: src/tools/dcpomatic_player.cc:1364
+#: src/tools/dcpomatic_disk.cc:507 src/tools/dcpomatic_kdm.cc:945
+#: src/tools/dcpomatic_player.cc:1391
 #, fuzzy, c-format
 msgid "%s could not start"
 msgstr "DCP-o-matic indítása sikertelen"
 
-#: src/tools/dcpomatic_playlist.cc:687
+#: src/tools/dcpomatic_playlist.cc:693
 #, fuzzy, c-format
 msgid "%s could not start %s"
 msgstr "DCP-o-matic indítása sikertelen"
 
-#: src/tools/dcpomatic_combiner.cc:269
+#: src/tools/dcpomatic_combiner.cc:270
 #, fuzzy, c-format
 msgid "%s could not start (%s)"
 msgstr "DCP-o-matic indítása sikertelen"
 
-#: src/tools/dcpomatic.cc:1773 src/tools/dcpomatic_editor.cc:563
+#: src/tools/dcpomatic.cc:1773 src/tools/dcpomatic_editor.cc:564
 #, fuzzy, c-format
 msgid "%s could not start."
 msgstr "DCP-o-matic indítása sikertelen"
 
-#: src/tools/dcpomatic_batch.cc:88
+#: src/tools/dcpomatic_batch.cc:89
 msgid "&Add Film...\tCtrl-A"
 msgstr "&DFilm hozzáadása…\tCtrl-A"
 
-#: src/tools/dcpomatic_player.cc:610
+#: src/tools/dcpomatic_player.cc:637
 msgid "&Add OV..."
 msgstr "&OV hozzáadása…"
 
-#: src/tools/dcpomatic_player.cc:618
+#: src/tools/dcpomatic_player.cc:645
 msgid "&Close"
 msgstr "&Bezárás"
 
-#: src/tools/dcpomatic.cc:1360
+#: src/tools/dcpomatic.cc:1361
 msgid "&Close\tCtrl-W"
 msgstr "&Bezárás\tCtrl-W"
 
-#: src/tools/dcpomatic_batch.cc:110 src/tools/dcpomatic.cc:1445
-#: src/tools/dcpomatic_kdm.cc:347 src/tools/dcpomatic_player.cc:677
-#: src/tools/dcpomatic_playlist.cc:595
+#: src/tools/dcpomatic_batch.cc:111 src/tools/dcpomatic.cc:1446
+#: src/tools/dcpomatic_kdm.cc:348 src/tools/dcpomatic_player.cc:704
+#: src/tools/dcpomatic_playlist.cc:601
 msgid "&Edit"
 msgstr "&Szerkesztés"
 
-#: src/tools/dcpomatic_batch.cc:90 src/tools/dcpomatic.cc:1367
-#: src/tools/dcpomatic_editor.cc:421 src/tools/dcpomatic_player.cc:622
-#: src/tools/dcpomatic_playlist.cc:579
+#: src/tools/dcpomatic_batch.cc:91 src/tools/dcpomatic.cc:1368
+#: src/tools/dcpomatic_editor.cc:422 src/tools/dcpomatic_player.cc:649
+#: src/tools/dcpomatic_playlist.cc:585
 msgid "&Exit"
 msgstr "&Kilépés"
 
-#: src/tools/dcpomatic_batch.cc:108 src/tools/dcpomatic.cc:1444
-#: src/tools/dcpomatic_editor.cc:433 src/tools/dcpomatic_kdm.cc:346
-#: src/tools/dcpomatic_player.cc:674 src/tools/dcpomatic_playlist.cc:593
+#: src/tools/dcpomatic_batch.cc:109 src/tools/dcpomatic.cc:1445
+#: src/tools/dcpomatic_editor.cc:434 src/tools/dcpomatic_kdm.cc:347
+#: src/tools/dcpomatic_player.cc:701 src/tools/dcpomatic_playlist.cc:599
 msgid "&File"
 msgstr "&Fájl"
 
-#: src/tools/dcpomatic_batch.cc:113 src/tools/dcpomatic.cc:1449
-#: src/tools/dcpomatic_editor.cc:434 src/tools/dcpomatic_kdm.cc:349
-#: src/tools/dcpomatic_player.cc:681 src/tools/dcpomatic_playlist.cc:582
-#: src/tools/dcpomatic_playlist.cc:596
+#: src/tools/dcpomatic_batch.cc:114 src/tools/dcpomatic.cc:1450
+#: src/tools/dcpomatic_editor.cc:435 src/tools/dcpomatic_kdm.cc:350
+#: src/tools/dcpomatic_player.cc:708 src/tools/dcpomatic_playlist.cc:588
+#: src/tools/dcpomatic_playlist.cc:602
 msgid "&Help"
 msgstr "&Segítség"
 
-#: src/tools/dcpomatic.cc:1446
+#: src/tools/dcpomatic.cc:1447
 msgid "&Jobs"
 msgstr "&Műveletek"
 
-#: src/tools/dcpomatic.cc:1391
+#: src/tools/dcpomatic.cc:1392
 msgid "&Make DCP\tCtrl-M"
 msgstr "&DCP készítése\tCtrl-M"
 
-#: src/tools/dcpomatic.cc:1347 src/tools/dcpomatic_editor.cc:416
-#: src/tools/dcpomatic_player.cc:609
+#: src/tools/dcpomatic.cc:1348 src/tools/dcpomatic_editor.cc:417
+#: src/tools/dcpomatic_player.cc:636
 msgid "&Open...\tCtrl-O"
 msgstr "&Megnyitás…\tCtrl-O"
 
-#: src/tools/dcpomatic_batch.cc:96 src/tools/dcpomatic.cc:1382
-#: src/tools/dcpomatic_kdm.cc:336 src/tools/dcpomatic_player.cc:628
-#: src/tools/dcpomatic_playlist.cc:577
+#: src/tools/dcpomatic_batch.cc:97 src/tools/dcpomatic.cc:1383
+#: src/tools/dcpomatic_kdm.cc:337 src/tools/dcpomatic_player.cc:655
+#: src/tools/dcpomatic_playlist.cc:583
 #, fuzzy
 msgid "&Preferences...\tCtrl-,"
 msgstr "&Beállítások…\tCtrl-P"
 
-#: src/tools/dcpomatic_batch.cc:99 src/tools/dcpomatic.cc:1386
-#: src/tools/dcpomatic_kdm.cc:328 src/tools/dcpomatic_player.cc:631
-#: src/tools/dcpomatic_playlist.cc:588
+#: src/tools/dcpomatic_batch.cc:100 src/tools/dcpomatic.cc:1387
+#: src/tools/dcpomatic_kdm.cc:329 src/tools/dcpomatic_player.cc:658
+#: src/tools/dcpomatic_playlist.cc:594
 msgid "&Preferences...\tCtrl-P"
 msgstr "&Beállítások…\tCtrl-P"
 
-#: src/tools/dcpomatic_batch.cc:92 src/tools/dcpomatic.cc:1369
-#: src/tools/dcpomatic_editor.cc:423 src/tools/dcpomatic_kdm.cc:326
-#: src/tools/dcpomatic_player.cc:624 src/tools/dcpomatic_playlist.cc:585
+#: src/tools/dcpomatic_batch.cc:93 src/tools/dcpomatic.cc:1370
+#: src/tools/dcpomatic_editor.cc:424 src/tools/dcpomatic_kdm.cc:327
+#: src/tools/dcpomatic_player.cc:651 src/tools/dcpomatic_playlist.cc:591
 msgid "&Quit"
 msgstr "&Kilépés"
 
-#: src/tools/dcpomatic.cc:1350 src/tools/dcpomatic_editor.cc:418
+#: src/tools/dcpomatic.cc:1351 src/tools/dcpomatic_editor.cc:419
 msgid "&Save\tCtrl-S"
 msgstr "&Mentés\tCtrl-S"
 
-#: src/tools/dcpomatic_player.cc:613
+#: src/tools/dcpomatic_player.cc:640
 msgid "&Save frame to file...\tCtrl-S"
 msgstr "&Képkocka mentése fájlba…\tCtrl-S"
 
-#: src/tools/dcpomatic.cc:1405
+#: src/tools/dcpomatic.cc:1406
 msgid "&Send DCP to TMS"
 msgstr "&DCP küldése a TMS-re"
 
-#: src/tools/dcpomatic_batch.cc:112 src/tools/dcpomatic.cc:1448
-#: src/tools/dcpomatic_player.cc:680
+#: src/tools/dcpomatic_batch.cc:113 src/tools/dcpomatic.cc:1449
+#: src/tools/dcpomatic_player.cc:707
 msgid "&Tools"
 msgstr "&Eszközök"
 
-#: src/tools/dcpomatic.cc:1447 src/tools/dcpomatic_player.cc:679
+#: src/tools/dcpomatic.cc:1448 src/tools/dcpomatic_player.cc:706
 msgid "&View"
 msgstr "&Nézet"
 
-#: src/tools/dcpomatic_playlist.cc:316
+#: src/tools/dcpomatic_playlist.cc:322
 msgid "<b>Playlist:</b>"
 msgstr "<b>Lejátszási lista:</b>"
 
-#: src/tools/dcpomatic_playlist.cc:125
+#: src/tools/dcpomatic_playlist.cc:131
 msgid "<b>Playlists</b>"
 msgstr "<b>Lejátszási listák</b>"
 
-#: src/tools/dcpomatic_batch.cc:106 src/tools/dcpomatic.cc:1438
-#: src/tools/dcpomatic_editor.cc:430 src/tools/dcpomatic_kdm.cc:339
-#: src/tools/dcpomatic_player.cc:668 src/tools/dcpomatic_playlist.cc:591
+#: src/tools/dcpomatic_batch.cc:107 src/tools/dcpomatic.cc:1439
+#: src/tools/dcpomatic_editor.cc:431 src/tools/dcpomatic_kdm.cc:340
+#: src/tools/dcpomatic_player.cc:695 src/tools/dcpomatic_playlist.cc:597
 msgid "About"
 msgstr "Névjegy"
 
-#: src/tools/dcpomatic.cc:1436 src/tools/dcpomatic_editor.cc:428
-#: src/tools/dcpomatic_kdm.cc:337 src/tools/dcpomatic_player.cc:666
-#: src/tools/dcpomatic_playlist.cc:580
+#: src/tools/dcpomatic.cc:1437 src/tools/dcpomatic_editor.cc:429
+#: src/tools/dcpomatic_kdm.cc:338 src/tools/dcpomatic_player.cc:693
+#: src/tools/dcpomatic_playlist.cc:586
 #, fuzzy, c-format
 msgid "About %s"
 msgstr "Névjegy"
 
-#: src/tools/dcpomatic_playlist.cc:340
+#: src/tools/dcpomatic_playlist.cc:346
 msgid "Add"
 msgstr "Hozzáadás"
 
-#: src/tools/dcpomatic_player.cc:611
+#: src/tools/dcpomatic_player.cc:638
 msgid "Add &KDM..."
 msgstr "&KDM hozzáadása…"
 
-#: src/tools/dcpomatic_playlist.cc:78
+#: src/tools/dcpomatic_playlist.cc:79
 msgid "Add content"
 msgstr "Tartalom hozzáadása"
 
-#: src/tools/dcpomatic_batch.cc:177
+#: src/tools/dcpomatic_batch.cc:178
 #, fuzzy
 msgid "Add film"
 msgstr "Film hozzáadása…"
 
-#: src/tools/dcpomatic_batch.cc:177
+#: src/tools/dcpomatic_batch.cc:178
 msgid "Add film for conversion"
 msgstr ""
 
-#: src/tools/dcpomatic_kdm.cc:216
+#: src/tools/dcpomatic_kdm.cc:217
 msgid "Add folder..."
 msgstr "Mappa hozzáadása…"
 
-#: src/tools/dcpomatic_kdm.cc:214
+#: src/tools/dcpomatic_kdm.cc:215
 msgid "Add..."
 msgstr "Hozzáadás…"
 
-#: src/tools/dcpomatic_combiner.cc:310 src/tools/dcpomatic_editor.cc:602
-#: src/tools/dcpomatic_player.cc:1412 src/tools/dcpomatic_playlist.cc:710
+#: src/tools/dcpomatic_combiner.cc:311 src/tools/dcpomatic_editor.cc:603
+#: src/tools/dcpomatic_player.cc:1449 src/tools/dcpomatic_playlist.cc:716
 #, fuzzy, c-format
 msgid ""
 "An exception occurred: %s\n"
@@ -208,10 +208,10 @@ msgstr ""
 "Hiba történt: %s.\n"
 "\n"
 
-#: src/tools/dcpomatic.cc:1826 src/tools/dcpomatic_combiner.cc:300
-#: src/tools/dcpomatic_disk.cc:553 src/tools/dcpomatic_editor.cc:592
-#: src/tools/dcpomatic_kdm.cc:960 src/tools/dcpomatic_player.cc:1402
-#: src/tools/dcpomatic_playlist.cc:700
+#: src/tools/dcpomatic.cc:1826 src/tools/dcpomatic_combiner.cc:301
+#: src/tools/dcpomatic_disk.cc:554 src/tools/dcpomatic_editor.cc:593
+#: src/tools/dcpomatic_kdm.cc:960 src/tools/dcpomatic_player.cc:1439
+#: src/tools/dcpomatic_playlist.cc:706
 #, fuzzy, c-format
 msgid ""
 "An exception occurred: %s (%s)\n"
@@ -231,7 +231,7 @@ msgstr ""
 "Hiba történt: %s (%s) (%s)\n"
 "\n"
 
-#: src/tools/dcpomatic.cc:1847 src/tools/dcpomatic_disk.cc:563
+#: src/tools/dcpomatic.cc:1847 src/tools/dcpomatic_disk.cc:564
 #: src/tools/dcpomatic_kdm.cc:970
 #, fuzzy, c-format
 msgid ""
@@ -242,30 +242,30 @@ msgstr ""
 "Hiba történt: %s.\n"
 "\n"
 
-#: src/tools/dcpomatic_server.cc:367
+#: src/tools/dcpomatic_server.cc:369
 #, fuzzy, c-format
 msgid "An unknown error has occurred with the %s."
 msgstr "Egy ismeretlen hiba történt a DCP-o-matic szerverrel."
 
-#: src/tools/dcpomatic.cc:1024 src/tools/dcpomatic_kdm.cc:515
+#: src/tools/dcpomatic.cc:1025 src/tools/dcpomatic_kdm.cc:516
 msgid "An unknown exception occurred."
 msgstr "Egy ismeretlen hiba történt."
 
-#: src/tools/dcpomatic.cc:1853 src/tools/dcpomatic_combiner.cc:316
-#: src/tools/dcpomatic_disk.cc:569 src/tools/dcpomatic_editor.cc:608
+#: src/tools/dcpomatic.cc:1853 src/tools/dcpomatic_combiner.cc:317
+#: src/tools/dcpomatic_disk.cc:570 src/tools/dcpomatic_editor.cc:609
 #: src/tools/dcpomatic_kdm.cc:976 src/tools/dcpomatic_kdm.cc:985
-#: src/tools/dcpomatic_player.cc:1418 src/tools/dcpomatic_playlist.cc:716
-#: src/tools/dcpomatic_playlist.cc:725
+#: src/tools/dcpomatic_player.cc:1455 src/tools/dcpomatic_playlist.cc:722
+#: src/tools/dcpomatic_playlist.cc:731
 #, fuzzy, c-format
 msgid "An unknown exception occurred. %s"
 msgstr "Egy ismeretlen hiba történt."
 
-#: src/tools/dcpomatic_combiner.cc:119 src/tools/dcpomatic_editor.cc:83
-#: src/tools/dcpomatic_editor.cc:202 src/tools/dcpomatic_editor.cc:289
+#: src/tools/dcpomatic_combiner.cc:120 src/tools/dcpomatic_editor.cc:84
+#: src/tools/dcpomatic_editor.cc:203 src/tools/dcpomatic_editor.cc:290
 msgid "Annotation text"
 msgstr ""
 
-#: src/tools/dcpomatic.cc:775
+#: src/tools/dcpomatic.cc:776
 msgid ""
 "Are you sure you want to restore preferences to their defaults?  This cannot "
 "be undone."
@@ -273,30 +273,30 @@ msgstr ""
 "Biztos vagy benne, hogy vissza szeretnéd állítani a beállításokat "
 "alapértelmezettre? A művelet nem vonható vissza."
 
-#: src/tools/dcpomatic.cc:876
+#: src/tools/dcpomatic.cc:877
 #, c-format
 msgid "Bad setting for %s."
 msgstr "Hibás beállítás a következőre: %s."
 
-#: src/tools/dcpomatic_editor.cc:386 src/tools/dcpomatic_player.cc:640
-#: src/tools/dcpomatic_playlist.cc:331
+#: src/tools/dcpomatic_editor.cc:387 src/tools/dcpomatic_player.cc:667
+#: src/tools/dcpomatic_playlist.cc:337
 msgid "CPL"
 msgstr "CPL"
 
-#: src/tools/dcpomatic.cc:1020 src/tools/dcpomatic_kdm.cc:511
+#: src/tools/dcpomatic.cc:1021 src/tools/dcpomatic_kdm.cc:512
 msgid "CPL's content is not encrypted."
 msgstr "A CPL tartalma nincs titkosítva."
 
-#: src/tools/dcpomatic_editor.cc:404
+#: src/tools/dcpomatic_editor.cc:405
 #, c-format
 msgid "CPL: %s"
 msgstr ""
 
-#: src/tools/dcpomatic.cc:1426 src/tools/dcpomatic_player.cc:660
+#: src/tools/dcpomatic.cc:1427 src/tools/dcpomatic_player.cc:687
 msgid "Check for updates"
 msgstr "Frissítések keresése"
 
-#: src/tools/dcpomatic_combiner.cc:67 src/tools/dcpomatic_disk.cc:83
+#: src/tools/dcpomatic_combiner.cc:68 src/tools/dcpomatic_disk.cc:84
 msgid "Choose a DCP folder"
 msgstr ""
 
@@ -305,39 +305,39 @@ msgstr ""
 msgid "Close %s"
 msgstr "&Bezárás"
 
-#: src/tools/dcpomatic.cc:167
+#: src/tools/dcpomatic.cc:168
 msgid "Close without saving film"
 msgstr "Kilépés a film mentése nélkül"
 
-#: src/tools/dcpomatic.cc:1418 src/tools/dcpomatic_player.cc:646
+#: src/tools/dcpomatic.cc:1419 src/tools/dcpomatic_player.cc:673
 msgid "Closed captions..."
 msgstr "Hangleíró feliratok..."
 
-#: src/tools/dcpomatic_combiner.cc:127
+#: src/tools/dcpomatic_combiner.cc:128
 msgid "Combine"
 msgstr ""
 
-#: src/tools/dcpomatic_combiner.cc:181
+#: src/tools/dcpomatic_combiner.cc:182
 msgid "Combining DCPs"
 msgstr ""
 
-#: src/tools/dcpomatic_editor.cc:217
+#: src/tools/dcpomatic_editor.cc:218
 msgid "Content title text"
 msgstr ""
 
-#: src/tools/dcpomatic_disk.cc:163
+#: src/tools/dcpomatic_disk.cc:164
 msgid "Copy DCPs"
 msgstr ""
 
-#: src/tools/dcpomatic.cc:1374
+#: src/tools/dcpomatic.cc:1375
 msgid "Copy settings\tCtrl-C"
 msgstr "Beállítások másolása\tCtrl-C"
 
-#: src/tools/dcpomatic.cc:585 src/tools/dcpomatic.cc:594
+#: src/tools/dcpomatic.cc:586 src/tools/dcpomatic.cc:595
 msgid "Could not create folder to store film."
 msgstr "Nem sikerült mappát létrehozni a film számára."
 
-#: src/tools/dcpomatic_kdm.cc:652
+#: src/tools/dcpomatic_kdm.cc:653
 msgid ""
 "Could not decrypt the DKDM.  Perhaps it was not created with the correct "
 "certificate."
@@ -345,42 +345,42 @@ msgstr ""
 "Nem sikerült a DKDM dekódolása. Előfordulhat, hogy nem megfelelő "
 "tanúsítvánnyal lett készítve."
 
-#: src/tools/dcpomatic.cc:659 src/tools/dcpomatic.cc:676
+#: src/tools/dcpomatic.cc:660 src/tools/dcpomatic.cc:677
 #, fuzzy
 msgid "Could not duplicate project."
 msgstr "Nem található a lejátszó."
 
-#: src/tools/dcpomatic.cc:953
+#: src/tools/dcpomatic.cc:954
 msgid "Could not find batch converter."
 msgstr "Nem található a batch converter."
 
-#: src/tools/dcpomatic.cc:968
+#: src/tools/dcpomatic.cc:969
 msgid "Could not find player."
 msgstr "Nem található a lejátszó."
 
-#: src/tools/dcpomatic_batch.cc:478
+#: src/tools/dcpomatic_batch.cc:479
 #, c-format
 msgid ""
 "Could not listen for new batch jobs.  Perhaps another instance of the %s is "
 "running."
 msgstr ""
 
-#: src/tools/dcpomatic_editor.cc:398
+#: src/tools/dcpomatic_editor.cc:399
 #, fuzzy
 msgid "Could not load DCP"
 msgstr "Nem sikerült a DCP %1 betöltése."
 
-#: src/tools/dcpomatic_player.cc:1341
+#: src/tools/dcpomatic_player.cc:1368
 #, fuzzy, c-format
 msgid "Could not load DCP %s"
 msgstr "Nem sikerült a DCP %1 betöltése."
 
-#: src/tools/dcpomatic_player.cc:839
+#: src/tools/dcpomatic_player.cc:866
 #, fuzzy, c-format
 msgid "Could not load DCP %s."
 msgstr "Nem sikerült a DCP %1 betöltése."
 
-#: src/tools/dcpomatic_player.cc:599
+#: src/tools/dcpomatic_player.cc:626
 #, c-format
 msgid ""
 "Could not load DCP.\n"
@@ -391,45 +391,45 @@ msgstr ""
 "\n"
 "%s."
 
-#: src/tools/dcpomatic_player.cc:787
+#: src/tools/dcpomatic_player.cc:814
 msgid "Could not load KDM."
 msgstr "Nem sikerült a KDM betöltése."
 
-#: src/tools/dcpomatic_player.cc:445 src/tools/dcpomatic_player.cc:454
-#: src/tools/dcpomatic_player.cc:456
+#: src/tools/dcpomatic_player.cc:452 src/tools/dcpomatic_player.cc:461
+#: src/tools/dcpomatic_player.cc:463
 #, c-format
 msgid "Could not load a DCP from %s"
 msgstr "Nem sikerült a DCP betöltése a(z) %s helyről"
 
-#: src/tools/dcpomatic_batch.cc:495
+#: src/tools/dcpomatic_batch.cc:496
 msgid "Could not load film %1"
 msgstr "Nem sikerült a film %1 betöltése"
 
-#: src/tools/dcpomatic.cc:1734
+#: src/tools/dcpomatic.cc:1735
 msgid "Could not load film %1 (%2)"
 msgstr "Nem sikerült a film %1 (%s) betöltése."
 
-#: src/tools/dcpomatic_player.cc:1349
+#: src/tools/dcpomatic_player.cc:1376
 #, fuzzy, c-format
 msgid "Could not load stress test file %s"
 msgstr "Nem sikerült a film %1 betöltése"
 
-#: src/tools/dcpomatic.cc:878
+#: src/tools/dcpomatic.cc:879
 msgid "Could not make DCP."
 msgstr "Nem sikerült a DCP elkészítése."
 
-#: src/tools/dcpomatic_batch.cc:259 src/tools/dcpomatic.cc:507
-#: src/tools/dcpomatic.cc:512
+#: src/tools/dcpomatic_batch.cc:260 src/tools/dcpomatic.cc:508
+#: src/tools/dcpomatic.cc:513
 #, c-format
 msgid "Could not open film at %s"
 msgstr "Nem sikerült a film megnyitása a(z) %s helyen"
 
-#: src/tools/dcpomatic.cc:500
+#: src/tools/dcpomatic.cc:501
 #, fuzzy, c-format
 msgid "Could not open this folder as a %s project."
 msgstr "Nem nyitható meg ez a mappa egy DCP-o-matic projektként."
 
-#: src/tools/dcpomatic_kdm.cc:657
+#: src/tools/dcpomatic_kdm.cc:658
 msgid ""
 "Could not read file as a KDM.  It is much too large.  Make sure you are "
 "loading a DKDM (XML) file."
@@ -437,7 +437,7 @@ msgstr ""
 "Nem olvasható ez a fájl KDM-ként. Túl nagy, kérlek győződj meg róla, hogy "
 "egy DKDM (XML) fájlt töltesz be."
 
-#: src/tools/dcpomatic_kdm.cc:645
+#: src/tools/dcpomatic_kdm.cc:646
 msgid ""
 "Could not read file as a KDM.  Perhaps it is badly formatted, or not a KDM "
 "at all."
@@ -445,25 +445,25 @@ msgstr ""
 "Nem olvasható ez a fájl KDM-ként. Előfordulhat, hogy rosszul formázott, vagy "
 "nem egy KDM."
 
-#: src/tools/dcpomatic.cc:797
+#: src/tools/dcpomatic.cc:798
 msgid "Could not remove existing preferences file"
 msgstr ""
 
-#: src/tools/dcpomatic.cc:628 src/tools/dcpomatic.cc:1313
+#: src/tools/dcpomatic.cc:629 src/tools/dcpomatic.cc:1314
 #, fuzzy
 msgid "Could not save project."
 msgstr "Nem sikerült a DCP elkészítése."
 
-#: src/tools/dcpomatic.cc:643
+#: src/tools/dcpomatic.cc:644
 #, fuzzy
 msgid "Could not save template."
 msgstr "Nem található a lejátszó."
 
-#: src/tools/dcpomatic.cc:1079
+#: src/tools/dcpomatic.cc:1080
 msgid "Could not show DCP."
 msgstr "Nem lehet megjeleníteni ezt a DCP-t."
 
-#: src/tools/dcpomatic.cc:951
+#: src/tools/dcpomatic.cc:952
 msgid ""
 "Could not start the batch converter.  You may need to download it from "
 "dcpomatic.com."
@@ -471,15 +471,15 @@ msgstr ""
 "Nem sikerült elindítani a batch convertert. Le kell töltened a dcpomatic.com "
 "oldalról."
 
-#: src/tools/dcpomatic.cc:966
+#: src/tools/dcpomatic.cc:967
 msgid ""
 "Could not start the player.  You may need to download it from dcpomatic.com."
 msgstr ""
 "Nem sikerült elindítani a lejátszót. Le kell töltened a dcpomatic.com "
 "oldalról."
 
-#: src/tools/dcpomatic_batch.cc:365 src/tools/dcpomatic.cc:1461
-#: src/tools/dcpomatic_player.cc:1075 src/tools/dcpomatic_playlist.cc:609
+#: src/tools/dcpomatic_batch.cc:366 src/tools/dcpomatic.cc:1462
+#: src/tools/dcpomatic_player.cc:1102 src/tools/dcpomatic_playlist.cc:615
 #, c-format
 msgid ""
 "Could not write to config file at %s.  Your changes have not been saved."
@@ -487,68 +487,68 @@ msgstr ""
 "Nem sikerült a config fájlba írni a(z) %s helyen. A változtatások nem lettek "
 "mentve."
 
-#: src/tools/dcpomatic_player.cc:1083
+#: src/tools/dcpomatic_player.cc:1110
 msgid "Could not write to config file.  Your changes have not been saved."
 msgstr "Nem sikerült a config fájlba írni. A változtatások nem lettek mentve."
 
-#: src/tools/dcpomatic_kdm.cc:239
+#: src/tools/dcpomatic_kdm.cc:240
 msgid "Create KDMs"
 msgstr "KDM-ek készítése"
 
-#: src/tools/dcpomatic_editor.cc:212 src/tools/dcpomatic_editor.cc:299
+#: src/tools/dcpomatic_editor.cc:213 src/tools/dcpomatic_editor.cc:300
 msgid "Creator"
 msgstr ""
 
-#: src/tools/dcpomatic_disk.cc:138
+#: src/tools/dcpomatic_disk.cc:139
 #, fuzzy
 msgid "DCP"
 msgstr "CPL"
 
-#: src/tools/dcpomatic_server.cc:261
+#: src/tools/dcpomatic_server.cc:263
 msgid "DCP-o-matic Encode Server"
 msgstr "DCP-o-matic Encode Server"
 
-#: src/tools/dcpomatic_disk.cc:134
+#: src/tools/dcpomatic_disk.cc:135
 msgid "DCPs"
 msgstr ""
 
-#: src/tools/dcpomatic_combiner.cc:191
+#: src/tools/dcpomatic_combiner.cc:192
 msgid "DCPs combined successfully."
 msgstr ""
 
-#: src/tools/dcpomatic_kdm.cc:175
+#: src/tools/dcpomatic_kdm.cc:176
 msgid "DKDM"
 msgstr "DKDM"
 
-#: src/tools/dcpomatic_kdm.cc:632
+#: src/tools/dcpomatic_kdm.cc:633
 #, c-format
 msgid "DKDM %s is already in the DKDM list and will not be added again."
 msgstr ""
 
-#: src/tools/dcpomatic_player.cc:653
+#: src/tools/dcpomatic_player.cc:680
 msgid "Decode at full resolution"
 msgstr "Dekódolás teljes felbontással"
 
-#: src/tools/dcpomatic_player.cc:654
+#: src/tools/dcpomatic_player.cc:681
 msgid "Decode at half resolution"
 msgstr "Dekódolás a felbontás felével"
 
-#: src/tools/dcpomatic_player.cc:655
+#: src/tools/dcpomatic_player.cc:682
 msgid "Decode at quarter resolution"
 msgstr "Dekódolás a felbontás negyedével"
 
-#: src/tools/dcpomatic_playlist.cc:138
+#: src/tools/dcpomatic_playlist.cc:144
 msgid "Delete"
 msgstr "Törlés"
 
-#: src/tools/dcpomatic_disk.cc:337
+#: src/tools/dcpomatic_disk.cc:338
 #, c-format
 msgid ""
 "Did you install the %s Disk Writer.pkg from the .dmg?  Please check and try "
 "again."
 msgstr ""
 
-#: src/tools/dcpomatic_disk.cc:187
+#: src/tools/dcpomatic_disk.cc:188
 #, fuzzy
 msgid "Disk Writer"
 msgstr "DCP-o-matic KDM Creator"
@@ -558,143 +558,143 @@ msgstr "DCP-o-matic KDM Creator"
 msgid "Do nothing"
 msgstr "Ne történjen semmi"
 
-#: src/tools/dcpomatic_disk.cc:329
+#: src/tools/dcpomatic_disk.cc:330
 msgid ""
 "Do you see a 'User Account Control' dialogue asking about "
 "dcpomatic2_disk_writer.exe?  If so, click 'Yes', then try again."
 msgstr ""
 
-#: src/tools/dcpomatic.cc:861
+#: src/tools/dcpomatic.cc:862
 #, c-format
 msgid "Do you want to overwrite the existing DCP %s?"
 msgstr "Szeretnéd felülírni a létező DCP-t a(z) %s helyen?"
 
-#: src/tools/dcpomatic.cc:167
+#: src/tools/dcpomatic.cc:168
 msgid "Don't close"
 msgstr "Ne záródjon be"
 
-#: src/tools/dcpomatic.cc:195
+#: src/tools/dcpomatic.cc:196
 msgid "Don't duplicate"
 msgstr "De kettőződjön meg"
 
-#: src/tools/dcpomatic_playlist.cc:339
+#: src/tools/dcpomatic_playlist.cc:345
 msgid "Down"
 msgstr "Le"
 
-#: src/tools/dcpomatic_disk.cc:150
+#: src/tools/dcpomatic_disk.cc:151
 msgid "Drive"
 msgstr ""
 
-#: src/tools/dcpomatic_player.cc:643
+#: src/tools/dcpomatic_player.cc:670
 msgid "Dual screen\tShift+F11"
 msgstr "Két képernyő\tShift+F11"
 
-#: src/tools/dcpomatic.cc:650 src/tools/dcpomatic.cc:666
+#: src/tools/dcpomatic.cc:651 src/tools/dcpomatic.cc:667
 msgid "Duplicate Film"
 msgstr "Film megkettőzése"
 
-#: src/tools/dcpomatic.cc:1354
+#: src/tools/dcpomatic.cc:1355
 msgid "Duplicate and open..."
 msgstr "Megkettőzés és megnyitás…"
 
-#: src/tools/dcpomatic.cc:195
+#: src/tools/dcpomatic.cc:196
 msgid "Duplicate without saving film"
 msgstr "Megkettőzés a film mentése nélkül"
 
-#: src/tools/dcpomatic.cc:1353
+#: src/tools/dcpomatic.cc:1354
 msgid "Duplicate..."
 msgstr "Megkettőzés…"
 
-#: src/tools/dcpomatic_editor.cc:93
+#: src/tools/dcpomatic_editor.cc:94
 msgid "Duration"
 msgstr ""
 
-#: src/tools/dcpomatic_editor.cc:153
+#: src/tools/dcpomatic_editor.cc:154
 msgid "Edit reel"
 msgstr ""
 
-#: src/tools/dcpomatic_batch.cc:103 src/tools/dcpomatic.cc:1424
+#: src/tools/dcpomatic_batch.cc:104 src/tools/dcpomatic.cc:1425
 msgid "Encoding servers..."
 msgstr "Kódolási szerverek…"
 
-#: src/tools/dcpomatic_playlist.cc:333
+#: src/tools/dcpomatic_playlist.cc:339
 msgid "Encrypted"
 msgstr "Kódolt"
 
-#: src/tools/dcpomatic_editor.cc:88
+#: src/tools/dcpomatic_editor.cc:89
 msgid "Entry point"
 msgstr ""
 
-#: src/tools/dcpomatic.cc:1431
+#: src/tools/dcpomatic.cc:1432
 msgid "Export preferences..."
 msgstr "Beállítások exportálása…"
 
-#: src/tools/dcpomatic.cc:1403
+#: src/tools/dcpomatic.cc:1404
 msgid "Export subtitles..."
 msgstr "Feliratok exportálása…"
 
-#: src/tools/dcpomatic.cc:1402
+#: src/tools/dcpomatic.cc:1403
 msgid "Export video file...\tCtrl-E"
 msgstr "Videó fájl exportálása…\tCtrl-E"
 
-#: src/tools/dcpomatic_kdm.cc:220
+#: src/tools/dcpomatic_kdm.cc:221
 msgid "Export..."
 msgstr "Exportálás…"
 
-#: src/tools/dcpomatic_player.cc:650
+#: src/tools/dcpomatic_player.cc:677
 msgid "Eye"
 msgstr ""
 
-#: src/tools/dcpomatic.cc:1039 src/tools/dcpomatic_kdm.cc:362
+#: src/tools/dcpomatic.cc:1040 src/tools/dcpomatic_kdm.cc:363
 #, c-format
 msgid "File %s already exists.  Do you want to overwrite it?"
 msgstr "A(z) %s fájl már létezik. Felül kívánod írni?"
 
 #. TRANSLATORS: this is the heading for a dialog box, which tells the user that the current
 #. project (Film) has been changed since it was last saved.
-#: src/tools/dcpomatic.cc:162 src/tools/dcpomatic.cc:190
+#: src/tools/dcpomatic.cc:163 src/tools/dcpomatic.cc:191
 msgid "Film changed"
 msgstr "Film megváltozott"
 
-#: src/tools/dcpomatic_disk.cc:187
+#: src/tools/dcpomatic_disk.cc:188
 msgid "Finding disks"
 msgstr ""
 
-#: src/tools/dcpomatic_kdm.cc:357
+#: src/tools/dcpomatic_kdm.cc:358
 #, fuzzy, c-format
 msgid "Folder %s already exists.  Do you want to overwrite it?"
 msgstr "A(z) %s fájl már létezik. Felül kívánod írni?"
 
-#: src/tools/dcpomatic_server.cc:174
+#: src/tools/dcpomatic_server.cc:176
 msgid "Frames per second"
 msgstr "Képkocka per másodperc"
 
-#: src/tools/dcpomatic_player.cc:642
+#: src/tools/dcpomatic_player.cc:669
 msgid "Full screen\tF11"
 msgstr "Teljes képernyő\tF11"
 
-#: src/tools/dcpomatic.cc:1423
+#: src/tools/dcpomatic.cc:1424
 msgid "Hints..."
 msgstr "Tippek..."
 
-#: src/tools/dcpomatic.cc:1432
+#: src/tools/dcpomatic.cc:1433
 #, fuzzy
 msgid "Import preferences..."
 msgstr "Beállítások exportálása…"
 
-#: src/tools/dcpomatic_combiner.cc:104
+#: src/tools/dcpomatic_combiner.cc:105
 msgid "Input DCP"
 msgstr ""
 
-#: src/tools/dcpomatic_editor.cc:98
+#: src/tools/dcpomatic_editor.cc:99
 msgid "Intrinsic duration"
 msgstr ""
 
-#: src/tools/dcpomatic_editor.cc:207 src/tools/dcpomatic_editor.cc:294
+#: src/tools/dcpomatic_editor.cc:208 src/tools/dcpomatic_editor.cc:295
 msgid "Issuer"
 msgstr ""
 
-#: src/tools/dcpomatic.cc:502
+#: src/tools/dcpomatic.cc:503
 #, fuzzy, c-format
 msgid ""
 "It looks like you are trying to open a DCP.  File -> Open is for loading %s "
@@ -706,71 +706,71 @@ msgstr ""
 "a Fájl -> Új menüpont alatt és használd a “DCP hozzáadása” gombot."
 
 #. TRANSLATORS: translate the word "Timing" here; do not include the "KDM|" prefix
-#: src/tools/dcpomatic_kdm.cc:169
+#: src/tools/dcpomatic_kdm.cc:170
 msgid "KDM|Timing"
 msgstr "KDM|Timing"
 
-#: src/tools/dcpomatic_player.cc:648
+#: src/tools/dcpomatic_player.cc:675
 msgid "Left"
 msgstr ""
 
-#: src/tools/dcpomatic_playlist.cc:133
+#: src/tools/dcpomatic_playlist.cc:139
 msgid "Length"
 msgstr "Hossz"
 
-#: src/tools/dcpomatic_player.cc:438 src/tools/dcpomatic_player.cc:761
+#: src/tools/dcpomatic_player.cc:445 src/tools/dcpomatic_player.cc:788
 msgid "Loading content"
 msgstr "Tartalom betöltése"
 
-#: src/tools/dcpomatic.cc:1398
+#: src/tools/dcpomatic.cc:1399
 msgid "Make &DKDMs...\tCtrl-D"
 msgstr "&DKDM-ek készítése…\tCtrl-D"
 
-#: src/tools/dcpomatic.cc:1396
+#: src/tools/dcpomatic.cc:1397
 msgid "Make &KDMs...\tCtrl-K"
 msgstr "&KDM-ek készítése…\tCtrl-K"
 
-#: src/tools/dcpomatic.cc:1393
+#: src/tools/dcpomatic.cc:1394
 msgid "Make DCP in &batch converter\tCtrl-B"
 msgstr "DCP készítése a &batch converter-ben\tCtrl-B"
 
-#: src/tools/dcpomatic.cc:1399
+#: src/tools/dcpomatic.cc:1400
 #, fuzzy, c-format
 msgid "Make DKDM for %s..."
 msgstr "DKDM készítése a DCP-o-matic számára…"
 
-#: src/tools/dcpomatic.cc:1425
+#: src/tools/dcpomatic.cc:1426
 msgid "Manage templates..."
 msgstr "Sablonok kezelése…"
 
-#: src/tools/dcpomatic_editor.cc:225 src/tools/dcpomatic_playlist.cc:132
-#: src/tools/dcpomatic_playlist.cc:330
+#: src/tools/dcpomatic_editor.cc:226 src/tools/dcpomatic_playlist.cc:138
+#: src/tools/dcpomatic_playlist.cc:336
 msgid "Name"
 msgstr "Név"
 
-#: src/tools/dcpomatic_playlist.cc:136
+#: src/tools/dcpomatic_playlist.cc:142
 msgid "New"
 msgstr "Új"
 
-#: src/tools/dcpomatic.cc:566
+#: src/tools/dcpomatic.cc:567
 msgid "New Film"
 msgstr "Új film"
 
-#: src/tools/dcpomatic_playlist.cc:250
+#: src/tools/dcpomatic_playlist.cc:256
 msgid "New Playlist"
 msgstr "Új lejátszási lista"
 
-#: src/tools/dcpomatic.cc:1345
+#: src/tools/dcpomatic.cc:1346
 msgid "New...\tCtrl-N"
 msgstr "Új…\tCtrl-N"
 
-#: src/tools/dcpomatic_disk.cc:92
+#: src/tools/dcpomatic_disk.cc:93
 msgid ""
 "No ASSETMAP or ASSETMAP.xml found in this folder.  Please choose a DCP "
 "folder."
 msgstr ""
 
-#: src/tools/dcpomatic_playlist.cc:246
+#: src/tools/dcpomatic_playlist.cc:252
 msgid ""
 "No playlist folder is specified in preferences.  Please set one and then try "
 "again."
@@ -778,44 +778,44 @@ msgstr ""
 "Egy lejátszási lista mappa sem lett beállítva a beállításokban. Kérlek "
 "állíts be egyet és próbáld újra."
 
-#: src/tools/dcpomatic.cc:1415
+#: src/tools/dcpomatic.cc:1416
 msgid "Open DCP in &player"
 msgstr "DCP megnyitása a &lejátszóban"
 
-#: src/tools/dcpomatic_editor.cc:343
+#: src/tools/dcpomatic_editor.cc:344
 msgid "Open a DCP using File -> Open"
 msgstr ""
 
-#: src/tools/dcpomatic_kdm.cc:227
+#: src/tools/dcpomatic_kdm.cc:228
 msgid "Output"
 msgstr "Kimenet"
 
-#: src/tools/dcpomatic_combiner.cc:123
+#: src/tools/dcpomatic_combiner.cc:124
 msgid "Output DCP folder"
 msgstr ""
 
-#: src/tools/dcpomatic_editor.cc:407
+#: src/tools/dcpomatic_editor.cc:408
 #, c-format
 msgid "PKL: %s"
 msgstr ""
 
-#: src/tools/dcpomatic.cc:1376
+#: src/tools/dcpomatic.cc:1377
 msgid "Paste settings...\tCtrl-V"
 msgstr "Beállítások beillesztése…\tCtrl-V"
 
-#: src/tools/dcpomatic_batch.cc:178
+#: src/tools/dcpomatic_batch.cc:179
 msgid "Pause or resume conversion"
 msgstr ""
 
-#: src/tools/dcpomatic_batch.cc:178
+#: src/tools/dcpomatic_batch.cc:179
 msgid "Pause/resume"
 msgstr ""
 
-#: src/tools/dcpomatic_editor.cc:171
+#: src/tools/dcpomatic_editor.cc:172
 msgid "Picture"
 msgstr ""
 
-#: src/tools/dcpomatic.cc:590
+#: src/tools/dcpomatic.cc:591
 #, fuzzy, c-format
 msgid ""
 "Please check that you do not have Windows controlled folder access enabled "
@@ -824,15 +824,15 @@ msgstr ""
 "Kérlek ellenőrizd, hogy nincs-e beállítva a Windows controlled folder access "
 "a DCP-o-matic számára."
 
-#: src/tools/dcpomatic_playlist.cc:417
+#: src/tools/dcpomatic_playlist.cc:423
 msgid "Question|N"
 msgstr "Question|N"
 
-#: src/tools/dcpomatic_playlist.cc:417
+#: src/tools/dcpomatic_playlist.cc:423
 msgid "Question|Y"
 msgstr "Question|Y"
 
-#: src/tools/dcpomatic_server.cc:243
+#: src/tools/dcpomatic_server.cc:245
 #, fuzzy
 msgid "Quit"
 msgstr "&Kilépés"
@@ -846,11 +846,11 @@ msgstr "A KDM dekódolási lánc újragenerálása"
 msgid "Recreate signing certificates"
 msgstr "Aláíró tanúsítvány újragenerálása"
 
-#: src/tools/dcpomatic_editor.cc:222
+#: src/tools/dcpomatic_editor.cc:223
 msgid "Reels"
 msgstr ""
 
-#: src/tools/dcpomatic_disk.cc:154
+#: src/tools/dcpomatic_disk.cc:155
 msgid "Refresh"
 msgstr ""
 
@@ -858,131 +858,131 @@ msgstr ""
 msgid "Release notes"
 msgstr "Kiadási napló"
 
-#: src/tools/dcpomatic_kdm.cc:218 src/tools/dcpomatic_playlist.cc:341
+#: src/tools/dcpomatic_kdm.cc:219 src/tools/dcpomatic_playlist.cc:347
 msgid "Remove"
 msgstr "Eltávolítás"
 
-#: src/tools/dcpomatic.cc:1441 src/tools/dcpomatic_kdm.cc:342
-#: src/tools/dcpomatic_player.cc:671
+#: src/tools/dcpomatic.cc:1442 src/tools/dcpomatic_kdm.cc:343
+#: src/tools/dcpomatic_player.cc:698
 msgid "Report a problem..."
 msgstr "Hiba bejelentése…"
 
-#: src/tools/dcpomatic.cc:776 src/tools/dcpomatic.cc:1429
+#: src/tools/dcpomatic.cc:777 src/tools/dcpomatic.cc:1430
 msgid "Restore default preferences"
 msgstr "Alapértelmezett beállítások visszaállítása"
 
-#: src/tools/dcpomatic_player.cc:649
+#: src/tools/dcpomatic_player.cc:676
 msgid "Right"
 msgstr ""
 
-#: src/tools/dcpomatic.cc:1410
+#: src/tools/dcpomatic.cc:1411
 msgid "S&how DCP in Explorer"
 msgstr "DCP mutatása az fájlkezelőben"
 
-#: src/tools/dcpomatic.cc:1412
+#: src/tools/dcpomatic.cc:1413
 msgid "S&how DCP in Files"
 msgstr "DCP mutatása a fájlokban"
 
-#: src/tools/dcpomatic.cc:1408
+#: src/tools/dcpomatic.cc:1409
 msgid "S&how DCP in Finder"
 msgstr "DCP mutatása a Finder-ben"
 
-#: src/tools/dcpomatic_playlist.cc:320
+#: src/tools/dcpomatic_playlist.cc:326
 msgid "Save"
 msgstr ""
 
-#: src/tools/dcpomatic.cc:1352
+#: src/tools/dcpomatic.cc:1353
 msgid "Save as &template..."
 msgstr "Mentés &sablonként…"
 
-#: src/tools/dcpomatic.cc:159
+#: src/tools/dcpomatic.cc:160
 #, c-format
 msgid "Save changes to film \"%s\" before closing?"
 msgstr "Változtatások mentése a %s filmhez bezárás előtt?"
 
-#: src/tools/dcpomatic.cc:187
+#: src/tools/dcpomatic.cc:188
 #, c-format
 msgid "Save changes to film \"%s\" before duplicating?"
 msgstr "Változtatások mentése a %s filmhez megkettőzés előtt?"
 
-#: src/tools/dcpomatic.cc:167
+#: src/tools/dcpomatic.cc:168
 msgid "Save film and close"
 msgstr "Film mentése és bezárás"
 
-#: src/tools/dcpomatic.cc:195
+#: src/tools/dcpomatic.cc:196
 msgid "Save film and duplicate"
 msgstr "Film mentése és megkettőzés"
 
-#: src/tools/dcpomatic_player.cc:797
+#: src/tools/dcpomatic_player.cc:824
 msgid "Save frame to file"
 msgstr "Képkocka mentése fájlba"
 
-#: src/tools/dcpomatic_kdm.cc:162
+#: src/tools/dcpomatic_kdm.cc:163
 msgid "Screens"
 msgstr "Képernyők"
 
-#: src/tools/dcpomatic_editor.cc:440 src/tools/dcpomatic_player.cc:692
+#: src/tools/dcpomatic_editor.cc:441 src/tools/dcpomatic_player.cc:719
 msgid "Select DCP to open"
 msgstr "DCP kiválasztása megnyitáshoz"
 
-#: src/tools/dcpomatic_player.cc:720
+#: src/tools/dcpomatic_player.cc:747
 msgid "Select DCP to open as OV"
 msgstr "DCP kiválasztása az OV-ként való megnyitáshoz"
 
-#: src/tools/dcpomatic_kdm.cc:821
+#: src/tools/dcpomatic_kdm.cc:822
 msgid "Select DKDM File"
 msgstr "DKDM fájl kiválasztása"
 
-#: src/tools/dcpomatic_kdm.cc:607
+#: src/tools/dcpomatic_kdm.cc:608
 msgid "Select DKDM file"
 msgstr "DKDM fájl kiválasztása"
 
-#: src/tools/dcpomatic_player.cc:768
+#: src/tools/dcpomatic_player.cc:795
 msgid "Select KDM"
 msgstr "KDM kiválasztása"
 
-#: src/tools/dcpomatic.cc:1379
+#: src/tools/dcpomatic.cc:1380
 msgid "Select all\tShift-Ctrl-A"
 msgstr "Összes kijelölése\tShift-Ctrl-A"
 
-#: src/tools/dcpomatic_batch.cc:334 src/tools/dcpomatic.cc:603
+#: src/tools/dcpomatic_batch.cc:335 src/tools/dcpomatic.cc:604
 msgid "Select film to open"
 msgstr "Film kiválasztása megnyitáshoz"
 
-#: src/tools/dcpomatic_kdm.cc:485
+#: src/tools/dcpomatic_kdm.cc:486
 msgid "Send KDM emails"
 msgstr "KDM email küldése"
 
-#: src/tools/dcpomatic_player.cc:652
+#: src/tools/dcpomatic_player.cc:679
 msgid "Set decode resolution to match display"
 msgstr "Dekódolási felbontás beállítása a kijelző felbontásához"
 
-#: src/tools/dcpomatic_editor.cc:174
+#: src/tools/dcpomatic_editor.cc:175
 msgid "Sound"
 msgstr ""
 
-#: src/tools/dcpomatic.cc:788 src/tools/dcpomatic.cc:808
+#: src/tools/dcpomatic.cc:789 src/tools/dcpomatic.cc:809
 msgid "Specify ZIP file"
 msgstr "ZIP fájl megadása"
 
-#: src/tools/dcpomatic_server.cc:242
+#: src/tools/dcpomatic_server.cc:244
 msgid "Status..."
 msgstr ""
 
-#: src/tools/dcpomatic_editor.cc:177
+#: src/tools/dcpomatic_editor.cc:178
 msgid "Subtitle"
 msgstr ""
 
-#: src/tools/dcpomatic.cc:1427 src/tools/dcpomatic_player.cc:662
+#: src/tools/dcpomatic.cc:1428 src/tools/dcpomatic_player.cc:689
 msgid "System information..."
 msgstr "Rendszer információk…"
 
-#: src/tools/dcpomatic.cc:1529 src/tools/dcpomatic_player.cc:1057
+#: src/tools/dcpomatic.cc:1530 src/tools/dcpomatic_player.cc:1084
 #, fuzzy, c-format
 msgid "The %s download server could not be contacted."
 msgstr "A DCP-o-matic letöltő szerver nem érhető el."
 
-#: src/tools/dcpomatic.cc:834
+#: src/tools/dcpomatic.cc:835
 #, c-format
 msgid ""
 "The DCP for this film will take up about %.1f GB, and the disk that you are "
@@ -991,7 +991,7 @@ msgstr ""
 "A DCP ehhez a filmhez %.1f GB-ot fog elfoglalni, viszont a meghajtód csak "
 "%.1f GB szabad tárhellyel rendelkezik. Biztosan szeretnéd folytatni?"
 
-#: src/tools/dcpomatic_batch.cc:248
+#: src/tools/dcpomatic_batch.cc:249
 #, c-format
 msgid ""
 "The DCPs for this film and the films already in the queue will take up about "
@@ -1002,11 +1002,11 @@ msgstr ""
 "használnak fel, viszont a meghajtódon csak %.1f GB szabad tárhely van. "
 "Biztosan kívánod folytatni és hozzáadni ezt a filmet is a várólistához?"
 
-#: src/tools/dcpomatic_player.cc:367
+#: src/tools/dcpomatic_player.cc:374
 msgid "The KDM does not allow playback of this content at this time."
 msgstr "A KDM nem engedélyezi a lejátszását ennek a tartalomnak."
 
-#: src/tools/dcpomatic_kdm.cc:504
+#: src/tools/dcpomatic_kdm.cc:505
 #, c-format
 msgid ""
 "The KDM end period is after (or close to) the end of the signing "
@@ -1014,13 +1014,13 @@ msgid ""
 "or re-create your signing certificates in the %s preferences window."
 msgstr ""
 
-#: src/tools/dcpomatic_kdm.cc:499
+#: src/tools/dcpomatic_kdm.cc:500
 msgid ""
 "The KDM start period is before (or close to) the start of the signing "
 "certificate's validity period.  Use a later start time for this KDM."
 msgstr ""
 
-#: src/tools/dcpomatic.cc:1003
+#: src/tools/dcpomatic.cc:1004
 msgid "The certificate chain for signing is invalid"
 msgstr ""
 
@@ -1098,25 +1098,25 @@ msgstr ""
 "újragenerálod.\n"
 "Szeretnéd újragenerálni a tanúsítvány láncod a KDM-ek aláírásához?"
 
-#: src/tools/dcpomatic_combiner.cc:164
+#: src/tools/dcpomatic_combiner.cc:165
 #, fuzzy
 msgid ""
 "The directory %1 already exists and is not empty.  Are you sure you want to "
 "use it?"
 msgstr "Befejezetlen művelet vannak, biztosan ki akarsz lépni?"
 
-#: src/tools/dcpomatic_disk.cc:292
+#: src/tools/dcpomatic_disk.cc:293
 msgid "The disk you selected is no longer available.  Please choose another."
 msgstr ""
 
-#: src/tools/dcpomatic_disk.cc:371
+#: src/tools/dcpomatic_disk.cc:372
 #, c-format
 msgid ""
 "The drive %s could not be unmounted.\n"
 "Close any application that is using it, then try again. (%s)"
 msgstr ""
 
-#: src/tools/dcpomatic_disk.cc:531 src/tools/dcpomatic_player.cc:1445
+#: src/tools/dcpomatic_disk.cc:532 src/tools/dcpomatic_player.cc:1482
 msgid ""
 "The existing configuration failed to load.  Default values will be used "
 "instead.  These may take a short time to create."
@@ -1124,17 +1124,17 @@ msgstr ""
 "A létező konfiguráció nem tölthető be. Az alapértelmezett értékek lesznek "
 "használva, ez egy kicsi időt igénybe vehet."
 
-#: src/tools/dcpomatic.cc:1531 src/tools/dcpomatic_player.cc:1059
+#: src/tools/dcpomatic.cc:1532 src/tools/dcpomatic_player.cc:1086
 #, fuzzy, c-format
 msgid "There are no new versions of %s available."
 msgstr "Nincs újabb DCP-o-matic verzió."
 
-#: src/tools/dcpomatic_batch.cc:278 src/tools/dcpomatic.cc:1172
-#: src/tools/dcpomatic_disk.cc:267
+#: src/tools/dcpomatic_batch.cc:279 src/tools/dcpomatic.cc:1173
+#: src/tools/dcpomatic_disk.cc:268
 msgid "There are unfinished jobs; are you sure you want to quit?"
 msgstr "Befejezetlen művelet vannak, biztosan ki akarsz lépni?"
 
-#: src/tools/dcpomatic.cc:483
+#: src/tools/dcpomatic.cc:484
 msgid ""
 "This film was created with an old version of DVD-o-matic and may not load "
 "correctly in this version.  Please check the film's settings carefully."
@@ -1143,7 +1143,7 @@ msgstr ""
 "rendesen be lehet tölteni ebben a verzióban. Kérlek ellenőrizd a film "
 "beállításait alaposan."
 
-#: src/tools/dcpomatic_player.cc:447
+#: src/tools/dcpomatic_player.cc:454
 #, fuzzy, c-format
 msgid ""
 "This looks like a %s project folder, which cannot be loaded into the "
@@ -1154,60 +1154,60 @@ msgstr ""
 "lejátszóban. Válaszd ki a DCP mappáját a DCP-o-matic projekt mappáján belül, "
 "ha azt kívánod lejátszani."
 
-#: src/tools/dcpomatic_player.cc:661
+#: src/tools/dcpomatic_player.cc:688
 msgid "Timing..."
 msgstr "Időzítés.."
 
-#: src/tools/dcpomatic_disk.cc:118
+#: src/tools/dcpomatic_disk.cc:119
 #, fuzzy
 msgid "Tools"
 msgstr "&Eszközök"
 
-#: src/tools/dcpomatic.cc:588
+#: src/tools/dcpomatic.cc:589
 #, c-format
 msgid "Try removing the %s characters from your folder name."
 msgstr "Próbáld meg a(z) %s karakterek eltávolítását a mappa nevéből."
 
-#: src/tools/dcpomatic_playlist.cc:332
+#: src/tools/dcpomatic_playlist.cc:338
 msgid "Type"
 msgstr "Típus"
 
-#: src/tools/dcpomatic_batch.cc:279 src/tools/dcpomatic.cc:1173
-#: src/tools/dcpomatic_disk.cc:268
+#: src/tools/dcpomatic_batch.cc:280 src/tools/dcpomatic.cc:1174
+#: src/tools/dcpomatic_disk.cc:269
 msgid "Unfinished jobs"
 msgstr "Befejezetlen műveletek"
 
-#: src/tools/dcpomatic_disk.cc:117
+#: src/tools/dcpomatic_disk.cc:118
 msgid "Uninstall..."
 msgstr ""
 
-#: src/tools/dcpomatic_player.cc:817
+#: src/tools/dcpomatic_player.cc:844
 #, c-format
 msgid "Unrecognised file extension %s (use .jpg, .jpeg or .png)"
 msgstr ""
 
-#: src/tools/dcpomatic_playlist.cc:338
+#: src/tools/dcpomatic_playlist.cc:344
 msgid "Up"
 msgstr "Fel"
 
-#: src/tools/dcpomatic_player.cc:999
+#: src/tools/dcpomatic_player.cc:1026
 #, fuzzy
 msgid "Verify DCP"
 msgstr "DCP ellenőrzése…"
 
-#: src/tools/dcpomatic_player.cc:658
+#: src/tools/dcpomatic_player.cc:685
 msgid "Verify DCP..."
 msgstr "DCP ellenőrzése…"
 
-#: src/tools/dcpomatic.cc:1422
+#: src/tools/dcpomatic.cc:1423
 msgid "Version File (VF)..."
 msgstr ""
 
-#: src/tools/dcpomatic.cc:1419
+#: src/tools/dcpomatic.cc:1420
 msgid "Video waveform..."
 msgstr "Videó hullámforma…"
 
-#: src/tools/dcpomatic_kdm.cc:795
+#: src/tools/dcpomatic_kdm.cc:796
 msgid ""
 "You are about to remove a DKDM.  This will make it impossible to decrypt the "
 "DCP that the DKDM was made for, and it cannot be undone.  Are you sure?"
@@ -1216,7 +1216,7 @@ msgstr ""
 "lehessen azt a DCP-t, amihez készítve lett és ez nem vonható vissza. "
 "Biztosan kívánod folytatni?"
 
-#: src/tools/dcpomatic.cc:988
+#: src/tools/dcpomatic.cc:989
 #, c-format
 msgid ""
 "You are making a DKDM which is encrypted by a private key held in\n"
@@ -1236,7 +1236,7 @@ msgstr ""
 "weight=“bold” size=“larger”>LEGYEN MÁSOLATOD</span> róla, mivel ha "
 "elveszíted a DKDM-et és a DCP-t, amit véd, használhatatlan lesz."
 
-#: src/tools/dcpomatic.cc:851
+#: src/tools/dcpomatic.cc:852
 msgid ""
 "You are making an encrypted DCP.  It will not be possible to make KDMs for "
 "this DCP unless you have copies of the <tt>metadata.xml</tt> file within the "
@@ -1251,7 +1251,7 @@ msgstr ""
 "Ajánljuk, hogy ellenőrizd, hogy a fájlnak van-e <span weight=“bold” "
 "size=“larger”>MENTÉSE</span> , ha szeretnél KDM-et készíteni ehhez a DCP-hez."
 
-#: src/tools/dcpomatic.cc:1715
+#: src/tools/dcpomatic.cc:1716
 #, fuzzy, c-format
 msgid ""
 "You are running the 32-bit version of %s on a 64-bit version of Windows.  "
@@ -1262,15 +1262,15 @@ msgstr ""
 "limitálja a memóriát a DCP-o-matic számára és hibákat eredményezhet. Erősen "
 "ajánljuk a 64 bites DCP-o-matic verzió telepítését."
 
-#: src/tools/dcpomatic_disk.cc:387
+#: src/tools/dcpomatic_disk.cc:388
 msgid ""
 "You did not correctly confirm that you read the warning that was just "
 "shown.  Please try again."
 msgstr ""
 
-#: src/tools/dcpomatic_batch.cc:343 src/tools/dcpomatic.cc:612
-#: src/tools/dcpomatic_editor.cc:446 src/tools/dcpomatic_player.cc:698
-#: src/tools/dcpomatic_player.cc:729
+#: src/tools/dcpomatic_batch.cc:344 src/tools/dcpomatic.cc:613
+#: src/tools/dcpomatic_editor.cc:447 src/tools/dcpomatic_player.cc:725
+#: src/tools/dcpomatic_player.cc:756
 msgid ""
 "You did not select a folder.  Make sure that you select a folder before "
 "clicking Open."
