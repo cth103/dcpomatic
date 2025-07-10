@@ -194,6 +194,7 @@ BOOST_AUTO_TEST_CASE (vf_test3)
 }
 
 
+
 /** Make a OV with video and audio and a VF referencing the OV and adding some more video */
 BOOST_AUTO_TEST_CASE (vf_test4)
 {
@@ -537,4 +538,54 @@ BOOST_AUTO_TEST_CASE(ov_subs_in_vf_name)
 	vf->_isdcf_date = boost::gregorian::date(2023, boost::gregorian::Jan, 18);
 
 	BOOST_CHECK_EQUAL(vf->isdcf_name(false), "Foo_TST-1_F_XX-DE_51-HI-VI_2K_20230118_SMPTE_VF");
+}
+
+
+/* Test bug #3059: a VF with subs ends up with the font from the OV's subs */
+BOOST_AUTO_TEST_CASE(vf_subs_get_font_from_ov)
+{
+	auto subs = content_factory("test/data/short.srt")[0];
+	auto picture = content_factory("test/data/flat_red.png")[0];
+	auto ov = new_test_film("vf_subs_get_font_from_ov_ov", { picture, subs });
+	ov->set_interop(true);
+	subs->text[0]->set_language(dcp::LanguageTag("de"));
+
+	make_and_verify_dcp(
+		ov,
+		{
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_FIRST_TEXT_TIME,
+			dcp::VerificationNote::Code::MISSING_CPL_METADATA,
+			dcp::VerificationNote::Code::INVALID_STANDARD
+		});
+
+	auto ov_dcp = make_shared<DCPContent>(ov->dir(ov->dcp_name()));
+
+	auto subs2 = content_factory("test/data/short.srt")[0];
+	auto vf = new_test_film("vf_subs_get_font_from_ov_vf", { ov_dcp, subs2 });
+	vf->set_interop(true);
+	vf->set_reel_type(ReelType::BY_VIDEO_CONTENT);
+	subs2->text[0]->set_language(dcp::LanguageTag("de"));
+	subs2->text[0]->get_font("")->set_file("test/data/Inconsolata-VF.ttf");
+	ov_dcp->set_reference_video(true);
+	ov_dcp->set_reference_audio(true);
+
+	make_and_verify_dcp(
+		vf,
+		{
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_FIRST_TEXT_TIME,
+			dcp::VerificationNote::Code::MISSING_CPL_METADATA,
+			dcp::VerificationNote::Code::EXTERNAL_ASSET,
+			dcp::VerificationNote::Code::INVALID_STANDARD
+		});
+
+	optional<boost::filesystem::path> font_dir;
+	for (auto i: boost::filesystem::directory_iterator(vf->dir(vf->dcp_name()))) {
+		if (boost::filesystem::is_directory(i)) {
+			font_dir = i;
+		}
+	}
+
+	BOOST_REQUIRE(font_dir);
+	auto vf_font = find_file(*font_dir, "font");
+	check_file("test/data/Inconsolata-VF.ttf", vf_font);
 }

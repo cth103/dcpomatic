@@ -606,8 +606,10 @@ Player::get_subtitle_fonts()
 	vector<shared_ptr<Font>> fonts;
 	for (auto piece: _pieces) {
 		for (auto text: piece->content->text) {
-			auto text_fonts = text->fonts();
-			copy(text_fonts.begin(), text_fonts.end(), back_inserter(fonts));
+			if (text->use()) {
+				auto text_fonts = text->fonts();
+				copy(text_fonts.begin(), text_fonts.end(), back_inserter(fonts));
+			}
 		}
 	}
 
