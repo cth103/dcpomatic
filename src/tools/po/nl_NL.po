@@ -406,12 +406,12 @@ msgid "Could not load a DCP from %s"
 msgstr "Kan DCP niet laden van %s"
 
 #: src/tools/dcpomatic_batch.cc:496
-msgid "Could not load film %1"
-msgstr "Kan film %1 niet laden"
+msgid "Could not load film {}"
+msgstr "Kan film {} niet laden"
 
 #: src/tools/dcpomatic.cc:1735
-msgid "Could not load film %1 (%2)"
-msgstr "Kan film %1 niet laden (%2)"
+msgid "Could not load film {} ({})"
+msgstr "Kan film {} niet laden ({})"
 
 #: src/tools/dcpomatic_player.cc:1376
 #, c-format
@@ -1123,9 +1123,9 @@ msgstr ""
 
 #: src/tools/dcpomatic_combiner.cc:165
 msgid ""
-"The directory %1 already exists and is not empty.  Are you sure you want to "
+"The directory {} already exists and is not empty.  Are you sure you want to "
 "use it?"
-msgstr "De map %1 bestaat al en is niet leeg.  Wilt u deze toch gebruiken?"
+msgstr "De map {} bestaat al en is niet leeg.  Wilt u deze toch gebruiken?"
 
 #: src/tools/dcpomatic_disk.cc:293
 msgid "The disk you selected is no longer available.  Please choose another."

@@ -20,7 +20,6 @@
 
 
 #include "audio_content.h"
-#include "compose.hpp"
 #include "config.h"
 #include "content_factory.h"
 #include "create_cli.h"
@@ -61,8 +60,8 @@ help()
 	DCPOMATIC_ASSERT(colour_conversions.length() > 2);
 	colour_conversions = colour_conversions.substr(0, colour_conversions.length() - 2);
 
-	return string("\nSyntax: %1 [OPTION] <CONTENT> [OPTION] [<CONTENT> ...]\n") +
-		variant::insert_dcpomatic("  -v, --version                 show %1 version\n") +
+	return string("\nSyntax: {} [OPTION] <CONTENT> [OPTION] [<CONTENT> ...]\n") +
+		variant::insert_dcpomatic("  -v, --version                 show {} version\n") +
 		"  -h, --help                    show this help\n"
 		"  -n, --name <name>             film name\n"
 		"  -t, --template <name>         template name\n"
@@ -107,7 +106,7 @@ argument_option (int& n, int argc, char* argv[], string short_name, string long_
 	}
 
 	if ((n + 1) >= argc) {
-		**error = String::compose("%1: option %2 requires an argument", argv[0], long_name);
+		**error = fmt::format("{}: option {} requires an argument", argv[0], long_name);
 		return;
 	}
 
@@ -126,7 +125,7 @@ argument_option(int& n, int argc, char* argv[], string short_name, string long_n
 	}
 
 	if ((n + 1) >= argc) {
-		**error = String::compose("%1: option %2 requires an argument", argv[0], long_name);
+		**error = fmt::format("{}: option {} requires an argument", argv[0], long_name);
 		return;
 	}
 
@@ -155,14 +154,14 @@ argument_option(
 	}
 
 	if ((n + 1) >= argc) {
-		**error = String::compose("%1: option %2 requires an argument", argv[0], long_name);
+		**error = fmt::format("{}: option {} requires an argument", argv[0], long_name);
 		return;
 	}
 
 	auto const arg = argv[++n];
 	auto const value = convert(arg);
 	if (!value) {
-		*error = String::compose("%1: %2 is not valid for %3", argv[0], arg, long_name);
+		*error = fmt::format("{}: {} is not valid for {}", argv[0], arg, long_name);
 		*claimed = true;
 		return;
 	}
@@ -203,7 +202,7 @@ CreateCLI::CreateCLI(int argc, char* argv[])
 		} else if (a == "-h" || a == "--help") {
 			error = "Create a film directory (ready for making a DCP) or metadata file from some content files.\n"
 				"A film directory will be created if -o or --output is specified, otherwise a metadata file\n"
-				"will be written to stdout.\n" + String::compose(help(), argv[0]);
+				"will be written to stdout.\n" + fmt::format(help(), argv[0]);
 			return;
 		}
 
@@ -312,7 +311,7 @@ CreateCLI::CreateCLI(int argc, char* argv[])
 
 		if (!claimed) {
 			if (a.length() > 2 && a.substr(0, 2) == "--") {
-				error = String::compose("%1: unrecognised option '%2'", argv[0], a) + String::compose(help(), argv[0]);
+				error = fmt::format("{}: unrecognised option '{}'", argv[0], a) + fmt::format(help(), argv[0]);
 				return;
 			} else {
 				if (next_colour_conversion) {
@@ -368,7 +367,7 @@ CreateCLI::CreateCLI(int argc, char* argv[])
 	if (dcp_content_type_string) {
 		_dcp_content_type = DCPContentType::from_isdcf_name(*dcp_content_type_string);
 		if (!_dcp_content_type) {
-			error = String::compose("%1: unrecognised DCP content type '%2'", argv[0], *dcp_content_type_string);
+			error = fmt::format("{}: unrecognised DCP content type '{}'", argv[0], *dcp_content_type_string);
 			return;
 		}
 	}
@@ -376,7 +375,7 @@ CreateCLI::CreateCLI(int argc, char* argv[])
 	if (!container_ratio_string.empty()) {
 		_container_ratio = Ratio::from_id_if_exists(container_ratio_string);
 		if (!_container_ratio) {
-			error = String::compose("%1: unrecognised container ratio %2", argv[0], container_ratio_string);
+			error = fmt::format("{}: unrecognised container ratio {}", argv[0], container_ratio_string);
 			return;
 		}
 	}
@@ -387,21 +386,21 @@ CreateCLI::CreateCLI(int argc, char* argv[])
 		} else if (*standard_string == "SMPTE") {
 			_standard = dcp::Standard::SMPTE;
 		} else {
-			error = String::compose("%1: standard must be SMPTE or interop", argv[0]);
+			error = fmt::format("{}: standard must be SMPTE or interop", argv[0]);
 			return;
 		}
 	}
 
 	if (_twod && _threed) {
-		error = String::compose("%1: specify one of --twod or --threed, not both", argv[0]);
+		error = fmt::format("{}: specify one of --twod or --threed, not both", argv[0]);
 	}
 
 	if (_no_encrypt && _encrypt) {
-		error = String::compose("%1: specify one of --no-encrypt or --encrypt, not both", argv[0]);
+		error = fmt::format("{}: specify one of --no-encrypt or --encrypt, not both", argv[0]);
 	}
 
 	if (content.empty()) {
-		error = String::compose("%1: no content specified", argv[0]);
+		error = fmt::format("{}: no content specified", argv[0]);
 		return;
 	}
 
@@ -410,7 +409,7 @@ CreateCLI::CreateCLI(int argc, char* argv[])
 	}
 
 	if (_video_bit_rate && (*_video_bit_rate < 10000000 || *_video_bit_rate > Config::instance()->maximum_video_bit_rate(VideoEncoding::JPEG2000))) {
-		error = String::compose("%1: video-bit-rate must be between 10 and %2 Mbit/s", argv[0], (Config::instance()->maximum_video_bit_rate(VideoEncoding::JPEG2000) / 1000000));
+		error = fmt::format("{}: video-bit-rate must be between 10 and {} Mbit/s", argv[0], (Config::instance()->maximum_video_bit_rate(VideoEncoding::JPEG2000) / 1000000));
 		return;
 	}
 

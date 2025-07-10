@@ -20,7 +20,6 @@
 
 
 #include "lib/audio_content.h"
-#include "lib/compose.hpp"
 #include "lib/config.h"
 #include "lib/constants.h"
 #include "lib/content_factory.h"
@@ -77,7 +76,7 @@ ffmpeg_content_test (int number, boost::filesystem::path content, ExportFormat f
 		BOOST_REQUIRE (false);
 	}
 
-	name = String::compose("%1_test%2", name, number);
+	name = fmt::format("{}_test{}", name, number);
 
 	auto c = make_shared<FFmpegContent>(content);
 	auto film = new_test_film(name, {c}, &cl);
@@ -86,7 +85,7 @@ ffmpeg_content_test (int number, boost::filesystem::path content, ExportFormat f
 
 	film->write_metadata ();
 	auto job = make_shared<TranscodeJob>(film, TranscodeJob::ChangedBehaviour::IGNORE);
-	auto file = boost::filesystem::path("build") / "test" / String::compose("%1.%2", name, extension);
+	auto file = boost::filesystem::path("build") / "test" / fmt::format("{}.{}", name, extension);
 	cl.add (file);
 	FFmpegFilmEncoder encoder(film, job, file, format, false, false, false, 23);
 	encoder.go ();

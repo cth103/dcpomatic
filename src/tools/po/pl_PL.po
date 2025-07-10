@@ -32,7 +32,7 @@ msgstr "%d KDMy zapisane do %s"
 #: src/tools/dcpomatic_combiner.cc:175
 #, fuzzy, c-format
 msgid "%s already exists as a file, so you cannot use it for a DCP."
-msgstr "%1 już istnieje jako plik, więc nie możesz go użyć w Nowy Film."
+msgstr "{} już istnieje jako plik, więc nie możesz go użyć w Nowy Film."
 
 #: src/tools/dcpomatic_disk.cc:507 src/tools/dcpomatic_kdm.cc:945
 #: src/tools/dcpomatic_player.cc:1391
@@ -375,12 +375,12 @@ msgstr "Nie udało się stworzyć DCP: %s."
 #: src/tools/dcpomatic_player.cc:1368
 #, fuzzy, c-format
 msgid "Could not load DCP %s"
-msgstr "Nie można załadować DCP %1."
+msgstr "Nie można załadować DCP {}."
 
 #: src/tools/dcpomatic_player.cc:866
 #, fuzzy, c-format
 msgid "Could not load DCP %s."
-msgstr "Nie można załadować DCP %1."
+msgstr "Nie można załadować DCP {}."
 
 #: src/tools/dcpomatic_player.cc:626
 #, c-format
@@ -404,17 +404,17 @@ msgid "Could not load a DCP from %s"
 msgstr "Nie można załadować DCP z %s"
 
 #: src/tools/dcpomatic_batch.cc:496
-msgid "Could not load film %1"
-msgstr "Nie można załadować Projektu %1"
+msgid "Could not load film {}"
+msgstr "Nie można załadować Projektu {}"
 
 #: src/tools/dcpomatic.cc:1735
-msgid "Could not load film %1 (%2)"
-msgstr "Nie można załadować Projektu %1 (%2)"
+msgid "Could not load film {} ({})"
+msgstr "Nie można załadować Projektu {} ({})"
 
 #: src/tools/dcpomatic_player.cc:1376
 #, fuzzy, c-format
 msgid "Could not load stress test file %s"
-msgstr "Nie można załadować Projektu %1"
+msgstr "Nie można załadować Projektu {}"
 
 #: src/tools/dcpomatic.cc:879
 msgid "Could not make DCP."
@@ -990,8 +990,8 @@ msgid ""
 "The DCP for this film will take up about %.1f GB, and the disk that you are "
 "using only has %.1f GB available.  Do you want to continue anyway?"
 msgstr ""
-"DCP dla tego Projektu zajmie około %1f GB, a na twoim dysku zostało już "
-"tylko %1f GB. Czy chcesz kontynuować?"
+"DCP dla tego Projektu zajmie około %.1f GB, a na twoim dysku zostało już "
+"tylko %.1f GB. Czy chcesz kontynuować?"
 
 #: src/tools/dcpomatic_batch.cc:249
 #, c-format
@@ -1000,8 +1000,8 @@ msgid ""
 "%.1f GB.  The disks that you are using only have %.1f GB available.  Do you "
 "want to add this film to the queue anyway?"
 msgstr ""
-"Paczki DCP dla tego Projektu i innych Projektów w kolejce zajmą około %1f "
-"GB. Twoje dyski mają dostępne jedynie %1f GB wolnego miejsca. Czy chcesz "
+"Paczki DCP dla tego Projektu i innych Projektów w kolejce zajmą około %.1f "
+"GB. Twoje dyski mają dostępne jedynie %.1f GB wolnego miejsca. Czy chcesz "
 "dodać ten Projekt do kolejki?"
 
 #: src/tools/dcpomatic_player.cc:374
@@ -1108,10 +1108,10 @@ msgstr ""
 
 #: src/tools/dcpomatic_combiner.cc:165
 msgid ""
-"The directory %1 already exists and is not empty.  Are you sure you want to "
+"The directory {} already exists and is not empty.  Are you sure you want to "
 "use it?"
 msgstr ""
-"Katalog %1 już istnieje i nie jest pusty. Czy jesteś pewien, że chcesz go "
+"Katalog {} już istnieje i nie jest pusty. Czy jesteś pewien, że chcesz go "
 "użyć?"
 
 #: src/tools/dcpomatic_disk.cc:293

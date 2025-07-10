@@ -19,7 +19,6 @@
 */
 
 
-#include "compose.hpp"
 #include "film.h"
 #include "kdm_with_metadata.h"
 #include "send_kdm_email_job.h"
@@ -94,7 +93,7 @@ SendKDMEmailJob::name() const
 		return _("Email KDMs");
 	}
 
-	return String::compose(_("Email KDMs for %1"), *f);
+	return fmt::format(_("Email KDMs for {}"), *f);
 }
 
 

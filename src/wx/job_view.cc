@@ -27,7 +27,6 @@
 #include "wx_util.h"
 #include "wx_variant.h"
 #include "lib/analyse_audio_job.h"
-#include "lib/compose.hpp"
 #include "lib/config.h"
 #include "lib/job.h"
 #include "lib/job_manager.h"

@@ -26,7 +26,6 @@
 #include "static_text.h"
 #include "table_dialog.h"
 #include "wx_util.h"
-#include "lib/compose.hpp"
 #include "lib/util.h"
 #include <dcp/warnings.h>
 #include <dcp/exceptions.h>

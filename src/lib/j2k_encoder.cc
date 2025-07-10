@@ -24,7 +24,6 @@
  */
 
 
-#include "compose.hpp"
 #include "config.h"
 #include "cross.h"
 #include "dcp_video.h"
@@ -143,7 +142,7 @@ J2KEncoder::servers_list_changed()
 	auto const cpu = (grok_enable || config->only_servers_encode()) ? 0 : config->master_encoding_threads();
 	auto const gpu = grok_enable ? config->master_encoding_threads() : 0;
 
-	LOG_GENERAL("Thread counts from: grok=%1, only_servers=%2, master=%3", grok_enable ? "yes" : "no", config->only_servers_encode() ? "yes" : "no", config->master_encoding_threads());
+	LOG_GENERAL("Thread counts from: grok={}, only_servers={}, master={}", grok_enable ? "yes" : "no", config->only_servers_encode() ? "yes" : "no", config->master_encoding_threads());
 	remake_threads(cpu, gpu, EncodeServerFinder::instance()->servers());
 }
 
@@ -198,7 +197,7 @@ J2KEncoder::end()
 {
 	boost::mutex::scoped_lock lock (_queue_mutex);
 
-	LOG_GENERAL (N_("Clearing queue of %1"), _queue.size ());
+	LOG_GENERAL (N_("Clearing queue of {}"), _queue.size ());
 
 	/* Keep waking workers until the queue is empty */
 	while (!_queue.empty ()) {
@@ -214,7 +213,7 @@ J2KEncoder::end()
 	/* Something might have been thrown during terminate_threads */
 	rethrow ();
 
-	LOG_GENERAL (N_("Mopping up %1"), _queue.size());
+	LOG_GENERAL (N_("Mopping up {}"), _queue.size());
 
 	/* The following sequence of events can occur in the above code:
 	     1. a remote worker takes the last image off the queue
@@ -228,14 +227,14 @@ J2KEncoder::end()
 #ifdef DCPOMATIC_GROK
 		if (Config::instance()->grok().enable) {
 			if (!_context->scheduleCompress(i)){
-				LOG_GENERAL (N_("[%1] J2KEncoder thread pushes frame %2 back onto queue after failure"), thread_id(), i.index());
+				LOG_GENERAL (N_("[{}] J2KEncoder thread pushes frame {} back onto queue after failure"), thread_id(), i.index());
 				// handle error
 			}
 		} else {
 #else
 		{
 #endif
-			LOG_GENERAL(N_("Encode left-over frame %1"), i.index());
+			LOG_GENERAL(N_("Encode left-over frame {}"), i.index());
 			try {
 				_writer.write(
 					make_shared<dcp::ArrayData>(i.encode_locally()),
@@ -244,7 +243,7 @@ J2KEncoder::end()
 					);
 				frame_done ();
 			} catch (std::exception& e) {
-				LOG_ERROR (N_("Local encode failed (%1)"), e.what ());
+				LOG_ERROR (N_("Local encode failed ({})"), e.what ());
 			}
 		}
 	}
@@ -297,9 +296,9 @@ J2KEncoder::encode (shared_ptr<PlayerVideo> pv, DCPTime time)
 	   when there are no threads.
 	*/
 	while (_queue.size() >= (threads * 2) + 1) {
-		LOG_TIMING ("decoder-sleep queue=%1 threads=%2", _queue.size(), threads);
+		LOG_TIMING ("decoder-sleep queue={} threads={}", _queue.size(), threads);
 		_full_condition.wait (queue_lock);
-		LOG_TIMING ("decoder-wake queue=%1 threads=%2", _queue.size(), threads);
+		LOG_TIMING ("decoder-wake queue={} threads={}", _queue.size(), threads);
 	}
 
 	_writer.rethrow();
@@ -313,21 +312,21 @@ J2KEncoder::encode (shared_ptr<PlayerVideo> pv, DCPTime time)
 
 	if (_writer.can_fake_write(position)) {
 		/* We can fake-write this frame */
-		LOG_DEBUG_ENCODE("Frame @ %1 FAKE", to_string(time));
+		LOG_DEBUG_ENCODE("Frame @ {} FAKE", to_string(time));
 		_writer.fake_write(position, pv->eyes ());
 		frame_done ();
 	} else if (pv->has_j2k() && !_film->reencode_j2k()) {
-		LOG_DEBUG_ENCODE("Frame @ %1 J2K", to_string(time));
+		LOG_DEBUG_ENCODE("Frame @ {} J2K", to_string(time));
 		/* This frame already has J2K data, so just write it */
 		_writer.write(pv->j2k(), position, pv->eyes ());
 		frame_done ();
 	} else if (_last_player_video[pv->eyes()] && _writer.can_repeat(position) && pv->same(_last_player_video[pv->eyes()])) {
-		LOG_DEBUG_ENCODE("Frame @ %1 REPEAT", to_string(time));
+		LOG_DEBUG_ENCODE("Frame @ {} REPEAT", to_string(time));
 		_writer.repeat(position, pv->eyes());
 	} else {
-		LOG_DEBUG_ENCODE("Frame @ %1 ENCODE", to_string(time));
+		LOG_DEBUG_ENCODE("Frame @ {} ENCODE", to_string(time));
 		/* Queue this new frame for encoding */
-		LOG_TIMING ("add-frame-to-queue queue=%1", _queue.size ());
+		LOG_TIMING ("add-frame-to-queue queue={}", _queue.size ());
 		auto dcpv = DCPVideo(
 				pv,
 				position,
@@ -365,7 +364,7 @@ J2KEncoder::terminate_threads ()
 void
 J2KEncoder::remake_threads(int cpu, int gpu, list<EncodeServerDescription> servers)
 {
-	LOG_GENERAL("Making threads: CPU=%1, GPU=%2, Remote=%3", cpu, gpu, servers.size());
+	LOG_GENERAL("Making threads: CPU={}, GPU={}, Remote={}", cpu, gpu, servers.size());
 	if ((cpu + gpu + servers.size()) == 0) {
 		/* Make at least one thread, even if all else fails.  Maybe we are configured
 		 * for "only servers encode" but no servers have been registered yet.
@@ -440,9 +439,9 @@ J2KEncoder::remake_threads(int cpu, int gpu, list<EncodeServerDescription> serve
 		auto const wanted_threads = server.threads();
 
 		if (wanted_threads > current_threads) {
-			LOG_GENERAL(N_("Adding %1 worker threads for remote %2"), wanted_threads - current_threads, server.host_name());
+			LOG_GENERAL(N_("Adding {} worker threads for remote {}"), wanted_threads - current_threads, server.host_name());
 		} else if (wanted_threads < current_threads) {
-			LOG_GENERAL(N_("Removing %1 worker threads for remote %2"), current_threads - wanted_threads, server.host_name());
+			LOG_GENERAL(N_("Removing {} worker threads for remote {}"), current_threads - wanted_threads, server.host_name());
 		}
 
 		for (auto i = current_threads; i < wanted_threads; ++i) {
@@ -466,7 +465,7 @@ J2KEncoder::pop()
 		_empty_condition.wait (lock);
 	}
 
-	LOG_TIMING("encoder-wake thread=%1 queue=%2", thread_id(), _queue.size());
+	LOG_TIMING("encoder-wake thread={} queue={}", thread_id(), _queue.size());
 
 	auto vf = _queue.front();
 	_queue.pop_front();

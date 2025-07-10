@@ -209,7 +209,7 @@ BOOST_AUTO_TEST_CASE (threed_test7)
 		}
 	}
 	BOOST_REQUIRE (failed);
-	BOOST_CHECK_EQUAL (failed->error_summary(), String::compose("The content file %1 is set as 3D but does not appear to contain 3D images.  Please set it to 2D.  You can still make a 3D DCP from this content by ticking the 3D option in the DCP video tab.", boost::filesystem::canonical(content_path).string()));
+	BOOST_CHECK_EQUAL (failed->error_summary(), fmt::format("The content file {} is set as 3D but does not appear to contain 3D images.  Please set it to 2D.  You can still make a 3D DCP from this content by ticking the 3D option in the DCP video tab.", boost::filesystem::canonical(content_path).string()));
 
 	while (signal_manager->ui_idle ()) {}
 

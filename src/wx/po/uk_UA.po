@@ -92,7 +92,7 @@ msgstr ""
 #, fuzzy, c-format
 msgid "%s already exists as a file, so you cannot use it for a film."
 msgstr ""
-"%1 вже існує як файл, тому ви не можете використовувати його у проекті."
+"{} вже існує як файл, тому ви не можете використовувати його у проекті."
 
 #: src/wx/audio_dialog.cc:170 src/wx/audio_dialog.cc:172
 #, fuzzy, c-format
@@ -105,13 +105,12 @@ msgid "%s test email"
 msgstr "Відправити по email"
 
 #: src/wx/about_dialog.cc:97
-#, fuzzy
 msgid ""
 "(C) 2012-2025 Carl Hetherington, Terrence Meiczinger\n"
-"Ole Laursen, Aaron Boxer"
+"Aaron Boxer"
 msgstr ""
-"© 2012-2018 Carl Hetherington, Terrence Meiczinger\n"
-" Ole Laursen, Brecht Sanders"
+"(C) 2012-2025 Carl Hetherington, Terrence Meiczinger\n"
+"Aaron Boxer"
 
 #: src/wx/full_config_dialog.cc:1206 src/wx/player_config_dialog.cc:130
 #, fuzzy, c-format
@@ -1038,7 +1037,7 @@ msgstr "Не вдалося завантажити KDM."
 #: src/wx/download_certificate_panel.cc:67
 #: src/wx/download_certificate_panel.cc:80
 #, fuzzy
-msgid "Could not read certificate file (%1)"
+msgid "Could not read certificate file ({})"
 msgstr "Не вдалося прочитати файл сертифікату."
 
 #: src/wx/certificate_chain_editor.cc:195
@@ -1991,8 +1990,8 @@ msgid "Length"
 msgstr "Тривалість"
 
 #: src/wx/player_information.cc:182
-msgid "Length: %1 (%2 frames)"
-msgstr "Тривалість: %1 (%2 frames)"
+msgid "Length: {} ({} frames)"
+msgstr "Тривалість: {} ({} frames)"
 
 #: src/wx/text_panel.cc:104
 msgid "Line spacing"
@@ -3644,7 +3643,7 @@ msgstr ""
 msgid ""
 "The directory %s already exists and is not empty.  Are you sure you want to "
 "use it?"
-msgstr "Папка %1 вже існує и не є пустою. Ви точно хочете використовувати її?"
+msgstr "Папка {} вже існує и не є пустою. Ви точно хочете використовувати її?"
 
 #: src/wx/try_unmount_dialog.cc:44
 #, c-format

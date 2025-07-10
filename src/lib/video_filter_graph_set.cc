@@ -48,7 +48,7 @@ VideoFilterGraphSet::get(dcp::Size size, AVPixelFormat format)
 	new_graph->setup(_filters);
 	_graphs.push_back(new_graph);
 
-	LOG_GENERAL(N_("New graph for %1x%2, pixel format %3"), size.width, size.height, static_cast<int>(format));
+	LOG_GENERAL(N_("New graph for {}x{}, pixel format {}"), size.width, size.height, static_cast<int>(format));
 
 	return new_graph;
 }

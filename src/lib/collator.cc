@@ -29,6 +29,7 @@
 #include <unicode/ustring.h>
 #include <fmt/format.h>
 #include <boost/scoped_array.hpp>
+#include <algorithm>
 #include <cstring>
 #include <vector>
 

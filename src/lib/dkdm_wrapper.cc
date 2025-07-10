@@ -19,7 +19,6 @@
 */
 
 
-#include "compose.hpp"
 #include "dkdm_wrapper.h"
 #include "dcpomatic_assert.h"
 #include <dcp/warnings.h>
@@ -61,7 +60,7 @@ DKDMBase::read (cxml::ConstNodePtr node)
 string
 DKDM::name () const
 {
-	return String::compose ("%1 (%2)", _dkdm.content_title_text(), _dkdm.cpl_id());
+	return fmt::format("{} ({})", _dkdm.content_title_text(), _dkdm.cpl_id());
 }
 
 

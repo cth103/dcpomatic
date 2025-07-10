@@ -29,7 +29,6 @@
 #include "wx/wx_signal_manager.h"
 #include "wx/wx_util.h"
 #include "wx/wx_variant.h"
-#include "lib/compose.hpp"
 #include "lib/config.h"
 #include "lib/dcpomatic_socket.h"
 #include "lib/film.h"
@@ -493,7 +492,7 @@ class App : public wxApp
 				} catch (exception& e) {
 					error_dialog (
 						0,
-						std_to_wx(String::compose(wx_to_std(_("Could not load film %1")), i.string())),
+						std_to_wx(fmt::format(wx_to_std(_("Could not load film {}")), i.string())),
 						std_to_wx(e.what())
 						);
 				}

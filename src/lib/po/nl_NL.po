@@ -30,10 +30,10 @@ msgstr ""
 #: src/lib/video_content.cc:478
 msgid ""
 "\n"
-"Cropped to %1x%2"
+"Cropped to {}x{}"
 msgstr ""
 "\n"
-"Bijgesneden naar %1x%2"
+"Bijgesneden naar {}x{}"
 
 #: src/lib/video_content.cc:468
 #, c-format
@@ -47,29 +47,29 @@ msgstr ""
 #: src/lib/video_content.cc:502
 msgid ""
 "\n"
-"Padded with black to fit container %1 (%2x%3)"
+"Padded with black to fit container {} ({}x{})"
 msgstr ""
 "\n"
-"Opgevuld met zwart om in container %1 (%2x%3) te passen"
+"Opgevuld met zwart om in container {} ({}x{}) te passen"
 
 #: src/lib/video_content.cc:492
 msgid ""
 "\n"
-"Scaled to %1x%2"
+"Scaled to {}x{}"
 msgstr ""
 "\n"
-"Geschaald naar %1x%2"
+"Geschaald naar {}x{}"
 
 #: src/lib/video_content.cc:496 src/lib/video_content.cc:507
 #, c-format
 msgid " (%.2f:1)"
 msgstr " (%.2f:1)"
 
-#. TRANSLATORS: the %1 in this string will be filled in with a day of the week
+#. TRANSLATORS: the {} in this string will be filled in with a day of the week
 #. to say what day a job will finish.
 #: src/lib/job.cc:598
-msgid " on %1"
-msgstr " op %1"
+msgid " on {}"
+msgstr " op {}"
 
 #: src/lib/config.cc:1276
 msgid ""
@@ -100,82 +100,82 @@ msgid "$JOB_NAME: $JOB_STATUS"
 msgstr "$JOB_NAME: $JOB_STATUS"
 
 #: src/lib/cross_common.cc:107
-msgid "%1 (%2 GB) [%3]"
-msgstr "%1 (%2 GB) [%3]"
+msgid "{} ({} GB) [{}]"
+msgstr "{} ({} GB) [{}]"
 
 #: src/lib/atmos_mxf_content.cc:96
-msgid "%1 [Atmos]"
-msgstr "%1 [Atmos]"
+msgid "{} [Atmos]"
+msgstr "{} [Atmos]"
 
 #: src/lib/dcp_content.cc:356
-msgid "%1 [DCP]"
-msgstr "%1 [DCP]"
+msgid "{} [DCP]"
+msgstr "{} [DCP]"
 
 #: src/lib/ffmpeg_content.cc:347
-msgid "%1 [audio]"
-msgstr "%1 [audio]"
+msgid "{} [audio]"
+msgstr "{} [audio]"
 
 #: src/lib/ffmpeg_content.cc:343
-msgid "%1 [movie]"
-msgstr "%1 [video]"
+msgid "{} [movie]"
+msgstr "{} [video]"
 
 #: src/lib/ffmpeg_content.cc:345 src/lib/video_mxf_content.cc:106
-msgid "%1 [video]"
-msgstr "%1 [video]"
+msgid "{} [video]"
+msgstr "{} [video]"
 
 #: src/lib/job.cc:181 src/lib/job.cc:196
 msgid ""
-"%1 could not open the file %2 (%3).  Perhaps it does not exist or is in an "
+"{} could not open the file {} ({}).  Perhaps it does not exist or is in an "
 "unexpected format."
 msgstr ""
-"%1 kan het bestand %2 (%3) niet openen.  Misschien bestaat het niet of wordt "
+"{} kan het bestand {} ({}) niet openen.  Misschien bestaat het niet of wordt "
 "het formaat niet ondersteund."
 
 #: src/lib/film.cc:1702
 msgid ""
-"%1 had to change your settings for referring to DCPs as OV.  Please review "
+"{} had to change your settings for referring to DCPs as OV.  Please review "
 "those settings to make sure they are what you want."
 msgstr ""
-"%1 moest uw instellingen voor refereren aan DCP's als OV wijzigen.  "
+"{} moest uw instellingen voor refereren aan DCP's als OV wijzigen.  "
 "Controleer a.u.b. deze instellingen om er zeker van te zijn dat ze zijn "
 "zoals u wilt."
 
 #: src/lib/film.cc:1668
 msgid ""
-"%1 had to change your settings so that the film's frame rate is the same as "
+"{} had to change your settings so that the film's frame rate is the same as "
 "that of your Atmos content."
 msgstr ""
-"%1 moest uw instellingen wijzigen zodat de frame rate van de film hetzelfde "
+"{} moest uw instellingen wijzigen zodat de frame rate van de film hetzelfde "
 "is als die van uw Atmos-content."
 
 #: src/lib/film.cc:1715
 msgid ""
-"%1 had to remove one of your custom reel boundaries as it no longer lies "
+"{} had to remove one of your custom reel boundaries as it no longer lies "
 "within the film."
 msgstr ""
-"%1 moest een van uw aangepaste reel-grenzen verwijderen omdat deze niet meer "
+"{} moest een van uw aangepaste reel-grenzen verwijderen omdat deze niet meer "
 "binnen de film valt."
 
 #: src/lib/film.cc:1713
 msgid ""
-"%1 had to remove some of your custom reel boundaries as they no longer lie "
+"{} had to remove some of your custom reel boundaries as they no longer lie "
 "within the film."
 msgstr ""
-"%1 moest een aantal van uw aangepaste reel-grenzen verwijderen, omdat ze "
+"{} moest een aantal van uw aangepaste reel-grenzen verwijderen, omdat ze "
 "niet meer binnen de film vallen."
 
 #: src/lib/ffmpeg_content.cc:115
-msgid "%1 no longer supports the `%2' filter, so it has been turned off."
+msgid "{} no longer supports the `{}' filter, so it has been turned off."
 msgstr ""
-"%1 ondersteunt het filter `%2' niet langer, daarom is het uitgeschakeld."
+"{} ondersteunt het filter `{}' niet langer, daarom is het uitgeschakeld."
 
 #: src/lib/config.cc:441 src/lib/config.cc:1251
-msgid "%1 notification"
-msgstr "%1 notificatie"
+msgid "{} notification"
+msgstr "{} notificatie"
 
 #: src/lib/transcode_job.cc:180
-msgid "%1; %2/%3 frames"
-msgstr "%1; %2/%3 frames"
+msgid "{}; {}/{} frames"
+msgstr "{}; {}/{} frames"
 
 #: src/lib/video_content.cc:463
 #, c-format
@@ -266,12 +266,12 @@ msgstr "9"
 
 #. TRANSLATORS: fps here is an abbreviation for frames per second
 #: src/lib/transcode_job.cc:183
-msgid "; %1 fps"
-msgstr "; %1 fps"
+msgid "; {} fps"
+msgstr "; {} fps"
 
 #: src/lib/job.cc:603
-msgid "; %1 remaining; finishing at %2%3"
-msgstr "; %1 resterend; klaar om %2%3"
+msgid "; {} remaining; finishing at {}{}"
+msgstr "; {} resterend; klaar om {}{}"
 
 #: src/lib/analytics.cc:58
 #, c-format, c++-format
@@ -315,11 +315,11 @@ msgstr ""
 #: src/lib/text_content.cc:230
 msgid ""
 "A subtitle or closed caption file in this project is marked with the "
-"language '%1', which %2 does not recognise.  The file's language has been "
+"language '{}', which {} does not recognise.  The file's language has been "
 "cleared."
 msgstr ""
 "Een ondertitel of closed caption bestand in dit project is gemarkeerd met de "
-"taal '%1', die %2 niet herkent.  De taal van het bestand is gewist."
+"taal '{}', die {} niet herkent.  De taal van het bestand is gewist."
 
 #: src/lib/ffmpeg_content.cc:639
 msgid "ARIB STD-B67 ('Hybrid log-gamma')"
@@ -353,8 +353,8 @@ msgstr ""
 "beeldverhouding als uw content in te stellen."
 
 #: src/lib/job.cc:116
-msgid "An error occurred whilst handling the file %1."
-msgstr "Er is een fout opgetreden bij de verwerking van bestand %1."
+msgid "An error occurred whilst handling the file {}."
+msgstr "Er is een fout opgetreden bij de verwerking van bestand {}."
 
 #: src/lib/analyse_audio_job.cc:74
 msgid "Analysing audio"
@@ -435,12 +435,12 @@ msgstr ""
 "tabblad."
 
 #: src/lib/audio_content.cc:265
-msgid "Audio will be resampled from %1Hz to %2Hz"
-msgstr "Audio wordt geresampled van %1Hz naar %2Hz"
+msgid "Audio will be resampled from {}Hz to {}Hz"
+msgstr "Audio wordt geresampled van {}Hz naar {}Hz"
 
 #: src/lib/audio_content.cc:267
-msgid "Audio will be resampled to %1Hz"
-msgstr "Audio wordt geresampled naar %1Hz"
+msgid "Audio will be resampled to {}Hz"
+msgstr "Audio wordt geresampled naar {}Hz"
 
 #: src/lib/audio_content.cc:256
 msgid "Audio will not be resampled"
@@ -520,8 +520,8 @@ msgid "Cannot contain slashes"
 msgstr "Mag geen slash bevatten"
 
 #: src/lib/exceptions.cc:79
-msgid "Cannot handle pixel format %1 during %2"
-msgstr "Kan pixelformaat %1 niet verwerken tijdens %2"
+msgid "Cannot handle pixel format {} during {}"
+msgstr "Kan pixelformaat {} niet verwerken tijdens {}"
 
 #: src/lib/film.cc:1811
 msgid "Cannot make a KDM as this project is not encrypted."
@@ -766,8 +766,8 @@ msgid "Content to be joined must use the same text language."
 msgstr "Samen te voegen content moet dezelfde tekst-taal hebben."
 
 #: src/lib/video_content.cc:454
-msgid "Content video is %1x%2"
-msgstr "Content-video is %1x%2"
+msgid "Content video is {}x{}"
+msgstr "Content-video is {}x{}"
 
 #: src/lib/upload_job.cc:66
 msgid "Copy DCP to TMS"
@@ -776,9 +776,9 @@ msgstr "Kopieer DCP naar TMS"
 #: src/lib/copy_to_drive_job.cc:59
 #, fuzzy
 msgid ""
-"Copying %1\n"
-"to %2"
-msgstr "kopiëren van %1"
+"Copying {}\n"
+"to {}"
+msgstr "kopiëren van {}"
 
 #: src/lib/copy_to_drive_job.cc:120
 #, fuzzy
@@ -787,72 +787,72 @@ msgstr "Combineer DCP's"
 
 #: src/lib/copy_to_drive_job.cc:62
 #, fuzzy
-msgid "Copying DCPs to %1"
+msgid "Copying DCPs to {}"
 msgstr "Kopieer DCP naar TMS"
 
 #: src/lib/scp_uploader.cc:57
-msgid "Could not connect to server %1 (%2)"
-msgstr "Kan geen verbinding maken met server %1 (%2)"
+msgid "Could not connect to server {} ({})"
+msgstr "Kan geen verbinding maken met server {} ({})"
 
 #: src/lib/scp_uploader.cc:106
-msgid "Could not create remote directory %1 (%2)"
-msgstr "Kan externe map %1 niet aanmaken (%2)"
+msgid "Could not create remote directory {} ({})"
+msgstr "Kan externe map {} niet aanmaken ({})"
 
 #: src/lib/image_examiner.cc:65
-msgid "Could not decode JPEG2000 file %1 (%2)"
-msgstr "Kan JPEG2000-bestand %1 niet decoderen (%2)"
+msgid "Could not decode JPEG2000 file {} ({})"
+msgstr "Kan JPEG2000-bestand {} niet decoderen ({})"
 
 #: src/lib/ffmpeg_image_proxy.cc:164
-msgid "Could not decode image (%1)"
-msgstr "Kan beeld niet decoderen (%1)"
+msgid "Could not decode image ({})"
+msgstr "Kan beeld niet decoderen ({})"
 
 #: src/lib/unzipper.cc:76
-msgid "Could not find file %1 in ZIP file"
-msgstr "Kan bestand %1 niet in ZIP-bestand vinden"
+msgid "Could not find file {} in ZIP file"
+msgstr "Kan bestand {} niet in ZIP-bestand vinden"
 
 #: src/lib/encode_server_finder.cc:197
 msgid ""
-"Could not listen for remote encode servers.  Perhaps another instance of %1 "
+"Could not listen for remote encode servers.  Perhaps another instance of {} "
 "is running."
 msgstr ""
 "Kan niet luisteren naar externe encodeer-servers.  Misschien draait er al "
-"een andere instantie van %1."
+"een andere instantie van {}."
 
 #: src/lib/job.cc:180 src/lib/job.cc:195
-msgid "Could not open %1"
-msgstr "Kan %1 niet openen"
+msgid "Could not open {}"
+msgstr "Kan {} niet openen"
 
 #: src/lib/curl_uploader.cc:102 src/lib/scp_uploader.cc:122
-msgid "Could not open %1 to send"
-msgstr "Kan %1 niet openen om te verzenden"
+msgid "Could not open {} to send"
+msgstr "Kan {} niet openen om te verzenden"
 
 #: src/lib/internet.cc:167 src/lib/internet.cc:172
 msgid "Could not open downloaded ZIP file"
 msgstr "Kan gedownload ZIP-bestand niet openen"
 
 #: src/lib/internet.cc:179
-msgid "Could not open downloaded ZIP file (%1:%2: %3)"
-msgstr "Kan gedownload ZIP-bestand niet openen (%1:%2: %3)"
+msgid "Could not open downloaded ZIP file ({}:{}: {})"
+msgstr "Kan gedownload ZIP-bestand niet openen ({}:{}: {})"
 
 #: src/lib/config.cc:1178
 msgid "Could not open file for writing"
 msgstr "Kan bestand niet openen om te schrijven"
 
 #: src/lib/ffmpeg_file_encoder.cc:271
-msgid "Could not open output file %1 (%2)"
-msgstr "Kan output-bestand %1 niet openen (%2)"
+msgid "Could not open output file {} ({})"
+msgstr "Kan output-bestand {} niet openen ({})"
 
 #: src/lib/dcp_subtitle.cc:60
-msgid "Could not read subtitles (%1 / %2)"
-msgstr "Kan ondertitels niet lezen (%1 / %2)"
+msgid "Could not read subtitles ({} / {})"
+msgstr "Kan ondertitels niet lezen ({} / {})"
 
 #: src/lib/curl_uploader.cc:59
 msgid "Could not start transfer"
 msgstr "Kan overdracht niet starten"
 
 #: src/lib/curl_uploader.cc:110 src/lib/scp_uploader.cc:138
-msgid "Could not write to remote file (%1)"
-msgstr "Kan extern bestand niet schrijven (%1)"
+msgid "Could not write to remote file ({})"
+msgstr "Kan extern bestand niet schrijven ({})"
 
 #: src/lib/util.cc:601
 msgid "D-BOX primary"
@@ -940,7 +940,7 @@ msgid ""
 "The KDMs are valid from $START_TIME until $END_TIME.\n"
 "\n"
 "Best regards,\n"
-"%1"
+"{}"
 msgstr ""
 "Geachte Operateur,\n"
 "\n"
@@ -952,35 +952,35 @@ msgstr ""
 "De KDM's zijn geldig van $START_TIME tot $END_TIME.\n"
 "\n"
 "Met vriendelijke groet,\n"
-"%1"
+"{}"
 
 #: src/lib/exceptions.cc:179
-msgid "Disk full when writing %1"
-msgstr "Schijf vol bij het schrijven van %1"
+msgid "Disk full when writing {}"
+msgstr "Schijf vol bij het schrijven van {}"
 
 #: src/lib/dolby_cp750.cc:31
 msgid "Dolby CP650 or CP750"
 msgstr "Dolby CP650 of CP750"
 
 #: src/lib/internet.cc:124
-msgid "Download failed (%1 error %2)"
-msgstr "Download mislukt (%1 fout %2)"
+msgid "Download failed ({} error {})"
+msgstr "Download mislukt ({} fout {})"
 
 #: src/lib/frame_rate_change.cc:94
 msgid "Each content frame will be doubled in the DCP.\n"
 msgstr "Elk content frame zal dubbel gebruikt worden in de DCP.\n"
 
 #: src/lib/frame_rate_change.cc:96
-msgid "Each content frame will be repeated %1 more times in the DCP.\n"
-msgstr "Elk content frame zal %1 keer herhaald worden in de DCP.\n"
+msgid "Each content frame will be repeated {} more times in the DCP.\n"
+msgstr "Elk content frame zal {} keer herhaald worden in de DCP.\n"
 
 #: src/lib/send_kdm_email_job.cc:94
 msgid "Email KDMs"
 msgstr "E-mail KDM's"
 
 #: src/lib/send_kdm_email_job.cc:97
-msgid "Email KDMs for %1"
-msgstr "E-mail KDM's voor %2"
+msgid "Email KDMs for {}"
+msgstr "E-mail KDM's voor {}"
 
 #: src/lib/send_notification_email_job.cc:53
 msgid "Email notification"
@@ -991,8 +991,8 @@ msgid "Email problem report"
 msgstr "E-mail probleemrapport"
 
 #: src/lib/send_problem_report_job.cc:72
-msgid "Email problem report for %1"
-msgstr "E-mail probleemrapport voor %1"
+msgid "Email problem report for {}"
+msgstr "E-mail probleemrapport voor {}"
 
 #: src/lib/dcp_film_encoder.cc:120 src/lib/ffmpeg_film_encoder.cc:135
 msgid "Encoding"
@@ -1003,12 +1003,12 @@ msgid "Episode"
 msgstr "Episode"
 
 #: src/lib/exceptions.cc:86
-msgid "Error in subtitle file: saw %1 while expecting %2"
-msgstr "Fout in ondertitelbestand: %1 gelezen terwijl %2 verwacht werd"
+msgid "Error in subtitle file: saw {} while expecting {}"
+msgstr "Fout in ondertitelbestand: {} gelezen terwijl {} verwacht werd"
 
 #: src/lib/job.cc:625
-msgid "Error: %1"
-msgstr "Fout: %1"
+msgid "Error: {}"
+msgstr "Fout: {}"
 
 #: src/lib/dcp_content_type.cc:69
 msgid "Event"
@@ -1047,8 +1047,8 @@ msgid "FCP XML subtitles"
 msgstr "FCP XML ondertitels"
 
 #: src/lib/scp_uploader.cc:69
-msgid "Failed to authenticate with server (%1)"
-msgstr "Authenticatiefout met server (%1)"
+msgid "Failed to authenticate with server ({})"
+msgstr "Authenticatiefout met server ({})"
 
 #: src/lib/job.cc:140 src/lib/job.cc:154
 msgid "Failed to encode the DCP."
@@ -1100,8 +1100,8 @@ msgid "Full"
 msgstr "Full"
 
 #: src/lib/ffmpeg_content.cc:564
-msgid "Full (0-%1)"
-msgstr "Full (0-%1)"
+msgid "Full (0-{})"
+msgstr "Full (0-{})"
 
 #: src/lib/ratio.cc:57
 msgid "Full frame"
@@ -1202,8 +1202,8 @@ msgstr ""
 "de DCP te plaatsen om er zeker van te zijn dat deze wordt gezien."
 
 #: src/lib/job.cc:170 src/lib/job.cc:205 src/lib/job.cc:265 src/lib/job.cc:275
-msgid "It is not known what caused this error.  %1"
-msgstr "Het is onbekend hoe deze fout is ontstaan.  %1"
+msgid "It is not known what caused this error.  {}"
+msgstr "Het is onbekend hoe deze fout is ontstaan.  {}"
 
 #: src/lib/ffmpeg_content.cc:614
 msgid "JEDEC P22"
@@ -1255,8 +1255,8 @@ msgid "Limited"
 msgstr "Limited"
 
 #: src/lib/ffmpeg_content.cc:557
-msgid "Limited / video (%1-%2)"
-msgstr "Limited / video (%1-%2)"
+msgid "Limited / video ({}-{})"
+msgstr "Limited / video ({}-{})"
 
 #: src/lib/ffmpeg_content.cc:629
 msgid "Linear"
@@ -1304,8 +1304,8 @@ msgid "Mismatched video sizes in DCP"
 msgstr "Ongelijke beeldgroottes in DCP"
 
 #: src/lib/exceptions.cc:72
-msgid "Missing required setting %1"
-msgstr "Ontbrekende verplichte instelling %1"
+msgid "Missing required setting {}"
+msgstr "Ontbrekende verplichte instelling {}"
 
 #: src/lib/job.cc:561
 msgid "Monday"
@@ -1352,12 +1352,12 @@ msgid "OK"
 msgstr "OK"
 
 #: src/lib/job.cc:622
-msgid "OK (ran for %1 from %2 to %3)"
-msgstr "OK (%1 bezig, van %2 tot %3)"
+msgid "OK (ran for {} from {} to {})"
+msgstr "OK ({} bezig, van {} tot {})"
 
 #: src/lib/job.cc:620
-msgid "OK (ran for %1)"
-msgstr "OK (%1 bezig)"
+msgid "OK (ran for {})"
+msgstr "OK ({} bezig)"
 
 #: src/lib/content.cc:106
 msgid "Only the first piece of content to be joined can have a start trim."
@@ -1381,9 +1381,9 @@ msgstr "Open ondertitels"
 
 #: src/lib/transcode_job.cc:116
 msgid ""
-"Open the project in %1, check the settings, then save it before trying again."
+"Open the project in {}, check the settings, then save it before trying again."
 msgstr ""
-"Open het project in %1, controleer de instellingen en bewaar voordat u het "
+"Open het project in {}, controleer de instellingen en bewaar voordat u het "
 "opnieuw probeert."
 
 #: src/lib/filter.cc:92 src/lib/filter.cc:93 src/lib/filter.cc:94
@@ -1406,10 +1406,10 @@ msgstr "P3"
 #: src/lib/util.cc:1136
 msgid ""
 "Please report this problem by using Help -> Report a problem or via email to "
-"%1"
+"{}"
 msgstr ""
 "Rapporteer dit probleem a.u.b. via \"Help -> Meld een probleem...\" of per e-"
-"mail naar %1"
+"mail naar {}"
 
 #: src/lib/dcp_content_type.cc:61
 msgid "Policy"
@@ -1424,8 +1424,8 @@ msgid "Prepared for video frame rate"
 msgstr "Voorbereid voor video frame rate"
 
 #: src/lib/exceptions.cc:107
-msgid "Programming error at %1:%2 %3"
-msgstr "Programmeerfout op %1:%2 %3"
+msgid "Programming error at {}:{} {}"
+msgstr "Programmeerfout op {}:{} {}"
 
 #: src/lib/dcp_content_type.cc:65
 msgid "Promo"
@@ -1545,13 +1545,13 @@ msgid "SMPTE ST 432-1 D65 (2010)"
 msgstr "SMPTE ST 432-1 D65 (2010)"
 
 #: src/lib/scp_uploader.cc:47
-msgid "SSH error [%1]"
-msgstr "SSH-fout [%1]"
+msgid "SSH error [{}]"
+msgstr "SSH-fout [{}]"
 
 #: src/lib/scp_uploader.cc:63 src/lib/scp_uploader.cc:76
 #: src/lib/scp_uploader.cc:83
-msgid "SSH error [%1] (%2)"
-msgstr "SSH-fout [%1] (%2)"
+msgid "SSH error [{}] ({})"
+msgstr "SSH-fout [{}] ({})"
 
 #: src/lib/job.cc:571
 msgid "Saturday"
@@ -1578,8 +1578,8 @@ msgid "Size"
 msgstr "Grootte"
 
 #: src/lib/audio_content.cc:260
-msgid "Some audio will be resampled to %1Hz"
-msgstr "Een deel van de audio wordt geresampled naar %1Hz"
+msgid "Some audio will be resampled to {}Hz"
+msgstr "Een deel van de audio wordt geresampled naar {}Hz"
 
 #: src/lib/transcode_job.cc:121
 msgid "Some files have been changed since they were added to the project."
@@ -1611,10 +1611,10 @@ msgstr ""
 
 #: src/lib/hints.cc:605
 msgid ""
-"Some of your closed captions span more than %1 lines, so they will be "
+"Some of your closed captions span more than {} lines, so they will be "
 "truncated."
 msgstr ""
-"Een deel van uw closed captions heeft meer dan %1 regels, dus worden ze "
+"Een deel van uw closed captions heeft meer dan {} regels, dus worden ze "
 "afgekapt."
 
 #: src/lib/hints.cc:727
@@ -1698,18 +1698,18 @@ msgid "The certificate chain for signing is invalid"
 msgstr "De certificaat-keten voor ondertekening is ongeldig"
 
 #: src/lib/exceptions.cc:100
-msgid "The certificate chain for signing is invalid (%1)"
-msgstr "De certificaat-keten voor ondertekening is ongeldig (%1)"
+msgid "The certificate chain for signing is invalid ({})"
+msgstr "De certificaat-keten voor ondertekening is ongeldig ({})"
 
 #: src/lib/hints.cc:744
 msgid ""
-"The certificate chain that %1 uses for signing DCPs and KDMs contains a "
+"The certificate chain that {} uses for signing DCPs and KDMs contains a "
 "small error which will prevent DCPs from being validated correctly on some "
 "systems.  It is advisable to re-create the signing certificate chain by "
 "clicking the \"Re-make certificates and key...\" button in the Keys page of "
 "Preferences."
 msgstr ""
-"De certificaat-keten die %1 gebruikt voor het ondertekenen van DCP's en "
+"De certificaat-keten die {} gebruikt voor het ondertekenen van DCP's en "
 "KDM's bevat een kleine fout die ervoor zorgt dat DCP's als incorrect worden "
 "gevalideerd op sommige systemen.  U wordt geadviseerd om deze certificaat-"
 "keten opnieuw aan te maken door op de knop \"Maak certificaten en sleutel "
@@ -1717,13 +1717,13 @@ msgstr ""
 
 #: src/lib/hints.cc:752
 msgid ""
-"The certificate chain that %1 uses for signing DCPs and KDMs has a validity "
+"The certificate chain that {} uses for signing DCPs and KDMs has a validity "
 "period that is too long.  This will cause problems playing back DCPs on some "
 "systems. It is advisable to re-create the signing certificate chain by "
 "clicking the \"Re-make certificates and key...\" button in the Keys page of "
 "Preferences."
 msgstr ""
-"De certificaat-keten die %1 gebruikt voor het ondertekenen van DCP's en "
+"De certificaat-keten die {} gebruikt voor het ondertekenen van DCP's en "
 "KDM's heeft een te lange geldigheidsduur.  Dit zal op sommige systemen "
 "problemen veroorzaken bij het afspelen van DCP's.  U wordt geadviseerd om "
 "deze certificaat-keten opnieuw aan te maken door op de knop \"Maak "
@@ -1732,11 +1732,11 @@ msgstr ""
 
 #: src/lib/video_decoder.cc:70
 msgid ""
-"The content file %1 is set as 3D but does not appear to contain 3D images.  "
+"The content file {} is set as 3D but does not appear to contain 3D images.  "
 "Please set it to 2D.  You can still make a 3D DCP from this content by "
 "ticking the 3D option in the DCP video tab."
 msgstr ""
-"Het content-bestand %1 is ingesteld als 3D, maar lijkt geen 3D-beelden te "
+"Het content-bestand {} is ingesteld als 3D, maar lijkt geen 3D-beelden te "
 "bevatten.  Stel het a.u.b. in op 2D.  U kunt nog steeds een 3D-DCP van deze "
 "content maken door in het \"DCP/Video\"-tabblad de 3D-optie aan te vinken."
 
@@ -1749,20 +1749,20 @@ msgstr ""
 "meer ruimte vrij en probeer het opnieuw."
 
 #: src/lib/playlist.cc:245
-msgid "The file %1 has been moved %2 milliseconds earlier."
-msgstr "Het bestand %1 is naar %2 milliseconden eerder verplaatst."
+msgid "The file {} has been moved {} milliseconds earlier."
+msgstr "Het bestand {} is naar {} milliseconden eerder verplaatst."
 
 #: src/lib/playlist.cc:240
-msgid "The file %1 has been moved %2 milliseconds later."
-msgstr "Het bestand %1 is naar %2 milliseconden later verplaatst."
+msgid "The file {} has been moved {} milliseconds later."
+msgstr "Het bestand {} is naar {} milliseconden later verplaatst."
 
 #: src/lib/playlist.cc:265
-msgid "The file %1 has been trimmed by %2 milliseconds less."
-msgstr "Van het bestand %1 is %2 milliseconden minder weggeknipt."
+msgid "The file {} has been trimmed by {} milliseconds less."
+msgstr "Van het bestand {} is {} milliseconden minder weggeknipt."
 
 #: src/lib/playlist.cc:260
-msgid "The file %1 has been trimmed by %2 milliseconds more."
-msgstr "Van het bestand %1 is %2 milliseconden meer weggeknipt."
+msgid "The file {} has been trimmed by {} milliseconds more."
+msgstr "Van het bestand {} is {} milliseconden meer weggeknipt."
 
 #: src/lib/hints.cc:268
 msgid ""
@@ -1815,32 +1815,32 @@ msgstr ""
 "32-bits operating system draait."
 
 #: src/lib/util.cc:986
-msgid "This KDM was made for %1 but not for its leaf certificate."
-msgstr "Deze KDM is gemaakt voor %1 maar niet voor het leaf-certificaat."
+msgid "This KDM was made for {} but not for its leaf certificate."
+msgstr "Deze KDM is gemaakt voor {} maar niet voor het leaf-certificaat."
 
 #: src/lib/util.cc:984
-msgid "This KDM was not made for %1's decryption certificate."
-msgstr "Deze KDM is niet gemaakt voor het ontsleutelings-certificaat van %1."
+msgid "This KDM was not made for {}'s decryption certificate."
+msgstr "Deze KDM is niet gemaakt voor het ontsleutelings-certificaat van {}."
 
 #: src/lib/job.cc:142
 msgid ""
 "This error has probably occurred because you are running the 32-bit version "
-"of %1 and trying to use too many encoding threads.  Please reduce the "
-"'number of threads %2 should use' in the General tab of Preferences and try "
+"of {} and trying to use too many encoding threads.  Please reduce the "
+"'number of threads {} should use' in the General tab of Preferences and try "
 "again."
 msgstr ""
-"Deze fout is waarschijnlijk opgetreden omdat u de 32-bits versie van %1 "
+"Deze fout is waarschijnlijk opgetreden omdat u de 32-bits versie van {} "
 "gebruikt en probeert te veel encoderings-threads te gebruiken.  Verminder "
-"a.u.b. het 'Aantal threads dat %2 moet gebruiken' in het \"Algemeen\"-"
+"a.u.b. het 'Aantal threads dat {} moet gebruiken' in het \"Algemeen\"-"
 "tabblad bij Voorkeuren en probeer het opnieuw."
 
 #: src/lib/job.cc:156
 msgid ""
 "This error has probably occurred because you are running the 32-bit version "
-"of %1.  Please re-install %2 with the 64-bit installer and try again."
+"of {}.  Please re-install {} with the 64-bit installer and try again."
 msgstr ""
-"Deze fout is waarschijnlijk opgetreden omdat u de 32-bits versie van %1 "
-"gebruikt.  Installeer a.u.b. de 64-bits versie van %2 en probeer het opnieuw."
+"Deze fout is waarschijnlijk opgetreden omdat u de 32-bits versie van {} "
+"gebruikt.  Installeer a.u.b. de 64-bits versie van {} en probeer het opnieuw."
 
 #: src/lib/exceptions.cc:114
 msgid ""
@@ -1853,19 +1853,19 @@ msgstr ""
 
 #: src/lib/film.cc:544
 msgid ""
-"This film was created with a newer version of %1, and it cannot be loaded "
+"This film was created with a newer version of {}, and it cannot be loaded "
 "into this version.  Sorry!"
 msgstr ""
-"Deze film is aangemaakt met een nieuwere versie van %1 en kan niet met deze "
+"Deze film is aangemaakt met een nieuwere versie van {} en kan niet met deze "
 "versie geladen worden.  Sorry!"
 
 #: src/lib/film.cc:525
 msgid ""
-"This film was created with an older version of %1, and unfortunately it "
+"This film was created with an older version of {}, and unfortunately it "
 "cannot be loaded into this version.  You will need to create a new Film, re-"
 "add your content and set it up again.  Sorry!"
 msgstr ""
-"Deze film is aangemaakt met een oudere versie van %1 en kan niet met deze "
+"Deze film is aangemaakt met een oudere versie van {} en kan niet met deze "
 "versie geladen worden.  U moet een nieuwe film aanmaken en de content "
 "opnieuw toevoegen en configureren.  Sorry!"
 
@@ -1882,8 +1882,8 @@ msgid "Trailer"
 msgstr "Trailer"
 
 #: src/lib/transcode_job.cc:75
-msgid "Transcoding %1"
-msgstr "Transcoderen %1"
+msgid "Transcoding {}"
+msgstr "Transcoderen {}"
 
 #: src/lib/dcp_content_type.cc:58
 msgid "Transitional"
@@ -1914,8 +1914,8 @@ msgid "Unknown error"
 msgstr "Onbekende fout"
 
 #: src/lib/ffmpeg_decoder.cc:378
-msgid "Unrecognised audio sample format (%1)"
-msgstr "Niet-herkend audio sample-formaat (%1)"
+msgid "Unrecognised audio sample format ({})"
+msgstr "Niet-herkend audio sample-formaat ({})"
 
 #: src/lib/filter.cc:102
 msgid "Unsharp mask and Gaussian blur"
@@ -1962,8 +1962,8 @@ msgid "Vertical flip"
 msgstr "Spiegel verticaal"
 
 #: src/lib/fcpxml.cc:69
-msgid "Video refers to missing asset %1"
-msgstr "Video refereert aan ontbrekende asset %1"
+msgid "Video refers to missing asset {}"
+msgstr "Video refereert aan ontbrekende asset {}"
 
 #: src/lib/util.cc:596
 msgid "Visually impaired"
@@ -1991,23 +1991,23 @@ msgstr "Yet Another Deinterlacing Filter"
 
 #: src/lib/hints.cc:209
 msgid ""
-"You are set up for a DCP at a frame rate of %1 fps.  This frame rate is not "
+"You are set up for a DCP at a frame rate of {} fps.  This frame rate is not "
 "supported by all projectors.  It is advisable to change the DCP frame rate "
-"to %2 fps."
+"to {} fps."
 msgstr ""
-"U heeft een frame rate van %1 fps voor de DCP ingesteld.  Deze frame rate "
+"U heeft een frame rate van {} fps voor de DCP ingesteld.  Deze frame rate "
 "wordt niet door alle projectoren ondersteund.  U wordt geadviseerd om de DCP "
-"frame rate te wijzigen in %2 fps."
+"frame rate te wijzigen in {} fps."
 
 #: src/lib/hints.cc:193
 msgid ""
-"You are set up for a DCP at a frame rate of %1 fps.  This frame rate is not "
+"You are set up for a DCP at a frame rate of {} fps.  This frame rate is not "
 "supported by all projectors.  You may want to consider changing your frame "
-"rate to %2 fps."
+"rate to {} fps."
 msgstr ""
-"U heeft een frame rate van %1 fps voor de DCP ingesteld.  Deze frame rate "
+"U heeft een frame rate van {} fps voor de DCP ingesteld.  Deze frame rate "
 "wordt niet door alle projectoren ondersteund.  U kunt overwegen om de DCP "
-"frame rate te wijzigen in %2 fps."
+"frame rate te wijzigen in {} fps."
 
 #: src/lib/hints.cc:203
 msgid ""
@@ -2020,11 +2020,11 @@ msgstr ""
 
 #: src/lib/hints.cc:126
 msgid ""
-"You are using %1's stereo-to-5.1 upmixer.  This is experimental and may "
+"You are using {}'s stereo-to-5.1 upmixer.  This is experimental and may "
 "result in poor-quality audio.  If you continue, you should listen to the "
 "resulting DCP in a cinema to make sure that it sounds good."
 msgstr ""
-"U gebruikt de stereo naar 5.1 up-mixer van %1.  Deze is experimenteel en kan "
+"U gebruikt de stereo naar 5.1 up-mixer van {}.  Deze is experimenteel en kan "
 "leiden tot audio van slechte kwaliteit.  Als u doorgaat, kunt u beter in een "
 "bioscoop naar de resulterende DCP luisteren om er zeker van te zijn dat het "
 "goed klinkt."
@@ -2039,10 +2039,10 @@ msgstr ""
 
 #: src/lib/hints.cc:307
 msgid ""
-"You have %1 files that look like they are VOB files from DVD. You should "
+"You have {} files that look like they are VOB files from DVD. You should "
 "join them to ensure smooth joins between the files."
 msgstr ""
-"U heeft %1 bestanden die VOB-bestanden van een DVD lijken te zijn.  U kunt "
+"U heeft {} bestanden die VOB-bestanden van een DVD lijken te zijn.  U kunt "
 "deze beter samenvoegen om van soepele aansluitingen verzekerd te zijn."
 
 #: src/lib/film.cc:1665
@@ -2075,11 +2075,11 @@ msgstr "U moet content aan de DCP toevoegen voor hij gemaakt kan worden"
 
 #: src/lib/hints.cc:770
 msgid ""
-"Your DCP has %1 audio channels, rather than 8 or 16.  This may cause some "
+"Your DCP has {} audio channels, rather than 8 or 16.  This may cause some "
 "distributors to raise QC errors when they check your DCP.  To avoid this, "
 "set the DCP audio channels to 8 or 16."
 msgstr ""
-"Uw DCP heeft %1 audio-kanalen in plaats van 8 of 16.  Dit kan ertoe leiden "
+"Uw DCP heeft {} audio-kanalen in plaats van 8 of 16.  Dit kan ertoe leiden "
 "dat sommige distributeurs QC-fouten (Quality Control) melden wanneer zij uw "
 "DCP controleren.  Om dit te voorkomen, stelt u het aantal audio-kanalen van "
 "de DCP in op 8 of 16."
@@ -2088,12 +2088,12 @@ msgstr ""
 msgid ""
 "Your DCP has fewer than 6 audio channels.  This may cause problems on some "
 "projectors.  You may want to set the DCP to have 6 channels.  It does not "
-"matter if your content has fewer channels, as %1 will fill the extras with "
+"matter if your content has fewer channels, as {} will fill the extras with "
 "silence."
 msgstr ""
 "Uw DCP heeft minder dan 6 audio-kanalen.  Dit kan problemen geven met "
 "sommige installaties.  Mogelijk wilt u de DCP instellen op 6 kanalen.  Het "
-"maakt niet uit of uw content minder kanalen heeft, %1 vult de extra kanalen "
+"maakt niet uit of uw content minder kanalen heeft, {} vult de extra kanalen "
 "met stilte."
 
 #: src/lib/hints.cc:168
@@ -2107,10 +2107,10 @@ msgstr ""
 
 #: src/lib/hints.cc:357
 msgid ""
-"Your audio level is very high (on %1).  You should reduce the gain of your "
+"Your audio level is very high (on {}).  You should reduce the gain of your "
 "audio content."
 msgstr ""
-"Uw audio-niveau is zeer hoog (op %1).  U kunt beter de versterking van uw "
+"Uw audio-niveau is zeer hoog (op {}).  U kunt beter de versterking van uw "
 "audio-content verminderen."
 
 #: src/lib/playlist.cc:236
@@ -2140,11 +2140,11 @@ msgstr "[stilstaand beeld]"
 msgid "[subtitles]"
 msgstr "[ondertitels]"
 
-#. TRANSLATORS: _reel%1 here is to be added to an export filename to indicate
-#. which reel it is.  Preserve the %1; it will be replaced with the reel number.
+#. TRANSLATORS: _reel{} here is to be added to an export filename to indicate
+#. which reel it is.  Preserve the {}; it will be replaced with the reel number.
 #: src/lib/ffmpeg_film_encoder.cc:152
-msgid "_reel%1"
-msgstr "_reel%1"
+msgid "_reel{}"
+msgstr "_reel{}"
 
 #: src/lib/audio_content.cc:306
 msgid "bits"
@@ -2163,56 +2163,56 @@ msgid "content type"
 msgstr "content-type"
 
 #: src/lib/uploader.cc:79
-msgid "copying %1"
-msgstr "kopiëren van %1"
+msgid "copying {}"
+msgstr "kopiëren van {}"
 
 #: src/lib/ffmpeg.cc:119
 msgid "could not find stream information"
 msgstr "kan geen stream-informatie vinden"
 
 #: src/lib/reel_writer.cc:404
-msgid "could not move atmos asset into the DCP (%1)"
-msgstr "kan Atmos asset niet naar de DCP verplaatsen (%1)"
+msgid "could not move atmos asset into the DCP ({})"
+msgstr "kan Atmos asset niet naar de DCP verplaatsen ({})"
 
 #: src/lib/reel_writer.cc:387
-msgid "could not move audio asset into the DCP (%1)"
-msgstr "kan audio asset niet naar de DCP verplaatsen (%1)"
+msgid "could not move audio asset into the DCP ({})"
+msgstr "kan audio asset niet naar de DCP verplaatsen ({})"
 
 #: src/lib/exceptions.cc:39
-msgid "could not open file %1 for read (%2)"
-msgstr "kan bestand %1 niet openen om te lezen (%2)"
+msgid "could not open file {} for read ({})"
+msgstr "kan bestand {} niet openen om te lezen ({})"
 
 #: src/lib/exceptions.cc:38
-msgid "could not open file %1 for read/write (%2)"
-msgstr "kan bestand %1 niet openen om te lezen/schrijven (%2)"
+msgid "could not open file {} for read/write ({})"
+msgstr "kan bestand {} niet openen om te lezen/schrijven ({})"
 
 #: src/lib/exceptions.cc:39
-msgid "could not open file %1 for write (%2)"
-msgstr "kan bestand %1 niet openen om te schrijven (%2)"
+msgid "could not open file {} for write ({})"
+msgstr "kan bestand {} niet openen om te schrijven ({})"
 
 #: src/lib/exceptions.cc:58
-msgid "could not read from file %1 (%2)"
-msgstr "kan niet lezen uit bestand %1 (%2)"
+msgid "could not read from file {} ({})"
+msgstr "kan niet lezen uit bestand {} ({})"
 
 #: src/lib/exceptions.cc:65
-msgid "could not write to file %1 (%2)"
-msgstr "kan niet schrijven naar bestand %1 (%2)"
+msgid "could not write to file {} ({})"
+msgstr "kan niet schrijven naar bestand {} ({})"
 
 #: src/lib/dcpomatic_socket.cc:109
-msgid "error during async_connect (%1)"
-msgstr "fout tijdens async_connect (%1)"
+msgid "error during async_connect ({})"
+msgstr "fout tijdens async_connect ({})"
 
 #: src/lib/dcpomatic_socket.cc:79
-msgid "error during async_connect: (%1)"
-msgstr "fout tijdens async_connect: (%1)"
+msgid "error during async_connect: ({})"
+msgstr "fout tijdens async_connect: ({})"
 
 #: src/lib/dcpomatic_socket.cc:201
-msgid "error during async_read (%1)"
-msgstr "fout tijdens async_read (%1)"
+msgid "error during async_read ({})"
+msgstr "fout tijdens async_read ({})"
 
 #: src/lib/dcpomatic_socket.cc:160
-msgid "error during async_write (%1)"
-msgstr "fout tijdens async_write (%1)"
+msgid "error during async_write ({})"
+msgstr "fout tijdens async_write ({})"
 
 #: src/lib/content.cc:472 src/lib/content.cc:481
 msgid "frames per second"
@@ -2231,10 +2231,10 @@ msgstr "hij heeft een andere frame rate dan de film."
 #: src/lib/dcp_content.cc:753
 msgid ""
 "it has a different number of audio channels than the project; set the "
-"project to have %1 channels."
+"project to have {} channels."
 msgstr ""
 "hij heeft een ander aantal audio-kanalen dan het project; stel het project "
-"in op %1 kanalen."
+"in op {} kanalen."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:789
@@ -2399,20 +2399,20 @@ msgstr "video frames"
 #~ msgid "Content to be joined must have the same audio language."
 #~ msgstr "Samen te voegen content moet dezelfde audio-taal hebben."
 
-#~ msgid "Could not start SCP session (%1)"
-#~ msgstr "Kan SCP-sessie niet starten (%1)"
+#~ msgid "Could not start SCP session ({})"
+#~ msgstr "Kan SCP-sessie niet starten ({})"
 
-#~ msgid "could not start SCP session (%1)"
-#~ msgstr "kan SCP-sessie niet starten (%1)"
+#~ msgid "could not start SCP session ({})"
+#~ msgstr "kan SCP-sessie niet starten ({})"
 
 #~ msgid "could not start SSH session"
 #~ msgstr "kan SSH-sessie niet starten"
 
 #~ msgid ""
-#~ "Some of your closed captions have lines longer than %1 characters, so "
+#~ "Some of your closed captions have lines longer than {} characters, so "
 #~ "they will probably be word-wrapped."
 #~ msgstr ""
-#~ "Een deel van uw closed captions heeft regels die langer zijn dan %1 "
+#~ "Een deel van uw closed captions heeft regels die langer zijn dan {} "
 #~ "tekens, dus waarschijnlijk worden ze afgebroken."
 
 #~ msgid "No scale"
@@ -2469,15 +2469,15 @@ msgstr "video frames"
 #~ msgid "Could not write whole file"
 #~ msgstr "Kan niet het volledige bestand schrijven"
 
-#~ msgid "Could not decode image file %1 (%2)"
-#~ msgstr "Kan beeldbestand %1 niet decoderen (%2)"
+#~ msgid "Could not decode image file {} ({})"
+#~ msgstr "Kan beeldbestand {} niet decoderen ({})"
 
 #~ msgid "it overlaps other subtitle content; remove the other content."
 #~ msgstr ""
 #~ "hij overlapt met andere ondertitel-content; verwijder deze andere content."
 
 #~ msgid ""
-#~ "The DCP %1 was being referred to by this film.  This not now possible "
+#~ "The DCP {} was being referred to by this film.  This not now possible "
 #~ "because the reel sizes in the film no longer agree with those in the "
 #~ "imported DCP.\n"
 #~ "\n"
@@ -2486,7 +2486,7 @@ msgstr "video frames"
 #~ "After doing that you would need to re-tick the appropriate 'refer to "
 #~ "existing DCP' checkboxes."
 #~ msgstr ""
-#~ "Er werd aan de DCP %1 gerefereerd door deze film.  Dat is nu niet meer "
+#~ "Er werd aan de DCP {} gerefereerd door deze film.  Dat is nu niet meer "
 #~ "mogelijk omdat de reel-lengtes van de film en de geïmporteerde DCP niet "
 #~ "meer overeenkomen.\n"
 #~ "\n"
@@ -2512,10 +2512,10 @@ msgstr "video frames"
 #~ msgstr "1,43:1 (IMAX)"
 
 #~ msgid ""
-#~ "Your DCP frame rate (%1 fps) may cause problems in a few (mostly older) "
+#~ "Your DCP frame rate ({} fps) may cause problems in a few (mostly older) "
 #~ "projectors.  Use 24 or 48 frames per second to be on the safe side."
 #~ msgstr ""
-#~ "Uw DCP frame rate (%1 fps) kan problemen geven met sommige (oudere) "
+#~ "Uw DCP frame rate ({} fps) kan problemen geven met sommige (oudere) "
 #~ "projectoren.  Gebruik 24 of 48 frames per seconde voor zekerheid."
 
 #~ msgid "Finding length and subtitles"

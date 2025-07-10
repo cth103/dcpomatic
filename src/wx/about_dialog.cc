@@ -27,7 +27,6 @@
 #include "static_text.h"
 #include "wx_util.h"
 #include "wx_variant.h"
-#include "lib/compose.hpp"
 #include "lib/variant.h"
 #include "lib/version.h"
 #include <dcp/warnings.h>
@@ -61,9 +60,9 @@ AboutDialog::AboutDialog(wxWindow* parent)
 
 	wxString s;
 	if (strcmp(dcpomatic_git_commit, "release") == 0) {
-		t = new StaticText(this, std_to_wx(String::compose("Version %1", dcpomatic_version)));
+		t = new StaticText(this, std_to_wx(fmt::format("Version {}", dcpomatic_version)));
 	} else {
-		t = new StaticText(this, std_to_wx(String::compose("Version %1 git %2", dcpomatic_version, dcpomatic_git_commit)));
+		t = new StaticText(this, std_to_wx(fmt::format("Version {} git {}", dcpomatic_version, dcpomatic_git_commit)));
 	}
 	t->SetFont(version_font);
 	sizer->Add(t, wxSizerFlags().Centre().Border(wxALL, 2));
@@ -94,7 +93,7 @@ AboutDialog::AboutDialog(wxWindow* parent)
 	{
 		t = new StaticText(
 			this,
-			_("(C) 2012-2025 Carl Hetherington, Terrence Meiczinger\nOle Laursen, Aaron Boxer"),
+			_("(C) 2012-2025 Carl Hetherington, Terrence Meiczinger\nAaron Boxer"),
 			wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER
 			);
 
@@ -106,7 +105,6 @@ AboutDialog::AboutDialog(wxWindow* parent)
 		written_by.Add(char_to_wx("Carl Hetherington"));
 		written_by.Add(char_to_wx("Terrence Meiczinger"));
 		written_by.Add(char_to_wx("Mart Jansink"));
-		written_by.Add(char_to_wx("Ole Laursen"));
 		written_by.Add(char_to_wx("Aaron Boxer"));
 		written_by.Add(char_to_wx("Benjamin Radel"));
 		add_section(_("Written by"), written_by);

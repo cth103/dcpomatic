@@ -20,7 +20,6 @@
 */
 
 #include "audio_content.h"
-#include "compose.hpp"
 #include "config.h"
 #include "constants.h"
 #include "exceptions.h"
@@ -112,7 +111,7 @@ FFmpegContent::FFmpegContent(cxml::ConstNodePtr node, boost::optional<boost::fil
 		if (auto filter = Filter::from_id(i->content())) {
 			_filters.push_back(*filter);
 		} else {
-			notes.push_back(String::compose(_("%1 no longer supports the `%2' filter, so it has been turned off."), variant::dcpomatic(), i->content()));
+			notes.push_back(fmt::format(_("{} no longer supports the `{}' filter, so it has been turned off."), variant::dcpomatic(), i->content()));
 		}
 	}
 
@@ -340,11 +339,11 @@ string
 FFmpegContent::summary () const
 {
 	if (video && audio) {
-		return String::compose (_("%1 [movie]"), path_summary());
+		return fmt::format(_("{} [movie]"), path_summary());
 	} else if (video) {
-		return String::compose (_("%1 [video]"), path_summary());
+		return fmt::format(_("{} [video]"), path_summary());
 	} else if (audio) {
-		return String::compose (_("%1 [audio]"), path_summary());
+		return fmt::format(_("{} [audio]"), path_summary());
 	}
 
 	return path_summary ();
@@ -380,8 +379,8 @@ FFmpegContent::technical_summary () const
 		s += " - " + audio->technical_summary ();
 	}
 
-	return s + String::compose (
-		"ffmpeg: audio %1 subtitle %2 filters %3", as, ss, filt
+	return s + fmt::format(
+		"ffmpeg: audio {} subtitle {} filters {}", as, ss, filt
 		);
 }
 
@@ -554,14 +553,14 @@ FFmpegContent::add_properties (shared_ptr<const Film> film, list<UserProperty>& 
 				/// file is limited, so that not all possible values are valid.
 				p.push_back (
 					UserProperty (
-						UserProperty::VIDEO, _("Colour range"), String::compose(_("Limited / video (%1-%2)"), lim_start, lim_end)
+						UserProperty::VIDEO, _("Colour range"), fmt::format(_("Limited / video ({}-{})"), lim_start, lim_end)
 						)
 					);
 				break;
 			case AVCOL_RANGE_JPEG:
 				/// TRANSLATORS: this means that the range of pixel values used in this
 				/// file is full, so that all possible pixel values are valid.
-				p.push_back(UserProperty(UserProperty::VIDEO, _("Colour range"), String::compose(_("Full (0-%1)"), total - 1)));
+				p.push_back(UserProperty(UserProperty::VIDEO, _("Colour range"), fmt::format(_("Full (0-{})"), total - 1)));
 				break;
 			default:
 				DCPOMATIC_ASSERT (false);

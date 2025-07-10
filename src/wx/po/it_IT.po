@@ -93,7 +93,7 @@ msgstr "Preferenze DVD-o-matic"
 #: src/wx/film_name_location_dialog.cc:156
 #, fuzzy, c-format
 msgid "%s already exists as a file, so you cannot use it for a film."
-msgstr "%1 esiste già come file, quindi non puoi usarlo per il film."
+msgstr "{} esiste già come file, quindi non puoi usarlo per il film."
 
 #: src/wx/audio_dialog.cc:170 src/wx/audio_dialog.cc:172
 #, fuzzy, c-format
@@ -106,13 +106,12 @@ msgid "%s test email"
 msgstr "Invia per email"
 
 #: src/wx/about_dialog.cc:97
-#, fuzzy
 msgid ""
 "(C) 2012-2025 Carl Hetherington, Terrence Meiczinger\n"
-"Ole Laursen, Aaron Boxer"
+"Aaron Boxer"
 msgstr ""
-"(C) 2012-2018 Carl Hetherington, Terrence Meiczinger\n"
-"Ole Laursen, Brecht Sanders"
+"(C) 2012-2025 Carl Hetherington, Terrence Meiczinger\n"
+"Aaron Boxer"
 
 #: src/wx/full_config_dialog.cc:1206 src/wx/player_config_dialog.cc:130
 #, fuzzy, c-format
@@ -1035,7 +1034,7 @@ msgstr "Impossibile caricare la KDM (%s)"
 #: src/wx/download_certificate_panel.cc:67
 #: src/wx/download_certificate_panel.cc:80
 #, fuzzy
-msgid "Could not read certificate file (%1)"
+msgid "Could not read certificate file ({})"
 msgstr "Impossibile leggere il file del certificato."
 
 #: src/wx/certificate_chain_editor.cc:195
@@ -1983,8 +1982,8 @@ msgid "Length"
 msgstr "Lunghezza"
 
 #: src/wx/player_information.cc:182
-msgid "Length: %1 (%2 frames)"
-msgstr "Lunghezza: %1 (%2 fotogrammi)"
+msgid "Length: {} ({} frames)"
+msgstr "Lunghezza: {} ({} fotogrammi)"
 
 #: src/wx/text_panel.cc:104
 msgid "Line spacing"
@@ -3635,7 +3634,7 @@ msgstr ""
 msgid ""
 "The directory %s already exists and is not empty.  Are you sure you want to "
 "use it?"
-msgstr "La directory %1 esiste già e non è vuota. Sei sicuro di volerla usare?"
+msgstr "La directory {} esiste già e non è vuota. Sei sicuro di volerla usare?"
 
 #: src/wx/try_unmount_dialog.cc:44
 #, c-format

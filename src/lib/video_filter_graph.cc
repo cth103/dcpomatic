@@ -19,7 +19,6 @@
 */
 
 
-#include "compose.hpp"
 #include "dcpomatic_assert.h"
 #include "exceptions.h"
 #include "image.h"
@@ -76,7 +75,7 @@ VideoFilterGraph::process(shared_ptr<const Image> image)
 
 	int r = av_buffersrc_write_frame(_buffer_src_context, frame);
 	if (r < 0) {
-		throw DecodeError(String::compose(N_("could not push buffer into filter chain (%1)."), r));
+		throw DecodeError(fmt::format(N_("could not push buffer into filter chain ({})."), r));
 	}
 
 	list<shared_ptr<const Image>> images;
@@ -107,7 +106,7 @@ VideoFilterGraph::process (AVFrame* frame)
 	} else {
 		int r = av_buffersrc_write_frame (_buffer_src_context, frame);
 		if (r < 0) {
-			throw DecodeError (String::compose(N_("could not push buffer into filter chain (%1)."), r));
+			throw DecodeError (fmt::format(N_("could not push buffer into filter chain ({})."), r));
 		}
 
 		while (true) {

@@ -22,7 +22,6 @@
 #include "download_certificate_dialog.h"
 #include "gdc_certificate_panel.h"
 #include "wx_util.h"
-#include "lib/compose.hpp"
 #include "lib/config.h"
 #include "lib/internet.h"
 #include <boost/algorithm/string.hpp>
@@ -56,8 +55,8 @@ GDCCertificatePanel::do_download ()
 {
 	string serial = wx_to_std (_serial->GetValue());
 	trim(serial);
-	string url = String::compose(
-		"ftp://%1:%2@ftp.gdc-tech.com/SHA256/%3.crt.pem",
+	string url = fmt::format(
+		"ftp://{}:{}@ftp.gdc-tech.com/SHA256/{}.crt.pem",
 		Config::instance()->gdc_username().get(),
 		Config::instance()->gdc_password().get(),
 		serial

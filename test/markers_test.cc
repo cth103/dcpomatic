@@ -50,7 +50,7 @@ BOOST_AUTO_TEST_CASE (automatic_ffoc_lfoc_markers_test1)
 	film->set_interop (false);
 	make_and_verify_dcp (film);
 
-	dcp::DCP dcp (String::compose("build/test/%1/%2", name, film->dcp_name()));
+	dcp::DCP dcp (fmt::format("build/test/{}/{}", name, film->dcp_name()));
 	dcp.read ();
 	BOOST_REQUIRE_EQUAL (dcp.cpls().size(), 1U);
 	auto cpl = dcp.cpls().front();
@@ -86,7 +86,7 @@ BOOST_AUTO_TEST_CASE (automatic_ffoc_lfoc_markers_test2)
 			dcp::VerificationNote::Code::INCORRECT_LFOC
 		});
 
-	dcp::DCP dcp (String::compose("build/test/%1/%2", name, film->dcp_name()));
+	dcp::DCP dcp (fmt::format("build/test/{}/{}", name, film->dcp_name()));
 	dcp.read ();
 	BOOST_REQUIRE_EQUAL (dcp.cpls().size(), 1U);
 	auto cpl = dcp.cpls().front();
@@ -116,7 +116,7 @@ BOOST_AUTO_TEST_CASE(markers_correct_with_reels)
 	film->set_reel_type(ReelType::BY_VIDEO_CONTENT);
 	make_and_verify_dcp(film);
 
-	dcp::DCP dcp(String::compose("build/test/%1/%2", name, film->dcp_name()));
+	dcp::DCP dcp(fmt::format("build/test/{}/{}", name, film->dcp_name()));
 	dcp.read ();
 	BOOST_REQUIRE_EQUAL(dcp.cpls().size(), 1U);
 	auto cpl = dcp.cpls()[0];

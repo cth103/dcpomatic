@@ -110,10 +110,10 @@ msgstr "%s testovací email"
 #: src/wx/about_dialog.cc:97
 msgid ""
 "(C) 2012-2025 Carl Hetherington, Terrence Meiczinger\n"
-"Ole Laursen, Aaron Boxer"
+"Aaron Boxer"
 msgstr ""
 "(C) 2012-2025 Carl Hetherington, Terrence Meiczinger\n"
-"Ole Laursen, Aaron Boxer"
+"Aaron Boxer"
 
 #: src/wx/full_config_dialog.cc:1206 src/wx/player_config_dialog.cc:130
 #, c-format
@@ -1004,7 +1004,7 @@ msgstr "Nelze načíst DCP: %s"
 
 #: src/wx/download_certificate_panel.cc:67
 #: src/wx/download_certificate_panel.cc:80
-msgid "Could not read certificate file (%1)"
+msgid "Could not read certificate file ({})"
 msgstr "Nelze načíst soubor certifikátu (% 1)"
 
 #: src/wx/certificate_chain_editor.cc:195
@@ -1949,8 +1949,8 @@ msgid "Length"
 msgstr "Délka"
 
 #: src/wx/player_information.cc:182
-msgid "Length: %1 (%2 frames)"
-msgstr "Délka: %1 (%2 snímků)"
+msgid "Length: {} ({} frames)"
+msgstr "Délka: {} ({} snímků)"
 
 #: src/wx/text_panel.cc:104
 msgid "Line spacing"

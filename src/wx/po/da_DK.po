@@ -94,7 +94,7 @@ msgstr ""
 #, fuzzy, c-format
 msgid "%s already exists as a file, so you cannot use it for a film."
 msgstr ""
-"%1 eksisterer allerede som en fil, så du kan ikke bruge det til en film."
+"{} eksisterer allerede som en fil, så du kan ikke bruge det til en film."
 
 #: src/wx/audio_dialog.cc:170 src/wx/audio_dialog.cc:172
 #, fuzzy, c-format
@@ -107,13 +107,12 @@ msgid "%s test email"
 msgstr "Send som e-mail"
 
 #: src/wx/about_dialog.cc:97
-#, fuzzy
 msgid ""
 "(C) 2012-2025 Carl Hetherington, Terrence Meiczinger\n"
-"Ole Laursen, Aaron Boxer"
+"Aaron Boxer"
 msgstr ""
-"(C) 2012-2019 Carl Hetherington, Terrence Meiczinger\n"
-" Ole Laursen, Brecht Sanders"
+"(C) 2012-2025 Carl Hetherington, Terrence Meiczinger\n"
+"Aaron Boxer"
 
 #: src/wx/full_config_dialog.cc:1206 src/wx/player_config_dialog.cc:130
 #, fuzzy, c-format
@@ -1033,7 +1032,7 @@ msgstr "Kunne ikke indlæse KDM"
 #: src/wx/download_certificate_panel.cc:67
 #: src/wx/download_certificate_panel.cc:80
 #, fuzzy
-msgid "Could not read certificate file (%1)"
+msgid "Could not read certificate file ({})"
 msgstr "Kunne ikke læse certifikatfil."
 
 #: src/wx/certificate_chain_editor.cc:195
@@ -1980,8 +1979,8 @@ msgid "Length"
 msgstr "Længde"
 
 #: src/wx/player_information.cc:182
-msgid "Length: %1 (%2 frames)"
-msgstr "Længde: %1 (%2 billeder)"
+msgid "Length: {} ({} frames)"
+msgstr "Længde: {} ({} billeder)"
 
 #: src/wx/text_panel.cc:104
 msgid "Line spacing"
@@ -3629,7 +3628,7 @@ msgid ""
 "The directory %s already exists and is not empty.  Are you sure you want to "
 "use it?"
 msgstr ""
-"Folderen %1 eksisterer allerede og er ikke tom.  Er du sikker på at du vil "
+"Folderen {} eksisterer allerede og er ikke tom.  Er du sikker på at du vil "
 "benytte den?"
 
 #: src/wx/try_unmount_dialog.cc:44

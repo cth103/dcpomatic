@@ -19,7 +19,6 @@
 */
 
 
-#include "compose.hpp"
 #include "exceptions.h"
 #include "film.h"
 #include "frame_rate_change.h"

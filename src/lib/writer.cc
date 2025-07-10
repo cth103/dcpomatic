@@ -21,7 +21,6 @@
 
 #include "audio_buffers.h"
 #include "audio_mapping.h"
-#include "compose.hpp"
 #include "config.h"
 #include "constants.h"
 #include "cross.h"
@@ -393,9 +392,9 @@ try
 			}
 
 			/* Nothing to do: wait until something happens which may indicate that we do */
-			LOG_TIMING (N_("writer-sleep queue=%1"), _queue.size());
+			LOG_TIMING (N_("writer-sleep queue={}"), _queue.size());
 			_empty_condition.wait (lock);
-			LOG_TIMING (N_("writer-wake queue=%1"), _queue.size());
+			LOG_TIMING (N_("writer-wake queue={}"), _queue.size());
 		}
 
 		/* We stop here if we have been asked to finish, and if either the queue
@@ -406,12 +405,12 @@ try
 		if (_finish && (!have_sequenced_image_at_queue_head() || _queue.empty())) {
 			/* (Hopefully temporarily) log anything that was not written */
 			if (!_queue.empty() && !have_sequenced_image_at_queue_head()) {
-				LOG_WARNING (N_("Finishing writer with a left-over queue of %1:"), _queue.size());
+				LOG_WARNING (N_("Finishing writer with a left-over queue of {}:"), _queue.size());
 				for (auto const& i: _queue) {
 					if (i.type == QueueItem::Type::FULL) {
-						LOG_WARNING (N_("- type FULL, frame %1, eyes %2"), i.frame, (int) i.eyes);
+						LOG_WARNING (N_("- type FULL, frame {}, eyes {}"), i.frame, (int) i.eyes);
 					} else {
-						LOG_WARNING(N_("- type FAKE, frame %1, eyes %2"), i.frame, static_cast<int>(i.eyes));
+						LOG_WARNING(N_("- type FAKE, frame {}, eyes {}"), i.frame, static_cast<int>(i.eyes));
 					}
 				}
 			}
@@ -433,7 +432,7 @@ try
 
 			switch (qi.type) {
 			case QueueItem::Type::FULL:
-				LOG_DEBUG_ENCODE (N_("Writer FULL-writes %1 (%2)"), qi.frame, (int) qi.eyes);
+				LOG_DEBUG_ENCODE (N_("Writer FULL-writes {} ({})"), qi.frame, (int) qi.eyes);
 				if (!qi.encoded) {
 					/* Get the data back from disk where we stored it temporarily */
 					qi.encoded = make_shared<ArrayData>(film()->j2c_path(qi.reel, qi.frame, qi.eyes, false));
@@ -442,12 +441,12 @@ try
 				++_full_written;
 				break;
 			case QueueItem::Type::FAKE:
-				LOG_DEBUG_ENCODE (N_("Writer FAKE-writes %1"), qi.frame);
+				LOG_DEBUG_ENCODE (N_("Writer FAKE-writes {}"), qi.frame);
 				reel.fake_write(qi.frame, qi.eyes);
 				++_fake_written;
 				break;
 			case QueueItem::Type::REPEAT:
-				LOG_DEBUG_ENCODE (N_("Writer REPEAT-writes %1"), qi.frame);
+				LOG_DEBUG_ENCODE (N_("Writer REPEAT-writes {}"), qi.frame);
 				reel.repeat_write (qi.frame, qi.eyes);
 				++_repeat_written;
 				break;
@@ -472,7 +471,7 @@ try
 			DCPOMATIC_ASSERT(item != _queue.rend());
 			++_pushed_to_disk;
 
-			LOG_GENERAL("Writer full; pushes %1 to disk while awaiting %2", item->frame, _last_written[_queue.front().reel].frame() + 1);
+			LOG_GENERAL("Writer full; pushes {} to disk while awaiting {}", item->frame, _last_written[_queue.front().reel].frame() + 1);
 
 			item->encoded->write_via_temp(
 				film()->j2c_path(item->reel, item->frame, item->eyes, true),
@@ -613,12 +612,12 @@ Writer::finish()
 
 	auto creator = Config::instance()->dcp_creator();
 	if (creator.empty()) {
-		creator = String::compose("DCP-o-matic %1 %2", dcpomatic_version, dcpomatic_git_commit);
+		creator = fmt::format("DCP-o-matic {} {}", dcpomatic_version, dcpomatic_git_commit);
 	}
 
 	auto issuer = Config::instance()->dcp_issuer();
 	if (issuer.empty()) {
-		issuer = String::compose("DCP-o-matic %1 %2", dcpomatic_version, dcpomatic_git_commit);
+		issuer = fmt::format("DCP-o-matic {} {}", dcpomatic_version, dcpomatic_git_commit);
 	}
 
 	cpl->set_creator (creator);
@@ -709,7 +708,7 @@ Writer::finish()
 	dcp.write_xml(signer, Config::instance()->dcp_metadata_filename_format(), group_id);
 
 	LOG_GENERAL (
-		N_("Wrote %1 FULL, %2 FAKE, %3 REPEAT, %4 pushed to disk"), _full_written, _fake_written, _repeat_written, _pushed_to_disk
+		N_("Wrote {} FULL, {} FAKE, {} REPEAT, {} pushed to disk"), _full_written, _fake_written, _repeat_written, _pushed_to_disk
 		);
 
 	write_cover_sheet();
@@ -759,13 +758,13 @@ Writer::write_cover_sheet()
 	}
 
 	if (size > (1000000000L)) {
-		boost::algorithm::replace_all (text, "$SIZE", String::compose("%1GB", dcp::locale_convert<string>(size / 1000000000.0, 1, true)));
+		boost::algorithm::replace_all (text, "$SIZE", fmt::format("{}GB", dcp::locale_convert<string>(size / 1000000000.0, 1, true)));
 	} else {
-		boost::algorithm::replace_all (text, "$SIZE", String::compose("%1MB", dcp::locale_convert<string>(size / 1000000.0, 1, true)));
+		boost::algorithm::replace_all (text, "$SIZE", fmt::format("{}MB", dcp::locale_convert<string>(size / 1000000.0, 1, true)));
 	}
 
 	auto ch = audio_channel_types (film()->mapped_audio_channels(), film()->audio_channels());
-	auto description = String::compose("%1.%2", ch.first, ch.second);
+	auto description = fmt::format("{}.{}", ch.first, ch.second);
 
 	if (description == "0.0") {
 		description = _("None");
@@ -779,11 +778,11 @@ Writer::write_cover_sheet()
 	auto const hmsf = film()->length().split(film()->video_frame_rate());
 	string length;
 	if (hmsf.h == 0 && hmsf.m == 0) {
-		length = String::compose("%1s", hmsf.s);
+		length = fmt::format("{}s", hmsf.s);
 	} else if (hmsf.h == 0 && hmsf.m > 0) {
-		length = String::compose("%1m%2s", hmsf.m, hmsf.s);
+		length = fmt::format("{}m{}s", hmsf.m, hmsf.s);
 	} else if (hmsf.h > 0 && hmsf.m > 0) {
-		length = String::compose("%1h%2m%3s", hmsf.h, hmsf.m, hmsf.s);
+		length = fmt::format("{}h{}m{}s", hmsf.h, hmsf.m, hmsf.s);
 	}
 
 	boost::algorithm::replace_all (text, "$LENGTH", length);

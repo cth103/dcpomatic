@@ -24,7 +24,6 @@
  */
 
 
-#include "compose.hpp"
 #include "cross.h"
 #include "dcpomatic_assert.h"
 #include "exceptions.h"
@@ -169,7 +168,7 @@ FileGroup::read (uint8_t* buffer, int amount) const
 		}
 
 		if (_current_file->error()) {
-			throw FileError (String::compose("fread error %1", errno), _paths[_current_path]);
+			throw FileError (fmt::format("fread error {}", errno), _paths[_current_path]);
 		}
 
 		if (eof) {

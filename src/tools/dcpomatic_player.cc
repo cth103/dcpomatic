@@ -38,7 +38,6 @@
 #include "wx/wx_signal_manager.h"
 #include "wx/wx_util.h"
 #include "wx/wx_variant.h"
-#include "lib/compose.hpp"
 #include "lib/config.h"
 #include "lib/constants.h"
 #include "lib/cross.h"
@@ -330,7 +329,7 @@ public:
 			 */
 			_viewer.stop();
 		} catch (std::exception& e) {
-			LOG_ERROR("Destructor threw %1", e.what());
+			LOG_ERROR("Destructor threw {}", e.what());
 		} catch (...) {
 			LOG_ERROR_NC("Destructor threw");
 		}
@@ -966,17 +965,17 @@ private:
 			_viewer.panel()->Reparent(_dual_screen);
 			_viewer.panel()->SetFocus();
 			_dual_screen->Show ();
-			LOG_DEBUG_PLAYER("Setting up dual screen mode with %1 displays", wxDisplay::GetCount());
+			LOG_DEBUG_PLAYER("Setting up dual screen mode with {} displays", wxDisplay::GetCount());
 			for (auto index = 0U; index < wxDisplay::GetCount(); ++index) {
 				wxDisplay display(index);
 				auto client = display.GetClientArea();
 				auto mode = display.GetCurrentMode();
 				auto geometry = display.GetGeometry();
-				LOG_DEBUG_PLAYER("Display %1", index);
-				LOG_DEBUG_PLAYER("  ClientArea position=(%1, %2) size=(%3, %4)", client.GetX(), client.GetY(), client.GetWidth(), client.GetHeight());
-				LOG_DEBUG_PLAYER("  Geometry   position=(%1, %2) size=(%3, %4)", geometry.GetX(), geometry.GetY(), geometry.GetWidth(), geometry.GetHeight());
-				LOG_DEBUG_PLAYER("  Mode       size=(%1, %2)", mode.GetWidth(), mode.GetHeight());
-				LOG_DEBUG_PLAYER("  Primary?   %1", static_cast<int>(display.IsPrimary()));
+				LOG_DEBUG_PLAYER("Display {}", index);
+				LOG_DEBUG_PLAYER("  ClientArea position=({}, {}) size=({}, {})", client.GetX(), client.GetY(), client.GetWidth(), client.GetHeight());
+				LOG_DEBUG_PLAYER("  Geometry   position=({}, {}) size=({}, {})", geometry.GetX(), geometry.GetY(), geometry.GetWidth(), geometry.GetHeight());
+				LOG_DEBUG_PLAYER("  Mode       size=({}, {})", mode.GetWidth(), mode.GetHeight());
+				LOG_DEBUG_PLAYER("  Primary?   {}", static_cast<int>(display.IsPrimary()));
 			}
 			if (wxDisplay::GetCount() > 1) {
 				wxRect geometry[2] = {
@@ -1138,7 +1137,7 @@ private:
 				_http_server_thread = boost::thread(boost::bind(&HTTPServer::run, _http_server.get()));
 			}
 		} catch (std::exception& e) {
-			LOG_DEBUG_PLAYER("Failed to start player HTTP server (%1)", e.what());
+			LOG_DEBUG_PLAYER("Failed to start player HTTP server ({})", e.what());
 		}
 	}
 
@@ -1152,7 +1151,7 @@ private:
 			/* This is not the end of the world; probably a failure to bind the server socket
 			 * because there's already another player running.
 			 */
-			LOG_DEBUG_PLAYER("Failed to start internal player server (%1)", e.what());
+			LOG_DEBUG_PLAYER("Failed to start internal player server ({})", e.what());
 		}
 	}
 
@@ -1181,7 +1180,7 @@ private:
 		for (size_t i = 0; i < history.size(); ++i) {
 			string s;
 			if (i < 9) {
-				s = String::compose ("&%1 %2", i + 1, history[i].string());
+				s = fmt::format("&{} {}", i + 1, history[i].string());
 			} else {
 				s = history[i].string();
 			}

@@ -44,7 +44,7 @@ void
 CPUJ2KEncoderThread::log_thread_start() const
 {
 	start_of_thread("CPUJ2KEncoder");
-	LOG_TIMING("start-encoder-thread thread=%1 server=localhost", thread_id());
+	LOG_TIMING("start-encoder-thread thread={} server=localhost", thread_id());
 }
 
 
@@ -54,7 +54,7 @@ CPUJ2KEncoderThread::encode(DCPVideo const& frame)
 	try {
 		return make_shared<dcp::ArrayData>(frame.encode_locally());
 	} catch (std::exception& e) {
-		LOG_ERROR(N_("Local encode failed (%1)"), e.what());
+		LOG_ERROR(N_("Local encode failed ({})"), e.what());
 	}
 
 	return {};

@@ -29,7 +29,6 @@
 #include "job_manager_view.h"
 #include "normal_job_view.h"
 #include "wx_util.h"
-#include "lib/compose.hpp"
 #include "lib/exceptions.h"
 #include "lib/job.h"
 #include "lib/job_manager.h"

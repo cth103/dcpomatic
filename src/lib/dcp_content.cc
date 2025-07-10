@@ -21,7 +21,6 @@
 
 #include "atmos_content.h"
 #include "audio_content.h"
-#include "compose.hpp"
 #include "config.h"
 #include "dcp_content.h"
 #include "dcp_decoder.h"
@@ -74,7 +73,7 @@ DCPContent::DCPContent (boost::filesystem::path p)
 	, _reference_audio (false)
 	, _three_d (false)
 {
-	LOG_GENERAL ("Creating DCP content from %1", p.string());
+	LOG_GENERAL ("Creating DCP content from {}", p.string());
 
 	read_directory (p);
 	set_default_colour_conversion ();
@@ -202,21 +201,21 @@ DCPContent::read_sub_directory (boost::filesystem::path p)
 {
 	using namespace boost::filesystem;
 
-	LOG_GENERAL ("DCPContent::read_sub_directory reads %1", p.string());
+	LOG_GENERAL ("DCPContent::read_sub_directory reads {}", p.string());
 	try {
 		for (auto i: directory_iterator(p)) {
 			if (is_regular_file(i.path())) {
-				LOG_GENERAL ("Inside there's regular file %1", i.path().string());
+				LOG_GENERAL ("Inside there's regular file {}", i.path().string());
 				add_path (i.path());
 			} else if (is_directory(i.path()) && i.path().filename() != ".AppleDouble") {
-				LOG_GENERAL ("Inside there's directory %1", i.path().string());
+				LOG_GENERAL ("Inside there's directory {}", i.path().string());
 				read_sub_directory (i.path());
 			} else {
-				LOG_GENERAL("Ignoring %1 from inside: status is %2", i.path().string(), static_cast<int>(status(i.path()).type()));
+				LOG_GENERAL("Ignoring {} from inside: status is {}", i.path().string(), static_cast<int>(status(i.path()).type()));
 			}
 		}
 	} catch (exception& e) {
-		LOG_GENERAL("Failed to iterate over %1: %2", p.string(), e.what());
+		LOG_GENERAL("Failed to iterate over {}: {}", p.string(), e.what());
 	}
 }
 
@@ -353,7 +352,7 @@ string
 DCPContent::summary () const
 {
 	boost::mutex::scoped_lock lm (_mutex);
-	return String::compose (_("%1 [DCP]"), _name);
+	return fmt::format(_("{} [DCP]"), _name);
 }
 
 string
@@ -750,7 +749,7 @@ DCPContent::can_reference_audio (shared_ptr<const Film> film, string& why_not) c
 	if (audio && audio->stream()) {
 		auto const channels = audio->stream()->channels();
 		if (channels != film->audio_channels()) {
-			why_not = String::compose(_("it has a different number of audio channels than the project; set the project to have %1 channels."), channels);
+			why_not = fmt::format(_("it has a different number of audio channels than the project; set the project to have {} channels."), channels);
 			return false;
 		}
 	}

@@ -72,7 +72,7 @@ Response::add_header(string key, string value)
 void
 Response::send(shared_ptr<Socket> socket)
 {
-	socket->write(String::compose("HTTP/1.1 %1 OK\r\n", _code));
+	socket->write(fmt::format("HTTP/1.1 {} OK\r\n", _code));
 	switch (_type) {
 	case Type::HTML:
 		socket->write("Content-Type: text/html; charset=utf-8\r\n");
@@ -81,9 +81,9 @@ Response::send(shared_ptr<Socket> socket)
 		socket->write("Content-Type: text/json; charset=utf-8\r\n");
 		break;
 	}
-	socket->write(String::compose("Content-Length: %1\r\n", _payload.length()));
+	socket->write(fmt::format("Content-Length: {}\r\n", _payload.length()));
 	for (auto const& header: _headers) {
-		socket->write(String::compose("%1: %2\r\n", header.first, header.second));
+		socket->write(fmt::format("{}: {}\r\n", header.first, header.second));
 	}
 	socket->write("\r\n");
 	socket->write(_payload);
@@ -94,21 +94,21 @@ Response
 HTTPServer::get(string const& url)
 {
 	if (url == "/") {
-		return Response(200, String::compose(dcp::file_to_string(resources_path() / "web" / "index.html"), variant::dcpomatic_player()));
+		return Response(200, fmt::format(dcp::file_to_string(resources_path() / "web" / "index.html"), variant::dcpomatic_player()));
 	} else if (url == "/api/v1/status") {
 		auto json = string{"{ "};
 		{
 			boost::mutex::scoped_lock lm(_mutex);
-			json += String::compose("\"playing\": %1, ", _playing ? "true" : "false");
-			json += String::compose("\"position\": \"%1\", ", seconds_to_hms(_position.seconds()));
-			json += String::compose("\"dcp_name\": \"%1\"", _dcp_name);
+			json += fmt::format("\"playing\": {}, ", _playing ? "true" : "false");
+			json += fmt::format("\"position\": \"{}\", ", seconds_to_hms(_position.seconds()));
+			json += fmt::format("\"dcp_name\": \"{}\"", _dcp_name);
 		}
 		json += " }";
 		auto response = Response(200, json);
 		response.set_type(Response::Type::JSON);
 		return response;
 	} else {
-		LOG_HTTP("404 %1", url);
+		LOG_HTTP("404 {}", url);
 		return Response::ERROR_404;
 	}
 }
@@ -144,19 +144,19 @@ HTTPServer::request(vector<string> const& request)
 
 	try {
 		if (parts[0] == "GET") {
-			LOG_HTTP("GET %1", parts[1]);
+			LOG_HTTP("GET {}", parts[1]);
 			return get(parts[1]);
 		} else if (parts[0] == "POST") {
-			LOG_HTTP("POST %1", parts[1]);
+			LOG_HTTP("POST {}", parts[1]);
 			return post(parts[1]);
 		}
 	} catch (std::exception& e) {
-		LOG_ERROR("Error while handling HTTP request: %1", e.what());
+		LOG_ERROR("Error while handling HTTP request: {}", e.what());
 	} catch (...) {
 		LOG_ERROR_NC("Unknown exception while handling HTTP request");
 	}
 
-	LOG_HTTP("404 %1", parts[0]);
+	LOG_HTTP("404 {}", parts[0]);
 	return Response::ERROR_404;
 }
 
@@ -191,7 +191,7 @@ HTTPServer::handle(shared_ptr<Socket> socket)
 					} else if (_line.size() >= 2) {
 						_line = _line.substr(0, _line.length() - 2);
 					}
-					LOG_HTTP("Receive: %1", _line);
+					LOG_HTTP("Receive: {}", _line);
 					_request.push_back(_line);
 					_line = "";
 				}

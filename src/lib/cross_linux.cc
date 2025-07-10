@@ -19,7 +19,6 @@
 */
 
 
-#include "compose.hpp"
 #include "config.h"
 #include "cross.h"
 #include "dcpomatic_log.h"
@@ -114,11 +113,11 @@ void
 run_ffprobe(boost::filesystem::path content, boost::filesystem::path out, bool err, string args)
 {
 	string const redirect = err ? "2>" : ">";
-	auto const ffprobe = String::compose("ffprobe %1 \"%2\" %3 \"%4\"", args.empty() ? " " : args, content.string(), redirect, out.string());
-	LOG_GENERAL (N_("Probing with %1"), ffprobe);
+	auto const ffprobe = fmt::format("ffprobe {} \"{}\" {} \"{}\"", args.empty() ? " " : args, content.string(), redirect, out.string());
+	LOG_GENERAL (N_("Probing with {}"), ffprobe);
 	int const r = system (ffprobe.c_str());
 	if (r == -1 || (WIFEXITED(r) && WEXITSTATUS(r) != 0)) {
-		LOG_GENERAL (N_("Could not run ffprobe (system returned %1"), r);
+		LOG_GENERAL (N_("Could not run ffprobe (system returned {}"), r);
 	}
 }
 
@@ -243,7 +242,7 @@ get_mounts (string prefix)
 		if (bits.size() > 1 && boost::algorithm::starts_with(bits[0], prefix)) {
 			boost::algorithm::replace_all (bits[1], "\\040", " ");
 			mounts.push_back(make_pair(bits[0], bits[1]));
-			LOG_DISK("Found mounted device %1 from prefix %2", bits[0], prefix);
+			LOG_DISK("Found mounted device {} from prefix {}", bits[0], prefix);
 		}
 	}
 
@@ -303,7 +302,7 @@ Drive::unmount ()
 {
 	for (auto i: _mount_points) {
 		int const r = umount(i.string().c_str());
-		LOG_DISK("Tried to unmount %1 and got %2 and %3", i.string(), r, errno);
+		LOG_DISK("Tried to unmount {} and got {} and {}", i.string(), r, errno);
 		if (r == -1) {
 			return false;
 		}
@@ -336,12 +335,12 @@ show_in_file_manager (boost::filesystem::path dir, boost::filesystem::path)
 {
 	int r = system ("which nautilus");
 	if (WEXITSTATUS(r) == 0) {
-		r = system (String::compose("nautilus \"%1\"", dir.string()).c_str());
+		r = system (fmt::format("nautilus \"{}\"", dir.string()).c_str());
 		return static_cast<bool>(WEXITSTATUS(r));
 	} else {
 		int r = system ("which konqueror");
 		if (WEXITSTATUS(r) == 0) {
-			r = system (String::compose("konqueror \"%1\"", dir.string()).c_str());
+			r = system (fmt::format("konqueror \"{}\"", dir.string()).c_str());
 			return static_cast<bool>(WEXITSTATUS(r));
 		}
 	}

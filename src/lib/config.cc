@@ -21,7 +21,6 @@
 
 #include "cinema_list.h"
 #include "colour_conversion.h"
-#include "compose.hpp"
 #include "config.h"
 #include "constants.h"
 #include "cross.h"
@@ -276,7 +275,7 @@ Config::backup()
 	auto copy_adding_number = [](path const& path_to_copy) {
 
 		auto add_number = [](path const& path, int number) {
-			return String::compose("%1.%2", path, number);
+			return fmt::format("{}.{}", path.string(), number);
 		};
 
 		int n = 1;
@@ -438,7 +437,7 @@ try
 	_kdm_bcc = f.optional_string_child("KDMBCC").get_value_or("");
 	_kdm_email = f.string_child("KDMEmail");
 
-	_notification_subject = f.optional_string_child("NotificationSubject").get_value_or(variant::insert_dcpomatic(_("%1 notification")));
+	_notification_subject = f.optional_string_child("NotificationSubject").get_value_or(variant::insert_dcpomatic(_("{} notification")));
 	_notification_from = f.optional_string_child("NotificationFrom").get_value_or("");
 	_notification_to = f.optional_string_child("NotificationTo").get_value_or("");
 	for (auto i: f.node_children("NotificationCC")) {
@@ -1241,14 +1240,14 @@ Config::set_kdm_email_to_default()
 		"Cinema: $CINEMA_NAME\n"
 		"Screen(s): $SCREENS\n\n"
 		"The KDMs are valid from $START_TIME until $END_TIME.\n\n"
-		"Best regards,\n%1"
+		"Best regards,\n{}"
 		));
 }
 
 void
 Config::set_notification_email_to_default()
 {
-	_notification_subject = variant::insert_dcpomatic(_("%1 notification"));
+	_notification_subject = variant::insert_dcpomatic(_("{} notification"));
 
 	_notification_email = _(
 		"$JOB_NAME: $JOB_STATUS"

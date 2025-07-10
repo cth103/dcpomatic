@@ -194,7 +194,7 @@ try {
 			new tcp::acceptor(_listen_io_context, tcp::endpoint(tcp::v4(), is_batch_converter ? BATCH_SERVER_PRESENCE_PORT : MAIN_SERVER_PRESENCE_PORT))
 			);
 	} catch (...) {
-		boost::throw_exception(NetworkError(variant::insert_dcpomatic(_("Could not listen for remote encode servers.  Perhaps another instance of %1 is running."))));
+		boost::throw_exception(NetworkError(variant::insert_dcpomatic(_("Could not listen for remote encode servers.  Perhaps another instance of {} is running."))));
 	}
 
 	start_accept ();

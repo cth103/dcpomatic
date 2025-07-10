@@ -34,7 +34,6 @@
 #include "simple_video_view.h"
 #include "wx_util.h"
 #include "lib/butler.h"
-#include "lib/compose.hpp"
 #include "lib/config.h"
 #include "lib/dcp_content.h"
 #include "lib/dcpomatic_log.h"

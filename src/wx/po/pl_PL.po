@@ -95,7 +95,7 @@ msgstr ""
 #: src/wx/film_name_location_dialog.cc:156
 #, fuzzy, c-format
 msgid "%s already exists as a file, so you cannot use it for a film."
-msgstr "%1 istnieje już jako plik, więc nie możesz użyć go w Projekcie."
+msgstr "{} istnieje już jako plik, więc nie możesz użyć go w Projekcie."
 
 #: src/wx/audio_dialog.cc:170 src/wx/audio_dialog.cc:172
 #, fuzzy, c-format
@@ -108,13 +108,12 @@ msgid "%s test email"
 msgstr "Wyślij emailem"
 
 #: src/wx/about_dialog.cc:97
-#, fuzzy
 msgid ""
 "(C) 2012-2025 Carl Hetherington, Terrence Meiczinger\n"
-"Ole Laursen, Aaron Boxer"
+"Aaron Boxer"
 msgstr ""
-"(C) 2012-2022 Carl Hetherington, Terrence Meiczinger\n"
-" Ole Laursen"
+"(C) 2012-2025 Carl Hetherington, Terrence Meiczinger\n"
+"Aaron Boxer"
 
 #: src/wx/full_config_dialog.cc:1206 src/wx/player_config_dialog.cc:130
 #, fuzzy, c-format
@@ -1039,8 +1038,8 @@ msgstr "Nie udało się odczytać DCP: %s"
 
 #: src/wx/download_certificate_panel.cc:67
 #: src/wx/download_certificate_panel.cc:80
-msgid "Could not read certificate file (%1)"
-msgstr "Nie udało się odczytać pliku certyfikatu (%1)"
+msgid "Could not read certificate file ({})"
+msgstr "Nie udało się odczytać pliku certyfikatu ({})"
 
 #: src/wx/certificate_chain_editor.cc:195
 #: src/wx/certificate_chain_editor.cc:382 src/wx/recipient_dialog.cc:158
@@ -2002,8 +2001,8 @@ msgid "Length"
 msgstr "Długość"
 
 #: src/wx/player_information.cc:182
-msgid "Length: %1 (%2 frames)"
-msgstr "Długość: %1 (%2 klatki)"
+msgid "Length: {} ({} frames)"
+msgstr "Długość: {} ({} klatki)"
 
 #: src/wx/text_panel.cc:104
 msgid "Line spacing"
@@ -3679,7 +3678,7 @@ msgid ""
 "The directory %s already exists and is not empty.  Are you sure you want to "
 "use it?"
 msgstr ""
-"Lokalizacja %1 już istnieje i nie jest pusta. Na pewno chcesz jej użyć?"
+"Lokalizacja {} już istnieje i nie jest pusta. Na pewno chcesz jej użyć?"
 
 #: src/wx/try_unmount_dialog.cc:44
 #, fuzzy, c-format

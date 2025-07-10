@@ -19,7 +19,6 @@
 */
 
 
-#include "compose.hpp"
 #include "film.h"
 #include "job.h"
 #include "video_content.h"
@@ -103,7 +102,7 @@ VideoMXFContent::examine(shared_ptr<const Film> film, shared_ptr<Job> job, bool 
 string
 VideoMXFContent::summary () const
 {
-	return String::compose (_("%1 [video]"), path_summary());
+	return fmt::format(_("{} [video]"), path_summary());
 }
 
 

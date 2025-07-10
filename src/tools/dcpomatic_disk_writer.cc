@@ -19,7 +19,6 @@
 */
 
 
-#include "lib/compose.hpp"
 #include "lib/cross.h"
 #include "lib/dcpomatic_log.h"
 #include "lib/digester.h"
@@ -100,7 +99,7 @@ polkit_callback (GObject *, GAsyncResult* res, gpointer data)
 	bool failed = false;
 
 	if (error) {
-		LOG_DISK("polkit authority check failed (check_authorization_finish failed with %1)", error->message);
+		LOG_DISK("polkit authority check failed (check_authorization_finish failed with {})", error->message);
 		failed = true;
 	} else {
 		if (polkit_authorization_result_get_is_authorized(result)) {
@@ -159,7 +158,7 @@ try
 		return true;
 	}
 
-	LOG_DISK("Writer receives command: %1", *s);
+	LOG_DISK("Writer receives command: {}", *s);
 
 	if (*s == DISK_WRITER_QUIT) {
 		exit (EXIT_SUCCESS);
@@ -220,21 +219,21 @@ try
 
 #ifdef DCPOMATIC_OSX
 		if (!starts_with(device, "/dev/disk")) {
-			LOG_DISK ("Will not write to %1", device);
+			LOG_DISK ("Will not write to {}", device);
 			DiskWriterBackEndResponse::error("Refusing to write to this drive", 1, 0).write_to_nanomsg(*nanomsg, LONG_TIMEOUT);
 			return true;
 		}
 #endif
 #ifdef DCPOMATIC_LINUX
 		if (!starts_with(device, "/dev/sd") && !starts_with(device, "/dev/hd")) {
-			LOG_DISK ("Will not write to %1", device);
+			LOG_DISK ("Will not write to {}", device);
 			DiskWriterBackEndResponse::error("Refusing to write to this drive", 1, 0).write_to_nanomsg(*nanomsg, LONG_TIMEOUT);
 			return true;
 		}
 #endif
 #ifdef DCPOMATIC_WINDOWS
 		if (!starts_with(device, "\\\\.\\PHYSICALDRIVE")) {
-			LOG_DISK ("Will not write to %1", device);
+			LOG_DISK ("Will not write to {}", device);
 			DiskWriterBackEndResponse::error("Refusing to write to this drive", 1, 0).write_to_nanomsg(*nanomsg, LONG_TIMEOUT);
 			return true;
 		}
@@ -250,19 +249,19 @@ try
 		}
 
 		if (!on_drive_list) {
-			LOG_DISK ("Will not write to %1 as it's not recognised as a drive", device);
+			LOG_DISK ("Will not write to {} as it's not recognised as a drive", device);
 			DiskWriterBackEndResponse::error("Refusing to write to this drive", 1, 0).write_to_nanomsg(*nanomsg, LONG_TIMEOUT);
 			return true;
 		}
 		if (mounted) {
-			LOG_DISK ("Will not write to %1 as it's mounted", device);
+			LOG_DISK ("Will not write to {} as it's mounted", device);
 			DiskWriterBackEndResponse::error("Refusing to write to this drive", 1, 0).write_to_nanomsg(*nanomsg, LONG_TIMEOUT);
 			return true;
 		}
 
-		LOG_DISK("Here we go writing these to %1", device);
+		LOG_DISK("Here we go writing these to {}", device);
 		for (auto dcp: dcp_paths) {
-			LOG_DISK("  %1", dcp);
+			LOG_DISK("  {}", dcp.string());
 		}
 
 		request_privileges (
@@ -293,7 +292,7 @@ try
 
 	return true;
 } catch (exception& e) {
-	LOG_DISK("Exception (from idle): %1", e.what());
+	LOG_DISK("Exception (from idle): {}", e.what());
 	return true;
 }
 
@@ -308,7 +307,7 @@ main ()
 	 * redirect this to a file in /var/log
 	 */
 	dcpomatic_log.reset(new StdoutLog(LogEntry::TYPE_DISK));
-	LOG_DISK("dcpomatic_disk_writer %1 started uid=%2 euid=%3", dcpomatic_git_commit, getuid(), geteuid());
+	LOG_DISK("dcpomatic_disk_writer {} started uid={} euid={}", dcpomatic_git_commit, getuid(), geteuid());
 #else
 	/* XXX: this is a hack, but I expect we'll need logs and I'm not sure if there's
 	 * a better place to put them.

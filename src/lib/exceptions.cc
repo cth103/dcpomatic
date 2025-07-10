@@ -19,7 +19,6 @@
 */
 
 
-#include "compose.hpp"
 #include "exceptions.h"
 #include "sqlite_database.h"
 
@@ -34,9 +33,9 @@ using boost::optional;
 /** @param f File that we were trying to open */
 OpenFileError::OpenFileError (boost::filesystem::path f, int error, Mode mode)
 	: FileError (
-		String::compose (
-			mode == READ_WRITE ? _("could not open file %1 for read/write (%2)") :
-			(mode == READ ? _("could not open file %1 for read (%2)") : _("could not open file %1 for write (%2)")),
+		fmt::format(
+			mode == READ_WRITE ? _("could not open file {} for read/write ({})") :
+			(mode == READ ? _("could not open file {} for read ({})") : _("could not open file {} for write ({})")),
 			f.string(),
 			error),
 		f
@@ -47,7 +46,7 @@ OpenFileError::OpenFileError (boost::filesystem::path f, int error, Mode mode)
 
 
 FileNotFoundError::FileNotFoundError (boost::filesystem::path f)
-	: runtime_error(String::compose("File %1 not found", f.string()))
+	: runtime_error(fmt::format("File {} not found", f.string()))
 	, _file (f)
 {
 
@@ -55,35 +54,35 @@ FileNotFoundError::FileNotFoundError (boost::filesystem::path f)
 
 
 ReadFileError::ReadFileError (boost::filesystem::path f, int e)
-	: FileError (String::compose(_("could not read from file %1 (%2)"), f.string(), strerror(e)), f)
+	: FileError (fmt::format(_("could not read from file {} ({})"), f.string(), strerror(e)), f)
 {
 
 }
 
 
 WriteFileError::WriteFileError (boost::filesystem::path f, int e)
-	: FileError (String::compose(_("could not write to file %1 (%2)"), f.string(), strerror(e)), f)
+	: FileError (fmt::format(_("could not write to file {} ({})"), f.string(), strerror(e)), f)
 {
 
 }
 
 
 MissingSettingError::MissingSettingError (string s)
-	: SettingError (s, String::compose(_("Missing required setting %1"), s))
+	: SettingError (s, fmt::format(_("Missing required setting {}"), s))
 {
 
 }
 
 
 PixelFormatError::PixelFormatError (string o, AVPixelFormat f)
-	: runtime_error (String::compose(_("Cannot handle pixel format %1 during %2"), (int) f, o))
+	: runtime_error (fmt::format(_("Cannot handle pixel format {} during {}"), (int) f, o))
 {
 
 }
 
 
 TextSubtitleError::TextSubtitleError (string saw, string expecting, boost::filesystem::path f)
-	: FileError (String::compose(_("Error in subtitle file: saw %1 while expecting %2"), saw.empty() ? "[nothing]" : saw, expecting), f)
+	: FileError (fmt::format(_("Error in subtitle file: saw {} while expecting {}"), saw.empty() ? "[nothing]" : saw, expecting), f)
 {
 
 }
@@ -97,14 +96,14 @@ InvalidSignerError::InvalidSignerError ()
 
 
 InvalidSignerError::InvalidSignerError (string reason)
-	: runtime_error (String::compose(_("The certificate chain for signing is invalid (%1)"), reason))
+	: runtime_error (fmt::format(_("The certificate chain for signing is invalid ({})"), reason))
 {
 
 }
 
 
 ProgrammingError::ProgrammingError (string file, int line, string message)
-	: runtime_error (String::compose(_("Programming error at %1:%2 %3"), file, line, message))
+	: runtime_error (fmt::format(_("Programming error at {}:{} {}"), file, line, message))
 {
 
 }
@@ -118,7 +117,7 @@ KDMAsContentError::KDMAsContentError ()
 
 
 NetworkError::NetworkError (string s, optional<string> d)
-	: runtime_error (String::compose("%1%2", s, d ? String::compose(" (%1)", *d) : ""))
+	: runtime_error (fmt::format("{}{}", s, d ? fmt::format(" ({})", *d) : ""))
 	, _summary (s)
 	, _detail (d)
 {
@@ -127,7 +126,7 @@ NetworkError::NetworkError (string s, optional<string> d)
 
 
 KDMError::KDMError (string s, string d)
-	: runtime_error (String::compose("%1 (%2)", s, d))
+	: runtime_error (fmt::format("{} ({})", s, d))
 	, _summary (s)
 	, _detail (d)
 {
@@ -136,7 +135,7 @@ KDMError::KDMError (string s, string d)
 
 
 GLError::GLError (char const* last, int e)
-	: runtime_error (String::compose("%1 failed %2", last, e))
+	: runtime_error (fmt::format("{} failed {}", last, e))
 {
 
 }
@@ -150,7 +149,7 @@ GLError::GLError (char const* message)
 
 
 CopyError::CopyError(string m, optional<int> ext4, optional<int> platform)
-	: runtime_error(String::compose("%1%2%3", m, ext4 ? String::compose(" (%1)", *ext4) : "", platform ? String::compose(" (%1)", *platform) : ""))
+	: runtime_error(fmt::format("{}{}{}", m, ext4 ? fmt::format(" ({})", *ext4) : "", platform ? fmt::format(" ({})", *platform) : ""))
 	, _message (m)
 	, _ext4_number(ext4)
 	, _platform_number(platform)
@@ -167,7 +166,7 @@ CommunicationFailedError::CommunicationFailedError ()
 
 
 VerifyError::VerifyError (string m, int n)
-	: runtime_error (String::compose("%1 (%2)", m, n))
+	: runtime_error (fmt::format("{} ({})", m, n))
 	, _message (m)
 	, _number (n)
 {
@@ -176,7 +175,7 @@ VerifyError::VerifyError (string m, int n)
 
 
 DiskFullError::DiskFullError(boost::filesystem::path writing)
-	: std::runtime_error(String::compose(_("Disk full when writing %1"), writing.string()))
+	: std::runtime_error(fmt::format(_("Disk full when writing {}"), writing.string()))
 {
 
 }

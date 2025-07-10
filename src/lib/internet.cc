@@ -19,7 +19,6 @@
 */
 
 
-#include "compose.hpp"
 #include "cross.h"
 #include "exceptions.h"
 #include "scoped_temporary.h"
@@ -121,7 +120,7 @@ get_from_url (string url, bool pasv, bool skip_pasv_ip, ScopedTemporary& temp)
 	f.close();
 	curl_easy_cleanup (curl);
 	if (cr != CURLE_OK) {
-		return String::compose (_("Download failed (%1 error %2)"), url, (int) cr);
+		return fmt::format(_("Download failed ({} error {})"), url, (int) cr);
 	}
 
 	return {};
@@ -176,7 +175,7 @@ get_from_zip_url (string url, string file, bool pasv, bool skip_pasv_ip, functio
 	zip_error_init (&error);
 	auto zip = zip_open_from_source (zip_source, ZIP_RDONLY, &error);
 	if (!zip) {
-		return String::compose (_("Could not open downloaded ZIP file (%1:%2: %3)"), error.zip_err, error.sys_err, error.str ? error.str : "");
+		return fmt::format(_("Could not open downloaded ZIP file ({}:{}: {})"), error.zip_err, error.sys_err, error.str ? error.str : "");
 	}
 
 #else

@@ -20,7 +20,6 @@
 
 
 #include "dcpomatic_assert.h"
-#include "compose.hpp"
 #include "sqlite_table.h"
 #include "util.h"
 
@@ -46,7 +45,7 @@ SQLiteTable::create() const
 	for (size_t i = 0; i < _columns.size(); ++i) {
 		columns[i] = _columns[i] + " " + _types[i];
 	}
-	return String::compose("CREATE TABLE IF NOT EXISTS %1 (id INTEGER PRIMARY KEY, %2)", _name, join_strings(columns, ", "));
+	return fmt::format("CREATE TABLE IF NOT EXISTS {} (id INTEGER PRIMARY KEY, {})", _name, join_strings(columns, ", "));
 }
 
 
@@ -55,7 +54,7 @@ SQLiteTable::insert() const
 {
 	DCPOMATIC_ASSERT(!_columns.empty());
 	vector<string> placeholders(_columns.size(), "?");
-	return String::compose("INSERT INTO %1 (%2) VALUES (%3)", _name, join_strings(_columns, ", "), join_strings(placeholders, ", "));
+	return fmt::format("INSERT INTO {} ({}) VALUES ({})", _name, join_strings(_columns, ", "), join_strings(placeholders, ", "));
 }
 
 
@@ -68,12 +67,12 @@ SQLiteTable::update(string const& condition) const
 		placeholders[i] = _columns[i] + "=?";
 	}
 
-	return String::compose("UPDATE %1 SET %2 %3", _name, join_strings(placeholders, ", "), condition);
+	return fmt::format("UPDATE {} SET {} {}", _name, join_strings(placeholders, ", "), condition);
 }
 
 
 string
 SQLiteTable::select(string const& condition) const
 {
-	return String::compose("SELECT id,%1 FROM %2 %3", join_strings(_columns, ","), _name, condition);
+	return fmt::format("SELECT id,{} FROM {} {}", join_strings(_columns, ","), _name, condition);
 }

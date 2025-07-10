@@ -23,7 +23,6 @@
 #include "dcp_timeline_dialog.h"
 #include "film_editor.h"
 #include "wx_util.h"
-#include "lib/compose.hpp"
 #include "lib/cross.h"
 #include "lib/film.h"
 #include "lib/playlist.h"

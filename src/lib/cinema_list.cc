@@ -156,7 +156,7 @@ void
 CinemaList::clear()
 {
 	for (auto table: { "cinemas", "screens", "trusted_devices" }) {
-		SQLiteStatement sql(_db, String::compose("DELETE FROM %1", table));
+		SQLiteStatement sql(_db, fmt::format("DELETE FROM {}", table));
 		sql.execute();
 	}
 }

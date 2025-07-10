@@ -19,7 +19,6 @@
 */
 
 
-#include "compose.hpp"
 #include "frame_interval_checker.h"
 #include "image.h"
 #include "j2k_image_proxy.h"
@@ -66,10 +65,10 @@ VideoDecoder::emit(shared_ptr<const Film> film, shared_ptr<const ImageProxy> ima
 		if (_frame_interval_checker->guess() == FrameIntervalChecker::PROBABLY_NOT_3D && vft == VideoFrameType::THREE_D) {
 			boost::throw_exception (
 				DecodeError(
-					String::compose(
-						_("The content file %1 is set as 3D but does not appear to contain 3D images.  Please set it to 2D.  "
+					fmt::format(
+						_("The content file {} is set as 3D but does not appear to contain 3D images.  Please set it to 2D.  "
 						  "You can still make a 3D DCP from this content by ticking the 3D option in the DCP video tab."),
-						_content->path(0)
+						_content->path(0).string()
 						)
 					)
 				);

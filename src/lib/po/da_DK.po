@@ -29,10 +29,10 @@ msgstr ""
 #: src/lib/video_content.cc:478
 msgid ""
 "\n"
-"Cropped to %1x%2"
+"Cropped to {}x{}"
 msgstr ""
 "\n"
-"Beskåret til %1x%2"
+"Beskåret til {}x{}"
 
 #: src/lib/video_content.cc:468
 #, c-format
@@ -46,29 +46,29 @@ msgstr ""
 #: src/lib/video_content.cc:502
 msgid ""
 "\n"
-"Padded with black to fit container %1 (%2x%3)"
+"Padded with black to fit container {} ({}x{})"
 msgstr ""
 "\n"
-"Udfyldt med sort for at tilpasse til container %1 (%2x%3)"
+"Udfyldt med sort for at tilpasse til container {} ({}x{})"
 
 #: src/lib/video_content.cc:492
 msgid ""
 "\n"
-"Scaled to %1x%2"
+"Scaled to {}x{}"
 msgstr ""
 "\n"
-"Skaleret til %1x%2"
+"Skaleret til {}x{}"
 
 #: src/lib/video_content.cc:496 src/lib/video_content.cc:507
 #, c-format
 msgid " (%.2f:1)"
 msgstr " (%.2f:1)"
 
-#. TRANSLATORS: the %1 in this string will be filled in with a day of the week
+#. TRANSLATORS: the {} in this string will be filled in with a day of the week
 #. to say what day a job will finish.
 #: src/lib/job.cc:598
-msgid " on %1"
-msgstr " på %1"
+msgid " on {}"
+msgstr " på {}"
 
 #: src/lib/config.cc:1276
 #, fuzzy
@@ -99,42 +99,42 @@ msgid "$JOB_NAME: $JOB_STATUS"
 msgstr "$JOB_NAME: $JOB_STATUS"
 
 #: src/lib/cross_common.cc:107
-msgid "%1 (%2 GB) [%3]"
+msgid "{} ({} GB) [{}]"
 msgstr ""
 
 #: src/lib/atmos_mxf_content.cc:96
-msgid "%1 [Atmos]"
-msgstr "%1 [Atmos]"
+msgid "{} [Atmos]"
+msgstr "{} [Atmos]"
 
 #: src/lib/dcp_content.cc:356
-msgid "%1 [DCP]"
-msgstr "%1 [DCP]"
+msgid "{} [DCP]"
+msgstr "{} [DCP]"
 
 #: src/lib/ffmpeg_content.cc:347
-msgid "%1 [audio]"
-msgstr "%1 [lyd]"
+msgid "{} [audio]"
+msgstr "{} [lyd]"
 
 #: src/lib/ffmpeg_content.cc:343
-msgid "%1 [movie]"
-msgstr "%1 [film]"
+msgid "{} [movie]"
+msgstr "{} [film]"
 
 #: src/lib/ffmpeg_content.cc:345 src/lib/video_mxf_content.cc:106
-msgid "%1 [video]"
-msgstr "%1 [video]"
+msgid "{} [video]"
+msgstr "{} [video]"
 
 #: src/lib/job.cc:181 src/lib/job.cc:196
 #, fuzzy
 msgid ""
-"%1 could not open the file %2 (%3).  Perhaps it does not exist or is in an "
+"{} could not open the file {} ({}).  Perhaps it does not exist or is in an "
 "unexpected format."
 msgstr ""
-"DCP-o-matic kunne ikke åbne filen %1 (%2). Måske findes den ikke, eller den "
+"DCP-o-matic kunne ikke åbne filen {} ({}). Måske findes den ikke, eller den "
 "er i et uventet format."
 
 #: src/lib/film.cc:1702
 #, fuzzy
 msgid ""
-"%1 had to change your settings for referring to DCPs as OV.  Please review "
+"{} had to change your settings for referring to DCPs as OV.  Please review "
 "those settings to make sure they are what you want."
 msgstr ""
 "DCP-o-matic var nødt til at ændre dine instillinger for at referere til "
@@ -144,7 +144,7 @@ msgstr ""
 #: src/lib/film.cc:1668
 #, fuzzy
 msgid ""
-"%1 had to change your settings so that the film's frame rate is the same as "
+"{} had to change your settings so that the film's frame rate is the same as "
 "that of your Atmos content."
 msgstr ""
 "DCP-o-matic var nødt til at ændre dine instillinger for at referere til "
@@ -153,30 +153,30 @@ msgstr ""
 
 #: src/lib/film.cc:1715
 msgid ""
-"%1 had to remove one of your custom reel boundaries as it no longer lies "
+"{} had to remove one of your custom reel boundaries as it no longer lies "
 "within the film."
 msgstr ""
 
 #: src/lib/film.cc:1713
 msgid ""
-"%1 had to remove some of your custom reel boundaries as they no longer lie "
+"{} had to remove some of your custom reel boundaries as they no longer lie "
 "within the film."
 msgstr ""
 
 #: src/lib/ffmpeg_content.cc:115
 #, fuzzy
-msgid "%1 no longer supports the `%2' filter, so it has been turned off."
+msgid "{} no longer supports the `{}' filter, so it has been turned off."
 msgstr ""
-"DCP-o-matic understøtter ikke længere `%1'-filteret, så det er blevet slået "
+"DCP-o-matic understøtter ikke længere `{}'-filteret, så det er blevet slået "
 "fra."
 
 #: src/lib/config.cc:441 src/lib/config.cc:1251
 #, fuzzy
-msgid "%1 notification"
+msgid "{} notification"
 msgstr "Email besked"
 
 #: src/lib/transcode_job.cc:180
-msgid "%1; %2/%3 frames"
+msgid "{}; {}/{} frames"
 msgstr ""
 
 #: src/lib/video_content.cc:463
@@ -266,12 +266,12 @@ msgstr ""
 
 #. TRANSLATORS: fps here is an abbreviation for frames per second
 #: src/lib/transcode_job.cc:183
-msgid "; %1 fps"
-msgstr "; %1 bps"
+msgid "; {} fps"
+msgstr "; {} bps"
 
 #: src/lib/job.cc:603
-msgid "; %1 remaining; finishing at %2%3"
-msgstr "; %1 mangler; færdig ca %2%3"
+msgid "; {} remaining; finishing at {}{}"
+msgstr "; {} mangler; færdig ca {}{}"
 
 #: src/lib/analytics.cc:58
 #, c-format, c++-format
@@ -303,7 +303,7 @@ msgstr ""
 #: src/lib/text_content.cc:230
 msgid ""
 "A subtitle or closed caption file in this project is marked with the "
-"language '%1', which %2 does not recognise.  The file's language has been "
+"language '{}', which {} does not recognise.  The file's language has been "
 "cleared."
 msgstr ""
 
@@ -340,8 +340,8 @@ msgstr ""
 "størrelsesforhold som dit indhold."
 
 #: src/lib/job.cc:116
-msgid "An error occurred whilst handling the file %1."
-msgstr "Der skete en fejl, mens der blev arbejdet på filen %1."
+msgid "An error occurred whilst handling the file {}."
+msgstr "Der skete en fejl, mens der blev arbejdet på filen {}."
 
 #: src/lib/analyse_audio_job.cc:74
 msgid "Analysing audio"
@@ -407,12 +407,12 @@ msgid ""
 msgstr ""
 
 #: src/lib/audio_content.cc:265
-msgid "Audio will be resampled from %1Hz to %2Hz"
-msgstr "Lyd resamples fra %1Hz til %2Hz"
+msgid "Audio will be resampled from {}Hz to {}Hz"
+msgstr "Lyd resamples fra {}Hz til {}Hz"
 
 #: src/lib/audio_content.cc:267
-msgid "Audio will be resampled to %1Hz"
-msgstr "Lyd resamples til %1Hz"
+msgid "Audio will be resampled to {}Hz"
+msgstr "Lyd resamples til {}Hz"
 
 #: src/lib/audio_content.cc:256
 msgid "Audio will not be resampled"
@@ -493,8 +493,8 @@ msgid "Cannot contain slashes"
 msgstr "Må ikke indeholde skråstreger"
 
 #: src/lib/exceptions.cc:79
-msgid "Cannot handle pixel format %1 during %2"
-msgstr "Kan ikke håndtere pixelformat %1 under %2"
+msgid "Cannot handle pixel format {} during {}"
+msgstr "Kan ikke håndtere pixelformat {} under {}"
 
 #: src/lib/film.cc:1811
 msgid "Cannot make a KDM as this project is not encrypted."
@@ -737,8 +737,8 @@ msgid "Content to be joined must use the same text language."
 msgstr "Indhold der skal splejses skal bruge samme skrifttype."
 
 #: src/lib/video_content.cc:454
-msgid "Content video is %1x%2"
-msgstr "Indholdsvideo er %1x%2"
+msgid "Content video is {}x{}"
+msgstr "Indholdsvideo er {}x{}"
 
 #: src/lib/upload_job.cc:66
 msgid "Copy DCP to TMS"
@@ -747,65 +747,65 @@ msgstr "Kopier DCP til TMS"
 #: src/lib/copy_to_drive_job.cc:59
 #, fuzzy
 msgid ""
-"Copying %1\n"
-"to %2"
-msgstr "kopierer %1"
+"Copying {}\n"
+"to {}"
+msgstr "kopierer {}"
 
 #: src/lib/copy_to_drive_job.cc:120
 #, fuzzy
 msgid "Copying DCP"
-msgstr "kopierer %1"
+msgstr "kopierer {}"
 
 #: src/lib/copy_to_drive_job.cc:62
 #, fuzzy
-msgid "Copying DCPs to %1"
+msgid "Copying DCPs to {}"
 msgstr "Kopier DCP til TMS"
 
 #: src/lib/scp_uploader.cc:57
-msgid "Could not connect to server %1 (%2)"
-msgstr "Kunne ikke få forbindelse til server %1 (%2)"
+msgid "Could not connect to server {} ({})"
+msgstr "Kunne ikke få forbindelse til server {} ({})"
 
 #: src/lib/scp_uploader.cc:106
-msgid "Could not create remote directory %1 (%2)"
-msgstr "Kunne ikke danne fjernkatalog %1 (%2)"
+msgid "Could not create remote directory {} ({})"
+msgstr "Kunne ikke danne fjernkatalog {} ({})"
 
 #: src/lib/image_examiner.cc:65
-msgid "Could not decode JPEG2000 file %1 (%2)"
-msgstr "Kunne ikke læse JPEG2000 fil %1 (%2)"
+msgid "Could not decode JPEG2000 file {} ({})"
+msgstr "Kunne ikke læse JPEG2000 fil {} ({})"
 
 #: src/lib/ffmpeg_image_proxy.cc:164
-msgid "Could not decode image (%1)"
-msgstr "Kunne ikke afkode billedet (%1)"
+msgid "Could not decode image ({})"
+msgstr "Kunne ikke afkode billedet ({})"
 
 #: src/lib/unzipper.cc:76
 #, fuzzy
-msgid "Could not find file %1 in ZIP file"
+msgid "Could not find file {} in ZIP file"
 msgstr "Kunne ikke åbne downloadet ZIP-fil"
 
 #: src/lib/encode_server_finder.cc:197
 #, fuzzy
 msgid ""
-"Could not listen for remote encode servers.  Perhaps another instance of %1 "
+"Could not listen for remote encode servers.  Perhaps another instance of {} "
 "is running."
 msgstr ""
 "Kunne ikke lytte efter andre genereringsservere. Måske kører en anden "
 "instans af DCP-o-matic."
 
 #: src/lib/job.cc:180 src/lib/job.cc:195
-msgid "Could not open %1"
-msgstr "Kunne ikke åbne %1"
+msgid "Could not open {}"
+msgstr "Kunne ikke åbne {}"
 
 #: src/lib/curl_uploader.cc:102 src/lib/scp_uploader.cc:122
-msgid "Could not open %1 to send"
-msgstr "Kunne ikke åbne %1 til afsendelse"
+msgid "Could not open {} to send"
+msgstr "Kunne ikke åbne {} til afsendelse"
 
 #: src/lib/internet.cc:167 src/lib/internet.cc:172
 msgid "Could not open downloaded ZIP file"
 msgstr "Kunne ikke åbne downloadet ZIP-fil"
 
 #: src/lib/internet.cc:179
-msgid "Could not open downloaded ZIP file (%1:%2: %3)"
-msgstr "Den hentede ZIP-fil (%1:%2: %3) kunne ikke åbnes."
+msgid "Could not open downloaded ZIP file ({}:{}: {})"
+msgstr "Den hentede ZIP-fil ({}:{}: {}) kunne ikke åbnes."
 
 #: src/lib/config.cc:1178
 msgid "Could not open file for writing"
@@ -813,20 +813,20 @@ msgstr "Kunne ikke åbne fil til skrivning"
 
 #: src/lib/ffmpeg_file_encoder.cc:271
 #, fuzzy
-msgid "Could not open output file %1 (%2)"
-msgstr "kunne ikke skrive til fil %1 (%2)"
+msgid "Could not open output file {} ({})"
+msgstr "kunne ikke skrive til fil {} ({})"
 
 #: src/lib/dcp_subtitle.cc:60
-msgid "Could not read subtitles (%1 / %2)"
-msgstr "Kunne ikke indlæse undertekster (%1 / %2)"
+msgid "Could not read subtitles ({} / {})"
+msgstr "Kunne ikke indlæse undertekster ({} / {})"
 
 #: src/lib/curl_uploader.cc:59
 msgid "Could not start transfer"
 msgstr "Kunne ikke starte overførsel"
 
 #: src/lib/curl_uploader.cc:110 src/lib/scp_uploader.cc:138
-msgid "Could not write to remote file (%1)"
-msgstr "Kunne ikke skrive til fjernfil. (%1)"
+msgid "Could not write to remote file ({})"
+msgstr "Kunne ikke skrive til fjernfil. ({})"
 
 #: src/lib/util.cc:601
 msgid "D-BOX primary"
@@ -909,7 +909,7 @@ msgid ""
 "The KDMs are valid from $START_TIME until $END_TIME.\n"
 "\n"
 "Best regards,\n"
-"%1"
+"{}"
 msgstr ""
 "Kære operatør\n"
 "\n"
@@ -924,7 +924,7 @@ msgstr ""
 "DCP-o-matic"
 
 #: src/lib/exceptions.cc:179
-msgid "Disk full when writing %1"
+msgid "Disk full when writing {}"
 msgstr ""
 
 #: src/lib/dolby_cp750.cc:31
@@ -933,17 +933,17 @@ msgid "Dolby CP650 or CP750"
 msgstr "Dolby CP650 og CP750"
 
 #: src/lib/internet.cc:124
-msgid "Download failed (%1 error %2)"
-msgstr "Download fejlede (%1 fejl %2)"
+msgid "Download failed ({} error {})"
+msgstr "Download fejlede ({} fejl {})"
 
 #: src/lib/frame_rate_change.cc:94
 msgid "Each content frame will be doubled in the DCP.\n"
 msgstr "Hvert billede i indholdet vil blive brugt to gange i DCP'en.\n"
 
 #: src/lib/frame_rate_change.cc:96
-msgid "Each content frame will be repeated %1 more times in the DCP.\n"
+msgid "Each content frame will be repeated {} more times in the DCP.\n"
 msgstr ""
-"Hvert billede i indholdet vil blive gentaget %1 flere gange i DCP'en.\n"
+"Hvert billede i indholdet vil blive gentaget {} flere gange i DCP'en.\n"
 
 #: src/lib/send_kdm_email_job.cc:94
 msgid "Email KDMs"
@@ -951,8 +951,8 @@ msgstr "E-mail KDM'er"
 
 #: src/lib/send_kdm_email_job.cc:97
 #, fuzzy
-msgid "Email KDMs for %1"
-msgstr "E-mail KDM'er til %1"
+msgid "Email KDMs for {}"
+msgstr "E-mail KDM'er til {}"
 
 #: src/lib/send_notification_email_job.cc:53
 msgid "Email notification"
@@ -963,8 +963,8 @@ msgid "Email problem report"
 msgstr "Send problemrapport som mail"
 
 #: src/lib/send_problem_report_job.cc:72
-msgid "Email problem report for %1"
-msgstr "Send problemrapport som mail til %1"
+msgid "Email problem report for {}"
+msgstr "Send problemrapport som mail til {}"
 
 #: src/lib/dcp_film_encoder.cc:120 src/lib/ffmpeg_film_encoder.cc:135
 msgid "Encoding"
@@ -975,12 +975,12 @@ msgid "Episode"
 msgstr ""
 
 #: src/lib/exceptions.cc:86
-msgid "Error in subtitle file: saw %1 while expecting %2"
-msgstr "Fejl i fil med undertekster: så %1 men forventede %2"
+msgid "Error in subtitle file: saw {} while expecting {}"
+msgstr "Fejl i fil med undertekster: så {} men forventede {}"
 
 #: src/lib/job.cc:625
-msgid "Error: %1"
-msgstr "Fejl: %1"
+msgid "Error: {}"
+msgstr "Fejl: {}"
 
 #: src/lib/dcp_content_type.cc:69
 msgid "Event"
@@ -1024,8 +1024,8 @@ msgid "FCP XML subtitles"
 msgstr "DCP XML undertekster"
 
 #: src/lib/scp_uploader.cc:69
-msgid "Failed to authenticate with server (%1)"
-msgstr "Kunne ikke godkende mod server (%1)"
+msgid "Failed to authenticate with server ({})"
+msgstr "Kunne ikke godkende mod server ({})"
 
 #: src/lib/job.cc:140 src/lib/job.cc:154
 #, fuzzy
@@ -1079,8 +1079,8 @@ msgid "Full"
 msgstr "Fuld"
 
 #: src/lib/ffmpeg_content.cc:564
-msgid "Full (0-%1)"
-msgstr "Fuld (0-%1)"
+msgid "Full (0-{})"
+msgstr "Fuld (0-{})"
 
 #: src/lib/ratio.cc:57
 msgid "Full frame"
@@ -1172,7 +1172,7 @@ msgstr ""
 
 #: src/lib/job.cc:170 src/lib/job.cc:205 src/lib/job.cc:265 src/lib/job.cc:275
 #, fuzzy
-msgid "It is not known what caused this error.  %1"
+msgid "It is not known what caused this error.  {}"
 msgstr "Det er uklart hvad der forårsagede denne fejl."
 
 #: src/lib/ffmpeg_content.cc:614
@@ -1226,8 +1226,8 @@ msgstr "Begrænset"
 
 #: src/lib/ffmpeg_content.cc:557
 #, fuzzy
-msgid "Limited / video (%1-%2)"
-msgstr "Begrænset (%1-%2)"
+msgid "Limited / video ({}-{})"
+msgstr "Begrænset ({}-{})"
 
 #: src/lib/ffmpeg_content.cc:629
 msgid "Linear"
@@ -1275,8 +1275,8 @@ msgid "Mismatched video sizes in DCP"
 msgstr "Videostørrelser passer ikke i DCP"
 
 #: src/lib/exceptions.cc:72
-msgid "Missing required setting %1"
-msgstr "Mangler påkrævet indstilling %1"
+msgid "Missing required setting {}"
+msgstr "Mangler påkrævet indstilling {}"
 
 #: src/lib/job.cc:561
 msgid "Monday"
@@ -1322,12 +1322,12 @@ msgstr ""
 
 #: src/lib/job.cc:622
 #, fuzzy
-msgid "OK (ran for %1 from %2 to %3)"
-msgstr "OK (kørte i %1)"
+msgid "OK (ran for {} from {} to {})"
+msgstr "OK (kørte i {})"
 
 #: src/lib/job.cc:620
-msgid "OK (ran for %1)"
-msgstr "OK (kørte i %1)"
+msgid "OK (ran for {})"
+msgstr "OK (kørte i {})"
 
 #: src/lib/content.cc:106
 msgid "Only the first piece of content to be joined can have a start trim."
@@ -1349,7 +1349,7 @@ msgstr "Åbne undertekster"
 #: src/lib/transcode_job.cc:116
 #, fuzzy
 msgid ""
-"Open the project in %1, check the settings, then save it before trying again."
+"Open the project in {}, check the settings, then save it before trying again."
 msgstr ""
 "Nogle filer er blevet ændret siden de blev tilføjet til projektet.\n"
 "\n"
@@ -1377,7 +1377,7 @@ msgstr "P3"
 #, fuzzy
 msgid ""
 "Please report this problem by using Help -> Report a problem or via email to "
-"%1"
+"{}"
 msgstr ""
 "Rapporter venligst dette problem via Hjælp -> Rapporter et problem eller via "
 "email til carl@dcpomatic.com"
@@ -1395,8 +1395,8 @@ msgid "Prepared for video frame rate"
 msgstr "Forberedt til video billedhastighed"
 
 #: src/lib/exceptions.cc:107
-msgid "Programming error at %1:%2 %3"
-msgstr "Programmerings fejl ved %1: %2 %3"
+msgid "Programming error at {}:{} {}"
+msgstr "Programmerings fejl ved {}: {} {}"
 
 #: src/lib/dcp_content_type.cc:65
 msgid "Promo"
@@ -1513,14 +1513,14 @@ msgstr "SMPTE ST 432-1 D65 (2010)"
 
 #: src/lib/scp_uploader.cc:47
 #, fuzzy
-msgid "SSH error [%1]"
-msgstr "SSH-fejl (%1)"
+msgid "SSH error [{}]"
+msgstr "SSH-fejl ({})"
 
 #: src/lib/scp_uploader.cc:63 src/lib/scp_uploader.cc:76
 #: src/lib/scp_uploader.cc:83
 #, fuzzy
-msgid "SSH error [%1] (%2)"
-msgstr "SSH-fejl (%1)"
+msgid "SSH error [{}] ({})"
+msgstr "SSH-fejl ({})"
 
 #: src/lib/job.cc:571
 msgid "Saturday"
@@ -1547,8 +1547,8 @@ msgid "Size"
 msgstr "Størrelse"
 
 #: src/lib/audio_content.cc:260
-msgid "Some audio will be resampled to %1Hz"
-msgstr "Noget lyd resamples til %1Hz"
+msgid "Some audio will be resampled to {}Hz"
+msgstr "Noget lyd resamples til {}Hz"
 
 #: src/lib/transcode_job.cc:121
 #, fuzzy
@@ -1585,10 +1585,10 @@ msgstr ""
 
 #: src/lib/hints.cc:605
 msgid ""
-"Some of your closed captions span more than %1 lines, so they will be "
+"Some of your closed captions span more than {} lines, so they will be "
 "truncated."
 msgstr ""
-"Nogle af underteksterne er på mere end %1 linjer, så de bliver beskåret."
+"Nogle af underteksterne er på mere end {} linjer, så de bliver beskåret."
 
 #: src/lib/hints.cc:727
 msgid ""
@@ -1665,12 +1665,12 @@ msgid "The certificate chain for signing is invalid"
 msgstr "Certifikatkæden til signering er ugyldig"
 
 #: src/lib/exceptions.cc:100
-msgid "The certificate chain for signing is invalid (%1)"
-msgstr "Certifikatkæden til signering er ugyldig (%1)"
+msgid "The certificate chain for signing is invalid ({})"
+msgstr "Certifikatkæden til signering er ugyldig ({})"
 
 #: src/lib/hints.cc:744
 msgid ""
-"The certificate chain that %1 uses for signing DCPs and KDMs contains a "
+"The certificate chain that {} uses for signing DCPs and KDMs contains a "
 "small error which will prevent DCPs from being validated correctly on some "
 "systems.  It is advisable to re-create the signing certificate chain by "
 "clicking the \"Re-make certificates and key...\" button in the Keys page of "
@@ -1679,7 +1679,7 @@ msgstr ""
 
 #: src/lib/hints.cc:752
 msgid ""
-"The certificate chain that %1 uses for signing DCPs and KDMs has a validity "
+"The certificate chain that {} uses for signing DCPs and KDMs has a validity "
 "period that is too long.  This will cause problems playing back DCPs on some "
 "systems. It is advisable to re-create the signing certificate chain by "
 "clicking the \"Re-make certificates and key...\" button in the Keys page of "
@@ -1688,7 +1688,7 @@ msgstr ""
 
 #: src/lib/video_decoder.cc:70
 msgid ""
-"The content file %1 is set as 3D but does not appear to contain 3D images.  "
+"The content file {} is set as 3D but does not appear to contain 3D images.  "
 "Please set it to 2D.  You can still make a 3D DCP from this content by "
 "ticking the 3D option in the DCP video tab."
 msgstr ""
@@ -1702,20 +1702,20 @@ msgstr ""
 "og prøv igen."
 
 #: src/lib/playlist.cc:245
-msgid "The file %1 has been moved %2 milliseconds earlier."
-msgstr "Filen %1 er blevet flyttet %2 millisekunder frem."
+msgid "The file {} has been moved {} milliseconds earlier."
+msgstr "Filen {} er blevet flyttet {} millisekunder frem."
 
 #: src/lib/playlist.cc:240
-msgid "The file %1 has been moved %2 milliseconds later."
-msgstr "Filen %1 er blevet flyttet %2 millisekunder tilbage."
+msgid "The file {} has been moved {} milliseconds later."
+msgstr "Filen {} er blevet flyttet {} millisekunder tilbage."
 
 #: src/lib/playlist.cc:265
-msgid "The file %1 has been trimmed by %2 milliseconds less."
-msgstr "Filen %1 er blevet trimmet %2 millisekunder kortere."
+msgid "The file {} has been trimmed by {} milliseconds less."
+msgstr "Filen {} er blevet trimmet {} millisekunder kortere."
 
 #: src/lib/playlist.cc:260
-msgid "The file %1 has been trimmed by %2 milliseconds more."
-msgstr "Filen %1 er blevet trimmet %2 millisekunder længere."
+msgid "The file {} has been trimmed by {} milliseconds more."
+msgstr "Filen {} er blevet trimmet {} millisekunder længere."
 
 #: src/lib/hints.cc:268
 msgid ""
@@ -1762,21 +1762,21 @@ msgstr ""
 
 #: src/lib/util.cc:986
 #, fuzzy
-msgid "This KDM was made for %1 but not for its leaf certificate."
+msgid "This KDM was made for {} but not for its leaf certificate."
 msgstr ""
 "KDM var genereret til DCP-o-matic, men ikke til dens 'leaf' certifikat."
 
 #: src/lib/util.cc:984
 #, fuzzy
-msgid "This KDM was not made for %1's decryption certificate."
+msgid "This KDM was not made for {}'s decryption certificate."
 msgstr "KDM var ikke genereret til DCP-o-matics dekrypterings certifikat."
 
 #: src/lib/job.cc:142
 #, fuzzy
 msgid ""
 "This error has probably occurred because you are running the 32-bit version "
-"of %1 and trying to use too many encoding threads.  Please reduce the "
-"'number of threads %2 should use' in the General tab of Preferences and try "
+"of {} and trying to use too many encoding threads.  Please reduce the "
+"'number of threads {} should use' in the General tab of Preferences and try "
 "again."
 msgstr ""
 "Der var ikke tilstrækkelig arbejdshukommelse til at gøre dette. Hvis du "
@@ -1786,7 +1786,7 @@ msgstr ""
 #: src/lib/job.cc:156
 msgid ""
 "This error has probably occurred because you are running the 32-bit version "
-"of %1.  Please re-install %2 with the 64-bit installer and try again."
+"of {}.  Please re-install {} with the 64-bit installer and try again."
 msgstr ""
 
 #: src/lib/exceptions.cc:114
@@ -1800,7 +1800,7 @@ msgstr ""
 #: src/lib/film.cc:544
 #, fuzzy
 msgid ""
-"This film was created with a newer version of %1, and it cannot be loaded "
+"This film was created with a newer version of {}, and it cannot be loaded "
 "into this version.  Sorry!"
 msgstr ""
 "Denne film blev dannet med en nyere version af DCP-o-matic og kan ikke "
@@ -1809,7 +1809,7 @@ msgstr ""
 #: src/lib/film.cc:525
 #, fuzzy
 msgid ""
-"This film was created with an older version of %1, and unfortunately it "
+"This film was created with an older version of {}, and unfortunately it "
 "cannot be loaded into this version.  You will need to create a new Film, re-"
 "add your content and set it up again.  Sorry!"
 msgstr ""
@@ -1830,8 +1830,8 @@ msgid "Trailer"
 msgstr "Trailer"
 
 #: src/lib/transcode_job.cc:75
-msgid "Transcoding %1"
-msgstr "Transcoder %1"
+msgid "Transcoding {}"
+msgstr "Transcoder {}"
 
 #: src/lib/dcp_content_type.cc:58
 msgid "Transitional"
@@ -1863,8 +1863,8 @@ msgid "Unknown error"
 msgstr "Ukendt fejl"
 
 #: src/lib/ffmpeg_decoder.cc:378
-msgid "Unrecognised audio sample format (%1)"
-msgstr "Kunne ikke genkende lydsekvensens format (%1)"
+msgid "Unrecognised audio sample format ({})"
+msgstr "Kunne ikke genkende lydsekvensens format ({})"
 
 #: src/lib/filter.cc:102
 msgid "Unsharp mask and Gaussian blur"
@@ -1911,7 +1911,7 @@ msgid "Vertical flip"
 msgstr "Lodret spejling"
 
 #: src/lib/fcpxml.cc:69
-msgid "Video refers to missing asset %1"
+msgid "Video refers to missing asset {}"
 msgstr ""
 
 #: src/lib/util.cc:596
@@ -1941,23 +1941,23 @@ msgstr "Endnu et Deinterlacing Filter"
 #: src/lib/hints.cc:209
 #, fuzzy
 msgid ""
-"You are set up for a DCP at a frame rate of %1 fps.  This frame rate is not "
+"You are set up for a DCP at a frame rate of {} fps.  This frame rate is not "
 "supported by all projectors.  It is advisable to change the DCP frame rate "
-"to %2 fps."
+"to {} fps."
 msgstr ""
-"Du har gjort klar til en DCP med en billedhastighed på %1 bps.  Denne "
+"Du har gjort klar til en DCP med en billedhastighed på {} bps.  Denne "
 "billedhastighed understøttes ikke af alle projektorer.  Du rådes til at "
-"ændre DCP-billedhastigheden til %2 fps."
+"ændre DCP-billedhastigheden til {} fps."
 
 #: src/lib/hints.cc:193
 msgid ""
-"You are set up for a DCP at a frame rate of %1 fps.  This frame rate is not "
+"You are set up for a DCP at a frame rate of {} fps.  This frame rate is not "
 "supported by all projectors.  You may want to consider changing your frame "
-"rate to %2 fps."
+"rate to {} fps."
 msgstr ""
-"Du har gjort klar til en DCP med en billedhastighed på %1 bps.  Denne "
+"Du har gjort klar til en DCP med en billedhastighed på {} bps.  Denne "
 "billedhastighed understøttes ikke af alle projektorer.  Du rådes til at "
-"ændre billedhastigheden til %2 fps."
+"ændre billedhastigheden til {} fps."
 
 #: src/lib/hints.cc:203
 msgid ""
@@ -1971,7 +1971,7 @@ msgstr ""
 #: src/lib/hints.cc:126
 #, fuzzy
 msgid ""
-"You are using %1's stereo-to-5.1 upmixer.  This is experimental and may "
+"You are using {}'s stereo-to-5.1 upmixer.  This is experimental and may "
 "result in poor-quality audio.  If you continue, you should listen to the "
 "resulting DCP in a cinema to make sure that it sounds good."
 msgstr ""
@@ -1990,10 +1990,10 @@ msgstr ""
 
 #: src/lib/hints.cc:307
 msgid ""
-"You have %1 files that look like they are VOB files from DVD. You should "
+"You have {} files that look like they are VOB files from DVD. You should "
 "join them to ensure smooth joins between the files."
 msgstr ""
-"Du har %1 filer der ligner VOB-filer fra en DVD. Du bør samle dem for at "
+"Du har {} filer der ligner VOB-filer fra en DVD. Du bør samle dem for at "
 "sikre gode overgange mellem filerne."
 
 #: src/lib/film.cc:1665
@@ -2023,7 +2023,7 @@ msgstr "Du er nødt til at tilføje indhold til DCP'en før du kan danne den"
 
 #: src/lib/hints.cc:770
 msgid ""
-"Your DCP has %1 audio channels, rather than 8 or 16.  This may cause some "
+"Your DCP has {} audio channels, rather than 8 or 16.  This may cause some "
 "distributors to raise QC errors when they check your DCP.  To avoid this, "
 "set the DCP audio channels to 8 or 16."
 msgstr ""
@@ -2032,7 +2032,7 @@ msgstr ""
 msgid ""
 "Your DCP has fewer than 6 audio channels.  This may cause problems on some "
 "projectors.  You may want to set the DCP to have 6 channels.  It does not "
-"matter if your content has fewer channels, as %1 will fill the extras with "
+"matter if your content has fewer channels, as {} will fill the extras with "
 "silence."
 msgstr ""
 
@@ -2048,9 +2048,9 @@ msgstr ""
 
 #: src/lib/hints.cc:357
 msgid ""
-"Your audio level is very high (on %1).  You should reduce the gain of your "
+"Your audio level is very high (on {}).  You should reduce the gain of your "
 "audio content."
-msgstr "Lydniveauet er meget højt (%1). Du bør sænke gain på lyden."
+msgstr "Lydniveauet er meget højt ({}). Du bør sænke gain på lyden."
 
 #: src/lib/playlist.cc:236
 msgid ""
@@ -2078,11 +2078,11 @@ msgstr "[stillbillede]"
 msgid "[subtitles]"
 msgstr "[undertekster]"
 
-#. TRANSLATORS: _reel%1 here is to be added to an export filename to indicate
-#. which reel it is.  Preserve the %1; it will be replaced with the reel number.
+#. TRANSLATORS: _reel{} here is to be added to an export filename to indicate
+#. which reel it is.  Preserve the {}; it will be replaced with the reel number.
 #: src/lib/ffmpeg_film_encoder.cc:152
-msgid "_reel%1"
-msgstr "_spole%1"
+msgid "_reel{}"
+msgstr "_spole{}"
 
 #: src/lib/audio_content.cc:306
 msgid "bits"
@@ -2101,8 +2101,8 @@ msgid "content type"
 msgstr "indholdstype"
 
 #: src/lib/uploader.cc:79
-msgid "copying %1"
-msgstr "kopierer %1"
+msgid "copying {}"
+msgstr "kopierer {}"
 
 #: src/lib/ffmpeg.cc:119
 msgid "could not find stream information"
@@ -2110,52 +2110,52 @@ msgstr "kunne ikke finde information om strøm"
 
 #: src/lib/reel_writer.cc:404
 #, fuzzy
-msgid "could not move atmos asset into the DCP (%1)"
-msgstr "kunne ikke flytte lyd-MXF ind i DCPen (%1)"
+msgid "could not move atmos asset into the DCP ({})"
+msgstr "kunne ikke flytte lyd-MXF ind i DCPen ({})"
 
 #: src/lib/reel_writer.cc:387
-msgid "could not move audio asset into the DCP (%1)"
-msgstr "kunne ikke flytte lyd-MXF ind i DCPen (%1)"
+msgid "could not move audio asset into the DCP ({})"
+msgstr "kunne ikke flytte lyd-MXF ind i DCPen ({})"
 
 #: src/lib/exceptions.cc:39
 #, fuzzy
-msgid "could not open file %1 for read (%2)"
-msgstr "kunne ikke åbne fil %1 til læsning (%2)"
+msgid "could not open file {} for read ({})"
+msgstr "kunne ikke åbne fil {} til læsning ({})"
 
 #: src/lib/exceptions.cc:38
 #, fuzzy
-msgid "could not open file %1 for read/write (%2)"
-msgstr "kunne ikke åbne fil %1 til læsning (%2)"
+msgid "could not open file {} for read/write ({})"
+msgstr "kunne ikke åbne fil {} til læsning ({})"
 
 #: src/lib/exceptions.cc:39
 #, fuzzy
-msgid "could not open file %1 for write (%2)"
-msgstr "kunne ikke åbne fil (%1) til skrivning (%2)"
+msgid "could not open file {} for write ({})"
+msgstr "kunne ikke åbne fil ({}) til skrivning ({})"
 
 #: src/lib/exceptions.cc:58
-msgid "could not read from file %1 (%2)"
-msgstr "kunne ikke læse fra fil %1 (%2)"
+msgid "could not read from file {} ({})"
+msgstr "kunne ikke læse fra fil {} ({})"
 
 #: src/lib/exceptions.cc:65
-msgid "could not write to file %1 (%2)"
-msgstr "kunne ikke skrive til fil %1 (%2)"
+msgid "could not write to file {} ({})"
+msgstr "kunne ikke skrive til fil {} ({})"
 
 #: src/lib/dcpomatic_socket.cc:109
-msgid "error during async_connect (%1)"
-msgstr "fejl ved async_connect (%1)"
+msgid "error during async_connect ({})"
+msgstr "fejl ved async_connect ({})"
 
 #: src/lib/dcpomatic_socket.cc:79
 #, fuzzy
-msgid "error during async_connect: (%1)"
-msgstr "fejl ved async_connect (%1)"
+msgid "error during async_connect: ({})"
+msgstr "fejl ved async_connect ({})"
 
 #: src/lib/dcpomatic_socket.cc:201
-msgid "error during async_read (%1)"
-msgstr "fejl ved async_read (%1)"
+msgid "error during async_read ({})"
+msgstr "fejl ved async_read ({})"
 
 #: src/lib/dcpomatic_socket.cc:160
-msgid "error during async_write (%1)"
-msgstr "fejl ved async_write (%1)"
+msgid "error during async_write ({})"
+msgstr "fejl ved async_write ({})"
 
 #: src/lib/content.cc:472 src/lib/content.cc:481
 msgid "frames per second"
@@ -2174,7 +2174,7 @@ msgstr "den har en anden billedhastighed end filmen."
 #: src/lib/dcp_content.cc:753
 msgid ""
 "it has a different number of audio channels than the project; set the "
-"project to have %1 channels."
+"project to have {} channels."
 msgstr ""
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
@@ -2324,20 +2324,20 @@ msgstr "videobilleder"
 #~ msgid "Content to be joined must have the same audio language."
 #~ msgstr "Indhold der skal splejses skal have samme lydgain."
 
-#~ msgid "Could not start SCP session (%1)"
-#~ msgstr "Kunne ikke starte SCP-session (%1)"
+#~ msgid "Could not start SCP session ({})"
+#~ msgstr "Kunne ikke starte SCP-session ({})"
 
-#~ msgid "could not start SCP session (%1)"
-#~ msgstr "kunne ikke starte SCP-session (%1)"
+#~ msgid "could not start SCP session ({})"
+#~ msgstr "kunne ikke starte SCP-session ({})"
 
 #~ msgid "could not start SSH session"
 #~ msgstr "kunne ikke starte SSH-session"
 
 #~ msgid ""
-#~ "Some of your closed captions have lines longer than %1 characters, so "
+#~ "Some of your closed captions have lines longer than {} characters, so "
 #~ "they will probably be word-wrapped."
 #~ msgstr ""
-#~ "Nogle af underteksterne har linjer på mere end %1 tegn, så de vil "
+#~ "Nogle af underteksterne har linjer på mere end {} tegn, så de vil "
 #~ "formodentlig blive ombrudt."
 
 #~ msgid "No scale"
@@ -2393,18 +2393,18 @@ msgstr "videobilleder"
 
 #, fuzzy
 #~ msgid "Could not write whole file"
-#~ msgstr "Kunne ikke skrive til fjernfil. (%1)"
+#~ msgstr "Kunne ikke skrive til fjernfil. ({})"
 
 #, fuzzy
-#~ msgid "Could not decode image file %1 (%2)"
-#~ msgstr "Kunne ikke afkode billedfil (%1)"
+#~ msgid "Could not decode image file {} ({})"
+#~ msgstr "Kunne ikke afkode billedfil ({})"
 
 #, fuzzy
 #~ msgid "it overlaps other subtitle content; remove the other content."
 #~ msgstr "Der er andre undertekster, der overlapper i denne DCP; fjern dem."
 
 #~ msgid ""
-#~ "The DCP %1 was being referred to by this film.  This not now possible "
+#~ "The DCP {} was being referred to by this film.  This not now possible "
 #~ "because the reel sizes in the film no longer agree with those in the "
 #~ "imported DCP.\n"
 #~ "\n"
@@ -2413,7 +2413,7 @@ msgstr "videobilleder"
 #~ "After doing that you would need to re-tick the appropriate 'refer to "
 #~ "existing DCP' checkboxes."
 #~ msgstr ""
-#~ "Denne film havde en reference til DCPen %1. Dette er ikke længere muligt, "
+#~ "Denne film havde en reference til DCPen {}. Dette er ikke længere muligt, "
 #~ "da filmens spolestørrelse ikke længere er i overensstemmelse med den "
 #~ "importerede DCP.\n"
 #~ "\n"
@@ -2450,8 +2450,8 @@ msgstr "videobilleder"
 #~ msgstr ""
 #~ "Denne KDM afkoder ikke DCPen. Måske er den rettet mod den forkerte CPL."
 
-#~ msgid "could not create file %1"
-#~ msgstr "kunne ikke danne filen %1"
+#~ msgid "could not create file {}"
+#~ msgstr "kunne ikke danne filen {}"
 
 #~ msgid "Computing audio digest"
 #~ msgstr "Beregner lydresume"
@@ -2496,8 +2496,8 @@ msgstr "videobilleder"
 #~ msgid "Content to be joined must use the same audio stream."
 #~ msgstr "Indhold der skal splejses skal bruge samme lyd strøm."
 
-#~ msgid "Error (%1)"
-#~ msgstr "Fejl (%1)"
+#~ msgid "Error ({})"
+#~ msgstr "Fejl ({})"
 
 #~ msgid "Fast Bilinear"
 #~ msgstr "Hurtig bilineær"
@@ -2530,17 +2530,17 @@ msgstr "videobilleder"
 #~ msgid "could not find video decoder"
 #~ msgstr "kunne ikke finde videoafkoder"
 
-#~ msgid "could not move audio MXF into the DCP (%1)"
-#~ msgstr "kunne ikke lægge lyd-MXF ind i DCP'en (%1)"
+#~ msgid "could not move audio MXF into the DCP ({})"
+#~ msgstr "kunne ikke lægge lyd-MXF ind i DCP'en ({})"
 
-#~ msgid "could not open audio file for reading (%1)"
+#~ msgid "could not open audio file for reading ({})"
 #~ msgstr "kunne ikke åbne lydfil til læsning"
 
 #~ msgid "could not read encoded data"
 #~ msgstr "kunne ikke læse genererede data"
 
-#~ msgid "error during async_accept (%1)"
-#~ msgstr "fejl ved async_accept (%1)"
+#~ msgid "error during async_accept ({})"
+#~ msgstr "fejl ved async_accept ({})"
 
 #~ msgid "hour"
 #~ msgstr "time"

@@ -19,7 +19,6 @@
 */
 
 
-#include "compose.hpp"
 #include "cross.h"
 #include "dcpomatic_assert.h"
 #include "dcpomatic_socket.h"
@@ -161,7 +160,7 @@ FFmpegImageProxy::image (Image::Alignment alignment, optional<dcp::Size>) const
 		if (_path) {
 			throw OpenFileError (_path->string(), e, OpenFileError::READ);
 		} else {
-			boost::throw_exception(DecodeError(String::compose(_("Could not decode image (%1)"), e)));
+			boost::throw_exception(DecodeError(fmt::format(_("Could not decode image ({})"), e)));
 		}
 	}
 

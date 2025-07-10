@@ -94,9 +94,9 @@ find_release_notes(bool dark, optional<string> current)
 	}
 
 	string const colour = dark ? "white" : "black";
-	auto const span = String::compose("<span style=\"color: %1\">", colour);
+	auto const span = fmt::format("<span style=\"color: {}\">", colour);
 
-	auto output = String::compose("<h1>%1%2 %3 release notes</span></h1><ul>", span, variant::dcpomatic(), *current);
+	auto output = fmt::format("<h1>{}{} {} release notes</span></h1><ul>", span, variant::dcpomatic(), *current);
 
 	for (auto const& note: notes) {
 		output += string("<li>") + span + note + "</span>";

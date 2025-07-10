@@ -72,7 +72,7 @@ help(function <void (string)> out)
 
 	out("\nCommands:\n\n");
 	out("  make-dcp <FILM>              make DCP from the given film; default if no other command is specified\n");
-	out(variant::insert_dcpomatic("  list-servers                 display a list of encoding servers that %1 can use (until Ctrl-C)\n"));
+	out(variant::insert_dcpomatic("  list-servers                 display a list of encoding servers that {} can use (until Ctrl-C)\n"));
 	out("  dump <FILM>                  show a summary of the film's settings\n");
 #ifdef DCPOMATIC_GROK
 	out("  config-params                list the parameters that can be set with `config`\n");
@@ -81,7 +81,7 @@ help(function <void (string)> out)
 #endif
 
 	out("\nOptions:\n\n");
-	out(variant::insert_dcpomatic("  -v, --version                     show %1 version\n"));
+	out(variant::insert_dcpomatic("  -v, --version                     show {} version\n"));
 	out("  -h, --help                        show this help\n");
 	out("  -f, --flags                       show flags passed to C++ compiler on build\n");
 	out("  -n, --no-progress                 do not print progress to stdout\n");
@@ -90,7 +90,7 @@ help(function <void (string)> out)
 	out("  -j, --json <port>                 run a JSON server on the specified port\n");
 	out("  -k, --keep-going                  keep running even when the job is complete\n");
 	out("  -s, --servers <file>              specify servers to use in a text file\n");
-	out(variant::insert_dcpomatic("  -l, --list-servers                just display a list of encoding servers that %1 is configured to use; don't encode\n"));
+	out(variant::insert_dcpomatic("  -l, --list-servers                just display a list of encoding servers that {} is configured to use; don't encode\n"));
 	out("                                      (deprecated - use the list-servers command instead)\n");
 	out("  -d, --dcp-path                    echo DCP's path to stdout on successful completion (implies -n)\n");
 	out("  -c, --config <dir>                directory containing config.xml and cinemas.xml\n");

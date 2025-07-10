@@ -20,7 +20,6 @@
 
 
 #include "butler.h"
-#include "compose.hpp"
 #include "cross.h"
 #include "dcpomatic_log.h"
 #include "exceptions.h"
@@ -104,7 +103,7 @@ Butler::Butler(
 	   multi-thread JPEG2000 decoding.
 	*/
 
-	LOG_TIMING("start-prepare-threads %1", boost::thread::hardware_concurrency() * 2);
+	LOG_TIMING("start-prepare-threads {}", boost::thread::hardware_concurrency() * 2);
 
 	for (size_t i = 0; i < boost::thread::hardware_concurrency() * 2; ++i) {
 		_prepare_pool.create_thread(bind(&dcpomatic::io_context::run, &_prepare_context));
@@ -140,10 +139,10 @@ Butler::should_run() const
 		auto pos = _audio.peek();
 		if (pos) {
 			throw ProgrammingError
-				(__FILE__, __LINE__, String::compose("Butler video buffers reached %1 frames (audio is %2 at %3)", _video.size(), _audio.size(), pos->get()));
+				(__FILE__, __LINE__, fmt::format("Butler video buffers reached {} frames (audio is {} at {})", _video.size(), _audio.size(), pos->get()));
 		} else {
 			throw ProgrammingError
-				(__FILE__, __LINE__, String::compose("Butler video buffers reached %1 frames (audio is %2)", _video.size(), _audio.size()));
+				(__FILE__, __LINE__, fmt::format("Butler video buffers reached {} frames (audio is {})", _video.size(), _audio.size()));
 		}
 	}
 
@@ -152,19 +151,19 @@ Butler::should_run() const
 		auto pos = _audio.peek();
 		if (pos) {
 			throw ProgrammingError
-				(__FILE__, __LINE__, String::compose("Butler audio buffers reached %1 frames at %2 (video is %3)", _audio.size(), pos->get(), _video.size()));
+				(__FILE__, __LINE__, fmt::format("Butler audio buffers reached {} frames at {} (video is {})", _audio.size(), pos->get(), _video.size()));
 		} else {
 			throw ProgrammingError
-				(__FILE__, __LINE__, String::compose("Butler audio buffers reached %1 frames (video is %3)", _audio.size(), _video.size()));
+				(__FILE__, __LINE__, fmt::format("Butler audio buffers reached {} frames (video is {})", _audio.size(), _video.size()));
 		}
 	}
 
 	if (_video.size() >= MAXIMUM_VIDEO_READAHEAD * 2) {
-		LOG_WARNING("Butler video buffers reached %1 frames (audio is %2)", _video.size(), _audio.size());
+		LOG_WARNING("Butler video buffers reached {} frames (audio is {})", _video.size(), _audio.size());
 	}
 
 	if (_audio.size() >= MAXIMUM_AUDIO_READAHEAD * 2) {
-		LOG_WARNING("Butler audio buffers reached %1 frames (video is %2)", _audio.size(), _video.size());
+		LOG_WARNING("Butler audio buffers reached {} frames (video is {})", _audio.size(), _video.size());
 	}
 
 	if (_stop_thread || _finished || _died || _suspended) {
@@ -324,9 +323,9 @@ try
 	auto video = weak_video.lock();
 	/* If the weak_ptr cannot be locked the video obviously no longer requires any work */
 	if (video) {
-		LOG_TIMING("start-prepare in %1", thread_id());
+		LOG_TIMING("start-prepare in {}", thread_id());
 		video->prepare(_pixel_format, _video_range, _alignment, _fast, _prepare_only_proxy);
-		LOG_TIMING("finish-prepare in %1", thread_id());
+		LOG_TIMING("finish-prepare in {}", thread_id());
 	}
 }
 catch (std::exception& e)
@@ -472,7 +471,7 @@ Butler::Error::summary() const
 		case Error::Code::AGAIN:
 			return "Butler not ready";
 		case Error::Code::DIED:
-			return String::compose("Butler died (%1)", message);
+			return fmt::format("Butler died ({})", message);
 		case Error::Code::FINISHED:
 			return "Butler finished";
 	}

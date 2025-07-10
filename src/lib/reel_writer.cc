@@ -20,7 +20,6 @@
 
 
 #include "audio_buffers.h"
-#include "compose.hpp"
 #include "config.h"
 #include "constants.h"
 #include "cross.h"
@@ -171,7 +170,7 @@ ReelWriter::ReelWriter(
 
 		auto new_asset_filename = _output_dir / video_asset_filename(picture_asset, _reel_index, _reel_count, _content_summary);
 		if (_first_nonexistent_frame > 0) {
-			LOG_GENERAL("Re-using partial asset %1: has frames up to %2", *existing_asset_filename, _first_nonexistent_frame);
+			LOG_GENERAL("Re-using partial asset {}: has frames up to {}", existing_asset_filename->string(), _first_nonexistent_frame);
 			dcp::filesystem::rename(*existing_asset_filename, new_asset_filename);
 		}
 		remembered_assets.push_back(RememberedAsset(new_asset_filename.filename(), period, film()->video_identifier()));
@@ -186,7 +185,7 @@ ReelWriter::ReelWriter(
 		}
 	} else {
 		DCPOMATIC_ASSERT(existing_asset_filename);
-		LOG_GENERAL("Re-using complete asset %1", *existing_asset_filename);
+		LOG_GENERAL("Re-using complete asset {}", existing_asset_filename->string());
 		/* We already have a complete picture asset that we can just re-use */
 		/* XXX: what about if the encryption key changes? */
 		auto new_asset_filename = _output_dir / existing_asset_filename->filename();
@@ -257,15 +256,15 @@ ReelWriter::check_existing_picture_asset(boost::filesystem::path asset)
 	/* Try to open the existing asset */
 	dcp::File asset_file(asset, "rb");
 	if (!asset_file) {
-		LOG_GENERAL("Could not open existing asset at %1 (errno=%2)", asset.string(), errno);
+		LOG_GENERAL("Could not open existing asset at {} (errno={})", asset.string(), errno);
 		return 0;
 	} else {
-		LOG_GENERAL("Opened existing asset at %1", asset.string());
+		LOG_GENERAL("Opened existing asset at {}", asset.string());
 	}
 
 	/* Offset of the last dcp::FrameInfo in the info file */
 	int const n = (dcp::filesystem::file_size(_info_file.path()) / J2KFrameInfo::size_on_disk()) - 1;
-	LOG_GENERAL("The last FI is %1; info file is %2, info size %3", n, dcp::filesystem::file_size(_info_file.path()), J2KFrameInfo::size_on_disk())
+	LOG_GENERAL("The last FI is {}; info file is {}, info size {}", n, dcp::filesystem::file_size(_info_file.path()), J2KFrameInfo::size_on_disk())
 
 	Frame first_nonexistent_frame;
 	if (film()->three_d()) {
@@ -286,7 +285,7 @@ ReelWriter::check_existing_picture_asset(boost::filesystem::path asset)
 		++first_nonexistent_frame;
 	}
 
-	LOG_GENERAL("Proceeding with first nonexistent frame %1", first_nonexistent_frame);
+	LOG_GENERAL("Proceeding with first nonexistent frame {}", first_nonexistent_frame);
 
 	return first_nonexistent_frame;
 }
@@ -359,13 +358,13 @@ ReelWriter::finish(boost::filesystem::path output_dcp)
 {
 	if (_j2k_picture_asset_writer && !_j2k_picture_asset_writer->finalize()) {
 		/* Nothing was written to the J2K picture asset */
-		LOG_GENERAL("Nothing was written to J2K asset for reel %1 of %2", _reel_index, _reel_count);
+		LOG_GENERAL("Nothing was written to J2K asset for reel {} of {}", _reel_index, _reel_count);
 		_j2k_picture_asset.reset();
 	}
 
 	if (_mpeg2_picture_asset_writer && !_mpeg2_picture_asset_writer->finalize()) {
 		/* Nothing was written to the MPEG2 picture asset */
-		LOG_GENERAL("Nothing was written to MPEG2 asset for reel %1 of %2", _reel_index, _reel_count);
+		LOG_GENERAL("Nothing was written to MPEG2 asset for reel {} of {}", _reel_index, _reel_count);
 		_mpeg2_picture_asset.reset();
 	}
 
@@ -384,7 +383,7 @@ ReelWriter::finish(boost::filesystem::path output_dcp)
 		dcp::filesystem::rename(film()->file(aaf), audio_to, ec);
 		if (ec) {
 			throw FileError(
-				String::compose(_("could not move audio asset into the DCP (%1)"), error_details(ec)), aaf
+				fmt::format(_("could not move audio asset into the DCP ({})"), error_details(ec)), aaf
 				);
 		}
 
@@ -401,7 +400,7 @@ ReelWriter::finish(boost::filesystem::path output_dcp)
 		dcp::filesystem::rename(film()->file(aaf), atmos_to, ec);
 		if (ec) {
 			throw FileError(
-				String::compose(_("could not move atmos asset into the DCP (%1)"), error_details(ec)), aaf
+				fmt::format(_("could not move atmos asset into the DCP ({})"), error_details(ec)), aaf
 				);
 		}
 
@@ -483,7 +482,7 @@ maybe_add_text(
 		if (!text_only && reel_asset->actual_duration() != period_duration) {
 			throw ProgrammingError(
 				__FILE__, __LINE__,
-				String::compose("%1 vs %2", reel_asset->actual_duration(), period_duration)
+				fmt::format("{} vs {}", reel_asset->actual_duration(), period_duration)
 				);
 		}
 		reel->add(reel_asset);
@@ -510,12 +509,12 @@ ReelWriter::create_reel_picture(shared_ptr<dcp::Reel> reel, list<ReferencedReelA
 	} else if (_mpeg2_picture_asset) {
 		reel_asset = make_shared<dcp::ReelMonoPictureAsset>(_mpeg2_picture_asset, 0);
 	} else {
-		LOG_GENERAL("no picture asset of our own; look through %1", refs.size());
+		LOG_GENERAL("no picture asset of our own; look through {}", refs.size());
 		/* We don't have a picture asset of our own; hopefully we have one to reference */
 		for (auto j: refs) {
 			auto k = dynamic_pointer_cast<dcp::ReelPictureAsset>(j.asset);
 			if (k) {
-				LOG_GENERAL("candidate picture asset period is %1-%2", j.period.from.get(), j.period.to.get());
+				LOG_GENERAL("candidate picture asset period is {}-{}", j.period.from.get(), j.period.to.get());
 			}
 			if (k && j.period == _period) {
 				reel_asset = k;
@@ -529,7 +528,7 @@ ReelWriter::create_reel_picture(shared_ptr<dcp::Reel> reel, list<ReferencedReelA
 	if (reel_asset->duration() != period_duration) {
 		throw ProgrammingError(
 			__FILE__, __LINE__,
-			String::compose("%1 vs %2", reel_asset->actual_duration(), period_duration)
+			fmt::format("{} vs {}", reel_asset->actual_duration(), period_duration)
 			);
 	}
 	reel->add(reel_asset);
@@ -552,12 +551,12 @@ ReelWriter::create_reel_sound(shared_ptr<dcp::Reel> reel, list<ReferencedReelAss
 		/* We have made a sound asset of our own.  Put it into the reel */
 		reel_asset = make_shared<dcp::ReelSoundAsset>(_sound_asset, 0);
 	} else {
-		LOG_GENERAL("no sound asset of our own; look through %1", refs.size());
+		LOG_GENERAL("no sound asset of our own; look through {}", refs.size());
 		/* We don't have a sound asset of our own; hopefully we have one to reference */
 		for (auto j: refs) {
 			auto k = dynamic_pointer_cast<dcp::ReelSoundAsset>(j.asset);
 			if (k) {
-				LOG_GENERAL("candidate sound asset period is %1-%2", j.period.from.get(), j.period.to.get());
+				LOG_GENERAL("candidate sound asset period is {}-{}", j.period.from.get(), j.period.to.get());
 			}
 			if (k && j.period == _period) {
 				reel_asset = k;
@@ -574,14 +573,14 @@ ReelWriter::create_reel_sound(shared_ptr<dcp::Reel> reel, list<ReferencedReelAss
 	DCPOMATIC_ASSERT(reel_asset);
 	if (reel_asset->actual_duration() != period_duration) {
 		LOG_ERROR(
-			"Reel sound asset has length %1 but reel period is %2",
+			"Reel sound asset has length {} but reel period is {}",
 			reel_asset->actual_duration(),
 			period_duration
 			);
 		if (reel_asset->actual_duration() != period_duration) {
 			throw ProgrammingError(
 				__FILE__, __LINE__,
-				String::compose("%1 vs %2", reel_asset->actual_duration(), period_duration)
+				fmt::format("{} vs {}", reel_asset->actual_duration(), period_duration)
 				);
 		}
 
@@ -702,7 +701,7 @@ ReelWriter::create_reel(
 	set<DCPTextTrack> ensure_closed_captions
 	)
 {
-	LOG_GENERAL("create_reel for %1-%2; %3 of %4", _period.from.get(), _period.to.get(), _reel_index, _reel_count);
+	LOG_GENERAL("create_reel for {}-{}; {} of {}", _period.from.get(), _period.to.get(), _reel_index, _reel_count);
 
 	auto reel = make_shared<dcp::Reel>();
 
@@ -975,7 +974,7 @@ ReelWriter::write(PlayerText subs, TextType type, optional<DCPTextTrack> track, 
 bool
 ReelWriter::existing_picture_frame_ok(dcp::File& asset_file, Frame frame)
 {
-	LOG_GENERAL("Checking existing picture frame %1", frame);
+	LOG_GENERAL("Checking existing picture frame {}", frame);
 
 	/* Read the data from the info file; for 3D we just check the left
 	   frames until we find a good one.
@@ -988,16 +987,16 @@ ReelWriter::existing_picture_frame_ok(dcp::File& asset_file, Frame frame)
 	asset_file.seek(info.offset, SEEK_SET);
 	ArrayData data(info.size);
 	size_t const read = asset_file.read(data.data(), 1, data.size());
-	LOG_GENERAL("Read %1 bytes of asset data; wanted %2", read, info.size);
+	LOG_GENERAL("Read {} bytes of asset data; wanted {}", read, info.size);
 	if (read != static_cast<size_t>(data.size())) {
-		LOG_GENERAL("Existing frame %1 is incomplete", frame);
+		LOG_GENERAL("Existing frame {} is incomplete", frame);
 		ok = false;
 	} else {
 		Digester digester;
 		digester.add(data.data(), data.size());
-		LOG_GENERAL("Hash %1 vs %2", digester.get(), info.hash);
+		LOG_GENERAL("Hash {} vs {}", digester.get(), info.hash);
 		if (digester.get() != info.hash) {
-			LOG_GENERAL("Existing frame %1 failed hash check", frame);
+			LOG_GENERAL("Existing frame {} failed hash check", frame);
 			ok = false;
 		}
 	}

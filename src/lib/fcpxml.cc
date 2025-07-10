@@ -41,7 +41,7 @@ convert_time(string const& time)
 	boost::algorithm::split(parts, time, boost::is_any_of("/"));
 
 	if (parts.size() != 2 || parts[1].empty() || parts[1][parts[1].length() - 1] != 's') {
-		throw FCPXMLError(String::compose("Unexpected time format %1", time));
+		throw FCPXMLError(fmt::format("Unexpected time format {}", time));
 	}
 
 	return dcpomatic::ContentTime{dcp::raw_convert<int64_t>(parts[0]) * dcpomatic::ContentTime::HZ / dcp::raw_convert<int64_t>(parts[1])};
@@ -66,7 +66,7 @@ dcpomatic::fcpxml::load(boost::filesystem::path xml_file)
 		auto name = video->string_attribute("name");
 		auto iter = assets.find(name);
 		if (iter == assets.end()) {
-			throw FCPXMLError(String::compose(_("Video refers to missing asset %1"), name));
+			throw FCPXMLError(fmt::format(_("Video refers to missing asset {}"), name));
 		}
 
 		auto start = convert_time(video->string_attribute("offset"));

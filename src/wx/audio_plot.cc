@@ -24,7 +24,6 @@
 #include "wx_util.h"
 #include "lib/audio_decoder.h"
 #include "lib/audio_analysis.h"
-#include "lib/compose.hpp"
 #include "lib/constants.h"
 #include "lib/maths_util.h"
 #include <dcp/warnings.h>
@@ -197,7 +196,7 @@ AudioPlot::paint ()
 		int const y = (metrics.height - (i - _minimum) * metrics.y_scale) - metrics.y_origin;
 		h_grid.MoveToPoint (metrics.db_label_width - 4, y);
 		h_grid.AddLineToPoint (metrics.db_label_width + data_width, y);
-		gc->DrawText (std_to_wx (String::compose ("%1dB", i)), 0, y - (db_label_height / 2));
+		gc->DrawText (std_to_wx (fmt::format("{}dB", i)), 0, y - (db_label_height / 2));
 	}
 
 	wxColour const grid_colour = gui_is_dark() ? wxColour(80, 80, 80) : wxColour(200, 200, 200);

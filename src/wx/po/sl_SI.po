@@ -93,7 +93,7 @@ msgstr ""
 #: src/wx/film_name_location_dialog.cc:156
 #, fuzzy, c-format
 msgid "%s already exists as a file, so you cannot use it for a film."
-msgstr "%1 že obstaja kot datoteka, zato je ne morete uporabiti za film."
+msgstr "{} že obstaja kot datoteka, zato je ne morete uporabiti za film."
 
 #: src/wx/audio_dialog.cc:170 src/wx/audio_dialog.cc:172
 #, fuzzy, c-format
@@ -106,13 +106,12 @@ msgid "%s test email"
 msgstr "Pošlji poskusno e-sporočilo"
 
 #: src/wx/about_dialog.cc:97
-#, fuzzy
 msgid ""
 "(C) 2012-2025 Carl Hetherington, Terrence Meiczinger\n"
-"Ole Laursen, Aaron Boxer"
+"Aaron Boxer"
 msgstr ""
-"(C) 2012-2024 Carl Hetherington, Terrence Meiczinger\n"
-" Ole Laursen"
+"(C) 2012-2025 Carl Hetherington, Terrence Meiczinger\n"
+"Aaron Boxer"
 
 #: src/wx/full_config_dialog.cc:1206 src/wx/player_config_dialog.cc:130
 #, fuzzy, c-format
@@ -1018,8 +1017,8 @@ msgstr "Ni bilo mogoče prebrati DCP: %s"
 
 #: src/wx/download_certificate_panel.cc:67
 #: src/wx/download_certificate_panel.cc:80
-msgid "Could not read certificate file (%1)"
-msgstr "Datoteke potrdila (%1) ni bilo mogoče prebrati"
+msgid "Could not read certificate file ({})"
+msgstr "Datoteke potrdila ({}) ni bilo mogoče prebrati"
 
 #: src/wx/certificate_chain_editor.cc:195
 #: src/wx/certificate_chain_editor.cc:382 src/wx/recipient_dialog.cc:158
@@ -1965,8 +1964,8 @@ msgid "Length"
 msgstr "Dolžina"
 
 #: src/wx/player_information.cc:182
-msgid "Length: %1 (%2 frames)"
-msgstr "Dolžina: %1 (%2 sličic)"
+msgid "Length: {} ({} frames)"
+msgstr "Dolžina: {} ({} sličic)"
 
 #: src/wx/text_panel.cc:104
 msgid "Line spacing"
@@ -3608,7 +3607,7 @@ msgid ""
 "The directory %s already exists and is not empty.  Are you sure you want to "
 "use it?"
 msgstr ""
-"Mapa %1 že obstaja in ni prazna.  Ali ste prepričani, da jo želite uporabiti?"
+"Mapa {} že obstaja in ni prazna.  Ali ste prepričani, da jo želite uporabiti?"
 
 #: src/wx/try_unmount_dialog.cc:44
 #, fuzzy, c-format

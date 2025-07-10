@@ -20,6 +20,7 @@
 
 
 #include "variant.h"
+#include <fmt/format.h>
 
 
 static char const* _dcpomatic = "DCP-o-matic";
@@ -108,19 +109,19 @@ variant::dcpomatic_verifier()
 std::string
 variant::insert_dcpomatic(std::string const& s)
 {
-	return String::compose(s, _dcpomatic);
+	return fmt::format(s, _dcpomatic);
 }
 
 std::string
 variant::insert_dcpomatic_encode_server(std::string const& s)
 {
-	return String::compose(s, _dcpomatic_encode_server);
+	return fmt::format(s, _dcpomatic_encode_server);
 }
 
 std::string
 variant::insert_dcpomatic_kdm_creator(std::string const& s)
 {
-	return String::compose(s, _dcpomatic_kdm_creator);
+	return fmt::format(s, _dcpomatic_kdm_creator);
 }
 
 std::string

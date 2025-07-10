@@ -368,17 +368,17 @@ msgstr ""
 #: src/tools/dcpomatic_editor.cc:399
 #, fuzzy
 msgid "Could not load DCP"
-msgstr "Nem sikerült a DCP %1 betöltése."
+msgstr "Nem sikerült a DCP {} betöltése."
 
 #: src/tools/dcpomatic_player.cc:1368
 #, fuzzy, c-format
 msgid "Could not load DCP %s"
-msgstr "Nem sikerült a DCP %1 betöltése."
+msgstr "Nem sikerült a DCP {} betöltése."
 
 #: src/tools/dcpomatic_player.cc:866
 #, fuzzy, c-format
 msgid "Could not load DCP %s."
-msgstr "Nem sikerült a DCP %1 betöltése."
+msgstr "Nem sikerült a DCP {} betöltése."
 
 #: src/tools/dcpomatic_player.cc:626
 #, c-format
@@ -402,17 +402,17 @@ msgid "Could not load a DCP from %s"
 msgstr "Nem sikerült a DCP betöltése a(z) %s helyről"
 
 #: src/tools/dcpomatic_batch.cc:496
-msgid "Could not load film %1"
-msgstr "Nem sikerült a film %1 betöltése"
+msgid "Could not load film {}"
+msgstr "Nem sikerült a film {} betöltése"
 
 #: src/tools/dcpomatic.cc:1735
-msgid "Could not load film %1 (%2)"
-msgstr "Nem sikerült a film %1 (%s) betöltése."
+msgid "Could not load film {} ({})"
+msgstr "Nem sikerült a film {} (%s) betöltése."
 
 #: src/tools/dcpomatic_player.cc:1376
 #, fuzzy, c-format
 msgid "Could not load stress test file %s"
-msgstr "Nem sikerült a film %1 betöltése"
+msgstr "Nem sikerült a film {} betöltése"
 
 #: src/tools/dcpomatic.cc:879
 msgid "Could not make DCP."
@@ -1101,7 +1101,7 @@ msgstr ""
 #: src/tools/dcpomatic_combiner.cc:165
 #, fuzzy
 msgid ""
-"The directory %1 already exists and is not empty.  Are you sure you want to "
+"The directory {} already exists and is not empty.  Are you sure you want to "
 "use it?"
 msgstr "Befejezetlen művelet vannak, biztosan ki akarsz lépni?"
 

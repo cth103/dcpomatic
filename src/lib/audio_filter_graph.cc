@@ -21,7 +21,6 @@
 
 #include "audio_buffers.h"
 #include "audio_filter_graph.h"
-#include "compose.hpp"
 #include "dcpomatic_assert.h"
 #include "exceptions.h"
 extern "C" {
@@ -154,7 +153,7 @@ AudioFilterGraph::process (shared_ptr<AudioBuffers> buffers)
 	if (r < 0) {
 		char buffer[256];
 		av_strerror (r, buffer, sizeof(buffer));
-		throw DecodeError (String::compose (N_("could not push buffer into filter chain (%1)"), &buffer[0]));
+		throw DecodeError (fmt::format(N_("could not push buffer into filter chain ({})"), &buffer[0]));
 	}
 
 	while (true) {

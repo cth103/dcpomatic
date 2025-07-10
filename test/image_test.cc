@@ -26,7 +26,6 @@
  */
 
 
-#include "lib/compose.hpp"
 #include "lib/image.h"
 #include "lib/image_content.h"
 #include "lib/image_decoder.h"
@@ -512,7 +511,7 @@ BOOST_AUTO_TEST_CASE (crop_scale_window_test7)
 			Image::Alignment::PADDED,
 			false
 			);
-		path file = String::compose("crop_scale_window_test7-%1.png", left_crop);
+		path file = fmt::format("crop_scale_window_test7-{}.png", left_crop);
 		write_image(cropped, path("build") / "test" / file);
 		check_image(path("test") / "data" / file, path("build") / "test" / file, 10);
 	}
@@ -668,7 +667,7 @@ BOOST_AUTO_TEST_CASE (make_black_test)
 			uint8_t* q = p;
 			for (int x = 0; x < bar->line_size()[0]; ++x) {
 				if (*q != 0) {
-					std::cerr << "x=" << x << ", (x%3)=" << (x%3) << "\n";
+					std::cerr << "x=" << x << ", (x % 3)=" << (x % 3) << "\n";
 				}
 				BOOST_CHECK_EQUAL (*q++, 0);
 			}

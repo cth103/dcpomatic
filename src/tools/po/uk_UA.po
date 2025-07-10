@@ -29,7 +29,7 @@ msgstr "%d KDM-ключі записані в %s"
 #, fuzzy, c-format
 msgid "%s already exists as a file, so you cannot use it for a DCP."
 msgstr ""
-"%1 вже існує як файл, тому ви не можете використовувати його для нового "
+"{} вже існує як файл, тому ви не можете використовувати його для нового "
 "проекту."
 
 #: src/tools/dcpomatic_disk.cc:507 src/tools/dcpomatic_kdm.cc:945
@@ -378,12 +378,12 @@ msgstr "Не вдалося завантажити DCP"
 #: src/tools/dcpomatic_player.cc:1368
 #, fuzzy, c-format
 msgid "Could not load DCP %s"
-msgstr "Не вдалося завантажити DCP %1."
+msgstr "Не вдалося завантажити DCP {}."
 
 #: src/tools/dcpomatic_player.cc:866
 #, fuzzy, c-format
 msgid "Could not load DCP %s."
-msgstr "Не вдалося завантажити DCP %1."
+msgstr "Не вдалося завантажити DCP {}."
 
 #: src/tools/dcpomatic_player.cc:626
 #, fuzzy, c-format
@@ -391,7 +391,7 @@ msgid ""
 "Could not load DCP.\n"
 "\n"
 "%s."
-msgstr "Не вдалося завантажити DCP %1."
+msgstr "Не вдалося завантажити DCP {}."
 
 #: src/tools/dcpomatic_player.cc:814
 msgid "Could not load KDM."
@@ -404,17 +404,17 @@ msgid "Could not load a DCP from %s"
 msgstr ""
 
 #: src/tools/dcpomatic_batch.cc:496
-msgid "Could not load film %1"
-msgstr "Не вдалося завантажити проект %1"
+msgid "Could not load film {}"
+msgstr "Не вдалося завантажити проект {}"
 
 #: src/tools/dcpomatic.cc:1735
-msgid "Could not load film %1 (%2)"
-msgstr "Не вдалося завантажити проект %1 (%2)"
+msgid "Could not load film {} ({})"
+msgstr "Не вдалося завантажити проект {} ({})"
 
 #: src/tools/dcpomatic_player.cc:1376
 #, fuzzy, c-format
 msgid "Could not load stress test file %s"
-msgstr "Не вдалося завантажити проект %1"
+msgstr "Не вдалося завантажити проект {}"
 
 #: src/tools/dcpomatic.cc:879
 msgid "Could not make DCP."
@@ -1081,9 +1081,9 @@ msgstr ""
 
 #: src/tools/dcpomatic_combiner.cc:165
 msgid ""
-"The directory %1 already exists and is not empty.  Are you sure you want to "
+"The directory {} already exists and is not empty.  Are you sure you want to "
 "use it?"
-msgstr "Папка %1 вже існує і не пуста. Ви точно хочете використовувати її?"
+msgstr "Папка {} вже існує і не пуста. Ви точно хочете використовувати її?"
 
 #: src/tools/dcpomatic_disk.cc:293
 msgid "The disk you selected is no longer available.  Please choose another."

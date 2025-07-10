@@ -30,7 +30,7 @@ msgstr "%d KDM:er skrivna till %s"
 #: src/tools/dcpomatic_combiner.cc:175
 #, fuzzy, c-format
 msgid "%s already exists as a file, so you cannot use it for a DCP."
-msgstr "%1 finns redan som fil, så du kan inte använda den för en ny film."
+msgstr "{} finns redan som fil, så du kan inte använda den för en ny film."
 
 #: src/tools/dcpomatic_disk.cc:507 src/tools/dcpomatic_kdm.cc:945
 #: src/tools/dcpomatic_player.cc:1391
@@ -372,12 +372,12 @@ msgstr "Kunde inte ladda DCP"
 #: src/tools/dcpomatic_player.cc:1368
 #, fuzzy, c-format
 msgid "Could not load DCP %s"
-msgstr "Kunde inte ladda DCP %1."
+msgstr "Kunde inte ladda DCP {}."
 
 #: src/tools/dcpomatic_player.cc:866
 #, fuzzy, c-format
 msgid "Could not load DCP %s."
-msgstr "Kunde inte ladda DCP %1."
+msgstr "Kunde inte ladda DCP {}."
 
 #: src/tools/dcpomatic_player.cc:626
 #, c-format
@@ -401,17 +401,17 @@ msgid "Could not load a DCP from %s"
 msgstr "Kunde inte ladda DCP från %s"
 
 #: src/tools/dcpomatic_batch.cc:496
-msgid "Could not load film %1"
-msgstr "Kunde inte ladda film %1"
+msgid "Could not load film {}"
+msgstr "Kunde inte ladda film {}"
 
 #: src/tools/dcpomatic.cc:1735
-msgid "Could not load film %1 (%2)"
-msgstr "Kunde inte ladda film %1 (%2)"
+msgid "Could not load film {} ({})"
+msgstr "Kunde inte ladda film {} ({})"
 
 #: src/tools/dcpomatic_player.cc:1376
 #, fuzzy, c-format
 msgid "Could not load stress test file %s"
-msgstr "Kunde inte ladda film %1"
+msgstr "Kunde inte ladda film {}"
 
 #: src/tools/dcpomatic.cc:879
 msgid "Could not make DCP."
@@ -1110,10 +1110,10 @@ msgstr ""
 
 #: src/tools/dcpomatic_combiner.cc:165
 msgid ""
-"The directory %1 already exists and is not empty.  Are you sure you want to "
+"The directory {} already exists and is not empty.  Are you sure you want to "
 "use it?"
 msgstr ""
-"Foldern %1 finns redan och är inte tom. Är du säker på att du vill använda "
+"Foldern {} finns redan och är inte tom. Är du säker på att du vill använda "
 "den?"
 
 #: src/tools/dcpomatic_disk.cc:293
@@ -1407,5 +1407,5 @@ msgstr "Du har inte valt en mapp. Välj en mapp innan du klickar på öppna."
 #~ msgid "&Analyse audio"
 #~ msgstr "&Analysera audio"
 
-#~ msgid "The directory %1 already exists."
-#~ msgstr "Katalogen %1 finns redan."
+#~ msgid "The directory {} already exists."
+#~ msgstr "Katalogen {} finns redan."

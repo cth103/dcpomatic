@@ -30,7 +30,6 @@
  */
 
 
-#include "compose.hpp"
 #include "config.h"
 #include "cross.h"
 #include "dcp_video.h"
@@ -152,7 +151,7 @@ DCPVideo::encode_locally() const
 	ArrayData enc = {};
 	/* This was empirically derived by a user: see #1902 */
 	int const minimum_size = 16384;
-	LOG_DEBUG_ENCODE("Using minimum frame size %1", minimum_size);
+	LOG_DEBUG_ENCODE("Using minimum frame size {}", minimum_size);
 
 	auto xyz = convert_to_xyz(_frame);
 	int noise_amount = 2;
@@ -168,11 +167,11 @@ DCPVideo::encode_locally() const
 		);
 
 		if (enc.size() >= minimum_size) {
-			LOG_DEBUG_ENCODE(N_("Frame %1 encoded size was OK (%2)"), _index, enc.size());
+			LOG_DEBUG_ENCODE(N_("Frame {} encoded size was OK ({})"), _index, enc.size());
 			break;
 		}
 
-		LOG_GENERAL(N_("Frame %1 encoded size was small (%2); adding noise at level %3 with pixel skip %4"), _index, enc.size(), noise_amount, pixel_skip);
+		LOG_GENERAL(N_("Frame {} encoded size was small ({}); adding noise at level {} with pixel skip {}"), _index, enc.size(), noise_amount, pixel_skip);
 
 		/* The JPEG2000 is too low-bitrate for some decoders <cough>DSS200</cough> so add some noise
 		 * and try again.  This is slow but hopefully won't happen too often.  We have to do
@@ -203,13 +202,13 @@ DCPVideo::encode_locally() const
 
 	switch (_frame->eyes()) {
 	case Eyes::BOTH:
-		LOG_DEBUG_ENCODE(N_("Finished locally-encoded frame %1 for mono"), _index);
+		LOG_DEBUG_ENCODE(N_("Finished locally-encoded frame {} for mono"), _index);
 		break;
 	case Eyes::LEFT:
-		LOG_DEBUG_ENCODE(N_("Finished locally-encoded frame %1 for L"), _index);
+		LOG_DEBUG_ENCODE(N_("Finished locally-encoded frame {} for L"), _index);
 		break;
 	case Eyes::RIGHT:
-		LOG_DEBUG_ENCODE(N_("Finished locally-encoded frame %1 for R"), _index);
+		LOG_DEBUG_ENCODE(N_("Finished locally-encoded frame {} for R"), _index);
 		break;
 	default:
 		break;
@@ -237,7 +236,7 @@ DCPVideo::encode_remotely(EncodeServerDescription serv, int timeout) const
 	cxml::add_text_child(root, "Version", fmt::to_string(SERVER_LINK_VERSION));
 	add_metadata(root);
 
-	LOG_DEBUG_ENCODE(N_("Sending frame %1 to remote"), _index);
+	LOG_DEBUG_ENCODE(N_("Sending frame {} to remote"), _index);
 
 	{
 		Socket::WriteDigestScope ds(socket);
@@ -248,7 +247,7 @@ DCPVideo::encode_remotely(EncodeServerDescription serv, int timeout) const
 		socket->write((uint8_t *) xml.c_str(), xml.bytes() + 1);
 
 		/* Send binary data */
-		LOG_TIMING("start-remote-send thread=%1", thread_id());
+		LOG_TIMING("start-remote-send thread={}", thread_id());
 		_frame->write_to_socket(socket);
 	}
 
@@ -256,16 +255,16 @@ DCPVideo::encode_remotely(EncodeServerDescription serv, int timeout) const
 	   is ready and sent back.
 	*/
 	Socket::ReadDigestScope ds(socket);
-	LOG_TIMING("start-remote-encode thread=%1", thread_id());
+	LOG_TIMING("start-remote-encode thread={}", thread_id());
 	ArrayData e(socket->read_uint32());
-	LOG_TIMING("start-remote-receive thread=%1", thread_id());
+	LOG_TIMING("start-remote-receive thread={}", thread_id());
 	socket->read(e.data(), e.size());
-	LOG_TIMING("finish-remote-receive thread=%1", thread_id());
+	LOG_TIMING("finish-remote-receive thread={}", thread_id());
 	if (!ds.check()) {
 		throw NetworkError("Checksums do not match");
 	}
 
-	LOG_DEBUG_ENCODE(N_("Finished remotely-encoded frame %1"), _index);
+	LOG_DEBUG_ENCODE(N_("Finished remotely-encoded frame {}"), _index);
 
 	return e;
 }

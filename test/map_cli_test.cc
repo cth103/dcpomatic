@@ -90,7 +90,7 @@ find_cpl(boost::filesystem::path dir)
 BOOST_AUTO_TEST_CASE(map_simple_dcp_copy)
 {
 	string const name = "map_simple_dcp_copy";
-	string const out = String::compose("build/test/%1_out", name);
+	string const out = fmt::format("build/test/{}_out", name);
 
 	auto content = content_factory("test/data/flat_red.png");
 	auto film = new_test_film(name + "_in", content);
@@ -120,7 +120,7 @@ BOOST_AUTO_TEST_CASE(map_simple_dcp_copy)
 BOOST_AUTO_TEST_CASE(map_simple_dcp_copy_by_id)
 {
 	string const name = "map_simple_dcp_copy_by_id";
-	string const out = String::compose("build/test/%1_out", name);
+	string const out = fmt::format("build/test/{}_out", name);
 
 	auto content = content_factory("test/data/flat_red.png");
 	auto film = new_test_film(name + "_in", content);
@@ -152,7 +152,7 @@ BOOST_AUTO_TEST_CASE(map_simple_dcp_copy_by_id)
 BOOST_AUTO_TEST_CASE(map_simple_dcp_copy_with_symlinks)
 {
 	string const name = "map_simple_dcp_copy_with_symlinks";
-	string const out = String::compose("build/test/%1_out", name);
+	string const out = fmt::format("build/test/{}_out", name);
 
 	auto content = content_factory("test/data/flat_red.png");
 	auto film = new_test_film(name + "_in", content);
@@ -185,7 +185,7 @@ BOOST_AUTO_TEST_CASE(map_simple_dcp_copy_with_symlinks)
 BOOST_AUTO_TEST_CASE(map_simple_dcp_copy_with_hardlinks)
 {
 	string const name = "map_simple_dcp_copy_with_hardlinks";
-	string const out = String::compose("build/test/%1_out", name);
+	string const out = fmt::format("build/test/{}_out", name);
 
 	auto content = content_factory("test/data/flat_red.png");
 	auto film = new_test_film(name + "_in", content);
@@ -216,7 +216,7 @@ BOOST_AUTO_TEST_CASE(map_simple_dcp_copy_with_hardlinks)
 BOOST_AUTO_TEST_CASE(map_simple_interop_dcp_with_subs)
 {
 	string const name = "map_simple_interop_dcp_with_subs";
-	string const out = String::compose("build/test/%1_out", name);
+	string const out = fmt::format("build/test/{}_out", name);
 
 	auto picture = content_factory("test/data/flat_red.png").front();
 	auto subs = content_factory("test/data/15s.srt").front();
@@ -247,7 +247,7 @@ void
 test_map_ov_vf_copy(vector<string> extra_args = {})
 {
 	string const name = "map_ov_vf_copy";
-	string const out = String::compose("build/test/%1_out", name);
+	string const out = fmt::format("build/test/{}_out", name);
 
 	auto ov_content = content_factory("test/data/flat_red.png");
 	auto ov_film = new_test_film(name + "_ov", ov_content);
@@ -298,7 +298,7 @@ BOOST_AUTO_TEST_CASE(map_ov_vf_copy)
 BOOST_AUTO_TEST_CASE(map_ov_vf_copy_multiple_reference)
 {
 	string const name = "map_ov_vf_copy_multiple_reference";
-	string const out = String::compose("build/test/%1_out", name);
+	string const out = fmt::format("build/test/{}_out", name);
 
 	auto ov_content = content_factory("test/data/flat_red.png");
 	auto ov_film = new_test_film(name + "_ov", ov_content);
@@ -346,7 +346,7 @@ BOOST_AUTO_TEST_CASE(map_simple_dcp_copy_with_rename)
 	ConfigRestorer cr;
 	Config::instance()->set_dcp_asset_filename_format(dcp::NameFormat("hello%c"));
 	string const name = "map_simple_dcp_copy_with_rename";
-	string const out = String::compose("build/test/%1_out", name);
+	string const out = fmt::format("build/test/{}_out", name);
 
 	auto content = content_factory("test/data/flat_red.png");
 	auto film = new_test_film(name + "_in", content);
@@ -394,7 +394,7 @@ static
 void
 test_two_cpls_each_with_subs(string name, bool interop)
 {
-	string const out = String::compose("build/test/%1_out", name);
+	string const out = fmt::format("build/test/{}_out", name);
 
 	vector<dcp::VerificationNote::Code> acceptable_errors;
 	if (interop) {
@@ -408,7 +408,7 @@ test_two_cpls_each_with_subs(string name, bool interop)
 	for (auto i = 0; i < 2; ++i) {
 		auto picture = content_factory("test/data/flat_red.png").front();
 		auto subs = content_factory("test/data/15s.srt").front();
-		films[i] = new_test_film(String::compose("%1_%2_in", name, i), { picture, subs });
+		films[i] = new_test_film(fmt::format("{}_{}_in", name, i), { picture, subs });
 		films[i]->set_interop(interop);
 		subs->only_text()->set_language(dcp::LanguageTag("de"));
 		make_and_verify_dcp(films[i], acceptable_errors);
@@ -450,7 +450,7 @@ BOOST_AUTO_TEST_CASE(map_with_given_config)
 	ConfigRestorer cr;
 
 	string const name = "map_with_given_config";
-	string const out = String::compose("build/test/%1_out", name);
+	string const out = fmt::format("build/test/{}_out", name);
 
 	auto content = content_factory("test/data/flat_red.png");
 	auto film = new_test_film(name + "_in", content);
@@ -480,7 +480,7 @@ BOOST_AUTO_TEST_CASE(map_with_given_config)
 BOOST_AUTO_TEST_CASE(map_multireel_interop_ov_and_vf_adding_ccaps)
 {
 	string const name = "map_multireel_interop_ov_and_vf_adding_ccaps";
-	string const out = String::compose("build/test/%1_out", name);
+	string const out = fmt::format("build/test/{}_out", name);
 
 	vector<shared_ptr<Content>> video = {
 		content_factory("test/data/flat_red.png")[0],
@@ -545,7 +545,7 @@ BOOST_AUTO_TEST_CASE(map_uses_config_for_issuer_and_creator)
 	Config::instance()->set_dcp_creator("Fred");
 
 	string const name = "map_uses_config_for_issuer_and_creator";
-	string const out = String::compose("build/test/%1_out", name);
+	string const out = fmt::format("build/test/{}_out", name);
 
 	auto content = content_factory("test/data/flat_red.png");
 	auto film = new_test_film(name + "_in", content);

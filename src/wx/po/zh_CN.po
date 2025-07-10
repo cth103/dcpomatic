@@ -121,10 +121,10 @@ msgstr "%s发送测试邮件"
 #: src/wx/about_dialog.cc:97
 msgid ""
 "(C) 2012-2025 Carl Hetherington, Terrence Meiczinger\n"
-"Ole Laursen, Aaron Boxer"
+"Aaron Boxer"
 msgstr ""
 "(C) 2012-2025 Carl Hetherington, Terrence Meiczinger\n"
-" Ole Laursen, Aaron Boxer"
+"Aaron Boxer"
 
 #: src/wx/full_config_dialog.cc:1206 src/wx/player_config_dialog.cc:130
 #, c-format
@@ -1009,8 +1009,8 @@ msgstr "无法读取 DCP: %s"
 
 #: src/wx/download_certificate_panel.cc:67
 #: src/wx/download_certificate_panel.cc:80
-msgid "Could not read certificate file (%1)"
-msgstr "无法读取证书文件 (%1)"
+msgid "Could not read certificate file ({})"
+msgstr "无法读取证书文件 ({})"
 
 #: src/wx/certificate_chain_editor.cc:195
 #: src/wx/certificate_chain_editor.cc:382 src/wx/recipient_dialog.cc:158
@@ -1940,8 +1940,8 @@ msgid "Length"
 msgstr "长度"
 
 #: src/wx/player_information.cc:182
-msgid "Length: %1 (%2 frames)"
-msgstr "长度: %1 (%2 帧)"
+msgid "Length: {} ({} frames)"
+msgstr "长度: {} ({} 帧)"
 
 #: src/wx/text_panel.cc:104
 msgid "Line spacing"

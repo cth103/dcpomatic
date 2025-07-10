@@ -44,7 +44,7 @@ void
 RemoteJ2KEncoderThread::log_thread_start() const
 {
 	start_of_thread("RemoteJ2KEncoder");
-	LOG_TIMING("start-encoder-thread thread=%1 server=%2", thread_id(), _server.host_name());
+	LOG_TIMING("start-encoder-thread thread={} server={}", thread_id(), _server.host_name());
 }
 
 
@@ -56,17 +56,17 @@ RemoteJ2KEncoderThread::encode(DCPVideo const& frame)
 	try {
 		encoded = make_shared<dcp::ArrayData>(frame.encode_remotely(_server));
 		if (_remote_backoff > 0) {
-			LOG_GENERAL("%1 was lost, but now she is found; removing backoff", _server.host_name());
+			LOG_GENERAL("{} was lost, but now she is found; removing backoff", _server.host_name());
 			_remote_backoff = 0;
 		}
 	} catch (std::exception& e) {
 		LOG_ERROR(
-			N_("Remote encode of %1 on %2 failed (%3)"),
+			N_("Remote encode of {} on {} failed ({})"),
 			frame.index(), _server.host_name(), e.what(), _remote_backoff
 		);
 	} catch (...) {
 		LOG_ERROR(
-			N_("Remote encode of %1 on %2 failed"),
+			N_("Remote encode of {} on {} failed"),
 			frame.index(), _server.host_name(), _remote_backoff
 		);
 	}

@@ -29,7 +29,6 @@
 #include "audio_buffers.h"
 #include "audio_processor.h"
 #include "cinema_sound_processor.h"
-#include "compose.hpp"
 #include "config.h"
 #include "constants.h"
 #include "cross.h"
@@ -383,7 +382,7 @@ public:
 		if (entry.TestFilter(m_filter)) {
 			string buffer;
 			entry.CreateStringWithOptions(buffer, m_options);
-			LOG_GENERAL("asdcplib: %1", buffer);
+			LOG_GENERAL("asdcplib: {}", buffer);
 		}
 	}
 };
@@ -410,7 +409,7 @@ ffmpeg_log_callback(void* ptr, int level, const char* fmt, va_list vl)
 	av_log_format_line(ptr, level, fmt, vl, line, sizeof(line), &prefix);
 	string str(line);
 	boost::algorithm::trim(str);
-	dcpomatic_log->log(String::compose("FFmpeg: %1", str), LogEntry::TYPE_GENERAL);
+	dcpomatic_log->log(fmt::format("FFmpeg: {}", str), LogEntry::TYPE_GENERAL);
 }
 
 
@@ -462,7 +461,7 @@ LIBDCP_ENABLE_WARNINGS
 	if (running_tests) {
 		putenv("FONTCONFIG_PATH=fonts");
 	} else {
-		putenv(String::compose("FONTCONFIG_PATH=%1", resources_path().string()).c_str());
+		putenv(fmt::format("FONTCONFIG_PATH={}", resources_path().string()).c_str());
 	}
 #endif
 
@@ -981,9 +980,9 @@ decrypt_kdm_with_helpful_error(dcp::EncryptedKDM kdm)
 			}
 		}
 		if (!on_chain) {
-			throw KDMError(variant::insert_dcpomatic(_("This KDM was not made for %1's decryption certificate.")), e.what());
+			throw KDMError(variant::insert_dcpomatic(_("This KDM was not made for {}'s decryption certificate.")), e.what());
 		} else if (kdm_subject_name != dc->leaf().subject()) {
-			throw KDMError(variant::insert_dcpomatic(_("This KDM was made for %1 but not for its leaf certificate.")), e.what());
+			throw KDMError(variant::insert_dcpomatic(_("This KDM was made for {} but not for its leaf certificate.")), e.what());
 		} else {
 			throw;
 		}
@@ -1029,7 +1028,7 @@ start_of_thread(string)
 string
 error_details(boost::system::error_code ec)
 {
-	return String::compose("%1:%2:%3", ec.category().name(), ec.value(), ec.message());
+	return fmt::format("{}:{}:{}", ec.category().name(), ec.value(), ec.message());
 }
 
 
@@ -1133,7 +1132,7 @@ screen_names_to_string(vector<string> names)
 string
 report_problem()
 {
-	return String::compose(_("Please report this problem by using Help -> Report a problem or via email to %1"), variant::report_problem_email());
+	return fmt::format(_("Please report this problem by using Help -> Report a problem or via email to {}"), variant::report_problem_email());
 }
 
 

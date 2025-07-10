@@ -33,7 +33,7 @@ msgstr "%d KDMer skrevet til %s"
 #, fuzzy, c-format
 msgid "%s already exists as a file, so you cannot use it for a DCP."
 msgstr ""
-"%1 findes allerede som en fil, så du kan ikke bruge dette navn til en ny "
+"{} findes allerede som en fil, så du kan ikke bruge dette navn til en ny "
 "film."
 
 #: src/tools/dcpomatic_disk.cc:507 src/tools/dcpomatic_kdm.cc:945
@@ -379,12 +379,12 @@ msgstr "Kunne ikke danne DCP: %s."
 #: src/tools/dcpomatic_player.cc:1368
 #, fuzzy, c-format
 msgid "Could not load DCP %s"
-msgstr "Kunne ikke indlæse DCP %1."
+msgstr "Kunne ikke indlæse DCP {}."
 
 #: src/tools/dcpomatic_player.cc:866
 #, fuzzy, c-format
 msgid "Could not load DCP %s."
-msgstr "Kunne ikke indlæse DCP %1."
+msgstr "Kunne ikke indlæse DCP {}."
 
 #: src/tools/dcpomatic_player.cc:626
 #, fuzzy, c-format
@@ -392,7 +392,7 @@ msgid ""
 "Could not load DCP.\n"
 "\n"
 "%s."
-msgstr "Kunne ikke indlæse DCP %1."
+msgstr "Kunne ikke indlæse DCP {}."
 
 #: src/tools/dcpomatic_player.cc:814
 msgid "Could not load KDM."
@@ -405,17 +405,17 @@ msgid "Could not load a DCP from %s"
 msgstr "Kunne ikke indlæse DCP fra %s."
 
 #: src/tools/dcpomatic_batch.cc:496
-msgid "Could not load film %1"
-msgstr "Kunne ikke indlæse film %1"
+msgid "Could not load film {}"
+msgstr "Kunne ikke indlæse film {}"
 
 #: src/tools/dcpomatic.cc:1735
-msgid "Could not load film %1 (%2)"
-msgstr "Kunne ikke indlæse film %1 (%2)"
+msgid "Could not load film {} ({})"
+msgstr "Kunne ikke indlæse film {} ({})"
 
 #: src/tools/dcpomatic_player.cc:1376
 #, fuzzy, c-format
 msgid "Could not load stress test file %s"
-msgstr "Kunne ikke indlæse film %1"
+msgstr "Kunne ikke indlæse film {}"
 
 #: src/tools/dcpomatic.cc:879
 msgid "Could not make DCP."
@@ -1080,10 +1080,10 @@ msgstr ""
 
 #: src/tools/dcpomatic_combiner.cc:165
 msgid ""
-"The directory %1 already exists and is not empty.  Are you sure you want to "
+"The directory {} already exists and is not empty.  Are you sure you want to "
 "use it?"
 msgstr ""
-"Folderen %1 eksisterer allerede og er ikke tom. Er du sikker på, at du vil "
+"Folderen {} eksisterer allerede og er ikke tom. Er du sikker på, at du vil "
 "benytte den?"
 
 #: src/tools/dcpomatic_disk.cc:293

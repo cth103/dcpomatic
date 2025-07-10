@@ -651,7 +651,7 @@ bitmap_path (string name)
 wxString
 icon_path(string name)
 {
-	return gui_is_dark() ? bitmap_path(String::compose("%1_white.png", name)) : bitmap_path(String::compose("%1_black.png", name));
+	return gui_is_dark() ? bitmap_path(fmt::format("{}_white.png", name)) : bitmap_path(fmt::format("{}_black.png", name));
 }
 
 

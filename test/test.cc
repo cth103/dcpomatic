@@ -25,7 +25,6 @@
  */
 
 
-#include "lib/compose.hpp"
 #include "lib/config.h"
 #include "lib/cross.h"
 #include "lib/dcp_content_type.h"
@@ -594,7 +593,7 @@ check_xml(
 	auto test_children = test->get_children ();
 	string context;
 	if (ref_file && test_file) {
-		context = String::compose(" comparing %1 and %2", ref_file->string(), test_file->string());
+		context = fmt::format(" comparing {} and {}", ref_file->string(), test_file->string());
 	}
 	BOOST_REQUIRE_MESSAGE (
 		ref_children.size() == test_children.size(),
@@ -739,7 +738,7 @@ png_flush (png_structp)
 static void
 png_error_fn (png_structp, char const * message)
 {
-	throw EncodeError (String::compose("Error during PNG write: %1", message));
+	throw EncodeError (fmt::format("Error during PNG write: {}", message));
 }
 
 
@@ -822,7 +821,7 @@ write_image (shared_ptr<const Image> image, boost::filesystem::path file)
 void
 check_ffmpeg (boost::filesystem::path ref, boost::filesystem::path check, int audio_tolerance)
 {
-	int const r = system (String::compose("ffcmp -t %1 %2 %3", audio_tolerance, ref.string(), check.string()).c_str());
+	int const r = system (fmt::format("ffcmp -t {} {} {}", audio_tolerance, ref.string(), check.string()).c_str());
 	BOOST_REQUIRE_EQUAL (WEXITSTATUS(r), 0);
 }
 
@@ -1015,13 +1014,13 @@ make_and_verify_dcp(shared_ptr<Film> film, vector<dcp::VerificationNote::Code> i
 	auto dcp_inspect_env = getenv("DCPOMATIC_DCP_INSPECT");
 	if (dcp_inspect && dcp_inspect_env) {
 		boost::filesystem::path dcp_inspect(dcp_inspect_env);
-		auto cmd = String::compose("%1 %2 > %3 2>&1", dcp_inspect, film->dir(film->dcp_name()), film->file("dcp_inspect.log"));
+		auto cmd = fmt::format("{} {} > {} 2>&1", dcp_inspect.string(), film->dir(film->dcp_name()).string(), film->file("dcp_inspect.log").string());
 		auto result = system(cmd.c_str());
 		BOOST_CHECK_EQUAL(WEXITSTATUS(result), 0);
 	}
 
 	if (clairmeta && getenv("DCPOMATIC_CLAIRMETA")) {
-		auto cmd = String::compose("python3 -m clairmeta.cli check -type dcp %1 > %2 2>&1", film->dir(film->dcp_name()), film->file("clairmeta.log"));
+		auto cmd = fmt::format("python3 -m clairmeta.cli check -type dcp {} > {} 2>&1", film->dir(film->dcp_name()).string(), film->file("clairmeta.log").string());
 		auto result = system(cmd.c_str());
 		BOOST_CHECK_EQUAL(WEXITSTATUS(result), 0);
 	}

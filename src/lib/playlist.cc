@@ -20,7 +20,6 @@
 
 
 #include "audio_content.h"
-#include "compose.hpp"
 #include "config.h"
 #include "content_factory.h"
 #include "dcp_content.h"
@@ -236,13 +235,13 @@ Playlist::set_from_xml (shared_ptr<const Film> film, cxml::ConstNodePtr node, in
 			string note = _("Your project contains video content that was not aligned to a frame boundary.");
 			note += "  ";
 			if (old_pos < content->position()) {
-				note += String::compose(
-					_("The file %1 has been moved %2 milliseconds later."),
+				note += fmt::format(
+					_("The file {} has been moved {} milliseconds later."),
 					content->path_summary(), DCPTime(content->position() - old_pos).seconds() * 1000
 					);
 			} else {
-				note += String::compose(
-					_("The file %1 has been moved %2 milliseconds earlier."),
+				note += fmt::format(
+					_("The file {} has been moved {} milliseconds earlier."),
 					content->path_summary(), DCPTime(content->position() - old_pos).seconds() * 1000
 					);
 			}
@@ -256,13 +255,13 @@ Playlist::set_from_xml (shared_ptr<const Film> film, cxml::ConstNodePtr node, in
 			string note = _("Your project contains video content whose trim was not aligned to a frame boundary.");
 			note += "  ";
 			if (old_trim < content->trim_start()) {
-				note += String::compose(
-					_("The file %1 has been trimmed by %2 milliseconds more."),
+				note += fmt::format(
+					_("The file {} has been trimmed by {} milliseconds more."),
 					content->path_summary(), ContentTime(content->trim_start() - old_trim).seconds() * 1000
 					);
 			} else {
-				note += String::compose(
-					_("The file %1 has been trimmed by %2 milliseconds less."),
+				note += fmt::format(
+					_("The file {} has been trimmed by {} milliseconds less."),
 					content->path_summary(), ContentTime(old_trim - content->trim_start()).seconds() * 1000
 					);
 			}

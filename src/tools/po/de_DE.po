@@ -407,12 +407,12 @@ msgid "Could not load a DCP from %s"
 msgstr "DCP aus %s konnte nicht geladen werden"
 
 #: src/tools/dcpomatic_batch.cc:496
-msgid "Could not load film %1"
-msgstr "Projekt %1 konnte nicht geladen werden"
+msgid "Could not load film {}"
+msgstr "Projekt {} konnte nicht geladen werden"
 
 #: src/tools/dcpomatic.cc:1735
-msgid "Could not load film %1 (%2)"
-msgstr "Projekt %1 (%2) konnte nicht geladen werden"
+msgid "Could not load film {} ({})"
+msgstr "Projekt {} ({}) konnte nicht geladen werden"
 
 #: src/tools/dcpomatic_player.cc:1376
 #, c-format
@@ -1120,10 +1120,10 @@ msgstr ""
 
 #: src/tools/dcpomatic_combiner.cc:165
 msgid ""
-"The directory %1 already exists and is not empty.  Are you sure you want to "
+"The directory {} already exists and is not empty.  Are you sure you want to "
 "use it?"
 msgstr ""
-"Der Ordner %1 existiert bereits und ist nicht leer. Wollen Sie ihn trotzdem "
+"Der Ordner {} existiert bereits und ist nicht leer. Wollen Sie ihn trotzdem "
 "benutzen ?"
 
 #: src/tools/dcpomatic_disk.cc:293

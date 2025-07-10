@@ -196,7 +196,7 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 		}
 	}
 
-	LOG_GENERAL("Temporal reference was %1", temporal_reference);
+	LOG_GENERAL("Temporal reference was {}", temporal_reference);
 	if (temporal_reference.find("T2T3B2B3T2T3B2B3") != string::npos || temporal_reference.find("B2B3T2T3B2B3T2T3") != string::npos) {
 		/* The magical sequence (taken from mediainfo) suggests that 2:3 pull-down is in use */
 		_pulldown = true;
@@ -223,7 +223,7 @@ FFmpegExaminer::video_packet (AVCodecContext* context, string& temporal_referenc
 	do {
 		int r = avcodec_send_packet (context, packet);
 		if (r < 0) {
-			LOG_WARNING("avcodec_send_packet returned %1 for a video packet", r);
+			LOG_WARNING("avcodec_send_packet returned {} for a video packet", r);
 		}
 
 		/* EAGAIN means we should call avcodec_receive_frame and then re-send the same packet */
@@ -266,7 +266,7 @@ FFmpegExaminer::audio_packet (AVCodecContext* context, shared_ptr<FFmpegAudioStr
 
 	int r = avcodec_send_packet (context, packet);
 	if (r < 0) {
-		LOG_WARNING("avcodec_send_packet returned %1 for an audio packet", r);
+		LOG_WARNING("avcodec_send_packet returned {} for an audio packet", r);
 		return false;
 	}
 

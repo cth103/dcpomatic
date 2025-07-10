@@ -23,6 +23,10 @@
 #include <string>
 
 
+/* windows.h defines this but we want to use it */
+#undef ERROR
+
+
 class Nanomsg;
 
 

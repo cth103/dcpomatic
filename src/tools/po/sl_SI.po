@@ -30,7 +30,7 @@ msgstr "%d KDM-jev, zapisanih v %s"
 #: src/tools/dcpomatic_combiner.cc:175
 #, fuzzy, c-format
 msgid "%s already exists as a file, so you cannot use it for a DCP."
-msgstr "%1 že obstaja kot datoteka, zato je ne morete uporabiti za DCP."
+msgstr "{} že obstaja kot datoteka, zato je ne morete uporabiti za DCP."
 
 #: src/tools/dcpomatic_disk.cc:507 src/tools/dcpomatic_kdm.cc:945
 #: src/tools/dcpomatic_player.cc:1391
@@ -373,12 +373,12 @@ msgstr "DCP-ja ni mogoče naložiti."
 #: src/tools/dcpomatic_player.cc:1368
 #, fuzzy, c-format
 msgid "Could not load DCP %s"
-msgstr "DCP-ja %1 ni bilo mogoče naložiti."
+msgstr "DCP-ja {} ni bilo mogoče naložiti."
 
 #: src/tools/dcpomatic_player.cc:866
 #, fuzzy, c-format
 msgid "Could not load DCP %s."
-msgstr "DCP-ja %1 ni bilo mogoče naložiti."
+msgstr "DCP-ja {} ni bilo mogoče naložiti."
 
 #: src/tools/dcpomatic_player.cc:626
 #, c-format
@@ -402,17 +402,17 @@ msgid "Could not load a DCP from %s"
 msgstr "DCP-ja ni bilo mogoče naložiti iz %s"
 
 #: src/tools/dcpomatic_batch.cc:496
-msgid "Could not load film %1"
-msgstr "Filma %1 ni bilo mogoče naložiti"
+msgid "Could not load film {}"
+msgstr "Filma {} ni bilo mogoče naložiti"
 
 #: src/tools/dcpomatic.cc:1735
-msgid "Could not load film %1 (%2)"
-msgstr "Filma %1 (%2) ni bilo mogoče naložiti"
+msgid "Could not load film {} ({})"
+msgstr "Filma {} ({}) ni bilo mogoče naložiti"
 
 #: src/tools/dcpomatic_player.cc:1376
 #, fuzzy, c-format
 msgid "Could not load stress test file %s"
-msgstr "Filma %1 ni bilo mogoče naložiti"
+msgstr "Filma {} ni bilo mogoče naložiti"
 
 #: src/tools/dcpomatic.cc:879
 msgid "Could not make DCP."
@@ -1119,10 +1119,10 @@ msgstr ""
 
 #: src/tools/dcpomatic_combiner.cc:165
 msgid ""
-"The directory %1 already exists and is not empty.  Are you sure you want to "
+"The directory {} already exists and is not empty.  Are you sure you want to "
 "use it?"
 msgstr ""
-"Mapa %1 že obstaja in ni prazna; ali ste prepričani, da jo želite uporabiti?"
+"Mapa {} že obstaja in ni prazna; ali ste prepričani, da jo želite uporabiti?"
 
 #: src/tools/dcpomatic_disk.cc:293
 msgid "The disk you selected is no longer available.  Please choose another."

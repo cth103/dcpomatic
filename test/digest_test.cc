@@ -25,7 +25,6 @@
  */
 
 
-#include "lib/compose.hpp"
 #include "lib/config.h"
 #include "lib/dcp_content_type.h"
 #include "lib/film.h"
@@ -45,7 +44,7 @@ using std::string;
 static string
 openssl_hash (boost::filesystem::path file)
 {
-	auto pipe = popen (String::compose ("openssl sha1 -binary %1 | openssl base64 -e", file.string()).c_str (), "r");
+	auto pipe = popen (fmt::format("openssl sha1 -binary {} | openssl base64 -e", file.string()).c_str (), "r");
 	BOOST_REQUIRE (pipe);
 	char buffer[128];
 	string output;

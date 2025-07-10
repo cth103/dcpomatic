@@ -25,10 +25,10 @@
  */
 
 
-#include <boost/test/unit_test.hpp>
 #include "lib/audio_mapping.h"
 #include "lib/constants.h"
-#include "lib/compose.hpp"
+#include <boost/test/unit_test.hpp>
+#include <fmt/format.h>
 
 
 using std::list;
@@ -72,7 +72,7 @@ guess_check (boost::filesystem::path filename, int output_channel)
 	AudioMapping m (1, 8);
 	m.make_default (0, filename);
 	for (int i = 0; i < 8; ++i) {
-		BOOST_TEST_INFO (String::compose("%1 channel %2", filename, i));
+		BOOST_TEST_INFO(fmt::format("{} channel {}", filename.string(), i));
 		BOOST_CHECK_CLOSE (m.get(0, i), i == output_channel ? 1 : 0, 0.01);
 	}
 }

@@ -45,7 +45,7 @@ NameFormatEditor::NameFormatEditor (wxWindow* parent, dcp::NameFormat name, dcp:
 
 	auto titles_sizer = new wxFlexGridSizer (2);
 	for (auto const& i: titles) {
-		auto t = new StaticText (_panel, std_to_wx (String::compose ("%%%1 %2", i.first, i.second)));
+		auto t = new StaticText (_panel, std_to_wx (fmt::format("%%{} {}", i.first, i.second)));
 		titles_sizer->Add(t, 1, wxRIGHT, DCPOMATIC_SIZER_X_GAP);
 		auto font = t->GetFont();
 		font.SetStyle (wxFONTSTYLE_ITALIC);

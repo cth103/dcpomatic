@@ -19,7 +19,6 @@
 */
 
 
-#include "compose.hpp"
 #include "film.h"
 #include "job.h"
 #include "player.h"
@@ -70,9 +69,9 @@ SubtitleFilmEncoder::SubtitleFilmEncoder(shared_ptr<const Film> film, shared_ptr
 		boost::filesystem::path filename = output;
 		if (dcp::filesystem::is_directory(filename)) {
 			if (files > 1) {
-				/// TRANSLATORS: _reel%1 here is to be added to an export filename to indicate
-				/// which reel it is.  Preserve the %1; it will be replaced with the reel number.
-				filename /= String::compose("%1_reel%2", initial_name, i + 1);
+				/// TRANSLATORS: _reel{} here is to be added to an export filename to indicate
+				/// which reel it is.  Preserve the {}; it will be replaced with the reel number.
+				filename /= fmt::format("{}_reel{}", initial_name, i + 1);
 			} else {
 				filename /= initial_name;
 			}

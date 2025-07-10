@@ -24,7 +24,6 @@
 #include "job.h"
 #include "config.h"
 #include "cross.h"
-#include "compose.hpp"
 #include <dcp/file.h>
 #include <dcp/filesystem.h>
 #include <dcp/warnings.h>
@@ -44,7 +43,7 @@ SCPUploader::SCPUploader(function<void (string)> set_status, function<void (floa
 {
 	_session = ssh_new();
 	if (!_session) {
-		throw NetworkError(String::compose(_("SSH error [%1]"), "ssh_new"));
+		throw NetworkError(fmt::format(_("SSH error [{}]"), "ssh_new"));
 	}
 
 	ssh_options_set(_session, SSH_OPTIONS_HOST, Config::instance()->tms_ip().c_str());
@@ -54,33 +53,33 @@ SCPUploader::SCPUploader(function<void (string)> set_status, function<void (floa
 
 	int r = ssh_connect(_session);
 	if (r != SSH_OK) {
-		throw NetworkError(String::compose(_("Could not connect to server %1 (%2)"), Config::instance()->tms_ip(), ssh_get_error(_session)));
+		throw NetworkError(fmt::format(_("Could not connect to server {} ({})"), Config::instance()->tms_ip(), ssh_get_error(_session)));
 	}
 
 LIBDCP_DISABLE_WARNINGS
 	r = ssh_is_server_known(_session);
 	if (r == SSH_SERVER_ERROR) {
-		throw NetworkError(String::compose(_("SSH error [%1] (%2)"), "ssh_is_server_known", ssh_get_error(_session)));
+		throw NetworkError(fmt::format(_("SSH error [{}] ({})"), "ssh_is_server_known", ssh_get_error(_session)));
 	}
 LIBDCP_ENABLE_WARNINGS
 
 	r = ssh_userauth_password(_session, 0, Config::instance()->tms_password().c_str());
 	if (r != SSH_AUTH_SUCCESS) {
-		throw NetworkError(String::compose(_("Failed to authenticate with server (%1)"), ssh_get_error(_session)));
+		throw NetworkError(fmt::format(_("Failed to authenticate with server ({})"), ssh_get_error(_session)));
 	}
 
 LIBDCP_DISABLE_WARNINGS
 	_scp = ssh_scp_new(_session, SSH_SCP_WRITE | SSH_SCP_RECURSIVE, Config::instance()->tms_path().c_str());
 LIBDCP_ENABLE_WARNINGS
 	if (!_scp) {
-		throw NetworkError(String::compose(_("SSH error [%1] (%2)"), "ssh_scp_new", ssh_get_error(_session)));
+		throw NetworkError(fmt::format(_("SSH error [{}] ({})"), "ssh_scp_new", ssh_get_error(_session)));
 	}
 
 LIBDCP_DISABLE_WARNINGS
 	r = ssh_scp_init(_scp);
 LIBDCP_ENABLE_WARNINGS
 	if (r != SSH_OK) {
-		throw NetworkError(String::compose(_("SSH error [%1] (%2)"), "ssh_scp_init", ssh_get_error(_session)));
+		throw NetworkError(fmt::format(_("SSH error [{}] ({})"), "ssh_scp_init", ssh_get_error(_session)));
 	}
 }
 
@@ -103,7 +102,7 @@ LIBDCP_DISABLE_WARNINGS
 	int const r = ssh_scp_push_directory(_scp, directory.generic_string().c_str(), S_IRWXU);
 LIBDCP_ENABLE_WARNINGS
 	if (r != SSH_OK) {
-		throw NetworkError(String::compose(_("Could not create remote directory %1 (%2)"), directory, ssh_get_error(_session)));
+		throw NetworkError(fmt::format(_("Could not create remote directory {} ({})"), directory.string(), ssh_get_error(_session)));
 	}
 }
 
@@ -119,7 +118,7 @@ LIBDCP_ENABLE_WARNINGS
 
 	dcp::File f(from, "rb");
 	if (!f) {
-		throw NetworkError(String::compose(_("Could not open %1 to send"), from));
+		throw NetworkError(fmt::format(_("Could not open {} to send"), from.string()));
 	}
 
 	std::vector<char> buffer(64 * 1024);
@@ -135,7 +134,7 @@ LIBDCP_DISABLE_WARNINGS
 		int const r = ssh_scp_write(_scp, buffer.data(), t);
 LIBDCP_ENABLE_WARNINGS
 		if (r != SSH_OK) {
-			throw NetworkError(String::compose(_("Could not write to remote file (%1)"), ssh_get_error(_session)));
+			throw NetworkError(fmt::format(_("Could not write to remote file ({})"), ssh_get_error(_session)));
 		}
 		to_do -= t;
 		transferred += t;

@@ -62,13 +62,13 @@ using namespace dcpomatic;
 static void
 help(std::function<void (string)> out)
 {
-	out(String::compose("Syntax: %1 [OPTION] [COMMAND] <FILM|CPL-ID|DKDM>", program_name));
+	out(fmt::format("Syntax: {} [OPTION] [COMMAND] <FILM|CPL-ID|DKDM>", program_name));
 	out("Commands:");
 	out("create          create KDMs; default if no other command is specified");
-	out(variant::insert_dcpomatic("list-cinemas                 list known cinemas from %1 settings"));
-	out(variant::insert_dcpomatic("list-dkdm-cpls               list CPLs for which %1 has DKDMs"));
-	out(variant::insert_dcpomatic("add-dkdm                     add DKDM to %1's list"));
-	out(variant::insert_dcpomatic("dump-decryption-certificate  write the %1 KDM decryption certificate to the console"));
+	out(variant::insert_dcpomatic("list-cinemas                 list known cinemas from {} settings"));
+	out(variant::insert_dcpomatic("list-dkdm-cpls               list CPLs for which {} has DKDMs"));
+	out(variant::insert_dcpomatic("add-dkdm                     add DKDM to {}'s list"));
+	out(variant::insert_dcpomatic("dump-decryption-certificate  write the {} KDM decryption certificate to the console"));
 	out("  -h, --help                               show this help");
 	out("  -o, --output <path>                      output file or directory");
 	out("  -K, --filename-format <format>           filename format for KDMs");
@@ -87,17 +87,17 @@ help(std::function<void (string)> out)
 	out("  -C, --projector-certificate <file>       file containing projector certificate");
 	out("  -T, --trusted-device-certificate <file>  file containing a trusted device's certificate");
 	out("      --decryption-key <file>              file containing the private key which can decrypt the given DKDM");
-	out(variant::insert_dcpomatic("                                           (%1's configured private key will be used otherwise)"));
+	out(variant::insert_dcpomatic("                                           ({}'s configured private key will be used otherwise)"));
 	out("      --cinemas-file <file>                use the given file as a list of cinemas instead of the current configuration");
 	out("");
-	out(variant::insert_dcpomatic("CPL-ID must be the ID of a CPL that is mentioned in %1's DKDM list."));
+	out(variant::insert_dcpomatic("CPL-ID must be the ID of a CPL that is mentioned in {}'s DKDM list."));
 	out("");
 	out("For example:");
 	out("");
 	out("Create KDMs for my_great_movie to play in all of Fred's Cinema's screens for the next two weeks and zip them up.");
-	out(variant::insert_dcpomatic("(Fred's Cinema must have been set up in %1's KDM window)"));
+	out(variant::insert_dcpomatic("(Fred's Cinema must have been set up in {}'s KDM window)"));
 	out("");
-	out(String::compose("\t%1 -c \"Fred's Cinema\" -f now -d \"2 weeks\" -z my_great_movie", program_name));
+	out(fmt::format("\t{} -c \"Fred's Cinema\" -f now -d \"2 weeks\" -z my_great_movie", program_name));
 }
 
 
@@ -105,7 +105,7 @@ class KDMCLIError : public std::runtime_error
 {
 public:
 	KDMCLIError(std::string message)
-		: std::runtime_error(String::compose("%1: %2", program_name, message).c_str())
+		: std::runtime_error(fmt::format("{}: {}", program_name, message).c_str())
 	{}
 };
 
@@ -130,7 +130,7 @@ duration_from_string(string d)
 	string const unit(unit_buf);
 
 	if (N == 0) {
-		throw KDMCLIError(String::compose("could not understand duration \"%1\"", d));
+		throw KDMCLIError(fmt::format("could not understand duration \"{}\"", d));
 	}
 
 	if (unit == "year" || unit == "years") {
@@ -143,7 +143,7 @@ duration_from_string(string d)
 		return boost::posix_time::time_duration(N, 0, 0, 0);
 	}
 
-	throw KDMCLIError(String::compose("could not understand duration \"%1\"", d));
+	throw KDMCLIError(fmt::format("could not understand duration \"{}\"", d));
 }
 
 
@@ -176,7 +176,7 @@ write_files(
 			);
 
 		if (verbose) {
-			out(String::compose("Wrote %1 ZIP files to %2", N, output));
+			out(fmt::format("Wrote {} ZIP files to {}", N, output.string()));
 		}
 	} else {
 		int const N = write_files(
@@ -185,7 +185,7 @@ write_files(
 			);
 
 		if (verbose) {
-			out(String::compose("Wrote %1 KDM files to %2", N, output));
+			out(fmt::format("Wrote {} KDM files to {}", N, output.string()));
 		}
 	}
 }
@@ -230,10 +230,10 @@ from_film(
 		film = make_shared<Film>(film_dir);
 		film->read_metadata();
 		if (verbose) {
-			out(String::compose("Read film %1", film->name()));
+			out(fmt::format("Read film {}", film->name()));
 		}
 	} catch (std::exception& e) {
-		throw KDMCLIError(String::compose("error reading film \"%1\" (%2)", film_dir.string(), e.what()));
+		throw KDMCLIError(fmt::format("error reading film \"{}\" ({})", film_dir.string(), e.what()));
 	}
 
 	/* XXX: allow specification of this */
@@ -294,7 +294,7 @@ from_film(
 			send_emails({kdms}, container_name_format, filename_format, film->dcp_name(), {});
 		}
 	} catch (FileError& e) {
-		throw KDMCLIError(String::compose("%1 (%2)", e.what(), e.file().string()));
+		throw KDMCLIError(fmt::format("{} ({})", e.what(), e.file().string()));
 	}
 }
 
@@ -424,7 +424,7 @@ from_dkdm(
 			send_emails({kdms}, container_name_format, filename_format, dkdm.annotation_text().get_value_or(""), {});
 		}
 	} catch (FileError& e) {
-		throw KDMCLIError(String::compose("%1 (%2)", e.what(), e.file().string()));
+		throw KDMCLIError(fmt::format("{} ({})", e.what(), e.file().string()));
 	}
 }
 
@@ -623,7 +623,7 @@ try
 	}
 
 	if (std::find(commands.begin(), commands.end(), command) == commands.end()) {
-		throw KDMCLIError(String::compose("Unrecognised command %1", command));
+		throw KDMCLIError(fmt::format("Unrecognised command {}", command));
 	}
 
 	if (cinemas_file) {
@@ -644,7 +644,7 @@ try
 	if (command == "list-cinemas") {
 		CinemaList cinemas;
 		for (auto const& cinema: cinemas.cinemas()) {
-			out(String::compose("%1 (%2)", cinema.second.name, Email::address_list(cinema.second.emails)));
+			out(fmt::format("{} ({})", cinema.second.name, Email::address_list(cinema.second.emails)));
 		}
 		return {};
 	}
@@ -711,7 +711,7 @@ try
 	}
 
 	if (verbose) {
-		out(String::compose("Making KDMs valid from %1 to %2", boost::posix_time::to_simple_string(valid_from.get()), boost::posix_time::to_simple_string(valid_to.get())));
+		out(fmt::format("Making KDMs valid from {} to {}", boost::posix_time::to_simple_string(valid_from.get()), boost::posix_time::to_simple_string(valid_to.get())));
 	}
 
 	string const thing = argv[optind];
