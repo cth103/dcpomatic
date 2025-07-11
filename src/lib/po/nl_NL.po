@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-07-09 21:45+0200\n"
-"PO-Revision-Date: 2025-05-09 01:28+0200\n"
+"PO-Revision-Date: 2025-07-11 02:21+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -188,7 +188,7 @@ msgstr "1,19:1"
 
 #: src/lib/ratio.cc:45
 msgid "1.25"
-msgstr ""
+msgstr "1,25"
 
 #: src/lib/ratio.cc:46
 msgid "1.33 (4:3)"
@@ -204,7 +204,7 @@ msgstr "1,43:1 (IMAX)"
 
 #: src/lib/ratio.cc:49
 msgid "1.50"
-msgstr ""
+msgstr "1,50"
 
 #: src/lib/ratio.cc:50
 msgid "1.66"
@@ -232,11 +232,11 @@ msgstr "16"
 
 #: src/lib/ratio.cc:53
 msgid "2.00"
-msgstr ""
+msgstr "2,00"
 
 #: src/lib/ratio.cc:54
 msgid "2.21"
-msgstr ""
+msgstr "2,21"
 
 #: src/lib/ratio.cc:55
 msgid "2.35 (35mm Scope)"
@@ -276,30 +276,30 @@ msgstr "; {} resterend; klaar om {}{}"
 #: src/lib/analytics.cc:58
 #, c-format, c++-format
 msgid ""
-"<h2>You have made {} DCPs with {}!</h2><img width=\"20%%\" "
-"src=\"memory:me.jpg\" align=\"center\"><font size=\"+1\"><p>Hello. I'm Carl "
-"and I'm the developer of {}. I work on it in my spare time (with the help of "
-"a volunteer team of testers and translators) and I release it as free "
-"software.<p>If you find {} useful, please consider a donation to the "
-"project. Financial support will help me to spend more time developing {} and "
-"making it better!<p><ul><li><a href=\"https://dcpomatic.com/donate_amount?"
-"amount=40\">Go to Paypal to donate €40</a><li><a href=\"https://"
-"dcpomatic.com/donate_amount?amount=20\">Go to Paypal to donate €20</a><li><a "
-"href=\"https://dcpomatic.com/donate_amount?amount=10\">Go to Paypal to "
-"donate €10</a></ul><p>Thank you!</font>"
+"<h2>You have made {} DCPs with {}!</h2><img width=\"20%%\" src=\"memory:me."
+"jpg\" align=\"center\"><font size=\"+1\"><p>Hello. I'm Carl and I'm the "
+"developer of {}. I work on it in my spare time (with the help of a volunteer "
+"team of testers and translators) and I release it as free software.<p>If you "
+"find {} useful, please consider a donation to the project. Financial support "
+"will help me to spend more time developing {} and making it better!"
+"<p><ul><li><a href=\"https://dcpomatic.com/donate_amount?amount=40\">Go to "
+"Paypal to donate €40</a><li><a href=\"https://dcpomatic.com/donate_amount?"
+"amount=20\">Go to Paypal to donate €20</a><li><a href=\"https://dcpomatic."
+"com/donate_amount?amount=10\">Go to Paypal to donate €10</a></ul><p>Thank "
+"you!</font>"
 msgstr ""
-"<h2>U heeft {} DCP's gemaakt met {}!</h2><img width=\"20%%\" "
-"src=\"memory:me.jpg\" align=\"center\"><font size=\"+1\"><p>Hallo.  Ik ben "
-"Carl en ik ben de ontwikkelaar van {}.  Ik werk eraan in mijn vrije tijd "
-"(met de hulp van een vrijwilligersteam van testers en vertalers) en ik geef "
-"het vrij als gratis software.<p>Als u {} nuttig vindt, overweeg dan een "
-"donatie aan het project.  Financiële ondersteuning zal me helpen om meer "
-"tijd te besteden aan de ontwikkeling van {} en het beter te maken!"
-"<p><ul><li><a href=\"https://dcpomatic.com/donate_amount?amount=40\">Ga naar "
-"Paypal om €40 te doneren</a><li><a href=\"https://dcpomatic.com/"
-"donate_amount?amount=20\">Ga naar Paypal om €20 te doneren</a><li><a "
-"href=\"https://dcpomatic.com/donate_amount?amount=10\">Ga naar Paypal om €10 "
-"te doneren</a></ul><p>Dank u wel!</font>"
+"<h2>U heeft {} DCP's gemaakt met {}!</h2><img width=\"20%%\" src=\"memory:me."
+"jpg\" align=\"center\"><font size=\"+1\"><p>Hallo.  Ik ben Carl en ik ben de "
+"ontwikkelaar van {}.  Ik werk eraan in mijn vrije tijd (met de hulp van een "
+"vrijwilligersteam van testers en vertalers) en ik geef het vrij als gratis "
+"software.<p>Als u {} nuttig vindt, overweeg dan een donatie aan het "
+"project.  Financiële ondersteuning zal me helpen om meer tijd te besteden "
+"aan de ontwikkeling van {} en het beter te maken!<p><ul><li><a "
+"href=\"https://dcpomatic.com/donate_amount?amount=40\">Ga naar Paypal om €40 "
+"te doneren</a><li><a href=\"https://dcpomatic.com/donate_amount?"
+"amount=20\">Ga naar Paypal om €20 te doneren</a><li><a href=\"https://"
+"dcpomatic.com/donate_amount?amount=10\">Ga naar Paypal om €10 te doneren</"
+"a></ul><p>Dank u wel!</font>"
 
 #: src/lib/hints.cc:177
 msgid ""
@@ -774,21 +774,20 @@ msgid "Copy DCP to TMS"
 msgstr "Kopieer DCP naar TMS"
 
 #: src/lib/copy_to_drive_job.cc:59
-#, fuzzy
 msgid ""
 "Copying {}\n"
 "to {}"
-msgstr "kopiëren van {}"
+msgstr ""
+"Kopiëren {}\n"
+"naar {}"
 
 #: src/lib/copy_to_drive_job.cc:120
-#, fuzzy
 msgid "Copying DCP"
-msgstr "Combineer DCP's"
+msgstr "Kopiëren DCP"
 
 #: src/lib/copy_to_drive_job.cc:62
-#, fuzzy
 msgid "Copying DCPs to {}"
-msgstr "Kopieer DCP naar TMS"
+msgstr "Kopiëren DCP's naar {}"
 
 #: src/lib/scp_uploader.cc:57
 msgid "Could not connect to server {} ({})"
@@ -1083,9 +1082,8 @@ msgid "Finding length"
 msgstr "Bepalen lengte"
 
 #: src/lib/copy_to_drive_job.cc:113
-#, fuzzy
 msgid "Formatting drive"
-msgstr "Berekenen samenvatting"
+msgstr "Formatteren schijf"
 
 #: src/lib/content.cc:470
 msgid "Frame rate"
@@ -1830,9 +1828,9 @@ msgid ""
 "again."
 msgstr ""
 "Deze fout is waarschijnlijk opgetreden omdat u de 32-bits versie van {} "
-"gebruikt en probeert te veel encoderings-threads te gebruiken.  Verminder "
-"a.u.b. het 'Aantal threads dat {} moet gebruiken' in het \"Algemeen\"-"
-"tabblad bij Voorkeuren en probeer het opnieuw."
+"gebruikt en probeert te veel encoderings-threads te gebruiken.  Verminder a."
+"u.b. het 'Aantal threads dat {} moet gebruiken' in het \"Algemeen\"-tabblad "
+"bij Voorkeuren en probeer het opnieuw."
 
 #: src/lib/job.cc:156
 msgid ""
@@ -1955,7 +1953,7 @@ msgstr "Controleer DCP"
 
 #: src/lib/copy_to_drive_job.cc:127
 msgid "Verifying copied files"
-msgstr ""
+msgstr "Controleren gekopieerde bestanden"
 
 #: src/lib/filter.cc:92
 msgid "Vertical flip"
