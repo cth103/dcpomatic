@@ -49,17 +49,17 @@ using namespace boost::placeholders;
 using namespace dcpomatic;
 
 
-ScreensPanel::ScreensPanel (wxWindow* parent)
-	: wxPanel (parent, wxID_ANY)
+ScreensPanel::ScreensPanel(wxWindow* parent)
+	: wxPanel(parent, wxID_ANY)
 {
 	_overall_sizer = new wxBoxSizer(wxVERTICAL);
 
 	auto search_sizer = new wxBoxSizer(wxHORIZONTAL);
 
-	_search = new wxSearchCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(200, search_ctrl_height()));
+	_search = new wxSearchCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(200, search_ctrl_height()));
 #ifndef __WXGTK3__
 	/* The cancel button seems to be strangely broken in GTK3; clicking on it twice sometimes works */
-	_search->ShowCancelButton (true);
+	_search->ShowCancelButton(true);
 #endif
 	search_sizer->Add(_search, 0, wxBOTTOM, DCPOMATIC_SIZER_GAP);
 
@@ -68,60 +68,60 @@ ScreensPanel::ScreensPanel (wxWindow* parent)
 
 	_overall_sizer->Add(search_sizer);
 
-	auto targets = new wxBoxSizer (wxHORIZONTAL);
-	_targets = new wxTreeListCtrl (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTL_MULTIPLE | wxTL_3STATE | wxTL_NO_HEADER);
+	auto targets = new wxBoxSizer(wxHORIZONTAL);
+	_targets = new wxTreeListCtrl(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTL_MULTIPLE | wxTL_3STATE | wxTL_NO_HEADER);
 	_targets->AppendColumn(char_to_wx("foo"), 640);
 
-	targets->Add (_targets, 1, wxEXPAND | wxRIGHT, DCPOMATIC_SIZER_GAP);
+	targets->Add(_targets, 1, wxEXPAND | wxRIGHT, DCPOMATIC_SIZER_GAP);
 
 	_cinema_list.reset(new CinemaList());
-	add_cinemas ();
+	add_cinemas();
 
-	auto side_buttons = new wxBoxSizer (wxVERTICAL);
+	auto side_buttons = new wxBoxSizer(wxVERTICAL);
 
-	auto target_buttons = new wxBoxSizer (wxVERTICAL);
+	auto target_buttons = new wxBoxSizer(wxVERTICAL);
 
-	_add_cinema = new Button (this, _("Add Cinema..."));
-	target_buttons->Add (_add_cinema, 1, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
-	_edit_cinema = new Button (this, _("Edit Cinema..."));
-	target_buttons->Add (_edit_cinema, 1, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
-	_remove_cinema = new Button (this, _("Remove Cinema"));
-	target_buttons->Add (_remove_cinema, 1, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
-	_add_screen = new Button (this, _("Add Screen..."));
-	target_buttons->Add (_add_screen, 1, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
-	_edit_screen = new Button (this, _("Edit Screen..."));
-	target_buttons->Add (_edit_screen, 1, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
-	_remove_screen = new Button (this, _("Remove Screen"));
-	target_buttons->Add (_remove_screen, 1, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
+	_add_cinema = new Button(this, _("Add Cinema..."));
+	target_buttons->Add(_add_cinema, 1, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
+	_edit_cinema = new Button(this, _("Edit Cinema..."));
+	target_buttons->Add(_edit_cinema, 1, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
+	_remove_cinema = new Button(this, _("Remove Cinema"));
+	target_buttons->Add(_remove_cinema, 1, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
+	_add_screen = new Button(this, _("Add Screen..."));
+	target_buttons->Add(_add_screen, 1, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
+	_edit_screen = new Button(this, _("Edit Screen..."));
+	target_buttons->Add(_edit_screen, 1, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
+	_remove_screen = new Button(this, _("Remove Screen"));
+	target_buttons->Add(_remove_screen, 1, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
 
-	side_buttons->Add (target_buttons, 0, 0);
+	side_buttons->Add(target_buttons, 0, 0);
 
-	auto check_buttons = new wxBoxSizer (wxVERTICAL);
+	auto check_buttons = new wxBoxSizer(wxVERTICAL);
 
-	_check_all = new Button (this, _("Check all"));
+	_check_all = new Button(this, _("Check all"));
 	check_buttons->Add(_check_all, 1, wxEXPAND | wxBOTTOM | wxTOP, DCPOMATIC_BUTTON_STACK_GAP);
-	_uncheck_all = new Button (this, _("Uncheck all"));
+	_uncheck_all = new Button(this, _("Uncheck all"));
 	check_buttons->Add(_uncheck_all, 1, wxEXPAND | wxBOTTOM | wxTOP, DCPOMATIC_BUTTON_STACK_GAP);
 
-	side_buttons->Add (check_buttons, 1, wxEXPAND | wxTOP, DCPOMATIC_BUTTON_STACK_GAP * 8);
+	side_buttons->Add(check_buttons, 1, wxEXPAND | wxTOP, DCPOMATIC_BUTTON_STACK_GAP * 8);
 
-	targets->Add (side_buttons, 0, 0);
+	targets->Add(side_buttons, 0, 0);
 
-	_overall_sizer->Add (targets, 1, wxEXPAND);
+	_overall_sizer->Add(targets, 1, wxEXPAND);
 
-	_search->Bind        (wxEVT_TEXT, boost::bind (&ScreensPanel::display_filter_changed, this));
+	_search->Bind        (wxEVT_TEXT, boost::bind(&ScreensPanel::display_filter_changed, this));
 	_show_only_checked->Bind(wxEVT_CHECKBOX, boost::bind(&ScreensPanel::display_filter_changed, this));
 	_targets->Bind       (wxEVT_TREELIST_SELECTION_CHANGED, &ScreensPanel::selection_changed_shim, this);
 	_targets->Bind       (wxEVT_TREELIST_ITEM_CHECKED, &ScreensPanel::checkbox_changed, this);
 	_targets->Bind       (wxEVT_TREELIST_ITEM_ACTIVATED, &ScreensPanel::item_activated, this);
 
-	_add_cinema->Bind    (wxEVT_BUTTON, boost::bind (&ScreensPanel::add_cinema_clicked, this));
-	_edit_cinema->Bind   (wxEVT_BUTTON, boost::bind (&ScreensPanel::edit_cinema_clicked, this));
-	_remove_cinema->Bind (wxEVT_BUTTON, boost::bind (&ScreensPanel::remove_cinema_clicked, this));
+	_add_cinema->Bind    (wxEVT_BUTTON, boost::bind(&ScreensPanel::add_cinema_clicked, this));
+	_edit_cinema->Bind   (wxEVT_BUTTON, boost::bind(&ScreensPanel::edit_cinema_clicked, this));
+	_remove_cinema->Bind (wxEVT_BUTTON, boost::bind(&ScreensPanel::remove_cinema_clicked, this));
 
-	_add_screen->Bind    (wxEVT_BUTTON, boost::bind (&ScreensPanel::add_screen_clicked, this));
-	_edit_screen->Bind   (wxEVT_BUTTON, boost::bind (&ScreensPanel::edit_screen_clicked, this));
-	_remove_screen->Bind (wxEVT_BUTTON, boost::bind (&ScreensPanel::remove_screen_clicked, this));
+	_add_screen->Bind    (wxEVT_BUTTON, boost::bind(&ScreensPanel::add_screen_clicked, this));
+	_edit_screen->Bind   (wxEVT_BUTTON, boost::bind(&ScreensPanel::edit_screen_clicked, this));
+	_remove_screen->Bind (wxEVT_BUTTON, boost::bind(&ScreensPanel::remove_screen_clicked, this));
 
 	_check_all->Bind     (wxEVT_BUTTON, boost::bind(&ScreensPanel::check_all, this));
 	_uncheck_all->Bind   (wxEVT_BUTTON, boost::bind(&ScreensPanel::uncheck_all, this));
@@ -130,10 +130,10 @@ ScreensPanel::ScreensPanel (wxWindow* parent)
 }
 
 
-ScreensPanel::~ScreensPanel ()
+ScreensPanel::~ScreensPanel()
 {
-	_targets->Unbind (wxEVT_TREELIST_SELECTION_CHANGED, &ScreensPanel::selection_changed_shim, this);
-	_targets->Unbind (wxEVT_TREELIST_ITEM_CHECKED, &ScreensPanel::checkbox_changed, this);
+	_targets->Unbind(wxEVT_TREELIST_SELECTION_CHANGED, &ScreensPanel::selection_changed_shim, this);
+	_targets->Unbind(wxEVT_TREELIST_ITEM_CHECKED, &ScreensPanel::checkbox_changed, this);
 }
 
 
@@ -151,12 +151,12 @@ ScreensPanel::update()
 	_screen_to_item.clear();
 
 	_cinema_list.reset(new CinemaList());
-	add_cinemas ();
+	add_cinemas();
 }
 
 
 void
-ScreensPanel::check_all ()
+ScreensPanel::check_all()
 {
 	for (auto cinema = _targets->GetFirstChild(_targets->GetRootItem()); cinema.IsOk();  cinema = _targets->GetNextSibling(cinema)) {
 		_targets->CheckItem(cinema, wxCHK_CHECKED);
@@ -169,7 +169,7 @@ ScreensPanel::check_all ()
 
 
 void
-ScreensPanel::uncheck_all ()
+ScreensPanel::uncheck_all()
 {
 	for (auto cinema = _targets->GetFirstChild(_targets->GetRootItem()); cinema.IsOk();  cinema = _targets->GetNextSibling(cinema)) {
 		_targets->CheckItem(cinema, wxCHK_UNCHECKED);
@@ -182,17 +182,17 @@ ScreensPanel::uncheck_all ()
 
 
 void
-ScreensPanel::setup_sensitivity ()
+ScreensPanel::setup_sensitivity()
 {
 	bool const sc = _selected_cinemas.size() == 1;
 	bool const ss = _selected_screens.size() == 1;
 
-	_edit_cinema->Enable (sc || ss);
-	_remove_cinema->Enable (_selected_cinemas.size() >= 1);
+	_edit_cinema->Enable(sc || ss);
+	_remove_cinema->Enable(_selected_cinemas.size() >= 1);
 
-	_add_screen->Enable (sc || ss);
-	_edit_screen->Enable (ss);
-	_remove_screen->Enable (_selected_screens.size() >= 1);
+	_add_screen->Enable(sc || ss);
+	_edit_screen->Enable(ss);
+	_remove_screen->Enable(_selected_screens.size() >= 1);
 
 	_show_only_checked->Enable(!_checked_screens.empty());
 }
@@ -263,7 +263,7 @@ ScreensPanel::add_screen(CinemaID cinema_id, ScreenID screen_id, Screen const& s
 
 
 void
-ScreensPanel::add_cinema_clicked ()
+ScreensPanel::add_cinema_clicked()
 {
 	CinemaDialog dialog(GetParent(), _("Add Cinema"));
 
@@ -294,17 +294,17 @@ ScreensPanel::add_cinema_clicked ()
 		auto item = add_cinema(cinema_id, cinema, found ? previous : wxTLI_LAST);
 
 		if (item) {
-			_targets->UnselectAll ();
-			_targets->Select (*item);
+			_targets->UnselectAll();
+			_targets->Select(*item);
 		}
 	}
 
-	selection_changed ();
+	selection_changed();
 }
 
 
 optional<CinemaID>
-ScreensPanel::cinema_for_operation () const
+ScreensPanel::cinema_for_operation() const
 {
 	if (_selected_cinemas.size() == 1) {
 		return _selected_cinemas[0];
@@ -317,7 +317,7 @@ ScreensPanel::cinema_for_operation () const
 
 
 void
-ScreensPanel::edit_cinema_clicked ()
+ScreensPanel::edit_cinema_clicked()
 {
 	auto cinema_id = cinema_for_operation();
 	if (cinema_id) {
@@ -342,13 +342,13 @@ ScreensPanel::edit_cinema(CinemaID cinema_id)
 		_cinema_list->update_cinema(cinema_id, *cinema);
 		auto item = cinema_to_item(cinema_id);
 		DCPOMATIC_ASSERT(item);
-		_targets->SetItemText (*item, std_to_wx(dialog.name()));
+		_targets->SetItemText(*item, std_to_wx(dialog.name()));
 	}
 }
 
 
 void
-ScreensPanel::remove_cinema_clicked ()
+ScreensPanel::remove_cinema_clicked()
 {
 	if (_selected_cinemas.size() == 1) {
 		auto cinema = _cinema_list->cinema(_selected_cinemas[0]);
@@ -373,13 +373,13 @@ ScreensPanel::remove_cinema_clicked ()
 		_targets->DeleteItem(*item);
 	}
 
-	selection_changed ();
+	selection_changed();
 	setup_show_only_checked();
 }
 
 
 void
-ScreensPanel::add_screen_clicked ()
+ScreensPanel::add_screen_clicked()
 {
 	auto cinema_id = cinema_for_operation();
 	if (!cinema_id) {
@@ -388,15 +388,15 @@ ScreensPanel::add_screen_clicked ()
 
 	ScreenDialog dialog(GetParent(), _("Add Screen"));
 
-	if (dialog.ShowModal () != wxID_OK) {
+	if (dialog.ShowModal() != wxID_OK) {
 		return;
 	}
 
 	for (auto screen: _cinema_list->screens(*cinema_id)) {
 		if (screen.second.name == dialog.name()) {
-			error_dialog (
+			error_dialog(
 				GetParent(),
-				wxString::Format (
+				wxString::Format(
 					_("You cannot add a screen called '%s' as the cinema already has a screen with this name."),
 					std_to_wx(dialog.name()).data()
 					)
@@ -410,13 +410,13 @@ ScreensPanel::add_screen_clicked ()
 
 	auto const id = add_screen(*cinema_id, screen_id, screen);
 	if (id) {
-		_targets->Expand (id.get ());
+		_targets->Expand(id.get());
 	}
 }
 
 
 void
-ScreensPanel::edit_screen_clicked ()
+ScreensPanel::edit_screen_clicked()
 {
 	if (_selected_screens.size() == 1) {
 		edit_screen(_selected_screens[0].first, _selected_screens[0].second);
@@ -445,9 +445,9 @@ ScreensPanel::edit_screen(CinemaID cinema_id, ScreenID screen_id)
 
 	for (auto screen: _cinema_list->screens(cinema_id)) {
 		if (screen.first != screen_id && screen.second.name == dialog.name()) {
-			error_dialog (
+			error_dialog(
 				GetParent(),
-				wxString::Format (
+				wxString::Format(
 					_("You cannot change this screen's name to '%s' as the cinema already has a screen with this name."),
 					std_to_wx(dialog.name()).data()
 					)
@@ -464,13 +464,13 @@ ScreensPanel::edit_screen(CinemaID cinema_id, ScreenID screen_id)
 	_cinema_list->update_screen(cinema_id, screen_id, *screen);
 
 	auto item = screen_to_item(screen_id);
-	DCPOMATIC_ASSERT (item);
+	DCPOMATIC_ASSERT(item);
 	_targets->SetItemText(*item, std_to_wx(dialog.name()));
 }
 
 
 void
-ScreensPanel::remove_screen_clicked ()
+ScreensPanel::remove_screen_clicked()
 {
 	if (_selected_screens.size() == 1) {
 		auto screen = _cinema_list->screen(_selected_screens[0].second);
@@ -501,31 +501,31 @@ ScreensPanel::remove_screen_clicked ()
 
 
 std::set<pair<CinemaID, ScreenID>>
-ScreensPanel::screens () const
+ScreensPanel::screens() const
 {
 	return _checked_screens;
 }
 
 
 void
-ScreensPanel::selection_changed_shim (wxTreeListEvent &)
+ScreensPanel::selection_changed_shim(wxTreeListEvent &)
 {
-	selection_changed ();
+	selection_changed();
 }
 
 
 void
-ScreensPanel::selection_changed ()
+ScreensPanel::selection_changed()
 {
 	if (_ignore_selection_change) {
 		return;
 	}
 
 	wxTreeListItems selection;
-	_targets->GetSelections (selection);
+	_targets->GetSelections(selection);
 
-	_selected_cinemas.clear ();
-	_selected_screens.clear ();
+	_selected_cinemas.clear();
+	_selected_screens.clear();
 
 	for (size_t i = 0; i < selection.size(); ++i) {
 		if (auto cinema = item_to_cinema(selection[i])) {
@@ -536,12 +536,12 @@ ScreensPanel::selection_changed ()
 		}
 	}
 
-	setup_sensitivity ();
+	setup_sensitivity();
 }
 
 
 void
-ScreensPanel::add_cinemas ()
+ScreensPanel::add_cinemas()
 {
 	auto previous = wxTLI_LAST;
 
@@ -560,14 +560,14 @@ ScreensPanel::add_cinemas ()
 void
 ScreensPanel::clear_and_re_add()
 {
-	_targets->DeleteAllItems ();
+	_targets->DeleteAllItems();
 
-	_item_to_cinema.clear ();
-	_cinema_to_item.clear ();
-	_item_to_screen.clear ();
-	_screen_to_item.clear ();
+	_item_to_cinema.clear();
+	_cinema_to_item.clear();
+	_item_to_screen.clear();
+	_screen_to_item.clear();
 
-	add_cinemas ();
+	add_cinemas();
 }
 
 
@@ -581,13 +581,13 @@ ScreensPanel::display_filter_changed()
 
 	for (auto const& selection: _selected_cinemas) {
 		if (auto item = cinema_to_item(selection)) {
-			_targets->Select (*item);
+			_targets->Select(*item);
 		}
 	}
 
 	for (auto const& selection: _selected_screens) {
 		if (auto item = screen_to_item(selection.second)) {
-			_targets->Select (*item);
+			_targets->Select(*item);
 		}
 	}
 
@@ -607,7 +607,7 @@ ScreensPanel::display_filter_changed()
 
 
 void
-ScreensPanel::set_screen_checked (wxTreeListItem item, bool checked)
+ScreensPanel::set_screen_checked(wxTreeListItem item, bool checked)
 {
 	auto screen = item_to_screen(item);
 	DCPOMATIC_ASSERT(screen);
@@ -622,10 +622,10 @@ ScreensPanel::set_screen_checked (wxTreeListItem item, bool checked)
 
 
 void
-ScreensPanel::setup_cinema_checked_state (wxTreeListItem screen)
+ScreensPanel::setup_cinema_checked_state(wxTreeListItem screen)
 {
 	auto cinema = _targets->GetItemParent(screen);
-	DCPOMATIC_ASSERT (cinema.IsOk());
+	DCPOMATIC_ASSERT(cinema.IsOk());
 	int checked = 0;
 	int unchecked = 0;
 	for (auto child = _targets->GetFirstChild(cinema); child.IsOk(); child = _targets->GetNextSibling(child)) {
@@ -646,7 +646,7 @@ ScreensPanel::setup_cinema_checked_state (wxTreeListItem screen)
 
 
 void
-ScreensPanel::checkbox_changed (wxTreeListEvent& ev)
+ScreensPanel::checkbox_changed(wxTreeListEvent& ev)
 {
 	if (_ignore_check_change) {
 		return;
@@ -664,14 +664,14 @@ ScreensPanel::checkbox_changed (wxTreeListEvent& ev)
 		setup_cinema_checked_state(ev.GetItem());
 	}
 
-	ScreensChanged ();
+	ScreensChanged();
 }
 
 
 optional<CinemaID>
-ScreensPanel::item_to_cinema (wxTreeListItem item) const
+ScreensPanel::item_to_cinema(wxTreeListItem item) const
 {
-	auto iter = _item_to_cinema.find (item);
+	auto iter = _item_to_cinema.find(item);
 	if (iter == _item_to_cinema.end()) {
 		return {};
 	}
@@ -681,9 +681,9 @@ ScreensPanel::item_to_cinema (wxTreeListItem item) const
 
 
 optional<pair<CinemaID, ScreenID>>
-ScreensPanel::item_to_screen (wxTreeListItem item) const
+ScreensPanel::item_to_screen(wxTreeListItem item) const
 {
-	auto iter = _item_to_screen.find (item);
+	auto iter = _item_to_screen.find(item);
 	if (iter == _item_to_screen.end()) {
 		return {};
 	}
@@ -695,7 +695,7 @@ ScreensPanel::item_to_screen (wxTreeListItem item) const
 optional<wxTreeListItem>
 ScreensPanel::cinema_to_item(CinemaID cinema) const
 {
-	auto iter = _cinema_to_item.find (cinema);
+	auto iter = _cinema_to_item.find(cinema);
 	if (iter == _cinema_to_item.end()) {
 		return {};
 	}
@@ -707,7 +707,7 @@ ScreensPanel::cinema_to_item(CinemaID cinema) const
 optional<wxTreeListItem>
 ScreensPanel::screen_to_item(ScreenID screen) const
 {
-	auto iter = _screen_to_item.find (screen);
+	auto iter = _screen_to_item.find(screen);
 	if (iter == _screen_to_item.end()) {
 		return {};
 	}

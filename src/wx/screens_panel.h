@@ -46,41 +46,41 @@ class Cinema;
 class ScreensPanel : public wxPanel
 {
 public:
-	explicit ScreensPanel (wxWindow* parent);
-	~ScreensPanel ();
+	explicit ScreensPanel(wxWindow* parent);
+	~ScreensPanel();
 
 	/** Clear and re-fill the panel from the currently-configured database */
 	void update();
 
 	std::set<std::pair<CinemaID, ScreenID>> screens() const;
-	void setup_sensitivity ();
+	void setup_sensitivity();
 
 	dcp::UTCOffset best_utc_offset() const;
 
 	boost::signals2::signal<void ()> ScreensChanged;
 
 private:
-	void add_cinemas ();
+	void add_cinemas();
 	boost::optional<wxTreeListItem> add_cinema(CinemaID cinema_id, Cinema const& cinema, wxTreeListItem previous);
 	boost::optional<wxTreeListItem> add_screen(CinemaID cinema_id, ScreenID screen_id, dcpomatic::Screen const& screen);
-	void add_cinema_clicked ();
-	void edit_cinema_clicked ();
+	void add_cinema_clicked();
+	void edit_cinema_clicked();
 	void edit_cinema(CinemaID cinema_id);
-	void remove_cinema_clicked ();
-	void add_screen_clicked ();
-	void edit_screen_clicked ();
+	void remove_cinema_clicked();
+	void add_screen_clicked();
+	void edit_screen_clicked();
 	void edit_screen(CinemaID cinema_id, ScreenID screen_id);
-	void remove_screen_clicked ();
-	void selection_changed_shim (wxTreeListEvent &);
-	void selection_changed ();
+	void remove_screen_clicked();
+	void selection_changed_shim(wxTreeListEvent &);
+	void selection_changed();
 	void display_filter_changed();
-	void checkbox_changed (wxTreeListEvent& ev);
+	void checkbox_changed(wxTreeListEvent& ev);
 	void item_activated(wxTreeListEvent& ev);
 	boost::optional<CinemaID> cinema_for_operation() const;
-	void set_screen_checked (wxTreeListItem item, bool checked);
-	void setup_cinema_checked_state (wxTreeListItem screen);
-	void check_all ();
-	void uncheck_all ();
+	void set_screen_checked(wxTreeListItem item, bool checked);
+	void setup_cinema_checked_state(wxTreeListItem screen);
+	void check_all();
+	void uncheck_all();
 	void clear_and_re_add();
 	void convert_to_lower(std::string& s);
 	bool matches_search(Cinema const& cinema, std::string search);
