@@ -2156,7 +2156,6 @@ msgstr ""
 "Stille aufgefüllt."
 
 #: src/lib/hints.cc:168
-#, fuzzy
 msgid ""
 "Your DCP uses an unusual container ratio.  This may cause problems on some "
 "projectors.  If possible, use Flat or Scope for the DCP container ratio."
