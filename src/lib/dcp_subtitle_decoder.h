@@ -30,12 +30,12 @@ class DCPSubtitleContent;
 class DCPSubtitleDecoder : public DCPSubtitle, public Decoder
 {
 public:
-	DCPSubtitleDecoder (std::shared_ptr<const Film> film, std::shared_ptr<const DCPSubtitleContent>);
+	DCPSubtitleDecoder(std::shared_ptr<const Film> film, std::shared_ptr<const DCPSubtitleContent>);
 
-	bool pass () override;
-	void seek (dcpomatic::ContentTime time, bool accurate) override;
+	bool pass() override;
+	void seek(dcpomatic::ContentTime time, bool accurate) override;
 
-	boost::optional<dcpomatic::ContentTime> first () const;
+	boost::optional<dcpomatic::ContentTime> first() const;
 
 private:
 	dcpomatic::ContentTimePeriod content_time_period(std::shared_ptr<const dcp::Text> s) const;

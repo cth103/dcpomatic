@@ -39,18 +39,18 @@ using boost::optional;
 using namespace dcpomatic;
 
 
-DCPSubtitleDecoder::DCPSubtitleDecoder (shared_ptr<const Film> film, shared_ptr<const DCPSubtitleContent> content)
-	: Decoder (film)
+DCPSubtitleDecoder::DCPSubtitleDecoder(shared_ptr<const Film> film, shared_ptr<const DCPSubtitleContent> content)
+	: Decoder(film)
 {
 	/* Load the XML or MXF file */
 	_asset = load(content->path(0));
 	_asset->fix_empty_font_ids();
 	_subtitles = _asset->texts();
-	_next = _subtitles.begin ();
+	_next = _subtitles.begin();
 
 	_subtitle_standard = _asset->subtitle_standard();
 
-	text.push_back (make_shared<TextDecoder>(this, content->only_text()));
+	text.push_back(make_shared<TextDecoder>(this, content->only_text()));
 	update_position();
 
 	FontIDAllocator font_id_allocator;
@@ -63,13 +63,13 @@ DCPSubtitleDecoder::DCPSubtitleDecoder (shared_ptr<const Film> film, shared_ptr<
 
 
 void
-DCPSubtitleDecoder::seek (ContentTime time, bool accurate)
+DCPSubtitleDecoder::seek(ContentTime time, bool accurate)
 {
-	Decoder::seek (time, accurate);
+	Decoder::seek(time, accurate);
 
-	_next = _subtitles.begin ();
-	auto i = _subtitles.begin ();
-	while (i != _subtitles.end() && ContentTime::from_seconds ((*_next)->in().as_seconds()) < time) {
+	_next = _subtitles.begin();
+	auto i = _subtitles.begin();
+	while (i != _subtitles.end() && ContentTime::from_seconds((*_next)->in().as_seconds()) < time) {
 		++i;
 	}
 
@@ -78,9 +78,9 @@ DCPSubtitleDecoder::seek (ContentTime time, bool accurate)
 
 
 bool
-DCPSubtitleDecoder::pass ()
+DCPSubtitleDecoder::pass()
 {
-	if (_next == _subtitles.end ()) {
+	if (_next == _subtitles.end()) {
 		return true;
 	}
 
@@ -93,9 +93,9 @@ DCPSubtitleDecoder::pass ()
 
 	vector<dcp::TextString> s;
 	vector<dcp::TextImage> i;
-	auto const p = content_time_period (*_next);
+	auto const p = content_time_period(*_next);
 
-	while (_next != _subtitles.end () && content_time_period (*_next) == p) {
+	while (_next != _subtitles.end() && content_time_period(*_next) == p) {
 		auto ns = dynamic_pointer_cast<const dcp::TextString>(*_next);
 		if (ns) {
 			auto ns_copy = *ns;
@@ -113,7 +113,7 @@ DCPSubtitleDecoder::pass ()
 
 			auto ni = dynamic_pointer_cast<const dcp::TextImage>(*_next);
 			if (ni) {
-				emit_subtitle_image (p, *ni, film()->frame_size(), only_text());
+				emit_subtitle_image(p, *ni, film()->frame_size(), only_text());
 				++_next;
 			}
 		}
@@ -139,7 +139,7 @@ DCPSubtitleDecoder::content_time_period(shared_ptr<const dcp::Text> s) const
 
 /** @return time of first subtitle, if there is one */
 optional<ContentTime>
-DCPSubtitleDecoder::first () const
+DCPSubtitleDecoder::first() const
 {
 	if (_subtitles.empty()) {
 		return {};
