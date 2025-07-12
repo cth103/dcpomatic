@@ -25,18 +25,18 @@
 #include "lib/config.h"
 
 
-AutoCropDialog::AutoCropDialog (wxWindow* parent, Crop crop)
-	: TableDialog (parent, _("Auto crop"), 2, 1, true)
+AutoCropDialog::AutoCropDialog(wxWindow* parent, Crop crop)
+	: TableDialog(parent, _("Auto crop"), 2, 1, true)
 {
-	add (_("Left"), true);
+	add(_("Left"), true);
 	_left = add(new SpinCtrl(this, DCPOMATIC_SPIN_CTRL_WIDTH));
-	add (_("Right"), true);
+	add(_("Right"), true);
 	_right = add(new SpinCtrl(this, DCPOMATIC_SPIN_CTRL_WIDTH));
-	add (_("Top"), true);
+	add(_("Top"), true);
 	_top = add(new SpinCtrl(this, DCPOMATIC_SPIN_CTRL_WIDTH));
-	add (_("Bottom"), true);
+	add(_("Bottom"), true);
 	_bottom = add(new SpinCtrl(this, DCPOMATIC_SPIN_CTRL_WIDTH));
-	add (_("Threshold"), true);
+	add(_("Threshold"), true);
 	_threshold = add(new SpinCtrl(this, DCPOMATIC_SPIN_CTRL_WIDTH));
 
 	_left->SetRange(0, 4096);
@@ -44,32 +44,32 @@ AutoCropDialog::AutoCropDialog (wxWindow* parent, Crop crop)
 	_top->SetRange(0, 4096);
 	_bottom->SetRange(0, 4096);
 
-	set (crop);
-	_threshold->SetValue (std::round(Config::instance()->auto_crop_threshold() * 100));
+	set(crop);
+	_threshold->SetValue(std::round(Config::instance()->auto_crop_threshold() * 100));
 
-	layout ();
+	layout();
 
-	_left->Bind (wxEVT_SPINCTRL, [this](wxSpinEvent&) { Changed(get()); });
-	_right->Bind (wxEVT_SPINCTRL, [this](wxSpinEvent&) { Changed(get()); });
-	_top->Bind (wxEVT_SPINCTRL, [this](wxSpinEvent&) { Changed(get()); });
-	_bottom->Bind (wxEVT_SPINCTRL, [this](wxSpinEvent&) { Changed(get()); });
-	_threshold->Bind (wxEVT_SPINCTRL, [](wxSpinEvent& ev) { Config::instance()->set_auto_crop_threshold(ev.GetPosition() / 100.0); });
+	_left->Bind(wxEVT_SPINCTRL, [this](wxSpinEvent&) { Changed(get()); });
+	_right->Bind(wxEVT_SPINCTRL, [this](wxSpinEvent&) { Changed(get()); });
+	_top->Bind(wxEVT_SPINCTRL, [this](wxSpinEvent&) { Changed(get()); });
+	_bottom->Bind(wxEVT_SPINCTRL, [this](wxSpinEvent&) { Changed(get()); });
+	_threshold->Bind(wxEVT_SPINCTRL, [](wxSpinEvent& ev) { Config::instance()->set_auto_crop_threshold(ev.GetPosition() / 100.0); });
 }
 
 
 Crop
-AutoCropDialog::get () const
+AutoCropDialog::get() const
 {
 	return Crop(_left->GetValue(), _right->GetValue(), _top->GetValue(), _bottom->GetValue());
 }
 
 
 void
-AutoCropDialog::set (Crop crop)
+AutoCropDialog::set(Crop crop)
 {
-	_left->SetValue (crop.left);
-	_right->SetValue (crop.right);
-	_top->SetValue (crop.top);
-	_bottom->SetValue (crop.bottom);
+	_left->SetValue(crop.left);
+	_right->SetValue(crop.right);
+	_top->SetValue(crop.top);
+	_bottom->SetValue(crop.bottom);
 }
 

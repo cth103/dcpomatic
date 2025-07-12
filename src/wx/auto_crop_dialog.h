@@ -34,10 +34,10 @@ class SpinCtrl;
 class AutoCropDialog : public TableDialog
 {
 public:
-	AutoCropDialog (wxWindow* parent, Crop crop);
+	AutoCropDialog(wxWindow* parent, Crop crop);
 
-	Crop get () const;
-	void set (Crop crop);
+	Crop get() const;
+	void set(Crop crop);
 
 	boost::signals2::signal<void (Crop)> Changed;
 

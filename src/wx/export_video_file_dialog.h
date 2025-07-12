@@ -34,22 +34,22 @@ class FilePickerCtrl;
 class ExportVideoFileDialog : public TableDialog
 {
 public:
-	ExportVideoFileDialog (wxWindow* parent, std::string name);
+	ExportVideoFileDialog(wxWindow* parent, std::string name);
 
-	boost::filesystem::path path () const;
-	ExportFormat format () const;
-	bool mixdown_to_stereo () const;
-	bool split_reels () const;
-	bool split_streams () const;
-	int x264_crf () const;
+	boost::filesystem::path path() const;
+	ExportFormat format() const;
+	bool mixdown_to_stereo() const;
+	bool split_reels() const;
+	bool split_streams() const;
+	int x264_crf() const;
 
 private:
-	void format_changed ();
-	void mixdown_changed ();
-	void split_reels_changed ();
-	void split_streams_changed ();
-	void x264_crf_changed ();
-	void file_changed ();
+	void format_changed();
+	void mixdown_changed();
+	void split_reels_changed();
+	void split_streams_changed();
+	void x264_crf_changed();
+	void file_changed();
 
 	std::string _initial_name;
 	wxChoice* _format;
