@@ -36,29 +36,29 @@ class MarkersPanel : public wxPanel
 public:
 	MarkersPanel(wxWindow* parent, FilmViewer& viewer);
 
-	void set_film (std::weak_ptr<Film> film);
+	void set_film(std::weak_ptr<Film> film);
 
 private:
-	void paint ();
-	void mouse_moved (wxMouseEvent& ev);
-	void mouse_left_down ();
-	void mouse_right_down (wxMouseEvent& ev);
-	int position (dcpomatic::DCPTime time, int width) const;
-	void move_marker_to_current_position ();
-	void remove_marker ();
-	void add_marker (wxCommandEvent& ev);
+	void paint();
+	void mouse_moved(wxMouseEvent& ev);
+	void mouse_left_down();
+	void mouse_right_down(wxMouseEvent& ev);
+	int position(dcpomatic::DCPTime time, int width) const;
+	void move_marker_to_current_position();
+	void remove_marker();
+	void add_marker(wxCommandEvent& ev);
 	void film_changed(ChangeType type, FilmProperty property);
-	void update_from_film (std::shared_ptr<Film> film);
+	void update_from_film(std::shared_ptr<Film> film);
 
 	wxTipWindow* _tip = nullptr;
 
 	class Marker {
 	public:
-		Marker () {}
+		Marker() {}
 
-		Marker (dcpomatic::DCPTime t, bool b)
-			: time (t)
-			, line_before_label (b)
+		Marker(dcpomatic::DCPTime t, bool b)
+			: time(t)
+			, line_before_label(b)
 		{}
 
 		dcpomatic::DCPTime time;
