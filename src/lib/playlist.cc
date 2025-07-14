@@ -80,19 +80,19 @@ public:
 };
 
 
-Playlist::~Playlist ()
+Playlist::~Playlist()
 {
-	boost::mutex::scoped_lock lm (_mutex);
-	_content.clear ();
-	disconnect ();
+	boost::mutex::scoped_lock lm(_mutex);
+	_content.clear();
+	disconnect();
 }
 
 
 void
-Playlist::content_change (weak_ptr<const Film> weak_film, ChangeType type, weak_ptr<Content> content, int property, bool frequent)
+Playlist::content_change(weak_ptr<const Film> weak_film, ChangeType type, weak_ptr<Content> content, int property, bool frequent)
 {
-	auto film = weak_film.lock ();
-	DCPOMATIC_ASSERT (film);
+	auto film = weak_film.lock();
+	DCPOMATIC_ASSERT(film);
 
 	if (type == ChangeType::DONE) {
 		if (
@@ -106,7 +106,7 @@ Playlist::content_change (weak_ptr<const Film> weak_film, ChangeType type, weak_
 			   - any other position changes will be timeline drags which should not result in content
 			   being sequenced.
 			*/
-			maybe_sequence (film);
+			maybe_sequence(film);
 		}
 
 		if (
@@ -118,27 +118,27 @@ Playlist::content_change (weak_ptr<const Film> weak_film, ChangeType type, weak_
 			bool changed = false;
 
 			{
-				boost::mutex::scoped_lock lm (_mutex);
+				boost::mutex::scoped_lock lm(_mutex);
 				ContentList old = _content;
-				sort (_content.begin(), _content.end(), ContentSorter ());
+				sort(_content.begin(), _content.end(), ContentSorter());
 				changed = _content != old;
 			}
 
 			if (changed) {
-				OrderChange ();
+				OrderChange();
 			}
 
 			/* The length might have changed, and that's good enough for this signal */
-			LengthChange ();
+			LengthChange();
 		}
 	}
 
-	ContentChange (type, content, property, frequent);
+	ContentChange(type, content, property, frequent);
 }
 
 
 void
-Playlist::maybe_sequence (shared_ptr<const Film> film)
+Playlist::maybe_sequence(shared_ptr<const Film> film)
 {
 	if (!_sequence || _sequencing) {
 		return;
@@ -146,7 +146,7 @@ Playlist::maybe_sequence (shared_ptr<const Film> film)
 
 	_sequencing = true;
 
-	auto cont = content ();
+	auto cont = content();
 
 	/* Keep track of the content that we've set the position of so that we don't
 	   do it twice.
@@ -163,25 +163,25 @@ Playlist::maybe_sequence (shared_ptr<const Film> film)
 		}
 
 		if (i->video->frame_type() == VideoFrameType::THREE_D_RIGHT) {
-			i->set_position (film, next_right);
+			i->set_position(film, next_right);
 			next_right = i->end(film);
 		} else {
-			i->set_position (film, next_left);
+			i->set_position(film, next_left);
 			next_left = i->end(film);
 		}
 
-		placed.push_back (i);
+		placed.push_back(i);
 	}
 
 	/* Captions */
 
 	DCPTime next;
 	for (auto i: cont) {
-		if (i->text.empty() || find (placed.begin(), placed.end(), i) != placed.end()) {
+		if (i->text.empty() || find(placed.begin(), placed.end(), i) != placed.end()) {
 			continue;
 		}
 
-		i->set_position (film, next);
+		i->set_position(film, next);
 		next = i->end(film);
 	}
 
@@ -193,7 +193,7 @@ Playlist::maybe_sequence (shared_ptr<const Film> film)
 
 
 string
-Playlist::video_identifier () const
+Playlist::video_identifier() const
 {
 	string t;
 
@@ -205,13 +205,13 @@ Playlist::video_identifier () const
 			}
 		}
 		if (i->video || burn) {
-			t += i->identifier ();
+			t += i->identifier();
 		}
 	}
 
 	Digester digester;
-	digester.add (t.c_str(), t.length());
-	return digester.get ();
+	digester.add(t.c_str(), t.length());
+	return digester.get();
 }
 
 
@@ -221,11 +221,11 @@ Playlist::video_identifier () const
  *  @param notes Output notes about that happened.
  */
 void
-Playlist::set_from_xml (shared_ptr<const Film> film, cxml::ConstNodePtr node, int version, list<string>& notes)
+Playlist::set_from_xml(shared_ptr<const Film> film, cxml::ConstNodePtr node, int version, list<string>& notes)
 {
-	boost::mutex::scoped_lock lm (_mutex);
+	boost::mutex::scoped_lock lm(_mutex);
 
-	for (auto i: node->node_children ("Content")) {
+	for (auto i: node->node_children("Content")) {
 		auto content = content_factory(i, film->directory(), version, notes);
 
 		/* See if this content should be nudged to start on a video frame */
@@ -245,7 +245,7 @@ Playlist::set_from_xml (shared_ptr<const Film> film, cxml::ConstNodePtr node, in
 					content->path_summary(), DCPTime(content->position() - old_pos).seconds() * 1000
 					);
 			}
-			notes.push_back (note);
+			notes.push_back(note);
 		}
 
 		/* ...or have a start trim which is an integer number of frames */
@@ -265,16 +265,16 @@ Playlist::set_from_xml (shared_ptr<const Film> film, cxml::ConstNodePtr node, in
 					content->path_summary(), ContentTime(old_trim - content->trim_start()).seconds() * 1000
 					);
 			}
-			notes.push_back (note);
+			notes.push_back(note);
 		}
 
-		_content.push_back (content);
+		_content.push_back(content);
 	}
 
 	/* This shouldn't be necessary but better safe than sorry (there could be old files) */
-	sort (_content.begin(), _content.end(), ContentSorter ());
+	sort(_content.begin(), _content.end(), ContentSorter());
 
-	reconnect (film);
+	reconnect(film);
 }
 
 
@@ -291,91 +291,91 @@ Playlist::as_xml(xmlpp::Element* element, bool with_content_paths, PathBehaviour
 
 
 void
-Playlist::add (shared_ptr<const Film> film, shared_ptr<Content> c)
+Playlist::add(shared_ptr<const Film> film, shared_ptr<Content> c)
 {
-	Change (ChangeType::PENDING);
+	Change(ChangeType::PENDING);
 
 	{
-		boost::mutex::scoped_lock lm (_mutex);
-		_content.push_back (c);
-		sort (_content.begin(), _content.end(), ContentSorter ());
-		reconnect (film);
+		boost::mutex::scoped_lock lm(_mutex);
+		_content.push_back(c);
+		sort(_content.begin(), _content.end(), ContentSorter());
+		reconnect(film);
 	}
 
-	Change (ChangeType::DONE);
+	Change(ChangeType::DONE);
 
-	LengthChange ();
+	LengthChange();
 }
 
 
 void
-Playlist::remove (shared_ptr<Content> c)
+Playlist::remove(shared_ptr<Content> c)
 {
-	Change (ChangeType::PENDING);
+	Change(ChangeType::PENDING);
 
 	bool cancelled = false;
 
 	{
-		boost::mutex::scoped_lock lm (_mutex);
+		boost::mutex::scoped_lock lm(_mutex);
 
-		auto i = _content.begin ();
+		auto i = _content.begin();
 		while (i != _content.end() && *i != c) {
 			++i;
 		}
 
 		if (i != _content.end()) {
-			_content.erase (i);
+			_content.erase(i);
 		} else {
 			cancelled = true;
 		}
 	}
 
 	if (cancelled) {
-		Change (ChangeType::CANCELLED);
+		Change(ChangeType::CANCELLED);
 	} else {
-		Change (ChangeType::DONE);
+		Change(ChangeType::DONE);
 	}
 
 	/* This won't change order, so it does not need a sort */
 
-	LengthChange ();
+	LengthChange();
 }
 
 
 void
-Playlist::remove (ContentList c)
+Playlist::remove(ContentList c)
 {
-	Change (ChangeType::PENDING);
+	Change(ChangeType::PENDING);
 
 	{
-		boost::mutex::scoped_lock lm (_mutex);
+		boost::mutex::scoped_lock lm(_mutex);
 
 		for (auto i: c) {
-			auto j = _content.begin ();
+			auto j = _content.begin();
 			while (j != _content.end() && *j != i) {
 				++j;
 			}
 
-			if (j != _content.end ()) {
-				_content.erase (j);
+			if (j != _content.end()) {
+				_content.erase(j);
 			}
 		}
 	}
 
-	Change (ChangeType::DONE);
+	Change(ChangeType::DONE);
 
 	/* This won't change order, so it does not need a sort */
 
-	LengthChange ();
+	LengthChange();
 }
 
 
 class FrameRateCandidate
 {
 public:
-	FrameRateCandidate (float source_, int dcp_)
-		: source (source_)
-		, dcp (dcp_)
+	FrameRateCandidate(float source_, int dcp_)
+		: source(source_)
+		, dcp(dcp_)
 	{}
 
 	float source;
@@ -385,26 +385,26 @@ public:
 
 /** @return the best frame rate from Config::_allowed_dcp_frame_rates for the content in this list */
 int
-Playlist::best_video_frame_rate () const
+Playlist::best_video_frame_rate() const
 {
-	auto const allowed_dcp_frame_rates = Config::instance()->allowed_dcp_frame_rates ();
+	auto const allowed_dcp_frame_rates = Config::instance()->allowed_dcp_frame_rates();
 
 	/* Work out what rates we could manage, including those achieved by using skip / repeat */
 	list<FrameRateCandidate> candidates;
 
 	/* Start with the ones without skip / repeat so they will get matched in preference to skipped/repeated ones */
 	for (auto i: allowed_dcp_frame_rates) {
-		candidates.push_back (FrameRateCandidate(i, i));
+		candidates.push_back(FrameRateCandidate(i, i));
 	}
 
 	/* Then the skip/repeat ones */
 	for (auto i: allowed_dcp_frame_rates) {
-		candidates.push_back (FrameRateCandidate (float(i) / 2, i));
-		candidates.push_back (FrameRateCandidate (float(i) * 2, i));
+		candidates.push_back(FrameRateCandidate(float(i) / 2, i));
+		candidates.push_back(FrameRateCandidate(float(i) * 2, i));
 	}
 
 	/* Pick the best one */
-	float error = std::numeric_limits<float>::max ();
+	float error = std::numeric_limits<float>::max();
 	optional<FrameRateCandidate> best;
 	auto i = candidates.begin();
 	while (i != candidates.end()) {
@@ -416,13 +416,13 @@ Playlist::best_video_frame_rate () const
 			}
 
 			/* Best error for this content; we could use the content as-is or double its rate */
-			float best_error = min (
-				float (fabs (i->source - j->video_frame_rate().get())),
-				float (fabs (i->source - j->video_frame_rate().get() * 2))
+			float best_error = min(
+				float(fabs(i->source - j->video_frame_rate().get())),
+				float(fabs(i->source - j->video_frame_rate().get() * 2))
 				);
 
 			/* Use the largest difference between DCP and source as the "error" */
-			this_error = max (this_error, best_error);
+			this_error = max(this_error, best_error);
 		}
 
 		if (this_error < error) {
@@ -443,11 +443,11 @@ Playlist::best_video_frame_rate () const
 
 /** @return length of the playlist from time 0 to the last thing on the playlist */
 DCPTime
-Playlist::length (shared_ptr<const Film> film) const
+Playlist::length(shared_ptr<const Film> film) const
 {
 	DCPTime len;
 	for (auto i: content()) {
-		len = max (len, i->end(film));
+		len = max(len, i->end(film));
 	}
 
 	return len;
@@ -456,16 +456,16 @@ Playlist::length (shared_ptr<const Film> film) const
 
 /** @return position of the first thing on the playlist, if it's not empty */
 optional<DCPTime>
-Playlist::start () const
+Playlist::start() const
 {
-	auto cont = content ();
+	auto cont = content();
 	if (cont.empty()) {
 		return {};
 	}
 
-	auto start = DCPTime::max ();
+	auto start = DCPTime::max();
 	for (auto i: cont) {
-		start = min (start, i->position ());
+		start = min(start, i->position());
 	}
 
 	return start;
@@ -474,35 +474,35 @@ Playlist::start () const
 
 /** Must be called with a lock held on _mutex */
 void
-Playlist::disconnect ()
+Playlist::disconnect()
 {
 	for (auto& i: _content_connections) {
-		i.disconnect ();
+		i.disconnect();
 	}
 
-	_content_connections.clear ();
+	_content_connections.clear();
 }
 
 
 /** Must be called with a lock held on _mutex */
 void
-Playlist::reconnect (shared_ptr<const Film> film)
+Playlist::reconnect(shared_ptr<const Film> film)
 {
-	disconnect ();
+	disconnect();
 
 	for (auto i: _content) {
-		_content_connections.push_back (i->Change.connect(boost::bind(&Playlist::content_change, this, film, _1, _2, _3, _4)));
+		_content_connections.push_back(i->Change.connect(boost::bind(&Playlist::content_change, this, film, _1, _2, _3, _4)));
 	}
 }
 
 
 DCPTime
-Playlist::video_end (shared_ptr<const Film> film) const
+Playlist::video_end(shared_ptr<const Film> film) const
 {
 	DCPTime end;
 	for (auto i: content()) {
 		if (i->video) {
-			end = max (end, i->end(film));
+			end = max(end, i->end(film));
 		}
 	}
 
@@ -511,12 +511,12 @@ Playlist::video_end (shared_ptr<const Film> film) const
 
 
 DCPTime
-Playlist::text_end (shared_ptr<const Film> film) const
+Playlist::text_end(shared_ptr<const Film> film) const
 {
 	DCPTime end;
 	for (auto i: content()) {
-		if (!i->text.empty ()) {
-			end = max (end, i->end(film));
+		if (!i->text.empty()) {
+			end = max(end, i->end(film));
 		}
 	}
 
@@ -525,9 +525,9 @@ Playlist::text_end (shared_ptr<const Film> film) const
 
 
 FrameRateChange
-Playlist::active_frame_rate_change (DCPTime t, int dcp_video_frame_rate) const
+Playlist::active_frame_rate_change(DCPTime t, int dcp_video_frame_rate) const
 {
-	auto cont = content ();
+	auto cont = content();
 	for (ContentList::const_reverse_iterator i = cont.rbegin(); i != cont.rend(); ++i) {
 		if (!(*i)->video) {
 			continue;
@@ -537,22 +537,22 @@ Playlist::active_frame_rate_change (DCPTime t, int dcp_video_frame_rate) const
 			/* This is the first piece of content (going backwards...) that starts before t,
 			   so it's the active one.
 			*/
-			if ((*i)->video_frame_rate ()) {
+			if ((*i)->video_frame_rate()) {
 				/* This content specified a rate, so use it */
-				return FrameRateChange ((*i)->video_frame_rate().get(), dcp_video_frame_rate);
+				return FrameRateChange((*i)->video_frame_rate().get(), dcp_video_frame_rate);
 			} else {
 				/* No specified rate so just use the DCP one */
-				return FrameRateChange (dcp_video_frame_rate, dcp_video_frame_rate);
+				return FrameRateChange(dcp_video_frame_rate, dcp_video_frame_rate);
 			}
 		}
 	}
 
-	return FrameRateChange (dcp_video_frame_rate, dcp_video_frame_rate);
+	return FrameRateChange(dcp_video_frame_rate, dcp_video_frame_rate);
 }
 
 
 void
-Playlist::set_sequence (bool s)
+Playlist::set_sequence(bool s)
 {
 	_sequence = s;
 }
@@ -560,53 +560,53 @@ Playlist::set_sequence (bool s)
 
 /** @return content in ascending order of position */
 ContentList
-Playlist::content () const
+Playlist::content() const
 {
-	boost::mutex::scoped_lock lm (_mutex);
+	boost::mutex::scoped_lock lm(_mutex);
 	return _content;
 }
 
 
 void
-Playlist::repeat (shared_ptr<const Film> film, ContentList c, int n)
+Playlist::repeat(shared_ptr<const Film> film, ContentList c, int n)
 {
-	pair<DCPTime, DCPTime> range (DCPTime::max(), DCPTime());
+	pair<DCPTime, DCPTime> range(DCPTime::max(), DCPTime());
 	for (auto i: c) {
-		range.first = min (range.first, i->position ());
-		range.second = max (range.second, i->position ());
-		range.first = min (range.first, i->end(film));
-		range.second = max (range.second, i->end(film));
+		range.first = min(range.first, i->position());
+		range.second = max(range.second, i->position());
+		range.first = min(range.first, i->end(film));
+		range.second = max(range.second, i->end(film));
 	}
 
-	Change (ChangeType::PENDING);
+	Change(ChangeType::PENDING);
 
 	{
-		boost::mutex::scoped_lock lm (_mutex);
+		boost::mutex::scoped_lock lm(_mutex);
 
 		DCPTime pos = range.second;
 		for (int i = 0; i < n; ++i) {
 			for (auto j: c) {
-				auto copy = j->clone ();
-				copy->set_position (film, pos + copy->position() - range.first);
-				_content.push_back (copy);
+				auto copy = j->clone();
+				copy->set_position(film, pos + copy->position() - range.first);
+				_content.push_back(copy);
 			}
 			pos += range.second - range.first;
 		}
 
-		sort (_content.begin(), _content.end(), ContentSorter ());
-		reconnect (film);
+		sort(_content.begin(), _content.end(), ContentSorter());
+		reconnect(film);
 	}
 
-	Change (ChangeType::DONE);
+	Change(ChangeType::DONE);
 
 	LengthChange();
 }
 
 
 void
-Playlist::move_earlier (shared_ptr<const Film> film, shared_ptr<Content> c)
+Playlist::move_earlier(shared_ptr<const Film> film, shared_ptr<Content> c)
 {
-	auto cont = content ();
+	auto cont = content();
 	auto previous = cont.end();
 	auto i = cont.begin();
 	while (i != cont.end() && *i != c) {
@@ -614,23 +614,23 @@ Playlist::move_earlier (shared_ptr<const Film> film, shared_ptr<Content> c)
 		++i;
 	}
 
-	DCPOMATIC_ASSERT (i != cont.end());
+	DCPOMATIC_ASSERT(i != cont.end());
 	if (previous == cont.end()) {
 		return;
 	}
 
 	auto previous_c = *previous;
 
-	auto const p = previous_c->position ();
-	previous_c->set_position (film, p + c->length_after_trim(film));
-	c->set_position (film, p);
+	auto const p = previous_c->position();
+	previous_c->set_position(film, p + c->length_after_trim(film));
+	c->set_position(film, p);
 }
 
 
 void
-Playlist::move_later (shared_ptr<const Film> film, shared_ptr<Content> c)
+Playlist::move_later(shared_ptr<const Film> film, shared_ptr<Content> c)
 {
-	auto cont = content ();
+	auto cont = content();
 
 	auto iter = std::find(cont.begin(), cont.end(), c);
 	DCPOMATIC_ASSERT(iter != cont.end());
@@ -653,8 +653,7 @@ Playlist::required_disk_space(shared_ptr<const Film> film, int64_t video_bit_rat
 	int64_t audio = uint64_t(audio_channels) * audio_frame_rate * 3 * length(film).seconds();
 
 	for (auto i: content()) {
-		auto d = dynamic_pointer_cast<DCPContent> (i);
-		if (d) {
+		if (auto d = dynamic_pointer_cast<DCPContent>(i)) {
 			if (d->reference_video()) {
 				video -= uint64_t(video_bit_rate / 8) * d->length_after_trim(film).seconds();
 			}
@@ -670,7 +669,7 @@ Playlist::required_disk_space(shared_ptr<const Film> film, int64_t video_bit_rat
 
 
 string
-Playlist::content_summary (shared_ptr<const Film> film, DCPTimePeriod period) const
+Playlist::content_summary(shared_ptr<const Film> film, DCPTimePeriod period) const
 {
 	string best_summary;
 	int best_score = -1;
@@ -696,22 +695,22 @@ Playlist::content_summary (shared_ptr<const Film> film, DCPTimePeriod period) co
 
 
 pair<double, double>
-Playlist::speed_up_range (int dcp_video_frame_rate) const
+Playlist::speed_up_range(int dcp_video_frame_rate) const
 {
-	pair<double, double> range (DBL_MAX, -DBL_MAX);
+	pair<double, double> range(DBL_MAX, -DBL_MAX);
 
 	for (auto i: content()) {
 		if (!i->video) {
 			continue;
 		}
 		if (i->video_frame_rate()) {
-			FrameRateChange const frc (i->video_frame_rate().get(), dcp_video_frame_rate);
-			range.first = min (range.first, frc.speed_up);
-			range.second = max (range.second, frc.speed_up);
+			FrameRateChange const frc(i->video_frame_rate().get(), dcp_video_frame_rate);
+			range.first = min(range.first, frc.speed_up);
+			range.second = max(range.second, frc.speed_up);
 		} else {
-			FrameRateChange const frc (dcp_video_frame_rate, dcp_video_frame_rate);
-			range.first = min (range.first, frc.speed_up);
-			range.second = max (range.second, frc.speed_up);
+			FrameRateChange const frc(dcp_video_frame_rate, dcp_video_frame_rate);
+			range.first = min(range.first, frc.speed_up);
+			range.second = max(range.second, frc.speed_up);
 		}
 	}
 
