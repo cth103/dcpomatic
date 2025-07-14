@@ -87,10 +87,7 @@ FilmEditor::page_changed(wxBookCtrlEvent& ev)
 }
 
 
-/** Called when the metadata stored in the Film object has changed;
- *  so that we can update the GUI.
- *  @param p Property of the Film that has changed.
- */
+/** Called a Film property has changed */
 void
 FilmEditor::film_change(ChangeType type, FilmProperty p)
 {
