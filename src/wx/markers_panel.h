@@ -21,6 +21,7 @@
 
 #include "lib/dcpomatic_time.h"
 #include "lib/film_property.h"
+#include "lib/layout_markers.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/wx.h>
@@ -40,36 +41,22 @@ public:
 
 private:
 	void paint();
+	void size();
 	void mouse_moved(wxMouseEvent& ev);
 	void mouse_left_down();
 	void mouse_right_down(wxMouseEvent& ev);
-	int position(dcpomatic::DCPTime time, int width) const;
 	void move_marker_to_current_position();
 	void remove_marker();
 	void add_marker(wxCommandEvent& ev);
 	void film_changed(ChangeType type, FilmProperty property);
-	void update_from_film(std::shared_ptr<Film> film);
+	void layout();
 
 	wxTipWindow* _tip = nullptr;
 
-	class Marker {
-	public:
-		Marker() {}
-
-		Marker(dcpomatic::DCPTime t, bool b)
-			: time(t)
-			, line_before_label(b)
-		{}
-
-		dcpomatic::DCPTime time;
-		int width = 0;
-		bool line_before_label = false;
-	};
-
 	std::weak_ptr<Film> _film;
-	std::map<dcp::Marker, Marker> _markers;
-	boost::optional<dcp::Marker> _over;
+	std::vector<MarkerLayoutComponent> _components;
+	MarkerLayoutComponent const* _over = nullptr;
 	FilmViewer& _viewer;
-	boost::optional<dcp::Marker> _menu_marker;
+	MarkerLayoutComponent const* _menu_marker = nullptr;
 };
 

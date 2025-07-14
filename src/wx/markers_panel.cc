@@ -34,7 +34,10 @@ LIBDCP_ENABLE_WARNINGS
 #include <boost/version.hpp>
 
 
+using std::make_pair;
+using std::pair;
 using std::shared_ptr;
+using std::vector;
 using std::weak_ptr;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
@@ -56,11 +59,12 @@ static constexpr auto line_to_label_gap = 2;
 
 
 MarkersPanel::MarkersPanel(wxWindow* parent, FilmViewer& viewer)
-	: wxPanel(parent, wxID_ANY, wxDefaultPosition, wxSize(-1, 16))
+	: wxPanel(parent, wxID_ANY, wxDefaultPosition, wxSize(-1, 40))
 	, _viewer(viewer)
 {
 	Bind(wxEVT_PAINT, boost::bind(&MarkersPanel::paint, this));
 	Bind(wxEVT_MOTION, boost::bind(&MarkersPanel::mouse_moved, this, _1));
+	Bind(wxEVT_SIZE, boost::bind(&MarkersPanel::size, this));
 
 	Bind(wxEVT_LEFT_DOWN, boost::bind(&MarkersPanel::mouse_left_down, this));
 	Bind(wxEVT_RIGHT_DOWN, boost::bind(&MarkersPanel::mouse_right_down, this, _1));
@@ -72,13 +76,19 @@ MarkersPanel::MarkersPanel(wxWindow* parent, FilmViewer& viewer)
 
 
 void
+MarkersPanel::size()
+{
+	layout();
+}
+
+
+void
 MarkersPanel::set_film(weak_ptr<Film> weak_film)
 {
 	_film = weak_film;
-	auto film = weak_film.lock();
-	if (film) {
+	if (auto film = weak_film.lock()) {
 		film->Change.connect(boost::bind(&MarkersPanel::film_changed, this, _1, _2));
-		update_from_film(film);
+		layout();
 	}
 }
 
@@ -96,54 +106,52 @@ MarkersPanel::film_changed(ChangeType type, FilmProperty property)
 	}
 
 	if (property == FilmProperty::MARKERS || property == FilmProperty::CONTENT || property == FilmProperty::CONTENT_ORDER || property == FilmProperty::VIDEO_FRAME_RATE) {
-		update_from_film(film);
+		layout();
 	}
 }
 
 
 void
-MarkersPanel::update_from_film(shared_ptr<Film> film)
+MarkersPanel::layout()
 {
-	_markers.clear();
-	for (auto const& marker: film->markers()) {
-		_markers[marker.first] = Marker(
-			marker.second,
-			marker.first == dcp::Marker::FFOC ||
-			marker.first == dcp::Marker::FFTC ||
-			marker.first == dcp::Marker::FFOI ||
-			marker.first == dcp::Marker::FFEC ||
-			marker.first == dcp::Marker::FFMC
-			);
-
-	}
-	Refresh();
-}
-
-
-int
-MarkersPanel::position(dcpomatic::DCPTime time, int width) const
-{
-#ifdef DCPOMATIC_LINUX
-	/* Number of pixels between the left/right bounding box edge of a wxSlider
-	 * and the start of the "track".
-	 */
-	auto constexpr end_gap = 12;
-#else
-	auto constexpr end_gap = 0;
-#endif
 	auto film = _film.lock();
-	if (!film) {
-		return 0;
+	if (!film || !film->length().get()) {
+		_components.clear();
+		return;
 	}
 
-	return end_gap + time.get() * (width - end_gap * 2) / film->length().get();
+	wxClientDC dc(this);
+	auto const panel_width = GetSize().GetWidth();
+
+#ifdef DCPOMATIC_LINUX
+		/* Number of pixels between the left/right bounding box edge of a wxSlider
+		 * and the start of the "track".
+		 */
+		auto constexpr end_gap = 12;
+#else
+		auto constexpr end_gap = 0;
+#endif
+
+	_components = layout_markers(
+		film->markers(),
+		panel_width - end_gap,
+		film->length(),
+		12,
+		4,
+		[&dc](std::string text) { return dc.GetTextExtent(std_to_wx(text)).GetWidth(); }
+	);
+
+	_over = nullptr;
+	_menu_marker = nullptr;
+
+	Refresh();
 }
 
 
 void
 MarkersPanel::mouse_moved(wxMouseEvent& ev)
 {
-	_over = boost::none;
+	_over = nullptr;
 
 	auto film = _film.lock();
 	if (!film) {
@@ -151,28 +159,27 @@ MarkersPanel::mouse_moved(wxMouseEvent& ev)
 	}
 
 	auto const panel_width = GetSize().GetWidth();
+
 #if !defined(DCPOMATIC_LINUX)
 	auto const panel_height = GetSize().GetHeight();
 	auto const factor = GetContentScaleFactor();
 #endif
 
+	auto const scale = static_cast<float>(panel_width) / film->length().get();
+
 	auto const x = ev.GetPosition().x;
-	for (auto const& marker: _markers) {
-		auto const pos = position(marker.second.time, panel_width);
-		auto const width = marker.second.width ? marker.second.width : 4;
-		auto const x1 = marker.second.line_before_label ? pos : pos - width - line_to_label_gap;
-		auto const x2 = marker.second.line_before_label ? pos + width + line_to_label_gap : pos;
-		if (x1 <= x && x < x2) {
-			_over = marker.first;
+
+	for (auto const& marker: _components) {
+		auto const p = marker.t1.get() * scale;
+		if (marker.marker && std::abs(p - x) < 16) {
+			_over = &marker;
 /* Tooltips flicker really badly on Wayland for some reason, so only do this on Windows/macOS for now */
 #if !defined(DCPOMATIC_LINUX)
 			if (!_tip) {
 				auto mouse = ClientToScreen(ev.GetPosition());
-				auto rect = wxRect(mouse.x, mouse.y, width * factor, panel_height * factor);
-				auto hmsf = marker.second.time.split(film->video_frame_rate());
-				char timecode_buffer[64];
-				snprintf(timecode_buffer, sizeof(timecode_buffer), " %02d:%02d:%02d:%02d", hmsf.h, hmsf.m, hmsf.s, hmsf.f);
-				auto tip_text = dcp::marker_to_string(marker.first) + std::string(timecode_buffer);
+				auto rect = wxRect(mouse.x, mouse.y, 8 * factor, panel_height * factor);
+				auto hmsf = marker.t1.split(film->video_frame_rate());
+				auto const tip_text = fmt::format("{} {:02d}:{:02d}:{:02d}:{:02d}", dcp::marker_to_string(*marker.marker), hmsf.h, hmsf.m, hmsf.s, hmsf.f);
 				_tip = new wxTipWindow(this, std_to_wx(tip_text), 100, &_tip, &rect);
 			}
 #endif
@@ -192,42 +199,61 @@ MarkersPanel::paint()
 	}
 
 	gc->SetAntialiasMode(wxANTIALIAS_DEFAULT);
-	gc->SetPen(wxPen(wxColour(200, 0, 0)));
-	gc->SetFont(gc->CreateFont(*wxSMALL_FONT, wxColour(200, 0, 0)));
+	auto const colour = gui_is_dark() ? wxColour(199, 139, 167) : wxColour(200, 0, 0);
+	gc->SetPen(colour);
+	gc->SetFont(gc->CreateFont(*wxSMALL_FONT, colour));
+	gc->SetBrush(GetBackgroundColour());
 
-	auto const panel_width = GetSize().GetWidth();
 	auto const panel_height = GetSize().GetHeight();
 
-	for (auto& marker: _markers) {
-		auto label = std_to_wx(dcp::marker_to_string(marker.first));
-		if (marker.second.width == 0) {
-			/* We don't know the width of this marker label yet, so calculate it now */
-			wxDouble width, height, descent, external_leading;
-			gc->GetTextExtent(label, &width, &height, &descent, &external_leading);
-			marker.second.width = width;
+	int rows = 0;
+	for (auto const& component: _components) {
+		rows = std::max(rows, component.y + 1);
+	}
+
+	auto const row_height = std::min(static_cast<float>(panel_height) / rows, 16.0f);
+	auto const row_gap = 3;
+
+	auto const base = [row_height, panel_height](MarkerLayoutComponent const& component) {
+		return panel_height - (component.y + 1) * row_height;
+	};
+
+	for (auto const& component: _components) {
+		if (component.type == MarkerLayoutComponent::Type::LINE) {
+			gc->CreatePath();
+			auto line = gc->CreatePath();
+			line.MoveToPoint(component.x1, base(component) + (row_height - row_gap) / 2);
+			line.AddLineToPoint(component.x2, base(component) + (row_height - row_gap) / 2);
+			gc->StrokePath(line);
 		}
-		auto line = gc->CreatePath();
-		auto const pos = position(marker.second.time, panel_width);
-		line.MoveToPoint(pos, 0);
-		line.AddLineToPoint(pos, panel_height);
-		gc->StrokePath(line);
+	}
 
-		auto label_x = 0;
-
-		if (GetLayoutDirection() == wxLayout_RightToLeft) {
-			auto matrix = dc.GetTransformMatrix();
-			matrix.Translate(0, 0);
-			matrix.Mirror(wxHORIZONTAL);
-			dc.SetTransformMatrix(matrix);
-			label_x = marker.second.line_before_label ? (pos + line_to_label_gap + marker.second.width) : (pos - line_to_label_gap);
-			label_x = -label_x;
-		} else {
-			label_x = marker.second.line_before_label ? (pos + line_to_label_gap) : (pos - line_to_label_gap - marker.second.width);
+	for (auto const& component: _components) {
+		switch (component.type) {
+		case MarkerLayoutComponent::Type::LEFT:
+		case MarkerLayoutComponent::Type::RIGHT:
+		{
+			gc->CreatePath();
+			auto line = gc->CreatePath();
+			line.MoveToPoint(component.x1, base(component));
+			line.AddLineToPoint(component.x1, base(component) + row_height - row_gap);
+			gc->StrokePath(line);
+			break;
+		}
+		case MarkerLayoutComponent::Type::LABEL:
+		{
+			gc->CreatePath();
+			auto rectangle = gc->CreatePath();
+			rectangle.MoveToPoint(component.x1 - 2, base(component));
+			rectangle.AddRectangle(component.x1 - 2, base(component), component.x2 - component.x1, row_height);
+			gc->FillPath(rectangle);
+			gc->DrawText(std_to_wx(component.text), component.x1, base(component) - 4);
+			break;
 		}
 
-		gc->DrawText(label, label_x, 0);
-
-		dc.ResetTransformMatrix();
+		case MarkerLayoutComponent::Type::LINE:
+			break;
+		}
 	}
 }
 
@@ -236,7 +262,7 @@ void
 MarkersPanel::mouse_left_down()
 {
 	if (_over) {
-		_viewer.seek(_markers[*_over].time, true);
+		_viewer.seek(_over->t1, true);
 	}
 }
 
@@ -246,8 +272,9 @@ MarkersPanel::mouse_right_down(wxMouseEvent& ev)
 {
 	wxMenu menu;
 	if (_over) {
-		menu.Append(ID_move_marker_to_current_position, wxString::Format(_("Move %s marker to current position"), std_to_wx(dcp::marker_to_string(*_over))));
-		menu.Append(ID_remove_marker, wxString::Format(_("Remove %s marker"), std_to_wx(dcp::marker_to_string(*_over))));
+		DCPOMATIC_ASSERT(_over->marker);
+		menu.Append(ID_move_marker_to_current_position, wxString::Format(_("Move %s marker to current position"), std_to_wx(dcp::marker_to_string(*_over->marker))));
+		menu.Append(ID_remove_marker, wxString::Format(_("Remove %s marker"), std_to_wx(dcp::marker_to_string(*_over->marker))));
 	}
 
 	auto add_marker = new wxMenu();
@@ -269,7 +296,8 @@ MarkersPanel::move_marker_to_current_position()
 		return;
 	}
 
-	film->set_marker(*_menu_marker, _viewer.position());
+	DCPOMATIC_ASSERT(static_cast<bool>(_menu_marker->marker));
+	film->set_marker(*_menu_marker->marker, _viewer.position());
 }
 
 
@@ -281,7 +309,8 @@ MarkersPanel::remove_marker()
 		return;
 	}
 
-	film->unset_marker(*_menu_marker);
+	DCPOMATIC_ASSERT(static_cast<bool>(_menu_marker->marker));
+	film->unset_marker(*_menu_marker->marker);
 }
 
 

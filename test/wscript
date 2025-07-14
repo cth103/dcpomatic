@@ -130,6 +130,7 @@ def build(bld):
                  kdm_cli_test.cc
                  kdm_naming_test.cc
                  kdm_util_test.cc
+                 layout_markers_test.cc
                  low_bitrate_test.cc
                  markers_test.cc
                  map_cli_test.cc
