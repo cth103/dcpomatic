@@ -43,30 +43,30 @@ ExamineContentJob::ExamineContentJob(shared_ptr<const Film> film, shared_ptr<Con
 }
 
 
-ExamineContentJob::~ExamineContentJob ()
+ExamineContentJob::~ExamineContentJob()
 {
-	stop_thread ();
+	stop_thread();
 }
 
 
 string
-ExamineContentJob::name () const
+ExamineContentJob::name() const
 {
 	return _("Examining content");
 }
 
 
 string
-ExamineContentJob::json_name () const
+ExamineContentJob::json_name() const
 {
 	return N_("examine_content");
 }
 
 
 void
-ExamineContentJob::run ()
+ExamineContentJob::run()
 {
 	_content->examine(_film, shared_from_this(), _tolerant);
-	set_progress (1);
-	set_state (FINISHED_OK);
+	set_progress(1);
+	set_state(FINISHED_OK);
 }

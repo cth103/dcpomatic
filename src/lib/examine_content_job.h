@@ -29,13 +29,13 @@ class ExamineContentJob : public Job
 {
 public:
 	ExamineContentJob(std::shared_ptr<const Film> film, std::shared_ptr<Content> content, bool tolerant);
-	~ExamineContentJob ();
+	~ExamineContentJob();
 
-	std::string name () const override;
-	std::string json_name () const override;
-	void run () override;
+	std::string name() const override;
+	std::string json_name() const override;
+	void run() override;
 
-	std::shared_ptr<Content> content () const {
+	std::shared_ptr<Content> content() const {
 		return _content;
 	}
 
