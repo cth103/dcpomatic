@@ -192,9 +192,9 @@ Content::signal_change(ChangeType c, int p)
 {
 	try {
 		if (c == ChangeType::PENDING || c == ChangeType::CANCELLED) {
-			Change(c, shared_from_this(), p, _change_signals_frequent);
+			Change(c, p, _change_signals_frequent);
 		} else {
-			emit(boost::bind(boost::ref(Change), c, shared_from_this(), p, _change_signals_frequent));
+			emit(boost::bind(boost::ref(Change), c, p, _change_signals_frequent));
 		}
 	} catch (std::bad_weak_ptr &) {
 		/* This must be during construction; never mind */

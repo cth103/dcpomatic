@@ -444,7 +444,7 @@ public:
 	mutable boost::signals2::signal<void (ChangeType, FilmProperty)> Change;
 
 	/** Emitted when some property of our content has changed */
-	mutable boost::signals2::signal<void (ChangeType, std::weak_ptr<Content>, int, bool)> ContentChange;
+	mutable boost::signals2::signal<void (ChangeType, int, bool)> ContentChange;
 
 	/** Emitted when the film's length might have changed; this is not like a normal
 	    property as its value is derived from the playlist, so it has its own signal.
@@ -475,7 +475,7 @@ private:
 	void signal_change(ChangeType, int);
 	void playlist_change(ChangeType);
 	void playlist_order_changed();
-	void playlist_content_change(ChangeType type, std::weak_ptr<Content>, int, bool frequent);
+	void playlist_content_change(ChangeType type, int, bool frequent);
 	void playlist_length_change();
 	void maybe_add_content(std::weak_ptr<Job>, std::vector<std::weak_ptr<Content>> const& weak_content, bool disable_audio_analysis);
 	void audio_analysis_finished();

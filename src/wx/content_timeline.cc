@@ -122,7 +122,7 @@ ContentTimeline::ContentTimeline(wxWindow* parent, ContentPanel* cp, shared_ptr<
 	SetMinSize (wxSize (640, 4 * pixels_per_track() + 96));
 
 	_film_changed_connection = film->Change.connect(bind(&ContentTimeline::film_change, this, _1, _2));
-	_film_content_change_connection = film->ContentChange.connect(bind(&ContentTimeline::film_content_change, this, _1, _3, _4));
+	_film_content_change_connection = film->ContentChange.connect(bind(&ContentTimeline::film_content_change, this, _1, _2, _3));
 
 	Bind(wxEVT_TIMER, boost::bind(&ContentTimeline::update_playhead, this));
 	_timer.Start (200, wxTIMER_CONTINUOUS);

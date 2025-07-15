@@ -164,7 +164,7 @@ AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film, FilmViewer& v
 	overall_sizer->SetSizeHints (this);
 
 	_film_connection = film->Change.connect (boost::bind(&AudioDialog::film_change, this, _1, _2));
-	_film_content_connection = film->ContentChange.connect(boost::bind(&AudioDialog::content_change, this, _1, _3));
+	_film_content_connection = film->ContentChange.connect(boost::bind(&AudioDialog::content_change, this, _1, _2));
 	DCPOMATIC_ASSERT (film->directory());
 	if (content) {
 		SetTitle(wxString::Format(_("%s audio - %s"), variant::wx::dcpomatic(), std_to_wx(content->path(0).string())));

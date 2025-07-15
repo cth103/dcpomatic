@@ -87,10 +87,10 @@ public:
 	/** Emitted when the length might have changed; may sometimes be emitted when it has not */
 	mutable boost::signals2::signal<void ()> LengthChange;
 
-	mutable boost::signals2::signal<void (ChangeType, std::weak_ptr<Content>, int, bool)> ContentChange;
+	mutable boost::signals2::signal<void (ChangeType, int, bool)> ContentChange;
 
 private:
-	void content_change(std::weak_ptr<const Film>, ChangeType, std::weak_ptr<Content>, int, bool);
+	void content_change(std::weak_ptr<const Film>, ChangeType, int, bool);
 	void disconnect();
 	void reconnect(std::shared_ptr<const Film> film);
 

@@ -144,7 +144,7 @@ Player::connect()
 	   be first.
 	*/
 	_playlist_change_connection = playlist()->Change.connect(bind(&Player::playlist_change, this, _1), boost::signals2::at_front);
-	_playlist_content_change_connection = playlist()->ContentChange.connect(bind(&Player::playlist_content_change, this, _1, _3, _4));
+	_playlist_content_change_connection = playlist()->ContentChange.connect(bind(&Player::playlist_content_change, this, _1, _2, _3));
 }
 
 

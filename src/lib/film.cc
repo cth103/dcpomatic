@@ -214,7 +214,7 @@ Film::Film(optional<boost::filesystem::path> dir)
 
 	_playlist_change_connection = _playlist->Change.connect(bind(&Film::playlist_change, this, _1));
 	_playlist_order_changed_connection = _playlist->OrderChange.connect(bind(&Film::playlist_order_changed, this));
-	_playlist_content_change_connection = _playlist->ContentChange.connect(bind(&Film::playlist_content_change, this, _1, _2, _3, _4));
+	_playlist_content_change_connection = _playlist->ContentChange.connect(bind(&Film::playlist_content_change, this, _1, _2, _3));
 	_playlist_length_change_connection = _playlist->LengthChange.connect(bind(&Film::playlist_length_change, this));
 
 	if (dir) {
@@ -1597,7 +1597,7 @@ Film::active_frame_rate_change(DCPTime t) const
 }
 
 void
-Film::playlist_content_change(ChangeType type, weak_ptr<Content> c, int p, bool frequent)
+Film::playlist_content_change(ChangeType type, int p, bool frequent)
 {
 	switch (p) {
 	case ContentProperty::VIDEO_FRAME_RATE:
@@ -1609,12 +1609,12 @@ Film::playlist_content_change(ChangeType type, weak_ptr<Content> c, int p, bool 
 	}
 
 	if (type == ChangeType::DONE) {
-		emit(boost::bind(boost::ref(ContentChange), type, c, p, frequent));
+		emit(boost::bind(boost::ref(ContentChange), type, p, frequent));
 		if (!frequent) {
 			check_settings_consistency();
 		}
 	} else {
-		ContentChange(type, c, p, frequent);
+		ContentChange(type, p, frequent);
 	}
 
 	set_dirty(true);

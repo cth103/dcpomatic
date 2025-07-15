@@ -47,7 +47,7 @@ DCPReferencingDialog::DCPReferencingDialog(wxWindow* parent, shared_ptr<const Fi
 	, _overall_sizer(new wxBoxSizer(wxVERTICAL))
 {
 	_film_connection = film->Change.connect(boost::bind(&DCPReferencingDialog::film_changed, this, _1, _2));
-	_film_content_connection = film->ContentChange.connect(boost::bind(&DCPReferencingDialog::film_content_changed, this, _1, _3));
+	_film_content_connection = film->ContentChange.connect(boost::bind(&DCPReferencingDialog::film_content_changed, this, _1, _2));
 
 	_overall_sizer->Add(_dcp_grid, 1, wxALL, DCPOMATIC_DIALOG_BORDER);
 	SetSizer(_overall_sizer);

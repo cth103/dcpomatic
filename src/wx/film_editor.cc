@@ -152,7 +152,7 @@ FilmEditor::set_film (shared_ptr<Film> film)
 	}
 
 	_film->Change.connect (bind(&FilmEditor::film_change, this, _1, _2));
-	_film->ContentChange.connect (bind(&FilmEditor::film_content_change, this, _1, _3));
+	_film->ContentChange.connect(bind(&FilmEditor::film_content_change, this, _1, _2));
 
 	if (!_film->content().empty()) {
 		_content_panel->set_selection (_film->content().front());

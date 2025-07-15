@@ -89,7 +89,7 @@ Playlist::~Playlist()
 
 
 void
-Playlist::content_change(weak_ptr<const Film> weak_film, ChangeType type, weak_ptr<Content> content, int property, bool frequent)
+Playlist::content_change(weak_ptr<const Film> weak_film, ChangeType type, int property, bool frequent)
 {
 	auto film = weak_film.lock();
 	DCPOMATIC_ASSERT(film);
@@ -133,7 +133,7 @@ Playlist::content_change(weak_ptr<const Film> weak_film, ChangeType type, weak_p
 		}
 	}
 
-	ContentChange(type, content, property, frequent);
+	ContentChange(type, property, frequent);
 }
 
 
@@ -516,7 +516,7 @@ Playlist::reconnect(shared_ptr<const Film> film)
 	disconnect();
 
 	for (auto i: _content) {
-		_content_connections.push_back(i->Change.connect(boost::bind(&Playlist::content_change, this, film, _1, _2, _3, _4)));
+		_content_connections.push_back(i->Change.connect(boost::bind(&Playlist::content_change, this, film, _1, _2, _3)));
 	}
 }
 
