@@ -71,7 +71,14 @@ public:
 	{
 		if (_suspended) {
 			boost::mutex::scoped_lock lm(_mutex);
-			_pending.push_back(signal);
+			auto iter = std::find_if(
+				_pending.begin(),
+				_pending.end(),
+				[signal](ChangeSignal<T, P> const& s) { return s.property == signal.property && s.type == signal.type; }
+			);
+			if (iter == _pending.end()) {
+				_pending.push_back(signal);
+			}
 		} else {
 			signal.thing->signal_change(signal.type, signal.property);
 		}
