@@ -387,6 +387,7 @@ BOOST_AUTO_TEST_CASE(test_referencing_ov_with_subs_when_adding_ccaps)
 	auto ov_dcp = make_shared<DCPContent>(ov->dir(ov->dcp_name(false)));
 	auto vf = new_test_film(name + "_vf", { ov_dcp, ccaps });
 	ccaps->text[0]->set_type(TextType::CLOSED_CAPTION);
+	ccaps->set_position(vf, dcpomatic::DCPTime());
 
 	string why_not;
 	BOOST_CHECK(ov_dcp->can_reference_text(vf, TextType::OPEN_SUBTITLE, why_not));
@@ -414,6 +415,7 @@ BOOST_AUTO_TEST_CASE(test_duplicate_font_id_in_vf)
 	ov_dcp->set_reference_video(true);
 	ov_dcp->text[0]->set_use(true);
 	ccaps->text[0]->set_type(TextType::CLOSED_CAPTION);
+	ccaps->set_position(vf, dcpomatic::DCPTime());
 	string why_not;
 	BOOST_CHECK_MESSAGE(ov_dcp->can_reference_text(vf, TextType::OPEN_SUBTITLE, why_not), why_not);
 	ov_dcp->set_reference_text(TextType::OPEN_SUBTITLE, true);
@@ -566,6 +568,7 @@ BOOST_AUTO_TEST_CASE(vf_subs_get_font_from_ov)
 	vf->set_reel_type(ReelType::BY_VIDEO_CONTENT);
 	subs2->text[0]->set_language(dcp::LanguageTag("de"));
 	subs2->text[0]->get_font("")->set_file("test/data/Inconsolata-VF.ttf");
+	subs2->set_position(vf, dcpomatic::DCPTime());
 	ov_dcp->set_reference_video(true);
 	ov_dcp->set_reference_audio(true);
 

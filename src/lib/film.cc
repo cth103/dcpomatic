@@ -1212,6 +1212,10 @@ Film::set_video_bit_rate(VideoEncoding encoding, int64_t bit_rate)
 void
 Film::set_video_frame_rate(int f, bool user_explicit)
 {
+	if (_video_frame_rate == f) {
+		return;
+	}
+
 	FilmChangeSignaller ch(this, FilmProperty::VIDEO_FRAME_RATE);
 	_video_frame_rate = f;
 	if (user_explicit) {
