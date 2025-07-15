@@ -48,6 +48,7 @@ using std::exception;
 using std::shared_ptr;
 using std::sort;
 using std::string;
+using std::vector;
 using boost::optional;
 using namespace dcpomatic;
 
@@ -381,7 +382,7 @@ PlaylistControls::reset_film ()
 	DCPOMATIC_ASSERT (_selected_playlist);
 	auto film = std::make_shared<Film>(optional<boost::filesystem::path>());
 	auto entry = _playlists[*_selected_playlist].get(_selected_playlist_position);
-	film->add_content(entry.content);
+	film->add_content(vector<shared_ptr<Content>>{entry.content});
 	ResetFilm(film, entry.crop_to_ratio);
 }
 

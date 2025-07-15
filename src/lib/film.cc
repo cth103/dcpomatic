@@ -1451,7 +1451,7 @@ Film::maybe_add_content(weak_ptr<Job> j, weak_ptr<Content> c, bool disable_audio
 		return;
 	}
 
-	add_content(content);
+	add_content(vector<shared_ptr<Content>>{content});
 
 	if (Config::instance()->automatic_audio_analysis() && content->audio && !disable_audio_analysis) {
 		auto playlist = make_shared<Playlist>();
@@ -1465,26 +1465,27 @@ Film::maybe_add_content(weak_ptr<Job> j, weak_ptr<Content> c, bool disable_audio
 }
 
 void
-Film::add_content(shared_ptr<Content> c)
+Film::add_content(vector<shared_ptr<Content>> const& content)
 {
-	/* Add {video,subtitle} content after any existing {video,subtitle} content */
-	if (c->video) {
-		c->set_position(shared_from_this(), _playlist->video_end(shared_from_this()));
-	} else if (!c->text.empty()) {
-		c->set_position(shared_from_this(), _playlist->text_end(shared_from_this()));
-	}
+	bool any_atmos = false;
 
-	if (_template_film) {
-		/* Take settings from the first piece of content of c's type in _template */
-		for (auto i: _template_film->content()) {
-			c->take_settings_from(i);
+	for (auto c: content) {
+		if (_template_film) {
+			/* Take settings from the first piece of content of c's type in _template */
+			for (auto i: _template_film->content()) {
+				c->take_settings_from(i);
+			}
+		}
+
+		if (c->atmos) {
+			any_atmos = true;
 		}
 	}
 
-	_playlist->add(shared_from_this(), c);
-
+	_playlist->add_at_end(shared_from_this(), content);
 	maybe_set_container_and_resolution();
-	if (c->atmos) {
+
+	if (any_atmos) {
 		if (_audio_channels < 14) {
 			set_audio_channels(14);
 		}

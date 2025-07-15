@@ -194,7 +194,7 @@ BOOST_AUTO_TEST_CASE(player_time_calculation_test1)
 	list<string> notes;
 	auto content = std::make_shared<FFmpegContent>(doc, boost::none, 38, notes);
 	film->set_sequence(false);
-	film->add_content(content);
+	film->add_content({content});
 
 	auto player = make_shared<Player>(film, Image::Alignment::COMPACT, false);
 
@@ -400,7 +400,7 @@ BOOST_AUTO_TEST_CASE(player_time_calculation_test2)
 	list<string> notes;
 	auto content = std::make_shared<FFmpegContent>(doc, boost::none, 38, notes);
 	film->set_sequence(false);
-	film->add_content(content);
+	film->add_content({content});
 
 	auto player = make_shared<Player>(film, Image::Alignment::COMPACT, false);
 
@@ -577,7 +577,7 @@ BOOST_AUTO_TEST_CASE(player_time_calculation_test3)
 	auto content = std::make_shared<FFmpegContent>(doc, boost::none, 38, notes);
 	auto stream = content->audio->streams().front();
 	film->set_sequence(false);
-	film->add_content(content);
+	film->add_content({content});
 
 	auto player = make_shared<Player>(film, Image::Alignment::COMPACT, false);
 

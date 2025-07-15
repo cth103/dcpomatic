@@ -432,7 +432,7 @@ public:
 					return;
 				}
 
-				film->add_content(content);
+				film->add_content({content});
 				_stress.set_suspended(false);
 				reset_film(film);
 			};
