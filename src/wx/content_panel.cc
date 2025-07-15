@@ -962,10 +962,14 @@ ContentPanel::add_files(vector<boost::filesystem::path> paths)
 
 	/* XXX: check for lots of files here and do something */
 
+	vector<shared_ptr<Content>> content;
 	try {
 		for (auto i: paths) {
-			_film->examine_and_add_content(content_factory(i));
+			for (auto j: content_factory(i)) {
+				content.push_back(j);
+			}
 		}
+		_film->examine_and_add_content(content);
 	} catch (exception& e) {
 		error_dialog(_parent, std_to_wx(e.what()));
 	}
