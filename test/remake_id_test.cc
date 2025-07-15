@@ -34,6 +34,7 @@
 
 using std::dynamic_pointer_cast;
 using std::make_shared;
+using std::shared_ptr;
 using std::string;
 using std::vector;
 using boost::optional;
@@ -95,7 +96,7 @@ BOOST_AUTO_TEST_CASE (remake_id_test2)
 	auto dcp_content = make_shared<DCPContent>(film->dir(film->dcp_name()));
 	auto film2 = new_test_film("remake_id_test2_2", { dcp_content });
 	dcp_content->add_kdm(kdm);
-	JobManager::instance()->add(make_shared<ExamineContentJob>(film2, dcp_content, false));
+	JobManager::instance()->add(make_shared<ExamineContentJob>(film2, vector<shared_ptr<Content>>{dcp_content}, false));
 	BOOST_REQUIRE(!wait_for_jobs());
 	make_and_verify_dcp (film2);
 }

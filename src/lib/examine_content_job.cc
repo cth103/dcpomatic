@@ -29,14 +29,15 @@
 #include "i18n.h"
 
 
-using std::string;
 using std::cout;
 using std::shared_ptr;
+using std::string;
+using std::vector;
 
 
-ExamineContentJob::ExamineContentJob(shared_ptr<const Film> film, shared_ptr<Content> content, bool tolerant)
+ExamineContentJob::ExamineContentJob(shared_ptr<const Film> film, vector<shared_ptr<Content>> content, bool tolerant)
 	: Job(film)
-	, _content(content)
+	, _content(std::move(content))
 	, _tolerant(tolerant)
 {
 
@@ -66,7 +67,12 @@ ExamineContentJob::json_name() const
 void
 ExamineContentJob::run()
 {
-	_content->examine(_film, shared_from_this(), _tolerant);
+	int n = 0;
+	for (auto c: _content) {
+		c->examine(_film, shared_from_this(), _tolerant);
+		set_progress(float(n) / _content.size());
+		++n;
+	}
 	set_progress(1);
 	set_state(FINISHED_OK);
 }

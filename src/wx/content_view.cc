@@ -48,6 +48,7 @@ using std::list;
 using std::make_shared;
 using std::shared_ptr;
 using std::string;
+using std::vector;
 using std::weak_ptr;
 using boost::optional;
 using namespace dcpomatic;
@@ -109,7 +110,7 @@ ContentView::update ()
 			}
 
 			if (content) {
-				auto job = make_shared<ExamineContentJob>(shared_ptr<Film>(), content, false);
+				auto job = make_shared<ExamineContentJob>(shared_ptr<Film>(), vector<shared_ptr<Content>>{content}, false);
 				jm->add (job);
 				jobs.push_back (job);
 			}
@@ -136,16 +137,18 @@ ContentView::update ()
 		if (i->finished_in_error()) {
 			error_dialog(this, std_to_wx(i->error_summary()) + char_to_wx(".\n"), std_to_wx(i->error_details()));
 		} else {
-			if (auto dcp = dynamic_pointer_cast<DCPContent>(i->content())) {
-				for (auto cpl: dcp::find_and_resolve_cpls(dcp->directories(), true)) {
-					auto copy = dynamic_pointer_cast<DCPContent>(dcp->clone());
-					copy->set_cpl(cpl->id());
-					add(copy);
-					_content.push_back(copy);
+			for (auto c: i->content()) {
+				if (auto dcp = dynamic_pointer_cast<DCPContent>(c)) {
+					for (auto cpl: dcp::find_and_resolve_cpls(dcp->directories(), true)) {
+						auto copy = dynamic_pointer_cast<DCPContent>(dcp->clone());
+						copy->set_cpl(cpl->id());
+						add(copy);
+						_content.push_back(copy);
+					}
+				} else {
+					add(c);
+					_content.push_back(c);
 				}
-			} else {
-				add(i->content());
-				_content.push_back(i->content());
 			}
 		}
 	}

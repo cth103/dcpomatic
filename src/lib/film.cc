@@ -1425,7 +1425,7 @@ Film::examine_and_add_content(shared_ptr<Content> content, bool disable_audio_an
 		run_ffprobe(content->path(0), file("ffprobe.log"));
 	}
 
-	auto j = make_shared<ExamineContentJob>(shared_from_this(), content, false);
+	auto j = make_shared<ExamineContentJob>(shared_from_this(), vector<shared_ptr<Content>>{content}, false);
 
 	_job_connections.push_back(
 		j->Finished.connect(bind(&Film::maybe_add_content, this, weak_ptr<Job>(j), weak_ptr<Content>(content), disable_audio_analysis))

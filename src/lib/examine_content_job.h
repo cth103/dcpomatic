@@ -28,19 +28,19 @@ class Content;
 class ExamineContentJob : public Job
 {
 public:
-	ExamineContentJob(std::shared_ptr<const Film> film, std::shared_ptr<Content> content, bool tolerant);
+	ExamineContentJob(std::shared_ptr<const Film> film, std::vector<std::shared_ptr<Content>> content, bool tolerant);
 	~ExamineContentJob();
 
 	std::string name() const override;
 	std::string json_name() const override;
 	void run() override;
 
-	std::shared_ptr<Content> content() const {
+	std::vector<std::shared_ptr<Content>> content() const {
 		return _content;
 	}
 
 private:
-	std::shared_ptr<Content> _content;
+	std::vector<std::shared_ptr<Content>> _content;
 
 	bool _tolerant;
 };

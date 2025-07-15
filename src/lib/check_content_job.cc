@@ -81,9 +81,7 @@ CheckContentJob::run ()
 	}
 
 	if (!changed.empty()) {
-		for (auto i: changed) {
-			JobManager::instance()->add(make_shared<ExamineContentJob>(_film, i, false));
-		}
+		JobManager::instance()->add(make_shared<ExamineContentJob>(_film, changed, false));
 		set_message (_("Some files have been changed since they were added to the project.\n\nThese files will now be re-examined, so you may need to check their settings."));
 	}
 

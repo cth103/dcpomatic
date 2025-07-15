@@ -100,9 +100,7 @@ TranscodeJob::run ()
 		if (!changed.empty()) {
 			switch (_changed) {
 			case ChangedBehaviour::EXAMINE_THEN_STOP:
-				for (auto i: changed) {
-					JobManager::instance()->add(make_shared<ExamineContentJob>(_film, i, false));
-				}
+				JobManager::instance()->add(make_shared<ExamineContentJob>(_film, changed, false));
 				set_progress (1);
 				set_message (_("Some files have been changed since they were added to the project.\n\nThese files will now be re-examined, so you may need to check their settings before trying again."));
 				set_error (_("Files have changed since they were added to the project."), _("Check their new settings, then try again."));
