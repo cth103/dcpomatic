@@ -1432,35 +1432,45 @@ Film::examine_and_add_content(shared_ptr<Content> content, bool disable_audio_an
 	auto j = make_shared<ExamineContentJob>(shared_from_this(), vector<shared_ptr<Content>>{content}, false);
 
 	_job_connections.push_back(
-		j->Finished.connect(bind(&Film::maybe_add_content, this, weak_ptr<Job>(j), weak_ptr<Content>(content), disable_audio_analysis))
+		j->Finished.connect(bind(&Film::maybe_add_content, this, weak_ptr<Job>(j), vector<weak_ptr<Content>>{weak_ptr<Content>(content)}, disable_audio_analysis))
 		);
 
 	JobManager::instance()->add(j);
 }
 
 void
-Film::maybe_add_content(weak_ptr<Job> j, weak_ptr<Content> c, bool disable_audio_analysis)
+Film::maybe_add_content(weak_ptr<Job> j, vector<weak_ptr<Content>> const& weak_content, bool disable_audio_analysis)
 {
 	auto job = j.lock();
 	if (!job || !job->finished_ok()) {
 		return;
 	}
 
-	auto content = c.lock();
-	if (!content) {
+	vector<shared_ptr<Content>> content;
+	for (auto i: weak_content) {
+		if (auto c = i.lock()) {
+			content.push_back(c);
+		}
+	}
+
+	if (content.empty()) {
 		return;
 	}
 
-	add_content(vector<shared_ptr<Content>>{content});
+	add_content(content);
 
-	if (Config::instance()->automatic_audio_analysis() && content->audio && !disable_audio_analysis) {
-		auto playlist = make_shared<Playlist>();
-		playlist->add(shared_from_this(), content);
-		boost::signals2::connection c;
-		JobManager::instance()->analyse_audio(
-			shared_from_this(), playlist, false, c, bind(&Film::audio_analysis_finished, this)
-			);
-		_audio_analysis_connections.push_back(c);
+	for (auto i: content) {
+		if (Config::instance()->automatic_audio_analysis() && !disable_audio_analysis) {
+			if (i->audio) {
+				auto playlist = make_shared<Playlist>();
+				playlist->add(shared_from_this(), i);
+				boost::signals2::connection c;
+				JobManager::instance()->analyse_audio(
+					shared_from_this(), playlist, false, c, bind(&Film::audio_analysis_finished, this)
+					);
+				_audio_analysis_connections.push_back(c);
+			}
+		}
 	}
 }
 

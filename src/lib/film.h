@@ -477,7 +477,7 @@ private:
 	void playlist_order_changed();
 	void playlist_content_change(ChangeType type, std::weak_ptr<Content>, int, bool frequent);
 	void playlist_length_change();
-	void maybe_add_content(std::weak_ptr<Job>, std::weak_ptr<Content>, bool disable_audio_analysis);
+	void maybe_add_content(std::weak_ptr<Job>, std::vector<std::weak_ptr<Content>> const& weak_content, bool disable_audio_analysis);
 	void audio_analysis_finished();
 	void check_settings_consistency();
 	void maybe_set_container_and_resolution();
