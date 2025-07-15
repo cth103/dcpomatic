@@ -38,6 +38,7 @@
 #include "lib/text_content.h"
 #include "lib/video_content.h"
 #include <dcp/locale_convert.h>
+#include <dcp/scope_guard.h>
 #include <dcp/warnings.h>
 #if defined(__WXGTK20__) && !defined(__WXGTK3__)
 #define TIMING_PANEL_ALIGNMENT_HACK 1
@@ -329,6 +330,12 @@ TimingPanel::full_length_changed()
 {
 	int const vfr = _parent->film()->video_frame_rate();
 	Frame const len = _full_length->get(vfr).frames_round(vfr);
+
+	ContentChangeSignalDespatcher::instance()->suspend();
+	dcp::ScopeGuard sg = []() {
+		ContentChangeSignalDespatcher::instance()->resume();
+	};
+
 	for (auto i: _parent->selected()) {
 		shared_ptr<ImageContent> ic = dynamic_pointer_cast<ImageContent>(i);
 		if (ic && ic->still()) {
