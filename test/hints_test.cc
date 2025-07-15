@@ -76,7 +76,7 @@ check (TextType type, string name, optional<string> expected_hint = optional<str
 	auto content = content_factory("test/data/" + name + ".srt")[0];
 	content->text.front()->set_type (type);
 	content->text.front()->set_language (dcp::LanguageTag("en-US"));
-	film->examine_and_add_content (content);
+	film->examine_and_add_content({content});
 	BOOST_REQUIRE (!wait_for_jobs());
 	auto hints = get_hints (film);
 
@@ -196,7 +196,7 @@ BOOST_AUTO_TEST_CASE (hint_subtitle_mxf_too_big)
 		auto content = content_factory(fmt::format("test/data/{}{}.xml", name, i))[0];
 		content->text[0]->set_type(TextType::OPEN_SUBTITLE);
 		content->text[0]->set_language(dcp::LanguageTag("en-US"));
-		film->examine_and_add_content(content);
+		film->examine_and_add_content({content});
 		BOOST_REQUIRE (!wait_for_jobs());
 		auto const font = content->text[0]->get_font(fmt::format("font_{}", i));
 		BOOST_REQUIRE(font);
@@ -234,7 +234,7 @@ BOOST_AUTO_TEST_CASE (hint_closed_caption_xml_too_big)
 	auto content = content_factory("build/test/" + name + ".srt")[0];
 	content->text.front()->set_type (TextType::CLOSED_CAPTION);
 	content->text.front()->set_language (dcp::LanguageTag("en-US"));
-	film->examine_and_add_content (content);
+	film->examine_and_add_content({content});
 	BOOST_REQUIRE (!wait_for_jobs());
 	auto hints = get_hints (film);
 
@@ -250,8 +250,8 @@ BOOST_AUTO_TEST_CASE (hint_closed_caption_xml_too_big)
 BOOST_AUTO_TEST_CASE (hints_destroyed_while_running)
 {
 	auto film = new_test_film("hints_destroyed_while_running");
-	auto content = content_factory(TestPaths::private_data() / "boon_telly.mkv")[0];
-	film->examine_and_add_content (content);
+	auto content = content_factory(TestPaths::private_data() / "boon_telly.mkv");
+	film->examine_and_add_content({content});
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	auto hints = make_shared<Hints>(film);

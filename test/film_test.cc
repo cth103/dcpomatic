@@ -55,12 +55,12 @@ BOOST_AUTO_TEST_CASE(film_possible_reel_types_test1)
 	auto film = new_test_film("film_possible_reel_types_test1");
 	BOOST_CHECK_EQUAL(film->possible_reel_types().size(), 4U);
 
-	film->examine_and_add_content(content_factory("test/data/flat_red.png")[0]);
+	film->examine_and_add_content(content_factory("test/data/flat_red.png"));
 	BOOST_REQUIRE(!wait_for_jobs());
 	BOOST_CHECK_EQUAL(film->possible_reel_types().size(), 4U);
 
 	auto dcp = make_shared<DCPContent>("test/data/reels_test2");
-	film->examine_and_add_content(dcp);
+	film->examine_and_add_content({dcp});
 	BOOST_REQUIRE(!wait_for_jobs());
 	BOOST_CHECK_EQUAL(film->possible_reel_types().size(), 4U);
 
@@ -78,7 +78,7 @@ BOOST_AUTO_TEST_CASE(film_possible_reel_types_test2)
 	auto film = new_test_film("film_possible_reel_types_test2");
 
 	auto dcp = make_shared<DCPContent>("test/data/dcp_digest_test_dcp");
-	film->examine_and_add_content(dcp);
+	film->examine_and_add_content({dcp});
 	BOOST_REQUIRE(!wait_for_jobs());
 	BOOST_CHECK_EQUAL(film->possible_reel_types().size(), 4U);
 

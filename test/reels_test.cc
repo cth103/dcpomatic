@@ -191,13 +191,13 @@ BOOST_AUTO_TEST_CASE (reels_test4)
 	shared_ptr<ImageContent> content[4];
 	for (int i = 0; i < 4; ++i) {
 		content[i] = make_shared<ImageContent>("test/data/flat_green.png");
-		film->examine_and_add_content (content[i]);
+		film->examine_and_add_content({content[i]});
 		BOOST_REQUIRE (!wait_for_jobs());
 		content[i]->video->set_length (24);
 	}
 
 	auto subs = make_shared<StringTextFileContent>("test/data/subrip3.srt");
-	film->examine_and_add_content (subs);
+	film->examine_and_add_content({subs});
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	film->set_audio_channels(16);
@@ -663,7 +663,7 @@ BOOST_AUTO_TEST_CASE(reel_assets_same_length_with_atmos)
 	});
 
 	auto picture = content_factory("test/data/flat_red.png")[0];
-	film->examine_and_add_content(picture);
+	film->examine_and_add_content({picture});
 	wait_for_jobs();
 	picture->video->set_length(480);
 

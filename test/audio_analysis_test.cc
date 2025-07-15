@@ -172,7 +172,7 @@ BOOST_AUTO_TEST_CASE (analyse_audio_leqm_test)
 	auto film = new_test_film("analyse_audio_leqm_test");
 	film->set_audio_channels (2);
 	auto content = content_factory(TestPaths::private_data() / "betty_stereo_48k.wav")[0];
-	film->examine_and_add_content (content);
+	film->examine_and_add_content({content});
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	auto playlist = make_shared<Playlist>();

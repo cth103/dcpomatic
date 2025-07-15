@@ -87,7 +87,7 @@ BOOST_AUTO_TEST_CASE (vf_test1)
 	BOOST_CHECK (!dcp->can_reference_text(film, TextType::CLOSED_CAPTION, why_not));
 
 	auto other = make_shared<FFmpegContent>("test/data/test.mp4");
-	film->examine_and_add_content (other);
+	film->examine_and_add_content({other});
 	BOOST_REQUIRE (!wait_for_jobs());
 	BOOST_CHECK (!other->audio);
 
@@ -214,7 +214,7 @@ BOOST_AUTO_TEST_CASE (vf_test4)
 	dcp->set_reference_video (true);
 	dcp->set_reference_audio (true);
 	auto more_video = content_factory("test/data/flat_red.png")[0];
-	vf->examine_and_add_content (more_video);
+	vf->examine_and_add_content({more_video});
 	BOOST_REQUIRE (!wait_for_jobs());
 	more_video->set_position (vf, DCPTime());
 	make_and_verify_dcp(vf, {dcp::VerificationNote::Code::EXTERNAL_ASSET}, false);
@@ -248,7 +248,7 @@ BOOST_AUTO_TEST_CASE (vf_test5)
 	ov->set_reel_type (ReelType::BY_VIDEO_CONTENT);
 	for (int i = 0; i < 3; ++i) {
 		auto video = content_factory("test/data/flat_red.png")[0];
-		ov->examine_and_add_content (video);
+		ov->examine_and_add_content({video});
 		BOOST_REQUIRE (!wait_for_jobs());
 		video->video->set_length (24 * 10);
 	}
@@ -300,7 +300,7 @@ BOOST_AUTO_TEST_CASE (vf_test6)
 	dcp->set_reference_audio (true);
 
 	auto sub = content_factory("test/data/15s.srt")[0];
-	vf->examine_and_add_content (sub);
+	vf->examine_and_add_content({sub});
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	make_and_verify_dcp (
@@ -497,7 +497,7 @@ BOOST_AUTO_TEST_CASE(test_referencing_ov_with_missing_subtitle_in_some_reels)
 	vf->set_dcp_content_type(DCPContentType::from_isdcf_name("TST"));
 	vf->set_container(Ratio::from_id("185"));
 	vf->write_metadata();
-	vf->examine_and_add_content(dcp_ov);
+	vf->examine_and_add_content({dcp_ov});
 	BOOST_REQUIRE(!wait_for_jobs());
 	vf->set_reel_type(ReelType::BY_VIDEO_CONTENT);
 	dcp_ov->set_reference_video(true);

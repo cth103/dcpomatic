@@ -39,7 +39,7 @@ BOOST_AUTO_TEST_CASE(template_wrong_channel_counts)
 	film->use_template(string("Bug"));
 
 	auto mono = content_factory("test/data/C.wav").front();
-	film->examine_and_add_content(mono);
+	film->examine_and_add_content({mono});
 	BOOST_REQUIRE(!wait_for_jobs());
 
 	BOOST_REQUIRE_EQUAL(mono->audio->streams().size(), 1U);

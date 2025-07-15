@@ -665,8 +665,9 @@ ContentPanel::add_folder(boost::filesystem::path folder)
 			ic->set_video_frame_rate(_film, dialog.frame_rate());
 		}
 
-		_film->examine_and_add_content(i);
 	}
+
+	_film->examine_and_add_content(content);
 }
 
 
@@ -684,7 +685,7 @@ void
 ContentPanel::add_dcp(boost::filesystem::path dcp)
 {
 	try {
-		_film->examine_and_add_content(make_shared<DCPContent>(dcp));
+		_film->examine_and_add_content({make_shared<DCPContent>(dcp)});
 	} catch (ProjectFolderError &) {
 		error_dialog(
 			_parent,
@@ -963,9 +964,7 @@ ContentPanel::add_files(vector<boost::filesystem::path> paths)
 
 	try {
 		for (auto i: paths) {
-			for (auto j: content_factory(i)) {
-				_film->examine_and_add_content(j);
-			}
+			_film->examine_and_add_content(content_factory(i));
 		}
 	} catch (exception& e) {
 		error_dialog(_parent, std_to_wx(e.what()));

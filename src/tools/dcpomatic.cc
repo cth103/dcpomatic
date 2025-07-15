@@ -1738,12 +1738,10 @@ private:
 			if (!_film_to_create.empty ()) {
 				_frame->new_film (_film_to_create, optional<string>());
 				if (!_content_to_add.empty()) {
-					for (auto i: content_factory(_content_to_add)) {
-						_frame->film()->examine_and_add_content(i);
-					}
+					_frame->film()->examine_and_add_content(content_factory(_content_to_add));
 				}
 				if (!_dcp_to_add.empty ()) {
-					_frame->film()->examine_and_add_content(make_shared<DCPContent>(_dcp_to_add));
+					_frame->film()->examine_and_add_content({make_shared<DCPContent>(_dcp_to_add)});
 				}
 			}
 

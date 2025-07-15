@@ -143,7 +143,7 @@ BOOST_AUTO_TEST_CASE (import_dcp_metadata_test)
 	/* Make a DCP with some ratings and a content version */
 	auto film = new_test_film("import_dcp_metadata_test");
 	auto content = content_factory("test/data/flat_red.png")[0];
-	film->examine_and_add_content (content);
+	film->examine_and_add_content({content});
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	content->video->set_length (10);
@@ -159,7 +159,7 @@ BOOST_AUTO_TEST_CASE (import_dcp_metadata_test)
 	/* Import the DCP to a new film and check the metadata */
 	auto film2 = new_test_film("import_dcp_metadata_test2");
 	auto imported = make_shared<DCPContent>(film->dir(film->dcp_name()));
-	film2->examine_and_add_content (imported);
+	film2->examine_and_add_content({imported});
 	BOOST_REQUIRE (!wait_for_jobs());
 	film2->write_metadata ();
 

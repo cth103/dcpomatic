@@ -53,8 +53,7 @@ BOOST_AUTO_TEST_CASE (no_use_video_test1)
 	auto film = new_test_film("no_use_video_test1");
 	auto A = content_factory("test/data/flat_red.png")[0];
 	auto B = content_factory("test/data/flat_green.png")[0];
-	film->examine_and_add_content (A);
-	film->examine_and_add_content (B);
+	film->examine_and_add_content({A, B});
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	A->set_position (film, dcpomatic::DCPTime());
@@ -100,8 +99,7 @@ BOOST_AUTO_TEST_CASE (no_use_video_test3)
 	BOOST_REQUIRE (ov_a_pic);
 	auto ov_a_snd = content_factory("test/data/sine_16_48_220_10.wav")[0];
 	BOOST_REQUIRE (ov_a_snd);
-	ov_a->examine_and_add_content (ov_a_pic);
-	ov_a->examine_and_add_content (ov_a_snd);
+	ov_a->examine_and_add_content({ov_a_pic, ov_a_snd});
 	BOOST_REQUIRE (!wait_for_jobs());
 	make_and_verify_dcp (ov_a);
 
@@ -110,16 +108,14 @@ BOOST_AUTO_TEST_CASE (no_use_video_test3)
 	BOOST_REQUIRE (ov_b_pic);
 	auto ov_b_snd = content_factory("test/data/sine_16_48_880_10.wav")[0];
 	BOOST_REQUIRE (ov_b_snd);
-	ov_b->examine_and_add_content (ov_b_pic);
-	ov_b->examine_and_add_content (ov_b_snd);
+	ov_b->examine_and_add_content({ov_b_pic, ov_b_snd});
 	BOOST_REQUIRE (!wait_for_jobs());
 	make_and_verify_dcp (ov_b);
 
 	auto vf = new_test_film("no_use_video_test3_vf");
 	auto A = make_shared<DCPContent>(ov_a->dir(ov_a->dcp_name()));
 	auto B = make_shared<DCPContent>(ov_b->dir(ov_b->dcp_name()));
-	vf->examine_and_add_content (A);
-	vf->examine_and_add_content (B);
+	vf->examine_and_add_content({A, B});
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	A->set_position (vf, dcpomatic::DCPTime());

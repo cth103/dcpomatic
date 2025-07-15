@@ -60,8 +60,7 @@ BOOST_AUTO_TEST_CASE (empty_test1)
 	auto contentA = make_shared<ImageContent>("test/data/simple_testcard_640x480.png");
 	auto contentB = make_shared<ImageContent>("test/data/simple_testcard_640x480.png");
 
-	film->examine_and_add_content (contentA);
-	film->examine_and_add_content (contentB);
+	film->examine_and_add_content({contentA, contentB});
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	int const vfr = film->video_frame_rate ();
@@ -93,8 +92,7 @@ BOOST_AUTO_TEST_CASE (empty_test2)
 	auto contentA = make_shared<ImageContent>("test/data/simple_testcard_640x480.png");
 	auto contentB = make_shared<ImageContent>("test/data/simple_testcard_640x480.png");
 
-	film->examine_and_add_content (contentA);
-	film->examine_and_add_content (contentB);
+	film->examine_and_add_content({contentA, contentB});
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	int const vfr = film->video_frame_rate ();
@@ -132,8 +130,7 @@ BOOST_AUTO_TEST_CASE (empty_test3)
 	auto contentA = make_shared<ImageContent>("test/data/simple_testcard_640x480.png");
 	auto contentB = make_shared<ImageContent>("test/data/simple_testcard_640x480.png");
 
-	film->examine_and_add_content (contentA);
-	film->examine_and_add_content (contentB);
+	film->examine_and_add_content({contentA, contentB});
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	int const vfr = film->video_frame_rate ();
@@ -165,8 +162,7 @@ BOOST_AUTO_TEST_CASE (empty_test_with_overlapping_content)
 	auto contentA = make_shared<ImageContent>("test/data/simple_testcard_640x480.png");
 	auto contentB = make_shared<ImageContent>("test/data/simple_testcard_640x480.png");
 
-	film->examine_and_add_content (contentA);
-	film->examine_and_add_content (contentB);
+	film->examine_and_add_content({contentA, contentB});
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	int const vfr = film->video_frame_rate ();

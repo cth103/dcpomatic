@@ -206,7 +206,7 @@ BOOST_AUTO_TEST_CASE (player_seek_test)
 {
 	auto film = std::make_shared<Film>(optional<boost::filesystem::path>());
 	auto dcp = std::make_shared<DCPContent>(TestPaths::private_data() / "awkward_subs");
-	film->examine_and_add_content (dcp, true);
+	film->examine_and_add_content({dcp}, true);
 	BOOST_REQUIRE (!wait_for_jobs ());
 	dcp->only_text()->set_use (true);
 
@@ -239,7 +239,7 @@ BOOST_AUTO_TEST_CASE (player_seek_test2)
 {
 	auto film = std::make_shared<Film>(optional<boost::filesystem::path>());
 	auto dcp = std::make_shared<DCPContent>(TestPaths::private_data() / "awkward_subs2");
-	film->examine_and_add_content (dcp, true);
+	film->examine_and_add_content({dcp}, true);
 	BOOST_REQUIRE (!wait_for_jobs ());
 	dcp->only_text()->set_use (true);
 
@@ -272,11 +272,11 @@ BOOST_AUTO_TEST_CASE (player_trim_test)
 {
        auto film = new_test_film("player_trim_test");
        auto A = content_factory("test/data/flat_red.png")[0];
-       film->examine_and_add_content (A);
+       film->examine_and_add_content({A});
        BOOST_REQUIRE (!wait_for_jobs ());
        A->video->set_length (10 * 24);
        auto B = content_factory("test/data/flat_red.png")[0];
-       film->examine_and_add_content (B);
+       film->examine_and_add_content({B});
        BOOST_REQUIRE (!wait_for_jobs ());
        B->video->set_length (10 * 24);
        B->set_position (film, DCPTime::from_seconds(10));
@@ -311,9 +311,9 @@ BOOST_AUTO_TEST_CASE (player_ignore_video_and_audio_test)
 {
 	auto film = new_test_film("player_ignore_video_and_audio_test");
 	auto ff = content_factory(TestPaths::private_data() / "boon_telly.mkv")[0];
-	film->examine_and_add_content (ff);
+	film->examine_and_add_content({ff});
 	auto text = content_factory("test/data/subrip.srt")[0];
-	film->examine_and_add_content (text);
+	film->examine_and_add_content({text});
 	BOOST_REQUIRE (!wait_for_jobs());
 	text->only_text()->set_type (TextType::CLOSED_CAPTION);
 	text->only_text()->set_use (true);
@@ -335,7 +335,7 @@ BOOST_AUTO_TEST_CASE (player_trim_crash)
 {
 	auto film = new_test_film("player_trim_crash");
 	auto boon = content_factory(TestPaths::private_data() / "boon_telly.mkv")[0];
-	film->examine_and_add_content (boon);
+	film->examine_and_add_content({boon});
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	Player player(film, Image::Alignment::COMPACT, false);
@@ -377,9 +377,9 @@ BOOST_AUTO_TEST_CASE (player_3d_test_1)
 {
 	auto film = new_test_film("player_3d_test_1a");
 	auto left = content_factory("test/data/flat_red.png")[0];
-	film->examine_and_add_content (left);
+	film->examine_and_add_content({left});
 	auto right = content_factory("test/data/flat_blue.png")[0];
-	film->examine_and_add_content (right);
+	film->examine_and_add_content({right});
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	left->video->set_frame_type (VideoFrameType::THREE_D_LEFT);
@@ -446,7 +446,7 @@ BOOST_AUTO_TEST_CASE (player_silence_at_end_crash)
 
 	BOOST_REQUIRE (video);
 	auto content3 = content_factory(*video)[0];
-	film2->examine_and_add_content (content3);
+	film2->examine_and_add_content({content3});
 	BOOST_REQUIRE (!wait_for_jobs());
 	content3->set_position (film2, DCPTime::from_seconds(1.5));
 	film2->set_video_frame_rate (24);

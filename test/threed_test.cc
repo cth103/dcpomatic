@@ -89,9 +89,8 @@ BOOST_AUTO_TEST_CASE (threed_test3)
 {
 	auto film = new_test_film("threed_test3");
 	auto L = make_shared<FFmpegContent>("test/data/test.mp4");
-	film->examine_and_add_content (L);
 	auto R = make_shared<FFmpegContent>("test/data/test.mp4");
-	film->examine_and_add_content (R);
+	film->examine_and_add_content({L, R});
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	L->video->set_frame_type (VideoFrameType::THREE_D_LEFT);
@@ -108,9 +107,8 @@ BOOST_AUTO_TEST_CASE (threed_test4)
 
 	auto film = new_test_film("threed_test4");
 	auto L = make_shared<FFmpegContent>(TestPaths::private_data() / "LEFT_TEST_DCP3D4K.mov");
-	film->examine_and_add_content (L);
 	auto R = make_shared<FFmpegContent>(TestPaths::private_data() / "RIGHT_TEST_DCP3D4K.mov");
-	film->examine_and_add_content (R);
+	film->examine_and_add_content({L, R});
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	L->video->set_frame_type (VideoFrameType::THREE_D_LEFT);
@@ -137,9 +135,8 @@ BOOST_AUTO_TEST_CASE (threed_test5)
 {
 	auto film = new_test_film("threed_test5");
 	auto L = make_shared<FFmpegContent>(TestPaths::private_data() / "boon_telly.mkv");
-	film->examine_and_add_content (L);
 	auto R = make_shared<FFmpegContent>(TestPaths::private_data() / "boon_telly.mkv");
-	film->examine_and_add_content (R);
+	film->examine_and_add_content({L, R});
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	L->video->set_frame_type (VideoFrameType::THREE_D_LEFT);
@@ -159,9 +156,8 @@ BOOST_AUTO_TEST_CASE (threed_test6)
 {
 	auto film = new_test_film("threed_test6");
 	auto L = make_shared<FFmpegContent>("test/data/3dL.mp4");
-	film->examine_and_add_content (L);
 	auto R = make_shared<FFmpegContent>("test/data/3dR.mp4");
-	film->examine_and_add_content (R);
+	film->examine_and_add_content({L, R});
 	film->set_audio_channels(16);
 	BOOST_REQUIRE (!wait_for_jobs());
 
@@ -182,7 +178,7 @@ BOOST_AUTO_TEST_CASE (threed_test7)
 	auto film = new_test_film("threed_test7");
 	path const content_path = "test/data/flat_red.png";
 	auto c = content_factory(content_path)[0];
-	film->examine_and_add_content (c);
+	film->examine_and_add_content({c});
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	c->video->set_frame_type (VideoFrameType::THREE_D);
@@ -224,9 +220,8 @@ BOOST_AUTO_TEST_CASE (threed_test_separate_files_slightly_different_lengths)
 {
 	auto film = new_test_film("threed_test3");
 	auto L = make_shared<FFmpegContent>("test/data/test.mp4");
-	film->examine_and_add_content (L);
 	auto R = make_shared<FFmpegContent>("test/data/test.mp4");
-	film->examine_and_add_content (R);
+	film->examine_and_add_content({L, R});
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	L->video->set_frame_type (VideoFrameType::THREE_D_LEFT);
@@ -245,9 +240,8 @@ BOOST_AUTO_TEST_CASE (threed_test_separate_files_very_different_lengths)
 {
 	auto film = new_test_film("threed_test3");
 	auto L = make_shared<FFmpegContent>("test/data/test.mp4");
-	film->examine_and_add_content (L);
 	auto R = make_shared<FFmpegContent>("test/data/test.mp4");
-	film->examine_and_add_content (R);
+	film->examine_and_add_content({L, R});
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	L->video->set_frame_type (VideoFrameType::THREE_D_LEFT);
@@ -263,9 +257,8 @@ BOOST_AUTO_TEST_CASE (threed_test_butler_overfill)
 {
 	auto film = new_test_film("threed_test_butler_overfill");
 	auto A = make_shared<FFmpegContent>(TestPaths::private_data() / "arrietty_JP-EN.mkv");
-	film->examine_and_add_content(A);
 	auto B = make_shared<FFmpegContent>(TestPaths::private_data() / "arrietty_JP-EN.mkv");
-	film->examine_and_add_content(B);
+	film->examine_and_add_content({A, B});
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	Player player(film, Image::Alignment::COMPACT, false);

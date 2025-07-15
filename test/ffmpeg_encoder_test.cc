@@ -296,17 +296,17 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test5)
 BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test6)
 {
 	auto film = new_test_film("ffmpeg_encoder_h264_test6_ov");
-	film->examine_and_add_content (make_shared<ImageContent>(TestPaths::private_data() / "bbc405.png"));
+	film->examine_and_add_content({make_shared<ImageContent>(TestPaths::private_data() / "bbc405.png")});
 	BOOST_REQUIRE (!wait_for_jobs());
 	make_and_verify_dcp (film);
 
 	auto film2 = new_test_film("ffmpeg_encoder_h264_test6_vf");
 	auto ov = make_shared<DCPContent>("build/test/ffmpeg_encoder_h264_test6_ov/" + film->dcp_name(false));
-	film2->examine_and_add_content (ov);
+	film2->examine_and_add_content({ov});
 	BOOST_REQUIRE (!wait_for_jobs());
 	ov->set_reference_video (true);
 	auto subs = content_factory("test/data/subrip.srt")[0];
-	film2->examine_and_add_content (subs);
+	film2->examine_and_add_content({subs});
 	BOOST_REQUIRE (!wait_for_jobs());
 	for (auto i: subs->text) {
 		i->set_use (true);
@@ -374,7 +374,7 @@ BOOST_AUTO_TEST_CASE(ffmpeg_encoder_2d_content_in_3d_project)
 BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test8)
 {
 	auto film = new_test_film("ffmpeg_encoder_h264_test4");
-	film->examine_and_add_content(make_shared<DCPContent>("test/data/scope_dcp"));
+	film->examine_and_add_content({make_shared<DCPContent>("test/data/scope_dcp")});
 	BOOST_REQUIRE(!wait_for_jobs());
 	film->set_audio_channels (2);
 
@@ -393,7 +393,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test9)
 	film->set_container (Ratio::from_id ("185"));
 	film->set_audio_channels (12);
 
-	film->examine_and_add_content (c);
+	film->examine_and_add_content({c});
 	BOOST_REQUIRE (!wait_for_jobs ());
 
 	c->video->set_length (240);

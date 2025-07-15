@@ -101,7 +101,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_audio_test2)
 {
 	auto film = new_test_film("ffmpeg_audio_test2");
 	auto content = content_factory(TestPaths::private_data() / "wayne.mkv")[0];
-	film->examine_and_add_content (content);
+	film->examine_and_add_content({content});
 	BOOST_REQUIRE (!wait_for_jobs ());
 
 	auto player = make_shared<Player>(film, Image::Alignment::COMPACT, false);
@@ -114,7 +114,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_audio_test3)
 {
 	auto film = new_test_film("ffmpeg_audio_test3");
 	auto content = content_factory(TestPaths::private_data() / "wayne.mkv")[0];
-	film->examine_and_add_content (content);
+	film->examine_and_add_content({content});
 	BOOST_REQUIRE (!wait_for_jobs ());
 
 	auto player = make_shared<Player>(film, Image::Alignment::COMPACT, false);
@@ -128,7 +128,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_audio_test4)
 {
 	auto film = new_test_film("ffmpeg_audio_test4");
 	auto content = content_factory(TestPaths::private_data() / "Actuellement aout 2020.wmv")[0];
-	film->examine_and_add_content (content);
+	film->examine_and_add_content({content});
 	BOOST_REQUIRE (!wait_for_jobs ());
 
 	auto player = make_shared<Player>(film, Image::Alignment::COMPACT, false);

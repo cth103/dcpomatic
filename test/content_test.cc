@@ -114,7 +114,7 @@ BOOST_AUTO_TEST_CASE (content_test4)
 	auto film = new_test_film("content_test4");
 
 	auto video = content_factory("test/data/count300bd24.m2ts")[0];
-	film->examine_and_add_content (video);
+	film->examine_and_add_content({video});
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	video->set_trim_end (dcpomatic::ContentTime(3000));

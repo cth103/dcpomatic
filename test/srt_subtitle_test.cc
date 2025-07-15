@@ -170,7 +170,7 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test5)
 		content->only_text()->set_use (true);
 		content->only_text()->set_burn (false);
 		content->only_text()->set_language(dcp::LanguageTag("de"));
-		film->examine_and_add_content (content);
+		film->examine_and_add_content({content});
 		BOOST_REQUIRE (!wait_for_jobs());
 		content->set_position (film, DCPTime());
 	}

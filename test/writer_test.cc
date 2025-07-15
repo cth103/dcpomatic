@@ -61,7 +61,7 @@ BOOST_AUTO_TEST_CASE (interrupt_writer)
 	auto film = new_test_film("test_interrupt_writer", {}, &cl);
 
 	auto content = content_factory("test/data/check_image0.png")[0];
-	film->examine_and_add_content (content);
+	film->examine_and_add_content({content});
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	/* Add some dummy content to the film so that it has a reel of the right length */

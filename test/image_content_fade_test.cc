@@ -35,7 +35,7 @@ BOOST_AUTO_TEST_CASE (image_content_fade_test)
 {
 	auto film = new_test_film("image_content_fade_test");
 	auto content = content_factory("test/data/flat_red.png")[0];
-	film->examine_and_add_content (content);
+	film->examine_and_add_content({content});
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	content->video->set_fade_in (1);

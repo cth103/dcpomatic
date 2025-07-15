@@ -62,7 +62,7 @@ BOOST_AUTO_TEST_CASE (check_reuse_old_data_test)
 	make_and_verify_dcp(vf, {dcp::VerificationNote::Code::EXTERNAL_ASSET}, false);
 
 	auto encrypted = new_test_film("check_reuse_old_data_decrypted");
-	encrypted->examine_and_add_content (content_factory("test/data/flat_red.png")[0]);
+	encrypted->examine_and_add_content(content_factory("test/data/flat_red.png"));
 	BOOST_REQUIRE (!wait_for_jobs());
 	encrypted->set_encrypted (true);
 	make_and_verify_dcp (encrypted);
@@ -81,7 +81,7 @@ BOOST_AUTO_TEST_CASE (check_reuse_old_data_test)
 	*/
 	auto test = new_test_film("check_reuse_old_data_test1");
 	ov_content = make_shared<DCPContent>(ov->dir(ov->dcp_name(false)));
-	test->examine_and_add_content (ov_content);
+	test->examine_and_add_content({ov_content});
 	BOOST_REQUIRE (!wait_for_jobs());
 	auto player = make_shared<Player>(test, Image::Alignment::COMPACT, false);
 
@@ -99,7 +99,7 @@ BOOST_AUTO_TEST_CASE (check_reuse_old_data_test)
 	*/
 	test = new_test_film("check_reuse_old_data_test2");
 	auto vf_content = make_shared<DCPContent>(vf->dir(vf->dcp_name(false)));
-	test->examine_and_add_content (vf_content);
+	test->examine_and_add_content({vf_content});
 	BOOST_REQUIRE (!wait_for_jobs());
 	player = make_shared<Player>(test, Image::Alignment::COMPACT, false);
 
@@ -117,7 +117,7 @@ BOOST_AUTO_TEST_CASE (check_reuse_old_data_test)
 	/* Add a KDM to an encrypted DCP and check that the _reels did not get reused */
 	test = new_test_film("check_reuse_old_data_test3");
 	auto encrypted_content = make_shared<DCPContent>(encrypted->dir(encrypted->dcp_name(false)));
-	test->examine_and_add_content (encrypted_content);
+	test->examine_and_add_content({encrypted_content});
 	BOOST_REQUIRE (!wait_for_jobs());
 	player = make_shared<Player>(test, Image::Alignment::COMPACT, false);
 

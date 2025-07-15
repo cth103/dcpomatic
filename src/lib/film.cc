@@ -1423,16 +1423,25 @@ Film::content() const
  *  @param disable_audio_analysis true to never do automatic audio analysis, even if it is enabled in configuration.
  */
 void
-Film::examine_and_add_content(shared_ptr<Content> content, bool disable_audio_analysis)
+Film::examine_and_add_content(vector<shared_ptr<Content>> const& content, bool disable_audio_analysis)
 {
-	if (dynamic_pointer_cast<FFmpegContent>(content) && _directory) {
-		run_ffprobe(content->path(0), file("ffprobe.log"));
+	if (content.empty()) {
+		return;
 	}
 
-	auto j = make_shared<ExamineContentJob>(shared_from_this(), vector<shared_ptr<Content>>{content}, false);
+	if (dynamic_pointer_cast<FFmpegContent>(content[0]) && _directory) {
+		run_ffprobe(content[0]->path(0), file("ffprobe.log"));
+	}
+
+	auto j = make_shared<ExamineContentJob>(shared_from_this(), content, false);
+
+	vector<weak_ptr<Content>> weak_content;
+	for (auto i: content) {
+		weak_content.push_back(i);
+	}
 
 	_job_connections.push_back(
-		j->Finished.connect(bind(&Film::maybe_add_content, this, weak_ptr<Job>(j), vector<weak_ptr<Content>>{weak_ptr<Content>(content)}, disable_audio_analysis))
+		j->Finished.connect(bind(&Film::maybe_add_content, this, weak_ptr<Job>(j), weak_content, disable_audio_analysis))
 		);
 
 	JobManager::instance()->add(j);

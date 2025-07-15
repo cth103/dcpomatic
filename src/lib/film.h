@@ -378,7 +378,7 @@ public:
 	void set_directory(boost::filesystem::path);
 	void set_name(std::string);
 	void set_use_isdcf_name(bool);
-	void examine_and_add_content(std::shared_ptr<Content> content, bool disable_audio_analysis = false);
+	void examine_and_add_content(std::vector<std::shared_ptr<Content>> const& content, bool disable_audio_analysis = false);
 	void add_content(std::vector<std::shared_ptr<Content>> const& content);
 	void remove_content(std::shared_ptr<Content>);
 	void remove_content(ContentList);

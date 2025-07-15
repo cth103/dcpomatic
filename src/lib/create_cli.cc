@@ -514,9 +514,7 @@ CreateCLI::make_film(function<void (string)> error) const
 			film_content_list = content_factory(can);
 		}
 
-		for (auto film_content: film_content_list) {
-			film->examine_and_add_content(film_content);
-		}
+		film->examine_and_add_content(film_content_list);
 
 		while (jm->work_to_do()) {
 			dcpomatic_sleep_seconds(1);

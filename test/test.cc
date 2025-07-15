@@ -219,10 +219,8 @@ new_test_film(string name, vector<shared_ptr<Content>> content, Cleanup* cleanup
 	film->set_container (Ratio::from_id ("185"));
 	film->write_metadata ();
 
-	for (auto i: content) {
-		film->examine_and_add_content (i);
-		BOOST_REQUIRE (!wait_for_jobs());
-	}
+	film->examine_and_add_content(content);
+	BOOST_REQUIRE(!wait_for_jobs());
 
 	return film;
 }

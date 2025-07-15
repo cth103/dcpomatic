@@ -80,7 +80,7 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 	BOOST_REQUIRE_EQUAL (text->text.size(), 1U);
 	text->text[0]->set_burn(true);
 	text->text[0]->set_language(dcp::LanguageTag("fr-FR"));
-	film->examine_and_add_content (text);
+	film->examine_and_add_content({text});
 	film->set_version_number(2);
 	film->set_release_territory(dcp::LanguageTag::RegionSubtag("US"));
 	film->set_ratings({dcp::Rating("MPA", "R")});
@@ -88,7 +88,7 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 	film->set_facility (string("ppfacility"));
 	BOOST_REQUIRE (!wait_for_jobs());
 	audio = content_factory("test/data/sine_440.wav")[0];
-	film->examine_and_add_content (audio);
+	film->examine_and_add_content({audio});
 	BOOST_REQUIRE (!wait_for_jobs());
 	film->set_audio_language (dcp::LanguageTag("de-DE"));
 	film->set_interop (false);
@@ -107,7 +107,7 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 	/* Test interior aspect ratio: shouldn't be shown with trailers */
 
 	auto content = std::make_shared<ImageContent>("test/data/simple_testcard_640x480.png");
-	film->examine_and_add_content (content);
+	film->examine_and_add_content({content});
 	BOOST_REQUIRE (!wait_for_jobs());
 	content->video->set_custom_ratio (1.33);
 	film->set_container (Ratio::from_id ("185"));
@@ -185,7 +185,7 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 
 	film->set_audio_channels (6);
 	auto sound = make_shared<FFmpegContent>("test/data/sine_440.wav");
-	film->examine_and_add_content (sound);
+	film->examine_and_add_content({sound});
 	BOOST_REQUIRE (!wait_for_jobs());
 	BOOST_CHECK_EQUAL (film->isdcf_name(false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_10_4K_DI_20140704_PPF_SMPTE_OV");
 

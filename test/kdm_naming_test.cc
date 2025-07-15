@@ -87,7 +87,7 @@ BOOST_AUTO_TEST_CASE (single_kdm_naming_test)
 	boost::filesystem::remove_all ("build/test/single_kdm_naming_test");
 	auto film = new_test_film("single_kdm_naming_test");
 	film->set_name ("my_great_film");
-	film->examine_and_add_content (content_factory("test/data/flat_black.png")[0]);
+	film->examine_and_add_content(content_factory("test/data/flat_black.png"));
 	BOOST_REQUIRE (!wait_for_jobs());
 	film->set_encrypted (true);
 	make_and_verify_dcp (film);

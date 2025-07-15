@@ -313,7 +313,7 @@ movie_V (string name)
 	auto film = new_test_film(name);
 	auto content = dynamic_pointer_cast<FFmpegContent>(content_factory("test/data/rgb_grey_testcard.mp4")[0]);
 	BOOST_REQUIRE (content);
-	film->examine_and_add_content (content);
+	film->examine_and_add_content({content});
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	auto range = pixel_range (film, content);
@@ -332,7 +332,7 @@ movie_VoF (string name)
 	auto film = new_test_film(name);
 	auto content = dynamic_pointer_cast<FFmpegContent>(content_factory("test/data/rgb_grey_testcard.mp4")[0]);
 	BOOST_REQUIRE (content);
-	film->examine_and_add_content (content);
+	film->examine_and_add_content({content});
 	BOOST_REQUIRE (!wait_for_jobs());
 	content->video->set_range (VideoRange::FULL);
 
@@ -351,7 +351,7 @@ movie_F (string name)
 	auto film = new_test_film(name);
 	auto content = dynamic_pointer_cast<FFmpegContent>(content_factory("test/data/rgb_grey_testcard.mov")[0]);
 	BOOST_REQUIRE (content);
-	film->examine_and_add_content (content);
+	film->examine_and_add_content({content});
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	BOOST_CHECK(content->video->range() == VideoRange::FULL);
@@ -371,7 +371,7 @@ movie_FoV (string name)
 	auto film = new_test_film(name);
 	auto content = dynamic_pointer_cast<FFmpegContent>(content_factory("test/data/rgb_grey_testcard.mov")[0]);
 	BOOST_REQUIRE (content);
-	film->examine_and_add_content (content);
+	film->examine_and_add_content({content});
 	BOOST_REQUIRE (!wait_for_jobs());
 	content->video->set_range (VideoRange::VIDEO);
 
@@ -390,7 +390,7 @@ image_F (string name)
 	auto film = new_test_film(name);
 	auto content = dynamic_pointer_cast<ImageContent>(content_factory("test/data/rgb_grey_testcard.png")[0]);
 	BOOST_REQUIRE (content);
-	film->examine_and_add_content (content);
+	film->examine_and_add_content({content});
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	auto range = pixel_range (film, content);
@@ -408,7 +408,7 @@ image_FoV (string name)
 	auto film = new_test_film(name);
 	auto content = dynamic_pointer_cast<ImageContent>(content_factory("test/data/rgb_grey_testcard.png")[0]);
 	BOOST_REQUIRE (content);
-	film->examine_and_add_content (content);
+	film->examine_and_add_content({content});
 	BOOST_REQUIRE (!wait_for_jobs());
 	content->video->set_range (VideoRange::VIDEO);
 
@@ -430,7 +430,7 @@ dcp_F (string name)
 	boost::filesystem::path const dcp = "test/data/RgbGreyTestcar_TST-1_F_MOS_2K_20201115_SMPTE_OV";
 	auto film = new_test_film(name);
 	auto content = make_shared<DCPContent>(dcp);
-	film->examine_and_add_content (content);
+	film->examine_and_add_content({content});
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	auto range = pixel_range (dcp);
@@ -469,7 +469,7 @@ V_movie_range (shared_ptr<Film> film)
 
 	/* This is a bit of a hack; add the exported file into the project so we can decode it */
 	auto content = make_shared<FFmpegContent>(film->file("export.mov"));
-	film->examine_and_add_content (content);
+	film->examine_and_add_content({content});
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	return pixel_range (film, content);

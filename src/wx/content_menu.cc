@@ -288,7 +288,7 @@ ContentMenu::join ()
 	try {
 		auto joined = make_shared<FFmpegContent>(fc);
 		film->remove_content (_content);
-		film->examine_and_add_content (joined);
+		film->examine_and_add_content({joined});
 	} catch (JoinError& e) {
 		error_dialog (_parent, std_to_wx (e.what ()));
 	}
