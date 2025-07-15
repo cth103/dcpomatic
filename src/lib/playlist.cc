@@ -309,6 +309,31 @@ Playlist::add(shared_ptr<const Film> film, shared_ptr<Content> c)
 
 
 void
+Playlist::add_at_end(shared_ptr<const Film> film, vector<shared_ptr<Content>> const& content)
+{
+	Change(ChangeType::PENDING);
+
+	for (auto c: content) {
+		/* Add {video,subtitle} content after any existing {video,subtitle} content */
+		if (c->video) {
+			c->set_position(film, video_end(film));
+		} else if (!c->text.empty()) {
+			c->set_position(film, text_end(film));
+		}
+
+		boost::mutex::scoped_lock lm(_mutex);
+		_content.push_back(c);
+		sort(_content.begin(), _content.end(), ContentSorter());
+		reconnect(film);
+	}
+
+	Change(ChangeType::DONE);
+
+	LengthChange();
+}
+
+
+void
 Playlist::remove(shared_ptr<Content> c)
 {
 	Change(ChangeType::PENDING);

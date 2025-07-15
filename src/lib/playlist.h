@@ -55,6 +55,7 @@ public:
 	void set_from_xml(std::shared_ptr<const Film> film, cxml::ConstNodePtr node, int version, std::list<std::string>& notes);
 
 	void add(std::shared_ptr<const Film> film, std::shared_ptr<Content>);
+	void add_at_end(std::shared_ptr<const Film> film, std::vector<std::shared_ptr<Content>> const& content);
 	void remove(std::shared_ptr<Content>);
 	void remove(ContentList);
 	void move_earlier(std::shared_ptr<const Film> film, std::shared_ptr<Content>);
