@@ -64,7 +64,7 @@ RatioPicker::RatioPicker(wxWindow* parent, optional<float> ratio)
 void
 RatioPicker::set(optional<float> ratio)
 {
-	_enable->set(ratio.has_value());
+	_enable->set(static_cast<bool>(ratio));
 	set_preset(ratio);
 	set_custom(ratio);
 }
