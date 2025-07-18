@@ -46,7 +46,7 @@ RatioPicker::RatioPicker(wxWindow* parent, optional<float> ratio)
 	for (auto ratio: Ratio::all()) {
 		_preset->add_entry(ratio.image_nickname(), ratio.id());
 	}
-	_preset->add_entry(_("Custom"), "custom");
+	_preset->add_entry(_("Custom"), std::string("custom"));
 
 	SetSizer(sizer);
 	Layout();
@@ -138,7 +138,7 @@ RatioPicker::set_preset(optional<float> ratio)
 		auto preset = Ratio::from_ratio(*ratio);
 		_preset->set_by_data(preset ? preset->id() : "custom");
 	} else {
-		_preset->set_by_data("185");
+		_preset->set_by_data(std::string("185"));
 	}
 }
 
