@@ -70,13 +70,7 @@ public:
 	ImageProxy& operator=(ImageProxy const&) = delete;
 
 	struct Result {
-		Result(std::shared_ptr<const Image> image_, int log2_scaling_)
-			: image(image_)
-			, log2_scaling(log2_scaling_)
-			, error(false)
-		{}
-
-		Result(std::shared_ptr<const Image> image_, int log2_scaling_, bool error_)
+		Result(std::shared_ptr<const Image> image_, int log2_scaling_, bool error_ = false)
 			: image(image_)
 			, log2_scaling(log2_scaling_)
 			, error(error_)
