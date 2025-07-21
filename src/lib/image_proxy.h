@@ -63,23 +63,23 @@ namespace cxml {
 class ImageProxy
 {
 public:
-	ImageProxy () {}
-	virtual ~ImageProxy () {}
+	ImageProxy() {}
+	virtual ~ImageProxy() {}
 
-	ImageProxy (ImageProxy const&) = delete;
-	ImageProxy& operator= (ImageProxy const&) = delete;
+	ImageProxy(ImageProxy const&) = delete;
+	ImageProxy& operator=(ImageProxy const&) = delete;
 
 	struct Result {
-		Result (std::shared_ptr<const Image> image_, int log2_scaling_)
-			: image (image_)
-			, log2_scaling (log2_scaling_)
-			, error (false)
+		Result(std::shared_ptr<const Image> image_, int log2_scaling_)
+			: image(image_)
+			, log2_scaling(log2_scaling_)
+			, error(false)
 		{}
 
-		Result (std::shared_ptr<Image> image_, int log2_scaling_, bool error_)
-			: image (image_)
-			, log2_scaling (log2_scaling_)
-			, error (error_)
+		Result(std::shared_ptr<Image> image_, int log2_scaling_, bool error_)
+			: image(image_)
+			, log2_scaling(log2_scaling_)
+			, error(error_)
 		{}
 
 		std::shared_ptr<const Image> image;
@@ -96,25 +96,25 @@ public:
 	 *  @param size Size that the returned image will be scaled to, in case this
 	 *  can be used as an optimisation.
 	 */
-	virtual Result image (
+	virtual Result image(
 		Image::Alignment alignment,
-		boost::optional<dcp::Size> size = boost::optional<dcp::Size> ()
+		boost::optional<dcp::Size> size = boost::optional<dcp::Size>()
 		) const = 0;
 
 	virtual void add_metadata(xmlpp::Element *) const = 0;
-	virtual void write_to_socket (std::shared_ptr<Socket>) const = 0;
+	virtual void write_to_socket(std::shared_ptr<Socket>) const = 0;
 	/** @return true if our image is definitely the same as another, false if it is probably not */
-	virtual bool same (std::shared_ptr<const ImageProxy>) const = 0;
+	virtual bool same(std::shared_ptr<const ImageProxy>) const = 0;
 	/** Do any useful work that would speed up a subsequent call to ::image().
 	 *  This method may be called in a different thread to image().
 	 *  @return log2 of any scaling down that will be applied to the image.
 	 */
-	virtual int prepare (Image::Alignment, boost::optional<dcp::Size> = boost::optional<dcp::Size>()) const { return 0; }
-	virtual size_t memory_used () const = 0;
+	virtual int prepare(Image::Alignment, boost::optional<dcp::Size> = boost::optional<dcp::Size>()) const { return 0; }
+	virtual size_t memory_used() const = 0;
 };
 
 
-std::shared_ptr<ImageProxy> image_proxy_factory (std::shared_ptr<cxml::Node> xml, std::shared_ptr<Socket> socket);
+std::shared_ptr<ImageProxy> image_proxy_factory(std::shared_ptr<cxml::Node> xml, std::shared_ptr<Socket> socket);
 
 
 #endif

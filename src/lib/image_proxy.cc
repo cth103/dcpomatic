@@ -40,7 +40,7 @@ using std::string;
 
 
 shared_ptr<ImageProxy>
-image_proxy_factory (shared_ptr<cxml::Node> xml, shared_ptr<Socket> socket)
+image_proxy_factory(shared_ptr<cxml::Node> xml, shared_ptr<Socket> socket)
 {
 	if (xml->string_child("Type") == N_("Raw")) {
 		return make_shared<RawImageProxy>(xml, socket);
@@ -50,5 +50,5 @@ image_proxy_factory (shared_ptr<cxml::Node> xml, shared_ptr<Socket> socket)
 		return make_shared<J2KImageProxy>(xml, socket);
 	}
 
-	throw NetworkError (_("Unexpected image type received by server"));
+	throw NetworkError(_("Unexpected image type received by server"));
 }
