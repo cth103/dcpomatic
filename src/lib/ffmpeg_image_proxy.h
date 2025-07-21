@@ -26,22 +26,22 @@
 class FFmpegImageProxy : public ImageProxy
 {
 public:
-	explicit FFmpegImageProxy (boost::filesystem::path);
-	explicit FFmpegImageProxy (dcp::ArrayData);
-	explicit FFmpegImageProxy (std::shared_ptr<Socket> socket);
+	explicit FFmpegImageProxy(boost::filesystem::path);
+	explicit FFmpegImageProxy(dcp::ArrayData);
+	explicit FFmpegImageProxy(std::shared_ptr<Socket> socket);
 
-	Result image (
+	Result image(
 		Image::Alignment alignment,
-		boost::optional<dcp::Size> size = boost::optional<dcp::Size> ()
+		boost::optional<dcp::Size> size = boost::optional<dcp::Size>()
 		) const override;
 
 	void add_metadata(xmlpp::Element*) const override;
-	void write_to_socket (std::shared_ptr<Socket>) const override;
-	bool same (std::shared_ptr<const ImageProxy> other) const override;
-	size_t memory_used () const override;
+	void write_to_socket(std::shared_ptr<Socket>) const override;
+	bool same(std::shared_ptr<const ImageProxy> other) const override;
+	size_t memory_used() const override;
 
-	int avio_read (uint8_t* buffer, int const amount);
-	int64_t avio_seek (int64_t const pos, int whence);
+	int avio_read(uint8_t* buffer, int const amount);
+	int64_t avio_seek(int64_t const pos, int whence);
 
 private:
 	dcp::ArrayData _data;
