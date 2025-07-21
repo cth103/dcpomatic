@@ -76,7 +76,7 @@ public:
 			, error(false)
 		{}
 
-		Result(std::shared_ptr<Image> image_, int log2_scaling_, bool error_)
+		Result(std::shared_ptr<const Image> image_, int log2_scaling_, bool error_)
 			: image(image_)
 			, log2_scaling(log2_scaling_)
 			, error(error_)
