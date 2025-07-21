@@ -1171,3 +1171,10 @@ paths_exist(vector<boost::filesystem::path> const& paths)
 	return std::all_of(paths.begin(), paths.end(), [](boost::filesystem::path const& path) { return dcp::filesystem::exists(path); });
 }
 
+
+std::function<AVPixelFormat (AVPixelFormat)>
+force(AVPixelFormat format)
+{
+	return [format](AVPixelFormat) { return format; };
+}
+

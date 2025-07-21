@@ -224,7 +224,7 @@ BOOST_AUTO_TEST_CASE (player_seek_test)
 		butler->seek (t, true);
 		auto video = butler->get_video(Butler::Behaviour::BLOCKING, 0);
 		BOOST_CHECK_EQUAL(video.second.get(), t.get());
-		write_image(video.first->image(AV_PIX_FMT_RGB24, VideoRange::FULL, true), fmt::format("build/test/player_seek_test_{}.png", i));
+		write_image(video.first->image(force(AV_PIX_FMT_RGB24), VideoRange::FULL, true), fmt::format("build/test/player_seek_test_{}.png", i));
 		/* This 14.08 is empirically chosen (hopefully) to accept changes in rendering between the reference and a test machine
 		   (17.10 and 16.04 seem to anti-alias a little differently) but to reject gross errors e.g. missing fonts or missing
 		   text altogether.
@@ -260,7 +260,7 @@ BOOST_AUTO_TEST_CASE (player_seek_test2)
 		auto video = butler->get_video(Butler::Behaviour::BLOCKING, 0);
 		BOOST_CHECK_EQUAL(video.second.get(), t.get());
 		write_image(
-			video.first->image(AV_PIX_FMT_RGB24, VideoRange::FULL, true), fmt::format("build/test/player_seek_test2_{}.png", i)
+			video.first->image(force(AV_PIX_FMT_RGB24), VideoRange::FULL, true), fmt::format("build/test/player_seek_test2_{}.png", i)
 			);
 		check_image(TestPaths::private_data() / fmt::format("player_seek_test2_{}.png", i), fmt::format("build/test/player_seek_test2_{}.png", i), 14.08);
 	}
@@ -618,7 +618,7 @@ BOOST_AUTO_TEST_CASE(two_d_in_three_d_duplicates)
 		}
 		last_time = time;
 
-		auto image = video->image(AV_PIX_FMT_RGB24, VideoRange::FULL, false);
+		auto image = video->image(force(AV_PIX_FMT_RGB24), VideoRange::FULL, false);
 		auto const size = image->size();
 		for (int y = 0; y < size.height; ++y) {
 			uint8_t* line = image->data()[0] + y * image->stride()[0];
@@ -668,7 +668,7 @@ BOOST_AUTO_TEST_CASE(three_d_in_two_d_chooses_left)
 		BOOST_CHECK(!last_time || time == *last_time + DCPTime::from_frames(1, 24));
 		last_time = time;
 
-		auto image = video->image(AV_PIX_FMT_RGB24, VideoRange::FULL, false);
+		auto image = video->image(force(AV_PIX_FMT_RGB24), VideoRange::FULL, false);
 		auto const size = image->size();
 		for (int y = 0; y < size.height; ++y) {
 			uint8_t* line = image->data()[0] + y * image->stride()[0];
@@ -745,7 +745,7 @@ BOOST_AUTO_TEST_CASE(frames_are_copied_correctly_for_low_frame_rates)
 	/* Check that only red frames come out - previously there would be some black ones mixed in */
 	for (auto i = 0; i < 24; ++i) {
 		auto frame = butler.get_video(Butler::Behaviour::BLOCKING);
-		auto image = frame.first->image(AV_PIX_FMT_RGB24, VideoRange::FULL, false);
+		auto image = frame.first->image(force(AV_PIX_FMT_RGB24), VideoRange::FULL, false);
 		for (int y = 0; y < image->size().height; ++y) {
 			uint8_t const* p = image->data()[0] + image->stride()[0] * y;
 			for (int x = 0; x < image->size().width; ++x) {

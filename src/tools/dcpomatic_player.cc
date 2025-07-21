@@ -827,10 +827,10 @@ private:
 		player->Video.connect ([path, &done, this](shared_ptr<PlayerVideo> video, DCPTime) {
 			auto ext = boost::algorithm::to_lower_copy(path.extension().string());
 			if (ext == ".png") {
-				auto image = video->image(AV_PIX_FMT_RGBA, VideoRange::FULL, false);
+				auto image = video->image(force(AV_PIX_FMT_RGBA), VideoRange::FULL, false);
 				image_as_png(image).write(path);
 			} else if (ext == ".jpg" || ext == ".jpeg") {
-				auto image = video->image(AV_PIX_FMT_RGB24, VideoRange::FULL, false);
+				auto image = video->image(force(AV_PIX_FMT_RGB24), VideoRange::FULL, false);
 				image_as_jpeg(image, 80).write(path);
 			} else {
 				error_dialog(this, wxString::Format(_("Unrecognised file extension %s (use .jpg, .jpeg or .png)"), std_to_wx(ext)));

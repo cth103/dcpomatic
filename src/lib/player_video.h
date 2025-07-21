@@ -76,7 +76,7 @@ public:
 	}
 
 	void prepare(AVPixelFormat pixel_format, VideoRange video_range, Image::Alignment alignment, bool fast, bool proxy_only);
-	std::shared_ptr<Image> image(AVPixelFormat pixel_format, VideoRange video_range, bool fast) const;
+	std::shared_ptr<Image> image(std::function<AVPixelFormat (AVPixelFormat)> pixel_format, VideoRange video_range, bool fast) const;
 	std::shared_ptr<const Image> raw_image() const;
 
 	void add_metadata(xmlpp::Element* element) const;
@@ -128,7 +128,7 @@ public:
 	}
 
 private:
-	void make_image(AVPixelFormat pixel_format, VideoRange video_range, bool fast) const;
+	void make_image(std::function<AVPixelFormat (AVPixelFormat)> pixel_format, VideoRange video_range, bool fast) const;
 
 	std::shared_ptr<const ImageProxy> _in;
 	Crop _crop;
