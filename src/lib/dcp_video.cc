@@ -49,6 +49,9 @@
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
+extern "C" {
+#include <libavutil/pixdesc.h>
+}
 LIBDCP_ENABLE_WARNINGS
 #include <fmt/format.h>
 #include <boost/asio.hpp>
@@ -102,7 +105,11 @@ DCPVideo::convert_to_xyz(shared_ptr<const PlayerVideo> frame)
 	shared_ptr<dcp::OpenJPEGImage> xyz;
 
 	if (frame->colour_conversion()) {
-		auto image = frame->image(force(AV_PIX_FMT_RGB48LE), VideoRange::FULL, false);
+		auto conversion = [](AVPixelFormat fmt) {
+			return fmt == AV_PIX_FMT_XYZ12LE ? AV_PIX_FMT_XYZ12LE : AV_PIX_FMT_RGB48LE;
+		};
+
+		auto image = frame->image(conversion, VideoRange::FULL, false);
 		xyz = dcp::rgb_to_xyz(
 			image->data()[0],
 			image->size(),
@@ -110,7 +117,20 @@ DCPVideo::convert_to_xyz(shared_ptr<const PlayerVideo> frame)
 			frame->colour_conversion().get()
 			);
 	} else {
-		auto image = frame->image(force(AV_PIX_FMT_RGB48LE), VideoRange::FULL, false);
+		auto conversion = [](AVPixelFormat fmt) {
+			auto const descriptor = av_pix_fmt_desc_get(fmt);
+			if (!descriptor) {
+				return fmt;
+			}
+
+			if (descriptor->flags & AV_PIX_FMT_FLAG_RGB) {
+				return AV_PIX_FMT_RGB48LE;
+			}
+
+			return AV_PIX_FMT_XYZ12LE;
+		};
+
+		auto image = frame->image(conversion, VideoRange::FULL, false);
 		xyz = make_shared<dcp::OpenJPEGImage>(image->data()[0], image->size(), image->stride()[0]);
 	}
 

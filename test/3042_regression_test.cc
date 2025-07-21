@@ -37,3 +37,15 @@ BOOST_AUTO_TEST_CASE(encode_xyz_from_prores_test)
 	check_one_frame(film->dir(film->dcp_name()), 0, TestPaths::private_data() / "dcp-o-matic_test_20250521_p3d65_frame0.j2c", 18);
 }
 
+
+BOOST_AUTO_TEST_CASE(encode_xyz_from_dpx_test)
+{
+	auto content = content_factory(TestPaths::private_data() / "count.dpx")[0];
+	auto film = new_test_film("encode_xyz_from_dpx_test", { content });
+	content->video->unset_colour_conversion();
+
+	make_and_verify_dcp(film);
+
+	check_one_frame(film->dir(film->dcp_name()), 0, TestPaths::private_data() / "count.j2c", 18);
+}
+
