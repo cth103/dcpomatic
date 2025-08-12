@@ -63,12 +63,15 @@ static void
 help(std::function<void (string)> out)
 {
 	out(fmt::format("Syntax: {} [OPTION] [COMMAND] <FILM|CPL-ID|DKDM>", program_name));
+	out("");
 	out("Commands:");
-	out("create          create KDMs; default if no other command is specified");
-	out(variant::insert_dcpomatic("list-cinemas                 list known cinemas from {} settings"));
-	out(variant::insert_dcpomatic("list-dkdm-cpls               list CPLs for which {} has DKDMs"));
-	out(variant::insert_dcpomatic("add-dkdm                     add DKDM to {}'s list"));
-	out(variant::insert_dcpomatic("dump-decryption-certificate  write the {} KDM decryption certificate to the console"));
+	out("");
+	                          out("    create                       create KDMs; default if no other command is specified");
+	out(variant::insert_dcpomatic("    list-cinemas                 list known cinemas from {} settings"));
+	out(variant::insert_dcpomatic("    list-dkdm-cpls               list CPLs for which {} has DKDMs"));
+	out(variant::insert_dcpomatic("    add-dkdm                     add DKDM to {}'s list"));
+	out(variant::insert_dcpomatic("    dump-decryption-certificate  write the {} KDM decryption certificate to the console"));
+	out("");
 	out("  -h, --help                               show this help");
 	out("  -o, --output <path>                      output file or directory");
 	out("  -K, --filename-format <format>           filename format for KDMs");
