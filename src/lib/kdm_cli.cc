@@ -62,7 +62,7 @@ using namespace dcpomatic;
 static void
 help(std::function<void (string)> out)
 {
-	out(fmt::format("Syntax: {} [OPTION] [COMMAND] <FILM|CPL-ID|DKDM>", program_name));
+	out(fmt::format("Syntax: {} [OPTION] [COMMAND] <FILM|CPL-ID|TITLE|DKDM>", program_name));
 	out("");
 	out("Commands:");
 	out("");
@@ -75,7 +75,8 @@ help(std::function<void (string)> out)
 	out("Parameters:");
 	out("");
 	out("    FILM    a folder containing a DCP-o-matic project");
-	out("    CPL-ID  ID of a CPL that is DCP-o-matic has a DKDM for");
+	out("    CPL-ID  CPL ID of a DKDM on DCP-o-matic's list");
+	out("    TITLE   ContentTitleText of a DKDM on DCP-o-matic's list");
 	out("    DKDM    a DKDM file");
 	out("");
 	out("  -h, --help                               show this help");
@@ -310,19 +311,17 @@ from_film(
 
 static
 optional<dcp::EncryptedKDM>
-sub_find_dkdm(shared_ptr<DKDMGroup> group, string cpl_id)
+sub_find_dkdm(shared_ptr<DKDMGroup> group, string thing)
 {
 	for (auto i: group->children()) {
-		auto g = dynamic_pointer_cast<DKDMGroup>(i);
-		if (g) {
-			auto dkdm = sub_find_dkdm(g, cpl_id);
-			if (dkdm) {
+		if (auto g = dynamic_pointer_cast<DKDMGroup>(i)) {
+			if (auto dkdm = sub_find_dkdm(g, thing)) {
 				return dkdm;
 			}
 		} else {
 			auto d = dynamic_pointer_cast<DKDM>(i);
 			assert(d);
-			if (d->dkdm().cpl_id() == cpl_id) {
+			if (d->dkdm().cpl_id() == thing || d->dkdm().content_title_text() == thing) {
 				return d->dkdm();
 			}
 		}
@@ -334,9 +333,9 @@ sub_find_dkdm(shared_ptr<DKDMGroup> group, string cpl_id)
 
 static
 optional<dcp::EncryptedKDM>
-find_dkdm(string cpl_id)
+find_dkdm(string thing)
 {
-	return sub_find_dkdm(Config::instance()->dkdms(), cpl_id);
+	return sub_find_dkdm(Config::instance()->dkdms(), thing);
 }
 
 
@@ -688,7 +687,7 @@ try
 	}
 
 	if (optind >= argc) {
-		throw KDMCLIError("no film, CPL ID or DKDM specified");
+		throw KDMCLIError("no film, CPL ID, title or DKDM specified");
 	}
 
 	vector<ScreenDetails> screens;
@@ -749,7 +748,7 @@ try
 		}
 
 		if (!dkdm) {
-			throw KDMCLIError("could not find film or CPL ID corresponding to " + thing);
+			throw KDMCLIError("could not find film, CPL ID or title corresponding to " + thing);
 		}
 
 		string const key = decryption_key ? dcp::file_to_string(*decryption_key) : Config::instance()->decryption_chain()->key().get();
