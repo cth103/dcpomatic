@@ -72,6 +72,12 @@ help(std::function<void (string)> out)
 	out(variant::insert_dcpomatic("    add-dkdm                     add DKDM to {}'s list"));
 	out(variant::insert_dcpomatic("    dump-decryption-certificate  write the {} KDM decryption certificate to the console"));
 	out("");
+	out("Parameters:");
+	out("");
+	out("    FILM    a folder containing a DCP-o-matic project");
+	out("    CPL-ID  ID of a CPL that is DCP-o-matic has a DKDM for");
+	out("    DKDM    a DKDM file");
+	out("");
 	out("  -h, --help                               show this help");
 	out("  -o, --output <path>                      output file or directory");
 	out("  -K, --filename-format <format>           filename format for KDMs");
