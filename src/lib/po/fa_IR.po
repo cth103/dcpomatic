@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-09 21:45+0200\n"
+"POT-Creation-Date: 2025-08-13 23:55+0200\n"
 "PO-Revision-Date: 2024-10-05 18:17+0330\n"
 "Last-Translator: Soleyman Rahmani Aghdam <Soleyman.rahmani@gmail.com>\n"
 "Language-Team: \n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 3.5\n"
 
-#: src/lib/video_content.cc:514
+#: src/lib/video_content.cc:513
 #, c-format
 msgid ""
 "\n"
@@ -27,7 +27,8 @@ msgstr ""
 "\n"
 "تعداد فریم محتوا در ثانیه %.4f\n"
 
-#: src/lib/video_content.cc:478
+#: src/lib/video_content.cc:477
+#, c++-format
 msgid ""
 "\n"
 "Cropped to {}x{}"
@@ -35,7 +36,7 @@ msgstr ""
 "\n"
 "بریده شد به {}x{}"
 
-#: src/lib/video_content.cc:468
+#: src/lib/video_content.cc:467
 #, c-format
 msgid ""
 "\n"
@@ -44,7 +45,8 @@ msgstr ""
 "\n"
 "نسبت ابعاد صفحه نمایش %.2f:1"
 
-#: src/lib/video_content.cc:502
+#: src/lib/video_content.cc:501
+#, c++-format
 msgid ""
 "\n"
 "Padded with black to fit container {} ({}x{})"
@@ -52,7 +54,8 @@ msgstr ""
 "\n"
 "با نوار مشکی تا هم اندازه ظرف محتوا پوشیده شد {} ({}x{})"
 
-#: src/lib/video_content.cc:492
+#: src/lib/video_content.cc:491
+#, c++-format
 msgid ""
 "\n"
 "Scaled to {}x{}"
@@ -60,18 +63,19 @@ msgstr ""
 "\n"
 "تغییر مقیاس به {}x{}"
 
-#: src/lib/video_content.cc:496 src/lib/video_content.cc:507
+#: src/lib/video_content.cc:495 src/lib/video_content.cc:506
 #, c-format
 msgid " (%.2f:1)"
 msgstr " (%.2f:1)"
 
 #. TRANSLATORS: the {} in this string will be filled in with a day of the week
 #. to say what day a job will finish.
-#: src/lib/job.cc:598
+#: src/lib/job.cc:597
+#, c++-format
 msgid " on {}"
 msgstr "  روی {}"
 
-#: src/lib/config.cc:1276
+#: src/lib/config.cc:1275
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -95,88 +99,11 @@ msgstr ""
 "مدت: $LENGTH\n"
 "حجم: $SIZE\n"
 
-#: src/lib/config.cc:1254
+#: src/lib/config.cc:1253
 msgid "$JOB_NAME: $JOB_STATUS"
 msgstr "$نام_عملیات: $JOB_STATUS"
 
-#: src/lib/cross_common.cc:107
-msgid "{} ({} GB) [{}]"
-msgstr "{} ({} GB) [{}]"
-
-#: src/lib/atmos_mxf_content.cc:96
-msgid "{} [Atmos]"
-msgstr "{} [دالبی اتمز]"
-
-#: src/lib/dcp_content.cc:356
-msgid "{} [DCP]"
-msgstr "{} [دی سی پی]"
-
-#: src/lib/ffmpeg_content.cc:347
-msgid "{} [audio]"
-msgstr "{} [صدا]"
-
-#: src/lib/ffmpeg_content.cc:343
-msgid "{} [movie]"
-msgstr "{} [فیلم]"
-
-#: src/lib/ffmpeg_content.cc:345 src/lib/video_mxf_content.cc:106
-msgid "{} [video]"
-msgstr "{} [ویدیو]"
-
-#: src/lib/job.cc:181 src/lib/job.cc:196
-msgid ""
-"{} could not open the file {} ({}).  Perhaps it does not exist or is in an "
-"unexpected format."
-msgstr ""
-"{} نمیتوان فایل {}({}) را باز کرد. ممکن است فایل یا وجود نداشته باشد و یا "
-"فرمت مناسب نداشته باشد."
-
-#: src/lib/film.cc:1702
-msgid ""
-"{} had to change your settings for referring to DCPs as OV.  Please review "
-"those settings to make sure they are what you want."
-msgstr ""
-"{} مجبور شد برای ارجاع به یک دی سی پی به عنوان نسخه اصلی (OV) تنظیمات شما را "
-"تغییر دهد. لطفا آنها را بررسی کنید تا مطمئن شوید همان چیزی است که شما می "
-"خواهید."
-
-#: src/lib/film.cc:1668
-msgid ""
-"{} had to change your settings so that the film's frame rate is the same as "
-"that of your Atmos content."
-msgstr ""
-"{} مجبور شد تنظیمات شما را تغییر دهد تا نرخ فریم فیلم برابر محتوای دالبی "
-"اتمز شما شود."
-
-#: src/lib/film.cc:1715
-msgid ""
-"{} had to remove one of your custom reel boundaries as it no longer lies "
-"within the film."
-msgstr ""
-"{} مجبور به حذف یکی از مرزهای تعیین شده شما برای ریل گردید به دلیل اینکه "
-"دیگر در داخل محدوده فیلم قرار نمی گرفت."
-
-#: src/lib/film.cc:1713
-msgid ""
-"{} had to remove some of your custom reel boundaries as they no longer lie "
-"within the film."
-msgstr ""
-"{} مجبور به حذف تعدادی از مرزهای تعیین شده شما برای ریل گردید به دلیل اینکه "
-"دیگر در داخل محدوده فیلم قرار نمی گرفتند."
-
-#: src/lib/ffmpeg_content.cc:115
-msgid "{} no longer supports the `{}' filter, so it has been turned off."
-msgstr "{} دیگر از فیلتر'2%' پشتیبانی نمیکند، بنابراین خاموش شده است."
-
-#: src/lib/config.cc:441 src/lib/config.cc:1251
-msgid "{} notification"
-msgstr "{} یادداشت"
-
-#: src/lib/transcode_job.cc:180
-msgid "{}; {}/{} frames"
-msgstr "{} ; {}/{} فریمها"
-
-#: src/lib/video_content.cc:463
+#: src/lib/video_content.cc:462
 #, c-format
 msgid ", pixel aspect ratio %.2f:1"
 msgstr ", نسبت ابعاد پیکسلها %.2f:1"
@@ -221,11 +148,11 @@ msgstr "1/85(تخت)"
 msgid "1.90 (Full frame)"
 msgstr "1/90(تمام فریم)"
 
-#: src/lib/util.cc:629
+#: src/lib/util.cc:628
 msgid "10"
 msgstr "10"
 
-#: src/lib/util.cc:635
+#: src/lib/util.cc:634
 msgid "16"
 msgstr "16"
 
@@ -249,7 +176,7 @@ msgstr "2/39(اسکوپ)"
 msgid "3D denoiser"
 msgstr "ضد نویز سه بعدی"
 
-#: src/lib/hints.cc:220
+#: src/lib/hints.cc:219
 msgid ""
 "4K 3D is only supported by a very limited number of projectors.  Unless you "
 "know that you will play this DCP back on a capable projector, it is "
@@ -259,16 +186,18 @@ msgstr ""
 "سی پی را از طریق \"دی سی پی ---> ویدیو\" روی 2k قرار دهید، مگر آنکه از نمایش "
 "دی سی پی 4K در پروژکتور مد نظر اطمینان داشته باشید."
 
-#: src/lib/util.cc:628
+#: src/lib/util.cc:627
 msgid "9"
 msgstr "9"
 
 #. TRANSLATORS: fps here is an abbreviation for frames per second
-#: src/lib/transcode_job.cc:183
+#: src/lib/transcode_job.cc:180
+#, c++-format
 msgid "; {} fps"
 msgstr "; {} فریم بر ثانیه"
 
-#: src/lib/job.cc:603
+#: src/lib/job.cc:602
+#, c++-format
 msgid "; {} remaining; finishing at {}{}"
 msgstr "; {} باقیمانده ; پایان در {}{}"
 
@@ -302,7 +231,7 @@ msgstr ""
 "</a></ul><p>\n"
 "متشکرم! </font>"
 
-#: src/lib/hints.cc:177
+#: src/lib/hints.cc:176
 msgid ""
 "A few projectors have problems playing back very high bit-rate DCPs.  It is "
 "a good idea to drop the video bit rate down to about 200Mbit/s; this is "
@@ -313,6 +242,7 @@ msgstr ""
 "قابل مشاهده ای روی تصویر ندارد."
 
 #: src/lib/text_content.cc:230
+#, fuzzy, c++-format
 msgid ""
 "A subtitle or closed caption file in this project is marked with the "
 "language '{}', which {} does not recognise.  The file's language has been "
@@ -321,7 +251,7 @@ msgstr ""
 "یک زیرنویس یا فایل زیرنویس با زبان '1%' در این پروژه مشخص شده است، که 2% "
 "قابل تشخیص نیست. زبان فایل پاک شده است."
 
-#: src/lib/ffmpeg_content.cc:639
+#: src/lib/ffmpeg_content.cc:638
 msgid "ARIB STD-B67 ('Hybrid log-gamma')"
 msgstr "ARIB STD-B67 ('Hybrid log-gamma')"
 
@@ -329,7 +259,7 @@ msgstr "ARIB STD-B67 ('Hybrid log-gamma')"
 msgid "Advertisement"
 msgstr "تبلیغات بازرگانی"
 
-#: src/lib/hints.cc:154
+#: src/lib/hints.cc:153
 msgid ""
 "All of your content is in Scope (2.39:1) but your DCP's container is Flat "
 "(1.85:1).  This will letter-box your content inside a Flat (1.85:1) frame.  "
@@ -341,7 +271,7 @@ msgstr ""
 "میگیرد. ممکن است ترجیح دهید ظرف دی سی پی را در زبانه \"دی سی پی\" بزرگتر و "
 "روی اسکوپ (2/39 به 1) قرار دهید."
 
-#: src/lib/hints.cc:158
+#: src/lib/hints.cc:157
 msgid ""
 "All of your content narrower than 1.90:1 but your DCP's container is Scope "
 "(2.39:1).  This will pillar-box your content.  You may prefer to set your "
@@ -351,11 +281,12 @@ msgstr ""
 "باعث میشود کناره های محتوا سییاه شود. ممکن است ترجیح دهید که ظرف دی سی پی "
 "خود را مشابه با نسبت ابعاد محتوا تغییر دهید."
 
-#: src/lib/job.cc:116
+#: src/lib/job.cc:115
+#, c++-format
 msgid "An error occurred whilst handling the file {}."
 msgstr "بروز خطا هنگام دسترسی به فایل {}."
 
-#: src/lib/analyse_audio_job.cc:74
+#: src/lib/analyse_audio_job.cc:73
 msgid "Analysing audio"
 msgstr "آنالیز صدا"
 
@@ -363,24 +294,24 @@ msgstr "آنالیز صدا"
 msgid "Analysing subtitles"
 msgstr "آنالیز زیرنویس"
 
-#: src/lib/hints.cc:385
+#: src/lib/hints.cc:384
 msgid ""
 "At least one marker comes after the end of the project and will be ignored."
 msgstr "حداقل یک نشانه در آخر پروژه قرار گرفته که از آن صرف نظر شد."
 
-#: src/lib/hints.cc:523
+#: src/lib/hints.cc:522
 msgid "At least one of your closed caption files is larger than "
 msgstr "حداقل یکی از فایلهای زیرنویس شما بزرگتر است از "
 
-#: src/lib/hints.cc:516
+#: src/lib/hints.cc:515
 msgid "At least one of your closed caption files' XML part is larger than "
 msgstr "حداقل یکی از قسمتهای XML فایلهای زیرنویس شما بزرگتر است از "
 
-#: src/lib/hints.cc:531
+#: src/lib/hints.cc:530
 msgid "At least one of your subtitle files is larger than "
 msgstr "حداقل یکی از فایلهای زیرنویس شما بزرگتر است از "
 
-#: src/lib/hints.cc:495
+#: src/lib/hints.cc:494
 msgid ""
 "At least one of your subtitle lines has more than 52 characters.  It is "
 "recommended to make each line 52 characters at most in length."
@@ -388,7 +319,7 @@ msgstr ""
 "حداقل یکی از خطهای زیرنویس شما بیشتر از 52 حرف دارد. توصیه میشود طول هر خط "
 "را حداکثر به 52 حرف تغییر دهید."
 
-#: src/lib/hints.cc:497
+#: src/lib/hints.cc:496
 msgid ""
 "At least one of your subtitle lines has more than 79 characters.  You should "
 "make each line 79 characters at most in length."
@@ -396,7 +327,7 @@ msgstr ""
 "حداقل یکی از خطهای زیرنویس شما بیش از 79 حرف دارد. شما باید طول هر خط را "
 "حداکثر به 79 حرف تغییر دهید."
 
-#: src/lib/hints.cc:664
+#: src/lib/hints.cc:663
 msgid ""
 "At least one of your subtitles has more than 3 lines.  It is advisable to "
 "use no more than 3 lines."
@@ -404,7 +335,7 @@ msgstr ""
 "حداقل یکی از زیرنویسهای شما بیش از 3 خط دارد. توصیه میشود بیش از سه خط "
 "استفاده نکنید."
 
-#: src/lib/hints.cc:631
+#: src/lib/hints.cc:630
 msgid ""
 "At least one of your subtitles lasts less than 15 frames.  It is advisable "
 "to make each subtitle at least 15 frames long."
@@ -412,7 +343,7 @@ msgstr ""
 "حداقل یک زیرنویس وجود دارد که زمان آن کمتر از 15 فریم است. توصیه میشود زمان "
 "هر زیرنویس حداقل 15 فریم بر ثانیه باشد."
 
-#: src/lib/hints.cc:636
+#: src/lib/hints.cc:635
 msgid ""
 "At least one of your subtitles starts less than 2 frames after the previous "
 "one.  It is advisable to make the gap between subtitles at least 2 frames."
@@ -420,7 +351,7 @@ msgstr ""
 "حداقل یکی از زیرنویسهای شما کمتر از 2 فریم بعد از زیرنویس قبلی شروع میشود. "
 "توصیه میشود زمان بین دو زیرنویس حداقل 2 فریم باشد."
 
-#: src/lib/hints.cc:707
+#: src/lib/hints.cc:706
 msgid ""
 "At least one piece of subtitle content has no specified language.  It is "
 "advisable to set the language for each piece of subtitle content in the "
@@ -430,64 +361,66 @@ msgstr ""
 "زیرنویسِ محتوا در زبانه \"محتوا---> متن زمان دار\" یا \"محتوا---> بازکردن "
 "زیرنویس\" زبان زیرنویس را تعیین کنید."
 
-#: src/lib/audio_content.cc:265
+#: src/lib/audio_content.cc:264
+#, c++-format
 msgid "Audio will be resampled from {}Hz to {}Hz"
 msgstr "صدا از {}هرتز به {}هرتز نمونه برداری مجدد میشود"
 
-#: src/lib/audio_content.cc:267
+#: src/lib/audio_content.cc:266
+#, c++-format
 msgid "Audio will be resampled to {}Hz"
 msgstr "صدا با {}هرتز نمونه برداری مجدد میشود"
 
-#: src/lib/audio_content.cc:256
+#: src/lib/audio_content.cc:255
 msgid "Audio will not be resampled"
 msgstr "صدا نمونه برداری مجدد نمیشود"
 
-#: src/lib/ffmpeg_content.cc:633
+#: src/lib/ffmpeg_content.cc:632
 msgid "BT1361 extended colour gamut"
 msgstr "طیف رنگی گسترده BT1361"
 
-#: src/lib/ffmpeg_content.cc:601
+#: src/lib/ffmpeg_content.cc:600
 msgid "BT2020"
 msgstr "BT2020"
 
-#: src/lib/ffmpeg_content.cc:656
+#: src/lib/ffmpeg_content.cc:655
 msgid "BT2020 constant luminance"
 msgstr "روشنایی ثابت BT2020"
 
-#: src/lib/ffmpeg_content.cc:635
+#: src/lib/ffmpeg_content.cc:634
 msgid "BT2020 for a 10-bit system"
 msgstr "BT2020 برای یک سیستم 10 بیتی"
 
-#: src/lib/ffmpeg_content.cc:636
+#: src/lib/ffmpeg_content.cc:635
 msgid "BT2020 for a 12-bit system"
 msgstr "BT2020 برای یک سیستم 12 بیتی"
 
-#: src/lib/ffmpeg_content.cc:655
+#: src/lib/ffmpeg_content.cc:654
 msgid "BT2020 non-constant luminance"
 msgstr "روشنایی غیر ثابت BT2020"
 
-#: src/lib/ffmpeg_content.cc:660
+#: src/lib/ffmpeg_content.cc:659
 msgid "BT2100"
 msgstr "BT2100"
 
-#: src/lib/ffmpeg_content.cc:597
+#: src/lib/ffmpeg_content.cc:596
 msgid "BT470BG"
 msgstr "BT470BG"
 
-#: src/lib/ffmpeg_content.cc:651
+#: src/lib/ffmpeg_content.cc:650
 msgid "BT470BG (BT601-6)"
 msgstr "BT470BG (BT601-6)"
 
-#: src/lib/ffmpeg_content.cc:596
+#: src/lib/ffmpeg_content.cc:595
 msgid "BT470M"
 msgstr "BT470M"
 
-#: src/lib/ffmpeg_content.cc:593 src/lib/ffmpeg_content.cc:622
-#: src/lib/ffmpeg_content.cc:647
+#: src/lib/ffmpeg_content.cc:592 src/lib/ffmpeg_content.cc:621
+#: src/lib/ffmpeg_content.cc:646
 msgid "BT709"
 msgstr "BT709"
 
-#: src/lib/ffmpeg_content.cc:667
+#: src/lib/ffmpeg_content.cc:666
 msgid "Bits per pixel"
 msgstr "تعداد بیتها بر پیکسل"
 
@@ -495,19 +428,19 @@ msgstr "تعداد بیتها بر پیکسل"
 msgid "Bob Weaver Deinterlacing Filter"
 msgstr "فیلتر ضداینترلیس باب ویور"
 
-#: src/lib/util.cc:630
+#: src/lib/util.cc:629
 msgid "BsL"
 msgstr "BsL"
 
-#: src/lib/util.cc:631
+#: src/lib/util.cc:630
 msgid "BsR"
 msgstr "BsR"
 
-#: src/lib/util.cc:622
+#: src/lib/util.cc:621
 msgid "C"
 msgstr "c"
 
-#: src/lib/job.cc:627
+#: src/lib/job.cc:626
 msgid "Cancelled"
 msgstr "لغو شد"
 
@@ -515,23 +448,24 @@ msgstr "لغو شد"
 msgid "Cannot contain slashes"
 msgstr "نمیتواند شامل اسلش باشد"
 
-#: src/lib/exceptions.cc:79
+#: src/lib/exceptions.cc:78
+#, c++-format
 msgid "Cannot handle pixel format {} during {}"
 msgstr "نمیتوان فرمت پیکسل {} را همزمان با {} کار کرد"
 
-#: src/lib/film.cc:1811
+#: src/lib/film.cc:1847
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr "برای پروژه ای که رمزگذاری نشده است کلید ساخته نمیشود."
 
-#: src/lib/util.cc:591
+#: src/lib/util.cc:590
 msgid "Centre"
 msgstr "مرکز"
 
-#: src/lib/audio_content.cc:303
+#: src/lib/audio_content.cc:302
 msgid "Channels"
 msgstr "کانالها"
 
-#: src/lib/transcode_job.cc:109
+#: src/lib/transcode_job.cc:106
 msgid "Check their new settings, then try again."
 msgstr "تنظیمات جدید آنها را بررسی، سپس مجددا تلاش کنید."
 
@@ -539,15 +473,15 @@ msgstr "تنظیمات جدید آنها را بررسی، سپس مجددا ت�
 msgid "Checking content"
 msgstr "بررسی محتوا"
 
-#: src/lib/reel_writer.cc:254
+#: src/lib/reel_writer.cc:253
 msgid "Checking existing image data"
 msgstr "بررسی داده های تصویر موجود"
 
-#: src/lib/ffmpeg_content.cc:659
+#: src/lib/ffmpeg_content.cc:658
 msgid "Chroma-derived constant luminance"
 msgstr "روشنایی ثابت مشتق از رنگ"
 
-#: src/lib/ffmpeg_content.cc:658
+#: src/lib/ffmpeg_content.cc:657
 msgid "Chroma-derived non-constant luminance"
 msgstr "روشنایی غیر ثابت مشتق از رنگ"
 
@@ -563,7 +497,7 @@ msgstr "عنوان پایان فیلم"
 msgid "Closed subtitles"
 msgstr "زیرنویس های پایان فیلم"
 
-#: src/lib/ffmpeg_content.cc:618
+#: src/lib/ffmpeg_content.cc:617
 msgid "Colour primaries"
 msgstr "رنگهای اصلی"
 
@@ -577,29 +511,29 @@ msgstr "رنگهای اصلی"
 #. file is limited, so that not all possible values are valid.
 #. TRANSLATORS: this means that the range of pixel values used in this
 #. file is full, so that all possible pixel values are valid.
-#: src/lib/ffmpeg_content.cc:550 src/lib/ffmpeg_content.cc:557
-#: src/lib/ffmpeg_content.cc:564 src/lib/ffmpeg_content.cc:574
-#: src/lib/ffmpeg_content.cc:579 src/lib/ffmpeg_content.cc:584
+#: src/lib/ffmpeg_content.cc:549 src/lib/ffmpeg_content.cc:556
+#: src/lib/ffmpeg_content.cc:563 src/lib/ffmpeg_content.cc:573
+#: src/lib/ffmpeg_content.cc:578 src/lib/ffmpeg_content.cc:583
 msgid "Colour range"
 msgstr "محدوده رنگ"
 
-#: src/lib/ffmpeg_content.cc:643
+#: src/lib/ffmpeg_content.cc:642
 msgid "Colour transfer characteristic"
 msgstr "مشخصه انتقال رنگ"
 
-#: src/lib/ffmpeg_content.cc:664
+#: src/lib/ffmpeg_content.cc:663
 msgid "Colourspace"
 msgstr "فضای رنگ"
 
-#: src/lib/combine_dcp_job.cc:49
+#: src/lib/combine_dcp_job.cc:48
 msgid "Combine DCPs"
 msgstr "ترکیب دی سی پی ها"
 
-#: src/lib/content.cc:174
+#: src/lib/content.cc:173
 msgid "Computing digest"
 msgstr "در حال محاسبات"
 
-#: src/lib/writer.cc:521
+#: src/lib/writer.cc:520
 msgid "Computing digests"
 msgstr "در حال محاسبات"
 
@@ -607,27 +541,27 @@ msgstr "در حال محاسبات"
 msgid "Congratulations!"
 msgstr "تبریک میگویم!"
 
-#: src/lib/frame_rate_change.cc:89
+#: src/lib/frame_rate_change.cc:88
 msgid "Content and DCP have the same rate.\n"
 msgstr "محتوا و دی سی پی هر دو نرخ مشابهی دارند.\n"
 
-#: src/lib/audio_content.cc:306
+#: src/lib/audio_content.cc:305
 msgid "Content bit depth"
 msgstr "عمق بیت محتوا"
 
-#: src/lib/audio_content.cc:304
+#: src/lib/audio_content.cc:303
 msgid "Content sample rate"
 msgstr "نرخ نمونه محتوا"
 
-#: src/lib/ffmpeg_content.cc:151
+#: src/lib/ffmpeg_content.cc:150
 msgid "Content to be joined must all have or not have audio"
 msgstr "محتوایی که الحاق میشود همه با صدا یا همه بی صدا باید باشد"
 
-#: src/lib/ffmpeg_content.cc:154
+#: src/lib/ffmpeg_content.cc:153
 msgid "Content to be joined must all have or not have subtitles or captions"
 msgstr "محتوایی که الحاق میشود همه با زیرنویس یا همه بدون زیرنویس باید باشد"
 
-#: src/lib/ffmpeg_content.cc:148
+#: src/lib/ffmpeg_content.cc:147
 msgid "Content to be joined must all have or not have video"
 msgstr "محتوایی که الحاق میشود همه با ویدیو و یا همه بدون ویدیو باید باشد"
 
@@ -637,7 +571,7 @@ msgid ""
 msgstr ""
 "محتوایی که الحاق میشود هر دو باید زیرنویس زبان اصلی باشد یا هر دو زبان دیگری."
 
-#: src/lib/video_content.cc:204
+#: src/lib/video_content.cc:203
 msgid "Content to be joined must have all its video used or not used."
 msgstr "محتوایی که الحاق میشود یا باید همه ویدیوی آن استفاده شود یا هیچ."
 
@@ -651,35 +585,35 @@ msgid "Content to be joined must have the same 'use subtitles' setting."
 msgstr ""
 "محتوایی که الحاق میشود باید همان تنظیمات 'استفاده از زیرنویس' را داشته باشد."
 
-#: src/lib/audio_content.cc:106
+#: src/lib/audio_content.cc:105
 msgid "Content to be joined must have the same audio delay."
 msgstr "محتوایی که الحاق میشود باید تاخیر صدای مشابه داشته باشد."
 
-#: src/lib/audio_content.cc:102
+#: src/lib/audio_content.cc:101
 msgid "Content to be joined must have the same audio gain."
 msgstr "محتوایی که الحاق میشود باید  گین صدای مشابه داشته باشد."
 
-#: src/lib/video_content.cc:236
+#: src/lib/video_content.cc:235
 msgid "Content to be joined must have the same burnt subtitle language."
 msgstr "محتوایی که الحاق میشود باید زبان زیرنویس حک شده مشابه داشته باشد."
 
-#: src/lib/video_content.cc:228
+#: src/lib/video_content.cc:227
 msgid "Content to be joined must have the same colour conversion."
 msgstr "محتوایی که الحاق میشود باید سیستم تبدیل رنگ مشابه داشته باشد."
 
-#: src/lib/video_content.cc:216
+#: src/lib/video_content.cc:215
 msgid "Content to be joined must have the same crop."
 msgstr "محتوایی که الحاق میشود باید برش مشابه داشته باشد."
 
-#: src/lib/video_content.cc:220
+#: src/lib/video_content.cc:219
 msgid "Content to be joined must have the same custom ratio setting."
 msgstr "محتوایی که الحاق میشود باید تنظیمات نسبت ابعاد تصویر مشابه داشته باشد."
 
-#: src/lib/video_content.cc:224
+#: src/lib/video_content.cc:223
 msgid "Content to be joined must have the same custom size setting."
 msgstr "محتوایی که الحاق میشود باید تنظیمات اندازه تصویر مشابه داشته باشد."
 
-#: src/lib/video_content.cc:232
+#: src/lib/video_content.cc:231
 msgid "Content to be joined must have the same fades."
 msgstr "محتوایی که الحاق میشود باید فیِد مشابه داشته باشد."
 
@@ -687,7 +621,7 @@ msgstr "محتوایی که الحاق میشود باید فیِد مشابه �
 msgid "Content to be joined must have the same outline width."
 msgstr "محتوایی که الحاق میشود باید پهنای کلی مشابهی داشته باشد."
 
-#: src/lib/video_content.cc:208
+#: src/lib/video_content.cc:207
 msgid "Content to be joined must have the same picture size."
 msgstr "محتوایی که الحاق میشود باید اندازه تصویر مشابهی داشته باشد."
 
@@ -715,11 +649,11 @@ msgstr "محتوایی که الحاق میشود باید فیِد زیرنوی
 msgid "Content to be joined must have the same subtitle line spacing."
 msgstr "محتوایی که الحاق میشود باید فاصله خط زیرنویس مشابه داشته باشد."
 
-#: src/lib/content.cc:117 src/lib/content.cc:121
+#: src/lib/content.cc:116 src/lib/content.cc:120
 msgid "Content to be joined must have the same video frame rate"
 msgstr "محتوایی که الحاق میشود باید نرخ فریم ویدیوی مشابه داشته باشد"
 
-#: src/lib/video_content.cc:212
+#: src/lib/video_content.cc:211
 msgid "Content to be joined must have the same video frame type."
 msgstr "محتوایی که الحاق میشود باید نوع فریم ویدیوی مشابه داشته باشد."
 
@@ -731,7 +665,7 @@ msgstr "محتوایی که الحاق میشود باید ترک دی سی پی
 msgid "Content to be joined must use the same fonts."
 msgstr "محتوایی که الحاق میشود باید فونتهای مشابه داشته باشد."
 
-#: src/lib/ffmpeg_content.cc:175
+#: src/lib/ffmpeg_content.cc:174
 msgid "Content to be joined must use the same subtitle stream."
 msgstr "محتوایی که الحاق میشود باید رشته کد زیرنویس مشابه داشته باشد."
 
@@ -739,52 +673,59 @@ msgstr "محتوایی که الحاق میشود باید رشته کد زیر�
 msgid "Content to be joined must use the same text language."
 msgstr "محتوایی که الحاق میشود باید زبان نوشتاری مشابه داشته باشد."
 
-#: src/lib/video_content.cc:454
+#: src/lib/video_content.cc:453
+#, c++-format
 msgid "Content video is {}x{}"
 msgstr "محتوای ویدیو  {}x{} است"
 
-#: src/lib/upload_job.cc:66
+#: src/lib/upload_job.cc:65
 msgid "Copy DCP to TMS"
 msgstr "کپی دی سی پی به تی ام اس"
 
-#: src/lib/copy_to_drive_job.cc:59
+#: src/lib/copy_to_drive_job.cc:119
 #, fuzzy
+msgid "Copying DCP"
+msgstr "ترکیب دی سی پی ها"
+
+#: src/lib/copy_to_drive_job.cc:61
+#, fuzzy, c++-format
+msgid "Copying DCPs to {}"
+msgstr "کپی دی سی پی به تی ام اس"
+
+#: src/lib/copy_to_drive_job.cc:58
+#, fuzzy, c++-format
 msgid ""
 "Copying {}\n"
 "to {}"
 msgstr "در حال کپی{}"
 
-#: src/lib/copy_to_drive_job.cc:120
-#, fuzzy
-msgid "Copying DCP"
-msgstr "ترکیب دی سی پی ها"
-
-#: src/lib/copy_to_drive_job.cc:62
-#, fuzzy
-msgid "Copying DCPs to {}"
-msgstr "کپی دی سی پی به تی ام اس"
-
-#: src/lib/scp_uploader.cc:57
+#: src/lib/scp_uploader.cc:56
+#, c++-format
 msgid "Could not connect to server {} ({})"
 msgstr "ارتباط با سرور ممکن نیست {}({})"
 
-#: src/lib/scp_uploader.cc:106
+#: src/lib/scp_uploader.cc:105
+#, c++-format
 msgid "Could not create remote directory {} ({})"
 msgstr "دایرکتوری راه دور ساخته نشد {}({})"
 
-#: src/lib/image_examiner.cc:65
+#: src/lib/image_examiner.cc:64
+#, c++-format
 msgid "Could not decode JPEG2000 file {} ({})"
 msgstr "فایل JPEG2000 رمزگشایی نشد {}({})"
 
-#: src/lib/ffmpeg_image_proxy.cc:164
+#: src/lib/ffmpeg_image_proxy.cc:163
+#, c++-format
 msgid "Could not decode image ({})"
 msgstr "تصویر رمزگشایی نشد ({})"
 
-#: src/lib/unzipper.cc:76
+#: src/lib/unzipper.cc:77
+#, fuzzy, c++-format
 msgid "Could not find file {} in ZIP file"
 msgstr "فایل 1% در فایل فشرده پیدا نشد"
 
 #: src/lib/encode_server_finder.cc:197
+#, fuzzy, c++-format
 msgid ""
 "Could not listen for remote encode servers.  Perhaps another instance of {} "
 "is running."
@@ -792,55 +733,61 @@ msgstr ""
 "نمیتوان به سرورهای رمزگذاری راه دور گوش داد. ممکن است نسخه دیگری از 1% در "
 "حال اجرا باشد."
 
-#: src/lib/job.cc:180 src/lib/job.cc:195
-msgid "Could not open {}"
-msgstr "باز نشد {}"
-
-#: src/lib/curl_uploader.cc:102 src/lib/scp_uploader.cc:122
-msgid "Could not open {} to send"
-msgstr "برای ارسال باز نشد {}"
-
-#: src/lib/internet.cc:167 src/lib/internet.cc:172
+#: src/lib/internet.cc:166 src/lib/internet.cc:171
 msgid "Could not open downloaded ZIP file"
 msgstr "فایل فشرده دانلود شده باز نشد"
 
-#: src/lib/internet.cc:179
+#: src/lib/internet.cc:178
+#, c++-format
 msgid "Could not open downloaded ZIP file ({}:{}: {})"
 msgstr "فایل فشرده دانلود شده باز نشد ({}:{}:{})"
 
-#: src/lib/config.cc:1178
+#: src/lib/config.cc:1177
 msgid "Could not open file for writing"
 msgstr "فایل برای نوشتن باز نشد"
 
-#: src/lib/ffmpeg_file_encoder.cc:271
+#: src/lib/ffmpeg_file_encoder.cc:270
+#, c++-format
 msgid "Could not open output file {} ({})"
 msgstr "فایل خروجی باز نشد {}({})"
 
-#: src/lib/dcp_subtitle.cc:60
+#: src/lib/job.cc:179 src/lib/job.cc:194
+#, c++-format
+msgid "Could not open {}"
+msgstr "باز نشد {}"
+
+#: src/lib/curl_uploader.cc:101 src/lib/scp_uploader.cc:121
+#, c++-format
+msgid "Could not open {} to send"
+msgstr "برای ارسال باز نشد {}"
+
+#: src/lib/dcp_subtitle.cc:59
+#, c++-format
 msgid "Could not read subtitles ({} / {})"
 msgstr "نمیتوان زیرنویس ها را خواند({}/{})"
 
-#: src/lib/curl_uploader.cc:59
+#: src/lib/curl_uploader.cc:58
 msgid "Could not start transfer"
 msgstr "نمی توان انتقال را شروع کرد"
 
-#: src/lib/curl_uploader.cc:110 src/lib/scp_uploader.cc:138
+#: src/lib/curl_uploader.cc:109 src/lib/scp_uploader.cc:137
+#, c++-format
 msgid "Could not write to remote file ({})"
 msgstr "نمیتوان در فایل راه دور نوشت({})"
 
-#: src/lib/util.cc:601
+#: src/lib/util.cc:600
 msgid "D-BOX primary"
 msgstr "دی-باکس اصلی"
 
-#: src/lib/util.cc:602
+#: src/lib/util.cc:601
 msgid "D-BOX secondary"
 msgstr "دی-باکس ثانویه"
 
-#: src/lib/util.cc:632
+#: src/lib/audio_processor.cc:144 src/lib/util.cc:631
 msgid "DBP"
 msgstr "دی بی پی"
 
-#: src/lib/util.cc:633
+#: src/lib/audio_processor.cc:145 src/lib/util.cc:632
 msgid "DBS"
 msgstr "دی بی اس"
 
@@ -852,24 +799,34 @@ msgstr "دی سی آی تخت"
 msgid "DCI Scope"
 msgstr "دی سی آی اسکوپ"
 
+#: src/lib/film.cc:1955
+#, fuzzy
+msgid "DCP"
+msgstr "دی بی پی"
+
+#: src/lib/film.cc:1952
+#, c++-format
+msgid "DCP (via {})"
+msgstr ""
+
 #: src/lib/dcp_subtitle_content.cc:139
 msgid "DCP XML subtitles"
 msgstr "زیرنویس های XML دی سی پی"
 
-#: src/lib/audio_content.cc:327
+#: src/lib/audio_content.cc:326
 msgid "DCP sample rate"
 msgstr "نرخ نمونه دی سی پی"
 
-#: src/lib/frame_rate_change.cc:102
+#: src/lib/frame_rate_change.cc:101
 #, c-format
 msgid "DCP will run at %.1f%% of the content speed.\n"
 msgstr "دی سی پی با  %.1f%% سرعت محتوا اجرا خواهد شد.\n"
 
-#: src/lib/frame_rate_change.cc:92
+#: src/lib/frame_rate_change.cc:91
 msgid "DCP will use every other frame of the content.\n"
 msgstr "دی سی پی از هر فریم دیگر محتوا استفاده میکند.\n"
 
-#: src/lib/film.cc:1728
+#: src/lib/film.cc:1764
 msgid ""
 "DCP-o-matic had to set your container to 1920x1080 as it's the only one that "
 "can be used with MPEG2 encoding."
@@ -877,7 +834,7 @@ msgstr ""
 "چهارچوب محتوای شما توسط DOMروی 1920x1080تنظیم شد زیرا تنها گزینه ای است که "
 "برای رمزگذاری MPEG2 میتواند مورد استفاده قرارگیرد."
 
-#: src/lib/film.cc:1732
+#: src/lib/film.cc:1768
 msgid ""
 "DCP-o-matic had to set your film to 2D as 3D is not yet supported with MPEG2 "
 "encoding."
@@ -885,7 +842,7 @@ msgstr ""
 "در حال حاضرسه بعدی توسط DOM برای رمزگذاری MPEG2 پشتیبانی نمیشود به همین دلیل "
 "فیلم شما روی دو بعدی تنظیم گردید."
 
-#: src/lib/film.cc:1736
+#: src/lib/film.cc:1772
 msgid ""
 "DCP-o-matic set your container to DCI Flat as it was previously 1920x1080 "
 "and that is not a standard ratio with JPEG2000 encoding."
@@ -902,7 +859,8 @@ msgstr "Datasat AP20 or AP25"
 msgid "De-interlacing"
 msgstr "ضد-اینترلیسینگ"
 
-#: src/lib/config.cc:1239
+#: src/lib/config.cc:1238
+#, c++-format
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -928,7 +886,8 @@ msgstr ""
 "با احترام,\n"
 "{}"
 
-#: src/lib/exceptions.cc:179
+#: src/lib/exceptions.cc:178
+#, fuzzy, c++-format
 msgid "Disk full when writing {}"
 msgstr "هنگام نوشتن 1% دیسک پر شد"
 
@@ -936,39 +895,43 @@ msgstr "هنگام نوشتن 1% دیسک پر شد"
 msgid "Dolby CP650 or CP750"
 msgstr "دالبی CP650 یا CP750"
 
-#: src/lib/internet.cc:124
+#: src/lib/internet.cc:123
+#, c++-format
 msgid "Download failed ({} error {})"
 msgstr "دانلود با خطا مواجه شد({} خطا{})"
 
-#: src/lib/frame_rate_change.cc:94
+#: src/lib/frame_rate_change.cc:93
 msgid "Each content frame will be doubled in the DCP.\n"
 msgstr "هر فریم محتوا در دی سی پی دوبرابر خواهد شد.\n"
 
-#: src/lib/frame_rate_change.cc:96
+#: src/lib/frame_rate_change.cc:95
+#, c++-format
 msgid "Each content frame will be repeated {} more times in the DCP.\n"
 msgstr "هر فریم محتوا {}بار در دی سی پی تکرار خواهد شد.\n"
 
-#: src/lib/send_kdm_email_job.cc:94
+#: src/lib/send_kdm_email_job.cc:93
 msgid "Email KDMs"
 msgstr "ایمیل کلیدها"
 
-#: src/lib/send_kdm_email_job.cc:97
+#: src/lib/send_kdm_email_job.cc:96
+#, c++-format
 msgid "Email KDMs for {}"
 msgstr "ایمیل کلیدها برای {}"
 
-#: src/lib/send_notification_email_job.cc:53
+#: src/lib/send_notification_email_job.cc:52
 msgid "Email notification"
 msgstr "اعلان ایمیل"
 
-#: src/lib/send_problem_report_job.cc:69
+#: src/lib/send_problem_report_job.cc:68
 msgid "Email problem report"
 msgstr "گزارش مشکل ایمیل"
 
-#: src/lib/send_problem_report_job.cc:72
+#: src/lib/send_problem_report_job.cc:71
+#, c++-format
 msgid "Email problem report for {}"
 msgstr "گزارش مشکل ایمیل برای {}"
 
-#: src/lib/dcp_film_encoder.cc:120 src/lib/ffmpeg_film_encoder.cc:135
+#: src/lib/dcp_film_encoder.cc:119 src/lib/ffmpeg_film_encoder.cc:134
 msgid "Encoding"
 msgstr "رمزگذاری"
 
@@ -976,11 +939,13 @@ msgstr "رمزگذاری"
 msgid "Episode"
 msgstr "قسمت"
 
-#: src/lib/exceptions.cc:86
+#: src/lib/exceptions.cc:85
+#, fuzzy, c++-format
 msgid "Error in subtitle file: saw {} while expecting {}"
 msgstr "خطا در فایل زیرنویس: % 1 دیدم در حالی که انتظار % 2 را داشتم"
 
-#: src/lib/job.cc:625
+#: src/lib/job.cc:624
+#, c++-format
 msgid "Error: {}"
 msgstr "خطا: {}"
 
@@ -988,15 +953,15 @@ msgstr "خطا: {}"
 msgid "Event"
 msgstr "رویداد"
 
-#: src/lib/hints.cc:416
+#: src/lib/hints.cc:415
 msgid "Examining audio"
 msgstr "بررسی صدا"
 
-#: src/lib/hints.cc:418
+#: src/lib/hints.cc:417
 msgid "Examining audio, subtitles and closed captions"
 msgstr "بررسی صدا، زیرنویس و فایل زیرنویس"
 
-#: src/lib/examine_content_job.cc:55
+#: src/lib/examine_content_job.cc:56
 msgid "Examining content"
 msgstr "بررسی محتوا"
 
@@ -1004,15 +969,15 @@ msgstr "بررسی محتوا"
 msgid "Examining subtitles"
 msgstr "بررسی زیرنویس"
 
-#: src/lib/hints.cc:414
+#: src/lib/hints.cc:413
 msgid "Examining subtitles and closed captions"
 msgstr "بررسی فایل های زیرنویس"
 
-#: src/lib/subtitle_film_encoder.cc:98
+#: src/lib/subtitle_film_encoder.cc:97
 msgid "Extracting"
 msgstr "استخراج کردن"
 
-#: src/lib/ffmpeg_content.cc:650
+#: src/lib/ffmpeg_content.cc:649
 msgid "FCC"
 msgstr "FCC"
 
@@ -1021,15 +986,16 @@ msgstr "FCC"
 msgid "FCP XML subtitles"
 msgstr "زیرنویس های XML دی سی پی"
 
-#: src/lib/scp_uploader.cc:69
+#: src/lib/scp_uploader.cc:68
+#, c++-format
 msgid "Failed to authenticate with server ({})"
 msgstr "احراز هویت با سرور ناموفق({})"
 
-#: src/lib/job.cc:140 src/lib/job.cc:154
+#: src/lib/job.cc:139 src/lib/job.cc:153
 msgid "Failed to encode the DCP."
 msgstr "رمزگذاری دی سی پی ناموفق."
 
-#: src/lib/email.cc:250
+#: src/lib/email.cc:249
 msgid "Failed to send email"
 msgstr "ارسال ایمیل ناموفق"
 
@@ -1037,19 +1003,19 @@ msgstr "ارسال ایمیل ناموفق"
 msgid "Feature"
 msgstr "فیلم بلند"
 
-#: src/lib/content.cc:460
+#: src/lib/content.cc:459
 msgid "Filename"
 msgstr "نام فایل"
 
-#: src/lib/content.cc:460
+#: src/lib/content.cc:459
 msgid "Filenames"
 msgstr "نام فایلها"
 
-#: src/lib/transcode_job.cc:109 src/lib/transcode_job.cc:115
+#: src/lib/transcode_job.cc:106 src/lib/transcode_job.cc:112
 msgid "Files have changed since they were added to the project."
 msgstr "فایلها از زمانی که به پروژه اضافه شده اند تغییر کرده اند."
 
-#: src/lib/ffmpeg_content.cc:600
+#: src/lib/ffmpeg_content.cc:599
 msgid "Film"
 msgstr "فیلم"
 
@@ -1057,24 +1023,25 @@ msgstr "فیلم"
 msgid "Finding length"
 msgstr "در حال یافتن مدت"
 
-#: src/lib/copy_to_drive_job.cc:113
+#: src/lib/copy_to_drive_job.cc:112
 #, fuzzy
 msgid "Formatting drive"
 msgstr "در حال محاسبات"
 
-#: src/lib/content.cc:470
+#: src/lib/content.cc:469
 msgid "Frame rate"
 msgstr "نرخ فریم"
 
-#: src/lib/job.cc:569
+#: src/lib/job.cc:568
 msgid "Friday"
 msgstr "جمعه"
 
-#: src/lib/ffmpeg_content.cc:584
+#: src/lib/ffmpeg_content.cc:583
 msgid "Full"
 msgstr "کامل"
 
-#: src/lib/ffmpeg_content.cc:564
+#: src/lib/ffmpeg_content.cc:563
+#, c++-format
 msgid "Full (0-{})"
 msgstr "کامل(0-{})"
 
@@ -1082,34 +1049,34 @@ msgstr "کامل(0-{})"
 msgid "Full frame"
 msgstr "تمام فریم"
 
-#: src/lib/audio_content.cc:334
+#: src/lib/audio_content.cc:333
 msgid "Full length in audio samples at DCP rate"
 msgstr "زمان کامل در نمونه های صدا برابر با نرخ دی سی پی"
 
-#: src/lib/audio_content.cc:321
+#: src/lib/audio_content.cc:320
 msgid "Full length in audio samples at content rate"
 msgstr "زمان کامل در نمونه های صدا برابر با نرخ محتوا"
 
-#: src/lib/audio_content.cc:328
+#: src/lib/audio_content.cc:327
 msgid "Full length in video frames at DCP rate"
 msgstr "زمان کامل در فریمهای ویدیوبرابر با نرخ دی سی پی"
 
-#: src/lib/audio_content.cc:314
+#: src/lib/audio_content.cc:313
 msgid "Full length in video frames at content rate"
 msgstr "زمان کامل در فریمهای ویدیوبرابر با نرخ محتوا"
 
-#: src/lib/j2k_encoder.cc:280
+#: src/lib/j2k_encoder.cc:279
 msgid ""
 "GPU acceleration is enabled but the grok decoder is not working.  Please "
 "check your configuration and license, and ensure that you are connected to "
 "the internet."
 msgstr ""
 
-#: src/lib/ffmpeg_content.cc:625
+#: src/lib/ffmpeg_content.cc:624
 msgid "Gamma 22 (BT470M)"
 msgstr "گاما22(BT470)"
 
-#: src/lib/ffmpeg_content.cc:626
+#: src/lib/ffmpeg_content.cc:625
 msgid "Gamma 28 (BT470BG)"
 msgstr "گاما28(BT470BG)"
 
@@ -1117,11 +1084,11 @@ msgstr "گاما28(BT470BG)"
 msgid "Gradient debander"
 msgstr "Gradient debander"
 
-#: src/lib/util.cc:626
+#: src/lib/audio_processor.cc:142 src/lib/util.cc:625
 msgid "HI"
 msgstr "اختلال شنوایی"
 
-#: src/lib/util.cc:595
+#: src/lib/util.cc:594
 msgid "Hearing impaired"
 msgstr "ناشنوا"
 
@@ -1137,25 +1104,25 @@ msgstr "نکات برجسته"
 msgid "Horizontal flip"
 msgstr "برگردان افقی"
 
-#: src/lib/audio_content.cc:304 src/lib/audio_content.cc:327
+#: src/lib/audio_content.cc:303 src/lib/audio_content.cc:326
 msgid "Hz"
 msgstr "هرتز"
 
-#: src/lib/ffmpeg_content.cc:634
+#: src/lib/ffmpeg_content.cc:633
 msgid "IEC61966-2-1 (sRGB or sYCC)"
 msgstr "IEC61966-2-1 (sRGB or sYCC)"
 
-#: src/lib/ffmpeg_content.cc:632
+#: src/lib/ffmpeg_content.cc:631
 msgid "IEC61966-2-4"
 msgstr "IEC61966-2-4"
 
-#: src/lib/hints.cc:196
+#: src/lib/hints.cc:195
 msgid "If you do use 25fps you should change your DCP standard to SMPTE."
 msgstr ""
 "اگر از 25 فریم بر ثانیه استفاده میکنید استاندارد دی سی پی خود را به اس ام پی "
 "تی ای تغییر دهید."
 
-#: src/lib/hints.cc:259
+#: src/lib/hints.cc:258
 msgid ""
 "In general it is now advisable to make SMPTE DCPs unless you have a "
 "particular reason to use Interop.  It is advisable to set your DCP to use "
@@ -1165,7 +1132,7 @@ msgstr ""
 "معینی برای استفاده از اینتروپ دارید.  توصیه میشود که در زبانه \"دی سی پی\" "
 "استاندارد اس ام پی تی ای را برای دی سی پی خودتان انتخاب کنید."
 
-#: src/lib/hints.cc:624
+#: src/lib/hints.cc:623
 msgid ""
 "It is advisable to put your first subtitle at least 4 seconds after the "
 "start of the DCP to make sure it is seen."
@@ -1173,15 +1140,16 @@ msgstr ""
 "توصیه میشود که اولین زیرنویس خود را حداقل 4 ثانیه بعد از شروع دی سی پی قرار "
 "دهید تا مطمئن شوید که دیده میشود."
 
-#: src/lib/job.cc:170 src/lib/job.cc:205 src/lib/job.cc:265 src/lib/job.cc:275
+#: src/lib/job.cc:169 src/lib/job.cc:204 src/lib/job.cc:264 src/lib/job.cc:274
+#, fuzzy, c++-format
 msgid "It is not known what caused this error.  {}"
 msgstr "معلوم نیست چه چیزی باعث این خطا شده است. 1%"
 
-#: src/lib/ffmpeg_content.cc:614
+#: src/lib/ffmpeg_content.cc:613
 msgid "JEDEC P22"
 msgstr "JEDEC P22"
 
-#: src/lib/config.cc:431 src/lib/config.cc:1236
+#: src/lib/config.cc:430 src/lib/config.cc:1235
 msgid "KDM delivery: $CPL_NAME"
 msgstr "تحویل کلید: $CPL_NAME"
 
@@ -1190,63 +1158,64 @@ msgid "Kernel deinterlacer"
 msgstr "ضد اینترلیسر هسته"
 
 #. TRANSLATORS: L here is an abbreviation for "left", to indicate the left-eye part of a 3D export
-#: src/lib/ffmpeg_film_encoder.cc:266 src/lib/util.cc:620
+#: src/lib/ffmpeg_film_encoder.cc:265 src/lib/util.cc:619
 msgid "L"
 msgstr "چپ"
 
-#: src/lib/mid_side_decoder.cc:107 src/lib/util.cc:589
+#: src/lib/mid_side_decoder.cc:106 src/lib/util.cc:588
 msgid "Left"
 msgstr "چپ"
 
-#: src/lib/util.cc:597
+#: src/lib/util.cc:596
 msgid "Left centre"
 msgstr "مرکز- چپ"
 
-#: src/lib/util.cc:599
+#: src/lib/util.cc:598
 msgid "Left rear surround"
 msgstr "پشت سر- چپ سراوند"
 
-#: src/lib/util.cc:593
+#: src/lib/util.cc:592
 msgid "Left surround"
 msgstr "چپ سراوند"
 
-#: src/lib/video_content.cc:527
+#: src/lib/video_content.cc:526
 msgid "Length"
 msgstr "مدت"
 
-#: src/lib/util.cc:623
+#: src/lib/util.cc:622
 msgid "Lfe"
 msgstr "افکت فرکانس پایین"
 
-#: src/lib/util.cc:592
+#: src/lib/util.cc:591
 msgid "Lfe (sub)"
 msgstr "افکت فرکانس پایین (sub)"
 
-#: src/lib/ffmpeg_content.cc:579
+#: src/lib/ffmpeg_content.cc:578
 msgid "Limited"
 msgstr "محدود شد"
 
-#: src/lib/ffmpeg_content.cc:557
+#: src/lib/ffmpeg_content.cc:556
+#, c++-format
 msgid "Limited / video ({}-{})"
 msgstr "محدود شد/ویدیو ({}-{})"
 
-#: src/lib/ffmpeg_content.cc:629
+#: src/lib/ffmpeg_content.cc:628
 msgid "Linear"
 msgstr "خطی"
 
-#: src/lib/ffmpeg_content.cc:630
+#: src/lib/ffmpeg_content.cc:629
 msgid "Logarithmic (100:1 range)"
 msgstr "لگاریتمی(محدوده 100 به 1)"
 
-#: src/lib/ffmpeg_content.cc:631
+#: src/lib/ffmpeg_content.cc:630
 msgid "Logarithmic (316:1 range)"
 msgstr "لگاریتمی(محدوده 316 به 1)"
 
-#: src/lib/exceptions.cc:163
+#: src/lib/exceptions.cc:162
 msgid "Lost communication between main and writer processes"
 msgstr "قطع ارتباط بین پردازش های اصلی و رایتر"
 
-#: src/lib/util.cc:624
+#: src/lib/util.cc:623
 msgid "Ls"
 msgstr "سراوند چپ"
 
@@ -1275,15 +1244,16 @@ msgstr "نرخ های فریم در دی سی پی مطابقت ندارند"
 msgid "Mismatched video sizes in DCP"
 msgstr "اندازه های ویدیو در دی سی پی مطابقت ندارند"
 
-#: src/lib/exceptions.cc:72
+#: src/lib/exceptions.cc:71
+#, c++-format
 msgid "Missing required setting {}"
 msgstr "تنظیم مورد نیاز وجود ندارد{}"
 
-#: src/lib/job.cc:561
+#: src/lib/job.cc:560
 msgid "Monday"
 msgstr "دوشنبه"
 
-#: src/lib/writer.cc:773
+#: src/lib/writer.cc:772
 msgid "Mono"
 msgstr "مونو"
 
@@ -1299,11 +1269,11 @@ msgstr "سی پی الی در دی سی پی وجود ندارد."
 msgid "No from address configured in the KDM Email tab of preferences"
 msgstr "در قسمت اولویتها، زبانه ایمیل کلید، آدرسی تعیین نشده است"
 
-#: src/lib/kdm_with_metadata.cc:213 src/lib/send_notification_email_job.cc:70
+#: src/lib/kdm_with_metadata.cc:213 src/lib/send_notification_email_job.cc:69
 msgid "No outgoing mail server configured in the Email tab of preferences"
 msgstr "در قسمت اولویتها، زبانه ایمیل، آدرس سرور ایمیل خروجی تعیین نشده است"
 
-#: src/lib/image_content.cc:132
+#: src/lib/image_content.cc:131
 msgid "No valid image files were found in the folder."
 msgstr "در این پوشه فایل تصویر معتبری پیدا نشد."
 
@@ -1311,29 +1281,31 @@ msgstr "در این پوشه فایل تصویر معتبری پیدا نشد."
 msgid "Noise reduction"
 msgstr "کاهش نویز"
 
-#: src/lib/writer.cc:741 src/lib/writer.cc:748 src/lib/writer.cc:771
+#: src/lib/writer.cc:740 src/lib/writer.cc:747 src/lib/writer.cc:770
 msgid "None"
 msgstr "هیچکدام"
 
-#: src/lib/job.cc:617
+#: src/lib/job.cc:616
 msgid "OK"
 msgstr "مورد تایید"
 
-#: src/lib/job.cc:622
+#: src/lib/job.cc:621
+#, c++-format
 msgid "OK (ran for {} from {} to {})"
 msgstr "مورد تایید (اجرا شد {} از {} تا {})"
 
-#: src/lib/job.cc:620
+#: src/lib/job.cc:619
+#, c++-format
 msgid "OK (ran for {})"
 msgstr "مورد تایید (اجرا شد {})"
 
-#: src/lib/content.cc:106
+#: src/lib/content.cc:105
 msgid "Only the first piece of content to be joined can have a start trim."
 msgstr ""
 "فقط اولین قسمت محتوا که الحاق میشود میتواند شامل یک نقطه تغییر یافته شروع "
 "باشد."
 
-#: src/lib/content.cc:110
+#: src/lib/content.cc:109
 msgid "Only the last piece of content to be joined can have an end trim."
 msgstr ""
 "فقط آخرین قسمت محتوا که الحاق میشود میتواند شامل یک نقطه تغییر یافته پایان "
@@ -1347,7 +1319,8 @@ msgstr "عنوان شروع فیلم"
 msgid "Open subtitles"
 msgstr "زیرنویس شروع فیلم"
 
-#: src/lib/transcode_job.cc:116
+#: src/lib/transcode_job.cc:113
+#, fuzzy, c++-format
 msgid ""
 "Open the project in {}, check the settings, then save it before trying again."
 msgstr ""
@@ -1359,7 +1332,7 @@ msgstr ""
 msgid "Orientation"
 msgstr "جهت"
 
-#: src/lib/job.cc:227
+#: src/lib/job.cc:226
 msgid "Out of memory"
 msgstr "حافظه پر شده"
 
@@ -1371,7 +1344,8 @@ msgstr "ضد نویز فوق کامل ویولت"
 msgid "P3"
 msgstr "پی3"
 
-#: src/lib/util.cc:1136
+#: src/lib/util.cc:1135
+#, fuzzy, c++-format
 msgid ""
 "Please report this problem by using Help -> Report a problem or via email to "
 "{}"
@@ -1387,11 +1361,12 @@ msgstr "خط مشی"
 msgid "Premultiply alpha channel"
 msgstr "کانال آلفا پیش از ضرب"
 
-#: src/lib/content.cc:479
+#: src/lib/content.cc:478
 msgid "Prepared for video frame rate"
 msgstr "برای نرخ فریم ویدیو آماده است"
 
-#: src/lib/exceptions.cc:107
+#: src/lib/exceptions.cc:106
+#, c++-format
 msgid "Programming error at {}:{} {}"
 msgstr "خطای برنامه نویسی در{}:{} {}"
 
@@ -1404,11 +1379,11 @@ msgid "Public Service Announcement"
 msgstr "سرویس اعلان عمومی"
 
 #. TRANSLATORS: R here is an abbreviation for "right", to indicate the right-eye part of a 3D export
-#: src/lib/ffmpeg_film_encoder.cc:271 src/lib/util.cc:621
+#: src/lib/ffmpeg_film_encoder.cc:270 src/lib/util.cc:620
 msgid "R"
 msgstr "راست"
 
-#: src/lib/ffmpeg_content.cc:646
+#: src/lib/ffmpeg_content.cc:645
 msgid "RGB / sRGB (IEC61966-2-1)"
 msgstr "آر جی بی / اس آر جی بی (IEC61966-2-1)"
 
@@ -1432,19 +1407,19 @@ msgstr "توصیه نامه 601"
 msgid "Rec. 709"
 msgstr "توصیه نامه 709"
 
-#: src/lib/mid_side_decoder.cc:108 src/lib/util.cc:590
+#: src/lib/mid_side_decoder.cc:107 src/lib/util.cc:589
 msgid "Right"
 msgstr "راست"
 
-#: src/lib/util.cc:598
+#: src/lib/util.cc:597
 msgid "Right centre"
 msgstr "مرکز- راست"
 
-#: src/lib/util.cc:600
+#: src/lib/util.cc:599
 msgid "Right rear surround"
 msgstr "پشت سر- سراوند راست"
 
-#: src/lib/util.cc:594
+#: src/lib/util.cc:593
 msgid "Right surround"
 msgstr "سراوند راست"
 
@@ -1456,7 +1431,7 @@ msgstr "چرخش 90 درجه خلاف عقربه ساعت"
 msgid "Rotate 90 degrees clockwise"
 msgstr "چرخش 90 درجه در جهت عقربه ساعت"
 
-#: src/lib/util.cc:625
+#: src/lib/util.cc:624
 msgid "Rs"
 msgstr "سراوند راست"
 
@@ -1464,24 +1439,24 @@ msgstr "سراوند راست"
 msgid "S-Gamut3/S-Log3"
 msgstr "S-Gamut3/S-Log3"
 
-#: src/lib/ffmpeg_content.cc:598 src/lib/ffmpeg_content.cc:627
+#: src/lib/ffmpeg_content.cc:597 src/lib/ffmpeg_content.cc:626
 msgid "SMPTE 170M (BT601)"
 msgstr "SMPTE 170M (BT601)"
 
-#: src/lib/ffmpeg_content.cc:652
+#: src/lib/ffmpeg_content.cc:651
 msgid "SMPTE 170M (BT601-6)"
 msgstr "SMPTE 170M (BT601-6)"
 
-#: src/lib/ffmpeg_content.cc:657
+#: src/lib/ffmpeg_content.cc:656
 msgid "SMPTE 2085, Y'D'zD'x"
 msgstr "SMPTE 2085, Y'D'zD'x"
 
-#: src/lib/ffmpeg_content.cc:599 src/lib/ffmpeg_content.cc:628
-#: src/lib/ffmpeg_content.cc:653
+#: src/lib/ffmpeg_content.cc:598 src/lib/ffmpeg_content.cc:627
+#: src/lib/ffmpeg_content.cc:652
 msgid "SMPTE 240M"
 msgstr "SMPTE 240M"
 
-#: src/lib/hints.cc:689
+#: src/lib/hints.cc:688
 msgid ""
 "SMPTE DCPs with the type FTR (feature) should have markers for the first "
 "frame of end credits (FFEC) and the first frame of moving credits (FFMC).  "
@@ -1491,44 +1466,46 @@ msgstr ""
 "فریم شروع تیتراژ پایانی و آغاز دارای نشانگر باشند. در زبانه دی سی پی توسط "
 "\"نشانه گذار\" آنها را اضافه کنید."
 
-#: src/lib/ffmpeg_content.cc:637
+#: src/lib/ffmpeg_content.cc:636
 msgid "SMPTE ST 2084 for 10, 12, 14 and 16 bit systems"
 msgstr "SMPTE ST 2084 for 10, 12, 14 and 16 bit systems"
 
-#: src/lib/ffmpeg_content.cc:638
+#: src/lib/ffmpeg_content.cc:637
 msgid "SMPTE ST 428-1"
 msgstr "SMPTE ST 428-1"
 
-#: src/lib/ffmpeg_content.cc:602
+#: src/lib/ffmpeg_content.cc:601
 msgid "SMPTE ST 428-1 (CIE 1931 XYZ)"
 msgstr "SMPTE ST 428-1 (CIE 1931 XYZ)"
 
-#: src/lib/ffmpeg_content.cc:603
+#: src/lib/ffmpeg_content.cc:602
 msgid "SMPTE ST 431-2 (2011)"
 msgstr "SMPTE ST 431-2 (2011)"
 
-#: src/lib/ffmpeg_content.cc:604
+#: src/lib/ffmpeg_content.cc:603
 msgid "SMPTE ST 432-1 D65 (2010)"
 msgstr "SMPTE ST 432-1 D65 (2010)"
 
-#: src/lib/scp_uploader.cc:47
+#: src/lib/scp_uploader.cc:46
+#, c++-format
 msgid "SSH error [{}]"
 msgstr "خطای اس اس اچ [{}]"
 
-#: src/lib/scp_uploader.cc:63 src/lib/scp_uploader.cc:76
-#: src/lib/scp_uploader.cc:83
+#: src/lib/scp_uploader.cc:62 src/lib/scp_uploader.cc:75
+#: src/lib/scp_uploader.cc:82
+#, c++-format
 msgid "SSH error [{}] ({})"
 msgstr "خطای اس اس اچ [{}] ({})"
 
-#: src/lib/job.cc:571
+#: src/lib/job.cc:570
 msgid "Saturday"
 msgstr "شنبه"
 
-#: src/lib/image_content.cc:118
+#: src/lib/image_content.cc:117
 msgid "Scanning image files"
 msgstr "اسکن فایلهای تصویر"
 
-#: src/lib/send_problem_report_job.cc:86
+#: src/lib/send_problem_report_job.cc:85
 msgid "Sending email"
 msgstr "در حال ارسال ایمیل"
 
@@ -1536,23 +1513,24 @@ msgstr "در حال ارسال ایمیل"
 msgid "Short"
 msgstr "کوتاه"
 
-#: src/lib/util.cc:634
+#: src/lib/audio_processor.cc:146 src/lib/util.cc:633
 msgid "Sign"
 msgstr "امضاء"
 
-#: src/lib/video_content.cc:529
+#: src/lib/video_content.cc:528
 msgid "Size"
 msgstr "اندازه"
 
-#: src/lib/audio_content.cc:260
+#: src/lib/audio_content.cc:259
+#, c++-format
 msgid "Some audio will be resampled to {}Hz"
 msgstr "برخی صداها با {}هرتز مجدد نمونه برداری میشوند"
 
-#: src/lib/transcode_job.cc:121
+#: src/lib/transcode_job.cc:118
 msgid "Some files have been changed since they were added to the project."
 msgstr "برخی فایلها از زمان اضافه شدن به پروژه تغییر کرده اند."
 
-#: src/lib/transcode_job.cc:108
+#: src/lib/transcode_job.cc:105
 msgid ""
 "Some files have been changed since they were added to the project.\n"
 "\n"
@@ -1564,7 +1542,7 @@ msgstr ""
 "این فایلها بررسی مجدد میشوند، ممکن است نیاز باشد تا قبل از تلاش مجدد تنظیمات "
 "آنها را کنترل کنید."
 
-#: src/lib/check_content_job.cc:87
+#: src/lib/check_content_job.cc:85
 msgid ""
 "Some files have been changed since they were added to the project.\n"
 "\n"
@@ -1574,14 +1552,15 @@ msgstr ""
 "\n"
 "این فایلها بررسی مجدد میشوند، ممکن است نیاز باشد تنظیمات آنها را کنترل کنید."
 
-#: src/lib/hints.cc:605
+#: src/lib/hints.cc:604
+#, fuzzy, c++-format
 msgid ""
 "Some of your closed captions span more than {} lines, so they will be "
 "truncated."
 msgstr ""
 "برخی از زیرنویس‌های شما بیش از % 1 خطوط را شامل می‌شوند، بنابراین کوتاه می‌شوند."
 
-#: src/lib/hints.cc:727
+#: src/lib/hints.cc:726
 msgid ""
 "Some of your content has audio but you have not set the audio language.  It "
 "is advisable to set the audio language in the \"DCP\" tab unless your audio "
@@ -1602,7 +1581,7 @@ msgstr "بخشی از محتوای شما نیازمند کلید است"
 msgid "Some of your content needs an OV"
 msgstr "بخشی از محتوای شما نیازمند یک نسخه اصلی است(OV)"
 
-#: src/lib/hints.cc:781
+#: src/lib/hints.cc:780
 #, c++-format
 msgid ""
 "Some of your video content contains an alpha channel, and {} cannot be "
@@ -1611,7 +1590,7 @@ msgid ""
 "in the content Advanced Settings dialogue box."
 msgstr ""
 
-#: src/lib/writer.cc:775
+#: src/lib/writer.cc:774
 msgid "Stereo"
 msgstr "استریو"
 
@@ -1627,7 +1606,7 @@ msgstr "استریو به 5/1 میکسر A"
 msgid "Stereo to 5.1 up-mixer B"
 msgstr "استریو به 5/1 میکسر B"
 
-#: src/lib/job.cc:559
+#: src/lib/job.cc:558
 msgid "Sunday"
 msgstr "یکشنبه"
 
@@ -1651,15 +1630,17 @@ msgstr "متن زیرنویس"
 msgid "The DCP is empty, perhaps because all the content has zero length."
 msgstr "دی سی پی خالی است، ممکن است مدت زمان محتوا صفر باشد."
 
-#: src/lib/exceptions.cc:93
+#: src/lib/exceptions.cc:92
 msgid "The certificate chain for signing is invalid"
 msgstr "زنجیره گواهینامه نامعتبر است"
 
-#: src/lib/exceptions.cc:100
+#: src/lib/exceptions.cc:99
+#, c++-format
 msgid "The certificate chain for signing is invalid ({})"
 msgstr "زنجیره گواهینامه نامعتبر است({})"
 
-#: src/lib/hints.cc:744
+#: src/lib/hints.cc:743
+#, fuzzy, c++-format
 msgid ""
 "The certificate chain that {} uses for signing DCPs and KDMs contains a "
 "small error which will prevent DCPs from being validated correctly on some "
@@ -1672,7 +1653,8 @@ msgstr ""
 "اجرا نشوند. توصیه میشود با مراجعه به اولویتها در زبانه کلید توسط \"ساخت مجدد "
 "گواهی نامه و کلید..\" مجدد زنجیره گواهی نامه را ایجاد کنید."
 
-#: src/lib/hints.cc:752
+#: src/lib/hints.cc:751
+#, fuzzy, c++-format
 msgid ""
 "The certificate chain that {} uses for signing DCPs and KDMs has a validity "
 "period that is too long.  This will cause problems playing back DCPs on some "
@@ -1685,7 +1667,8 @@ msgstr ""
 "توصیه میشود با مراجعه به اولویتها در زبانه کلید توسط \"ساخت مجدد گواهی نامه "
 "و کلید..\" مجدد زنجیره گواهی نامه را ایجاد کنید."
 
-#: src/lib/video_decoder.cc:70
+#: src/lib/video_decoder.cc:69
+#, c++-format
 msgid ""
 "The content file {} is set as 3D but does not appear to contain 3D images.  "
 "Please set it to 2D.  You can still make a 3D DCP from this content by "
@@ -1695,30 +1678,34 @@ msgstr ""
 "تنظیم کنید. شما هنوزمیتوانید از طریق زبانه دی سی پی و تیک زدن گزینه سه بعدی "
 "یک دی سی پی سه بعدی بسازید."
 
-#: src/lib/job.cc:122
+#: src/lib/job.cc:121
 msgid ""
 "The drive that the film is stored on is low in disc space.  Free some more "
 "space and try again."
 msgstr ""
 "فضای کافی در محل ذخیره فیلم وجود ندارد. پس از خالی کردن فضا مجددا تلاش کنید."
 
-#: src/lib/playlist.cc:245
+#: src/lib/playlist.cc:244
+#, c++-format
 msgid "The file {} has been moved {} milliseconds earlier."
 msgstr "فایل {} به مدت {} میلی ثانیه جلوتر افتاد."
 
-#: src/lib/playlist.cc:240
+#: src/lib/playlist.cc:239
+#, c++-format
 msgid "The file {} has been moved {} milliseconds later."
 msgstr "فایل {} به مدت {} میلی ثانیه عقب تر افتاد."
 
-#: src/lib/playlist.cc:265
+#: src/lib/playlist.cc:264
+#, c++-format
 msgid "The file {} has been trimmed by {} milliseconds less."
 msgstr "فایل {} به مدت {} میلی ثانیه تنظیم وکوتاه شد."
 
-#: src/lib/playlist.cc:260
+#: src/lib/playlist.cc:259
+#, c++-format
 msgid "The file {} has been trimmed by {} milliseconds more."
 msgstr "فایل {} به مدت {} میلی ثانیه تنظیم وبلند شد."
 
-#: src/lib/hints.cc:268
+#: src/lib/hints.cc:267
 msgid ""
 "The vast majority of cinemas in Europe, Australasia and North America expect "
 "DCPs encoded with JPEG2000 rather than MPEG2.  Make sure that your cinema "
@@ -1738,7 +1725,7 @@ msgstr ""
 "بود. اما شما باید همه زیرنویسهای پروژه خود را برای اطمینان از جانمایی درست "
 "بررسی کنید."
 
-#: src/lib/hints.cc:249
+#: src/lib/hints.cc:248
 msgid ""
 "There is a large difference between the frame rate of your DCP and that of "
 "some of your content.  This will cause your audio to play back at a much "
@@ -1751,11 +1738,11 @@ msgstr ""
 "توصیه میشود نرخ فریم دی سی پی خود را هر چه نزدیکتر به محتوا انتخاب کنید، "
 "طوریکه سیستم نمایشی که قرار است آنرا نمایش دهد از آن پشتیبانی نماید."
 
-#: src/lib/dcp_content.cc:714
+#: src/lib/dcp_content.cc:713
 msgid "There is no video in this DCP"
 msgstr "در این دی سی پی ویدیو وجود ندارد"
 
-#: src/lib/job.cc:227
+#: src/lib/job.cc:226
 msgid ""
 "There was not enough memory to do this.  If you are running a 32-bit "
 "operating system try reducing the number of encoding threads in the General "
@@ -1765,15 +1752,18 @@ msgstr ""
 "میکنید سعی کنید تعداد رشته های رمزگذاری را از طریق زبانه کلی در اولویتها "
 "کاهش دهید."
 
-#: src/lib/util.cc:986
+#: src/lib/util.cc:985
+#, fuzzy, c++-format
 msgid "This KDM was made for {} but not for its leaf certificate."
 msgstr "این کلید برای 1% ساخته شده اما نه برای گواهی برگ آن."
 
-#: src/lib/util.cc:984
+#: src/lib/util.cc:983
+#, fuzzy, c++-format
 msgid "This KDM was not made for {}'s decryption certificate."
 msgstr "این کلید برای گواهی نامه 1% ساخته نشده است."
 
-#: src/lib/job.cc:142
+#: src/lib/job.cc:141
+#, fuzzy, c++-format
 msgid ""
 "This error has probably occurred because you are running the 32-bit version "
 "of {} and trying to use too many encoding threads.  Please reduce the "
@@ -1784,7 +1774,8 @@ msgstr ""
 "زیاد رشته های رمزگذاری پیش آمده باشد. لطفا در بخش اولویتها در زبانه کلی "
 "\"تعداد رشته ای که 2% باید استفاده کند\" را کاهش دهید و مجددا تلاش کنید."
 
-#: src/lib/job.cc:156
+#: src/lib/job.cc:155
+#, fuzzy, c++-format
 msgid ""
 "This error has probably occurred because you are running the 32-bit version "
 "of {}.  Please re-install {} with the 64-bit installer and try again."
@@ -1792,7 +1783,7 @@ msgstr ""
 "این مشکل ممکن است به دلیل نصب نسخه 32 بیتی 1% پیش آمده باشد. لطفا پس ازنصب "
 "نسخه 64 بیتی 2% مجدد تلاش کنید."
 
-#: src/lib/exceptions.cc:114
+#: src/lib/exceptions.cc:113
 msgid ""
 "This file is a KDM.  KDMs should be added to DCP content by right-clicking "
 "the content and choosing \"Add KDM\"."
@@ -1800,7 +1791,8 @@ msgstr ""
 "این یک فایل کلید است. کلید را از طریق کلیک راست روی محتوا و انتخاب \"اضافه "
 "کردن کلید\" به دی سی پی اضافه کنید."
 
-#: src/lib/film.cc:544
+#: src/lib/film.cc:543
+#, fuzzy, c++-format
 msgid ""
 "This film was created with a newer version of {}, and it cannot be loaded "
 "into this version.  Sorry!"
@@ -1808,7 +1800,8 @@ msgstr ""
 "این فیلم با نسخه جدیدتر 1% ساخته شده، و در این نسخه قابل فراخوانی نیست. "
 "متاسفم!"
 
-#: src/lib/film.cc:525
+#: src/lib/film.cc:524
+#, fuzzy, c++-format
 msgid ""
 "This film was created with an older version of {}, and unfortunately it "
 "cannot be loaded into this version.  You will need to create a new Film, re-"
@@ -1818,7 +1811,7 @@ msgstr ""
 "نیست. لازم است که یک فیلم جدید ساخته، مجدد محتوا را به آن اضافه و تنظیم "
 "کنید. متاسفم!"
 
-#: src/lib/job.cc:567
+#: src/lib/job.cc:566
 msgid "Thursday"
 msgstr "پنجشنبه"
 
@@ -1830,7 +1823,8 @@ msgstr "متن زمان دار"
 msgid "Trailer"
 msgstr "تبلیغ فیلم"
 
-#: src/lib/transcode_job.cc:75
+#: src/lib/transcode_job.cc:74
+#, c++-format
 msgid "Transcoding {}"
 msgstr "ترنسکدینگ {}"
 
@@ -1838,7 +1832,7 @@ msgstr "ترنسکدینگ {}"
 msgid "Transitional"
 msgstr "انتقالی"
 
-#: src/lib/job.cc:563
+#: src/lib/job.cc:562
 msgid "Tuesday"
 msgstr "سه شنبه"
 
@@ -1846,7 +1840,7 @@ msgstr "سه شنبه"
 msgid "USL"
 msgstr "USL"
 
-#: src/lib/internet.cc:188
+#: src/lib/internet.cc:187
 msgid "Unexpected ZIP file contents"
 msgstr "فرمت غیره منتظره محتوای فایل فشرده"
 
@@ -1854,15 +1848,16 @@ msgstr "فرمت غیره منتظره محتوای فایل فشرده"
 msgid "Unexpected image type received by server"
 msgstr "فرمت تصویر غیرمنتظره به سرور رسید"
 
-#: src/lib/cross_common.cc:104 src/lib/dcp_text_track.cc:53
+#: src/lib/cross_common.cc:103 src/lib/dcp_text_track.cc:53
 msgid "Unknown"
 msgstr "ناشناخته"
 
-#: src/lib/job.cc:274
+#: src/lib/job.cc:273
 msgid "Unknown error"
 msgstr "خطای ناشناخته"
 
-#: src/lib/ffmpeg_decoder.cc:378
+#: src/lib/ffmpeg_decoder.cc:377
+#, c++-format
 msgid "Unrecognised audio sample format ({})"
 msgstr "فرمت نمونه صدای غیرقابل تشخیص({})"
 
@@ -1870,11 +1865,11 @@ msgstr "فرمت نمونه صدای غیرقابل تشخیص({})"
 msgid "Unsharp mask and Gaussian blur"
 msgstr "ماسک غیرواضح و تاری گاوسی"
 
-#: src/lib/ffmpeg_content.cc:550 src/lib/ffmpeg_content.cc:574
-#: src/lib/ffmpeg_content.cc:592 src/lib/ffmpeg_content.cc:594
-#: src/lib/ffmpeg_content.cc:595 src/lib/ffmpeg_content.cc:621
-#: src/lib/ffmpeg_content.cc:623 src/lib/ffmpeg_content.cc:624
-#: src/lib/ffmpeg_content.cc:648 src/lib/ffmpeg_content.cc:649
+#: src/lib/ffmpeg_content.cc:549 src/lib/ffmpeg_content.cc:573
+#: src/lib/ffmpeg_content.cc:591 src/lib/ffmpeg_content.cc:593
+#: src/lib/ffmpeg_content.cc:594 src/lib/ffmpeg_content.cc:620
+#: src/lib/ffmpeg_content.cc:622 src/lib/ffmpeg_content.cc:623
+#: src/lib/ffmpeg_content.cc:647 src/lib/ffmpeg_content.cc:648
 msgid "Unspecified"
 msgstr "نامشخص"
 
@@ -1882,7 +1877,7 @@ msgstr "نامشخص"
 msgid "Untitled"
 msgstr "بدون عنوان"
 
-#: src/lib/util.cc:603 src/lib/util.cc:604
+#: src/lib/util.cc:602 src/lib/util.cc:603
 msgid "Unused"
 msgstr "استفاده نشده"
 
@@ -1894,7 +1889,7 @@ msgstr "Upmix L"
 msgid "Upmix R"
 msgstr "Upmix R"
 
-#: src/lib/util.cc:627
+#: src/lib/audio_processor.cc:143 src/lib/util.cc:626
 msgid "VI"
 msgstr "اختلال بینایی"
 
@@ -1902,7 +1897,7 @@ msgstr "اختلال بینایی"
 msgid "Verify DCP"
 msgstr "صحت سنجی دی سی پی"
 
-#: src/lib/copy_to_drive_job.cc:127
+#: src/lib/copy_to_drive_job.cc:126
 msgid "Verifying copied files"
 msgstr ""
 
@@ -1911,14 +1906,15 @@ msgid "Vertical flip"
 msgstr "برگردان عمودی"
 
 #: src/lib/fcpxml.cc:69
+#, c++-format
 msgid "Video refers to missing asset {}"
 msgstr ""
 
-#: src/lib/util.cc:596
+#: src/lib/util.cc:595
 msgid "Visually impaired"
 msgstr "دچار اختلال بصری است"
 
-#: src/lib/upload_job.cc:51
+#: src/lib/upload_job.cc:50
 msgid "Waiting"
 msgstr "در حال انتظار"
 
@@ -1926,11 +1922,11 @@ msgstr "در حال انتظار"
 msgid "Weave filter"
 msgstr "فیلتر موج"
 
-#: src/lib/job.cc:565
+#: src/lib/job.cc:564
 msgid "Wednesday"
 msgstr "چهارشنبه"
 
-#: src/lib/ffmpeg_content.cc:654
+#: src/lib/ffmpeg_content.cc:653
 msgid "YCOCG"
 msgstr "YCOCG"
 
@@ -1938,7 +1934,8 @@ msgstr "YCOCG"
 msgid "Yet Another Deinterlacing Filter"
 msgstr "با این حال یک فیلتر ضد اینترلیس دیگر"
 
-#: src/lib/hints.cc:209
+#: src/lib/hints.cc:208
+#, c++-format
 msgid ""
 "You are set up for a DCP at a frame rate of {} fps.  This frame rate is not "
 "supported by all projectors.  It is advisable to change the DCP frame rate "
@@ -1948,7 +1945,8 @@ msgstr ""
 "پروژکتورها پشتیبانی نمیشود. توصیه میشود نرخ فریم دی سی پی را به {} فریم بر "
 "ثانیه تغییر دهید."
 
-#: src/lib/hints.cc:193
+#: src/lib/hints.cc:192
+#, c++-format
 msgid ""
 "You are set up for a DCP at a frame rate of {} fps.  This frame rate is not "
 "supported by all projectors.  You may want to consider changing your frame "
@@ -1958,7 +1956,7 @@ msgstr ""
 "پروژکتورها پشتیبانی نمیشود. ممکن است بخواهید نرخ فریم را به {} فریم بر ثانیه "
 "تغییر دهید."
 
-#: src/lib/hints.cc:203
+#: src/lib/hints.cc:202
 msgid ""
 "You are set up for a DCP frame rate of 30fps, which is not supported by all "
 "projectors.  Be aware that you may have compatibility problems."
@@ -1966,7 +1964,17 @@ msgstr ""
 "تنظیمات دی سی پی را روی 30 فریم بر ثانیه قرار داده اید که همه پروژکتورها "
 "قادر به نمایش آن نیستند. از این عدم سازگاری آگاه باشد."
 
-#: src/lib/hints.cc:126
+#: src/lib/hints.cc:322
+msgid ""
+"You are using 3D content but your DCP is set to 2D.  Set the DCP to 3D if "
+"you want to play it back on a 3D system (e.g. Real-D, MasterImage etc.)"
+msgstr ""
+"شما از محتوای سه بعدی استفاده میکنید اما تنظیم دی سی پی روی دو بعدی است. اگر "
+"قرار است روی سیستم سه بعدی پلی شود تنظیم دی سی پی خود را روی سه بعدی قرار "
+"دهید(مانند Real-D، MasterImage، وغیره.)"
+
+#: src/lib/hints.cc:125
+#, fuzzy, c++-format
 msgid ""
 "You are using {}'s stereo-to-5.1 upmixer.  This is experimental and may "
 "result in poor-quality audio.  If you continue, you should listen to the "
@@ -1976,24 +1984,7 @@ msgstr ""
 "آزمایشی است و ممکن است کیفیت صدا را کاهش دهد. اگرادامه کار میدهید، باید به "
 "صدای خروجی دی سی پی آن در یک سینما گوش دهید تا از درستی آن مطمئن شوید."
 
-#: src/lib/hints.cc:323
-msgid ""
-"You are using 3D content but your DCP is set to 2D.  Set the DCP to 3D if "
-"you want to play it back on a 3D system (e.g. Real-D, MasterImage etc.)"
-msgstr ""
-"شما از محتوای سه بعدی استفاده میکنید اما تنظیم دی سی پی روی دو بعدی است. اگر "
-"قرار است روی سیستم سه بعدی پلی شود تنظیم دی سی پی خود را روی سه بعدی قرار "
-"دهید(مانند Real-D، MasterImage، وغیره.)"
-
-#: src/lib/hints.cc:307
-msgid ""
-"You have {} files that look like they are VOB files from DVD. You should "
-"join them to ensure smooth joins between the files."
-msgstr ""
-"شما{} فایل دارید که به نظر میرسد فرمت آنها وی او بی و از دی وی دی هستند. "
-"برای پرش نیافتادن بین فایلها باید آنها را به هم بچسبانید."
-
-#: src/lib/film.cc:1665
+#: src/lib/film.cc:1701
 msgid ""
 "You have more than one piece of Atmos content, and they do not have the same "
 "frame rate.  You must remove some Atmos content."
@@ -2001,7 +1992,7 @@ msgstr ""
 "شما بیش از یک محتوای اتمز دارید که نرخ فریم مشابهی ندارند. باید برخی از آنها "
 "را حذف کنید."
 
-#: src/lib/hints.cc:612
+#: src/lib/hints.cc:611
 msgid ""
 "You have overlapping closed captions, which are not allowed in Interop "
 "DCPs.  Change your DCP standard to SMPTE."
@@ -2009,7 +2000,7 @@ msgstr ""
 "زیرنویسهای شما همپوشانی دارند، که در استاندارد اینتروپ مجاز نیست. استاندارد "
 "دی سی پی خود را به اس ام پی تی ای تغییر دهید."
 
-#: src/lib/hints.cc:291
+#: src/lib/hints.cc:290
 msgid ""
 "You have specified a font file which is larger than 640kB.  This is very "
 "likely to cause problems on playback."
@@ -2017,21 +2008,21 @@ msgstr ""
 "یک فایل فونت با اندازه بزرگتر از 640 کیلوبایت مشخص شده است. به احتمال زیاد "
 "هنگام پلی فیلم مشکل ساز است."
 
+#: src/lib/hints.cc:306
+#, c++-format
+msgid ""
+"You have {} files that look like they are VOB files from DVD. You should "
+"join them to ensure smooth joins between the files."
+msgstr ""
+"شما{} فایل دارید که به نظر میرسد فرمت آنها وی او بی و از دی وی دی هستند. "
+"برای پرش نیافتادن بین فایلها باید آنها را به هم بچسبانید."
+
 #: src/lib/make_dcp.cc:52
 msgid "You must add some content to the DCP before creating it"
 msgstr "شما قبل از ساخت دی س پی باید به آن تعدادی محتوا اضافه کنید"
 
-#: src/lib/hints.cc:770
-msgid ""
-"Your DCP has {} audio channels, rather than 8 or 16.  This may cause some "
-"distributors to raise QC errors when they check your DCP.  To avoid this, "
-"set the DCP audio channels to 8 or 16."
-msgstr ""
-"دی سی پی شما به جای 8 یا 16 کانال دارای {} کانال صدا است. ممکن است هنگام صحت "
-"سنجی دی سی پی شما توسط دفاتر پخش با خطای کیفی مواجه شود. برای پرهیز از خطا، "
-"تعداد کانالهای دی سی پی خود را روی 8 یا 16 قرار دهید."
-
-#: src/lib/hints.cc:111
+#: src/lib/hints.cc:110
+#, fuzzy, c++-format
 msgid ""
 "Your DCP has fewer than 6 audio channels.  This may cause problems on some "
 "projectors.  You may want to set the DCP to have 6 channels.  It does not "
@@ -2043,7 +2034,18 @@ msgstr ""
 "محتوای شما تعداد کانال کمتری دارد مساله ای نیست، 1% کانالهای اضافه را با "
 "سکوت پر میکند."
 
-#: src/lib/hints.cc:168
+#: src/lib/hints.cc:769
+#, c++-format
+msgid ""
+"Your DCP has {} audio channels, rather than 8 or 16.  This may cause some "
+"distributors to raise QC errors when they check your DCP.  To avoid this, "
+"set the DCP audio channels to 8 or 16."
+msgstr ""
+"دی سی پی شما به جای 8 یا 16 کانال دارای {} کانال صدا است. ممکن است هنگام صحت "
+"سنجی دی سی پی شما توسط دفاتر پخش با خطای کیفی مواجه شود. برای پرهیز از خطا، "
+"تعداد کانالهای دی سی پی خود را روی 8 یا 16 قرار دهید."
+
+#: src/lib/hints.cc:167
 msgid ""
 "Your DCP uses an unusual container ratio.  This may cause problems on some "
 "projectors.  If possible, use Flat or Scope for the DCP container ratio."
@@ -2051,29 +2053,30 @@ msgstr ""
 "دی سی پی شما نسبت ابعاد تصویر نامتعارفی دارد. این ممکن در برخی پروژکتورها "
 "مشکل ایجاد کند. اگر ممکن است، از نسبت ابعاد تخت یا اسکوپ استفاده کنید."
 
-#: src/lib/hints.cc:357
+#: src/lib/hints.cc:356
+#, c++-format
 msgid ""
 "Your audio level is very high (on {}).  You should reduce the gain of your "
 "audio content."
 msgstr ""
 "گین صدای شما خیلی زیاد است(روی {}). شما باید گین محتوای خود را کاهش دهید."
 
-#: src/lib/playlist.cc:236
+#: src/lib/playlist.cc:235
 msgid ""
 "Your project contains video content that was not aligned to a frame boundary."
 msgstr "پروژه شامل ویدیویی است که با یک مرز فریم هم راستا نشده است."
 
-#: src/lib/playlist.cc:256
+#: src/lib/playlist.cc:255
 msgid ""
 "Your project contains video content whose trim was not aligned to a frame "
 "boundary."
 msgstr "پروژه شامل ویدیویی است که اصلاح شده آن با یک مرز فریم هم راستا نیست."
 
-#: src/lib/image_content.cc:79
+#: src/lib/image_content.cc:78
 msgid "[moving images]"
 msgstr "[تصاویر متحرک]"
 
-#: src/lib/image_content.cc:77
+#: src/lib/image_content.cc:76
 msgid "[still]"
 msgstr "[تصویرثابت]"
 
@@ -2084,15 +2087,16 @@ msgstr "[زیرنویسها]"
 
 #. TRANSLATORS: _reel{} here is to be added to an export filename to indicate
 #. which reel it is.  Preserve the {}; it will be replaced with the reel number.
-#: src/lib/ffmpeg_film_encoder.cc:152
+#: src/lib/ffmpeg_film_encoder.cc:151
+#, c++-format
 msgid "_reel{}"
 msgstr "_حلقه{}"
 
-#: src/lib/audio_content.cc:306
+#: src/lib/audio_content.cc:305
 msgid "bits"
 msgstr "بیتها"
 
-#: src/lib/dcpomatic_socket.cc:83 src/lib/dcpomatic_socket.cc:113
+#: src/lib/dcpomatic_socket.cc:82 src/lib/dcpomatic_socket.cc:112
 msgid "connect timed out"
 msgstr "زمان اتصال تمام شد"
 
@@ -2105,73 +2109,85 @@ msgid "content type"
 msgstr "نوع محتوا"
 
 #: src/lib/uploader.cc:79
+#, c++-format
 msgid "copying {}"
 msgstr "در حال کپی{}"
 
-#: src/lib/ffmpeg.cc:119
+#: src/lib/ffmpeg.cc:118
 msgid "could not find stream information"
 msgstr "اطلاعات رشته پیدا نشد"
 
-#: src/lib/reel_writer.cc:404
+#: src/lib/reel_writer.cc:403
+#, c++-format
 msgid "could not move atmos asset into the DCP ({})"
 msgstr "دالبی اتمز قابل انتقال به داخل دی س پی نیست({})"
 
-#: src/lib/reel_writer.cc:387
+#: src/lib/reel_writer.cc:386
+#, c++-format
 msgid "could not move audio asset into the DCP ({})"
 msgstr "صدا قابل انتقال به داخل دی س پی نیست({})"
 
-#: src/lib/exceptions.cc:39
+#: src/lib/exceptions.cc:38
+#, c++-format
 msgid "could not open file {} for read ({})"
 msgstr "فایل باز نمیشود{} برای خواندن({})"
 
-#: src/lib/exceptions.cc:38
+#: src/lib/exceptions.cc:37
+#, c++-format
 msgid "could not open file {} for read/write ({})"
 msgstr "فایل باز نمیشود{} برای نوشتن/خواندن({})"
 
-#: src/lib/exceptions.cc:39
+#: src/lib/exceptions.cc:38
+#, c++-format
 msgid "could not open file {} for write ({})"
 msgstr "فایل باز نمیشود{} برای نوشتن({})"
 
-#: src/lib/exceptions.cc:58
+#: src/lib/exceptions.cc:57
+#, c++-format
 msgid "could not read from file {} ({})"
 msgstr "نمیتوان از فایل خواند{}({})"
 
-#: src/lib/exceptions.cc:65
+#: src/lib/exceptions.cc:64
+#, c++-format
 msgid "could not write to file {} ({})"
 msgstr "نمیتوان در فایل نوشت{}({})"
 
-#: src/lib/dcpomatic_socket.cc:109
+#: src/lib/dcpomatic_socket.cc:108
+#, c++-format
 msgid "error during async_connect ({})"
 msgstr "خطا در هنگام async_connect ({})"
 
-#: src/lib/dcpomatic_socket.cc:79
-#, fuzzy
+#: src/lib/dcpomatic_socket.cc:78
+#, fuzzy, c++-format
 msgid "error during async_connect: ({})"
 msgstr "خطا در هنگام async_connect ({})"
 
-#: src/lib/dcpomatic_socket.cc:201
+#: src/lib/dcpomatic_socket.cc:200
+#, c++-format
 msgid "error during async_read ({})"
 msgstr "خطا در هنگام async_read ({})"
 
-#: src/lib/dcpomatic_socket.cc:160
+#: src/lib/dcpomatic_socket.cc:159
+#, c++-format
 msgid "error during async_write ({})"
 msgstr "خطا در هنگام async_write ({})"
 
-#: src/lib/content.cc:472 src/lib/content.cc:481
+#: src/lib/content.cc:471 src/lib/content.cc:480
 msgid "frames per second"
 msgstr "فریم بر ثانیه"
 
 #. TRANSLATORS: h here is an abbreviation for hours
-#: src/lib/util.cc:212
+#: src/lib/util.cc:211
 msgid "h"
 msgstr "ساعت"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:671
+#: src/lib/dcp_content.cc:670
 msgid "it has a different frame rate to the film."
 msgstr "نرخ فریم آن با فیلم یکسان نیست."
 
-#: src/lib/dcp_content.cc:753
+#: src/lib/dcp_content.cc:752
+#, fuzzy, c++-format
 msgid ""
 "it has a different number of audio channels than the project; set the "
 "project to have {} channels."
@@ -2180,48 +2196,48 @@ msgstr ""
 "صدای پروژه را روی 1% قرار دهید."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:789
+#: src/lib/dcp_content.cc:788
 msgid ""
 "it has a start trim so its subtitles or closed captions must be re-written."
 msgstr "نتقطه شروع اصلاح شده دارد بنابر این زیرنویس ها باید مجدد نوشته شوند."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:724
+#: src/lib/dcp_content.cc:723
 msgid "it is 2K and the film is 4K."
 msgstr "این 2k و فیلم 4k است."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:721
+#: src/lib/dcp_content.cc:720
 msgid "it is 4K and the film is 2K."
 msgstr "این 4k و فیلم 2k است."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:659
+#: src/lib/dcp_content.cc:658
 msgid "it is Interop and the film is set to SMPTE."
 msgstr "این استاندارد اینتروپ است ولی فیلم روی استاندارد اس ام پی تی ای است."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:663
+#: src/lib/dcp_content.cc:662
 msgid "it is SMPTE and the film is set to Interop."
 msgstr "این استاندارد اس ام پی تی ای است ولی فیلم روی استاندارد اینتروپ است."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:764
+#: src/lib/dcp_content.cc:763
 msgid "it overlaps other audio content."
 msgstr "با سایر محتوای صدا همپوشانی دارد."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:799
+#: src/lib/dcp_content.cc:798
 msgid "it overlaps other text content."
 msgstr "با سایر محتوای متنی همپوشانی دارد."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:739
+#: src/lib/dcp_content.cc:738
 msgid "it overlaps other video content."
 msgstr "با سایر محتوای ویدیو همپوشانی دارد."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:694
+#: src/lib/dcp_content.cc:693
 msgid ""
 "its reel lengths differ from those in the film; set the reel mode to 'split "
 "by video content'."
@@ -2230,16 +2246,16 @@ msgstr ""
 "براساس محتوای ویدیو\" تنظیم کنید."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:729
+#: src/lib/dcp_content.cc:728
 msgid "its video frame size differs from the film's."
 msgstr "اندازه این فریم ویدیوبا اندازه فریم فیلم فرق دارد."
 
 #. TRANSLATORS: m here is an abbreviation for minutes
-#: src/lib/util.cc:221
+#: src/lib/util.cc:220
 msgid "m"
 msgstr "دقیقه"
 
-#: src/lib/image_content.cc:95
+#: src/lib/image_content.cc:94
 msgid "moving"
 msgstr "متحرک"
 
@@ -2248,7 +2264,7 @@ msgid "name"
 msgstr "اسم"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:783
+#: src/lib/dcp_content.cc:782
 msgid ""
 "one of its closed caption has a non-zero entry point so it must be re-"
 "written."
@@ -2257,7 +2273,7 @@ msgstr ""
 "نوشته شود."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:777
+#: src/lib/dcp_content.cc:776
 msgid ""
 "one of its subtitle reels has a non-zero entry point so it must be re-"
 "written."
@@ -2266,7 +2282,7 @@ msgstr ""
 "نوشته شود."
 
 #. TRANSLATORS: s here is an abbreviation for seconds
-#: src/lib/util.cc:231
+#: src/lib/util.cc:230
 msgid "s"
 msgstr "ثانیه"
 
@@ -2274,17 +2290,108 @@ msgstr "ثانیه"
 msgid "sRGB"
 msgstr "اس آر جی بی"
 
-#: src/lib/image_content.cc:93
+#: src/lib/image_content.cc:92
 msgid "still"
 msgstr "تصویرثابت"
 
-#: src/lib/ffmpeg_examiner.cc:347 src/lib/video_content.cc:365
+#: src/lib/ffmpeg_examiner.cc:347 src/lib/video_content.cc:364
 msgid "unknown"
 msgstr "ناشناخته"
 
-#: src/lib/video_content.cc:527
+#: src/lib/video_content.cc:526
 msgid "video frames"
 msgstr "فریم های ویدیو"
+
+#: src/lib/cross_common.cc:106
+#, c++-format
+msgid "{} ({} GB) [{}]"
+msgstr "{} ({} GB) [{}]"
+
+#: src/lib/atmos_mxf_content.cc:95
+#, c++-format
+msgid "{} [Atmos]"
+msgstr "{} [دالبی اتمز]"
+
+#: src/lib/dcp_content.cc:355
+#, c++-format
+msgid "{} [DCP]"
+msgstr "{} [دی سی پی]"
+
+#: src/lib/ffmpeg_content.cc:346
+#, c++-format
+msgid "{} [audio]"
+msgstr "{} [صدا]"
+
+#: src/lib/ffmpeg_content.cc:342
+#, c++-format
+msgid "{} [movie]"
+msgstr "{} [فیلم]"
+
+#: src/lib/ffmpeg_content.cc:344 src/lib/video_mxf_content.cc:105
+#, c++-format
+msgid "{} [video]"
+msgstr "{} [ویدیو]"
+
+#: src/lib/job.cc:180 src/lib/job.cc:195
+#, c++-format
+msgid ""
+"{} could not open the file {} ({}).  Perhaps it does not exist or is in an "
+"unexpected format."
+msgstr ""
+"{} نمیتوان فایل {}({}) را باز کرد. ممکن است فایل یا وجود نداشته باشد و یا "
+"فرمت مناسب نداشته باشد."
+
+#: src/lib/film.cc:1738
+#, c++-format
+msgid ""
+"{} had to change your settings for referring to DCPs as OV.  Please review "
+"those settings to make sure they are what you want."
+msgstr ""
+"{} مجبور شد برای ارجاع به یک دی سی پی به عنوان نسخه اصلی (OV) تنظیمات شما را "
+"تغییر دهد. لطفا آنها را بررسی کنید تا مطمئن شوید همان چیزی است که شما می "
+"خواهید."
+
+#: src/lib/film.cc:1704
+#, c++-format
+msgid ""
+"{} had to change your settings so that the film's frame rate is the same as "
+"that of your Atmos content."
+msgstr ""
+"{} مجبور شد تنظیمات شما را تغییر دهد تا نرخ فریم فیلم برابر محتوای دالبی "
+"اتمز شما شود."
+
+#: src/lib/film.cc:1751
+#, c++-format
+msgid ""
+"{} had to remove one of your custom reel boundaries as it no longer lies "
+"within the film."
+msgstr ""
+"{} مجبور به حذف یکی از مرزهای تعیین شده شما برای ریل گردید به دلیل اینکه "
+"دیگر در داخل محدوده فیلم قرار نمی گرفت."
+
+#: src/lib/film.cc:1749
+#, c++-format
+msgid ""
+"{} had to remove some of your custom reel boundaries as they no longer lie "
+"within the film."
+msgstr ""
+"{} مجبور به حذف تعدادی از مرزهای تعیین شده شما برای ریل گردید به دلیل اینکه "
+"دیگر در داخل محدوده فیلم قرار نمی گرفتند."
+
+#: src/lib/ffmpeg_content.cc:114
+#, fuzzy, c++-format
+msgid "{} no longer supports the `{}' filter, so it has been turned off."
+msgstr "{} دیگر از فیلتر'2%' پشتیبانی نمیکند، بنابراین خاموش شده است."
+
+#: src/lib/config.cc:440 src/lib/config.cc:1250
+#, c++-format
+msgid "{} notification"
+msgstr "{} یادداشت"
+
+#: src/lib/transcode_job.cc:177
+#, c++-format
+msgid "{}; {}/{} frames"
+msgstr "{} ; {}/{} فریمها"
 
 #~ msgid "container"
 #~ msgstr "ظرف محتوا"
