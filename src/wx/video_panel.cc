@@ -182,7 +182,7 @@ VideoPanel::create()
 	_scale_custom = new wxRadioButton(this, wxID_ANY, _("custom"));
 	_scale_custom_edit = new Button(this, _("Edit..."), wxDefaultPosition, small_button_size(this, _("Edit...")));
 
-	_colour_conversion_label = create_label(this, _("Colour"), true);
+	_colour_conversion_label = create_label(this, _("Source\ncolourspace"), true);
 	_colour_conversion = new wxChoice(this, wxID_ANY, wxDefaultPosition, size);
 	_colour_conversion->Append(_("None"));
 	for (auto const& i: PresetColourConversion::all()) {
