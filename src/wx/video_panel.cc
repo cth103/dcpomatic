@@ -184,7 +184,7 @@ VideoPanel::create()
 
 	_colour_conversion_label = create_label(this, _("Source\ncolourspace"), true);
 	_colour_conversion = new wxChoice(this, wxID_ANY, wxDefaultPosition, size);
-	_colour_conversion->Append(_("None"));
+	_colour_conversion->Append(_("DCI X'Y'Z'"));
 	for (auto const& i: PresetColourConversion::all()) {
 		_colour_conversion->Append(std_to_wx(i.name));
 	}
@@ -393,7 +393,7 @@ VideoPanel::film_content_changed(int property)
 		}
 
 		/* Remove any "Many" entry that we might have added previously.  There should
-		 * be entries for each preset plus one for "None" and one for "Custom".
+		 * be entries for each preset plus one for "DCI X'Y'Z'" and one for "Custom".
 		 */
 		auto cc = PresetColourConversion::all();
 		if (_colour_conversion->GetCount() > cc.size() + 2) {
