@@ -750,14 +750,14 @@ GLVideoView::set_image(shared_ptr<const PlayerVideo> pv)
 		_last_crop.changed();
 
 	if (sizing_changed) {
-		const auto video = _optimisation == Optimisation::NONE
 			? Rectangle(canvas_size, x_offset, y_offset, out_size, Crop{})
+		auto const video = _optimisation == Optimisation::NONE
 			: Rectangle(canvas_size, inter_position.x + x_offset, inter_position.y + y_offset, inter_size, crop);
 
 		glBufferSubData(GL_ARRAY_BUFFER, array_buffer_video_offset, video.size(), video.vertices());
 		check_error("glBufferSubData (video)");
 
-		const auto outline_content = Rectangle(canvas_size, inter_position.x + x_offset, inter_position.y + y_offset, inter_size, crop);
+		auto const outline_content = Rectangle(canvas_size, inter_position.x + x_offset, inter_position.y + y_offset, inter_size, crop);
 		glBufferSubData(GL_ARRAY_BUFFER, array_buffer_outline_content_offset, outline_content.size(), outline_content.vertices());
 		check_error("glBufferSubData (outline_content)");
 	}
@@ -775,7 +775,7 @@ GLVideoView::set_image(shared_ptr<const PlayerVideo> pv)
 	}
 
 	if (_have_subtitle_to_render) {
-		const auto subtitle = Rectangle(
+		auto const subtitle = Rectangle(
 			canvas_size,
 			inter_position.x + x_offset + text->position.x,
 			inter_position.y + y_offset + text->position.y,
