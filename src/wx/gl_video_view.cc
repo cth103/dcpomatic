@@ -751,7 +751,7 @@ GLVideoView::set_image(shared_ptr<const PlayerVideo> pv)
 
 	if (sizing_changed) {
 		const auto video = _optimisation == Optimisation::NONE
-			? Rectangle(canvas_size, x_offset, y_offset, out_size, crop)
+			? Rectangle(canvas_size, x_offset, y_offset, out_size, Crop{})
 			: Rectangle(canvas_size, inter_position.x + x_offset, inter_position.y + y_offset, inter_size, crop);
 
 		glBufferSubData(GL_ARRAY_BUFFER, array_buffer_video_offset, video.size(), video.vertices());
