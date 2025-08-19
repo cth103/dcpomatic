@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-08-13 23:55+0200\n"
-"PO-Revision-Date: 2025-07-11 02:29+0200\n"
+"PO-Revision-Date: 2025-08-19 00:11+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -153,7 +153,7 @@ msgstr "1 fout, "
 
 #: src/wx/ratio_picker.cc:156
 msgid "1.85"
-msgstr ""
+msgstr "1,85"
 
 #: src/wx/wx_util.cc:494
 msgid "12 - 7.1/HI/VI"
@@ -1092,7 +1092,7 @@ msgstr "Aangepaste schaling"
 
 #: src/wx/video_panel.cc:187
 msgid "DCI X'Y'Z'"
-msgstr ""
+msgstr "DCI X'Y'Z'"
 
 #: src/wx/audio_panel.cc:111 src/wx/film_editor.cc:63
 #: src/wx/player_information.cc:58 src/wx/sound_preferences_page.cc:85
@@ -2309,9 +2309,8 @@ msgid "Next"
 msgstr "Volgende"
 
 #: src/wx/spl_entry_dialog.cc:52
-#, fuzzy
 msgid "No"
-msgstr "Geen"
+msgstr "Nee"
 
 #: src/wx/verify_dcp_result_panel.cc:293
 msgid "No ASSETMAP or ASSETMAP.xml file was found."
@@ -2573,9 +2572,8 @@ msgid "Playlist directory"
 msgstr "Afspeellijst-map"
 
 #: src/wx/spl_entry_dialog.cc:38
-#, fuzzy
 msgid "Playlist item"
-msgstr "Afspeellijsten"
+msgstr "Afspeellijst-item"
 
 #: src/wx/playlist_controls.cc:81
 msgid "Playlists"
@@ -3200,7 +3198,7 @@ msgstr "Sound processor"
 msgid ""
 "Source\n"
 "colourspace"
-msgstr ""
+msgstr "Bron-kleurruimte"
 
 #: src/wx/metadata_dialog.cc:206
 msgid "Specific"
@@ -4420,9 +4418,8 @@ msgid "YUV to RGB matrix"
 msgstr "YUV naar RGB matrix"
 
 #: src/wx/spl_entry_dialog.cc:52
-#, fuzzy
 msgid "Yes"
-msgstr "ja"
+msgstr "Ja"
 
 #: src/wx/screens_panel.cc:400
 #, c-format
