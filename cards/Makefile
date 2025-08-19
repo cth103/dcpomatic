@@ -19,6 +19,6 @@ sizing_card_scope:	sizing_card_scope.png
 			$(DCPOMATIC_CLI) $(CURDIR)/$@
 
 sizing_card_%.png:	sizing_card_%.svg
-			inkscape -z -C -e $@ $<
+			inkscape --export-filename $@ $<
 
 clean:;			rm -rf sizing_card_flat sizing_card_scope sizing_card_flat.png sizing_card_scope.png
