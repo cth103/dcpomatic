@@ -676,14 +676,14 @@ GLVideoView::set_image(shared_ptr<const PlayerVideo> pv)
 	class Rectangle
 	{
 	public:
-		Rectangle(wxSize canvas_size, float x, float y, dcp::Size size, Crop crop)
+		Rectangle(wxSize canvas_size, float x, float y, dcp::Size out_size, Crop crop)
 			: _canvas_size(canvas_size)
 			, _crop(crop)
 		{
 			auto const x1 = x_pixels_to_gl(x);
 			auto const y1 = y_pixels_to_gl(y);
-			auto const x2 = x_pixels_to_gl(x + size.width);
-			auto const y2 = y_pixels_to_gl(y + size.height);
+			auto const x2 = x_pixels_to_gl(x + out_size.width);
+			auto const y2 = y_pixels_to_gl(y + out_size.height);
 
 			/* The texture coordinates here have to account for the fact that when we put images into the texture OpenGL
 			 * expected us to start at the lower left but we actually started at the top left.  So although the
