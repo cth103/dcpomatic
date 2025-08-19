@@ -19,6 +19,7 @@
 */
 
 
+#include "gl_util.h"
 #include "lib/crop.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
@@ -152,7 +153,7 @@ private:
 	boost::atomic<bool> _one_shot;
 
 	GLuint _vao;
-	GLint _fragment_type;
+	dcpomatic::gl::Uniform1i _fragment_type;
 	bool _setup_shaders_done = false;
 
 	std::shared_ptr<wxTimer> _timer;

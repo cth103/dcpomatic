@@ -19,6 +19,10 @@
 */
 
 
+#ifdef DCPOMATIC_WINDOWS
+#include <GL/glew.h>
+#endif
+
 #include "gl_util.h"
 #include "lib/dcpomatic_assert.h"
 
@@ -53,6 +57,68 @@ dcpomatic::gl::check_error(char const * last)
 	if (e != GL_NO_ERROR) {
 		throw GLError(last, e);
 	}
+}
+
+
+Uniform::Uniform(int program, char const* name)
+{
+	setup(program, name);
+}
+
+
+void
+Uniform::setup(int program, char const* name)
+{
+       _location = glGetUniformLocation(program, name);
+       check_error("glGetUniformLocation");
+}
+
+
+UniformVec4f::UniformVec4f(int program, char const* name)
+	: Uniform(program, name)
+{
+
+}
+
+
+void
+UniformVec4f::set(float a, float b, float c, float d)
+{
+       DCPOMATIC_ASSERT(_location != -1);
+       glUniform4f(_location, a, b, c, d);
+       check_error("glUniform4f");
+}
+
+
+Uniform1i::Uniform1i(int program, char const* name)
+	: Uniform(program, name)
+{
+
+}
+
+
+void
+Uniform1i::set(int v)
+{
+       DCPOMATIC_ASSERT(_location != -1);
+       glUniform1i(_location, v);
+       check_error("glUniform1i");
+}
+
+
+UniformMatrix4fv::UniformMatrix4fv(int program, char const* name)
+	: Uniform(program, name)
+{
+
+}
+
+
+void
+UniformMatrix4fv::set(float const* matrix)
+{
+       DCPOMATIC_ASSERT(_location != -1);
+       glUniformMatrix4fv(_location, 1, GL_TRUE, matrix);
+       check_error("glUniformMatrix4fv");
 }
 
 

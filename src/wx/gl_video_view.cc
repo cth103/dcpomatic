@@ -469,25 +469,16 @@ GLVideoView::setup_shaders()
 	glDeleteShader(fragment_shader);
 
 	glUseProgram(program);
-	auto texture_0 = glGetUniformLocation(program, "texture_sampler_0");
-	check_error("glGetUniformLocation");
-	glUniform1i(texture_0, 0);
-	check_error("glUniform1i");
-	auto texture_1 = glGetUniformLocation(program, "texture_sampler_1");
-	check_error("glGetUniformLocation");
-	glUniform1i(texture_1, 1);
-	check_error("glUniform1i");
-	auto texture_2 = glGetUniformLocation(program, "texture_sampler_2");
-	check_error("glGetUniformLocation");
-	glUniform1i(texture_2, 2);
-	check_error("glUniform1i");
-	auto texture_3 = glGetUniformLocation(program, "texture_sampler_3");
-	check_error("glGetUniformLocation");
-	glUniform1i(texture_3, 3);
-	check_error("glUniform1i");
+	auto texture_0 = Uniform1i(program, "texture_sampler_0");
+	texture_0.set(0);
+	auto texture_1 = Uniform1i(program, "texture_sampler_1");
+	texture_1.set(1);
+	auto texture_2 = Uniform1i(program, "texture_sampler_2");
+	texture_2.set(2);
+	auto texture_3 = Uniform1i(program, "texture_sampler_3");
+	texture_3.set(3);
 
-	_fragment_type = glGetUniformLocation(program, "type");
-	check_error("glGetUniformLocation");
+	_fragment_type.setup(program, "type");
 	set_outline_content_colour(program);
 	set_crop_guess_colour(program);
 
@@ -516,9 +507,8 @@ GLVideoView::setup_shaders()
 		GLfloat gl_matrix[16];
 		ublas_to_gl(matrix, gl_matrix);
 
-		auto xyz_rec709_colour_conversion = glGetUniformLocation(program, "xyz_rec709_colour_conversion");
-		check_error("glGetUniformLocation");
-		glUniformMatrix4fv(xyz_rec709_colour_conversion, 1, GL_TRUE, gl_matrix);
+		auto xyz_rec709_colour_conversion = UniformMatrix4fv(program, "xyz_rec709_colour_conversion");
+		xyz_rec709_colour_conversion.set(gl_matrix);
 	}
 
 	{
@@ -529,9 +519,8 @@ GLVideoView::setup_shaders()
 		GLfloat gl_matrix[16];
 		ublas_to_gl(product, gl_matrix);
 
-		auto rec2020_rec709_colour_conversion = glGetUniformLocation(program, "rec2020_rec709_colour_conversion");
-		check_error("glGetUniformLocation");
-		glUniformMatrix4fv(rec2020_rec709_colour_conversion, 1, GL_TRUE, gl_matrix);
+		auto rec2020_rec709_colour_conversion = UniformMatrix4fv(program, "rec2020_rec709_colour_conversion");
+		rec2020_rec709_colour_conversion.set(gl_matrix);
 	}
 
 	glLineWidth(1.0f);
@@ -550,22 +539,18 @@ GLVideoView::setup_shaders()
 void
 GLVideoView::set_outline_content_colour(GLuint program)
 {
-	auto uniform = glGetUniformLocation(program, "outline_content_colour");
-	check_error("glGetUniformLocation");
+	auto uniform = UniformVec4f(program, "outline_content_colour");
 	auto colour = outline_content_colour();
-	glUniform4f(uniform, colour.Red() / 255.0f, colour.Green() / 255.0f, colour.Blue() / 255.0f, 1.0f);
-	check_error("glUniform4f");
+	uniform.set(colour.Red() / 255.0f, colour.Green() / 255.0f, colour.Blue() / 255.0f, 1.0f);
 }
 
 
 void
 GLVideoView::set_crop_guess_colour(GLuint program)
 {
-	auto uniform = glGetUniformLocation(program, "crop_guess_colour");
-	check_error("glGetUniformLocation");
+	auto uniform = UniformVec4f(program, "crop_guess_colour");
 	auto colour = crop_guess_colour();
-	glUniform4f(uniform, colour.Red() / 255.0f, colour.Green() / 255.0f, colour.Blue() / 255.0f, 1.0f);
-	check_error("glUniform4f");
+	uniform.set(colour.Red() / 255.0f, colour.Green() / 255.0f, colour.Blue() / 255.0f, 1.0f);
 }
 
 
@@ -591,30 +576,30 @@ GLVideoView::draw()
 	glBindVertexArray(_vao);
 	check_error("glBindVertexArray");
 	if (_optimisation == Optimisation::MPEG2) {
-		glUniform1i(_fragment_type, static_cast<GLint>(FragmentType::YUV420P_IMAGE));
+		_fragment_type.set(static_cast<GLint>(FragmentType::YUV420P_IMAGE));
 	} else if (_optimisation == Optimisation::JPEG2000) {
-		glUniform1i(_fragment_type, static_cast<GLint>(FragmentType::XYZ_IMAGE));
+		_fragment_type.set(static_cast<GLint>(FragmentType::XYZ_IMAGE));
 	} else if (_rec2020) {
-		glUniform1i(_fragment_type, static_cast<GLint>(FragmentType::REC2020_IMAGE));
+		_fragment_type.set(static_cast<GLint>(FragmentType::REC2020_IMAGE));
 	} else {
-		glUniform1i(_fragment_type, static_cast<GLint>(FragmentType::REC709_IMAGE));
+		_fragment_type.set(static_cast<GLint>(FragmentType::REC709_IMAGE));
 	}
 	for (auto& texture: _video_textures) {
 		texture->bind();
 	}
 	glDrawElements(GL_TRIANGLES, indices_video_texture_number, GL_UNSIGNED_INT, reinterpret_cast<void*>(indices_video_texture_offset * sizeof(int)));
 	if (_have_subtitle_to_render) {
-		glUniform1i(_fragment_type, static_cast<GLint>(FragmentType::REC709_SUBTITLE));
+		_fragment_type.set(static_cast<GLint>(FragmentType::REC709_SUBTITLE));
 		_subtitle_texture->bind();
 		glDrawElements(GL_TRIANGLES, indices_subtitle_texture_number, GL_UNSIGNED_INT, reinterpret_cast<void*>(indices_subtitle_texture_offset * sizeof(int)));
 	}
 	if (_viewer->outline_content()) {
-		glUniform1i(_fragment_type, static_cast<GLint>(FragmentType::OUTLINE_CONTENT));
+		_fragment_type.set(static_cast<GLint>(FragmentType::OUTLINE_CONTENT));
 		glDrawElements(GL_LINES, indices_outline_content_number, GL_UNSIGNED_INT, reinterpret_cast<void*>(indices_outline_content_offset * sizeof(int)));
 		check_error("glDrawElements");
 	}
 	if (auto guess = _viewer->crop_guess()) {
-		glUniform1i(_fragment_type, static_cast<GLint>(FragmentType::CROP_GUESS));
+		_fragment_type.set(static_cast<GLint>(FragmentType::CROP_GUESS));
 		glDrawElements(GL_LINES, indices_crop_guess_number, GL_UNSIGNED_INT, reinterpret_cast<void*>(indices_crop_guess_offset * sizeof(int)));
 		check_error("glDrawElements");
 	}
