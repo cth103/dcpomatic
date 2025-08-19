@@ -676,9 +676,8 @@ GLVideoView::set_image(shared_ptr<const PlayerVideo> pv)
 	class Rectangle
 	{
 	public:
-		Rectangle(wxSize canvas_size, float x, float y, dcp::Size out_size, Crop crop)
+		Rectangle(wxSize canvas_size, float x, float y, dcp::Size out_size, Crop crop, dcp::Size original_size)
 			: _canvas_size(canvas_size)
-			, _crop(crop)
 		{
 			auto const x1 = x_pixels_to_gl(x);
 			auto const y1 = y_pixels_to_gl(y);
@@ -690,33 +689,38 @@ GLVideoView::set_image(shared_ptr<const PlayerVideo> pv)
 			 * top of the texture is at 1.0 we pretend it's the other way round.
 			 */
 
+			float const top = static_cast<float>(crop.top) / original_size.height;
+			float const bottom = 1.0f - (static_cast<float>(crop.bottom) / original_size.height);
+			float const left = static_cast<float>(crop.left) / original_size.width;
+			float const right = 1.0f - static_cast<float>(crop.right) / original_size.width;
+
 			// bottom right
 			_vertices[0] = x2;
 			_vertices[1] = y2;
 			_vertices[2] = 0.0f;
-			_vertices[3] = 1.0f;
-			_vertices[4] = 1.0f;
+			_vertices[3] = right;
+			_vertices[4] = bottom;
 
 			// top right
 			_vertices[5] = x2;
 			_vertices[6] = y1;
 			_vertices[7] = 0.0f;
-			_vertices[8] = 1.0f;
-			_vertices[9] = 0.0f;
+			_vertices[8] = right;
+			_vertices[9] = top;
 
 			// top left
 			_vertices[10] = x1;
 			_vertices[11] = y1;
 			_vertices[12] = 0.0f;
-			_vertices[13] = 0.0f;
-			_vertices[14] = 0.0f;
+			_vertices[13] = left;
+			_vertices[14] = top;
 
 			// bottom left
 			_vertices[15] = x1;
 			_vertices[16] = y2;
 			_vertices[17] = 0.0f;
-			_vertices[18] = 0.0f;
-			_vertices[19] = 1.0f;
+			_vertices[18] = left;
+			_vertices[19] = bottom;
 		}
 
 		float const * vertices() const {
@@ -730,16 +734,15 @@ GLVideoView::set_image(shared_ptr<const PlayerVideo> pv)
 	private:
 		/* @param x x position in pixels where 0 is left and canvas_width is right on screen */
 		float x_pixels_to_gl(int x) const {
-			return ((x - _crop.left) * 2.0f / (_canvas_size.GetWidth() - _crop.right - _crop.left) - 1.0f);
+			return x * 2.0f / _canvas_size.GetWidth() - 1.0f;
 		}
 
 		/* @param y y position in pixels where 0 is top and canvas_height is bottom on screen */
 		float y_pixels_to_gl(int y) const {
-			return 1.0f - ((y - _crop.top) * 2.0f / (_canvas_size.GetHeight() - _crop.bottom - _crop.top));
+			return 1.0f - y * 2.0f / _canvas_size.GetHeight();
 		}
 
 		wxSize _canvas_size;
-		Crop _crop;
 		float _vertices[20];
 	};
 
@@ -750,14 +753,14 @@ GLVideoView::set_image(shared_ptr<const PlayerVideo> pv)
 		_last_crop.changed();
 
 	if (sizing_changed) {
-			? Rectangle(canvas_size, x_offset, y_offset, out_size, Crop{})
 		auto const rectangle = _optimisation == Optimisation::NONE
-			: Rectangle(canvas_size, inter_position.x + x_offset, inter_position.y + y_offset, inter_size, crop);
+			? Rectangle(canvas_size, x_offset, y_offset, out_size, Crop{}, video->size())
+			: Rectangle(canvas_size, inter_position.x + x_offset, inter_position.y + y_offset, inter_size, crop, video->size());
 
 		glBufferSubData(GL_ARRAY_BUFFER, array_buffer_video_offset, rectangle.size(), rectangle.vertices());
 		check_error("glBufferSubData (video)");
 
-		auto const outline_content = Rectangle(canvas_size, inter_position.x + x_offset, inter_position.y + y_offset, inter_size, crop);
+		auto const outline_content = Rectangle(canvas_size, inter_position.x + x_offset, inter_position.y + y_offset, inter_size, crop, video->size());
 		glBufferSubData(GL_ARRAY_BUFFER, array_buffer_outline_content_offset, outline_content.size(), outline_content.vertices());
 		check_error("glBufferSubData (outline_content)");
 	}
@@ -768,7 +771,8 @@ GLVideoView::set_image(shared_ptr<const PlayerVideo> pv)
 			inter_position.x + x_offset + inter_size.width * crop_guess->x,
 			inter_position.y + y_offset + inter_size.height * crop_guess->y,
 			dcp::Size(inter_size.width * crop_guess->width, inter_size.height * crop_guess->height),
-			crop
+			crop,
+			video->size()
 			);
 		glBufferSubData(GL_ARRAY_BUFFER, array_buffer_crop_guess_offset, crop_guess_rectangle.size(), crop_guess_rectangle.vertices());
 		check_error("glBufferSubData (crop_guess_rectangle)");
@@ -780,7 +784,8 @@ GLVideoView::set_image(shared_ptr<const PlayerVideo> pv)
 			inter_position.x + x_offset + text->position.x,
 			inter_position.y + y_offset + text->position.y,
 			text->image->size(),
-			crop
+			crop,
+			video->size()
 		);
 
 		glBufferSubData(GL_ARRAY_BUFFER, array_buffer_subtitle_offset, subtitle.size(), subtitle.vertices());
