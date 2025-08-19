@@ -751,10 +751,10 @@ GLVideoView::set_image(shared_ptr<const PlayerVideo> pv)
 
 	if (sizing_changed) {
 			? Rectangle(canvas_size, x_offset, y_offset, out_size, Crop{})
-		auto const video = _optimisation == Optimisation::NONE
+		auto const rectangle = _optimisation == Optimisation::NONE
 			: Rectangle(canvas_size, inter_position.x + x_offset, inter_position.y + y_offset, inter_size, crop);
 
-		glBufferSubData(GL_ARRAY_BUFFER, array_buffer_video_offset, video.size(), video.vertices());
+		glBufferSubData(GL_ARRAY_BUFFER, array_buffer_video_offset, rectangle.size(), rectangle.vertices());
 		check_error("glBufferSubData (video)");
 
 		auto const outline_content = Rectangle(canvas_size, inter_position.x + x_offset, inter_position.y + y_offset, inter_size, crop);
