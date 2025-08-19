@@ -96,6 +96,7 @@ sources = """
           gain_calculator_dialog.cc
           gdc_certificate_panel.cc
           general_preferences_page.cc
+          gl_util.cc
           gl_video_view.cc
           hints_dialog.cc
           html_dialog.cc

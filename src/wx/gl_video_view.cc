@@ -29,6 +29,7 @@
 #if wxCHECK_VERSION(3,1,0)
 
 #include "film_viewer.h"
+#include "gl_util.h"
 #include "wx_util.h"
 #include "lib/butler.h"
 #include "lib/cross.h"
@@ -64,16 +65,7 @@ using boost::optional;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
-
-
-static void
-check_gl_error(char const * last)
-{
-	GLenum const e = glGetError();
-	if (e != GL_NO_ERROR) {
-		throw GLError(last, e);
-	}
-}
+using namespace dcpomatic::gl;
 
 
 GLVideoView::GLVideoView(FilmViewer* viewer, wxWindow *parent)
@@ -396,24 +388,24 @@ GLVideoView::setup_shaders()
 	get_information(GL_SHADING_LANGUAGE_VERSION);
 
 	glGenVertexArrays(1, &_vao);
-	check_gl_error("glGenVertexArrays");
+	check_error("glGenVertexArrays");
 	GLuint vbo;
 	glGenBuffers(1, &vbo);
-	check_gl_error("glGenBuffers");
+	check_error("glGenBuffers");
 	GLuint ebo;
 	glGenBuffers(1, &ebo);
-	check_gl_error("glGenBuffers");
+	check_error("glGenBuffers");
 
 	glBindVertexArray(_vao);
-	check_gl_error("glBindVertexArray");
+	check_error("glBindVertexArray");
 
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	check_gl_error("glBindBuffer");
+	check_error("glBindBuffer");
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-	check_gl_error("glBindBuffer");
+	check_error("glBindBuffer");
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-	check_gl_error("glBufferData");
+	check_error("glBufferData");
 
 	/* position attribute to vertex shader (location = 0) */
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), nullptr);
@@ -421,16 +413,16 @@ GLVideoView::setup_shaders()
 	/* texture coord attribute to vertex shader (location = 1) */
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), reinterpret_cast<void*>(3 * sizeof(float)));
 	glEnableVertexAttribArray(1);
-	check_gl_error("glEnableVertexAttribArray");
+	check_error("glEnableVertexAttribArray");
 
 	auto compile = [](GLenum type, char const* source) -> GLuint {
 		auto shader = glCreateShader(type);
 		DCPOMATIC_ASSERT(shader);
 		GLchar const * src[] = { static_cast<GLchar const *>(source) };
 		glShaderSource(shader, 1, src, nullptr);
-		check_gl_error("glShaderSource");
+		check_error("glShaderSource");
 		glCompileShader(shader);
-		check_gl_error("glCompileShader");
+		check_error("glCompileShader");
 		GLint ok;
 		glGetShaderiv(shader, GL_COMPILE_STATUS, &ok);
 		if (!ok) {
@@ -452,13 +444,13 @@ GLVideoView::setup_shaders()
 	auto fragment_shader = compile(GL_FRAGMENT_SHADER, fragment_source);
 
 	auto program = glCreateProgram();
-	check_gl_error("glCreateProgram");
+	check_error("glCreateProgram");
 	glAttachShader(program, vertex_shader);
-	check_gl_error("glAttachShader");
+	check_error("glAttachShader");
 	glAttachShader(program, fragment_shader);
-	check_gl_error("glAttachShader");
+	check_error("glAttachShader");
 	glLinkProgram(program);
-	check_gl_error("glLinkProgram");
+	check_error("glLinkProgram");
 	GLint ok;
 	glGetProgramiv(program, GL_LINK_STATUS, &ok);
 	if (!ok) {
@@ -478,24 +470,24 @@ GLVideoView::setup_shaders()
 
 	glUseProgram(program);
 	auto texture_0 = glGetUniformLocation(program, "texture_sampler_0");
-	check_gl_error("glGetUniformLocation");
+	check_error("glGetUniformLocation");
 	glUniform1i(texture_0, 0);
-	check_gl_error("glUniform1i");
+	check_error("glUniform1i");
 	auto texture_1 = glGetUniformLocation(program, "texture_sampler_1");
-	check_gl_error("glGetUniformLocation");
+	check_error("glGetUniformLocation");
 	glUniform1i(texture_1, 1);
-	check_gl_error("glUniform1i");
+	check_error("glUniform1i");
 	auto texture_2 = glGetUniformLocation(program, "texture_sampler_2");
-	check_gl_error("glGetUniformLocation");
+	check_error("glGetUniformLocation");
 	glUniform1i(texture_2, 2);
-	check_gl_error("glUniform1i");
+	check_error("glUniform1i");
 	auto texture_3 = glGetUniformLocation(program, "texture_sampler_3");
-	check_gl_error("glGetUniformLocation");
+	check_error("glGetUniformLocation");
 	glUniform1i(texture_3, 3);
-	check_gl_error("glUniform1i");
+	check_error("glUniform1i");
 
 	_fragment_type = glGetUniformLocation(program, "type");
-	check_gl_error("glGetUniformLocation");
+	check_error("glGetUniformLocation");
 	set_outline_content_colour(program);
 	set_crop_guess_colour(program);
 
@@ -525,7 +517,7 @@ GLVideoView::setup_shaders()
 		ublas_to_gl(matrix, gl_matrix);
 
 		auto xyz_rec709_colour_conversion = glGetUniformLocation(program, "xyz_rec709_colour_conversion");
-		check_gl_error("glGetUniformLocation");
+		check_error("glGetUniformLocation");
 		glUniformMatrix4fv(xyz_rec709_colour_conversion, 1, GL_TRUE, gl_matrix);
 	}
 
@@ -538,20 +530,20 @@ GLVideoView::setup_shaders()
 		ublas_to_gl(product, gl_matrix);
 
 		auto rec2020_rec709_colour_conversion = glGetUniformLocation(program, "rec2020_rec709_colour_conversion");
-		check_gl_error("glGetUniformLocation");
+		check_error("glGetUniformLocation");
 		glUniformMatrix4fv(rec2020_rec709_colour_conversion, 1, GL_TRUE, gl_matrix);
 	}
 
 	glLineWidth(1.0f);
-	check_gl_error("glLineWidth");
+	check_error("glLineWidth");
 	glEnable(GL_BLEND);
-	check_gl_error("glEnable");
+	check_error("glEnable");
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	check_gl_error("glBlendFunc");
+	check_error("glBlendFunc");
 
 	/* Reserve space for the GL_ARRAY_BUFFER */
 	glBufferData(GL_ARRAY_BUFFER, 16 * 5 * sizeof(float), nullptr, GL_STATIC_DRAW);
-	check_gl_error("glBufferData");
+	check_error("glBufferData");
 }
 
 
@@ -559,10 +551,10 @@ void
 GLVideoView::set_outline_content_colour(GLuint program)
 {
 	auto uniform = glGetUniformLocation(program, "outline_content_colour");
-	check_gl_error("glGetUniformLocation");
+	check_error("glGetUniformLocation");
 	auto colour = outline_content_colour();
 	glUniform4f(uniform, colour.Red() / 255.0f, colour.Green() / 255.0f, colour.Blue() / 255.0f, 1.0f);
-	check_gl_error("glUniform4f");
+	check_error("glUniform4f");
 }
 
 
@@ -570,10 +562,10 @@ void
 GLVideoView::set_crop_guess_colour(GLuint program)
 {
 	auto uniform = glGetUniformLocation(program, "crop_guess_colour");
-	check_gl_error("glGetUniformLocation");
+	check_error("glGetUniformLocation");
 	auto colour = crop_guess_colour();
 	glUniform4f(uniform, colour.Red() / 255.0f, colour.Green() / 255.0f, colour.Blue() / 255.0f, 1.0f);
-	check_gl_error("glUniform4f");
+	check_error("glUniform4f");
 }
 
 
@@ -583,7 +575,7 @@ GLVideoView::draw()
 	auto pad = pad_colour();
 	glClearColor(pad.Red() / 255.0, pad.Green() / 255.0, pad.Blue() / 255.0, 1.0);
 	glClear(GL_COLOR_BUFFER_BIT);
-	check_gl_error("glClear");
+	check_error("glClear");
 
 	auto const size = _canvas_size.load();
 	int const width = size.GetWidth();
@@ -594,10 +586,10 @@ GLVideoView::draw()
 	}
 
 	glViewport(0, 0, width, height);
-	check_gl_error("glViewport");
+	check_error("glViewport");
 
 	glBindVertexArray(_vao);
-	check_gl_error("glBindVertexArray");
+	check_error("glBindVertexArray");
 	if (_optimisation == Optimisation::MPEG2) {
 		glUniform1i(_fragment_type, static_cast<GLint>(FragmentType::YUV420P_IMAGE));
 	} else if (_optimisation == Optimisation::JPEG2000) {
@@ -619,16 +611,16 @@ GLVideoView::draw()
 	if (_viewer->outline_content()) {
 		glUniform1i(_fragment_type, static_cast<GLint>(FragmentType::OUTLINE_CONTENT));
 		glDrawElements(GL_LINES, indices_outline_content_number, GL_UNSIGNED_INT, reinterpret_cast<void*>(indices_outline_content_offset * sizeof(int)));
-		check_gl_error("glDrawElements");
+		check_error("glDrawElements");
 	}
 	if (auto guess = _viewer->crop_guess()) {
 		glUniform1i(_fragment_type, static_cast<GLint>(FragmentType::CROP_GUESS));
 		glDrawElements(GL_LINES, indices_crop_guess_number, GL_UNSIGNED_INT, reinterpret_cast<void*>(indices_crop_guess_offset * sizeof(int)));
-		check_gl_error("glDrawElements");
+		check_error("glDrawElements");
 	}
 
 	glFlush();
-	check_gl_error("glFlush");
+	check_error("glFlush");
 
 	_canvas->SwapBuffers();
 }
@@ -778,11 +770,11 @@ GLVideoView::set_image(shared_ptr<const PlayerVideo> pv)
 			: Rectangle(canvas_size, inter_position.x + x_offset, inter_position.y + y_offset, inter_size, crop);
 
 		glBufferSubData(GL_ARRAY_BUFFER, array_buffer_video_offset, video.size(), video.vertices());
-		check_gl_error("glBufferSubData (video)");
+		check_error("glBufferSubData (video)");
 
 		const auto outline_content = Rectangle(canvas_size, inter_position.x + x_offset, inter_position.y + y_offset, inter_size, crop);
 		glBufferSubData(GL_ARRAY_BUFFER, array_buffer_outline_content_offset, outline_content.size(), outline_content.vertices());
-		check_gl_error("glBufferSubData (outline_content)");
+		check_error("glBufferSubData (outline_content)");
 	}
 
 	if ((sizing_changed || _last_crop_guess.changed()) && crop_guess) {
@@ -794,7 +786,7 @@ GLVideoView::set_image(shared_ptr<const PlayerVideo> pv)
 			crop
 			);
 		glBufferSubData(GL_ARRAY_BUFFER, array_buffer_crop_guess_offset, crop_guess_rectangle.size(), crop_guess_rectangle.vertices());
-		check_gl_error("glBufferSubData (crop_guess_rectangle)");
+		check_error("glBufferSubData (crop_guess_rectangle)");
 	}
 
 	if (_have_subtitle_to_render) {
@@ -807,7 +799,7 @@ GLVideoView::set_image(shared_ptr<const PlayerVideo> pv)
 		);
 
 		glBufferSubData(GL_ARRAY_BUFFER, array_buffer_subtitle_offset, subtitle.size(), subtitle.vertices());
-		check_gl_error("glBufferSubData (subtitle)");
+		check_error("glBufferSubData (subtitle)");
 	}
 
 	_rec2020 = pv->colour_conversion() && pv->colour_conversion()->about_equal(dcp::ColourConversion::rec2020_to_xyz(), 1e-6);
@@ -817,21 +809,21 @@ GLVideoView::set_image(shared_ptr<const PlayerVideo> pv)
 		_video_textures[i]->bind();
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		check_gl_error("glTexParameteri");
+		check_error("glTexParameteri");
 
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		check_gl_error("glTexParameterf");
+		check_error("glTexParameterf");
 	}
 
 	_subtitle_texture->bind();
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	check_gl_error("glTexParameteri");
+	check_error("glTexParameteri");
 
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	check_gl_error("glTexParameterf");
+	check_error("glTexParameterf");
 }
 
 
@@ -998,7 +990,7 @@ Texture::Texture(GLint unpack_alignment, int unit)
 	, _unit(unit)
 {
 	glGenTextures(1, &_name);
-	check_gl_error("glGenTextures");
+	check_error("glGenTextures");
 }
 
 
@@ -1012,9 +1004,9 @@ void
 Texture::bind()
 {
 	glActiveTexture(GL_TEXTURE0 + _unit);
-	check_gl_error("glActiveTexture");
+	check_error("glActiveTexture");
 	glBindTexture(GL_TEXTURE_2D, _name);
-	check_gl_error("glBindTexture");
+	check_error("glBindTexture");
 }
 
 
@@ -1025,7 +1017,7 @@ Texture::set(shared_ptr<const Image> image, int component)
 	_size = image->size();
 
 	glPixelStorei(GL_UNPACK_ALIGNMENT, _unpack_alignment);
-	check_gl_error("glPixelStorei");
+	check_error("glPixelStorei");
 
 	DCPOMATIC_ASSERT(image->alignment() == Image::Alignment::COMPACT);
 
@@ -1069,10 +1061,10 @@ Texture::set(shared_ptr<const Image> image, int component)
 
 	if (create) {
 		glTexImage2D(GL_TEXTURE_2D, 0, internal_format, _size->width / subsample, _size->height / subsample, 0, format, type, image->data()[component]);
-		check_gl_error("glTexImage2D");
+		check_error("glTexImage2D");
 	} else {
 		glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, _size->width / subsample, _size->height / subsample, format, type, image->data()[component]);
-		check_gl_error("glTexSubImage2D");
+		check_error("glTexSubImage2D");
 	}
 }
 
