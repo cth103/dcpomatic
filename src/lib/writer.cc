@@ -23,6 +23,7 @@
 #include "audio_mapping.h"
 #include "config.h"
 #include "constants.h"
+#include "cover_sheet.h"
 #include "cross.h"
 #include "dcp_content_type.h"
 #include "dcp_video.h"
@@ -711,83 +712,7 @@ Writer::finish()
 		N_("Wrote {} FULL, {} FAKE, {} REPEAT, {} pushed to disk"), _full_written, _fake_written, _repeat_written, _pushed_to_disk
 		);
 
-	write_cover_sheet();
-}
-
-
-void
-Writer::write_cover_sheet()
-{
-	auto const cover = film()->file("COVER_SHEET.txt");
-	dcp::File file(cover, "w");
-	if (!file) {
-		throw OpenFileError(cover, file.open_error(), OpenFileError::WRITE);
-	}
-
-	auto text = Config::instance()->cover_sheet();
-	boost::algorithm::replace_all(text, "$CPL_NAME", film()->name());
-	auto cpls = film()->cpls();
-	if (!cpls.empty()) {
-		boost::algorithm::replace_all(text, "$CPL_FILENAME", cpls[0].cpl_file.filename().string());
-	}
-	boost::algorithm::replace_all(text, "$TYPE", film()->dcp_content_type()->pretty_name());
-	boost::algorithm::replace_all(text, "$CONTAINER", film()->container().container_nickname());
-
-	auto audio_language = film()->audio_language();
-	if (audio_language) {
-		boost::algorithm::replace_all(text, "$AUDIO_LANGUAGE", audio_language->description());
-	} else {
-		boost::algorithm::replace_all(text, "$AUDIO_LANGUAGE", _("None"));
-	}
-
-	auto const subtitle_languages = film()->open_text_languages();
-	if (subtitle_languages.first) {
-		boost::algorithm::replace_all(text, "$SUBTITLE_LANGUAGE", subtitle_languages.first->description());
-	} else {
-		boost::algorithm::replace_all(text, "$SUBTITLE_LANGUAGE", _("None"));
-	}
-
-	boost::uintmax_t size = 0;
-	for (
-		auto i = dcp::filesystem::recursive_directory_iterator(_output_dir);
-		i != dcp::filesystem::recursive_directory_iterator();
-		++i) {
-		if (dcp::filesystem::is_regular_file(i->path())) {
-			size += dcp::filesystem::file_size(i->path());
-		}
-	}
-
-	if (size > (1000000000L)) {
-		boost::algorithm::replace_all(text, "$SIZE", fmt::format("{}GB", dcp::locale_convert<string>(size / 1000000000.0, 1, true)));
-	} else {
-		boost::algorithm::replace_all(text, "$SIZE", fmt::format("{}MB", dcp::locale_convert<string>(size / 1000000.0, 1, true)));
-	}
-
-	auto ch = audio_channel_types(film()->mapped_audio_channels(), film()->audio_channels());
-	auto description = fmt::format("{}.{}", ch.first, ch.second);
-
-	if (description == "0.0") {
-		description = _("None");
-	} else if (description == "1.0") {
-		description = _("Mono");
-	} else if (description == "2.0") {
-		description = _("Stereo");
-	}
-	boost::algorithm::replace_all(text, "$AUDIO", description);
-
-	auto const hmsf = film()->length().split(film()->video_frame_rate());
-	string length;
-	if (hmsf.h == 0 && hmsf.m == 0) {
-		length = fmt::format("{}s", hmsf.s);
-	} else if (hmsf.h == 0 && hmsf.m > 0) {
-		length = fmt::format("{}m{}s", hmsf.m, hmsf.s);
-	} else if (hmsf.h > 0 && hmsf.m > 0) {
-		length = fmt::format("{}h{}m{}s", hmsf.h, hmsf.m, hmsf.s);
-	}
-
-	boost::algorithm::replace_all(text, "$LENGTH", length);
-
-	file.checked_write(text.c_str(), text.length());
+	dcpomatic::write_cover_sheet(film(), _output_dir, film()->file("COVER_SHEET.txt"));
 }
 
 

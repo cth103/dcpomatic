@@ -140,7 +140,6 @@ private:
 	bool have_sequenced_image_at_queue_head();
 	size_t video_reel(int frame) const;
 	void set_digest_progress(Job* job, int id, int64_t done, int64_t size);
-	void write_cover_sheet();
 	void calculate_referenced_digests(std::function<void (int64_t, int64_t)> set_progress);
 	void write_hanging_text(ReelWriter& reel);
 	void calculate_digests();

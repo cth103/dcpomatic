@@ -59,6 +59,7 @@ sources = """
           content_factory.cc
           combine_dcp_job.cc
           copy_dcp_details_to_film.cc
+          cover_sheet.cc
           cpu_j2k_encoder_thread.cc
           create_cli.cc
           crop.cc
