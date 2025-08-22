@@ -3325,7 +3325,7 @@ DCP that has been made:
 </table>
 
 <para>
-The <guilabel>Reset to default text</guilabel> will replace the current cover sheet with DCP-o-matic's default.
+Clicking <guilabel>Reset to default text</guilabel> will replace the current cover sheet with DCP-o-matic's default.
 </para>
 
 </section>
