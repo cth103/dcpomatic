@@ -52,8 +52,7 @@ dcpomatic::write_cover_sheet(shared_ptr<const Film> film, boost::filesystem::pat
 	boost::algorithm::replace_all(text, "$TYPE", film->dcp_content_type()->pretty_name());
 	boost::algorithm::replace_all(text, "$CONTAINER", film->container().container_nickname());
 
-	auto audio_language = film->audio_language();
-	if (audio_language) {
+	if (auto audio_language = film->audio_language()) {
 		boost::algorithm::replace_all(text, "$AUDIO_LANGUAGE", audio_language->description());
 	} else {
 		boost::algorithm::replace_all(text, "$AUDIO_LANGUAGE", _("None"));
