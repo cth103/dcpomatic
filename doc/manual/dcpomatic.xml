@@ -3325,6 +3325,85 @@ DCP that has been made:
 </table>
 
 <para>
+You can also insert the timecode of any of the DCP's markers using <code>$</code> with the marker's name:
+</para>
+
+<table>
+<tgroup cols='2' align='left' colsep='1' rowsep='1'>
+<tbody>
+<row>
+<entry><code>$FFOC</code></entry><entry>First frame of content</entry>
+</row>
+<row>
+<entry><code>$LFOC</code></entry><entry>Last frame of content</entry>
+</row>
+<row>
+<entry><code>$FFTC</code></entry><entry>First frame of title credits</entry>
+</row>
+<row>
+<entry><code>$LFTC</code></entry><entry>Last frame of title credits</entry>
+</row>
+<row>
+<entry><code>$FFOI</code></entry><entry>First frame of intermission</entry>
+</row>
+<row>
+<entry><code>$LFOI</code></entry><entry>Last frame of intermission</entry>
+</row>
+<row>
+<entry><code>$FFEC</code></entry><entry>First frame of end credits</entry>
+</row>
+<row>
+<entry><code>$LFEC</code></entry><entry>Last frame of end credits</entry>
+</row>
+<row>
+<entry><code>$FFMC</code></entry><entry>First frame of moving credits</entry>
+</row>
+<row>
+<entry><code>$LFMC</code></entry><entry>Last frame of moving credits</entry>
+</row>
+<row>
+<entry><code>$FFOB</code></entry><entry>First frame of ratings band</entry>
+</row>
+<row>
+<entry><code>$LFOB</code></entry><entry>Last frame of ratings band</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+
+<para>
+These magic strings will be replaced with &lsquo;Unknown&rsquo; if the marker is not defined.
+Alternatively, adding <code>_LINE</code> to a marker magic string will make the
+timecode appear if the marker is set, otherwise the whole line containing the magic string
+will be removed.
+</para>
+
+<para>
+For example, a cover sheet defined as
+</para>
+
+<para>
+<programlisting>
+Hello: $FFMC
+Goodbye: $FFMC_LINE
+</programlisting>
+</para>
+
+<para>
+will be written as
+</para>
+
+<para>
+<programlisting>
+Hello: Unknown
+</programlisting>
+</para>
+
+<para>
+if the <code>FFMC</code> marker is undefined.
+</para>
+
+<para>
 Clicking <guilabel>Reset to default text</guilabel> will replace the current cover sheet with DCP-o-matic's default.
 </para>
 

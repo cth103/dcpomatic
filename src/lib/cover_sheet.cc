@@ -33,6 +33,7 @@
 
 using std::shared_ptr;
 using std::string;
+using std::vector;
 
 
 void
@@ -104,6 +105,51 @@ dcpomatic::write_cover_sheet(shared_ptr<const Film> film, boost::filesystem::pat
 	}
 
 	boost::algorithm::replace_all(text, "$LENGTH", length);
+
+	auto const markers = film->markers();
+
+	auto marker = [&markers, &text, film](dcp::Marker marker) {
+		auto iter = markers.find(marker);
+		auto const tag = "$" + marker_to_string(marker);
+		auto const tag_line = tag + "_LINE";
+
+		if (iter != markers.end()) {
+			auto const timecode = time_to_hmsf(iter->second, film->video_frame_rate());
+			boost::algorithm::replace_all(text, tag_line, timecode);
+			boost::algorithm::replace_all(text, tag, timecode);
+		} else {
+			vector<string> before_lines;
+			vector<string> after_lines;
+			boost::algorithm::split(before_lines, text, boost::is_any_of("\n"));
+			if (!before_lines.empty()) {
+				before_lines.pop_back();
+			}
+			for (auto& line: before_lines) {
+				if (line.find(tag_line) == std::string::npos) {
+					after_lines.push_back(line);
+				}
+			}
+			text.clear();
+			for (auto const& line: after_lines) {
+				text += line + "\n";
+			}
+
+			boost::algorithm::replace_all(text, tag, _("Unknown"));
+		}
+	};
+
+	marker(dcp::Marker::FFOC);
+	marker(dcp::Marker::LFOC);
+	marker(dcp::Marker::FFTC);
+	marker(dcp::Marker::LFTC);
+	marker(dcp::Marker::FFOI);
+	marker(dcp::Marker::LFOI);
+	marker(dcp::Marker::FFEC);
+	marker(dcp::Marker::LFEC);
+	marker(dcp::Marker::FFMC);
+	marker(dcp::Marker::LFMC);
+	marker(dcp::Marker::FFOB);
+	marker(dcp::Marker::LFOB);
 
 	file.checked_write(text.c_str(), text.length());
 }
