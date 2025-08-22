@@ -81,11 +81,11 @@ Writer::Writer(weak_ptr<const Film> weak_film, weak_ptr<Job> weak_job, boost::fi
 	, _job(weak_job)
 	, _output_dir(output_dir)
 	/* These will be reset to sensible values when J2KEncoder is created */
-	, _maximum_frames_in_memory (8)
-	, _maximum_queue_size (8)
-	, _text_only (text_only)
+	, _maximum_frames_in_memory(8)
+	, _maximum_queue_size(8)
+	, _text_only(text_only)
 {
-	auto job = _job.lock ();
+	auto job = _job.lock();
 
 	int reel_index = 0;
 	auto const reels = film()->reels();
@@ -93,42 +93,42 @@ Writer::Writer(weak_ptr<const Film> weak_film, weak_ptr<Job> weak_job, boost::fi
 		_reels.emplace_back(weak_film, p, job, reel_index++, reels.size(), text_only, _output_dir);
 	}
 
-	_last_written.resize (reels.size());
+	_last_written.resize(reels.size());
 
 	/* We can keep track of the current audio, subtitle and closed caption reels easily because audio
 	   and captions arrive to the Writer in sequence.  This is not so for video.
 	*/
-	_audio_reel = _reels.begin ();
-	_subtitle_reel = _reels.begin ();
+	_audio_reel = _reels.begin();
+	_subtitle_reel = _reels.begin();
 	for (auto i: film()->closed_text_tracks()) {
-		_caption_reels[i] = _reels.begin ();
+		_caption_reels[i] = _reels.begin();
 	}
-	_atmos_reel = _reels.begin ();
+	_atmos_reel = _reels.begin();
 
 	/* Check that the signer is OK */
 	string reason;
 	if (!Config::instance()->signer_chain()->valid(&reason)) {
-		throw InvalidSignerError (reason);
+		throw InvalidSignerError(reason);
 	}
 }
 
 
 void
-Writer::start ()
+Writer::start()
 {
 	if (!_text_only) {
-		_thread = boost::thread (boost::bind(&Writer::thread, this));
+		_thread = boost::thread(boost::bind(&Writer::thread, this));
 #ifdef DCPOMATIC_LINUX
-		pthread_setname_np (_thread.native_handle(), "writer");
+		pthread_setname_np(_thread.native_handle(), "writer");
 #endif
 	}
 }
 
 
-Writer::~Writer ()
+Writer::~Writer()
 {
 	if (!_text_only) {
-		terminate_thread (false);
+		terminate_thread(false);
 	}
 }
 
@@ -140,9 +140,9 @@ Writer::~Writer ()
  *  @param eyes Eyes that this frame image is for.
  */
 void
-Writer::write (shared_ptr<const Data> encoded, Frame frame, Eyes eyes)
+Writer::write(shared_ptr<const Data> encoded, Frame frame, Eyes eyes)
 {
-	boost::mutex::scoped_lock lock (_state_mutex);
+	boost::mutex::scoped_lock lock(_state_mutex);
 
 	if (_zombie) {
 		return;
@@ -151,15 +151,15 @@ Writer::write (shared_ptr<const Data> encoded, Frame frame, Eyes eyes)
 	while (_queued_full_in_memory > _maximum_frames_in_memory) {
 		/* There are too many full frames in memory; wake the main writer thread and
 		   wait until it sorts everything out */
-		_empty_condition.notify_all ();
-		_full_condition.wait (lock);
+		_empty_condition.notify_all();
+		_full_condition.wait(lock);
 	}
 
 	QueueItem qi;
 	qi.type = QueueItem::Type::FULL;
 	qi.encoded = encoded;
-	qi.reel = video_reel (frame);
-	qi.frame = frame - _reels[qi.reel].start ();
+	qi.reel = video_reel(frame);
+	qi.frame = frame - _reels[qi.reel].start();
 
 	DCPOMATIC_ASSERT((film()->three_d() && eyes != Eyes::BOTH) || (!film()->three_d() && eyes == Eyes::BOTH));
 
@@ -168,7 +168,7 @@ Writer::write (shared_ptr<const Data> encoded, Frame frame, Eyes eyes)
 	++_queued_full_in_memory;
 
 	/* Now there's something to do: wake anything wait()ing on _empty_condition */
-	_empty_condition.notify_all ();
+	_empty_condition.notify_all();
 }
 
 
@@ -180,7 +180,7 @@ Writer::write(shared_ptr<dcp::MonoMPEG2PictureFrame> image, Frame frame)
 
 
 bool
-Writer::can_repeat (Frame frame) const
+Writer::can_repeat(Frame frame) const
 {
 	return frame > _reels[video_reel(frame)].start();
 }
@@ -191,48 +191,48 @@ Writer::can_repeat (Frame frame) const
  *  @param eyes Eyes that this repeated frame image is for.
  */
 void
-Writer::repeat (Frame frame, Eyes eyes)
+Writer::repeat(Frame frame, Eyes eyes)
 {
-	boost::mutex::scoped_lock lock (_state_mutex);
+	boost::mutex::scoped_lock lock(_state_mutex);
 
 	while (_queue.size() > _maximum_queue_size && have_sequenced_image_at_queue_head()) {
 		/* The queue is too big, and the main writer thread can run and fix it, so
 		   wake it and wait until it has done.
 		*/
-		_empty_condition.notify_all ();
-		_full_condition.wait (lock);
+		_empty_condition.notify_all();
+		_full_condition.wait(lock);
 	}
 
 	QueueItem qi;
 	qi.type = QueueItem::Type::REPEAT;
-	qi.reel = video_reel (frame);
-	qi.frame = frame - _reels[qi.reel].start ();
+	qi.reel = video_reel(frame);
+	qi.frame = frame - _reels[qi.reel].start();
 	if (film()->three_d() && eyes == Eyes::BOTH) {
 		qi.eyes = Eyes::LEFT;
-		_queue.push_back (qi);
+		_queue.push_back(qi);
 		qi.eyes = Eyes::RIGHT;
-		_queue.push_back (qi);
+		_queue.push_back(qi);
 	} else {
 		qi.eyes = eyes;
-		_queue.push_back (qi);
+		_queue.push_back(qi);
 	}
 
 	/* Now there's something to do: wake anything wait()ing on _empty_condition */
-	_empty_condition.notify_all ();
+	_empty_condition.notify_all();
 }
 
 
 void
-Writer::fake_write (Frame frame, Eyes eyes)
+Writer::fake_write(Frame frame, Eyes eyes)
 {
-	boost::mutex::scoped_lock lock (_state_mutex);
+	boost::mutex::scoped_lock lock(_state_mutex);
 
 	while (_queue.size() > _maximum_queue_size && have_sequenced_image_at_queue_head()) {
 		/* The queue is too big, and the main writer thread can run and fix it, so
 		   wake it and wait until it has done.
 		*/
-		_empty_condition.notify_all ();
-		_full_condition.wait (lock);
+		_empty_condition.notify_all();
+		_full_condition.wait(lock);
 	}
 
 	DCPOMATIC_ASSERT((film()->three_d() && eyes != Eyes::BOTH) || (!film()->three_d() && eyes == Eyes::BOTH));
@@ -246,7 +246,7 @@ Writer::fake_write (Frame frame, Eyes eyes)
 	_queue.push_back(qi);
 
 	/* Now there's something to do: wake anything wait()ing on _empty_condition */
-	_empty_condition.notify_all ();
+	_empty_condition.notify_all();
 }
 
 
@@ -258,7 +258,7 @@ Writer::fake_write (Frame frame, Eyes eyes)
 void
 Writer::write (shared_ptr<const AudioBuffers> audio, DCPTime const time)
 {
-	DCPOMATIC_ASSERT (audio);
+	DCPOMATIC_ASSERT(audio);
 
 	int const afr = film()->audio_frame_rate();
 
@@ -269,14 +269,14 @@ Writer::write (shared_ptr<const AudioBuffers> audio, DCPTime const time)
 	DCPTime t = time;
 	while (t < end) {
 
-		if (_audio_reel == _reels.end ()) {
+		if (_audio_reel == _reels.end()) {
 			/* This audio is off the end of the last reel; ignore it */
 			return;
 		}
 
 		if (end <= _audio_reel->period().to) {
 			/* Easy case: we can write all the audio to this reel */
-			_audio_reel->write (audio);
+			_audio_reel->write(audio);
 			t = end;
 		} else if (_audio_reel->period().to <= t) {
 			/* This reel is entirely before the start of our audio; just skip the reel */
@@ -294,17 +294,17 @@ Writer::write (shared_ptr<const AudioBuffers> audio, DCPTime const time)
 				part_lengths[1].frames_floor(afr)
 			};
 
-			DCPOMATIC_ASSERT ((part_frames[0] + part_frames[1]) <= audio->frames());
+			DCPOMATIC_ASSERT((part_frames[0] + part_frames[1]) <= audio->frames());
 
 			if (part_frames[0]) {
 				auto part = make_shared<AudioBuffers>(audio, part_frames[0], 0);
-				_audio_reel->write (part);
+				_audio_reel->write(part);
 			}
 
 			if (part_frames[1]) {
 				audio = make_shared<AudioBuffers>(audio, part_frames[1], part_frames[0]);
 			} else {
-				audio.reset ();
+				audio.reset();
 			}
 
 			++_audio_reel;
@@ -315,34 +315,34 @@ Writer::write (shared_ptr<const AudioBuffers> audio, DCPTime const time)
 
 
 void
-Writer::write (shared_ptr<const dcp::AtmosFrame> atmos, DCPTime time, AtmosMetadata metadata)
+Writer::write(shared_ptr<const dcp::AtmosFrame> atmos, DCPTime time, AtmosMetadata metadata)
 {
 	if (_atmos_reel->period().to == time) {
 		++_atmos_reel;
-		DCPOMATIC_ASSERT (_atmos_reel != _reels.end());
+		DCPOMATIC_ASSERT(_atmos_reel != _reels.end());
 	}
 
 	/* We assume that we get a video frame's worth of data here */
-	_atmos_reel->write (atmos, metadata);
+	_atmos_reel->write(atmos, metadata);
 }
 
 
 /** Caller must hold a lock on _state_mutex */
 bool
-Writer::have_sequenced_image_at_queue_head ()
+Writer::have_sequenced_image_at_queue_head()
 {
-	if (_queue.empty ()) {
+	if (_queue.empty()) {
 		return false;
 	}
 
-	_queue.sort ();
+	_queue.sort();
 	auto const & f = _queue.front();
 	return _last_written[f.reel].next(f);
 }
 
 
 bool
-Writer::LastWritten::next (QueueItem qi) const
+Writer::LastWritten::next(QueueItem qi) const
 {
 	if (qi.eyes == Eyes::BOTH) {
 		/* 2D */
@@ -364,7 +364,7 @@ Writer::LastWritten::next (QueueItem qi) const
 
 
 void
-Writer::LastWritten::update (QueueItem qi)
+Writer::LastWritten::update(QueueItem qi)
 {
 	_frame = qi.frame;
 	_eyes = qi.eyes;
@@ -372,29 +372,29 @@ Writer::LastWritten::update (QueueItem qi)
 
 
 void
-Writer::thread ()
+Writer::thread()
 try
 {
-	start_of_thread ("Writer");
+	start_of_thread("Writer");
 
 	while (true)
 	{
-		boost::mutex::scoped_lock lock (_state_mutex);
+		boost::mutex::scoped_lock lock(_state_mutex);
 		if (_zombie) {
 			return;
 		}
 
 		while (true) {
 
-			if (_finish || _queued_full_in_memory > _maximum_frames_in_memory || have_sequenced_image_at_queue_head ()) {
+			if (_finish || _queued_full_in_memory > _maximum_frames_in_memory || have_sequenced_image_at_queue_head()) {
 				/* We've got something to do: go and do it */
 				break;
 			}
 
 			/* Nothing to do: wait until something happens which may indicate that we do */
-			LOG_TIMING (N_("writer-sleep queue={}"), _queue.size());
-			_empty_condition.wait (lock);
-			LOG_TIMING (N_("writer-wake queue={}"), _queue.size());
+			LOG_TIMING(N_("writer-sleep queue={}"), _queue.size());
+			_empty_condition.wait(lock);
+			LOG_TIMING(N_("writer-wake queue={}"), _queue.size());
 		}
 
 		/* We stop here if we have been asked to finish, and if either the queue
@@ -405,10 +405,10 @@ try
 		if (_finish && (!have_sequenced_image_at_queue_head() || _queue.empty())) {
 			/* (Hopefully temporarily) log anything that was not written */
 			if (!_queue.empty() && !have_sequenced_image_at_queue_head()) {
-				LOG_WARNING (N_("Finishing writer with a left-over queue of {}:"), _queue.size());
+				LOG_WARNING(N_("Finishing writer with a left-over queue of {}:"), _queue.size());
 				for (auto const& i: _queue) {
 					if (i.type == QueueItem::Type::FULL) {
-						LOG_WARNING (N_("- type FULL, frame {}, eyes {}"), i.frame, (int) i.eyes);
+						LOG_WARNING(N_("- type FULL, frame {}, eyes {}"), i.frame, (int) i.eyes);
 					} else {
 						LOG_WARNING(N_("- type FAKE, frame {}, eyes {}"), i.frame, static_cast<int>(i.eyes));
 					}
@@ -418,42 +418,42 @@ try
 		}
 
 		/* Write any frames that we can write; i.e. those that are in sequence. */
-		while (have_sequenced_image_at_queue_head ()) {
-			auto qi = _queue.front ();
-			_last_written[qi.reel].update (qi);
-			_queue.pop_front ();
+		while (have_sequenced_image_at_queue_head()) {
+			auto qi = _queue.front();
+			_last_written[qi.reel].update(qi);
+			_queue.pop_front();
 			if (qi.encoded) {
 				--_queued_full_in_memory;
 			}
 
-			lock.unlock ();
+			lock.unlock();
 
 			auto& reel = _reels[qi.reel];
 
 			switch (qi.type) {
 			case QueueItem::Type::FULL:
-				LOG_DEBUG_ENCODE (N_("Writer FULL-writes {} ({})"), qi.frame, (int) qi.eyes);
+				LOG_DEBUG_ENCODE(N_("Writer FULL-writes {} ({})"), qi.frame, (int) qi.eyes);
 				if (!qi.encoded) {
 					/* Get the data back from disk where we stored it temporarily */
 					qi.encoded = make_shared<ArrayData>(film()->j2c_path(qi.reel, qi.frame, qi.eyes, false));
 				}
-				reel.write (qi.encoded, qi.frame, qi.eyes);
+				reel.write(qi.encoded, qi.frame, qi.eyes);
 				++_full_written;
 				break;
 			case QueueItem::Type::FAKE:
-				LOG_DEBUG_ENCODE (N_("Writer FAKE-writes {}"), qi.frame);
+				LOG_DEBUG_ENCODE(N_("Writer FAKE-writes {}"), qi.frame);
 				reel.fake_write(qi.frame, qi.eyes);
 				++_fake_written;
 				break;
 			case QueueItem::Type::REPEAT:
-				LOG_DEBUG_ENCODE (N_("Writer REPEAT-writes {}"), qi.frame);
-				reel.repeat_write (qi.frame, qi.eyes);
+				LOG_DEBUG_ENCODE(N_("Writer REPEAT-writes {}"), qi.frame);
+				reel.repeat_write(qi.frame, qi.eyes);
 				++_repeat_written;
 				break;
 			}
 
-			lock.lock ();
-			_full_condition.notify_all ();
+			lock.lock();
+			_full_condition.notify_all();
 		}
 
 		while (_queued_full_in_memory > _maximum_frames_in_memory) {
@@ -462,7 +462,7 @@ try
 			*/
 
 			/* Find one from the back of the queue */
-			_queue.sort ();
+			_queue.sort();
 			auto item = _queue.rbegin();
 			while (item != _queue.rend() && !item->encoded) {
 				++item;
@@ -480,44 +480,44 @@ try
 
 			item->encoded.reset();
 			--_queued_full_in_memory;
-			_full_condition.notify_all ();
+			_full_condition.notify_all();
 		}
 	}
 }
 catch (...)
 {
-	store_current ();
+	store_current();
 }
 
 
 void
-Writer::terminate_thread (bool can_throw)
+Writer::terminate_thread(bool can_throw)
 {
 	boost::this_thread::disable_interruption dis;
 
-	boost::mutex::scoped_lock lock (_state_mutex);
+	boost::mutex::scoped_lock lock(_state_mutex);
 
 	_finish = true;
-	_empty_condition.notify_all ();
-	_full_condition.notify_all ();
-	lock.unlock ();
+	_empty_condition.notify_all();
+	_full_condition.notify_all();
+	lock.unlock();
 
 	try {
-		_thread.join ();
+		_thread.join();
 	} catch (...) {}
 
 	if (can_throw) {
-		rethrow ();
+		rethrow();
 	}
 }
 
 
 void
-Writer::calculate_digests ()
+Writer::calculate_digests()
 {
-	auto job = _job.lock ();
+	auto job = _job.lock();
 	if (job) {
-		job->sub (_("Computing digests"));
+		job->sub(_("Computing digests"));
 	}
 
 	dcpomatic::io_context context;
@@ -526,7 +526,7 @@ Writer::calculate_digests ()
 	{
 		auto work = dcpomatic::make_work_guard(context);
 
-		int const threads = max (1, Config::instance()->master_encoding_threads());
+		int const threads = max(1, Config::instance()->master_encoding_threads());
 
 		for (int i = 0; i < threads; ++i) {
 			pool.create_thread(boost::bind(&dcpomatic::io_context::run, &context));
@@ -559,13 +559,13 @@ Writer::calculate_digests ()
 	}
 
 	try {
-		pool.join_all ();
+		pool.join_all();
 	} catch (boost::thread_interrupted) {
 		/* join_all was interrupted, so we need to interrupt the threads
 		 * in our pool then try again to join them.
 		 */
-		pool.interrupt_all ();
-		pool.join_all ();
+		pool.interrupt_all();
+		pool.join_all();
 	}
 
 	context.stop();
@@ -576,18 +576,18 @@ void
 Writer::finish()
 {
 	if (_thread.joinable()) {
-		LOG_GENERAL_NC ("Terminating writer thread");
-		terminate_thread (true);
+		LOG_GENERAL_NC("Terminating writer thread");
+		terminate_thread(true);
 	}
 
-	LOG_GENERAL_NC ("Finishing ReelWriters");
+	LOG_GENERAL_NC("Finishing ReelWriters");
 
 	for (auto& reel: _reels) {
 		write_hanging_text(reel);
 		reel.finish(_output_dir);
 	}
 
-	LOG_GENERAL_NC ("Writing XML");
+	LOG_GENERAL_NC("Writing XML");
 
 	dcp::DCP dcp(_output_dir);
 
@@ -598,9 +598,9 @@ Writer::finish()
 		film()->limit_to_smpte_bv20() ? dcp::Profile::SMPTE_BV20 : dcp::Profile::SMPTE_BV21
 		);
 
-	dcp.add (cpl);
+	dcp.add(cpl);
 
-	calculate_digests ();
+	calculate_digests();
 
 	/* Add reels */
 
@@ -620,10 +620,10 @@ Writer::finish()
 		issuer = fmt::format("DCP-o-matic {} {}", dcpomatic_version, dcpomatic_git_commit);
 	}
 
-	cpl->set_creator (creator);
-	cpl->set_issuer (issuer);
+	cpl->set_creator(creator);
+	cpl->set_issuer(issuer);
 
-	cpl->set_ratings (film()->ratings());
+	cpl->set_ratings(film()->ratings());
 
 	vector<dcp::ContentVersion> cv;
 	for (auto i: film()->content_versions()) {
@@ -635,29 +635,29 @@ Writer::finish()
 	if (cv.empty()) {
 		cv = { dcp::ContentVersion("1") };
 	}
-	cpl->set_content_versions (cv);
+	cpl->set_content_versions(cv);
 
-	cpl->set_full_content_title_text (film()->name());
-	cpl->set_full_content_title_text_language (film()->name_language());
+	cpl->set_full_content_title_text(film()->name());
+	cpl->set_full_content_title_text_language(film()->name_language());
 	if (film()->release_territory()) {
-		cpl->set_release_territory (*film()->release_territory());
+		cpl->set_release_territory(*film()->release_territory());
 	}
-	cpl->set_version_number (film()->version_number());
-	cpl->set_status (film()->status());
+	cpl->set_version_number(film()->version_number());
+	cpl->set_status(film()->status());
 	if (film()->chain()) {
-		cpl->set_chain (*film()->chain());
+		cpl->set_chain(*film()->chain());
 	}
 	if (film()->distributor()) {
-		cpl->set_distributor (*film()->distributor());
+		cpl->set_distributor(*film()->distributor());
 	}
 	if (film()->facility()) {
-		cpl->set_facility (*film()->facility());
+		cpl->set_facility(*film()->facility());
 	}
 	if (film()->luminance()) {
-		cpl->set_luminance (*film()->luminance());
+		cpl->set_luminance(*film()->luminance());
 	}
 	if (film()->sign_language_video_language()) {
-		cpl->set_sign_language_video_language (*film()->sign_language_video_language());
+		cpl->set_sign_language_video_language(*film()->sign_language_video_language());
 	}
 
 	dcp::MCASoundField field;
@@ -676,8 +676,8 @@ Writer::finish()
 	}
 
 	cpl->set_main_sound_configuration(msc);
-	cpl->set_main_sound_sample_rate (film()->audio_frame_rate());
-	cpl->set_main_picture_stored_area (film()->frame_size());
+	cpl->set_main_sound_sample_rate(film()->audio_frame_rate());
+	cpl->set_main_picture_stored_area(film()->frame_size());
 
 	auto active_area = film()->active_area();
 	if (active_area.width > 0 && active_area.height > 0) {
@@ -693,8 +693,8 @@ Writer::finish()
 	auto signer = Config::instance()->signer_chain();
 	/* We did check earlier, but check again here to be on the safe side */
 	string reason;
-	if (!signer->valid (&reason)) {
-		throw InvalidSignerError (reason);
+	if (!signer->valid(&reason)) {
+		throw InvalidSignerError(reason);
 	}
 
 	dcp.set_issuer(issuer);
@@ -707,7 +707,7 @@ Writer::finish()
 	}
 	dcp.write_xml(signer, Config::instance()->dcp_metadata_filename_format(), group_id);
 
-	LOG_GENERAL (
+	LOG_GENERAL(
 		N_("Wrote {} FULL, {} FAKE, {} REPEAT, {} pushed to disk"), _full_written, _fake_written, _repeat_written, _pushed_to_disk
 		);
 
@@ -724,27 +724,27 @@ Writer::write_cover_sheet()
 		throw OpenFileError(cover, file.open_error(), OpenFileError::WRITE);
 	}
 
-	auto text = Config::instance()->cover_sheet ();
-	boost::algorithm::replace_all (text, "$CPL_NAME", film()->name());
+	auto text = Config::instance()->cover_sheet();
+	boost::algorithm::replace_all(text, "$CPL_NAME", film()->name());
 	auto cpls = film()->cpls();
 	if (!cpls.empty()) {
-		boost::algorithm::replace_all (text, "$CPL_FILENAME", cpls[0].cpl_file.filename().string());
+		boost::algorithm::replace_all(text, "$CPL_FILENAME", cpls[0].cpl_file.filename().string());
 	}
 	boost::algorithm::replace_all(text, "$TYPE", film()->dcp_content_type()->pretty_name());
 	boost::algorithm::replace_all(text, "$CONTAINER", film()->container().container_nickname());
 
 	auto audio_language = film()->audio_language();
 	if (audio_language) {
-		boost::algorithm::replace_all (text, "$AUDIO_LANGUAGE", audio_language->description());
+		boost::algorithm::replace_all(text, "$AUDIO_LANGUAGE", audio_language->description());
 	} else {
-		boost::algorithm::replace_all (text, "$AUDIO_LANGUAGE", _("None"));
+		boost::algorithm::replace_all(text, "$AUDIO_LANGUAGE", _("None"));
 	}
 
 	auto const subtitle_languages = film()->open_text_languages();
 	if (subtitle_languages.first) {
-		boost::algorithm::replace_all (text, "$SUBTITLE_LANGUAGE", subtitle_languages.first->description());
+		boost::algorithm::replace_all(text, "$SUBTITLE_LANGUAGE", subtitle_languages.first->description());
 	} else {
-		boost::algorithm::replace_all (text, "$SUBTITLE_LANGUAGE", _("None"));
+		boost::algorithm::replace_all(text, "$SUBTITLE_LANGUAGE", _("None"));
 	}
 
 	boost::uintmax_t size = 0;
@@ -758,12 +758,12 @@ Writer::write_cover_sheet()
 	}
 
 	if (size > (1000000000L)) {
-		boost::algorithm::replace_all (text, "$SIZE", fmt::format("{}GB", dcp::locale_convert<string>(size / 1000000000.0, 1, true)));
+		boost::algorithm::replace_all(text, "$SIZE", fmt::format("{}GB", dcp::locale_convert<string>(size / 1000000000.0, 1, true)));
 	} else {
-		boost::algorithm::replace_all (text, "$SIZE", fmt::format("{}MB", dcp::locale_convert<string>(size / 1000000.0, 1, true)));
+		boost::algorithm::replace_all(text, "$SIZE", fmt::format("{}MB", dcp::locale_convert<string>(size / 1000000.0, 1, true)));
 	}
 
-	auto ch = audio_channel_types (film()->mapped_audio_channels(), film()->audio_channels());
+	auto ch = audio_channel_types(film()->mapped_audio_channels(), film()->audio_channels());
 	auto description = fmt::format("{}.{}", ch.first, ch.second);
 
 	if (description == "0.0") {
@@ -773,7 +773,7 @@ Writer::write_cover_sheet()
 	} else if (description == "2.0") {
 		description = _("Stereo");
 	}
-	boost::algorithm::replace_all (text, "$AUDIO", description);
+	boost::algorithm::replace_all(text, "$AUDIO", description);
 
 	auto const hmsf = film()->length().split(film()->video_frame_rate());
 	string length;
@@ -785,7 +785,7 @@ Writer::write_cover_sheet()
 		length = fmt::format("{}h{}m{}s", hmsf.h, hmsf.m, hmsf.s);
 	}
 
-	boost::algorithm::replace_all (text, "$LENGTH", length);
+	boost::algorithm::replace_all(text, "$LENGTH", length);
 
 	file.checked_write(text.c_str(), text.length());
 }
@@ -795,7 +795,7 @@ Writer::write_cover_sheet()
  *  @return true if we can fake-write this frame.
  */
 bool
-Writer::can_fake_write (Frame frame) const
+Writer::can_fake_write(Frame frame) const
 {
 	if (film()->encrypted()) {
 		/* We need to re-write the frame because the asset ID is embedded in the HMAC... I think... */
@@ -809,14 +809,14 @@ Writer::can_fake_write (Frame frame) const
 	auto const & reel = _reels[video_reel(frame)];
 
 	/* Make frame relative to the start of the reel */
-	frame -= reel.start ();
+	frame -= reel.start();
 	return (frame != 0 && frame < reel.first_nonexistent_frame());
 }
 
 
 /** @param track Closed caption track if type == TextType::CLOSED_CAPTION */
 void
-Writer::write (PlayerText text, TextType type, optional<DCPTextTrack> track, DCPTimePeriod period)
+Writer::write(PlayerText text, TextType type, optional<DCPTextTrack> track, DCPTimePeriod period)
 {
 	vector<ReelWriter>::iterator* reel = nullptr;
 
@@ -828,20 +828,20 @@ Writer::write (PlayerText text, TextType type, optional<DCPTextTrack> track, DCP
 		break;
 	case TextType::CLOSED_CAPTION:
 	case TextType::CLOSED_SUBTITLE:
-		DCPOMATIC_ASSERT (track);
-		DCPOMATIC_ASSERT (_caption_reels.find(*track) != _caption_reels.end());
+		DCPOMATIC_ASSERT(track);
+		DCPOMATIC_ASSERT(_caption_reels.find(*track) != _caption_reels.end());
 		reel = &_caption_reels[*track];
-		_have_closed_captions.insert (*track);
+		_have_closed_captions.insert(*track);
 		break;
 	default:
-		DCPOMATIC_ASSERT (false);
+		DCPOMATIC_ASSERT(false);
 	}
 
-	DCPOMATIC_ASSERT (*reel != _reels.end());
+	DCPOMATIC_ASSERT(*reel != _reels.end());
 	while ((*reel)->period().to <= period.from) {
 		++(*reel);
-		DCPOMATIC_ASSERT (*reel != _reels.end());
-		write_hanging_text (**reel);
+		DCPOMATIC_ASSERT(*reel != _reels.end());
+		write_hanging_text(**reel);
 	}
 
 	auto back_off = [this](DCPTimePeriod period) {
@@ -860,7 +860,7 @@ Writer::write (PlayerText text, TextType type, optional<DCPTextTrack> track, DCP
 		for (auto i = std::next(*reel); i != _reels.end(); ++i) {
 			auto overlap = i->period().overlap(period);
 			if (overlap) {
-				_hanging_texts.push_back (HangingText{text, type, track, back_off(*overlap)});
+				_hanging_texts.push_back(HangingText{text, type, track, back_off(*overlap)});
 			}
 		}
 		/* Try to back off from the reel boundary by a couple of frames to avoid tripping checks
@@ -875,7 +875,7 @@ Writer::write (PlayerText text, TextType type, optional<DCPTextTrack> track, DCP
 
 
 void
-Writer::write (vector<shared_ptr<Font>> fonts)
+Writer::write(vector<shared_ptr<Font>> fonts)
 {
 	if (fonts.empty()) {
 		return;
@@ -904,7 +904,7 @@ Writer::write (vector<shared_ptr<Font>> fonts)
 
 
 bool
-operator< (QueueItem const & a, QueueItem const & b)
+operator<(QueueItem const & a, QueueItem const & b)
 {
 	if (a.reel != b.reel) {
 		return a.reel < b.reel;
@@ -914,30 +914,30 @@ operator< (QueueItem const & a, QueueItem const & b)
 		return a.frame < b.frame;
 	}
 
-	return static_cast<int> (a.eyes) < static_cast<int> (b.eyes);
+	return static_cast<int>(a.eyes) < static_cast<int>(b.eyes);
 }
 
 
 bool
-operator== (QueueItem const & a, QueueItem const & b)
+operator==(QueueItem const & a, QueueItem const & b)
 {
 	return a.reel == b.reel && a.frame == b.frame && a.eyes == b.eyes;
 }
 
 
 void
-Writer::set_encoder_threads (int threads)
+Writer::set_encoder_threads(int threads)
 {
-	boost::mutex::scoped_lock lm (_state_mutex);
-	_maximum_frames_in_memory = lrint (threads * Config::instance()->frames_in_memory_multiplier());
+	boost::mutex::scoped_lock lm(_state_mutex);
+	_maximum_frames_in_memory = lrint(threads * Config::instance()->frames_in_memory_multiplier());
 	_maximum_queue_size = threads * 16;
 }
 
 
 void
-Writer::write (ReferencedReelAsset asset)
+Writer::write(ReferencedReelAsset asset)
 {
-	_reel_assets.push_back (asset);
+	_reel_assets.push_back(asset);
 
 	if (auto text_asset = dynamic_pointer_cast<dcp::ReelTextAsset>(asset.asset)) {
 		if (is_open(text_asset->type())) {
@@ -960,15 +960,15 @@ Writer::write (ReferencedReelAsset asset)
 
 
 size_t
-Writer::video_reel (int frame) const
+Writer::video_reel(int frame) const
 {
-	auto t = DCPTime::from_frames (frame, film()->video_frame_rate());
+	auto t = DCPTime::from_frames(frame, film()->video_frame_rate());
 	size_t reel_index = 0;
 	while (reel_index < _reels.size() && !_reels[reel_index].period().contains(t)) {
 		++reel_index;
 	}
 
-	DCPOMATIC_ASSERT(reel_index < _reels.size ());
+	DCPOMATIC_ASSERT(reel_index < _reels.size());
 	return reel_index;
 }
 
@@ -982,7 +982,7 @@ Writer::video_reel (int frame) const
 void
 Writer::set_digest_progress(Job* job, int id, int64_t done, int64_t size)
 {
-	boost::mutex::scoped_lock lm (_digest_progresses_mutex);
+	boost::mutex::scoped_lock lm(_digest_progresses_mutex);
 
 	/* Update the progress for this thread */
 	_digest_progresses[id] = std::make_pair(done, size);
@@ -998,7 +998,7 @@ Writer::set_digest_progress(Job* job, int id, int64_t done, int64_t size)
 	job->set_progress(float(total_done) / total_size);
 
 	Waker waker;
-	waker.nudge ();
+	waker.nudge();
 
 	boost::this_thread::interruption_point();
 }
@@ -1027,7 +1027,7 @@ try
 				set_progress(total_done + done, total_size);
 			});
 			total_done += boost::filesystem::file_size(*file->asset_ref().asset()->file());
-			file->set_hash (file->asset_ref().asset()->hash());
+			file->set_hash(file->asset_ref().asset()->hash());
 		}
 	}
 } catch (boost::thread_interrupted) {
@@ -1038,14 +1038,14 @@ try
 
 
 void
-Writer::write_hanging_text (ReelWriter& reel)
+Writer::write_hanging_text(ReelWriter& reel)
 {
 	vector<HangingText> new_hanging_texts;
 	for (auto i: _hanging_texts) {
 		if (i.period.from == reel.period().from) {
 			reel.write(i.text, i.type, i.track, i.period, _fonts, _chosen_interop_font);
 		} else {
-			new_hanging_texts.push_back (i);
+			new_hanging_texts.push_back(i);
 		}
 	}
 	_hanging_texts = new_hanging_texts;

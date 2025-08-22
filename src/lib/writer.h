@@ -62,7 +62,7 @@ struct writer_disambiguate_font_ids3;
 struct QueueItem
 {
 public:
-	QueueItem () {}
+	QueueItem() {}
 
 	enum class Type {
 		/** a normal frame with some JPEG200 data */
@@ -86,8 +86,8 @@ public:
 };
 
 
-bool operator< (QueueItem const & a, QueueItem const & b);
-bool operator== (QueueItem const & a, QueueItem const & b);
+bool operator<(QueueItem const & a, QueueItem const & b);
+bool operator==(QueueItem const & a, QueueItem const & b);
 
 
 /** @class Writer
@@ -105,28 +105,28 @@ class Writer : public ExceptionStore, public WeakConstFilm
 {
 public:
 	Writer(std::weak_ptr<const Film>, std::weak_ptr<Job>, boost::filesystem::path output_dir, bool text_only = false);
-	~Writer ();
+	~Writer();
 
-	Writer (Writer const &) = delete;
-	Writer& operator= (Writer const &) = delete;
+	Writer(Writer const &) = delete;
+	Writer& operator=(Writer const &) = delete;
 
-	void start ();
+	void start();
 
-	bool can_fake_write (Frame) const;
+	bool can_fake_write(Frame) const;
 
-	void write (std::shared_ptr<const dcp::Data>, Frame, Eyes);
-	void fake_write (Frame, Eyes);
-	bool can_repeat (Frame) const;
-	void repeat (Frame, Eyes);
-	void write (std::shared_ptr<const AudioBuffers>, dcpomatic::DCPTime time);
-	void write (PlayerText text, TextType type, boost::optional<DCPTextTrack>, dcpomatic::DCPTimePeriod period);
-	void write (std::vector<std::shared_ptr<dcpomatic::Font>> fonts);
-	void write (ReferencedReelAsset asset);
-	void write (std::shared_ptr<const dcp::AtmosFrame> atmos, dcpomatic::DCPTime time, AtmosMetadata metadata);
-	void write (std::shared_ptr<dcp::MonoMPEG2PictureFrame> image, Frame frame);
+	void write(std::shared_ptr<const dcp::Data>, Frame, Eyes);
+	void fake_write(Frame, Eyes);
+	bool can_repeat(Frame) const;
+	void repeat(Frame, Eyes);
+	void write(std::shared_ptr<const AudioBuffers>, dcpomatic::DCPTime time);
+	void write(PlayerText text, TextType type, boost::optional<DCPTextTrack>, dcpomatic::DCPTimePeriod period);
+	void write(std::vector<std::shared_ptr<dcpomatic::Font>> fonts);
+	void write(ReferencedReelAsset asset);
+	void write(std::shared_ptr<const dcp::AtmosFrame> atmos, dcpomatic::DCPTime time, AtmosMetadata metadata);
+	void write(std::shared_ptr<dcp::MonoMPEG2PictureFrame> image, Frame frame);
 	void finish();
 
-	void set_encoder_threads (int threads);
+	void set_encoder_threads(int threads);
 
 	void zombify();
 
@@ -135,15 +135,15 @@ private:
 	friend struct ::writer_disambiguate_font_ids2;
 	friend struct ::writer_disambiguate_font_ids3;
 
-	void thread ();
-	void terminate_thread (bool);
-	bool have_sequenced_image_at_queue_head ();
-	size_t video_reel (int frame) const;
+	void thread();
+	void terminate_thread(bool);
+	bool have_sequenced_image_at_queue_head();
+	size_t video_reel(int frame) const;
 	void set_digest_progress(Job* job, int id, int64_t done, int64_t size);
 	void write_cover_sheet();
 	void calculate_referenced_digests(std::function<void (int64_t, int64_t)> set_progress);
-	void write_hanging_text (ReelWriter& reel);
-	void calculate_digests ();
+	void write_hanging_text(ReelWriter& reel);
+	void calculate_digests();
 
 	std::weak_ptr<Job> _job;
 	std::vector<ReelWriter> _reels;
@@ -182,10 +182,10 @@ private:
 		{}
 
 		/** @return true if qi is the next item after this one */
-		bool next (QueueItem qi) const;
-		void update (QueueItem qi);
+		bool next(QueueItem qi) const;
+		void update(QueueItem qi);
 
-		int frame () const {
+		int frame() const {
 			return _frame;
 		}
 
