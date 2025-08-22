@@ -6,7 +6,7 @@
 # farcical because I'm sure this can be done
 # in 1 line of sed, and also because I'm sure
 # the whole need for this script could be fixed
-# in the ardour.sty (but I don't know how).
+# in the dcpomatic.sty (but I don't know how).
 
 import sys
 import os
