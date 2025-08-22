@@ -168,7 +168,7 @@ pdf:	$(XML) config.xml shortcuts.xml verify_errors.xml verify_bv21_errors.xml ve
 
 	mkdir -p pdf
 
-	dblatex -p dcpomatic-pdf.xsl -s dcpomatic.sty -r pptex.py -T native dcpomatic.xml -t pdf -o pdf/dcpomatic.pdf
+	dblatex -p dcpomatic-pdf.xsl -s dcpomatic.sty -r pptex.py dcpomatic.xml -t pdf -o pdf/dcpomatic.pdf
 
 
 #
