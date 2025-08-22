@@ -171,7 +171,7 @@ time_to_hmsf(DCPTime time, Frame rate)
 	m -= h * 60;
 
 	char buffer[64];
-	snprintf(buffer, sizeof(buffer), "%d:%02d:%02d.%d", h, m, s, static_cast<int>(f));
+	snprintf(buffer, sizeof(buffer), "%02d:%02d:%02d.%02d", h, m, s, static_cast<int>(f));
 	return buffer;
 }
 
