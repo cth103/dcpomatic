@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-13 23:55+0200\n"
+"POT-Creation-Date: 2025-08-27 11:30+0200\n"
 "PO-Revision-Date: 2021-08-20 21:46+0200\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
@@ -1051,7 +1051,7 @@ msgstr "Konnte KDM nicht laden"
 msgid "Could not read DCP (%n)"
 msgstr "Konnte KDM nicht laden"
 
-#: src/wx/gl_video_view.cc:139
+#: src/wx/gl_video_view.cc:131
 #, fuzzy, c-format
 msgid "Could not read DCP: %s"
 msgstr "Konnte KDM nicht laden"

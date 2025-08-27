@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-13 23:55+0200\n"
+"POT-Creation-Date: 2025-08-27 11:30+0200\n"
 "PO-Revision-Date: 2021-12-28 14:46+0100\n"
 "Last-Translator: Mattias Mattsson <vitplister@gmail.com>\n"
 "Language-Team: \n"
@@ -538,7 +538,7 @@ msgstr "Kombinera DCP:er"
 msgid "Computing digest"
 msgstr "Beräknar hashsumma"
 
-#: src/lib/writer.cc:520
+#: src/lib/writer.cc:521
 msgid "Computing digests"
 msgstr "Beräknar hashsummor"
 
@@ -1278,7 +1278,7 @@ msgstr "Nödvändig inställning saknas: {}"
 msgid "Monday"
 msgstr "Måndag"
 
-#: src/lib/writer.cc:772
+#: src/lib/cover_sheet.cc:91
 msgid "Mono"
 msgstr "Mono"
 
@@ -1308,7 +1308,8 @@ msgstr "Inga giltiga bildfiler hittades i mappen."
 msgid "Noise reduction"
 msgstr "Brusreducering"
 
-#: src/lib/writer.cc:740 src/lib/writer.cc:747 src/lib/writer.cc:770
+#: src/lib/cover_sheet.cc:59 src/lib/cover_sheet.cc:66
+#: src/lib/cover_sheet.cc:89
 msgid "None"
 msgstr "Inget"
 
@@ -1623,7 +1624,7 @@ msgid ""
 "in the content Advanced Settings dialogue box."
 msgstr ""
 
-#: src/lib/writer.cc:774
+#: src/lib/cover_sheet.cc:93
 msgid "Stereo"
 msgstr "Stereo"
 
@@ -1871,7 +1872,8 @@ msgstr "Oväntat innehåll i ZIP-fil"
 msgid "Unexpected image type received by server"
 msgstr "Oväntad bildtyp mottogs av server"
 
-#: src/lib/cross_common.cc:103 src/lib/dcp_text_track.cc:53
+#: src/lib/cover_sheet.cc:137 src/lib/cross_common.cc:103
+#: src/lib/dcp_text_track.cc:53
 msgid "Unknown"
 msgstr "Okänd"
 

@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-13 23:55+0200\n"
+"POT-Creation-Date: 2025-08-27 11:30+0200\n"
 "PO-Revision-Date: 2025-06-08 20:12+0300\n"
 "Last-Translator: Mikhail Epshteyn <virus-2006@yandex.ru>\n"
 "Language-Team: Mikhail Epshteyn\n"
@@ -534,7 +534,7 @@ msgstr "Объединить DCP"
 msgid "Computing digest"
 msgstr "Проверка целостности"
 
-#: src/lib/writer.cc:520
+#: src/lib/writer.cc:521
 msgid "Computing digests"
 msgstr "Проверка целостности"
 
@@ -1274,7 +1274,7 @@ msgstr "Отсутствует обязательный параметр {}"
 msgid "Monday"
 msgstr "Понедельник"
 
-#: src/lib/writer.cc:772
+#: src/lib/cover_sheet.cc:91
 msgid "Mono"
 msgstr "Моно"
 
@@ -1302,7 +1302,8 @@ msgstr "В папке не найдено подходящих изображе�
 msgid "Noise reduction"
 msgstr "Подавление шума"
 
-#: src/lib/writer.cc:740 src/lib/writer.cc:747 src/lib/writer.cc:770
+#: src/lib/cover_sheet.cc:59 src/lib/cover_sheet.cc:66
+#: src/lib/cover_sheet.cc:89
 msgid "None"
 msgstr "Не задан"
 
@@ -1615,7 +1616,7 @@ msgstr ""
 "предварительном просмотре, и если нет, попробуйте включить или отключить "
 "видеофильтр 'premultiply' в диалоговом окне Дополнительных настроек контента."
 
-#: src/lib/writer.cc:774
+#: src/lib/cover_sheet.cc:93
 msgid "Stereo"
 msgstr "Стерео"
 
@@ -1879,7 +1880,8 @@ msgstr "Неожиданное содержимое ZIP-файла"
 msgid "Unexpected image type received by server"
 msgstr "Сервером получен неожиданный тип изображения"
 
-#: src/lib/cross_common.cc:103 src/lib/dcp_text_track.cc:53
+#: src/lib/cover_sheet.cc:137 src/lib/cross_common.cc:103
+#: src/lib/dcp_text_track.cc:53
 msgid "Unknown"
 msgstr "Неизвестно"
 

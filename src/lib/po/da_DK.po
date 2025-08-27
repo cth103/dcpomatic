@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-13 23:55+0200\n"
+"POT-Creation-Date: 2025-08-27 11:30+0200\n"
 "PO-Revision-Date: 2019-04-06 12:29+0200\n"
 "Last-Translator: FULL NAME &lt;EMAIL@ADDRESS&gt;\n"
 "Language-Team: LANGUAGE &lt;LL@li.org&gt;\n"
@@ -508,7 +508,7 @@ msgstr ""
 msgid "Computing digest"
 msgstr "Beregner resume"
 
-#: src/lib/writer.cc:520
+#: src/lib/writer.cc:521
 msgid "Computing digests"
 msgstr "Beregner resumeer"
 
@@ -1241,7 +1241,7 @@ msgstr "Mangler påkrævet indstilling {}"
 msgid "Monday"
 msgstr "Mandag"
 
-#: src/lib/writer.cc:772
+#: src/lib/cover_sheet.cc:91
 msgid "Mono"
 msgstr "Mono"
 
@@ -1271,7 +1271,8 @@ msgstr "Ingen korrekte billedfiler kunne findes i folderen."
 msgid "Noise reduction"
 msgstr "Støjreduktion"
 
-#: src/lib/writer.cc:740 src/lib/writer.cc:747 src/lib/writer.cc:770
+#: src/lib/cover_sheet.cc:59 src/lib/cover_sheet.cc:66
+#: src/lib/cover_sheet.cc:89
 msgid "None"
 msgstr "Ingen"
 
@@ -1582,7 +1583,7 @@ msgid ""
 "in the content Advanced Settings dialogue box."
 msgstr ""
 
-#: src/lib/writer.cc:774
+#: src/lib/cover_sheet.cc:93
 msgid "Stereo"
 msgstr "Stereo"
 
@@ -1826,7 +1827,8 @@ msgstr "Uventet indhold af ZIP arkiv"
 msgid "Unexpected image type received by server"
 msgstr "Uventet billedtype modtaget af server"
 
-#: src/lib/cross_common.cc:103 src/lib/dcp_text_track.cc:53
+#: src/lib/cover_sheet.cc:137 src/lib/cross_common.cc:103
+#: src/lib/dcp_text_track.cc:53
 #, fuzzy
 msgid "Unknown"
 msgstr "ukendt"

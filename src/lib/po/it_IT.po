@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-13 23:55+0200\n"
+"POT-Creation-Date: 2025-08-27 11:30+0200\n"
 "PO-Revision-Date: 2018-09-30 14:16+0200\n"
 "Last-Translator: William Fanelli <william.f@impronte.com>\n"
 "Language-Team: \n"
@@ -510,7 +510,7 @@ msgstr ""
 msgid "Computing digest"
 msgstr "Calcolo assimilazione dati"
 
-#: src/lib/writer.cc:520
+#: src/lib/writer.cc:521
 msgid "Computing digests"
 msgstr "Calcolo assimilazioni dati"
 
@@ -1242,7 +1242,7 @@ msgstr "Impostazione obbligatoria mancante {}"
 msgid "Monday"
 msgstr "Lunedì"
 
-#: src/lib/writer.cc:772
+#: src/lib/cover_sheet.cc:91
 msgid "Mono"
 msgstr "Mono"
 
@@ -1272,7 +1272,8 @@ msgstr "Nessun file immagine valido trovato nella cartella."
 msgid "Noise reduction"
 msgstr "Riduzione rumore"
 
-#: src/lib/writer.cc:740 src/lib/writer.cc:747 src/lib/writer.cc:770
+#: src/lib/cover_sheet.cc:59 src/lib/cover_sheet.cc:66
+#: src/lib/cover_sheet.cc:89
 msgid "None"
 msgstr "Nulla"
 
@@ -1564,7 +1565,7 @@ msgid ""
 "in the content Advanced Settings dialogue box."
 msgstr ""
 
-#: src/lib/writer.cc:774
+#: src/lib/cover_sheet.cc:93
 msgid "Stereo"
 msgstr "Stereo"
 
@@ -1809,7 +1810,8 @@ msgstr "Contenuti dei file ZIP non corretti"
 msgid "Unexpected image type received by server"
 msgstr "Immagine ricevuta dal server inaspettata"
 
-#: src/lib/cross_common.cc:103 src/lib/dcp_text_track.cc:53
+#: src/lib/cover_sheet.cc:137 src/lib/cross_common.cc:103
+#: src/lib/dcp_text_track.cc:53
 #, fuzzy
 msgid "Unknown"
 msgstr "sconosciuto"

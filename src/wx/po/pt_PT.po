@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic PORTUGUESE (Portugal)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-13 23:55+0200\n"
+"POT-Creation-Date: 2025-08-27 11:30+0200\n"
 "PO-Revision-Date: 2016-03-19 13:56+0000\n"
 "Last-Translator: Tiago Casal Ribeiro <tiago@casalribeiro.com>\n"
 "Language-Team: \n"
@@ -1027,7 +1027,7 @@ msgstr "Não foi possível carregar a KDM (%s)"
 msgid "Could not read DCP (%n)"
 msgstr "Não foi possível carregar a KDM (%s)"
 
-#: src/wx/gl_video_view.cc:139
+#: src/wx/gl_video_view.cc:131
 #, fuzzy, c-format
 msgid "Could not read DCP: %s"
 msgstr "Não foi possível carregar a KDM (%s)"

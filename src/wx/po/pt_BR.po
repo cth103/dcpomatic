@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-13 23:55+0200\n"
+"POT-Creation-Date: 2025-08-27 11:30+0200\n"
 "PO-Revision-Date: 2018-01-15 18:18-0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -1031,7 +1031,7 @@ msgstr "Não foi possível carregar o KDM."
 msgid "Could not read DCP (%n)"
 msgstr "Não foi possível carregar o KDM."
 
-#: src/wx/gl_video_view.cc:139
+#: src/wx/gl_video_view.cc:131
 #, fuzzy, c-format
 msgid "Could not read DCP: %s"
 msgstr "Não foi possível carregar o KDM."

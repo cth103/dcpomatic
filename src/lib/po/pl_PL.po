@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-13 23:55+0200\n"
+"POT-Creation-Date: 2025-08-27 11:30+0200\n"
 "PO-Revision-Date: 2022-05-10 16:47+0200\n"
 "Last-Translator: Michał Tomaszewski <goku1933@gmail.com>\n"
 "Language-Team: Polish <http://translations.dcpomatic.com/projects/dcpomatic/"
@@ -545,7 +545,7 @@ msgstr "Połącz paczki DCP"
 msgid "Computing digest"
 msgstr "Obliczanie danych"
 
-#: src/lib/writer.cc:520
+#: src/lib/writer.cc:521
 msgid "Computing digests"
 msgstr "Obliczanie danych"
 
@@ -1267,7 +1267,7 @@ msgstr "Brakuje wymaganych ustawień {}"
 msgid "Monday"
 msgstr "Poniedziałek"
 
-#: src/lib/writer.cc:772
+#: src/lib/cover_sheet.cc:91
 msgid "Mono"
 msgstr "Mono"
 
@@ -1297,7 +1297,8 @@ msgstr "W folderze nie znaleziono obsługiwanych plików obrazów."
 msgid "Noise reduction"
 msgstr "Redukcja szumu"
 
-#: src/lib/writer.cc:740 src/lib/writer.cc:747 src/lib/writer.cc:770
+#: src/lib/cover_sheet.cc:59 src/lib/cover_sheet.cc:66
+#: src/lib/cover_sheet.cc:89
 msgid "None"
 msgstr "Brak"
 
@@ -1606,7 +1607,7 @@ msgid ""
 "in the content Advanced Settings dialogue box."
 msgstr ""
 
-#: src/lib/writer.cc:774
+#: src/lib/cover_sheet.cc:93
 msgid "Stereo"
 msgstr "Stereo"
 
@@ -1861,7 +1862,8 @@ msgstr "Archiwum ZIP zawiera nieobsługiwane pliki"
 msgid "Unexpected image type received by server"
 msgstr "Serwer otrzymał nieobsługiwany typ obrazu"
 
-#: src/lib/cross_common.cc:103 src/lib/dcp_text_track.cc:53
+#: src/lib/cover_sheet.cc:137 src/lib/cross_common.cc:103
+#: src/lib/dcp_text_track.cc:53
 msgid "Unknown"
 msgstr "Nieznany"
 

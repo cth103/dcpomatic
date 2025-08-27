@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-13 23:55+0200\n"
+"POT-Creation-Date: 2025-08-27 11:30+0200\n"
 "PO-Revision-Date: 2018-08-20 19:32+0300\n"
 "Last-Translator: Igor Voytovich <i.voyt@dualvfilms.com>\n"
 "Language-Team: Українська\n"
@@ -507,7 +507,7 @@ msgstr ""
 msgid "Computing digest"
 msgstr "Перевірка цілостності"
 
-#: src/lib/writer.cc:520
+#: src/lib/writer.cc:521
 msgid "Computing digests"
 msgstr "Перевірка цілостності"
 
@@ -1244,7 +1244,7 @@ msgstr "Відсутнє обов'язкове налаштування {}"
 msgid "Monday"
 msgstr "Понеділок"
 
-#: src/lib/writer.cc:772
+#: src/lib/cover_sheet.cc:91
 msgid "Mono"
 msgstr "Моно"
 
@@ -1274,7 +1274,8 @@ msgstr "У папці не знайдено відповідних зображ�
 msgid "Noise reduction"
 msgstr "Придушення шуму"
 
-#: src/lib/writer.cc:740 src/lib/writer.cc:747 src/lib/writer.cc:770
+#: src/lib/cover_sheet.cc:59 src/lib/cover_sheet.cc:66
+#: src/lib/cover_sheet.cc:89
 msgid "None"
 msgstr "Нічого"
 
@@ -1565,7 +1566,7 @@ msgid ""
 "in the content Advanced Settings dialogue box."
 msgstr ""
 
-#: src/lib/writer.cc:774
+#: src/lib/cover_sheet.cc:93
 msgid "Stereo"
 msgstr "Стерео"
 
@@ -1808,7 +1809,8 @@ msgstr "Неочікуваний зміст ZIP-файла"
 msgid "Unexpected image type received by server"
 msgstr "Сервером отриманий неочікуваний тип зображення"
 
-#: src/lib/cross_common.cc:103 src/lib/dcp_text_track.cc:53
+#: src/lib/cover_sheet.cc:137 src/lib/cross_common.cc:103
+#: src/lib/dcp_text_track.cc:53
 #, fuzzy
 msgid "Unknown"
 msgstr "невідомо"

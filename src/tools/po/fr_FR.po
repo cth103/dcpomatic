@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-13 23:55+0200\n"
+"POT-Creation-Date: 2025-08-27 11:30+0200\n"
 "PO-Revision-Date: 2024-12-07 15:17+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
@@ -78,20 +78,21 @@ msgstr "&Édition"
 
 #: src/tools/dcpomatic_batch.cc:90 src/tools/dcpomatic.cc:1367
 #: src/tools/dcpomatic_editor.cc:422 src/tools/dcpomatic_player.cc:650
-#: src/tools/dcpomatic_playlist.cc:609
+#: src/tools/dcpomatic_playlist.cc:609 src/tools/dcpomatic_verifier.cc:191
 msgid "&Exit"
 msgstr "&Quitter"
 
 #: src/tools/dcpomatic_batch.cc:108 src/tools/dcpomatic.cc:1444
 #: src/tools/dcpomatic_editor.cc:434 src/tools/dcpomatic_kdm.cc:346
 #: src/tools/dcpomatic_player.cc:702 src/tools/dcpomatic_playlist.cc:623
+#: src/tools/dcpomatic_verifier.cc:196
 msgid "&File"
 msgstr "&Fichier"
 
 #: src/tools/dcpomatic_batch.cc:113 src/tools/dcpomatic.cc:1449
 #: src/tools/dcpomatic_editor.cc:435 src/tools/dcpomatic_kdm.cc:349
 #: src/tools/dcpomatic_player.cc:709 src/tools/dcpomatic_playlist.cc:612
-#: src/tools/dcpomatic_playlist.cc:626
+#: src/tools/dcpomatic_playlist.cc:626 src/tools/dcpomatic_verifier.cc:200
 msgid "&Help"
 msgstr "&Aide"
 
@@ -123,6 +124,7 @@ msgstr "&Préférences...\tCtrl-P"
 #: src/tools/dcpomatic_batch.cc:92 src/tools/dcpomatic.cc:1369
 #: src/tools/dcpomatic_editor.cc:424 src/tools/dcpomatic_kdm.cc:326
 #: src/tools/dcpomatic_player.cc:652 src/tools/dcpomatic_playlist.cc:615
+#: src/tools/dcpomatic_verifier.cc:195
 msgid "&Quit"
 msgstr "&Quitter"
 
@@ -158,12 +160,13 @@ msgstr "<b>Listes de lecture</b>"
 #: src/tools/dcpomatic_batch.cc:106 src/tools/dcpomatic.cc:1438
 #: src/tools/dcpomatic_editor.cc:431 src/tools/dcpomatic_kdm.cc:339
 #: src/tools/dcpomatic_player.cc:696 src/tools/dcpomatic_playlist.cc:621
+#: src/tools/dcpomatic_verifier.cc:198
 msgid "About"
 msgstr "À propos"
 
 #: src/tools/dcpomatic.cc:1436 src/tools/dcpomatic_editor.cc:429
 #: src/tools/dcpomatic_kdm.cc:337 src/tools/dcpomatic_player.cc:694
-#: src/tools/dcpomatic_playlist.cc:610
+#: src/tools/dcpomatic_playlist.cc:610 src/tools/dcpomatic_verifier.cc:192
 #, c-format
 msgid "About %s"
 msgstr "À propos %s"
@@ -211,7 +214,7 @@ msgstr ""
 #: src/tools/dcpomatic.cc:1823 src/tools/dcpomatic_combiner.cc:301
 #: src/tools/dcpomatic_disk.cc:554 src/tools/dcpomatic_editor.cc:593
 #: src/tools/dcpomatic_kdm.cc:959 src/tools/dcpomatic_player.cc:1431
-#: src/tools/dcpomatic_playlist.cc:730
+#: src/tools/dcpomatic_playlist.cc:730 src/tools/dcpomatic_verifier.cc:361
 #, c-format
 msgid ""
 "An exception occurred: %s (%s)\n"
@@ -222,7 +225,7 @@ msgstr ""
 "\n"
 "%s"
 
-#: src/tools/dcpomatic.cc:1833
+#: src/tools/dcpomatic.cc:1833 src/tools/dcpomatic_verifier.cc:371
 #, c-format
 msgid ""
 "An exception occurred: %s (%s) (%s)\n"
@@ -234,7 +237,7 @@ msgstr ""
 "%s"
 
 #: src/tools/dcpomatic.cc:1844 src/tools/dcpomatic_disk.cc:564
-#: src/tools/dcpomatic_kdm.cc:969
+#: src/tools/dcpomatic_kdm.cc:969 src/tools/dcpomatic_verifier.cc:382
 #, c-format
 msgid ""
 "An exception occurred: %s.\n"
@@ -258,7 +261,7 @@ msgstr "Une exception inconnue s'est produite."
 #: src/tools/dcpomatic_disk.cc:570 src/tools/dcpomatic_editor.cc:609
 #: src/tools/dcpomatic_kdm.cc:975 src/tools/dcpomatic_kdm.cc:984
 #: src/tools/dcpomatic_player.cc:1447 src/tools/dcpomatic_playlist.cc:746
-#: src/tools/dcpomatic_playlist.cc:755
+#: src/tools/dcpomatic_playlist.cc:755 src/tools/dcpomatic_verifier.cc:388
 #, c-format
 msgid "An unknown exception occurred. %s"
 msgstr "Une exception inconnue s'est produite. %s"
@@ -295,12 +298,21 @@ msgstr "Le contenu de la CPL n'est pas crypté."
 msgid "CPL: %s"
 msgstr ""
 
+#: src/tools/dcpomatic_verifier.cc:152
+msgid "Cancel"
+msgstr ""
+
 #: src/tools/dcpomatic.cc:1426 src/tools/dcpomatic_player.cc:688
 msgid "Check for updates"
 msgstr "Rechercher des mises à jour"
 
 #: src/tools/dcpomatic_combiner.cc:68 src/tools/dcpomatic_disk.cc:84
 msgid "Choose a DCP folder"
+msgstr "Choisir un dossier de DCP"
+
+#: src/tools/dcpomatic_verifier.cc:74
+#, fuzzy
+msgid "Choose a folder"
 msgstr "Choisir un dossier de DCP"
 
 #: src/tools/dcpomatic.cc:1954 src/tools/dcpomatic.cc:1973
@@ -508,7 +520,7 @@ msgstr "Créateur"
 msgid "Crop"
 msgstr ""
 
-#: src/tools/dcpomatic_disk.cc:139
+#: src/tools/dcpomatic_disk.cc:139 src/tools/dcpomatic_verifier.cc:128
 msgid "DCP"
 msgstr "DCP"
 
@@ -516,7 +528,7 @@ msgstr "DCP"
 msgid "DCP-o-matic Encode Server"
 msgstr "Serveur d'encodage DCP-o-matic"
 
-#: src/tools/dcpomatic_disk.cc:135
+#: src/tools/dcpomatic_disk.cc:135 src/tools/dcpomatic_verifier.cc:124
 msgid "DCPs"
 msgstr "DCP"
 
@@ -1193,6 +1205,12 @@ msgstr ""
 "le lecteur.  Choisissez le répertoire DCP à l'intérieur du dossier de projet "
 "%s si c'est ce que vous voulez lire."
 
+#: src/tools/dcpomatic_verifier.cc:143
+msgid ""
+"Tick to check details of the picture asset, such as frame sizes and JPEG2000 "
+"bitstream validity.  These checks are quite time-consuming."
+msgstr ""
+
 #: src/tools/dcpomatic_player.cc:689
 msgid "Timing..."
 msgstr "Chronologie..."
@@ -1228,6 +1246,11 @@ msgstr "Extension de fichier non reconnue %s (utilisez .jpg, .jpeg ou .png)"
 msgid "Up"
 msgstr "Haut"
 
+#: src/tools/dcpomatic_verifier.cc:154
+#, fuzzy
+msgid "Verify"
+msgstr "Vérifier le DCP..."
+
 #: src/tools/dcpomatic_player.cc:1018
 #, fuzzy
 msgid "Verify DCP"
@@ -1237,6 +1260,10 @@ msgstr "Vérifier le DCP..."
 msgid "Verify DCP..."
 msgstr "Vérifier le DCP..."
 
+#: src/tools/dcpomatic_verifier.cc:140
+msgid "Verify picture asset details"
+msgstr ""
+
 #: src/tools/dcpomatic.cc:1422
 msgid "Version File (VF)..."
 msgstr "Fichier de version (VF)..."
@@ -1244,6 +1271,11 @@ msgstr "Fichier de version (VF)..."
 #: src/tools/dcpomatic.cc:1419
 msgid "Video waveform..."
 msgstr "Forme d'onde vidéo..."
+
+#: src/tools/dcpomatic_verifier.cc:147
+#, fuzzy
+msgid "Write logs to DCP folders"
+msgstr "Choisir un dossier de DCP"
 
 #: src/tools/dcpomatic_kdm.cc:795
 msgid ""

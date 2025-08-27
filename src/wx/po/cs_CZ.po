@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-13 23:55+0200\n"
+"POT-Creation-Date: 2025-08-27 11:30+0200\n"
 "PO-Revision-Date: 2025-06-11 07:36+0200\n"
 "Last-Translator: Tomáš Begeni <begeni@razdva.cz>\n"
 "Language-Team: DCP-o-matic translators\n"
@@ -997,7 +997,7 @@ msgstr "Obsah nelze přehrát"
 msgid "Could not read DCP (%n)"
 msgstr "Nelze načíst DCP (%n)"
 
-#: src/wx/gl_video_view.cc:139
+#: src/wx/gl_video_view.cc:131
 #, c-format
 msgid "Could not read DCP: %s"
 msgstr "Nelze načíst DCP: %s"

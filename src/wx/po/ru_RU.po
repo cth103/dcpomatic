@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-13 23:55+0200\n"
+"POT-Creation-Date: 2025-08-27 11:30+0200\n"
 "PO-Revision-Date: 2025-06-08 21:02+0300\n"
 "Last-Translator: Mikhail Epshteyn <virus-2006@yandex.ru>\n"
 "Language-Team: Russian\n"
@@ -1000,7 +1000,7 @@ msgstr "Не удалось воспроизвести содержимое"
 msgid "Could not read DCP (%n)"
 msgstr "Не удалось прочитать DCP (%n)"
 
-#: src/wx/gl_video_view.cc:139
+#: src/wx/gl_video_view.cc:131
 #, c-format
 msgid "Could not read DCP: %s"
 msgstr "Не удалось прочитать DCP: %s"

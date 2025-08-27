@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-13 23:55+0200\n"
+"POT-Creation-Date: 2025-08-27 11:30+0200\n"
 "PO-Revision-Date: 2018-08-20 20:35+0300\n"
 "Last-Translator: Igor Voytovich <i.voyt@dualvfilms.com>\n"
 "Language-Team: Ukrainian\n"
@@ -1029,7 +1029,7 @@ msgstr "Не вдалося завантажити KDM."
 msgid "Could not read DCP (%n)"
 msgstr "Не вдалося завантажити KDM."
 
-#: src/wx/gl_video_view.cc:139
+#: src/wx/gl_video_view.cc:131
 #, fuzzy, c-format
 msgid "Could not read DCP: %s"
 msgstr "Не вдалося завантажити KDM."

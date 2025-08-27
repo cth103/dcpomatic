@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-13 23:55+0200\n"
+"POT-Creation-Date: 2025-08-27 11:30+0200\n"
 "PO-Revision-Date: 2024-10-05 17:45+0330\n"
 "Last-Translator: Soleyman Rahmani Aghdam <Soleyman.rahmani@gmail.com>\n"
 "Language-Team: \n"
@@ -997,7 +997,7 @@ msgstr "محتوا پلی نشد"
 msgid "Could not read DCP (%n)"
 msgstr "نمیتوان دی سی پی (%n) را خواند"
 
-#: src/wx/gl_video_view.cc:139
+#: src/wx/gl_video_view.cc:131
 #, c-format
 msgid "Could not read DCP: %s"
 msgstr "نمیتوان این دی سی پی را خواند: %s"

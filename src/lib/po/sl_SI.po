@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-13 23:55+0200\n"
+"POT-Creation-Date: 2025-08-27 11:30+0200\n"
 "PO-Revision-Date: 2024-02-10 16:15+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: \n"
@@ -532,7 +532,7 @@ msgstr "Združi DCP-je"
 msgid "Computing digest"
 msgstr "Računanje povzetka"
 
-#: src/lib/writer.cc:520
+#: src/lib/writer.cc:521
 msgid "Computing digests"
 msgstr "Računanje povzetkov"
 
@@ -1264,7 +1264,7 @@ msgstr "Manjka zahtevana nastavitev {}"
 msgid "Monday"
 msgstr "Ponedeljek"
 
-#: src/lib/writer.cc:772
+#: src/lib/cover_sheet.cc:91
 msgid "Mono"
 msgstr "Mono"
 
@@ -1293,7 +1293,8 @@ msgstr "V mapi ni najdenih veljavnih slikovnih datotek."
 msgid "Noise reduction"
 msgstr "Zmanjšanje šuma"
 
-#: src/lib/writer.cc:740 src/lib/writer.cc:747 src/lib/writer.cc:770
+#: src/lib/cover_sheet.cc:59 src/lib/cover_sheet.cc:66
+#: src/lib/cover_sheet.cc:89
 msgid "None"
 msgstr "Brez"
 
@@ -1602,7 +1603,7 @@ msgid ""
 "in the content Advanced Settings dialogue box."
 msgstr ""
 
-#: src/lib/writer.cc:774
+#: src/lib/cover_sheet.cc:93
 msgid "Stereo"
 msgstr "Stereo"
 
@@ -1866,7 +1867,8 @@ msgstr "Nepričakovana vsebina datoteke ZIP"
 msgid "Unexpected image type received by server"
 msgstr "Nepričakovana vrsta slike, ki jo je prejel strežnik"
 
-#: src/lib/cross_common.cc:103 src/lib/dcp_text_track.cc:53
+#: src/lib/cover_sheet.cc:137 src/lib/cross_common.cc:103
+#: src/lib/dcp_text_track.cc:53
 msgid "Unknown"
 msgstr "Neznano"
 
