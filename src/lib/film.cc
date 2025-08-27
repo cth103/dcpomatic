@@ -697,6 +697,8 @@ Film::read_metadata(optional<boost::filesystem::path> path)
 	auto audio_language = f.optional_string_child("AudioLanguage");
 	if (audio_language) {
 		_audio_language = dcp::LanguageTag(*audio_language);
+	} else {
+		_audio_language = boost::none;
 	}
 
 	/* Read the old ISDCFMetadata tag from 2.14.x metadata */
