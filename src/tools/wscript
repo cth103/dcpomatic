@@ -180,6 +180,7 @@ def pot(bld):
          dcpomatic_player.cc
          dcpomatic_playlist.cc
          dcpomatic_server.cc
+         dcpomatic_verifier.cc
          """
     i18n.pot(os.path.join('src', 'tools'), cc, 'dcpomatic')
 
