@@ -28,6 +28,8 @@
 <listitem><code>--colorspace</code> &#8212; same as --colourspace</listitem>
 <listitem><code>--channel &lt;channel&gt;</code> &#8212; next piece of content should be mapped to audio channel L, R, C, Lfe, Ls, Rs, BsL, BsR, HI, VI</listitem>
 <listitem><code>--gain</code> &#8212; next piece of content should have the given audio gain (in dB)</listitem>
+<listitem><code>--fade-in &lt;seconds&gt;</code> &#8212; next piece of content should have the given fade-in (in seconds)</listitem>
+<listitem><code>--fade-out &lt;seconds&gt;</code> &#8212; next piece of content should have the given fade-out (in seconds)</listitem>
 <listitem><code>--cpl &lt;id&gt;</code> &#8212; CPL ID to use from the next piece of content (which is a DCP)</listitem>
 <listitem><code>--kdm &lt;file&gt;</code> &#8212; KDM for next piece of content</listitem>
 </itemizedlist>

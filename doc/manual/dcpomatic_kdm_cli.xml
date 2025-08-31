@@ -1,23 +1,23 @@
 <para>
 <itemizedlist>
 <listitem><code>-h</code>, <code>--help</code> &#8212; show this help</listitem>
-<listitem><code>-o</code>, <code>--output</code> &#8212; output file or directory</listitem>
-<listitem><code>-K</code>, <code>--filename-format</code> &#8212; filename format for KDMs</listitem>
-<listitem><code>-Z</code>, <code>--container-name-format</code> &#8212; filename format for ZIP containers</listitem>
-<listitem><code>-f</code>, <code>--valid-from</code> &#8212; valid from time (in local time zone of the cinema) (e.g. &#8220;2013-09-28 01:41:51&#8221;) or &#8220;now&#8221;</listitem>
-<listitem><code>-t</code>, <code>--valid-to</code> &#8212; valid to time (in local time zone of the cinema) (e.g. &#8220;2014-09-28 01:41:51&#8221;)</listitem>
-<listitem><code>-d</code>, <code>--valid-duration</code> &#8212; valid duration (e.g. &#8220;1 day&#8221;, &#8220;4 hours&#8221;, &#8220;2 weeks&#8221;)</listitem>
-<listitem><code>-F</code>, <code>--formulation</code> &#8212; modified-transitional-1, multiple-modified-transitional-1, dci-any or dci-specific [default modified-transitional-1]</listitem>
+<listitem><code>-o</code>, <code>--output &lt;path&gt;</code> &#8212; output file or directory</listitem>
+<listitem><code>-K</code>, <code>--filename-format &lt;format&gt;</code> &#8212; filename format for KDMs</listitem>
+<listitem><code>-Z</code>, <code>--container-name-format &lt;format&gt;</code> &#8212; filename format for ZIP containers</listitem>
+<listitem><code>-f</code>, <code>--valid-from &lt;time&gt;</code> &#8212; valid from time (in local time zone of the cinema) (e.g. &#8220;2013-09-28 01:41:51&#8221;) or &#8220;now&#8221;</listitem>
+<listitem><code>-t</code>, <code>--valid-to &lt;time&gt;</code> &#8212; valid to time (in local time zone of the cinema) (e.g. &#8220;2014-09-28T01:41:51&#8221;)</listitem>
+<listitem><code>-d</code>, <code>--valid-duration &lt;duration&gt;</code> &#8212; valid duration (e.g. &#8220;1 day&#8221;, &#8220;4 hours&#8221;, &#8220;2 weeks&#8221;)</listitem>
+<listitem><code>-F</code>, <code>--formulation &lt;formulation&gt;</code> &#8212; modified-transitional-1, multiple-modified-transitional-1, dci-any or dci-specific [default modified-transitional-1]</listitem>
 <listitem><code>-p</code>, <code>--disable-forensic-marking-picture</code> &#8212; disable forensic marking of pictures essences</listitem>
 <listitem><code>-a</code>, <code>--disable-forensic-marking-audio</code> &#8212; disable forensic marking of audio essences (optionally above a given channel, e.g 12)</listitem>
 <listitem><code>-e</code>, <code>--email</code> &#8212; email KDMs to cinemas</listitem>
 <listitem><code>-z</code>, <code>--zip</code> &#8212; ZIP each cinema's KDMs into its own file</listitem>
 <listitem><code>-v</code>, <code>--verbose</code> &#8212; be verbose</listitem>
-<listitem><code>-c</code>, <code>--cinema</code> &#8212; cinema name (when using -C) or name/email (to filter cinemas)</listitem>
-<listitem><code>-S</code>, <code>--screen</code> &#8212; screen name (when using -C) or screen name (to filter screens when using -c)</listitem>
-<listitem><code>-C</code>, <code>--certificate</code> &#8212; file containing projector certificate</listitem>
-<listitem><code>-T</code>, <code>--trusted-device</code> &#8212; file containing a trusted device's certificate</listitem>
-<listitem><code>--list-cinemas</code> &#8212; list known cinemas from the DCP-o-matic settings</listitem>
-<listitem><code>--list-dkdm-cpls</code> &#8212; list CPLs for which DCP-o-matic has DKDMs</listitem>
+<listitem><code>-c</code>, <code>--cinema &lt;name|email&gt;</code> &#8212; cinema name (when using -C) or name/email (to filter cinemas)</listitem>
+<listitem><code>-S</code>, <code>--screen &lt;name&gt;</code> &#8212; screen name (when using -C) or screen name (to filter screens when using -c)</listitem>
+<listitem><code>-C</code>, <code>--projector-certificate &lt;file&gt;</code> &#8212; file containing projector certificate</listitem>
+<listitem><code>-T</code>, <code>--trusted-device-certificate &lt;file&gt;</code> &#8212; file containing a trusted device's certificate</listitem>
+<listitem><code>--decryption-key &lt;file&gt;</code> &#8212; file containing the private key which can decrypt the given DKDM</listitem>
+<listitem><code>--cinemas-file &lt;file&gt;</code> &#8212; use the given file as a list of cinemas instead of the current configuration</listitem>
 </itemizedlist>
 </para>
