@@ -24,6 +24,7 @@
 #include "dkdm_recipient.h"
 #include "film.h"
 #include "kdm_with_metadata.h"
+#include <boost/date_time/posix_time/posix_time.hpp>
 
 
 using std::make_shared;
@@ -36,7 +37,9 @@ KDMWithMetadataPtr
 kdm_for_dkdm_recipient (
 	shared_ptr<const Film> film,
 	boost::filesystem::path cpl,
-	DKDMRecipient const& recipient
+	DKDMRecipient const& recipient,
+	boost::posix_time::ptime valid_from,
+	boost::posix_time::ptime valid_to
 	)
 {
 	if (!recipient.recipient()) {
@@ -48,17 +51,17 @@ kdm_for_dkdm_recipient (
 		throw InvalidSignerError();
 	}
 
-	auto start = signer->leaf().not_before();
-	start.add_days(1);
-	auto end = signer->leaf().not_after();
-	end.add_days(-1);
+	auto const valid_from_local = dcp::LocalTime(valid_from);
+	auto const valid_to_local = dcp::LocalTime(valid_to);
 
-	auto const decrypted_kdm = film->make_kdm(cpl, start, end);
+	auto const decrypted_kdm = film->make_kdm(cpl, valid_from_local, valid_to_local);
 	auto const kdm = decrypted_kdm.encrypt(signer, recipient.recipient().get(), {}, dcp::Formulation::MODIFIED_TRANSITIONAL_1, true, 0);
 
 	dcp::NameFormat::Map name_values;
 	name_values['f'] = kdm.content_title_text();
 	name_values['r'] = recipient.name;
+	name_values['b'] = valid_from_local.date() + " " + valid_from_local.time_of_day(true, false);
+	name_values['e'] = valid_to_local.date() + " " + valid_to_local.time_of_day(true, false);
 	name_values['i'] = kdm.cpl_id();
 
 	return make_shared<KDMWithMetadata>(name_values, CinemaID(0), recipient.emails, kdm);
