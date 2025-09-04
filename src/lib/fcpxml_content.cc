@@ -45,8 +45,9 @@ FCPXMLContent::FCPXMLContent(cxml::ConstNodePtr node, optional<boost::filesystem
 	: Content(node, film_directory)
 {
 	text = TextContent::from_xml(this, node, version, notes);
-}
 
+	_length = dcpomatic::ContentTime(node->number_child<dcpomatic::ContentTime::Type>("Length"));
+}
 
 
 void
