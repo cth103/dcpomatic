@@ -33,7 +33,7 @@ LIBDCP_ENABLE_WARNINGS
 class SpinCtrl : public wxSpinCtrl
 {
 public:
-	SpinCtrl(wxWindow* parent);
+	SpinCtrl(wxWindow* parent, int min=0, int max=100);
 };
 
 

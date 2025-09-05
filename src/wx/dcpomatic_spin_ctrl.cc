@@ -34,8 +34,8 @@ using namespace boost::placeholders;
 #endif
 
 
-SpinCtrl::SpinCtrl(wxWindow* parent)
-	: wxSpinCtrl(parent, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(DCPOMATIC_SPIN_CTRL_WIDTH, -1), wxSP_ARROW_KEYS | wxTE_PROCESS_ENTER)
+SpinCtrl::SpinCtrl(wxWindow* parent, int min, int max)
+	: wxSpinCtrl(parent, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(DCPOMATIC_SPIN_CTRL_WIDTH, -1), wxSP_ARROW_KEYS | wxTE_PROCESS_ENTER, min, max)
 {
 	auto enter = [](wxCommandEvent& ev) {
 		dynamic_cast<wxWindow*>(ev.GetEventObject())->Navigate();
