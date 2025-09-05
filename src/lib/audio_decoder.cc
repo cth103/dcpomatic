@@ -49,7 +49,6 @@ AudioDecoder::AudioDecoder (Decoder* parent, shared_ptr<const AudioContent> cont
 }
 
 
-/** @param time_already_delayed true if the delay should not be added to time */
 void
 AudioDecoder::emit(shared_ptr<const Film> film, AudioStreamPtr stream, shared_ptr<const AudioBuffers> data, ContentTime time, bool flushing)
 {
