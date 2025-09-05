@@ -28,6 +28,7 @@ LIBDCP_DISABLE_WARNINGS
 #include <wx/spinctrl.h>
 #include <wx/wx.h>
 LIBDCP_ENABLE_WARNINGS
+#include <boost/bind.hpp>
 
 
 class SpinCtrl : public wxSpinCtrl
@@ -36,6 +37,11 @@ public:
 	SpinCtrl(wxWindow* parent, int min=0, int max=100);
 
 	int get() const;
+
+	template <typename... Args>
+	void bind(Args... args) {
+		Bind(wxEVT_SPINCTRL, boost::bind(std::forward<Args>(args)...));
+	}
 };
 
 
