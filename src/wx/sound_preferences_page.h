@@ -28,6 +28,7 @@ class wxStaticText;
 class AudioMappingView;
 class Button;
 class CheckBox;
+class SpinCtrl;
 
 
 namespace dcpomatic {
@@ -37,7 +38,12 @@ namespace preferences {
 class SoundPage : public Page
 {
 public:
-	SoundPage(wxSize panel_size, int border);
+	enum class Purpose {
+		MAIN,
+		PLAYER,
+	};
+
+	SoundPage(wxSize panel_size, int border, Purpose purpose);
 
 	wxString GetName() const override;
 
@@ -51,12 +57,15 @@ private:
         boost::optional<std::string> get_sound_output();
 	void sound_changed();
 	void sound_output_changed();
+	void delay_changed();
 	void setup_sensitivity();
 	void map_changed(AudioMapping m);
 	void reset_to_default();
 
+	Purpose _purpose;
 	CheckBox* _sound;
 	wxChoice* _sound_output;
+	SpinCtrl* _delay = nullptr;
 	wxStaticText* _sound_output_details;
 	AudioMappingView* _map;
 	Button* _reset_to_default;

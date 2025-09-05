@@ -115,6 +115,7 @@ Config::set_defaults()
 	_default_video_bit_rate[VideoEncoding::JPEG2000] = 150000000;
 	_default_video_bit_rate[VideoEncoding::MPEG2] = 5000000;
 	_default_audio_delay = 0;
+	_player_audio_delay = 0;
 	_default_interop = false;
 	_default_metadata.clear();
 	_upload_after_make_dcp = false;
@@ -385,6 +386,7 @@ try
 	}
 	_default_video_bit_rate[VideoEncoding::MPEG2] = f.optional_number_child<int64_t>("DefaultMPEG2VideoBitRate").get_value_or(5000000);
 	_default_audio_delay = f.optional_number_child<int>("DefaultAudioDelay").get_value_or(0);
+	_player_audio_delay = f.optional_number_child<int>("PlayerAudioDelay").get_value_or(0);
 	_default_interop = f.optional_bool_child("DefaultInterop").get_value_or(false);
 
 	try {
@@ -812,6 +814,8 @@ Config::write_config() const
 	cxml::add_text_child(root, "DefaultStillLength", fmt::to_string(_default_still_length));
 	/* [XML] DefaultAudioDelay Default delay to apply to audio (positive moves audio later) in milliseconds. */
 	cxml::add_text_child(root, "DefaultAudioDelay", fmt::to_string(_default_audio_delay));
+	/* [XML] PlayerAudioDelay Delay to apply to audio in the player (positive moves audio later) in milliseconds. */
+	cxml::add_text_child(root, "PlayerAudioDelay", fmt::to_string(_player_audio_delay));
 	if (_default_audio_language) {
 		/* [XML] DefaultAudioLanguage Default audio language to use for new films */
 		cxml::add_text_child(root, "DefaultAudioLanguage", _default_audio_language->as_string());

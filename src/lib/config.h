@@ -254,6 +254,10 @@ public:
 		return _default_audio_delay;
 	}
 
+	int player_audio_delay() const {
+		return _player_audio_delay;
+	}
+
 	bool default_interop() const {
 		return _default_interop;
 	}
@@ -819,6 +823,10 @@ public:
 
 	void set_default_audio_delay(int d) {
 		maybe_set(_default_audio_delay, d);
+	}
+
+	void set_player_audio_delay(int d) {
+		maybe_set(_player_audio_delay, d);
 	}
 
 	void set_default_audio_language(dcp::LanguageTag tag) {
@@ -1400,7 +1408,12 @@ private:
 	std::string _dcp_product_version;
 	std::string _dcp_j2k_comment;
 	EnumIndexedVector<int64_t, VideoEncoding> _default_video_bit_rate;
+	/** Default audio delay in ms */
 	int _default_audio_delay;
+	/** Delay for audio (with respect to picture) in the player, in ms.
+	 *  Can be negative to advance audio.
+	 */
+	int _player_audio_delay;
 	bool _default_interop;
 	boost::optional<dcp::LanguageTag> _default_audio_language;
 	boost::optional<dcp::LanguageTag::RegionSubtag> _default_territory;

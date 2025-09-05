@@ -433,7 +433,7 @@ create_player_config_dialog()
 #endif
 
 	e->AddPage(new PlayerGeneralPage(wxSize(-1, 500), border));
-	e->AddPage(new preferences::SoundPage(ps, border));
+	e->AddPage(new preferences::SoundPage(ps, border, preferences::SoundPage::Purpose::PLAYER));
 	e->AddPage(new preferences::LocationsPage(ps, border));
 	e->AddPage(new preferences::KeysPage(ps, border));
 	e->AddPage(new PlayerAdvancedPage(ps, border));

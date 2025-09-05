@@ -23,6 +23,7 @@
 #include "audio_mapping_view.h"
 #include "check_box.h"
 #include "dcpomatic_button.h"
+#include "dcpomatic_spin_ctrl.h"
 #include "sound_preferences_page.h"
 #include "wx_util.h"
 #include "lib/constants.h"
@@ -41,8 +42,9 @@ using namespace boost::placeholders;
 using namespace dcpomatic::preferences;
 
 
-SoundPage::SoundPage(wxSize panel_size, int border)
+SoundPage::SoundPage(wxSize panel_size, int border, Purpose purpose)
 	: Page(panel_size, border)
+	, _purpose(purpose)
 {
 
 }
@@ -81,6 +83,16 @@ SoundPage::setup()
 	table->Add(s, wxGBPosition(r, 1));
 	++r;
 
+	if (_purpose == Purpose::PLAYER) {
+		add_label_to_sizer(table, _panel, _("Delay audio by"), true, wxGBPosition(r, 0));
+		auto s = new wxBoxSizer(wxHORIZONTAL);
+		_delay = new SpinCtrl(_panel, -1000, 1000);
+		s->Add(_delay, 0);
+		s->Add(new wxStaticText(_panel, wxID_ANY, _("ms")), 1, wxALIGN_CENTER_VERTICAL | wxLEFT, DCPOMATIC_SIZER_X_GAP);
+		table->Add(s, wxGBPosition(r, 1));
+		++r;
+	}
+
 	add_label_to_sizer(table, _panel, _("Mapping"), true, wxGBPosition(r, 0));
 	_map = new AudioMappingView(_panel, _("DCP"), _("DCP"), _("Output"), _("output"));
 	table->Add(_map, wxGBPosition(r, 1), wxDefaultSpan, wxEXPAND);
@@ -101,6 +113,9 @@ SoundPage::setup()
 
 	_sound->bind(&SoundPage::sound_changed, this);
 	_sound_output->Bind(wxEVT_CHOICE, bind(&SoundPage::sound_output_changed, this));
+	if (_delay) {
+		_delay->bind(&SoundPage::delay_changed, this);
+	}
 	_map->Changed.connect(bind(&SoundPage::map_changed, this, _1));
 	_reset_to_default->Bind(wxEVT_BUTTON, bind(&SoundPage::reset_to_default, this));
 }
@@ -135,6 +150,14 @@ SoundPage::sound_output_changed()
 		Config::instance()->set_sound_output(*so);
 	}
 }
+
+
+void
+SoundPage::delay_changed()
+{
+	Config::instance()->set_player_audio_delay(_delay->get());
+}
+
 
 void
 SoundPage::config_changed()

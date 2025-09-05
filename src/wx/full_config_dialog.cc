@@ -1487,7 +1487,7 @@ create_full_config_dialog()
 #endif
 
 	e->AddPage(new FullGeneralPage(ps, border));
-	e->AddPage(new preferences::SoundPage(ps, border));
+	e->AddPage(new preferences::SoundPage(ps, border, preferences::SoundPage::Purpose::MAIN));
 	e->AddPage(new DefaultsPage(ps, border));
 	e->AddPage(new EncodingServersPage(ps, border));
 #ifdef DCPOMATIC_GROK
