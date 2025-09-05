@@ -38,6 +38,7 @@
 #include "wx/wx_signal_manager.h"
 #include "wx/wx_util.h"
 #include "wx/wx_variant.h"
+#include "lib/audio_content.h"
 #include "lib/config.h"
 #include "lib/constants.h"
 #include "lib/cross.h"
@@ -529,6 +530,8 @@ public:
 			}
 		}
 
+		set_audio_delay_from_config();
+
 		auto old = _cpl_menu->GetMenuItems();
 		for (auto const& i: old) {
 			_cpl_menu->Remove (i);
@@ -575,6 +578,19 @@ public:
 		set_menu_sensitivity();
 
 		_controls->set_film (_film);
+	}
+
+	void set_audio_delay_from_config()
+	{
+		if (!_film) {
+			return;
+		}
+
+		for (auto i: _film->content()) {
+			if (i->audio) {
+				i->audio->set_delay(Config::instance()->player_audio_delay());
+			}
+		}
 	}
 
 	void load_stress_script (boost::filesystem::path path)
@@ -1190,6 +1206,8 @@ private:
 				dcpomatic_log = make_shared<NullLog>();
 			}
 		}
+
+		set_audio_delay_from_config();
 	}
 
 	void set_menu_sensitivity ()
