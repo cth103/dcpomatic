@@ -29,15 +29,15 @@ AutoCropDialog::AutoCropDialog(wxWindow* parent, Crop crop)
 	: TableDialog(parent, _("Auto crop"), 2, 1, true)
 {
 	add(_("Left"), true);
-	_left = add(new SpinCtrl(this, DCPOMATIC_SPIN_CTRL_WIDTH));
+	_left = add(new SpinCtrl(this));
 	add(_("Right"), true);
-	_right = add(new SpinCtrl(this, DCPOMATIC_SPIN_CTRL_WIDTH));
+	_right = add(new SpinCtrl(this));
 	add(_("Top"), true);
-	_top = add(new SpinCtrl(this, DCPOMATIC_SPIN_CTRL_WIDTH));
+	_top = add(new SpinCtrl(this));
 	add(_("Bottom"), true);
-	_bottom = add(new SpinCtrl(this, DCPOMATIC_SPIN_CTRL_WIDTH));
+	_bottom = add(new SpinCtrl(this));
 	add(_("Threshold"), true);
-	_threshold = add(new SpinCtrl(this, DCPOMATIC_SPIN_CTRL_WIDTH));
+	_threshold = add(new SpinCtrl(this));
 
 	_left->SetRange(0, 4096);
 	_right->SetRange(0, 4096);

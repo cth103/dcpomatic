@@ -87,22 +87,22 @@ TextPanel::create ()
 
 	_offset_label = create_label (this, _("Offset"), true);
 	_x_offset_label = create_label (this, _("X"), true);
-	_x_offset = new SpinCtrl (this, DCPOMATIC_SPIN_CTRL_WIDTH);
+	_x_offset = new SpinCtrl(this);
 	_x_offset_pc_label = new StaticText (this, _("%"));
 	_y_offset_label = create_label (this, _("Y"), true);
-	_y_offset = new SpinCtrl (this, DCPOMATIC_SPIN_CTRL_WIDTH);
+	_y_offset = new SpinCtrl(this);
 	_y_offset_pc_label = new StaticText (this, _("%"));
 
 	_scale_label = create_label (this, _("Scale"), true);
 	_x_scale_label = create_label (this, _("X"), true);
-	_x_scale = new SpinCtrl (this, DCPOMATIC_SPIN_CTRL_WIDTH);
+	_x_scale = new SpinCtrl(this);
 	_x_scale_pc_label = new StaticText (this, _("%"));
 	_y_scale_label = create_label (this, S_("Coord|Y"), true);
-	_y_scale = new SpinCtrl (this, DCPOMATIC_SPIN_CTRL_WIDTH);
+	_y_scale = new SpinCtrl(this);
 	_y_scale_pc_label = new StaticText (this, _("%"));
 
 	_line_spacing_label = create_label (this, _("Line spacing"), true);
-	_line_spacing = new SpinCtrl (this, DCPOMATIC_SPIN_CTRL_WIDTH);
+	_line_spacing = new SpinCtrl(this);
 	_line_spacing_pc_label = new StaticText (this, _("%"));
 
 	_stream_label = create_label (this, _("Stream"), true);

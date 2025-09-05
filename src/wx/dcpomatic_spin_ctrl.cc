@@ -20,6 +20,7 @@
 
 
 #include "dcpomatic_spin_ctrl.h"
+#include "wx_util.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/wx.h>
@@ -33,12 +34,12 @@ using namespace boost::placeholders;
 #endif
 
 
-SpinCtrl::SpinCtrl (wxWindow* parent, int width)
-	: wxSpinCtrl (parent, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(width, -1), wxSP_ARROW_KEYS | wxTE_PROCESS_ENTER)
+SpinCtrl::SpinCtrl(wxWindow* parent)
+	: wxSpinCtrl(parent, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(DCPOMATIC_SPIN_CTRL_WIDTH, -1), wxSP_ARROW_KEYS | wxTE_PROCESS_ENTER)
 {
 	auto enter = [](wxCommandEvent& ev) {
 		dynamic_cast<wxWindow*>(ev.GetEventObject())->Navigate();
 	};
-	Bind (wxEVT_TEXT_ENTER, boost::bind<void>(enter, _1));
+	Bind(wxEVT_TEXT_ENTER, boost::bind<void>(enter, _1));
 }
 

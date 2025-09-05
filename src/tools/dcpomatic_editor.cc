@@ -87,12 +87,12 @@ public:
 		++r;
 
 		add_label_to_sizer(sizer, this, _("Entry point"), true, wxGBPosition(r, 0));
-		_entry_point = new SpinCtrl(this, DCPOMATIC_SPIN_CTRL_WIDTH);
+		_entry_point = new SpinCtrl(this);
 		sizer->Add(_entry_point, wxGBPosition(r, 1), wxDefaultSpan);
 		++r;
 
 		add_label_to_sizer(sizer, this, _("Duration"), true, wxGBPosition(r, 0));
-		_duration = new SpinCtrl(this, DCPOMATIC_SPIN_CTRL_WIDTH);
+		_duration = new SpinCtrl(this);
 		sizer->Add(_duration, wxGBPosition(r, 1), wxDefaultSpan);
 		++r;
 

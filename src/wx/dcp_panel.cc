@@ -820,13 +820,13 @@ DCPPanel::make_video_panel()
 
 	_frame_rate_label = create_label(panel, _("Frame Rate"), true);
 	_frame_rate_choice = new Choice(panel);
-	_frame_rate_spin = new SpinCtrl(panel, DCPOMATIC_SPIN_CTRL_WIDTH);
+	_frame_rate_spin = new SpinCtrl(panel);
 	_best_frame_rate = new Button(panel, _("Use best"));
 
 	_three_d = new CheckBox(panel, _("3D"));
 
 	_video_bit_rate_label = create_label(panel, _("Video bit rate\nfor newly-encoded data"), true);
-	_video_bit_rate = new SpinCtrl(panel, DCPOMATIC_SPIN_CTRL_WIDTH);
+	_video_bit_rate = new SpinCtrl(panel);
 	_mbits_label = create_label(panel, _("Mbit/s"), false);
 
 	_reencode_j2k = new CheckBox(panel, _("Re-encode JPEG2000 data from input"));

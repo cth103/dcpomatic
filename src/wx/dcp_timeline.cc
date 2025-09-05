@@ -301,7 +301,7 @@ DCPTimeline::setup_reel_settings()
 	++r;
 
 	add_label_to_sizer(sizer, _reel_settings, _("Maximum reel size"), true, wxGBPosition(r, 0));
-	_maximum_reel_size = new SpinCtrl(_reel_settings, DCPOMATIC_SPIN_CTRL_WIDTH);
+	_maximum_reel_size = new SpinCtrl(_reel_settings);
 	_maximum_reel_size->SetRange(1, 1000);
 	{
 		auto s = new wxBoxSizer(wxHORIZONTAL);
