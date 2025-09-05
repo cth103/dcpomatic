@@ -34,6 +34,8 @@ class SpinCtrl : public wxSpinCtrl
 {
 public:
 	SpinCtrl(wxWindow* parent, int min=0, int max=100);
+
+	int get() const;
 };
 
 
