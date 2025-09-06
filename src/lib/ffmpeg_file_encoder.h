@@ -57,7 +57,7 @@ enum class ExportFormat
 class FFmpegFileEncoder
 {
 public:
-	FFmpegFileEncoder (
+	FFmpegFileEncoder(
 		dcp::Size video_frame_size,
 		int video_frame_rate,
 		int audio_frame_rate,
@@ -68,21 +68,21 @@ public:
 		boost::filesystem::path output
 		);
 
-	~FFmpegFileEncoder ();
+	~FFmpegFileEncoder();
 
-	void video (std::shared_ptr<PlayerVideo>, dcpomatic::DCPTime);
-	void audio (std::shared_ptr<AudioBuffers>);
-	void subtitle (PlayerText, dcpomatic::DCPTimePeriod);
+	void video(std::shared_ptr<PlayerVideo>, dcpomatic::DCPTime);
+	void audio(std::shared_ptr<AudioBuffers>);
+	void subtitle(PlayerText, dcpomatic::DCPTimePeriod);
 
-	void flush ();
+	void flush();
 
-	static AVPixelFormat pixel_format (ExportFormat format);
+	static AVPixelFormat pixel_format(ExportFormat format);
 
 private:
-	void setup_video ();
-	void setup_audio ();
+	void setup_video();
+	void setup_audio();
 
-	void audio_frame (int size);
+	void audio_frame(int size);
 
 	AVCodec const * _video_codec = nullptr;
 	AVCodecContext* _video_codec_context = nullptr;
