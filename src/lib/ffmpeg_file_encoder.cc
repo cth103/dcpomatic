@@ -26,6 +26,7 @@
 #include "image.h"
 #include "job.h"
 #include "log.h"
+#include "maths_util.h"
 #include "player.h"
 #include "player_video.h"
 extern "C" {
@@ -151,7 +152,7 @@ public:
 			int16_t* q = reinterpret_cast<int16_t*>(samples);
 			for (int i = 0; i < size; ++i) {
 				for (int j = 0; j < channels; ++j) {
-					*q++ = data[j + channel_offset][i] * 32767;
+					*q++ = clamp(std::lround(data[j + channel_offset][i] * 32767), -32768L, 32767L);
 				}
 			}
 			break;
@@ -161,7 +162,7 @@ public:
 			int32_t* q = reinterpret_cast<int32_t*>(samples);
 			for (int i = 0; i < size; ++i) {
 				for (int j = 0; j < channels; ++j) {
-					*q++ = data[j + channel_offset][i] * 2147483647;
+					*q++ = clamp(std::llround(data[j + channel_offset][i] * 2147483647.0), -2147483648LL, 2147483647LL);
 				}
 			}
 			break;

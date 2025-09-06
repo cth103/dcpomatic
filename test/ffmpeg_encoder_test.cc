@@ -538,3 +538,27 @@ BOOST_AUTO_TEST_CASE(ffmpeg_encoder_missing_frame_at_end)
 	BOOST_CHECK_EQUAL(nb_read_frames, 26);
 }
 
+
+BOOST_AUTO_TEST_CASE(test_ffmpeg_encoder_with_clipping_dcp_audio)
+{
+	string const name = "test_ffmpeg_encoder_with_clipping_dcp_audio";
+	auto content = content_factory("test/data/sine_16_48_440_10.wav");
+	auto film = new_test_film(name + "_in", content);
+	content[0]->audio->set_gain(0.5);
+
+	make_and_verify_dcp(
+		film,
+		{ dcp::VerificationNote::Code::MISSING_CPL_METADATA }
+	);
+
+	auto dcp = make_shared<DCPContent>(film->dir(film->dcp_name()));
+	auto film2 = new_test_film(name + "_out", { dcp });
+
+	auto job = make_shared<TranscodeJob>(film, TranscodeJob::ChangedBehaviour::IGNORE);
+	auto const out = boost::filesystem::path("build/test") / (name + "_out.mov");
+	FFmpegFilmEncoder encoder(film, job, out, ExportFormat::PRORES_HQ, false, true, false, 23);
+	encoder.go();
+
+	check_ffmpeg(out, boost::filesystem::path("test/data") / (name + ".mov"), 0);
+}
+
