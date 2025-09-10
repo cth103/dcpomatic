@@ -257,6 +257,12 @@ Job::run_wrapper()
 		set_progress(1);
 		set_state(FINISHED_ERROR);
 
+	} catch (DiskFullError& e) {
+
+		set_error(e.what());
+		set_progress(1);
+		set_state(FINISHED_ERROR);
+
 	} catch (std::exception& e) {
 
 		set_error(
