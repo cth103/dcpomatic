@@ -45,56 +45,56 @@ class Film;
 class Job : public std::enable_shared_from_this<Job>, public Signaller
 {
 public:
-	explicit Job (std::shared_ptr<const Film> film);
-	virtual ~Job ();
+	explicit Job(std::shared_ptr<const Film> film);
+	virtual ~Job();
 
-	Job (Job const&) = delete;
-	Job& operator= (Job const&) = delete;
+	Job(Job const&) = delete;
+	Job& operator=(Job const&) = delete;
 
 	/** @return user-readable name of this job */
-	virtual std::string name () const = 0;
-	virtual std::string json_name () const = 0;
+	virtual std::string name() const = 0;
+	virtual std::string json_name() const = 0;
 	/** Run this job in the current thread. */
-	virtual void run () = 0;
+	virtual void run() = 0;
 	/** @return true if it should be possible to notify when this job finishes */
-	virtual bool enable_notify () const {
+	virtual bool enable_notify() const {
 		return false;
 	}
 
-	void start ();
+	void start();
 	virtual void pause() {}
-	bool pause_by_user ();
-	void pause_by_priority ();
-	virtual void resume ();
-	void cancel ();
+	bool pause_by_user();
+	void pause_by_priority();
+	virtual void resume();
+	void cancel();
 
-	bool is_new () const;
-	bool running () const;
-	bool finished () const;
-	bool finished_ok () const;
-	bool finished_in_error () const;
-	bool finished_cancelled () const;
-	bool paused_by_user () const;
-	bool paused_by_priority () const;
+	bool is_new() const;
+	bool running() const;
+	bool finished() const;
+	bool finished_ok() const;
+	bool finished_in_error() const;
+	bool finished_cancelled() const;
+	bool paused_by_user() const;
+	bool paused_by_priority() const;
 
-	std::string error_summary () const;
-	std::string error_details () const;
+	std::string error_summary() const;
+	std::string error_details() const;
 
-	boost::optional<std::string> message () const;
+	boost::optional<std::string> message() const;
 
-	virtual std::string status () const;
-	std::string json_status () const;
-	std::string sub_name () const {
+	virtual std::string status() const;
+	std::string json_status() const;
+	std::string sub_name() const {
 		return _sub_name;
 	}
 
-	void set_progress_unknown ();
-	void set_progress (float, bool force = false);
-	void sub (std::string);
-	boost::optional<float> progress () const;
-	boost::optional<float> seconds_since_last_progress_update () const;
+	void set_progress_unknown();
+	void set_progress(float, bool force = false);
+	void sub(std::string);
+	boost::optional<float> progress() const;
+	boost::optional<float> seconds_since_last_progress_update() const;
 
-	std::shared_ptr<const Film> film () const {
+	std::shared_ptr<const Film> film() const {
 		return _film;
 	}
 
@@ -116,7 +116,7 @@ public:
 
 protected:
 
-	virtual int remaining_time () const;
+	virtual int remaining_time() const;
 
 	/** Description of a job's state */
 	enum State {
@@ -130,12 +130,12 @@ protected:
 	};
 
 	Result state_to_result(State state) const;
-	void set_state (State);
-	void set_error (std::string s, std::string d = "");
-	void set_message (std::string m);
-	int elapsed_sub_time () const;
-	void check_for_interruption_or_pause ();
-	void stop_thread ();
+	void set_state(State);
+	void set_error(std::string s, std::string d = "");
+	void set_message(std::string m);
+	int elapsed_sub_time() const;
+	void check_for_interruption_or_pause();
+	void stop_thread();
 
 	std::shared_ptr<const Film> _film;
 
@@ -144,8 +144,8 @@ protected:
 
 private:
 
-	void run_wrapper ();
-	void set_progress_common (boost::optional<float> p);
+	void run_wrapper();
+	void set_progress_common(boost::optional<float> p);
 
 	boost::thread _thread;
 

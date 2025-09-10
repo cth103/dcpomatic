@@ -54,61 +54,61 @@ using namespace dcpomatic;
 
 
 /** @param film Associated film, or 0 */
-Job::Job (shared_ptr<const Film> film)
-	: _film (film)
-	, _state (NEW)
-	, _sub_start_time (0)
-	, _progress (0)
+Job::Job(shared_ptr<const Film> film)
+	: _film(film)
+	, _state(NEW)
+	, _sub_start_time(0)
+	, _progress(0)
 	, _rate_limit_progress(true)
 {
 
 }
 
 
-Job::~Job ()
+Job::~Job()
 {
 #ifdef DCPOMATIC_DEBUG
 	/* Any subclass should have called stop_thread in its destructor */
-	assert (!_thread.joinable());
+	assert(!_thread.joinable());
 #endif
 }
 
 
 void
-Job::stop_thread ()
+Job::stop_thread()
 {
 	boost::this_thread::disable_interruption dis;
 
-	_thread.interrupt ();
+	_thread.interrupt();
 	try {
-		_thread.join ();
+		_thread.join();
 	} catch (...) {}
 }
 
 
 /** Start the job in a separate thread, returning immediately */
 void
-Job::start ()
+Job::start()
 {
-	set_state (RUNNING);
-	_start_time = time (0);
-	_sub_start_time = time (0);
-	_thread = boost::thread (boost::bind(&Job::run_wrapper, this));
+	set_state(RUNNING);
+	_start_time = time(0);
+	_sub_start_time = time(0);
+	_thread = boost::thread(boost::bind(&Job::run_wrapper, this));
 #ifdef DCPOMATIC_LINUX
-	pthread_setname_np (_thread.native_handle(), "job-wrapper");
+	pthread_setname_np(_thread.native_handle(), "job-wrapper");
 #endif
 }
 
 
 /** A wrapper for the ::run() method to catch exceptions */
 void
-Job::run_wrapper ()
+Job::run_wrapper()
 {
-	start_of_thread (fmt::format("Job-{}", json_name()));
+	start_of_thread(fmt::format("Job-{}", json_name()));
 
 	try {
 
-		run ();
+		run();
 
 	} catch (dcp::FileError& e) {
 
@@ -116,7 +116,7 @@ Job::run_wrapper ()
 
 		try {
 			auto const s = dcp::filesystem::space(e.filename());
-			if (s.available < pow (1024, 3)) {
+			if (s.available < pow(1024, 3)) {
 				m += N_("\n\n");
 				m += _("The drive that the film is stored on is low in disc space.  Free some more space and try again.");
 			}
@@ -124,9 +124,9 @@ Job::run_wrapper ()
 
 		}
 
-		set_error (e.what(), m);
-		set_progress (1);
-		set_state (FINISHED_ERROR);
+		set_error(e.what(), m);
+		set_progress(1);
+		set_state(FINISHED_ERROR);
 
 	} catch (dcp::StartCompressionError& e) {
 
@@ -135,7 +135,7 @@ Job::run_wrapper ()
 #ifdef DCPOMATIC_WINDOWS
 #if (__GNUC__ && !__x86_64__)
 		/* 32-bit */
-		set_error (
+		set_error(
 			_("Failed to encode the DCP."),
 			fmt::format(
 				_("This error has probably occurred because you are running the 32-bit version of {} and "
@@ -149,7 +149,7 @@ Job::run_wrapper ()
 #else
 		/* 64-bit */
 		if (running_32_on_64()) {
-			set_error (
+			set_error(
 				_("Failed to encode the DCP."),
 				fmt::format(
 					_("This error has probably occurred because you are running the 32-bit version of {}.  "
@@ -164,18 +164,18 @@ Job::run_wrapper ()
 #endif
 
 		if (!done) {
-			set_error (
-				e.what (),
+			set_error(
+				e.what(),
 				fmt::format(_("It is not known what caused this error.  {}"), report_problem())
 				);
 		}
 
-		set_progress (1);
-		set_state (FINISHED_ERROR);
+		set_progress(1);
+		set_state(FINISHED_ERROR);
 
 	} catch (OpenFileError& e) {
 
-		set_error (
+		set_error(
 			fmt::format(_("Could not open {}"), e.file().string()),
 			fmt::format(_("{} could not open the file {} ({}).  Perhaps it does not exist or is in an unexpected format."),
 				variant::dcpomatic(),
@@ -184,14 +184,14 @@ Job::run_wrapper ()
 				)
 			);
 
-		set_progress (1);
-		set_state (FINISHED_ERROR);
+		set_progress(1);
+		set_state(FINISHED_ERROR);
 
 	} catch (boost::filesystem::filesystem_error& e) {
 
 		if (e.code() == boost::system::errc::no_such_file_or_directory) {
-			set_error (
-				fmt::format(_("Could not open {}"), e.path1().string ()),
+			set_error(
+				fmt::format(_("Could not open {}"), e.path1().string()),
 				fmt::format(_("{} could not open the file {} ({}).  Perhaps it does not exist or is in an unexpected format."),
 					variant::dcpomatic(),
 					dcp::filesystem::absolute(e.path1()).string(),
@@ -199,14 +199,14 @@ Job::run_wrapper ()
 					)
 				);
 		} else {
-			set_error (
-				e.what (),
+			set_error(
+				e.what(),
 				fmt::format(_("It is not known what caused this error.  {}"), report_problem())
 				);
 		}
 
-		set_progress (1);
-		set_state (FINISHED_ERROR);
+		set_progress(1);
+		set_state(FINISHED_ERROR);
 
 	} catch (boost::thread_interrupted &) {
 		/* The job was cancelled; there's nothing else we need to do here */
@@ -217,33 +217,33 @@ Job::run_wrapper ()
 			extra += i + "\n";
 		}
 
-		set_error (e.what (), extra);
-		set_progress (1);
-		set_state (FINISHED_ERROR);
+		set_error(e.what(), extra);
+		set_progress(1);
+		set_state(FINISHED_ERROR);
 
 	} catch (std::bad_alloc& e) {
 
-		set_error (_("Out of memory"), _("There was not enough memory to do this.  If you are running a 32-bit operating system try reducing the number of encoding threads in the General tab of Preferences."));
-		set_progress (1);
-		set_state (FINISHED_ERROR);
+		set_error(_("Out of memory"), _("There was not enough memory to do this.  If you are running a 32-bit operating system try reducing the number of encoding threads in the General tab of Preferences."));
+		set_progress(1);
+		set_state(FINISHED_ERROR);
 
 	} catch (dcp::ReadError& e) {
 
-		set_error (e.message(), e.detail().get_value_or(""));
-		set_progress (1);
-		set_state (FINISHED_ERROR);
+		set_error(e.message(), e.detail().get_value_or(""));
+		set_progress(1);
+		set_state(FINISHED_ERROR);
 
 	} catch (KDMError& e) {
 
-		set_error (e.summary(), e.detail());
-		set_progress (1);
-		set_state (FINISHED_ERROR);
+		set_error(e.summary(), e.detail());
+		set_progress(1);
+		set_state(FINISHED_ERROR);
 
 	} catch (FileError& e) {
 
-		set_error (e.what(), e.what());
-		set_progress (1);
-		set_state (FINISHED_ERROR);
+		set_error(e.what(), e.what());
+		set_progress(1);
+		set_state(FINISHED_ERROR);
 
 	} catch (CPLNotFoundError& e) {
 
@@ -259,92 +259,92 @@ Job::run_wrapper ()
 
 	} catch (std::exception& e) {
 
-		set_error (
-			e.what (),
+		set_error(
+			e.what(),
 			fmt::format(_("It is not known what caused this error.  {}"), report_problem())
 			);
 
-		set_progress (1);
-		set_state (FINISHED_ERROR);
+		set_progress(1);
+		set_state(FINISHED_ERROR);
 
 	} catch (...) {
 
-		set_error (
+		set_error(
 			_("Unknown error"),
 			fmt::format(_("It is not known what caused this error.  {}"), report_problem())
 			);
 
-		set_progress (1);
-		set_state (FINISHED_ERROR);
+		set_progress(1);
+		set_state(FINISHED_ERROR);
 	}
 }
 
 
 /** @return true if this job is new (ie has not started running) */
 bool
-Job::is_new () const
+Job::is_new() const
 {
-	boost::mutex::scoped_lock lm (_state_mutex);
+	boost::mutex::scoped_lock lm(_state_mutex);
 	return _state == NEW;
 }
 
 
 /** @return true if the job is running */
 bool
-Job::running () const
+Job::running() const
 {
-	boost::mutex::scoped_lock lm (_state_mutex);
+	boost::mutex::scoped_lock lm(_state_mutex);
 	return _state == RUNNING;
 }
 
 
 /** @return true if the job has finished (either successfully or unsuccessfully) */
 bool
-Job::finished () const
+Job::finished() const
 {
-	boost::mutex::scoped_lock lm (_state_mutex);
+	boost::mutex::scoped_lock lm(_state_mutex);
 	return _state == FINISHED_OK || _state == FINISHED_ERROR || _state == FINISHED_CANCELLED;
 }
 
 
 /** @return true if the job has finished successfully */
 bool
-Job::finished_ok () const
+Job::finished_ok() const
 {
-	boost::mutex::scoped_lock lm (_state_mutex);
+	boost::mutex::scoped_lock lm(_state_mutex);
 	return _state == FINISHED_OK;
 }
 
 
 /** @return true if the job has finished unsuccessfully */
 bool
-Job::finished_in_error () const
+Job::finished_in_error() const
 {
-	boost::mutex::scoped_lock lm (_state_mutex);
+	boost::mutex::scoped_lock lm(_state_mutex);
 	return _state == FINISHED_ERROR;
 }
 
 
 bool
-Job::finished_cancelled () const
+Job::finished_cancelled() const
 {
-	boost::mutex::scoped_lock lm (_state_mutex);
+	boost::mutex::scoped_lock lm(_state_mutex);
 	return _state == FINISHED_CANCELLED;
 }
 
 
 bool
-Job::paused_by_user () const
+Job::paused_by_user() const
 {
-	boost::mutex::scoped_lock lm (_state_mutex);
+	boost::mutex::scoped_lock lm(_state_mutex);
 	return _state == PAUSED_BY_USER;
 }
 
 
 bool
-Job::paused_by_priority () const
+Job::paused_by_priority() const
 {
-	boost::mutex::scoped_lock lm (_state_mutex);
+	boost::mutex::scoped_lock lm(_state_mutex);
 	return _state == PAUSED_BY_PRIORITY;
 }
 
@@ -353,12 +353,12 @@ Job::paused_by_priority () const
  *  @param s New state.
  */
 void
-Job::set_state (State s)
+Job::set_state(State s)
 {
 	bool finished = false;
 
 	{
-		boost::mutex::scoped_lock lm (_state_mutex);
+		boost::mutex::scoped_lock lm(_state_mutex);
 		if (_state == s) {
 			return;
 		}
@@ -368,7 +368,7 @@ Job::set_state (State s)
 		if (_state == FINISHED_OK || _state == FINISHED_ERROR || _state == FINISHED_CANCELLED) {
 			_finish_time = time(nullptr);
 			finished = true;
-			_sub_name.clear ();
+			_sub_name.clear();
 		}
 	}
 
@@ -400,40 +400,40 @@ Job::state_to_result(State state) const
 
 /** @return DCPTime (in seconds) that this sub-job has been running */
 int
-Job::elapsed_sub_time () const
+Job::elapsed_sub_time() const
 {
 	if (_sub_start_time == 0) {
 		return 0;
 	}
 
-	return time (0) - _sub_start_time;
+	return time(0) - _sub_start_time;
 }
 
 
 /** Check to see if this job has been interrupted or paused */
 void
-Job::check_for_interruption_or_pause ()
+Job::check_for_interruption_or_pause()
 {
-	boost::this_thread::interruption_point ();
+	boost::this_thread::interruption_point();
 
-	boost::mutex::scoped_lock lm (_state_mutex);
+	boost::mutex::scoped_lock lm(_state_mutex);
 	while (_state == PAUSED_BY_USER || _state == PAUSED_BY_PRIORITY) {
-		emit (boost::bind (boost::ref (Progress)));
-		_pause_changed.wait (lm);
+		emit(boost::bind(boost::ref(Progress)));
+		_pause_changed.wait(lm);
 	}
 }
 
 
 optional<float>
-Job::seconds_since_last_progress_update () const
+Job::seconds_since_last_progress_update() const
 {
-	boost::mutex::scoped_lock lm (_progress_mutex);
+	boost::mutex::scoped_lock lm(_progress_mutex);
 	if (!_last_progress_update) {
 		return {};
 	}
 
 	struct timeval now;
-	gettimeofday (&now, 0);
+	gettimeofday(&now, 0);
 
 	return seconds(now) - seconds(*_last_progress_update);
 }
@@ -444,15 +444,15 @@ Job::seconds_since_last_progress_update () const
  *  @param force Do not ignore this update, even if it hasn't been long since the last one.
  */
 void
-Job::set_progress (float p, bool force)
+Job::set_progress(float p, bool force)
 {
-	check_for_interruption_or_pause ();
+	check_for_interruption_or_pause();
 
 	if (!force && _rate_limit_progress) {
 		/* Check for excessively frequent progress reporting */
-		boost::mutex::scoped_lock lm (_progress_mutex);
+		boost::mutex::scoped_lock lm(_progress_mutex);
 		struct timeval now;
-		gettimeofday (&now, 0);
+		gettimeofday(&now, 0);
 		if (_last_progress_update && _last_progress_update->tv_sec > 0) {
 			double const elapsed = seconds(now) - seconds(*_last_progress_update);
 			if (elapsed < 0.5) {
@@ -462,58 +462,58 @@ Job::set_progress (float p, bool force)
 		_last_progress_update = now;
 	}
 
-	set_progress_common (p);
+	set_progress_common(p);
 }
 
 
 void
-Job::set_progress_common (optional<float> p)
+Job::set_progress_common(optional<float> p)
 {
 	{
-		boost::mutex::scoped_lock lm (_progress_mutex);
+		boost::mutex::scoped_lock lm(_progress_mutex);
 		_progress = p;
 	}
 
-	emit (boost::bind (boost::ref (Progress)));
+	emit(boost::bind(boost::ref(Progress)));
 }
 
 
 /** @return fractional progress of the current sub-job, if known */
 optional<float>
-Job::progress () const
+Job::progress() const
 {
-	boost::mutex::scoped_lock lm (_progress_mutex);
+	boost::mutex::scoped_lock lm(_progress_mutex);
 	return _progress;
 }
 
 
 void
-Job::sub (string n)
+Job::sub(string n)
 {
 	{
-		boost::mutex::scoped_lock lm (_progress_mutex);
-		LOG_GENERAL ("Sub-job {} starting", n);
+		boost::mutex::scoped_lock lm(_progress_mutex);
+		LOG_GENERAL("Sub-job {} starting", n);
 		_sub_name = n;
 	}
 
-	set_progress (0, true);
-	_sub_start_time = time (0);
+	set_progress(0, true);
+	_sub_start_time = time(0);
 }
 
 
 string
-Job::error_details () const
+Job::error_details() const
 {
-	boost::mutex::scoped_lock lm (_state_mutex);
+	boost::mutex::scoped_lock lm(_state_mutex);
 	return _error_details;
 }
 
 
 /** @return A summary of any error that the job has generated */
 string
-Job::error_summary () const
+Job::error_summary() const
 {
-	boost::mutex::scoped_lock lm (_state_mutex);
+	boost::mutex::scoped_lock lm(_state_mutex);
 	return _error_summary;
 }
 
@@ -523,13 +523,13 @@ Job::error_summary () const
  *  @param d New error detail string.
  */
 void
-Job::set_error (string s, string d)
+Job::set_error(string s, string d)
 {
 	if (_film) {
-		_film->log()->log (fmt::format("Error in job: {} ({})", s, d), LogEntry::TYPE_ERROR);
+		_film->log()->log(fmt::format("Error in job: {} ({})", s, d), LogEntry::TYPE_ERROR);
 	}
 
-	boost::mutex::scoped_lock lm (_state_mutex);
+	boost::mutex::scoped_lock lm(_state_mutex);
 	_error_summary = s;
 	_error_details = d;
 }
@@ -537,20 +537,20 @@ Job::set_error (string s, string d)
 
 /** Say that this job's progress will be unknown until further notice */
 void
-Job::set_progress_unknown ()
+Job::set_progress_unknown()
 {
-	check_for_interruption_or_pause ();
-	set_progress_common (optional<float> ());
+	check_for_interruption_or_pause();
+	set_progress_common(optional<float>());
 }
 
 
 /** @return Human-readable status of this job */
 string
-Job::status () const
+Job::status() const
 {
-	optional<float> p = progress ();
-	int const t = elapsed_sub_time ();
-	int const r = remaining_time ();
+	optional<float> p = progress();
+	int const t = elapsed_sub_time();
+	int const r = remaining_time();
 
 	auto day_of_week_to_string = [](boost::gregorian::greg_weekday d) -> std::string {
 		switch (d.as_enum()) {
@@ -574,22 +574,22 @@ Job::status () const
 	};
 
 	string s;
-	if (!finished () && p) {
-		int pc = lrintf (p.get() * 100);
+	if (!finished() && p) {
+		int pc = lrintf(p.get() * 100);
 		if (pc == 100) {
 			/* 100% makes it sound like we've finished when we haven't */
 			pc = 99;
 		}
 
 		char buffer[64];
-		snprintf (buffer, sizeof(buffer), "%d%%", pc);
+		snprintf(buffer, sizeof(buffer), "%d%%", pc);
 		s += buffer;
 
 		if (t > 10 && r > 0) {
 			auto now = boost::posix_time::second_clock::local_time();
 			auto finish = now + boost::posix_time::seconds(r);
 			char finish_string[16];
-			snprintf (finish_string, sizeof(finish_string), "%02d:%02d", int(finish.time_of_day().hours()), int(finish.time_of_day().minutes()));
+			snprintf(finish_string, sizeof(finish_string), "%02d:%02d", int(finish.time_of_day().hours()), int(finish.time_of_day().minutes()));
 			string day;
 			if (now.date() != finish.date()) {
 				/// TRANSLATORS: the {} in this string will be filled in with a day of the week
@@ -603,7 +603,7 @@ Job::status () const
 				seconds_to_approximate_hms(r), finish_string, day
 				);
 		}
-	} else if (finished_ok ()) {
+	} else if (finished_ok()) {
 		auto time_string = [](time_t time) {
 			auto tm = localtime(&time);
 			char buffer[8];
@@ -620,9 +620,9 @@ Job::status () const
 		} else {
 			s = fmt::format(_("OK (ran for {} from {} to {})"),  seconds_to_hms(duration), time_string(_start_time), time_string(_finish_time));
 		}
-	} else if (finished_in_error ()) {
-		s = fmt::format(_("Error: {}"), error_summary ());
-	} else if (finished_cancelled ()) {
+	} else if (finished_in_error()) {
+		s = fmt::format(_("Error: {}"), error_summary());
+	} else if (finished_cancelled()) {
 		s = _("Cancelled");
 	}
 
@@ -631,9 +631,9 @@ Job::status () const
 
 
 string
-Job::json_status () const
+Job::json_status() const
 {
-	boost::mutex::scoped_lock lm (_state_mutex);
+	boost::mutex::scoped_lock lm(_state_mutex);
 
 	switch (_state) {
 	case NEW:
@@ -657,10 +657,10 @@ Job::json_status () const
 
 /** @return An estimate of the remaining time for this sub-job, in seconds */
 int
-Job::remaining_time () const
+Job::remaining_time() const
 {
 	if (progress().get_value_or(0) == 0) {
-		return elapsed_sub_time ();
+		return elapsed_sub_time();
 	}
 
 	return elapsed_sub_time() / progress().get() - elapsed_sub_time();
@@ -668,26 +668,26 @@ Job::remaining_time () const
 
 
 void
-Job::cancel ()
+Job::cancel()
 {
 	if (_thread.joinable()) {
 		Job::resume();
 
-		_thread.interrupt ();
-		_thread.join ();
+		_thread.interrupt();
+		_thread.join();
 	}
 
-	set_state (FINISHED_CANCELLED);
+	set_state(FINISHED_CANCELLED);
 }
 
 
 /** @return true if the job was paused, false if it was not running */
 bool
-Job::pause_by_user ()
+Job::pause_by_user()
 {
 	bool paused = false;
 	{
-		boost::mutex::scoped_lock lm (_state_mutex);
+		boost::mutex::scoped_lock lm(_state_mutex);
 		/* We can set _state here directly because we have a lock and we aren't
 		   setting the job to FINISHED_*
 		*/
@@ -699,7 +699,7 @@ Job::pause_by_user ()
 
 	if (paused) {
 		pause();
-		_pause_changed.notify_all ();
+		_pause_changed.notify_all();
 	}
 
 	return paused;
@@ -707,22 +707,22 @@ Job::pause_by_user ()
 
 
 void
-Job::pause_by_priority ()
+Job::pause_by_priority()
 {
-	if (running ()) {
-		set_state (PAUSED_BY_PRIORITY);
+	if (running()) {
+		set_state(PAUSED_BY_PRIORITY);
 		pause();
-		_pause_changed.notify_all ();
+		_pause_changed.notify_all();
 	}
 }
 
 
 void
-Job::resume ()
+Job::resume()
 {
 	if (paused_by_user() || paused_by_priority()) {
-		set_state (RUNNING);
-		_pause_changed.notify_all ();
+		set_state(RUNNING);
+		_pause_changed.notify_all();
 	}
 }
 
@@ -730,27 +730,27 @@ Job::resume ()
 void
 Job::when_finished(boost::signals2::connection& connection, function<void(Result)> finished)
 {
-	boost::mutex::scoped_lock lm (_state_mutex);
+	boost::mutex::scoped_lock lm(_state_mutex);
 	if (_state == FINISHED_OK || _state == FINISHED_ERROR || _state == FINISHED_CANCELLED) {
 		finished(state_to_result(_state));
 	} else {
-		connection = Finished.connect (finished);
+		connection = Finished.connect(finished);
 	}
 }
 
 
 optional<string>
-Job::message () const
+Job::message() const
 {
-	boost::mutex::scoped_lock lm (_state_mutex);
+	boost::mutex::scoped_lock lm(_state_mutex);
 	return _message;
 }
 
 
 void
-Job::set_message (string m)
+Job::set_message(string m)
 {
-	boost::mutex::scoped_lock lm (_state_mutex);
+	boost::mutex::scoped_lock lm(_state_mutex);
 	_message = m;
 }
 
