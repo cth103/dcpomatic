@@ -263,6 +263,18 @@ Job::run_wrapper()
 		set_progress(1);
 		set_state(FINISHED_ERROR);
 
+	} catch (dcp::DiskFullError& e) {
+
+		set_error(fmt::format(_("Disk full while writing {}"), e.filename().string()));
+		set_progress(1);
+		set_state(FINISHED_ERROR);
+
+	} catch (dcp::TooManyOpenFilesError& e) {
+
+		set_error(_("Too many open files"));
+		set_progress(1);
+		set_state(FINISHED_ERROR);
+
 	} catch (std::exception& e) {
 
 		set_error(
