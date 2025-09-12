@@ -488,6 +488,7 @@ try
 catch (...)
 {
 	store_current();
+	zombify();
 }
 
 
