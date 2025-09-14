@@ -211,7 +211,11 @@ public:
 			LOG_DISK_NC("Not starting writer process as DCPOMATIC_NO_START_WRITER is set");
 		} else {
 			LOG_DISK("Starting writer process {}", disk_writer_path().string());
+#ifdef DCPOMATIC_BOOST_PROCESS_V1
 			_writer = new boost::process::child (disk_writer_path());
+#else
+			_writer = new boost::process::v2::process(_context, disk_writer_path(), {});
+#endif
 		}
 #endif
 
@@ -428,7 +432,12 @@ private:
 	std::vector<boost::filesystem::path> _dcp_paths;
 	std::vector<Drive> _drives;
 #ifndef DCPOMATIC_OSX
+#ifdef DCPOMATIC_BOOST_PROCESS_V1
 	boost::process::child* _writer;
+#else
+	boost::process::v2::process* _writer;
+	boost::asio::io_context _context;
+#endif
 #endif
 	Nanomsg _nanomsg;
 	wxSizer* _sizer;

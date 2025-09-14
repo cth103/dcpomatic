@@ -33,6 +33,7 @@
 using std::make_shared;
 using std::shared_ptr;
 using std::string;
+using std::vector;
 
 
 static
@@ -47,6 +48,8 @@ mbits_per_second(shared_ptr<const Film> film)
 
 
 #ifdef DCPOMATIC_LINUX
+
+#ifdef DCPOMATIC_BOOST_PROCESS_V1
 static
 string
 bitrate_in_header(shared_ptr<const Film> film)
@@ -71,6 +74,49 @@ bitrate_in_header(shared_ptr<const Film> film)
 
 	return rate;
 }
+
+#else
+
+static
+string
+bitrate_in_header(shared_ptr<const Film> film)
+{
+	namespace bp = boost::process::v2;
+
+	boost::asio::io_context context;
+	boost::asio::readable_pipe out{context};
+	bp::process child(context, bp::environment::find_executable("mediainfo"), { find_file(film->dir(film->dcp_name()), "mpeg2").string() }, bp::process_stdio{{}, out, {}});
+
+	string output;
+	boost::system::error_code ec;
+	while (child.running()) {
+		string block;
+		boost::asio::read(out, boost::asio::dynamic_buffer(block), ec);
+		output += block;
+		if (ec && ec == boost::asio::error::eof) {
+			break;
+		}
+	}
+
+	vector<string> lines;
+	boost::algorithm::split(lines, output, boost::is_any_of("\n"));
+
+	string rate;
+	for (auto const& line: lines) {
+		if (line.substr(0, 10) == "Bit rate  ") {
+			auto colon = line.find(":");
+			if (colon != string::npos) {
+				rate = line.substr(colon + 2);
+			}
+		}
+	}
+
+	child.wait();
+
+	return rate;
+}
+
+#endif
 #endif
 
 

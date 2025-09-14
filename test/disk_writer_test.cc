@@ -23,6 +23,7 @@
 #include "lib/ext.h"
 #include "lib/io_context.h"
 #include "test.h"
+#include <fmt/format.h>
 #include <boost/algorithm/string.hpp>
 #include <boost/asio.hpp>
 #include <boost/filesystem.hpp>
@@ -41,6 +42,8 @@ using std::string;
 using std::vector;
 
 
+#ifdef DCPOMATIC_BOOST_PROCESS_V1
+
 vector<string>
 ext2_ls (vector<string> arguments)
 {
@@ -57,6 +60,45 @@ ext2_ls (vector<string> arguments)
 	boost::split (parts, output, boost::is_any_of("\t "), boost::token_compress_on);
 	return parts;
 }
+
+#else
+
+static
+string
+collect_from_pipe(boost::asio::readable_pipe& pipe)
+{
+	std::string output;
+
+	while (true) {
+		string block;
+		boost::system::error_code ec;
+		boost::asio::read(pipe, boost::asio::dynamic_buffer(block), ec);
+		output += block;
+		if (ec && ec == boost::asio::error::eof) {
+			break;
+		}
+	}
+
+	return output;
+}
+
+vector<string>
+ext2_ls(vector<string> arguments)
+{
+	using namespace boost::process::v2;
+
+	dcpomatic::io_context ios;
+	boost::asio::readable_pipe out{ios};
+	process ch(ios, environment::find_executable("e2ls"), arguments, process_stdio{ {}, out, {}});
+	std::string output = collect_from_pipe(out);
+
+	boost::trim(output);
+	vector<string> parts;
+	boost::split(parts, output, boost::is_any_of("\t "), boost::token_compress_on);
+	return parts;
+}
+
+#endif
 
 
 static
@@ -80,7 +122,11 @@ make_empty_file(boost::filesystem::path file, off_t size)
 BOOST_AUTO_TEST_CASE (disk_writer_test1)
 {
 	using namespace boost::filesystem;
+#ifdef DCPOMATIC_BOOST_PROCESS_V1
 	using namespace boost::process;
+#else
+	using namespace boost::process::v2;
+#endif
 
 	Cleanup cl;
 
@@ -107,11 +153,17 @@ BOOST_AUTO_TEST_CASE (disk_writer_test1)
 
 	{
 		dcpomatic::io_context ios;
+#ifdef DCPOMATIC_BOOST_PROCESS_V1
 		future<string> data;
 		child ch ("/sbin/tune2fs", args({"-l", partition.string()}), std_in.close(), std_out > data, ios);
 		ios.run();
-
 		string output = data.get();
+#else
+		boost::asio::readable_pipe out{ios};
+		process ch(ios, "/sbin/tune2fs", {"-l", partition.string()}, process_stdio{ {}, out, {}});
+		string output = collect_from_pipe(out);
+#endif
+
 		std::smatch matches;
 		std::regex reg("Inode size:\\s*(.*)");
 		BOOST_REQUIRE (std::regex_search(output, matches, reg));
@@ -136,7 +188,8 @@ BOOST_AUTO_TEST_CASE (disk_writer_test1)
 	BOOST_REQUIRE (details.size() >= 6);
 	BOOST_CHECK (details[5] != unset_date);
 
-	system ("e2cp " + partition.string() + ":disk_writer_test1/foo build/test/disk_writer_test1_foo_back");
+	int const r = system(fmt::format("e2cp {}:disk_writer_test1/foo build/test/disk_writer_test1_foo_back", partition.string()).c_str());
+	BOOST_CHECK_EQUAL(r, 0);
 	check_file ("build/test/disk_writer_test1/foo", "build/test/disk_writer_test1_foo_back");
 
 	cl.run();
@@ -176,7 +229,8 @@ BOOST_AUTO_TEST_CASE (disk_writer_test2)
 	for (auto original: directory_iterator(dcp)) {
 		auto path_in_copy = path("xm") / original.path().filename();
 		auto path_in_check = check / original.path().filename();
-		system("e2cp " + partition.string() + ":" + path_in_copy.string() + " " + path_in_check.string());
+		int const r = system(fmt::format("e2cp {}:{} {}", partition.string(), path_in_copy.string(), path_in_check.string()).c_str());
+		BOOST_CHECK_EQUAL(r, 0);
 		check_file(original.path(), path_in_check);
 	}
 
@@ -222,7 +276,8 @@ BOOST_AUTO_TEST_CASE (disk_writer_test3)
 		for (auto original: directory_iterator(dcp)) {
 			auto path_in_copy = dcp.filename() / original.path().filename();
 			auto path_in_check = check / original.path().filename();
-			system("e2cp " + partition.string() + ":" + path_in_copy.string() + " " + path_in_check.string());
+			int const r = system(fmt::format("e2cp {}:{} {}", partition.string(), path_in_copy.string(), path_in_check.string()).c_str());
+			BOOST_CHECK_EQUAL(r, 0);
 			check_file(original.path(), path_in_check);
 		}
 	}

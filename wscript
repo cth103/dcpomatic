@@ -626,22 +626,32 @@ def configure(conf):
                        lib=['boost_regex%s' % boost_lib_suffix],
                        uselib_store='BOOST_REGEX')
 
-        # Really just checking for the header here (there's no associated library) but the test
-        # program has to link with boost_system so I'm doing it this way.
         if conf.options.enable_disk:
             deps = ['boost_system%s' % boost_lib_suffix]
             if conf.env.TARGET_WINDOWS_64 or conf.env.TARGET_WINDOWS_32:
                 deps.append('ws2_32')
                 deps.append('boost_filesystem%s' % boost_lib_suffix)
-            conf.check_cxx(fragment="""
+            deps.append('boost_process%s' % boost_lib_suffix)
+            v1 = conf.check_cxx(fragment="""
                                 #include <boost/process.hpp>\n
                                 int main() { new boost::process::child("foo"); }\n
                                 """,
                            cxxflags='-Wno-unused-parameter',
-                           msg='Checking for boost process library',
+                           msg='Checking for boost process library v1',
                            lib=deps,
-                           uselib_store='BOOST_PROCESS')
-
+                           define_name='DCPOMATIC_BOOST_PROCESS_V1',
+                           uselib_store='BOOST_PROCESS',
+                           mandatory=False)
+            if v1 is None:
+                conf.check_cxx(fragment="""
+                                        #include <boost/process.hpp>\n
+                                        int main() { boost::asio::io_context ctx; new boost::process::v2::process(ctx, "foo", {}); }\n
+                                        """,
+                               cxxflags='-Wno-unused-parameter',
+                               msg='Checking for boost process library v2',
+                               lib=deps,
+                               define_name='DCPOMATIC_BOOST_PROCESS_V2',
+                               uselib_store='BOOST_PROCESS')
         conf.check_cxx(fragment="""
                            #include <boost/asio.hpp>
                            int main() { boost::asio::io_context context; }
