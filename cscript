@@ -53,7 +53,7 @@ for v in ['22.04']:
 for v in ['24.04', '24.10']:
     deb_build_depends[v] = copy.deepcopy(deb_build_depends_base)
     deb_build_depends[v].extend(['libssh-dev', 'python3.12'])
-for v in ['25.04']:
+for v in ['25.04', '25.10']:
     deb_build_depends[v] = copy.deepcopy(deb_build_depends_base)
     deb_build_depends[v].extend(['libssh-dev', 'python3.13'])
 for v in ['11']:
@@ -71,7 +71,7 @@ deb_build_depends['unstable'].extend(['python3'])
 deb_depends = dict()
 deb_depends_gui = dict()
 
-deb_depends_base = ['libc6', 'libsndfile1', 'libsamplerate0', 'libxmlsec1', 'libxmlsec1-openssl', 'libgtk2.0-0']
+deb_depends_base = ['libc6', 'libsndfile1', 'libsamplerate0', 'libgtk2.0-0']
 
 deb_depends['16.04'] = copy.deepcopy(deb_depends_base)
 deb_depends['16.04'].extend(['libboost-filesystem1.58.0',
@@ -87,7 +87,9 @@ deb_depends['16.04'].extend(['libboost-filesystem1.58.0',
                              'libssh-4',
                              'libx264-148',
                              'libcurl3',
-                             'libxerces-c3.1'])
+                             'libxerces-c3.1',
+                             'libxmlsec1',
+                             'libxmlsec1-openssl'])
 
 deb_depends['18.04'] = copy.deepcopy(deb_depends_base)
 deb_depends['18.04'].extend(['libboost-filesystem1.65.1',
@@ -105,7 +107,9 @@ deb_depends['18.04'].extend(['libboost-filesystem1.65.1',
                              'libcurl4',
                              'libpulse0',
                              'libxerces-c3.2',
-                             'libnanomsg4'])
+                             'libnanomsg4',
+                             'libxmlsec1',
+                             'libxmlsec1-openssl'])
 
 deb_depends['20.04'] = copy.deepcopy(deb_depends_base)
 deb_depends['20.04'].extend(['libboost-filesystem1.71.0',
@@ -124,7 +128,9 @@ deb_depends['20.04'].extend(['libboost-filesystem1.71.0',
                              'libpulse0',
                              'libxerces-c3.2',
                              'libnanomsg5',
-                             'libfmt-dev'])
+                             'libfmt-dev',
+                             'libxmlsec1',
+                             'libxmlsec1-openssl'])
 
 deb_depends['22.04'] = copy.deepcopy(deb_depends_base)
 deb_depends['22.04'].extend(['libboost-filesystem1.74.0',
@@ -144,9 +150,11 @@ deb_depends['22.04'].extend(['libboost-filesystem1.74.0',
                              'libxerces-c3.2',
                              'libnanomsg5',
                              'libdav1d5',
-                             'libfmt8'])
+                             'libfmt8',
+                             'libxmlsec1',
+                             'libxmlsec1-openssl'])
 
-def debs(boost, icu, x264, zip='4', fmt='9'):
+def debs(boost, icu, x264, zip='4', fmt='9', xmlsec=None):
     output = copy.deepcopy(deb_depends_base)
     output.extend(['libboost-filesystem' + boost,
                    'libboost-thread' + boost,
@@ -166,12 +174,15 @@ def debs(boost, icu, x264, zip='4', fmt='9'):
                    'libnanomsg5',
                    'libwxgtk3.2-1',
                    'libwxgtk-gl3.2-1',
-                   'libfmt' + fmt])
+                   'libfmt' + fmt,
+                   'libxmlsec1' + (('-' + xmlsec) if xmlsec else ''),
+                   'libxmlsec1-openssl' + (xmlsec if xmlsec else '')])
     return output
 
 deb_depends['24.04'] = debs(boost='1.83.0', icu='74', x264='164')
 deb_depends['24.10'] = debs(boost='1.83.0', icu='74', x264='164')
 deb_depends['25.04'] = debs(boost='1.83.0', icu='74', x264='164', zip='5', fmt='10')
+deb_depends['25.10'] = debs(boost='1.88.0', icu='76', x264='164', zip='5', fmt='10', xmlsec='1')
 
 deb_depends['11'] = copy.deepcopy(deb_depends_base)
 deb_depends['11'].extend(['libboost-filesystem1.74.0',
