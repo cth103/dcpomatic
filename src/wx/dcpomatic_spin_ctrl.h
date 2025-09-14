@@ -28,7 +28,7 @@ LIBDCP_DISABLE_WARNINGS
 #include <wx/spinctrl.h>
 #include <wx/wx.h>
 LIBDCP_ENABLE_WARNINGS
-#include <boost/bind.hpp>
+#include <boost/bind/bind.hpp>
 
 
 class SpinCtrl : public wxSpinCtrl
