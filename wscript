@@ -626,12 +626,11 @@ def configure(conf):
                        lib=['boost_regex%s' % boost_lib_suffix],
                        uselib_store='BOOST_REGEX')
 
-        if conf.options.enable_disk:
+        if conf.options.enable_disk or not conf.options.disable_tests:
             deps = ['boost_system%s' % boost_lib_suffix]
             if conf.env.TARGET_WINDOWS_64 or conf.env.TARGET_WINDOWS_32:
                 deps.append('ws2_32')
                 deps.append('boost_filesystem%s' % boost_lib_suffix)
-            deps.append('boost_process%s' % boost_lib_suffix)
             v1 = conf.check_cxx(fragment="""
                                 #include <boost/process.hpp>\n
                                 int main() { new boost::process::child("foo"); }\n
@@ -643,6 +642,7 @@ def configure(conf):
                            uselib_store='BOOST_PROCESS',
                            mandatory=False)
             if v1 is None:
+                deps.append('boost_process%s' % boost_lib_suffix)
                 conf.check_cxx(fragment="""
                                         #include <boost/process.hpp>\n
                                         int main() { boost::asio::io_context ctx; new boost::process::v2::process(ctx, "foo", {}); }\n
