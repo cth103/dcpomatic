@@ -398,7 +398,7 @@ def configure(conf):
         check_via_pkg_config(conf, 'libdcp-1.0', 'DCP', mandatory=True, static=True, minimum_version=libdcp_version)
         conf.env.DEFINES_DCP = [f.replace('\\', '') for f in conf.env.DEFINES_DCP]
         conf.env.STLIB_DCP = ['dcp-1.0', 'asdcp-dcpomatic', 'kumu-dcpomatic', 'openjp2']
-        conf.env.LIB_DCP = ['glibmm-' + conf.env.GLIBMM_API, 'ssl', 'crypto', 'bz2', 'xslt', 'xerces-c', 'fmt']
+        conf.env.LIB_DCP = ['glibmm-' + conf.env.GLIBMM_API, 'ssl', 'crypto', 'bz2', 'xslt', 'xerces-c', 'fmt', 'hpdf']
     else:
         check_via_pkg_config(conf, 'libdcp-1.0', 'DCP', mandatory=True, static=False, minimum_version=libdcp_version)
         conf.env.DEFINES_DCP = [f.replace('\\', '') for f in conf.env.DEFINES_DCP]

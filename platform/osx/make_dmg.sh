@@ -222,6 +222,7 @@ function copy_libs {
 	copy_lib_env libdav1d "$dest"
 	copy_lib_env libsqlite "$dest"
 	copy_lib_env libfmt "$dest"
+	copy_lib_env libhpdf "$dest"
 }
 
 # @param #1 directory to copy to

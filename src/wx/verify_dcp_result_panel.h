@@ -41,11 +41,13 @@ private:
 	std::map<dcp::VerificationNote::Type, int> add(std::shared_ptr<const VerifyDCPJob> job, bool many);
 	void save_text_report();
 	void save_html_report();
+	void save_pdf_report();
 
 	wxStaticText* _summary;
 	std::map<dcp::VerificationNote::Type, wxTreeCtrl*> _pages;
 	Button* _save_text_report;
 	Button* _save_html_report;
+	Button* _save_pdf_report;
 
 	std::vector<std::shared_ptr<const VerifyDCPJob>> _jobs;
 

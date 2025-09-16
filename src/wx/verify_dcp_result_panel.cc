@@ -24,6 +24,9 @@
 #include "verify_dcp_result_panel.h"
 #include "wx_util.h"
 #include "lib/verify_dcp_job.h"
+#include <dcp/html_formatter.h>
+#include <dcp/text_formatter.h>
+#include <dcp/pdf_formatter.h>
 #include <dcp/verify.h>
 #include <dcp/verify_report.h>
 #include <dcp/warnings.h>
@@ -77,6 +80,8 @@ VerifyDCPResultPanel::VerifyDCPResultPanel(wxWindow* parent)
 	save_sizer->Add(_save_text_report, 0, wxALL, DCPOMATIC_SIZER_GAP);
 	_save_html_report = new Button(this, _("Save report as HTML..."));
 	save_sizer->Add(_save_html_report, 0, wxALL, DCPOMATIC_SIZER_GAP);
+	_save_pdf_report = new Button(this, _("Save report as PDF..."));
+	save_sizer->Add(_save_pdf_report, 0, wxALL, DCPOMATIC_SIZER_GAP);
 	sizer->Add(save_sizer);
 
 	SetSizer(sizer);
@@ -85,9 +90,11 @@ VerifyDCPResultPanel::VerifyDCPResultPanel(wxWindow* parent)
 
 	_save_text_report->bind(&VerifyDCPResultPanel::save_text_report, this);
 	_save_html_report->bind(&VerifyDCPResultPanel::save_html_report, this);
+	_save_pdf_report->bind(&VerifyDCPResultPanel::save_pdf_report, this);
 
 	_save_text_report->Enable(false);
 	_save_html_report->Enable(false);
+	_save_pdf_report->Enable(false);
 }
 
 
@@ -143,6 +150,7 @@ VerifyDCPResultPanel::add(vector<shared_ptr<const VerifyDCPJob>> jobs)
 
 	_save_text_report->Enable(true);
 	_save_html_report->Enable(true);
+	_save_pdf_report->Enable(true);
 
 	for (auto type: _types) {
 		_pages[type]->ExpandAll();
@@ -728,4 +736,11 @@ void
 VerifyDCPResultPanel::save_html_report()
 {
 	save<dcp::HTMLFormatter>(this, char_to_wx("HTML files (*.htm;*html)|*.htm;*.html"), _jobs);
+}
+
+
+void
+VerifyDCPResultPanel::save_pdf_report()
+{
+	save<dcp::PDFFormatter>(this, char_to_wx("PDF files (*.pdf)|*.pdf"), _jobs);
 }

@@ -42,6 +42,7 @@
 #include "lib/util.h"
 #include "lib/variant.h"
 #include <dcp/search.h>
+#include <dcp/text_formatter.h>
 #include <dcp/verify_report.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/evtloop.h>
