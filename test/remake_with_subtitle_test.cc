@@ -50,8 +50,8 @@ BOOST_AUTO_TEST_CASE (remake_with_subtitle_test)
 	make_and_verify_dcp (film);
 
 #ifdef DCPOMATIC_OSX
-	check_one_frame(film->dir(film->dcp_name()), 325, TestPaths::private_data() / "v2.18.x" / "prophet_frame_325_no_subs_mac.j2c");
+	check_one_frame_against_j2c(film->dir(film->dcp_name()), 325, TestPaths::private_data() / "v2.18.x" / "prophet_frame_325_no_subs_mac.j2c");
 #else
-	check_one_frame(film->dir(film->dcp_name()), 325, TestPaths::private_data() / "v2.18.x" / "prophet_frame_325_no_subs.j2c");
+	check_one_frame_against_j2c(film->dir(film->dcp_name()), 325, TestPaths::private_data() / "v2.18.x" / "prophet_frame_325_no_subs.j2c");
 #endif
 }
