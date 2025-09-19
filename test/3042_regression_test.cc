@@ -20,21 +20,48 @@
 
 
 #include "lib/content_factory.h"
+#include "lib/dcp_content_type.h"
 #include "lib/film.h"
 #include "lib/video_content.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
 
 
+using std::string;
+
+
 BOOST_AUTO_TEST_CASE(encode_xyz_from_prores_test)
 {
-	auto content = content_factory(TestPaths::private_data() / "dcp-o-matic_test_20250521_p3d65.mov")[0];
-	auto film = new_test_film("encode_xyz_from_prores_test", { content });
-	content->video->unset_colour_conversion();
+	auto const name = string{"encode_xyz_from_prores_test"};
 
-	make_and_verify_dcp(film);
+	auto prores_content = content_factory(TestPaths::private_data() / "3042" / "dcp-o-matic_test_20250521.mov")[0];
+	auto prores_source = new_test_film(name + "_prores");
+	auto prores_film = new_test_film("encode_xyz_from_prores_test", { prores_content });
+	prores_film->set_dcp_content_type(DCPContentType::from_isdcf_name("FTR"));
+	prores_film->set_container(Ratio::from_id("239"));
+	prores_content->video->unset_colour_conversion();
+	make_and_verify_dcp(
+		prores_film,
+		{
+			dcp::VerificationNote::Code::MISSING_FFMC_IN_FEATURE,
+			dcp::VerificationNote::Code::MISSING_FFEC_IN_FEATURE
+		});
 
-	check_one_frame(film->dir(film->dcp_name()), 0, TestPaths::private_data() / "dcp-o-matic_test_20250521_p3d65_frame0.j2c", 18);
+	auto tiff_content = content_factory(TestPaths::private_data() / "3042" / "tiff")[0];
+	auto tiff_source = new_test_film(name + "_tiff");
+	auto tiff_film = new_test_film("encode_xyz_from_tiff_test", { tiff_content });
+	tiff_film->set_dcp_content_type(DCPContentType::from_isdcf_name("FTR"));
+	tiff_film->set_container(Ratio::from_id("239"));
+	tiff_content->video->unset_colour_conversion();
+	make_and_verify_dcp(
+		tiff_film,
+		{
+			dcp::VerificationNote::Code::MISSING_FFMC_IN_FEATURE,
+			dcp::VerificationNote::Code::MISSING_FFEC_IN_FEATURE
+		});
+
+	check_one_frame_against_dcp(tiff_film->dir(tiff_film->dcp_name()), 0, TestPaths::private_data() / "3042" / "dcp-o-matic_testing_from_tiff_20250521", 312, 101);
+	check_one_frame_against_dcp(prores_film->dir(prores_film->dcp_name()), 312, TestPaths::private_data() / "3042" / "dcp-o-matic_testing_from_tiff_20250521", 312, 110);
 }
 
 
@@ -46,6 +73,6 @@ BOOST_AUTO_TEST_CASE(encode_xyz_from_dpx_test)
 
 	make_and_verify_dcp(film);
 
-	check_one_frame(film->dir(film->dcp_name()), 0, TestPaths::private_data() / "count.j2c", 18);
+	check_one_frame_against_j2c(film->dir(film->dcp_name()), 0, TestPaths::private_data() / "count.j2c", 18);
 }
 

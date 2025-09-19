@@ -73,6 +73,7 @@ extern boost::filesystem::path test_film_dir (std::string);
 extern void write_image (std::shared_ptr<const Image> image, boost::filesystem::path file);
 boost::filesystem::path dcp_file (std::shared_ptr<const Film> film, std::string prefix);
 void check_one_frame_against_j2c(boost::filesystem::path test, int64_t test_index, boost::filesystem::path ref, int tolerance = 0);
+void check_one_frame_against_dcp(boost::filesystem::path test, int64_t test_index, boost::filesystem::path ref, int64_t ref_index, int tolerance = 0);
 extern boost::filesystem::path subtitle_file (std::shared_ptr<Film> film);
 extern void make_random_file (boost::filesystem::path path, size_t size);
 extern void verify_dcp(boost::filesystem::path dir, std::vector<dcp::VerificationNote::Code> ignore);

@@ -823,15 +823,20 @@ check_ffmpeg (boost::filesystem::path ref, boost::filesystem::path check, int au
 	BOOST_REQUIRE_EQUAL (WEXITSTATUS(r), 0);
 }
 
-{
-	dcp::DCP dcp (dcp_dir);
-	dcp.read ();
-	auto asset = dynamic_pointer_cast<dcp::MonoJ2KPictureAsset>(dcp.cpls().front()->reels().front()->main_picture()->asset());
-	BOOST_REQUIRE (asset);
-	auto frame = asset->start_read()->get_frame(index);
-	dcp::MonoJ2KPictureFrame ref_frame(ref);
 
-	auto image = frame->xyz_image ();
+static
+shared_ptr<dcp::OpenJPEGImage>
+get_dcp_frame(boost::filesystem::path dcp_dir, int64_t index)
+{
+	dcp::DCP dcp(dcp_dir);
+	dcp.read();
+	auto asset = dynamic_pointer_cast<dcp::MonoJ2KPictureAsset>(dcp.cpls().front()->reels().front()->main_picture()->asset());
+	BOOST_REQUIRE(asset);
+	auto frame = asset->start_read()->get_frame(index);
+	return frame->xyz_image();
+}
+
+
 void
 check_one_frame_against_j2c(boost::filesystem::path test, int64_t test_index, boost::filesystem::path ref, int tolerance)
 {
@@ -857,6 +862,33 @@ check_one_frame_against_j2c(boost::filesystem::path test, int64_t test_index, bo
 		}
 	}
 }
+
+
+void
+check_one_frame_against_dcp(boost::filesystem::path test, int64_t test_index, boost::filesystem::path ref, int64_t ref_index, int tolerance)
+{
+	auto test_image = get_dcp_frame(test, test_index);
+	auto ref_image = get_dcp_frame(ref, ref_index);
+
+	BOOST_REQUIRE_MESSAGE(
+		test_image->size() == ref_image->size(),
+		"Reference is " << ref_image->size().width << "x" << ref_image->size().height
+		<< ", test image is " << test_image->size().width << "x" << test_image->size().height);
+
+	int off = 0;
+	for (int y = 0; y < ref_image->size().height; ++y) {
+		for (int x = 0; x < ref_image->size().width; ++x) {
+			auto x_error = std::abs(ref_image->data(0)[off] - test_image->data(0)[off]);
+			BOOST_REQUIRE_MESSAGE(x_error <= tolerance, "x component at " << x << "," << y << " differs by " << x_error);
+			auto y_error = std::abs(ref_image->data(1)[off] - test_image->data(1)[off]);
+			BOOST_REQUIRE_MESSAGE(y_error <= tolerance, "y component at " << x << "," << y << " differs by " << y_error);
+			auto z_error = std::abs(ref_image->data(2)[off] - test_image->data(2)[off]);
+			BOOST_REQUIRE_MESSAGE(z_error <= tolerance, "z component at " << x << "," << y << " differs by " << z_error);
+			++off;
+		}
+	}
+}
+
 
 boost::filesystem::path
 dcp_file (shared_ptr<const Film> film, string prefix)

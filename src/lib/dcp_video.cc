@@ -104,12 +104,13 @@ DCPVideo::convert_to_xyz(shared_ptr<const PlayerVideo> frame)
 {
 	shared_ptr<dcp::OpenJPEGImage> xyz;
 
-	if (frame->colour_conversion()) {
-		auto conversion = [](AVPixelFormat fmt) {
-			return fmt == AV_PIX_FMT_XYZ12LE ? AV_PIX_FMT_XYZ12LE : AV_PIX_FMT_RGB48LE;
-		};
+	auto conversion = [](AVPixelFormat fmt) {
+		return fmt == AV_PIX_FMT_XYZ12LE ? AV_PIX_FMT_XYZ12LE : AV_PIX_FMT_RGB48LE;
+	};
 
-		auto image = frame->image(conversion, VideoRange::FULL, false);
+	auto image = frame->image(conversion, VideoRange::FULL, false);
+
+	if (frame->colour_conversion()) {
 		xyz = dcp::rgb_to_xyz(
 			image->data()[0],
 			image->size(),
@@ -117,20 +118,6 @@ DCPVideo::convert_to_xyz(shared_ptr<const PlayerVideo> frame)
 			frame->colour_conversion().get()
 			);
 	} else {
-		auto conversion = [](AVPixelFormat fmt) {
-			auto const descriptor = av_pix_fmt_desc_get(fmt);
-			if (!descriptor) {
-				return fmt;
-			}
-
-			if (descriptor->flags & AV_PIX_FMT_FLAG_RGB) {
-				return AV_PIX_FMT_RGB48LE;
-			}
-
-			return AV_PIX_FMT_XYZ12LE;
-		};
-
-		auto image = frame->image(conversion, VideoRange::FULL, false);
 		xyz = make_shared<dcp::OpenJPEGImage>(image->data()[0], image->size(), image->stride()[0]);
 	}
 
