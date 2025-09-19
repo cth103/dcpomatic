@@ -108,6 +108,10 @@ class DOMFrame : public wxFrame
 public:
 	explicit DOMFrame(wxString const& title)
 		: wxFrame(nullptr, -1, title)
+		/* Use a panel as the only child of the Frame so that we avoid
+		   the dark-grey background on Windows.
+		*/
+		, _overall_panel(new wxPanel(this, wxID_ANY))
 	{
 		auto bar = new wxMenuBar;
 		setup_menu(bar);
@@ -122,10 +126,10 @@ public:
 		auto overall_sizer = new wxBoxSizer(wxVERTICAL);
 
 		auto dcp_sizer = new wxBoxSizer(wxHORIZONTAL);
-		add_label_to_sizer(dcp_sizer, this, _("DCPs"), true, 0, wxALIGN_CENTER_VERTICAL);
+		add_label_to_sizer(dcp_sizer, _overall_panel, _("DCPs"), true, 0, wxALIGN_CENTER_VERTICAL);
 
 		auto dcps = new EditableList<boost::filesystem::path, DirDialogWrapper>(
-			this,
+			_overall_panel,
 			{ EditableListColumn(_("DCP"), 300, true) },
 			boost::bind(&DOMFrame::dcp_paths, this),
 			boost::bind(&DOMFrame::set_dcp_paths, this, _1),
@@ -138,31 +142,31 @@ public:
 		overall_sizer->Add(dcp_sizer, 0, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 
 		auto options_sizer = new wxBoxSizer(wxVERTICAL);
-		_check_picture_details = new CheckBox(this, _("Verify picture asset details"));
+		_check_picture_details = new CheckBox(_overall_panel, _("Verify picture asset details"));
 		_check_picture_details->set(true);
 		_check_picture_details->SetToolTip(
 			_("Tick to check details of the picture asset, such as frame sizes and JPEG2000 bitstream validity.  "
 			  "These checks are quite time-consuming.")
 		);
 		options_sizer->Add(_check_picture_details, 0, wxBOTTOM, DCPOMATIC_SIZER_GAP);
-		_write_log = new CheckBox(this, _("Write logs to DCP folders"));
+		_write_log = new CheckBox(_overall_panel, _("Write logs to DCP folders"));
 		options_sizer->Add(_write_log, 0, wxBOTTOM, DCPOMATIC_SIZER_GAP);
 		overall_sizer->Add(options_sizer, 0, wxLEFT, DCPOMATIC_DIALOG_BORDER);
 
 		auto actions_sizer = new wxBoxSizer(wxHORIZONTAL);
-		_cancel = new Button(this, _("Cancel"));
+		_cancel = new Button(_overall_panel, _("Cancel"));
 		actions_sizer->Add(_cancel, 0, wxRIGHT, DCPOMATIC_SIZER_GAP);
-		_verify = new Button(this, _("Verify"));
+		_verify = new Button(_overall_panel, _("Verify"));
 		actions_sizer->Add(_verify, 0, wxRIGHT, DCPOMATIC_SIZER_GAP);
 		overall_sizer->Add(actions_sizer, 1, wxLEFT | wxRIGHT | wxALIGN_CENTER, DCPOMATIC_DIALOG_BORDER);
 
-		_progress_panel = new VerifyDCPProgressPanel(this);
+		_progress_panel = new VerifyDCPProgressPanel(_overall_panel);
 		overall_sizer->Add(_progress_panel, 0, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 
-		_result_panel = new VerifyDCPResultPanel(this);
+		_result_panel = new VerifyDCPResultPanel(_overall_panel);
 		overall_sizer->Add(_result_panel, 0, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 
-		SetSizerAndFit(overall_sizer);
+		_overall_panel->SetSizerAndFit(overall_sizer);
 
 		_cancel->bind(&DOMFrame::cancel_clicked, this);
 		_verify->bind(&DOMFrame::verify_clicked, this);
@@ -178,7 +182,7 @@ private:
 
 	void help_about()
 	{
-		AboutDialog dialog(this);
+		AboutDialog dialog(_overall_panel);
 		dialog.ShowModal();
 	}
 
@@ -275,6 +279,7 @@ private:
 		return _dcp_paths;
 	}
 
+	wxPanel* _overall_panel = nullptr;
 	std::vector<boost::filesystem::path> _dcp_paths;
 	CheckBox* _check_picture_details;
 	CheckBox* _write_log;
