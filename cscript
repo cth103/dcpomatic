@@ -831,7 +831,7 @@ def make_appimage(target, nice_name, internal_name, version, extra_binaries=None
     target.command(f'cp -a /{lib}/gdk-pixbuf-2.0 build/{nice_filename}.AppDir/usr/lib/x86_64-linux-gnu/')
     target.command('sudo apt update')
     for package in ['libc6', 'libglib2.0-0', 'gnome-settings-daemon-schemas', 'librsvg2-common', 'libgdk-pixbuf2.0-0', 'libpango-1.0-0', 'libpangoft2-1.0-0', 'libpangocairo-1.0-0', 'libthai0']:
-        target.command(f'apt download {package}')
+        target.command(f'apt-get download {package}')
         target.command(f'dpkg-deb -x {package}*.deb {appdir}')
     target.command(f'glib-compile-schemas {appdir}/usr/share/glib-2.0/schemas')
     target.command(f'sed -i -e "s|/usr/lib/x86_64-linux-gnu/gdk-pixbuf-.*/.*/loaders/||g" {appdir}/usr/lib/x86_64-linux-gnu/gdk-pixbuf-*/*/loaders.cache')
