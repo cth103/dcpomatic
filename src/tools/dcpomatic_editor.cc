@@ -458,7 +458,7 @@ private:
 
 	void file_save ()
 	{
-		_dcp->write_xml();
+		_dcp->write_xml(Config::instance()->signer_chain());
 	}
 
 	void file_exit ()
