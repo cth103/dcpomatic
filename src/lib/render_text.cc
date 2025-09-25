@@ -422,9 +422,10 @@ render_line(vector<StringText> subtitles, dcp::Size target, DCPTime time, int fr
 	auto surface = create_surface(image);
 	auto context = Cairo::Context::create(surface);
 
+	layout.pango->update_from_cairo_context(context);
+
 	context->set_line_width(1);
 	context->scale(x_scale, y_scale);
-	layout.pango->update_from_cairo_context(context);
 
 	if (first.effect() == dcp::Effect::SHADOW) {
 		/* Drop-shadow effect */

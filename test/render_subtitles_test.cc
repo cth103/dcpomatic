@@ -36,6 +36,7 @@
 
 
 using std::make_shared;
+using std::pair;
 using std::shared_ptr;
 using std::string;
 using std::vector;
@@ -180,6 +181,46 @@ BOOST_AUTO_TEST_CASE(render_text_with_newline_test)
 #else
 	check_image("test/data/render_text_with_newline_test.png", "build/test/render_text_with_newline_test.png");
 #endif
+}
+
+
+BOOST_AUTO_TEST_CASE(render_text_with_stretch_test)
+{
+	for (auto const& stretch: vector<pair<float, string>>{ { 0.5, "thin"}, { 2, "fat" }}) {
+		auto dcp_string = dcp::TextString(
+			{}, false, false, false, dcp::Colour(255, 255, 255), 42, stretch.first,
+			dcp::Time(0, 0, 0, 0, 24), dcp::Time(0, 0, 1, 0, 24),
+			0.5, dcp::HAlign::CENTER,
+			0.5, dcp::VAlign::CENTER,
+			0.0, {},
+			dcp::Direction::LTR,
+			"HÄllo jokers",
+			dcp::Effect::NONE, dcp::Colour(0, 0, 0),
+			{}, {},
+			0,
+			{}
+			);
+
+		auto string_text = StringText(dcp_string, 0, make_shared<dcpomatic::Font>("foo"), dcp::SubtitleStandard::SMPTE_2014);
+
+		auto images = render_text({ string_text }, dcp::Size(1998, 1080), {}, 24);
+
+		BOOST_CHECK_EQUAL(images.size(), 1U);
+		image_as_png(Image::ensure_alignment(images.front().image, Image::Alignment::PADDED)).write(
+			fmt::format("build/test/render_text_with_stretch_{}_test.png", stretch.second)
+			);
+#if PANGO_VERSION_CHECK(1, 52, 1)
+		check_image(
+			fmt::format("test/data/render_text_with_stretch_{}_test.png", stretch.second),
+			fmt::format("build/test/render_text_with_stretch_{}_test.png", stretch.second)
+		);
+#else
+		check_image(
+			fmt::format("test/data/ubuntu-22.04/render_text_with_stretch_{}_test.png", stretch.second),
+			fmt::format("build/test/render_text_with_stretch_{}_test.png", stretch.second)
+		);
+#endif
+	}
 }
 
 
