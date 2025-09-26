@@ -8,24 +8,24 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-08-27 11:30+0200\n"
-"PO-Revision-Date: 2024-12-07 15:17+0100\n"
+"PO-Revision-Date: 2025-09-26 17:47+0200\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.4.2\n"
+"X-Generator: Poedit 3.7\n"
 
 #: src/tools/dcpomatic_kdm.cc:491
 #, c-format
 msgid "%d KDM written to %s"
-msgstr "%d KDM créée dans %s"
+msgstr "%d KDM créé dans %s"
 
 #: src/tools/dcpomatic_kdm.cc:491
 #, c-format
 msgid "%d KDMs written to %s"
-msgstr "%d KDMs créées dans %s"
+msgstr "%d KDMs créés dans %s"
 
 #: src/tools/dcpomatic_combiner.cc:175
 #, c-format
@@ -276,7 +276,7 @@ msgid ""
 "Are you sure you want to restore preferences to their defaults?  This cannot "
 "be undone."
 msgstr ""
-"Êtes-vous sûr de vouloir restaurer les préférences à leurs valeurs par "
+"Êtes-vous sûr·e de vouloir restaurer les préférences à leurs valeurs par "
 "défaut ?  Cette opération ne peut être annulée."
 
 #: src/tools/dcpomatic.cc:876
@@ -296,11 +296,11 @@ msgstr "Le contenu de la CPL n'est pas crypté."
 #: src/tools/dcpomatic_editor.cc:405
 #, c-format
 msgid "CPL: %s"
-msgstr ""
+msgstr "CPL: %s"
 
 #: src/tools/dcpomatic_verifier.cc:152
 msgid "Cancel"
-msgstr ""
+msgstr "Annuler"
 
 #: src/tools/dcpomatic.cc:1426 src/tools/dcpomatic_player.cc:688
 msgid "Check for updates"
@@ -311,9 +311,8 @@ msgid "Choose a DCP folder"
 msgstr "Choisir un dossier de DCP"
 
 #: src/tools/dcpomatic_verifier.cc:74
-#, fuzzy
 msgid "Choose a folder"
-msgstr "Choisir un dossier de DCP"
+msgstr "Choisir un dossier"
 
 #: src/tools/dcpomatic.cc:1954 src/tools/dcpomatic.cc:1973
 #, c-format
@@ -357,7 +356,7 @@ msgid ""
 "Could not decrypt the DKDM.  Perhaps it was not created with the correct "
 "certificate."
 msgstr ""
-"Impossible de décrypter le DKDM.  Peut-être n'a-t-il pas été créé avec le "
+"Impossible de décrypter le DKDM.  Peut-être n'a-t-il pas été créé pour le "
 "bon certificat."
 
 #: src/tools/dcpomatic.cc:659 src/tools/dcpomatic.cc:676
@@ -460,7 +459,7 @@ msgid ""
 "at all."
 msgstr ""
 "Impossible de lire le fichier comme un KDM.  Peut-être est-il mal formaté, "
-"ou n'est-il pas du tout un KDM."
+"ou n'est-il pas du tout une KDM."
 
 #: src/tools/dcpomatic.cc:797
 msgid "Could not remove existing preferences file"
@@ -518,7 +517,7 @@ msgstr "Créateur"
 
 #: src/tools/dcpomatic_playlist.cc:342
 msgid "Crop"
-msgstr ""
+msgstr "Rogner"
 
 #: src/tools/dcpomatic_disk.cc:139 src/tools/dcpomatic_verifier.cc:128
 msgid "DCP"
@@ -544,7 +543,7 @@ msgstr "DKDM"
 #, c-format
 msgid "DKDM %s is already in the DKDM list and will not be added again."
 msgstr ""
-"Le DKDM %s est déjà dans la liste des DKDM et ne sera pas ajouté à nouveau."
+"Le DKDM %s est déjà dans la liste des DKDMs et ne sera pas ajouté à nouveau."
 
 #: src/tools/dcpomatic_player.cc:681
 msgid "Decode at full resolution"
@@ -638,9 +637,8 @@ msgid "Edit reel"
 msgstr "Éditer la bobine"
 
 #: src/tools/dcpomatic_playlist.cc:351
-#, fuzzy
 msgid "Edit..."
-msgstr "&Édition"
+msgstr "Édition…"
 
 #: src/tools/dcpomatic_batch.cc:103 src/tools/dcpomatic.cc:1424
 msgid "Encoding servers..."
@@ -664,7 +662,7 @@ msgstr "Exporter les sous-titres..."
 
 #: src/tools/dcpomatic.cc:1402
 msgid "Export video file...\tCtrl-E"
-msgstr "Export le fichier vidéo...\tCtrl-E"
+msgstr "Exporter le fichier vidéo...\tCtrl-E"
 
 #: src/tools/dcpomatic_kdm.cc:220
 msgid "Export..."
@@ -672,7 +670,7 @@ msgstr "Exporter..."
 
 #: src/tools/dcpomatic_player.cc:678
 msgid "Eye"
-msgstr ""
+msgstr "Œil"
 
 #: src/tools/dcpomatic.cc:1039 src/tools/dcpomatic_kdm.cc:362
 #, c-format
@@ -737,11 +735,11 @@ msgstr ""
 #. TRANSLATORS: translate the word "Timing" here; do not include the "KDM|" prefix
 #: src/tools/dcpomatic_kdm.cc:169
 msgid "KDM|Timing"
-msgstr "KDM|Chronologie"
+msgstr "KDM|Validité"
 
 #: src/tools/dcpomatic_player.cc:676
 msgid "Left"
-msgstr ""
+msgstr "Gauche"
 
 #: src/tools/dcpomatic_playlist.cc:140
 msgid "Length"
@@ -766,7 +764,7 @@ msgstr "Créer un DCP dans le &convertisseur par lots\tCtrl-B"
 #: src/tools/dcpomatic.cc:1399
 #, c-format
 msgid "Make DKDM for %s..."
-msgstr "Créer une DKDM pour %s..."
+msgstr "Créer un DKDM pour %s..."
 
 #: src/tools/dcpomatic.cc:1425
 msgid "Manage templates..."
@@ -828,7 +826,7 @@ msgstr "Dossier du DCP de destination"
 #: src/tools/dcpomatic_editor.cc:408
 #, c-format
 msgid "PKL: %s"
-msgstr ""
+msgstr "PKL : %s"
 
 #: src/tools/dcpomatic.cc:1376
 msgid "Paste settings...\tCtrl-V"
@@ -852,8 +850,8 @@ msgid ""
 "Please check that you do not have Windows controlled folder access enabled "
 "for %s."
 msgstr ""
-"Veuillez vérifier que l'accès aux dossiers contrôlés par Windows n'est pas "
-"activé pour %s."
+"Veuillez vérifier dans Sécurité Windows que l'accès contrôlé aux dossiers "
+"n'est pas activé pour %s."
 
 #: src/tools/dcpomatic_playlist.cc:429
 msgid "Question|N"
@@ -903,7 +901,7 @@ msgstr "Rétablir les préférences par défaut"
 
 #: src/tools/dcpomatic_player.cc:677
 msgid "Right"
-msgstr ""
+msgstr "Droit"
 
 #: src/tools/dcpomatic.cc:1410
 msgid "S&how DCP in Explorer"
@@ -1043,18 +1041,17 @@ msgid ""
 "certificates' validity period.  Either use an earlier end time for this KDM "
 "or re-create your signing certificates in the %s preferences window."
 msgstr ""
-"La période de fin du KDM est après (ou proche de) la fin de validité des "
-"certificats de signature. Définissez une fin de validité du KDM antérieure "
-"ou recréez vos certificats de signature dans la fenêtre de préférences de %s."
+"Le KDM expire après (ou juste avant) les certificats de signature. "
+"Définissez une fin de validité antérieure pour le KDM ou recréez vos "
+"certificats de signature dans la fenêtre de préférences de %s."
 
 #: src/tools/dcpomatic_kdm.cc:499
 msgid ""
 "The KDM start period is before (or close to) the start of the signing "
 "certificate's validity period.  Use a later start time for this KDM."
 msgstr ""
-"La période de début du KDM est avant le (ou proche du) début de la validité "
-"des certificats de signature. Définissez un début de validité du KDM plus "
-"tardif."
+"La validité du KDM démarre avant (ou juste après) celle des certificats de "
+"signature. Définissez un début de validité plus tardif pour le KDM."
 
 #: src/tools/dcpomatic.cc:1003
 msgid "The certificate chain for signing is invalid"
@@ -1070,11 +1067,11 @@ msgid ""
 "and back up your\n"
 "configuration before continuing."
 msgstr ""
-"La chaîne de certificats que %s utilise pour décrypter les KDM est "
-"incohérente et\n"
-"ne peut pas être utilisée.  %s ne peut pas démarrer si vous ne le recréez "
+"La chaîne de certificats que %s utilise pour décrypter les KDMs est "
+"incohérente\n"
+"et ne peut pas être utilisée.  %s ne peut pas démarrer si vous ne la recréez "
 "pas.\n"
-"Voulez-vous recréer la chaîne de certificats pour le décryptage des KDM ?  "
+"Voulez-vous recréer la chaîne de certificats pour le décryptage des KDMs ?  "
 "Il est préférable\n"
 "de dire \"Non\" ici et de sauvegarder votre configuration avant de continuer."
 
@@ -1088,10 +1085,10 @@ msgid ""
 "the certificate chain for signing DCPs and KDMs?"
 msgstr ""
 "La chaîne de certificats que %s utilise pour signer les DCPs et les KDMs "
-"contient une\n"
-"petite erreur qui empêche la validation correcte des DCPs sur certains "
-"systèmes.  Voulez-vous\n"
-"recréer la chaîne de certificats pour la signature des DCPs et des KDMs ?"
+"contient une petite erreur\n"
+"qui empêche la validation correcte des DCPs sur certains systèmes.\n"
+"Voulez-vous recréer la chaîne de certificats pour la signature des DCPs et "
+"des KDMs ?"
 
 #: src/tools/dcpomatic.cc:1985
 #, c-format
@@ -1105,9 +1102,8 @@ msgid ""
 "for signing DCPs and KDMs?"
 msgstr ""
 "La chaîne de certificats que %s utilise pour signer les DCPs et les KDMs "
-"contient une\n"
-"petite erreur qui empêche la validation correcte des DCPs sur certains "
-"systèmes.  \n"
+"contient une petite erreur\n"
+"qui empêche la validation correcte des DCPs sur certains systèmes.  \n"
 "Cette erreur a été causée par un bug dans %s, qui a depuis été résolu.\n"
 "Voulez-vous recréer la chaîne de certificats pour la signature des DCPs et "
 "des KDMs ?"
@@ -1121,8 +1117,8 @@ msgid ""
 "systems.\n"
 "Do you want to re-create the certificate chain for signing DCPs and KDMs?"
 msgstr ""
-"La chaîne de certificats que %s utilise pour signer les DCP et les KDM a une "
-"période\n"
+"La chaîne de certificats que %s utilise pour signer les DCP et les KDMs a "
+"une période\n"
 "de validité trop longue. trop longue.  Cela entraîne des problèmes de "
 "lecture des DCP sur certains\n"
 "systèmes.  Voulez-vous recréer la chaîne de certificats pour signer les DCPs "
@@ -1150,7 +1146,7 @@ msgid ""
 "The directory {} already exists and is not empty.  Are you sure you want to "
 "use it?"
 msgstr ""
-"Le répertoire {} existe déjà et n'est pas vide. Êtes-vous sûr de vouloir "
+"Le répertoire {} existe déjà et n'est pas vide. Êtes-vous sûr·e de vouloir "
 "l'utiliser ?"
 
 #: src/tools/dcpomatic_disk.cc:293
@@ -1183,7 +1179,7 @@ msgstr "Pas de mise à jour disponible de %s pour l'instant."
 #: src/tools/dcpomatic_batch.cc:278 src/tools/dcpomatic.cc:1172
 #: src/tools/dcpomatic_disk.cc:268
 msgid "There are unfinished jobs; are you sure you want to quit?"
-msgstr "Il y a des tâches inachevées ; êtes-vous sûr de vouloir quitter ?"
+msgstr "Il y a des tâches inachevées ; êtes-vous sûr·e de vouloir quitter ?"
 
 #: src/tools/dcpomatic.cc:483
 msgid ""
@@ -1210,6 +1206,9 @@ msgid ""
 "Tick to check details of the picture asset, such as frame sizes and JPEG2000 "
 "bitstream validity.  These checks are quite time-consuming."
 msgstr ""
+"Cocher pour inspecter les caractéristiques de la ressource vidéo, comme les "
+"tailles d'image et la conformité du flux JPEG2000. Ces contrôles peuvent "
+"prendre du temps."
 
 #: src/tools/dcpomatic_player.cc:689
 msgid "Timing..."
@@ -1247,14 +1246,12 @@ msgid "Up"
 msgstr "Haut"
 
 #: src/tools/dcpomatic_verifier.cc:154
-#, fuzzy
 msgid "Verify"
-msgstr "Vérifier le DCP..."
+msgstr "Vérifier"
 
 #: src/tools/dcpomatic_player.cc:1018
-#, fuzzy
 msgid "Verify DCP"
-msgstr "Vérifier le DCP..."
+msgstr "Vérifier le DCP"
 
 #: src/tools/dcpomatic_player.cc:686
 msgid "Verify DCP..."
@@ -1262,29 +1259,28 @@ msgstr "Vérifier le DCP..."
 
 #: src/tools/dcpomatic_verifier.cc:140
 msgid "Verify picture asset details"
-msgstr ""
+msgstr "Vérifier les caractéristiques des ressources vidéo"
 
 #: src/tools/dcpomatic.cc:1422
 msgid "Version File (VF)..."
-msgstr "Fichier de version (VF)..."
+msgstr "DCP supplémental (VF)..."
 
 #: src/tools/dcpomatic.cc:1419
 msgid "Video waveform..."
 msgstr "Forme d'onde vidéo..."
 
 #: src/tools/dcpomatic_verifier.cc:147
-#, fuzzy
 msgid "Write logs to DCP folders"
-msgstr "Choisir un dossier de DCP"
+msgstr "Ecrire les rapports dans les dossiers DCP"
 
 #: src/tools/dcpomatic_kdm.cc:795
 msgid ""
 "You are about to remove a DKDM.  This will make it impossible to decrypt the "
 "DCP that the DKDM was made for, and it cannot be undone.  Are you sure?"
 msgstr ""
-"Vous êtes sur le point de supprimer une DKDM.  Cela rendra impossible le "
-"décryptage du DCP pour lequel la DKDM a été créée, et cela ne peut être "
-"annulé.  Êtes-vous sûr ?"
+"Vous êtes sur le point de supprimer un DKDM.  Cela rendra impossible le "
+"décryptage du DCP pour lequel le DKDM a été créé, et cela ne peut être "
+"annulé.  Êtes-vous sûr·e ?"
 
 #: src/tools/dcpomatic.cc:988
 #, c-format
@@ -1297,7 +1293,7 @@ msgid ""
 "you <span weight=\"bold\" size=\"larger\">BACK UP THIS FILE</span> since if "
 "it is lost your DKDMs (and the DCPs they protect) will become useless."
 msgstr ""
-"Vous êtes sur le point de créer une DKDM qui est crypté par une clé privée "
+"Vous êtes sur le point de créer un DKDM qui est crypté par une clé privée "
 "contenue dans\n"
 "\n"
 "<tt>%s</tt>\n"

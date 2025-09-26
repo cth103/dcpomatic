@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-08-27 11:30+0200\n"
-"PO-Revision-Date: 2024-12-07 15:17+0100\n"
+"PO-Revision-Date: 2025-09-26 17:49+0200\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.4.2\n"
+"X-Generator: Poedit 3.7\n"
 
 #: src/lib/video_content.cc:513
 #, c-format
@@ -113,7 +113,7 @@ msgstr "1,19"
 
 #: src/lib/ratio.cc:45
 msgid "1.25"
-msgstr ""
+msgstr "1,25"
 
 #: src/lib/ratio.cc:46
 msgid "1.33 (4:3)"
@@ -129,7 +129,7 @@ msgstr "1,43 (IMAX)"
 
 #: src/lib/ratio.cc:49
 msgid "1.50"
-msgstr ""
+msgstr "1,50"
 
 #: src/lib/ratio.cc:50
 msgid "1.66"
@@ -157,11 +157,11 @@ msgstr "16"
 
 #: src/lib/ratio.cc:53
 msgid "2.00"
-msgstr ""
+msgstr "2,00"
 
 #: src/lib/ratio.cc:54
 msgid "2.21"
-msgstr ""
+msgstr "2,21"
 
 #: src/lib/ratio.cc:55
 msgid "2.35 (35mm Scope)"
@@ -182,7 +182,7 @@ msgid ""
 "advisable to set the DCP to be 2K in the \"DCP→Video\" tab."
 msgstr ""
 "La 3D 4K n'est prise en charge que par un nombre très limité de "
-"projecteurs.  À moins que vous ne soyez sûr que les projecteurs qui liront "
+"projecteurs.  À moins que vous ne soyez sûr·e que les projecteurs qui liront "
 "ce DCP en sont capable, il est conseillé de régler le DCP sur 2K dans "
 "l'onglet \"DCP→Vidéo\"."
 
@@ -227,7 +227,7 @@ msgstr ""
 "de 40€</a><li><a href=\"https://dcpomatic.com/donate_amount?"
 "amount=20\">Aller sur Paypal pour faire un don de 20€</a><li><a "
 "href=\"https://dcpomatic.com/donate_amount?amount=10\">Aller sur Paypal pour "
-"faire un don de 10€</a></ul><p>Merci !"
+"faire un don de 10€</a></ul><p>Merci !</p>"
 
 #: src/lib/hints.cc:176
 msgid ""
@@ -499,9 +499,8 @@ msgid "Closed subtitles"
 msgstr "Sous-titres optionnels"
 
 #: src/lib/ffmpeg_content.cc:617
-#, fuzzy
 msgid "Colour primaries"
-msgstr "Couleurs primaires"
+msgstr "Primaires de chromaticité"
 
 #. TRANSLATORS: this means that the range of pixel values used in this
 #. file is unknown (not specified in the file).
@@ -548,14 +547,12 @@ msgid "Content and DCP have the same rate.\n"
 msgstr "Le contenu et le DCP ont la même fréquence.\n"
 
 #: src/lib/audio_content.cc:305
-#, fuzzy
 msgid "Content bit depth"
-msgstr "Bits par échantillon du contenu audio"
+msgstr "Résolution des échantillons du contenu"
 
 #: src/lib/audio_content.cc:303
-#, fuzzy
 msgid "Content sample rate"
-msgstr "Fréquence d'échantillonnage du contenu audio"
+msgstr "Fréquence d'échantillonnage du contenu"
 
 #: src/lib/ffmpeg_content.cc:150
 msgid "Content to be joined must all have or not have audio"
@@ -693,21 +690,22 @@ msgid "Copy DCP to TMS"
 msgstr "Copier le DCP dans le TMS"
 
 #: src/lib/copy_to_drive_job.cc:119
-#, fuzzy
 msgid "Copying DCP"
-msgstr "Combiner les DCPs"
+msgstr "Copie du DCP"
 
 #: src/lib/copy_to_drive_job.cc:61
-#, fuzzy, c++-format
+#, c++-format
 msgid "Copying DCPs to {}"
-msgstr "Copier le DCP dans le TMS"
+msgstr "Copie des DCPs vers {}"
 
 #: src/lib/copy_to_drive_job.cc:58
-#, fuzzy, c++-format
+#, c++-format
 msgid ""
 "Copying {}\n"
 "to {}"
-msgstr "copie de {}"
+msgstr ""
+"Copie de {}\n"
+"vers {}"
 
 #: src/lib/scp_uploader.cc:56
 #, c++-format
@@ -810,14 +808,13 @@ msgid "DCI Scope"
 msgstr "DCI Scope"
 
 #: src/lib/film.cc:1955
-#, fuzzy
 msgid "DCP"
-msgstr "DBP"
+msgstr "DCP"
 
 #: src/lib/film.cc:1952
 #, c++-format
 msgid "DCP (via {})"
-msgstr ""
+msgstr "DCP (via {})"
 
 #: src/lib/dcp_subtitle_content.cc:139
 msgid "DCP XML subtitles"
@@ -994,9 +991,8 @@ msgid "FCC"
 msgstr "FCC"
 
 #: src/lib/fcpxml_content.cc:92
-#, fuzzy
 msgid "FCP XML subtitles"
-msgstr "Sous-titres XML de DCP"
+msgstr "Sous-titres FCP XML"
 
 #: src/lib/scp_uploader.cc:68
 #, c++-format
@@ -1036,9 +1032,8 @@ msgid "Finding length"
 msgstr "Recherche de la durée"
 
 #: src/lib/copy_to_drive_job.cc:112
-#, fuzzy
 msgid "Formatting drive"
-msgstr "Calcul du rapport en cours"
+msgstr "Formatage du disque"
 
 #: src/lib/content.cc:469
 msgid "Frame rate"
@@ -1083,6 +1078,9 @@ msgid ""
 "check your configuration and license, and ensure that you are connected to "
 "the internet."
 msgstr ""
+"L'accélération graphique est activée, mais le décodeur grok ne fonctionne "
+"pas. Veuillez vérifier votre configuration, votre licence et votre connexion "
+"internet."
 
 #: src/lib/ffmpeg_content.cc:624
 msgid "Gamma 22 (BT470M)"
@@ -1282,8 +1280,8 @@ msgstr "Aucune CPL trouvée dans le DCP."
 #: src/lib/kdm_with_metadata.cc:217
 msgid "No from address configured in the KDM Email tab of preferences"
 msgstr ""
-"Aucune adresse e-mail d'expédition n'a été configurée dans l'onglet \"KDM E-"
-"mail\" des préférences"
+"Aucune adresse e-mail d'expédition n'a été configurée dans l'onglet \"E-mail "
+"KDM\" des préférences"
 
 #: src/lib/kdm_with_metadata.cc:213 src/lib/send_notification_email_job.cc:69
 msgid "No outgoing mail server configured in the Email tab of preferences"
@@ -1611,15 +1609,18 @@ msgid ""
 "preview, and if not try enabling or disabling the 'premultiply' video filter "
 "in the content Advanced Settings dialogue box."
 msgstr ""
+"Une partie de votre contenu vidéo contient un canal alpha, et {} ne sait pas "
+"s'il doit être pris en compte. Vérifiez que la vidéo s'affiche correctement "
+"dans l'aperçu, sinon essayez d'activer ou de désactiver le filtre vidéo "
+"\"prémultiplier le canal alpha\" dans les Paramètres avancés du contenu."
 
 #: src/lib/cover_sheet.cc:93
 msgid "Stereo"
 msgstr "Stéréo"
 
 #: src/lib/dcp_content_type.cc:66
-#, fuzzy
 msgid "Stereo card"
-msgstr "Carte stéréo 3D"
+msgstr "Carte stéréo"
 
 #: src/lib/upmixer_a.cc:51
 msgid "Stereo to 5.1 up-mixer A"
@@ -1652,7 +1653,7 @@ msgstr "Sous-titres texte"
 #: src/lib/make_dcp.cc:56
 msgid "The DCP is empty, perhaps because all the content has zero length."
 msgstr ""
-"Le DCP est vide, peut-être parce que tout le contenu a une longueur nulle."
+"Le DCP est vide, peut-être parce que tout le contenu a une durée nulle."
 
 #: src/lib/exceptions.cc:92
 msgid "The certificate chain for signing is invalid"
@@ -1672,7 +1673,7 @@ msgid ""
 "clicking the \"Re-make certificates and key...\" button in the Keys page of "
 "Preferences."
 msgstr ""
-"La chaîne de certificats que {} utilise pour signer les DCP et les KDM "
+"La chaîne de certificats que {} utilise pour signer les DCP et les KDMs "
 "contient une petite erreur qui empêchera les DCP d'être validés correctement "
 "sur certains systèmes.  Il vous est conseillé de recréer la chaîne de "
 "certificats de signature en cliquant sur le bouton \"Re-créer les "
@@ -1687,10 +1688,10 @@ msgid ""
 "clicking the \"Re-make certificates and key...\" button in the Keys page of "
 "Preferences."
 msgstr ""
-"La chaîne de certificats que {} utilise pour signer les DCP et les KDM a une "
-"période de validité trop longue.  Cela entraîne des problèmes de lecture des "
-"DCP sur certains systèmes.  Il vous est conseillé de recréer la chaîne de "
-"certificats de signature en cliquant sur le bouton \"Re-créer les "
+"La chaîne de certificats que {} utilise pour signer les DCP et les KDMs a "
+"une période de validité trop longue.  Cela entraîne des problèmes de lecture "
+"des DCP sur certains systèmes.  Il vous est conseillé de recréer la chaîne "
+"de certificats de signature en cliquant sur le bouton \"Re-créer les "
 "certificats et la clé...\" dans la page Clés des préférences."
 
 #: src/lib/video_decoder.cc:69
@@ -1739,8 +1740,8 @@ msgid ""
 "really wants an old-style MPEG2 DCP."
 msgstr ""
 "La grande majorité des cinémas en Europe, Australasie et Amérique du Nord "
-"s'attendent à des DCP encodés en JPEG2000 et non MPEG2.  Soyez sûr que le "
-"cinéma destinataire attende un DCP MPEG2 à l'ancienne."
+"s'attendent à des DCP encodés en JPEG2000 et non en MPEG2.  Assurez-vous que "
+"le cinéma destinataire souhaite vraiment un DCP MPEG2 à l'ancienne."
 
 #: src/lib/release_notes.cc:87
 msgid ""
@@ -1821,7 +1822,7 @@ msgid ""
 "This file is a KDM.  KDMs should be added to DCP content by right-clicking "
 "the content and choosing \"Add KDM\"."
 msgstr ""
-"Ce fichier est un KDM. Les KDMs doivent être ajoutées au contenu du DCP en "
+"Ce fichier est un KDM. Les KDMs doivent être ajoutés au contenu du DCP en "
 "cliquant droit sur le contenu et en sélectionnant \"Ajouter un KDM\"."
 
 #: src/lib/film.cc:543
@@ -1934,7 +1935,7 @@ msgstr "Vérifier le DCP"
 
 #: src/lib/copy_to_drive_job.cc:126
 msgid "Verifying copied files"
-msgstr ""
+msgstr "Vérification des fichiers copiés"
 
 #: src/lib/filter.cc:92
 msgid "Vertical flip"
@@ -1943,7 +1944,7 @@ msgstr "Retournement vertical"
 #: src/lib/fcpxml.cc:69
 #, c++-format
 msgid "Video refers to missing asset {}"
-msgstr ""
+msgstr "La vidéo fait référence à la ressource manquante {}"
 
 #: src/lib/util.cc:595
 msgid "Visually impaired"
@@ -1955,7 +1956,7 @@ msgstr "En cours"
 
 #: src/lib/filter.cc:100
 msgid "Weave filter"
-msgstr "Filtre par tissage (Weave)"
+msgstr "Filtre Weave"
 
 #: src/lib/job.cc:564
 msgid "Wednesday"
@@ -2201,9 +2202,9 @@ msgid "error during async_connect ({})"
 msgstr "erreur pendant async_connect ({})"
 
 #: src/lib/dcpomatic_socket.cc:78
-#, fuzzy, c++-format
+#, c++-format
 msgid "error during async_connect: ({})"
-msgstr "erreur pendant async_connect ({})"
+msgstr "erreur pendant async_connect : ({})"
 
 #: src/lib/dcpomatic_socket.cc:200
 #, c++-format
@@ -2301,9 +2302,8 @@ msgid "m"
 msgstr "m"
 
 #: src/lib/image_content.cc:94
-#, fuzzy
 msgid "moving"
-msgstr "séquence"
+msgstr "déplacement"
 
 #: src/lib/make_dcp.cc:48
 msgid "name"
