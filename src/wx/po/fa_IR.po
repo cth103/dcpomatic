@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-27 11:30+0200\n"
+"POT-Creation-Date: 2025-09-26 19:56+0200\n"
 "PO-Revision-Date: 2024-10-05 17:45+0330\n"
 "Last-Translator: Soleyman Rahmani Aghdam <Soleyman.rahmani@gmail.com>\n"
 "Language-Team: \n"
@@ -44,17 +44,17 @@ msgid "%"
 msgstr "%"
 
 #. TRANSLATORS: this will be used in the middle of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
-#: src/wx/verify_dcp_result_panel.cc:131
+#: src/wx/verify_dcp_result_panel.cc:138
 #, c-format
 msgid "%d Bv2.1 errors, "
 msgstr "%d خطای 1 Bv2.1, "
 
-#: src/wx/dkdm_dialog.cc:186
+#: src/wx/dkdm_dialog.cc:196
 #, c-format
 msgid "%d DKDM written to %s"
 msgstr "%d کلید توزیع در %s نوشته شد"
 
-#: src/wx/dkdm_dialog.cc:186
+#: src/wx/dkdm_dialog.cc:196
 #, c-format
 msgid "%d DKDMs written to %s"
 msgstr "%d کلیدهای توزیع در %s نوشته شدند"
@@ -69,13 +69,13 @@ msgstr "%d کلید در %s نوشته شد"
 msgid "%d KDMs written to %s"
 msgstr "%d کلیدها در %s نوشته شدند"
 
-#: src/wx/sound_preferences_page.cc:184
+#: src/wx/sound_preferences_page.cc:207
 #, c-format
 msgid "%d channels on %s"
 msgstr "%d کانال ها در %s"
 
 #. TRANSLATORS: this will be used at the start of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
-#: src/wx/verify_dcp_result_panel.cc:123
+#: src/wx/verify_dcp_result_panel.cc:130
 #, c-format
 msgid "%d errors, "
 msgstr "%d خطا , "
@@ -143,12 +143,12 @@ msgid "0dB (unchanged)"
 msgstr "صفر دسیبل(بدون تغییر)"
 
 #. TRANSLATORS: this will be used in the middle of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
-#: src/wx/verify_dcp_result_panel.cc:128
+#: src/wx/verify_dcp_result_panel.cc:135
 msgid "1 Bv2.1 error, "
 msgstr "یک خطای 1 Bv2.1, "
 
 #. TRANSLATORS: this will be used at the start of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
-#: src/wx/verify_dcp_result_panel.cc:120
+#: src/wx/verify_dcp_result_panel.cc:127
 msgid "1 error, "
 msgstr "یک خطا 1, "
 
@@ -232,12 +232,12 @@ msgstr "96 هزار هرتز"
 msgid ":1"
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:629
+#: src/wx/verify_dcp_result_panel.cc:637
 #, c-format
 msgid "<IssueDate> has an invalid value %n"
 msgstr "<IssueDate> یک مقدار نامعتبر دارد %n"
 
-#: src/wx/verify_dcp_result_panel.cc:635
+#: src/wx/verify_dcp_result_panel.cc:643
 #, fuzzy, c-format
 msgid "<MainSoundConfiguration> is invalid (%n)"
 msgstr "<MainSoundConfiguration> تعداد نادرست کانالها را بیان میکند(%n)"
@@ -262,70 +262,70 @@ msgstr ""
 msgid "A"
 msgstr "A"
 
-#: src/wx/verify_dcp_result_panel.cc:538
+#: src/wx/verify_dcp_result_panel.cc:546
 #, c-format
 msgid "A 2K JPEG2000 frame contains %n tile parts instead of 3."
 msgstr "یک فریم  2k JPEG2000 به جای 3 قطعه شامل %n قطعه  است."
 
-#: src/wx/verify_dcp_result_panel.cc:552
+#: src/wx/verify_dcp_result_panel.cc:560
 #, fuzzy, c-format
 msgid "A 2K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %n"
 msgstr "یک فریم JPEG2000 شامل نشانه POC نادرستی است(%n)."
 
-#: src/wx/verify_dcp_result_panel.cc:510
+#: src/wx/verify_dcp_result_panel.cc:518
 #, c-format
 msgid "A 2K JPEG2000 frame has %n POC marker(s) instead of 0."
 msgstr "یک فریم  2k JPEG2000 به جای 0 شامل %n نشانه(های)POC است."
 
-#: src/wx/verify_dcp_result_panel.cc:475
+#: src/wx/verify_dcp_result_panel.cc:483
 #, c-format
 msgid "A 2K JPEG2000 frame has %n guard bits instead of 1."
 msgstr "یک فریم  2k JPEG2000 به جای 1 بیت شامل %n بیت محافظ است."
 
-#: src/wx/verify_dcp_result_panel.cc:545
+#: src/wx/verify_dcp_result_panel.cc:553
 #, c-format
 msgid "A 4K JPEG2000 frame contains %n tile parts instead of 6."
 msgstr "یک فریم  4k JPEG2000 به جای 6 قطعه شامل %n قطعه  است."
 
-#: src/wx/verify_dcp_result_panel.cc:559
+#: src/wx/verify_dcp_result_panel.cc:567
 #, fuzzy, c-format
 msgid "A 4K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %n"
 msgstr "یک فریم JPEG2000 شامل نشانه POC نادرستی است(%n)."
 
-#: src/wx/verify_dcp_result_panel.cc:517
+#: src/wx/verify_dcp_result_panel.cc:525
 #, c-format
 msgid "A 4K JPEG2000 frame has %n POC marker(s) instead of 1."
 msgstr "یک فریم  4k JPEG2000 به جای 1 شامل %n نشانه(های)POC است."
 
-#: src/wx/verify_dcp_result_panel.cc:482
+#: src/wx/verify_dcp_result_panel.cc:490
 #, c-format
 msgid "A 4K JPEG2000 frame has %n guard bits instead of 2."
 msgstr "یک فریم  4k JPEG2000 به جای2 بیت شامل %n بیت محافظ است."
 
-#: src/wx/verify_dcp_result_panel.cc:531
+#: src/wx/verify_dcp_result_panel.cc:539
 msgid "A JPEG2000 frame contains a POC marker in an invalid location."
 msgstr "یک فریم JPEG2000 شامل یک نشانه POC در محل نادرستی است."
 
-#: src/wx/verify_dcp_result_panel.cc:524
+#: src/wx/verify_dcp_result_panel.cc:532
 #, c-format
 msgid "A JPEG2000 frame contains an invalid POC marker (%n)."
 msgstr "یک فریم JPEG2000 شامل نشانه POC نادرستی است(%n)."
 
-#: src/wx/verify_dcp_result_panel.cc:503
+#: src/wx/verify_dcp_result_panel.cc:511
 #, c-format
 msgid "A JPEG2000 frame has a code-block height of %n instead of 32."
 msgstr "یک فریم JPEG2000 به جای 32 یک بلوک-کد با ارتفاع %n دارد."
 
-#: src/wx/verify_dcp_result_panel.cc:496
+#: src/wx/verify_dcp_result_panel.cc:504
 #, c-format
 msgid "A JPEG2000 frame has a code-block width of %n instead of 32."
 msgstr "یک فریم JPEG2000 به جای 32 یک بلوک-کد با عرض %n دارد."
 
-#: src/wx/verify_dcp_result_panel.cc:566
+#: src/wx/verify_dcp_result_panel.cc:574
 msgid "A JPEG2000 frame has no TLM marker."
 msgstr "یک فریم JPEG2000 نشانه TLM ندارد."
 
-#: src/wx/verify_dcp_result_panel.cc:489
+#: src/wx/verify_dcp_result_panel.cc:497
 msgid "A JPEG2000 tile size does not match the image size."
 msgstr "اندازه یک قطعه JPEG2000 با اندازه تصویر مطابقت ندارد."
 
@@ -334,7 +334,7 @@ msgstr "اندازه یک قطعه JPEG2000 با اندازه تصویر مطا�
 msgid "A new version of %s is available."
 msgstr "یک نسخه جدید از %s در دسترس است."
 
-#: src/wx/verify_dcp_result_panel.cc:468
+#: src/wx/verify_dcp_result_panel.cc:476
 #, c-format
 msgid "A picture frame has an invalid JPEG2000 codestream (%n)."
 msgstr "یک فریم تصویر دارای یک رشته کد نامعتبر JPEG2000 است (%n)."
@@ -344,11 +344,11 @@ msgstr "یک فریم تصویر دارای یک رشته کد نامعتبر JP
 msgid "A problem occurred when looking for hints (%s)"
 msgstr "هنگام جستجوی نکات خطایی رخ داد (%s)"
 
-#: src/wx/verify_dcp_result_panel.cc:571
+#: src/wx/verify_dcp_result_panel.cc:579
 msgid "A subtitle lasts longer than the reel it is in."
 msgstr "یک زیرنویس طولانی تر از حلقه فیلمش است."
 
-#: src/wx/verify_dcp_result_panel.cc:651
+#: src/wx/verify_dcp_result_panel.cc:659
 #, c-format
 msgid ""
 "A subtitle or closed caption refers to a font with ID %id that does not have "
@@ -356,11 +356,11 @@ msgid ""
 msgstr ""
 "یک زیرنویس به فونتی با شناسه%i اشاره دارد که یک گره متناظر <LoadFont>ندارد."
 
-#: src/wx/sound_preferences_page.cc:176
+#: src/wx/sound_preferences_page.cc:199
 msgid "ALSA"
 msgstr "ALSA"
 
-#: src/wx/sound_preferences_page.cc:172
+#: src/wx/sound_preferences_page.cc:195
 msgid "ASIO"
 msgstr "ASIO"
 
@@ -414,7 +414,8 @@ msgstr ""
 "میشوند) یا یک پوشه شامل فایلهای صدا."
 
 #: src/wx/full_language_tag_dialog.cc:69
-msgid "Add external"
+#, fuzzy
+msgid "Add extended"
 msgstr "اضافه کردن بیرونی"
 
 #: src/wx/content_panel.cc:272
@@ -551,16 +552,16 @@ msgstr "آلفا   0"
 msgid "Also supported by"
 msgstr "همچنین پشتیبانی شده توسط"
 
-#: src/wx/verify_dcp_result_panel.cc:275
+#: src/wx/verify_dcp_result_panel.cc:283
 msgid "An asset has an empty path in the ASSETMAP."
 msgstr "یکی از محتواها دارای یک مسیر خالی در فایل ASSETMAP است."
 
-#: src/wx/verify_dcp_result_panel.cc:614
+#: src/wx/verify_dcp_result_panel.cc:622
 #, c-format
 msgid "An invalid <ContentKind> %n has been used."
 msgstr "یک ContentKind> %n>  نا معتبر استفاده شده است."
 
-#: src/wx/dkdm_output_panel.cc:200 src/wx/kdm_output_panel.cc:321
+#: src/wx/dkdm_output_panel.cc:204 src/wx/kdm_output_panel.cc:321
 msgid "An unknown exception occurred."
 msgstr "یک استثناء ناشناخته رخ داده است."
 
@@ -604,25 +605,25 @@ msgstr ""
 "آیا از ارسال ایمیل به آدرس های زیر اطمینان دارید؟ \n"
 "\n"
 
-#: src/wx/verify_dcp_result_panel.cc:599
+#: src/wx/verify_dcp_result_panel.cc:607
 msgid "At least one <Text> node in a subtitle or closed caption is empty."
 msgstr "حداقل یک گره<Text> در یک زیرنویس زبان یا زیرنویس فیلم خالی است."
 
-#: src/wx/verify_dcp_result_panel.cc:400
+#: src/wx/verify_dcp_result_panel.cc:408
 msgid ""
 "At least one asset in a reel does not have the same duration as the others."
 msgstr "حداقل یک محتوا در یک حلقه مدت زمان مساوی با دیگران ندارد."
 
-#: src/wx/verify_dcp_result_panel.cc:370
+#: src/wx/verify_dcp_result_panel.cc:378
 msgid "At least one pair of subtitles is separated by less than 2 frames."
 msgstr "حداقل یک جفت زیرنویس توسط کمتر از 2 فریم از هم جدا شده اند."
 
-#: src/wx/verify_dcp_result_panel.cc:364
+#: src/wx/verify_dcp_result_panel.cc:372
 #, fuzzy
 msgid "At least one subtitle has zero or negative duration."
 msgstr "حداقل یک زیرنویس با زمان کمتر از 15 فریم است."
 
-#: src/wx/verify_dcp_result_panel.cc:367
+#: src/wx/verify_dcp_result_panel.cc:375
 msgid "At least one subtitle lasts less than 15 frames."
 msgstr "حداقل یک زیرنویس با زمان کمتر از 15 فریم است."
 
@@ -705,7 +706,7 @@ msgstr "باید از این فیدر استفاده کنم"
 msgid "CC addresses"
 msgstr "آدرس رونوشت عیان"
 
-#: src/wx/dkdm_dialog.cc:84 src/wx/kdm_cpl_panel.cc:45 src/wx/kdm_dialog.cc:98
+#: src/wx/dkdm_dialog.cc:93 src/wx/kdm_cpl_panel.cc:45 src/wx/kdm_dialog.cc:98
 #: src/wx/self_dkdm_dialog.cc:69 src/wx/spl_entry_dialog.cc:47
 msgid "CPL"
 msgstr "سی پی ال"
@@ -718,7 +719,7 @@ msgstr "شناسه سی پی ال"
 msgid "CPL annotation text"
 msgstr "متن یادداشت سی پی ال"
 
-#: src/wx/dkdm_output_panel.cc:196 src/wx/kdm_output_panel.cc:317
+#: src/wx/dkdm_output_panel.cc:200 src/wx/kdm_output_panel.cc:317
 msgid "CPL's content is not encrypted."
 msgstr "محتوای سی پی ال رمزگذاری نشده است."
 
@@ -846,7 +847,7 @@ msgstr "فایل پایگاه داده سینما و سالن"
 msgid "Click the button to set all selected content to the same value."
 msgstr "روی دکمه کلیک کنید تا تمام محتوای انتخاب شده روی یک مقدار تنظیم شود."
 
-#: src/wx/verify_dcp_result_panel.cc:418
+#: src/wx/verify_dcp_result_panel.cc:426
 #, c-format
 msgid "Closed caption asset %n has a non-zero <EntryPoint>."
 msgstr "محتوای فایل زیرنویس فیلم %n یک غیر صفر دارد <EntryPoint>."
@@ -948,7 +949,7 @@ msgstr "کپی سینماها در فایل فشرده زیپ بر روی فهر
 msgid "Copy the cinemas in the ZIP file to the original location at"
 msgstr "کپی سینماها در فایل فشرده زیپ در محل اصلی در"
 
-#: src/wx/sound_preferences_page.cc:171
+#: src/wx/sound_preferences_page.cc:194
 msgid "CoreAudio"
 msgstr "هسته صدا"
 
@@ -992,7 +993,7 @@ msgstr "گواهی نامه بارگذاری نشد (%s)"
 msgid "Could not play content"
 msgstr "محتوا پلی نشد"
 
-#: src/wx/verify_dcp_result_panel.cc:254
+#: src/wx/verify_dcp_result_panel.cc:262
 #, c-format
 msgid "Could not read DCP (%n)"
 msgstr "نمیتوان دی سی پی (%n) را خواند"
@@ -1081,7 +1082,7 @@ msgid "DCI X'Y'Z'"
 msgstr ""
 
 #: src/wx/audio_panel.cc:111 src/wx/film_editor.cc:63
-#: src/wx/player_information.cc:58 src/wx/sound_preferences_page.cc:85
+#: src/wx/player_information.cc:58 src/wx/sound_preferences_page.cc:97
 msgid "DCP"
 msgstr "دی سی پی"
 
@@ -1190,6 +1191,11 @@ msgstr "فونت خروجی و فایل اکسپورت را تعیین کنید"
 msgid "Delay"
 msgstr "تاخیر"
 
+#: src/wx/sound_preferences_page.cc:87
+#, fuzzy
+msgid "Delay audio by"
+msgstr "پیش فرض تاخیر صدا"
+
 #. TRANSLATORS: Destination here refers to where some KDMs will be written or sent
 #. (a place on disk or some email addresses).
 #: src/wx/short_kdm_output_panel.cc:48
@@ -1205,7 +1211,7 @@ msgstr "جزئیات"
 msgid "Details..."
 msgstr "جزئیات..."
 
-#: src/wx/sound_preferences_page.cc:173
+#: src/wx/sound_preferences_page.cc:196
 msgid "Direct Sound"
 msgstr "صدای مستقیم"
 
@@ -1262,7 +1268,7 @@ msgstr "فریم های از قلم افتاده: %d"
 msgid "Dual-screen displays"
 msgstr "نمایش دو صفحه ای"
 
-#: src/wx/sound_preferences_page.cc:179
+#: src/wx/sound_preferences_page.cc:202
 msgid "Dummy"
 msgstr "ساختگی"
 
@@ -1340,7 +1346,7 @@ msgid "Enter your email address for the contact, not %s"
 msgstr "آدرس ایمیل خود را برای مخاطب وارد کنید، نه %s"
 
 #: src/wx/full_config_dialog.cc:1284 src/wx/kdm_config_dialog.cc:140
-#: src/wx/player_config_dialog.cc:316 src/wx/verify_dcp_result_panel.cc:58
+#: src/wx/player_config_dialog.cc:316 src/wx/verify_dcp_result_panel.cc:61
 msgid "Errors"
 msgstr "خطاها"
 
@@ -1405,7 +1411,7 @@ msgstr "زمان از محو خارج شدن"
 msgid "File"
 msgstr "فایل"
 
-#: src/wx/dkdm_dialog.cc:142 src/wx/kdm_dialog.cc:178
+#: src/wx/dkdm_dialog.cc:152 src/wx/kdm_dialog.cc:178
 #, c-format
 msgid "File %s already exists.  Do you want to overwrite it?"
 msgstr "فایل %s وجود دارد.  آیا میخواهید بر روی آن بنویسید؟"
@@ -1498,7 +1504,7 @@ msgstr "نشان گذاری ویدیو از نظر قانونی"
 msgid "Format"
 msgstr "فرمت"
 
-#: src/wx/verify_dcp_result_panel.cc:311
+#: src/wx/verify_dcp_result_panel.cc:319
 #, c-format
 msgid ""
 "Frame %frame (timecode %timecode) in asset %f has an instantaneous bit rate "
@@ -1507,7 +1513,7 @@ msgstr ""
 "فریم %f (تایم کد %ti) از فایل ویدیوی %f دارای یک حهش آنی نرخ بیت نزدیک به "
 "مرز 250 مگا بیت بر ثانیه است."
 
-#: src/wx/verify_dcp_result_panel.cc:304
+#: src/wx/verify_dcp_result_panel.cc:312
 #, c-format
 msgid ""
 "Frame %frame (timecode %timecode) in asset %f has an instantaneous bit rate "
@@ -1516,7 +1522,7 @@ msgstr ""
 "فریم %f (تایم کد %ti) از فایل ویدیوی %f دارای یک حهش آنی نرخ بیت بالاتر از "
 "مرز 250 مگا بیت بر ثانیه است."
 
-#: src/wx/verify_dcp_result_panel.cc:643
+#: src/wx/verify_dcp_result_panel.cc:651
 #, c-format
 msgid ""
 "Frame %frame has an image component that is too large (component %component "
@@ -1822,7 +1828,7 @@ msgstr ""
 "تنظیم گین محتوا برای این تغییر فیدر ممکن نیست زیرا باعث می شود صدای دی سی پی "
 "قطع شود. گین تغییر نکرده است."
 
-#: src/wx/sound_preferences_page.cc:175
+#: src/wx/sound_preferences_page.cc:198
 msgid "JACK"
 msgstr "JACK"
 
@@ -1855,7 +1861,7 @@ msgid "KDM type"
 msgstr "نوع کلید"
 
 #. TRANSLATORS: translate the word "Timing" here; do not include the "KDM|" prefix
-#: src/wx/kdm_dialog.cc:91
+#: src/wx/dkdm_dialog.cc:86 src/wx/kdm_dialog.cc:91
 msgid "KDM|Timing"
 msgstr "زمان بندی"
 
@@ -2045,7 +2051,7 @@ msgstr "ساخت دی سی پی"
 msgid "Make DKDM for DCP-o-matic"
 msgstr "ساخت کلید توزیع برای دی سی پی-او-ماتیک"
 
-#: src/wx/dkdm_dialog.cc:61 src/wx/dkdm_dialog.cc:105
+#: src/wx/dkdm_dialog.cc:62 src/wx/dkdm_dialog.cc:114
 msgid "Make DKDMs"
 msgstr "ساخت کلید توزیع"
 
@@ -2061,7 +2067,7 @@ msgstr "ساخت زنجیره گواهی نامه"
 msgid "Many"
 msgstr "تعداد زیاد"
 
-#: src/wx/sound_preferences_page.cc:84
+#: src/wx/sound_preferences_page.cc:96
 msgid "Mapping"
 msgstr "نگاشتن"
 
@@ -2122,84 +2128,84 @@ msgstr "متا دیتا..."
 msgid "Mix audio down to stereo"
 msgstr "میکس صدا به استریو"
 
-#: src/wx/verify_dcp_result_panel.cc:539
+#: src/wx/verify_dcp_result_panel.cc:547
 msgid ""
 "More 2K JPEG2000 frames (not listed) contain the wrong number of tile parts."
 msgstr ""
 "فریم های 2k JPEG2000 بیشتری(که فهرست نشدند) شامل تعداد قطعات غلط تشکیل دهنده "
 "هستند."
 
-#: src/wx/verify_dcp_result_panel.cc:476
+#: src/wx/verify_dcp_result_panel.cc:484
 msgid ""
 "More 2K JPEG2000 frames (not listed) have an invalid number of guard bits."
 msgstr ""
 "فریم های 2k JPEG2000 بیشتری(که فهرست نشدند) شامل تعداد نامعتبر بیتهای محافظ "
 "هستند."
 
-#: src/wx/verify_dcp_result_panel.cc:511
+#: src/wx/verify_dcp_result_panel.cc:519
 msgid "More 2K JPEG2000 frames (not listed) have too many POC markers."
 msgstr ""
 "فریم های 2k JPEG2000 بیشتری(که فهرست نشدند) شامل نشانه های بسیار زیاد POC "
 "هستند."
 
-#: src/wx/verify_dcp_result_panel.cc:483
+#: src/wx/verify_dcp_result_panel.cc:491
 msgid ""
 "More 4K JPEG2000 frames (not listed) have an invalid number of guard bits."
 msgstr ""
 "فریم های 4k JPEG2000 بیشتری(که فهرست نشدند) شامل تعداد نامعتبر بیتهای محافظ "
 "هستند."
 
-#: src/wx/verify_dcp_result_panel.cc:518
+#: src/wx/verify_dcp_result_panel.cc:526
 msgid "More 4K JPEG2000 frames (not listed) have too many POC markers."
 msgstr ""
 "فریم های 4k JPEG2000 بیشتری(که فهرست نشدند) شامل نشانه های بسیار زیاد POC "
 "هستند."
 
-#: src/wx/verify_dcp_result_panel.cc:532
+#: src/wx/verify_dcp_result_panel.cc:540
 msgid ""
 "More JPEG2000 frames (not listed) contain POC markers in invalid locations."
 msgstr ""
 "فریم های JPEG2000 بیشتری(که فهرست نشدند) شامل نشانه های POC در محلهای "
 "نامعتبر هستند."
 
-#: src/wx/verify_dcp_result_panel.cc:525
+#: src/wx/verify_dcp_result_panel.cc:533
 msgid "More JPEG2000 frames (not listed) contain invalid POC markers."
 msgstr ""
 "فریم های JPEG2000 بیشتری(که فهرست نشدند) شامل نشانه های نامعتبر POC هستند."
 
-#: src/wx/verify_dcp_result_panel.cc:553 src/wx/verify_dcp_result_panel.cc:560
+#: src/wx/verify_dcp_result_panel.cc:561 src/wx/verify_dcp_result_panel.cc:568
 #, fuzzy
 msgid "More JPEG2000 frames (not listed) contain invalid Rsiz values."
 msgstr ""
 "فریم های JPEG2000 بیشتری(که فهرست نشدند) شامل نشانه های نامعتبر POC هستند."
 
-#: src/wx/verify_dcp_result_panel.cc:546
+#: src/wx/verify_dcp_result_panel.cc:554
 msgid ""
 "More JPEG2000 frames (not listed) contain the wrong number of tile parts."
 msgstr ""
 "فریم های JPEG2000 بیشتری(که فهرست نشدند) شامل تعداد غلطی از قطعات هستند."
 
-#: src/wx/verify_dcp_result_panel.cc:504
+#: src/wx/verify_dcp_result_panel.cc:512
 msgid "More JPEG2000 frames (not listed) have an invalid code-block height."
 msgstr ""
 "فریم های JPEG2000 بیشتری(که فهرست نشدند) شامل ارتفاع بلوک-کد نامعتبرهستند."
 
-#: src/wx/verify_dcp_result_panel.cc:497
+#: src/wx/verify_dcp_result_panel.cc:505
 msgid "More JPEG2000 frames (not listed) have an invalid code-block width."
 msgstr ""
 "فریم های JPEG2000 بیشتری(که فهرست نشدند) شامل عرض بلوک-کد نامعتبرهستند."
 
-#: src/wx/verify_dcp_result_panel.cc:567
+#: src/wx/verify_dcp_result_panel.cc:575
 msgid "More JPEG2000 frames (not listed) have no TLM marker."
 msgstr "فریم های JPEG2000 بیشتری(که فهرست نشدند) نشانه TLM ندارند."
 
-#: src/wx/verify_dcp_result_panel.cc:490
+#: src/wx/verify_dcp_result_panel.cc:498
 msgid "More JPEG2000 tile sizes (not listed) do not match the image size."
 msgstr ""
 "اندازه قطعه های JPEG2000 (که فهرست نشدند) بیشتری با اندازه تصویر مطابقت "
 "ندارند."
 
-#: src/wx/verify_dcp_result_panel.cc:312
+#: src/wx/verify_dcp_result_panel.cc:320
 msgid ""
 "More frames (not listed) have an instantaneous bit rate that is close to the "
 "limit of 250Mbit/s."
@@ -2207,7 +2213,7 @@ msgstr ""
 "فریم های بیشتری(که فهرست نشدند)نرخ بیت آنی نزدیک به 250 مگابیت بر ثانیه "
 "دارند."
 
-#: src/wx/verify_dcp_result_panel.cc:305
+#: src/wx/verify_dcp_result_panel.cc:313
 msgid ""
 "More frames (not listed) have an instantaneous bit rate that is over the "
 "limit of 250Mbit/s."
@@ -2215,11 +2221,11 @@ msgstr ""
 "فریم های بیشتری(که فهرست نشدند)نرخ بیت آنی بالاتر از 250 مگابیت بر ثانیه "
 "دارند."
 
-#: src/wx/verify_dcp_result_panel.cc:644
+#: src/wx/verify_dcp_result_panel.cc:652
 msgid "More frames (not listed) have image components that are too large."
 msgstr "فریم های بیشتری(که فهرست نشدند) دارای اجزاء تصویر بسیار بزرگ هستند."
 
-#: src/wx/verify_dcp_result_panel.cc:469
+#: src/wx/verify_dcp_result_panel.cc:477
 msgid "More picture frames (not listed) have invalid JPEG2000 codestreams."
 msgstr ""
 "فریم های تصویر بیشتری(که فهرست نشدند) شامل رشته کدهای نامعتبر JPEG2000 هستند."
@@ -2310,7 +2316,7 @@ msgstr "بعد"
 msgid "No"
 msgstr "هیچکدام"
 
-#: src/wx/verify_dcp_result_panel.cc:293
+#: src/wx/verify_dcp_result_panel.cc:301
 msgid "No ASSETMAP or ASSETMAP.xml file was found."
 msgstr "هیچ فایل ASSETMAP یا ASSETMAP.xml پیدا نشد."
 
@@ -2318,7 +2324,7 @@ msgstr "هیچ فایل ASSETMAP یا ASSETMAP.xml پیدا نشد."
 msgid "No DCP loaded."
 msgstr "دی سی پی بارگذاری نشد."
 
-#: src/wx/verify_dcp_result_panel.cc:692
+#: src/wx/verify_dcp_result_panel.cc:700
 msgid "No SMPTE Bv2.1 errors found."
 msgstr "هیچ خطای SMPTE Bv2/1پیدا نشد."
 
@@ -2331,11 +2337,11 @@ msgstr "هیچ صدایی از %s  کانال '%s' به %s کانال '%s' من�
 msgid "No content found in this folder."
 msgstr "هیچ محتوایی در این پوشه یافت نشد."
 
-#: src/wx/verify_dcp_result_panel.cc:688
+#: src/wx/verify_dcp_result_panel.cc:696
 msgid "No errors found."
 msgstr "هیچ خطایی یافت نشد."
 
-#: src/wx/verify_dcp_result_panel.cc:696
+#: src/wx/verify_dcp_result_panel.cc:704
 msgid "No warnings found."
 msgstr "هیچ هشداری یافت نشد."
 
@@ -2349,7 +2355,7 @@ msgstr "غیر استاندارد"
 msgid "None"
 msgstr "هیچکدام"
 
-#: src/wx/verify_dcp_result_panel.cc:352
+#: src/wx/verify_dcp_result_panel.cc:360
 msgid "Not all subtitle assets specify the same <Language> tag."
 msgstr "همه فایلهای زیرنویس برچسب مشابه <Language> را مشخص نمیکنند."
 
@@ -2379,7 +2385,7 @@ msgstr "تمام شد خبر بده"
 msgid "Number of threads %s should use"
 msgstr "تعداد رشته های سی پی یو که %s باید استفاده کند"
 
-#: src/wx/sound_preferences_page.cc:178
+#: src/wx/sound_preferences_page.cc:201
 msgid "OSS"
 msgstr "OSS"
 
@@ -2453,8 +2459,8 @@ msgstr "عرض لبه بیرونی"
 msgid "Outline width cannot be set unless you are burning in subtitles."
 msgstr "عرض لبه بیرونی قابل اعمال نیست تا زیرنویس حک نشود."
 
-#: src/wx/dkdm_dialog.cc:99 src/wx/kdm_dialog.cc:113
-#: src/wx/self_dkdm_dialog.cc:76 src/wx/sound_preferences_page.cc:85
+#: src/wx/dkdm_dialog.cc:108 src/wx/kdm_dialog.cc:113
+#: src/wx/self_dkdm_dialog.cc:76 src/wx/sound_preferences_page.cc:97
 msgid "Output"
 msgstr "خروجی"
 
@@ -2478,11 +2484,11 @@ msgstr "نرخ ویدیوی شناسایی شده را نادیده بگیر"
 msgid "Overwrite this file with current configuration"
 msgstr "این فایل را با پیکربندی فعلی بازنویسی کنید"
 
-#: src/wx/verify_dcp_result_panel.cc:596
+#: src/wx/verify_dcp_result_panel.cc:604
 msgid "Part of the DCP could not be checked because no KDM was available."
 msgstr "بخشی از دی سی پی قابل بررسی نیست چون کلید آن در دسترس نبود."
 
-#: src/wx/verify_dcp_result_panel.cc:281
+#: src/wx/verify_dcp_result_panel.cc:289
 msgid ""
 "Parts of the DCP are written according to the Interop standard and parts "
 "according to SMPTE."
@@ -2557,7 +2563,7 @@ msgstr "پلی"
 msgid "Play length"
 msgstr "مدت پلی"
 
-#: src/wx/sound_preferences_page.cc:74
+#: src/wx/sound_preferences_page.cc:76
 msgid "Play sound via"
 msgstr "پلی صدا با"
 
@@ -2610,7 +2616,7 @@ msgstr "ویژگی ها..."
 msgid "Protocol"
 msgstr "پروتکل"
 
-#: src/wx/sound_preferences_page.cc:177
+#: src/wx/sound_preferences_page.cc:200
 msgid "PulseAudio"
 msgstr "پالس صدا"
 
@@ -2680,7 +2686,7 @@ msgstr "گیرنده"
 msgid "Recipient certificate"
 msgstr "گواهی نامه گیرنده"
 
-#: src/wx/dkdm_dialog.cc:77
+#: src/wx/dkdm_dialog.cc:78
 msgid "Recipients"
 msgstr "گیرندگان"
 
@@ -2790,7 +2796,7 @@ msgstr "تکرار..."
 msgid "Report A Problem"
 msgstr "گزارش یک مشکل"
 
-#: src/wx/sound_preferences_page.cc:89
+#: src/wx/sound_preferences_page.cc:101
 msgid "Reset to default"
 msgstr "تنظیم مجدد به حالت پیش فرض"
 
@@ -2851,7 +2857,7 @@ msgstr "SMPTE"
 msgid "SMPTE (Bv2.0 only)"
 msgstr "SMPTE (Bv2.0 only)"
 
-#: src/wx/verify_dcp_result_panel.cc:59
+#: src/wx/verify_dcp_result_panel.cc:62
 msgid "SMPTE Bv2.1 errors"
 msgstr "خطاهای SMPTE Bv2.1"
 
@@ -2892,11 +2898,16 @@ msgstr "ذخیره با نام جدید"
 msgid "Save over existing template"
 msgstr "ذخیره روی قالب فعلی"
 
-#: src/wx/verify_dcp_result_panel.cc:78
+#: src/wx/verify_dcp_result_panel.cc:81
 msgid "Save report as HTML..."
 msgstr "ذخیره گزارش به HTML..."
 
-#: src/wx/verify_dcp_result_panel.cc:76
+#: src/wx/verify_dcp_result_panel.cc:83
+#, fuzzy
+msgid "Save report as PDF..."
+msgstr "ذخیره گزارش به HTML..."
+
+#: src/wx/verify_dcp_result_panel.cc:79
 msgid "Save report as text..."
 msgstr "ذخیره گزارش به متن..."
 
@@ -2999,7 +3010,7 @@ msgstr "انتخاب فایل خروجی"
 msgid "Select..."
 msgstr "انتخاب..."
 
-#: src/wx/dkdm_output_panel.cc:95 src/wx/kdm_output_panel.cc:98
+#: src/wx/dkdm_output_panel.cc:99 src/wx/kdm_output_panel.cc:98
 msgid "Send by email"
 msgstr "ارسال از طریق ایمیل"
 
@@ -3165,23 +3176,23 @@ msgstr ""
 "برخی از کلیدها دارای مدت زمان اعتباری هستند که خارج از مدت زمان اعتبار "
 "گواهینامه گیرنده است.  میخوای چیکار کنی؟"
 
-#: src/wx/verify_dcp_result_panel.cc:602
+#: src/wx/verify_dcp_result_panel.cc:610
 msgid ""
 "Some closed <Text> or <Image> nodes have different vertical alignments "
 "within a <Subtitle>."
 msgstr ""
 "برخی از <Text> یا <Image> در راستای عمودی متفاوتی با یک <Subtitle> هستند."
 
-#: src/wx/verify_dcp_result_panel.cc:605
+#: src/wx/verify_dcp_result_panel.cc:613
 msgid ""
 "Some closed captions are not listed in the order of their vertical position."
 msgstr "برخی از زیرنویس‌ها به ترتیب موقعیت عمودی فهرست نشده‌اند."
 
-#: src/wx/dcp_referencing_dialog.cc:115 src/wx/sound_preferences_page.cc:63
+#: src/wx/dcp_referencing_dialog.cc:115 src/wx/sound_preferences_page.cc:65
 msgid "Sound"
 msgstr "صدا"
 
-#: src/wx/verify_dcp_result_panel.cc:632
+#: src/wx/verify_dcp_result_panel.cc:640
 msgid "Sound assets do not all have the same channel count."
 msgstr "فایلهای صدا همه تعداد کانال یکسانی ندارند."
 
@@ -3264,7 +3275,7 @@ msgstr "مشترکین"
 msgid "Subtitle appearance"
 msgstr "ظاهر زیرنویس"
 
-#: src/wx/verify_dcp_result_panel.cc:412
+#: src/wx/verify_dcp_result_panel.cc:420
 #, c-format
 msgid "Subtitle asset %n has a non-zero <EntryPoint>."
 msgstr "محتوای زیرنویس %n یک غیر صفر در <EntryPoint> دارد."
@@ -3350,29 +3361,29 @@ msgstr "آزمایش شده توسط"
 msgid "The 'until' time must be after the 'from' time."
 msgstr "زمان 'تا' باید بعد از زمان 'از' باشد."
 
-#: src/wx/verify_dcp_result_panel.cc:660
+#: src/wx/verify_dcp_result_panel.cc:668
 #, c-format
 msgid "The <LabelText> in a <ContentVersion> in CPL %cpl is empty"
 msgstr "مقدار <LabelText> در یک <ContentVersion> در سی پی ال %c خالی است"
 
-#: src/wx/verify_dcp_result_panel.cc:617
+#: src/wx/verify_dcp_result_panel.cc:625
 msgid ""
 "The <MainPictureActiveArea> is either not a multiple of 2, or is bigger than "
 "an asset."
 msgstr "مقدار<MainPictureActiveArea> یا ضریب 2 نیست یا از محتوا بیشتر است."
 
-#: src/wx/verify_dcp_result_panel.cc:623
+#: src/wx/verify_dcp_result_panel.cc:631
 #, c-format
 msgid "The ASSETMAP %n has more than one asset with the same ID."
 msgstr "در فایل ASSETMAP بنام %n بیش از یک محتوا با شتاسه مشابه وجود دارد."
 
-#: src/wx/verify_dcp_result_panel.cc:577
+#: src/wx/verify_dcp_result_panel.cc:585
 msgid ""
 "The Asset ID in a timed text MXF is the same as the Resource ID or that of "
 "the contained XML."
 msgstr "شناسه محتوا در متن زمان‌بندی‌شده MXF همان شناسه منبع یا XML موجود است."
 
-#: src/wx/verify_dcp_result_panel.cc:397
+#: src/wx/verify_dcp_result_panel.cc:405
 #, c-format
 msgid ""
 "The CPL %cpl has an <AnnotationText> which is not the same as its "
@@ -3381,99 +3392,99 @@ msgstr ""
 "قایل سی پی ال %c شامل یک <AnnotationText> است که مشابه <ContentTitleText> اش "
 "نیست."
 
-#: src/wx/verify_dcp_result_panel.cc:663
+#: src/wx/verify_dcp_result_panel.cc:671
 #, c-format
 msgid "The CPL %cpl has an invalid namespace %n"
 msgstr "این سی پی ال %c دارای یک فضای نام نامعتبر است %n"
 
-#: src/wx/verify_dcp_result_panel.cc:454
+#: src/wx/verify_dcp_result_panel.cc:462
 #, c-format
 msgid "The CPL %cpl has encrypted content but is not signed."
 msgstr "فایل سی پی ال %c محتوای رمزگذاری شده دارد اما امضا نشده."
 
-#: src/wx/verify_dcp_result_panel.cc:394
+#: src/wx/verify_dcp_result_panel.cc:402
 #, c-format
 msgid "The CPL %cpl has no <AnnotationText> tag."
 msgstr "فایل سی پی ال %c برچسب  <AnnotationText> ندارد."
 
-#: src/wx/verify_dcp_result_panel.cc:666
+#: src/wx/verify_dcp_result_panel.cc:674
 #, c-format
 msgid "The CPL %cpl has no <ContentVersion> tag"
 msgstr "فایل سی پی ال %c برچسب  <AnnotationText> ندارد"
 
-#: src/wx/verify_dcp_result_panel.cc:448
+#: src/wx/verify_dcp_result_panel.cc:456
 #, c-format
 msgid "The CPL %cpl has no CPL extension metadata tag."
 msgstr "فایل سی پی ال %c برچسب متادیتای پسوند سی پی ال ندارد."
 
-#: src/wx/verify_dcp_result_panel.cc:442
+#: src/wx/verify_dcp_result_panel.cc:450
 #, c-format
 msgid "The CPL %cpl has no CPL metadata tag."
 msgstr "فایل سی پی ال %c برچسب متادیتای سی پی ال ندارد."
 
-#: src/wx/verify_dcp_result_panel.cc:445
+#: src/wx/verify_dcp_result_panel.cc:453
 #, c-format
 msgid "The CPL %cpl has no CPL metadata version number tag."
 msgstr "فایل سی پی ال %c برچسب شماره نسخه متادیتای سی پی ال ندارد."
 
-#: src/wx/verify_dcp_result_panel.cc:451
+#: src/wx/verify_dcp_result_panel.cc:459
 #, c-format
 msgid "The CPL %f has an invalid CPL extension metadata tag (%n)"
 msgstr ""
 "فایل سی پی ال %f دارای یک برچسب متادیتای پسوند سی پی ال نامعتبر است (%n)"
 
-#: src/wx/verify_dcp_result_panel.cc:436
+#: src/wx/verify_dcp_result_panel.cc:444
 #, c-format
 msgid "The DCP has a FFOC of %n instead of 1."
 msgstr "دی سی پی به جای 1 عدد دارای %n عدد فریم اول محتوا است(FFOC)."
 
-#: src/wx/verify_dcp_result_panel.cc:439
+#: src/wx/verify_dcp_result_panel.cc:447
 #, c-format
 msgid "The DCP has a LFOC of %n instead of the reel duration minus one."
 msgstr ""
 "دی سی پی به جای مدت حلقه منهای یک، دارای (LFOC )نشانگر فریم آخر محتوای %n "
 "است."
 
-#: src/wx/verify_dcp_result_panel.cc:406
+#: src/wx/verify_dcp_result_panel.cc:414
 msgid ""
 "The DCP has closed captions but not every reel has the same number of closed "
 "caption assets."
 msgstr ""
 "دی سی پی زیرنویس دارد اما همه حلقه ها تعداد محتوای زیرنویس یکسانی ندارند."
 
-#: src/wx/verify_dcp_result_panel.cc:463
+#: src/wx/verify_dcp_result_panel.cc:471
 msgid "The DCP has encrypted content, but not all its assets are encrypted."
 msgstr ""
 "دی سی پی دارای محتوای رمزگذاری شده است، اما همه محتواهای آن رمزگذاری شده "
 "نیستند."
 
-#: src/wx/verify_dcp_result_panel.cc:430
+#: src/wx/verify_dcp_result_panel.cc:438
 msgid "The DCP has no FFOC (first frame of content) marker."
 msgstr "دی سی پی فاقد نشانه در اولین فریم محتوا است(FFOC ندارد)."
 
-#: src/wx/verify_dcp_result_panel.cc:433
+#: src/wx/verify_dcp_result_panel.cc:441
 msgid "The DCP has no LFOC (last frame of content) marker."
 msgstr "دی سی پی فاقد نشانه در آخرین فریم محتوا است(LFOC ندارد)."
 
-#: src/wx/verify_dcp_result_panel.cc:403
+#: src/wx/verify_dcp_result_panel.cc:411
 msgid "The DCP has subtitles but at least one reel has no subtitle asset."
 msgstr "دی سی پی دارای زیرنویس است اما دست کم یک حلقه آن محتوای زیرنویس ندارد."
 
-#: src/wx/verify_dcp_result_panel.cc:424
+#: src/wx/verify_dcp_result_panel.cc:432
 msgid ""
 "The DCP is a feature but has no FFEC (first frame of end credits) marker."
 msgstr ""
 "این دی سی پی یک فیلم بلند است اما نشانه اولین فریم تیتراژ پایانی(FFEC) را "
 "ندارد."
 
-#: src/wx/verify_dcp_result_panel.cc:427
+#: src/wx/verify_dcp_result_panel.cc:435
 msgid ""
 "The DCP is a feature but has no FFMC (first frame of moving credits) marker."
 msgstr ""
 "این دی سی پی یک فیلم بلند است اما نشانه فریم اول شروع تیتراژ پایانی (FFMC) "
 "ندارد."
 
-#: src/wx/dkdm_dialog.cc:168 src/wx/kdm_dialog.cc:246
+#: src/wx/dkdm_dialog.cc:178 src/wx/kdm_dialog.cc:246
 #, c-format
 msgid ""
 "The KDM end period is after (or close to) the end of the signing "
@@ -3484,7 +3495,7 @@ msgstr ""
 "گواهینامه دستگاه است.  یا تاریخ اعتبار کلید را کمتر کنید و یا دوباره از طریق "
 "پنجره اولویت ها در %s گواهینامه جدید برای دستگاه ایجاد کنید."
 
-#: src/wx/dkdm_dialog.cc:163 src/wx/kdm_dialog.cc:241
+#: src/wx/dkdm_dialog.cc:173 src/wx/kdm_dialog.cc:241
 msgid ""
 "The KDM start period is before (or close to) the start of the signing "
 "certificate's validity period.  Use a later start time for this KDM."
@@ -3492,12 +3503,12 @@ msgstr ""
 "تاریخ شروع اعتبار این کلید قبل از(یا خیلی نزدیک به) شروع مدت اعتبار "
 "گواهینامه دستگاه است. تاریخ شروع اعتبار کلید را دیرتر انتخاب کنید."
 
-#: src/wx/verify_dcp_result_panel.cc:682
+#: src/wx/verify_dcp_result_panel.cc:690
 #, c-format
 msgid "The PKL %f has an invalid namespace %n"
 msgstr "این فایل %f دارای فضای نام نامعتبر است %n"
 
-#: src/wx/verify_dcp_result_panel.cc:460
+#: src/wx/verify_dcp_result_panel.cc:468
 #, c-format
 msgid ""
 "The PKL %n has an <AnnotationText> which does not match its CPL's "
@@ -3506,48 +3517,48 @@ msgstr ""
 "فهرست پکیج (PKL) بنام: %n دارای یک <AnnotationText> است که با "
 "<ContentTitleText> موجود در ترکیب پلی لیست (CPL) مطابقت ندارد."
 
-#: src/wx/verify_dcp_result_panel.cc:457
+#: src/wx/verify_dcp_result_panel.cc:465
 #, c-format
 msgid "The PKL %n has encrypted content but is not signed."
 msgstr "فهرست پکیج(PKL) بنام: %n دارای محتوای رمزگذاری شده است اما امضا ندارد."
 
-#: src/wx/verify_dcp_result_panel.cc:620
+#: src/wx/verify_dcp_result_panel.cc:628
 #, c-format
 msgid "The PKL %n has more than one asset with the same ID."
 msgstr "فهرست پکیج (PKL) بنام: %n دارای بیش از یک محتوا با شناسه مشابه است."
 
-#: src/wx/verify_dcp_result_panel.cc:266
+#: src/wx/verify_dcp_result_panel.cc:274
 #, c-format
 msgid "The PKL and CPL hashes disagree for picture asset %f."
 msgstr "هش های سی پی ال و پی کی ال برای محتوای تصویر %f مخالف هم هستند."
 
-#: src/wx/verify_dcp_result_panel.cc:272
+#: src/wx/verify_dcp_result_panel.cc:280
 #, c-format
 msgid "The PKL and CPL hashes disagree for sound asset %f."
 msgstr "هش های سی پی ال و پی کی ال برای محتوای صدای %f مخالف هم هستند."
 
-#: src/wx/verify_dcp_result_panel.cc:574
+#: src/wx/verify_dcp_result_panel.cc:582
 msgid ""
 "The Resource ID in a timed text MXF did not match the ID of the contained "
 "XML."
 msgstr "شناسه منبع در متن زمان‌بندی‌شده MXF با شناسه XML موجود مطابقت ندارد."
 
-#: src/wx/verify_dcp_result_panel.cc:654
+#: src/wx/verify_dcp_result_panel.cc:662
 #, c-format
 msgid "The SMPTE subtitle asset %id has <Text> nodes but no <LoadFont> node"
 msgstr ""
 "فایل زیرنویس اس ام پی تی ای %i یک گره <Text> دارد اما گره <LoadFont> ندارد"
 
-#: src/wx/verify_dcp_result_panel.cc:288
+#: src/wx/verify_dcp_result_panel.cc:296
 #, c-format
 msgid "The XML in %f is malformed (%n)."
 msgstr "فایل XML در %f نادرست است (%n)."
 
-#: src/wx/verify_dcp_result_panel.cc:286
+#: src/wx/verify_dcp_result_panel.cc:294
 msgid "The XML in %f is malformed on line %l (%n)."
 msgstr "کدهای XML در %f نادرست هستند در خط (%n)%i."
 
-#: src/wx/verify_dcp_result_panel.cc:340
+#: src/wx/verify_dcp_result_panel.cc:348
 #, c-format
 msgid ""
 "The XML in the closed caption asset %f takes up %n bytes which is over the "
@@ -3556,46 +3567,46 @@ msgstr ""
 "حجم فایل XML زیرنویس %f بیش از %n بایت است که خارج از حد مجاز 256 کیلو بایت "
 "است."
 
-#: src/wx/verify_dcp_result_panel.cc:648
+#: src/wx/verify_dcp_result_panel.cc:656
 #, c-format
 msgid ""
 "The XML in the subtitle asset %n has more than one namespace declaration."
 msgstr "این XML فایل زیرنویس %n بیش از یک اعلان فضای نام دارد."
 
-#: src/wx/verify_dcp_result_panel.cc:319
+#: src/wx/verify_dcp_result_panel.cc:327
 #, c-format
 msgid "The asset %f is 3D but its MXF is marked as 2D."
 msgstr ""
 "فایل %f سه بعدی است اما فایل MXF آن به عنوان دو بعدی علامت زده شده است."
 
-#: src/wx/verify_dcp_result_panel.cc:278
+#: src/wx/verify_dcp_result_panel.cc:286
 #, c-format
 msgid "The asset %f is missing."
 msgstr "فایل %f موجود نیست."
 
-#: src/wx/verify_dcp_result_panel.cc:299
+#: src/wx/verify_dcp_result_panel.cc:307
 #, c-format
 msgid "The asset %n has a duration of less than 1 second, which is invalid."
 msgstr "مدت فایل %n کمتر از یک ثانیه است که معتبر نیست."
 
-#: src/wx/verify_dcp_result_panel.cc:296
+#: src/wx/verify_dcp_result_panel.cc:304
 #, c-format
 msgid ""
 "The asset %n has an intrinsic duration of less than 1 second, which is "
 "invalid."
 msgstr "مدت زمان حقیقی فایل %n کمتر از یک ثانیه است که معتبر نیست."
 
-#: src/wx/verify_dcp_result_panel.cc:421
+#: src/wx/verify_dcp_result_panel.cc:429
 #, c-format
 msgid "The asset %n has no <Hash> in the CPL."
 msgstr "فایل %n در سی پی ال فاقد <Hash> است."
 
-#: src/wx/verify_dcp_result_panel.cc:657
+#: src/wx/verify_dcp_result_panel.cc:665
 #, c-format
 msgid "The asset with ID %id in the asset map actually has an id of %other_id"
 msgstr "فایل با شناسه %id در ASSETMAP در واقع شناسه %other_id دارد"
 
-#: src/wx/verify_dcp_result_panel.cc:415
+#: src/wx/verify_dcp_result_panel.cc:423
 #, c-format
 msgid "The closed caption asset %n has no <EntryPoint> tag."
 msgstr "فایل زیرنویس %n فاقد برچسب <EntryPoint> است."
@@ -3639,12 +3650,12 @@ msgstr ""
 "فایل %s وجود دارد. آیا می خواهید به عنوان پیکربندی جدید استفاده شود یا "
 "پیکربندی فعلی را بر روی آن بنویسید؟"
 
-#: src/wx/verify_dcp_result_panel.cc:361
+#: src/wx/verify_dcp_result_panel.cc:369
 msgid ""
 "The first subtitle or closed caption happens before 4s into the first reel."
 msgstr "اولین زیرنویس 4 ثانیه قبل از شروع حلقه اول فیلم است."
 
-#: src/wx/verify_dcp_result_panel.cc:638
+#: src/wx/verify_dcp_result_panel.cc:646
 #, c-format
 msgid ""
 "The font file for font ID \"%n\" was not found, or was not referred to in "
@@ -3653,7 +3664,7 @@ msgstr ""
 "فایل فونت برای فونت با شناسه \"%n\" موجود نیست و یا در فایل ASSETMAP به آن "
 "ارجاع نشده است."
 
-#: src/wx/verify_dcp_result_panel.cc:346
+#: src/wx/verify_dcp_result_panel.cc:354
 #, c-format
 msgid ""
 "The fonts in the timed text asset %f take up %n bytes which is over the 10MB "
@@ -3662,7 +3673,7 @@ msgstr ""
 "فونتهای فایل زیرنویس %f بیش از %n بایت هستند که بیش از حجم مجاز 10 مگابایت "
 "است."
 
-#: src/wx/verify_dcp_result_panel.cc:263
+#: src/wx/verify_dcp_result_panel.cc:271
 msgid ""
 "The hash (%calculated_hash) of the picture asset %f does not agree with the "
 "PKL file (%reference_hash).  This probably means that the asset file is "
@@ -3671,7 +3682,7 @@ msgstr ""
 "هش(%calculated_hash) محتوای تصویر%f با فایل PKL(%reference_hash) مطابقت "
 "ندارد. این احتمال وجود دارد که اصل فایل دچار مشکل باشد."
 
-#: src/wx/verify_dcp_result_panel.cc:269
+#: src/wx/verify_dcp_result_panel.cc:277
 msgid ""
 "The hash (%calculated_hash) of the sound asset %f does not agree with the "
 "PKL file (%reference_hash).  This probably means that the asset file is "
@@ -3680,7 +3691,7 @@ msgstr ""
 "هش(%calculated_hash) محتوای صدای %f با فایل PKL(%reference_hash) مطابقت "
 "ندارد. این احتمال وجود دارد که اصل فایل دچار مشکل باشد."
 
-#: src/wx/verify_dcp_result_panel.cc:257
+#: src/wx/verify_dcp_result_panel.cc:265
 msgid ""
 "The hash (%reference_hash) of the CPL %cpl in the PKL does not agree with "
 "the CPL file (%calculated_hash).  This probably means that the CPL file is "
@@ -3690,7 +3701,7 @@ msgstr ""
 "cpl(%calculated_hash) مطابقت ندارد. این احتمال وجود دارد که اصل فایل دچار "
 "مشکل باشد."
 
-#: src/wx/verify_dcp_result_panel.cc:325
+#: src/wx/verify_dcp_result_panel.cc:333
 #, c-format
 msgid "The invalid language tag %n is used."
 msgstr "برچسب زبان %n مورد استفاده نادرست است."
@@ -3700,12 +3711,12 @@ msgstr "برچسب زبان %n مورد استفاده نادرست است."
 msgid "The language that the film's title (\"%s\") is in"
 msgstr "عنوان فیلم (\"%s \") به این زبان است"
 
-#: src/wx/verify_dcp_result_panel.cc:260
+#: src/wx/verify_dcp_result_panel.cc:268
 #, c-format
 msgid "The picture in a reel has a frame rate of %n, which is not valid."
 msgstr "این تصویردر یک حلقه نرخ فریم آن %n است که معتبر نیست."
 
-#: src/wx/verify_dcp_result_panel.cc:587
+#: src/wx/verify_dcp_result_panel.cc:595
 #, c-format
 msgid ""
 "The reel duration (%s) of some timed text is not the same as the "
@@ -3714,12 +3725,12 @@ msgstr ""
 "مدت زمان حلقه (%s ) فیلم مربوط به برخی زیرنویسها با ContainerDuration آن "
 "(%s) در فایل MXF یکسان نیست."
 
-#: src/wx/verify_dcp_result_panel.cc:391
+#: src/wx/verify_dcp_result_panel.cc:399
 #, c-format
 msgid "The sound asset %f has an invalid bit depth of %n."
 msgstr "فایل صدای %f دارای عمق بیت نامعتبر %n است."
 
-#: src/wx/verify_dcp_result_panel.cc:388
+#: src/wx/verify_dcp_result_panel.cc:396
 #, c-format
 msgid "The sound asset %f has an invalid frame rate of %n."
 msgstr "فایل صدای %f دارای نرخ فریم نامعتبر %n است."
@@ -3732,77 +3743,77 @@ msgstr ""
 "استانداردی که دی سی پی باید از آن استفاده کند.  اینروپ قدیمی است و SMPTE "
 "استاندارد جدید.  اگر شک دارید، \"اس ام پی تی ای\" را انتخاب کنید"
 
-#: src/wx/verify_dcp_result_panel.cc:349
+#: src/wx/verify_dcp_result_panel.cc:357
 #, c-format
 msgid "The subtitle asset %f contains no <Language> tag."
 msgstr "فایل زیرنویس %f برچسب <Language> ندارد."
 
-#: src/wx/verify_dcp_result_panel.cc:355
+#: src/wx/verify_dcp_result_panel.cc:363
 #, c-format
 msgid "The subtitle asset %f contains no <StartTime> tag."
 msgstr "فایل زیرنویس %f برچسب <StartTime>  ندارد."
 
-#: src/wx/verify_dcp_result_panel.cc:358
+#: src/wx/verify_dcp_result_panel.cc:366
 #, c-format
 msgid "The subtitle asset %f has a <StartTime> which is not zero."
 msgstr "فایل زیرنویس %f یک <StartTime> دارد که صفر نیست."
 
-#: src/wx/verify_dcp_result_panel.cc:626
+#: src/wx/verify_dcp_result_panel.cc:634
 #, c-format
 msgid "The subtitle asset %n contains no subtitles."
 msgstr "فایل زیرنویس %n فاقد متن زیرنویس است."
 
-#: src/wx/verify_dcp_result_panel.cc:409
+#: src/wx/verify_dcp_result_panel.cc:417
 #, c-format
 msgid "The subtitle asset %n has no <EntryPoint> tag."
 msgstr "فایل زیرنویس %n برچسب  <EntryPoint> ندارد."
 
-#: src/wx/verify_dcp_result_panel.cc:343
+#: src/wx/verify_dcp_result_panel.cc:351
 #, c-format
 msgid ""
 "The timed text asset %f takes up %n bytes which is over the 115MB limit."
 msgstr ""
 "فایل زیرنویس %f بیش از %n بایت حجم دارد که بیش از حجم مجاز 115 مگابایت است."
 
-#: src/wx/verify_dcp_result_panel.cc:337
+#: src/wx/verify_dcp_result_panel.cc:345
 #, c-format
 msgid ""
 "The video asset %f uses the frame rate %n which is invalid for 3D video."
 msgstr "فایل ویدیوی %f  نرخ فریم %n  دارد که برای تصویر سه بعدی درست نیست."
 
-#: src/wx/verify_dcp_result_panel.cc:334
+#: src/wx/verify_dcp_result_panel.cc:342
 #, c-format
 msgid ""
 "The video asset %f uses the frame rate %n which is invalid for 4K video."
 msgstr "فایل ویدیوی %f  نرخ فریم %n  دارد که برای ویدیوی 4k درست نیست."
 
-#: src/wx/verify_dcp_result_panel.cc:331
+#: src/wx/verify_dcp_result_panel.cc:339
 #, c-format
 msgid "The video asset %f uses the invalid frame rate %n."
 msgstr "فایل ویدیوی %f از نرخ فریم نادرست %n  استفاده میکند."
 
-#: src/wx/verify_dcp_result_panel.cc:328
+#: src/wx/verify_dcp_result_panel.cc:336
 #, c-format
 msgid "The video asset %f uses the invalid image size %n."
 msgstr "فایل ویدیوی %f از اندازه تصویرنادرست %n  استفاده میکند."
 
-#: src/wx/verify_dcp_result_panel.cc:382
+#: src/wx/verify_dcp_result_panel.cc:390
 msgid "There are more than 3 closed caption lines in at least one place."
 msgstr "حداقل در یک محل بیش از سه خط زیرنویس وجود دارد."
 
-#: src/wx/verify_dcp_result_panel.cc:373
+#: src/wx/verify_dcp_result_panel.cc:381
 msgid "There are more than 3 subtitle lines in at least one place."
 msgstr "حداقل در یک محل بیش از سه خط زیرنویس وجود دارد."
 
-#: src/wx/verify_dcp_result_panel.cc:385
+#: src/wx/verify_dcp_result_panel.cc:393
 msgid "There are more than 32 characters in at least one closed caption line."
 msgstr "حداقل در یک خط زیرنویس بیش از 32 کاراکتر وجود دارد."
 
-#: src/wx/verify_dcp_result_panel.cc:376
+#: src/wx/verify_dcp_result_panel.cc:384
 msgid "There are more than 52 characters in at least one subtitle line."
 msgstr "حداقل در یک خط زیرنویس بیش از 52 کاراکتر وجود دارد."
 
-#: src/wx/verify_dcp_result_panel.cc:379
+#: src/wx/verify_dcp_result_panel.cc:387
 msgid "There are more than 79 characters in at least one subtitle line."
 msgstr "حداقل در یک خط زیرنویس بیش از 79 کاراکتر وجود دارد."
 
@@ -3814,11 +3825,11 @@ msgstr "هنوز هیچ نکته ای وجود ندارد: بررسی پروژه
 msgid "There are no hints: everything looks good!"
 msgstr "نکته ای وجود ندارد: همه چیز درست به نظر میرسد!"
 
-#: src/wx/verify_dcp_result_panel.cc:611
+#: src/wx/verify_dcp_result_panel.cc:619
 msgid "There is a <Duration> tag inside a <MainMarkers>."
 msgstr "یک برچسب <Duration> در داخل یک <MainMarkers> است."
 
-#: src/wx/verify_dcp_result_panel.cc:608
+#: src/wx/verify_dcp_result_panel.cc:616
 msgid "There is a <EntryPoint> tag inside a <MainMarkers>."
 msgstr "یک برچسب <EntryPoint> در داخل یک <MainMarkers> است."
 
@@ -3843,7 +3854,7 @@ msgstr ""
 msgid "This CPL contains no encrypted assets."
 msgstr "این سی پی ال محتوای رمزگذاری شده ندارد."
 
-#: src/wx/verify_dcp_result_panel.cc:316
+#: src/wx/verify_dcp_result_panel.cc:324
 #, c-format
 msgid ""
 "This DCP refers to at the asset %n in another DCP (and perhaps others), so "
@@ -3852,7 +3863,7 @@ msgstr ""
 "این دی سی پی در  ASSETMAPفایل %n به دی سی پی دیگری اشاره دارد، بنابر این یک "
 "\"نسخه فایل\"(VF) است"
 
-#: src/wx/verify_dcp_result_panel.cc:322
+#: src/wx/verify_dcp_result_panel.cc:330
 msgid "This DCP uses the Interop standard, but it should be made with SMPTE."
 msgstr ""
 "این دی سی پی از استاندارد اینتروپ استفاده میکند اما باید با استاندارد اس ام "
@@ -4256,7 +4267,7 @@ msgstr "معتبر تا"
 msgid "Vendor"
 msgstr "فروشنده"
 
-#: src/wx/verify_dcp_result_panel.cc:706
+#: src/wx/verify_dcp_result_panel.cc:714
 msgid "Verification report"
 msgstr "گزارش صحت سنجی"
 
@@ -4324,12 +4335,12 @@ msgstr "زبان زیرنویس حک شده بر روی فیلم"
 msgid "View..."
 msgstr "دیدن..."
 
-#: src/wx/sound_preferences_page.cc:174
+#: src/wx/sound_preferences_page.cc:197
 msgid "WASAPI"
 msgstr "WASAPI"
 
 #: src/wx/full_config_dialog.cc:1282 src/wx/kdm_config_dialog.cc:138
-#: src/wx/player_config_dialog.cc:314 src/wx/verify_dcp_result_panel.cc:60
+#: src/wx/player_config_dialog.cc:314 src/wx/verify_dcp_result_panel.cc:63
 msgid "Warnings"
 msgstr "اخطارها"
 
@@ -4369,7 +4380,7 @@ msgstr "حلقه ها را در فایلهای جدا بنویس"
 msgid "Write relative content paths"
 msgstr "نوشتن مسیر محتوای مرتبط"
 
-#: src/wx/dkdm_output_panel.cc:77 src/wx/kdm_output_panel.cc:78
+#: src/wx/dkdm_output_panel.cc:81 src/wx/kdm_output_panel.cc:78
 #: src/wx/self_dkdm_dialog.cc:85
 msgid "Write to"
 msgstr "مسیرنوشتن"
@@ -4417,7 +4428,7 @@ msgstr ""
 "اسم این سالن را نمیتوان به '%s' تغییر داد چون سینما یک سالن مشابه با این اسم "
 "دارد."
 
-#: src/wx/dkdm_output_panel.cc:146 src/wx/kdm_output_panel.cc:242
+#: src/wx/dkdm_output_panel.cc:150 src/wx/kdm_output_panel.cc:242
 msgid ""
 "You have selected some cinemas that have no configured email address.  Do "
 "you want to continue?"
@@ -4425,7 +4436,7 @@ msgstr ""
 "برخی از سینماهایی که انتخاب کرده اید آدرس ایمیل ندارند. آیا می خواهید ادامه "
 "دهید؟"
 
-#: src/wx/dkdm_output_panel.cc:134 src/wx/kdm_output_panel.cc:232
+#: src/wx/dkdm_output_panel.cc:138 src/wx/kdm_output_panel.cc:232
 msgid ""
 "You must set up a mail server in Preferences before you can send emails."
 msgstr ""
@@ -4453,13 +4464,13 @@ msgid "Zoom out to whole film"
 msgstr "بزرگ نمایی به کل فیلم"
 
 #. TRANSLATORS: this will be used at the end of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
-#: src/wx/verify_dcp_result_panel.cc:139
+#: src/wx/verify_dcp_result_panel.cc:146
 #, c-format
 msgid "and %d warnings."
 msgstr "واخطار %d ."
 
 #. TRANSLATORS: this will be used at the end of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
-#: src/wx/verify_dcp_result_panel.cc:136
+#: src/wx/verify_dcp_result_panel.cc:143
 msgid "and 1 warning."
 msgstr "و یک اخطار."
 
@@ -4521,7 +4532,7 @@ msgstr "نام فایل"
 msgid "foot lambert"
 msgstr "foot lambert"
 
-#: src/wx/kdm_output_panel.cc:145
+#: src/wx/dkdm_output_panel.cc:70 src/wx/kdm_output_panel.cc:145
 msgid "from date/time"
 msgstr "از تاریخ / ساعت"
 
@@ -4549,6 +4560,7 @@ msgstr "ماه"
 
 #. TRANSLATORS: this is an abbreviation for milliseconds, the unit of time
 #: src/wx/audio_panel.cc:101 src/wx/full_config_dialog.cc:273
+#: src/wx/sound_preferences_page.cc:91
 msgid "ms"
 msgstr "میلی ثانبه"
 
@@ -4568,7 +4580,7 @@ msgstr "تیتراژ شروع"
 msgid "open subtitles"
 msgstr "زیرنویس شوع"
 
-#: src/wx/sound_preferences_page.cc:85
+#: src/wx/sound_preferences_page.cc:97
 msgid "output"
 msgstr "خروجی"
 
@@ -4606,7 +4618,7 @@ msgstr "آستانه"
 msgid "times"
 msgstr "مرتبه"
 
-#: src/wx/kdm_output_panel.cc:146
+#: src/wx/dkdm_output_panel.cc:71 src/wx/kdm_output_panel.cc:146
 msgid "to date/time"
 msgstr "تا تاریخ / ساعت"
 

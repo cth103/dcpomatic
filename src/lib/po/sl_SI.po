@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-27 11:30+0200\n"
+"POT-Creation-Date: 2025-09-26 19:56+0200\n"
 "PO-Revision-Date: 2024-02-10 16:15+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: \n"
@@ -69,12 +69,12 @@ msgstr " (%.2f:1)"
 
 #. TRANSLATORS: the {} in this string will be filled in with a day of the week
 #. to say what day a job will finish.
-#: src/lib/job.cc:597
+#: src/lib/job.cc:615
 #, c++-format
 msgid " on {}"
 msgstr " na {}"
 
-#: src/lib/config.cc:1275
+#: src/lib/config.cc:1279
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -98,7 +98,7 @@ msgstr ""
 "Dolžina: $LENGTH\n"
 "Velikost: $SIZE\n"
 
-#: src/lib/config.cc:1253
+#: src/lib/config.cc:1257
 msgid "$JOB_NAME: $JOB_STATUS"
 msgstr "$JOB_NAME: $JOB_STATUS"
 
@@ -195,7 +195,7 @@ msgstr "9"
 msgid "; {} fps"
 msgstr "; {} sl/s"
 
-#: src/lib/job.cc:602
+#: src/lib/job.cc:620
 #, c++-format
 msgid "; {} remaining; finishing at {}{}"
 msgstr "; {} preostalo; zaključevanje ob {}{}"
@@ -438,7 +438,7 @@ msgstr "BsR (D)"
 msgid "C"
 msgstr "C"
 
-#: src/lib/job.cc:626
+#: src/lib/job.cc:644
 msgid "Cancelled"
 msgstr "Preklicano"
 
@@ -451,7 +451,7 @@ msgstr "Ne sme vsebovati poševnic"
 msgid "Cannot handle pixel format {} during {}"
 msgstr "Formata slikovne točke {} ni mogoče procesirati med {}"
 
-#: src/lib/film.cc:1847
+#: src/lib/film.cc:1849
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr "KDM ni mogoče narediti, ker ta projekt ni šifriran."
 
@@ -532,7 +532,7 @@ msgstr "Združi DCP-je"
 msgid "Computing digest"
 msgstr "Računanje povzetka"
 
-#: src/lib/writer.cc:521
+#: src/lib/writer.cc:522
 msgid "Computing digests"
 msgstr "Računanje povzetkov"
 
@@ -761,11 +761,11 @@ msgstr "Ni bilo mogoče odpreti prenesene datoteke ZIP"
 msgid "Could not open downloaded ZIP file ({}:{}: {})"
 msgstr "Ni bilo mogoče odpreti prenesene datoteke ZIP ({}:{}: {})"
 
-#: src/lib/config.cc:1177
+#: src/lib/config.cc:1181
 msgid "Could not open file for writing"
 msgstr "Ni bilo mogoče odpreti datoteke za pisanje"
 
-#: src/lib/ffmpeg_file_encoder.cc:270
+#: src/lib/ffmpeg_file_encoder.cc:271
 #, c++-format
 msgid "Could not open output file {} ({})"
 msgstr "Izhodne datoteke {} ({}) ni bilo mogoče odpreti"
@@ -818,12 +818,12 @@ msgstr "DCI, ploski (flat)"
 msgid "DCI Scope"
 msgstr "DCI, ukrivljeni (scope)"
 
-#: src/lib/film.cc:1955
+#: src/lib/film.cc:1957
 #, fuzzy
 msgid "DCP"
 msgstr "DBP"
 
-#: src/lib/film.cc:1952
+#: src/lib/film.cc:1954
 #, c++-format
 msgid "DCP (via {})"
 msgstr ""
@@ -845,19 +845,19 @@ msgstr "DCP bo predvajan pri %.1f%% hitrosti vsebine.\n"
 msgid "DCP will use every other frame of the content.\n"
 msgstr "DCP bo uporabil vsako drugo sličico vsebine.\n"
 
-#: src/lib/film.cc:1764
+#: src/lib/film.cc:1766
 msgid ""
 "DCP-o-matic had to set your container to 1920x1080 as it's the only one that "
 "can be used with MPEG2 encoding."
 msgstr ""
 
-#: src/lib/film.cc:1768
+#: src/lib/film.cc:1770
 msgid ""
 "DCP-o-matic had to set your film to 2D as 3D is not yet supported with MPEG2 "
 "encoding."
 msgstr ""
 
-#: src/lib/film.cc:1772
+#: src/lib/film.cc:1774
 msgid ""
 "DCP-o-matic set your container to DCI Flat as it was previously 1920x1080 "
 "and that is not a standard ratio with JPEG2000 encoding."
@@ -872,7 +872,7 @@ msgstr "Datasat AP20 ali AP25"
 msgid "De-interlacing"
 msgstr "Razpletanje"
 
-#: src/lib/config.cc:1238
+#: src/lib/config.cc:1242
 #, fuzzy, c++-format
 msgid ""
 "Dear Projectionist\n"
@@ -902,6 +902,11 @@ msgstr ""
 #: src/lib/exceptions.cc:178
 #, c++-format
 msgid "Disk full when writing {}"
+msgstr ""
+
+#: src/lib/job.cc:268
+#, c++-format
+msgid "Disk full while writing {}"
 msgstr ""
 
 #: src/lib/dolby_cp750.cc:31
@@ -957,7 +962,7 @@ msgstr "Epizoda"
 msgid "Error in subtitle file: saw {} while expecting {}"
 msgstr "Napaka v datoteki podnaslovov: zaznano {}, pričakovano {}"
 
-#: src/lib/job.cc:624
+#: src/lib/job.cc:642
 #, c++-format
 msgid "Error: {}"
 msgstr " Napaka: {}"
@@ -994,7 +999,7 @@ msgstr "Razširjanje"
 msgid "FCC"
 msgstr "FCC"
 
-#: src/lib/fcpxml_content.cc:92
+#: src/lib/fcpxml_content.cc:93
 #, fuzzy
 msgid "FCP XML subtitles"
 msgstr "Podnaslovi DCP XML"
@@ -1045,7 +1050,7 @@ msgstr "Računanje povzetka"
 msgid "Frame rate"
 msgstr "Hitrost sličic"
 
-#: src/lib/job.cc:568
+#: src/lib/job.cc:586
 msgid "Friday"
 msgstr "Petek"
 
@@ -1151,7 +1156,7 @@ msgstr ""
 "Priporočljivo je, da postavite svoj prvi podnaslov vsaj 4 sekunde po začetku "
 "DCP, da se prepričate, da je viden."
 
-#: src/lib/job.cc:169 src/lib/job.cc:204 src/lib/job.cc:264 src/lib/job.cc:274
+#: src/lib/job.cc:169 src/lib/job.cc:204 src/lib/job.cc:282 src/lib/job.cc:292
 #, fuzzy, c++-format
 msgid "It is not known what caused this error.  {}"
 msgstr "Ni znano, kaj je povzročilo to napako."
@@ -1160,7 +1165,7 @@ msgstr "Ni znano, kaj je povzročilo to napako."
 msgid "JEDEC P22"
 msgstr "JEDEC P22"
 
-#: src/lib/config.cc:430 src/lib/config.cc:1235
+#: src/lib/config.cc:432 src/lib/config.cc:1239
 msgid "KDM delivery: $CPL_NAME"
 msgstr "Dostava KDM: $CPL_NAME"
 
@@ -1260,7 +1265,7 @@ msgstr "Neskladna velikost videa v DCP"
 msgid "Missing required setting {}"
 msgstr "Manjka zahtevana nastavitev {}"
 
-#: src/lib/job.cc:560
+#: src/lib/job.cc:578
 msgid "Monday"
 msgstr "Ponedeljek"
 
@@ -1298,16 +1303,16 @@ msgstr "Zmanjšanje šuma"
 msgid "None"
 msgstr "Brez"
 
-#: src/lib/job.cc:616
+#: src/lib/job.cc:634
 msgid "OK"
 msgstr "V redu"
 
-#: src/lib/job.cc:621
+#: src/lib/job.cc:639
 #, c++-format
 msgid "OK (ran for {} from {} to {})"
 msgstr "V redu (potekalo {} od {} do {})"
 
-#: src/lib/job.cc:619
+#: src/lib/job.cc:637
 #, c++-format
 msgid "OK (ran for {})"
 msgstr "V redu (potekalo {})"
@@ -1508,7 +1513,7 @@ msgstr "Napaka SSH [{}]"
 msgid "SSH error [{}] ({})"
 msgstr "Napaka SSH [{}] ({})"
 
-#: src/lib/job.cc:570
+#: src/lib/job.cc:588
 msgid "Saturday"
 msgstr "Sobota"
 
@@ -1619,7 +1624,7 @@ msgstr "Stereo na 5,1; mešalnik/pretvornik A"
 msgid "Stereo to 5.1 up-mixer B"
 msgstr "Stereo na 5,1: mešalnik/pretvornik B"
 
-#: src/lib/job.cc:558
+#: src/lib/job.cc:576
 msgid "Sunday"
 msgstr "Nedelja"
 
@@ -1830,13 +1835,17 @@ msgstr ""
 "naložiti v to različico.  Ustvariti morate nov film, znova dodati vsebino in "
 "jo znova nastaviti.  Oprostite!"
 
-#: src/lib/job.cc:566
+#: src/lib/job.cc:584
 msgid "Thursday"
 msgstr "Četrtek"
 
 #: src/lib/text_type.cc:77
 msgid "Timed text"
 msgstr "Časovno opredeljeno besedilo"
+
+#: src/lib/job.cc:274
+msgid "Too many open files"
+msgstr ""
 
 #: src/lib/dcp_content_type.cc:56
 msgid "Trailer"
@@ -1851,7 +1860,7 @@ msgstr "Prekodiranje {}"
 msgid "Transitional"
 msgstr "Prehodni"
 
-#: src/lib/job.cc:562
+#: src/lib/job.cc:580
 msgid "Tuesday"
 msgstr "Torek"
 
@@ -1872,7 +1881,7 @@ msgstr "Nepričakovana vrsta slike, ki jo je prejel strežnik"
 msgid "Unknown"
 msgstr "Neznano"
 
-#: src/lib/job.cc:273
+#: src/lib/job.cc:291
 msgid "Unknown error"
 msgstr "Neznana napaka"
 
@@ -1942,7 +1951,7 @@ msgstr "Čakanje"
 msgid "Weave filter"
 msgstr "Filter tkanja"
 
-#: src/lib/job.cc:564
+#: src/lib/job.cc:582
 msgid "Wednesday"
 msgstr "Sreda"
 
@@ -2004,7 +2013,7 @@ msgstr ""
 "kakovost zvoka.  Če nadaljujete, morate poslušati rezultat DCP v "
 "kinodvorani, da se prepričate, da je slišati dobro."
 
-#: src/lib/film.cc:1701
+#: src/lib/film.cc:1703
 msgid ""
 "You have more than one piece of Atmos content, and they do not have the same "
 "frame rate.  You must remove some Atmos content."
@@ -2105,7 +2114,7 @@ msgstr "[gibljive slike]"
 msgid "[still]"
 msgstr "[fotografija]"
 
-#: src/lib/dcp_subtitle_content.cc:133 src/lib/fcpxml_content.cc:85
+#: src/lib/dcp_subtitle_content.cc:133 src/lib/fcpxml_content.cc:86
 #: src/lib/string_text_file_content.cc:111
 msgid "[subtitles]"
 msgstr "[podnaslovi]"
@@ -2369,7 +2378,7 @@ msgstr ""
 "DCP-o-matic ne more odpreti datoteke {} ({}).  Morda ne obstaja ali pa je v "
 "nepričakovani obliki."
 
-#: src/lib/film.cc:1738
+#: src/lib/film.cc:1740
 #, fuzzy, c++-format
 msgid ""
 "{} had to change your settings for referring to DCPs as OV.  Please review "
@@ -2379,7 +2388,7 @@ msgstr ""
 "OV.  Preglejte te nastavitve, da se prepričate, da so skladne z vašimi "
 "željami."
 
-#: src/lib/film.cc:1704
+#: src/lib/film.cc:1706
 #, fuzzy, c++-format
 msgid ""
 "{} had to change your settings so that the film's frame rate is the same as "
@@ -2388,14 +2397,14 @@ msgstr ""
 "DCP-o-matic je moral spremeniti nastavitve, tako da je hitrost sličic filma "
 "enaka tisti vaše vsebine Atmos."
 
-#: src/lib/film.cc:1751
+#: src/lib/film.cc:1753
 #, c++-format
 msgid ""
 "{} had to remove one of your custom reel boundaries as it no longer lies "
 "within the film."
 msgstr ""
 
-#: src/lib/film.cc:1749
+#: src/lib/film.cc:1751
 #, c++-format
 msgid ""
 "{} had to remove some of your custom reel boundaries as they no longer lie "
@@ -2407,7 +2416,7 @@ msgstr ""
 msgid "{} no longer supports the `{}' filter, so it has been turned off."
 msgstr "DCP-o-matic ne podpira več filtra »{}«, zato je bil izklopljen."
 
-#: src/lib/config.cc:440 src/lib/config.cc:1250
+#: src/lib/config.cc:442 src/lib/config.cc:1254
 #, fuzzy, c++-format
 msgid "{} notification"
 msgstr "E-poštno obvestilo"

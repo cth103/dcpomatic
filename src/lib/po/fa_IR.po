@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-27 11:30+0200\n"
+"POT-Creation-Date: 2025-09-26 19:56+0200\n"
 "PO-Revision-Date: 2024-10-05 18:17+0330\n"
 "Last-Translator: Soleyman Rahmani Aghdam <Soleyman.rahmani@gmail.com>\n"
 "Language-Team: \n"
@@ -70,12 +70,12 @@ msgstr " (%.2f:1)"
 
 #. TRANSLATORS: the {} in this string will be filled in with a day of the week
 #. to say what day a job will finish.
-#: src/lib/job.cc:597
+#: src/lib/job.cc:615
 #, c++-format
 msgid " on {}"
 msgstr "  روی {}"
 
-#: src/lib/config.cc:1275
+#: src/lib/config.cc:1279
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -99,7 +99,7 @@ msgstr ""
 "مدت: $LENGTH\n"
 "حجم: $SIZE\n"
 
-#: src/lib/config.cc:1253
+#: src/lib/config.cc:1257
 msgid "$JOB_NAME: $JOB_STATUS"
 msgstr "$نام_عملیات: $JOB_STATUS"
 
@@ -196,7 +196,7 @@ msgstr "9"
 msgid "; {} fps"
 msgstr "; {} فریم بر ثانیه"
 
-#: src/lib/job.cc:602
+#: src/lib/job.cc:620
 #, c++-format
 msgid "; {} remaining; finishing at {}{}"
 msgstr "; {} باقیمانده ; پایان در {}{}"
@@ -440,7 +440,7 @@ msgstr "BsR"
 msgid "C"
 msgstr "c"
 
-#: src/lib/job.cc:626
+#: src/lib/job.cc:644
 msgid "Cancelled"
 msgstr "لغو شد"
 
@@ -453,7 +453,7 @@ msgstr "نمیتواند شامل اسلش باشد"
 msgid "Cannot handle pixel format {} during {}"
 msgstr "نمیتوان فرمت پیکسل {} را همزمان با {} کار کرد"
 
-#: src/lib/film.cc:1847
+#: src/lib/film.cc:1849
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr "برای پروژه ای که رمزگذاری نشده است کلید ساخته نمیشود."
 
@@ -533,7 +533,7 @@ msgstr "ترکیب دی سی پی ها"
 msgid "Computing digest"
 msgstr "در حال محاسبات"
 
-#: src/lib/writer.cc:521
+#: src/lib/writer.cc:522
 msgid "Computing digests"
 msgstr "در حال محاسبات"
 
@@ -742,11 +742,11 @@ msgstr "فایل فشرده دانلود شده باز نشد"
 msgid "Could not open downloaded ZIP file ({}:{}: {})"
 msgstr "فایل فشرده دانلود شده باز نشد ({}:{}:{})"
 
-#: src/lib/config.cc:1177
+#: src/lib/config.cc:1181
 msgid "Could not open file for writing"
 msgstr "فایل برای نوشتن باز نشد"
 
-#: src/lib/ffmpeg_file_encoder.cc:270
+#: src/lib/ffmpeg_file_encoder.cc:271
 #, c++-format
 msgid "Could not open output file {} ({})"
 msgstr "فایل خروجی باز نشد {}({})"
@@ -799,12 +799,12 @@ msgstr "دی سی آی تخت"
 msgid "DCI Scope"
 msgstr "دی سی آی اسکوپ"
 
-#: src/lib/film.cc:1955
+#: src/lib/film.cc:1957
 #, fuzzy
 msgid "DCP"
 msgstr "دی بی پی"
 
-#: src/lib/film.cc:1952
+#: src/lib/film.cc:1954
 #, c++-format
 msgid "DCP (via {})"
 msgstr ""
@@ -826,7 +826,7 @@ msgstr "دی سی پی با  %.1f%% سرعت محتوا اجرا خواهد شد
 msgid "DCP will use every other frame of the content.\n"
 msgstr "دی سی پی از هر فریم دیگر محتوا استفاده میکند.\n"
 
-#: src/lib/film.cc:1764
+#: src/lib/film.cc:1766
 msgid ""
 "DCP-o-matic had to set your container to 1920x1080 as it's the only one that "
 "can be used with MPEG2 encoding."
@@ -834,7 +834,7 @@ msgstr ""
 "چهارچوب محتوای شما توسط DOMروی 1920x1080تنظیم شد زیرا تنها گزینه ای است که "
 "برای رمزگذاری MPEG2 میتواند مورد استفاده قرارگیرد."
 
-#: src/lib/film.cc:1768
+#: src/lib/film.cc:1770
 msgid ""
 "DCP-o-matic had to set your film to 2D as 3D is not yet supported with MPEG2 "
 "encoding."
@@ -842,7 +842,7 @@ msgstr ""
 "در حال حاضرسه بعدی توسط DOM برای رمزگذاری MPEG2 پشتیبانی نمیشود به همین دلیل "
 "فیلم شما روی دو بعدی تنظیم گردید."
 
-#: src/lib/film.cc:1772
+#: src/lib/film.cc:1774
 msgid ""
 "DCP-o-matic set your container to DCI Flat as it was previously 1920x1080 "
 "and that is not a standard ratio with JPEG2000 encoding."
@@ -859,7 +859,7 @@ msgstr "Datasat AP20 or AP25"
 msgid "De-interlacing"
 msgstr "ضد-اینترلیسینگ"
 
-#: src/lib/config.cc:1238
+#: src/lib/config.cc:1242
 #, c++-format
 msgid ""
 "Dear Projectionist\n"
@@ -889,6 +889,11 @@ msgstr ""
 #: src/lib/exceptions.cc:178
 #, fuzzy, c++-format
 msgid "Disk full when writing {}"
+msgstr "هنگام نوشتن 1% دیسک پر شد"
+
+#: src/lib/job.cc:268
+#, fuzzy, c++-format
+msgid "Disk full while writing {}"
 msgstr "هنگام نوشتن 1% دیسک پر شد"
 
 #: src/lib/dolby_cp750.cc:31
@@ -944,7 +949,7 @@ msgstr "قسمت"
 msgid "Error in subtitle file: saw {} while expecting {}"
 msgstr "خطا در فایل زیرنویس: % 1 دیدم در حالی که انتظار % 2 را داشتم"
 
-#: src/lib/job.cc:624
+#: src/lib/job.cc:642
 #, c++-format
 msgid "Error: {}"
 msgstr "خطا: {}"
@@ -981,7 +986,7 @@ msgstr "استخراج کردن"
 msgid "FCC"
 msgstr "FCC"
 
-#: src/lib/fcpxml_content.cc:92
+#: src/lib/fcpxml_content.cc:93
 #, fuzzy
 msgid "FCP XML subtitles"
 msgstr "زیرنویس های XML دی سی پی"
@@ -1032,7 +1037,7 @@ msgstr "در حال محاسبات"
 msgid "Frame rate"
 msgstr "نرخ فریم"
 
-#: src/lib/job.cc:568
+#: src/lib/job.cc:586
 msgid "Friday"
 msgstr "جمعه"
 
@@ -1140,7 +1145,7 @@ msgstr ""
 "توصیه میشود که اولین زیرنویس خود را حداقل 4 ثانیه بعد از شروع دی سی پی قرار "
 "دهید تا مطمئن شوید که دیده میشود."
 
-#: src/lib/job.cc:169 src/lib/job.cc:204 src/lib/job.cc:264 src/lib/job.cc:274
+#: src/lib/job.cc:169 src/lib/job.cc:204 src/lib/job.cc:282 src/lib/job.cc:292
 #, fuzzy, c++-format
 msgid "It is not known what caused this error.  {}"
 msgstr "معلوم نیست چه چیزی باعث این خطا شده است. 1%"
@@ -1149,7 +1154,7 @@ msgstr "معلوم نیست چه چیزی باعث این خطا شده است. 
 msgid "JEDEC P22"
 msgstr "JEDEC P22"
 
-#: src/lib/config.cc:430 src/lib/config.cc:1235
+#: src/lib/config.cc:432 src/lib/config.cc:1239
 msgid "KDM delivery: $CPL_NAME"
 msgstr "تحویل کلید: $CPL_NAME"
 
@@ -1249,7 +1254,7 @@ msgstr "اندازه های ویدیو در دی سی پی مطابقت ندار
 msgid "Missing required setting {}"
 msgstr "تنظیم مورد نیاز وجود ندارد{}"
 
-#: src/lib/job.cc:560
+#: src/lib/job.cc:578
 msgid "Monday"
 msgstr "دوشنبه"
 
@@ -1286,16 +1291,16 @@ msgstr "کاهش نویز"
 msgid "None"
 msgstr "هیچکدام"
 
-#: src/lib/job.cc:616
+#: src/lib/job.cc:634
 msgid "OK"
 msgstr "مورد تایید"
 
-#: src/lib/job.cc:621
+#: src/lib/job.cc:639
 #, c++-format
 msgid "OK (ran for {} from {} to {})"
 msgstr "مورد تایید (اجرا شد {} از {} تا {})"
 
-#: src/lib/job.cc:619
+#: src/lib/job.cc:637
 #, c++-format
 msgid "OK (ran for {})"
 msgstr "مورد تایید (اجرا شد {})"
@@ -1498,7 +1503,7 @@ msgstr "خطای اس اس اچ [{}]"
 msgid "SSH error [{}] ({})"
 msgstr "خطای اس اس اچ [{}] ({})"
 
-#: src/lib/job.cc:570
+#: src/lib/job.cc:588
 msgid "Saturday"
 msgstr "شنبه"
 
@@ -1607,7 +1612,7 @@ msgstr "استریو به 5/1 میکسر A"
 msgid "Stereo to 5.1 up-mixer B"
 msgstr "استریو به 5/1 میکسر B"
 
-#: src/lib/job.cc:558
+#: src/lib/job.cc:576
 msgid "Sunday"
 msgstr "یکشنبه"
 
@@ -1812,13 +1817,17 @@ msgstr ""
 "نیست. لازم است که یک فیلم جدید ساخته، مجدد محتوا را به آن اضافه و تنظیم "
 "کنید. متاسفم!"
 
-#: src/lib/job.cc:566
+#: src/lib/job.cc:584
 msgid "Thursday"
 msgstr "پنجشنبه"
 
 #: src/lib/text_type.cc:77
 msgid "Timed text"
 msgstr "متن زمان دار"
+
+#: src/lib/job.cc:274
+msgid "Too many open files"
+msgstr ""
 
 #: src/lib/dcp_content_type.cc:56
 msgid "Trailer"
@@ -1833,7 +1842,7 @@ msgstr "ترنسکدینگ {}"
 msgid "Transitional"
 msgstr "انتقالی"
 
-#: src/lib/job.cc:562
+#: src/lib/job.cc:580
 msgid "Tuesday"
 msgstr "سه شنبه"
 
@@ -1854,7 +1863,7 @@ msgstr "فرمت تصویر غیرمنتظره به سرور رسید"
 msgid "Unknown"
 msgstr "ناشناخته"
 
-#: src/lib/job.cc:273
+#: src/lib/job.cc:291
 msgid "Unknown error"
 msgstr "خطای ناشناخته"
 
@@ -1924,7 +1933,7 @@ msgstr "در حال انتظار"
 msgid "Weave filter"
 msgstr "فیلتر موج"
 
-#: src/lib/job.cc:564
+#: src/lib/job.cc:582
 msgid "Wednesday"
 msgstr "چهارشنبه"
 
@@ -1986,7 +1995,7 @@ msgstr ""
 "آزمایشی است و ممکن است کیفیت صدا را کاهش دهد. اگرادامه کار میدهید، باید به "
 "صدای خروجی دی سی پی آن در یک سینما گوش دهید تا از درستی آن مطمئن شوید."
 
-#: src/lib/film.cc:1701
+#: src/lib/film.cc:1703
 msgid ""
 "You have more than one piece of Atmos content, and they do not have the same "
 "frame rate.  You must remove some Atmos content."
@@ -2082,7 +2091,7 @@ msgstr "[تصاویر متحرک]"
 msgid "[still]"
 msgstr "[تصویرثابت]"
 
-#: src/lib/dcp_subtitle_content.cc:133 src/lib/fcpxml_content.cc:85
+#: src/lib/dcp_subtitle_content.cc:133 src/lib/fcpxml_content.cc:86
 #: src/lib/string_text_file_content.cc:111
 msgid "[subtitles]"
 msgstr "[زیرنویسها]"
@@ -2343,7 +2352,7 @@ msgstr ""
 "{} نمیتوان فایل {}({}) را باز کرد. ممکن است فایل یا وجود نداشته باشد و یا "
 "فرمت مناسب نداشته باشد."
 
-#: src/lib/film.cc:1738
+#: src/lib/film.cc:1740
 #, c++-format
 msgid ""
 "{} had to change your settings for referring to DCPs as OV.  Please review "
@@ -2353,7 +2362,7 @@ msgstr ""
 "تغییر دهد. لطفا آنها را بررسی کنید تا مطمئن شوید همان چیزی است که شما می "
 "خواهید."
 
-#: src/lib/film.cc:1704
+#: src/lib/film.cc:1706
 #, c++-format
 msgid ""
 "{} had to change your settings so that the film's frame rate is the same as "
@@ -2362,7 +2371,7 @@ msgstr ""
 "{} مجبور شد تنظیمات شما را تغییر دهد تا نرخ فریم فیلم برابر محتوای دالبی "
 "اتمز شما شود."
 
-#: src/lib/film.cc:1751
+#: src/lib/film.cc:1753
 #, c++-format
 msgid ""
 "{} had to remove one of your custom reel boundaries as it no longer lies "
@@ -2371,7 +2380,7 @@ msgstr ""
 "{} مجبور به حذف یکی از مرزهای تعیین شده شما برای ریل گردید به دلیل اینکه "
 "دیگر در داخل محدوده فیلم قرار نمی گرفت."
 
-#: src/lib/film.cc:1749
+#: src/lib/film.cc:1751
 #, c++-format
 msgid ""
 "{} had to remove some of your custom reel boundaries as they no longer lie "
@@ -2385,7 +2394,7 @@ msgstr ""
 msgid "{} no longer supports the `{}' filter, so it has been turned off."
 msgstr "{} دیگر از فیلتر'2%' پشتیبانی نمیکند، بنابراین خاموش شده است."
 
-#: src/lib/config.cc:440 src/lib/config.cc:1250
+#: src/lib/config.cc:442 src/lib/config.cc:1254
 #, c++-format
 msgid "{} notification"
 msgstr "{} یادداشت"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-27 11:30+0200\n"
+"POT-Creation-Date: 2025-09-26 19:56+0200\n"
 "PO-Revision-Date: 2025-09-26 17:49+0200\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
@@ -69,12 +69,12 @@ msgstr " (%.2f:1)"
 
 #. TRANSLATORS: the {} in this string will be filled in with a day of the week
 #. to say what day a job will finish.
-#: src/lib/job.cc:597
+#: src/lib/job.cc:615
 #, c++-format
 msgid " on {}"
 msgstr " le {}"
 
-#: src/lib/config.cc:1275
+#: src/lib/config.cc:1279
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -98,7 +98,7 @@ msgstr ""
 "Durée: $LENGTH\n"
 "Taille: $SIZE\n"
 
-#: src/lib/config.cc:1253
+#: src/lib/config.cc:1257
 msgid "$JOB_NAME: $JOB_STATUS"
 msgstr "$JOB_NAME: $JOB_STATUS"
 
@@ -196,7 +196,7 @@ msgstr "9"
 msgid "; {} fps"
 msgstr "; {} ips"
 
-#: src/lib/job.cc:602
+#: src/lib/job.cc:620
 #, c++-format
 msgid "; {} remaining; finishing at {}{}"
 msgstr "; {} restant ; fin prévue à {}{}"
@@ -441,7 +441,7 @@ msgstr "BsR"
 msgid "C"
 msgstr "C"
 
-#: src/lib/job.cc:626
+#: src/lib/job.cc:644
 msgid "Cancelled"
 msgstr "Annulé"
 
@@ -454,7 +454,7 @@ msgstr "Slashes non autorisés"
 msgid "Cannot handle pixel format {} during {}"
 msgstr "Impossible de gérer le format de pixel {} pendant {}"
 
-#: src/lib/film.cc:1847
+#: src/lib/film.cc:1849
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr "Impossible de créer un KDM car ce projet n'est pas crypté."
 
@@ -534,7 +534,7 @@ msgstr "Combiner les DCPs"
 msgid "Computing digest"
 msgstr "Calcul du rapport en cours"
 
-#: src/lib/writer.cc:521
+#: src/lib/writer.cc:522
 msgid "Computing digests"
 msgstr "Calcul des rapports en cours"
 
@@ -750,11 +750,11 @@ msgstr "Impossible d'ouvrir le fichier ZIP téléchargé"
 msgid "Could not open downloaded ZIP file ({}:{}: {})"
 msgstr "Impossible d'ouvrir le fichier ZIP téléchargé ({}:{} : {})"
 
-#: src/lib/config.cc:1177
+#: src/lib/config.cc:1181
 msgid "Could not open file for writing"
 msgstr "Impossible d'ouvrir le fichier pour l'écriture"
 
-#: src/lib/ffmpeg_file_encoder.cc:270
+#: src/lib/ffmpeg_file_encoder.cc:271
 #, c++-format
 msgid "Could not open output file {} ({})"
 msgstr "Impossible d'ouvrir le fichier de sortie {} ({})"
@@ -807,11 +807,11 @@ msgstr "DCI Flat"
 msgid "DCI Scope"
 msgstr "DCI Scope"
 
-#: src/lib/film.cc:1955
+#: src/lib/film.cc:1957
 msgid "DCP"
 msgstr "DCP"
 
-#: src/lib/film.cc:1952
+#: src/lib/film.cc:1954
 #, c++-format
 msgid "DCP (via {})"
 msgstr "DCP (via {})"
@@ -833,7 +833,7 @@ msgstr "Le DCP sera lu à %.1f%% de la vitesse du contenu source.\n"
 msgid "DCP will use every other frame of the content.\n"
 msgstr "Le DCP utilisera une image sur deux du contenu.\n"
 
-#: src/lib/film.cc:1764
+#: src/lib/film.cc:1766
 msgid ""
 "DCP-o-matic had to set your container to 1920x1080 as it's the only one that "
 "can be used with MPEG2 encoding."
@@ -841,7 +841,7 @@ msgstr ""
 "DCP-o-matic a dû configurer le conteneur à 1920x1080, la seule résolution à "
 "pouvoir être utilisée pour l'encodage MPEG2."
 
-#: src/lib/film.cc:1768
+#: src/lib/film.cc:1770
 msgid ""
 "DCP-o-matic had to set your film to 2D as 3D is not yet supported with MPEG2 "
 "encoding."
@@ -849,7 +849,7 @@ msgstr ""
 "DCP-o-matic a dû configurer votre film en 2D, la 3D n'étant pas encore "
 "supportée pour l'encodage MPEG2."
 
-#: src/lib/film.cc:1772
+#: src/lib/film.cc:1774
 msgid ""
 "DCP-o-matic set your container to DCI Flat as it was previously 1920x1080 "
 "and that is not a standard ratio with JPEG2000 encoding."
@@ -866,7 +866,7 @@ msgstr "Datasat AP20 ou AP25"
 msgid "De-interlacing"
 msgstr "Désentrelacement"
 
-#: src/lib/config.cc:1238
+#: src/lib/config.cc:1242
 #, c++-format
 msgid ""
 "Dear Projectionist\n"
@@ -896,6 +896,11 @@ msgstr ""
 #: src/lib/exceptions.cc:178
 #, c++-format
 msgid "Disk full when writing {}"
+msgstr "Disque rempli lors de l'écriture de {}"
+
+#: src/lib/job.cc:268
+#, fuzzy, c++-format
+msgid "Disk full while writing {}"
 msgstr "Disque rempli lors de l'écriture de {}"
 
 #: src/lib/dolby_cp750.cc:31
@@ -953,7 +958,7 @@ msgstr ""
 "Erreur dans le fichier de sous-titres : {} a été trouvé alors que {} était "
 "attendu"
 
-#: src/lib/job.cc:624
+#: src/lib/job.cc:642
 #, c++-format
 msgid "Error: {}"
 msgstr "Erreur : {}"
@@ -990,7 +995,7 @@ msgstr "Extraction"
 msgid "FCC"
 msgstr "FCC"
 
-#: src/lib/fcpxml_content.cc:92
+#: src/lib/fcpxml_content.cc:93
 msgid "FCP XML subtitles"
 msgstr "Sous-titres FCP XML"
 
@@ -1039,7 +1044,7 @@ msgstr "Formatage du disque"
 msgid "Frame rate"
 msgstr "Fréquence d'image"
 
-#: src/lib/job.cc:568
+#: src/lib/job.cc:586
 msgid "Friday"
 msgstr "Vendredi"
 
@@ -1150,7 +1155,7 @@ msgstr ""
 "Il est conseillé de placer votre premier sous-titre au moins 4 secondes "
 "après le début du DCP pour être sûr qu'il soit vu."
 
-#: src/lib/job.cc:169 src/lib/job.cc:204 src/lib/job.cc:264 src/lib/job.cc:274
+#: src/lib/job.cc:169 src/lib/job.cc:204 src/lib/job.cc:282 src/lib/job.cc:292
 #, c++-format
 msgid "It is not known what caused this error.  {}"
 msgstr "La cause de cette erreur n'est pas connue. {}"
@@ -1159,7 +1164,7 @@ msgstr "La cause de cette erreur n'est pas connue. {}"
 msgid "JEDEC P22"
 msgstr "JEDEC P22"
 
-#: src/lib/config.cc:430 src/lib/config.cc:1235
+#: src/lib/config.cc:432 src/lib/config.cc:1239
 msgid "KDM delivery: $CPL_NAME"
 msgstr "Livraison KDM : $CPL_NAME"
 
@@ -1261,7 +1266,7 @@ msgstr "Tailles de vidéo non concordantes dans le DCP"
 msgid "Missing required setting {}"
 msgstr "Paramètre requis {} manquant"
 
-#: src/lib/job.cc:560
+#: src/lib/job.cc:578
 msgid "Monday"
 msgstr "Lundi"
 
@@ -1302,16 +1307,16 @@ msgstr "Réduction de bruit"
 msgid "None"
 msgstr "Aucun"
 
-#: src/lib/job.cc:616
+#: src/lib/job.cc:634
 msgid "OK"
 msgstr "OK"
 
-#: src/lib/job.cc:621
+#: src/lib/job.cc:639
 #, c++-format
 msgid "OK (ran for {} from {} to {})"
 msgstr "OK (exécuté pendant {}, de {} à {})"
 
-#: src/lib/job.cc:619
+#: src/lib/job.cc:637
 #, c++-format
 msgid "OK (ran for {})"
 msgstr "OK (exécuté pendant {})"
@@ -1513,7 +1518,7 @@ msgstr "Erreur SSH [{}]"
 msgid "SSH error [{}] ({})"
 msgstr "Erreur SSH [{}] ({})"
 
-#: src/lib/job.cc:570
+#: src/lib/job.cc:588
 msgid "Saturday"
 msgstr "Samedi"
 
@@ -1630,7 +1635,7 @@ msgstr "Upmixer stéréo vers 5.1 A"
 msgid "Stereo to 5.1 up-mixer B"
 msgstr "Upmixer stéréo vers 5.1 B"
 
-#: src/lib/job.cc:558
+#: src/lib/job.cc:576
 msgid "Sunday"
 msgstr "Dimanche"
 
@@ -1846,13 +1851,18 @@ msgstr ""
 "nouveau film, réintroduire votre contenu et le configurer à nouveau.  "
 "Désolé !"
 
-#: src/lib/job.cc:566
+#: src/lib/job.cc:584
 msgid "Thursday"
 msgstr "Jeudi"
 
 #: src/lib/text_type.cc:77
 msgid "Timed text"
 msgstr "Texte programmé"
+
+#: src/lib/job.cc:274
+#, fuzzy
+msgid "Too many open files"
+msgstr "lecture du fichier ({}) impossible"
 
 #: src/lib/dcp_content_type.cc:56
 msgid "Trailer"
@@ -1867,7 +1877,7 @@ msgstr "Transcodage de {}"
 msgid "Transitional"
 msgstr "Transitionnel"
 
-#: src/lib/job.cc:562
+#: src/lib/job.cc:580
 msgid "Tuesday"
 msgstr "Mardi"
 
@@ -1888,7 +1898,7 @@ msgstr "Type d'image inattendu reçu par le serveur"
 msgid "Unknown"
 msgstr "Inconnu"
 
-#: src/lib/job.cc:273
+#: src/lib/job.cc:291
 msgid "Unknown error"
 msgstr "Erreur inconnue"
 
@@ -1958,7 +1968,7 @@ msgstr "En cours"
 msgid "Weave filter"
 msgstr "Filtre Weave"
 
-#: src/lib/job.cc:564
+#: src/lib/job.cc:582
 msgid "Wednesday"
 msgstr "Mercredi"
 
@@ -2022,7 +2032,7 @@ msgstr ""
 "devriez écouter le résultat dans un cinéma pour vous assurer que le son est "
 "bon."
 
-#: src/lib/film.cc:1701
+#: src/lib/film.cc:1703
 msgid ""
 "You have more than one piece of Atmos content, and they do not have the same "
 "frame rate.  You must remove some Atmos content."
@@ -2124,7 +2134,7 @@ msgstr "[séquence d'images]"
 msgid "[still]"
 msgstr "[image fixe]"
 
-#: src/lib/dcp_subtitle_content.cc:133 src/lib/fcpxml_content.cc:85
+#: src/lib/dcp_subtitle_content.cc:133 src/lib/fcpxml_content.cc:86
 #: src/lib/string_text_file_content.cc:111
 msgid "[subtitles]"
 msgstr "[sous-titres]"
@@ -2387,7 +2397,7 @@ msgstr ""
 "{} n'a pas pu ouvrir le fichier {} ({}).  Il n'existe peut-être pas ou est "
 "dans un format non reconnu."
 
-#: src/lib/film.cc:1738
+#: src/lib/film.cc:1740
 #, c++-format
 msgid ""
 "{} had to change your settings for referring to DCPs as OV.  Please review "
@@ -2397,7 +2407,7 @@ msgstr ""
 "Veuillez vérifier ces paramètres pour vous assurer qu'ils correspondent à ce "
 "que vous souhaitez."
 
-#: src/lib/film.cc:1704
+#: src/lib/film.cc:1706
 #, c++-format
 msgid ""
 "{} had to change your settings so that the film's frame rate is the same as "
@@ -2406,7 +2416,7 @@ msgstr ""
 "{} a dû modifier vos paramètres pour que la fréquence d'images du film soit "
 "la même que celle de votre contenu Atmos."
 
-#: src/lib/film.cc:1751
+#: src/lib/film.cc:1753
 #, c++-format
 msgid ""
 "{} had to remove one of your custom reel boundaries as it no longer lies "
@@ -2415,7 +2425,7 @@ msgstr ""
 "{} a dû supprimer l'une des délimitations de bobines qui se situait en "
 "dehors du film."
 
-#: src/lib/film.cc:1749
+#: src/lib/film.cc:1751
 #, c++-format
 msgid ""
 "{} had to remove some of your custom reel boundaries as they no longer lie "
@@ -2429,7 +2439,7 @@ msgstr ""
 msgid "{} no longer supports the `{}' filter, so it has been turned off."
 msgstr "{} ne gère plus le filtre `{}'.  Il a donc été désactivé."
 
-#: src/lib/config.cc:440 src/lib/config.cc:1250
+#: src/lib/config.cc:442 src/lib/config.cc:1254
 #, c++-format
 msgid "{} notification"
 msgstr "Notification {}"
@@ -2639,9 +2649,6 @@ msgstr "{}; {}/{} images"
 
 #~ msgid "could not create file {}"
 #~ msgstr "Écriture vers fichier distant ({}) impossible"
-
-#~ msgid "could not open file {}"
-#~ msgstr "lecture du fichier ({}) impossible"
 
 #~ msgid "Computing audio digest"
 #~ msgstr "Fabrication rendu audio"

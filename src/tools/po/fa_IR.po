@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-27 11:30+0200\n"
+"POT-Creation-Date: 2025-09-26 19:56+0200\n"
 "PO-Revision-Date: 2024-10-05 18:27+0330\n"
 "Last-Translator: Soleyman Rahmani Aghdam <Soleyman.rahmani@gmail.com>\n"
 "Language-Team: \n"
@@ -35,8 +35,8 @@ msgstr ""
 "%s از قبل به عنوان یک فایل وجود دارد، بنابراین نمی توانید از آن برای دی سی "
 "پی استفاده کنید."
 
-#: src/tools/dcpomatic_disk.cc:507 src/tools/dcpomatic_kdm.cc:944
-#: src/tools/dcpomatic_player.cc:1383
+#: src/tools/dcpomatic_disk.cc:516 src/tools/dcpomatic_kdm.cc:944
+#: src/tools/dcpomatic_player.cc:1401
 #, c-format
 msgid "%s could not start"
 msgstr "%s قابل اجرا نیست"
@@ -60,11 +60,11 @@ msgstr "%s قابل اجرا نیست."
 msgid "&Add Film...\tCtrl-A"
 msgstr "&افزودن فیلم...\tCtrl-A"
 
-#: src/tools/dcpomatic_player.cc:638
+#: src/tools/dcpomatic_player.cc:654
 msgid "&Add OV..."
 msgstr "&افزودن نسخه اصلی(OV)..."
 
-#: src/tools/dcpomatic_player.cc:646
+#: src/tools/dcpomatic_player.cc:662
 msgid "&Close"
 msgstr "&بستن"
 
@@ -73,28 +73,28 @@ msgid "&Close\tCtrl-W"
 msgstr "&بستن ...\tCtrl-W"
 
 #: src/tools/dcpomatic_batch.cc:110 src/tools/dcpomatic.cc:1445
-#: src/tools/dcpomatic_kdm.cc:347 src/tools/dcpomatic_player.cc:705
+#: src/tools/dcpomatic_kdm.cc:347 src/tools/dcpomatic_player.cc:721
 #: src/tools/dcpomatic_playlist.cc:625
 msgid "&Edit"
 msgstr "&ویرایش"
 
 #: src/tools/dcpomatic_batch.cc:90 src/tools/dcpomatic.cc:1367
-#: src/tools/dcpomatic_editor.cc:422 src/tools/dcpomatic_player.cc:650
-#: src/tools/dcpomatic_playlist.cc:609 src/tools/dcpomatic_verifier.cc:191
+#: src/tools/dcpomatic_editor.cc:422 src/tools/dcpomatic_player.cc:666
+#: src/tools/dcpomatic_playlist.cc:609 src/tools/dcpomatic_verifier.cc:196
 msgid "&Exit"
 msgstr "&خروج"
 
 #: src/tools/dcpomatic_batch.cc:108 src/tools/dcpomatic.cc:1444
 #: src/tools/dcpomatic_editor.cc:434 src/tools/dcpomatic_kdm.cc:346
-#: src/tools/dcpomatic_player.cc:702 src/tools/dcpomatic_playlist.cc:623
-#: src/tools/dcpomatic_verifier.cc:196
+#: src/tools/dcpomatic_player.cc:718 src/tools/dcpomatic_playlist.cc:623
+#: src/tools/dcpomatic_verifier.cc:201
 msgid "&File"
 msgstr "&فایل"
 
 #: src/tools/dcpomatic_batch.cc:113 src/tools/dcpomatic.cc:1449
 #: src/tools/dcpomatic_editor.cc:435 src/tools/dcpomatic_kdm.cc:349
-#: src/tools/dcpomatic_player.cc:709 src/tools/dcpomatic_playlist.cc:612
-#: src/tools/dcpomatic_playlist.cc:626 src/tools/dcpomatic_verifier.cc:200
+#: src/tools/dcpomatic_player.cc:725 src/tools/dcpomatic_playlist.cc:612
+#: src/tools/dcpomatic_playlist.cc:626 src/tools/dcpomatic_verifier.cc:205
 msgid "&Help"
 msgstr "&راهنما"
 
@@ -107,26 +107,26 @@ msgid "&Make DCP\tCtrl-M"
 msgstr "&ساخت دی سی پی ...\tCtrl-M"
 
 #: src/tools/dcpomatic.cc:1347 src/tools/dcpomatic_editor.cc:417
-#: src/tools/dcpomatic_player.cc:637
+#: src/tools/dcpomatic_player.cc:653
 msgid "&Open...\tCtrl-O"
 msgstr "&باز کردن...\tCtrl-O"
 
 #: src/tools/dcpomatic_batch.cc:96 src/tools/dcpomatic.cc:1382
-#: src/tools/dcpomatic_kdm.cc:336 src/tools/dcpomatic_player.cc:656
+#: src/tools/dcpomatic_kdm.cc:336 src/tools/dcpomatic_player.cc:672
 #: src/tools/dcpomatic_playlist.cc:607
 msgid "&Preferences...\tCtrl-,"
 msgstr "&اولویتها.…\tCtrl-,"
 
 #: src/tools/dcpomatic_batch.cc:99 src/tools/dcpomatic.cc:1386
-#: src/tools/dcpomatic_kdm.cc:328 src/tools/dcpomatic_player.cc:659
+#: src/tools/dcpomatic_kdm.cc:328 src/tools/dcpomatic_player.cc:675
 #: src/tools/dcpomatic_playlist.cc:618
 msgid "&Preferences...\tCtrl-P"
 msgstr "&اولویتها...\tCtrl-P"
 
 #: src/tools/dcpomatic_batch.cc:92 src/tools/dcpomatic.cc:1369
 #: src/tools/dcpomatic_editor.cc:424 src/tools/dcpomatic_kdm.cc:326
-#: src/tools/dcpomatic_player.cc:652 src/tools/dcpomatic_playlist.cc:615
-#: src/tools/dcpomatic_verifier.cc:195
+#: src/tools/dcpomatic_player.cc:668 src/tools/dcpomatic_playlist.cc:615
+#: src/tools/dcpomatic_verifier.cc:200
 msgid "&Quit"
 msgstr "&خروج از برنامه"
 
@@ -134,7 +134,7 @@ msgstr "&خروج از برنامه"
 msgid "&Save\tCtrl-S"
 msgstr "&ذخیره کردن ...\tCtrl-S"
 
-#: src/tools/dcpomatic_player.cc:641
+#: src/tools/dcpomatic_player.cc:657
 msgid "&Save frame to file...\tCtrl-S"
 msgstr "& ذخیره سازی فریم در یک فایل...\tCtrl-S"
 
@@ -143,11 +143,11 @@ msgid "&Send DCP to TMS"
 msgstr "& ارسال دی سی پی به نرم افزار سامانه مدیریت نمایش (DCP to TMS)"
 
 #: src/tools/dcpomatic_batch.cc:112 src/tools/dcpomatic.cc:1448
-#: src/tools/dcpomatic_player.cc:708
+#: src/tools/dcpomatic_player.cc:724
 msgid "&Tools"
 msgstr "&ابزارها"
 
-#: src/tools/dcpomatic.cc:1447 src/tools/dcpomatic_player.cc:707
+#: src/tools/dcpomatic.cc:1447 src/tools/dcpomatic_player.cc:723
 msgid "&View"
 msgstr "&مشاهده"
 
@@ -161,14 +161,14 @@ msgstr "<b>لیست نمایش:</b>"
 
 #: src/tools/dcpomatic_batch.cc:106 src/tools/dcpomatic.cc:1438
 #: src/tools/dcpomatic_editor.cc:431 src/tools/dcpomatic_kdm.cc:339
-#: src/tools/dcpomatic_player.cc:696 src/tools/dcpomatic_playlist.cc:621
-#: src/tools/dcpomatic_verifier.cc:198
+#: src/tools/dcpomatic_player.cc:712 src/tools/dcpomatic_playlist.cc:621
+#: src/tools/dcpomatic_verifier.cc:203
 msgid "About"
 msgstr "در باره ما"
 
 #: src/tools/dcpomatic.cc:1436 src/tools/dcpomatic_editor.cc:429
-#: src/tools/dcpomatic_kdm.cc:337 src/tools/dcpomatic_player.cc:694
-#: src/tools/dcpomatic_playlist.cc:610 src/tools/dcpomatic_verifier.cc:192
+#: src/tools/dcpomatic_kdm.cc:337 src/tools/dcpomatic_player.cc:710
+#: src/tools/dcpomatic_playlist.cc:610 src/tools/dcpomatic_verifier.cc:197
 #, c-format
 msgid "About %s"
 msgstr "در باره %s"
@@ -177,7 +177,7 @@ msgstr "در باره %s"
 msgid "Add"
 msgstr "اضافه کردن"
 
-#: src/tools/dcpomatic_player.cc:639
+#: src/tools/dcpomatic_player.cc:655
 msgid "Add &KDM..."
 msgstr "اضافه کردن &کلید..."
 
@@ -202,7 +202,7 @@ msgid "Add..."
 msgstr "اضافه کردن..."
 
 #: src/tools/dcpomatic_combiner.cc:311 src/tools/dcpomatic_editor.cc:603
-#: src/tools/dcpomatic_player.cc:1441 src/tools/dcpomatic_playlist.cc:740
+#: src/tools/dcpomatic_player.cc:1459 src/tools/dcpomatic_playlist.cc:740
 #, c-format
 msgid ""
 "An exception occurred: %s\n"
@@ -214,9 +214,9 @@ msgstr ""
 "%s"
 
 #: src/tools/dcpomatic.cc:1823 src/tools/dcpomatic_combiner.cc:301
-#: src/tools/dcpomatic_disk.cc:554 src/tools/dcpomatic_editor.cc:593
-#: src/tools/dcpomatic_kdm.cc:959 src/tools/dcpomatic_player.cc:1431
-#: src/tools/dcpomatic_playlist.cc:730 src/tools/dcpomatic_verifier.cc:361
+#: src/tools/dcpomatic_disk.cc:563 src/tools/dcpomatic_editor.cc:593
+#: src/tools/dcpomatic_kdm.cc:959 src/tools/dcpomatic_player.cc:1449
+#: src/tools/dcpomatic_playlist.cc:730 src/tools/dcpomatic_verifier.cc:367
 #, c-format
 msgid ""
 "An exception occurred: %s (%s)\n"
@@ -227,7 +227,7 @@ msgstr ""
 "\n"
 "%s"
 
-#: src/tools/dcpomatic.cc:1833 src/tools/dcpomatic_verifier.cc:371
+#: src/tools/dcpomatic.cc:1833 src/tools/dcpomatic_verifier.cc:377
 #, c-format
 msgid ""
 "An exception occurred: %s (%s) (%s)\n"
@@ -238,8 +238,8 @@ msgstr ""
 "\n"
 "%s"
 
-#: src/tools/dcpomatic.cc:1844 src/tools/dcpomatic_disk.cc:564
-#: src/tools/dcpomatic_kdm.cc:969 src/tools/dcpomatic_verifier.cc:382
+#: src/tools/dcpomatic.cc:1844 src/tools/dcpomatic_disk.cc:573
+#: src/tools/dcpomatic_kdm.cc:969 src/tools/dcpomatic_verifier.cc:388
 #, c-format
 msgid ""
 "An exception occurred: %s.\n"
@@ -250,7 +250,7 @@ msgstr ""
 "\n"
 "%s"
 
-#: src/tools/dcpomatic_server.cc:369
+#: src/tools/dcpomatic_server.cc:367
 #, c-format
 msgid "An unknown error has occurred with the %s."
 msgstr "یک خطای ناشناخته برای %s پیش آمده است."
@@ -260,10 +260,10 @@ msgid "An unknown exception occurred."
 msgstr "یک استثناء ناشناخته روی داده است."
 
 #: src/tools/dcpomatic.cc:1850 src/tools/dcpomatic_combiner.cc:317
-#: src/tools/dcpomatic_disk.cc:570 src/tools/dcpomatic_editor.cc:609
+#: src/tools/dcpomatic_disk.cc:579 src/tools/dcpomatic_editor.cc:609
 #: src/tools/dcpomatic_kdm.cc:975 src/tools/dcpomatic_kdm.cc:984
-#: src/tools/dcpomatic_player.cc:1447 src/tools/dcpomatic_playlist.cc:746
-#: src/tools/dcpomatic_playlist.cc:755 src/tools/dcpomatic_verifier.cc:388
+#: src/tools/dcpomatic_player.cc:1465 src/tools/dcpomatic_playlist.cc:746
+#: src/tools/dcpomatic_playlist.cc:755 src/tools/dcpomatic_verifier.cc:394
 #, c-format
 msgid "An unknown exception occurred. %s"
 msgstr "یک استثناء ناشناخته روی داده است. %s"
@@ -285,7 +285,7 @@ msgstr ""
 msgid "Bad setting for %s."
 msgstr "خطای تنظیمات برای %s."
 
-#: src/tools/dcpomatic_editor.cc:387 src/tools/dcpomatic_player.cc:668
+#: src/tools/dcpomatic_editor.cc:387 src/tools/dcpomatic_player.cc:684
 #: src/tools/dcpomatic_playlist.cc:339
 msgid "CPL"
 msgstr "ترکیب لیست نمایش(CPL)"
@@ -299,11 +299,11 @@ msgstr "ترکیب لیست نمایش رمزگذاری شده نیست."
 msgid "CPL: %s"
 msgstr ""
 
-#: src/tools/dcpomatic_verifier.cc:152
+#: src/tools/dcpomatic_verifier.cc:157
 msgid "Cancel"
 msgstr ""
 
-#: src/tools/dcpomatic.cc:1426 src/tools/dcpomatic_player.cc:688
+#: src/tools/dcpomatic.cc:1426 src/tools/dcpomatic_player.cc:704
 msgid "Check for updates"
 msgstr "اقدام به روز رسانی"
 
@@ -311,7 +311,7 @@ msgstr "اقدام به روز رسانی"
 msgid "Choose a DCP folder"
 msgstr "یک پوشه دی سی پی انتخاب کنید"
 
-#: src/tools/dcpomatic_verifier.cc:74
+#: src/tools/dcpomatic_verifier.cc:75
 #, fuzzy
 msgid "Choose a folder"
 msgstr "یک پوشه دی سی پی انتخاب کنید"
@@ -325,7 +325,7 @@ msgstr "بستن %s"
 msgid "Close without saving film"
 msgstr "بستن، بدون ذخیره کردن فیلم"
 
-#: src/tools/dcpomatic.cc:1418 src/tools/dcpomatic_player.cc:674
+#: src/tools/dcpomatic.cc:1418 src/tools/dcpomatic_player.cc:690
 msgid "Closed captions..."
 msgstr "زیر نویسها..."
 
@@ -386,17 +386,17 @@ msgstr ""
 msgid "Could not load DCP"
 msgstr "دی سی پی قابل فراخوانی نیست"
 
-#: src/tools/dcpomatic_player.cc:1360
+#: src/tools/dcpomatic_player.cc:1378
 #, c-format
 msgid "Could not load DCP %s"
 msgstr "دی سی پی قابل فراخوانی نیست %s"
 
-#: src/tools/dcpomatic_player.cc:858
+#: src/tools/dcpomatic_player.cc:874
 #, c-format
 msgid "Could not load DCP %s."
 msgstr "دی سی پی قابل فراخوانی نیست %s."
 
-#: src/tools/dcpomatic_player.cc:627
+#: src/tools/dcpomatic_player.cc:643
 #, c-format
 msgid ""
 "Could not load DCP.\n"
@@ -407,12 +407,12 @@ msgstr ""
 "\n"
 "%s."
 
-#: src/tools/dcpomatic_player.cc:806
+#: src/tools/dcpomatic_player.cc:822
 msgid "Could not load KDM."
 msgstr "کلید قابل فراخوانی نیست."
 
-#: src/tools/dcpomatic_player.cc:451 src/tools/dcpomatic_player.cc:460
-#: src/tools/dcpomatic_player.cc:462
+#: src/tools/dcpomatic_player.cc:452 src/tools/dcpomatic_player.cc:461
+#: src/tools/dcpomatic_player.cc:463
 #, c-format
 msgid "Could not load a DCP from %s"
 msgstr "نمیتوان یک دی سی پی از این محل فراخوانی کرد  %s"
@@ -427,7 +427,7 @@ msgstr "فیلم قابل فراخوانی نیست{}"
 msgid "Could not load film {} ({})"
 msgstr "فیلم قابل فراخوانی نیست {} ({})"
 
-#: src/tools/dcpomatic_player.cc:1368
+#: src/tools/dcpomatic_player.cc:1386
 #, c-format
 msgid "Could not load stress test file %s"
 msgstr "فایل تست استرس قابل فراخوانی نیست %s"
@@ -495,14 +495,14 @@ msgstr ""
 "کنید."
 
 #: src/tools/dcpomatic_batch.cc:365 src/tools/dcpomatic.cc:1461
-#: src/tools/dcpomatic_player.cc:1094 src/tools/dcpomatic_playlist.cc:639
+#: src/tools/dcpomatic_player.cc:1110 src/tools/dcpomatic_playlist.cc:639
 #, c-format
 msgid ""
 "Could not write to config file at %s.  Your changes have not been saved."
 msgstr ""
 "نمیتوان در مسیر %s روی فایل پیکربندی(config) نوشت. تغییرات ذخیره نمیشود."
 
-#: src/tools/dcpomatic_player.cc:1102
+#: src/tools/dcpomatic_player.cc:1118
 msgid "Could not write to config file.  Your changes have not been saved."
 msgstr "نمیتوان روی فایل پیکربندی(config) نوشت. تغییرات ذخیره نمیشود."
 
@@ -518,15 +518,15 @@ msgstr "سازنده"
 msgid "Crop"
 msgstr ""
 
-#: src/tools/dcpomatic_disk.cc:139 src/tools/dcpomatic_verifier.cc:128
+#: src/tools/dcpomatic_disk.cc:139 src/tools/dcpomatic_verifier.cc:133
 msgid "DCP"
 msgstr "دی سی پی"
 
-#: src/tools/dcpomatic_server.cc:263
+#: src/tools/dcpomatic_server.cc:261
 msgid "DCP-o-matic Encode Server"
 msgstr "سرور رمزگذاری دی سی پی-او-ماتیک"
 
-#: src/tools/dcpomatic_disk.cc:135 src/tools/dcpomatic_verifier.cc:124
+#: src/tools/dcpomatic_disk.cc:135 src/tools/dcpomatic_verifier.cc:129
 msgid "DCPs"
 msgstr "دی سی پی ها"
 
@@ -544,15 +544,15 @@ msgid "DKDM %s is already in the DKDM list and will not be added again."
 msgstr ""
 "کلید توزیع %s در لیست کلیدهای توزیع وجود دارد و دوباره قابل اضافه شدن نیست."
 
-#: src/tools/dcpomatic_player.cc:681
+#: src/tools/dcpomatic_player.cc:697
 msgid "Decode at full resolution"
 msgstr "نمایش با رزولوشن کامل"
 
-#: src/tools/dcpomatic_player.cc:682
+#: src/tools/dcpomatic_player.cc:698
 msgid "Decode at half resolution"
 msgstr "نمایش با نصف رزولوشن"
 
-#: src/tools/dcpomatic_player.cc:683
+#: src/tools/dcpomatic_player.cc:699
 msgid "Decode at quarter resolution"
 msgstr "نمایش با یک چهارم رزولوشن"
 
@@ -560,7 +560,7 @@ msgstr "نمایش با یک چهارم رزولوشن"
 msgid "Delete"
 msgstr "پاک کردن"
 
-#: src/tools/dcpomatic_disk.cc:338
+#: src/tools/dcpomatic_disk.cc:342
 #, c-format
 msgid ""
 "Did you install the %s Disk Writer.pkg from the .dmg?  Please check and try "
@@ -578,7 +578,7 @@ msgstr "دیسک نویس"
 msgid "Do nothing"
 msgstr "کاری انجام نده"
 
-#: src/tools/dcpomatic_disk.cc:330
+#: src/tools/dcpomatic_disk.cc:334
 msgid ""
 "Do you see a 'User Account Control' dialogue asking about "
 "dcpomatic2_disk_writer.exe?  If so, click 'Yes', then try again."
@@ -607,7 +607,7 @@ msgstr "پایین"
 msgid "Drive"
 msgstr "درایو"
 
-#: src/tools/dcpomatic_player.cc:671
+#: src/tools/dcpomatic_player.cc:687
 msgid "Dual screen\tShift+F11"
 msgstr "نمایش فیلم در صفحه دوم....Shift+F11"
 
@@ -668,7 +668,7 @@ msgstr "اکسپورت فایل ویدیو...\tCtrl-E"
 msgid "Export..."
 msgstr "اکسپورت..."
 
-#: src/tools/dcpomatic_player.cc:678
+#: src/tools/dcpomatic_player.cc:694
 msgid "Eye"
 msgstr ""
 
@@ -692,11 +692,11 @@ msgstr "در حال یافتن دیسکها"
 msgid "Folder %s already exists.  Do you want to overwrite it?"
 msgstr "پوشه %s وجود دارد. آیا میخواهید بر روی آن نوشته شود؟"
 
-#: src/tools/dcpomatic_server.cc:176
+#: src/tools/dcpomatic_server.cc:174
 msgid "Frames per second"
 msgstr "فریم بر ثانیه"
 
-#: src/tools/dcpomatic_player.cc:670
+#: src/tools/dcpomatic_player.cc:686
 msgid "Full screen\tF11"
 msgstr "نمایش تمام صفحه...F11"
 
@@ -737,7 +737,7 @@ msgstr ""
 msgid "KDM|Timing"
 msgstr "کلید|زمان بندی"
 
-#: src/tools/dcpomatic_player.cc:676
+#: src/tools/dcpomatic_player.cc:692
 msgid "Left"
 msgstr ""
 
@@ -745,7 +745,7 @@ msgstr ""
 msgid "Length"
 msgstr "مدت"
 
-#: src/tools/dcpomatic_player.cc:444 src/tools/dcpomatic_player.cc:780
+#: src/tools/dcpomatic_player.cc:445 src/tools/dcpomatic_player.cc:796
 msgid "Loading content"
 msgstr "بارگذاری محتوا"
 
@@ -860,7 +860,7 @@ msgstr "خیر"
 msgid "Question|Y"
 msgstr "بله"
 
-#: src/tools/dcpomatic_server.cc:245
+#: src/tools/dcpomatic_server.cc:243
 msgid "Quit"
 msgstr "خروج"
 
@@ -890,7 +890,7 @@ msgid "Remove"
 msgstr "حذف"
 
 #: src/tools/dcpomatic.cc:1441 src/tools/dcpomatic_kdm.cc:342
-#: src/tools/dcpomatic_player.cc:699
+#: src/tools/dcpomatic_player.cc:715
 msgid "Report a problem..."
 msgstr "گزارش یک مشکل..."
 
@@ -898,7 +898,7 @@ msgstr "گزارش یک مشکل..."
 msgid "Restore default preferences"
 msgstr "فراخوانی اولویت های پیش فرض"
 
-#: src/tools/dcpomatic_player.cc:677
+#: src/tools/dcpomatic_player.cc:693
 msgid "Right"
 msgstr ""
 
@@ -940,7 +940,7 @@ msgstr "ذخیره فیلم و بستن"
 msgid "Save film and duplicate"
 msgstr "ذخیره فیلم و تولید نسخه مشابه"
 
-#: src/tools/dcpomatic_player.cc:816
+#: src/tools/dcpomatic_player.cc:832
 msgid "Save frame to file"
 msgstr "ذخیره فریم در یک فایل"
 
@@ -948,11 +948,11 @@ msgstr "ذخیره فریم در یک فایل"
 msgid "Screens"
 msgstr "صفحات"
 
-#: src/tools/dcpomatic_editor.cc:441 src/tools/dcpomatic_player.cc:720
+#: src/tools/dcpomatic_editor.cc:441 src/tools/dcpomatic_player.cc:736
 msgid "Select DCP to open"
 msgstr "یک دی سی پی جهت باز شدن انتخاب کنید"
 
-#: src/tools/dcpomatic_player.cc:748
+#: src/tools/dcpomatic_player.cc:764
 msgid "Select DCP to open as OV"
 msgstr "یک دی سی پی انتخاب کنید تا به عنوان نسخه اصلی باز شود"
 
@@ -964,7 +964,7 @@ msgstr "فایل کیلد توزیع را انتخاب کنید"
 msgid "Select DKDM file"
 msgstr "فایل کیلد توزیع را انتخاب کنید"
 
-#: src/tools/dcpomatic_player.cc:787
+#: src/tools/dcpomatic_player.cc:803
 msgid "Select KDM"
 msgstr "انتخاب کلید"
 
@@ -980,7 +980,7 @@ msgstr "انتخاب فیلم جهت باز شدن"
 msgid "Send KDM emails"
 msgstr "ارسال پست الکترونیکی کلیدها"
 
-#: src/tools/dcpomatic_player.cc:680
+#: src/tools/dcpomatic_player.cc:696
 msgid "Set decode resolution to match display"
 msgstr "تنظیم رزولوشن نمایش فیلم، متناسب با صفحه نمایش"
 
@@ -992,7 +992,7 @@ msgstr "صدا"
 msgid "Specify ZIP file"
 msgstr "فایل فشرده را مشخص کنید"
 
-#: src/tools/dcpomatic_server.cc:244
+#: src/tools/dcpomatic_server.cc:242
 msgid "Status..."
 msgstr "وضعیت..."
 
@@ -1000,11 +1000,11 @@ msgstr "وضعیت..."
 msgid "Subtitle"
 msgstr "زیرنویس"
 
-#: src/tools/dcpomatic.cc:1427 src/tools/dcpomatic_player.cc:690
+#: src/tools/dcpomatic.cc:1427 src/tools/dcpomatic_player.cc:706
 msgid "System information..."
 msgstr "اطلاعات سیستم..."
 
-#: src/tools/dcpomatic.cc:1529 src/tools/dcpomatic_player.cc:1076
+#: src/tools/dcpomatic.cc:1529 src/tools/dcpomatic_player.cc:1092
 #, c-format
 msgid "The %s download server could not be contacted."
 msgstr "ارتباط با سرور دانلود %s برقرار نیست."
@@ -1029,7 +1029,7 @@ msgstr ""
 "است، اما فضای خالی دیسک مورد استفاده فقط%.1fگیگابایت است. به هر حال می "
 "خواهید این فیلم را به صف اضافه کنید؟"
 
-#: src/tools/dcpomatic_player.cc:373
+#: src/tools/dcpomatic_player.cc:374
 msgid "The KDM does not allow playback of this content at this time."
 msgstr "این کلید اجازه نمایش این محتوا را در حال حاضر ندارد."
 
@@ -1143,11 +1143,11 @@ msgid ""
 msgstr ""
 "پوشه {} وجود دارد و خالی نیست. مطمئن هستید که می خواهید از آن استفاده کنید؟"
 
-#: src/tools/dcpomatic_disk.cc:293
+#: src/tools/dcpomatic_disk.cc:297
 msgid "The disk you selected is no longer available.  Please choose another."
 msgstr "حافظه انتخاب شده در دسترس نیست. لطفاً حافظه دیگری انتخاب کنید."
 
-#: src/tools/dcpomatic_disk.cc:372
+#: src/tools/dcpomatic_disk.cc:376
 #, c-format
 msgid ""
 "The drive %s could not be unmounted.\n"
@@ -1157,7 +1157,7 @@ msgstr ""
 "تمام برنامه های کاربردی که از آن استفاده میکنند را ببندید، سپس دوباره امتحان "
 "کنید.(%s)"
 
-#: src/tools/dcpomatic_disk.cc:532 src/tools/dcpomatic_player.cc:1474
+#: src/tools/dcpomatic_disk.cc:541 src/tools/dcpomatic_player.cc:1492
 msgid ""
 "The existing configuration failed to load.  Default values will be used "
 "instead.  These may take a short time to create."
@@ -1165,13 +1165,13 @@ msgstr ""
 "بارگذاری فایل پیکربندی با خطا مواجه است. مقادیر پیش فرض جایگزین خواهند شد. "
 "ساخت آن زمان کوتاهی نیاز دارد."
 
-#: src/tools/dcpomatic.cc:1531 src/tools/dcpomatic_player.cc:1078
+#: src/tools/dcpomatic.cc:1531 src/tools/dcpomatic_player.cc:1094
 #, c-format
 msgid "There are no new versions of %s available."
 msgstr "نسخه تازه ای از %s در دسترس نیست."
 
 #: src/tools/dcpomatic_batch.cc:278 src/tools/dcpomatic.cc:1172
-#: src/tools/dcpomatic_disk.cc:268
+#: src/tools/dcpomatic_disk.cc:272
 msgid "There are unfinished jobs; are you sure you want to quit?"
 msgstr "چند عملیات ناتمام وجود دارد; آیا مطمئن هستید که از برنامه خارج میشوید؟"
 
@@ -1183,7 +1183,7 @@ msgstr ""
 "این فیلم توسط نسخه قدیمی نرم افزار دی وی دی-او-ماتیک ساخته شده و ممکن است در "
 "این نسخه درست فراخوانی نشود. لطفاً با دقت تنظیمات فیلم را بررسی کنید."
 
-#: src/tools/dcpomatic_player.cc:453
+#: src/tools/dcpomatic_player.cc:454
 #, c-format
 msgid ""
 "This looks like a %s project folder, which cannot be loaded into the "
@@ -1194,13 +1194,13 @@ msgstr ""
 "پوشه پروژه %s یک دی سی پی انتخاب کنید اگر همان چیزی است که می خواهید پلی "
 "کنید."
 
-#: src/tools/dcpomatic_verifier.cc:143
+#: src/tools/dcpomatic_verifier.cc:148
 msgid ""
 "Tick to check details of the picture asset, such as frame sizes and JPEG2000 "
 "bitstream validity.  These checks are quite time-consuming."
 msgstr ""
 
-#: src/tools/dcpomatic_player.cc:689
+#: src/tools/dcpomatic_player.cc:705
 msgid "Timing..."
 msgstr "زمانبندی..."
 
@@ -1218,7 +1218,7 @@ msgid "Type"
 msgstr "نوع"
 
 #: src/tools/dcpomatic_batch.cc:279 src/tools/dcpomatic.cc:1173
-#: src/tools/dcpomatic_disk.cc:269
+#: src/tools/dcpomatic_disk.cc:273
 msgid "Unfinished jobs"
 msgstr "عملیات انجام نشده"
 
@@ -1226,7 +1226,7 @@ msgstr "عملیات انجام نشده"
 msgid "Uninstall..."
 msgstr "حذف نصب..."
 
-#: src/tools/dcpomatic_player.cc:836
+#: src/tools/dcpomatic_player.cc:852
 #, c-format
 msgid "Unrecognised file extension %s (use .jpg, .jpeg or .png)"
 msgstr ""
@@ -1236,21 +1236,21 @@ msgstr ""
 msgid "Up"
 msgstr "بالا"
 
-#: src/tools/dcpomatic_verifier.cc:154
+#: src/tools/dcpomatic_verifier.cc:159
 #, fuzzy
 msgid "Verify"
 msgstr "صحت سنجی دی سی پی..."
 
-#: src/tools/dcpomatic_player.cc:1018
+#: src/tools/dcpomatic_player.cc:1034
 #, fuzzy
 msgid "Verify DCP"
 msgstr "صحت سنجی دی سی پی..."
 
-#: src/tools/dcpomatic_player.cc:686
+#: src/tools/dcpomatic_player.cc:702
 msgid "Verify DCP..."
 msgstr "صحت سنجی دی سی پی..."
 
-#: src/tools/dcpomatic_verifier.cc:140
+#: src/tools/dcpomatic_verifier.cc:145
 msgid "Verify picture asset details"
 msgstr ""
 
@@ -1262,7 +1262,7 @@ msgstr "نسخه فایل(VF)..."
 msgid "Video waveform..."
 msgstr "شکل موج ویدیو..."
 
-#: src/tools/dcpomatic_verifier.cc:147
+#: src/tools/dcpomatic_verifier.cc:152
 #, fuzzy
 msgid "Write logs to DCP folders"
 msgstr "یک پوشه دی سی پی انتخاب کنید"
@@ -1324,7 +1324,7 @@ msgstr ""
 "مقدار حافظه در دسترس %s محدود شده و ممکن است باعث خطا گردد. توصیه اکید میشود "
 "که نسخه 64 بیتی %s را نصب کنید."
 
-#: src/tools/dcpomatic_disk.cc:388
+#: src/tools/dcpomatic_disk.cc:392
 msgid ""
 "You did not correctly confirm that you read the warning that was just "
 "shown.  Please try again."
@@ -1333,8 +1333,8 @@ msgstr ""
 "لطفاً دوباره تلاش کنید."
 
 #: src/tools/dcpomatic_batch.cc:343 src/tools/dcpomatic.cc:612
-#: src/tools/dcpomatic_editor.cc:447 src/tools/dcpomatic_player.cc:726
-#: src/tools/dcpomatic_player.cc:757
+#: src/tools/dcpomatic_editor.cc:447 src/tools/dcpomatic_player.cc:742
+#: src/tools/dcpomatic_player.cc:773
 msgid ""
 "You did not select a folder.  Make sure that you select a folder before "
 "clicking Open."
