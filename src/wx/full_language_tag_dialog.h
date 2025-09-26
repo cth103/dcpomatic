@@ -35,7 +35,7 @@ class LanguageSubtagPanel;
 
 
 /** A dialog in which the user can make a full new language tag, made up of
- *  language, script, region, variant and external.
+ *  language, script, region, variant and extended.
  */
 class FullLanguageTagDialog : public wxDialog
 {
@@ -74,7 +74,7 @@ private:
 	wxButton* _add_script;
 	wxButton* _add_region;
 	wxButton* _add_variant;
-	wxButton* _add_external;
+	wxButton* _add_extended;
 	wxButton* _remove;
 };
 

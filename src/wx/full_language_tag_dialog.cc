@@ -66,8 +66,8 @@ FullLanguageTagDialog::FullLanguageTagDialog (wxWindow* parent, dcp::LanguageTag
 	button_sizer->Add (_add_region, 0, wxTOP | wxBOTTOM | wxEXPAND, 2);
 	_add_variant = new wxButton(this, wxID_ANY, _("Add variant"));
 	button_sizer->Add (_add_variant, 0, wxTOP | wxBOTTOM | wxEXPAND, 2);
-	_add_external = new wxButton(this, wxID_ANY, _("Add external"));
-	button_sizer->Add (_add_external, 0, wxTOP | wxBOTTOM | wxEXPAND, 2);
+	_add_extended = new wxButton(this, wxID_ANY, _("Add extended"));
+	button_sizer->Add(_add_extended, 0, wxTOP | wxBOTTOM | wxEXPAND, 2);
 	_remove = new wxButton(this, wxID_ANY, _("Remove"));
 	button_sizer->Add (_remove, 0, wxTOP | wxBOTTOM | wxEXPAND, 2);
 
@@ -94,7 +94,7 @@ FullLanguageTagDialog::FullLanguageTagDialog (wxWindow* parent, dcp::LanguageTag
 	_add_script->Bind (wxEVT_BUTTON, boost::bind(&FullLanguageTagDialog::add_to_current_tag, this, dcp::LanguageTag::SubtagType::SCRIPT, boost::optional<dcp::LanguageTag::SubtagData>()));
 	_add_region->Bind (wxEVT_BUTTON, boost::bind(&FullLanguageTagDialog::add_to_current_tag, this, dcp::LanguageTag::SubtagType::REGION, boost::optional<dcp::LanguageTag::SubtagData>()));
 	_add_variant->Bind (wxEVT_BUTTON, boost::bind(&FullLanguageTagDialog::add_to_current_tag, this, dcp::LanguageTag::SubtagType::VARIANT, boost::optional<dcp::LanguageTag::SubtagData>()));
-	_add_external->Bind (wxEVT_BUTTON, boost::bind(&FullLanguageTagDialog::add_to_current_tag, this, dcp::LanguageTag::SubtagType::EXTLANG, boost::optional<dcp::LanguageTag::SubtagData>()));
+	_add_extended->Bind(wxEVT_BUTTON, boost::bind(&FullLanguageTagDialog::add_to_current_tag, this, dcp::LanguageTag::SubtagType::EXTLANG, boost::optional<dcp::LanguageTag::SubtagData>()));
 	_remove->Bind (wxEVT_BUTTON, boost::bind(&FullLanguageTagDialog::remove_from_current_tag, this));
 	_choose_subtag_panel->SelectionChanged.connect(bind(&FullLanguageTagDialog::chosen_subtag_changed, this, _1));
 	_choose_subtag_panel->SearchChanged.connect(bind(&FullLanguageTagDialog::search_changed, this, _1));
@@ -189,7 +189,7 @@ string FullLanguageTagDialog::subtag_type_name (dcp::LanguageTag::SubtagType typ
 		case dcp::LanguageTag::SubtagType::VARIANT:
 			return "Variant";
 		case dcp::LanguageTag::SubtagType::EXTLANG:
-			return "External";
+			return "Extended";
 	}
 
 	return {};
@@ -265,7 +265,7 @@ FullLanguageTagDialog::setup_sensitivity ()
 	_add_script->Enable ();
 	_add_region->Enable ();
 	_add_variant->Enable ();
-	_add_external->Enable ();
+	_add_extended->Enable();
 	for (auto const& i: _current_tag_subtags) {
 		switch (i.type) {
 			case dcp::LanguageTag::SubtagType::SCRIPT:
@@ -278,7 +278,7 @@ FullLanguageTagDialog::setup_sensitivity ()
 				_add_variant->Enable (false);
 				break;
 			case dcp::LanguageTag::SubtagType::EXTLANG:
-				_add_external->Enable (false);
+				_add_extended->Enable(false);
 				break;
 			default:
 				break;
