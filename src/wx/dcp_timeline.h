@@ -52,8 +52,8 @@ public:
 
 private:
 	void paint();
-	void paint_reels(wxGraphicsContext* gc);
-	void paint_content(wxGraphicsContext* gc);
+	void paint_reels(wxGraphicsContext* gc, wxColour* palette);
+	void paint_content(wxGraphicsContext* gc, wxColour* palette);
 	void setup_pixels_per_second();
 	void left_down(wxMouseEvent& ev);
 	void right_down(wxMouseEvent& ev);

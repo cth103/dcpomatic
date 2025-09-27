@@ -48,8 +48,16 @@ DCPTimelineReelMarkerView::x_pos() const
 void
 DCPTimelineReelMarkerView::do_paint(wxGraphicsContext* gc)
 {
-	wxColour const outline = _active ? wxColour(0, 0, 0) : wxColour(128, 128, 128);
-	wxColour const fill = _active ? wxColour(255, 0, 0) : wxColour(192, 192, 192);
+	wxColour outline;
+	wxColour fill;
+	if (_active) {
+		outline = gui_is_dark() ? wxColour(190, 190, 190) : wxColour(0, 0, 0);
+		fill = gui_is_dark() ? wxColour(190, 0, 0) : wxColour(255, 0, 0);
+	} else {
+		outline = wxColour(128, 128, 128);
+		fill = wxColour(192, 192, 192);
+	}
+
 	gc->SetPen(*wxThePenList->FindOrCreatePen(outline, 2, wxPENSTYLE_SOLID));
 	gc->SetBrush(*wxTheBrushList->FindOrCreateBrush(fill, wxBRUSHSTYLE_SOLID));
 

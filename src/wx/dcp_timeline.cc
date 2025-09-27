@@ -401,13 +401,19 @@ DCPTimeline::paint()
 
 	gc->SetAntialiasMode(wxANTIALIAS_DEFAULT);
 
-	paint_reels(gc);
-	paint_content(gc);
+	wxColour palette[] = {
+		gui_is_dark() ? wxColour(190, 190, 190) : wxColour(0, 0, 0),
+		gui_is_dark() ? wxColour(134, 177, 218) : wxColour(0, 0, 255)
+
+	};
+
+	paint_reels(gc, palette);
+	paint_content(gc, palette);
 }
 
 
 void
-DCPTimeline::paint_reels(wxGraphicsContext* gc)
+DCPTimeline::paint_reels(wxGraphicsContext* gc, wxColour* palette)
 {
 	constexpr int x_offset = 2;
 
@@ -415,8 +421,8 @@ DCPTimeline::paint_reels(wxGraphicsContext* gc)
 		boundary->view().paint(gc);
 	}
 
-	gc->SetFont(gc->CreateFont(*wxNORMAL_FONT, wxColour(0, 0, 0)));
-	gc->SetPen(*wxThePenList->FindOrCreatePen(wxColour(0, 0, 0), 2, wxPENSTYLE_SOLID));
+	gc->SetFont(gc->CreateFont(*wxNORMAL_FONT, palette[0]));
+	gc->SetPen(*wxThePenList->FindOrCreatePen(palette[0], 2, wxPENSTYLE_SOLID));
 
 	auto const pps = pixels_per_second().get_value_or(1);
 
@@ -451,7 +457,7 @@ DCPTimeline::paint_reels(wxGraphicsContext* gc)
 		}
 	};
 
-	gc->SetPen(*wxThePenList->FindOrCreatePen(wxColour(0, 0, 255), 2, wxPENSTYLE_DOT));
+	gc->SetPen(*wxThePenList->FindOrCreatePen(palette[1], 2, wxPENSTYLE_DOT));
 	int index = 0;
 	DCPTime last;
 	for (auto const& boundary: _reel_boundaries) {
@@ -464,13 +470,13 @@ DCPTimeline::paint_reels(wxGraphicsContext* gc)
 
 
 void
-DCPTimeline::paint_content(wxGraphicsContext* gc)
+DCPTimeline::paint_content(wxGraphicsContext* gc, wxColour* palette)
 {
 	auto const pps = pixels_per_second().get_value_or(1);
 	auto const film = this->film();
 
-	auto const& solid_pen = *wxThePenList->FindOrCreatePen(wxColour(0, 0, 0), 1, wxPENSTYLE_SOLID);
-	auto const& dotted_pen = *wxThePenList->FindOrCreatePen(wxColour(0, 0, 0), 1, wxPENSTYLE_DOT);
+	auto const& solid_pen = *wxThePenList->FindOrCreatePen(palette[0], 1, wxPENSTYLE_SOLID);
+	auto const& dotted_pen = *wxThePenList->FindOrCreatePen(palette[0], 1, wxPENSTYLE_DOT);
 
 	auto const& video_brush = *wxTheBrushList->FindOrCreateBrush(VIDEO_CONTENT_COLOUR, wxBRUSHSTYLE_SOLID);
 	auto const& audio_brush = *wxTheBrushList->FindOrCreateBrush(AUDIO_CONTENT_COLOUR, wxBRUSHSTYLE_SOLID);
