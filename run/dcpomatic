@@ -43,6 +43,9 @@ elif [ "$1" == "--scaled" ]; then
 elif [ "$1" == "--screenshot" ]; then
     shift
     GTK_PATH=/usr/local/lib/gtk-3.0 GTK_MODULES=gtk-vector-screenshot $binary "$*"
+elif [ "$1" == "--right-to-left" ]; then
+    shift
+    LANGUAGE=fa_IR.UTF8 LANG=fa_IR.UTF8 LC_ALL=fa_IR.UTF8 $binary "$*"
 else
     $binary $* 2> >(grep -v Gtk-CRITICAL | grep -v Gtk-WARNING)
 fi
