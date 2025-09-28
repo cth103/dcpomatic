@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-26 19:56+0200\n"
-"PO-Revision-Date: 2025-09-26 17:49+0200\n"
-"Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
+"PO-Revision-Date: 2025-09-28 14:37+0200\n"
+"Last-Translator: Dan Cohen <thedan.cohen@protonmail.com>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
 "MIME-Version: 1.0\n"
@@ -896,12 +896,12 @@ msgstr ""
 #: src/lib/exceptions.cc:178
 #, c++-format
 msgid "Disk full when writing {}"
-msgstr "Disque rempli lors de l'écriture de {}"
+msgstr "Disque plein lors de l'écriture de {}"
 
 #: src/lib/job.cc:268
-#, fuzzy, c++-format
+#, c++-format
 msgid "Disk full while writing {}"
-msgstr "Disque rempli lors de l'écriture de {}"
+msgstr "Disque plein lors de l'écriture de {}"
 
 #: src/lib/dolby_cp750.cc:31
 msgid "Dolby CP650 or CP750"
@@ -1860,9 +1860,8 @@ msgid "Timed text"
 msgstr "Texte programmé"
 
 #: src/lib/job.cc:274
-#, fuzzy
 msgid "Too many open files"
-msgstr "lecture du fichier ({}) impossible"
+msgstr "Trop de fichiers ouverts"
 
 #: src/lib/dcp_content_type.cc:56
 msgid "Trailer"
@@ -2238,7 +2237,7 @@ msgstr "h"
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:670
 msgid "it has a different frame rate to the film."
-msgstr "la fréquence des images est différente de celle du film."
+msgstr "sa cadence d'images est différente de celle du projet."
 
 #: src/lib/dcp_content.cc:752
 #, c++-format
@@ -2246,8 +2245,8 @@ msgid ""
 "it has a different number of audio channels than the project; set the "
 "project to have {} channels."
 msgstr ""
-"le nombre de canaux audio est différent de celui du projet, ajuster le "
-"projet avec {} canaux."
+"le nombre de canaux audio est différent de celui du projet, régler le projet "
+"sur {} canaux."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:788
@@ -2260,22 +2259,22 @@ msgstr ""
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:723
 msgid "it is 2K and the film is 4K."
-msgstr "il est en 2K mais le film est en 4K."
+msgstr "il est en 2K mais le projet est en 4K."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:720
 msgid "it is 4K and the film is 2K."
-msgstr "il est en 4K mais le film est en 2K."
+msgstr "il est en 4K mais le projet est en 2K."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:658
 msgid "it is Interop and the film is set to SMPTE."
-msgstr "il est en Interop alors que le film est réglé sur SMPTE."
+msgstr "il est en Interop alors que le projet est réglé sur SMPTE."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:662
 msgid "it is SMPTE and the film is set to Interop."
-msgstr "il est en SMPTE alors que le film est réglé sur Interop."
+msgstr "il est en SMPTE alors que le projet est réglé sur Interop."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:763
@@ -2298,13 +2297,13 @@ msgid ""
 "its reel lengths differ from those in the film; set the reel mode to 'split "
 "by video content'."
 msgstr ""
-"les durées de bobines dans le projet diffèrent de celles du DCP ; choisissez "
-"le mode 'découper par contenu vidéo'."
+"les durées de ses bobines diffèrent de celles du projet ; choisissez le mode "
+"'découper par contenu vidéo'."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:728
 msgid "its video frame size differs from the film's."
-msgstr "la taille de l'image diffère de celle du film."
+msgstr "ses dimensions vidéo diffèrent de celles du projet."
 
 #. TRANSLATORS: m here is an abbreviation for minutes
 #: src/lib/util.cc:220

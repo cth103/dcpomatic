@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-26 19:56+0200\n"
-"PO-Revision-Date: 2025-09-26 17:47+0200\n"
-"Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
+"PO-Revision-Date: 2025-09-28 14:20+0200\n"
+"Last-Translator: Dan Cohen <thedan.cohen@protonmail.com>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
 "MIME-Version: 1.0\n"
@@ -333,7 +333,7 @@ msgstr "Combiner"
 
 #: src/tools/dcpomatic_combiner.cc:182
 msgid "Combining DCPs"
-msgstr "En cours de combinaison de DCP"
+msgstr "DCPs en cours de combinaison"
 
 #: src/tools/dcpomatic_editor.cc:218
 msgid "Content title text"
@@ -529,7 +529,7 @@ msgstr "Serveur d'encodage DCP-o-matic"
 
 #: src/tools/dcpomatic_disk.cc:135 src/tools/dcpomatic_verifier.cc:129
 msgid "DCPs"
-msgstr "DCP"
+msgstr "DCPs"
 
 #: src/tools/dcpomatic_combiner.cc:192
 msgid "DCPs combined successfully."
@@ -584,8 +584,9 @@ msgid ""
 "Do you see a 'User Account Control' dialogue asking about "
 "dcpomatic2_disk_writer.exe?  If so, click 'Yes', then try again."
 msgstr ""
-"Voyez-vous une boîte de dialogue 'User Account Control' vous questionnant "
-"sur dcpomatic2_disk_writer.exe?  Dans ce cas, cliquez sur 'Oui' et réessayez."
+"Voyez-vous une boîte de dialogue 'Contrôle de compte d'utilisateur' vous "
+"questionnant sur dcpomatic2_disk_writer.exe?  Dans ce cas, cliquez sur 'Oui' "
+"et réessayez."
 
 #: src/tools/dcpomatic.cc:861
 #, c-format

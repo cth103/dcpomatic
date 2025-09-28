@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-26 19:56+0200\n"
-"PO-Revision-Date: 2025-09-26 17:56+0200\n"
-"Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
+"PO-Revision-Date: 2025-09-28 15:33+0200\n"
+"Last-Translator: Dan Cohen <thedan.cohen@protonmail.com>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
 "MIME-Version: 1.0\n"
@@ -265,7 +265,8 @@ msgstr "A"
 #: src/wx/verify_dcp_result_panel.cc:546
 #, c-format
 msgid "A 2K JPEG2000 frame contains %n tile parts instead of 3."
-msgstr "Une image JPEG2000 2K contient %n parties de mosaïque au lieu de 3."
+msgstr ""
+"Une image JPEG2000 2K contient %n parties de tuile (tile parts) au lieu de 3."
 
 #: src/wx/verify_dcp_result_panel.cc:560
 #, c-format
@@ -286,7 +287,8 @@ msgstr "Une image JPEG2000 2K a %n bits de garde au lieu de 1."
 #: src/wx/verify_dcp_result_panel.cc:553
 #, c-format
 msgid "A 4K JPEG2000 frame contains %n tile parts instead of 6."
-msgstr "Une image JPEG2000 2K contient %n parties de mosaïque au lieu de 6."
+msgstr ""
+"Une image JPEG2000 2K contient %n parties de tuile (tile parts) au lieu de 6."
 
 #: src/wx/verify_dcp_result_panel.cc:567
 #, c-format
@@ -331,7 +333,7 @@ msgstr "Une image JPEG2000 n'a pas de marqueur TLM."
 #: src/wx/verify_dcp_result_panel.cc:497
 msgid "A JPEG2000 tile size does not match the image size."
 msgstr ""
-"La taille d'une mosaïque JPEG2000 ne correspond pas à la taille de l'image."
+"La taille d'une tuile JPEG2000 ne correspond pas à la taille de l'image."
 
 #: src/wx/update_dialog.cc:45
 #, c-format
@@ -420,9 +422,8 @@ msgstr ""
 "animées) ou un dossier de fichiers audio."
 
 #: src/wx/full_language_tag_dialog.cc:69
-#, fuzzy
 msgid "Add extended"
-msgstr "Ajouter un écran"
+msgstr "Ajouter une extlang"
 
 #: src/wx/content_panel.cc:272
 msgid "Add file(s)..."
@@ -952,12 +953,10 @@ msgid "Copy settings from another project..."
 msgstr "Copier les réglages d'un autre projet..."
 
 #: src/wx/load_config_from_zip_dialog.cc:31
-#, fuzzy
 msgid "Copy the cinemas in the ZIP file over the current list at"
 msgstr "Copier les cinémas du fichier ZIP dans la liste actuelle à"
 
 #: src/wx/load_config_from_zip_dialog.cc:37
-#, fuzzy
 msgid "Copy the cinemas in the ZIP file to the original location at"
 msgstr "Copier les cinémas du fichier ZIP dans l'emplacement d'origine à"
 
@@ -1205,9 +1204,8 @@ msgid "Delay"
 msgstr "Délai"
 
 #: src/wx/sound_preferences_page.cc:87
-#, fuzzy
 msgid "Delay audio by"
-msgstr "Délai audio par défaut"
+msgstr "Délai audio de"
 
 #. TRANSLATORS: Destination here refers to where some KDMs will be written or sent
 #. (a place on disk or some email addresses).
@@ -1844,8 +1842,8 @@ msgid ""
 "would cause the DCP's audio to clip.  The gain has not been changed."
 msgstr ""
 "Il n'est pas possible d'ajuster le gain du contenu pour ce changement de "
-"fader car cela provoquerait un écrêtage de l'audio du DCP.  Le gain n'a pas "
-"été modifié."
+"fader car cela provoquerait une saturation de l'audio du DCP.  Le gain n'a "
+"pas été modifié."
 
 #: src/wx/sound_preferences_page.cc:198
 msgid "JACK"
@@ -2924,9 +2922,8 @@ msgid "Save report as HTML..."
 msgstr "Sauver le rapport au format HTML..."
 
 #: src/wx/verify_dcp_result_panel.cc:83
-#, fuzzy
 msgid "Save report as PDF..."
-msgstr "Sauver le rapport au format HTML..."
+msgstr "Sauver le rapport au format PDF..."
 
 #: src/wx/verify_dcp_result_panel.cc:79
 msgid "Save report as text..."
@@ -3091,7 +3088,7 @@ msgstr "Définir la langue"
 
 #: src/wx/content_menu.cc:114
 msgid "Set project DCP settings from this DCP"
-msgstr "Définir les paramètres du DCP du projet à partir de ce DCP"
+msgstr "Définir les paramètres du projet à partir de ce DCP"
 
 #: src/wx/content_menu.cc:115
 msgid "Set project markers from this DCP"
@@ -3226,7 +3223,7 @@ msgstr "Processeur audio"
 msgid ""
 "Source\n"
 "colourspace"
-msgstr "Espace colorimétrique source"
+msgstr "Espace couleur de la source"
 
 #: src/wx/metadata_dialog.cc:206
 msgid "Specific"
