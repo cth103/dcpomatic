@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-26 19:56+0200\n"
-"PO-Revision-Date: 2025-08-21 06:57+0200\n"
+"PO-Revision-Date: 2025-09-28 18:43+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.6\n"
+"X-Generator: Poedit 3.7\n"
 
 #: src/wx/player_information.cc:111
 #, c-format
@@ -418,9 +418,8 @@ msgstr ""
 "gebruikt worden) of een map met audiobestanden toe."
 
 #: src/wx/full_language_tag_dialog.cc:69
-#, fuzzy
 msgid "Add extended"
-msgstr "Voeg externe toe"
+msgstr "Voeg uitbreiding toe"
 
 #: src/wx/content_panel.cc:272
 msgid "Add file(s)..."
@@ -1206,9 +1205,8 @@ msgid "Delay"
 msgstr "Vertraging"
 
 #: src/wx/sound_preferences_page.cc:87
-#, fuzzy
 msgid "Delay audio by"
-msgstr "Standaard audio-vertraging"
+msgstr "Vertraag audio met"
 
 #. TRANSLATORS: Destination here refers to where some KDMs will be written or sent
 #. (a place on disk or some email addresses).
@@ -2908,9 +2906,8 @@ msgid "Save report as HTML..."
 msgstr "Bewaar rapport als HTML..."
 
 #: src/wx/verify_dcp_result_panel.cc:83
-#, fuzzy
 msgid "Save report as PDF..."
-msgstr "Bewaar rapport als HTML..."
+msgstr "Bewaar rapport als PDF..."
 
 #: src/wx/verify_dcp_result_panel.cc:79
 msgid "Save report as text..."
