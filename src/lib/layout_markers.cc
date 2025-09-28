@@ -148,7 +148,7 @@ AllocationRow::allocate(int x1, int x2)
 		return max(a.first, b.first) <= min(a.second, b.second);
 	};
 
-	if (std::none_of(_allocated.begin(), _allocated.end(), std::bind(overlaps, pair{x1, x2}, _1))) {
+	if (std::none_of(_allocated.begin(), _allocated.end(), std::bind(overlaps, pair<int, int>{x1, x2}, _1))) {
 		_allocated.push_back({x1, x2});
 		return true;
 	}
