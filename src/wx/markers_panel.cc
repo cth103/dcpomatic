@@ -55,9 +55,6 @@ enum {
 };
 
 
-static constexpr auto line_to_label_gap = 2;
-
-
 MarkersPanel::MarkersPanel(wxWindow* parent, FilmViewer& viewer)
 	: wxPanel(parent, wxID_ANY, wxDefaultPosition, wxSize(-1, 40))
 	, _viewer(viewer)
