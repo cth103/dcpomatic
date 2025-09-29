@@ -477,9 +477,9 @@ def build_with_cpp17(target):
 
 
 def dependencies(target, options):
-    deps = [('libdcp', 'v1.10.63', {'c++17': build_with_cpp17(target)})]
+    deps = [('libdcp', '485c0c7f357ed388ab3061bdea44aa95bcf4f491', {'c++17': build_with_cpp17(target)})]
     deps.append(('libsub', 'v1.6.63'))
-    deps.append(('leqm-nrt', '3913040723f746c0b4a59cb55cd8a23030ea49a2'))
+    deps.append(('leqm-nrt', 'd75d0af984d9c14bfefca8f1bdbc215c3bf3a388'))
     deps.append(('libttf', 'v0.0.7'))
     if target.platform != 'linux' or target.distro != 'arch':
         # We get our OpenSSL libraries from the environment, but we
@@ -491,7 +491,7 @@ def dependencies(target, options):
     if can_build_disk(target):
         deps.append(('lwext4', '5755f8f25aadf18ec49e0350b6daaab3a648b9d7'))
     if build_tests(target):
-        deps.append(('ffcmp', '26f17612f391'))
+        deps.append(('ffcmp', '11d2e6cafce8c041f034b99d2912c2275b523e47'))
 
     return deps
 
