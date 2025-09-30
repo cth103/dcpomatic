@@ -290,7 +290,7 @@ AudioPlot::y_for_linear (float p, Metrics const & metrics) const
 		p = 1e-4;
 	}
 
-	return metrics.height - (linear_to_db(p) - _minimum) * metrics.y_scale - metrics.y_origin;
+	return std::min(static_cast<double>(metrics.height - metrics.y_pad), metrics.height - (linear_to_db(p) - _minimum) * metrics.y_scale - metrics.y_pad);
 }
 
 
