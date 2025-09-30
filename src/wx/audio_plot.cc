@@ -148,7 +148,7 @@ struct Metrics
 {
 	double db_label_width;
 	int height;
-	int y_origin;
+	int y_pad;
 	float x_scale; ///< pixels per data point
 	float y_scale;
 };
@@ -187,11 +187,11 @@ AudioPlot::paint ()
 	/* Assume all channels have the same number of points */
 	metrics.x_scale = data_width / float (_analysis->points (0));
 	metrics.height = GetSize().GetHeight ();
-	metrics.y_origin = 32;
 	metrics.y_scale = (metrics.height - metrics.y_origin) / -_minimum;
+	metrics.y_pad = 32;
 
 	for (int i = _minimum; i <= 0; i += 10) {
-		int const y = (metrics.height - (i - _minimum) * metrics.y_scale) - metrics.y_origin;
+		int const y = (metrics.height - (i - _minimum) * metrics.y_scale) - metrics.y_pad;
 		h_grid.MoveToPoint (metrics.db_label_width - 4, y);
 		h_grid.AddLineToPoint (metrics.db_label_width + data_width, y);
 		gc->DrawText (std_to_wx (fmt::format("{}dB", i)), 0, y - (db_label_height / 2));
@@ -230,8 +230,8 @@ AudioPlot::paint ()
 		int const tx = llrintf (metrics.db_label_width + t.seconds() * pps);
 		gc->DrawText (str, tx - str_width / 2, metrics.height - metrics.y_origin + db_label_height);
 
-		v_grid.MoveToPoint (tx, metrics.height - metrics.y_origin + 4);
-		v_grid.AddLineToPoint (tx, metrics.y_origin);
+		v_grid.MoveToPoint (tx, metrics.height - metrics.y_pad + 4);
+		v_grid.AddLineToPoint(tx, metrics.y_pad);
 
 		t += DCPTime::from_seconds (mark_interval);
 	}
@@ -265,8 +265,8 @@ AudioPlot::paint ()
 
 	auto axes = gc->CreatePath ();
 	axes.MoveToPoint (metrics.db_label_width, 0);
-	axes.AddLineToPoint (metrics.db_label_width, metrics.height - metrics.y_origin);
-	axes.AddLineToPoint (metrics.db_label_width + data_width, metrics.height - metrics.y_origin);
+	axes.AddLineToPoint(metrics.db_label_width, metrics.height - metrics.y_pad);
+	axes.AddLineToPoint(metrics.db_label_width + data_width, metrics.height - metrics.y_pad);
 	gc->SetPen(wxPen(grid_colour));
 	gc->StrokePath (axes);
 
