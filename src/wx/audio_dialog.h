@@ -43,7 +43,7 @@ class Film;
 /** @class AudioDialog
  *  @brief Dialog to display audio analysis.
  *
- *  This can be used for the whole DCP, or a specific piece of content if one is passed into the constructor.
+ *  This can be used for the whole film, or a specific piece of content if one is passed into the constructor.
  */
 class AudioDialog : public wxDialog
 {
