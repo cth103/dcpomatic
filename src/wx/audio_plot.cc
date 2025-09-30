@@ -228,7 +228,7 @@ AudioPlot::paint ()
 		gc->GetTextExtent (str, &str_width, &str_height, &str_descent, &str_leading);
 
 		int const tx = llrintf (metrics.db_label_width + t.seconds() * pps);
-		gc->DrawText (str, tx - str_width / 2, metrics.height - metrics.y_origin + db_label_height);
+		gc->DrawText(str, tx - str_width / 2, metrics.height - metrics.y_pad + 4);
 
 		v_grid.MoveToPoint (tx, metrics.height - metrics.y_pad + 4);
 		v_grid.AddLineToPoint(tx, metrics.y_pad);
