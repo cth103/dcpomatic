@@ -296,7 +296,13 @@ Film::info_file(DCPTimePeriod period) const
 boost::filesystem::path
 Film::audio_analysis_path(shared_ptr<const Playlist> playlist) const
 {
-	auto p = dir("analysis");
+	boost::filesystem::path p;
+
+	if (_directory) {
+		p = dir("analysis");
+	} else {
+		p = boost::filesystem::temp_directory_path();
+	}
 
 	Digester digester;
 	for (auto content: playlist->content()) {
