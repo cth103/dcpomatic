@@ -19,6 +19,7 @@
 */
 
 #include "wx/about_dialog.h"
+#include "wx/audio_dialog.h"
 #include "wx/file_dialog.h"
 #include "wx/film_viewer.h"
 #include "wx/i18n_setup.h"
@@ -143,6 +144,7 @@ enum {
 	ID_view_scale_quarter,
 	ID_help_report_a_problem,
 	ID_tools_verify,
+	ID_tools_audio_graph,
 	ID_tools_check_for_updates,
 	ID_tools_timing,
 	ID_tools_system_information,
@@ -251,6 +253,7 @@ public:
 		Bind(wxEVT_MENU, boost::bind(&DOMFrame::help_about, this), wxID_ABOUT);
 		Bind(wxEVT_MENU, boost::bind(&DOMFrame::help_report_a_problem, this), ID_help_report_a_problem);
 		Bind(wxEVT_MENU, boost::bind(&DOMFrame::tools_verify, this), ID_tools_verify);
+		Bind(wxEVT_MENU, boost::bind(&DOMFrame::tools_audio_graph, this), ID_tools_audio_graph);
 		Bind(wxEVT_MENU, boost::bind(&DOMFrame::tools_check_for_updates, this), ID_tools_check_for_updates);
 		Bind(wxEVT_MENU, boost::bind(&DOMFrame::tools_timing, this), ID_tools_timing);
 		Bind(wxEVT_MENU, boost::bind(&DOMFrame::tools_system_information, this), ID_tools_system_information);
@@ -700,6 +703,7 @@ private:
 
 		auto tools = new wxMenu;
 		_tools_verify = tools->Append(ID_tools_verify, _("Verify DCP..."));
+		_tools_audio_graph = tools->Append(ID_tools_audio_graph, _("Audio graph..."));
 		tools->AppendSeparator();
 		tools->Append(ID_tools_check_for_updates, _("Check for updates"));
 		tools->Append(ID_tools_timing, _("Timing..."));
@@ -1035,6 +1039,17 @@ private:
 		dialog.ShowModal();
 	}
 
+	void tools_audio_graph()
+	{
+		DCPOMATIC_ASSERT(!_film->content().empty());
+		auto dcp = std::dynamic_pointer_cast<DCPContent>(_film->content().front());
+		DCPOMATIC_ASSERT(dcp);
+
+		_audio_dialog.reset(this, _film, dcp);
+		_audio_dialog->Seek.connect(boost::bind(&FilmViewer::seek, &_viewer, _1, true));
+		_audio_dialog->Show();
+	}
+
 	void tools_check_for_updates()
 	{
 		UpdateChecker::instance()->run();
@@ -1214,6 +1229,7 @@ private:
 	{
 		auto const enable = _film && !_film->content().empty();
 		_tools_verify->Enable(enable);
+		_tools_audio_graph->Enable(enable);
 		_file_add_ov->Enable(enable);
 		_file_add_kdm->Enable(enable);
 		_file_save_frame->Enable(enable);
@@ -1280,6 +1296,7 @@ private:
 	wxMenuItem* _file_add_kdm = nullptr;
 	wxMenuItem* _file_save_frame = nullptr;
 	wxMenuItem* _tools_verify = nullptr;
+	wxMenuItem* _tools_audio_graph = nullptr;
 	wxMenuItem* _view_full_screen = nullptr;
 	wxMenuItem* _view_dual_screen = nullptr;
 	wxSizer* _main_sizer = nullptr;
@@ -1289,6 +1306,7 @@ private:
 	boost::thread _http_server_thread;
 	std::unique_ptr<HTTPServer> _http_server;
 	struct timeval _last_http_server_update = { 0, 0 };
+	wx_ptr<AudioDialog> _audio_dialog;
 };
 
 static const wxCmdLineEntryDesc command_line_description[] = {
