@@ -202,81 +202,81 @@ public:
 	};
 
 
-	DOMFrame ()
+	DOMFrame()
 		: wxFrame(nullptr, -1, variant::wx::dcpomatic_player())
-		, _mode (Config::instance()->player_mode())
+		, _mode(Config::instance()->player_mode())
 		/* Use a panel as the only child of the Frame so that we avoid
 		   the dark-grey background on Windows.
 		*/
 		, _overall_panel(new wxPanel(this, wxID_ANY))
 		, _viewer(_overall_panel, true)
-		, _main_sizer (new wxBoxSizer(wxVERTICAL))
+		, _main_sizer(new wxBoxSizer(wxVERTICAL))
 	{
 		dcpomatic_log = make_shared<NullLog>();
 
 #if defined(DCPOMATIC_WINDOWS)
-		maybe_open_console ();
+		maybe_open_console();
 		cout << variant::dcpomatic_player() << " is starting." << "\n";
 #endif
 
 		auto bar = new wxMenuBar;
-		setup_menu (bar);
-		set_menu_sensitivity ();
-		SetMenuBar (bar);
+		setup_menu(bar);
+		set_menu_sensitivity();
+		SetMenuBar(bar);
 
 #ifdef DCPOMATIC_WINDOWS
-		SetIcon (wxIcon (std_to_wx ("id")));
+		SetIcon(wxIcon(std_to_wx("id")));
 #endif
 
-		_config_changed_connection = Config::instance()->Changed.connect (boost::bind (&DOMFrame::config_changed, this, _1));
-		update_from_config (Config::PLAYER_DEBUG_LOG);
+		_config_changed_connection = Config::instance()->Changed.connect(boost::bind(&DOMFrame::config_changed, this, _1));
+		update_from_config(Config::PLAYER_DEBUG_LOG);
 
-		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_open, this), ID_file_open);
-		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_add_ov, this), ID_file_add_ov);
-		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_add_kdm, this), ID_file_add_kdm);
-		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_save_frame, this), ID_file_save_frame);
-		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_history, this, _1), ID_file_history, ID_file_history + HISTORY_SIZE);
-		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_close, this), ID_file_close);
-		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_exit, this), wxID_EXIT);
-		Bind (wxEVT_MENU, boost::bind (&DOMFrame::edit_preferences, this), wxID_PREFERENCES);
-		Bind (wxEVT_MENU, boost::bind (&DOMFrame::view_full_screen, this), ID_view_full_screen);
-		Bind (wxEVT_MENU, boost::bind (&DOMFrame::view_dual_screen, this), ID_view_dual_screen);
-		Bind (wxEVT_MENU, boost::bind (&DOMFrame::view_closed_captions, this), ID_view_closed_captions);
-		Bind (wxEVT_MENU, boost::bind (&DOMFrame::view_cpl, this, _1), ID_view_cpl, ID_view_cpl + MAX_CPLS);
-		Bind (wxEVT_MENU, boost::bind (&DOMFrame::view_eye_changed, this, _1), ID_view_eye_left);
-		Bind (wxEVT_MENU, boost::bind (&DOMFrame::view_eye_changed, this, _1), ID_view_eye_right);
-		Bind (wxEVT_MENU, boost::bind (&DOMFrame::set_decode_reduction, this, optional<int>(0)), ID_view_scale_full);
-		Bind (wxEVT_MENU, boost::bind (&DOMFrame::set_decode_reduction, this, optional<int>(1)), ID_view_scale_half);
-		Bind (wxEVT_MENU, boost::bind (&DOMFrame::set_decode_reduction, this, optional<int>(2)), ID_view_scale_quarter);
-		Bind (wxEVT_MENU, boost::bind (&DOMFrame::help_about, this), wxID_ABOUT);
-		Bind (wxEVT_MENU, boost::bind (&DOMFrame::help_report_a_problem, this), ID_help_report_a_problem);
-		Bind (wxEVT_MENU, boost::bind (&DOMFrame::tools_verify, this), ID_tools_verify);
-		Bind (wxEVT_MENU, boost::bind (&DOMFrame::tools_check_for_updates, this), ID_tools_check_for_updates);
-		Bind (wxEVT_MENU, boost::bind (&DOMFrame::tools_timing, this), ID_tools_timing);
-		Bind (wxEVT_MENU, boost::bind (&DOMFrame::tools_system_information, this), ID_tools_system_information);
+		Bind(wxEVT_MENU, boost::bind(&DOMFrame::file_open, this), ID_file_open);
+		Bind(wxEVT_MENU, boost::bind(&DOMFrame::file_add_ov, this), ID_file_add_ov);
+		Bind(wxEVT_MENU, boost::bind(&DOMFrame::file_add_kdm, this), ID_file_add_kdm);
+		Bind(wxEVT_MENU, boost::bind(&DOMFrame::file_save_frame, this), ID_file_save_frame);
+		Bind(wxEVT_MENU, boost::bind(&DOMFrame::file_history, this, _1), ID_file_history, ID_file_history + HISTORY_SIZE);
+		Bind(wxEVT_MENU, boost::bind(&DOMFrame::file_close, this), ID_file_close);
+		Bind(wxEVT_MENU, boost::bind(&DOMFrame::file_exit, this), wxID_EXIT);
+		Bind(wxEVT_MENU, boost::bind(&DOMFrame::edit_preferences, this), wxID_PREFERENCES);
+		Bind(wxEVT_MENU, boost::bind(&DOMFrame::view_full_screen, this), ID_view_full_screen);
+		Bind(wxEVT_MENU, boost::bind(&DOMFrame::view_dual_screen, this), ID_view_dual_screen);
+		Bind(wxEVT_MENU, boost::bind(&DOMFrame::view_closed_captions, this), ID_view_closed_captions);
+		Bind(wxEVT_MENU, boost::bind(&DOMFrame::view_cpl, this, _1), ID_view_cpl, ID_view_cpl + MAX_CPLS);
+		Bind(wxEVT_MENU, boost::bind(&DOMFrame::view_eye_changed, this, _1), ID_view_eye_left);
+		Bind(wxEVT_MENU, boost::bind(&DOMFrame::view_eye_changed, this, _1), ID_view_eye_right);
+		Bind(wxEVT_MENU, boost::bind(&DOMFrame::set_decode_reduction, this, optional<int>(0)), ID_view_scale_full);
+		Bind(wxEVT_MENU, boost::bind(&DOMFrame::set_decode_reduction, this, optional<int>(1)), ID_view_scale_half);
+		Bind(wxEVT_MENU, boost::bind(&DOMFrame::set_decode_reduction, this, optional<int>(2)), ID_view_scale_quarter);
+		Bind(wxEVT_MENU, boost::bind(&DOMFrame::help_about, this), wxID_ABOUT);
+		Bind(wxEVT_MENU, boost::bind(&DOMFrame::help_report_a_problem, this), ID_help_report_a_problem);
+		Bind(wxEVT_MENU, boost::bind(&DOMFrame::tools_verify, this), ID_tools_verify);
+		Bind(wxEVT_MENU, boost::bind(&DOMFrame::tools_check_for_updates, this), ID_tools_check_for_updates);
+		Bind(wxEVT_MENU, boost::bind(&DOMFrame::tools_timing, this), ID_tools_timing);
+		Bind(wxEVT_MENU, boost::bind(&DOMFrame::tools_system_information, this), ID_tools_system_information);
 
 		Bind(wxEVT_CLOSE_WINDOW, boost::bind(&DOMFrame::close, this, _1));
 
 		if (Config::instance()->player_mode() == Config::PlayerMode::DUAL) {
-			auto pc = new PlaylistControls (_overall_panel, _viewer);
+			auto pc = new PlaylistControls(_overall_panel, _viewer);
 			_controls = pc;
 			pc->ResetFilm.connect(bind(&DOMFrame::reset_film_weak, this, _1, _2));
 		} else {
-			_controls = new StandardControls (_overall_panel, _viewer, false);
+			_controls = new StandardControls(_overall_panel, _viewer, false);
 		}
 		_controls->set_film(_viewer.film());
 		_viewer.set_dcp_decode_reduction(Config::instance()->decode_reduction());
 		_viewer.PlaybackPermitted.connect(bind(&DOMFrame::playback_permitted, this));
 		_viewer.TooManyDropped.connect(bind(&DOMFrame::too_many_frames_dropped, this));
-		_info = new PlayerInformation (_overall_panel, _viewer);
-		setup_main_sizer (Config::instance()->player_mode());
+		_info = new PlayerInformation(_overall_panel, _viewer);
+		setup_main_sizer(Config::instance()->player_mode());
 #ifdef __WXOSX__
 		int accelerators = 12;
 #else
 		int accelerators = 11;
 #endif
 
-		_stress.setup (this, _controls);
+		_stress.setup(this, _controls);
 
 		std::vector<wxAcceleratorEntry> accel(accelerators);
 		accel[0].Set(wxACCEL_NORMAL,                WXK_SPACE, ID_start_stop);
@@ -293,27 +293,27 @@ public:
 #ifdef __WXOSX__
 		accel[11].Set(wxACCEL_CTRL, static_cast<int>('W'), ID_file_close);
 #endif
-		wxAcceleratorTable accel_table (accelerators, accel.data());
-		SetAcceleratorTable (accel_table);
+		wxAcceleratorTable accel_table(accelerators, accel.data());
+		SetAcceleratorTable(accel_table);
 
-		Bind (wxEVT_MENU, boost::bind(&DOMFrame::start_stop_pressed, this), ID_start_stop);
-		Bind (wxEVT_MENU, boost::bind(&DOMFrame::go_back_frame, this),      ID_go_back_frame);
-		Bind (wxEVT_MENU, boost::bind(&DOMFrame::go_forward_frame, this),   ID_go_forward_frame);
-		Bind (wxEVT_MENU, boost::bind(&DOMFrame::go_seconds,  this,   -60), ID_go_back_small_amount);
-		Bind (wxEVT_MENU, boost::bind(&DOMFrame::go_seconds,  this,    60), ID_go_forward_small_amount);
-		Bind (wxEVT_MENU, boost::bind(&DOMFrame::go_seconds,  this,  -600), ID_go_back_medium_amount);
-		Bind (wxEVT_MENU, boost::bind(&DOMFrame::go_seconds,  this,   600), ID_go_forward_medium_amount);
-		Bind (wxEVT_MENU, boost::bind(&DOMFrame::go_seconds,  this, -3600), ID_go_back_large_amount);
-		Bind (wxEVT_MENU, boost::bind(&DOMFrame::go_seconds,  this,  3600), ID_go_forward_large_amount);
-		Bind (wxEVT_MENU, boost::bind(&DOMFrame::go_to_start, this), ID_go_to_start);
-		Bind (wxEVT_MENU, boost::bind(&DOMFrame::go_to_end,   this), ID_go_to_end);
+		Bind(wxEVT_MENU, boost::bind(&DOMFrame::start_stop_pressed, this), ID_start_stop);
+		Bind(wxEVT_MENU, boost::bind(&DOMFrame::go_back_frame, this),      ID_go_back_frame);
+		Bind(wxEVT_MENU, boost::bind(&DOMFrame::go_forward_frame, this),   ID_go_forward_frame);
+		Bind(wxEVT_MENU, boost::bind(&DOMFrame::go_seconds,  this,   -60), ID_go_back_small_amount);
+		Bind(wxEVT_MENU, boost::bind(&DOMFrame::go_seconds,  this,    60), ID_go_forward_small_amount);
+		Bind(wxEVT_MENU, boost::bind(&DOMFrame::go_seconds,  this,  -600), ID_go_back_medium_amount);
+		Bind(wxEVT_MENU, boost::bind(&DOMFrame::go_seconds,  this,   600), ID_go_forward_medium_amount);
+		Bind(wxEVT_MENU, boost::bind(&DOMFrame::go_seconds,  this, -3600), ID_go_back_large_amount);
+		Bind(wxEVT_MENU, boost::bind(&DOMFrame::go_seconds,  this,  3600), ID_go_forward_large_amount);
+		Bind(wxEVT_MENU, boost::bind(&DOMFrame::go_to_start, this), ID_go_to_start);
+		Bind(wxEVT_MENU, boost::bind(&DOMFrame::go_to_end,   this), ID_go_to_end);
 
-		reset_film ();
+		reset_film();
 
-		UpdateChecker::instance()->StateChanged.connect (boost::bind(&DOMFrame::update_checker_state_changed, this));
-		setup_screen ();
+		UpdateChecker::instance()->StateChanged.connect(boost::bind(&DOMFrame::update_checker_state_changed, this));
+		setup_screen();
 
-		_stress.LoadDCP.connect (boost::bind(&DOMFrame::load_dcp, this, _1));
+		_stress.LoadDCP.connect(boost::bind(&DOMFrame::load_dcp, this, _1));
 
 		setup_internal_player_server();
 		setup_http_server();
@@ -321,7 +321,7 @@ public:
 		SetDropTarget(new DCPDropTarget(this));
 	}
 
-	~DOMFrame ()
+	~DOMFrame()
 	{
 		try {
 			stop_http_server();
@@ -342,21 +342,21 @@ public:
 		ev.Skip();
 	}
 
-	void setup_main_sizer (Config::PlayerMode mode)
+	void setup_main_sizer(Config::PlayerMode mode)
 	{
 		_main_sizer->Detach(_viewer.panel());
-		_main_sizer->Detach (_controls);
-		_main_sizer->Detach (_info);
+		_main_sizer->Detach(_controls);
+		_main_sizer->Detach(_info);
 		if (mode != Config::PlayerMode::DUAL) {
 			_main_sizer->Add(_viewer.panel(), 1, wxEXPAND);
 		}
-		_main_sizer->Add (_controls, mode == Config::PlayerMode::DUAL ? 1 : 0, wxEXPAND | wxALL, 6);
-		_main_sizer->Add (_info, 0, wxEXPAND | wxALL, 6);
-		_overall_panel->SetSizer (_main_sizer);
-		_overall_panel->Layout ();
+		_main_sizer->Add(_controls, mode == Config::PlayerMode::DUAL ? 1 : 0, wxEXPAND | wxALL, 6);
+		_main_sizer->Add(_info, 0, wxEXPAND | wxALL, 6);
+		_overall_panel->SetSizer(_main_sizer);
+		_overall_panel->Layout();
 	}
 
-	bool playback_permitted ()
+	bool playback_permitted()
 	{
 		if (!_film || !Config::instance()->respect_kdm_validity_periods()) {
 			return true;
@@ -371,20 +371,20 @@ public:
 		}
 
 		if (!ok) {
-			error_dialog (this, _("The KDM does not allow playback of this content at this time."));
+			error_dialog(this, _("The KDM does not allow playback of this content at this time."));
 		}
 
 		return ok;
 	}
 
 
-	void too_many_frames_dropped ()
+	void too_many_frames_dropped()
 	{
 		if (!Config::instance()->nagged(Config::NAG_TOO_MANY_DROPPED_FRAMES)) {
 			_viewer.stop();
 		}
 
-		NagDialog::maybe_nag (
+		NagDialog::maybe_nag(
 			this,
 			Config::NAG_TOO_MANY_DROPPED_FRAMES,
 			wxGetTranslation(
@@ -399,21 +399,21 @@ public:
 			);
 	}
 
-	void set_decode_reduction (optional<int> reduction)
+	void set_decode_reduction(optional<int> reduction)
 	{
 		_viewer.set_dcp_decode_reduction(reduction);
-		_info->triggered_update ();
-		Config::instance()->set_decode_reduction (reduction);
+		_info->triggered_update();
+		Config::instance()->set_decode_reduction(reduction);
 	}
 
-	void load_dcp (boost::filesystem::path dir)
+	void load_dcp(boost::filesystem::path dir)
 	{
-		DCPOMATIC_ASSERT (_film);
+		DCPOMATIC_ASSERT(_film);
 
 		auto film = std::make_shared<Film>(optional<boost::filesystem::path>());
 
 		try {
-			_stress.set_suspended (true);
+			_stress.set_suspended(true);
 
 			/* Handler to set things up once the DCP has been examined */
 			auto setup = [this](weak_ptr<Film> weak_film, weak_ptr<Job> weak_job, weak_ptr<Content> weak_content)
@@ -441,13 +441,13 @@ public:
 			auto dcp = make_shared<DCPContent>(dir);
 			auto job = make_shared<ExamineContentJob>(film, vector<shared_ptr<Content>>{dcp}, true);
 			_examine_job_connection = job->Finished.connect(boost::bind<void>(setup, weak_ptr<Film>(film), weak_ptr<Job>(job), weak_ptr<Content>(dcp)));
-			JobManager::instance()->add (job);
+			JobManager::instance()->add(job);
 			bool const ok = display_progress(variant::wx::dcpomatic_player(), _("Loading content"));
 			if (ok && report_errors_from_last_job(this)) {
 				Config::instance()->add_to_player_history(dir);
 			}
 		} catch (ProjectFolderError &) {
-			error_dialog (
+			error_dialog(
 				this,
 				wxString::Format(_("Could not load a DCP from %s"), std_to_wx(dir.string())),
 				wxString::Format(
@@ -458,9 +458,9 @@ public:
 					)
 				);
 		} catch (dcp::ReadError& e) {
-			error_dialog (this, wxString::Format(_("Could not load a DCP from %s"), std_to_wx(dir.string())), std_to_wx(e.what()));
+			error_dialog(this, wxString::Format(_("Could not load a DCP from %s"), std_to_wx(dir.string())), std_to_wx(e.what()));
 		} catch (DCPError& e) {
-			error_dialog (this, wxString::Format(_("Could not load a DCP from %s"), std_to_wx(dir.string())), std_to_wx(e.what()));
+			error_dialog(this, wxString::Format(_("Could not load a DCP from %s"), std_to_wx(dir.string())), std_to_wx(e.what()));
 		}
 	}
 
@@ -492,13 +492,13 @@ public:
 		/* Start off as Flat */
 		auto auto_ratio = Ratio::from_id("185");
 
-		_film->set_audio_channels (MAX_DCP_AUDIO_CHANNELS);
+		_film->set_audio_channels(MAX_DCP_AUDIO_CHANNELS);
 
 		for (auto i: _film->content()) {
 			auto dcp = dynamic_pointer_cast<DCPContent>(i);
 
 			for (auto j: i->text) {
-				j->set_use (true);
+				j->set_use(true);
 			}
 
 			if (i->video && i->video->size()) {
@@ -511,7 +511,7 @@ public:
 
 			/* Any 3D content means we use 3D mode */
 			if (i->video && i->video->frame_type() != VideoFrameType::TWO_D) {
-				_film->set_three_d (true);
+				_film->set_three_d(true);
 			}
 
 			if (dcp->video_frame_rate()) {
@@ -534,7 +534,7 @@ public:
 
 		auto old = _cpl_menu->GetMenuItems();
 		for (auto const& i: old) {
-			_cpl_menu->Remove (i);
+			_cpl_menu->Remove(i);
 		}
 
 		if (_film->content().size() == 1) {
@@ -577,7 +577,7 @@ public:
 		_info->triggered_update();
 		set_menu_sensitivity();
 
-		_controls->set_film (_film);
+		_controls->set_film(_film);
 	}
 
 	void set_audio_delay_from_config()
@@ -593,9 +593,9 @@ public:
 		}
 	}
 
-	void load_stress_script (boost::filesystem::path path)
+	void load_stress_script(boost::filesystem::path path)
 	{
-		_stress.load_script (path);
+		_stress.load_script(path);
 	}
 
 	void idle()
@@ -619,24 +619,24 @@ public:
 
 private:
 
-	void examine_content ()
+	void examine_content()
 	{
-		DCPOMATIC_ASSERT (_film);
+		DCPOMATIC_ASSERT(_film);
 		auto dcp = dynamic_pointer_cast<DCPContent>(_film->content().front());
-		DCPOMATIC_ASSERT (dcp);
+		DCPOMATIC_ASSERT(dcp);
 		dcp->examine(_film, {}, true);
 
 		/* Examining content re-creates the TextContent objects, so we must re-enable them */
 		for (auto i: dcp->text) {
-			i->set_use (true);
+			i->set_use(true);
 		}
 	}
 
-	bool report_errors_from_last_job (wxWindow* parent) const
+	bool report_errors_from_last_job(wxWindow* parent) const
 	{
-		auto jm = JobManager::instance ();
+		auto jm = JobManager::instance();
 
-		DCPOMATIC_ASSERT (!jm->get().empty());
+		DCPOMATIC_ASSERT(!jm->get().empty());
 
 		auto last = jm->get().back();
 		if (last->finished_in_error()) {
@@ -647,35 +647,35 @@ private:
 		return true;
 	}
 
-	void setup_menu (wxMenuBar* m)
+	void setup_menu(wxMenuBar* m)
 	{
 		_file_menu = new wxMenu;
-		_file_menu->Append (ID_file_open, _("&Open...\tCtrl-O"));
-		_file_add_ov = _file_menu->Append (ID_file_add_ov, _("&Add OV..."));
-		_file_add_kdm = _file_menu->Append (ID_file_add_kdm, _("Add &KDM..."));
-		_file_menu->AppendSeparator ();
-		_file_save_frame = _file_menu->Append (ID_file_save_frame, _("&Save frame to file...\tCtrl-S"));
+		_file_menu->Append(ID_file_open, _("&Open...\tCtrl-O"));
+		_file_add_ov = _file_menu->Append(ID_file_add_ov, _("&Add OV..."));
+		_file_add_kdm = _file_menu->Append(ID_file_add_kdm, _("Add &KDM..."));
+		_file_menu->AppendSeparator();
+		_file_save_frame = _file_menu->Append(ID_file_save_frame, _("&Save frame to file...\tCtrl-S"));
 
 		_history_position = _file_menu->GetMenuItems().GetCount();
 
-		_file_menu->AppendSeparator ();
-		_file_menu->Append (ID_file_close, _("&Close"));
-		_file_menu->AppendSeparator ();
+		_file_menu->AppendSeparator();
+		_file_menu->Append(ID_file_close, _("&Close"));
+		_file_menu->AppendSeparator();
 
 #ifdef __WXOSX__
-		_file_menu->Append (wxID_EXIT, _("&Exit"));
+		_file_menu->Append(wxID_EXIT, _("&Exit"));
 #else
-		_file_menu->Append (wxID_EXIT, _("&Quit"));
+		_file_menu->Append(wxID_EXIT, _("&Quit"));
 #endif
 
 #ifdef __WXOSX__
 		auto prefs = _file_menu->Append(wxID_PREFERENCES, _("&Preferences...\tCtrl-,"));
 #else
 		auto edit = new wxMenu;
-		auto prefs = edit->Append (wxID_PREFERENCES, _("&Preferences...\tCtrl-P"));
+		auto prefs = edit->Append(wxID_PREFERENCES, _("&Preferences...\tCtrl-P"));
 #endif
 
-		prefs->Enable (Config::instance()->have_write_permission());
+		prefs->Enable(Config::instance()->have_write_permission());
 
 		_cpl_menu = new wxMenu;
 
@@ -685,7 +685,7 @@ private:
 		view->AppendSeparator();
 		_view_full_screen = view->AppendCheckItem(ID_view_full_screen, _("Full screen\tF11"));
 		_view_dual_screen = view->AppendCheckItem(ID_view_dual_screen, _("Dual screen\tShift+F11"));
-		setup_menu ();
+		setup_menu();
 		view->AppendSeparator();
 		view->Append(ID_view_closed_captions, _("Closed captions..."));
 		_view_eye_menu = new wxMenu;
@@ -699,17 +699,17 @@ private:
 		view->AppendRadioItem(ID_view_scale_quarter, _("Decode at quarter resolution"))->Check(c && c.get() == 2);
 
 		auto tools = new wxMenu;
-		_tools_verify = tools->Append (ID_tools_verify, _("Verify DCP..."));
-		tools->AppendSeparator ();
-		tools->Append (ID_tools_check_for_updates, _("Check for updates"));
-		tools->Append (ID_tools_timing, _("Timing..."));
-		tools->Append (ID_tools_system_information, _("System information..."));
+		_tools_verify = tools->Append(ID_tools_verify, _("Verify DCP..."));
+		tools->AppendSeparator();
+		tools->Append(ID_tools_check_for_updates, _("Check for updates"));
+		tools->Append(ID_tools_timing, _("Timing..."));
+		tools->Append(ID_tools_system_information, _("System information..."));
 
 		auto help = new wxMenu;
 #ifdef __WXOSX__
 		help->Append(wxID_ABOUT, variant::wx::insert_dcpomatic_player(_("About %s")));
 #else
-		help->Append (wxID_ABOUT, _("About"));
+		help->Append(wxID_ABOUT, _("About"));
 #endif
 		if (variant::show_report_a_problem()) {
 			help->Append(ID_help_report_a_problem, _("Report a problem..."));
@@ -718,19 +718,19 @@ private:
 		m->Append (_file_menu, _("&File"));
 		if (!Config::instance()->player_restricted_menus()) {
 #ifndef __WXOSX__
-			m->Append (edit, _("&Edit"));
+			m->Append(edit, _("&Edit"));
 #endif
-			m->Append (view, _("&View"));
-			m->Append (tools, _("&Tools"));
-			m->Append (help, _("&Help"));
+			m->Append(view, _("&View"));
+			m->Append(tools, _("&Tools"));
+			m->Append(help, _("&Help"));
 		}
 	}
 
-	void file_open ()
+	void file_open()
 	{
 		auto d = wxStandardPaths::Get().GetDocumentsDir();
 		if (Config::instance()->last_player_load_directory()) {
-			d = std_to_wx (Config::instance()->last_player_load_directory()->string());
+			d = std_to_wx(Config::instance()->last_player_load_directory()->string());
 		}
 
 		wxDirDialog dialog(this, _("Select DCP to open"), d, wxDEFAULT_DIALOG_STYLE | wxDD_DIR_MUST_EXIST);
@@ -739,20 +739,20 @@ private:
 		while (true) {
 			r = dialog.ShowModal();
 			if (r == wxID_OK && dialog.GetPath() == wxStandardPaths::Get().GetDocumentsDir()) {
-				error_dialog (this, _("You did not select a folder.  Make sure that you select a folder before clicking Open."));
+				error_dialog(this, _("You did not select a folder.  Make sure that you select a folder before clicking Open."));
 			} else {
 				break;
 			}
 		}
 
 		if (r == wxID_OK) {
-			boost::filesystem::path const dcp(wx_to_std(dialog.GetPath ()));
-			load_dcp (dcp);
-			Config::instance()->set_last_player_load_directory (dcp.parent_path());
+			boost::filesystem::path const dcp(wx_to_std(dialog.GetPath()));
+			load_dcp(dcp);
+			Config::instance()->set_last_player_load_directory(dcp.parent_path());
 		}
 	}
 
-	void file_add_ov ()
+	void file_add_ov()
 	{
 		auto initial_dir = wxStandardPaths::Get().GetDocumentsDir();
 		if (Config::instance()->last_player_load_directory()) {
@@ -770,7 +770,7 @@ private:
 		while (true) {
 			r = dialog.ShowModal();
 			if (r == wxID_OK && dialog.GetPath() == wxStandardPaths::Get().GetDocumentsDir()) {
-				error_dialog (this, _("You did not select a folder.  Make sure that you select a folder before clicking Open."));
+				error_dialog(this, _("You did not select a folder.  Make sure that you select a folder before clicking Open."));
 			} else {
 				break;
 			}
@@ -798,14 +798,14 @@ private:
 		}
 	}
 
-	void file_add_kdm ()
+	void file_add_kdm()
 	{
 		FileDialog dialog(this, _("Select KDM"), char_to_wx("XML files|*.xml|All files|*.*"), wxFD_MULTIPLE, "AddKDMPath");
 
 		if (dialog.show()) {
-			DCPOMATIC_ASSERT (_film);
+			DCPOMATIC_ASSERT(_film);
 			auto dcp = std::dynamic_pointer_cast<DCPContent>(_film->content().front());
-			DCPOMATIC_ASSERT (dcp);
+			DCPOMATIC_ASSERT(dcp);
 			try {
 				if (dcp) {
 					dcp::ScopeGuard sg([this]() {
@@ -819,28 +819,28 @@ private:
 					examine_content();
 				}
 			} catch (exception& e) {
-				error_dialog (this, wxString::Format (_("Could not load KDM.")), std_to_wx(e.what()));
+				error_dialog(this, wxString::Format(_("Could not load KDM.")), std_to_wx(e.what()));
 				return;
 			}
 		}
 
-		_info->triggered_update ();
+		_info->triggered_update();
 	}
 
-	void file_save_frame ()
+	void file_save_frame()
 	{
-		wxFileDialog dialog (this, _("Save frame to file"), {}, {}, char_to_wx("PNG files (*.png)|*.png|JPEG files (*.jpg;*.jpeg)|*.jpg;*.jpeg"), wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
+		wxFileDialog dialog(this, _("Save frame to file"), {}, {}, char_to_wx("PNG files (*.png)|*.png|JPEG files (*.jpg;*.jpeg)|*.jpg;*.jpeg"), wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
 		if (dialog.ShowModal() == wxID_CANCEL) {
 			return;
 		}
 
-		auto path = boost::filesystem::path (wx_to_std(dialog.GetPath()));
+		auto path = boost::filesystem::path(wx_to_std(dialog.GetPath()));
 
 		auto player = make_shared<Player>(_film, Image::Alignment::PADDED, true);
 		player->seek(_viewer.position(), true);
 
 		bool done = false;
-		player->Video.connect ([path, &done, this](shared_ptr<PlayerVideo> video, DCPTime) {
+		player->Video.connect([path, &done, this](shared_ptr<PlayerVideo> video, DCPTime) {
 			auto ext = boost::algorithm::to_lower_copy(path.extension().string());
 			if (ext == ".png") {
 				auto image = video->image(force(AV_PIX_FMT_RGBA), VideoRange::FULL, false);
@@ -860,54 +860,54 @@ private:
 			--tries_left;
 		}
 
-		DCPOMATIC_ASSERT (tries_left >= 0);
+		DCPOMATIC_ASSERT(tries_left >= 0);
 	}
 
-	void file_history (wxCommandEvent& event)
+	void file_history(wxCommandEvent& event)
 	{
-		auto history = Config::instance()->player_history ();
+		auto history = Config::instance()->player_history();
 		int n = event.GetId() - ID_file_history;
-		if (n >= 0 && n < static_cast<int> (history.size ())) {
+		if (n >= 0 && n < static_cast<int>(history.size())) {
 			try {
-				load_dcp (history[n]);
+				load_dcp(history[n]);
 			} catch (exception& e) {
 				error_dialog(nullptr, wxString::Format(_("Could not load DCP %s."), std_to_wx(history[n].string()))), std_to_wx(e.what());
 			}
 		}
 	}
 
-	void file_close ()
+	void file_close()
 	{
-		reset_film ();
-		_info->triggered_update ();
-		set_menu_sensitivity ();
+		reset_film();
+		_info->triggered_update();
+		set_menu_sensitivity();
 	}
 
-	void file_exit ()
+	void file_exit()
 	{
-		Close ();
+		Close();
 	}
 
-	void edit_preferences ()
+	void edit_preferences()
 	{
 		if (!Config::instance()->have_write_permission()) {
 			return;
 		}
 
 		if (!_config_dialog) {
-			_config_dialog = create_player_config_dialog ();
+			_config_dialog = create_player_config_dialog();
 		}
-		_config_dialog->Show (this);
+		_config_dialog->Show(this);
 	}
 
-	void view_cpl (wxCommandEvent& ev)
+	void view_cpl(wxCommandEvent& ev)
 	{
 		auto dcp = std::dynamic_pointer_cast<DCPContent>(_film->content().front());
-		DCPOMATIC_ASSERT (dcp);
-		auto cpls = dcp::find_and_resolve_cpls (dcp->directories(), true);
+		DCPOMATIC_ASSERT(dcp);
+		auto cpls = dcp::find_and_resolve_cpls(dcp->directories(), true);
 		int id = ev.GetId() - ID_view_cpl;
-		DCPOMATIC_ASSERT (id >= 0);
-		DCPOMATIC_ASSERT (id < int(cpls.size()));
+		DCPOMATIC_ASSERT(id >= 0);
+		DCPOMATIC_ASSERT(id < int(cpls.size()));
 		auto i = cpls.begin();
 		while (id > 0) {
 			++i;
@@ -915,11 +915,11 @@ private:
 		}
 
 		_viewer.set_coalesce_player_changes(true);
-		dcp->set_cpl ((*i)->id());
-		examine_content ();
+		dcp->set_cpl((*i)->id());
+		examine_content();
 		_viewer.set_coalesce_player_changes(false);
 
-		_info->triggered_update ();
+		_info->triggered_update();
 	}
 
 	void view_eye_changed(wxCommandEvent& ev)
@@ -927,53 +927,53 @@ private:
 		_viewer.set_eyes(ev.GetId() == ID_view_eye_left ? Eyes::LEFT : Eyes::RIGHT);
 	}
 
-	void view_full_screen ()
+	void view_full_screen()
 	{
 		if (_mode == Config::PlayerMode::FULL) {
 			_mode = Config::PlayerMode::WINDOW;
 		} else {
 			_mode = Config::PlayerMode::FULL;
 		}
-		setup_screen ();
-		setup_menu ();
+		setup_screen();
+		setup_menu();
 	}
 
-	void view_dual_screen ()
+	void view_dual_screen()
 	{
 		if (_mode == Config::PlayerMode::DUAL) {
 			_mode = Config::PlayerMode::WINDOW;
 		} else {
 			_mode = Config::PlayerMode::DUAL;
 		}
-		setup_screen ();
-		setup_menu ();
+		setup_screen();
+		setup_menu();
 	}
 
-	void setup_menu ()
+	void setup_menu()
 	{
 		if (_view_full_screen) {
-			_view_full_screen->Check (_mode == Config::PlayerMode::FULL);
+			_view_full_screen->Check(_mode == Config::PlayerMode::FULL);
 		}
 		if (_view_dual_screen) {
-			_view_dual_screen->Check (_mode == Config::PlayerMode::DUAL);
+			_view_dual_screen->Check(_mode == Config::PlayerMode::DUAL);
 		}
 	}
 
-	void setup_screen ()
+	void setup_screen()
 	{
-		_controls->Show (_mode != Config::PlayerMode::FULL);
-		_info->Show (_mode != Config::PlayerMode::FULL);
-		_overall_panel->SetBackgroundColour (_mode == Config::PlayerMode::FULL ? wxColour(0, 0, 0) : wxNullColour);
-		ShowFullScreen (_mode == Config::PlayerMode::FULL);
+		_controls->Show(_mode != Config::PlayerMode::FULL);
+		_info->Show(_mode != Config::PlayerMode::FULL);
+		_overall_panel->SetBackgroundColour(_mode == Config::PlayerMode::FULL ? wxColour(0, 0, 0) : wxNullColour);
+		ShowFullScreen(_mode == Config::PlayerMode::FULL);
 		_viewer.set_pad_black(_mode != Config::PlayerMode::WINDOW);
 
 		if (_mode == Config::PlayerMode::DUAL) {
 			_dual_screen = new wxFrame(this, wxID_ANY, {});
-			_dual_screen->SetBackgroundColour (wxColour(0, 0, 0));
-			_dual_screen->ShowFullScreen (true);
+			_dual_screen->SetBackgroundColour(wxColour(0, 0, 0));
+			_dual_screen->ShowFullScreen(true);
 			_viewer.panel()->Reparent(_dual_screen);
 			_viewer.panel()->SetFocus();
-			_dual_screen->Show ();
+			_dual_screen->Show();
 			LOG_DEBUG_PLAYER("Setting up dual screen mode with {} displays", wxDisplay::GetCount());
 			for (auto index = 0U; index < wxDisplay::GetCount(); ++index) {
 				wxDisplay display(index);
@@ -1000,12 +1000,12 @@ private:
 		} else {
 			if (_dual_screen) {
 				_viewer.panel()->Reparent(_overall_panel);
-				_dual_screen->Destroy ();
+				_dual_screen->Destroy();
 				_dual_screen = 0;
 			}
 		}
 
-		setup_main_sizer (_mode);
+		setup_main_sizer(_mode);
 	}
 
 	void dual_screen_key_press(wxKeyEvent& ev)
@@ -1019,50 +1019,50 @@ private:
 		}
 	}
 
-	void view_closed_captions ()
+	void view_closed_captions()
 	{
 		_viewer.show_closed_captions();
 	}
 
-	void tools_verify ()
+	void tools_verify()
 	{
 		DCPOMATIC_ASSERT(!_film->content().empty());
 		auto dcp = std::dynamic_pointer_cast<DCPContent>(_film->content().front());
-		DCPOMATIC_ASSERT (dcp);
+		DCPOMATIC_ASSERT(dcp);
 
 		auto job = make_shared<VerifyDCPJob>(dcp->directories(), _kdms, dcp::VerificationOptions{});
 		VerifyDCPDialog dialog(this, _("Verify DCP"), job);
 		dialog.ShowModal();
 	}
 
-	void tools_check_for_updates ()
+	void tools_check_for_updates()
 	{
-		UpdateChecker::instance()->run ();
+		UpdateChecker::instance()->run();
 		_update_news_requested = true;
 	}
 
-	void tools_timing ()
+	void tools_timing()
 	{
 		TimerDisplay dialog(this, _viewer.state_timer(), _viewer.gets());
 		dialog.ShowModal();
 	}
 
-	void tools_system_information ()
+	void tools_system_information()
 	{
 		if (!_system_information_dialog) {
 			_system_information_dialog.reset(this, _viewer);
 		}
 
-		_system_information_dialog->Show ();
+		_system_information_dialog->Show();
 	}
 
-	void help_about ()
+	void help_about()
 	{
 		AboutDialog dialog(this);
 		dialog.ShowModal();
 	}
 
-	void help_report_a_problem ()
+	void help_report_a_problem()
 	{
 		ReportProblemDialog dialog(this);
 		if (dialog.ShowModal() == wxID_OK) {
@@ -1070,9 +1070,9 @@ private:
 		}
 	}
 
-	void update_checker_state_changed ()
+	void update_checker_state_changed()
 	{
-		auto uc = UpdateChecker::instance ();
+		auto uc = UpdateChecker::instance();
 
 		bool const announce =
 			_update_news_requested ||
@@ -1086,7 +1086,7 @@ private:
 		}
 
 		if (uc->state() == UpdateChecker::State::YES) {
-			UpdateDialog dialog(this, uc->stable (), uc->test ());
+			UpdateDialog dialog(this, uc->stable(), uc->test());
 			dialog.ShowModal();
 		} else if (uc->state() == UpdateChecker::State::FAILED) {
 			error_dialog(this, variant::wx::insert_dcpomatic(_("The %s download server could not be contacted.")));
@@ -1097,14 +1097,14 @@ private:
 		_update_news_requested = false;
 	}
 
-	void config_changed (Config::Property prop)
+	void config_changed(Config::Property prop)
 	{
 		/* Instantly save any config changes when using the player GUI */
 		try {
 			Config::instance()->write_config();
 		} catch (FileError& e) {
 			if (prop != Config::HISTORY) {
-				error_dialog (
+				error_dialog(
 					this,
 					wxString::Format(
 						_("Could not write to config file at %s.  Your changes have not been saved."),
@@ -1113,13 +1113,13 @@ private:
 					);
 			}
 		} catch (exception& e) {
-			error_dialog (
+			error_dialog(
 				this,
 				_("Could not write to config file.  Your changes have not been saved.")
 				);
 		}
 
-		update_from_config (prop);
+		update_from_config(prop);
 
 		setup_http_server();
 	}
@@ -1164,14 +1164,14 @@ private:
 		}
 	}
 
-	void update_from_config (Config::Property prop)
+	void update_from_config(Config::Property prop)
 	{
 		for (int i = 0; i < _history_items; ++i) {
-			delete _file_menu->Remove (ID_file_history + i);
+			delete _file_menu->Remove(ID_file_history + i);
 		}
 
 		if (_history_separator) {
-			_file_menu->Remove (_history_separator);
+			_file_menu->Remove(_history_separator);
 		}
 		delete _history_separator;
 		_history_separator = nullptr;
@@ -1179,11 +1179,11 @@ private:
 		int pos = _history_position;
 
 		/* Clear out non-existent history items before we re-build the menu */
-		Config::instance()->clean_player_history ();
-		auto history = Config::instance()->player_history ();
+		Config::instance()->clean_player_history();
+		auto history = Config::instance()->player_history();
 
-		if (!history.empty ()) {
-			_history_separator = _file_menu->InsertSeparator (pos++);
+		if (!history.empty()) {
+			_history_separator = _file_menu->InsertSeparator(pos++);
 		}
 
 		for (size_t i = 0; i < history.size(); ++i) {
@@ -1193,10 +1193,10 @@ private:
 			} else {
 				s = history[i].string();
 			}
-			_file_menu->Insert (pos++, ID_file_history + i, std_to_wx (s));
+			_file_menu->Insert(pos++, ID_file_history + i, std_to_wx(s));
 		}
 
-		_history_items = history.size ();
+		_history_items = history.size();
 
 		if (prop == Config::PLAYER_DEBUG_LOG) {
 			auto p = Config::instance()->player_debug_log_file();
@@ -1210,7 +1210,7 @@ private:
 		set_audio_delay_from_config();
 	}
 
-	void set_menu_sensitivity ()
+	void set_menu_sensitivity()
 	{
 		auto const enable = _film && !_film->content().empty();
 		_tools_verify->Enable(enable);
@@ -1221,7 +1221,7 @@ private:
 		_view_eye->Enable(enable && _film->three_d());
 	}
 
-	void start_stop_pressed ()
+	void start_stop_pressed()
 	{
 		if (_viewer.playing()) {
 			_viewer.stop();
@@ -1230,27 +1230,27 @@ private:
 		}
 	}
 
-	void go_back_frame ()
+	void go_back_frame()
 	{
 		_viewer.seek_by(-_viewer.one_video_frame(), true);
 	}
 
-	void go_forward_frame ()
+	void go_forward_frame()
 	{
 		_viewer.seek_by(_viewer.one_video_frame(), true);
 	}
 
-	void go_seconds (int s)
+	void go_seconds(int s)
 	{
 		_viewer.seek_by(DCPTime::from_seconds(s), true);
 	}
 
-	void go_to_start ()
+	void go_to_start()
 	{
 		_viewer.seek(DCPTime(), true);
 	}
 
-	void go_to_end ()
+	void go_to_end()
 	{
 		_viewer.seek(_film->length() - _viewer.one_video_frame(), true);
 	}
@@ -1295,7 +1295,7 @@ static const wxCmdLineEntryDesc command_line_description[] = {
 	{ wxCMD_LINE_PARAM, 0, 0, "DCP to load or create", wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
 	{ wxCMD_LINE_OPTION, "c", "config", "Directory containing config.xml", wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
 	{ wxCMD_LINE_OPTION, "s", "stress", "File containing description of stress test", wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
-	{ wxCMD_LINE_NONE, "", "", "", wxCmdLineParamType (0), 0 }
+	{ wxCMD_LINE_NONE, "", "", "", wxCmdLineParamType(0), 0 }
 };
 
 
@@ -1305,26 +1305,26 @@ static const wxCmdLineEntryDesc command_line_description[] = {
 class App : public wxApp
 {
 public:
-	App ()
-		: wxApp ()
+	App()
+		: wxApp()
 	{
 #ifdef DCPOMATIC_LINUX
-		XInitThreads ();
+		XInitThreads();
 #endif
 	}
 
 private:
 
-	bool OnInit () override
+	bool OnInit() override
 	{
 		wxSplashScreen* splash;
 		try {
-			wxInitAllImageHandlers ();
+			wxInitAllImageHandlers();
 
-			Config::FailedToLoad.connect (boost::bind (&App::config_failed_to_load, this));
-			Config::Warning.connect (boost::bind (&App::config_warning, this, _1));
+			Config::FailedToLoad.connect(boost::bind(&App::config_failed_to_load, this));
+			Config::Warning.connect(boost::bind(&App::config_warning, this, _1));
 
-			splash = maybe_show_splash ();
+			splash = maybe_show_splash();
 
 			SetAppName(variant::wx::dcpomatic_player());
 
@@ -1333,14 +1333,14 @@ private:
 			}
 
 #ifdef DCPOMATIC_LINUX
-			unsetenv ("UBUNTU_MENUPROXY");
+			unsetenv("UBUNTU_MENUPROXY");
 #endif
 
 #ifdef DCPOMATIC_OSX
-			make_foreground_application ();
+			make_foreground_application();
 #endif
 
-			dcpomatic_setup_path_encoding ();
+			dcpomatic_setup_path_encoding();
 
 			/* Enable i18n; this will create a Config object
 			   to look for a force-configured language.  This Config
@@ -1353,23 +1353,23 @@ private:
 			/* Set things up, including filters etc.
 			   which will now be internationalised correctly.
 			*/
-			dcpomatic_setup ();
+			dcpomatic_setup();
 
 			/* Force the configuration to be re-loaded correctly next
 			   time it is needed.
 			*/
-			Config::drop ();
+			Config::drop();
 
-			signal_manager = new wxSignalManager (this);
+			signal_manager = new wxSignalManager(this);
 
-			_frame = new DOMFrame ();
-			SetTopWindow (_frame);
-			_frame->Maximize ();
+			_frame = new DOMFrame();
+			SetTopWindow(_frame);
+			_frame->Maximize();
 			if (splash) {
-				splash->Destroy ();
+				splash->Destroy();
 				splash = nullptr;
 			}
-			_frame->Show ();
+			_frame->Show();
 
 			if (_dcp_to_load && dcp::filesystem::is_directory(*_dcp_to_load)) {
 				try {
@@ -1381,22 +1381,22 @@ private:
 
 			if (_stress) {
 				try {
-					_frame->load_stress_script (*_stress);
+					_frame->load_stress_script(*_stress);
 				} catch (exception& e) {
 					error_dialog(nullptr, wxString::Format(_("Could not load stress test file %s"), std_to_wx(*_stress)));
 				}
 			}
 
-			Bind (wxEVT_IDLE, boost::bind (&App::idle, this));
+			Bind(wxEVT_IDLE, boost::bind(&App::idle, this));
 
-			if (Config::instance()->check_for_updates ()) {
-				UpdateChecker::instance()->run ();
+			if (Config::instance()->check_for_updates()) {
+				UpdateChecker::instance()->run();
 			}
 		}
 		catch (exception& e)
 		{
 			if (splash) {
-				splash->Destroy ();
+				splash->Destroy();
 			}
 			error_dialog(nullptr, variant::wx::insert_dcpomatic_player(_("%s could not start")), std_to_wx(e.what()));
 		}
@@ -1404,13 +1404,13 @@ private:
 		return true;
 	}
 
-	void OnInitCmdLine (wxCmdLineParser& parser) override
+	void OnInitCmdLine(wxCmdLineParser& parser) override
 	{
-		parser.SetDesc (command_line_description);
+		parser.SetDesc(command_line_description);
 		parser.SetSwitchChars(char_to_wx("-"));
 	}
 
-	bool OnCmdLineParsed (wxCmdLineParser& parser) override
+	bool OnCmdLineParsed(wxCmdLineParser& parser) override
 	{
 		if (parser.GetParamCount() > 0) {
 			auto path = boost::filesystem::path(wx_to_std(parser.GetParam(0)));
@@ -1428,24 +1428,24 @@ private:
 
 		wxString config;
 		if (parser.Found(char_to_wx("c"), &config)) {
-			Config::override_path = wx_to_std (config);
+			Config::override_path = wx_to_std(config);
 		}
 		wxString stress;
 		if (parser.Found(char_to_wx("s"), &stress)) {
-			_stress = wx_to_std (stress);
+			_stress = wx_to_std(stress);
 		}
 
 		return true;
 	}
 
-	void report_exception ()
+	void report_exception()
 	{
 		try {
 			throw;
 		} catch (FileError& e) {
-			error_dialog (
+			error_dialog(
 				0,
-				wxString::Format (
+				wxString::Format(
 					_("An exception occurred: %s (%s)\n\n%s"),
 					std_to_wx(e.what()),
 					std_to_wx(e.file().string().c_str()),
@@ -1453,9 +1453,9 @@ private:
 					)
 				);
 		} catch (exception& e) {
-			error_dialog (
+			error_dialog(
 				0,
-				wxString::Format (
+				wxString::Format(
 					_("An exception occurred: %s\n\n%s"),
 					std_to_wx(e.what()),
 					dcpomatic::wx::report_problem()
@@ -1467,34 +1467,34 @@ private:
 	}
 
 	/* An unhandled exception has occurred inside the main event loop */
-	bool OnExceptionInMainLoop () override
+	bool OnExceptionInMainLoop() override
 	{
-		report_exception ();
+		report_exception();
 		/* This will terminate the program */
 		return false;
 	}
 
-	void OnUnhandledException () override
+	void OnUnhandledException() override
 	{
-		report_exception ();
+		report_exception();
 	}
 
-	void idle ()
+	void idle()
 	{
-		signal_manager->ui_idle ();
+		signal_manager->ui_idle();
 		if (_frame) {
 			_frame->idle();
 		}
 	}
 
-	void config_failed_to_load ()
+	void config_failed_to_load()
 	{
-		message_dialog (_frame, _("The existing configuration failed to load.  Default values will be used instead.  These may take a short time to create."));
+		message_dialog(_frame, _("The existing configuration failed to load.  Default values will be used instead.  These may take a short time to create."));
 	}
 
-	void config_warning (string m)
+	void config_warning(string m)
 	{
-		message_dialog (_frame, std_to_wx (m));
+		message_dialog(_frame, std_to_wx(m));
 	}
 
 	DOMFrame* _frame = nullptr;
@@ -1502,4 +1502,4 @@ private:
 	boost::optional<string> _stress;
 };
 
-IMPLEMENT_APP (App)
+IMPLEMENT_APP(App)
