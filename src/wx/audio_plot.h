@@ -28,13 +28,14 @@ LIBDCP_ENABLE_WARNINGS
 #include <boost/signals2.hpp>
 #include <vector>
 
+
 struct Metrics;
-class FilmViewer;
+
 
 class AudioPlot : public wxPanel
 {
 public:
-	explicit AudioPlot (wxWindow *, FilmViewer& viewer);
+	explicit AudioPlot(wxWindow* parent);
 
 	void set_analysis (std::shared_ptr<AudioAnalysis>);
 	void set_channel_visible (int c, bool v);
@@ -46,6 +47,7 @@ public:
 	wxColour colour (int n) const;
 
 	boost::signals2::signal<void (boost::optional<dcpomatic::DCPTime>, boost::optional<float>)> Cursor;
+	boost::signals2::signal<void (dcpomatic::DCPTime)> Click;
 
 	static const int max_smoothing;
 
@@ -78,7 +80,6 @@ private:
 	void mouse_moved (wxMouseEvent& ev);
 	void mouse_leave (wxMouseEvent& ev);
 
-	FilmViewer& _viewer;
 	std::shared_ptr<AudioAnalysis> _analysis;
 	bool _channel_visible[MAX_DCP_AUDIO_CHANNELS];
 	bool _type_visible[AudioPoint::COUNT];

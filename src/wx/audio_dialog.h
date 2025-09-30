@@ -36,7 +36,6 @@ LIBDCP_ENABLE_WARNINGS
 
 class AudioPlot;
 class CheckBox;
-class FilmViewer;
 class Film;
 
 
@@ -48,11 +47,13 @@ class Film;
 class AudioDialog : public wxDialog
 {
 public:
-	AudioDialog(wxWindow* parent, std::shared_ptr<Film> film, FilmViewer& viewer, std::shared_ptr<Content> content = std::shared_ptr<Content>());
+	AudioDialog(wxWindow* parent, std::shared_ptr<Film> film, std::shared_ptr<Content> content = std::shared_ptr<Content>());
 
 	bool Show (bool show = true) override;
 
 	void set_cursor (boost::optional<dcpomatic::DCPTime> time, boost::optional<float> db);
+
+	boost::signals2::signal<void (dcpomatic::DCPTime)> Seek;
 
 private:
 	void film_change(ChangeType, FilmProperty);

@@ -58,7 +58,7 @@ using namespace boost::placeholders;
  *  @param film Film we are using.
  *  @param content Content to analyse, or 0 to analyse all of the film's audio.
  */
-AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film, FilmViewer& viewer, shared_ptr<Content> content)
+AudioDialog::AudioDialog(wxWindow* parent, shared_ptr<Film> film, shared_ptr<Content> content)
 	: wxDialog (
 		parent,
 		wxID_ANY,
@@ -89,7 +89,7 @@ AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film, FilmViewer& v
 
 	_cursor = new StaticText(this, char_to_wx("Cursor: none"));
 	left->Add (_cursor, 0, wxTOP, DCPOMATIC_SIZER_Y_GAP);
-	_plot = new AudioPlot (this, viewer);
+	_plot = new AudioPlot(this);
 	left->Add (_plot, 1, wxTOP | wxEXPAND, 12);
 	_sample_peak = new StaticText(this, {});
 	left->Add (_sample_peak, 0, wxTOP, DCPOMATIC_SIZER_Y_GAP);
@@ -162,6 +162,8 @@ AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film, FilmViewer& v
 	SetSizer (overall_sizer);
 	overall_sizer->Layout ();
 	overall_sizer->SetSizeHints (this);
+
+	_plot->Click.connect(boost::ref(Seek));
 
 	_film_connection = film->Change.connect (boost::bind(&AudioDialog::film_change, this, _1, _2));
 	_film_content_connection = film->ContentChange.connect(boost::bind(&AudioDialog::content_change, this, _1, _2));

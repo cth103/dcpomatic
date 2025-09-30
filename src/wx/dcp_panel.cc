@@ -27,6 +27,7 @@
 #include "dcpomatic_button.h"
 #include "dcpomatic_choice.h"
 #include "dcpomatic_spin_ctrl.h"
+#include "film_viewer.h"
 #include "focus_manager.h"
 #include "interop_metadata_dialog.h"
 #include "language_tag_dialog.h"
@@ -1040,7 +1041,8 @@ DCPPanel::show_audio_clicked()
 		return;
 	}
 
-	_audio_dialog.reset(_panel, _film, _viewer);
+	_audio_dialog.reset(_panel, _film);
+	_audio_dialog->Seek.connect(boost::bind(&FilmViewer::seek, &_viewer, _1, true));
 	_audio_dialog->Show();
 }
 

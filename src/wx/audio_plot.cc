@@ -20,7 +20,6 @@
 
 
 #include "audio_plot.h"
-#include "film_viewer.h"
 #include "wx_util.h"
 #include "lib/audio_decoder.h"
 #include "lib/audio_analysis.h"
@@ -54,9 +53,8 @@ int const AudioPlot::_cursor_size = 8;
 int const AudioPlot::max_smoothing = 128;
 
 
-AudioPlot::AudioPlot(wxWindow* parent, FilmViewer& viewer)
+AudioPlot::AudioPlot(wxWindow* parent)
 	: wxPanel (parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE)
-	, _viewer (viewer)
 	, _smoothing (max_smoothing / 2)
 	, _gain_correction (0)
 {
@@ -449,7 +447,7 @@ void
 AudioPlot::left_down ()
 {
 	if (_cursor) {
-		_viewer.seek(_cursor->time, true);
+		Click(_cursor->time);
 	}
 }
 

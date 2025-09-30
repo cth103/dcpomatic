@@ -25,6 +25,7 @@
 #include "check_box.h"
 #include "content_panel.h"
 #include "dcpomatic_button.h"
+#include "film_viewer.h"
 #include "gain_calculator_dialog.h"
 #include "static_text.h"
 #include "wx_util.h"
@@ -414,7 +415,8 @@ AudioPanel::show_clicked ()
 		return;
 	}
 
-	_audio_dialog.reset(this, _parent->film(), _parent->film_viewer(), ac.front());
+	_audio_dialog.reset(this, _parent->film(), ac.front());
+	_audio_dialog->Seek.connect(boost::bind(&FilmViewer::seek, &_parent->film_viewer(), _1, true));
 	_audio_dialog->Show ();
 }
 
