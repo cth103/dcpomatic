@@ -187,8 +187,8 @@ AudioPlot::paint ()
 	/* Assume all channels have the same number of points */
 	metrics.x_scale = data_width / float (_analysis->points (0));
 	metrics.height = GetSize().GetHeight ();
-	metrics.y_scale = (metrics.height - metrics.y_origin) / -_minimum;
 	metrics.y_pad = 32;
+	metrics.y_scale = (metrics.height - 2 * metrics.y_pad) / -_minimum;
 
 	for (int i = _minimum; i <= 0; i += 10) {
 		int const y = (metrics.height - (i - _minimum) * metrics.y_scale) - metrics.y_pad;
