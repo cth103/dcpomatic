@@ -48,7 +48,7 @@ using namespace boost::placeholders;
 
 /** @param whole_film true to analyse the whole film' audio (i.e. start from time 0 and use processors), false
  *  to analyse just the single piece of content in the playlist (i.e. start from Playlist::start() and do not
- *  use processors.
+ *  use processors).
  */
 AnalyseAudioJob::AnalyseAudioJob(shared_ptr<const Film> film, shared_ptr<const Playlist> playlist, bool whole_film)
 	: Job(film)
