@@ -93,6 +93,8 @@ public:
 
 	std::vector<boost::filesystem::path> directories () const;
 
+	boost::filesystem::path path_for_display() const override;
+
 	bool encrypted () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _encrypted;

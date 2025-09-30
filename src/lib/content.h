@@ -142,6 +142,9 @@ public:
 	std::vector<boost::filesystem::path> font_paths() const;
 	void replace_font_path(boost::filesystem::path old_path, boost::filesystem::path new_path);
 
+	/** @return A path which summarises this content for the user */
+	virtual boost::filesystem::path path_for_display() const;
+
 	std::time_t last_write_time(size_t i) const {
 		boost::mutex::scoped_lock lm(_mutex);
 		return _last_write_times[i];

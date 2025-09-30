@@ -894,3 +894,10 @@ DCPContent::reference_anything() const
 	return find(_reference_text.begin(), _reference_text.end(), true) != _reference_text.end();
 }
 
+
+boost::filesystem::path
+DCPContent::path_for_display() const
+{
+	return path(0).parent_path();
+}
+

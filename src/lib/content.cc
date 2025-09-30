@@ -592,3 +592,10 @@ Content::replace_font_path(boost::filesystem::path old_path, boost::filesystem::
 	}
 }
 
+
+boost::filesystem::path
+Content::path_for_display() const
+{
+	return path(0);
+}
+
