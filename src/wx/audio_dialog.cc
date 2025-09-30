@@ -167,11 +167,12 @@ AudioDialog::AudioDialog(wxWindow* parent, shared_ptr<Film> film, shared_ptr<Con
 
 	_film_connection = film->Change.connect (boost::bind(&AudioDialog::film_change, this, _1, _2));
 	_film_content_connection = film->ContentChange.connect(boost::bind(&AudioDialog::content_change, this, _1, _2));
-	DCPOMATIC_ASSERT (film->directory());
 	if (content) {
-		SetTitle(wxString::Format(_("%s audio - %s"), variant::wx::dcpomatic(), std_to_wx(content->path(0).string())));
-	} else {
+		SetTitle(wxString::Format(_("%s audio - %s"), variant::wx::dcpomatic(), std_to_wx(content->path_for_display().string())));
+	} else if (film->directory()) {
 		SetTitle(wxString::Format(_("%s audio - %s"), variant::wx::dcpomatic(), std_to_wx(film->directory().get().string())));
+	} else {
+		SetTitle(wxString::Format(_("%s audio"), variant::wx::dcpomatic()));
 	}
 
 	if (content) {
