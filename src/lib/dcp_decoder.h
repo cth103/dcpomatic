@@ -47,7 +47,7 @@ struct dcp_subtitle_within_dcp_test;
 class DCPDecoder : public Decoder
 {
 public:
-	DCPDecoder (
+	DCPDecoder(
 		std::shared_ptr<const Film> film,
 		std::shared_ptr<const DCPContent> content,
 		bool fast,
@@ -55,29 +55,29 @@ public:
 		std::shared_ptr<DCPDecoder> old
 		);
 
-	std::vector<std::shared_ptr<dcp::Reel>> reels () const {
+	std::vector<std::shared_ptr<dcp::Reel>> reels() const {
 		return _reels;
 	}
 
-	void set_decode_referenced (bool r);
-	void set_forced_reduction (boost::optional<int> reduction);
+	void set_decode_referenced(bool r);
+	void set_forced_reduction(boost::optional<int> reduction);
 
-	bool pass () override;
-	void seek (dcpomatic::ContentTime t, bool accurate) override;
+	bool pass() override;
+	void seek(dcpomatic::ContentTime t, bool accurate) override;
 
-	std::string lazy_digest () const {
+	std::string lazy_digest() const {
 		return _lazy_digest;
 	}
 
-	dcpomatic::ContentTime position () const override;
+	dcpomatic::ContentTime position() const override;
 
 private:
 	friend struct dcp_subtitle_within_dcp_test;
 
-	void next_reel ();
-	void get_readers ();
-	void pass_texts (dcpomatic::ContentTime next, dcp::Size size);
-	void pass_texts (
+	void next_reel();
+	void get_readers();
+	void pass_texts(dcpomatic::ContentTime next, dcp::Size size);
+	void pass_texts(
 		dcpomatic::ContentTime next,
 		std::shared_ptr<dcp::TextAsset> asset,
 		bool reference,
@@ -85,7 +85,7 @@ private:
 		std::shared_ptr<TextDecoder> decoder,
 		dcp::Size size
 		);
-	std::string calculate_lazy_digest (std::shared_ptr<const DCPContent>) const;
+	std::string calculate_lazy_digest(std::shared_ptr<const DCPContent>) const;
 
 	std::shared_ptr<const DCPContent> _dcp_content;
 

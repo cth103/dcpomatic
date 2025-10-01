@@ -72,9 +72,9 @@ using boost::optional;
 using namespace dcpomatic;
 
 
-DCPDecoder::DCPDecoder (shared_ptr<const Film> film, shared_ptr<const DCPContent> content, bool fast, bool tolerant, shared_ptr<DCPDecoder> old)
-	: Decoder (film)
-	, _dcp_content (content)
+DCPDecoder::DCPDecoder(shared_ptr<const Film> film, shared_ptr<const DCPContent> content, bool fast, bool tolerant, shared_ptr<DCPDecoder> old)
+	: Decoder(film)
+	, _dcp_content(content)
 {
 	if (content->can_be_played()) {
 		if (content->video) {
@@ -84,7 +84,7 @@ DCPDecoder::DCPDecoder (shared_ptr<const Film> film, shared_ptr<const DCPContent
 			audio = make_shared<AudioDecoder>(this, content->audio, fast);
 		}
 		for (auto i: content->text) {
-			text.push_back (make_shared<TextDecoder>(this, i));
+			text.push_back(make_shared<TextDecoder>(this, i));
 			/* We should really call maybe_set_position() on this TextDecoder to set the time
 			 * of the first subtitle, but it probably doesn't matter since we'll always
 			 * have regularly occurring video (and maybe audio) content.
@@ -103,7 +103,7 @@ DCPDecoder::DCPDecoder (shared_ptr<const Film> film, shared_ptr<const DCPContent
 	   the same before we re-use _reels.
 	*/
 
-	_lazy_digest = calculate_lazy_digest (content);
+	_lazy_digest = calculate_lazy_digest(content);
 
 	if (old && old->lazy_digest() == _lazy_digest) {
 		_reels = old->_reels;
@@ -111,7 +111,7 @@ DCPDecoder::DCPDecoder (shared_ptr<const Film> film, shared_ptr<const DCPContent
 		auto cpl_list = dcp::find_and_resolve_cpls(content->directories(), tolerant);
 
 		if (cpl_list.empty()) {
-			throw DCPError (_("No CPLs found in DCP."));
+			throw DCPError(_("No CPLs found in DCP."));
 		}
 
 		shared_ptr<dcp::CPL> cpl;
@@ -129,16 +129,16 @@ DCPDecoder::DCPDecoder (shared_ptr<const Film> film, shared_ptr<const DCPContent
 		}
 
 		if (content->kdm()) {
-			cpl->add (decrypt_kdm_with_helpful_error(content->kdm().get()));
+			cpl->add(decrypt_kdm_with_helpful_error(content->kdm().get()));
 		}
 
-		_reels = cpl->reels ();
+		_reels = cpl->reels();
 	}
 
-	set_decode_referenced (false);
+	set_decode_referenced(false);
 
-	_reel = _reels.begin ();
-	get_readers ();
+	_reel = _reels.begin();
+	get_readers();
 
 	_font_id_allocator.add_fonts_from_reels(_reels);
 	_font_id_allocator.allocate();
@@ -146,7 +146,7 @@ DCPDecoder::DCPDecoder (shared_ptr<const Film> film, shared_ptr<const DCPContent
 
 
 bool
-DCPDecoder::pass ()
+DCPDecoder::pass()
 {
 	if (!_dcp_content->can_be_played()) {
 		return true;
@@ -154,28 +154,28 @@ DCPDecoder::pass ()
 
 	if (_reel == _reels.end()) {
 		if (audio) {
-			audio->flush ();
+			audio->flush();
 		}
 		return true;
 	}
 
-	auto const vfr = _dcp_content->active_video_frame_rate (film());
+	auto const vfr = _dcp_content->active_video_frame_rate(film());
 
 	/* Frame within the (played part of the) reel that is coming up next */
-	auto const frame = _next.frames_round (vfr);
+	auto const frame = _next.frames_round(vfr);
 
 	auto picture_asset = (*_reel)->main_picture()->asset();
-	DCPOMATIC_ASSERT (picture_asset);
+	DCPOMATIC_ASSERT(picture_asset);
 
 	/* We must emit texts first as when we emit the video for this frame
 	   it will expect already to have the texts.
 	*/
-	pass_texts (_next, picture_asset->size());
+	pass_texts(_next, picture_asset->size());
 
 	if ((_j2k_mono_reader || _j2k_stereo_reader || _mpeg2_mono_reader) && (_decode_referenced || !_dcp_content->reference_video())) {
 		auto const entry_point = (*_reel)->main_picture()->entry_point().get_value_or(0);
 		if (_j2k_mono_reader) {
-			video->emit (
+			video->emit(
 				film(),
 				std::make_shared<J2KImageProxy>(
 					_j2k_mono_reader->get_frame(entry_point + frame),
@@ -186,10 +186,10 @@ DCPDecoder::pass ()
 				ContentTime::from_frames(_offset + frame, vfr)
 				);
 		} else if (_j2k_stereo_reader) {
-			video->emit (
+			video->emit(
 				film(),
 				std::make_shared<J2KImageProxy>(
-					_j2k_stereo_reader->get_frame (entry_point + frame),
+					_j2k_stereo_reader->get_frame(entry_point + frame),
 					picture_asset->size(),
 					dcp::Eye::LEFT,
 					AV_PIX_FMT_XYZ12LE,
@@ -198,10 +198,10 @@ DCPDecoder::pass ()
 				ContentTime::from_frames(_offset + frame, vfr)
 				);
 
-			video->emit (
+			video->emit(
 				film(),
 				std::make_shared<J2KImageProxy>(
-					_j2k_stereo_reader->get_frame (entry_point + frame),
+					_j2k_stereo_reader->get_frame(entry_point + frame),
 					picture_asset->size(),
 					dcp::Eye::RIGHT,
 					AV_PIX_FMT_XYZ12LE,
@@ -231,8 +231,8 @@ DCPDecoder::pass ()
 
 	if (_sound_reader && (_decode_referenced || !_dcp_content->reference_audio())) {
 		auto const entry_point = (*_reel)->main_sound()->entry_point().get_value_or(0);
-		auto sf = _sound_reader->get_frame (entry_point + frame);
-		auto from = sf->data ();
+		auto sf = _sound_reader->get_frame(entry_point + frame);
+		auto from = sf->data();
 
 		int const channels = _dcp_content->audio->stream()->channels();
 		int const frames = sf->size() / (sf->bits() * channels / 8);
@@ -244,7 +244,7 @@ DCPDecoder::pass ()
 		{
 			for (int i = 0; i < frames; ++i) {
 				for (int j = 0; j < channels; ++j) {
-					data_data[j][i] = static_cast<int>((from[0] << 8) | (from[1] << 16) | (from[2] << 24)) / static_cast<float> (INT_MAX - 256);
+					data_data[j][i] = static_cast<int>((from[0] << 8) | (from[1] << 16) | (from[2] << 24)) / static_cast<float>(INT_MAX - 256);
 					from += 3;
 				}
 			}
@@ -254,7 +254,7 @@ DCPDecoder::pass ()
 		{
 			for (int i = 0; i < frames; ++i) {
 				for (int j = 0; j < channels; ++j) {
-					data_data[j][i] = static_cast<int>(from[0] << 16 | (from[1] << 24)) / static_cast<float> (INT_MAX - 256);
+					data_data[j][i] = static_cast<int>(from[0] << 16 | (from[1] << 24)) / static_cast<float>(INT_MAX - 256);
 					from += 2;
 				}
 			}
@@ -262,21 +262,21 @@ DCPDecoder::pass ()
 		}
 		}
 
-		audio->emit (film(), _dcp_content->audio->stream(), data, ContentTime::from_frames (_offset, vfr) + _next);
+		audio->emit(film(), _dcp_content->audio->stream(), data, ContentTime::from_frames(_offset, vfr) + _next);
 	}
 
 	if (_atmos_reader) {
-		DCPOMATIC_ASSERT (_atmos_metadata);
+		DCPOMATIC_ASSERT(_atmos_metadata);
 		auto const entry_point = (*_reel)->atmos()->entry_point().get_value_or(0);
-		atmos->emit (film(), _atmos_reader->get_frame(entry_point + frame), _offset + frame, *_atmos_metadata);
+		atmos->emit(film(), _atmos_reader->get_frame(entry_point + frame), _offset + frame, *_atmos_metadata);
 	}
 
-	_next += ContentTime::from_frames (1, vfr);
+	_next += ContentTime::from_frames(1, vfr);
 
-	if ((*_reel)->main_picture ()) {
-		if (_next.frames_round (vfr) >= (*_reel)->main_picture()->duration()) {
-			next_reel ();
-			_next = ContentTime ();
+	if ((*_reel)->main_picture()) {
+		if (_next.frames_round(vfr) >= (*_reel)->main_picture()->duration()) {
+			next_reel();
+			_next = ContentTime();
 		}
 	}
 
@@ -285,9 +285,9 @@ DCPDecoder::pass ()
 
 
 void
-DCPDecoder::pass_texts (ContentTime next, dcp::Size size)
+DCPDecoder::pass_texts(ContentTime next, dcp::Size size)
 {
-	auto decoder = text.begin ();
+	auto decoder = text.begin();
 	if (decoder == text.end()) {
 		/* It's possible that there is now a main subtitle but no TextDecoders, for example if
 		   the CPL has just changed but the TextContent's texts have not been recreated yet.
@@ -296,7 +296,7 @@ DCPDecoder::pass_texts (ContentTime next, dcp::Size size)
 	}
 
 	if ((*_reel)->main_subtitle()) {
-		pass_texts (
+		pass_texts(
 			next,
 			(*_reel)->main_subtitle()->asset(),
 			_dcp_content->reference_text(TextType::OPEN_SUBTITLE),
@@ -308,7 +308,7 @@ DCPDecoder::pass_texts (ContentTime next, dcp::Size size)
 	}
 
 	for (auto i: (*_reel)->closed_captions()) {
-		pass_texts (
+		pass_texts(
 			next, i->asset(), _dcp_content->reference_text(TextType::CLOSED_CAPTION), i->entry_point().get_value_or(0), *decoder, size
 			);
 		++decoder;
@@ -316,18 +316,18 @@ DCPDecoder::pass_texts (ContentTime next, dcp::Size size)
 }
 
 void
-DCPDecoder::pass_texts (
+DCPDecoder::pass_texts(
 	ContentTime next, shared_ptr<dcp::TextAsset> asset, bool reference, int64_t entry_point, shared_ptr<TextDecoder> decoder, dcp::Size size
 	)
 {
-	auto const vfr = _dcp_content->active_video_frame_rate (film());
+	auto const vfr = _dcp_content->active_video_frame_rate(film());
 	/* Frame within the (played part of the) reel that is coming up next */
-	auto const frame = next.frames_round (vfr);
+	auto const frame = next.frames_round(vfr);
 
 	if (_decode_referenced || !reference) {
 		auto subs = asset->texts_during(
-			dcp::Time (entry_point + frame, vfr, vfr),
-			dcp::Time (entry_point + frame + 1, vfr, vfr),
+			dcp::Time(entry_point + frame, vfr, vfr),
+			dcp::Time(entry_point + frame + 1, vfr, vfr),
 			true
 			);
 
@@ -338,15 +338,15 @@ DCPDecoder::pass_texts (
 			if (is) {
 				if (!strings.empty() && (strings.back().in() != is->in() || strings.back().out() != is->out())) {
 					auto b = strings.back();
-					decoder->emit_plain (
-						ContentTimePeriod (
+					decoder->emit_plain(
+						ContentTimePeriod(
 							ContentTime::from_frames(_offset - entry_point, vfr) + ContentTime::from_seconds(b.in().as_seconds()),
 							ContentTime::from_frames(_offset - entry_point, vfr) + ContentTime::from_seconds(b.out().as_seconds())
 							),
 						strings,
 						asset->subtitle_standard()
 						);
-					strings.clear ();
+					strings.clear();
 				}
 
 				auto is_copy = *is;
@@ -364,10 +364,10 @@ DCPDecoder::pass_texts (
 
 			auto ii = dynamic_pointer_cast<const dcp::TextImage>(i);
 			if (ii) {
-				emit_subtitle_image (
-					ContentTimePeriod (
-						ContentTime::from_frames (_offset - entry_point, vfr) + ContentTime::from_seconds (i->in().as_seconds ()),
-						ContentTime::from_frames (_offset - entry_point, vfr) + ContentTime::from_seconds (i->out().as_seconds ())
+				emit_subtitle_image(
+					ContentTimePeriod(
+						ContentTime::from_frames(_offset - entry_point, vfr) + ContentTime::from_seconds(i->in().as_seconds()),
+						ContentTime::from_frames(_offset - entry_point, vfr) + ContentTime::from_seconds(i->out().as_seconds())
 						),
 					*ii,
 					size,
@@ -378,31 +378,31 @@ DCPDecoder::pass_texts (
 
 		if (!strings.empty()) {
 			auto b = strings.back();
-			decoder->emit_plain (
-				ContentTimePeriod (
+			decoder->emit_plain(
+				ContentTimePeriod(
 					ContentTime::from_frames(_offset - entry_point, vfr) + ContentTime::from_seconds(b.in().as_seconds()),
 					ContentTime::from_frames(_offset - entry_point, vfr) + ContentTime::from_seconds(b.out().as_seconds())
 					),
 				strings,
 				asset->subtitle_standard()
 				);
-			strings.clear ();
+			strings.clear();
 		}
 	}
 }
 
 
 void
-DCPDecoder::next_reel ()
+DCPDecoder::next_reel()
 {
 	_offset += (*_reel)->main_picture()->actual_duration();
 	++_reel;
-	get_readers ();
+	get_readers();
 }
 
 
 void
-DCPDecoder::get_readers ()
+DCPDecoder::get_readers()
 {
 	_j2k_mono_reader.reset();
 	_j2k_stereo_reader.reset();
@@ -412,12 +412,12 @@ DCPDecoder::get_readers ()
 	_mpeg2_decompressor.reset();
 	_atmos_metadata = boost::none;
 
-	if (_reel == _reels.end() || !_dcp_content->can_be_played ()) {
+	if (_reel == _reels.end() || !_dcp_content->can_be_played()) {
 		return;
 	}
 
 	if (video && !video->ignore() && (*_reel)->main_picture()) {
-		auto asset = (*_reel)->main_picture()->asset ();
+		auto asset = (*_reel)->main_picture()->asset();
 		auto j2k_mono = dynamic_pointer_cast<dcp::MonoJ2KPictureAsset>(asset);
 		auto j2k_stereo = dynamic_pointer_cast<dcp::StereoJ2KPictureAsset>(asset);
 		auto mpeg2_mono = dynamic_pointer_cast<dcp::MonoMPEG2PictureAsset>(asset);
@@ -436,61 +436,61 @@ DCPDecoder::get_readers ()
 	}
 
 	if (audio && !audio->ignore() && (*_reel)->main_sound()) {
-		_sound_reader = (*_reel)->main_sound()->asset()->start_read ();
-		_sound_reader->set_check_hmac (false);
+		_sound_reader = (*_reel)->main_sound()->asset()->start_read();
+		_sound_reader->set_check_hmac(false);
 	}
 
 	if ((*_reel)->atmos()) {
 		auto asset = (*_reel)->atmos()->asset();
 		_atmos_reader = asset->start_read();
-		_atmos_reader->set_check_hmac (false);
-		_atmos_metadata = AtmosMetadata (asset);
+		_atmos_reader->set_check_hmac(false);
+		_atmos_metadata = AtmosMetadata(asset);
 	}
 }
 
 
 void
-DCPDecoder::seek (ContentTime t, bool accurate)
+DCPDecoder::seek(ContentTime t, bool accurate)
 {
-	if (!_dcp_content->can_be_played ()) {
+	if (!_dcp_content->can_be_played()) {
 		return;
 	}
 
-	Decoder::seek (t, accurate);
+	Decoder::seek(t, accurate);
 
-	_reel = _reels.begin ();
+	_reel = _reels.begin();
 	_offset = 0;
-	get_readers ();
+	get_readers();
 
 	int const pre_roll_seconds = 2;
 
 	/* Pre-roll for subs */
 
-	auto pre = t - ContentTime::from_seconds (pre_roll_seconds);
+	auto pre = t - ContentTime::from_seconds(pre_roll_seconds);
 	if (pre < ContentTime()) {
-		pre = ContentTime ();
+		pre = ContentTime();
 	}
 
 	/* Seek to pre-roll position */
 
 	while (
 		_reel != _reels.end() &&
-		pre >= ContentTime::from_frames ((*_reel)->main_picture()->actual_duration(), _dcp_content->active_video_frame_rate(film()))
+		pre >= ContentTime::from_frames((*_reel)->main_picture()->actual_duration(), _dcp_content->active_video_frame_rate(film()))
 		) {
 
-		auto rd = ContentTime::from_frames ((*_reel)->main_picture()->actual_duration(), _dcp_content->active_video_frame_rate(film()));
+		auto rd = ContentTime::from_frames((*_reel)->main_picture()->actual_duration(), _dcp_content->active_video_frame_rate(film()));
 		pre -= rd;
 		t -= rd;
-		next_reel ();
+		next_reel();
 	}
 
 	/* Pass texts in the pre-roll */
 
 	if (_reel != _reels.end()) {
-		auto const vfr = _dcp_content->active_video_frame_rate (film());
+		auto const vfr = _dcp_content->active_video_frame_rate(film());
 		for (int i = 0; i < pre_roll_seconds * vfr; ++i) {
-			pass_texts (pre, (*_reel)->main_picture()->asset()->size());
-			pre += ContentTime::from_frames (1, vfr);
+			pass_texts(pre, (*_reel)->main_picture()->asset()->size());
+			pre += ContentTime::from_frames(1, vfr);
 		}
 	}
 
@@ -498,11 +498,11 @@ DCPDecoder::seek (ContentTime t, bool accurate)
 
 	while (
 		_reel != _reels.end() &&
-		t >= ContentTime::from_frames ((*_reel)->main_picture()->actual_duration(), _dcp_content->active_video_frame_rate(film()))
+		t >= ContentTime::from_frames((*_reel)->main_picture()->actual_duration(), _dcp_content->active_video_frame_rate(film()))
 		) {
 
-		t -= ContentTime::from_frames ((*_reel)->main_picture()->actual_duration(), _dcp_content->active_video_frame_rate(film()));
-		next_reel ();
+		t -= ContentTime::from_frames((*_reel)->main_picture()->actual_duration(), _dcp_content->active_video_frame_rate(film()));
+		next_reel();
 	}
 
 	_next = t;
@@ -510,46 +510,46 @@ DCPDecoder::seek (ContentTime t, bool accurate)
 
 
 void
-DCPDecoder::set_decode_referenced (bool r)
+DCPDecoder::set_decode_referenced(bool r)
 {
 	_decode_referenced = r;
 
 	if (video) {
-		video->set_ignore (_dcp_content->reference_video() && !_decode_referenced);
+		video->set_ignore(_dcp_content->reference_video() && !_decode_referenced);
 	}
 	if (audio) {
-		audio->set_ignore (_dcp_content->reference_audio() && !_decode_referenced);
+		audio->set_ignore(_dcp_content->reference_audio() && !_decode_referenced);
 	}
 }
 
 
 void
-DCPDecoder::set_forced_reduction (optional<int> reduction)
+DCPDecoder::set_forced_reduction(optional<int> reduction)
 {
 	_forced_reduction = reduction;
 }
 
 
 string
-DCPDecoder::calculate_lazy_digest (shared_ptr<const DCPContent> c) const
+DCPDecoder::calculate_lazy_digest(shared_ptr<const DCPContent> c) const
 {
 	Digester d;
 	for (auto i: c->paths()) {
-		d.add (i.string());
+		d.add(i.string());
 	}
 	if (_dcp_content->kdm()) {
 		d.add(_dcp_content->kdm()->id());
 	}
-	d.add (static_cast<bool>(c->cpl()));
+	d.add(static_cast<bool>(c->cpl()));
 	if (c->cpl()) {
-		d.add (c->cpl().get());
+		d.add(c->cpl().get());
 	}
-	return d.get ();
+	return d.get();
 }
 
 
 ContentTime
-DCPDecoder::position () const
+DCPDecoder::position() const
 {
 	return ContentTime::from_frames(_offset, _dcp_content->active_video_frame_rate(film())) + _next;
 }
