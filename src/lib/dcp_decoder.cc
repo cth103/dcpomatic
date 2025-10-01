@@ -300,6 +300,16 @@ DCPDecoder::pass_texts(ContentTime next, dcp::Size size)
 		++decoder;
 	}
 
+	if ((*_reel)->main_caption()) {
+		pass_texts(next, (*_reel)->main_caption(), TextType::OPEN_CAPTION, *decoder, size);
+		++decoder;
+	}
+
+	for (auto i: (*_reel)->closed_subtitles()) {
+		pass_texts(next, i, TextType::CLOSED_SUBTITLE, *decoder, size);
+		++decoder;
+	}
+
 	for (auto i: (*_reel)->closed_captions()) {
 		pass_texts(next, i, TextType::CLOSED_CAPTION, *decoder, size);
 		++decoder;
