@@ -296,35 +296,28 @@ DCPDecoder::pass_texts(ContentTime next, dcp::Size size)
 	}
 
 	if ((*_reel)->main_subtitle()) {
-		pass_texts(
-			next,
-			(*_reel)->main_subtitle()->asset(),
-			_dcp_content->reference_text(TextType::OPEN_SUBTITLE),
-			(*_reel)->main_subtitle()->entry_point().get_value_or(0),
-			*decoder,
-			size
-			);
+		pass_texts(next, (*_reel)->main_subtitle(), TextType::OPEN_SUBTITLE, *decoder, size);
 		++decoder;
 	}
 
 	for (auto i: (*_reel)->closed_captions()) {
-		pass_texts(
-			next, i->asset(), _dcp_content->reference_text(TextType::CLOSED_CAPTION), i->entry_point().get_value_or(0), *decoder, size
-			);
+		pass_texts(next, i, TextType::CLOSED_CAPTION, *decoder, size);
 		++decoder;
 	}
 }
 
 void
 DCPDecoder::pass_texts(
-	ContentTime next, shared_ptr<dcp::TextAsset> asset, bool reference, int64_t entry_point, shared_ptr<TextDecoder> decoder, dcp::Size size
+	ContentTime next, shared_ptr<dcp::ReelTextAsset> reel_asset, TextType type, shared_ptr<TextDecoder> decoder, dcp::Size size
 	)
 {
 	auto const vfr = _dcp_content->active_video_frame_rate(film());
 	/* Frame within the (played part of the) reel that is coming up next */
 	auto const frame = next.frames_round(vfr);
+	auto const asset = reel_asset->asset();
+	auto const entry_point = reel_asset->entry_point().get_value_or(0);
 
-	if (_decode_referenced || !reference) {
+	if (_decode_referenced || !_dcp_content->reference_text(type)) {
 		auto subs = asset->texts_during(
 			dcp::Time(entry_point + frame, vfr, vfr),
 			dcp::Time(entry_point + frame + 1, vfr, vfr),

@@ -27,6 +27,7 @@
 #include "atmos_metadata.h"
 #include "decoder.h"
 #include "font_id_allocator.h"
+#include "text_type.h"
 #include <dcp/mono_j2k_picture_asset_reader.h>
 #include <dcp/stereo_j2k_picture_asset_reader.h>
 #include <dcp/mono_mpeg2_picture_asset_reader.h>
@@ -37,6 +38,7 @@
 
 namespace dcp {
 	class Reel;
+	class ReelTextAsset;
 }
 
 class DCPContent;
@@ -79,9 +81,8 @@ private:
 	void pass_texts(dcpomatic::ContentTime next, dcp::Size size);
 	void pass_texts(
 		dcpomatic::ContentTime next,
-		std::shared_ptr<dcp::TextAsset> asset,
-		bool reference,
-		int64_t entry_point,
+		std::shared_ptr<dcp::ReelTextAsset> reel_asset,
+		TextType type,
 		std::shared_ptr<TextDecoder> decoder,
 		dcp::Size size
 		);
