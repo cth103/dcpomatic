@@ -109,7 +109,7 @@ for c in root.find('Playlist').findall('Content'):
         channels = int(c.find('AudioMapping').find('InputChannels').text)
         path = os.path.join(sys.argv[1], 'dummy', ntpath.basename(c.find('Path').text))
         audio_length = int(c.find('AudioLength').text)
-        os.system('sox -n -r %d -c %d %s trim 0.0 %f' % (audio_frame_rate, channels, path, float(audio_length) / audio_frame_rate))
+        os.system('sox -b 16 -n -r %d -c %d %s trim 0.0 %f' % (audio_frame_rate, channels, path, float(audio_length) / audio_frame_rate))
     elif type == 'FFmpeg':
         video_cmd = ''
         audio_cmd = ''
@@ -130,7 +130,7 @@ for c in root.find('Playlist').findall('Content'):
         elif c.find('VideoFrameRate') is not None:
             command(f'ffmpeg -i video.mp4 "{path}"')
         else:
-            command('sox -n -r %d -c %d %s trim 0.0 %f' % (audio_frame_rate, audio_channels, path, float(audio_length) / audio_frame_rate))
+            command('sox -b 16 -n -r %d -c %d %s trim 0.0 %f' % (audio_frame_rate, audio_channels, path, float(audio_length) / audio_frame_rate))
         try:
             os.unlink('video.mp4')
             os.unlink('audio.aac')
