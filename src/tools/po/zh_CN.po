@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: DCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-26 19:56+0200\n"
-"PO-Revision-Date: 2025-05-06 18:11+0800\n"
+"PO-Revision-Date: 2025-10-05 13:41+0800\n"
 "Last-Translator: Dian Li <xslidian@gmail.com>\n"
 "Language-Team: Chinese Simplified (Rov8 branch)\n"
 "Language: zh_CN\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 3.6\n"
+"X-Generator: Poedit 3.7\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
 #: src/tools/dcpomatic_kdm.cc:491
@@ -300,11 +300,11 @@ msgstr "该CPL未加密。"
 #: src/tools/dcpomatic_editor.cc:405
 #, c-format
 msgid "CPL: %s"
-msgstr ""
+msgstr "CPL: %s"
 
 #: src/tools/dcpomatic_verifier.cc:157
 msgid "Cancel"
-msgstr ""
+msgstr "取消"
 
 #: src/tools/dcpomatic.cc:1426 src/tools/dcpomatic_player.cc:704
 msgid "Check for updates"
@@ -315,9 +315,8 @@ msgid "Choose a DCP folder"
 msgstr "选择一个DCP文件夹"
 
 #: src/tools/dcpomatic_verifier.cc:75
-#, fuzzy
 msgid "Choose a folder"
-msgstr "选择一个DCP文件夹"
+msgstr "选择一个文件夹"
 
 #: src/tools/dcpomatic.cc:1954 src/tools/dcpomatic.cc:1973
 #, c-format
@@ -388,7 +387,7 @@ msgstr "无法载入DCP"
 #: src/tools/dcpomatic_player.cc:1378
 #, c-format
 msgid "Could not load DCP %s"
-msgstr "无法载入DCP %s。"
+msgstr "无法载入DCP %s"
 
 #: src/tools/dcpomatic_player.cc:874
 #, c-format
@@ -506,7 +505,7 @@ msgstr "创建者"
 
 #: src/tools/dcpomatic_playlist.cc:342
 msgid "Crop"
-msgstr ""
+msgstr "裁切"
 
 #: src/tools/dcpomatic_disk.cc:139 src/tools/dcpomatic_verifier.cc:133
 msgid "DCP"
@@ -514,7 +513,7 @@ msgstr "DCP"
 
 #: src/tools/dcpomatic_server.cc:261
 msgid "DCP-o-matic Encode Server"
-msgstr "%s 编码服务器"
+msgstr "DCP-o-matic编码服务器"
 
 #: src/tools/dcpomatic_disk.cc:135 src/tools/dcpomatic_verifier.cc:129
 msgid "DCPs"
@@ -623,9 +622,8 @@ msgid "Edit reel"
 msgstr "编辑卷"
 
 #: src/tools/dcpomatic_playlist.cc:351
-#, fuzzy
 msgid "Edit..."
-msgstr "编辑(&E)"
+msgstr "编辑..."
 
 #: src/tools/dcpomatic_batch.cc:103 src/tools/dcpomatic.cc:1424
 msgid "Encoding servers..."
@@ -807,7 +805,7 @@ msgstr "导出DCP到文件夹"
 #: src/tools/dcpomatic_editor.cc:408
 #, c-format
 msgid "PKL: %s"
-msgstr ""
+msgstr "PKL: %s"
 
 #: src/tools/dcpomatic.cc:1376
 msgid "Paste settings...\tCtrl-V"
@@ -1162,6 +1160,8 @@ msgid ""
 "Tick to check details of the picture asset, such as frame sizes and JPEG2000 "
 "bitstream validity.  These checks are quite time-consuming."
 msgstr ""
+"勾选以检查图像资产的详细信息，如帧大小和JPEG2000比特流的有效性。这些检查相当"
+"耗时。"
 
 #: src/tools/dcpomatic_player.cc:705
 msgid "Timing..."
@@ -1199,14 +1199,12 @@ msgid "Up"
 msgstr "向上"
 
 #: src/tools/dcpomatic_verifier.cc:159
-#, fuzzy
 msgid "Verify"
-msgstr "验证 DCP..."
+msgstr "验证"
 
 #: src/tools/dcpomatic_player.cc:1034
-#, fuzzy
 msgid "Verify DCP"
-msgstr "验证 DCP..."
+msgstr "验证 DCP"
 
 #: src/tools/dcpomatic_player.cc:702
 msgid "Verify DCP..."
@@ -1214,7 +1212,7 @@ msgstr "验证 DCP..."
 
 #: src/tools/dcpomatic_verifier.cc:145
 msgid "Verify picture asset details"
-msgstr ""
+msgstr "验证图像资产详细信息"
 
 #: src/tools/dcpomatic.cc:1422
 msgid "Version File (VF)..."
@@ -1225,9 +1223,8 @@ msgid "Video waveform..."
 msgstr "视频波形…"
 
 #: src/tools/dcpomatic_verifier.cc:152
-#, fuzzy
 msgid "Write logs to DCP folders"
-msgstr "选择一个DCP文件夹"
+msgstr "记录日志到DCP文件夹中"
 
 #: src/tools/dcpomatic_kdm.cc:795
 msgid ""
@@ -1266,11 +1263,11 @@ msgid ""
 "You should ensure that these files are <span weight=\"bold\" "
 "size=\"larger\">BACKED UP</span> if you want to make KDMs for this film."
 msgstr ""
-"您已经制作了一个加密的DCP.  您不能生成KDM文件除非您备份下列文件 "
-"<tt>metadata.xml</tt> \n"
+"您正在制作加密的DCP。除非您备份了下列文件<tt>metadata.xml</tt>的副本，并且在"
+"DCP中有元数据文件的副本。否则无法为此DCP制作KDM。 \n"
 "\n"
-"请在生成KDM之前再次确认已经 <span weight=\"bold\" size=\"larger\">备份</"
-"span> 该文件。"
+"请在生成KDMs之前再次确认已经 <span weight=\"bold\" size=\"larger\">备份了</"
+"span> 这些文件。"
 
 #: src/tools/dcpomatic.cc:1715
 #, c-format
@@ -1279,8 +1276,8 @@ msgid ""
 "This will limit the memory available to %s and may cause errors.  You are "
 "strongly advised to install the 64-bit version of %s."
 msgstr ""
-"您正在Windows的64位系统中使用32位%s的版本。这会限制%s可用的内存，并且可能导致"
-"报错。强烈建议您安装64位%s的版本。"
+"您正在Windows的64位系统中使用32位 %s 的版本。这会限制 %s 可用的内存，并且可能"
+"导致报错。强烈建议您安装64位 %s 的版本。"
 
 #: src/tools/dcpomatic_disk.cc:392
 msgid ""

@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: LIBDCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-26 19:56+0200\n"
-"PO-Revision-Date: 2025-05-06 17:57+0800\n"
+"PO-Revision-Date: 2025-10-05 13:31+0800\n"
 "Last-Translator: Dian Li <xslidian@gmail.com>\n"
 "Language-Team: Chinese Simplified (Rov8 branch)\n"
 "Language: zh_CN\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 3.6\n"
+"X-Generator: Poedit 3.7\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
 #: src/lib/video_content.cc:513
@@ -120,7 +120,7 @@ msgstr "1.19"
 
 #: src/lib/ratio.cc:45
 msgid "1.25"
-msgstr ""
+msgstr "1.25"
 
 #: src/lib/ratio.cc:46
 msgid "1.33 (4:3)"
@@ -136,7 +136,7 @@ msgstr "1.43 (IMAX)"
 
 #: src/lib/ratio.cc:49
 msgid "1.50"
-msgstr ""
+msgstr "1.50"
 
 #: src/lib/ratio.cc:50
 msgid "1.66"
@@ -164,11 +164,11 @@ msgstr "16"
 
 #: src/lib/ratio.cc:53
 msgid "2.00"
-msgstr ""
+msgstr "2.00"
 
 #: src/lib/ratio.cc:54
 msgid "2.21"
-msgstr ""
+msgstr "2.21"
 
 #: src/lib/ratio.cc:55
 msgid "2.35 (35mm Scope)"
@@ -666,21 +666,22 @@ msgid "Copy DCP to TMS"
 msgstr "复制DCP到TMS"
 
 #: src/lib/copy_to_drive_job.cc:119
-#, fuzzy
 msgid "Copying DCP"
-msgstr "合并 DCP"
+msgstr "正在复制DCP"
 
 #: src/lib/copy_to_drive_job.cc:61
-#, fuzzy, c++-format
+#, c++-format
 msgid "Copying DCPs to {}"
-msgstr "复制DCP到TMS"
+msgstr "复制DCP到 {}"
 
 #: src/lib/copy_to_drive_job.cc:58
-#, fuzzy, c++-format
+#, c++-format
 msgid ""
 "Copying {}\n"
 "to {}"
-msgstr "复制 {} 中"
+msgstr ""
+"复制 {} \n"
+"到 {}"
 
 #: src/lib/scp_uploader.cc:56
 #, c++-format
@@ -781,14 +782,13 @@ msgid "DCI Scope"
 msgstr "DCI Scope(宽银幕/2.35/2.39)"
 
 #: src/lib/film.cc:1957
-#, fuzzy
 msgid "DCP"
-msgstr "DBP"
+msgstr "DCP"
 
 #: src/lib/film.cc:1954
 #, c++-format
 msgid "DCP (via {})"
-msgstr ""
+msgstr "DCP (via {})"
 
 #: src/lib/dcp_subtitle_content.cc:139
 msgid "DCP XML subtitles"
@@ -871,7 +871,7 @@ msgid "Disk full when writing {}"
 msgstr "在写入 {} 时磁盘已满"
 
 #: src/lib/job.cc:268
-#, fuzzy, c++-format
+#, c++-format
 msgid "Disk full while writing {}"
 msgstr "在写入 {} 时磁盘已满"
 
@@ -1007,9 +1007,8 @@ msgid "Finding length"
 msgstr "定位长度"
 
 #: src/lib/copy_to_drive_job.cc:112
-#, fuzzy
 msgid "Formatting drive"
-msgstr "计算Hash值中"
+msgstr "格式化驱动器中"
 
 #: src/lib/content.cc:469
 msgid "Frame rate"
@@ -1559,6 +1558,9 @@ msgid ""
 "preview, and if not try enabling or disabling the 'premultiply' video filter "
 "in the content Advanced Settings dialogue box."
 msgstr ""
+"您的某些视频内容包含alpha频道，{} 无法确定如何处理它。请检查您的视频在预览中"
+"是否正确，如果不正确，请尝试在内容“高级设置”对话框中启用或禁用“预乘”视频滤"
+"镜。"
 
 #: src/lib/cover_sheet.cc:93
 msgid "Stereo"
@@ -1776,9 +1778,8 @@ msgid "Timed text"
 msgstr "时控文本"
 
 #: src/lib/job.cc:274
-#, fuzzy
 msgid "Too many open files"
-msgstr "无法打开文件 {}"
+msgstr "打开了太多文件"
 
 #: src/lib/dcp_content_type.cc:56
 msgid "Trailer"
@@ -1857,11 +1858,11 @@ msgstr "视力障碍"
 
 #: src/lib/verify_dcp_job.cc:62
 msgid "Verify DCP"
-msgstr "验证DCP中"
+msgstr "验证DCP"
 
 #: src/lib/copy_to_drive_job.cc:126
 msgid "Verifying copied files"
-msgstr ""
+msgstr "验证复制的文件"
 
 #: src/lib/filter.cc:92
 msgid "Vertical flip"
@@ -2080,7 +2081,7 @@ msgstr "无法将音频asset移动到 DCP ({})"
 #: src/lib/exceptions.cc:38
 #, c++-format
 msgid "could not open file {} for read ({})"
-msgstr "读取 {}文件失败({})"
+msgstr "读取 {} 文件失败({})"
 
 #: src/lib/exceptions.cc:37
 #, c++-format
@@ -2090,7 +2091,7 @@ msgstr "无法打开文件 {} 来读写 ({})"
 #: src/lib/exceptions.cc:38
 #, c++-format
 msgid "could not open file {} for write ({})"
-msgstr "写入 {}文件失败({})"
+msgstr "写入 {} 文件失败({})"
 
 #: src/lib/exceptions.cc:57
 #, c++-format
@@ -2105,22 +2106,22 @@ msgstr "不能写入文件 {} ({})"
 #: src/lib/dcpomatic_socket.cc:108
 #, c++-format
 msgid "error during async_connect ({})"
-msgstr "异步连接错误 ({})"
+msgstr "在async连接时出现错误 ({})"
 
 #: src/lib/dcpomatic_socket.cc:78
-#, fuzzy, c++-format
+#, c++-format
 msgid "error during async_connect: ({})"
-msgstr "异步连接错误 ({})"
+msgstr "在async连接时出现错误：({})"
 
 #: src/lib/dcpomatic_socket.cc:200
 #, c++-format
 msgid "error during async_read ({})"
-msgstr "异步读取错误 ({})"
+msgstr "在async读取时出现错误 ({})"
 
 #: src/lib/dcpomatic_socket.cc:159
 #, c++-format
 msgid "error during async_write ({})"
-msgstr "异步写入错误 ({})"
+msgstr "在async写入时出现错误 ({})"
 
 #: src/lib/content.cc:471 src/lib/content.cc:480
 msgid "frames per second"

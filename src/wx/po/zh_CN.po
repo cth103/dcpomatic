@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: libdcpomatic-wx\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-26 19:56+0200\n"
-"PO-Revision-Date: 2025-05-06 18:01+0800\n"
+"PO-Revision-Date: 2025-10-05 14:09+0800\n"
 "Last-Translator: Dian Li <xslidian@gmail.com>\n"
 "Language-Team: Chinese Simplified (Rov8 branch)\n"
 "Language: zh_CN\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 3.6\n"
+"X-Generator: Poedit 3.7\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
 #: src/wx/player_information.cc:111
@@ -164,7 +164,7 @@ msgstr "1 错误, "
 
 #: src/wx/ratio_picker.cc:156
 msgid "1.85"
-msgstr ""
+msgstr "1.85"
 
 #: src/wx/wx_util.cc:494
 msgid "12 - 7.1/HI/VI"
@@ -240,7 +240,7 @@ msgstr "96kHz"
 
 #: src/wx/ratio_picker.cc:44
 msgid ":1"
-msgstr ""
+msgstr ":1"
 
 #: src/wx/verify_dcp_result_panel.cc:637
 #, c-format
@@ -276,9 +276,9 @@ msgid "A 2K JPEG2000 frame contains %n tile parts instead of 3."
 msgstr "2K JPEG2000帧包含%n个图块部分，而不是3个。"
 
 #: src/wx/verify_dcp_result_panel.cc:560
-#, fuzzy, c-format
+#, c-format
 msgid "A 2K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %n"
-msgstr "JPEG2000帧包含无效的POC标记 (%n)。"
+msgstr "一个 2K JPEG2000 帧包含无效的 Rsiz（承载力）值 %n"
 
 #: src/wx/verify_dcp_result_panel.cc:518
 #, c-format
@@ -296,9 +296,9 @@ msgid "A 4K JPEG2000 frame contains %n tile parts instead of 6."
 msgstr "4K JPEG2000帧包含 %n 个图块部分，而不是6个。"
 
 #: src/wx/verify_dcp_result_panel.cc:567
-#, fuzzy, c-format
+#, c-format
 msgid "A 4K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %n"
-msgstr "JPEG2000帧包含无效的POC标记 (%n)。"
+msgstr "一个 2K JPEG2000 帧包含无效的 Rsiz（承载力）值 %n"
 
 #: src/wx/verify_dcp_result_panel.cc:525
 #, c-format
@@ -420,9 +420,8 @@ msgid ""
 msgstr "添加包含序列帧文件或音频的媒体文件夹。"
 
 #: src/wx/full_language_tag_dialog.cc:69
-#, fuzzy
 msgid "Add extended"
-msgstr "添加外部资源"
+msgstr "添加扩展"
 
 #: src/wx/content_panel.cc:272
 msgid "Add file(s)..."
@@ -556,7 +555,7 @@ msgstr "透明度 0"
 
 #: src/wx/about_dialog.cc:183
 msgid "Also supported by"
-msgstr "同时提供支持"
+msgstr "其他支持者"
 
 #: src/wx/verify_dcp_result_panel.cc:283
 msgid "An asset has an empty path in the ASSETMAP."
@@ -625,9 +624,8 @@ msgid "At least one pair of subtitles is separated by less than 2 frames."
 msgstr "至少一组字幕相隔少于2帧。"
 
 #: src/wx/verify_dcp_result_panel.cc:372
-#, fuzzy
 msgid "At least one subtitle has zero or negative duration."
-msgstr "至少有一个字幕持续时间少于15帧。"
+msgstr "至少有一个字幕持续时间为0或为负数。"
 
 #: src/wx/verify_dcp_result_panel.cc:375
 msgid "At least one subtitle lasts less than 15 frames."
@@ -1056,9 +1054,8 @@ msgid "Crop"
 msgstr "裁剪"
 
 #: src/wx/ratio_picker.cc:37
-#, fuzzy
 msgid "Crop output to"
-msgstr "输出"
+msgstr "裁剪到"
 
 #: src/wx/update_dialog.cc:68
 msgid "Current version"
@@ -1084,7 +1081,7 @@ msgstr "自定义比例"
 
 #: src/wx/video_panel.cc:187
 msgid "DCI X'Y'Z'"
-msgstr ""
+msgstr "DCI X'Y'Z'"
 
 #: src/wx/audio_panel.cc:111 src/wx/film_editor.cc:63
 #: src/wx/player_information.cc:58 src/wx/sound_preferences_page.cc:97
@@ -1197,16 +1194,14 @@ msgid "Delay"
 msgstr "延迟"
 
 #: src/wx/sound_preferences_page.cc:87
-#, fuzzy
 msgid "Delay audio by"
-msgstr "默认音频延迟"
+msgstr "音频延迟到"
 
 #. TRANSLATORS: Destination here refers to where some KDMs will be written or sent
 #. (a place on disk or some email addresses).
 #: src/wx/short_kdm_output_panel.cc:48
-#, fuzzy
 msgid "Destination"
-msgstr "目标"
+msgstr "目标位置"
 
 #: src/wx/screen_dialog.cc:136 src/wx/short_kdm_output_panel.cc:53
 msgid "Details"
@@ -2124,80 +2119,79 @@ msgstr "将所有音频轨混到一个双声道轨"
 #: src/wx/verify_dcp_result_panel.cc:547
 msgid ""
 "More 2K JPEG2000 frames (not listed) contain the wrong number of tile parts."
-msgstr "2K JPEG2000帧（未列出）包含%n个图块部分。"
+msgstr "更多2K JPEG2000帧（未列出）包含错误数量的标题部分。"
 
 #: src/wx/verify_dcp_result_panel.cc:484
 msgid ""
 "More 2K JPEG2000 frames (not listed) have an invalid number of guard bits."
-msgstr "2K JPEG2000 帧（未列出）包含无效的保护位数。"
+msgstr "更多2K JPEG2000帧（未列出）包含无效的保护位数量。"
 
 #: src/wx/verify_dcp_result_panel.cc:519
 msgid "More 2K JPEG2000 frames (not listed) have too many POC markers."
-msgstr "2K JPEG2000 帧（未列出）帧包含无效的POC标记。"
+msgstr "更多2K JPEG2000帧（未列出）包含太多POC标记。"
 
 #: src/wx/verify_dcp_result_panel.cc:491
 msgid ""
 "More 4K JPEG2000 frames (not listed) have an invalid number of guard bits."
-msgstr "4K JPEG2000 帧（未列出）具有无效的保护位数。"
+msgstr "更多4K JPEG2000帧（未列出）包含无效的保护位数量。"
 
 #: src/wx/verify_dcp_result_panel.cc:526
 msgid "More 4K JPEG2000 frames (not listed) have too many POC markers."
-msgstr "4K JPEG2000 帧包含无效的POC标记 (%n)。"
+msgstr "更多4K JPEG2000帧（未列出）包含太多POC标记。"
 
 #: src/wx/verify_dcp_result_panel.cc:540
 msgid ""
 "More JPEG2000 frames (not listed) contain POC markers in invalid locations."
-msgstr "JPEG2000帧（未列出）在无效位置包含POC标记。"
+msgstr "更多JPEG2000帧（未列出）在无效位置包含POC标记。"
 
 #: src/wx/verify_dcp_result_panel.cc:533
 msgid "More JPEG2000 frames (not listed) contain invalid POC markers."
-msgstr "JPEG2000帧（未列出）包含无效的POC标记 (%n)。"
+msgstr "更多JPEG2000帧（未列出）包含无效的POC标记。"
 
 #: src/wx/verify_dcp_result_panel.cc:561 src/wx/verify_dcp_result_panel.cc:568
-#, fuzzy
 msgid "More JPEG2000 frames (not listed) contain invalid Rsiz values."
-msgstr "JPEG2000帧（未列出）包含无效的POC标记 (%n)。"
+msgstr "更多JPEG2000帧（未列出）包含无效的Rsiz值。"
 
 #: src/wx/verify_dcp_result_panel.cc:554
 msgid ""
 "More JPEG2000 frames (not listed) contain the wrong number of tile parts."
-msgstr "JPEG2000帧（未列出）包含%n个图块部分。"
+msgstr "更多JPEG2000帧（未列出）包含错误数量的标题部分。"
 
 #: src/wx/verify_dcp_result_panel.cc:512
 msgid "More JPEG2000 frames (not listed) have an invalid code-block height."
-msgstr "JPEG2000帧（未列出）包含无效的码块高度。"
+msgstr "更多JPEG2000帧（未列出）包含无效的码块高度。"
 
 #: src/wx/verify_dcp_result_panel.cc:505
 msgid "More JPEG2000 frames (not listed) have an invalid code-block width."
-msgstr "JPEG2000帧（未列出）包含无效的码块宽度。"
+msgstr "更多JPEG2000帧（未列出）包含无效的码块宽度。"
 
 #: src/wx/verify_dcp_result_panel.cc:575
 msgid "More JPEG2000 frames (not listed) have no TLM marker."
-msgstr "JPEG2000帧（未列出）缺少 TLM 标记。"
+msgstr "更多JPEG2000帧（未列出）缺少 TLM 标记。"
 
 #: src/wx/verify_dcp_result_panel.cc:498
 msgid "More JPEG2000 tile sizes (not listed) do not match the image size."
-msgstr "JPEG2000图块大小与图像尺寸不匹配。"
+msgstr "更多JPEG2000图块大小与图像尺寸不匹配。"
 
 #: src/wx/verify_dcp_result_panel.cc:320
 msgid ""
 "More frames (not listed) have an instantaneous bit rate that is close to the "
 "limit of 250Mbit/s."
-msgstr "视频资产 %f 的至少一个帧接近250MBit/s的限制。"
+msgstr "更多帧（未列出）的瞬时比特率接近250Mbit/s的极限。"
 
 #: src/wx/verify_dcp_result_panel.cc:313
 msgid ""
 "More frames (not listed) have an instantaneous bit rate that is over the "
 "limit of 250Mbit/s."
-msgstr "视频资产 %f 的至少一个帧超过250MBit/s的限制。"
+msgstr "更多帧（未列出）的瞬时比特率超过250Mbit/s的限制。"
 
 #: src/wx/verify_dcp_result_panel.cc:652
 msgid "More frames (not listed) have image components that are too large."
-msgstr "帧（未列出）包含过大的图像组件。"
+msgstr "更多帧（未列出）包含过大的图像组件。"
 
 #: src/wx/verify_dcp_result_panel.cc:477
 msgid "More picture frames (not listed) have invalid JPEG2000 codestreams."
-msgstr "图片帧（未列出）包含无效的JPEG2000码流(%n)"
+msgstr "更多图片帧（未列出）包含无效的JPEG2000码流。"
 
 #: src/wx/markers_panel.cc:249
 #, c-format
@@ -2280,9 +2274,8 @@ msgid "Next"
 msgstr "下一步"
 
 #: src/wx/spl_entry_dialog.cc:52
-#, fuzzy
 msgid "No"
-msgstr "无"
+msgstr "不"
 
 #: src/wx/verify_dcp_result_panel.cc:301
 msgid "No ASSETMAP or ASSETMAP.xml file was found."
@@ -2383,7 +2376,7 @@ msgstr "打开影片时间线(Ctrl+T)。"
 
 #: src/wx/full_config_dialog.cc:1312 src/wx/player_config_dialog.cc:127
 msgid "OpenGL (faster)"
-msgstr "OpenGL (加速)"
+msgstr "OpenGL (更快)"
 
 #: src/wx/system_information_dialog.cc:83
 #, c-format
@@ -2489,7 +2482,7 @@ msgstr "粘贴视频设置"
 
 #: src/wx/about_dialog.cc:175
 msgid "Patrons"
-msgstr "赞助人"
+msgstr "赞助者"
 
 #: src/wx/normal_job_view.cc:44 src/wx/normal_job_view.cc:62
 #: src/wx/playlist_controls.cc:59
@@ -2538,9 +2531,8 @@ msgid "Playlist directory"
 msgstr "播放列表目录"
 
 #: src/wx/spl_entry_dialog.cc:38
-#, fuzzy
 msgid "Playlist item"
-msgstr "播放列表"
+msgstr "播放列表元素"
 
 #: src/wx/playlist_controls.cc:81
 msgid "Playlists"
@@ -2869,9 +2861,8 @@ msgid "Save report as HTML..."
 msgstr "将报告保存为 HTML…"
 
 #: src/wx/verify_dcp_result_panel.cc:83
-#, fuzzy
 msgid "Save report as PDF..."
-msgstr "将报告保存为 HTML…"
+msgstr "将报告保存为 PDF…"
 
 #: src/wx/verify_dcp_result_panel.cc:79
 msgid "Save report as text..."
@@ -3167,6 +3158,8 @@ msgid ""
 "Source\n"
 "colourspace"
 msgstr ""
+"源\n"
+"色彩空间"
 
 #: src/wx/metadata_dialog.cc:206
 msgid "Specific"
@@ -3273,7 +3266,7 @@ msgstr "系统信息"
 
 #: src/wx/full_config_dialog.cc:525
 msgid "TMS"
-msgstr "TMS"
+msgstr "影院管理系统TMS"
 
 #: src/wx/full_config_dialog.cc:557
 msgid "Target path"
@@ -3317,7 +3310,7 @@ msgstr "测试版"
 
 #: src/wx/about_dialog.cc:250
 msgid "Tested by"
-msgstr "测试By"
+msgstr "测试人员和机构"
 
 #: src/wx/kdm_timing_panel.cc:161
 msgid "The 'until' time must be after the 'from' time."
@@ -3370,7 +3363,7 @@ msgstr "CPL %cpl没有 <AnnotationText> 标记。"
 #: src/wx/verify_dcp_result_panel.cc:674
 #, c-format
 msgid "The CPL %cpl has no <ContentVersion> tag"
-msgstr "CPL %cpl没有 <AnnotationText> 标记"
+msgstr "CPL %cpl没有 <ContentVersion> 标记"
 
 #: src/wx/verify_dcp_result_panel.cc:456
 #, c-format
@@ -3523,7 +3516,7 @@ msgstr "此资产 %f 是3D的，但其MXF被标记为2D。"
 #: src/wx/verify_dcp_result_panel.cc:286
 #, c-format
 msgid "The asset %f is missing."
-msgstr "缺少资产 %f。"
+msgstr "丢失资产 %f。"
 
 #: src/wx/verify_dcp_result_panel.cc:307
 #, c-format
@@ -3762,7 +3755,7 @@ msgstr "已存在同名模板，是否覆盖？"
 
 #: src/wx/film_viewer.cc:179
 msgid "There is not enough free memory to do that."
-msgstr "内存不足。"
+msgstr "没有足够的可用内存来执行此操作。"
 
 #: src/wx/film_viewer.cc:362
 msgid ""
@@ -3913,6 +3906,8 @@ msgid ""
 "Tick to check details of the picture asset, such as frame sizes and JPEG2000 "
 "bitstream validity.  These checks are quite time-consuming."
 msgstr ""
+"勾选以检查图片资产的详细信息，如帧大小和JPEG2000比特流的有效性。这些检查相当"
+"耗时。"
 
 #: src/wx/content_timeline_dialog.cc:49
 msgid "Timeline"
@@ -3949,7 +3944,7 @@ msgstr "轨道"
 
 #: src/wx/about_dialog.cc:171
 msgid "Translated by"
-msgstr "翻译"
+msgstr "翻译者"
 
 #: src/wx/timing_panel.cc:115
 msgid "Trim from current position to end"
@@ -4030,9 +4025,8 @@ msgid "UTC+5:30"
 msgstr "东5:30区 (印度，斯里兰卡)"
 
 #: src/wx/wx_util.cc:611
-#, fuzzy
 msgid "UTC+5:45"
-msgstr "东5区"
+msgstr "东5:45区"
 
 #: src/wx/wx_util.cc:612
 msgid "UTC+6"
@@ -4182,11 +4176,11 @@ msgstr "DCP验证"
 
 #: src/wx/verify_dcp_dialog.cc:65
 msgid "Verify"
-msgstr ""
+msgstr "验证"
 
 #: src/wx/verify_dcp_dialog.cc:53
 msgid "Verify picture asset details"
-msgstr ""
+msgstr "验证图像资产详细信息"
 
 #: src/wx/smpte_metadata_dialog.cc:109 src/wx/system_information_dialog.cc:67
 msgid "Version"
@@ -4263,7 +4257,7 @@ msgstr "白点调整"
 
 #: src/wx/about_dialog.cc:119
 msgid "With help from"
-msgstr "帮助"
+msgstr "提供帮助的人员和机构"
 
 #: src/wx/kdm_output_panel.cc:96
 msgid "Write a ZIP file for each cinema's KDMs"
@@ -4296,7 +4290,7 @@ msgstr "输出到"
 
 #: src/wx/about_dialog.cc:110
 msgid "Written by"
-msgstr "编写由"
+msgstr "软件作者"
 
 #: src/wx/text_panel.cc:89 src/wx/text_panel.cc:97
 msgid "X"
@@ -4315,7 +4309,6 @@ msgid "YUV to RGB matrix"
 msgstr "YUV转换到RGB矩阵"
 
 #: src/wx/spl_entry_dialog.cc:52
-#, fuzzy
 msgid "Yes"
 msgstr "是"
 
@@ -4494,9 +4487,8 @@ msgid "protocol"
 msgstr "协议"
 
 #: src/wx/dkdm_output_panel.cc:68
-#, fuzzy
 msgid "recipient name"
-msgstr "接受者"
+msgstr "接受者名称"
 
 #: src/wx/full_config_dialog.cc:1263
 msgid "reel number"
@@ -4532,7 +4524,6 @@ msgid "type (j2c/pcm/sub)"
 msgstr "类型（j2c/pcm/sub）"
 
 #: src/wx/full_config_dialog.cc:1243
-#, fuzzy
 msgid "type(cpl/pkl)"
 msgstr "类型（cpl/pkl）"
 
