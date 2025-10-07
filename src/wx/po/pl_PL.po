@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-26 19:56+0200\n"
+"POT-Creation-Date: 2025-10-07 10:02+0200\n"
 "PO-Revision-Date: 2022-05-10 18:14+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -446,7 +446,7 @@ msgstr "Dodaj język..."
 msgid "Add new..."
 msgstr "Dodaj nowy..."
 
-#: src/wx/markers_panel.cc:257
+#: src/wx/markers_panel.cc:281
 #, fuzzy
 msgid "Add or move marker to current position"
 msgstr "Przytnij do obecnego miejsca"
@@ -1504,24 +1504,28 @@ msgid "Finding the colours in these subtitles..."
 msgstr "Znajduję kolory w napisach..."
 
 #: src/wx/markers.cc:39
-msgid "First frame of end credits"
+#, fuzzy
+msgid "First frame of end credits (FFEC)"
 msgstr "Pierwsza klatka napisów końcowych"
 
 #: src/wx/markers.cc:37
-msgid "First frame of intermission"
+#, fuzzy
+msgid "First frame of intermission (FFOI)"
 msgstr "Pierwsza klatka przerwy"
 
 #: src/wx/markers.cc:41
-msgid "First frame of moving credits"
+#, fuzzy
+msgid "First frame of moving credits (FFMC)"
 msgstr "Pierwsza klatka listy płac"
 
 #: src/wx/markers.cc:33
 #, fuzzy
-msgid "First frame of ratings band"
+msgid "First frame of ratings band (FFOB)"
 msgstr "Pierwsza klatka listy płac"
 
 #: src/wx/markers.cc:35
-msgid "First frame of title credits"
+#, fuzzy
+msgid "First frame of title credits (FFTC)"
 msgstr "Pierwsza klatka napisów początkowych"
 
 #: src/wx/short_kdm_output_panel.cc:115 src/wx/tall_kdm_output_panel.cc:84
@@ -1957,24 +1961,28 @@ msgid "Language used for any sign language video track"
 msgstr "Język używany na ścieżce wideo dla Głuchych"
 
 #: src/wx/markers.cc:40
-msgid "Last frame of end credits"
+#, fuzzy
+msgid "Last frame of end credits (LFEC)"
 msgstr "Ostatnia klatka napisów końcowych"
 
 #: src/wx/markers.cc:38
-msgid "Last frame of intermission"
+#, fuzzy
+msgid "Last frame of intermission (LFOI)"
 msgstr "Ostatnia klatka przerwy"
 
 #: src/wx/markers.cc:42
-msgid "Last frame of moving credits"
+#, fuzzy
+msgid "Last frame of moving credits (LFMC)"
 msgstr "Ostatnia klatka listy płac"
 
 #: src/wx/markers.cc:34
 #, fuzzy
-msgid "Last frame of ratings band"
+msgid "Last frame of ratings band (LFOB)"
 msgstr "Ostatnia klatka listy płac"
 
 #: src/wx/markers.cc:36
-msgid "Last frame of title credits"
+#, fuzzy
+msgid "Last frame of title credits (LFTC)"
 msgstr "Ostatnia klatka napisów początkowych"
 
 #: src/wx/content_panel.cc:292
@@ -2286,7 +2294,7 @@ msgstr ""
 msgid "More picture frames (not listed) have invalid JPEG2000 codestreams."
 msgstr "Klatka obrazu ma nieprawidłowy strumień kodowy JPEG2000 (%n)"
 
-#: src/wx/markers_panel.cc:249
+#: src/wx/markers_panel.cc:273
 #, fuzzy, c-format
 msgid "Move %s marker to current position"
 msgstr "Ustaw za obecnym miejscem"
@@ -2815,7 +2823,7 @@ msgstr "Kraj wydania"
 msgid "Remove"
 msgstr "Usuń"
 
-#: src/wx/markers_panel.cc:250
+#: src/wx/markers_panel.cc:274
 #, fuzzy, c-format
 msgid "Remove %s marker"
 msgstr "Usuń Kino"

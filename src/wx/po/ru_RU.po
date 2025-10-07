@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-26 19:56+0200\n"
+"POT-Creation-Date: 2025-10-07 10:02+0200\n"
 "PO-Revision-Date: 2025-06-08 21:02+0300\n"
 "Last-Translator: Mikhail Epshteyn <virus-2006@yandex.ru>\n"
 "Language-Team: Russian\n"
@@ -437,7 +437,7 @@ msgstr "Добавить язык..."
 msgid "Add new..."
 msgstr "Добавить новый…"
 
-#: src/wx/markers_panel.cc:257
+#: src/wx/markers_panel.cc:281
 msgid "Add or move marker to current position"
 msgstr "Добавить или переместить маркер до текущей позиции"
 
@@ -1461,23 +1461,28 @@ msgid "Finding the colours in these subtitles..."
 msgstr "Поиск цветов в данных субтитрах…"
 
 #: src/wx/markers.cc:39
-msgid "First frame of end credits"
+#, fuzzy
+msgid "First frame of end credits (FFEC)"
 msgstr "FFEC (первый кадр конечных титров)"
 
 #: src/wx/markers.cc:37
-msgid "First frame of intermission"
+#, fuzzy
+msgid "First frame of intermission (FFOI)"
 msgstr "FFOI (первый кадр перерыва)"
 
 #: src/wx/markers.cc:41
-msgid "First frame of moving credits"
+#, fuzzy
+msgid "First frame of moving credits (FFMC)"
 msgstr "FFMC (первый кадр конечных двигающихся титров)"
 
 #: src/wx/markers.cc:33
-msgid "First frame of ratings band"
+#, fuzzy
+msgid "First frame of ratings band (FFOB)"
 msgstr "FFRB (первый кадр рейтинга)"
 
 #: src/wx/markers.cc:35
-msgid "First frame of title credits"
+#, fuzzy
+msgid "First frame of title credits (FFTC)"
 msgstr "FFTC (первый кадр начальных титров)"
 
 #: src/wx/short_kdm_output_panel.cc:115 src/wx/tall_kdm_output_panel.cc:84
@@ -1914,23 +1919,28 @@ msgid "Language used for any sign language video track"
 msgstr "Язык для видеодорожек с языком жестов"
 
 #: src/wx/markers.cc:40
-msgid "Last frame of end credits"
+#, fuzzy
+msgid "Last frame of end credits (LFEC)"
 msgstr "LFEC (последний кадр конечных титров)"
 
 #: src/wx/markers.cc:38
-msgid "Last frame of intermission"
+#, fuzzy
+msgid "Last frame of intermission (LFOI)"
 msgstr "LFOI (последний кадр перерыва)"
 
 #: src/wx/markers.cc:42
-msgid "Last frame of moving credits"
+#, fuzzy
+msgid "Last frame of moving credits (LFMC)"
 msgstr "LFMC (последний кадр конечных двигающихся титров)"
 
 #: src/wx/markers.cc:34
-msgid "Last frame of ratings band"
+#, fuzzy
+msgid "Last frame of ratings band (LFOB)"
 msgstr "LFRB (последний кадр рейтинга)"
 
 #: src/wx/markers.cc:36
-msgid "Last frame of title credits"
+#, fuzzy
+msgid "Last frame of title credits (LFTC)"
 msgstr "LFTC (последний кадр начальных титров)"
 
 #: src/wx/content_panel.cc:292
@@ -2250,7 +2260,7 @@ msgstr ""
 "Другие рамки для фотографий (не указанные в списке) содержат недопустимые "
 "кодовые потоки JPEG2000."
 
-#: src/wx/markers_panel.cc:249
+#: src/wx/markers_panel.cc:273
 #, c-format
 msgid "Move %s marker to current position"
 msgstr "Переместить маркер %s в текущее положение"
@@ -2769,7 +2779,7 @@ msgstr "Регион показа для этого DCP"
 msgid "Remove"
 msgstr "Удалить"
 
-#: src/wx/markers_panel.cc:250
+#: src/wx/markers_panel.cc:274
 #, c-format
 msgid "Remove %s marker"
 msgstr "Удалить маркер %s"

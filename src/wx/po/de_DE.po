@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-26 19:56+0200\n"
+"POT-Creation-Date: 2025-10-07 10:02+0200\n"
 "PO-Revision-Date: 2021-08-20 21:46+0200\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
@@ -443,7 +443,7 @@ msgstr "Programm-Sprache einstellen"
 msgid "Add new..."
 msgstr "Einstellen..."
 
-#: src/wx/markers_panel.cc:257
+#: src/wx/markers_panel.cc:281
 #, fuzzy
 msgid "Add or move marker to current position"
 msgstr "Beschnitt vor aktueller Vorschauposition (Slider)"
@@ -1534,24 +1534,28 @@ msgid "Finding the colours in these subtitles..."
 msgstr "Analysiere Farbpalette in Untertiteln..."
 
 #: src/wx/markers.cc:39
-msgid "First frame of end credits"
+#, fuzzy
+msgid "First frame of end credits (FFEC)"
 msgstr "Erster Frame der End Credits"
 
 #: src/wx/markers.cc:37
-msgid "First frame of intermission"
+#, fuzzy
+msgid "First frame of intermission (FFOI)"
 msgstr "Erster Frame der Intermission"
 
 #: src/wx/markers.cc:41
-msgid "First frame of moving credits"
+#, fuzzy
+msgid "First frame of moving credits (FFMC)"
 msgstr "Erster Frame der Moving Credits"
 
 #: src/wx/markers.cc:33
 #, fuzzy
-msgid "First frame of ratings band"
+msgid "First frame of ratings band (FFOB)"
 msgstr "Erster Frame der Moving Credits"
 
 #: src/wx/markers.cc:35
-msgid "First frame of title credits"
+#, fuzzy
+msgid "First frame of title credits (FFTC)"
 msgstr "Erster Frame der Title Credits"
 
 #: src/wx/short_kdm_output_panel.cc:115 src/wx/tall_kdm_output_panel.cc:84
@@ -2004,24 +2008,28 @@ msgid "Language used for any sign language video track"
 msgstr ""
 
 #: src/wx/markers.cc:40
-msgid "Last frame of end credits"
+#, fuzzy
+msgid "Last frame of end credits (LFEC)"
 msgstr "Letzter Frame der End Credits"
 
 #: src/wx/markers.cc:38
-msgid "Last frame of intermission"
+#, fuzzy
+msgid "Last frame of intermission (LFOI)"
 msgstr "Letzter Frame der Intermission"
 
 #: src/wx/markers.cc:42
-msgid "Last frame of moving credits"
+#, fuzzy
+msgid "Last frame of moving credits (LFMC)"
 msgstr "Letzter Frame der Moving Credits"
 
 #: src/wx/markers.cc:34
 #, fuzzy
-msgid "Last frame of ratings band"
+msgid "Last frame of ratings band (LFOB)"
 msgstr "Letzter Frame der Moving Credits"
 
 #: src/wx/markers.cc:36
-msgid "Last frame of title credits"
+#, fuzzy
+msgid "Last frame of title credits (LFTC)"
 msgstr "Letzter Frame der Title Credits"
 
 #: src/wx/content_panel.cc:292
@@ -2336,7 +2344,7 @@ msgstr ""
 msgid "More picture frames (not listed) have invalid JPEG2000 codestreams."
 msgstr "Eine Videodatei enthält eine unzulässige Bildrate!"
 
-#: src/wx/markers_panel.cc:249
+#: src/wx/markers_panel.cc:273
 #, fuzzy, c-format
 msgid "Move %s marker to current position"
 msgstr "Beschnitt nach aktueller Vorschauposition (Slider)"
@@ -2877,7 +2885,7 @@ msgstr "Territorium (Freigabe)"
 msgid "Remove"
 msgstr "Entfernen"
 
-#: src/wx/markers_panel.cc:250
+#: src/wx/markers_panel.cc:274
 #, fuzzy, c-format
 msgid "Remove %s marker"
 msgstr "Kino entfernen"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-26 19:56+0200\n"
+"POT-Creation-Date: 2025-10-07 10:02+0200\n"
 "PO-Revision-Date: 2025-09-28 15:33+0200\n"
 "Last-Translator: Dan Cohen <thedan.cohen@protonmail.com>\n"
 "Language-Team: \n"
@@ -445,7 +445,7 @@ msgstr "Ajouter une langue..."
 msgid "Add new..."
 msgstr "Ajouter nouveau..."
 
-#: src/wx/markers_panel.cc:257
+#: src/wx/markers_panel.cc:281
 msgid "Add or move marker to current position"
 msgstr "Ajouter ou déplacer un marqueur à la position actuelle"
 
@@ -1467,23 +1467,28 @@ msgid "Finding the colours in these subtitles..."
 msgstr "Trouver les couleurs dans ces sous-titres..."
 
 #: src/wx/markers.cc:39
-msgid "First frame of end credits"
+#, fuzzy
+msgid "First frame of end credits (FFEC)"
 msgstr "Première image du générique de fin"
 
 #: src/wx/markers.cc:37
-msgid "First frame of intermission"
+#, fuzzy
+msgid "First frame of intermission (FFOI)"
 msgstr "Première image de l'entracte"
 
 #: src/wx/markers.cc:41
-msgid "First frame of moving credits"
+#, fuzzy
+msgid "First frame of moving credits (FFMC)"
 msgstr "Première image du générique en mouvement"
 
 #: src/wx/markers.cc:33
-msgid "First frame of ratings band"
+#, fuzzy
+msgid "First frame of ratings band (FFOB)"
 msgstr "Première image du carton de classification"
 
 #: src/wx/markers.cc:35
-msgid "First frame of title credits"
+#, fuzzy
+msgid "First frame of title credits (FFTC)"
 msgstr "Première image du générique de titre"
 
 #: src/wx/short_kdm_output_panel.cc:115 src/wx/tall_kdm_output_panel.cc:84
@@ -1921,23 +1926,28 @@ msgid "Language used for any sign language video track"
 msgstr "Langue utilisée pour toute piste vidéo en langue des signes"
 
 #: src/wx/markers.cc:40
-msgid "Last frame of end credits"
+#, fuzzy
+msgid "Last frame of end credits (LFEC)"
 msgstr "Dernière image du générique de fin"
 
 #: src/wx/markers.cc:38
-msgid "Last frame of intermission"
+#, fuzzy
+msgid "Last frame of intermission (LFOI)"
 msgstr "Dernière image de l'entracte"
 
 #: src/wx/markers.cc:42
-msgid "Last frame of moving credits"
+#, fuzzy
+msgid "Last frame of moving credits (LFMC)"
 msgstr "Dernière image du générique en mouvement"
 
 #: src/wx/markers.cc:34
-msgid "Last frame of ratings band"
+#, fuzzy
+msgid "Last frame of ratings band (LFOB)"
 msgstr "Dernière image du carton de classification"
 
 #: src/wx/markers.cc:36
-msgid "Last frame of title credits"
+#, fuzzy
+msgid "Last frame of title credits (LFTC)"
 msgstr "Dernière image du générique de titre"
 
 #: src/wx/content_panel.cc:292
@@ -2247,7 +2257,7 @@ msgstr "D'autres images (non listées) ont des composantes trop grandes."
 msgid "More picture frames (not listed) have invalid JPEG2000 codestreams."
 msgstr "D'autres images (non listées) ont des codestreams JPEG2000 invalides."
 
-#: src/wx/markers_panel.cc:249
+#: src/wx/markers_panel.cc:273
 #, c-format
 msgid "Move %s marker to current position"
 msgstr "Déplacer le marqueur %s à la position actuelle"
@@ -2766,7 +2776,7 @@ msgstr "Territoire de diffusion de ce DCP"
 msgid "Remove"
 msgstr "Supprimer"
 
-#: src/wx/markers_panel.cc:250
+#: src/wx/markers_panel.cc:274
 #, c-format
 msgid "Remove %s marker"
 msgstr "Supprimer le marqueur %s"

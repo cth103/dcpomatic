@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-26 19:56+0200\n"
+"POT-Creation-Date: 2025-10-07 10:02+0200\n"
 "PO-Revision-Date: 2025-09-28 18:31+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
@@ -70,7 +70,7 @@ msgstr " (%.2f:1)"
 
 #. TRANSLATORS: the {} in this string will be filled in with a day of the week
 #. to say what day a job will finish.
-#: src/lib/job.cc:615
+#: src/lib/job.cc:628
 #, c++-format
 msgid " on {}"
 msgstr " op {}"
@@ -196,7 +196,7 @@ msgstr "9"
 msgid "; {} fps"
 msgstr "; {} fps"
 
-#: src/lib/job.cc:620
+#: src/lib/job.cc:633
 #, c++-format
 msgid "; {} remaining; finishing at {}{}"
 msgstr "; {} resterend; klaar om {}{}"
@@ -204,30 +204,30 @@ msgstr "; {} resterend; klaar om {}{}"
 #: src/lib/analytics.cc:58
 #, c-format, c++-format
 msgid ""
-"<h2>You have made {} DCPs with {}!</h2><img width=\"20%%\" src=\"memory:me."
-"jpg\" align=\"center\"><font size=\"+1\"><p>Hello. I'm Carl and I'm the "
-"developer of {}. I work on it in my spare time (with the help of a volunteer "
-"team of testers and translators) and I release it as free software.<p>If you "
-"find {} useful, please consider a donation to the project. Financial support "
-"will help me to spend more time developing {} and making it better!"
-"<p><ul><li><a href=\"https://dcpomatic.com/donate_amount?amount=40\">Go to "
-"Paypal to donate €40</a><li><a href=\"https://dcpomatic.com/donate_amount?"
-"amount=20\">Go to Paypal to donate €20</a><li><a href=\"https://dcpomatic."
-"com/donate_amount?amount=10\">Go to Paypal to donate €10</a></ul><p>Thank "
-"you!</font>"
+"<h2>You have made {} DCPs with {}!</h2><img width=\"20%%\" "
+"src=\"memory:me.jpg\" align=\"center\"><font size=\"+1\"><p>Hello. I'm Carl "
+"and I'm the developer of {}. I work on it in my spare time (with the help of "
+"a volunteer team of testers and translators) and I release it as free "
+"software.<p>If you find {} useful, please consider a donation to the "
+"project. Financial support will help me to spend more time developing {} and "
+"making it better!<p><ul><li><a href=\"https://dcpomatic.com/donate_amount?"
+"amount=40\">Go to Paypal to donate €40</a><li><a href=\"https://"
+"dcpomatic.com/donate_amount?amount=20\">Go to Paypal to donate €20</a><li><a "
+"href=\"https://dcpomatic.com/donate_amount?amount=10\">Go to Paypal to "
+"donate €10</a></ul><p>Thank you!</font>"
 msgstr ""
-"<h2>U heeft {} DCP's gemaakt met {}!</h2><img width=\"20%%\" src=\"memory:me."
-"jpg\" align=\"center\"><font size=\"+1\"><p>Hallo.  Ik ben Carl en ik ben de "
-"ontwikkelaar van {}.  Ik werk eraan in mijn vrije tijd (met de hulp van een "
-"vrijwilligersteam van testers en vertalers) en ik geef het vrij als gratis "
-"software.<p>Als u {} nuttig vindt, overweeg dan een donatie aan het "
-"project.  Financiële ondersteuning zal me helpen om meer tijd te besteden "
-"aan de ontwikkeling van {} en het beter te maken!<p><ul><li><a "
-"href=\"https://dcpomatic.com/donate_amount?amount=40\">Ga naar Paypal om €40 "
-"te doneren</a><li><a href=\"https://dcpomatic.com/donate_amount?"
-"amount=20\">Ga naar Paypal om €20 te doneren</a><li><a href=\"https://"
-"dcpomatic.com/donate_amount?amount=10\">Ga naar Paypal om €10 te doneren</"
-"a></ul><p>Dank u wel!</font>"
+"<h2>U heeft {} DCP's gemaakt met {}!</h2><img width=\"20%%\" "
+"src=\"memory:me.jpg\" align=\"center\"><font size=\"+1\"><p>Hallo.  Ik ben "
+"Carl en ik ben de ontwikkelaar van {}.  Ik werk eraan in mijn vrije tijd "
+"(met de hulp van een vrijwilligersteam van testers en vertalers) en ik geef "
+"het vrij als gratis software.<p>Als u {} nuttig vindt, overweeg dan een "
+"donatie aan het project.  Financiële ondersteuning zal me helpen om meer "
+"tijd te besteden aan de ontwikkeling van {} en het beter te maken!"
+"<p><ul><li><a href=\"https://dcpomatic.com/donate_amount?amount=40\">Ga naar "
+"Paypal om €40 te doneren</a><li><a href=\"https://dcpomatic.com/"
+"donate_amount?amount=20\">Ga naar Paypal om €20 te doneren</a><li><a "
+"href=\"https://dcpomatic.com/donate_amount?amount=10\">Ga naar Paypal om €10 "
+"te doneren</a></ul><p>Dank u wel!</font>"
 
 #: src/lib/hints.cc:176
 msgid ""
@@ -443,7 +443,7 @@ msgstr "BsR"
 msgid "C"
 msgstr "C"
 
-#: src/lib/job.cc:644
+#: src/lib/job.cc:657
 msgid "Cancelled"
 msgstr "Geannuleerd"
 
@@ -467,6 +467,12 @@ msgstr "Midden (C)"
 #: src/lib/audio_content.cc:302
 msgid "Channels"
 msgstr "Kanalen"
+
+#: src/lib/job.cc:283
+msgid ""
+"Check the server settings in the TMS tab of preferences, or un-tick \"Upload "
+"DCP to TMS after creation\" if you do not want to upload your DCP."
+msgstr ""
 
 #: src/lib/transcode_job.cc:106
 msgid "Check their new settings, then try again."
@@ -930,6 +936,13 @@ msgstr "Dolby CP650 of CP750"
 msgid "Download failed ({} error {})"
 msgstr "Download mislukt ({} fout {})"
 
+#. TRANSLATORS: this is an abbreviation for "end credits", shown next to the pair of markers
+#. "FFEC" and "LFEC" ({First, Last} Frame of End Credits)
+#: src/lib/layout_markers.cc:145
+#, fuzzy
+msgid "EC"
+msgstr "C"
+
 #: src/lib/frame_rate_change.cc:93
 msgid "Each content frame will be doubled in the DCP.\n"
 msgstr "Elk content frame zal dubbel gebruikt worden in de DCP.\n"
@@ -974,7 +987,7 @@ msgstr "Episode"
 msgid "Error in subtitle file: saw {} while expecting {}"
 msgstr "Fout in ondertitelbestand: {} gelezen terwijl {} verwacht werd"
 
-#: src/lib/job.cc:642
+#: src/lib/job.cc:655
 #, c++-format
 msgid "Error: {}"
 msgstr "Fout: {}"
@@ -1060,7 +1073,7 @@ msgstr "Formatteren schijf"
 msgid "Frame rate"
 msgstr "Frame rate"
 
-#: src/lib/job.cc:586
+#: src/lib/job.cc:599
 msgid "Friday"
 msgstr "vrijdag"
 
@@ -1147,6 +1160,12 @@ msgstr "IEC61966-2-1 (sRGB of sYCC)"
 msgid "IEC61966-2-4"
 msgstr "IEC61966-2-4"
 
+#. TRANSLATORS: this is an abbreviation for "intermission", shown next to the pair of markers
+#. "FFOI" and "LFOI" ({First, Last} Frame of Intermission)
+#: src/lib/layout_markers.cc:142
+msgid "IN"
+msgstr ""
+
 #: src/lib/hints.cc:195
 msgid "If you do use 25fps you should change your DCP standard to SMPTE."
 msgstr ""
@@ -1171,7 +1190,7 @@ msgstr ""
 "Het is raadzaam om uw eerste ondertitel minstens 4 seconden na het begin van "
 "de DCP te plaatsen om er zeker van te zijn dat deze wordt gezien."
 
-#: src/lib/job.cc:169 src/lib/job.cc:204 src/lib/job.cc:282 src/lib/job.cc:292
+#: src/lib/job.cc:169 src/lib/job.cc:204 src/lib/job.cc:295 src/lib/job.cc:305
 #, c++-format
 msgid "It is not known what caused this error.  {}"
 msgstr "Het is onbekend hoe deze fout is ontstaan.  {}"
@@ -1250,6 +1269,13 @@ msgstr "Verbroken communicatie tussen hoofd- en schrijfprocessen"
 msgid "Ls"
 msgstr "Ls"
 
+#. TRANSLATORS: this is an abbreviation for "moving credits", shown next to the pair of markers
+#. "FFMC" and "LFMC" ({First, Last} Frame of Moving Credits)
+#: src/lib/layout_markers.cc:148
+#, fuzzy
+msgid "MC"
+msgstr "C"
+
 #: src/lib/mid_side_decoder.cc:39
 msgid "Mid-side decoder"
 msgstr "Midden-zijkant decoder"
@@ -1280,7 +1306,7 @@ msgstr "Ongelijke beeldgroottes in DCP"
 msgid "Missing required setting {}"
 msgstr "Ontbrekende verplichte instelling {}"
 
-#: src/lib/job.cc:578
+#: src/lib/job.cc:591
 msgid "Monday"
 msgstr "maandag"
 
@@ -1321,16 +1347,16 @@ msgstr "Ruisonderdrukking"
 msgid "None"
 msgstr "Geen"
 
-#: src/lib/job.cc:634
+#: src/lib/job.cc:647
 msgid "OK"
 msgstr "OK"
 
-#: src/lib/job.cc:639
+#: src/lib/job.cc:652
 #, c++-format
 msgid "OK (ran for {} from {} to {})"
 msgstr "OK ({} bezig, van {} tot {})"
 
-#: src/lib/job.cc:637
+#: src/lib/job.cc:650
 #, c++-format
 msgid "OK (ran for {})"
 msgstr "OK ({} bezig)"
@@ -1417,6 +1443,13 @@ msgstr "Public Service Announcement"
 #. TRANSLATORS: R here is an abbreviation for "right", to indicate the right-eye part of a 3D export
 #: src/lib/ffmpeg_film_encoder.cc:270 src/lib/util.cc:620
 msgid "R"
+msgstr "R"
+
+#. TRANSLATORS: this is an abbreviation for "ratings band", shown next to the pair of markers
+#. "FFOB" and "LFOB" ({First, Last} Frame of Band)
+#: src/lib/layout_markers.cc:136
+#, fuzzy
+msgid "RB"
 msgstr "R"
 
 #: src/lib/ffmpeg_content.cc:645
@@ -1534,7 +1567,7 @@ msgstr "SSH-fout [{}]"
 msgid "SSH error [{}] ({})"
 msgstr "SSH-fout [{}] ({})"
 
-#: src/lib/job.cc:588
+#: src/lib/job.cc:601
 msgid "Saturday"
 msgstr "zaterdag"
 
@@ -1652,9 +1685,16 @@ msgstr "Stereo naar 5.1 up-mixer A"
 msgid "Stereo to 5.1 up-mixer B"
 msgstr "Stereo naar 5.1 up-mixer B"
 
-#: src/lib/job.cc:576
+#: src/lib/job.cc:589
 msgid "Sunday"
 msgstr "zondag"
+
+#. TRANSLATORS: this is an abbreviation for "title credits", shown next to the pair of markers
+#. "FFTC" and "LFTC" ({First, Last} Frame of Title Credits)
+#: src/lib/layout_markers.cc:139
+#, fuzzy
+msgid "TC"
+msgstr "C"
 
 #: src/lib/dcp_content_type.cc:60
 msgid "Teaser"
@@ -1824,9 +1864,9 @@ msgid ""
 "again."
 msgstr ""
 "Deze fout is waarschijnlijk opgetreden omdat u de 32-bits versie van {} "
-"gebruikt en probeert te veel encoderings-threads te gebruiken.  Verminder a."
-"u.b. het 'Aantal threads dat {} moet gebruiken' in het \"Algemeen\"-tabblad "
-"bij Voorkeuren en probeer het opnieuw."
+"gebruikt en probeert te veel encoderings-threads te gebruiken.  Verminder "
+"a.u.b. het 'Aantal threads dat {} moet gebruiken' in het \"Algemeen\"-"
+"tabblad bij Voorkeuren en probeer het opnieuw."
 
 #: src/lib/job.cc:155
 #, c++-format
@@ -1866,7 +1906,7 @@ msgstr ""
 "versie geladen worden.  U moet een nieuwe film aanmaken en de content "
 "opnieuw toevoegen en configureren.  Sorry!"
 
-#: src/lib/job.cc:584
+#: src/lib/job.cc:597
 msgid "Thursday"
 msgstr "donderdag"
 
@@ -1891,7 +1931,7 @@ msgstr "Transcoderen {}"
 msgid "Transitional"
 msgstr "Transitional"
 
-#: src/lib/job.cc:580
+#: src/lib/job.cc:593
 msgid "Tuesday"
 msgstr "dinsdag"
 
@@ -1912,7 +1952,7 @@ msgstr "Onverwacht beeldtype ontvangen door server"
 msgid "Unknown"
 msgstr "Onbekend"
 
-#: src/lib/job.cc:291
+#: src/lib/job.cc:304
 msgid "Unknown error"
 msgstr "Onbekende fout"
 
@@ -1982,7 +2022,7 @@ msgstr "Wachten"
 msgid "Weave filter"
 msgstr "Weave-filter"
 
-#: src/lib/job.cc:582
+#: src/lib/job.cc:595
 msgid "Wednesday"
 msgstr "woensdag"
 

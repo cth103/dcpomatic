@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-26 19:56+0200\n"
+"POT-Creation-Date: 2025-10-07 10:02+0200\n"
 "PO-Revision-Date: 2024-10-05 18:17+0330\n"
 "Last-Translator: Soleyman Rahmani Aghdam <Soleyman.rahmani@gmail.com>\n"
 "Language-Team: \n"
@@ -70,7 +70,7 @@ msgstr " (%.2f:1)"
 
 #. TRANSLATORS: the {} in this string will be filled in with a day of the week
 #. to say what day a job will finish.
-#: src/lib/job.cc:615
+#: src/lib/job.cc:628
 #, c++-format
 msgid " on {}"
 msgstr "  روی {}"
@@ -196,7 +196,7 @@ msgstr "9"
 msgid "; {} fps"
 msgstr "; {} فریم بر ثانیه"
 
-#: src/lib/job.cc:620
+#: src/lib/job.cc:633
 #, c++-format
 msgid "; {} remaining; finishing at {}{}"
 msgstr "; {} باقیمانده ; پایان در {}{}"
@@ -440,7 +440,7 @@ msgstr "BsR"
 msgid "C"
 msgstr "c"
 
-#: src/lib/job.cc:644
+#: src/lib/job.cc:657
 msgid "Cancelled"
 msgstr "لغو شد"
 
@@ -464,6 +464,12 @@ msgstr "مرکز"
 #: src/lib/audio_content.cc:302
 msgid "Channels"
 msgstr "کانالها"
+
+#: src/lib/job.cc:283
+msgid ""
+"Check the server settings in the TMS tab of preferences, or un-tick \"Upload "
+"DCP to TMS after creation\" if you do not want to upload your DCP."
+msgstr ""
 
 #: src/lib/transcode_job.cc:106
 msgid "Check their new settings, then try again."
@@ -905,6 +911,13 @@ msgstr "دالبی CP650 یا CP750"
 msgid "Download failed ({} error {})"
 msgstr "دانلود با خطا مواجه شد({} خطا{})"
 
+#. TRANSLATORS: this is an abbreviation for "end credits", shown next to the pair of markers
+#. "FFEC" and "LFEC" ({First, Last} Frame of End Credits)
+#: src/lib/layout_markers.cc:145
+#, fuzzy
+msgid "EC"
+msgstr "c"
+
 #: src/lib/frame_rate_change.cc:93
 msgid "Each content frame will be doubled in the DCP.\n"
 msgstr "هر فریم محتوا در دی سی پی دوبرابر خواهد شد.\n"
@@ -949,7 +962,7 @@ msgstr "قسمت"
 msgid "Error in subtitle file: saw {} while expecting {}"
 msgstr "خطا در فایل زیرنویس: % 1 دیدم در حالی که انتظار % 2 را داشتم"
 
-#: src/lib/job.cc:642
+#: src/lib/job.cc:655
 #, c++-format
 msgid "Error: {}"
 msgstr "خطا: {}"
@@ -1037,7 +1050,7 @@ msgstr "در حال محاسبات"
 msgid "Frame rate"
 msgstr "نرخ فریم"
 
-#: src/lib/job.cc:586
+#: src/lib/job.cc:599
 msgid "Friday"
 msgstr "جمعه"
 
@@ -1121,6 +1134,12 @@ msgstr "IEC61966-2-1 (sRGB or sYCC)"
 msgid "IEC61966-2-4"
 msgstr "IEC61966-2-4"
 
+#. TRANSLATORS: this is an abbreviation for "intermission", shown next to the pair of markers
+#. "FFOI" and "LFOI" ({First, Last} Frame of Intermission)
+#: src/lib/layout_markers.cc:142
+msgid "IN"
+msgstr ""
+
 #: src/lib/hints.cc:195
 msgid "If you do use 25fps you should change your DCP standard to SMPTE."
 msgstr ""
@@ -1145,7 +1164,7 @@ msgstr ""
 "توصیه میشود که اولین زیرنویس خود را حداقل 4 ثانیه بعد از شروع دی سی پی قرار "
 "دهید تا مطمئن شوید که دیده میشود."
 
-#: src/lib/job.cc:169 src/lib/job.cc:204 src/lib/job.cc:282 src/lib/job.cc:292
+#: src/lib/job.cc:169 src/lib/job.cc:204 src/lib/job.cc:295 src/lib/job.cc:305
 #, fuzzy, c++-format
 msgid "It is not known what caused this error.  {}"
 msgstr "معلوم نیست چه چیزی باعث این خطا شده است. 1%"
@@ -1224,6 +1243,13 @@ msgstr "قطع ارتباط بین پردازش های اصلی و رایتر"
 msgid "Ls"
 msgstr "سراوند چپ"
 
+#. TRANSLATORS: this is an abbreviation for "moving credits", shown next to the pair of markers
+#. "FFMC" and "LFMC" ({First, Last} Frame of Moving Credits)
+#: src/lib/layout_markers.cc:148
+#, fuzzy
+msgid "MC"
+msgstr "c"
+
 #: src/lib/mid_side_decoder.cc:39
 msgid "Mid-side decoder"
 msgstr "رمزگشای میانه"
@@ -1254,7 +1280,7 @@ msgstr "اندازه های ویدیو در دی سی پی مطابقت ندار
 msgid "Missing required setting {}"
 msgstr "تنظیم مورد نیاز وجود ندارد{}"
 
-#: src/lib/job.cc:578
+#: src/lib/job.cc:591
 msgid "Monday"
 msgstr "دوشنبه"
 
@@ -1291,16 +1317,16 @@ msgstr "کاهش نویز"
 msgid "None"
 msgstr "هیچکدام"
 
-#: src/lib/job.cc:634
+#: src/lib/job.cc:647
 msgid "OK"
 msgstr "مورد تایید"
 
-#: src/lib/job.cc:639
+#: src/lib/job.cc:652
 #, c++-format
 msgid "OK (ran for {} from {} to {})"
 msgstr "مورد تایید (اجرا شد {} از {} تا {})"
 
-#: src/lib/job.cc:637
+#: src/lib/job.cc:650
 #, c++-format
 msgid "OK (ran for {})"
 msgstr "مورد تایید (اجرا شد {})"
@@ -1387,6 +1413,13 @@ msgstr "سرویس اعلان عمومی"
 #. TRANSLATORS: R here is an abbreviation for "right", to indicate the right-eye part of a 3D export
 #: src/lib/ffmpeg_film_encoder.cc:270 src/lib/util.cc:620
 msgid "R"
+msgstr "راست"
+
+#. TRANSLATORS: this is an abbreviation for "ratings band", shown next to the pair of markers
+#. "FFOB" and "LFOB" ({First, Last} Frame of Band)
+#: src/lib/layout_markers.cc:136
+#, fuzzy
+msgid "RB"
 msgstr "راست"
 
 #: src/lib/ffmpeg_content.cc:645
@@ -1503,7 +1536,7 @@ msgstr "خطای اس اس اچ [{}]"
 msgid "SSH error [{}] ({})"
 msgstr "خطای اس اس اچ [{}] ({})"
 
-#: src/lib/job.cc:588
+#: src/lib/job.cc:601
 msgid "Saturday"
 msgstr "شنبه"
 
@@ -1612,9 +1645,16 @@ msgstr "استریو به 5/1 میکسر A"
 msgid "Stereo to 5.1 up-mixer B"
 msgstr "استریو به 5/1 میکسر B"
 
-#: src/lib/job.cc:576
+#: src/lib/job.cc:589
 msgid "Sunday"
 msgstr "یکشنبه"
+
+#. TRANSLATORS: this is an abbreviation for "title credits", shown next to the pair of markers
+#. "FFTC" and "LFTC" ({First, Last} Frame of Title Credits)
+#: src/lib/layout_markers.cc:139
+#, fuzzy
+msgid "TC"
+msgstr "c"
 
 #: src/lib/dcp_content_type.cc:60
 msgid "Teaser"
@@ -1817,7 +1857,7 @@ msgstr ""
 "نیست. لازم است که یک فیلم جدید ساخته، مجدد محتوا را به آن اضافه و تنظیم "
 "کنید. متاسفم!"
 
-#: src/lib/job.cc:584
+#: src/lib/job.cc:597
 msgid "Thursday"
 msgstr "پنجشنبه"
 
@@ -1842,7 +1882,7 @@ msgstr "ترنسکدینگ {}"
 msgid "Transitional"
 msgstr "انتقالی"
 
-#: src/lib/job.cc:580
+#: src/lib/job.cc:593
 msgid "Tuesday"
 msgstr "سه شنبه"
 
@@ -1863,7 +1903,7 @@ msgstr "فرمت تصویر غیرمنتظره به سرور رسید"
 msgid "Unknown"
 msgstr "ناشناخته"
 
-#: src/lib/job.cc:291
+#: src/lib/job.cc:304
 msgid "Unknown error"
 msgstr "خطای ناشناخته"
 
@@ -1933,7 +1973,7 @@ msgstr "در حال انتظار"
 msgid "Weave filter"
 msgstr "فیلتر موج"
 
-#: src/lib/job.cc:582
+#: src/lib/job.cc:595
 msgid "Wednesday"
 msgstr "چهارشنبه"
 

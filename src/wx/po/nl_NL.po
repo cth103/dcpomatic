@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-26 19:56+0200\n"
+"POT-Creation-Date: 2025-10-07 10:02+0200\n"
 "PO-Revision-Date: 2025-09-28 18:43+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
@@ -441,7 +441,7 @@ msgstr "Voeg taal toe..."
 msgid "Add new..."
 msgstr "Voeg nieuwe toe..."
 
-#: src/wx/markers_panel.cc:257
+#: src/wx/markers_panel.cc:281
 msgid "Add or move marker to current position"
 msgstr "Voeg marker toe op, of verplaats naar, huidige positie"
 
@@ -1468,23 +1468,28 @@ msgid "Finding the colours in these subtitles..."
 msgstr "Zoeken naar de kleuren in deze ondertitels..."
 
 #: src/wx/markers.cc:39
-msgid "First frame of end credits"
+#, fuzzy
+msgid "First frame of end credits (FFEC)"
 msgstr "First frame of end credits"
 
 #: src/wx/markers.cc:37
-msgid "First frame of intermission"
+#, fuzzy
+msgid "First frame of intermission (FFOI)"
 msgstr "First frame of intermission"
 
 #: src/wx/markers.cc:41
-msgid "First frame of moving credits"
+#, fuzzy
+msgid "First frame of moving credits (FFMC)"
 msgstr "First frame of moving credits"
 
 #: src/wx/markers.cc:33
-msgid "First frame of ratings band"
+#, fuzzy
+msgid "First frame of ratings band (FFOB)"
 msgstr "First frame of ratings band"
 
 #: src/wx/markers.cc:35
-msgid "First frame of title credits"
+#, fuzzy
+msgid "First frame of title credits (FFTC)"
 msgstr "First frame of title credits"
 
 #: src/wx/short_kdm_output_panel.cc:115 src/wx/tall_kdm_output_panel.cc:84
@@ -1919,23 +1924,28 @@ msgid "Language used for any sign language video track"
 msgstr "Taal die wordt gebruikt voor een gebarentaal-videotrack"
 
 #: src/wx/markers.cc:40
-msgid "Last frame of end credits"
+#, fuzzy
+msgid "Last frame of end credits (LFEC)"
 msgstr "Last frame of end credits"
 
 #: src/wx/markers.cc:38
-msgid "Last frame of intermission"
+#, fuzzy
+msgid "Last frame of intermission (LFOI)"
 msgstr "Last frame of intermission"
 
 #: src/wx/markers.cc:42
-msgid "Last frame of moving credits"
+#, fuzzy
+msgid "Last frame of moving credits (LFMC)"
 msgstr "Last frame of moving credits"
 
 #: src/wx/markers.cc:34
-msgid "Last frame of ratings band"
+#, fuzzy
+msgid "Last frame of ratings band (LFOB)"
 msgstr "Last frame of ratings band"
 
 #: src/wx/markers.cc:36
-msgid "Last frame of title credits"
+#, fuzzy
+msgid "Last frame of title credits (LFTC)"
 msgstr "Last frame of title credits"
 
 #: src/wx/content_panel.cc:292
@@ -2232,7 +2242,7 @@ msgstr "Meer frames (niet vermeld) hebben te grote beeldcomponenten."
 msgid "More picture frames (not listed) have invalid JPEG2000 codestreams."
 msgstr "Meer picture frames hebben ongeldige JPEG2000 codestreams."
 
-#: src/wx/markers_panel.cc:249
+#: src/wx/markers_panel.cc:273
 #, c-format
 msgid "Move %s marker to current position"
 msgstr "Verplaats %s marker naar huidige positie"
@@ -2750,7 +2760,7 @@ msgstr "Releasegebied voor deze DCP"
 msgid "Remove"
 msgstr "Verwijder"
 
-#: src/wx/markers_panel.cc:250
+#: src/wx/markers_panel.cc:274
 #, c-format
 msgid "Remove %s marker"
 msgstr "Verwijder %s marker"

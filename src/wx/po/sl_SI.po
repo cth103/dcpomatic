@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-26 19:56+0200\n"
+"POT-Creation-Date: 2025-10-07 10:02+0200\n"
 "PO-Revision-Date: 2024-02-10 16:17+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: \n"
@@ -437,7 +437,7 @@ msgstr "Dodaj jezik ..."
 msgid "Add new..."
 msgstr "Dodaj novo …"
 
-#: src/wx/markers_panel.cc:257
+#: src/wx/markers_panel.cc:281
 msgid "Add or move marker to current position"
 msgstr "Dodajte ali premaknite oznako na trenutni položaj"
 
@@ -1471,24 +1471,28 @@ msgid "Finding the colours in these subtitles..."
 msgstr "Iskanje barv v teh podnaslovih ..."
 
 #: src/wx/markers.cc:39
-msgid "First frame of end credits"
+#, fuzzy
+msgid "First frame of end credits (FFEC)"
 msgstr "Prva sličica končnih napisov"
 
 #: src/wx/markers.cc:37
-msgid "First frame of intermission"
+#, fuzzy
+msgid "First frame of intermission (FFOI)"
 msgstr "Prva sličica premora"
 
 #: src/wx/markers.cc:41
-msgid "First frame of moving credits"
+#, fuzzy
+msgid "First frame of moving credits (FFMC)"
 msgstr "Prva sličica gibljivih napisov"
 
 #: src/wx/markers.cc:33
 #, fuzzy
-msgid "First frame of ratings band"
+msgid "First frame of ratings band (FFOB)"
 msgstr "Prva sličica gibljivih napisov"
 
 #: src/wx/markers.cc:35
-msgid "First frame of title credits"
+#, fuzzy
+msgid "First frame of title credits (FFTC)"
 msgstr "Prva sličica začetnih napisov"
 
 #: src/wx/short_kdm_output_panel.cc:115 src/wx/tall_kdm_output_panel.cc:84
@@ -1920,24 +1924,28 @@ msgid "Language used for any sign language video track"
 msgstr "Jezik, uporabljen za poljubno video stezo v znakovnem jeziku"
 
 #: src/wx/markers.cc:40
-msgid "Last frame of end credits"
+#, fuzzy
+msgid "Last frame of end credits (LFEC)"
 msgstr "Zadnja sličica končnih napisov"
 
 #: src/wx/markers.cc:38
-msgid "Last frame of intermission"
+#, fuzzy
+msgid "Last frame of intermission (LFOI)"
 msgstr "Zadnja sličica premora"
 
 #: src/wx/markers.cc:42
-msgid "Last frame of moving credits"
+#, fuzzy
+msgid "Last frame of moving credits (LFMC)"
 msgstr "Zadnja sličica gibljivih napisov"
 
 #: src/wx/markers.cc:34
 #, fuzzy
-msgid "Last frame of ratings band"
+msgid "Last frame of ratings band (LFOB)"
 msgstr "Zadnja sličica gibljivih napisov"
 
 #: src/wx/markers.cc:36
-msgid "Last frame of title credits"
+#, fuzzy
+msgid "Last frame of title credits (LFTC)"
 msgstr "Zadnja sličica začetnih napisov"
 
 #: src/wx/content_panel.cc:292
@@ -2241,7 +2249,7 @@ msgstr ""
 msgid "More picture frames (not listed) have invalid JPEG2000 codestreams."
 msgstr "Sličica ima neveljaven kodni tok JPEG2000 (%n)"
 
-#: src/wx/markers_panel.cc:249
+#: src/wx/markers_panel.cc:273
 #, c-format
 msgid "Move %s marker to current position"
 msgstr "Premakni oznako %s na trenutni položaj"
@@ -2762,7 +2770,7 @@ msgstr "Ozemlje objave za ta DCP"
 msgid "Remove"
 msgstr "Odstrani"
 
-#: src/wx/markers_panel.cc:250
+#: src/wx/markers_panel.cc:274
 #, c-format
 msgid "Remove %s marker"
 msgstr "Odstrani oznako %s"

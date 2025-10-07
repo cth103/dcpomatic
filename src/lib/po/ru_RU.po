@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-26 19:56+0200\n"
+"POT-Creation-Date: 2025-10-07 10:02+0200\n"
 "PO-Revision-Date: 2025-06-08 20:12+0300\n"
 "Last-Translator: Mikhail Epshteyn <virus-2006@yandex.ru>\n"
 "Language-Team: Mikhail Epshteyn\n"
@@ -69,7 +69,7 @@ msgstr " (%.2f:1)"
 
 #. TRANSLATORS: the {} in this string will be filled in with a day of the week
 #. to say what day a job will finish.
-#: src/lib/job.cc:615
+#: src/lib/job.cc:628
 #, c++-format
 msgid " on {}"
 msgstr " на {}"
@@ -195,7 +195,7 @@ msgstr "9"
 msgid "; {} fps"
 msgstr "; {} кадр/сек"
 
-#: src/lib/job.cc:620
+#: src/lib/job.cc:633
 #, c++-format
 msgid "; {} remaining; finishing at {}{}"
 msgstr "; осталось {}; время завершения {}{}"
@@ -441,7 +441,7 @@ msgstr "BsR"
 msgid "C"
 msgstr "C"
 
-#: src/lib/job.cc:644
+#: src/lib/job.cc:657
 msgid "Cancelled"
 msgstr "Отменено"
 
@@ -465,6 +465,12 @@ msgstr "C - Центральный"
 #: src/lib/audio_content.cc:302
 msgid "Channels"
 msgstr "Каналы"
+
+#: src/lib/job.cc:283
+msgid ""
+"Check the server settings in the TMS tab of preferences, or un-tick \"Upload "
+"DCP to TMS after creation\" if you do not want to upload your DCP."
+msgstr ""
 
 #: src/lib/transcode_job.cc:106
 msgid "Check their new settings, then try again."
@@ -923,6 +929,13 @@ msgstr "Dolby CP650 или CP750"
 msgid "Download failed ({} error {})"
 msgstr "Ошибка загрузки ({} ошибка {})"
 
+#. TRANSLATORS: this is an abbreviation for "end credits", shown next to the pair of markers
+#. "FFEC" and "LFEC" ({First, Last} Frame of End Credits)
+#: src/lib/layout_markers.cc:145
+#, fuzzy
+msgid "EC"
+msgstr "C"
+
 #: src/lib/frame_rate_change.cc:93
 msgid "Each content frame will be doubled in the DCP.\n"
 msgstr "Каждый кадр контента будет дублирован в DCP-пакете.\n"
@@ -968,7 +981,7 @@ msgstr "EPS (Эпизод)"
 msgid "Error in subtitle file: saw {} while expecting {}"
 msgstr "Ошибка в файле субтитров: найдено {}, хотя ожидалось {}"
 
-#: src/lib/job.cc:642
+#: src/lib/job.cc:655
 #, c++-format
 msgid "Error: {}"
 msgstr "Ошибка: ({})"
@@ -1055,7 +1068,7 @@ msgstr "Проверка целостности"
 msgid "Frame rate"
 msgstr "Частота кадров"
 
-#: src/lib/job.cc:586
+#: src/lib/job.cc:599
 msgid "Friday"
 msgstr "Пятница"
 
@@ -1142,6 +1155,12 @@ msgstr "IEC61966-2-1 (sRGB или sYCC)"
 msgid "IEC61966-2-4"
 msgstr "IEC61966-2-4"
 
+#. TRANSLATORS: this is an abbreviation for "intermission", shown next to the pair of markers
+#. "FFOI" and "LFOI" ({First, Last} Frame of Intermission)
+#: src/lib/layout_markers.cc:142
+msgid "IN"
+msgstr ""
+
 #: src/lib/hints.cc:195
 msgid "If you do use 25fps you should change your DCP standard to SMPTE."
 msgstr ""
@@ -1166,7 +1185,7 @@ msgstr ""
 "Рекомендуется расположить первый субтитр после 4 секунд от начала, чтобы "
 "гарантировать его видимость."
 
-#: src/lib/job.cc:169 src/lib/job.cc:204 src/lib/job.cc:282 src/lib/job.cc:292
+#: src/lib/job.cc:169 src/lib/job.cc:204 src/lib/job.cc:295 src/lib/job.cc:305
 #, c++-format
 msgid "It is not known what caused this error.  {}"
 msgstr "Неизвестно, что вызвало эту ошибку. {}"
@@ -1245,6 +1264,13 @@ msgstr "Потеряна связь между основным и записы�
 msgid "Ls"
 msgstr "Ls"
 
+#. TRANSLATORS: this is an abbreviation for "moving credits", shown next to the pair of markers
+#. "FFMC" and "LFMC" ({First, Last} Frame of Moving Credits)
+#: src/lib/layout_markers.cc:148
+#, fuzzy
+msgid "MC"
+msgstr "C"
+
 #: src/lib/mid_side_decoder.cc:39
 msgid "Mid-side decoder"
 msgstr "Декодер mid-side"
@@ -1275,7 +1301,7 @@ msgstr "Несоответствие размера видео в DCP"
 msgid "Missing required setting {}"
 msgstr "Отсутствует обязательный параметр {}"
 
-#: src/lib/job.cc:578
+#: src/lib/job.cc:591
 msgid "Monday"
 msgstr "Понедельник"
 
@@ -1312,16 +1338,16 @@ msgstr "Подавление шума"
 msgid "None"
 msgstr "Не задан"
 
-#: src/lib/job.cc:634
+#: src/lib/job.cc:647
 msgid "OK"
 msgstr "ОК"
 
-#: src/lib/job.cc:639
+#: src/lib/job.cc:652
 #, c++-format
 msgid "OK (ran for {} from {} to {})"
 msgstr "Готово! (выполнено за {} с {} до {})"
 
-#: src/lib/job.cc:637
+#: src/lib/job.cc:650
 #, c++-format
 msgid "OK (ran for {})"
 msgstr "Готово! (выполнено за {})"
@@ -1405,6 +1431,13 @@ msgstr "PSA (Социальная реклама)"
 #. TRANSLATORS: R here is an abbreviation for "right", to indicate the right-eye part of a 3D export
 #: src/lib/ffmpeg_film_encoder.cc:270 src/lib/util.cc:620
 msgid "R"
+msgstr "R"
+
+#. TRANSLATORS: this is an abbreviation for "ratings band", shown next to the pair of markers
+#. "FFOB" and "LFOB" ({First, Last} Frame of Band)
+#: src/lib/layout_markers.cc:136
+#, fuzzy
+msgid "RB"
 msgstr "R"
 
 #: src/lib/ffmpeg_content.cc:645
@@ -1522,7 +1555,7 @@ msgstr "Ошибка SSH [{}]"
 msgid "SSH error [{}] ({})"
 msgstr "Ошибка SSH [{}] ({})"
 
-#: src/lib/job.cc:588
+#: src/lib/job.cc:601
 msgid "Saturday"
 msgstr "Суббота"
 
@@ -1637,9 +1670,16 @@ msgstr "Преобразователь Стерео->5.1 типа A"
 msgid "Stereo to 5.1 up-mixer B"
 msgstr "Преобразователь Стерео->5.1 типа B"
 
-#: src/lib/job.cc:576
+#: src/lib/job.cc:589
 msgid "Sunday"
 msgstr "Воскресенье"
+
+#. TRANSLATORS: this is an abbreviation for "title credits", shown next to the pair of markers
+#. "FFTC" and "LFTC" ({First, Last} Frame of Title Credits)
+#: src/lib/layout_markers.cc:139
+#, fuzzy
+msgid "TC"
+msgstr "C"
 
 #: src/lib/dcp_content_type.cc:60
 msgid "Teaser"
@@ -1848,7 +1888,7 @@ msgstr ""
 "загружен этой версией. Вам необходимо создать новый проект, заново добавить "
 "контент и повторно настроить его. Извините!"
 
-#: src/lib/job.cc:584
+#: src/lib/job.cc:597
 msgid "Thursday"
 msgstr "Четверг"
 
@@ -1874,7 +1914,7 @@ msgstr "Транскодирование {}"
 msgid "Transitional"
 msgstr "XSN (Транзитный)"
 
-#: src/lib/job.cc:580
+#: src/lib/job.cc:593
 msgid "Tuesday"
 msgstr "Вторник"
 
@@ -1895,7 +1935,7 @@ msgstr "Сервером получен неожиданный тип изобр
 msgid "Unknown"
 msgstr "Неизвестно"
 
-#: src/lib/job.cc:291
+#: src/lib/job.cc:304
 msgid "Unknown error"
 msgstr "Неизвестная ошибка"
 
@@ -1965,7 +2005,7 @@ msgstr "Ожидание"
 msgid "Weave filter"
 msgstr "Фильтр Weave"
 
-#: src/lib/job.cc:582
+#: src/lib/job.cc:595
 msgid "Wednesday"
 msgstr "Среда"
 

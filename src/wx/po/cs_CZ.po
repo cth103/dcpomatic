@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-26 19:56+0200\n"
+"POT-Creation-Date: 2025-10-07 10:02+0200\n"
 "PO-Revision-Date: 2025-06-11 07:36+0200\n"
 "Last-Translator: Tomáš Begeni <begeni@razdva.cz>\n"
 "Language-Team: DCP-o-matic translators\n"
@@ -438,7 +438,7 @@ msgstr "Přidat jazyk…"
 msgid "Add new..."
 msgstr "Přidat nový…"
 
-#: src/wx/markers_panel.cc:257
+#: src/wx/markers_panel.cc:281
 msgid "Add or move marker to current position"
 msgstr "Přidání nebo přesunutí značky na aktuální pozici"
 
@@ -1456,23 +1456,28 @@ msgid "Finding the colours in these subtitles..."
 msgstr "Hledání barev v těchto titulkách…"
 
 #: src/wx/markers.cc:39
-msgid "First frame of end credits"
+#, fuzzy
+msgid "First frame of end credits (FFEC)"
 msgstr "První snímek závěrečných titulků"
 
 #: src/wx/markers.cc:37
-msgid "First frame of intermission"
+#, fuzzy
+msgid "First frame of intermission (FFOI)"
 msgstr "První snímek přestávky"
 
 #: src/wx/markers.cc:41
-msgid "First frame of moving credits"
+#, fuzzy
+msgid "First frame of moving credits (FFMC)"
 msgstr "První snímek pohyblivých titulků"
 
 #: src/wx/markers.cc:33
-msgid "First frame of ratings band"
+#, fuzzy
+msgid "First frame of ratings band (FFOB)"
 msgstr "První snímek pásma hodnocení"
 
 #: src/wx/markers.cc:35
-msgid "First frame of title credits"
+#, fuzzy
+msgid "First frame of title credits (FFTC)"
 msgstr "První snímek úvodních titulků"
 
 #: src/wx/short_kdm_output_panel.cc:115 src/wx/tall_kdm_output_panel.cc:84
@@ -1907,23 +1912,28 @@ msgid "Language used for any sign language video track"
 msgstr "Jazyk používaný pro jakoukoli videostopu ve znakovém jazyce"
 
 #: src/wx/markers.cc:40
-msgid "Last frame of end credits"
+#, fuzzy
+msgid "Last frame of end credits (LFEC)"
 msgstr "Poslední snímek závěrečných titulků"
 
 #: src/wx/markers.cc:38
-msgid "Last frame of intermission"
+#, fuzzy
+msgid "Last frame of intermission (LFOI)"
 msgstr "Poslední snímek přestávky"
 
 #: src/wx/markers.cc:42
-msgid "Last frame of moving credits"
+#, fuzzy
+msgid "Last frame of moving credits (LFMC)"
 msgstr "Poslední snímek pohyblivých titulků"
 
 #: src/wx/markers.cc:34
-msgid "Last frame of ratings band"
+#, fuzzy
+msgid "Last frame of ratings band (LFOB)"
 msgstr "Poslední snímek pásma hodnocení"
 
 #: src/wx/markers.cc:36
-msgid "Last frame of title credits"
+#, fuzzy
+msgid "Last frame of title credits (LFTC)"
 msgstr "Poslední snímek úvodních titulků"
 
 #: src/wx/content_panel.cc:292
@@ -2218,7 +2228,7 @@ msgid "More picture frames (not listed) have invalid JPEG2000 codestreams."
 msgstr ""
 "Další snímky (neuvedené v seznamu) mají neplatné kódové proudy JPEG2000."
 
-#: src/wx/markers_panel.cc:249
+#: src/wx/markers_panel.cc:273
 #, c-format
 msgid "Move %s marker to current position"
 msgstr "Přesun značky %s na aktuální pozici"
@@ -2733,7 +2743,7 @@ msgstr "Oblast vydání tohoto DCP"
 msgid "Remove"
 msgstr "Odstranit"
 
-#: src/wx/markers_panel.cc:250
+#: src/wx/markers_panel.cc:274
 #, c-format
 msgid "Remove %s marker"
 msgstr "Odstranění značky %s"

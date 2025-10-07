@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libdcpomatic-wx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-26 19:56+0200\n"
+"POT-Creation-Date: 2025-10-07 10:02+0200\n"
 "PO-Revision-Date: 2025-10-05 14:09+0800\n"
 "Last-Translator: Dian Li <xslidian@gmail.com>\n"
 "Language-Team: Chinese Simplified (Rov8 branch)\n"
@@ -443,7 +443,7 @@ msgstr "添加语言..."
 msgid "Add new..."
 msgstr "添加新的..."
 
-#: src/wx/markers_panel.cc:257
+#: src/wx/markers_panel.cc:281
 msgid "Add or move marker to current position"
 msgstr "添加/移动标记到当前位置"
 
@@ -1455,23 +1455,28 @@ msgid "Finding the colours in these subtitles..."
 msgstr "查找这些字幕中的颜色..."
 
 #: src/wx/markers.cc:39
-msgid "First frame of end credits"
+#, fuzzy
+msgid "First frame of end credits (FFEC)"
 msgstr "片尾的第一帧"
 
 #: src/wx/markers.cc:37
-msgid "First frame of intermission"
+#, fuzzy
+msgid "First frame of intermission (FFOI)"
 msgstr "幕间休息第一帧"
 
 #: src/wx/markers.cc:41
-msgid "First frame of moving credits"
+#, fuzzy
+msgid "First frame of moving credits (FFMC)"
 msgstr "动态字幕的第一帧"
 
 #: src/wx/markers.cc:33
-msgid "First frame of ratings band"
+#, fuzzy
+msgid "First frame of ratings band (FFOB)"
 msgstr "评级等级的第一帧"
 
 #: src/wx/markers.cc:35
-msgid "First frame of title credits"
+#, fuzzy
+msgid "First frame of title credits (FFTC)"
 msgstr "标题字幕第一帧"
 
 #: src/wx/short_kdm_output_panel.cc:115 src/wx/tall_kdm_output_panel.cc:84
@@ -1893,23 +1898,28 @@ msgid "Language used for any sign language video track"
 msgstr "用于手语视频轨道的语言"
 
 #: src/wx/markers.cc:40
-msgid "Last frame of end credits"
+#, fuzzy
+msgid "Last frame of end credits (LFEC)"
 msgstr "片尾字幕的最后一帧"
 
 #: src/wx/markers.cc:38
-msgid "Last frame of intermission"
+#, fuzzy
+msgid "Last frame of intermission (LFOI)"
 msgstr "幕间休息的最后一帧"
 
 #: src/wx/markers.cc:42
-msgid "Last frame of moving credits"
+#, fuzzy
+msgid "Last frame of moving credits (LFMC)"
 msgstr "动态字幕的最后一帧"
 
 #: src/wx/markers.cc:34
-msgid "Last frame of ratings band"
+#, fuzzy
+msgid "Last frame of ratings band (LFOB)"
 msgstr "评级等级的最后一帧"
 
 #: src/wx/markers.cc:36
-msgid "Last frame of title credits"
+#, fuzzy
+msgid "Last frame of title credits (LFTC)"
 msgstr "标题字幕的最后一帧"
 
 #: src/wx/content_panel.cc:292
@@ -2193,7 +2203,7 @@ msgstr "更多帧（未列出）包含过大的图像组件。"
 msgid "More picture frames (not listed) have invalid JPEG2000 codestreams."
 msgstr "更多图片帧（未列出）包含无效的JPEG2000码流。"
 
-#: src/wx/markers_panel.cc:249
+#: src/wx/markers_panel.cc:273
 #, c-format
 msgid "Move %s marker to current position"
 msgstr "移动 %s 标记到当前位置"
@@ -2705,7 +2715,7 @@ msgstr "此DCP的发布区域"
 msgid "Remove"
 msgstr "移除"
 
-#: src/wx/markers_panel.cc:250
+#: src/wx/markers_panel.cc:274
 #, c-format
 msgid "Remove %s marker"
 msgstr "移除 %s 标记"

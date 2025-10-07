@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-26 19:56+0200\n"
+"POT-Creation-Date: 2025-10-07 10:02+0200\n"
 "PO-Revision-Date: 2016-01-06 00:23+0100\n"
 "Last-Translator: Tomáš Hlaváč\n"
 "Language-Team: DCP-o-matic translators\n"
@@ -443,7 +443,7 @@ msgstr "Nastaviť jazyk"
 msgid "Add new..."
 msgstr "Pridať kino..."
 
-#: src/wx/markers_panel.cc:257
+#: src/wx/markers_panel.cc:281
 #, fuzzy
 msgid "Add or move marker to current position"
 msgstr "Orezať až do súčasnej pozície"
@@ -1522,23 +1522,23 @@ msgid "Finding the colours in these subtitles..."
 msgstr ""
 
 #: src/wx/markers.cc:39
-msgid "First frame of end credits"
+msgid "First frame of end credits (FFEC)"
 msgstr ""
 
 #: src/wx/markers.cc:37
-msgid "First frame of intermission"
+msgid "First frame of intermission (FFOI)"
 msgstr ""
 
 #: src/wx/markers.cc:41
-msgid "First frame of moving credits"
+msgid "First frame of moving credits (FFMC)"
 msgstr ""
 
 #: src/wx/markers.cc:33
-msgid "First frame of ratings band"
+msgid "First frame of ratings band (FFOB)"
 msgstr ""
 
 #: src/wx/markers.cc:35
-msgid "First frame of title credits"
+msgid "First frame of title credits (FFTC)"
 msgstr ""
 
 #: src/wx/short_kdm_output_panel.cc:115 src/wx/tall_kdm_output_panel.cc:84
@@ -1954,23 +1954,23 @@ msgid "Language used for any sign language video track"
 msgstr ""
 
 #: src/wx/markers.cc:40
-msgid "Last frame of end credits"
+msgid "Last frame of end credits (LFEC)"
 msgstr ""
 
 #: src/wx/markers.cc:38
-msgid "Last frame of intermission"
+msgid "Last frame of intermission (LFOI)"
 msgstr ""
 
 #: src/wx/markers.cc:42
-msgid "Last frame of moving credits"
+msgid "Last frame of moving credits (LFMC)"
 msgstr ""
 
 #: src/wx/markers.cc:34
-msgid "Last frame of ratings band"
+msgid "Last frame of ratings band (LFOB)"
 msgstr ""
 
 #: src/wx/markers.cc:36
-msgid "Last frame of title credits"
+msgid "Last frame of title credits (LFTC)"
 msgstr ""
 
 #: src/wx/content_panel.cc:292
@@ -2266,7 +2266,7 @@ msgstr ""
 msgid "More picture frames (not listed) have invalid JPEG2000 codestreams."
 msgstr ""
 
-#: src/wx/markers_panel.cc:249
+#: src/wx/markers_panel.cc:273
 #, fuzzy, c-format
 msgid "Move %s marker to current position"
 msgstr "Odseknúť po aktuálnej pozície"
@@ -2809,7 +2809,7 @@ msgstr ""
 msgid "Remove"
 msgstr "Odstrániť"
 
-#: src/wx/markers_panel.cc:250
+#: src/wx/markers_panel.cc:274
 #, fuzzy, c-format
 msgid "Remove %s marker"
 msgstr "Odstrániť kino"
