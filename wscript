@@ -669,8 +669,16 @@ def configure(conf):
                        mandatory=False)
                     
 
-    # sqlite3
-    conf.check_cfg(package="sqlite3", args='--cflags --libs', uselib_store='SQLITE3', mandatory=True)
+    # sqlite3: most platforms have a .pc file (but macOS not)
+    if conf.check_cfg(package="sqlite3", args='--cflags --libs', uselib_store='SQLITE3', mandatory=False) is None:
+        conf.check_cxx(fragment="""
+                                #include <sqlite3.h>
+                                int main() { return sqlite3_libversion_number(); }
+                                """,
+                                msg="Checking for sqlite3",
+                                lib=['sqlite3'],
+                                uselib_store='SQLITE3')
+
     conf.check_cxx(fragment="""
                        #include <sqlite3.h>
                        int main() { sqlite3_prepare_v3(nullptr, "", -1, 0, nullptr, nullptr); }
