@@ -131,10 +131,20 @@ layout_markers(
 		}
 	};
 
+	// TRANSLATORS: this is an abbreviation for "ratings band", shown next to the pair of markers
+	// "FFOB" and "LFOB" ({First, Last} Frame of Band)
 	check_pair(_("RB"), dcp::Marker::FFOB, dcp::Marker::LFOB);
+	// TRANSLATORS: this is an abbreviation for "title credits", shown next to the pair of markers
+	// "FFTC" and "LFTC" ({First, Last} Frame of Title Credits)
 	check_pair(_("TC"), dcp::Marker::FFTC, dcp::Marker::LFTC);
+	// TRANSLATORS: this is an abbreviation for "intermission", shown next to the pair of markers
+	// "FFOI" and "LFOI" ({First, Last} Frame of Intermission)
 	check_pair(_("IN"), dcp::Marker::FFOI, dcp::Marker::LFOI);
+	// TRANSLATORS: this is an abbreviation for "end credits", shown next to the pair of markers
+	// "FFEC" and "LFEC" ({First, Last} Frame of End Credits)
 	check_pair(_("EC"), dcp::Marker::FFEC, dcp::Marker::LFEC);
+	// TRANSLATORS: this is an abbreviation for "moving credits", shown next to the pair of markers
+	// "FFMC" and "LFMC" ({First, Last} Frame of Moving Credits)
 	check_pair(_("MC"), dcp::Marker::FFMC, dcp::Marker::LFMC);
 
 	return components;
