@@ -275,6 +275,19 @@ Job::run_wrapper()
 		set_progress(1);
 		set_state(FINISHED_ERROR);
 
+	} catch (NetworkError& e) {
+
+		if (json_name() == "upload") {
+			set_error(
+				e.what(),
+				fmt::format(_("Check the server settings in the TMS tab of preferences, or un-tick \"Upload DCP to TMS after creation\" if you do not want to upload your DCP."))
+			);
+		} else {
+			set_error(e.what());
+		}
+		set_progress(1);
+		set_state(FINISHED_ERROR);
+
 	} catch (std::exception& e) {
 
 		set_error(
