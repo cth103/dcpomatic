@@ -522,9 +522,10 @@ option_defaults = { "gui": True, "variant": None }
 
 
 def build_tests(target):
-    # Currently we only build tests on macOS, Windows, and some Ubuntu versions
+    # Currently we only build tests on macOS, Windows, some Ubuntu versions and Arch
     return (
             (target.platform == 'linux' and target.distro == 'ubuntu' and target.version in ['18.04', '22.04', '24.04', '25.10']) or
+            (target.platform == 'linux' and target.distro == 'arch') or
             (target.platform == 'osx') or
             (target.platform == 'windows')
         )
