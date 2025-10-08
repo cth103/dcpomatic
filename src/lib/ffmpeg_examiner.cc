@@ -60,8 +60,8 @@ static const int PULLDOWN_CHECK_FRAMES = 16;
 
 
 /** @param job job that the examiner is operating in, or 0 */
-FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Job> job)
-	: FFmpeg (c)
+FFmpegExaminer::FFmpegExaminer(shared_ptr<const FFmpegContent> c, shared_ptr<Job> job)
+	: FFmpeg(c)
 {
 	_need_length = _format_context->duration == AV_NOPTS_VALUE;
 	/* Find audio and subtitle streams */
@@ -71,31 +71,31 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 		auto codec = _codec_context[i] ? _codec_context[i]->codec : nullptr;
 		if (s->codecpar->codec_type == AVMEDIA_TYPE_AUDIO && codec) {
 
-			DCPOMATIC_ASSERT (codec->name);
+			DCPOMATIC_ASSERT(codec->name);
 
-			_audio_streams.push_back (
+			_audio_streams.push_back(
 				make_shared<FFmpegAudioStream>(
-					stream_name (s),
+					stream_name(s),
 					codec->name,
 					s->id,
 					s->codecpar->sample_rate,
-					_need_length ? 0 : rint ((double(_format_context->duration) / AV_TIME_BASE) * s->codecpar->sample_rate),
+					_need_length ? 0 : rint((double(_format_context->duration) / AV_TIME_BASE) * s->codecpar->sample_rate),
 					s->codecpar->ch_layout.nb_channels,
 					s->codecpar->bits_per_raw_sample ? s->codecpar->bits_per_raw_sample : s->codecpar->bits_per_coded_sample
 					)
 				);
 
 		} else if (s->codecpar->codec_type == AVMEDIA_TYPE_SUBTITLE) {
-			_subtitle_streams.push_back (make_shared<FFmpegSubtitleStream>(subtitle_stream_name (s), s->id));
+			_subtitle_streams.push_back(make_shared<FFmpegSubtitleStream>(subtitle_stream_name(s), s->id));
 		}
 	}
 
-	if (has_video ()) {
-		_video_length = _need_length ? 0 : llrint((double (_format_context->duration) / AV_TIME_BASE) * video_frame_rate().get());
+	if (has_video()) {
+		_video_length = _need_length ? 0 : llrint((double(_format_context->duration) / AV_TIME_BASE) * video_frame_rate().get());
 	}
 
 	if (job && _need_length) {
-		job->sub (_("Finding length"));
+		job->sub(_("Finding length"));
 	}
 
 	/* Run through until we find:
@@ -105,7 +105,7 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 	 * or forever if _need_length is true.
 	 */
 
-	int64_t const len = _file_group.length ();
+	int64_t const len = _file_group.length();
 	/* A string which we build up to describe the top-field-first and repeat-first-frame values for the first few frames.
 	 * It would be nicer to use something like vector<bool> here but we want to search the array for a pattern later,
 	 * and a string seems a reasonably neat way to do that.
@@ -114,19 +114,19 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 	bool carry_on_video = has_video();
 	std::vector<bool> carry_on_audio(_audio_streams.size(), true);
 	while (true) {
-		auto packet = av_packet_alloc ();
-		DCPOMATIC_ASSERT (packet);
-		int r = av_read_frame (_format_context, packet);
+		auto packet = av_packet_alloc();
+		DCPOMATIC_ASSERT(packet);
+		int r = av_read_frame(_format_context, packet);
 		if (r < 0) {
-			av_packet_free (&packet);
+			av_packet_free(&packet);
 			break;
 		}
 
 		if (job) {
 			if (len > 0) {
-				job->set_progress (float (_format_context->pb->pos) / len);
+				job->set_progress(float(_format_context->pb->pos) / len);
 			} else {
-				job->set_progress_unknown ();
+				job->set_progress_unknown();
 			}
 		}
 
@@ -154,7 +154,7 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 			carry_on_audio[*audio_stream_index] = audio_packet(context, _audio_streams[*audio_stream_index], packet);
 		}
 
-		av_packet_free (&packet);
+		av_packet_free(&packet);
 
 		if (!carry_on_video) {
 			if (std::find(carry_on_audio.begin(), carry_on_audio.end(), true) == carry_on_audio.end()) {
@@ -177,10 +177,10 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 	if (_video_stream) {
 		/* This code taken from get_rotation() in ffmpeg:cmdutils.c */
 		auto stream = _format_context->streams[*_video_stream];
-		auto rotate_tag = av_dict_get (stream->metadata, "rotate", 0, 0);
+		auto rotate_tag = av_dict_get(stream->metadata, "rotate", 0, 0);
 		if (rotate_tag && *rotate_tag->value && strcmp(rotate_tag->value, "0")) {
 			char *tail;
-			_rotation = av_strtod (rotate_tag->value, &tail);
+			_rotation = av_strtod(rotate_tag->value, &tail);
 			if (*tail) {
 				_rotation = 0;
 			}
@@ -192,7 +192,7 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 		}
 
 		if (_rotation) {
-			_rotation = *_rotation - 360 * floor (*_rotation / 360 + 0.9 / 360);
+			_rotation = *_rotation - 360 * floor(*_rotation / 360 + 0.9 / 360);
 		}
 	}
 
@@ -211,9 +211,9 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
  *  @return true if some video was decoded, otherwise false.
  */
 bool
-FFmpegExaminer::video_packet (AVCodecContext* context, string& temporal_reference, AVPacket* packet)
+FFmpegExaminer::video_packet(AVCodecContext* context, string& temporal_reference, AVPacket* packet)
 {
-	DCPOMATIC_ASSERT (_video_stream);
+	DCPOMATIC_ASSERT(_video_stream);
 
 	if (_first_video && !_need_length && temporal_reference.size() >= (PULLDOWN_CHECK_FRAMES * 2)) {
 		return false;
@@ -221,7 +221,7 @@ FFmpegExaminer::video_packet (AVCodecContext* context, string& temporal_referenc
 
 	bool pending = false;
 	do {
-		int r = avcodec_send_packet (context, packet);
+		int r = avcodec_send_packet(context, packet);
 		if (r < 0) {
 			LOG_WARNING("avcodec_send_packet returned {} for a video packet", r);
 		}
@@ -229,7 +229,7 @@ FFmpegExaminer::video_packet (AVCodecContext* context, string& temporal_referenc
 		/* EAGAIN means we should call avcodec_receive_frame and then re-send the same packet */
 		pending = r == AVERROR(EAGAIN);
 
-		r = avcodec_receive_frame (context, _video_frame);
+		r = avcodec_receive_frame(context, _video_frame);
 		if (r == AVERROR(EAGAIN)) {
 			/* More input is required */
 			return true;
@@ -240,7 +240,7 @@ FFmpegExaminer::video_packet (AVCodecContext* context, string& temporal_referenc
 	} while (pending);
 
 	if (!_first_video) {
-		_first_video = frame_time (_video_frame, _format_context->streams[_video_stream.get()]);
+		_first_video = frame_time(_video_frame, _format_context->streams[_video_stream.get()]);
 	}
 	if (_need_length) {
 		_video_length = frame_time(
@@ -258,21 +258,21 @@ FFmpegExaminer::video_packet (AVCodecContext* context, string& temporal_referenc
 
 
 bool
-FFmpegExaminer::audio_packet (AVCodecContext* context, shared_ptr<FFmpegAudioStream> stream, AVPacket* packet)
+FFmpegExaminer::audio_packet(AVCodecContext* context, shared_ptr<FFmpegAudioStream> stream, AVPacket* packet)
 {
 	if (stream->first_audio && !_need_length) {
 		return false;
 	}
 
-	int r = avcodec_send_packet (context, packet);
+	int r = avcodec_send_packet(context, packet);
 	if (r < 0) {
 		LOG_WARNING("avcodec_send_packet returned {} for an audio packet", r);
 		return false;
 	}
 
-	auto frame = audio_frame (stream);
+	auto frame = audio_frame(stream);
 
-	if (avcodec_receive_frame (context, frame) < 0) {
+	if (avcodec_receive_frame(context, frame) < 0) {
 		return false;
 	}
 
@@ -289,13 +289,13 @@ FFmpegExaminer::audio_packet (AVCodecContext* context, shared_ptr<FFmpegAudioStr
 
 
 optional<ContentTime>
-FFmpegExaminer::frame_time (AVFrame* frame, AVStream* stream) const
+FFmpegExaminer::frame_time(AVFrame* frame, AVStream* stream) const
 {
 	optional<ContentTime> t;
 
 	int64_t const bet = frame->best_effort_timestamp;
 	if (bet != AV_NOPTS_VALUE) {
-		t = ContentTime::from_seconds (bet * av_q2d(stream->time_base));
+		t = ContentTime::from_seconds(bet * av_q2d(stream->time_base));
 	}
 
 	return t;
@@ -303,45 +303,45 @@ FFmpegExaminer::frame_time (AVFrame* frame, AVStream* stream) const
 
 
 optional<double>
-FFmpegExaminer::video_frame_rate () const
+FFmpegExaminer::video_frame_rate() const
 {
-	DCPOMATIC_ASSERT (_video_stream);
+	DCPOMATIC_ASSERT(_video_stream);
 	return av_q2d(av_guess_frame_rate(_format_context, _format_context->streams[_video_stream.get()], 0));
 }
 
 
 optional<dcp::Size>
-FFmpegExaminer::video_size () const
+FFmpegExaminer::video_size() const
 {
-	return dcp::Size (video_codec_context()->width, video_codec_context()->height);
+	return dcp::Size(video_codec_context()->width, video_codec_context()->height);
 }
 
 
 /** @return Length according to our content's header */
 Frame
-FFmpegExaminer::video_length () const
+FFmpegExaminer::video_length() const
 {
-	return max (Frame (1), _video_length);
+	return max(Frame(1), _video_length);
 }
 
 
 optional<double>
-FFmpegExaminer::sample_aspect_ratio () const
+FFmpegExaminer::sample_aspect_ratio() const
 {
-	DCPOMATIC_ASSERT (_video_stream);
-	auto sar = av_guess_sample_aspect_ratio (_format_context, _format_context->streams[_video_stream.get()], 0);
+	DCPOMATIC_ASSERT(_video_stream);
+	auto sar = av_guess_sample_aspect_ratio(_format_context, _format_context->streams[_video_stream.get()], 0);
 	if (sar.num == 0) {
 		/* I assume this means that we don't know */
 		return {};
 	}
-	return double (sar.num) / sar.den;
+	return double(sar.num) / sar.den;
 }
 
 
 string
-FFmpegExaminer::subtitle_stream_name (AVStream* s) const
+FFmpegExaminer::subtitle_stream_name(AVStream* s) const
 {
-	auto n = stream_name (s);
+	auto n = stream_name(s);
 
 	if (n.empty()) {
 		n = _("unknown");
@@ -352,17 +352,17 @@ FFmpegExaminer::subtitle_stream_name (AVStream* s) const
 
 
 string
-FFmpegExaminer::stream_name (AVStream* s) const
+FFmpegExaminer::stream_name(AVStream* s) const
 {
 	string n;
 
 	if (s->metadata) {
-		auto const lang = av_dict_get (s->metadata, "language", 0, 0);
+		auto const lang = av_dict_get(s->metadata, "language", 0, 0);
 		if (lang) {
 			n = lang->value;
 		}
 
-		auto const title = av_dict_get (s->metadata, "title", 0, 0);
+		auto const title = av_dict_get(s->metadata, "title", 0, 0);
 		if (title) {
 			if (!n.empty()) {
 				n += " ";
@@ -376,15 +376,15 @@ FFmpegExaminer::stream_name (AVStream* s) const
 
 
 optional<int>
-FFmpegExaminer::bits_per_pixel () const
+FFmpegExaminer::bits_per_pixel() const
 {
 	if (video_codec_context()->pix_fmt == -1) {
 		return {};
 	}
 
-	auto const d = av_pix_fmt_desc_get (video_codec_context()->pix_fmt);
-	DCPOMATIC_ASSERT (d);
-	return av_get_bits_per_pixel (d);
+	auto const d = av_pix_fmt_desc_get(video_codec_context()->pix_fmt);
+	DCPOMATIC_ASSERT(d);
+	return av_get_bits_per_pixel(d);
 }
 
 
@@ -402,7 +402,7 @@ FFmpegExaminer::has_alpha() const
 
 
 bool
-FFmpegExaminer::yuv () const
+FFmpegExaminer::yuv() const
 {
 	switch (video_codec_context()->pix_fmt) {
 	case AV_PIX_FMT_YUV420P:
@@ -484,14 +484,14 @@ FFmpegExaminer::yuv () const
 
 
 bool
-FFmpegExaminer::has_video () const
+FFmpegExaminer::has_video() const
 {
 	return static_cast<bool>(_video_stream);
 }
 
 
 VideoRange
-FFmpegExaminer::range () const
+FFmpegExaminer::range() const
 {
 	switch (color_range()) {
 	case AVCOL_RANGE_MPEG:
@@ -505,10 +505,10 @@ FFmpegExaminer::range () const
 
 
 PixelQuanta
-FFmpegExaminer::pixel_quanta () const
+FFmpegExaminer::pixel_quanta() const
 {
 	auto const desc = av_pix_fmt_desc_get(video_codec_context()->pix_fmt);
-	DCPOMATIC_ASSERT (desc);
+	DCPOMATIC_ASSERT(desc);
 	return { 1 << desc->log2_chroma_w, 1 << desc->log2_chroma_h };
 }
 

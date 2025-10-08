@@ -33,68 +33,68 @@ class Job;
 class FFmpegExaminer : public FFmpeg, public VideoExaminer
 {
 public:
-	FFmpegExaminer (std::shared_ptr<const FFmpegContent>, std::shared_ptr<Job> job = std::shared_ptr<Job>());
+	FFmpegExaminer(std::shared_ptr<const FFmpegContent>, std::shared_ptr<Job> job = std::shared_ptr<Job>());
 
-	bool has_video () const override;
+	bool has_video() const override;
 
-	boost::optional<double> video_frame_rate () const override;
+	boost::optional<double> video_frame_rate() const override;
 	boost::optional<dcp::Size> video_size() const override;
-	Frame video_length () const override;
-	boost::optional<double> sample_aspect_ratio () const override;
-	bool yuv () const override;
+	Frame video_length() const override;
+	boost::optional<double> sample_aspect_ratio() const override;
+	bool yuv() const override;
 
-	std::vector<std::shared_ptr<FFmpegSubtitleStream>> subtitle_streams () const {
+	std::vector<std::shared_ptr<FFmpegSubtitleStream>> subtitle_streams() const {
 		return _subtitle_streams;
 	}
 
-	std::vector<std::shared_ptr<FFmpegAudioStream>> audio_streams () const {
+	std::vector<std::shared_ptr<FFmpegAudioStream>> audio_streams() const {
 		return _audio_streams;
 	}
 
-	boost::optional<dcpomatic::ContentTime> first_video () const {
+	boost::optional<dcpomatic::ContentTime> first_video() const {
 		return _first_video;
 	}
 
-	VideoRange range () const override;
+	VideoRange range() const override;
 
-	PixelQuanta pixel_quanta () const override;
+	PixelQuanta pixel_quanta() const override;
 
 	bool has_alpha() const override;
 
-	AVColorRange color_range () const {
+	AVColorRange color_range() const {
 		return video_codec_context()->color_range;
 	}
 
-	AVColorPrimaries color_primaries () const {
+	AVColorPrimaries color_primaries() const {
 		return video_codec_context()->color_primaries;
 	}
 
-	AVColorTransferCharacteristic color_trc () const {
+	AVColorTransferCharacteristic color_trc() const {
 		return video_codec_context()->color_trc;
 	}
 
-	AVColorSpace colorspace () const {
+	AVColorSpace colorspace() const {
 		return video_codec_context()->colorspace;
 	}
 
-	boost::optional<int> bits_per_pixel () const;
+	boost::optional<int> bits_per_pixel() const;
 
 
-	boost::optional<double> rotation () const {
+	boost::optional<double> rotation() const {
 		return _rotation;
 	}
 
-	bool pulldown () const {
+	bool pulldown() const {
 		return _pulldown;
 	}
 
 private:
-	bool video_packet (AVCodecContext* context, std::string& temporal_reference, AVPacket* packet);
-	bool audio_packet (AVCodecContext* context, std::shared_ptr<FFmpegAudioStream>, AVPacket* packet);
+	bool video_packet(AVCodecContext* context, std::string& temporal_reference, AVPacket* packet);
+	bool audio_packet(AVCodecContext* context, std::shared_ptr<FFmpegAudioStream>, AVPacket* packet);
 
-	std::string stream_name (AVStream* s) const;
-	std::string subtitle_stream_name (AVStream* s) const;
-	boost::optional<dcpomatic::ContentTime> frame_time (AVFrame* frame, AVStream* stream) const;
+	std::string stream_name(AVStream* s) const;
+	std::string subtitle_stream_name(AVStream* s) const;
+	boost::optional<dcpomatic::ContentTime> frame_time(AVFrame* frame, AVStream* stream) const;
 
 	std::vector<std::shared_ptr<FFmpegSubtitleStream>> _subtitle_streams;
 	std::vector<std::shared_ptr<FFmpegAudioStream>> _audio_streams;
@@ -110,10 +110,10 @@ private:
 
 	struct SubtitleStart
 	{
-		SubtitleStart (std::string id_, bool image_, dcpomatic::ContentTime time_)
-			: id (id_)
-			, image (image_)
-			, time (time_)
+		SubtitleStart(std::string id_, bool image_, dcpomatic::ContentTime time_)
+			: id(id_)
+			, image(image_)
+			, time(time_)
 		{}
 
 		std::string id;
