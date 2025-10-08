@@ -24,6 +24,7 @@
 
 
 #include "optimisation.h"
+#include "lib/cross.h"
 #include "lib/dcpomatic_time.h"
 #include "lib/exception_store.h"
 #include "lib/signaller.h"
@@ -48,7 +49,7 @@ class wxWindow;
 class VideoView : public ExceptionStore, public Signaller
 {
 public:
-	VideoView(FilmViewer* viewer);
+	VideoView(FilmViewer* viewer, bool wake);
 	virtual ~VideoView() {}
 
 	VideoView(VideoView const&) = delete;
@@ -198,6 +199,8 @@ private:
 	struct timeval _dropped_check_period_start;
 	int _errored = 0;
 	int _gets = 0;
+	bool _wake;
+	Waker _waker;
 };
 
 

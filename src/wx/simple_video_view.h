@@ -37,7 +37,7 @@ class Filter;
 class SimpleVideoView : public VideoView
 {
 public:
-	SimpleVideoView (FilmViewer* viewer, wxWindow* parent);
+	SimpleVideoView(FilmViewer* viewer, wxWindow* parent, bool wake);
 
 	wxWindow* get () const override {
 		return _panel;

@@ -68,8 +68,8 @@ using namespace boost::placeholders;
 using namespace dcpomatic::gl;
 
 
-GLVideoView::GLVideoView(FilmViewer* viewer, wxWindow *parent)
-	: VideoView(viewer)
+GLVideoView::GLVideoView(FilmViewer* viewer, wxWindow *parent, bool wake)
+	: VideoView(viewer, wake)
 	, _context(nullptr)
 	, _rec2020(false)
 	, _vsync_enabled(false)

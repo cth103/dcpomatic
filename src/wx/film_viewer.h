@@ -58,7 +58,7 @@ class wxToggleButton;
 class FilmViewer : public Signaller
 {
 public:
-	FilmViewer(wxWindow *);
+	FilmViewer(wxWindow* parent, bool wake);
 	~FilmViewer();
 
 	/** @return the window showing the film's video */

@@ -209,7 +209,7 @@ public:
 		   the dark-grey background on Windows.
 		*/
 		, _overall_panel(new wxPanel(this, wxID_ANY))
-		, _viewer(_overall_panel)
+		, _viewer(_overall_panel, true)
 		, _main_sizer (new wxBoxSizer(wxVERTICAL))
 	{
 		dcpomatic_log = make_shared<NullLog>();

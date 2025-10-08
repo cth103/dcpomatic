@@ -73,7 +73,7 @@ private:
 class GLVideoView : public VideoView
 {
 public:
-	GLVideoView(FilmViewer* viewer, wxWindow* parent);
+	GLVideoView(FilmViewer* viewer, wxWindow* parent, bool wake);
 	~GLVideoView();
 
 	wxWindow* get() const override {

@@ -86,20 +86,20 @@ rtaudio_callback(void* out, void *, unsigned int frames, double, RtAudioStreamSt
 }
 
 
-FilmViewer::FilmViewer(wxWindow* p)
+FilmViewer::FilmViewer(wxWindow* p, bool wake)
 	: _closed_captions_dialog(new ClosedCaptionsDialog(p, this))
 {
 #if wxCHECK_VERSION(3, 1, 0)
 	switch (Config::instance()->video_view_type()) {
 	case Config::VIDEO_VIEW_OPENGL:
-		_video_view = std::make_shared<GLVideoView>(this, p);
+		_video_view = std::make_shared<GLVideoView>(this, p, wake);
 		break;
 	case Config::VIDEO_VIEW_SIMPLE:
-		_video_view = std::make_shared<SimpleVideoView>(this, p);
+		_video_view = std::make_shared<SimpleVideoView>(this, p, wake);
 		break;
 	}
 #else
-	_video_view = std::make_shared<SimpleVideoView>(this, p);
+	_video_view = std::make_shared<SimpleVideoView>(this, p, wake);
 #endif
 
 	_video_view->Sized.connect(boost::bind(&FilmViewer::video_view_sized, this));

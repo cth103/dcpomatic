@@ -316,7 +316,7 @@ public:
 		*/
 		, _splitter(new LimitedFrameSplitter(this))
 		, _right_panel(new wxPanel(_splitter, wxID_ANY))
-		, _film_viewer(_right_panel)
+		, _film_viewer(_right_panel, false)
 	{
 		auto bar = new wxMenuBar;
 		setup_menu (bar);

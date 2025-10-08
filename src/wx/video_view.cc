@@ -36,9 +36,11 @@ static constexpr int TOO_MANY_DROPPED_FRAMES = 20;
 static constexpr int TOO_MANY_DROPPED_PERIOD = 5.0;
 
 
-VideoView::VideoView(FilmViewer* viewer)
+VideoView::VideoView(FilmViewer* viewer, bool wake)
 	: _viewer(viewer)
 	, _state_timer("viewer")
+	, _wake(wake)
+	, _waker(Waker::Reason::PLAYING)
 {
 
 }
@@ -92,6 +94,10 @@ VideoView::get_next_frame(bool non_blocking)
 
 	if (_player_video.first && _player_video.first->error()) {
 		++_errored;
+	}
+
+	if (_wake) {
+		_waker.nudge();
 	}
 
 	return SUCCESS;
