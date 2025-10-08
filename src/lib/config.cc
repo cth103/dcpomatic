@@ -110,8 +110,6 @@ Config::set_defaults()
 	_show_experimental_audio_processors = false;
 	_language = optional<string>();
 	_default_still_length = 10;
-	_default_dcp_content_type = DCPContentType::from_isdcf_name("FTR");
-	_default_dcp_audio_channels = 8;
 	_default_video_bit_rate[VideoEncoding::JPEG2000] = 150000000;
 	_default_video_bit_rate[VideoEncoding::MPEG2] = 5000000;
 	_default_audio_delay = 0;
@@ -357,9 +355,6 @@ try
 	_tms_password = f.string_child("TMSPassword");
 
 	_language = f.optional_string_child("Language");
-
-	_default_dcp_content_type = DCPContentType::from_isdcf_name(f.optional_string_child("DefaultDCPContentType").get_value_or("FTR"));
-	_default_dcp_audio_channels = f.optional_number_child<int>("DefaultDCPAudioChannels").get_value_or(6);
 
 	if (f.optional_string_child("DCPMetadataIssuer")) {
 		_dcp_issuer = f.string_child("DCPMetadataIssuer");
