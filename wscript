@@ -498,7 +498,11 @@ def configure(conf):
         conf.check_cfg(package='libavcodec', args='--cflags --libs', uselib_store='AVCODEC', mandatory=True)
         conf.check_cfg(package='libavutil', args='--cflags --libs', uselib_store='AVUTIL', mandatory=True)
         conf.check_cfg(package='libswscale', args='--cflags --libs', uselib_store='SWSCALE', mandatory=True)
-        conf.check_cfg(package='libpostproc', args='--cflags --libs', uselib_store='POSTPROC', mandatory=True)
+        # Use a lack of libpostproc as a sign that we are on FFmpeg 8
+        # We need this check while we're using ffmpeg 7 and arch already switched to 8
+        if conf.check_cfg(package='libpostproc', args='--cflags --libs', uselib_store='POSTPROC', mandatory=False) is None:
+            conf.env.append_value('CXXFLAGS', '-DDCPOMATIC_FFMPEG_8')
+
         conf.check_cfg(package='libswresample', args='--cflags --libs', uselib_store='SWRESAMPLE', mandatory=True)
 
     # Check to see if we have our version of FFmpeg that allows us to get at EBUR128 results

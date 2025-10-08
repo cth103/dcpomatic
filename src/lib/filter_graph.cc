@@ -80,11 +80,24 @@ FilterGraph::setup(vector<Filter> const& filters)
 		throw DecodeError (N_("could not create buffer source"));
 	}
 
+#ifdef DCPOMATIC_FFMPEG_8
+	_buffer_sink_context = avfilter_graph_alloc_filter(_graph, buffer_sink, N_("out"));
+	if (!_buffer_sink_context) {
+		throw DecodeError(N_("could not allocate buffer sink."));
+	}
+#else
 	if (avfilter_graph_create_filter (&_buffer_sink_context, buffer_sink, N_("out"), nullptr, nullptr, _graph) < 0) {
 		throw DecodeError (N_("could not create buffer sink."));
 	}
+#endif
 
 	set_parameters (_buffer_sink_context);
+
+#ifdef DCPOMATIC_FFMPEG_8
+	if (avfilter_init_dict(_buffer_sink_context, nullptr) < 0) {
+		throw DecodeError(N_("could not initialise buffer sink."));
+	}
+#endif
 
 	auto outputs = avfilter_inout_alloc ();
 	outputs->name = av_strdup(N_("in"));

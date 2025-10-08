@@ -73,7 +73,12 @@ public:
 		_codec_context->bit_rate = channels * 128 * 1024;
 		_codec_context->sample_fmt = sample_format;
 		_codec_context->sample_rate = frame_rate;
-		av_channel_layout_default(&_codec_context->ch_layout, channels);
+		if (codec_name == "aac" && channels == 16) {
+			/* The default layout for AAC with 16 channels is not valid */
+			_codec_context->ch_layout = AV_CHANNEL_LAYOUT_HEXADECAGONAL;
+		} else {
+			av_channel_layout_default(&_codec_context->ch_layout, channels);
+		}
 
 		int r = avcodec_open2(_codec_context, _codec, 0);
 		if (r < 0) {
