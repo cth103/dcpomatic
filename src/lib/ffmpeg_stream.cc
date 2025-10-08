@@ -34,9 +34,9 @@ LIBDCP_ENABLE_WARNINGS
 using std::string;
 
 
-FFmpegStream::FFmpegStream (cxml::ConstNodePtr node)
-	: name (node->string_child ("Name"))
-	, _id (node->number_child<int> ("Id"))
+FFmpegStream::FFmpegStream(cxml::ConstNodePtr node)
+	: name(node->string_child("Name"))
+	, _id(node->number_child<int>("Id"))
 {
 
 }
@@ -49,13 +49,13 @@ FFmpegStream::as_xml(xmlpp::Element* root) const
 }
 
 bool
-FFmpegStream::uses_index (AVFormatContext const * fc, int index) const
+FFmpegStream::uses_index(AVFormatContext const * fc, int index) const
 {
 	return fc->streams[index]->id == _id;
 }
 
 AVStream *
-FFmpegStream::stream (AVFormatContext const * fc) const
+FFmpegStream::stream(AVFormatContext const * fc) const
 {
 	size_t i = 0;
 	while (i < fc->nb_streams) {
@@ -65,12 +65,12 @@ FFmpegStream::stream (AVFormatContext const * fc) const
 		++i;
 	}
 
-	DCPOMATIC_ASSERT (false);
+	DCPOMATIC_ASSERT(false);
 	return 0;
 }
 
 int
-FFmpegStream::index (AVFormatContext const * fc) const
+FFmpegStream::index(AVFormatContext const * fc) const
 {
 	size_t i = 0;
 	while (i < fc->nb_streams) {
@@ -80,6 +80,6 @@ FFmpegStream::index (AVFormatContext const * fc) const
 		++i;
 	}
 
-	DCPOMATIC_ASSERT (false);
+	DCPOMATIC_ASSERT(false);
 	return 0;
 }
