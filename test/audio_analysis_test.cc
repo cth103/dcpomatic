@@ -284,6 +284,7 @@ BOOST_AUTO_TEST_CASE(analyse_audio_uses_processor_when_analysing_whole_film)
 }
 
 
+#ifdef DCPOMATIC_HAVE_EBUR128_PATCHED_FFMPEG
 BOOST_AUTO_TEST_CASE(ebur128_test)
 {
 	auto dcp = make_shared<DCPContent>(TestPaths::private_data() / "JourneyToJah_TLR-1_F_EN-DE-FR_CH_51_2K_LOK_20140225_DGL_SMPTE_OV");
@@ -312,3 +313,5 @@ BOOST_AUTO_TEST_CASE(ebur128_test)
 	BOOST_CHECK_CLOSE(six.integrated_loudness().get(), -18.1432, 1);
 	BOOST_CHECK_CLOSE(six.loudness_range().get(), 6.92, 1);
 }
+#endif
+
