@@ -36,20 +36,20 @@ static constexpr int TOO_MANY_DROPPED_FRAMES = 20;
 static constexpr int TOO_MANY_DROPPED_PERIOD = 5.0;
 
 
-VideoView::VideoView (FilmViewer* viewer)
-	: _viewer (viewer)
-	, _state_timer ("viewer")
+VideoView::VideoView(FilmViewer* viewer)
+	: _viewer(viewer)
+	, _state_timer("viewer")
 {
 
 }
 
 
 void
-VideoView::clear ()
+VideoView::clear()
 {
-	boost::mutex::scoped_lock lm (_mutex);
-	_player_video.first.reset ();
-	_player_video.second = dcpomatic::DCPTime ();
+	boost::mutex::scoped_lock lm(_mutex);
+	_player_video.first.reset();
+	_player_video.second = dcpomatic::DCPTime();
 }
 
 
@@ -59,25 +59,25 @@ VideoView::clear ()
  *  if there is a frame.
  */
 VideoView::NextFrameResult
-VideoView::get_next_frame (bool non_blocking)
+VideoView::get_next_frame(bool non_blocking)
 {
 	if (length() == dcpomatic::DCPTime()) {
 		return FAIL;
 	}
 
-	auto butler = _viewer->butler ();
+	auto butler = _viewer->butler();
 	if (!butler) {
 		return FAIL;
 	}
-	add_get ();
+	add_get();
 
-	boost::mutex::scoped_lock lm (_mutex);
+	boost::mutex::scoped_lock lm(_mutex);
 
 	do {
 		Butler::Error e;
-		auto pv = butler->get_video (non_blocking ? Butler::Behaviour::NON_BLOCKING : Butler::Behaviour::BLOCKING, &e);
+		auto pv = butler->get_video(non_blocking ? Butler::Behaviour::NON_BLOCKING : Butler::Behaviour::BLOCKING, &e);
 		if (e.code == Butler::Error::Code::DIED) {
-			LOG_ERROR ("Butler died with {}", e.summary());
+			LOG_ERROR("Butler died with {}", e.summary());
 		}
 		if (!pv.first) {
 			return e.code == Butler::Error::Code::AGAIN ? AGAIN : FAIL;
@@ -99,15 +99,15 @@ VideoView::get_next_frame (bool non_blocking)
 
 
 dcpomatic::DCPTime
-VideoView::one_video_frame () const
+VideoView::one_video_frame() const
 {
-	return dcpomatic::DCPTime::from_frames (1, video_frame_rate());
+	return dcpomatic::DCPTime::from_frames(1, video_frame_rate());
 }
 
 
 /** @return Time in ms until the next frame is due, or empty if nothing is due */
 optional<int>
-VideoView::time_until_next_frame () const
+VideoView::time_until_next_frame() const
 {
 	if (length() == dcpomatic::DCPTime()) {
 		/* There's no content, so this doesn't matter */
@@ -124,9 +124,9 @@ VideoView::time_until_next_frame () const
 
 
 void
-VideoView::start ()
+VideoView::start()
 {
-	boost::mutex::scoped_lock lm (_mutex);
+	boost::mutex::scoped_lock lm(_mutex);
 	_dropped = 0;
 	_errored = 0;
 	gettimeofday(&_dropped_check_period_start, nullptr);
@@ -134,9 +134,9 @@ VideoView::start ()
 
 
 bool
-VideoView::reset_metadata (shared_ptr<const Film> film, dcp::Size player_video_container_size)
+VideoView::reset_metadata(shared_ptr<const Film> film, dcp::Size player_video_container_size)
 {
-	auto pv = player_video ();
+	auto pv = player_video();
 	if (!pv.first) {
 		return false;
 	}
@@ -145,22 +145,22 @@ VideoView::reset_metadata (shared_ptr<const Film> film, dcp::Size player_video_c
 		return false;
 	}
 
-	update ();
+	update();
 	return true;
 }
 
 
 void
-VideoView::add_dropped ()
+VideoView::add_dropped()
 {
 	bool too_many = false;
 
 	{
-		boost::mutex::scoped_lock lm (_mutex);
+		boost::mutex::scoped_lock lm(_mutex);
 		++_dropped;
 		if (_dropped > TOO_MANY_DROPPED_FRAMES) {
 			struct timeval now;
-			gettimeofday (&now, nullptr);
+			gettimeofday(&now, nullptr);
 			double const elapsed = seconds(now) - seconds(_dropped_check_period_start);
 			too_many = elapsed < TOO_MANY_DROPPED_PERIOD;
 			_dropped = 0;
@@ -169,13 +169,13 @@ VideoView::add_dropped ()
 	}
 
 	if (too_many) {
-		emit (boost::bind(boost::ref(TooManyDropped)));
+		emit(boost::bind(boost::ref(TooManyDropped)));
 	}
 }
 
 
 wxColour
-VideoView::pad_colour () const
+VideoView::pad_colour() const
 {
 	if (_viewer->pad_black()) {
 		return wxColour(0, 0, 0);

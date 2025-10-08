@@ -48,20 +48,20 @@ class wxWindow;
 class VideoView : public ExceptionStore, public Signaller
 {
 public:
-	VideoView (FilmViewer* viewer);
-	virtual ~VideoView () {}
+	VideoView(FilmViewer* viewer);
+	virtual ~VideoView() {}
 
-	VideoView (VideoView const&) = delete;
-	VideoView& operator= (VideoView const&) = delete;
+	VideoView(VideoView const&) = delete;
+	VideoView& operator=(VideoView const&) = delete;
 
 	/** @return the thing displaying the image */
-	virtual wxWindow* get () const = 0;
+	virtual wxWindow* get() const = 0;
 	/** Re-make and display the image from the current _player_video */
-	virtual void update () = 0;
+	virtual void update() = 0;
 	/** Called when playback starts */
-	virtual void start ();
+	virtual void start();
 	/** Called when playback stops */
-	virtual void stop () {}
+	virtual void stop() {}
 
 	enum NextFrameResult {
 		FAIL,
@@ -70,10 +70,10 @@ public:
 	};
 
 	/** Get the next frame and display it; used after seek */
-	virtual NextFrameResult display_next_frame (bool) = 0;
+	virtual NextFrameResult display_next_frame(bool) = 0;
 
-	void clear ();
-	bool reset_metadata (std::shared_ptr<const Film> film, dcp::Size player_video_container_size);
+	void clear();
+	bool reset_metadata(std::shared_ptr<const Film> film, dcp::Size player_video_container_size);
 
 	/** Emitted from the GUI thread when our display changes in size */
 	boost::signals2::signal<void()> Sized;
@@ -83,27 +83,27 @@ public:
 
 	/* Accessors for FilmViewer */
 
-	int dropped () const {
-		boost::mutex::scoped_lock lm (_mutex);
+	int dropped() const {
+		boost::mutex::scoped_lock lm(_mutex);
 		return _dropped;
 	}
 
-	int errored () const {
-		boost::mutex::scoped_lock lm (_mutex);
+	int errored() const {
+		boost::mutex::scoped_lock lm(_mutex);
 		return _errored;
 	}
 
-	int gets () const {
-		boost::mutex::scoped_lock lm (_mutex);
+	int gets() const {
+		boost::mutex::scoped_lock lm(_mutex);
 		return _gets;
 	}
 
-	StateTimer const & state_timer () const {
+	StateTimer const & state_timer() const {
 		return _state_timer;
 	}
 
-	dcpomatic::DCPTime position () const {
-		boost::mutex::scoped_lock lm (_mutex);
+	dcpomatic::DCPTime position() const {
+		boost::mutex::scoped_lock lm(_mutex);
 		return _player_video.second;
 	}
 
@@ -112,23 +112,23 @@ public:
 	 * we can then use (thread) safely.
 	 */
 
-	void set_video_frame_rate (int r) {
-		boost::mutex::scoped_lock lm (_mutex);
+	void set_video_frame_rate(int r) {
+		boost::mutex::scoped_lock lm(_mutex);
 		_video_frame_rate = r;
 	}
 
-	void set_length (dcpomatic::DCPTime len) {
-		boost::mutex::scoped_lock lm (_mutex);
+	void set_length(dcpomatic::DCPTime len) {
+		boost::mutex::scoped_lock lm(_mutex);
 		_length = len;
 	}
 
-	void set_eyes (Eyes eyes) {
-		boost::mutex::scoped_lock lm (_mutex);
+	void set_eyes(Eyes eyes) {
+		boost::mutex::scoped_lock lm(_mutex);
 		_eyes = eyes;
 	}
 
-	void set_three_d (bool t) {
-		boost::mutex::scoped_lock lm (_mutex);
+	void set_three_d(bool t) {
+		boost::mutex::scoped_lock lm(_mutex);
 		_three_d = t;
 	}
 
@@ -137,43 +137,43 @@ public:
 	}
 
 protected:
-	NextFrameResult get_next_frame (bool non_blocking);
-	boost::optional<int> time_until_next_frame () const;
-	dcpomatic::DCPTime one_video_frame () const;
+	NextFrameResult get_next_frame(bool non_blocking);
+	boost::optional<int> time_until_next_frame() const;
+	dcpomatic::DCPTime one_video_frame() const;
 
-	wxColour pad_colour () const;
+	wxColour pad_colour() const;
 
-	wxColour outline_content_colour () const {
+	wxColour outline_content_colour() const {
 		return wxColour(255, 0, 0);
 	}
 
-	wxColour outline_subtitles_colour () const {
+	wxColour outline_subtitles_colour() const {
 		return wxColour(0, 255, 0);
 	}
 
-	wxColour crop_guess_colour () const {
+	wxColour crop_guess_colour() const {
 		return wxColour(0, 0, 255);
 	}
 
-	int video_frame_rate () const {
-		boost::mutex::scoped_lock lm (_mutex);
+	int video_frame_rate() const {
+		boost::mutex::scoped_lock lm(_mutex);
 		return _video_frame_rate;
 	}
 
-	dcpomatic::DCPTime length () const {
-		boost::mutex::scoped_lock lm (_mutex);
+	dcpomatic::DCPTime length() const {
+		boost::mutex::scoped_lock lm(_mutex);
 		return _length;
 	}
 
-	std::pair<std::shared_ptr<PlayerVideo>, dcpomatic::DCPTime> player_video () const {
-		boost::mutex::scoped_lock lm (_mutex);
+	std::pair<std::shared_ptr<PlayerVideo>, dcpomatic::DCPTime> player_video() const {
+		boost::mutex::scoped_lock lm(_mutex);
 		return _player_video;
 	}
 
-	void add_dropped ();
+	void add_dropped();
 
-	void add_get () {
-		boost::mutex::scoped_lock lm (_mutex);
+	void add_get() {
+		boost::mutex::scoped_lock lm(_mutex);
 		++_gets;
 	}
 
