@@ -30,12 +30,12 @@ struct AVStream;
 class FFmpegStream
 {
 public:
-	FFmpegStream (std::string n, int i)
-		: name (n)
-		, _id (i)
+	FFmpegStream(std::string n, int i)
+		: name(n)
+		, _id(i)
 	{}
 
-	explicit FFmpegStream (cxml::ConstNodePtr);
+	explicit FFmpegStream(cxml::ConstNodePtr);
 
 	void as_xml(xmlpp::Element*) const;
 
@@ -43,27 +43,27 @@ public:
 	 *  @param index A stream index within the AVFormatContext.
 	 *  @return true if this FFmpegStream uses the given stream index.
 	 */
-	bool uses_index (AVFormatContext const * c, int index) const;
-	AVStream* stream (AVFormatContext const * c) const;
+	bool uses_index(AVFormatContext const * c, int index) const;
+	AVStream* stream(AVFormatContext const * c) const;
 
-	std::string technical_summary () const {
-		return "id " + boost::lexical_cast<std::string> (_id);
+	std::string technical_summary() const {
+		return "id " + boost::lexical_cast<std::string>(_id);
 	}
 
-	std::string identifier () const {
-		return boost::lexical_cast<std::string> (_id);
+	std::string identifier() const {
+		return boost::lexical_cast<std::string>(_id);
 	}
 
-	int id () const {
+	int id() const {
 		return _id;
 	}
 
-	int index (AVFormatContext const * c) const;
+	int index(AVFormatContext const * c) const;
 
 	std::string name;
 
-	friend bool operator== (FFmpegStream const & a, FFmpegStream const & b);
-	friend bool operator!= (FFmpegStream const & a, FFmpegStream const & b);
+	friend bool operator==(FFmpegStream const & a, FFmpegStream const & b);
+	friend bool operator!=(FFmpegStream const & a, FFmpegStream const & b);
 
 private:
 	int _id;
