@@ -81,13 +81,19 @@ namespace dcpomatic {
 class Waker
 {
 public:
-	Waker();
+	enum class Reason {
+		PLAYING,
+		ENCODING
+	};
+
+	Waker(Reason reason);
 	~Waker();
 
 	void nudge();
 
 private:
 	boost::mutex _mutex;
+	Reason _reason;
 #ifdef DCPOMATIC_OSX
 	IOPMAssertionID _assertion_id;
 #endif

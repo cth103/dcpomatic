@@ -155,7 +155,8 @@ Waker::nudge()
 }
 
 
-Waker::Waker()
+Waker::Waker(Reason reason)
+	: _reason(reason)
 {
 	boost::mutex::scoped_lock lm(_mutex);
 	IOPMAssertionCreateWithName(kIOPMAssertionTypeNoIdleSleep, kIOPMAssertionLevelOn, CFSTR("Encoding DCP"), &_assertion_id);

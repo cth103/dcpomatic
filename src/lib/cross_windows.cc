@@ -256,11 +256,12 @@ void
 Waker::nudge()
 {
 	boost::mutex::scoped_lock lm(_mutex);
-	SetThreadExecutionState(ES_SYSTEM_REQUIRED);
+	SetThreadExecutionState(_reason == Reason::ENCODING ? ES_SYSTEM_REQUIRED : ES_DISPLAY_REQUIRED);
 }
 
 
-Waker::Waker()
+Waker::Waker(Reason reason)
+	: _reason(reason)
 {
 
 }

@@ -92,6 +92,7 @@ grk_plugin::IMessengerLogger* getMessengerLogger(void)
  */
 J2KEncoder::J2KEncoder(shared_ptr<const Film> film, Writer& writer)
 	: VideoEncoder(film, writer)
+	, _waker(Waker::Reason::ENCODING)
 #ifdef DCPOMATIC_GROK
 	, _give_up(false)
 #endif

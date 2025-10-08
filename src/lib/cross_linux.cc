@@ -188,7 +188,7 @@ Waker::nudge ()
 }
 
 
-Waker::Waker ()
+Waker::Waker(Reason)
 {
 
 }

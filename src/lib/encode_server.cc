@@ -81,6 +81,7 @@ EncodeServer::EncodeServer (bool verbose, int num_threads)
 #endif
 	, _verbose (verbose)
 	, _num_threads (num_threads)
+	, _waker(Waker::Reason::ENCODING)
 	, _frames_encoded(0)
 {
 

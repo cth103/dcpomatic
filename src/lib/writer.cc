@@ -923,7 +923,7 @@ Writer::set_digest_progress(Job* job, int id, int64_t done, int64_t size)
 
 	job->set_progress(float(total_done) / total_size);
 
-	Waker waker;
+	Waker waker(Waker::Reason::ENCODING);
 	waker.nudge();
 
 	boost::this_thread::interruption_point();

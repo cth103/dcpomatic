@@ -134,7 +134,7 @@ FFmpegFilmEncoder::go()
 		job->sub (_("Encoding"));
 	}
 
-	Waker waker;
+	Waker waker(Waker::Reason::ENCODING);
 
 	list<FileEncoderSet> file_encoders;
 
