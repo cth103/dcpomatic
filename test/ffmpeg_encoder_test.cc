@@ -388,9 +388,9 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test8)
 BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test9)
 {
 	auto c = make_shared<ImageContent>(TestPaths::private_data() / "bbc405.png");
-	auto film = new_test_film("ffmpeg_encoder_prores_test9", { c });
-	film->set_name ("ffmpeg_encoder_prores_test9");
-	film->set_container (Ratio::from_id ("185"));
+	auto film = new_test_film("ffmpeg_encoder_h264_test9", { c });
+	film->set_name("ffmpeg_encoder_h264_test9");
+	film->set_container(Ratio::from_id("185"));
 	film->set_audio_channels (12);
 
 	film->examine_and_add_content({c});
@@ -400,7 +400,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test9)
 
 	film->write_metadata ();
 	auto job = make_shared<TranscodeJob>(film, TranscodeJob::ChangedBehaviour::IGNORE);
-	FFmpegFilmEncoder encoder (film, job, "build/test/ffmpeg_encoder_prores_test9.mov", ExportFormat::H264_AAC, false, false, false, 23);
+	FFmpegFilmEncoder encoder (film, job, "build/test/ffmpeg_encoder_h264_test9.mov", ExportFormat::H264_AAC, false, false, false, 23);
 	encoder.go ();
 }
 
