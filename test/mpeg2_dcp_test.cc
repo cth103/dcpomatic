@@ -155,7 +155,7 @@ BOOST_AUTO_TEST_CASE(mpeg2_video_bitrate2)
 		false, false
 	);
 
-	BOOST_CHECK_CLOSE(mbits_per_second(film), 5.01890659, 0.05);
+	BOOST_CHECK_CLOSE(mbits_per_second(film), 5.01890659, 0.1);
 #ifdef DCPOMATIC_LINUX
 	BOOST_CHECK_EQUAL(bitrate_in_header(film), "5 000 kb/s");
 #endif

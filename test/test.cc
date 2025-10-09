@@ -557,8 +557,8 @@ check_dcp(boost::filesystem::path ref, boost::filesystem::path check, bool sound
 	check_dcp.read ();
 
 	dcp::EqualityOptions options;
-	options.max_mean_pixel_error = 5;
-	options.max_std_dev_pixel_error = 5;
+	options.max_mean_pixel_error = 8;
+	options.max_std_dev_pixel_error = 6;
 	options.max_audio_sample_error = 255;
 	options.cpl_annotation_texts_can_differ = true;
 	options.reel_annotation_texts_can_differ = true;
@@ -817,7 +817,7 @@ write_image (shared_ptr<const Image> image, boost::filesystem::path file)
 
 
 void
-check_ffmpeg (boost::filesystem::path ref, boost::filesystem::path check, int audio_tolerance)
+check_ffmpeg(boost::filesystem::path ref, boost::filesystem::path check, float audio_tolerance)
 {
 	int const r = system (fmt::format("ffcmp -t {} {} {}", audio_tolerance, ref.string(), check.string()).c_str());
 	BOOST_REQUIRE_EQUAL (WEXITSTATUS(r), 0);

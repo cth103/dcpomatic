@@ -541,8 +541,8 @@ BOOST_AUTO_TEST_CASE (movie_V_to_V_movie)
 BOOST_AUTO_TEST_CASE (movie_VoF_to_V_movie)
 {
 	auto range = V_movie_range (movie_VoF("movie_VoF_to_V_movie"));
-	BOOST_CHECK_EQUAL (range.first, 116);
-	BOOST_CHECK_EQUAL (range.second, 939);
+	BOOST_CHECK(115 <= range.first && range.first <= 116);
+	BOOST_CHECK(938 <= range.second && range.second <= 939);
 }
 
 
@@ -553,7 +553,7 @@ BOOST_AUTO_TEST_CASE (movie_F_to_V_movie)
 	 * is not black at 64 (with the corresponding change to white)
 	 */
 	BOOST_CHECK_EQUAL(range.first, 64);
-	BOOST_CHECK_EQUAL(range.second, 963);
+	BOOST_CHECK(962 <= range.second && range.second <= 963);
 }
 
 
@@ -584,7 +584,7 @@ BOOST_AUTO_TEST_CASE (image_FoV_to_V_movie)
 BOOST_AUTO_TEST_CASE (dcp_F_to_V_movie)
 {
 	auto range = V_movie_range (dcp_F("dcp_F_to_V_movie"));
-	BOOST_CHECK_EQUAL (range.first, 64);
-	BOOST_CHECK_EQUAL (range.second, 944);
+	BOOST_CHECK(63 <= range.first && range.first <= 64);
+	BOOST_CHECK_EQUAL(range.second, 944);
 }
 

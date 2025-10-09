@@ -288,7 +288,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test5)
 	FFmpegFilmEncoder encoder(film, job, "build/test/ffmpeg_encoder_h264_test5.mp4", ExportFormat::H264_AAC, true, false, false, 23);
 	encoder.go ();
 
-	check_ffmpeg ("build/test/ffmpeg_encoder_h264_test5.mp4", "test/data/ffmpeg_encoder_h264_test5.mp4", 1);
+	check_ffmpeg("build/test/ffmpeg_encoder_h264_test5.mp4", "test/data/ffmpeg_encoder_h264_test5.mp4", -43);
 }
 
 
@@ -560,6 +560,6 @@ BOOST_AUTO_TEST_CASE(test_ffmpeg_encoder_with_clipping_dcp_audio)
 	FFmpegFilmEncoder encoder(film, job, out, ExportFormat::PRORES_HQ, false, true, false, 23);
 	encoder.go();
 
-	check_ffmpeg(out, boost::filesystem::path("test/data") / (name + ".mov"), 0);
+	check_ffmpeg(out, boost::filesystem::path("test/data") / (name + ".mov"), -96);
 }
 
