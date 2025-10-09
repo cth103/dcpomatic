@@ -175,6 +175,9 @@ BOOST_AUTO_TEST_CASE(render_text_with_newline_test)
 	check_image("test/data/mac/render_text_with_newline_test.png", "build/test/render_text_with_newline_test.png");
 #elif defined(DCPOMATIC_WINDOWS)
 	check_image("test/data/windows/render_text_with_newline_test.png", "build/test/render_text_with_newline_test.png");
+#elif PANGO_VERSION_CHECK(1, 57, 0)
+	/* This pango version is the one on Arch, which renders slightly differently */
+	check_image("test/data/arch/render_text_with_newline_test.png", "build/test/render_text_with_newline_test.png");
 #elif PANGO_VERSION_CHECK(1, 52, 1)
 	/* This pango version is the one on Ubuntu 24.04, which renders slightly differently */
 	check_image("test/data/ubuntu-24.04/render_text_with_newline_test.png", "build/test/render_text_with_newline_test.png");
