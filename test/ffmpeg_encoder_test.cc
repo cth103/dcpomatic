@@ -544,6 +544,7 @@ BOOST_AUTO_TEST_CASE(test_ffmpeg_encoder_with_clipping_dcp_audio)
 	string const name = "test_ffmpeg_encoder_with_clipping_dcp_audio";
 	auto content = content_factory("test/data/sine_16_48_440_10.wav");
 	auto film = new_test_film(name + "_in", content);
+	film->set_audio_channels(8);
 	content[0]->audio->set_gain(0.5);
 
 	make_and_verify_dcp(

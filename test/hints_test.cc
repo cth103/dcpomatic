@@ -77,6 +77,7 @@ check (TextType type, string name, optional<string> expected_hint = optional<str
 	content->text.front()->set_type (type);
 	content->text.front()->set_language (dcp::LanguageTag("en-US"));
 	film->examine_and_add_content({content});
+	film->set_audio_channels(8);
 	BOOST_REQUIRE (!wait_for_jobs());
 	auto hints = get_hints (film);
 
@@ -184,6 +185,7 @@ BOOST_AUTO_TEST_CASE (hint_subtitle_mxf_too_big)
 	string const name = "hint_subtitle_mxf_too_big";
 
 	auto film = new_test_film(name);
+	film->set_audio_channels(8);
 
 	for (int i = 0; i < 4; ++i) {
 		dcp::File fake_font("build/test/hint_subtitle_mxf_too_big.ttf", "w");
@@ -219,6 +221,7 @@ BOOST_AUTO_TEST_CASE (hint_closed_caption_xml_too_big)
 	string const name = "hint_closed_caption_xml_too_big";
 
 	auto film = new_test_film(name);
+	film->set_audio_channels(8);
 
 	dcp::File ccap(fmt::format("build/test/{}.srt", name), "w");
 	BOOST_REQUIRE (ccap);
@@ -266,6 +269,7 @@ BOOST_AUTO_TEST_CASE (hints_audio_with_no_language)
 {
 	auto content = content_factory("test/data/sine_440.wav")[0];
 	auto film = new_test_film("hints_audio_with_no_language", { content });
+	film->set_audio_channels(8);
 	content->audio->set_gain (-6);
 
 	auto hints = get_hints (film);
@@ -285,6 +289,7 @@ BOOST_AUTO_TEST_CASE (hints_certificate_validity)
 	Config::instance()->set_signer_chain(make_shared<dcp::CertificateChain>(openssl_path(), 40 * 365));
 
 	auto film = new_test_film("hints_certificate_validity");
+	film->set_audio_channels(8);
 	auto hints = get_hints (film);
 	BOOST_REQUIRE_EQUAL (hints.size(), 1U);
 	BOOST_CHECK_EQUAL (
@@ -301,6 +306,7 @@ BOOST_AUTO_TEST_CASE(hints_mpeg2)
 {
 	auto film = new_test_film("hints_certificate_validity");
 	film->set_video_encoding(VideoEncoding::MPEG2);
+	film->set_audio_channels(8);
 	auto hints = get_hints(film);
 	BOOST_REQUIRE_EQUAL(hints.size(), 1U);
 	BOOST_CHECK_EQUAL(

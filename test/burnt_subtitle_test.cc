@@ -67,6 +67,7 @@ BOOST_AUTO_TEST_CASE (burnt_subtitle_test_subrip)
 	auto content = content_factory("test/data/subrip2.srt")[0];
 	auto film = new_test_film("burnt_subtitle_test_subrip", { content });
 	film->set_dcp_content_type(DCPContentType::from_isdcf_name("TLR"));
+	film->set_audio_channels(8);
 	content->text[0]->set_use(true);
 	content->text[0]->set_burn(true);
 	make_and_verify_dcp(
@@ -90,6 +91,7 @@ BOOST_AUTO_TEST_CASE (burnt_subtitle_test_dcp)
 	auto film = new_test_film("burnt_subtitle_test_dcp", { content });
 	film->set_dcp_content_type(DCPContentType::from_isdcf_name("TLR"));
 	film->set_name("frobozz");
+	film->set_audio_channels(8);
 	content->text[0]->set_use(true);
 	make_and_verify_dcp(
 		film,
@@ -115,6 +117,7 @@ BOOST_AUTO_TEST_CASE (burnt_subtitle_test_onto_dcp)
 	auto film2 = new_test_film("burnt_subtitle_test_onto_dcp2", { background_dcp, sub });
 	film2->set_dcp_content_type(DCPContentType::from_isdcf_name("TLR"));
 	film2->set_name("frobozz");
+	film2->set_audio_channels(8);
 	sub->text[0]->set_burn(true);
 	sub->text[0]->set_effect(dcp::Effect::BORDER);
 	make_and_verify_dcp (film2);
@@ -156,6 +159,7 @@ BOOST_AUTO_TEST_CASE(burnt_subtitle_test_position)
 		auto const name = fmt::format("burnt_subtitle_test_position_{}", alignment);
 		auto subs = content_factory(fmt::format("test/data/burn_{}.xml", alignment));
 		auto film = new_test_film(name, subs);
+		film->set_audio_channels(8);
 		subs[0]->text[0]->set_use(true);
 		subs[0]->text[0]->set_burn(true);
 		make_and_verify_dcp(
