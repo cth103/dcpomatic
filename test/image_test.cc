@@ -464,7 +464,11 @@ BOOST_AUTO_TEST_CASE (crop_scale_window_test4)
 		Crop(512, 0, 0, 0), dcp::Size(1486, 1080), dcp::Size(1998, 1080), dcp::YUVToRGB::REC709, VideoRange::FULL, AV_PIX_FMT_XYZ12LE, VideoRange::FULL, Image::Alignment::COMPACT, false
 		);
 	write_image(cropped, "build/test/crop_scale_window_test4.png");
+#ifdef DCPOMATIC_FFMPEG_8
+	check_image("test/data/crop_scale_window_test4_ffmpeg8.png", "build/test/crop_scale_window_test4.png");
+#else
 	check_image("test/data/crop_scale_window_test4.png", "build/test/crop_scale_window_test4.png");
+#endif
 }
 
 
@@ -488,7 +492,11 @@ BOOST_AUTO_TEST_CASE (crop_scale_window_test6)
 		Crop(512, 0, 0, 0), dcp::Size(1486, 1080), dcp::Size(1998, 1080), dcp::YUVToRGB::REC709, VideoRange::FULL, AV_PIX_FMT_XYZ12LE, VideoRange::FULL, Image::Alignment::COMPACT, false
 		);
 	write_image(cropped, "build/test/crop_scale_window_test6.png");
+#ifdef DCPOMATIC_FFMPEG_8
+	check_image("test/data/crop_scale_window_test6_ffmpeg8.png", "build/test/crop_scale_window_test6.png");
+#else
 	check_image("test/data/crop_scale_window_test6.png", "build/test/crop_scale_window_test6.png");
+#endif
 }
 
 
