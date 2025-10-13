@@ -22,7 +22,7 @@
 #include "custom_scale_dialog.h"
 #include "wx_util.h"
 #include "lib/util.h"
-#include <dcp/raw_convert.h>
+#include <dcp/locale_convert.h>
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/propgrid/property.h>
@@ -98,7 +98,7 @@ CustomScaleDialog::CustomScaleDialog(wxWindow* parent, dcp::Size initial, dcp::S
 void
 CustomScaleDialog::update_size_from_ratio()
 {
-	dcp::Size const s = fit_ratio_within(raw_convert<float>(wx_to_std(_ratio->GetValue())), _film_container);
+	auto const s = fit_ratio_within(locale_convert<float>(wx_to_std(_ratio->GetValue())), _film_container);
 	_size_from_ratio->SetLabelMarkup(wxString::Format(char_to_wx("<i>%dx%d</i>"), s.width, s.height));
 }
 
@@ -129,7 +129,7 @@ CustomScaleDialog::custom_ratio() const
 		return optional<float>();
 	}
 
-	return raw_convert<float>(wx_to_std(_ratio->GetValue()));
+	return locale_convert<float>(wx_to_std(_ratio->GetValue()));
 }
 
 
