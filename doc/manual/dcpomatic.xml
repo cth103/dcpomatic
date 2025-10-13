@@ -4275,6 +4275,11 @@ The full details of OV and VF files are discussed in <xref linkend="sec-overlay"
   and/or KDM using the appropriate options on the
   <guilabel>File</guilabel> menu.</para>
 
+  <para>To play an encrypted DCP, the creator of the DCP will need to send you a KDM.  For
+  that, they will need a certificate which identifies your copy of DCP-o-matic.
+  You can export the certificate by following the instructions given in
+  <link xref="sec-decrypting"/>.</para>
+
   <para>During playback the <guilabel>Performance</guilabel> area at
   the bottom right of the window will give details of how many frames
   are being dropped; these are frames that were not decoded from the
