@@ -115,8 +115,7 @@ FFmpegContent::FFmpegContent(cxml::ConstNodePtr node, boost::optional<boost::fil
 		}
 	}
 
-	auto const f = node->optional_number_child<ContentTime::Type> ("FirstVideo");
-	if (f) {
+	if (auto const f = node->optional_number_child<ContentTime::Type>("FirstVideo")) {
 		_first_video = ContentTime (f.get ());
 	}
 
@@ -264,7 +263,7 @@ FFmpegContent::examine(shared_ptr<const Film> film, shared_ptr<Job> job, bool to
 	auto examiner = make_shared<FFmpegExaminer>(shared_from_this (), job);
 
 	if (examiner->has_video ()) {
-		video.reset (new VideoContent (this));
+		video = make_shared<VideoContent>(this);
 		video->take_from_examiner(film, examiner);
 	}
 
