@@ -276,7 +276,7 @@ PlaylistControls::update_playlist_directory()
 		try {
 			if (is_regular_file(i->path()) && i->path().extension() == ".xml") {
 				SPL spl;
-				spl.read(i->path(), _content_view);
+				spl.read(i->path(), ContentStore::instance());
 				_playlists.push_back(spl);
 			}
 		} catch (exception& e) {
