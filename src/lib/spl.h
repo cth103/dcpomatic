@@ -31,7 +31,7 @@ LIBDCP_ENABLE_WARNINGS
 #include <algorithm>
 
 
-class ContentStore;
+class ShowPlaylistContentStore;
 
 
 class SPL
@@ -70,7 +70,7 @@ public:
 		std::iter_swap(_spl.begin() + a, _spl.begin() + b);
 	}
 
-	void read(boost::filesystem::path path, ContentStore* store);
+	void read(boost::filesystem::path path, ShowPlaylistContentStore* store);
 	void write(boost::filesystem::path path) const;
 
 	std::string id() const {
