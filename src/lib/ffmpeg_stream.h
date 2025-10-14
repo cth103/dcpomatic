@@ -30,9 +30,10 @@ struct AVStream;
 class FFmpegStream
 {
 public:
-	FFmpegStream(std::string n, int i)
+	FFmpegStream(std::string n, int id, int index)
 		: name(n)
-		, _id(i)
+		, _id(id)
+		, _index(index)
 	{}
 
 	explicit FFmpegStream(cxml::ConstNodePtr);
@@ -49,8 +50,12 @@ public:
 	std::string technical_summary() const;
 	std::string identifier() const;
 
-	int id() const {
+	boost::optional<int> id() const {
 		return _id;
+	}
+
+	void unset_id() {
+		_id = boost::none;
 	}
 
 	int index(AVFormatContext const * c) const;
@@ -61,7 +66,8 @@ public:
 	friend bool operator!=(FFmpegStream const & a, FFmpegStream const & b);
 
 private:
-	int _id;
+	boost::optional<int> _id;
+	boost::optional<int> _index;
 };
 
 #endif

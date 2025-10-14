@@ -528,7 +528,7 @@ FFmpegDecoder::process_audio_frame (shared_ptr<FFmpegAudioStream> stream)
 			"Crazy timestamp {} for {} samples in stream {} (ts={} tb={}, off={})",
 			to_string(ct),
 			data->frames(),
-			stream->id(),
+			stream->identifier(),
 			frame->best_effort_timestamp,
 			av_q2d(time_base),
 			to_string(_pts_offset)

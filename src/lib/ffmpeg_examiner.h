@@ -91,6 +91,7 @@ public:
 private:
 	bool video_packet(AVCodecContext* context, std::string& temporal_reference, AVPacket* packet);
 	bool audio_packet(AVCodecContext* context, std::shared_ptr<FFmpegAudioStream>, AVPacket* packet);
+	void check_for_duplicate_ids();
 
 	std::string stream_name(AVStream* s) const;
 	std::string subtitle_stream_name(AVStream* s) const;

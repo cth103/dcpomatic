@@ -79,7 +79,7 @@ content_factory(cxml::ConstNodePtr node, boost::optional<boost::filesystem::path
 
 		content->audio->set_stream (
 			std::make_shared<FFmpegAudioStream>(
-				"Stream", 0,
+				"Stream", 0, 0,
 				node->number_child<int> ("AudioFrameRate"),
 				node->number_child<Frame> ("AudioLength"),
 				AudioMapping(node->node_child("AudioMapping"), version),

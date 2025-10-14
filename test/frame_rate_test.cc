@@ -249,7 +249,7 @@ BOOST_AUTO_TEST_CASE (audio_sampling_rate_test)
 	std::list<int> afr = { 24, 25, 30 };
 	Config::instance()->set_allowed_dcp_frame_rates (afr);
 
-	auto stream = std::make_shared<FFmpegAudioStream>("foo", 0, 0, 0, 0, 0);
+	auto stream = std::make_shared<FFmpegAudioStream>("foo", 0, 0, 0, 0, 0, 0);
 	content->audio = std::make_shared<AudioContent>(content.get());
 	content->audio->add_stream (stream);
 	content->_video_frame_rate = 24;

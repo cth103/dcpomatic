@@ -63,6 +63,7 @@ protected:
 	dcpomatic::ContentTime pts_offset (
 		std::vector<std::shared_ptr<FFmpegAudioStream>> audio_streams, boost::optional<dcpomatic::ContentTime> first_video, double video_frame_rate
 		) const;
+	void setup_decoder(int stream_index);
 
 	static FFmpegSubtitlePeriod subtitle_period (AVPacket const* packet, AVStream const* stream, AVSubtitle const & sub);
 

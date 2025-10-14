@@ -27,8 +27,8 @@
 class FFmpegSubtitleStream : public FFmpegStream
 {
 public:
-	FFmpegSubtitleStream(std::string n, int i)
-		: FFmpegStream(n, i)
+	FFmpegSubtitleStream(std::string n, int id, int index)
+		: FFmpegStream(n, id, index)
 	{}
 
 	FFmpegSubtitleStream(cxml::ConstNodePtr node, int version);

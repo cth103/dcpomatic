@@ -78,6 +78,7 @@ FFmpegExaminer::FFmpegExaminer(shared_ptr<const FFmpegContent> c, shared_ptr<Job
 					stream_name(s),
 					codec->name,
 					s->id,
+					i,
 					s->codecpar->sample_rate,
 					_need_length ? 0 : rint((double(_format_context->duration) / AV_TIME_BASE) * s->codecpar->sample_rate),
 					s->codecpar->ch_layout.nb_channels,
@@ -86,7 +87,7 @@ FFmpegExaminer::FFmpegExaminer(shared_ptr<const FFmpegContent> c, shared_ptr<Job
 				);
 
 		} else if (s->codecpar->codec_type == AVMEDIA_TYPE_SUBTITLE) {
-			_subtitle_streams.push_back(make_shared<FFmpegSubtitleStream>(subtitle_stream_name(s), s->id));
+			_subtitle_streams.push_back(make_shared<FFmpegSubtitleStream>(subtitle_stream_name(s), s->id, i));
 		}
 	}
 
@@ -128,6 +129,11 @@ FFmpegExaminer::FFmpegExaminer(shared_ptr<const FFmpegContent> c, shared_ptr<Job
 			} else {
 				job->set_progress_unknown();
 			}
+		}
+
+		if (packet->stream_index >= static_cast<int>(_codec_context.size())) {
+			setup_decoder(packet->stream_index);
+			check_for_duplicate_ids();
 		}
 
 		auto context = _codec_context[packet->stream_index];
@@ -201,6 +207,42 @@ FFmpegExaminer::FFmpegExaminer(shared_ptr<const FFmpegContent> c, shared_ptr<Job
 		/* The magical sequence (taken from mediainfo) suggests that 2:3 pull-down is in use */
 		_pulldown = true;
 		LOG_GENERAL_NC("Suggest that this may be 2:3 pull-down (soft telecine)");
+	}
+
+	check_for_duplicate_ids();
+}
+
+void
+FFmpegExaminer::check_for_duplicate_ids()
+{
+	bool duplicates = false;
+	std::set<int> stream_ids;
+
+	if (_video_stream) {
+		stream_ids.insert(*_video_stream);
+	}
+
+	for (auto stream: _audio_streams) {
+		if (stream->id() && !stream_ids.insert(*stream->id()).second) {
+			duplicates = true;
+			break;
+		}
+	}
+
+	for (auto stream: _subtitle_streams) {
+		if (stream->id() && !stream_ids.insert(*stream->id()).second) {
+			duplicates = true;
+			break;
+		}
+	}
+
+	if (duplicates) {
+		for (auto stream: _audio_streams) {
+			stream->unset_id();
+		}
+		for (auto stream: _subtitle_streams) {
+			stream->unset_id();
+		}
 	}
 }
 

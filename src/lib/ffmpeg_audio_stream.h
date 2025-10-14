@@ -30,19 +30,19 @@ struct ffmpeg_pts_offset_test;
 class FFmpegAudioStream : public FFmpegStream, public AudioStream
 {
 public:
-	FFmpegAudioStream(std::string name, int id, int frame_rate, Frame length, int channels, int bit_depth)
-		: FFmpegStream(name, id)
+	FFmpegAudioStream(std::string name, int id, int index, int frame_rate, Frame length, int channels, int bit_depth)
+		: FFmpegStream(name, id, index)
 		, AudioStream(frame_rate, length, channels, bit_depth)
 	{}
 
-	FFmpegAudioStream(std::string name, std::string codec_name_, int id, int frame_rate, Frame length, int channels, int bit_depth)
-		: FFmpegStream(name, id)
+	FFmpegAudioStream(std::string name, std::string codec_name_, int id, int index, int frame_rate, Frame length, int channels, int bit_depth)
+		: FFmpegStream(name, id, index)
 		, AudioStream(frame_rate, length, channels, bit_depth)
 		, codec_name(codec_name_)
 	{}
 
-	FFmpegAudioStream(std::string name, int id, int frame_rate, Frame length, AudioMapping mapping, int bit_depth)
-		: FFmpegStream(name, id)
+	FFmpegAudioStream(std::string name, int id, int index, int frame_rate, Frame length, AudioMapping mapping, int bit_depth)
+		: FFmpegStream(name, id, index)
 		, AudioStream(frame_rate, length, mapping, bit_depth)
 	{}
 
@@ -60,7 +60,7 @@ private:
 
 	/* Constructor for tests */
 	FFmpegAudioStream()
-		: FFmpegStream("", 0)
+		: FFmpegStream("", 0, 0)
 		, AudioStream(0, 0, 0, 0)
 	{}
 };

@@ -36,7 +36,8 @@ using std::string;
 
 FFmpegStream::FFmpegStream(cxml::ConstNodePtr node)
 	: name(node->string_child("Name"))
-	, _id(node->number_child<int>("Id"))
+	, _id(node->optional_number_child<int>("Id"))
+	, _index(node->optional_number_child<int>("Index"))
 {
 
 }
@@ -45,56 +46,89 @@ void
 FFmpegStream::as_xml(xmlpp::Element* root) const
 {
 	cxml::add_text_child(root, "Name", name);
-	cxml::add_text_child(root, "Id", fmt::to_string(_id));
+	if (_id) {
+		cxml::add_text_child(root, "Id", fmt::to_string(*_id));
+	}
+	if (_index) {
+		cxml::add_text_child(root, "Index", fmt::to_string(*_index));
+	}
 }
 
 bool
 FFmpegStream::uses_index(AVFormatContext const * fc, int index) const
 {
-	return fc->streams[index]->id == _id;
+	DCPOMATIC_ASSERT(static_cast<bool>(_id) || static_cast<bool>(_index));
+
+	if (_id) {
+		return fc->streams[index]->id == *_id;
+	} else {
+		return *_index == index;
+	}
 }
 
 AVStream *
 FFmpegStream::stream(AVFormatContext const * fc) const
 {
-	size_t i = 0;
-	while (i < fc->nb_streams) {
-		if (fc->streams[i]->id == _id) {
-			return fc->streams[i];
-		}
-		++i;
-	}
+	DCPOMATIC_ASSERT(static_cast<bool>(_id) || static_cast<bool>(_index));
 
-	DCPOMATIC_ASSERT(false);
-	return 0;
+	if (_id) {
+		size_t i = 0;
+		while (i < fc->nb_streams) {
+			if (fc->streams[i]->id == *_id) {
+				return fc->streams[i];
+			}
+			++i;
+		}
+
+		DCPOMATIC_ASSERT(false);
+		return 0;
+	} else {
+		return fc->streams[*_index];
+	}
 }
 
 int
 FFmpegStream::index(AVFormatContext const * fc) const
 {
-	size_t i = 0;
-	while (i < fc->nb_streams) {
-		if (fc->streams[i]->id == _id) {
-			return i;
-		}
-		++i;
-	}
+	DCPOMATIC_ASSERT(static_cast<bool>(_id) || static_cast<bool>(_index));
 
-	DCPOMATIC_ASSERT(false);
-	return 0;
+	if (_id) {
+		size_t i = 0;
+		while (i < fc->nb_streams) {
+			if (fc->streams[i]->id == *_id) {
+				return i;
+			}
+			++i;
+		}
+
+		DCPOMATIC_ASSERT(false);
+		return 0;
+	} else {
+		return *_index;
+	}
 }
 
 
 string
 FFmpegStream::technical_summary() const
 {
-	return "id " + fmt::to_string(_id);
+	DCPOMATIC_ASSERT(static_cast<bool>(_id) || static_cast<bool>(_index));
+
+	if (_id) {
+		return fmt::format("id {}", *_id);
+	} else {
+		return fmt::format("index {}", *_index);
+	}
 }
 
 
 string
 FFmpegStream::identifier() const
 {
-	return fmt::to_string(_id);
+	if (_id) {
+		return fmt::to_string(*_id);
+	} else {
+		return fmt::to_string(*_index);
+	}
 }
 

@@ -400,14 +400,14 @@ FFmpegContent::set_subtitle_stream (shared_ptr<FFmpegSubtitleStream> s)
 bool
 operator== (FFmpegStream const & a, FFmpegStream const & b)
 {
-	return a._id == b._id;
+	return a._id == b._id && b._index == b._index;
 }
 
 
 bool
 operator!= (FFmpegStream const & a, FFmpegStream const & b)
 {
-	return a._id != b._id;
+	return a._id != b._id || a._index != b._index;
 }
 
 

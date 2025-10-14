@@ -147,28 +147,6 @@ FFmpeg::setup_general ()
 		_video_stream = video_stream_undefined_frame_rate.get();
 	}
 
-	/* Hack: if the AVStreams have duplicate IDs, replace them with our
-	   own.  We use the IDs so that we can cope with VOBs, in which streams
-	   move about in index but remain with the same ID in different
-	   VOBs.  However, some files have duplicate IDs, hence this hack.
-	*/
-
-	bool duplicates = false;
-	for (uint32_t i = 0; i < _format_context->nb_streams; ++i) {
-		for (uint32_t j = i + 1; j < _format_context->nb_streams; ++j) {
-			if (_format_context->streams[i]->id == _format_context->streams[j]->id) {
-				duplicates = true;
-			}
-		}
-	}
-
-	if (duplicates) {
-		/* Put in our own IDs */
-		for (uint32_t i = 0; i < _format_context->nb_streams; ++i) {
-			_format_context->streams[i]->id = i;
-		}
-	}
-
 	_video_frame = av_frame_alloc ();
 	if (_video_frame == nullptr) {
 		throw std::bad_alloc ();
@@ -179,46 +157,55 @@ FFmpeg::setup_general ()
 void
 FFmpeg::setup_decoders ()
 {
+	for (uint32_t i = 0; i < _format_context->nb_streams; ++i) {
+		setup_decoder(i);
+	}
+}
+
+
+void
+FFmpeg::setup_decoder(int stream_index)
+{
 	boost::mutex::scoped_lock lm (_mutex);
 
-	_codec_context.resize (_format_context->nb_streams);
-	for (uint32_t i = 0; i < _format_context->nb_streams; ++i) {
-		auto codec = avcodec_find_decoder (_format_context->streams[i]->codecpar->codec_id);
-		if (codec) {
-			auto context = avcodec_alloc_context3 (codec);
-			if (!context) {
-				throw std::bad_alloc ();
-			}
-			_codec_context[i] = context;
+	if (stream_index >= static_cast<int>(_codec_context.size())) {
+		_codec_context.resize(stream_index + 1);
+	}
 
-			int r = avcodec_parameters_to_context (context, _format_context->streams[i]->codecpar);
-			if (r < 0) {
-				throw DecodeError ("avcodec_parameters_to_context", "FFmpeg::setup_decoders", r);
-			}
-
-			context->thread_count = 8;
-			context->thread_type = FF_THREAD_FRAME | FF_THREAD_SLICE;
-
-			AVDictionary* options = nullptr;
-			/* This option disables decoding of DCA frame footers in our patched version
-			   of FFmpeg.  I believe these footers are of no use to us, and they can cause
-			   problems when FFmpeg fails to decode them (mantis #352).
-			*/
-			av_dict_set (&options, "disable_footer", "1", 0);
-			/* This allows decoding of some DNxHR 444 and HQX files; see
-			   https://trac.ffmpeg.org/ticket/5681
-			*/
-			av_dict_set_int (&options, "strict", FF_COMPLIANCE_EXPERIMENTAL, 0);
-			/* Enable following of links in files */
-			av_dict_set_int (&options, "enable_drefs", 1, 0);
-
-			r = avcodec_open2 (context, codec, &options);
-			if (r < 0) {
-				throw DecodeError (N_("avcodec_open2"), N_("FFmpeg::setup_decoders"), r);
-			}
-		} else {
-			dcpomatic_log->log (fmt::format("No codec found for stream {}", i), LogEntry::TYPE_WARNING);
+	if (auto codec = avcodec_find_decoder(_format_context->streams[stream_index]->codecpar->codec_id)) {
+		auto context = avcodec_alloc_context3(codec);
+		if (!context) {
+			throw std::bad_alloc();
 		}
+		_codec_context[stream_index] = context;
+
+		int r = avcodec_parameters_to_context(context, _format_context->streams[stream_index]->codecpar);
+		if (r < 0) {
+			throw DecodeError("avcodec_parameters_to_context", "FFmpeg::setup_decoders", r);
+		}
+
+		context->thread_count = 8;
+		context->thread_type = FF_THREAD_FRAME | FF_THREAD_SLICE;
+
+		AVDictionary* options = nullptr;
+		/* This option disables decoding of DCA frame footers in our patched version
+		   of FFmpeg.  I believe these footers are of no use to us, and they can cause
+		   problems when FFmpeg fails to decode them (mantis #352).
+		*/
+		av_dict_set(&options, "disable_footer", "1", 0);
+		/* This allows decoding of some DNxHR 444 and HQX files; see
+		   https://trac.ffmpeg.org/ticket/5681
+		*/
+		av_dict_set_int(&options, "strict", FF_COMPLIANCE_EXPERIMENTAL, 0);
+		/* Enable following of links in files */
+		av_dict_set_int(&options, "enable_drefs", 1, 0);
+
+		r = avcodec_open2(context, codec, &options);
+		if (r < 0) {
+			throw DecodeError(N_("avcodec_open2"), N_("FFmpeg::setup_decoders"), r);
+		}
+	} else {
+		dcpomatic_log->log(fmt::format("No codec found for stream {}", stream_index), LogEntry::TYPE_WARNING);
 	}
 }
 
