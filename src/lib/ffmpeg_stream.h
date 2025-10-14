@@ -46,13 +46,8 @@ public:
 	bool uses_index(AVFormatContext const * c, int index) const;
 	AVStream* stream(AVFormatContext const * c) const;
 
-	std::string technical_summary() const {
-		return "id " + boost::lexical_cast<std::string>(_id);
-	}
-
-	std::string identifier() const {
-		return boost::lexical_cast<std::string>(_id);
-	}
+	std::string technical_summary() const;
+	std::string identifier() const;
 
 	int id() const {
 		return _id;

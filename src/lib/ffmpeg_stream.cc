@@ -83,3 +83,18 @@ FFmpegStream::index(AVFormatContext const * fc) const
 	DCPOMATIC_ASSERT(false);
 	return 0;
 }
+
+
+string
+FFmpegStream::technical_summary() const
+{
+	return "id " + boost::lexical_cast<std::string>(_id);
+}
+
+
+string
+FFmpegStream::identifier() const
+{
+	return boost::lexical_cast<std::string>(_id);
+}
+
