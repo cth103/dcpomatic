@@ -88,7 +88,7 @@ ContentView::update ()
 
 	wxProgressDialog progress(variant::wx::dcpomatic(), _("Reading content directory"));
 
-	auto store = ContentStore::instance();
+	auto store = ShowPlaylistContentStore::instance();
 
 	auto errors = store->update([&progress]() {
 		return progress.Pulse();
