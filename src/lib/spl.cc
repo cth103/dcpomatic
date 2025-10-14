@@ -19,7 +19,7 @@
 */
 
 
-#include "content_store.h"
+#include "show_playlist_content_store.h"
 #include "spl.h"
 #include <libcxml/cxml.h>
 #include <dcp/filesystem.h>
@@ -36,7 +36,7 @@ using std::shared_ptr;
 
 
 void
-SPL::read (boost::filesystem::path path, ContentStore* store)
+SPL::read(boost::filesystem::path path, ShowPlaylistContentStore* store)
 {
 	_spl.clear ();
 	_missing = false;

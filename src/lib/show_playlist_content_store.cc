@@ -21,11 +21,11 @@
 
 #include "config.h"
 #include "content_factory.h"
-#include "content_store.h"
 #include "cross.h"
 #include "dcp_content.h"
 #include "examine_content_job.h"
 #include "job_manager.h"
+#include "show_playlist_content_store.h"
 #include "util.h"
 #include <dcp/cpl.h>
 #include <dcp/exceptions.h>
@@ -41,11 +41,11 @@ using std::string;
 using std::vector;
 
 
-ContentStore* ContentStore::_instance = nullptr;
+ShowPlaylistContentStore* ShowPlaylistContentStore::_instance = nullptr;
 
 
 vector<pair<string, string>>
-ContentStore::update(std::function<bool()> pulse)
+ShowPlaylistContentStore::update(std::function<bool()> pulse)
 {
 	_content.clear();
 	auto dir = Config::instance()->player_content_directory();
@@ -116,7 +116,7 @@ ContentStore::update(std::function<bool()> pulse)
 
 
 shared_ptr<Content>
-ContentStore::get_by_digest(string digest) const
+ShowPlaylistContentStore::get_by_digest(string digest) const
 {
 	auto iter = std::find_if(_content.begin(), _content.end(), [digest](shared_ptr<const Content> content) {
 		return content->digest() == digest;
@@ -131,7 +131,7 @@ ContentStore::get_by_digest(string digest) const
 
 
 shared_ptr<Content>
-ContentStore::get_by_cpl_id(string id) const
+ShowPlaylistContentStore::get_by_cpl_id(string id) const
 {
 	auto iter = std::find_if(_content.begin(), _content.end(), [id](shared_ptr<const Content> content) {
 		if (auto dcp = dynamic_pointer_cast<const DCPContent>(content)) {
@@ -152,11 +152,11 @@ ContentStore::get_by_cpl_id(string id) const
 }
 
 
-ContentStore*
-ContentStore::instance()
+ShowPlaylistContentStore*
+ShowPlaylistContentStore::instance()
 {
 	if (!_instance) {
-		_instance = new ContentStore();
+		_instance = new ShowPlaylistContentStore();
 	}
 
 	return _instance;
