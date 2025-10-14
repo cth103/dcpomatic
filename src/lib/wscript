@@ -57,6 +57,7 @@ sources = """
           config.cc
           content.cc
           content_factory.cc
+          content_store.cc
           combine_dcp_job.cc
           copy_dcp_details_to_film.cc
           cover_sheet.cc
