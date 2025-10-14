@@ -88,13 +88,13 @@ FFmpegStream::index(AVFormatContext const * fc) const
 string
 FFmpegStream::technical_summary() const
 {
-	return "id " + boost::lexical_cast<std::string>(_id);
+	return "id " + fmt::to_string(_id);
 }
 
 
 string
 FFmpegStream::identifier() const
 {
-	return boost::lexical_cast<std::string>(_id);
+	return fmt::to_string(_id);
 }
 
