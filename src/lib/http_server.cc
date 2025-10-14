@@ -25,6 +25,7 @@
 #include "http_server.h"
 #include "util.h"
 #include "variant.h"
+#include <nlohmann/json.hpp>
 #include <boost/algorithm/string.hpp>
 #include <stdexcept>
 
@@ -96,15 +97,14 @@ HTTPServer::get(string const& url)
 	if (url == "/") {
 		return Response(200, fmt::format(dcp::file_to_string(resources_path() / "web" / "index.html"), variant::dcpomatic_player()));
 	} else if (url == "/api/v1/status") {
-		auto json = string{"{ "};
+		nlohmann::json json;
 		{
 			boost::mutex::scoped_lock lm(_mutex);
-			json += fmt::format("\"playing\": {}, ", _playing ? "true" : "false");
-			json += fmt::format("\"position\": \"{}\", ", seconds_to_hms(_position.seconds()));
-			json += fmt::format("\"dcp_name\": \"{}\"", _dcp_name);
+			json["playing"] = _playing;
+			json["position"] = seconds_to_hms(_position.seconds());
+			json["dcp_name"] = _dcp_name;
 		}
-		json += " }";
-		auto response = Response(200, json);
+		auto response = Response(200, json.dump());
 		response.set_type(Response::Type::JSON);
 		return response;
 	} else {
