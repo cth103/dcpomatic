@@ -73,7 +73,7 @@ save_playlist(shared_ptr<const SPL> playlist)
 }
 
 
-class ContentDialog : public wxDialog, public ContentStore
+class ContentDialog : public wxDialog
 {
 public:
 	ContentDialog(wxWindow* parent)
@@ -103,16 +103,6 @@ public:
 		return _content_view->selected();
 	}
 
-	shared_ptr<Content> get_by_digest(string digest) const override
-	{
-		return _content_view->get_by_digest(digest);
-	}
-
-	shared_ptr<Content> get_by_cpl_id(string cpl_id) const override
-	{
-		return _content_view->get_by_cpl_id(cpl_id);
-	}
-
 private:
 	ContentView* _content_view;
 	boost::signals2::scoped_connection _config_changed_connection;
@@ -123,9 +113,8 @@ private:
 class PlaylistList
 {
 public:
-	PlaylistList(wxPanel* parent, ContentStore* content_store)
+	PlaylistList(wxPanel* parent)
 		: _sizer(new wxBoxSizer(wxVERTICAL))
-		, _content_store(content_store)
 		, _parent(parent)
 	{
 		auto label = new wxStaticText(parent, wxID_ANY, wxEmptyString);
@@ -235,7 +224,7 @@ private:
 			for (auto i: dcp::filesystem::directory_iterator(*path)) {
 				auto spl = make_shared<SignalSPL>();
 				try {
-					spl->read(i, _content_store);
+					spl->read(i, ContentStore::instance());
 					add_playlist_to_model(spl);
 				} catch (...) {}
 			}
@@ -306,7 +295,6 @@ private:
 	wxButton* _new;
 	wxButton* _delete;
 	vector<shared_ptr<SignalSPL>> _playlists;
-	ContentStore* _content_store;
 	wxWindow* _parent;
 };
 
@@ -548,7 +536,7 @@ public:
 		auto overall_panel = new wxPanel(this, wxID_ANY);
 		auto sizer = new wxBoxSizer(wxVERTICAL);
 
-		_playlist_list = new PlaylistList(overall_panel, _content_dialog);
+		_playlist_list = new PlaylistList(overall_panel);
 		_playlist_content = new PlaylistContent(overall_panel, _content_dialog);
 
 		sizer->Add(_playlist_list->sizer());

@@ -81,76 +81,27 @@ ContentView::selected () const
 void
 ContentView::update ()
 {
-	using namespace boost::filesystem;
-
-	DeleteAllItems ();
-	_content.clear ();
 	auto dir = Config::instance()->player_content_directory();
 	if (!dir || !dcp::filesystem::is_directory(*dir)) {
 		dir = home_directory ();
 	}
 
 	wxProgressDialog progress(variant::wx::dcpomatic(), _("Reading content directory"));
-	auto jm = JobManager::instance ();
 
-	list<shared_ptr<ExamineContentJob>> jobs;
+	auto store = ContentStore::instance();
 
-	for (auto i: directory_iterator(*dir)) {
-		try {
-			progress.Pulse ();
+	auto errors = store->update([&progress]() {
+		return progress.Pulse();
+	});
 
-			shared_ptr<Content> content;
-			if (is_directory(i) && contains_assetmap(i)) {
-				content = make_shared<DCPContent>(i);
-			} else if (i.path().extension() == ".mp4") {
-				auto all_content = content_factory(i);
-				if (!all_content.empty()) {
-					content = all_content[0];
-				}
-			}
-
-			if (content) {
-				auto job = make_shared<ExamineContentJob>(vector<shared_ptr<Content>>{content}, false);
-				jm->add (job);
-				jobs.push_back (job);
-			}
-		} catch (boost::filesystem::filesystem_error& e) {
-			/* Never mind */
-		} catch (dcp::ReadError& e) {
-			/* Never mind */
-		}
+	DeleteAllItems();
+	_content.clear();
+	for (auto content: store->all()) {
+		add(content);
 	}
 
-	while (jm->work_to_do()) {
-		if (!progress.Pulse()) {
-			/* user pressed cancel */
-			for (auto i: jm->get()) {
-				i->cancel();
-			}
-			return;
-		}
-		dcpomatic_sleep_seconds (1);
-	}
-
-	/* Add content from successful jobs and report errors */
-	for (auto i: jobs) {
-		if (i->finished_in_error()) {
-			error_dialog(this, std_to_wx(i->error_summary()) + char_to_wx(".\n"), std_to_wx(i->error_details()));
-		} else {
-			for (auto c: i->content()) {
-				if (auto dcp = dynamic_pointer_cast<DCPContent>(c)) {
-					for (auto cpl: dcp::find_and_resolve_cpls(dcp->directories(), true)) {
-						auto copy = dynamic_pointer_cast<DCPContent>(dcp->clone());
-						copy->set_cpl(cpl->id());
-						add(copy);
-						_content.push_back(copy);
-					}
-				} else {
-					add(c);
-					_content.push_back(c);
-				}
-			}
-		}
+	for (auto error: errors) {
+		error_dialog(this, std_to_wx(error.first), std_to_wx(error.second));
 	}
 }
 
@@ -180,39 +131,8 @@ ContentView::add (shared_ptr<Content> content)
 	it.SetColumn(2);
 	it.SetText(std_to_wx(content->summary()));
 	SetItem(it);
+
+	_content.push_back(content);
 }
 
 
-shared_ptr<Content>
-ContentView::get_by_digest(string digest) const
-{
-	auto iter = std::find_if(_content.begin(), _content.end(), [digest](shared_ptr<const Content> c) { return c->digest() == digest; });
-	if (iter == _content.end()) {
-		return {};
-	}
-
-	return *iter;
-}
-
-
-shared_ptr<Content>
-ContentView::get_by_cpl_id(string cpl_id) const
-{
-	auto iter = std::find_if(
-		_content.begin(),
-		_content.end(),
-		[cpl_id](shared_ptr<const Content> c) {
-			if (auto dcp = dynamic_pointer_cast<const DCPContent>(c)) {
-				if (dcp->cpl() && *dcp->cpl() == cpl_id) {
-					return true;
-				}
-			}
-			return false;
-		});
-
-	if (iter == _content.end()) {
-		return {};
-	}
-
-	return *iter;
-}
