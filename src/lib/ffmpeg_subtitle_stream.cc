@@ -35,13 +35,13 @@ using std::make_pair;
  *  @param node String returned from to_string().
  *  @param version State file version.
  */
-FFmpegSubtitleStream::FFmpegSubtitleStream (cxml::ConstNodePtr node, int version)
-	: FFmpegStream (node)
+FFmpegSubtitleStream::FFmpegSubtitleStream(cxml::ConstNodePtr node, int version)
+	: FFmpegStream(node)
 {
 	if (version >= 33) {
-		boost::mutex::scoped_lock lm (_mutex);
-		for (auto i: node->node_children ("Colour")) {
-			_colours[RGBA(i->node_child("From"))] = RGBA (i->node_child("To"));
+		boost::mutex::scoped_lock lm(_mutex);
+		for (auto i: node->node_children("Colour")) {
+			_colours[RGBA(i->node_child("From"))] = RGBA(i->node_child("To"));
 		}
 	}
 }
@@ -51,7 +51,7 @@ FFmpegSubtitleStream::as_xml(xmlpp::Element* root) const
 {
 	FFmpegStream::as_xml(root);
 
-	boost::mutex::scoped_lock lm (_mutex);
+	boost::mutex::scoped_lock lm(_mutex);
 	for (map<RGBA, RGBA>::const_iterator i = _colours.begin(); i != _colours.end(); ++i) {
 		auto node = cxml::add_child(root, "Colour");
 		i->first.as_xml(cxml::add_child(node, "From"));
@@ -60,15 +60,15 @@ FFmpegSubtitleStream::as_xml(xmlpp::Element* root) const
 }
 
 map<RGBA, RGBA>
-FFmpegSubtitleStream::colours () const
+FFmpegSubtitleStream::colours() const
 {
-	boost::mutex::scoped_lock lm (_mutex);
+	boost::mutex::scoped_lock lm(_mutex);
 	return _colours;
 }
 
 void
-FFmpegSubtitleStream::set_colour (RGBA from, RGBA to)
+FFmpegSubtitleStream::set_colour(RGBA from, RGBA to)
 {
-	boost::mutex::scoped_lock lm (_mutex);
+	boost::mutex::scoped_lock lm(_mutex);
 	_colours[from] = to;
 }

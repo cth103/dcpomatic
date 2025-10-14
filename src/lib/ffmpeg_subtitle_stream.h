@@ -27,16 +27,16 @@
 class FFmpegSubtitleStream : public FFmpegStream
 {
 public:
-	FFmpegSubtitleStream (std::string n, int i)
-		: FFmpegStream (n, i)
+	FFmpegSubtitleStream(std::string n, int i)
+		: FFmpegStream(n, i)
 	{}
 
-	FFmpegSubtitleStream (cxml::ConstNodePtr node, int version);
+	FFmpegSubtitleStream(cxml::ConstNodePtr node, int version);
 
 	void as_xml(xmlpp::Element*) const;
 
-	void set_colour (RGBA from, RGBA to);
-	std::map<RGBA, RGBA> colours () const;
+	void set_colour(RGBA from, RGBA to);
+	std::map<RGBA, RGBA> colours() const;
 
 private:
 	/** mutex to protect _colours as it can be set from the "examine FFmpeg subtitles" job thread */
