@@ -18,6 +18,7 @@
 
 */
 
+
 #include "ffmpeg_subtitle_stream.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
@@ -25,11 +26,13 @@ LIBDCP_DISABLE_WARNINGS
 LIBDCP_ENABLE_WARNINGS
 #include <iostream>
 
-using std::string;
-using std::map;
-using std::list;
+
 using std::cout;
+using std::list;
 using std::make_pair;
+using std::map;
+using std::string;
+
 
 /** Construct a SubtitleStream from a value returned from to_string().
  *  @param node String returned from to_string().
