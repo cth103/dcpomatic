@@ -18,19 +18,22 @@
 
 */
 
+
 #include "job.h"
+
 
 /** @class CheckContentJob
  *  @brief A job to check content that was just loaded to see if anything needs fixing about it.
  */
 
+
 class CheckContentJob : public Job
 {
 public:
-	CheckContentJob (std::shared_ptr<const Film>);
-	~CheckContentJob ();
+	CheckContentJob(std::shared_ptr<const Film>);
+	~CheckContentJob();
 
-	std::string name () const override;
-	std::string json_name () const override;
-	void run () override;
+	std::string name() const override;
+	std::string json_name() const override;
+	void run() override;
 };

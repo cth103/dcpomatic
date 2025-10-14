@@ -38,37 +38,37 @@ using std::shared_ptr;
 using std::string;
 
 
-CheckContentJob::CheckContentJob (shared_ptr<const Film> film)
-	: Job (film)
+CheckContentJob::CheckContentJob(shared_ptr<const Film> film)
+	: Job(film)
 {
 
 }
 
-CheckContentJob::~CheckContentJob ()
+CheckContentJob::~CheckContentJob()
 {
-	stop_thread ();
+	stop_thread();
 }
 
 string
-CheckContentJob::name () const
+CheckContentJob::name() const
 {
 	return _("Checking content");
 }
 
 string
-CheckContentJob::json_name () const
+CheckContentJob::json_name() const
 {
 	return N_("check_content");
 }
 
 void
-CheckContentJob::run ()
+CheckContentJob::run()
 {
-	set_progress_unknown ();
+	set_progress_unknown();
 
 	auto content = _film->content();
 	std::vector<shared_ptr<Content>> changed;
-	std::copy_if (content.begin(), content.end(), std::back_inserter(changed), [](shared_ptr<Content> c) { return c->changed(); });
+	std::copy_if(content.begin(), content.end(), std::back_inserter(changed), [](shared_ptr<Content> c) { return c->changed(); });
 
 	if (_film->last_written_by_earlier_than(2, 17, 17)) {
 		for (auto c: content) {
@@ -82,9 +82,9 @@ CheckContentJob::run ()
 
 	if (!changed.empty()) {
 		JobManager::instance()->add(make_shared<ExamineContentJob>(_film, changed, false));
-		set_message (_("Some files have been changed since they were added to the project.\n\nThese files will now be re-examined, so you may need to check their settings."));
+		set_message(_("Some files have been changed since they were added to the project.\n\nThese files will now be re-examined, so you may need to check their settings."));
 	}
 
-	set_progress (1);
-	set_state (FINISHED_OK);
+	set_progress(1);
+	set_state(FINISHED_OK);
 }
