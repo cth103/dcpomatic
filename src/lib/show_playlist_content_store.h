@@ -27,10 +27,10 @@
 class Content;
 
 
-/** @class ContentStore
- *  @brief Class to maintain details of what content we have available to play
+/** @class ShowPlaylistContentStore
+ *  @brief Class to maintain details of content that can be included in show playlists
  */
-class ContentStore
+class ShowPlaylistContentStore
 {
 public:
 	std::shared_ptr<Content> get_by_digest(std::string digest) const;
@@ -42,7 +42,7 @@ public:
 	 */
 	std::vector<std::pair<std::string, std::string>> update(std::function<bool()> pulse);
 
-	static ContentStore* instance();
+	static ShowPlaylistContentStore* instance();
 
 	std::vector<std::shared_ptr<Content>> const& all() const {
 		return _content;
@@ -51,5 +51,5 @@ public:
 private:
 	std::vector<std::shared_ptr<Content>> _content;
 
-	static ContentStore* _instance;
+	static ShowPlaylistContentStore* _instance;
 };

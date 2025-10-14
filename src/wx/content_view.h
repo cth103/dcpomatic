@@ -19,7 +19,7 @@
 */
 
 
-#include "lib/content_store.h"
+#include "lib/show_playlist_content_store.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/listctrl.h>
