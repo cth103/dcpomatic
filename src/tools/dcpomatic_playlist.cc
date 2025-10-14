@@ -224,7 +224,7 @@ private:
 			for (auto i: dcp::filesystem::directory_iterator(*path)) {
 				auto spl = make_shared<SignalSPL>();
 				try {
-					spl->read(i, ContentStore::instance());
+					spl->read(i, ShowPlaylistContentStore::instance());
 					add_playlist_to_model(spl);
 				} catch (...) {}
 			}
