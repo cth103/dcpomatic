@@ -697,6 +697,14 @@ def configure(conf):
                    define_name="DCPOMATIC_HAVE_SQLITE3_PREPARE_V3",
                    mandatory=False)
 
+    conf.check_cxx(fragment="""
+                       #include <nlohmann/json.hpp>
+                       int main() { nlohmann::json json; return 0; }
+                       """,
+                   msg='Checking for nlohmann json',
+                   uselib='JSON',
+                   mandatory=True)
+
 
     # Other stuff
 
