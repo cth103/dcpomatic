@@ -121,7 +121,6 @@ PlaylistControls::PlaylistControls(wxWindow* parent, FilmViewer& viewer)
 	_refresh_spl_view->Bind(wxEVT_BUTTON, boost::bind(&PlaylistControls::update_playlist_directory, this));
 	_refresh_content_view->Bind(wxEVT_BUTTON, boost::bind(&ContentView::update, _content_view));
 
-	_content_view->update();
 	update_playlist_directory();
 }
 
