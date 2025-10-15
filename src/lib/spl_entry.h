@@ -40,7 +40,7 @@ class SPLEntry
 public:
 	SPLEntry(std::shared_ptr<Content> c, cxml::ConstNodePtr node = {});
 
-	void as_xml(xmlpp::Element* e);
+	void as_xml(xmlpp::Element* e) const;
 
 	std::shared_ptr<Content> content;
 	std::string name;

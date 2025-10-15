@@ -57,7 +57,7 @@ SPLEntry::SPLEntry(shared_ptr<Content> c, cxml::ConstNodePtr node)
 
 
 void
-SPLEntry::as_xml(xmlpp::Element* e)
+SPLEntry::as_xml(xmlpp::Element* e) const
 {
 	if (id) {
 		cxml::add_text_child(e, "CPL", *id);
