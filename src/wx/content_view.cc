@@ -81,27 +81,8 @@ ContentView::selected () const
 void
 ContentView::update ()
 {
-	auto dir = Config::instance()->player_content_directory();
-	if (!dir || !dcp::filesystem::is_directory(*dir)) {
-		dir = home_directory ();
-	}
-
-	wxProgressDialog progress(variant::wx::dcpomatic(), _("Reading content directory"));
-
-	auto store = ShowPlaylistContentStore::instance();
-
-	auto errors = store->update([&progress]() {
-		return progress.Pulse();
-	});
-
-	DeleteAllItems();
-	_content.clear();
-	for (auto content: store->all()) {
+	for (auto content: ShowPlaylistContentStore::instance()->all()) {
 		add(content);
-	}
-
-	for (auto error: errors) {
-		error_dialog(this, std_to_wx(error.first), std_to_wx(error.second));
 	}
 }
 
