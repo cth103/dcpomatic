@@ -1222,6 +1222,8 @@ private:
 			}
 		}
 
+		dcpomatic_log->set_types(Config::instance()->log_types());
+
 		set_audio_delay_from_config();
 	}
 
