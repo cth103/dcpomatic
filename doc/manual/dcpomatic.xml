@@ -1390,6 +1390,26 @@ only limited control is available for subtitles rendered by the
 projection system.
 </para>
 
+<section>
+<title>Closed captions</title>
+
+<para>If you choose <guilabel>closed captions</guilabel> or <guilabel>closed subtitles</guilabel>
+the timed text options will change a little, because then your captions or subtitles will be
+displayed on a dedicated display device, rather than on screen.</para>
+
+<para>Firstly, with closed captions you can no longer burn into the image, nor adjust font or
+appearance.  Closed caption displays usually do not allow different fonts or letter appearance.
+The position, scale and line spacing options are also disabled, for the same reason.</para>
+
+<para>Secondly, there is a new <guilabel>Track</guilabel> control.  This is because with some
+closed caption devices the viewer can choose one of several tracks to look at (perhaps in the
+language of their choice).  For each piece of closed caption content you will need to choose
+a track, creating a new one (by clicking on the drop-down and choosing <guilabel>Add new...</guilabel>)
+if required.  Adding a new track will prompt you for a name (which can be anything) and the
+language that the track is in.</para>
+
+</section>
+
 </section>
 
 
