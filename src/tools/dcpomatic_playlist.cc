@@ -690,6 +690,8 @@ private:
 		*/
 		Config::drop();
 
+		update_content_store();
+
 		_frame = new DOMFrame(variant::wx::dcpomatic_playlist_editor());
 		SetTopWindow(_frame);
 		_frame->Maximize();

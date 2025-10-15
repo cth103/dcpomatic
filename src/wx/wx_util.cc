@@ -35,6 +35,7 @@
 #include "lib/cross.h"
 #include "lib/job.h"
 #include "lib/job_manager.h"
+#include "lib/show_playlist_content_store.h"
 #include "lib/util.h"
 #include "lib/variant.h"
 #include "lib/version.h"
@@ -794,3 +795,22 @@ colour_for_peak(float peak_db)
 	return gui_is_dark() ? *wxWHITE : *wxBLACK;
 }
 
+
+void
+update_content_store()
+{
+	auto dir = Config::instance()->player_content_directory();
+	if (!dir || !dcp::filesystem::is_directory(*dir)) {
+		dir = home_directory ();
+	}
+
+	wxProgressDialog progress(variant::wx::dcpomatic(), _("Reading content directory"));
+
+	auto store = ShowPlaylistContentStore::instance();
+
+	auto errors = store->update([&progress]() { return progress.Pulse(); });
+
+	for (auto error: errors) {
+		error_dialog(nullptr, std_to_wx(error.first), std_to_wx(error.second));
+	}
+}
