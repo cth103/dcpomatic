@@ -93,7 +93,9 @@ public:
 
 private:
 	boost::mutex _mutex;
+#ifdef DCPOMATIC_WINDOWS
 	Reason _reason;
+#endif
 #ifdef DCPOMATIC_OSX
 	IOPMAssertionID _assertion_id;
 #endif
