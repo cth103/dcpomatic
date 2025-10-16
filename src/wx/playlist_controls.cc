@@ -251,12 +251,6 @@ PlaylistControls::add_playlist_to_list(SPL spl)
 	_spl_view->InsertItem(it);
 }
 
-struct SPLComparator
-{
-	bool operator() (SPL const & a, SPL const & b) {
-		return a.name() < b.name();
-	}
-};
 
 void
 PlaylistControls::update_playlist_directory()
@@ -283,7 +277,7 @@ PlaylistControls::update_playlist_directory()
 		}
 	}
 
-	sort(_playlists.begin(), _playlists.end(), SPLComparator());
+	sort(_playlists.begin(), _playlists.end(), [](SPL const& a, SPL const& b) { return a.name() < b.name(); });
 	for (auto i: _playlists) {
 		add_playlist_to_list(i);
 	}
@@ -300,10 +294,10 @@ PlaylistControls::get_kdm_from_directory(shared_ptr<DCPContent> dcp)
 	if (!kdm_dir) {
 		return optional<dcp::EncryptedKDM>();
 	}
-	for (directory_iterator i = directory_iterator(*kdm_dir); i != directory_iterator(); ++i) {
+	for (auto i: directory_iterator(*kdm_dir)) {
 		try {
-			if (file_size(i->path()) < MAX_KDM_SIZE) {
-				dcp::EncryptedKDM kdm(dcp::file_to_string(i->path()));
+			if (file_size(i.path()) < MAX_KDM_SIZE) {
+				dcp::EncryptedKDM kdm(dcp::file_to_string(i.path()));
 				if (kdm.cpl_id() == dcp->cpl()) {
 					return kdm;
 				}
@@ -312,7 +306,8 @@ PlaylistControls::get_kdm_from_directory(shared_ptr<DCPContent> dcp)
 			/* Hey well */
 		}
 	}
-	return optional<dcp::EncryptedKDM>();
+
+	return {};
 }
 
 
@@ -348,7 +343,7 @@ PlaylistControls::select_playlist(int selected, int position)
 
 	for (auto const& i: _playlists[selected].get()) {
 		dialog.Pulse();
-		shared_ptr<DCPContent> dcp = dynamic_pointer_cast<DCPContent>(i.content);
+		auto dcp = dynamic_pointer_cast<DCPContent>(i.content);
 		if (dcp && dcp->needs_kdm()) {
 			optional<dcp::EncryptedKDM> kdm;
 			kdm = get_kdm_from_directory(dcp);
