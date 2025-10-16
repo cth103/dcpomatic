@@ -125,6 +125,7 @@ PlaylistControls::PlaylistControls(wxWindow* parent, FilmViewer& viewer)
 	update_playlist_directory();
 }
 
+
 void
 PlaylistControls::started()
 {
@@ -132,6 +133,7 @@ PlaylistControls::started()
 	_play_button->Enable(false);
 	_pause_button->Enable(true);
 }
+
 
 /** Called when the viewer finishes a single piece of content, or it is explicitly stopped */
 void
@@ -141,6 +143,7 @@ PlaylistControls::stopped()
 	_play_button->Enable(true);
 	_pause_button->Enable(false);
 }
+
 
 void
 PlaylistControls::deselect_playlist()
@@ -153,11 +156,13 @@ PlaylistControls::deselect_playlist()
 	ResetFilm(std::make_shared<Film>(optional<boost::filesystem::path>()), {});
 }
 
+
 void
 PlaylistControls::play_clicked()
 {
 	_viewer.start();
 }
+
 
 void
 PlaylistControls::setup_sensitivity()
@@ -172,11 +177,13 @@ PlaylistControls::setup_sensitivity()
 	_previous_button->Enable(can_do_previous());
 }
 
+
 void
 PlaylistControls::pause_clicked()
 {
 	_viewer.stop();
 }
+
 
 void
 PlaylistControls::stop_clicked()
@@ -190,11 +197,13 @@ PlaylistControls::stop_clicked()
 	deselect_playlist();
 }
 
+
 bool
 PlaylistControls::can_do_previous()
 {
 	return _selected_playlist && (_selected_playlist_position - 1) >= 0;
 }
+
 
 void
 PlaylistControls::previous_clicked()
@@ -207,11 +216,13 @@ PlaylistControls::previous_clicked()
 	update_current_content();
 }
 
+
 bool
 PlaylistControls::can_do_next()
 {
 	return _selected_playlist && (_selected_playlist_position + 1) < int(_playlists[*_selected_playlist].get().size());
 }
+
 
 void
 PlaylistControls::next_clicked()
@@ -281,6 +292,7 @@ PlaylistControls::update_playlist_directory()
 	_selected_playlist = boost::none;
 }
 
+
 optional<dcp::EncryptedKDM>
 PlaylistControls::get_kdm_from_directory(shared_ptr<DCPContent> dcp)
 {
@@ -303,6 +315,7 @@ PlaylistControls::get_kdm_from_directory(shared_ptr<DCPContent> dcp)
 	}
 	return optional<dcp::EncryptedKDM>();
 }
+
 
 void
 PlaylistControls::spl_selection_changed()
@@ -327,6 +340,7 @@ PlaylistControls::spl_selection_changed()
 
 	select_playlist(selected, 0);
 }
+
 
 void
 PlaylistControls::select_playlist(int selected, int position)
@@ -376,6 +390,7 @@ PlaylistControls::select_playlist(int selected, int position)
 	update_current_content();
 }
 
+
 void
 PlaylistControls::reset_film()
 {
@@ -385,6 +400,7 @@ PlaylistControls::reset_film()
 	film->add_content(vector<shared_ptr<Content>>{entry.content});
 	ResetFilm(film, entry.crop_to_ratio);
 }
+
 
 void
 PlaylistControls::config_changed(int property)
@@ -411,6 +427,7 @@ PlaylistControls::update_current_content()
 	reset_film();
 }
 
+
 /** One piece of content in our SPL has finished playing */
 void
 PlaylistControls::viewer_finished()
@@ -433,11 +450,13 @@ PlaylistControls::viewer_finished()
 	}
 }
 
+
 void
 PlaylistControls::play()
 {
 	play_clicked();
 }
+
 
 void
 PlaylistControls::stop()
