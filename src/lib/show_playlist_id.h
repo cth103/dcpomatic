@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018-2021 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2025 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -19,42 +19,28 @@
 */
 
 
-#ifndef DCPOMATIC_SPL_ENTRY_H
-#define DCPOMATIC_SPL_ENTRY_H
+#ifndef DCPOMATIC_SHOW_PLAYLIST_ID
+#define DCPOMATIC_SHOW_PLAYLIST_ID
 
 
-#include <libcxml/cxml.h>
-#include <dcp/content_kind.h>
-#include <libcxml/cxml.h>
+#include "id.h"
 
 
-namespace xmlpp {
-	class Element;
-}
-
-class Content;
-
-
-class SPLEntry
+/** @class ShowPlaylistID
+ *
+ *  @brief The SQLite ID (not the UUID) of a ShowPlaylist.
+ */
+class ShowPlaylistID : public ID
 {
 public:
-	SPLEntry(std::shared_ptr<Content> c, cxml::ConstNodePtr node = {});
+	explicit ShowPlaylistID(sqlite3_int64 id)
+		: ID(id) {}
 
-	void as_xml(xmlpp::Element* e) const;
-
-	std::shared_ptr<Content> content;
-	std::string name;
-	/** Digest of this content */
-	std::string digest;
-	/** CPL ID */
-	boost::optional<std::string> id;
-	boost::optional<dcp::ContentKind> kind;
-	bool encrypted = false;
-	boost::optional<float> crop_to_ratio;
-
-private:
-	void construct(std::shared_ptr<Content> content);
+	bool operator<(ShowPlaylistID const& other) const {
+		return get() < other.get();
+	}
 };
 
 
 #endif
+
