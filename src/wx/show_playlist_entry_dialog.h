@@ -20,23 +20,23 @@
 
 
 #include "table_dialog.h"
-#include "lib/spl.h"
+#include "lib/show_playlist_entry.h"
 
 
 class RatioPicker;
 
 
-class SPLEntryDialog : public TableDialog
+class ShowPlaylistEntryDialog : public TableDialog
 {
 public:
-	SPLEntryDialog(wxWindow* parent, SPLEntry entry);
+	ShowPlaylistEntryDialog(wxWindow* parent, ShowPlaylistEntry entry);
 
-	SPLEntry get() const;
+	ShowPlaylistEntry get() const;
 
 private:
 	void crop_changed(boost::optional<float> ratio);
 
-	SPLEntry _entry;
+	ShowPlaylistEntry _entry;
 
 	RatioPicker* _crop;
 };

@@ -76,3 +76,11 @@ SQLiteTable::select(string const& condition) const
 {
 	return fmt::format("SELECT id,{} FROM {} {}", join_strings(_columns, ","), _name, condition);
 }
+
+
+string
+SQLiteTable::remove(string const& condition) const
+{
+	DCPOMATIC_ASSERT(!_columns.empty());
+	return fmt::format("DELETE FROM {} {}", _name, condition);
+}
