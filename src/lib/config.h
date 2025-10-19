@@ -111,7 +111,7 @@ public:
 		SOUND,
 		SOUND_OUTPUT,
 		PLAYER_CONTENT_DIRECTORY,
-		PLAYER_PLAYLIST_DIRECTORY,
+		SHOW_PLAYLISTS_FILE,
 		PLAYER_DEBUG_LOG,
 		KDM_DEBUG_LOG,
 		HISTORY,
@@ -582,8 +582,8 @@ public:
 		return _player_content_directory;
 	}
 
-	boost::optional<boost::filesystem::path> player_playlist_directory() const {
-		return _player_playlist_directory;
+	boost::filesystem::path show_playlists_file() const {
+		return _show_playlists_file;
 	}
 
 	boost::optional<boost::filesystem::path> player_kdm_directory() const {
@@ -1157,16 +1157,8 @@ public:
 		changed(PLAYER_CONTENT_DIRECTORY);
 	}
 
-	void set_player_playlist_directory(boost::filesystem::path p) {
-		maybe_set(_player_playlist_directory, p, PLAYER_PLAYLIST_DIRECTORY);
-	}
-
-	void unset_player_playlist_directory() {
-		if (!_player_playlist_directory) {
-			return;
-		}
-		_player_playlist_directory = boost::none;
-		changed(PLAYER_PLAYLIST_DIRECTORY);
+	void set_show_playlists_file(boost::filesystem::path p) {
+		maybe_set(_show_playlists_file, p, SHOW_PLAYLISTS_FILE);
 	}
 
 	void set_player_kdm_directory(boost::filesystem::path p) {
@@ -1489,7 +1481,7 @@ private:
 	    for playback.
 	*/
 	boost::optional<boost::filesystem::path> _player_content_directory;
-	boost::optional<boost::filesystem::path> _player_playlist_directory;
+	boost::filesystem::path _show_playlists_file;
 	boost::optional<boost::filesystem::path> _player_kdm_directory;
 	boost::optional<AudioMapping> _audio_mapping;
 	std::vector<dcp::LanguageTag> _custom_languages;

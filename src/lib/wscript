@@ -195,10 +195,11 @@ sources = """
           send_problem_report_job.cc
           server.cc
           show_playlist_content_store.cc
+          show_playlist_entry.cc
+          show_playlist_list.cc
+          show_playlist.cc
           shuffler.cc
           state.cc
-          spl.cc
-          spl_entry.cc
           sqlite_database.cc
           sqlite_statement.cc
           sqlite_table.cc

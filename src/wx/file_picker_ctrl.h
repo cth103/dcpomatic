@@ -25,6 +25,9 @@ LIBDCP_DISABLE_WARNINGS
 LIBDCP_ENABLE_WARNINGS
 #include <boost/filesystem.hpp>
 #include <boost/optional.hpp>
+LIBDCP_DISABLE_WARNINGS
+#include <boost/signals2.hpp>
+LIBDCP_ENABLE_WARNINGS
 
 
 class FilePickerCtrl : public wxPanel
@@ -44,6 +47,13 @@ public:
 	boost::optional<boost::filesystem::path> path() const;
 	void set_path(boost::optional<boost::filesystem::path> path);
 	void set_wildcard(wxString);
+
+	template <typename... Args>
+	void bind(Args... args) {
+		Changed.connect(boost::bind(std::forward<Args>(args)...));
+	}
+
+	boost::signals2::signal<void ()> Changed;
 
 private:
 	void browse_clicked ();
