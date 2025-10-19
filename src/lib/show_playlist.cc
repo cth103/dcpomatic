@@ -19,41 +19,28 @@
 */
 
 
-#include "preferences_page.h"
+#include "show_playlist.h"
 
 
-class FilePickerCtrl;
-class wxDirPickerCtrl;
-
-
-namespace dcpomatic {
-namespace preferences {
-
-
-class LocationsPage : public Page
+nlohmann::json
+ShowPlaylist::as_json() const
 {
-public:
-	LocationsPage(wxSize panel_size, int border);
-
-	wxString GetName() const override;
-
-#ifdef DCPOMATIC_OSX
-	wxBitmap GetLargeIcon() const override;
-#endif
-
-private:
-	void setup() override;
-	void config_changed() override;
-	void content_directory_changed();
-	void show_playlists_file_changed();
-	void kdm_directory_changed();
-
-	wxDirPickerCtrl* _content_directory;
-	FilePickerCtrl* _show_playlists_file;
-	wxDirPickerCtrl* _kdm_directory;
-};
-
-
-}
+	nlohmann::json json;
+	json["uuid"] = _uuid;
+	json["name"] = _name;
+	return json;
 }
 
+
+bool
+operator==(ShowPlaylist const& a, ShowPlaylist const& b)
+{
+	return a.uuid() == b.uuid() && a.name() == b.name();
+}
+
+
+bool
+operator!=(ShowPlaylist const& a, ShowPlaylist const& b)
+{
+	return a.uuid() != b.uuid() || a.name() != b.name();
+}
