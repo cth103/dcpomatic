@@ -69,6 +69,16 @@ SQLiteStatement::bind_int64(int index, int64_t value)
 
 
 void
+SQLiteStatement::bind_double(int index, double value)
+{
+	auto rc = sqlite3_bind_double(_stmt, index, value);
+	if (rc != SQLITE_OK) {
+		throw SQLError(_db, rc);
+	}
+}
+
+
+void
 SQLiteStatement::execute(function<void(SQLiteStatement&)> row, function<void()> busy)
 {
 	while (true) {
@@ -101,6 +111,13 @@ int64_t
 SQLiteStatement::column_int64(int index)
 {
 	return sqlite3_column_int64(_stmt, index);
+}
+
+
+double
+SQLiteStatement::column_double(int index)
+{
+	return sqlite3_column_double(_stmt, index);
 }
 
 

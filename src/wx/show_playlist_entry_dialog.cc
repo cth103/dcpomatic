@@ -21,9 +21,9 @@
 
 #include "check_box.h"
 #include "ratio_picker.h"
-#include "spl_entry_dialog.h"
+#include "show_playlist_entry_dialog.h"
 #include "wx_util.h"
-#include "lib/spl.h"
+#include "lib/show_playlist_entry.h"
 #include <wx/wx.h>
 
 
@@ -34,43 +34,43 @@ using namespace boost::placeholders;
 
 
 
-SPLEntryDialog::SPLEntryDialog(wxWindow* parent, SPLEntry entry)
+ShowPlaylistEntryDialog::ShowPlaylistEntryDialog(wxWindow* parent, ShowPlaylistEntry entry)
 	: TableDialog(parent, _("Playlist item"), 2, 1, true)
 	, _entry(entry)
 {
 	add(_("Name"), true);
-	auto name = _entry.name;
+	auto name = _entry.name();
 #ifdef DCPOMATIC_LINUX
 	boost::replace_all(name, "_", "__");
 #endif
 	add(std_to_wx(name), false);
-	add(_("CPL"), true);
-	add(std_to_wx(_entry.id.get_value_or("")), false);
+	add(_("UUID"), true);
+	add(std_to_wx(_entry.uuid()), false);
 	add(_("Type"), true);
-	add(std_to_wx(_entry.kind->name()), false);
+	add(std_to_wx(_entry.kind().name()), false);
 	add(_("Encrypted"), true);
-	add(_entry.encrypted ? _("Yes") : _("No"), false);
+	add(_entry.encrypted() ? _("Yes") : _("No"), false);
 
-	_crop = new RatioPicker(this, entry.crop_to_ratio);
+	_crop = new RatioPicker(this, entry.crop_to_ratio());
 	add(_crop->enable_checkbox(), false);
 	add(_crop, false);
 
 	layout();
 
-	_crop->Changed.connect(boost::bind(&SPLEntryDialog::crop_changed, this, _1));
+	_crop->Changed.connect(boost::bind(&ShowPlaylistEntryDialog::crop_changed, this, _1));
 }
 
 
-SPLEntry
-SPLEntryDialog::get() const
+ShowPlaylistEntry
+ShowPlaylistEntryDialog::get() const
 {
 	return _entry;
 }
 
 
 void
-SPLEntryDialog::crop_changed(optional<float> ratio)
+ShowPlaylistEntryDialog::crop_changed(optional<float> ratio)
 {
-	_entry.crop_to_ratio = ratio;
+	_entry.set_crop_to_ratio(ratio);
 }
 
