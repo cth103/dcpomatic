@@ -22,6 +22,7 @@
 #include "preferences_page.h"
 
 
+class FilePickerCtrl;
 class wxDirPickerCtrl;
 
 
@@ -44,11 +45,11 @@ private:
 	void setup() override;
 	void config_changed() override;
 	void content_directory_changed();
-	void playlist_directory_changed();
+	void show_playlists_file_changed();
 	void kdm_directory_changed();
 
 	wxDirPickerCtrl* _content_directory;
-	wxDirPickerCtrl* _playlist_directory;
+	FilePickerCtrl* _show_playlists_file;
 	wxDirPickerCtrl* _kdm_directory;
 };
 

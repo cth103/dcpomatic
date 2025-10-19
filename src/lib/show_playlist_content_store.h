@@ -25,6 +25,7 @@
 
 
 class Content;
+class ShowPlaylistEntry;
 
 
 /** @class ShowPlaylistContentStore
@@ -33,8 +34,12 @@ class Content;
 class ShowPlaylistContentStore
 {
 public:
-	std::shared_ptr<Content> get_by_digest(std::string digest) const;
-	std::shared_ptr<Content> get_by_cpl_id(std::string id) const;
+	/** @param uuid UUID, which can either be a CPL UUID (for a CPL in a DCP), or
+	 *  a digest, for other content.
+	 *  @return Content, or nullptr.
+	 */
+	std::shared_ptr<Content> get(std::string const& uuid) const;
+	std::shared_ptr<Content> get(ShowPlaylistEntry const& entry) const;
 
 	/** Examine content in the configured directory and update our list.
 	 *  @param pulse Called every so often to indicate progress.  Return false to cancel the scan.

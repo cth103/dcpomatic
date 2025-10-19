@@ -26,6 +26,7 @@
 #include "examine_content_job.h"
 #include "job_manager.h"
 #include "show_playlist_content_store.h"
+#include "show_playlist_entry.h"
 #include "util.h"
 #include <dcp/cpl.h>
 #include <dcp/exceptions.h>
@@ -116,11 +117,24 @@ ShowPlaylistContentStore::update(std::function<bool()> pulse)
 
 
 shared_ptr<Content>
-ShowPlaylistContentStore::get_by_digest(string digest) const
+ShowPlaylistContentStore::get(string const& uuid) const
 {
-	auto iter = std::find_if(_content.begin(), _content.end(), [digest](shared_ptr<const Content> content) {
-		return content->digest() == digest;
+	auto iter = std::find_if(_content.begin(), _content.end(), [uuid](shared_ptr<const Content> content) {
+		if (auto dcp = dynamic_pointer_cast<const DCPContent>(content)) {
+			for (auto cpl: dcp::find_and_resolve_cpls(dcp->directories(), true)) {
+				if (cpl->id() == uuid) {
+					return true;
+				}
+			}
+		}
+		return false;
 	});
+
+	if (iter == _content.end()) {
+		iter = std::find_if(_content.begin(), _content.end(), [uuid](shared_ptr<const Content> content) {
+			return content->digest() == uuid;
+		});
+	}
 
 	if (iter == _content.end()) {
 		return {};
@@ -131,24 +145,9 @@ ShowPlaylistContentStore::get_by_digest(string digest) const
 
 
 shared_ptr<Content>
-ShowPlaylistContentStore::get_by_cpl_id(string id) const
+ShowPlaylistContentStore::get(ShowPlaylistEntry const& entry) const
 {
-	auto iter = std::find_if(_content.begin(), _content.end(), [id](shared_ptr<const Content> content) {
-		if (auto dcp = dynamic_pointer_cast<const DCPContent>(content)) {
-			for (auto cpl: dcp::find_and_resolve_cpls(dcp->directories(), true)) {
-				if (cpl->id() == id) {
-					return true;
-				}
-			}
-		}
-		return false;
-	});
-
-	if (iter == _content.end()) {
-		return {};
-	}
-
-	return *iter;
+	return get(entry.uuid());
 }
 
 
