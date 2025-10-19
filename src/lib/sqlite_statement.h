@@ -38,9 +38,11 @@ public:
 
 	void bind_text(int index, std::string const& value);
 	void bind_int64(int index, int64_t value);
+	void bind_double(int index, double value);
 
 	int64_t column_int64(int index);
 	std::string column_text(int index);
+	double column_double(int index);
 
 	void execute(std::function<void(SQLiteStatement&)> row = std::function<void(SQLiteStatement& statement)>(), std::function<void()> busy = std::function<void()>());
 

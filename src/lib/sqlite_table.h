@@ -42,6 +42,7 @@ public:
 	std::string insert() const;
 	std::string update(std::string const& condition) const;
 	std::string select(std::string const& condition) const;
+	std::string remove(std::string const& condition) const;
 
 private:
 	std::string _name;

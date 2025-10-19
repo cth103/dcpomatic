@@ -166,7 +166,7 @@ sources = """
           simple_video_view.cc
           smpte_metadata_dialog.cc
           sound_preferences_page.cc
-          spl_entry_dialog.cc
+          show_playlist_entry_dialog.cc
           standard_controls.cc
           static_text.cc
           subtag_list_ctrl.cc

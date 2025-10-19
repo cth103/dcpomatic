@@ -161,6 +161,7 @@ def build(bld):
                  scaling_test.cc
                  scoped_temporary_test.cc
                  silence_padding_test.cc
+                 show_playlist_test.cc
                  shuffler_test.cc
                  skip_frame_test.cc
                  socket_test.cc
