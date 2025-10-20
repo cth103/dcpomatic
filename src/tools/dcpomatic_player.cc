@@ -551,8 +551,7 @@ public:
 
 		if (_film->content().size() == 1) {
 			/* Offer a CPL menu */
-			auto first = dynamic_pointer_cast<DCPContent>(_film->content().front());
-			if (first) {
+			if (auto first = dynamic_pointer_cast<DCPContent>(_film->content().front())) {
 				int id = ID_view_cpl;
 				for (auto i: dcp::find_and_resolve_cpls(first->directories(), true)) {
 					auto j = _cpl_menu->AppendRadioItem(
@@ -921,7 +920,7 @@ private:
 	{
 		auto dcp = std::dynamic_pointer_cast<DCPContent>(_film->content().front());
 		DCPOMATIC_ASSERT(dcp);
-		auto cpls = dcp::find_and_resolve_cpls(dcp->directories(), true);
+		auto cpls = dcp->cpls();
 		int id = ev.GetId() - ID_view_cpl;
 		DCPOMATIC_ASSERT(id >= 0);
 		DCPOMATIC_ASSERT(id < int(cpls.size()));
@@ -932,7 +931,7 @@ private:
 		}
 
 		_viewer.set_coalesce_player_changes(true);
-		dcp->set_cpl((*i)->id());
+		dcp->set_cpl(*i);
 		examine_content();
 		_viewer.set_coalesce_player_changes(false);
 
