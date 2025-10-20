@@ -101,6 +101,10 @@ DCPDecoder::DCPDecoder(shared_ptr<const Film> film, shared_ptr<const DCPContent>
 
 	   We do this by storing a digest of the important bits of the DCPContent and then checking that's
 	   the same before we re-use _reels.
+
+	   XXX: this seems a bit dubious - why is a complete re-examine not necessary in this case?
+	   Or why is this done for DCPs only, and not other files that might change?
+	   (see blame for the comment above for some reasons)
 	*/
 
 	_lazy_digest = calculate_lazy_digest(content);
