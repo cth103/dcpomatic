@@ -454,8 +454,8 @@ ContentMenu::kdm()
 		return;
 	}
 
-	auto cpls = dcp::find_and_resolve_cpls(dcp->directories(), true);
-	bool const kdm_matches_any_cpl = std::any_of(cpls.begin(), cpls.end(), [kdm](shared_ptr<const dcp::CPL> cpl) { return cpl->id() == kdm->cpl_id(); });
+	auto cpls = dcp->cpls();
+	bool const kdm_matches_any_cpl = std::any_of(cpls.begin(), cpls.end(), [kdm](std::string const& cpl) { return cpl == kdm->cpl_id(); });
 	bool const kdm_matches_selected_cpl = dcp->cpl() || kdm->cpl_id() == dcp->cpl().get();
 
 	if (!kdm_matches_any_cpl) {
@@ -549,11 +549,11 @@ ContentMenu::cpl_selected(wxCommandEvent& ev)
 	auto dcp = dynamic_pointer_cast<DCPContent>(_content.front());
 	DCPOMATIC_ASSERT(dcp);
 
-	auto cpls = dcp::find_and_resolve_cpls(dcp->directories(), true);
+	auto cpls = dcp->cpls();
 
 	DCPOMATIC_ASSERT(ev.GetId() >= DCPOMATIC_CPL_MENU);
 	DCPOMATIC_ASSERT(ev.GetId() < int(DCPOMATIC_CPL_MENU + cpls.size()));
-	dcp->set_cpl(cpls[ev.GetId() - DCPOMATIC_CPL_MENU]->id());
+	dcp->set_cpl(cpls[ev.GetId() - DCPOMATIC_CPL_MENU]);
 
 	auto film = _film.lock();
 	DCPOMATIC_ASSERT(film);

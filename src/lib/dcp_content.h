@@ -166,6 +166,11 @@ public:
 
 	void set_cpl(std::string id);
 
+	std::vector<std::string> cpls() const {
+		boost::mutex::scoped_lock lm(_mutex);
+		return _cpls;
+	}
+
 	boost::optional<std::string> cpl() const {
 		boost::mutex::scoped_lock lm(_mutex);
 		return _cpl;
@@ -278,6 +283,7 @@ private:
 	boost::optional<VideoEncoding> _video_encoding;
 	boost::optional<dcp::ContentKind> _content_kind;
 	bool _three_d;
+	std::vector<std::string> _cpls;
 	/** ID of the CPL to use; older metadata might not specify this: in that case
 	 *  just use the only CPL.
 	 */

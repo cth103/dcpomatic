@@ -145,7 +145,17 @@ DCPContent::DCPContent(cxml::ConstNodePtr node, boost::optional<boost::filesyste
 	if (ck) {
 		_content_kind = dcp::ContentKind::from_name(*ck);
 	}
-	_cpl = node->optional_string_child("CPL");
+	for (auto cpl: node->node_children("CPL")) {
+		_cpls.push_back(cpl->content());
+		if (auto selected = cpl->optional_bool_attribute("selected")) {
+			if (selected) {
+				_cpl = cpl->content();
+			}
+		}
+	}
+	if (!_cpl && !_cpls.empty()) {
+		_cpl = _cpls.front();
+	}
 	for (auto i: node->node_children("ReelLength")) {
 		_reel_lengths.push_back(raw_convert<int64_t>(i->content()));
 	}
@@ -340,6 +350,7 @@ DCPContent::examine(shared_ptr<Job> job, bool tolerant)
 		_video_encoding = examiner->video_encoding();
 		_three_d = examiner->three_d();
 		_content_kind = examiner->content_kind();
+		_cpls = examiner->cpls();
 		_cpl = examiner->cpl();
 		_reel_lengths = examiner->reel_lengths();
 		_markers = examiner->markers();
@@ -466,8 +477,12 @@ DCPContent::as_xml(xmlpp::Element* element, bool with_paths, PathBehaviour path_
 	if (_content_kind) {
 		cxml::add_text_child(element, "ContentKind", _content_kind->name());
 	}
-	if (_cpl) {
-		cxml::add_text_child(element, "CPL", _cpl.get());
+	for (auto cpl: _cpls) {
+		auto e = cxml::add_child(element, "CPL");
+		e->add_child_text(cpl);
+		if (cpl == _cpl) {
+			e->set_attribute("selected", "1");
+		}
 	}
 	for (auto i: _reel_lengths) {
 		cxml::add_text_child(element, "ReelLength", fmt::to_string(i));

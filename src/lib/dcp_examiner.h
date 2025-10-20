@@ -163,6 +163,10 @@ public:
 		return *_content_kind;
 	}
 
+	std::vector<std::string> cpls() const {
+		return _cpls;
+	}
+
 	std::string cpl() const {
 		return _cpl;
 	}
@@ -249,6 +253,7 @@ private:
 	boost::optional<VideoEncoding> _video_encoding;
 	bool _three_d = false;
 	boost::optional<dcp::ContentKind> _content_kind;
+	std::vector<std::string> _cpls;
 	std::string _cpl;
 	std::list<int64_t> _reel_lengths;
 	std::map<dcp::Marker, dcpomatic::ContentTime> _markers;
