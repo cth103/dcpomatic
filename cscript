@@ -502,7 +502,7 @@ def build_with_cpp17(target):
 
 
 def dependencies(target, options):
-    deps = [('libdcp', 'v1.10.32', {'c++17': build_with_cpp17(target)})]
+    deps = [('libdcp', 'v1.10.34', {'c++17': build_with_cpp17(target)})]
     deps.append(('libsub', 'v1.6.53'))
     deps.append(('leqm-nrt', '30dcaea1373ac62fba050e02ce5b0c1085797a23'))
     deps.append(('rtaudio', 'f619b76'))
