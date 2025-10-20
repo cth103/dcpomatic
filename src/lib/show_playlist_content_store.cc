@@ -70,12 +70,13 @@ ShowPlaylistContentStore::update(std::function<bool()> pulse)
 
 			if (is_directory(i) && contains_assetmap(i)) {
 				auto dcp = make_shared<DCPContent>(i);
+				examine(dcp);
 				/* Add a Content for each CPL in this DCP, so we can choose CPLs to play
 				 * rather than DCPs.
 				 */
-				for (auto cpl: dcp::find_and_resolve_cpls(dcp->directories(), true)) {
+				for (auto cpl: dcp->cpls()) {
 					auto copy = dynamic_pointer_cast<DCPContent>(dcp->clone());
-					copy->set_cpl(cpl->id());
+					copy->set_cpl(cpl);
 					examine(copy);
 				}
 			} else if (i.path().extension() == ".mp4") {
@@ -121,8 +122,8 @@ ShowPlaylistContentStore::get(string const& uuid) const
 {
 	auto iter = std::find_if(_content.begin(), _content.end(), [uuid](shared_ptr<const Content> content) {
 		if (auto dcp = dynamic_pointer_cast<const DCPContent>(content)) {
-			for (auto cpl: dcp::find_and_resolve_cpls(dcp->directories(), true)) {
-				if (cpl->id() == uuid) {
+			for (auto cpl: dcp->cpls()) {
+				if (cpl == uuid) {
 					return true;
 				}
 			}
