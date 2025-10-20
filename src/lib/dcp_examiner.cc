@@ -119,6 +119,9 @@ DCPExaminer::DCPExaminer(shared_ptr<const DCPContent> content, bool tolerant)
 		selected_cpl->add(decrypt_kdm_with_helpful_error(content->kdm().get()));
 	}
 
+	for (auto cpl: cpls) {
+		_cpls.push_back(cpl->id());
+	}
 	_cpl = selected_cpl->id();
 	_name = selected_cpl->content_title_text();
 	_content_kind = selected_cpl->content_kind();
@@ -364,8 +367,6 @@ DCPExaminer::DCPExaminer(shared_ptr<const DCPContent> content, bool tolerant)
 	for (auto version: selected_cpl->content_versions()) {
 		_content_versions.push_back(version.label_text);
 	}
-
-	_cpl = selected_cpl->id();
 }
 
 
