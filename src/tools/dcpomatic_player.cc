@@ -560,10 +560,10 @@ public:
 				int pixels = 0;
 				if (*crop_to_ratio > (2048.0 / 1080.0)) {
 					pixels = (size.height - (size.width / *crop_to_ratio)) / 2;
-					_film->content()[0]->video->set_crop(Crop{0, 0, pixels, pixels});
+					_film->content()[0]->video->set_crop(Crop{0, 0, std::max(0, pixels), std::max(0, pixels)});
 				} else {
 					pixels = (size.width - (size.height * *crop_to_ratio)) / 2;
-					_film->content()[0]->video->set_crop(Crop{pixels, pixels, 0, 0});
+					_film->content()[0]->video->set_crop(Crop{std::max(0, pixels), std::max(0, pixels), 0, 0});
 				}
 			}
 		}
