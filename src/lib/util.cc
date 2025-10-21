@@ -747,6 +747,8 @@ careful_string_filter(string s, wstring allowed)
 	auto transliterated = icu::UnicodeString::fromUTF8(icu::StringPiece(s));
 	auto status = U_ZERO_ERROR;
 	auto transliterator = icu::Transliterator::createInstance("NFD; [:M:] Remove; NFC", UTRANS_FORWARD, status);
+	dcp::ScopeGuard sg = [transliterator]() { delete transliterator; };
+
 	transliterator->transliterate(transliterated);
 
 	/* Some things are missed by ICU's transliterator */
