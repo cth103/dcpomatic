@@ -42,47 +42,47 @@ using std::shared_ptr;
  *  @param out Output sampling rate (Hz)
  *  @param channels Number of channels.
  */
-Resampler::Resampler (int in, int out, int channels)
-	: _in_rate (in)
-	, _out_rate (out)
-	, _channels (channels)
+Resampler::Resampler(int in, int out, int channels)
+	: _in_rate(in)
+	, _out_rate(out)
+	, _channels(channels)
 {
 	int error;
-	_src = src_new (SRC_SINC_BEST_QUALITY, _channels, &error);
+	_src = src_new(SRC_SINC_BEST_QUALITY, _channels, &error);
 	if (!_src) {
-		throw runtime_error (fmt::format(N_("could not create sample-rate converter ({})"), error));
+		throw runtime_error(fmt::format(N_("could not create sample-rate converter ({})"), error));
 	}
 }
 
 
-Resampler::~Resampler ()
+Resampler::~Resampler()
 {
 	if (_src) {
-		src_delete (_src);
+		src_delete(_src);
 	}
 }
 
 
 void
-Resampler::set_fast ()
+Resampler::set_fast()
 {
-	src_delete (_src);
+	src_delete(_src);
 	_src = nullptr;
 
 	int error;
-	_src = src_new (SRC_LINEAR, _channels, &error);
+	_src = src_new(SRC_LINEAR, _channels, &error);
 	if (!_src) {
-		throw runtime_error (fmt::format(N_("could not create sample-rate converter ({})"), error));
+		throw runtime_error(fmt::format(N_("could not create sample-rate converter ({})"), error));
 	}
 }
 
 
 shared_ptr<const AudioBuffers>
-Resampler::run (shared_ptr<const AudioBuffers> in)
+Resampler::run(shared_ptr<const AudioBuffers> in)
 {
 	DCPOMATIC_ASSERT(in->channels() == _channels);
 
-	int in_frames = in->frames ();
+	int in_frames = in->frames();
 	int in_offset = 0;
 	int out_offset = 0;
 	auto resampled = make_shared<AudioBuffers>(_channels, 0);
@@ -90,14 +90,14 @@ Resampler::run (shared_ptr<const AudioBuffers> in)
 	while (in_frames > 0) {
 
 		/* Compute the resampled frames count and add 32 for luck */
-		int const max_resampled_frames = ceil (static_cast<double>(in_frames) * _out_rate / _in_rate) + 32;
+		int const max_resampled_frames = ceil(static_cast<double>(in_frames) * _out_rate / _in_rate) + 32;
 
 		SRC_DATA data;
 		std::vector<float> in_buffer(in_frames * _channels);
 		std::vector<float> out_buffer(max_resampled_frames * _channels);
 
 		{
-			auto p = in->data ();
+			auto p = in->data();
 			auto q = in_buffer.data();
 			for (int i = 0; i < in_frames; ++i) {
 				for (int j = 0; j < _channels; ++j) {
@@ -113,14 +113,14 @@ Resampler::run (shared_ptr<const AudioBuffers> in)
 		data.output_frames = max_resampled_frames;
 
 		data.end_of_input = 0;
-		data.src_ratio = double (_out_rate) / _in_rate;
+		data.src_ratio = double(_out_rate) / _in_rate;
 
-		int const r = src_process (_src, &data);
+		int const r = src_process(_src, &data);
 		if (r) {
-			throw EncodeError (
+			throw EncodeError(
 				fmt::format(
 					N_("could not run sample-rate converter ({}) [processing {} to {}, {} channels]"),
-					src_strerror (r),
+					src_strerror(r),
 					in_frames,
 					max_resampled_frames,
 					_channels
@@ -132,11 +132,11 @@ Resampler::run (shared_ptr<const AudioBuffers> in)
 			break;
 		}
 
-		resampled->set_frames (out_offset + data.output_frames_gen);
+		resampled->set_frames(out_offset + data.output_frames_gen);
 
 		{
 			auto p = data.data_out;
-			auto q = resampled->data ();
+			auto q = resampled->data();
 			for (int i = 0; i < data.output_frames_gen; ++i) {
 				for (int j = 0; j < _channels; ++j) {
 					q[j][out_offset + i] = *p++;
@@ -154,7 +154,7 @@ Resampler::run (shared_ptr<const AudioBuffers> in)
 
 
 shared_ptr<const AudioBuffers>
-Resampler::flush ()
+Resampler::flush()
 {
 	auto out = make_shared<AudioBuffers>(_channels, 0);
 	int out_offset = 0;
@@ -169,17 +169,17 @@ Resampler::flush ()
 	data.data_out = buffer.data();
 	data.output_frames = output_size;
 	data.end_of_input = 1;
-	data.src_ratio = double (_out_rate) / _in_rate;
+	data.src_ratio = double(_out_rate) / _in_rate;
 
-	int const r = src_process (_src, &data);
+	int const r = src_process(_src, &data);
 	if (r) {
-		throw EncodeError (fmt::format(N_("could not run sample-rate converter ({})"), src_strerror(r)));
+		throw EncodeError(fmt::format(N_("could not run sample-rate converter ({})"), src_strerror(r)));
 	}
 
-	out->set_frames (out_offset + data.output_frames_gen);
+	out->set_frames(out_offset + data.output_frames_gen);
 
 	auto p = data.data_out;
-	auto q = out->data ();
+	auto q = out->data();
 	for (int i = 0; i < data.output_frames_gen; ++i) {
 		for (int j = 0; j < _channels; ++j) {
 			q[j][out_offset + i] = *p++;
@@ -193,8 +193,8 @@ Resampler::flush ()
 
 
 void
-Resampler::reset ()
+Resampler::reset()
 {
-	src_reset (_src);
+	src_reset(_src);
 }
 

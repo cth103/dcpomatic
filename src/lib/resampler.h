@@ -29,16 +29,16 @@ class AudioBuffers;
 class Resampler
 {
 public:
-	Resampler (int, int, int);
-	~Resampler ();
+	Resampler(int, int, int);
+	~Resampler();
 
-	Resampler (Resampler const&) = delete;
-	Resampler& operator= (Resampler const&) = delete;
+	Resampler(Resampler const&) = delete;
+	Resampler& operator=(Resampler const&) = delete;
 
-	std::shared_ptr<const AudioBuffers> run (std::shared_ptr<const AudioBuffers>);
-	std::shared_ptr<const AudioBuffers> flush ();
-	void reset ();
-	void set_fast ();
+	std::shared_ptr<const AudioBuffers> run(std::shared_ptr<const AudioBuffers>);
+	std::shared_ptr<const AudioBuffers> flush();
+	void reset();
+	void set_fast();
 
 	int channels() const {
 		return _channels;
