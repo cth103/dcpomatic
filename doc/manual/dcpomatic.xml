@@ -1219,7 +1219,7 @@ linkend="fig-calculate-audio-gain"/> will open.
 </figure>
 
 <para>
-For our example, put 5 in the first box and 7 in the second and click
+For our example, put 7 in the first box and 5 in the second and click
 <guilabel>OK</guilabel>.  DCP-o-matic will calculate the audio gain
 that it should apply to make this happen.  Then you can re-make the
 DCP (this will be reasonably fast, as the video data will already have
