@@ -502,8 +502,8 @@ def build_with_cpp17(target):
 
 
 def dependencies(target, options):
-    deps = [('libdcp', 'v1.10.34', {'c++17': build_with_cpp17(target)})]
-    deps.append(('libsub', 'v1.6.53'))
+    deps = [('libdcp', 'v1.10.35', {'c++17': build_with_cpp17(target)})]
+    deps.append(('libsub', 'v1.6.55'))
     deps.append(('leqm-nrt', '30dcaea1373ac62fba050e02ce5b0c1085797a23'))
     deps.append(('rtaudio', 'f619b76'))
     # We get our OpenSSL libraries from the environment, but we

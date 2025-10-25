@@ -197,6 +197,14 @@ def configure(conf):
     # Windows/Linux/macOS specific
     #
 
+    boost_lib_suffix = '-mt-x32' if conf.options.target_windows_32 else '-mt-x64' if conf.options.target_windows_64 else ''
+
+    boost_system = conf.check_cxx(lib='boost_system%s' % boost_lib_suffix, mandatory=False)
+    def boost_libs(name):
+        libs = ['boost_system%s' % boost_lib_suffix] if boost_system else []
+        libs.append('boost_%s%s' % (name, boost_lib_suffix))
+        return libs
+
     # Windows
     if conf.env.TARGET_WINDOWS_64 or conf.env.TARGET_WINDOWS_32:
         conf.env.append_value('CXXFLAGS', '-DDCPOMATIC_WINDOWS')
@@ -219,21 +227,17 @@ def configure(conf):
         conf.check(lib='ksuser', uselib_store='KSUSER', msg="Checking for library ksuser")
         conf.check(lib='setupapi', uselib_store='SETUPAPI', msg="Checking for library setupapi")
         conf.check(lib='uuid', uselib_store='UUID', msg="Checking for library uuid")
-        boost_lib_suffix = '-mt-x32' if conf.options.target_windows_32 else '-mt-x64'
-        boost_thread = 'boost_thread' + boost_lib_suffix
         conf.check_cxx(fragment="""
                                #include <boost/locale.hpp>\n
                                int main() { std::locale::global (boost::locale::generator().generate ("")); }\n
                                """,
                                msg='Checking for boost locale library',
-                               lib=['boost_locale%s' % boost_lib_suffix, 'boost_system%s' % boost_lib_suffix],
+                               lib=boost_libs('locale'),
                                uselib_store='BOOST_LOCALE')
 
     # POSIX
     if conf.env.TARGET_LINUX or conf.env.TARGET_OSX:
         conf.env.append_value('CXXFLAGS', '-DDCPOMATIC_POSIX')
-        boost_lib_suffix = ''
-        boost_thread = 'boost_thread'
         conf.env.append_value('LINKFLAGS', '-pthread')
 
     # Linux
@@ -574,7 +578,7 @@ def configure(conf):
     if conf.options.static_boost:
         conf.env.STLIB_BOOST_THREAD = ['boost_thread']
         conf.env.STLIB_BOOST_FILESYSTEM = ['boost_filesystem%s' % boost_lib_suffix]
-        conf.env.STLIB_BOOST_DATETIME = ['boost_date_time%s' % boost_lib_suffix, 'boost_system%s' % boost_lib_suffix]
+        conf.env.STLIB_BOOST_DATETIME = boost_libs('date_time')
         conf.env.STLIB_BOOST_SIGNALS2 = ['boost_signals2']
         conf.env.STLIB_BOOST_SYSTEM = ['boost_system']
         conf.env.STLIB_BOOST_REGEX = ['boost_regex']
@@ -596,7 +600,7 @@ def configure(conf):
 			    int main() { boost::thread t; }\n
 			    """,
                        msg='Checking for boost threading library',
-                       lib=[boost_thread, 'boost_system%s' % boost_lib_suffix],
+                       lib=boost_libs('thread'),
                        uselib_store='BOOST_THREAD')
 
         conf.check_cxx(fragment="""
@@ -604,7 +608,7 @@ def configure(conf):
     			    int main() { boost::filesystem::copy_file ("a", "b"); }\n
 			    """,
                        msg='Checking for boost filesystem library',
-                       lib=['boost_filesystem%s' % boost_lib_suffix, 'boost_system%s' % boost_lib_suffix],
+                       lib=boost_libs('filesystem'),
                        uselib_store='BOOST_FILESYSTEM')
 
         conf.check_cxx(fragment="""
@@ -612,7 +616,7 @@ def configure(conf):
     			    int main() { boost::gregorian::day_clock::local_day(); }\n
 			    """,
                        msg='Checking for boost datetime library',
-                       lib=['boost_date_time%s' % boost_lib_suffix, 'boost_system%s' % boost_lib_suffix],
+                       lib=boost_libs('date_time'),
                        uselib_store='BOOST_DATETIME')
 
         conf.check_cxx(fragment="""
@@ -631,7 +635,9 @@ def configure(conf):
                        uselib_store='BOOST_REGEX')
 
         if conf.options.enable_disk or not conf.options.disable_tests:
-            deps = ['boost_system%s' % boost_lib_suffix]
+            deps = []
+            if boost_system:
+                deps.append('boost_system%s' % boost_lib_suffix)
             if conf.env.TARGET_WINDOWS_64 or conf.env.TARGET_WINDOWS_32:
                 deps.append('ws2_32')
                 deps.append('boost_filesystem%s' % boost_lib_suffix)

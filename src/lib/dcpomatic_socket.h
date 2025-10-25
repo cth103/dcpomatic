@@ -22,6 +22,7 @@
 #include "digester.h"
 #include "io_context.h"
 #include <boost/asio.hpp>
+#include <boost/asio/deadline_timer.hpp>
 #include <boost/scoped_ptr.hpp>
 
 
