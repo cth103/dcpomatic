@@ -37,32 +37,32 @@ public:
 	*/
 	boost::signals2::signal<void (std::weak_ptr<Film>, boost::optional<float>)> ResetFilm;
 
-	void play () override;
-	void stop () override;
+	void play() override;
+	void stop() override;
 
 private:
-	void play_clicked ();
-	void pause_clicked ();
-	void stop_clicked ();
-	void next_clicked ();
-	void previous_clicked ();
-	void add_playlist_to_list (SPL spl);
-	void update_content_directory ();
-	void update_playlist_directory ();
-	void spl_selection_changed ();
-	void select_playlist (int selected, int position);
-	void started () override;
-	void stopped () override;
-	void setup_sensitivity () override;
-	void config_changed (int) override;
-	void viewer_finished ();
-	void reset_film ();
-	void update_current_content ();
-	bool can_do_previous ();
-	bool can_do_next ();
-	void deselect_playlist ();
+	void play_clicked();
+	void pause_clicked();
+	void stop_clicked();
+	void next_clicked();
+	void previous_clicked();
+	void add_playlist_to_list(SPL spl);
+	void update_content_directory();
+	void update_playlist_directory();
+	void spl_selection_changed();
+	void select_playlist(int selected, int position);
+	void started() override;
+	void stopped() override;
+	void setup_sensitivity() override;
+	void config_changed(int) override;
+	void viewer_finished();
+	void reset_film();
+	void update_current_content();
+	bool can_do_previous();
+	bool can_do_next();
+	void deselect_playlist();
 
-	boost::optional<dcp::EncryptedKDM> get_kdm_from_directory (std::shared_ptr<DCPContent> dcp);
+	boost::optional<dcp::EncryptedKDM> get_kdm_from_directory(std::shared_ptr<DCPContent> dcp);
 
 	wxButton* _play_button;
 	wxButton* _pause_button;
