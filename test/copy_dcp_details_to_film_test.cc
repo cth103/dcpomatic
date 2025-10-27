@@ -29,6 +29,8 @@
 
 
 using std::make_shared;
+using std::shared_ptr;
+using std::vector;
 
 
 BOOST_AUTO_TEST_CASE(copy_audio_language_to_film)
@@ -49,4 +51,27 @@ BOOST_AUTO_TEST_CASE(copy_audio_language_to_film)
 	BOOST_REQUIRE(film2->audio_language());
 	BOOST_CHECK_EQUAL(film2->audio_language()->as_string(), "de-DE");
 }
+
+
+BOOST_AUTO_TEST_CASE(test_copy_dcp_markers_to_film)
+{
+	auto video = vector<shared_ptr<Content>>{
+		content_factory("test/data/flat_red.png")[0],
+		content_factory("test/data/flat_red.png")[0],
+		content_factory("test/data/flat_red.png")[0]
+	};
+
+	auto film = new_test_film("test_copy_dcp_markers_to_film", video);
+	film->set_reel_type(ReelType::BY_VIDEO_CONTENT);
+	film->set_marker(dcp::Marker::FFEC, dcpomatic::DCPTime::from_seconds(22));
+	make_and_verify_dcp(film);
+
+	auto dcp = make_shared<DCPContent>(film->dir(film->dcp_name()));
+
+	auto film2 = new_test_film("test_copy_dcp_markers_to_film2", { dcp });
+	copy_dcp_markers_to_film(dcp, film2);
+
+	BOOST_CHECK(film2->marker(dcp::Marker::FFEC) == dcpomatic::DCPTime::from_seconds(22));
+}
+
 

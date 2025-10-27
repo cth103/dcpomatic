@@ -163,7 +163,8 @@ public:
 		return _reel_lengths;
 	}
 
-	std::map<dcp::Marker, dcp::Time> markers() const {
+	/** @return DCP markers, with times offset from the start of the DCP */
+	std::map<dcp::Marker, dcpomatic::ContentTime> markers() const {
 		return _markers;
 	}
 
@@ -224,7 +225,7 @@ private:
 	boost::optional<dcp::ContentKind> _content_kind;
 	std::string _cpl;
 	std::list<int64_t> _reel_lengths;
-	std::map<dcp::Marker, dcp::Time> _markers;
+	std::map<dcp::Marker, dcpomatic::ContentTime> _markers;
 	std::vector<dcp::Rating> _ratings;
 	std::vector<std::string> _content_versions;
 	bool _has_atmos = false;

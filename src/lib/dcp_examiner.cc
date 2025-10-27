@@ -136,6 +136,8 @@ DCPExaminer::DCPExaminer(shared_ptr<const DCPContent> content, bool tolerant)
 	LOG_GENERAL("Looking at {} reels", selected_cpl->reels().size());
 
 	int reel_index = 0;
+	dcpomatic::ContentTime reel_time;
+
 	for (auto reel: selected_cpl->reels()) {
 		LOG_GENERAL("Reel {}", reel->id());
 
@@ -272,8 +274,10 @@ DCPExaminer::DCPExaminer(shared_ptr<const DCPContent> content, bool tolerant)
 		read_closed_text(reel->closed_captions(), TextType::CLOSED_CAPTION, "caption", _dcp_caption_tracks);
 
 		if (reel->main_markers ()) {
-			auto rm = reel->main_markers()->get();
-			_markers.insert(rm.begin(), rm.end());
+			auto edit_rate = reel->main_markers()->edit_rate().numerator;
+			for (auto const& marker: reel->main_markers()->get()) {
+				_markers[marker.first] = reel_time + dcpomatic::ContentTime::from_frames(marker.second.as_editable_units_floor(edit_rate), edit_rate);
+			}
 		}
 
 		if (reel->atmos()) {
@@ -285,22 +289,27 @@ DCPExaminer::DCPExaminer(shared_ptr<const DCPContent> content, bool tolerant)
 			_atmos_edit_rate = reel->atmos()->edit_rate();
 		}
 
+		shared_ptr<dcp::ReelAsset> asset_determining_length;
+
 		if (reel->main_picture()) {
-			_reel_lengths.push_back(reel->main_picture()->actual_duration());
+			asset_determining_length = reel->main_picture();
 		} else if (reel->main_sound()) {
-			_reel_lengths.push_back(reel->main_sound()->actual_duration());
+			asset_determining_length = reel->main_sound();
 		} else if (reel->main_subtitle()) {
-			_reel_lengths.push_back(reel->main_subtitle()->actual_duration());
+			asset_determining_length = reel->main_subtitle();
 		} else if (reel->main_caption()) {
-			_reel_lengths.push_back(reel->main_caption()->actual_duration());
+			asset_determining_length = reel->main_caption();
 		} else if (!reel->closed_subtitles().empty()) {
-			_reel_lengths.push_back(reel->closed_subtitles().front()->actual_duration());
+			asset_determining_length = reel->closed_subtitles().front();
 		} else if (!reel->closed_captions().empty()) {
-			_reel_lengths.push_back(reel->closed_captions().front()->actual_duration());
+			asset_determining_length = reel->closed_captions().front();
 		} else if (!reel->atmos()) {
-			_reel_lengths.push_back(reel->atmos()->actual_duration());
+			asset_determining_length = reel->atmos();
 		}
 
+		_reel_lengths.push_back(asset_determining_length->actual_duration());
+
+		reel_time += dcpomatic::ContentTime::from_frames(asset_determining_length->actual_duration(), asset_determining_length->edit_rate().numerator);
 		++reel_index;
 	}
 
