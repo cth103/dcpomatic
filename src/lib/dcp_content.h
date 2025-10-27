@@ -60,23 +60,23 @@ public:
 class DCPContent : public Content
 {
 public:
-	DCPContent (boost::filesystem::path p);
-	DCPContent (cxml::ConstNodePtr, boost::optional<boost::filesystem::path> film_directory, int version);
+	DCPContent(boost::filesystem::path p);
+	DCPContent(cxml::ConstNodePtr, boost::optional<boost::filesystem::path> film_directory, int version);
 
-	std::shared_ptr<DCPContent> shared_from_this () {
-		return std::dynamic_pointer_cast<DCPContent> (Content::shared_from_this ());
+	std::shared_ptr<DCPContent> shared_from_this() {
+		return std::dynamic_pointer_cast<DCPContent>(Content::shared_from_this());
 	}
 
-	std::shared_ptr<const DCPContent> shared_from_this () const {
-		return std::dynamic_pointer_cast<const DCPContent> (Content::shared_from_this ());
+	std::shared_ptr<const DCPContent> shared_from_this() const {
+		return std::dynamic_pointer_cast<const DCPContent>(Content::shared_from_this());
 	}
 
-	dcpomatic::DCPTime full_length (std::shared_ptr<const Film> film) const override;
-	dcpomatic::DCPTime approximate_length () const override;
+	dcpomatic::DCPTime full_length(std::shared_ptr<const Film> film) const override;
+	dcpomatic::DCPTime approximate_length() const override;
 
 	void examine(std::shared_ptr<const Film> film, std::shared_ptr<Job>, bool tolerant) override;
-	std::string summary () const override;
-	std::string technical_summary () const override;
+	std::string summary() const override;
+	std::string technical_summary() const override;
 
 	void as_xml(
 		xmlpp::Element* element,
@@ -85,112 +85,112 @@ public:
 		boost::optional<boost::filesystem::path> film_directory
 		) const override;
 
-	std::string identifier () const override;
-	void take_settings_from (std::shared_ptr<const Content> c) override;
+	std::string identifier() const override;
+	void take_settings_from(std::shared_ptr<const Content> c) override;
 
-	void set_default_colour_conversion ();
-	std::list<dcpomatic::DCPTime> reel_split_points (std::shared_ptr<const Film> film) const override;
+	void set_default_colour_conversion();
+	std::list<dcpomatic::DCPTime> reel_split_points(std::shared_ptr<const Film> film) const override;
 
-	std::vector<boost::filesystem::path> directories () const;
+	std::vector<boost::filesystem::path> directories() const;
 
 	boost::filesystem::path path_for_display() const override;
 
-	bool encrypted () const {
-		boost::mutex::scoped_lock lm (_mutex);
+	bool encrypted() const {
+		boost::mutex::scoped_lock lm(_mutex);
 		return _encrypted;
 	}
 
-	void add_kdm (dcp::EncryptedKDM);
-	void add_ov (boost::filesystem::path ov);
+	void add_kdm(dcp::EncryptedKDM);
+	void add_ov(boost::filesystem::path ov);
 
-	boost::optional<dcp::EncryptedKDM> kdm () const {
+	boost::optional<dcp::EncryptedKDM> kdm() const {
 		return _kdm;
 	}
 
-	bool can_be_played () const override;
-	bool needs_kdm () const;
-	bool needs_assets () const;
+	bool can_be_played() const override;
+	bool needs_kdm() const;
+	bool needs_assets() const;
 
 	bool can_reference_anything(std::shared_ptr<const Film> film, std::string& why_not) const;
 
-	void set_reference_video (bool r);
+	void set_reference_video(bool r);
 
-	bool reference_video () const {
-		boost::mutex::scoped_lock lm (_mutex);
+	bool reference_video() const {
+		boost::mutex::scoped_lock lm(_mutex);
 		return _reference_video;
 	}
 
-	bool can_reference_video (std::shared_ptr<const Film> film, std::string &) const;
+	bool can_reference_video(std::shared_ptr<const Film> film, std::string &) const;
 
-	void set_reference_audio (bool r);
+	void set_reference_audio(bool r);
 
-	bool reference_audio () const {
-		boost::mutex::scoped_lock lm (_mutex);
+	bool reference_audio() const {
+		boost::mutex::scoped_lock lm(_mutex);
 		return _reference_audio;
 	}
 
-	bool can_reference_audio (std::shared_ptr<const Film> film, std::string &) const;
+	bool can_reference_audio(std::shared_ptr<const Film> film, std::string &) const;
 
-	void set_reference_text (TextType type, bool r);
+	void set_reference_text(TextType type, bool r);
 
 	/** @param type Original type of texts in the DCP.
 	 *  @return true if these texts are to be referenced.
 	 */
-	bool reference_text (TextType type) const {
-		boost::mutex::scoped_lock lm (_mutex);
+	bool reference_text(TextType type) const {
+		boost::mutex::scoped_lock lm(_mutex);
 		return _reference_text[type];
 	}
 
-	bool can_reference_text (std::shared_ptr<const Film> film, TextType type, std::string &) const;
+	bool can_reference_text(std::shared_ptr<const Film> film, TextType type, std::string &) const;
 
 	bool reference_anything() const;
 
-	void set_cpl (std::string id);
+	void set_cpl(std::string id);
 
-	boost::optional<std::string> cpl () const {
-		boost::mutex::scoped_lock lm (_mutex);
+	boost::optional<std::string> cpl() const {
+		boost::mutex::scoped_lock lm(_mutex);
 		return _cpl;
 	}
 
-	std::string name () const {
-		boost::mutex::scoped_lock lm (_mutex);
+	std::string name() const {
+		boost::mutex::scoped_lock lm(_mutex);
 		return _name;
 	}
 
-	bool three_d () const {
-		boost::mutex::scoped_lock lm (_mutex);
+	bool three_d() const {
+		boost::mutex::scoped_lock lm(_mutex);
 		return _three_d;
 	}
 
-	boost::optional<dcp::ContentKind> content_kind () const {
-		boost::mutex::scoped_lock lm (_mutex);
+	boost::optional<dcp::ContentKind> content_kind() const {
+		boost::mutex::scoped_lock lm(_mutex);
 		return _content_kind;
 	}
 
-	dcp::Standard standard () const {
-		boost::mutex::scoped_lock lm (_mutex);
-		DCPOMATIC_ASSERT (_standard);
-		return _standard.get ();
+	dcp::Standard standard() const {
+		boost::mutex::scoped_lock lm(_mutex);
+		DCPOMATIC_ASSERT(_standard);
+		return _standard.get();
 	}
 
 	VideoEncoding video_encoding() const {
-		boost::mutex::scoped_lock lm (_mutex);
+		boost::mutex::scoped_lock lm(_mutex);
 		return _video_encoding;
 	}
 
-	std::map<dcp::Marker, dcpomatic::ContentTime> markers () const {
+	std::map<dcp::Marker, dcpomatic::ContentTime> markers() const {
 		return _markers;
 	}
 
-	bool kdm_timing_window_valid () const;
+	bool kdm_timing_window_valid() const;
 
-	Resolution resolution () const;
+	Resolution resolution() const;
 
-	std::vector<dcp::Rating> ratings () const {
+	std::vector<dcp::Rating> ratings() const {
 		return _ratings;
 	}
 
-	std::vector<std::string> content_versions () const {
+	std::vector<std::string> content_versions() const {
 		return _content_versions;
 	}
 
@@ -199,7 +199,7 @@ public:
 	/** @return a guess of the DCP's audio language; if there are multiple reels,
 	 *  and they have different langauges, this could be wrong.
 	 */
-	boost::optional<dcp::LanguageTag> audio_language () const {
+	boost::optional<dcp::LanguageTag> audio_language() const {
 		return _audio_language;
 	}
 
@@ -210,10 +210,10 @@ public:
 private:
 	friend struct reels_test5;
 
-	void add_properties (std::shared_ptr<const Film> film, std::list<UserProperty>& p) const override;
+	void add_properties(std::shared_ptr<const Film> film, std::list<UserProperty>& p) const override;
 
-	void read_directory (boost::filesystem::path);
-	void read_sub_directory (boost::filesystem::path);
+	void read_directory(boost::filesystem::path);
+	void read_sub_directory(boost::filesystem::path);
 	bool overlaps(std::shared_ptr<const Film> film, std::function<bool (std::shared_ptr<const Content>)> part) const;
 
 	std::string _name;
