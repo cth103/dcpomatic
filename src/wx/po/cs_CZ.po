@@ -700,7 +700,7 @@ msgid "Burn subtitles into image"
 msgstr "Vypálit titulky do filmu"
 
 #: src/wx/gain_calculator_dialog.cc:39
-msgid "But I have to use fader"
+msgid "But it only sounds correct at fader"
 msgstr "Ale musím používat fader"
 
 #: src/wx/full_config_dialog.cc:695 src/wx/kdm_email_preferences_page.cc:81
@@ -1642,7 +1642,7 @@ msgid "Host name or IP address"
 msgstr "Host name nebo IP adresa"
 
 #: src/wx/gain_calculator_dialog.cc:36
-msgid "I want to play this back at fader"
+msgid "I want to play this at fader"
 msgstr "Chci přehrávat na faderu na úrovni"
 
 #: src/wx/fonts_dialog.cc:53

@@ -33,10 +33,10 @@ GainCalculatorDialog::GainCalculatorDialog(wxWindow* parent)
 	add(_("Sound processor"), true);
 	_processor = add(new wxChoice(this, wxID_ANY));
 
-	add(_("I want to play this back at fader"), true);
+	add(_("I want to play this at fader"), true);
 	_wanted = add(new wxTextCtrl(this, wxID_ANY, {}, wxDefaultPosition, wxDefaultSize, 0, wxTextValidator(wxFILTER_NUMERIC)));
 
-	add(_("But I have to use fader"), true);
+	add(_("But it only sounds correct at fader"), true);
 	_actual = add(new wxTextCtrl(this, wxID_ANY, {}, wxDefaultPosition, wxDefaultSize, 0, wxTextValidator(wxFILTER_NUMERIC)));
 
 	for (auto i: CinemaSoundProcessor::all()) {

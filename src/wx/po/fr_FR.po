@@ -709,7 +709,7 @@ msgid "Burn subtitles into image"
 msgstr "Graver les sous-titres dans l'image"
 
 #: src/wx/gain_calculator_dialog.cc:39
-msgid "But I have to use fader"
+msgid "But it only sounds correct at fader"
 msgstr "Mais je dois utiliser le fader"
 
 #: src/wx/full_config_dialog.cc:695 src/wx/kdm_email_preferences_page.cc:81
@@ -1653,7 +1653,7 @@ msgid "Host name or IP address"
 msgstr "Nom de l'hôte ou adresse IP"
 
 #: src/wx/gain_calculator_dialog.cc:36
-msgid "I want to play this back at fader"
+msgid "I want to play this at fader"
 msgstr "Je veux lire ce DCP à un niveau de fader de"
 
 #: src/wx/fonts_dialog.cc:53

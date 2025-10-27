@@ -712,7 +712,7 @@ msgid "Burn subtitles into image"
 msgstr "Вшити субтитри в зображення"
 
 #: src/wx/gain_calculator_dialog.cc:39
-msgid "But I have to use fader"
+msgid "But it only sounds correct at fader"
 msgstr "Але я маю використовувати мікшер"
 
 #: src/wx/full_config_dialog.cc:695 src/wx/kdm_email_preferences_page.cc:81
@@ -1691,7 +1691,7 @@ msgid "Host name or IP address"
 msgstr "Ім'я хоста або IP-адреса"
 
 #: src/wx/gain_calculator_dialog.cc:36
-msgid "I want to play this back at fader"
+msgid "I want to play this at fader"
 msgstr "Я хочу відтворити це у микшері"
 
 #: src/wx/fonts_dialog.cc:53
