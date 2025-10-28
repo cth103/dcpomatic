@@ -30,25 +30,25 @@
 using std::shared_ptr;
 
 
-AtmosDecoder::AtmosDecoder (Decoder* parent, shared_ptr<const Content> content)
-	: DecoderPart (parent)
-	, _content (content)
+AtmosDecoder::AtmosDecoder(Decoder* parent, shared_ptr<const Content> content)
+	: DecoderPart(parent)
+	, _content(content)
 {
 
 }
 
 
 void
-AtmosDecoder::seek ()
+AtmosDecoder::seek()
 {
 	_position = boost::none;
 }
 
 
 void
-AtmosDecoder::emit (shared_ptr<const Film> film, shared_ptr<const dcp::AtmosFrame> data, Frame frame, AtmosMetadata metadata)
+AtmosDecoder::emit(shared_ptr<const Film> film, shared_ptr<const dcp::AtmosFrame> data, Frame frame, AtmosMetadata metadata)
 {
-	Data (ContentAtmos(data, frame, metadata));
+	Data(ContentAtmos(data, frame, metadata));
 	/* There's no fiddling with frame rates when we are using Atmos; the DCP rate must be the same as the Atmos one */
-	_position = dcpomatic::ContentTime::from_frames (frame, film->video_frame_rate());
+	_position = dcpomatic::ContentTime::from_frames(frame, film->video_frame_rate());
 }

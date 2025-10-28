@@ -28,15 +28,15 @@
 class AtmosDecoder : public DecoderPart
 {
 public:
-	AtmosDecoder (Decoder* parent, std::shared_ptr<const Content> content);
+	AtmosDecoder(Decoder* parent, std::shared_ptr<const Content> content);
 
-	boost::optional<dcpomatic::ContentTime> position (std::shared_ptr<const Film>) const override {
+	boost::optional<dcpomatic::ContentTime> position(std::shared_ptr<const Film>) const override {
 		return _position;
 	}
 
-	void seek () override;
+	void seek() override;
 
-	void emit (std::shared_ptr<const Film> film, std::shared_ptr<const dcp::AtmosFrame> data, Frame frame, AtmosMetadata metadata);
+	void emit(std::shared_ptr<const Film> film, std::shared_ptr<const dcp::AtmosFrame> data, Frame frame, AtmosMetadata metadata);
 
 	boost::signals2::signal<void (ContentAtmos)> Data;
 
