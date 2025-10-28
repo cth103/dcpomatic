@@ -474,7 +474,7 @@ def configure(conf):
 
     # FFmpeg
     if conf.options.static_ffmpeg:
-        names = ['avformat', 'avfilter', 'avcodec', 'avutil', 'swscale', 'postproc', 'swresample']
+        names = ['avformat', 'avfilter', 'avcodec', 'avutil', 'swscale', 'swresample']
         for name in names:
             static = subprocess.Popen(shlex.split('pkg-config --static --libs lib%s' % name), stdout=subprocess.PIPE).communicate()[0].decode('utf-8')
             libs = []
@@ -502,10 +502,6 @@ def configure(conf):
         conf.check_cfg(package='libavcodec', args='--cflags --libs', uselib_store='AVCODEC', mandatory=True)
         conf.check_cfg(package='libavutil', args='--cflags --libs', uselib_store='AVUTIL', mandatory=True)
         conf.check_cfg(package='libswscale', args='--cflags --libs', uselib_store='SWSCALE', mandatory=True)
-        # Use a lack of libpostproc as a sign that we are on FFmpeg 8
-        # We need this check while we're using ffmpeg 7 and arch already switched to 8
-        if conf.check_cfg(package='libpostproc', args='--cflags --libs', uselib_store='POSTPROC', mandatory=False) is None:
-            conf.env.append_value('CXXFLAGS', '-DDCPOMATIC_FFMPEG_8')
 
         conf.check_cfg(package='libswresample', args='--cflags --libs', uselib_store='SWRESAMPLE', mandatory=True)
 
