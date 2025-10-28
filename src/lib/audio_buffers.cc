@@ -33,54 +33,54 @@ using std::make_shared;
 
 
 /** Construct a silent AudioBuffers */
-AudioBuffers::AudioBuffers (int channels, int frames)
+AudioBuffers::AudioBuffers(int channels, int frames)
 {
-	allocate (channels, frames);
+	allocate(channels, frames);
 }
 
 
 /** Copy constructor.
  *  @param other Other AudioBuffers; data is copied.
  */
-AudioBuffers::AudioBuffers (AudioBuffers const & other)
+AudioBuffers::AudioBuffers(AudioBuffers const & other)
 {
-	allocate (other.channels(), other.frames());
-	copy_from (&other, other.frames(), 0, 0);
+	allocate(other.channels(), other.frames());
+	copy_from(&other, other.frames(), 0, 0);
 }
 
 
-AudioBuffers::AudioBuffers (std::shared_ptr<const AudioBuffers> other)
+AudioBuffers::AudioBuffers(std::shared_ptr<const AudioBuffers> other)
 {
-	allocate (other->channels(), other->frames());
-	copy_from (other.get(), other->frames(), 0, 0);
+	allocate(other->channels(), other->frames());
+	copy_from(other.get(), other->frames(), 0, 0);
 }
 
 
-AudioBuffers::AudioBuffers (std::shared_ptr<const AudioBuffers> other, int frames_to_copy, int read_offset)
+AudioBuffers::AudioBuffers(std::shared_ptr<const AudioBuffers> other, int frames_to_copy, int read_offset)
 {
-	allocate (other->channels(), frames_to_copy);
-	copy_from (other.get(), frames_to_copy, read_offset, 0);
+	allocate(other->channels(), frames_to_copy);
+	copy_from(other.get(), frames_to_copy, read_offset, 0);
 }
 
 
 AudioBuffers &
-AudioBuffers::operator= (AudioBuffers const & other)
+AudioBuffers::operator=(AudioBuffers const & other)
 {
 	if (this == &other) {
 		return *this;
 	}
 
-	allocate (other.channels(), other.frames());
-	copy_from (&other, other.frames(), 0, 0);
+	allocate(other.channels(), other.frames());
+	copy_from(&other, other.frames(), 0, 0);
 
 	return *this;
 }
 
 
 void
-AudioBuffers::allocate (int channels, int frames)
+AudioBuffers::allocate(int channels, int frames)
 {
-	DCPOMATIC_ASSERT (frames >= 0);
+	DCPOMATIC_ASSERT(frames >= 0);
 	DCPOMATIC_ASSERT(frames == 0 || channels > 0);
 
 	dcp::ScopeGuard sg = [this]() { update_data_pointers(); };
@@ -96,9 +96,9 @@ AudioBuffers::allocate (int channels, int frames)
  *  @return Buffer for this channel.
  */
 float*
-AudioBuffers::data (int channel)
+AudioBuffers::data(int channel)
 {
-	DCPOMATIC_ASSERT (channel >= 0 && channel < channels());
+	DCPOMATIC_ASSERT(channel >= 0 && channel < channels());
 	return _data[channel].data();
 }
 
@@ -107,16 +107,16 @@ AudioBuffers::data (int channel)
  *  @return Buffer for this channel.
  */
 float const*
-AudioBuffers::data (int channel) const
+AudioBuffers::data(int channel) const
 {
-	DCPOMATIC_ASSERT (channel >= 0 && channel < channels());
+	DCPOMATIC_ASSERT(channel >= 0 && channel < channels());
 	return _data[channel].data();
 }
 
 
 /** Set the number of frames in these AudioBuffers */
 void
-AudioBuffers::set_frames (int frames)
+AudioBuffers::set_frames(int frames)
 {
 	allocate(_data.size(), frames);
 }
@@ -124,24 +124,24 @@ AudioBuffers::set_frames (int frames)
 
 /** Make all frames silent */
 void
-AudioBuffers::make_silent ()
+AudioBuffers::make_silent()
 {
 	for (int channel = 0; channel < channels(); ++channel) {
-		make_silent (channel);
+		make_silent(channel);
 	}
 }
 
 
 /** Make all samples on a given channel silent */
 void
-AudioBuffers::make_silent (int channel)
+AudioBuffers::make_silent(int channel)
 {
-	DCPOMATIC_ASSERT (channel >= 0 && channel < channels());
+	DCPOMATIC_ASSERT(channel >= 0 && channel < channels());
 
 	/* This isn't really allowed, as all-bits-0 is not guaranteed to mean a 0 float,
 	   but it seems that we can get away with it.
 	*/
-	memset (data(channel), 0, frames() * sizeof(float));
+	memset(data(channel), 0, frames() * sizeof(float));
 }
 
 
@@ -149,15 +149,15 @@ AudioBuffers::make_silent (int channel)
  *  @param from Start frame.
  */
 void
-AudioBuffers::make_silent (int from, int frames_to_silence)
+AudioBuffers::make_silent(int from, int frames_to_silence)
 {
-	DCPOMATIC_ASSERT ((from + frames_to_silence) <= frames());
+	DCPOMATIC_ASSERT((from + frames_to_silence) <= frames());
 
 	for (int channel = 0; channel < channels(); ++channel) {
 		/* This isn't really allowed, as all-bits-0 is not guaranteed to mean a 0 float,
 		   but it seems that we can get away with it.
 		*/
-		memset (data(channel) + from, 0, frames_to_silence * sizeof(float));
+		memset(data(channel) + from, 0, frames_to_silence * sizeof(float));
 	}
 }
 
@@ -169,20 +169,20 @@ AudioBuffers::make_silent (int from, int frames_to_silence)
  *  @param write_offset Offset to write to in `to'.
  */
 void
-AudioBuffers::copy_from (AudioBuffers const * from, int frames_to_copy, int read_offset, int write_offset)
+AudioBuffers::copy_from(AudioBuffers const * from, int frames_to_copy, int read_offset, int write_offset)
 {
 	if (frames_to_copy == 0) {
 		/* Prevent the asserts from firing if there is nothing to do */
 		return;
 	}
 
-	DCPOMATIC_ASSERT (from);
-	DCPOMATIC_ASSERT (from->channels() == channels());
-	DCPOMATIC_ASSERT (read_offset >= 0 && (read_offset + frames_to_copy) <= from->frames());
-	DCPOMATIC_ASSERT (write_offset >= 0 && (write_offset + frames_to_copy) <= frames());
+	DCPOMATIC_ASSERT(from);
+	DCPOMATIC_ASSERT(from->channels() == channels());
+	DCPOMATIC_ASSERT(read_offset >= 0 && (read_offset + frames_to_copy) <= from->frames());
+	DCPOMATIC_ASSERT(write_offset >= 0 && (write_offset + frames_to_copy) <= frames());
 
 	for (int channel = 0; channel < channels(); ++channel) {
-		memcpy (data(channel) + write_offset, from->data(channel) + read_offset, frames_to_copy * sizeof(float));
+		memcpy(data(channel) + write_offset, from->data(channel) + read_offset, frames_to_copy * sizeof(float));
 	}
 }
 
@@ -193,23 +193,23 @@ AudioBuffers::copy_from (AudioBuffers const * from, int frames_to_copy, int read
  *  @param to Offset to move to.
  */
 void
-AudioBuffers::move (int frames_to_move, int from, int to)
+AudioBuffers::move(int frames_to_move, int from, int to)
 {
 	if (frames_to_move == 0) {
 		return;
 	}
 
-	DCPOMATIC_ASSERT (from >= 0);
-	DCPOMATIC_ASSERT (from < frames());
-	DCPOMATIC_ASSERT (to >= 0);
-	DCPOMATIC_ASSERT (to < frames());
-	DCPOMATIC_ASSERT (frames_to_move > 0);
-	DCPOMATIC_ASSERT (frames_to_move <= frames());
-	DCPOMATIC_ASSERT ((from + frames_to_move) <= frames());
-	DCPOMATIC_ASSERT ((to + frames_to_move) <= frames());
+	DCPOMATIC_ASSERT(from >= 0);
+	DCPOMATIC_ASSERT(from < frames());
+	DCPOMATIC_ASSERT(to >= 0);
+	DCPOMATIC_ASSERT(to < frames());
+	DCPOMATIC_ASSERT(frames_to_move > 0);
+	DCPOMATIC_ASSERT(frames_to_move <= frames());
+	DCPOMATIC_ASSERT((from + frames_to_move) <= frames());
+	DCPOMATIC_ASSERT((to + frames_to_move) <= frames());
 
 	for (int channel = 0; channel < channels(); ++channel) {
-		memmove (data(channel) + to, data(channel) + from, frames_to_move * sizeof(float));
+		memmove(data(channel) + to, data(channel) + from, frames_to_move * sizeof(float));
 	}
 }
 
@@ -221,13 +221,13 @@ AudioBuffers::move (int frames_to_move, int from, int to)
  *  @param gain Linear gain to apply to the data before it is added.
  */
 void
-AudioBuffers::accumulate_channel (AudioBuffers const * from, int from_channel, int to_channel, float gain)
+AudioBuffers::accumulate_channel(AudioBuffers const * from, int from_channel, int to_channel, float gain)
 {
-	int const N = frames ();
-	DCPOMATIC_ASSERT (from->frames() == N);
-	DCPOMATIC_ASSERT (to_channel <= channels());
+	int const N = frames();
+	DCPOMATIC_ASSERT(from->frames() == N);
+	DCPOMATIC_ASSERT(to_channel <= channels());
 
-	auto s = from->data (from_channel);
+	auto s = from->data(from_channel);
 	auto d = data(to_channel);
 
 	for (int i = 0; i < N; ++i) {
@@ -243,13 +243,13 @@ AudioBuffers::accumulate_channel (AudioBuffers const * from, int from_channel, i
  *  @param write_offset Offset within this to mix into.
  */
 void
-AudioBuffers::accumulate_frames (AudioBuffers const * from, int frames, int read_offset, int write_offset)
+AudioBuffers::accumulate_frames(AudioBuffers const * from, int frames, int read_offset, int write_offset)
 {
-	DCPOMATIC_ASSERT (channels() == from->channels());
-	DCPOMATIC_ASSERT (read_offset >= 0);
-	DCPOMATIC_ASSERT (write_offset >= 0);
+	DCPOMATIC_ASSERT(channels() == from->channels());
+	DCPOMATIC_ASSERT(read_offset >= 0);
+	DCPOMATIC_ASSERT(write_offset >= 0);
 
-	auto from_data = from->data ();
+	auto from_data = from->data();
 	for (int i = 0; i < channels(); ++i) {
 		for (int j = 0; j < frames; ++j) {
 			_data[i][j + write_offset] += from_data[i][j + read_offset];
@@ -260,9 +260,9 @@ AudioBuffers::accumulate_frames (AudioBuffers const * from, int frames, int read
 
 /** @param dB gain in dB */
 void
-AudioBuffers::apply_gain (float dB)
+AudioBuffers::apply_gain(float dB)
 {
-	auto const linear = db_to_linear (dB);
+	auto const linear = db_to_linear(dB);
 
 	for (int i = 0; i < channels(); ++i) {
 		for (int j = 0; j < frames(); ++j) {
@@ -274,10 +274,10 @@ AudioBuffers::apply_gain (float dB)
 
 /** @return AudioBuffers object containing only the given channel from this AudioBuffers */
 shared_ptr<AudioBuffers>
-AudioBuffers::channel (int channel) const
+AudioBuffers::channel(int channel) const
 {
 	auto output = make_shared<AudioBuffers>(1, frames());
-	output->copy_channel_from (this, channel, 0);
+	output->copy_channel_from(this, channel, 0);
 	return output;
 }
 
@@ -288,48 +288,48 @@ AudioBuffers::channel (int channel) const
  *  @param to_channel Channel index in this to copy into, overwriting what's already there.
  */
 void
-AudioBuffers::copy_channel_from (AudioBuffers const * from, int from_channel, int to_channel)
+AudioBuffers::copy_channel_from(AudioBuffers const * from, int from_channel, int to_channel)
 {
-	DCPOMATIC_ASSERT (from->frames() == frames());
-	memcpy (data(to_channel), from->data(from_channel), frames() * sizeof (float));
+	DCPOMATIC_ASSERT(from->frames() == frames());
+	memcpy(data(to_channel), from->data(from_channel), frames() * sizeof(float));
 }
 
 
 /** Make a copy of these AudioBuffers */
 shared_ptr<AudioBuffers>
-AudioBuffers::clone () const
+AudioBuffers::clone() const
 {
 	auto b = make_shared<AudioBuffers>(channels(), frames());
-	b->copy_from (this, frames(), 0, 0);
+	b->copy_from(this, frames(), 0, 0);
 	return b;
 }
 
 
 /** Extend these buffers with the data from another.  The AudioBuffers must have the same number of channels. */
 void
-AudioBuffers::append (shared_ptr<const AudioBuffers> other)
+AudioBuffers::append(shared_ptr<const AudioBuffers> other)
 {
-	DCPOMATIC_ASSERT (channels() == other->channels());
+	DCPOMATIC_ASSERT(channels() == other->channels());
 	auto old_frames = frames();
 	set_frames(old_frames + other->frames());
-	copy_from (other.get(), other->frames(), 0, old_frames);
+	copy_from(other.get(), other->frames(), 0, old_frames);
 }
 
 
 /** Remove some frames from the start of these AudioBuffers */
 void
-AudioBuffers::trim_start (int frames_to_trim)
+AudioBuffers::trim_start(int frames_to_trim)
 {
-	DCPOMATIC_ASSERT (frames_to_trim <= frames());
-	move (frames() - frames_to_trim, frames_to_trim, 0);
-	set_frames (frames() - frames_to_trim);
+	DCPOMATIC_ASSERT(frames_to_trim <= frames());
+	move(frames() - frames_to_trim, frames_to_trim, 0);
+	set_frames(frames() - frames_to_trim);
 }
 
 
 void
-AudioBuffers::update_data_pointers ()
+AudioBuffers::update_data_pointers()
 {
-        _data_pointers.resize (channels());
+        _data_pointers.resize(channels());
         for (int i = 0; i < channels(); ++i) {
                 _data_pointers[i] = _data[i].data();
         }

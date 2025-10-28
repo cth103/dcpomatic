@@ -38,52 +38,52 @@
 class AudioBuffers
 {
 public:
-	AudioBuffers (int channels, int frames);
-	AudioBuffers (AudioBuffers const &);
-	explicit AudioBuffers (std::shared_ptr<const AudioBuffers>);
-	AudioBuffers (std::shared_ptr<const AudioBuffers> other, int frames_to_copy, int read_offset);
+	AudioBuffers(int channels, int frames);
+	AudioBuffers(AudioBuffers const &);
+	explicit AudioBuffers(std::shared_ptr<const AudioBuffers>);
+	AudioBuffers(std::shared_ptr<const AudioBuffers> other, int frames_to_copy, int read_offset);
 
-	AudioBuffers & operator= (AudioBuffers const &);
+	AudioBuffers & operator=(AudioBuffers const &);
 
-	std::shared_ptr<AudioBuffers> clone () const;
-	std::shared_ptr<AudioBuffers> channel (int) const;
+	std::shared_ptr<AudioBuffers> clone() const;
+	std::shared_ptr<AudioBuffers> channel(int) const;
 
-	float* const* data () const {
+	float* const* data() const {
 		return _data_pointers.data();
 	}
 
-	float const* data (int) const;
-	float* data (int);
+	float const* data(int) const;
+	float* data(int);
 
-	int channels () const {
+	int channels() const {
 		return _data.size();
 	}
 
-	int frames () const {
+	int frames() const {
 		return _data.empty() ? 0 : _data[0].size();
 	}
 
-	void set_frames (int f);
+	void set_frames(int f);
 
 	void set_channels(int new_channels);
 
-	void make_silent ();
-	void make_silent (int channel);
-	void make_silent (int from, int frames);
+	void make_silent();
+	void make_silent(int channel);
+	void make_silent(int from, int frames);
 
-	void apply_gain (float);
+	void apply_gain(float);
 
-	void copy_from (AudioBuffers const * from, int frames_to_copy, int read_offset, int write_offset);
-	void copy_channel_from (AudioBuffers const * from, int from_channel, int to_channel);
-	void move (int frames, int from, int to);
-	void accumulate_channel (AudioBuffers const * from, int from_channel, int to_channel, float gain = 1);
-	void accumulate_frames (AudioBuffers const * from, int frames, int read_offset, int write_offset);
-	void append (std::shared_ptr<const AudioBuffers> other);
-	void trim_start (int frames);
+	void copy_from(AudioBuffers const * from, int frames_to_copy, int read_offset, int write_offset);
+	void copy_channel_from(AudioBuffers const * from, int from_channel, int to_channel);
+	void move(int frames, int from, int to);
+	void accumulate_channel(AudioBuffers const * from, int from_channel, int to_channel, float gain = 1);
+	void accumulate_frames(AudioBuffers const * from, int frames, int read_offset, int write_offset);
+	void append(std::shared_ptr<const AudioBuffers> other);
+	void trim_start(int frames);
 
 private:
-	void allocate (int channels, int frames);
-	void update_data_pointers ();
+	void allocate(int channels, int frames);
+	void update_data_pointers();
 
 	/** Audio data (so that, e.g. _data[2][6] is channel 2, sample 6) */
 	std::vector<std::vector<float>> _data;
