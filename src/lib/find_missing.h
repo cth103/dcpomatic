@@ -36,7 +36,7 @@ namespace dcpomatic {
  *  @param content Content, some of which may have missing files.
  *  @param clue Path to a file which gives a clue about where the missing files might be.
  */
-void find_missing (std::vector<std::shared_ptr<Content>> content, boost::filesystem::path clue);
+void find_missing(std::vector<std::shared_ptr<Content>> content, boost::filesystem::path clue);
 
 
 }
