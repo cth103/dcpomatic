@@ -79,29 +79,15 @@ AudioFilterGraph::src_parameters () const
 void
 AudioFilterGraph::set_parameters (AVFilterContext* context) const
 {
-#ifdef DCPOMATIC_FFMPEG_8
 	int r = av_opt_set(context, "sample_formats", "fltp", AV_OPT_SEARCH_CHILDREN);
-#else
-	AVSampleFormat sample_fmts[] = { AV_SAMPLE_FMT_FLTP, AV_SAMPLE_FMT_NONE };
-	int r = av_opt_set_int_list (context, "sample_fmts", sample_fmts, AV_SAMPLE_FMT_NONE, AV_OPT_SEARCH_CHILDREN);
-#endif
 	DCPOMATIC_ASSERT (r >= 0);
 
 	char ch_layout[64];
 	av_channel_layout_describe(&_channel_layout, ch_layout, sizeof(ch_layout));
-#ifdef DCPOMATIC_FFMPEG_8
 	r = av_opt_set(context, "channel_layouts", ch_layout, AV_OPT_SEARCH_CHILDREN);
-#else
-	r = av_opt_set(context, "ch_layouts", ch_layout, AV_OPT_SEARCH_CHILDREN);
-#endif
 	DCPOMATIC_ASSERT (r >= 0);
 
-#ifdef DCPOMATIC_FFMPEG_8
 	r = av_opt_set_array(context, "samplerates", AV_OPT_SEARCH_CHILDREN, 0, 1, AV_OPT_TYPE_INT, &_sample_rate);
-#else
-	int sample_rates[] = { _sample_rate, -1 };
-	r = av_opt_set_int_list (context, "sample_rates", sample_rates, -1, AV_OPT_SEARCH_CHILDREN);
-#endif
 	DCPOMATIC_ASSERT (r >= 0);
 }
 
