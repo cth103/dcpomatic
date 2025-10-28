@@ -41,18 +41,18 @@ class AudioAnalyser
 public:
 	AudioAnalyser(std::shared_ptr<const Film> film, std::shared_ptr<const Playlist> playlist, bool whole_film, std::function<void (float)> set_progress);
 
-	AudioAnalyser (AudioAnalyser const&) = delete;
-	AudioAnalyser& operator= (AudioAnalyser const&) = delete;
+	AudioAnalyser(AudioAnalyser const&) = delete;
+	AudioAnalyser& operator=(AudioAnalyser const&) = delete;
 
-	void analyse (std::shared_ptr<AudioBuffers>, dcpomatic::DCPTime time);
+	void analyse(std::shared_ptr<AudioBuffers>, dcpomatic::DCPTime time);
 
-	dcpomatic::DCPTime start () const {
+	dcpomatic::DCPTime start() const {
 		return _start;
 	}
 
-	void finish ();
+	void finish();
 
-	AudioAnalysis get () const {
+	AudioAnalysis get() const {
 		return _analysis;
 	}
 

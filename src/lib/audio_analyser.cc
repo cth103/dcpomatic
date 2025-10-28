@@ -53,15 +53,15 @@ static auto constexpr num_points = 1024;
 
 
 AudioAnalyser::AudioAnalyser(shared_ptr<const Film> film, shared_ptr<const Playlist> playlist, bool whole_film, std::function<void (float)> set_progress)
-	: _film (film)
-	, _playlist (playlist)
-	, _set_progress (set_progress)
+	: _film(film)
+	, _playlist(playlist)
+	, _set_progress(set_progress)
 #ifdef DCPOMATIC_HAVE_EBUR128_PATCHED_FFMPEG
 	, _ebur128(film->audio_frame_rate(), film->audio_channels())
 #endif
-	, _sample_peak (film->audio_channels())
-	, _sample_peak_frame (film->audio_channels())
-	, _analysis (film->audio_channels())
+	, _sample_peak(film->audio_channels())
+	, _sample_peak_frame(film->audio_channels())
+	, _analysis(film->audio_channels())
 {
 
 #ifdef DCPOMATIC_HAVE_EBUR128_PATCHED_FFMPEG
@@ -102,18 +102,18 @@ AudioAnalyser::AudioAnalyser(shared_ptr<const Film> film, shared_ptr<const Playl
 
 	/* XXX: is this right?  Especially for more than 5.1? */
 	vector<double> channel_corrections(_leqm_channels, 1);
-	add_if_required (channel_corrections,  4,   -3); // Ls
-	add_if_required (channel_corrections,  5,   -3); // Rs
-	add_if_required (channel_corrections,  6, -144); // HI
-	add_if_required (channel_corrections,  7, -144); // VI
-	add_if_required (channel_corrections,  8,   -3); // Lc
-	add_if_required (channel_corrections,  9,   -3); // Rc
-	add_if_required (channel_corrections, 10,   -3); // Lc
-	add_if_required (channel_corrections, 11,   -3); // Rc
-	add_if_required (channel_corrections, 12, -144); // DBox
-	add_if_required (channel_corrections, 13, -144); // Sync
-	add_if_required (channel_corrections, 14, -144); // Sign Language
-	add_if_required (channel_corrections, 15, -144); // Unused
+	add_if_required(channel_corrections,  4,   -3); // Ls
+	add_if_required(channel_corrections,  5,   -3); // Rs
+	add_if_required(channel_corrections,  6, -144); // HI
+	add_if_required(channel_corrections,  7, -144); // VI
+	add_if_required(channel_corrections,  8,   -3); // Lc
+	add_if_required(channel_corrections,  9,   -3); // Rc
+	add_if_required(channel_corrections, 10,   -3); // Lc
+	add_if_required(channel_corrections, 11,   -3); // Rc
+	add_if_required(channel_corrections, 12, -144); // DBox
+	add_if_required(channel_corrections, 13, -144); // Sync
+	add_if_required(channel_corrections, 14, -144); // Sign Language
+	add_if_required(channel_corrections, 15, -144); // Unused
 
 	_leqm.reset(new leqm_nrt::Calculator(
 		_leqm_channels,
@@ -125,18 +125,18 @@ AudioAnalyser::AudioAnalyser(shared_ptr<const Film> film, shared_ptr<const Playl
 		boost::thread::hardware_concurrency()
 		));
 
-	DCPTime const length = _playlist->length (_film);
+	DCPTime const length = _playlist->length(_film);
 
-	Frame const len = DCPTime (length - _start).frames_round (film->audio_frame_rate());
-	_samples_per_point = max (int64_t (1), len / num_points);
+	Frame const len = DCPTime(length - _start).frames_round(film->audio_frame_rate());
+	_samples_per_point = max(int64_t(1), len / num_points);
 }
 
 
 void
-AudioAnalyser::analyse (shared_ptr<AudioBuffers> b, DCPTime time)
+AudioAnalyser::analyse(shared_ptr<AudioBuffers> b, DCPTime time)
 {
 	LOG_DEBUG_AUDIO_ANALYSIS("AudioAnalyser received {} frames at {}", b->frames(), to_string(time));
-	DCPOMATIC_ASSERT (time >= _start);
+	DCPOMATIC_ASSERT(time >= _start);
 	/* In bug #2364 we had a lot of frames arriving here (~47s worth) which
 	 * caused an OOM error on Windows.  Check for the number of frames being
 	 * reasonable here to make sure we catch this if it happens again.
@@ -144,12 +144,12 @@ AudioAnalyser::analyse (shared_ptr<AudioBuffers> b, DCPTime time)
 	DCPOMATIC_ASSERT(b->frames() < 480000);
 
 #ifdef DCPOMATIC_HAVE_EBUR128_PATCHED_FFMPEG
-	if (Config::instance()->analyse_ebur128 ()) {
+	if (Config::instance()->analyse_ebur128()) {
 		_ebur128.process(b);
 	}
 #endif
 
-	int const frames = b->frames ();
+	int const frames = b->frames();
 	vector<double> interleaved(frames * _leqm_channels);
 
 	for (int j = 0; j < _leqm_channels; ++j) {
@@ -159,14 +159,14 @@ AudioAnalyser::analyse (shared_ptr<AudioBuffers> b, DCPTime time)
 
 			interleaved[i * _leqm_channels + j] = s;
 
-			float as = fabsf (s);
+			float as = fabsf(s);
 			if (as < 10e-7) {
 				/* We may struggle to serialise and recover inf or -inf, so prevent such
 				   values by replacing with this (140dB down) */
 				s = as = 10e-7;
 			}
-			_current[j][AudioPoint::RMS] += pow (s, 2);
-			_current[j][AudioPoint::PEAK] = max (_current[j][AudioPoint::PEAK], as);
+			_current[j][AudioPoint::RMS] += pow(s, 2);
+			_current[j][AudioPoint::PEAK] = max(_current[j][AudioPoint::PEAK], as);
 
 			if (as > _sample_peak[j]) {
 				_sample_peak[j] = as;
@@ -174,9 +174,9 @@ AudioAnalyser::analyse (shared_ptr<AudioBuffers> b, DCPTime time)
 			}
 
 			if (((_done + i) % _samples_per_point) == 0) {
-				_current[j][AudioPoint::RMS] = sqrt (_current[j][AudioPoint::RMS] / _samples_per_point);
-				_analysis.add_point (j, _current[j]);
-				_current[j] = AudioPoint ();
+				_current[j][AudioPoint::RMS] = sqrt(_current[j][AudioPoint::RMS] / _samples_per_point);
+				_analysis.add_point(j, _current[j]);
+				_current[j] = AudioPoint();
 			}
 		}
 	}
@@ -185,33 +185,33 @@ AudioAnalyser::analyse (shared_ptr<AudioBuffers> b, DCPTime time)
 
 	_done += frames;
 
-	DCPTime const length = _playlist->length (_film);
-	_set_progress ((time.seconds() - _start.seconds()) / (length.seconds() - _start.seconds()));
+	DCPTime const length = _playlist->length(_film);
+	_set_progress((time.seconds() - _start.seconds()) / (length.seconds() - _start.seconds()));
 	LOG_DEBUG_AUDIO_ANALYSIS_NC("Frames processed");
 }
 
 
 void
-AudioAnalyser::finish ()
+AudioAnalyser::finish()
 {
 	vector<AudioAnalysis::PeakTime> sample_peak;
 	for (int i = 0; i < _film->audio_channels(); ++i) {
-		sample_peak.push_back (
-			AudioAnalysis::PeakTime (_sample_peak[i], DCPTime::from_frames (_sample_peak_frame[i], _film->audio_frame_rate ()))
+		sample_peak.push_back(
+			AudioAnalysis::PeakTime(_sample_peak[i], DCPTime::from_frames(_sample_peak_frame[i], _film->audio_frame_rate()))
 			);
 	}
-	_analysis.set_sample_peak (sample_peak);
+	_analysis.set_sample_peak(sample_peak);
 
 #ifdef DCPOMATIC_HAVE_EBUR128_PATCHED_FFMPEG
-	if (Config::instance()->analyse_ebur128 ()) {
+	if (Config::instance()->analyse_ebur128()) {
 		void* eb = _ebur128.get("Parsed_ebur128_0")->priv;
 		vector<float> true_peak;
 		for (int i = 0; i < _film->audio_channels(); ++i) {
-			true_peak.push_back (av_ebur128_get_true_peaks(eb)[i]);
+			true_peak.push_back(av_ebur128_get_true_peaks(eb)[i]);
 		}
-		_analysis.set_true_peak (true_peak);
-		_analysis.set_integrated_loudness (av_ebur128_get_integrated_loudness(eb));
-		_analysis.set_loudness_range (av_ebur128_get_loudness_range(eb));
+		_analysis.set_true_peak(true_peak);
+		_analysis.set_integrated_loudness(av_ebur128_get_integrated_loudness(eb));
+		_analysis.set_loudness_range(av_ebur128_get_loudness_range(eb));
 	}
 #endif
 
@@ -220,11 +220,11 @@ AudioAnalyser::finish ()
 		   gain was when we analysed it.
 		*/
 		if (auto ac = _playlist->content().front()->audio) {
-			_analysis.set_analysis_gain (ac->gain());
+			_analysis.set_analysis_gain(ac->gain());
 		}
 	}
 
-	_analysis.set_samples_per_point (_samples_per_point);
-	_analysis.set_sample_rate (_film->audio_frame_rate ());
-	_analysis.set_leqm (_leqm->leq_m());
+	_analysis.set_samples_per_point(_samples_per_point);
+	_analysis.set_sample_rate(_film->audio_frame_rate());
+	_analysis.set_leqm(_leqm->leq_m());
 }
