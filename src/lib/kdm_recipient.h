@@ -36,10 +36,10 @@ LIBDCP_ENABLE_WARNINGS
 class KDMRecipient
 {
 public:
-	KDMRecipient (std::string const& name_, std::string const& notes_, boost::optional<dcp::Certificate> recipient, boost::optional<std::string> recipient_file_)
-		: name (name_)
-		, notes (notes_)
-		, recipient_file (recipient_file_)
+	KDMRecipient(std::string const& name_, std::string const& notes_, boost::optional<dcp::Certificate> recipient, boost::optional<std::string> recipient_file_)
+		: name(name_)
+		, notes(notes_)
+		, recipient_file(recipient_file_)
 		, _recipient(recipient)
 	{}
 
@@ -50,11 +50,11 @@ public:
 		, _recipient_string(recipient)
 	{}
 
-	explicit KDMRecipient (cxml::ConstNodePtr);
+	explicit KDMRecipient(cxml::ConstNodePtr);
 
-	virtual ~KDMRecipient () {}
+	virtual ~KDMRecipient() {}
 
-	virtual void as_xml (xmlpp::Element *) const;
+	virtual void as_xml(xmlpp::Element *) const;
 
 	boost::optional<dcp::Certificate> recipient() const;
 	void set_recipient(boost::optional<dcp::Certificate> certificate);

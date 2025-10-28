@@ -25,9 +25,9 @@
 using boost::optional;
 
 
-KDMRecipient::KDMRecipient (cxml::ConstNodePtr node)
-	: name (node->string_child("Name"))
-	, notes (node->optional_string_child("Notes").get_value_or(""))
+KDMRecipient::KDMRecipient(cxml::ConstNodePtr node)
+	: name(node->string_child("Name"))
+	, notes(node->optional_string_child("Notes").get_value_or(""))
 {
 	if (node->optional_string_child("Certificate")) {
 		_recipient = dcp::Certificate(node->string_child("Certificate"));
@@ -40,7 +40,7 @@ KDMRecipient::KDMRecipient (cxml::ConstNodePtr node)
 
 
 void
-KDMRecipient::as_xml (xmlpp::Element* parent) const
+KDMRecipient::as_xml(xmlpp::Element* parent) const
 {
 	cxml::add_text_child(parent, "Name", name);
 	if (auto const r = recipient()) {
