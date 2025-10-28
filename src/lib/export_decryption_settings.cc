@@ -65,10 +65,10 @@ import_decryption_chain_and_key(boost::filesystem::path const& path)
 		}
 		current += buffer;
 
-		if (strncmp(buffer, "-----END CERTIFICATE-----", 25) == 0) {
+		if (current.find("-----END CERTIFICATE-----") != string::npos) {
 			new_chain->add(dcp::Certificate(current));
 			current = "";
-		} else if (strncmp(buffer, "-----END RSA PRIVATE KEY-----", 29) == 0) {
+		} else if (current.find("-----END") != string::npos && current.find("PRIVATE KEY-----", 29) != string::npos) {
 			new_chain->set_key(current);
 			current = "";
 		}

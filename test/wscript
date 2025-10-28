@@ -90,6 +90,7 @@ def build(bld):
                  empty_test.cc
                  encode_cli_test.cc
                  encryption_test.cc
+                 export_decryption_settings_test.cc
                  file_extension_test.cc
                  ffmpeg_audio_only_test.cc
                  ffmpeg_audio_test.cc
