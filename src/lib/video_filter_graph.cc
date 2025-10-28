@@ -153,12 +153,7 @@ VideoFilterGraph::src_parameters () const
 void
 VideoFilterGraph::set_parameters (AVFilterContext* context) const
 {
-#ifdef DCPOMATIC_FFMPEG_8
 	auto const r = av_opt_set(context, "pixel_formats", av_get_pix_fmt_name(_pixel_format), AV_OPT_SEARCH_CHILDREN);
-#else
-	AVPixelFormat pix_fmts[] = { _pixel_format, AV_PIX_FMT_NONE };
-	int r = av_opt_set_int_list (context, "pix_fmts", pix_fmts, AV_PIX_FMT_NONE, AV_OPT_SEARCH_CHILDREN);
-#endif
 	DCPOMATIC_ASSERT (r >= 0);
 }
 
