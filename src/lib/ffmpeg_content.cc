@@ -655,21 +655,13 @@ FFmpegContent::add_properties(shared_ptr<const Film> film, list<UserProperty>& p
 			_("SMPTE 2085, Y'D'zD'x"),
 			_("Chroma-derived non-constant luminance"),
 			_("Chroma-derived constant luminance"),
-#ifdef DCPOMATIC_FFMPEG_8
                         _("BT2100"),
                         _("SMPTE ST 2128, IPT-C2"),
                         _("YCgCo-R, even addition"),
                         _("YCgCo-R, odd addition")
-#else
-			_("BT2100")
-#endif
 		};
 
-#ifdef DCPOMATIC_FFMPEG_8
 		DCPOMATIC_ASSERT(AVCOL_SPC_NB == 18);
-#else
-		DCPOMATIC_ASSERT(AVCOL_SPC_NB == 15);
-#endif
 
 		p.push_back(UserProperty(UserProperty::VIDEO, _("Colourspace"), spaces[_colorspace.get_value_or(AVCOL_SPC_UNSPECIFIED)]));
 
