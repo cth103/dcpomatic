@@ -28,6 +28,7 @@
 #include "wx_util.h"
 #include "wx_variant.h"
 #include "lib/exceptions.h"
+#include "lib/export_decryption_settings.h"
 #include "lib/util.h"
 #include <dcp/file.h>
 
@@ -162,6 +163,7 @@ KeysPage::signing_advanced()
 	editor.ShowModal();
 }
 
+
 void
 KeysPage::export_decryption_chain_and_key()
 {
@@ -174,18 +176,9 @@ KeysPage::export_decryption_chain_and_key()
 		return;
 	}
 
-	boost::filesystem::path path(wx_to_std(dialog.GetPath()));
-	dcp::File f(path, "w");
-	if (!f) {
-		throw OpenFileError(path, f.open_error(), OpenFileError::WRITE);
-	}
-
-	auto const chain = Config::instance()->decryption_chain()->chain();
-	f.checked_write(chain.c_str(), chain.length());
-	auto const key = Config::instance()->decryption_chain()->key();
-	DCPOMATIC_ASSERT(key);
-	f.checked_write(key->c_str(), key->length());
+	::export_decryption_chain_and_key(Config::instance()->decryption_chain(), wx_to_std(dialog.GetPath()));
 }
+
 
 void
 KeysPage::import_decryption_chain_and_key()
@@ -207,35 +200,13 @@ KeysPage::import_decryption_chain_and_key()
 		return;
 	}
 
-	auto new_chain = make_shared<dcp::CertificateChain>();
-
-	dcp::File f(wx_to_std(dialog.GetPath()), "r");
-	if (!f) {
-		throw OpenFileError(f.path(), f.open_error(), OpenFileError::WRITE);
-	}
-
-	string current;
-	while (!f.eof()) {
-		char buffer[128];
-		if (f.gets(buffer, 128) == 0) {
-			break;
-		}
-		current += buffer;
-		if (strncmp(buffer, "-----END CERTIFICATE-----", 25) == 0) {
-			new_chain->add(dcp::Certificate(current));
-			current = "";
-		} else if (strncmp(buffer, "-----END RSA PRIVATE KEY-----", 29) == 0) {
-			new_chain->set_key(current);
-			current = "";
-		}
-	}
-
-	if (new_chain->chain_valid() && new_chain->private_key_valid()) {
+	if (auto new_chain = ::import_decryption_chain_and_key(wx_to_std(dialog.GetPath()))) {
 		Config::instance()->set_decryption_chain(new_chain);
 	} else {
 		error_dialog(_panel, variant::wx::insert_dcpomatic(_("Invalid %s export file")));
 	}
 }
+
 
 bool
 KeysPage::nag_alter_decryption_chain()
