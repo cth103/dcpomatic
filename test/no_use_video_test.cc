@@ -85,11 +85,7 @@ BOOST_AUTO_TEST_CASE (no_use_video_test2)
 
 	make_and_verify_dcp (film);
 
-#ifdef DCPOMATIC_FFMPEG_8
 	check_dcp(TestPaths::private_data() / "no_use_video_test2_ffmpeg8", film);
-#else
-	check_dcp(TestPaths::private_data() / "no_use_video_test2", film);
-#endif
 
 	cl.run();
 }
