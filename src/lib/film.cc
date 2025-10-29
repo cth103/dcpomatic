@@ -797,11 +797,18 @@ list<int>
 Film::mapped_audio_channels() const
 {
 	list<int> mapped;
+	auto const highest_channel = audio_channels() - 1;
+
+	auto maybe_add = [&mapped, highest_channel](int channel) {
+		if (channel <= highest_channel) {
+			mapped.push_back(channel);
+		}
+	};
 
 	if (audio_processor()) {
 		/* Assume all a processor's declared output channels are mapped */
 		for (int i = 0; i < audio_processor()->out_channels(); ++i) {
-			mapped.push_back(i);
+			maybe_add(i);
 		}
 
 		/* Check to see if channels that the processor passes through are mapped */
@@ -810,7 +817,7 @@ Film::mapped_audio_channels() const
 			if (i->audio) {
 				for (auto c: i->audio->mapping().mapped_output_channels()) {
 					if (std::find(pass.begin(), pass.end(), dcp::Channel(c)) != pass.end()) {
-						mapped.push_back(c);
+						maybe_add(c);
 					}
 				}
 			}
@@ -819,8 +826,9 @@ Film::mapped_audio_channels() const
 	} else {
 		for (auto i: content()) {
 			if (i->audio) {
-				auto c = i->audio->mapping().mapped_output_channels();
-				copy(c.begin(), c.end(), back_inserter(mapped));
+				for (auto c: i->audio->mapping().mapped_output_channels()) {
+					maybe_add(c);
+				}
 			}
 		}
 

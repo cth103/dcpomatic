@@ -173,6 +173,11 @@ public:
 	}
 
 	std::vector<dcpomatic::DCPTimePeriod> reels() const;
+
+	/** @return List of channel indicies that are mapped to the DCP.  This takes the
+	 *  value of audio_channels() into account, so even if a channel above audio_channels()
+	 *  is mapped it will not be returned here.
+	 */
 	std::list<int> mapped_audio_channels() const;
 
 	boost::optional<dcp::LanguageTag> audio_language() const {
