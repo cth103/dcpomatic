@@ -32,7 +32,7 @@ class PasswordEntry;
 class CredentialsDownloadCertificatePanel : public DownloadCertificatePanel
 {
 public:
-	CredentialsDownloadCertificatePanel (
+	CredentialsDownloadCertificatePanel(
 			DownloadCertificateDialog* dialog,
 			std::function<boost::optional<std::string> ()> get_username,
 			std::function<void (std::string)> set_username,
@@ -42,11 +42,11 @@ public:
 			std::function<void ()> unset_password
 			);
 
-	bool ready_to_download () const override;
+	bool ready_to_download() const override;
 
 private:
-	void username_changed ();
-	void password_changed ();
+	void username_changed();
+	void password_changed();
 
 	std::function<boost::optional<std::string> (void)> _get_username;
 	std::function<void (std::string)> _set_username;
