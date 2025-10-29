@@ -26,6 +26,14 @@ public:
 	explicit JSONServer (int port);
 
 private:
+	enum State {
+		AWAITING_G,
+		AWAITING_E,
+		AWAITING_T,
+		AWAITING_SPACE,
+		READING_URL,
+	};
+
 	void run (int port);
 	void handle (std::shared_ptr<boost::asio::ip::tcp::socket> socket);
 	void request (std::string url, std::shared_ptr<boost::asio::ip::tcp::socket> socket);

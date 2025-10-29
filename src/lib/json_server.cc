@@ -45,15 +45,6 @@ using boost::thread;
 #define MAX_LENGTH 512
 
 
-enum State {
-	AWAITING_G,
-	AWAITING_E,
-	AWAITING_T,
-	AWAITING_SPACE,
-	READING_URL,
-};
-
-
 JSONServer::JSONServer (int port)
 {
 #ifdef DCPOMATIC_LINUX
