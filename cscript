@@ -700,6 +700,7 @@ def build(target, options, for_package):
                                                  '-Wp,-D_FORTIFY_SOURCE=3 -Wformat -fstack-clash-protection '
                                                  '-fcf-protection -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer '
                                                  '-Wp,-D_GLIBCXX_ASSERTIONS -g -flto=auto')
+            target.append_with_space('LINKFLAGS', '-Werror')
         target.command('./waf configure --prefix=%s %s' % (target.directory, configure_options(target, options, for_package)))
         target.command('./waf')
         target.command('./waf install')
