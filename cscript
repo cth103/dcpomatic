@@ -696,6 +696,10 @@ def build(target, options, for_package):
         if target.platform == 'linux' and target.distro == 'arch':
             # We're using a special pinned distro FFmpeg on Arch, and this is necessary to find it
             target.append_with_colon('PKG_CONFIG_PATH', '/usr/lib/ffmpeg4.4/pkgconfig')
+            target.append_with_space('CXXFLAGS', '-march=x86-64 -mtune=generic -O2 -pipe -fno-plt -fexceptions '
+                                                 '-Wp,-D_FORTIFY_SOURCE=3 -Wformat -fstack-clash-protection '
+                                                 '-fcf-protection -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer '
+                                                 '-Wp,-D_GLIBCXX_ASSERTIONS -g -flto=auto')
         target.command('./waf configure --prefix=%s %s' % (target.directory, configure_options(target, options, for_package)))
         target.command('./waf')
         target.command('./waf install')
