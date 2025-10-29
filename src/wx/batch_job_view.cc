@@ -33,48 +33,48 @@ using std::list;
 using std::shared_ptr;
 
 
-BatchJobView::BatchJobView (shared_ptr<Job> job, wxWindow* parent, wxWindow* container, wxFlexGridSizer* table)
-	: JobView (job, parent, container, table)
+BatchJobView::BatchJobView(shared_ptr<Job> job, wxWindow* parent, wxWindow* container, wxFlexGridSizer* table)
+	: JobView(job, parent, container, table)
 {
 
 }
 
 
 int
-BatchJobView::insert_position () const
+BatchJobView::insert_position() const
 {
 	return _table->GetEffectiveRowsCount() * _table->GetEffectiveColsCount();
 }
 
 
 void
-BatchJobView::finish_setup (wxWindow* parent, wxSizer* sizer)
+BatchJobView::finish_setup(wxWindow* parent, wxSizer* sizer)
 {
-	_higher_priority = new Button (parent, _("Higher priority"));
-	_higher_priority->Bind (wxEVT_BUTTON, boost::bind(&BatchJobView::higher_priority_clicked, this));
-	sizer->Add (_higher_priority, 1, wxALIGN_CENTER_VERTICAL);
-	_lower_priority = new Button (parent, _("Lower priority"));
-	_lower_priority->Bind (wxEVT_BUTTON, boost::bind(&BatchJobView::lower_priority_clicked, this));
-	sizer->Add (_lower_priority, 1, wxALIGN_CENTER_VERTICAL);
+	_higher_priority = new Button(parent, _("Higher priority"));
+	_higher_priority->Bind(wxEVT_BUTTON, boost::bind(&BatchJobView::higher_priority_clicked, this));
+	sizer->Add(_higher_priority, 1, wxALIGN_CENTER_VERTICAL);
+	_lower_priority = new Button(parent, _("Lower priority"));
+	_lower_priority->Bind(wxEVT_BUTTON, boost::bind(&BatchJobView::lower_priority_clicked, this));
+	sizer->Add(_lower_priority, 1, wxALIGN_CENTER_VERTICAL);
 }
 
 
 void
-BatchJobView::higher_priority_clicked ()
+BatchJobView::higher_priority_clicked()
 {
-	JobManager::instance()->increase_priority (_job);
+	JobManager::instance()->increase_priority(_job);
 }
 
 
 void
-BatchJobView::lower_priority_clicked ()
+BatchJobView::lower_priority_clicked()
 {
-	JobManager::instance()->decrease_priority (_job);
+	JobManager::instance()->decrease_priority(_job);
 }
 
 
 void
-BatchJobView::job_list_changed ()
+BatchJobView::job_list_changed()
 {
 	bool high = false;
 	bool low = false;
@@ -88,6 +88,6 @@ BatchJobView::job_list_changed ()
 		}
 	}
 
-	_higher_priority->Enable (high);
-	_lower_priority->Enable (low);
+	_higher_priority->Enable(high);
+	_lower_priority->Enable(low);
 }
