@@ -54,29 +54,29 @@ using std::dynamic_pointer_cast;
 
 
 /** @param film Film to use */
-TranscodeJob::TranscodeJob (shared_ptr<const Film> film, ChangedBehaviour changed)
-	: Job (film)
-	, _changed (changed)
+TranscodeJob::TranscodeJob(shared_ptr<const Film> film, ChangedBehaviour changed)
+	: Job(film)
+	, _changed(changed)
 {
 
 }
 
 
-TranscodeJob::~TranscodeJob ()
+TranscodeJob::~TranscodeJob()
 {
-	stop_thread ();
+	stop_thread();
 }
 
 
 string
-TranscodeJob::name () const
+TranscodeJob::name() const
 {
 	return fmt::format(_("Transcoding {}"), _film->name());
 }
 
 
 string
-TranscodeJob::json_name () const
+TranscodeJob::json_name() const
 {
 	return N_("transcode");
 }
@@ -90,43 +90,43 @@ TranscodeJob::set_encoder(shared_ptr<FilmEncoder> e)
 
 
 void
-TranscodeJob::run ()
+TranscodeJob::run()
 {
 	try {
 		auto content = _film->content();
 		std::vector<shared_ptr<Content>> changed;
-		std::copy_if (content.begin(), content.end(), std::back_inserter(changed), [](shared_ptr<Content> c) { return c->changed(); });
+		std::copy_if(content.begin(), content.end(), std::back_inserter(changed), [](shared_ptr<Content> c) { return c->changed(); });
 
 		if (!changed.empty()) {
 			switch (_changed) {
 			case ChangedBehaviour::EXAMINE_THEN_STOP:
 				JobManager::instance()->add(make_shared<ExamineContentJob>(_film, changed, false));
-				set_progress (1);
-				set_message (_("Some files have been changed since they were added to the project.\n\nThese files will now be re-examined, so you may need to check their settings before trying again."));
-				set_error (_("Files have changed since they were added to the project."), _("Check their new settings, then try again."));
-				set_state (FINISHED_ERROR);
+				set_progress(1);
+				set_message(_("Some files have been changed since they were added to the project.\n\nThese files will now be re-examined, so you may need to check their settings before trying again."));
+				set_error(_("Files have changed since they were added to the project."), _("Check their new settings, then try again."));
+				set_state(FINISHED_ERROR);
 				return;
 			case ChangedBehaviour::STOP:
-				set_progress (1);
+				set_progress(1);
 				set_error(
 					_("Files have changed since they were added to the project."),
 					variant::insert_dcpomatic(_("Open the project in {}, check the settings, then save it before trying again."))
 					);
-				set_state (FINISHED_ERROR);
+				set_state(FINISHED_ERROR);
 				return;
 			default:
-				LOG_GENERAL_NC (_("Some files have been changed since they were added to the project."));
+				LOG_GENERAL_NC(_("Some files have been changed since they were added to the project."));
 				break;
 			}
 		}
 
-		LOG_GENERAL_NC (N_("Transcode job starting"));
+		LOG_GENERAL_NC(N_("Transcode job starting"));
 
-		DCPOMATIC_ASSERT (_encoder);
-		_encoder->go ();
+		DCPOMATIC_ASSERT(_encoder);
+		_encoder->go();
 
-		set_progress (1);
-		set_state (FINISHED_OK);
+		set_progress(1);
+		set_state(FINISHED_OK);
 
 		LOG_GENERAL(N_("Transcode job completed successfully: {} fps"), dcp::locale_convert<string>(frames_per_second(), 2, true));
 
@@ -134,16 +134,16 @@ TranscodeJob::run ()
 			try {
 				Analytics::instance()->successful_dcp_encode();
 			} catch (FileError& e) {
-				LOG_WARNING (N_("Failed to write analytics ({})"), e.what());
+				LOG_WARNING(N_("Failed to write analytics ({})"), e.what());
 			}
 		}
 
-		post_transcode ();
+		post_transcode();
 
-		_encoder.reset ();
+		_encoder.reset();
 
 	} catch (...) {
-		_encoder.reset ();
+		_encoder.reset();
 		throw;
 	}
 }
@@ -164,10 +164,10 @@ void TranscodeJob::resume()
 
 
 string
-TranscodeJob::status () const
+TranscodeJob::status() const
 {
 	if (!_encoder) {
-		return Job::status ();
+		return Job::status();
 	}
 
 	if (finished() || _encoder->finishing()) {
@@ -186,26 +186,26 @@ TranscodeJob::status () const
 
 /** @return Approximate remaining time in seconds */
 int
-TranscodeJob::remaining_time () const
+TranscodeJob::remaining_time() const
 {
 	/* _encoder might be destroyed by the job-runner thread */
 	auto e = _encoder;
 
 	if (!e || e->finishing()) {
 		/* We aren't doing any actual encoding so just use the job's guess */
-		return Job::remaining_time ();
+		return Job::remaining_time();
 	}
 
 	/* We're encoding so guess based on the current encoding rate */
 
-	auto fps = e->current_rate ();
+	auto fps = e->current_rate();
 
 	if (!fps) {
 		return 0;
 	}
 
 	/* Compute approximate proposed length here, as it's only here that we need it */
-	return (_film->length().frames_round(_film->video_frame_rate()) - e->frames_done()) / *fps;
+	return(_film->length().frames_round(_film->video_frame_rate()) - e->frames_done()) / *fps;
 }
 
 

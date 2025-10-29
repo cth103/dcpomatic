@@ -52,16 +52,16 @@ public:
 		IGNORE
 	};
 
-	explicit TranscodeJob (std::shared_ptr<const Film> film, ChangedBehaviour changed);
-	~TranscodeJob ();
+	explicit TranscodeJob(std::shared_ptr<const Film> film, ChangedBehaviour changed);
+	~TranscodeJob();
 
-	std::string name () const override;
-	std::string json_name () const override;
-	void run () override;
+	std::string name() const override;
+	std::string json_name() const override;
+	void run() override;
 	void pause() override;
 	void resume() override;
-	std::string status () const override;
-	bool enable_notify () const override {
+	std::string status() const override;
+	bool enable_notify() const override {
 		return true;
 	}
 
@@ -70,10 +70,10 @@ public:
 private:
 	friend struct ::frames_not_lost_when_threads_disappear;
 
-	virtual void post_transcode () {}
+	virtual void post_transcode() {}
 	float frames_per_second() const;
 
-	int remaining_time () const override;
+	int remaining_time() const override;
 
 	std::shared_ptr<FilmEncoder> _encoder;
 	ChangedBehaviour _changed;
