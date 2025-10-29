@@ -33,8 +33,8 @@ class UserProperty;
 class ContentPropertiesDialog : public TableDialog
 {
 public:
-	ContentPropertiesDialog (wxWindow* parent, std::shared_ptr<const Film> film, std::shared_ptr<Content> content);
+	ContentPropertiesDialog(wxWindow* parent, std::shared_ptr<const Film> film, std::shared_ptr<Content> content);
 
 private:
-	void maybe_add_group (std::map<UserProperty::Category, std::list<UserProperty> > const & groups, UserProperty::Category category);
+	void maybe_add_group(std::map<UserProperty::Category, std::list<UserProperty> > const & groups, UserProperty::Category category);
 };

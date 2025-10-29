@@ -36,34 +36,34 @@ using std::shared_ptr;
 using std::dynamic_pointer_cast;
 
 
-ContentPropertiesDialog::ContentPropertiesDialog (wxWindow* parent, shared_ptr<const Film> film, shared_ptr<Content> content)
-	: TableDialog (parent, _("Content Properties"), 2, 1, false)
+ContentPropertiesDialog::ContentPropertiesDialog(wxWindow* parent, shared_ptr<const Film> film, shared_ptr<Content> content)
+	: TableDialog(parent, _("Content Properties"), 2, 1, false)
 {
 	map<UserProperty::Category, list<UserProperty>> grouped;
 	for (auto i: content->user_properties(film)) {
 		if (grouped.find(i.category) == grouped.end()) {
-			grouped[i.category] = list<UserProperty> ();
+			grouped[i.category] = list<UserProperty>();
 		}
-		grouped[i.category].push_back (i);
+		grouped[i.category].push_back(i);
 	}
 
-	maybe_add_group (grouped, UserProperty::GENERAL);
-	maybe_add_group (grouped, UserProperty::VIDEO);
-	maybe_add_group (grouped, UserProperty::AUDIO);
-	maybe_add_group (grouped, UserProperty::LENGTH);
+	maybe_add_group(grouped, UserProperty::GENERAL);
+	maybe_add_group(grouped, UserProperty::VIDEO);
+	maybe_add_group(grouped, UserProperty::AUDIO);
+	maybe_add_group(grouped, UserProperty::LENGTH);
 
 	/* Nasty hack to stop the bottom property being cut off on Windows / OS X */
-	add (wxString(), false);
-	add (wxString(), false);
+	add(wxString(), false);
+	add(wxString(), false);
 
-	layout ();
+	layout();
 }
 
 
 void
-ContentPropertiesDialog::maybe_add_group (map<UserProperty::Category, list<UserProperty>> const & groups, UserProperty::Category category)
+ContentPropertiesDialog::maybe_add_group(map<UserProperty::Category, list<UserProperty>> const & groups, UserProperty::Category category)
 {
-	auto i = groups.find (category);
+	auto i = groups.find(category);
 	if (i == groups.end()) {
 		return;
 	}
@@ -84,18 +84,18 @@ ContentPropertiesDialog::maybe_add_group (map<UserProperty::Category, list<UserP
 		break;
 	}
 
-	auto m = new StaticText (this, category_name);
-	wxFont font (*wxNORMAL_FONT);
-	font.SetWeight (wxFONTWEIGHT_BOLD);
-	m->SetFont (font);
+	auto m = new StaticText(this, category_name);
+	wxFont font(*wxNORMAL_FONT);
+	font.SetWeight(wxFONTWEIGHT_BOLD);
+	m->SetFont(font);
 
-	add_spacer ();
-	add_spacer ();
-	add (m, false);
-	add_spacer ();
+	add_spacer();
+	add_spacer();
+	add(m, false);
+	add_spacer();
 
 	for (auto j: i->second) {
-		add_label_to_sizer (_table, this, std_to_wx(j.key), true, 0, wxALIGN_TOP);
-		add (new StaticText (this, std_to_wx (j.value + " " + j.unit)));
+		add_label_to_sizer(_table, this, std_to_wx(j.key), true, 0, wxALIGN_TOP);
+		add(new StaticText(this, std_to_wx(j.value + " " + j.unit)));
 	}
 }
