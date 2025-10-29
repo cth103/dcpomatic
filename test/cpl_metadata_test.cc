@@ -88,7 +88,7 @@ BOOST_AUTO_TEST_CASE(main_sound_configuration_test_71)
 	auto BsR = content_factory("test/data/Rs.wav")[0];
 	auto VI = content_factory("test/data/sine_440.wav")[0];
 
-	auto film = new_test_film("main_sound_configuration_test_51_vi", { picture, L, R, C, Lfe, Ls, Rs, BsL, BsR, VI });
+	auto film = new_test_film("main_sound_configuration_test_71_vi", { picture, L, R, C, Lfe, Ls, Rs, BsL, BsR, VI });
 	film->set_audio_channels(12);
 
 	auto set_map = [](shared_ptr<Content> content, dcp::Channel channel) {
