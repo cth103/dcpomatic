@@ -194,14 +194,32 @@ BOOST_AUTO_TEST_CASE(rfc_2822_date_test)
 
 	/* This won't pass when running in all time zones, but it's really the overall format (and in particular
 	 * the use of English for day and month names) that we want to check.
+	 *
+	 * On Windows using localtime (as rfc_2822_date does) to convert UTC midnight in summer 1970 to German
+	 * time seems to take DST into account, giving 02:00.  On Linux the rfc_2822_date call below always gives
+	 * us 01:00, even if we're trying to convert a time that was in summer.
+	 *
+	 * This means that we get:
+	 *
+	 * OS       DST now    DST in 1970  Time in 1970    tz     Check for
+	 * -----------------------------------------------------------------
+	 * Windows  no         no           01:00           01:00  hours
+	 *          yes        no           01:00           02:00  hours - 1
+	 *          no         yes          02:00           01:00  hours + 1
+	 *          yes        yes          02:00           02:00  hours
+	 * POSIX    no         no           01:00           01:00  hours
+	 *          yes        no           01:00           02:00  hours - 1
+	 *          no         yes          01:00           01:00  hours
+	 *          yes        yes          01:00           02:00  hours - 1
 	 */
 
 	auto check_allowing_dst = [hours, tz](int day_index, string format) {
 		auto test = rfc_2822_date(day_index * day);
 		BOOST_CHECK_MESSAGE(
+			test == fmt::format(format, hours + 1, tz) ||
 			test == fmt::format(format, hours, tz) ||
 			test == fmt::format(format, hours - 1, tz),
-			test << " did not match " << fmt::format(format, hours, tz) << " or " << fmt::format(format, hours - 1, tz)
+			test << " did not match " << fmt::format(format, hours + 1, tz) << " or " << fmt::format(format, hours, tz) << " or " << fmt::format(format, hours - 1, tz)
 		);
 	};
 
