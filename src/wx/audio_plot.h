@@ -37,14 +37,14 @@ class AudioPlot : public wxPanel
 public:
 	explicit AudioPlot(wxWindow* parent);
 
-	void set_analysis (std::shared_ptr<AudioAnalysis>);
-	void set_channel_visible (int c, bool v);
-	void set_type_visible (int t, bool v);
-	void set_smoothing (int);
-	void set_message (wxString);
-	void set_gain_correction (double gain);
+	void set_analysis(std::shared_ptr<AudioAnalysis>);
+	void set_channel_visible(int c, bool v);
+	void set_type_visible(int t, bool v);
+	void set_smoothing(int);
+	void set_message(wxString);
+	void set_gain_correction(double gain);
 
-	wxColour colour (int n) const;
+	wxColour colour(int n) const;
 
 	boost::signals2::signal<void (boost::optional<dcpomatic::DCPTime>, boost::optional<float>)> Cursor;
 	boost::signals2::signal<void (dcpomatic::DCPTime)> Click;
@@ -54,11 +54,9 @@ public:
 private:
 
 	struct Point {
-		Point ()
-			: db(0)
-		{}
+		Point() = default;
 
-		Point (wxPoint draw_, dcpomatic::DCPTime time_, float db_)
+		Point(wxPoint draw_, dcpomatic::DCPTime time_, float db_)
 			: draw(draw_)
 			, time(time_)
 			, db(db_)
@@ -66,19 +64,19 @@ private:
 
 		wxPoint draw;
 		dcpomatic::DCPTime time;
-		float db;
+		float db = 0;
 	};
 
 	typedef std::vector<Point> PointList;
 
-	void paint ();
-	void plot_peak (wxGraphicsPath &, int, Metrics const &) const;
-	void plot_rms (wxGraphicsPath &, int, Metrics const &) const;
+	void paint();
+	void plot_peak(wxGraphicsPath &, int, Metrics const &) const;
+	void plot_rms(wxGraphicsPath &, int, Metrics const &) const;
 	float y_for_linear (float, Metrics const &) const;
-	AudioPoint get_point (int channel, int point) const;
-	void left_down ();
-	void mouse_moved (wxMouseEvent& ev);
-	void mouse_leave (wxMouseEvent& ev);
+	AudioPoint get_point(int channel, int point) const;
+	void left_down();
+	void mouse_moved(wxMouseEvent& ev);
+	void mouse_leave(wxMouseEvent& ev);
 
 	std::shared_ptr<AudioAnalysis> _analysis;
 	bool _channel_visible[MAX_DCP_AUDIO_CHANNELS];
