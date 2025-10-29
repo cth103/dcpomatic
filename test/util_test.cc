@@ -198,9 +198,10 @@ BOOST_AUTO_TEST_CASE(rfc_2822_date_test)
 
 	auto check_allowing_dst = [hours, tz](int day_index, string format) {
 		auto test = rfc_2822_date(day_index * day);
-		BOOST_CHECK(
+		BOOST_CHECK_MESSAGE(
 			test == fmt::format(format, hours, tz) ||
-			test == fmt::format(format, hours - 1, tz)
+			test == fmt::format(format, hours - 1, tz),
+			test << " did not match " << fmt::format(format, hours, tz) << " or " << fmt::format(format, hours - 1, tz)
 		);
 	};
 
