@@ -54,12 +54,12 @@ int const AudioPlot::max_smoothing = 128;
 
 
 AudioPlot::AudioPlot(wxWindow* parent)
-	: wxPanel (parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE)
-	, _smoothing (max_smoothing / 2)
-	, _gain_correction (0)
+	: wxPanel(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE)
+	, _smoothing(max_smoothing / 2)
+	, _gain_correction(0)
 {
 #ifndef __WXOSX__
-	SetDoubleBuffered (true);
+	SetDoubleBuffered(true);
 #endif
 
 	for (int i = 0; i < MAX_DCP_AUDIO_CHANNELS; ++i) {
@@ -75,40 +75,40 @@ AudioPlot::AudioPlot(wxWindow* parent)
 	} else {
 		_colours.push_back(wxColour(0, 0, 0));
 	}
-	_colours.push_back (wxColour (255,   0,	  0));
-	_colours.push_back (wxColour (	0, 255,	  0));
-	_colours.push_back (wxColour (139,   0, 204));
-	_colours.push_back (wxColour (	0,   0, 255));
-	_colours.push_back (wxColour (  0, 139,   0));
-	_colours.push_back (wxColour (  0,   0, 139));
-	_colours.push_back (wxColour (255, 255,   0));
-	_colours.push_back (wxColour (  0, 255, 255));
-	_colours.push_back (wxColour (255,   0, 255));
-	_colours.push_back (wxColour (255,   0, 139));
-	_colours.push_back (wxColour (139,   0, 255));
+	_colours.push_back(wxColour(255,   0,	  0));
+	_colours.push_back(wxColour(	0, 255,	  0));
+	_colours.push_back(wxColour(139,   0, 204));
+	_colours.push_back(wxColour(	0,   0, 255));
+	_colours.push_back(wxColour(  0, 139,   0));
+	_colours.push_back(wxColour(  0,   0, 139));
+	_colours.push_back(wxColour(255, 255,   0));
+	_colours.push_back(wxColour(  0, 255, 255));
+	_colours.push_back(wxColour(255,   0, 255));
+	_colours.push_back(wxColour(255,   0, 139));
+	_colours.push_back(wxColour(139,   0, 255));
 
-	_colours.push_back (wxColour (139, 139, 255));
-	_colours.push_back (wxColour (  0, 139, 255));
-	_colours.push_back (wxColour (255, 139, 139));
-	_colours.push_back (wxColour (255, 139,   0));
+	_colours.push_back(wxColour(139, 139, 255));
+	_colours.push_back(wxColour(  0, 139, 255));
+	_colours.push_back(wxColour(255, 139, 139));
+	_colours.push_back(wxColour(255, 139,   0));
 
-	set_analysis (shared_ptr<AudioAnalysis> ());
+	set_analysis(shared_ptr<AudioAnalysis>());
 
 #if MAX_DCP_AUDIO_CHANNELS != 16
 #warning AudioPlot::AudioPlot is expecting the wrong MAX_DCP_AUDIO_CHANNELS
 #endif
 
-	Bind (wxEVT_PAINT, boost::bind (&AudioPlot::paint, this));
-	Bind (wxEVT_MOTION, boost::bind (&AudioPlot::mouse_moved, this, _1));
-	Bind (wxEVT_LEAVE_WINDOW, boost::bind (&AudioPlot::mouse_leave, this, _1));
-	Bind (wxEVT_LEFT_DOWN, boost::bind(&AudioPlot::left_down, this));
+	Bind(wxEVT_PAINT, boost::bind(&AudioPlot::paint, this));
+	Bind(wxEVT_MOTION, boost::bind(&AudioPlot::mouse_moved, this, _1));
+	Bind(wxEVT_LEAVE_WINDOW, boost::bind(&AudioPlot::mouse_leave, this, _1));
+	Bind(wxEVT_LEFT_DOWN, boost::bind(&AudioPlot::left_down, this));
 
-	SetMinSize (wxSize (640, 512));
+	SetMinSize(wxSize(640, 512));
 }
 
 
 void
-AudioPlot::set_analysis (shared_ptr<AudioAnalysis> a)
+AudioPlot::set_analysis(shared_ptr<AudioAnalysis> a)
 {
 	_analysis = a;
 
@@ -116,31 +116,31 @@ AudioPlot::set_analysis (shared_ptr<AudioAnalysis> a)
 		_message = _("Please wait; audio is being analysed...");
 	}
 
-	Refresh ();
+	Refresh();
 }
 
 
 void
-AudioPlot::set_channel_visible (int c, bool v)
+AudioPlot::set_channel_visible(int c, bool v)
 {
 	_channel_visible[c] = v;
-	Refresh ();
+	Refresh();
 }
 
 
 void
-AudioPlot::set_type_visible (int t, bool v)
+AudioPlot::set_type_visible(int t, bool v)
 {
 	_type_visible[t] = v;
-	Refresh ();
+	Refresh();
 }
 
 
 void
-AudioPlot::set_message (wxString s)
+AudioPlot::set_message(wxString s)
 {
 	_message = s;
-	Refresh ();
+	Refresh();
 }
 
 
@@ -155,25 +155,25 @@ struct Metrics
 
 
 void
-AudioPlot::paint ()
+AudioPlot::paint()
 {
-	wxPaintDC dc (this);
+	wxPaintDC dc(this);
 
-	auto gc = wxGraphicsContext::Create (dc);
+	auto gc = wxGraphicsContext::Create(dc);
 	if (!gc) {
 		return;
 	}
 
-	gc->SetAntialiasMode (wxANTIALIAS_DEFAULT);
+	gc->SetAntialiasMode(wxANTIALIAS_DEFAULT);
 
 	if (!_analysis || _analysis->channels() == 0) {
 		gc->SetFont(gc->CreateFont(*wxNORMAL_FONT, gui_is_dark() ? *wxWHITE : *wxBLACK));
-		gc->DrawText (_message, 32, 32);
+		gc->DrawText(_message, 32, 32);
 		delete gc;
 		return;
 	}
 
-	auto h_grid = gc->CreatePath ();
+	auto h_grid = gc->CreatePath();
 	gc->SetFont(gc->CreateFont(*wxSMALL_FONT, gui_is_dark() ? *wxWHITE : *wxBLACK));
 	wxDouble db_label_height;
 	wxDouble db_label_descent;
@@ -185,35 +185,35 @@ AudioPlot::paint ()
 
 	int const data_width = GetSize().GetWidth() - metrics.db_label_width;
 	/* Assume all channels have the same number of points */
-	metrics.x_scale = data_width / float (_analysis->points (0));
-	metrics.height = GetSize().GetHeight ();
+	metrics.x_scale = data_width / float(_analysis->points(0));
+	metrics.height = GetSize().GetHeight();
 	metrics.y_pad = 32;
 	metrics.y_scale = (metrics.height - 2 * metrics.y_pad) / -_minimum;
 
 	for (int i = _minimum; i <= 0; i += 10) {
 		int const y = (metrics.height - (i - _minimum) * metrics.y_scale) - metrics.y_pad;
-		h_grid.MoveToPoint (metrics.db_label_width - 4, y);
-		h_grid.AddLineToPoint (metrics.db_label_width + data_width, y);
-		gc->DrawText (std_to_wx (fmt::format("{}dB", i)), 0, y - (db_label_height / 2));
+		h_grid.MoveToPoint(metrics.db_label_width - 4, y);
+		h_grid.AddLineToPoint(metrics.db_label_width + data_width, y);
+		gc->DrawText(std_to_wx(fmt::format("{}dB", i)), 0, y - (db_label_height / 2));
 	}
 
 	wxColour const grid_colour = gui_is_dark() ? wxColour(80, 80, 80) : wxColour(200, 200, 200);
 
 	gc->SetPen(wxPen(grid_colour));
-	gc->StrokePath (h_grid);
+	gc->StrokePath(h_grid);
 
 	/* Draw an x axis with marks */
 
-	auto v_grid = gc->CreatePath ();
+	auto v_grid = gc->CreatePath();
 
-	DCPOMATIC_ASSERT (_analysis->samples_per_point() != 0.0);
+	DCPOMATIC_ASSERT(_analysis->samples_per_point() != 0.0);
 	double const pps = _analysis->sample_rate() * metrics.x_scale / _analysis->samples_per_point();
 
-	double const mark_interval = calculate_mark_interval (rint (128 / pps));
+	double const mark_interval = calculate_mark_interval(rint(128 / pps));
 
-	auto t = DCPTime::from_seconds (mark_interval);
+	auto t = DCPTime::from_seconds(mark_interval);
 	while ((t.seconds() * pps) < data_width) {
-		double tc = t.seconds ();
+		double tc = t.seconds();
 		int const h = tc / 3600;
 		tc -= h * 3600;
 		int const m = tc / 60;
@@ -225,58 +225,58 @@ AudioPlot::paint ()
 		wxDouble str_height;
 		wxDouble str_descent;
 		wxDouble str_leading;
-		gc->GetTextExtent (str, &str_width, &str_height, &str_descent, &str_leading);
+		gc->GetTextExtent(str, &str_width, &str_height, &str_descent, &str_leading);
 
-		int const tx = llrintf (metrics.db_label_width + t.seconds() * pps);
+		int const tx = llrintf(metrics.db_label_width + t.seconds() * pps);
 		gc->DrawText(str, tx - str_width / 2, metrics.height - metrics.y_pad + 4);
 
-		v_grid.MoveToPoint (tx, metrics.height - metrics.y_pad + 4);
+		v_grid.MoveToPoint(tx, metrics.height - metrics.y_pad + 4);
 		v_grid.AddLineToPoint(tx, metrics.y_pad);
 
-		t += DCPTime::from_seconds (mark_interval);
+		t += DCPTime::from_seconds(mark_interval);
 	}
 
 	gc->SetPen(wxPen(grid_colour));
-	gc->StrokePath (v_grid);
+	gc->StrokePath(v_grid);
 
 	if (_type_visible[AudioPoint::PEAK]) {
 		for (int c = 0; c < MAX_DCP_AUDIO_CHANNELS; ++c) {
-			auto p = gc->CreatePath ();
+			auto p = gc->CreatePath();
 			if (_channel_visible[c] && c < _analysis->channels()) {
-				plot_peak (p, c, metrics);
+				plot_peak(p, c, metrics);
 			}
 			auto const col = _colours[c];
-			gc->SetPen (wxPen (wxColour (col.Red(), col.Green(), col.Blue(), col.Alpha() / 2), 1, wxPENSTYLE_SOLID));
-			gc->StrokePath (p);
+			gc->SetPen(wxPen(wxColour(col.Red(), col.Green(), col.Blue(), col.Alpha() / 2), 1, wxPENSTYLE_SOLID));
+			gc->StrokePath(p);
 		}
 	}
 
 	if (_type_visible[AudioPoint::RMS]) {
 		for (int c = 0; c < MAX_DCP_AUDIO_CHANNELS; ++c) {
-			auto p = gc->CreatePath ();
+			auto p = gc->CreatePath();
 			if (_channel_visible[c] && c < _analysis->channels()) {
-				plot_rms (p, c, metrics);
+				plot_rms(p, c, metrics);
 			}
 			auto const col = _colours[c];
-			gc->SetPen (wxPen (col, 1, wxPENSTYLE_SOLID));
-			gc->StrokePath (p);
+			gc->SetPen(wxPen(col, 1, wxPENSTYLE_SOLID));
+			gc->StrokePath(p);
 		}
 	}
 
-	auto axes = gc->CreatePath ();
-	axes.MoveToPoint (metrics.db_label_width, 0);
+	auto axes = gc->CreatePath();
+	axes.MoveToPoint(metrics.db_label_width, 0);
 	axes.AddLineToPoint(metrics.db_label_width, metrics.height - metrics.y_pad);
 	axes.AddLineToPoint(metrics.db_label_width + data_width, metrics.height - metrics.y_pad);
 	gc->SetPen(wxPen(grid_colour));
-	gc->StrokePath (axes);
+	gc->StrokePath(axes);
 
 	if (_cursor) {
-		auto cursor = gc->CreatePath ();
-		cursor.MoveToPoint (_cursor->draw.x - _cursor_size / 2, _cursor->draw.y - _cursor_size / 2);
-		cursor.AddLineToPoint (_cursor->draw.x + _cursor_size / 2, _cursor->draw.y + _cursor_size / 2);
-		cursor.MoveToPoint (_cursor->draw.x + _cursor_size / 2, _cursor->draw.y - _cursor_size / 2);
-		cursor.AddLineToPoint (_cursor->draw.x - _cursor_size / 2, _cursor->draw.y + _cursor_size / 2);
-		gc->StrokePath (cursor);
+		auto cursor = gc->CreatePath();
+		cursor.MoveToPoint(_cursor->draw.x - _cursor_size / 2, _cursor->draw.y - _cursor_size / 2);
+		cursor.AddLineToPoint(_cursor->draw.x + _cursor_size / 2, _cursor->draw.y + _cursor_size / 2);
+		cursor.MoveToPoint(_cursor->draw.x + _cursor_size / 2, _cursor->draw.y - _cursor_size / 2);
+		cursor.AddLineToPoint(_cursor->draw.x - _cursor_size / 2, _cursor->draw.y + _cursor_size / 2);
+		gc->StrokePath(cursor);
 	}
 
 	delete gc;
@@ -284,7 +284,7 @@ AudioPlot::paint ()
 
 
 float
-AudioPlot::y_for_linear (float p, Metrics const & metrics) const
+AudioPlot::y_for_linear(float p, Metrics const & metrics) const
 {
 	if (p < 1e-4) {
 		p = 1e-4;
@@ -295,47 +295,47 @@ AudioPlot::y_for_linear (float p, Metrics const & metrics) const
 
 
 void
-AudioPlot::plot_peak (wxGraphicsPath& path, int channel, Metrics const & metrics) const
+AudioPlot::plot_peak(wxGraphicsPath& path, int channel, Metrics const & metrics) const
 {
-	if (_analysis->points (channel) == 0) {
+	if (_analysis->points(channel) == 0) {
 		return;
 	}
 
-	_peak[channel] = PointList ();
+	_peak[channel] = PointList();
 
 	float peak = 0;
 	int const N = _analysis->points(channel);
 	for (int i = 0; i < N; ++i) {
 		float const p = get_point(channel, i)[AudioPoint::PEAK];
-		peak -= 0.01f * (1 - log10 (_smoothing) / log10 (max_smoothing));
+		peak -= 0.01f * (1 - log10(_smoothing) / log10(max_smoothing));
 		if (p > peak) {
 			peak = p;
 		} else if (peak < 0) {
 			peak = 0;
 		}
 
-		_peak[channel].push_back (
-			Point (
-				wxPoint (metrics.db_label_width + i * metrics.x_scale, y_for_linear (peak, metrics)),
-				DCPTime::from_frames (i * _analysis->samples_per_point(), _analysis->sample_rate()),
+		_peak[channel].push_back(
+			Point(
+				wxPoint(metrics.db_label_width + i * metrics.x_scale, y_for_linear(peak, metrics)),
+				DCPTime::from_frames(i * _analysis->samples_per_point(), _analysis->sample_rate()),
 				linear_to_db(peak)
 				)
 			);
 	}
 
-	DCPOMATIC_ASSERT (_peak.find(channel) != _peak.end());
+	DCPOMATIC_ASSERT(_peak.find(channel) != _peak.end());
 
-	path.MoveToPoint (_peak[channel][0].draw);
+	path.MoveToPoint(_peak[channel][0].draw);
 	for (auto const& i: _peak[channel]) {
-		path.AddLineToPoint (i.draw);
+		path.AddLineToPoint(i.draw);
 	}
 }
 
 
 void
-AudioPlot::plot_rms (wxGraphicsPath& path, int channel, Metrics const & metrics) const
+AudioPlot::plot_rms(wxGraphicsPath& path, int channel, Metrics const & metrics) const
 {
-	if (_analysis->points (channel) == 0) {
+	if (_analysis->points(channel) == 0) {
 		return;
 	}
 
@@ -353,13 +353,13 @@ AudioPlot::plot_rms (wxGraphicsPath& path, int channel, Metrics const & metrics)
 
 	/* Pre-load the smoothing list */
 	for (int i = 0; i < before; ++i) {
-		smoothing.push_back (first);
+		smoothing.push_back(first);
 	}
 	for (int i = 0; i < after; ++i) {
 		if (i < N) {
-			smoothing.push_back (get_point(channel, i)[AudioPoint::RMS]);
+			smoothing.push_back(get_point(channel, i)[AudioPoint::RMS]);
 		} else {
-			smoothing.push_back (last);
+			smoothing.push_back(last);
 		}
 	}
 
@@ -368,62 +368,62 @@ AudioPlot::plot_rms (wxGraphicsPath& path, int channel, Metrics const & metrics)
 		int const next_for_window = i + after;
 
 		if (next_for_window < N) {
-			smoothing.push_back (get_point(channel, i)[AudioPoint::RMS]);
+			smoothing.push_back(get_point(channel, i)[AudioPoint::RMS]);
 		} else {
-			smoothing.push_back (last);
+			smoothing.push_back(last);
 		}
 
-		smoothing.pop_front ();
+		smoothing.pop_front();
 
 		float p = 0;
 		for (list<float>::const_iterator j = smoothing.begin(); j != smoothing.end(); ++j) {
-			p += pow (*j, 2);
+			p += pow(*j, 2);
 		}
 
-		if (!smoothing.empty ()) {
-			p = sqrt (p / smoothing.size ());
+		if (!smoothing.empty()) {
+			p = sqrt(p / smoothing.size());
 		}
 
-		_rms[channel].push_back (
-			Point (
-				wxPoint (metrics.db_label_width + i * metrics.x_scale, y_for_linear (p, metrics)),
-				DCPTime::from_frames (i * _analysis->samples_per_point(), _analysis->sample_rate()),
+		_rms[channel].push_back(
+			Point(
+				wxPoint(metrics.db_label_width + i * metrics.x_scale, y_for_linear(p, metrics)),
+				DCPTime::from_frames(i * _analysis->samples_per_point(), _analysis->sample_rate()),
 				linear_to_db(p)
 				)
 			);
 	}
 
-	DCPOMATIC_ASSERT (_rms.find(channel) != _rms.end());
+	DCPOMATIC_ASSERT(_rms.find(channel) != _rms.end());
 
-	path.MoveToPoint (_rms[channel][0].draw);
+	path.MoveToPoint(_rms[channel][0].draw);
 	for (auto const& i: _rms[channel]) {
-		path.AddLineToPoint (i.draw);
+		path.AddLineToPoint(i.draw);
 	}
 }
 
 
 void
-AudioPlot::set_smoothing (int s)
+AudioPlot::set_smoothing(int s)
 {
 	_smoothing = s;
-	_rms.clear ();
-	_peak.clear ();
-	Refresh ();
+	_rms.clear();
+	_peak.clear();
+	Refresh();
 }
 
 
 void
-AudioPlot::set_gain_correction (double gain)
+AudioPlot::set_gain_correction(double gain)
 {
 	_gain_correction = gain;
-	Refresh ();
+	Refresh();
 }
 
 
 AudioPoint
-AudioPlot::get_point (int channel, int point) const
+AudioPlot::get_point(int channel, int point) const
 {
-	auto p = _analysis->get_point (channel, point);
+	auto p = _analysis->get_point(channel, point);
 	for (int i = 0; i < AudioPoint::COUNT; ++i) {
 		p[i] *= db_to_linear(_gain_correction);
 	}
@@ -436,15 +436,15 @@ AudioPlot::get_point (int channel, int point) const
  *  @return Colour used by that channel in the plot.
  */
 wxColour
-AudioPlot::colour (int n) const
+AudioPlot::colour(int n) const
 {
-	DCPOMATIC_ASSERT (n < int(_colours.size()));
+	DCPOMATIC_ASSERT(n < int(_colours.size()));
 	return _colours[n];
 }
 
 
 void
-AudioPlot::left_down ()
+AudioPlot::left_down()
 {
 	if (_cursor) {
 		Click(_cursor->time);
@@ -453,7 +453,7 @@ AudioPlot::left_down ()
 
 
 void
-AudioPlot::mouse_moved (wxMouseEvent& ev)
+AudioPlot::mouse_moved(wxMouseEvent& ev)
 {
 	double min_dist = DBL_MAX;
 	Point min_point;
@@ -473,29 +473,29 @@ AudioPlot::mouse_moved (wxMouseEvent& ev)
 	};
 
 	if (_type_visible[AudioPoint::RMS]) {
-		search (_rms, ev, min_dist, min_point);
+		search(_rms, ev, min_dist, min_point);
 	}
 	if (_type_visible[AudioPoint::PEAK]) {
-		search (_peak, ev, min_dist, min_point);
+		search(_peak, ev, min_dist, min_point);
 	}
 
 	_cursor = boost::none;
 
 	if (min_dist < DBL_MAX) {
-		wxRect before (min_point.draw.x - _cursor_size / 2, min_point.draw.y - _cursor_size / 2, _cursor_size, _cursor_size);
-		GetParent()->Refresh (true, &before);
+		wxRect before(min_point.draw.x - _cursor_size / 2, min_point.draw.y - _cursor_size / 2, _cursor_size, _cursor_size);
+		GetParent()->Refresh(true, &before);
 		_cursor = min_point;
-		wxRect after (min_point.draw.x - _cursor_size / 2, min_point.draw.y - _cursor_size / 2, _cursor_size, _cursor_size);
-		GetParent()->Refresh (true, &after);
-		Cursor (min_point.time, min_point.db);
+		wxRect after(min_point.draw.x - _cursor_size / 2, min_point.draw.y - _cursor_size / 2, _cursor_size, _cursor_size);
+		GetParent()->Refresh(true, &after);
+		Cursor(min_point.time, min_point.db);
 	}
 }
 
 
 void
-AudioPlot::mouse_leave (wxMouseEvent &)
+AudioPlot::mouse_leave(wxMouseEvent &)
 {
 	_cursor = boost::none;
-	Refresh ();
-	Cursor (optional<DCPTime>(), optional<float>());
+	Refresh();
+	Cursor(optional<DCPTime>(), optional<float>());
 }
