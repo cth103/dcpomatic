@@ -81,6 +81,7 @@ private:
 	void three_d_changed();
 	void standard_changed();
 	void encrypted_toggled();
+	void encryption_settings_clicked();
 	void audio_processor_changed();
 	void show_audio_clicked();
 	void markers_clicked();
@@ -153,8 +154,9 @@ private:
 	wxStaticText* _standard_label;
 	Choice* _standard;
 	CheckBox* _encrypted;
-	wxButton* _markers;
-	wxButton* _metadata;
+	Button* _encryption_settings;
+	Button* _markers;
+	Button* _metadata;
 	Button* _reels;
 	wxSizer* _audio_panel_sizer;
 

@@ -168,7 +168,9 @@ Film::Film(optional<boost::filesystem::path> dir)
 	, _dcp_content_type(DCPContentType::from_isdcf_name("FTR"))
 	, _container(Ratio::from_id("185"))
 	, _resolution(Resolution::TWO_K)
-	, _encrypted(false)
+	, _encrypt_picture(false)
+	, _encrypt_sound(false)
+	, _encrypt_text(false)
 	, _context_id(dcp::make_uuid())
 	, _video_frame_rate(24)
 	, _audio_channels(6)
@@ -418,7 +420,11 @@ Film::metadata(bool with_content_paths) const
 	cxml::add_text_child(root, "Interop", _interop ? "1" : "0");
 	cxml::add_text_child(root, "VideoEncoding", video_encoding_to_string(_video_encoding));
 	cxml::add_text_child(root, "LimitToSMPTEBv20", _limit_to_smpte_bv20 ? "1" : "0");
-	cxml::add_text_child(root, "Encrypted", _encrypted ? "1" : "0");
+	/* We don't need this any more, but writing it makes the metadata backwards compatible */
+	cxml::add_text_child(root, "Encrypted", encrypted() ? "1" : "0");
+	cxml::add_text_child(root, "EncryptPicture", _encrypt_picture ? "1" : "0");
+	cxml::add_text_child(root, "EncryptSound", _encrypt_sound ? "1" : "0");
+	cxml::add_text_child(root, "EncryptText", _encrypt_text ? "1" : "0");
 	cxml::add_text_child(root, "Key", _key.hex());
 	cxml::add_text_child(root, "ContextID", _context_id);
 	if (_audio_processor) {
@@ -593,7 +599,10 @@ Film::read_metadata(optional<boost::filesystem::path> path)
 	_video_bit_rate[VideoEncoding::MPEG2] = f.optional_number_child<int64_t>("MPEG2VideoBitRate").get_value_or(Config::instance()->default_video_bit_rate(VideoEncoding::MPEG2));
 	_video_frame_rate = f.number_child<int>("VideoFrameRate");
 	_audio_frame_rate = f.optional_number_child<int>("AudioFrameRate").get_value_or(48000);
-	_encrypted = f.bool_child("Encrypted");
+	auto encrypted = f.optional_bool_child("Encrypted").get_value_or(false);
+	_encrypt_picture = f.optional_bool_child("EncryptPicture").get_value_or(encrypted);
+	_encrypt_sound = f.optional_bool_child("EncryptSound").get_value_or(encrypted);
+	_encrypt_text = f.optional_bool_child("EncryptText").get_value_or(encrypted);
 	_audio_channels = f.number_child<int>("AudioChannels");
 	/* We used to allow odd numbers (and zero) channels, but it's just not worth
 	   the pain.
@@ -1423,11 +1432,28 @@ Film::cpls() const
 }
 
 void
-Film::set_encrypted(bool e)
+Film::set_encrypt_picture(bool e)
 {
-	FilmChangeSignaller ch(this, FilmProperty::ENCRYPTED);
-	_encrypted = e;
+	FilmChangeSignaller ch(this, FilmProperty::ENCRYPT_PICTURE);
+	_encrypt_picture = e;
 }
+
+
+void
+Film::set_encrypt_sound(bool e)
+{
+	FilmChangeSignaller ch(this, FilmProperty::ENCRYPT_SOUND);
+	_encrypt_sound = e;
+}
+
+
+void
+Film::set_encrypt_text(bool e)
+{
+	FilmChangeSignaller ch(this, FilmProperty::ENCRYPT_TEXT);
+	_encrypt_text = e;
+}
+
 
 ContentList
 Film::content() const
@@ -1859,7 +1885,7 @@ Film::active_area() const
 dcp::DecryptedKDM
 Film::make_kdm(boost::filesystem::path cpl_file, dcp::LocalTime from, dcp::LocalTime until) const
 {
-	if (!_encrypted) {
+	if (!encrypted()) {
 		throw runtime_error(_("Cannot make a KDM as this project is not encrypted."));
 	}
 
@@ -2102,7 +2128,9 @@ Film::use_template(optional<string> name)
 		_video_bit_rate[encoding] = _template_film->_video_bit_rate[encoding];
 	}
 	_video_frame_rate = _template_film->_video_frame_rate;
-	_encrypted = _template_film->_encrypted;
+	_encrypt_picture = _template_film->_encrypt_picture;
+	_encrypt_sound = _template_film->_encrypt_sound;
+	_encrypt_text = _template_film->_encrypt_text;
 	_audio_channels = _template_film->_audio_channels;
 	_sequence = _template_film->_sequence;
 	_three_d = _template_film->_three_d;

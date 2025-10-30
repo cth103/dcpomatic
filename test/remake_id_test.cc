@@ -69,7 +69,8 @@ BOOST_AUTO_TEST_CASE (remake_id_test2)
 	/* Make a DCP */
 	auto content = content_factory("test/data/flat_red.png");
 	auto film = new_test_film("remake_id_test2_1", content);
-	film->set_encrypted (true);
+	film->set_encrypt_picture(true);
+	film->set_encrypt_sound(true);
 	make_and_verify_dcp (film);
 
 	/* Remove and remake it */

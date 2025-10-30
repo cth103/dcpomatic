@@ -67,7 +67,8 @@ BOOST_AUTO_TEST_CASE (dcp_digest_file_test2)
 
 	auto red = content_factory("test/data/flat_red.png");
 	auto ov = new_test_film("dcp_digest_file_test2_ov", red);
-	ov->set_encrypted (true);
+	ov->set_encrypt_picture(true);
+	ov->set_encrypt_sound(true);
 	make_and_verify_dcp (ov);
 
 	auto ov_key_check = get_key_from_digest ("build/test/dcp_digest_file_test2_ov/" + ov->dcp_name() + ".dcpdig");
@@ -91,7 +92,8 @@ BOOST_AUTO_TEST_CASE (dcp_digest_file_test2)
 	ov_dcp->set_reference_video (true);
 	ov_dcp->set_reference_audio (true);
 	auto vf = new_test_film("dcp_digest_file_test2_vf", { ov_dcp });
-	vf->set_encrypted (true);
+	vf->set_encrypt_picture(true);
+	vf->set_encrypt_sound(true);
 	make_and_verify_dcp(vf, {dcp::VerificationNote::Code::EXTERNAL_ASSET}, false);
 
 	auto vf_key_check = get_key_from_digest ("build/test/dcp_digest_file_test2_vf/" + vf->dcp_name() + ".dcpdig");

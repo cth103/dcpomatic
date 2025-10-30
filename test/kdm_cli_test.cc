@@ -276,7 +276,9 @@ BOOST_AUTO_TEST_CASE(kdm_cli_specify_cert)
 	boost::filesystem::remove(kdm_filename, ec);
 
 	auto film = new_test_film("kdm_cli_specify_cert", content_factory("test/data/flat_red.png"));
-	film->set_encrypted(true);
+	film->set_encrypt_picture(true);
+	film->set_encrypt_sound(true);
+	film->set_encrypt_text(true);
 	film->set_name("KDMCLI");
 	film->set_use_isdcf_name(false);
 	make_and_verify_dcp(film);

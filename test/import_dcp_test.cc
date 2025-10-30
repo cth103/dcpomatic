@@ -58,7 +58,8 @@ BOOST_AUTO_TEST_CASE (import_dcp_test)
 
 	auto c = make_shared<FFmpegContent>("test/data/test.mp4");
 	auto A = new_test_film("import_dcp_test", { c });
-	A->set_encrypted (true);
+	A->set_encrypt_picture(true);
+	A->set_encrypt_sound(true);
 	A->set_dcp_content_type(DCPContentType::from_isdcf_name("TLR"));
 	make_and_verify_dcp (A);
 

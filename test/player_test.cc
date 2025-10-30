@@ -463,7 +463,9 @@ BOOST_AUTO_TEST_CASE (encrypted_dcp_with_no_kdm_gives_no_butler_error)
 	auto film = new_test_film("encrypted_dcp_with_no_kdm_gives_no_butler_error", { content });
 	int constexpr length = 24 * 25;
 	content->video->set_length(length);
-	film->set_encrypted (true);
+	film->set_encrypt_picture(true);
+	film->set_encrypt_sound(true);
+	film->set_encrypt_text(true);
 	make_and_verify_dcp (
 		film,
 		{

@@ -231,7 +231,19 @@ public:
 	}
 
 	bool encrypted() const {
-		return _encrypted;
+		return _encrypt_picture || _encrypt_sound || _encrypt_text;
+	}
+
+	bool encrypt_picture() const {
+		return _encrypt_picture;
+	}
+
+	bool encrypt_sound() const {
+		return _encrypt_sound;
+	}
+
+	bool encrypt_text() const {
+		return _encrypt_text;
 	}
 
 	dcp::Key key() const {
@@ -392,7 +404,9 @@ public:
 	void set_dcp_content_type(DCPContentType const *);
 	void set_container(Ratio c, bool user_explicit = true);
 	void set_resolution(Resolution, bool user_explicit = true);
-	void set_encrypted(bool);
+	void set_encrypt_picture(bool);
+	void set_encrypt_sound(bool);
+	void set_encrypt_text(bool);
 	void set_video_bit_rate(VideoEncoding encoding, int64_t);
 	void set_video_frame_rate(int rate, bool user_explicit = false);
 	void set_audio_channels(int);
@@ -512,7 +526,12 @@ private:
 	Ratio _container;
 	/** DCP resolution (2K or 4K) */
 	Resolution _resolution;
-	bool _encrypted;
+	/** Encrypt picture assets */
+	bool _encrypt_picture;
+	/** Encrypt sound assets */
+	bool _encrypt_sound;
+	/** Encrypt text (subtitle/closed-caption) assets */
+	bool _encrypt_text;
 	dcp::Key _key;
 	/** context ID used when encrypting picture assets; we keep it so that we can
 	 *  re-start picture MXF encodes.

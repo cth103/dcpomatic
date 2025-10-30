@@ -76,8 +76,16 @@ public:
 		return _name;
 	}
 
-	bool encrypted() const {
-		return _encrypted;
+	bool picture_encrypted() const {
+		return _picture_encrypted;
+	}
+
+	bool sound_encrypted() const {
+		return _sound_encrypted;
+	}
+
+	bool text_encrypted() const {
+		return _text_encrypted;
 	}
 
 	bool needs_assets() const {
@@ -216,7 +224,9 @@ private:
 	std::vector<DCPTextTrack> _dcp_subtitle_tracks;
 	/** the DCPTextTracks for each of our closed captions */
 	std::vector<DCPTextTrack> _dcp_caption_tracks;
-	bool _encrypted = false;
+	bool _picture_encrypted = false;
+	bool _sound_encrypted = false;
+	bool _text_encrypted = false;
 	bool _needs_assets = false;
 	bool _kdm_valid = false;
 	boost::optional<dcp::Standard> _standard;

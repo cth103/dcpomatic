@@ -146,7 +146,7 @@ ReelWriter::ReelWriter(
 			asset->set_size(film()->frame_size());
 			asset->set_metadata(mxf_metadata());
 
-			if (film()->encrypted()) {
+			if (film()->encrypt_picture()) {
 				asset->set_key(film()->key());
 				asset->set_context_id(film()->context_id());
 			}
@@ -218,7 +218,7 @@ ReelWriter::ReelWriter(
 
 		_sound_asset->set_metadata(mxf_metadata());
 
-		if (film()->encrypted()) {
+		if (film()->encrypt_sound()) {
 			_sound_asset->set_key(film()->key());
 		}
 
@@ -310,7 +310,7 @@ ReelWriter::write(shared_ptr<const dcp::AtmosFrame> atmos, AtmosMetadata metadat
 {
 	if (!_atmos_asset) {
 		_atmos_asset = metadata.create(dcp::Fraction(film()->video_frame_rate(), 1));
-		if (film()->encrypted()) {
+		if (film()->encrypt_sound()) {
 			_atmos_asset->set_key(film()->key());
 		}
 		_atmos_asset_writer = _atmos_asset->start_write(
@@ -820,7 +820,7 @@ ReelWriter::empty_text_asset(TextType type, optional<DCPTextTrack> track, bool w
 		s->set_reel_number(_reel_index + 1);
 		s->set_time_code_rate(film()->video_frame_rate());
 		s->set_start_time(dcp::Time());
-		if (film()->encrypted()) {
+		if (film()->encrypt_text()) {
 			s->set_key(film()->key());
 		}
 		asset = s;

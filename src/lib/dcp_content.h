@@ -97,7 +97,25 @@ public:
 
 	bool encrypted() const {
 		boost::mutex::scoped_lock lm(_mutex);
-		return _encrypted;
+		return _picture_encrypted || _sound_encrypted || _text_encrypted;
+	}
+
+	/** @return true if any picture asset in this DCP is encrypted */
+	bool picture_encrypted() const {
+		boost::mutex::scoped_lock lm(_mutex);
+		return _picture_encrypted;
+	}
+
+	/** @return true if any sound asset in this DCP is encrypted */
+	bool sound_encrypted() const {
+		boost::mutex::scoped_lock lm(_mutex);
+		return _sound_encrypted;
+	}
+
+	/** @return true if any text asset in this DCP is encrypted */
+	bool text_encrypted() const {
+		boost::mutex::scoped_lock lm(_mutex);
+		return _text_encrypted;
 	}
 
 	void add_kdm(dcp::EncryptedKDM);
@@ -217,8 +235,9 @@ private:
 	bool overlaps(std::shared_ptr<const Film> film, std::function<bool (std::shared_ptr<const Content>)> part) const;
 
 	std::string _name;
-	/** true if our DCP is encrypted */
-	bool _encrypted;
+	bool _picture_encrypted;
+	bool _sound_encrypted;
+	bool _text_encrypted;
 	/** true if this DCP needs more assets before it can be played */
 	bool _needs_assets;
 	boost::optional<dcp::EncryptedKDM> _kdm;

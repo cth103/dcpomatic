@@ -313,7 +313,23 @@ DCPExaminer::DCPExaminer(shared_ptr<const DCPContent> content, bool tolerant)
 		++reel_index;
 	}
 
-	_encrypted = selected_cpl->any_encrypted();
+	for (auto reel: selected_cpl->reels()) {
+		if (reel->main_picture() && reel->main_picture()->encrypted()) {
+			_picture_encrypted = true;
+		}
+		if (reel->main_sound() && reel->main_sound()->encrypted()) {
+			_sound_encrypted = true;
+		}
+		if (reel->main_subtitle() && reel->main_subtitle()->encrypted()) {
+			_text_encrypted = true;
+		}
+		for (auto cc: reel->closed_captions()) {
+			if (cc->encrypted()) {
+				_text_encrypted = true;
+			}
+		}
+	}
+
 	_kdm_valid = true;
 
 	LOG_GENERAL_NC("Check that everything encrypted has a key");

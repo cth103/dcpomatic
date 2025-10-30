@@ -473,9 +473,13 @@ CreateCLI::make_film(function<void (string)> error) const
 	}
 	film->set_use_isdcf_name(!_no_use_isdcf_name);
 	if (_no_encrypt) {
-		film->set_encrypted(false);
+		film->set_encrypt_picture(false);
+		film->set_encrypt_sound(false);
+		film->set_encrypt_text(false);
 	} else if (_encrypt) {
-		film->set_encrypted(true);
+		film->set_encrypt_picture(true);
+		film->set_encrypt_sound(true);
+		film->set_encrypt_text(true);
 	}
 	if (_twod) {
 		film->set_three_d(false);

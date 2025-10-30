@@ -89,7 +89,8 @@ BOOST_AUTO_TEST_CASE (single_kdm_naming_test)
 	film->set_name ("my_great_film");
 	film->examine_and_add_content(content_factory("test/data/flat_black.png"));
 	BOOST_REQUIRE (!wait_for_jobs());
-	film->set_encrypted (true);
+	film->set_encrypt_picture(true);
+	film->set_encrypt_sound(true);
 	make_and_verify_dcp (film);
 	auto cpls = film->cpls ();
 	BOOST_REQUIRE(cpls.size() == 1);
@@ -156,7 +157,8 @@ BOOST_AUTO_TEST_CASE(directory_kdm_naming_test)
 		);
 
 	film->set_name ("my_great_film");
-	film->set_encrypted (true);
+	film->set_encrypt_picture(true);
+	film->set_encrypt_sound(true);
 	make_and_verify_dcp (film);
 	auto cpls = film->cpls ();
 	BOOST_REQUIRE(cpls.size() == 1);

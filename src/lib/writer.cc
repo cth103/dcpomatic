@@ -723,7 +723,7 @@ Writer::finish()
 bool
 Writer::can_fake_write(Frame frame) const
 {
-	if (film()->encrypted()) {
+	if (film()->encrypt_picture()) {
 		/* We need to re-write the frame because the asset ID is embedded in the HMAC... I think... */
 		return false;
 	}

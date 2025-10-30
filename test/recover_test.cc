@@ -142,7 +142,8 @@ BOOST_AUTO_TEST_CASE (recover_test_2d_encrypted, * boost::unit_test::depends_on(
 {
 	auto content = make_shared<FFmpegContent>("test/data/count300bd24.m2ts");
 	auto film = new_test_film("recover_test_2d_encrypted", { content });
-	film->set_encrypted (true);
+	film->set_encrypt_picture(true);
+	film->set_encrypt_sound(true);
 	film->_key = dcp::Key("eafcb91c9f5472edf01f3a2404c57258");
 	film->set_video_bit_rate(VideoEncoding::JPEG2000, 100000000);
 

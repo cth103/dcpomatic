@@ -64,7 +64,9 @@ BOOST_AUTO_TEST_CASE (check_reuse_old_data_test)
 	auto encrypted = new_test_film("check_reuse_old_data_decrypted");
 	encrypted->examine_and_add_content(content_factory("test/data/flat_red.png"));
 	BOOST_REQUIRE (!wait_for_jobs());
-	encrypted->set_encrypted (true);
+	encrypted->set_encrypt_picture(true);
+	encrypted->set_encrypt_sound(true);
+	encrypted->set_encrypt_text(true);
 	make_and_verify_dcp (encrypted);
 
 	dcp::DCP encrypted_dcp (encrypted->dir(encrypted->dcp_name()));

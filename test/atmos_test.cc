@@ -68,7 +68,9 @@ BOOST_AUTO_TEST_CASE(atmos_encrypted_passthrough_test)
 	auto content = content_factory(TestPaths::private_data() / "atmos_asset.mxf");
 	auto film = new_test_film("atmos_encrypted_passthrough_test", content, &cl);
 
-	film->set_encrypted(true);
+	film->set_encrypt_picture(true);
+	film->set_encrypt_sound(true);
+	film->set_encrypt_text(true);
 	film->_key = dcp::Key("4fac12927eb122af1c2781aa91f3a4cc");
 	make_and_verify_dcp(film, { dcp::VerificationNote::Code::MISSING_CPL_METADATA });
 

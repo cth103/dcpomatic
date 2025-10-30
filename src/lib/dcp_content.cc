@@ -66,7 +66,9 @@ using namespace dcpomatic;
 
 
 DCPContent::DCPContent(boost::filesystem::path p)
-	: _encrypted(false)
+	: _picture_encrypted(false)
+	, _sound_encrypted(false)
+	, _text_encrypted(false)
 	, _needs_assets(false)
 	, _kdm_valid(false)
 	, _reference_video(false)
@@ -103,7 +105,10 @@ DCPContent::DCPContent(cxml::ConstNodePtr node, boost::optional<boost::filesyste
 	}
 
 	_name = node->string_child("Name");
-	_encrypted = node->bool_child("Encrypted");
+	auto encrypted = node->optional_bool_child("Encrypted").get_value_or(false);
+	_picture_encrypted = node->optional_bool_child("PictureEncrypted").get_value_or(encrypted);
+	_sound_encrypted = node->optional_bool_child("SoundEncrypted").get_value_or(encrypted);
+	_text_encrypted = node->optional_bool_child("TextEncrypted").get_value_or(encrypted);
 	_needs_assets = node->optional_bool_child("NeedsAssets").get_value_or(false);
 	if (node->optional_node_child("KDM")) {
 		_kdm = dcp::EncryptedKDM(node->string_child("KDM"));
@@ -314,7 +319,9 @@ DCPContent::examine(shared_ptr<const Film> film, shared_ptr<Job> job, bool toler
 		boost::mutex::scoped_lock lm(_mutex);
 		text = new_text;
 		_name = examiner->name();
-		_encrypted = examiner->encrypted();
+		_picture_encrypted = examiner->picture_encrypted();
+		_sound_encrypted = examiner->sound_encrypted();
+		_text_encrypted = examiner->text_encrypted();
 		_needs_assets = examiner->needs_assets();
 		_kdm_valid = examiner->kdm_valid();
 		_standard = examiner->standard();
@@ -396,7 +403,10 @@ DCPContent::as_xml(xmlpp::Element* element, bool with_paths, PathBehaviour path_
 	boost::mutex::scoped_lock lm(_mutex);
 
 	cxml::add_text_child(element, "Name", _name);
-	cxml::add_text_child(element, "Encrypted", _encrypted ? "1" : "0");
+	cxml::add_text_child(element, "Encrypted", (_picture_encrypted || _sound_encrypted || _text_encrypted) ? "1" : "0");
+	cxml::add_text_child(element, "PictureEncrypted", _picture_encrypted ? "1" : "0");
+	cxml::add_text_child(element, "SoundEncrypted", _sound_encrypted ? "1" : "0");
+	cxml::add_text_child(element, "TextEncrypted", _text_encrypted ? "1" : "0");
 	cxml::add_text_child(element, "NeedsAssets", _needs_assets ? "1" : "0");
 	if (_kdm) {
 		cxml::add_text_child(element, "KDM", _kdm->as_xml());
@@ -526,7 +536,7 @@ bool
 DCPContent::needs_kdm() const
 {
 	boost::mutex::scoped_lock lm(_mutex);
-	return _encrypted && !_kdm_valid;
+	return (_picture_encrypted || _sound_encrypted || _text_encrypted) && !_kdm_valid;
 }
 
 bool

@@ -45,7 +45,9 @@ copy_dcp_settings_to_film(shared_ptr<const DCPContent> dcp, shared_ptr<Film> fil
 	if (dcp->content_kind()) {
 		film->set_dcp_content_type(DCPContentType::from_libdcp_kind(dcp->content_kind().get()));
 	}
-	film->set_encrypted(dcp->encrypted());
+	film->set_encrypt_picture(dcp->picture_encrypted());
+	film->set_encrypt_sound(dcp->sound_encrypted());
+	film->set_encrypt_text(dcp->text_encrypted());
 	film->set_reel_type(ReelType::BY_VIDEO_CONTENT);
 	film->set_interop(dcp->standard() == dcp::Standard::INTEROP);
 	film->set_three_d(dcp->three_d());

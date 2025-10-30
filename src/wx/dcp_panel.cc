@@ -27,6 +27,7 @@
 #include "dcpomatic_button.h"
 #include "dcpomatic_choice.h"
 #include "dcpomatic_spin_ctrl.h"
+#include "encryption_settings_dialog.h"
 #include "film_viewer.h"
 #include "focus_manager.h"
 #include "interop_metadata_dialog.h"
@@ -103,6 +104,7 @@ DCPPanel::DCPPanel(wxNotebook* n, shared_ptr<Film> film, FilmViewer& viewer)
 	_dcp_content_type = new Choice(_panel);
 
 	_encrypted = new CheckBox(_panel, _("Encrypted"));
+	_encryption_settings = new Button(_panel, _("Encryption settings..."));
 
         wxClientDC dc(_panel);
         auto size = dc.GetTextExtent(char_to_wx("GGGGGGGG..."));
@@ -126,6 +128,7 @@ DCPPanel::DCPPanel(wxNotebook* n, shared_ptr<Film> film, FilmViewer& viewer)
 	_copy_isdcf_name_button->Bind(wxEVT_BUTTON, boost::bind(&DCPPanel::copy_isdcf_name_button_clicked, this));
 	_dcp_content_type->Bind(wxEVT_CHOICE, boost::bind(&DCPPanel::dcp_content_type_changed, this));
 	_encrypted->bind(&DCPPanel::encrypted_toggled, this);
+	_encryption_settings->bind(&DCPPanel::encryption_settings_clicked, this);
 	_standard->Bind(wxEVT_CHOICE, boost::bind(&DCPPanel::standard_changed, this));
 	_markers->Bind(wxEVT_BUTTON, boost::bind(&DCPPanel::markers_clicked, this));
 	_metadata->Bind(wxEVT_BUTTON, boost::bind(&DCPPanel::metadata_clicked, this));
@@ -242,7 +245,8 @@ DCPPanel::add_to_grid()
 	_grid->Add(_dcp_content_type, wxGBPosition(r, 1));
 	++r;
 
-	_grid->Add(_encrypted, wxGBPosition(r, 0), wxGBSpan(1, 2));
+	_grid->Add(_encrypted, wxGBPosition(r, 0), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
+	_grid->Add(_encryption_settings, wxGBPosition(r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
 	++r;
 
 	add_label_to_sizer(_grid, _standard_label, true, wxGBPosition(r, 0));
@@ -287,7 +291,23 @@ DCPPanel::encrypted_toggled()
 		return;
 	}
 
-	_film->set_encrypted(_encrypted->GetValue());
+	auto new_value = !_film->encrypted();
+
+	_film->set_encrypt_picture(new_value);
+	_film->set_encrypt_sound(new_value);
+	_film->set_encrypt_text(new_value);
+}
+
+
+void
+DCPPanel::encryption_settings_clicked()
+{
+	EncryptionSettingsDialog dialog(_panel, _film);
+	dialog.ShowModal();
+
+	_film->set_encrypt_picture(dialog.picture());
+	_film->set_encrypt_sound(dialog.sound());
+	_film->set_encrypt_text(dialog.text());
 }
 
 
@@ -394,8 +414,11 @@ DCPPanel::film_changed(FilmProperty p)
 		setup_dcp_name();
 		break;
 	}
-	case FilmProperty::ENCRYPTED:
+	case FilmProperty::ENCRYPT_PICTURE:
+	case FilmProperty::ENCRYPT_SOUND:
+	case FilmProperty::ENCRYPT_TEXT:
 		checked_set(_encrypted, _film->encrypted());
+		setup_sensitivity();
 		break;
 	case FilmProperty::RESOLUTION:
 		checked_set(_resolution, _film->resolution() == Resolution::TWO_K ? 0 : 1);
@@ -624,7 +647,9 @@ DCPPanel::set_film(shared_ptr<Film> film)
 	film_changed(FilmProperty::DCP_CONTENT_TYPE);
 	film_changed(FilmProperty::CONTAINER);
 	film_changed(FilmProperty::RESOLUTION);
-	film_changed(FilmProperty::ENCRYPTED);
+	film_changed(FilmProperty::ENCRYPT_PICTURE);
+	film_changed(FilmProperty::ENCRYPT_SOUND);
+	film_changed(FilmProperty::ENCRYPT_TEXT);
 	film_changed(FilmProperty::VIDEO_BIT_RATE);
 	film_changed(FilmProperty::VIDEO_FRAME_RATE);
 	film_changed(FilmProperty::AUDIO_CHANNELS);
@@ -664,6 +689,7 @@ DCPPanel::setup_sensitivity()
 	_audio_language->Enable        (_enable_audio_language->GetValue());
 	_edit_audio_language->Enable   (_enable_audio_language->GetValue());
 	_encrypted->Enable             (_generally_sensitive);
+	_encryption_settings->Enable   (_generally_sensitive && _encrypted->GetValue());
 	_markers->Enable               (_generally_sensitive && _film && !_film->interop());
 	_metadata->Enable              (_generally_sensitive);
 	_reels->Enable                 (_generally_sensitive && _film);

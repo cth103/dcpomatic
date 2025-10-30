@@ -55,7 +55,8 @@ BOOST_AUTO_TEST_CASE (vf_kdm_test)
 	auto A = new_test_film("vf_kdm_test_ov", { c });
 	A->set_interop (true);
 	A->set_dcp_content_type(DCPContentType::from_isdcf_name("TLR"));
-	A->set_encrypted (true);
+	A->set_encrypt_picture(true);
+	A->set_encrypt_sound(true);
 	make_and_verify_dcp (A, {dcp::VerificationNote::Code::INVALID_STANDARD});
 
 	dcp::DCP A_dcp ("build/test/vf_kdm_test_ov/" + A->dcp_name());
@@ -79,7 +80,8 @@ BOOST_AUTO_TEST_CASE (vf_kdm_test)
 	B->set_interop(true);
 
 	d->set_reference_video (true);
-	B->set_encrypted (true);
+	B->set_encrypt_picture(true);
+	B->set_encrypt_sound(true);
 	make_and_verify_dcp (B, {dcp::VerificationNote::Code::INVALID_STANDARD, dcp::VerificationNote::Code::EXTERNAL_ASSET});
 
 	dcp::DCP B_dcp ("build/test/vf_kdm_test_vf/" + B->dcp_name());
