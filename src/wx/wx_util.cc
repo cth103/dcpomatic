@@ -669,6 +669,10 @@ small_button_size (wxWindow* parent, wxString text)
 bool
 gui_is_dark ()
 {
+#ifdef DCPOMATIC_WINDOWS
+	/* Dark mode doesn't really work at all on Windows at the moment, so just don't use it */
+	return false;
+#endif
 #if wxCHECK_VERSION(3, 1, 0)
 	auto appearance = wxSystemSettings::GetAppearance();
 	return appearance.IsDark();
