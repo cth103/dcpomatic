@@ -1052,13 +1052,13 @@ make_and_verify_dcp(shared_ptr<Film> film, vector<dcp::VerificationNote::Code> i
 		boost::filesystem::path dcp_inspect(dcp_inspect_env);
 		auto cmd = fmt::format("{} {} > {} 2>&1", dcp_inspect.string(), film->dir(film->dcp_name()).string(), film->file("dcp_inspect.log").string());
 		auto result = system(cmd.c_str());
-		BOOST_CHECK_EQUAL(WEXITSTATUS(result), 0);
+		BOOST_CHECK_MESSAGE(WEXITSTATUS(result) == 0, "dcp_inspect returned a non-zero exit code");
 	}
 
 	if (clairmeta && getenv("DCPOMATIC_CLAIRMETA")) {
 		auto cmd = fmt::format("python3 -m clairmeta.cli check -type dcp {} > {} 2>&1", film->dir(film->dcp_name()).string(), film->file("clairmeta.log").string());
 		auto result = system(cmd.c_str());
-		BOOST_CHECK_EQUAL(WEXITSTATUS(result), 0);
+		BOOST_CHECK_MESSAGE(WEXITSTATUS(result) == 0, "clairmeta returned a non-zero exit code");
 	}
 #endif
 }
