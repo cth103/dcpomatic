@@ -629,15 +629,14 @@ bitmap_path (string name)
 
 #ifdef DCPOMATIC_DEBUG
 	/* Hack to allow Linux and OS X to find icons when running from the source tree */
-	char* path = getenv ("DCPOMATIC_GRAPHICS");
-	if (path) {
+	if (char* path = getenv("DCPOMATIC_GRAPHICS")) {
 		base = path;
 	} else {
 		base = resources_path();
 	}
 
 	if (!dcp::filesystem::exists(base / name)) {
-		base = path / boost::filesystem::path("osx/preferences");
+		base /=  boost::filesystem::path("osx/preferences");
 	}
 #else
 	base = resources_path();
