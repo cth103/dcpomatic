@@ -1,0 +1,132 @@
+#!/bin/bash
+#
+# e.g. --run_tests=foo
+set -e
+
+PRIVATE_GIT="9c6e881036e5ce29d0e64d8c3159714706ce49f9"
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+source $DIR/environment
+
+type=""
+check=0
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        -e)
+        environment=$2
+        shift
+        shift
+        ;;
+        --debug)
+        type="debug"
+        shift
+        ;;
+        --backtrace)
+        type="backtrace"
+        shift
+        ;;
+        --valgrind)
+        type="valgrind"
+        shift
+        ;;
+        --callgrind)
+        type="callgrind"
+        shift
+        ;;
+        --quiet)
+        type="quiet"
+        shift
+        ;;
+        --drd)
+        type="drd"
+        shift
+        ;;
+        --helgrind)
+        type="helgrind"
+        shift
+        ;;
+        --check)
+        check=1
+        shift
+        ;;
+        *)
+        break
+        ;;
+    esac
+done
+
+if [ "$(uname)" == "Linux" ]; then 
+    rm -f build/test/dcpomatic2_openssl
+    mkdir -p build/test
+    cp -r ../libdcp/tags build/test
+    cp -r ../libdcp/xsd build/test
+    cp ../libdcp/ratings build/test
+    # This must be our patched openssl or tests will fail
+    if [ ! -f build/test/dcpomatic2_openssl ]; then
+        ln -s ../../../openssl/apps/openssl build/test/dcpomatic2_openssl
+    fi
+    export DCPOMATIC_TEST_TOOLS_PATH=/opt/asdcplib/bin
+    if [ -f /src/backports/dcp_inspect ]; then
+        export DCPOMATIC_DCP_INSPECT=/src/backports/dcp_inspect
+    fi
+    set +e
+    python3 -m clairmeta.cli --help > /dev/null 2>&1
+    if [ "$?" == "0" ]; then
+        export DCPOMATIC_CLAIRMETA=1
+    fi
+    set -e
+fi
+
+if [ "$(uname)" == "Darwin" ]; then
+    cp -r ../libdcp/tags build/test
+    cp -r ../libdcp/xsd build/test
+    cp ../libdcp/ratings build/test
+    rm -f build/test/openssl
+    ln -s ../../../openssl/apps/openssl build/test/openssl
+    # We need to find ffcmp in here
+    export PATH=$PATH:$HOME/workspace/bin
+    if [ -d "$environment/$(uname -m)/11.0" ]; then
+        export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$environment/$(uname -m)/11.0/lib
+    else
+        export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$environment/$(uname -m)/10.10/lib
+    fi
+fi
+
+if [ "$check" == "1" ]; then
+    if [ "$DCPOMATIC_TEST_PRIVATE" == "" ]; then
+        pushd ../dcpomatic-test-private
+    else
+        pushd $DCPOMATIC_TEST_PRIVATE
+    fi
+    current=$(git rev-parse HEAD)
+    if [ "$current" != "$PRIVATE_GIT" ]; then
+        echo "Unexpected dcpomatic-test-private version"
+        exit 1
+    fi
+    popd
+fi
+
+if [ "$type" == "debug" ]; then
+    gdb --args build/test/unit-tests --catch_system_errors=no --log_level=test_suite $*
+elif [ "$type" == "backtrace" ]; then
+    gdb -batch -ex "run" -ex "thread apply all bt" -return-child-result --args build/test/unit-tests --catch_system_errors=yes $*
+elif [ "$type" == "valgrind" ]; then
+#    valgrind --tool="memcheck" --vgdb=yes --vgdb-error=0 build/test/unit-tests $*
+    valgrind --tool="memcheck" --suppressions=suppressions build/test/unit-tests $*
+elif [ "$type" == "callgrind" ]; then
+    valgrind --tool="callgrind" build/test/unit-tests $*
+elif [ "$type" == "quiet" ]; then
+    build/test/unit-tests --catch_system_errors=no $*
+elif [ "$type" == "drd" ]; then
+    valgrind --tool="drd" build/test/unit-tests $*
+elif [ "$type" == "helgrind" ]; then
+    valgrind --tool="helgrind" build/test/unit-tests $*
+else
+    ulimit -c unlimited
+    docker run --init --rm -it \
+        -u carl \
+        -v /home/carl:/home/carl \
+        -v /run:/run \
+        -w /home/carl/src/dcpomatic-v2.19.x \
+        dcpomatic-v2.19.x $DIR/../build/test/unit-tests --catch_system_errors=no $*
+fi
