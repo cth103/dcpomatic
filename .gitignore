@@ -44,3 +44,4 @@ vim-lsp.log
 .cache
 
 lock
+docker/id_rsa
