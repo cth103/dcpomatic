@@ -25,6 +25,7 @@
  */
 
 
+#include "lib/analyse_audio_job.h"
 #include "lib/audio_buffers.h"
 #include "lib/audio_content.h"
 #include "lib/butler.h"
@@ -39,6 +40,7 @@
 #include "lib/film.h"
 #include "lib/image_content.h"
 #include "lib/image_png.h"
+#include "lib/job_manager.h"
 #include "lib/player.h"
 #include "lib/ratio.h"
 #include "lib/string_text_file_content.h"
@@ -756,3 +758,16 @@ BOOST_AUTO_TEST_CASE(frames_are_copied_correctly_for_low_frame_rates)
 		}
 	}
 }
+
+
+BOOST_AUTO_TEST_CASE(test_with_audio_stream_that_never_emits_anything)
+{
+	auto content = content_factory(TestPaths::private_data() / "hunter.mkv");
+	auto film = new_test_film("test_with_audio_stream_that_never_emits_anything", content);
+
+	/* Check that the analysis of this file does not fail */
+	auto job = make_shared<AnalyseAudioJob>(film, film->playlist(), true);
+	JobManager::instance()->add(job);
+	BOOST_REQUIRE(!wait_for_jobs());
+}
+

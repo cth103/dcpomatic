@@ -847,9 +847,16 @@ Player::pass()
 	if (latest_last_push_end != have_pushed.end()) {
 		LOG_DEBUG_PLAYER("Leading audio stream is in {} at {}", latest_last_push_end->second.piece->content->path(0).string(), to_string(latest_last_push_end->second.last_push_end.get()));
 
-		/* Now make a list of those streams that are less than ignore_streams_behind behind the leader */
+		auto const ignore_threshold = dcpomatic::DCPTime::from_seconds(ignore_streams_behind);
+		auto const leader_time = latest_last_push_end->second.last_push_end.get();
+
+		/* Make a list of those streams that are less than ignore_threshold behind the leader.
+		 * If the leader has not yet reached ignore_threshold ahead of a stream's content position
+		 * we need to consider its not-yet-pushed streams as active, otherwise we might miss
+		 * something from them.
+		 */
 		for (auto const& i: _stream_states) {
-			if (!i.second.last_push_end || (latest_last_push_end->second.last_push_end.get() - i.second.last_push_end.get()) < dcpomatic::DCPTime::from_seconds(ignore_streams_behind)) {
+			if ((i.second.last_push_end && (leader_time - i.second.last_push_end.get()) < ignore_threshold) || ((leader_time - i.second.piece->content->position()) < ignore_threshold)) {
 				alive_stream_states.insert(i);
 			} else {
 				LOG_DEBUG_PLAYER("Ignoring stream {} because it is too far behind", i.second.piece->content->path(0).string());
