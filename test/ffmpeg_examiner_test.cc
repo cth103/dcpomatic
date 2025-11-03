@@ -93,3 +93,11 @@ BOOST_AUTO_TEST_CASE (ffmpeg_examiner_video_stream_selection_test)
 	BOOST_REQUIRE (examiner->video_frame_rate());
 	BOOST_CHECK_EQUAL (examiner->video_frame_rate().get(), 25);
 }
+
+
+BOOST_AUTO_TEST_CASE(test_crash_during_examination_with_duplicate_ids)
+{
+	auto content = make_shared<FFmpegContent>(TestPaths::private_data() / "hunter.mkv");
+	auto examiner = make_shared<FFmpegExaminer>(content);
+}
+

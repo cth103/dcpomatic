@@ -99,6 +99,8 @@ FFmpegExaminer::FFmpegExaminer(shared_ptr<const FFmpegContent> c, shared_ptr<Job
 		job->sub(_("Finding length"));
 	}
 
+	check_for_duplicate_ids();
+
 	/* Run through until we find:
 	 *   - the first video.
 	 *   - the first audio for each stream.
