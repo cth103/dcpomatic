@@ -527,7 +527,7 @@ BOOST_AUTO_TEST_CASE(multiple_sound_files_bug)
 {
 	Cleanup cl;
 
-	Config::instance()->set_log_types(Config::instance()->log_types() | LogEntry::TYPE_DEBUG_PLAYER);
+	dcpomatic_log->set_types(dcpomatic_log->types() | LogEntry::TYPE_DEBUG_PLAYER);
 
 	auto A = content_factory(TestPaths::private_data() / "kook" / "1.wav").front();
 	auto B = content_factory(TestPaths::private_data() / "kook" / "2.wav").front();
