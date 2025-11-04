@@ -61,8 +61,8 @@ using boost::optional;
 using namespace dcpomatic;
 
 
-FFmpegContent::FFmpegContent (boost::filesystem::path p)
-	: Content (p)
+FFmpegContent::FFmpegContent(boost::filesystem::path p)
+	: Content(p)
 {
 
 }
@@ -70,7 +70,7 @@ FFmpegContent::FFmpegContent (boost::filesystem::path p)
 
 template <class T>
 optional<T>
-get_optional_enum (cxml::ConstNodePtr node, string name)
+get_optional_enum(cxml::ConstNodePtr node, string name)
 {
 	auto const v = node->optional_number_child<int>(name);
 	if (!v) {
@@ -87,23 +87,23 @@ FFmpegContent::FFmpegContent(cxml::ConstNodePtr node, boost::optional<boost::fil
 
 	VideoRange const video_range_hint = (_color_range && *_color_range == AVCOL_RANGE_JPEG) ? VideoRange::FULL : VideoRange::VIDEO;
 
-	video = VideoContent::from_xml (this, node, version, video_range_hint);
-	audio = AudioContent::from_xml (this, node, version);
-	text = TextContent::from_xml (this, node, version, notes);
+	video = VideoContent::from_xml(this, node, version, video_range_hint);
+	audio = AudioContent::from_xml(this, node, version);
+	text = TextContent::from_xml(this, node, version, notes);
 
 	for (auto i: node->node_children("SubtitleStream")) {
-		_subtitle_streams.push_back (make_shared<FFmpegSubtitleStream>(i, version));
+		_subtitle_streams.push_back(make_shared<FFmpegSubtitleStream>(i, version));
 		if (i->optional_number_child<int>("Selected")) {
-			_subtitle_stream = _subtitle_streams.back ();
+			_subtitle_stream = _subtitle_streams.back();
 		}
 	}
 
 	for (auto i: node->node_children("AudioStream")) {
 		auto as = make_shared<FFmpegAudioStream>(i, version);
-		audio->add_stream (as);
-		if (version < 11 && !i->optional_node_child ("Selected")) {
+		audio->add_stream(as);
+		if (version < 11 && !i->optional_node_child("Selected")) {
 			/* This is an old file and this stream is not selected, so un-map it */
-			as->set_mapping (AudioMapping (as->channels (), MAX_DCP_AUDIO_CHANNELS));
+			as->set_mapping(AudioMapping(as->channels(), MAX_DCP_AUDIO_CHANNELS));
 		}
 	}
 
@@ -116,40 +116,40 @@ FFmpegContent::FFmpegContent(cxml::ConstNodePtr node, boost::optional<boost::fil
 	}
 
 	if (auto const f = node->optional_number_child<ContentTime::Type>("FirstVideo")) {
-		_first_video = ContentTime (f.get ());
+		_first_video = ContentTime(f.get());
 	}
 
 	_color_primaries = get_optional_enum<AVColorPrimaries>(node, "ColorPrimaries");
 	_color_trc = get_optional_enum<AVColorTransferCharacteristic>(node, "ColorTransferCharacteristic");
 	_colorspace = get_optional_enum<AVColorSpace>(node, "Colorspace");
-	_bits_per_pixel = node->optional_number_child<int> ("BitsPerPixel");
+	_bits_per_pixel = node->optional_number_child<int>("BitsPerPixel");
 }
 
 
-FFmpegContent::FFmpegContent (vector<shared_ptr<Content>> c)
-	: Content (c)
+FFmpegContent::FFmpegContent(vector<shared_ptr<Content>> c)
+	: Content(c)
 {
-	auto i = c.begin ();
+	auto i = c.begin();
 
 	bool need_video = false;
 	bool need_audio = false;
 	bool need_text = false;
 
-	if (i != c.end ()) {
-		need_video = static_cast<bool> ((*i)->video);
-		need_audio = static_cast<bool> ((*i)->audio);
+	if (i != c.end()) {
+		need_video = static_cast<bool>((*i)->video);
+		need_audio = static_cast<bool>((*i)->audio);
 		need_text = !(*i)->text.empty();
 	}
 
-	while (i != c.end ()) {
-		if (need_video != static_cast<bool> ((*i)->video)) {
-			throw JoinError (_("Content to be joined must all have or not have video"));
+	while (i != c.end()) {
+		if (need_video != static_cast<bool>((*i)->video)) {
+			throw JoinError(_("Content to be joined must all have or not have video"));
 		}
-		if (need_audio != static_cast<bool> ((*i)->audio)) {
-			throw JoinError (_("Content to be joined must all have or not have audio"));
+		if (need_audio != static_cast<bool>((*i)->audio)) {
+			throw JoinError(_("Content to be joined must all have or not have audio"));
 		}
 		if (need_text != !(*i)->text.empty()) {
-			throw JoinError (_("Content to be joined must all have or not have subtitles or captions"));
+			throw JoinError(_("Content to be joined must all have or not have subtitles or captions"));
 		}
 		++i;
 	}
@@ -161,23 +161,23 @@ FFmpegContent::FFmpegContent (vector<shared_ptr<Content>> c)
 		audio = make_shared<AudioContent>(this, c);
 	}
 	if (need_text) {
-		text.push_back (make_shared<TextContent>(this, c));
+		text.push_back(make_shared<TextContent>(this, c));
 	}
 
-	auto ref = dynamic_pointer_cast<FFmpegContent> (c[0]);
-	DCPOMATIC_ASSERT (ref);
+	auto ref = dynamic_pointer_cast<FFmpegContent>(c[0]);
+	DCPOMATIC_ASSERT(ref);
 
 	for (size_t i = 0; i < c.size(); ++i) {
 		auto fc = dynamic_pointer_cast<FFmpegContent>(c[i]);
 		if (fc->only_text() && fc->only_text()->use() && *(fc->_subtitle_stream.get()) != *(ref->_subtitle_stream.get())) {
-			throw JoinError (_("Content to be joined must use the same subtitle stream."));
+			throw JoinError(_("Content to be joined must use the same subtitle stream."));
 		}
 	}
 
 	/* XXX: should probably check that more of the stuff below is the same in *this and ref */
 
-	_subtitle_streams = ref->subtitle_streams ();
-	_subtitle_stream = ref->subtitle_stream ();
+	_subtitle_streams = ref->subtitle_streams();
+	_subtitle_stream = ref->subtitle_stream();
 	_first_video = ref->_first_video;
 	_filters = ref->_filters;
 	_color_range = ref->_color_range;
@@ -202,8 +202,8 @@ FFmpegContent::as_xml(xmlpp::Element* element, bool with_paths, PathBehaviour pa
 		audio->as_xml(element);
 
 		for (auto i: audio->streams()) {
-			auto f = dynamic_pointer_cast<FFmpegAudioStream> (i);
-			DCPOMATIC_ASSERT (f);
+			auto f = dynamic_pointer_cast<FFmpegAudioStream>(i);
+			DCPOMATIC_ASSERT(f);
 			f->as_xml(cxml::add_child(element, "AudioStream"));
 		}
 	}
@@ -212,14 +212,14 @@ FFmpegContent::as_xml(xmlpp::Element* element, bool with_paths, PathBehaviour pa
 		only_text()->as_xml(element);
 	}
 
-	boost::mutex::scoped_lock lm (_mutex);
+	boost::mutex::scoped_lock lm(_mutex);
 
 	for (auto i: _subtitle_streams) {
 		auto t = cxml::add_child(element, "SubtitleStream");
 		if (_subtitle_stream && i == _subtitle_stream) {
 			cxml::add_text_child(t, "Selected", "1");
 		}
-		i->as_xml (t);
+		i->as_xml(t);
 	}
 
 	for (auto i: _filters) {
@@ -251,44 +251,44 @@ FFmpegContent::as_xml(xmlpp::Element* element, bool with_paths, PathBehaviour pa
 void
 FFmpegContent::examine(shared_ptr<const Film> film, shared_ptr<Job> job, bool tolerant)
 {
-	ContentChangeSignaller cc1 (this, FFmpegContentProperty::SUBTITLE_STREAMS);
-	ContentChangeSignaller cc2 (this, FFmpegContentProperty::SUBTITLE_STREAM);
+	ContentChangeSignaller cc1(this, FFmpegContentProperty::SUBTITLE_STREAMS);
+	ContentChangeSignaller cc2(this, FFmpegContentProperty::SUBTITLE_STREAM);
 
 	if (job) {
-		job->set_progress_unknown ();
+		job->set_progress_unknown();
 	}
 
 	Content::examine(film, job, tolerant);
 
-	auto examiner = make_shared<FFmpegExaminer>(shared_from_this (), job);
+	auto examiner = make_shared<FFmpegExaminer>(shared_from_this(), job);
 
-	if (examiner->has_video ()) {
+	if (examiner->has_video()) {
 		video = make_shared<VideoContent>(this);
 		video->take_from_examiner(film, examiner);
 	}
 
-	auto first_path = path (0);
+	auto first_path = path(0);
 
 	{
-		boost::mutex::scoped_lock lm (_mutex);
+		boost::mutex::scoped_lock lm(_mutex);
 
-		if (examiner->has_video ()) {
-			_first_video = examiner->first_video ();
-			_color_range = examiner->color_range ();
-			_color_primaries = examiner->color_primaries ();
-			_color_trc = examiner->color_trc ();
-			_colorspace = examiner->colorspace ();
-			_bits_per_pixel = examiner->bits_per_pixel ();
+		if (examiner->has_video()) {
+			_first_video = examiner->first_video();
+			_color_range = examiner->color_range();
+			_color_primaries = examiner->color_primaries();
+			_color_trc = examiner->color_trc();
+			_colorspace = examiner->colorspace();
+			_bits_per_pixel = examiner->bits_per_pixel();
 
 			if (examiner->rotation()) {
-				auto rot = *examiner->rotation ();
-				if (fabs (rot - 180) < 1.0) {
+				auto rot = *examiner->rotation();
+				if (fabs(rot - 180) < 1.0) {
 					_filters.push_back(*Filter::from_id("vflip"));
 					_filters.push_back(*Filter::from_id("hflip"));
-				} else if (fabs (rot - 90) < 1.0) {
+				} else if (fabs(rot - 90) < 1.0) {
 					_filters.push_back(*Filter::from_id("90clock"));
 					video->rotate_size();
-				} else if (fabs (rot - 270) < 1.0) {
+				} else if (fabs(rot - 270) < 1.0) {
 					_filters.push_back(*Filter::from_id("90anticlock"));
 					video->rotate_size();
 				}
@@ -302,26 +302,26 @@ FFmpegContent::examine(shared_ptr<const Film> film, shared_ptr<Job> job, bool to
 			audio = make_shared<AudioContent>(this);
 
 			for (auto i: examiner->audio_streams()) {
-				audio->add_stream (i);
+				audio->add_stream(i);
 			}
 
 			auto as = audio->streams().front();
-			auto m = as->mapping ();
-			m.make_default (film ? film->audio_processor() : 0, first_path);
-			as->set_mapping (m);
+			auto m = as->mapping();
+			m.make_default(film ? film->audio_processor() : 0, first_path);
+			as->set_mapping(m);
 		}
 
-		_subtitle_streams = examiner->subtitle_streams ();
-		if (!_subtitle_streams.empty ()) {
-			text.clear ();
-			text.push_back (make_shared<TextContent>(this, TextType::OPEN_SUBTITLE, TextType::UNKNOWN));
-			_subtitle_stream = _subtitle_streams.front ();
+		_subtitle_streams = examiner->subtitle_streams();
+		if (!_subtitle_streams.empty()) {
+			text.clear();
+			text.push_back(make_shared<TextContent>(this, TextType::OPEN_SUBTITLE, TextType::UNKNOWN));
+			_subtitle_stream = _subtitle_streams.front();
 			text.front()->add_font(make_shared<dcpomatic::Font>(""));
 		}
 	}
 
-	if (examiner->has_video ()) {
-		set_default_colour_conversion ();
+	if (examiner->has_video()) {
+		set_default_colour_conversion();
 	}
 
 	if (examiner->has_video() && examiner->pulldown() && video_frame_rate() && fabs(*video_frame_rate() - 29.97) < 0.001) {
@@ -329,13 +329,13 @@ FFmpegContent::examine(shared_ptr<const Film> film, shared_ptr<Job> job, bool to
 		 * This means we can treat it as a 23.976fps file.
 		 */
 		set_video_frame_rate(film, 24000.0 / 1001);
-		video->set_length (video->length() * 24.0 / 30);
+		video->set_length(video->length() * 24.0 / 30);
 	}
 }
 
 
 string
-FFmpegContent::summary () const
+FFmpegContent::summary() const
 {
 	if (video && audio) {
 		return fmt::format(_("{} [movie]"), path_summary());
@@ -345,37 +345,37 @@ FFmpegContent::summary () const
 		return fmt::format(_("{} [audio]"), path_summary());
 	}
 
-	return path_summary ();
+	return path_summary();
 }
 
 
 string
-FFmpegContent::technical_summary () const
+FFmpegContent::technical_summary() const
 {
 	string as = "";
-	for (auto i: ffmpeg_audio_streams ()) {
-		as += i->technical_summary () + " " ;
+	for (auto i: ffmpeg_audio_streams()) {
+		as += i->technical_summary() + " " ;
 	}
 
-	if (as.empty ()) {
+	if (as.empty()) {
 		as = "none";
 	}
 
 	string ss = "none";
 	if (_subtitle_stream) {
-		ss = _subtitle_stream->technical_summary ();
+		ss = _subtitle_stream->technical_summary();
 	}
 
-	auto filt = Filter::ffmpeg_string (_filters);
+	auto filt = Filter::ffmpeg_string(_filters);
 
-	auto s = Content::technical_summary ();
+	auto s = Content::technical_summary();
 
 	if (video) {
-		s += " - " + video->technical_summary ();
+		s += " - " + video->technical_summary();
 	}
 
 	if (audio) {
-		s += " - " + audio->technical_summary ();
+		s += " - " + audio->technical_summary();
 	}
 
 	return s + fmt::format(
@@ -385,43 +385,43 @@ FFmpegContent::technical_summary () const
 
 
 void
-FFmpegContent::set_subtitle_stream (shared_ptr<FFmpegSubtitleStream> s)
+FFmpegContent::set_subtitle_stream(shared_ptr<FFmpegSubtitleStream> s)
 {
-	ContentChangeSignaller cc (this, FFmpegContentProperty::SUBTITLE_STREAM);
+	ContentChangeSignaller cc(this, FFmpegContentProperty::SUBTITLE_STREAM);
 
 	{
-		boost::mutex::scoped_lock lm (_mutex);
+		boost::mutex::scoped_lock lm(_mutex);
 		_subtitle_stream = s;
 	}
 }
 
 
 bool
-operator== (FFmpegStream const & a, FFmpegStream const & b)
+operator==(FFmpegStream const & a, FFmpegStream const & b)
 {
 	return a._id == b._id && b._index == b._index;
 }
 
 
 bool
-operator!= (FFmpegStream const & a, FFmpegStream const & b)
+operator!=(FFmpegStream const & a, FFmpegStream const & b)
 {
 	return a._id != b._id || a._index != b._index;
 }
 
 
 DCPTime
-FFmpegContent::full_length (shared_ptr<const Film> film) const
+FFmpegContent::full_length(shared_ptr<const Film> film) const
 {
-	FrameRateChange const frc (film, shared_from_this());
+	FrameRateChange const frc(film, shared_from_this());
 	if (video) {
-		return DCPTime::from_frames (llrint (video->length_after_3d_combine() * frc.factor()), film->video_frame_rate());
+		return DCPTime::from_frames(llrint(video->length_after_3d_combine() * frc.factor()), film->video_frame_rate());
 	}
 
 	if (audio) {
 		DCPTime longest;
 		for (auto i: audio->streams()) {
-			longest = max (longest, DCPTime::from_frames(llrint(i->length() / frc.speed_up), i->frame_rate()));
+			longest = max(longest, DCPTime::from_frames(llrint(i->length() / frc.speed_up), i->frame_rate()));
 		}
 		return longest;
 	}
@@ -433,37 +433,37 @@ FFmpegContent::full_length (shared_ptr<const Film> film) const
 
 
 DCPTime
-FFmpegContent::approximate_length () const
+FFmpegContent::approximate_length() const
 {
 	if (video) {
-		return DCPTime::from_frames (video->length_after_3d_combine(), 24);
+		return DCPTime::from_frames(video->length_after_3d_combine(), 24);
 	}
 
-	DCPOMATIC_ASSERT (audio);
+	DCPOMATIC_ASSERT(audio);
 
 	Frame longest = 0;
 	for (auto i: audio->streams()) {
-		longest = max (longest, Frame(llrint(i->length())));
+		longest = max(longest, Frame(llrint(i->length())));
 	}
 
-	return DCPTime::from_frames (longest, 24);
+	return DCPTime::from_frames(longest, 24);
 }
 
 
 void
 FFmpegContent::set_filters(vector<Filter> const& filters)
 {
-	ContentChangeSignaller cc (this, FFmpegContentProperty::FILTERS);
+	ContentChangeSignaller cc(this, FFmpegContentProperty::FILTERS);
 
 	{
-		boost::mutex::scoped_lock lm (_mutex);
+		boost::mutex::scoped_lock lm(_mutex);
 		_filters = filters;
 	}
 }
 
 
 string
-FFmpegContent::identifier () const
+FFmpegContent::identifier() const
 {
 	string s = Content::identifier();
 
@@ -475,10 +475,10 @@ FFmpegContent::identifier () const
 		s += "_" + only_text()->identifier();
 	}
 
-	boost::mutex::scoped_lock lm (_mutex);
+	boost::mutex::scoped_lock lm(_mutex);
 
 	if (_subtitle_stream) {
-		s += "_" + _subtitle_stream->identifier ();
+		s += "_" + _subtitle_stream->identifier();
 	}
 
 	for (auto i: _filters) {
@@ -490,35 +490,35 @@ FFmpegContent::identifier () const
 
 
 void
-FFmpegContent::set_default_colour_conversion ()
+FFmpegContent::set_default_colour_conversion()
 {
-	DCPOMATIC_ASSERT (video);
+	DCPOMATIC_ASSERT(video);
 
-	auto const s = video->size ();
+	auto const s = video->size();
 
-	boost::mutex::scoped_lock lm (_mutex);
+	boost::mutex::scoped_lock lm(_mutex);
 
 	switch (_colorspace.get_value_or(AVCOL_SPC_UNSPECIFIED)) {
 	case AVCOL_SPC_RGB:
-		video->set_colour_conversion (PresetColourConversion::from_id ("srgb").conversion);
+		video->set_colour_conversion(PresetColourConversion::from_id("srgb").conversion);
 		break;
 	case AVCOL_SPC_BT709:
-		video->set_colour_conversion (PresetColourConversion::from_id ("rec709").conversion);
+		video->set_colour_conversion(PresetColourConversion::from_id("rec709").conversion);
 		break;
 	case AVCOL_SPC_BT470BG:
 	case AVCOL_SPC_SMPTE170M:
 	case AVCOL_SPC_SMPTE240M:
-		video->set_colour_conversion (PresetColourConversion::from_id ("rec601").conversion);
+		video->set_colour_conversion(PresetColourConversion::from_id("rec601").conversion);
 		break;
 	case AVCOL_SPC_BT2020_CL:
 	case AVCOL_SPC_BT2020_NCL:
-		video->set_colour_conversion (PresetColourConversion::from_id ("rec2020").conversion);
+		video->set_colour_conversion(PresetColourConversion::from_id("rec2020").conversion);
 		break;
 	default:
 		if (s && s->width < 1080) {
-			video->set_colour_conversion (PresetColourConversion::from_id ("rec601").conversion);
+			video->set_colour_conversion(PresetColourConversion::from_id("rec601").conversion);
 		} else {
-			video->set_colour_conversion (PresetColourConversion::from_id ("rec709").conversion);
+			video->set_colour_conversion(PresetColourConversion::from_id("rec709").conversion);
 		}
 		break;
 	}
@@ -526,12 +526,12 @@ FFmpegContent::set_default_colour_conversion ()
 
 
 void
-FFmpegContent::add_properties (shared_ptr<const Film> film, list<UserProperty>& p) const
+FFmpegContent::add_properties(shared_ptr<const Film> film, list<UserProperty>& p) const
 {
-	Content::add_properties (film, p);
+	Content::add_properties(film, p);
 
 	if (video) {
-		video->add_properties (p);
+		video->add_properties(p);
 
 		if (_bits_per_pixel) {
 			auto pixel_quanta_product = video->pixel_quanta().x * video->pixel_quanta().y;
@@ -545,13 +545,13 @@ FFmpegContent::add_properties (shared_ptr<const Film> film, list<UserProperty>& 
 			case AVCOL_RANGE_UNSPECIFIED:
 				/// TRANSLATORS: this means that the range of pixel values used in this
 				/// file is unknown (not specified in the file).
-				p.push_back (UserProperty (UserProperty::VIDEO, _("Colour range"), _("Unspecified")));
+				p.push_back(UserProperty(UserProperty::VIDEO, _("Colour range"), _("Unspecified")));
 				break;
 			case AVCOL_RANGE_MPEG:
 				/// TRANSLATORS: this means that the range of pixel values used in this
 				/// file is limited, so that not all possible values are valid.
-				p.push_back (
-					UserProperty (
+				p.push_back(
+					UserProperty(
 						UserProperty::VIDEO, _("Colour range"), fmt::format(_("Limited / video ({}-{})"), lim_start, lim_end)
 						)
 					);
@@ -562,27 +562,27 @@ FFmpegContent::add_properties (shared_ptr<const Film> film, list<UserProperty>& 
 				p.push_back(UserProperty(UserProperty::VIDEO, _("Colour range"), fmt::format(_("Full (0-{})"), total - 1)));
 				break;
 			default:
-				DCPOMATIC_ASSERT (false);
+				DCPOMATIC_ASSERT(false);
 			}
 		} else {
 			switch (_color_range.get_value_or(AVCOL_RANGE_UNSPECIFIED)) {
 			case AVCOL_RANGE_UNSPECIFIED:
 				/// TRANSLATORS: this means that the range of pixel values used in this
 				/// file is unknown (not specified in the file).
-				p.push_back (UserProperty (UserProperty::VIDEO, _("Colour range"), _("Unspecified")));
+				p.push_back(UserProperty(UserProperty::VIDEO, _("Colour range"), _("Unspecified")));
 				break;
 			case AVCOL_RANGE_MPEG:
 				/// TRANSLATORS: this means that the range of pixel values used in this
 				/// file is limited, so that not all possible values are valid.
-				p.push_back (UserProperty (UserProperty::VIDEO, _("Colour range"), _("Limited")));
+				p.push_back(UserProperty(UserProperty::VIDEO, _("Colour range"), _("Limited")));
 				break;
 			case AVCOL_RANGE_JPEG:
 				/// TRANSLATORS: this means that the range of pixel values used in this
 				/// file is full, so that all possible pixel values are valid.
-				p.push_back (UserProperty (UserProperty::VIDEO, _("Colour range"), _("Full")));
+				p.push_back(UserProperty(UserProperty::VIDEO, _("Colour range"), _("Full")));
 				break;
 			default:
-				DCPOMATIC_ASSERT (false);
+				DCPOMATIC_ASSERT(false);
 			}
 		}
 
@@ -612,8 +612,8 @@ FFmpegContent::add_properties (shared_ptr<const Film> film, list<UserProperty>& 
 			_("JEDEC P22")
 		};
 
-		DCPOMATIC_ASSERT (AVCOL_PRI_NB <= 23);
-		p.push_back (UserProperty (UserProperty::VIDEO, _("Colour primaries"), primaries[_color_primaries.get_value_or(AVCOL_PRI_UNSPECIFIED)]));
+		DCPOMATIC_ASSERT(AVCOL_PRI_NB <= 23);
+		p.push_back(UserProperty(UserProperty::VIDEO, _("Colour primaries"), primaries[_color_primaries.get_value_or(AVCOL_PRI_UNSPECIFIED)]));
 
 		char const * transfers[] = {
 			_("Unspecified"),
@@ -637,8 +637,8 @@ FFmpegContent::add_properties (shared_ptr<const Film> film, list<UserProperty>& 
 			_("ARIB STD-B67 ('Hybrid log-gamma')")
 		};
 
-		DCPOMATIC_ASSERT (AVCOL_TRC_NB <= 19);
-		p.push_back (UserProperty (UserProperty::VIDEO, _("Colour transfer characteristic"), transfers[_color_trc.get_value_or(AVCOL_TRC_UNSPECIFIED)]));
+		DCPOMATIC_ASSERT(AVCOL_TRC_NB <= 19);
+		p.push_back(UserProperty(UserProperty::VIDEO, _("Colour transfer characteristic"), transfers[_color_trc.get_value_or(AVCOL_TRC_UNSPECIFIED)]));
 
 		char const * spaces[] = {
 			_("RGB / sRGB (IEC61966-2-1)"),
@@ -668,18 +668,18 @@ FFmpegContent::add_properties (shared_ptr<const Film> film, list<UserProperty>& 
 #ifdef DCPOMATIC_FFMPEG_8
 		DCPOMATIC_ASSERT(AVCOL_SPC_NB == 18);
 #else
-		DCPOMATIC_ASSERT (AVCOL_SPC_NB == 15);
+		DCPOMATIC_ASSERT(AVCOL_SPC_NB == 15);
 #endif
 
-		p.push_back (UserProperty (UserProperty::VIDEO, _("Colourspace"), spaces[_colorspace.get_value_or(AVCOL_SPC_UNSPECIFIED)]));
+		p.push_back(UserProperty(UserProperty::VIDEO, _("Colourspace"), spaces[_colorspace.get_value_or(AVCOL_SPC_UNSPECIFIED)]));
 
 		if (_bits_per_pixel) {
-			p.push_back (UserProperty (UserProperty::VIDEO, _("Bits per pixel"), *_bits_per_pixel));
+			p.push_back(UserProperty(UserProperty::VIDEO, _("Bits per pixel"), *_bits_per_pixel));
 		}
 	}
 
 	if (audio) {
-		audio->add_properties (film, p);
+		audio->add_properties(film, p);
 	}
 }
 
@@ -690,21 +690,21 @@ FFmpegContent::add_properties (shared_ptr<const Film> film, list<UserProperty>& 
  *  streams.
  */
 void
-FFmpegContent::signal_subtitle_stream_changed ()
+FFmpegContent::signal_subtitle_stream_changed()
 {
 	/* XXX: this is too late; really it should be before the change */
-	ContentChangeSignaller cc (this, FFmpegContentProperty::SUBTITLE_STREAM);
+	ContentChangeSignaller cc(this, FFmpegContentProperty::SUBTITLE_STREAM);
 }
 
 
 vector<shared_ptr<FFmpegAudioStream>>
-FFmpegContent::ffmpeg_audio_streams () const
+FFmpegContent::ffmpeg_audio_streams() const
 {
 	vector<shared_ptr<FFmpegAudioStream>> fa;
 
 	if (audio) {
 		for (auto i: audio->streams()) {
-			fa.push_back (dynamic_pointer_cast<FFmpegAudioStream>(i));
+			fa.push_back(dynamic_pointer_cast<FFmpegAudioStream>(i));
 		}
 	}
 
@@ -713,14 +713,14 @@ FFmpegContent::ffmpeg_audio_streams () const
 
 
 void
-FFmpegContent::take_settings_from (shared_ptr<const Content> c)
+FFmpegContent::take_settings_from(shared_ptr<const Content> c)
 {
-	auto fc = dynamic_pointer_cast<const FFmpegContent> (c);
+	auto fc = dynamic_pointer_cast<const FFmpegContent>(c);
 	if (!fc) {
 		return;
 		}
 
-	Content::take_settings_from (c);
+	Content::take_settings_from(c);
 	_filters = fc->_filters;
 }
 
