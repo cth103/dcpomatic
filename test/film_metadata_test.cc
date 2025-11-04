@@ -25,11 +25,15 @@
  */
 
 
+#include "lib/check_content_job.h"
 #include "lib/content.h"
 #include "lib/content_factory.h"
 #include "lib/dcp_content.h"
 #include "lib/dcp_content_type.h"
+#include "lib/image.h"
 #include "lib/film.h"
+#include "lib/job_manager.h"
+#include "lib/player.h"
 #include "lib/ratio.h"
 #include "lib/text_content.h"
 #include "lib/video_content.h"
@@ -234,5 +238,26 @@ BOOST_AUTO_TEST_CASE(effect_node_not_inserted_incorrectly)
 
 	/* There should be no <Effect> node in the text, since we don't want to force the effect to "none" */
 	BOOST_CHECK(!doc.node_child("Playlist")->node_child("Content")->node_child("Text")->optional_node_child("Effect"));
+}
+
+
+BOOST_AUTO_TEST_CASE(can_load_film_with_now_invalid_stream_ids)
+{
+	auto const name = std::string{"can_load_film_with_now_invalid_stream_ids"};
+	auto film = new_test_film(name);
+	boost::filesystem::remove(film->file("metadata.xml"));
+	boost::filesystem::copy_file(boost::filesystem::path("test/data") / (name + ".xml"), film->file("metadata.xml"));
+	{
+		Editor editor(film->file("metadata.xml"));
+		auto const replace = boost::filesystem::current_path() / boost::filesystem::path("test") / "data" / "phil.mkv";
+		editor.replace("phil.mkv", replace.string());
+	}
+	film->read_metadata();
+
+	auto player = make_shared<Player>(film, Image::Alignment::COMPACT, true);
+
+	auto check = make_shared<CheckContentJob>(film);
+	JobManager::instance()->add(make_shared<CheckContentJob>(film));
+	BOOST_CHECK(!wait_for_jobs());
 }
 

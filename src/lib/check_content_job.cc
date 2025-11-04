@@ -24,6 +24,7 @@
 #include "dcp_content.h"
 #include "examine_content_job.h"
 #include "film.h"
+#include "ffmpeg_content.h"
 #include "job_manager.h"
 #include "string_text_file_content.h"
 #include <iostream>
@@ -67,8 +68,6 @@ CheckContentJob::run()
 	set_progress_unknown();
 
 	auto content = _film->content();
-	std::vector<shared_ptr<Content>> changed;
-	std::copy_if(content.begin(), content.end(), std::back_inserter(changed), [](shared_ptr<Content> c) { return c->changed(); });
 
 	if (_film->last_written_by_earlier_than(2, 17, 17)) {
 		for (auto c: content) {
@@ -80,9 +79,20 @@ CheckContentJob::run()
 		}
 	}
 
+	std::vector<shared_ptr<Content>> changed;
+	std::copy_if(content.begin(), content.end(), std::back_inserter(changed), [](shared_ptr<Content> c) { return c->changed(); });
 	if (!changed.empty()) {
 		JobManager::instance()->add(make_shared<ExamineContentJob>(_film, changed, false));
 		set_message(_("Some files have been changed since they were added to the project.\n\nThese files will now be re-examined, so you may need to check their settings."));
+	}
+
+	if (_film->last_written_by_earlier_than(2, 18, 30)) {
+		std::vector<shared_ptr<Content>> needs_upgrade;
+		std::copy_if(content.begin(), content.end(), std::back_inserter(needs_upgrade), [](shared_ptr<Content> c) { return static_cast<bool>(dynamic_pointer_cast<FFmpegContent>(c)); });
+		if (!needs_upgrade.empty()) {
+			JobManager::instance()->add(make_shared<ExamineContentJob>(_film, needs_upgrade, false));
+			set_message(_("Some files must be re-examined due to a bug fix in DCP-o-matic.  You may need to check their settings."));
+		}
 	}
 
 	set_progress(1);

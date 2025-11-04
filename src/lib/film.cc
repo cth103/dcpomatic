@@ -762,6 +762,20 @@ Film::read_metadata(optional<boost::filesystem::path> path)
 	}
 
 	set_dirty(false);
+
+	/* Clear out possibly-invalid stream IDs (that were created by auto-numbering in previous versions
+	 * which doesn't happen in this one).  The content will be re-examined after the film is loaded.
+	 * Before 2.18.26 we wrote IDs which might now fail.  In 2.18.30 we added this check, to mistrust
+	 * any existing IDs and to re-create them.
+	 */
+	if (last_written_by_earlier_than(2, 18, 30)) {
+		for (auto content: _playlist->content()) {
+			if (auto ffmpeg = dynamic_pointer_cast<FFmpegContent>(content)) {
+				ffmpeg->remove_stream_ids();
+			}
+		}
+	}
+
 	return notes;
 }
 
