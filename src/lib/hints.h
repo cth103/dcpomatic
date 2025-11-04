@@ -87,6 +87,7 @@ private:
 	void check_audio_language();
 	void check_8_or_16_audio_channels();
 	void check_video_alpha();
+	void check_encryption();
 
 	boost::thread _thread;
 	/** This is used to make a partial DCP containing only the subtitles and closed captions that

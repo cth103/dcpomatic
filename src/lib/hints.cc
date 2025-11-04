@@ -487,6 +487,7 @@ try
 	check_audio_language();
 	check_8_or_16_audio_channels();
 	check_video_alpha();
+	check_encryption();
 
 	scan_content(film);
 
@@ -783,6 +784,22 @@ Hints::check_video_alpha()
 					  "in the content Advanced Settings dialogue box."),
 					variant::dcpomatic()));
 		}
+	}
+}
+
+
+void
+Hints::check_encryption()
+{
+	if (
+		film()->encrypt_picture() != film()->encrypt_sound() ||
+		film()->encrypt_picture() != film()->encrypt_text() ||
+		film()->encrypt_sound() != film()->encrypt_text()) {
+		hint(_("Some of your content is encrypted, and some not.  Though some distributors (e.g. Netflix) "
+		       "require subtitles not to be encrypted (even if picture and sound are), others will flag "
+		       "errors with the DCP made from this project.  If in doubt, set everything (picture, sound "
+		       "and text) to be either encrypted or not."));
+
 	}
 }
 
