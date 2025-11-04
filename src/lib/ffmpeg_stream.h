@@ -58,6 +58,10 @@ public:
 		_id = boost::none;
 	}
 
+	void set_index(int index) {
+		_index = index;
+	}
+
 	int index(AVFormatContext const * c) const;
 
 	std::string name;

@@ -724,3 +724,26 @@ FFmpegContent::take_settings_from(shared_ptr<const Content> c)
 	_filters = fc->_filters;
 }
 
+
+void
+FFmpegContent::remove_stream_ids()
+{
+	int index = 0;
+
+	if (audio) {
+		for (auto stream: audio->streams()) {
+			if (auto ffmpeg = dynamic_pointer_cast<FFmpegAudioStream>(stream)) {
+				ffmpeg->unset_id();
+				ffmpeg->set_index(index++);
+			}
+		}
+	}
+
+	for (auto stream: _subtitle_streams) {
+		if (auto ffmpeg = dynamic_pointer_cast<FFmpegSubtitleStream>(stream)) {
+			ffmpeg->unset_id();
+			ffmpeg->set_index(index++);
+		}
+	}
+}
+

@@ -113,6 +113,11 @@ public:
 
 	void signal_subtitle_stream_changed();
 
+	/** Remove all IDs from any streams we have.  This is only for working around changes
+	 *  to stream identification in 2.18.26.
+	 */
+	void remove_stream_ids();
+
 private:
 	void add_properties(std::shared_ptr<const Film> film, std::list<UserProperty> &) const override;
 
