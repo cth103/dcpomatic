@@ -707,7 +707,7 @@ Writer::finish()
 	if (dcpomatic::film::is_vf(film())) {
 		group_id = dcp::make_uuid();
 	}
-	dcp.write_xml(signer, Config::instance()->dcp_metadata_filename_format(), group_id);
+	dcp.write_xml(signer, dcp::Filenames::NEW, Config::instance()->dcp_metadata_filename_format(), group_id);
 
 	LOG_GENERAL(
 		N_("Wrote {} FULL, {} FAKE, {} REPEAT, {} pushed to disk"), _full_written, _fake_written, _repeat_written, _pushed_to_disk
