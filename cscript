@@ -502,15 +502,16 @@ def build_with_cpp17(target):
 
 
 def dependencies(target, options):
-    deps = [('libdcp', 'v1.10.35', {'c++17': build_with_cpp17(target)})]
-    deps.append(('libsub', 'v1.6.55'))
-    deps.append(('leqm-nrt', '30dcaea1373ac62fba050e02ce5b0c1085797a23'))
-    deps.append(('rtaudio', 'f619b76'))
-    # We get our OpenSSL libraries from the environment, but we
-    # also need a patched openssl binary to make certificates.
-    # This dependency is to get that binary, which is added into
-    # the appropriate place later
-    deps.append(('openssl', '54298369cacfe0ae01c5aa42ace8a463fd2e7a2e'))
+    deps = [('libdcp', 'v1.10.36', {'c++17': build_with_cpp17(target)})]
+    deps.append(('libsub', 'v1.6.57'))
+    deps.append(('leqm-nrt', 'd75d0af984d9c14bfefca8f1bdbc215c3bf3a388'))
+    if target.platform != 'linux' or target.distro != 'arch':
+        # We get our OpenSSL libraries from the environment, but we
+        # also need a patched openssl binary to make certificates.
+        # This dependency is to get that binary, which is added into
+        # the appropriate place later
+        deps.append(('openssl', '54298369cacfe0ae01c5aa42ace8a463fd2e7a2e'))
+        deps.append(('rtaudio', 'f619b76'))
     if can_build_disk(target):
         deps.append(('lwext4', 'ab082923a791b58478d1d9939d65a0583566ac1f'))
     if build_tests(target):
@@ -692,7 +693,7 @@ def build(target, options, for_package):
         with open('build/com.dcpomatic.DCP-o-matic.json', 'w') as outfile:
             json.dump(desc, outfile)
         target.command('%s --repo=build/platform/repo build/platform/flatpak build/com.dcpomatic.DCP-o-matic.json' % target.flatpak_builder())
-    elif target.platform != 'linux' or target.detail == 'appimage' or not for_package:
+    elif target.platform != 'linux' or target.detail == 'appimage' or target.distro != 'arch' or not for_package:
         if target.platform == 'linux' and target.distro == 'arch':
             # We're using a special pinned distro FFmpeg on Arch, and this is necessary to find it
             target.append_with_colon('PKG_CONFIG_PATH', '/usr/lib/ffmpeg4.4/pkgconfig')
@@ -852,6 +853,13 @@ def make_appimage(target, nice_name, internal_name, version, extra_binaries=None
     target.command(f'mv {nice_filename}-x86_64.AppImage build/{nice_filename}-{version}-x86_64.AppImage')
     return os.path.abspath(f'build/{nice_filename}-{version}-x86_64.AppImage')
 
+def package_arch(target, version):
+    target.command('git clone https://aur.archlinux.org/dcpomatic.git')
+    os.chdir('dcpomatic')
+    target.command('sed -i "s/tag=v\${pkgver}/branch=main/" PKGBUILD')
+    target.command('makepkg --skipinteg')
+    return [os.path.abspath(p) for p in glob.glob('*.zst')]
+
 def package(target, version, options):
     """version: DCP-o-matic version string"""
     if target.platform == 'windows':
@@ -874,6 +882,8 @@ def package(target, version, options):
                 return package_debian(target, target.cpu, version, options)
             elif target.distro in ('centos', 'fedora', 'mageia', 'rocky'):
                 return package_rpm(target, target.cpu, version, options)
+            elif target.distro == 'arch':
+                return package_arch(target, version)
     elif target.platform == 'osx':
         archs = '-a ' + ' -a '.join(f'{t.arch}/{t.deployment}' for t in target.sub_targets)
         cmd = 'bash platform/osx/make_dmg.sh -e %s -r %s -i %s -p %s %s' % (target.environment_prefix, target.directory, target.apple_id, target.apple_password, archs)
