@@ -73,6 +73,12 @@ public:
 		_codec_context->bit_rate = channels * 128 * 1024;
 		_codec_context->sample_fmt = sample_format;
 		_codec_context->sample_rate = frame_rate;
+		/* Without this flag the AAC encoder adds the libavcodec version number to some
+		 * packets.  When this version number gets longer (e.g. minor version from 9 -> 10)
+		 * this slightly changes the rate calculation, giving a different output and breaking
+		 * some of our tests.
+		 */
+		_codec_context->flags |= AV_CODEC_FLAG_BITEXACT;
 		if (codec_name == "aac" && channels == 16) {
 			/* The default layout for AAC with 16 channels is not valid */
 			_codec_context->ch_layout = AV_CHANNEL_LAYOUT_HEXADECAGONAL;
