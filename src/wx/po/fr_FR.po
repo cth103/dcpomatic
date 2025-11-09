@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-07 10:02+0200\n"
+"POT-Creation-Date: 2025-11-09 20:17+0100\n"
 "PO-Revision-Date: 2025-09-28 15:33+0200\n"
 "Last-Translator: Dan Cohen <thedan.cohen@protonmail.com>\n"
 "Language-Team: \n"
@@ -97,7 +97,12 @@ msgstr ""
 "%s existe déjà comme nom de fichier. Vous ne pouvez pas l'utiliser pour un "
 "film."
 
-#: src/wx/audio_dialog.cc:170 src/wx/audio_dialog.cc:172
+#: src/wx/audio_dialog.cc:175
+#, fuzzy, c-format
+msgid "%s audio"
+msgstr "Audio %s - %s"
+
+#: src/wx/audio_dialog.cc:171 src/wx/audio_dialog.cc:173
 #, c-format
 msgid "%s audio - %s"
 msgstr "Audio %s - %s"
@@ -175,11 +180,11 @@ msgstr "2D"
 msgid "2D version of 3D DCP"
 msgstr "Version 2D d'un DCP 3D"
 
-#: src/wx/dcp_panel.cc:853
+#: src/wx/dcp_panel.cc:880
 msgid "2K"
 msgstr "2K"
 
-#: src/wx/dcp_panel.cc:826 src/wx/video_panel.cc:213
+#: src/wx/dcp_panel.cc:853 src/wx/video_panel.cc:213
 msgid "3D"
 msgstr "3D"
 
@@ -207,11 +212,11 @@ msgstr "3D dessus/dessous"
 msgid "4 - L/C/R/Lfe"
 msgstr "4 - L/C/R/Lfe"
 
-#: src/wx/dcp_panel.cc:965
+#: src/wx/dcp_panel.cc:992
 msgid "48kHz"
 msgstr "48kHz"
 
-#: src/wx/dcp_panel.cc:854
+#: src/wx/dcp_panel.cc:881
 msgid "4K"
 msgstr "4K"
 
@@ -223,7 +228,7 @@ msgstr "6 - 5.1"
 msgid "8 - 5.1/HI/VI"
 msgstr "8 - 5.1/HI/VI"
 
-#: src/wx/dcp_panel.cc:966
+#: src/wx/dcp_panel.cc:993
 msgid "96kHz"
 msgstr "96kHz"
 
@@ -519,8 +524,8 @@ msgstr "Paramètres de contenu avancés"
 msgid "Advanced settings..."
 msgstr "Paramètres avancés..."
 
-#: src/wx/kdm_output_panel.cc:128 src/wx/keys_preferences_page.cc:89
-#: src/wx/keys_preferences_page.cc:107
+#: src/wx/kdm_output_panel.cc:128 src/wx/keys_preferences_page.cc:90
+#: src/wx/keys_preferences_page.cc:108
 msgid "Advanced..."
 msgstr "Avancé..."
 
@@ -640,8 +645,8 @@ msgstr "Au moins un sous-titre dure moins de 15 images."
 msgid "Atmos"
 msgstr "Atmos"
 
-#: src/wx/audio_dialog.cc:65 src/wx/audio_panel.cc:65
-#: src/wx/content_properties_dialog.cc:80 src/wx/dcp_panel.cc:121
+#: src/wx/audio_dialog.cc:65 src/wx/audio_panel.cc:66
+#: src/wx/content_properties_dialog.cc:80 src/wx/dcp_panel.cc:124
 #: src/wx/timeline_labels_view.cc:42 src/wx/timeline_labels_view.cc:92
 msgid "Audio"
 msgstr "Audio"
@@ -733,7 +738,7 @@ msgstr "Nom de la CPL"
 msgid "CPL's content is not encrypted."
 msgstr "Le contenu de la CPL n'est pas crypté."
 
-#: src/wx/audio_panel.cc:88
+#: src/wx/audio_panel.cc:89
 msgid "Calculate..."
 msgstr "Calculer..."
 
@@ -797,7 +802,7 @@ msgstr "Chaîne"
 msgid "Channel gain"
 msgstr "Gain du canal"
 
-#: src/wx/audio_dialog.cc:110 src/wx/dcp_panel.cc:934
+#: src/wx/audio_dialog.cc:110 src/wx/dcp_panel.cc:961
 msgid "Channels"
 msgstr "Canaux"
 
@@ -906,11 +911,11 @@ msgstr "Configuration|Chronologie"
 msgid "Confirm KDM email"
 msgstr "Confirmez l'e-mail KDM"
 
-#: src/wx/dcp_panel.cc:814
+#: src/wx/dcp_panel.cc:841
 msgid "Container"
 msgstr "Conteneur"
 
-#: src/wx/audio_panel.cc:111 src/wx/film_editor.cc:61
+#: src/wx/audio_panel.cc:112 src/wx/film_editor.cc:61
 #: src/wx/playlist_controls.cc:95
 msgid "Content"
 msgstr "Contenu"
@@ -919,7 +924,7 @@ msgstr "Contenu"
 msgid "Content Properties"
 msgstr "Propriétés du contenu"
 
-#: src/wx/dcp_panel.cc:101
+#: src/wx/dcp_panel.cc:103
 msgid "Content Type"
 msgstr "Type de contenu"
 
@@ -944,7 +949,7 @@ msgstr "Contraste"
 msgid "Coord|Y"
 msgstr "Coord|Y"
 
-#: src/wx/dcp_panel.cc:91
+#: src/wx/dcp_panel.cc:93
 msgid "Copy as name"
 msgstr "Copier comme nom"
 
@@ -964,7 +969,7 @@ msgstr "Copier les cinémas du fichier ZIP dans l'emplacement d'origine à"
 msgid "CoreAudio"
 msgstr "CoreAudio"
 
-#: src/wx/audio_dialog.cc:304
+#: src/wx/audio_dialog.cc:307
 msgid "Could not analyse audio."
 msgstr "Impossible d'analyser le son."
 
@@ -991,7 +996,7 @@ msgstr "Impossible d'importer le certificat (%s)"
 msgid "Could not load KDM"
 msgstr "Impossible de charger le KDM"
 
-#: src/wx/playlist_controls.cc:347
+#: src/wx/playlist_controls.cc:361
 msgid "Could not load KDM."
 msgstr "Impossible de charger le KDM."
 
@@ -1071,12 +1076,12 @@ msgstr "Rogner la sortie à"
 msgid "Current version"
 msgstr "Version courante"
 
-#: src/wx/audio_dialog.cc:476
+#: src/wx/audio_dialog.cc:479
 #, c-format
 msgid "Cursor: %.1fdB at %s"
 msgstr "Curseur : %.1fdB à %s"
 
-#: src/wx/audio_dialog.cc:470
+#: src/wx/audio_dialog.cc:473
 msgid "Cursor: none"
 msgstr "Curseur : aucun"
 
@@ -1093,7 +1098,7 @@ msgstr "Échelle personnalisée"
 msgid "DCI X'Y'Z'"
 msgstr "DCI X'Y'Z'"
 
-#: src/wx/audio_panel.cc:111 src/wx/film_editor.cc:63
+#: src/wx/audio_panel.cc:112 src/wx/film_editor.cc:63
 #: src/wx/player_information.cc:58 src/wx/sound_preferences_page.cc:97
 msgid "DCP"
 msgstr "DCP"
@@ -1151,7 +1156,7 @@ msgstr "Résolution de décodage:  %dx%d"
 msgid "Decode resolution: unknown"
 msgstr "Résolution de décodage: inconnu"
 
-#: src/wx/keys_preferences_page.cc:76 src/wx/keys_preferences_page.cc:134
+#: src/wx/keys_preferences_page.cc:77 src/wx/keys_preferences_page.cc:135
 msgid "Decrypting KDMs"
 msgstr "Décryptage des KDMs"
 
@@ -1199,7 +1204,7 @@ msgstr "Valeurs par défaut"
 msgid "Define font in output and export font file"
 msgstr "Définir la police dans la sortie et exporter le fichier de police"
 
-#: src/wx/audio_panel.cc:90
+#: src/wx/audio_panel.cc:91
 msgid "Delay"
 msgstr "Délai"
 
@@ -1307,7 +1312,7 @@ msgid "Edit screen"
 msgstr "Modifier l'écran"
 
 #: src/wx/audio_mapping_view.cc:90 src/wx/content_advanced_dialog.cc:75
-#: src/wx/dcp_panel.cc:949 src/wx/language_tag_widget.cc:51
+#: src/wx/dcp_panel.cc:976 src/wx/language_tag_widget.cc:51
 #: src/wx/recipients_panel.cc:71 src/wx/region_subtag_widget.cc:52
 #: src/wx/video_panel.cc:183 src/wx/video_panel.cc:194
 #: src/wx/editable_list.h:145
@@ -1342,9 +1347,34 @@ msgstr "Activer le contrôle d'interface HTTP sur le port"
 msgid "Encoding Servers"
 msgstr "Serveurs d'encodage"
 
-#: src/wx/dcp_panel.cc:104 src/wx/spl_entry_dialog.cc:51
+#: src/wx/encryption_settings_dialog.cc:33
+#, fuzzy
+msgid "Encrypt picture"
+msgstr "Crypté"
+
+#: src/wx/encryption_settings_dialog.cc:34
+#, fuzzy
+msgid "Encrypt sound"
+msgstr "Crypté"
+
+#: src/wx/encryption_settings_dialog.cc:35
+#, fuzzy
+msgid "Encrypt text"
+msgstr "Crypté"
+
+#: src/wx/dcp_panel.cc:106 src/wx/spl_entry_dialog.cc:51
 msgid "Encrypted"
 msgstr "Crypté"
+
+#: src/wx/encryption_settings_dialog.cc:31
+#, fuzzy
+msgid "Encryption settings"
+msgstr "Exporter tous les paramètres de décryptage de KDM..."
+
+#: src/wx/dcp_panel.cc:107
+#, fuzzy
+msgid "Encryption settings..."
+msgstr "Exporter tous les paramètres de décryptage de KDM..."
 
 #: src/wx/text_view.cc:68
 msgid "End"
@@ -1360,11 +1390,11 @@ msgstr "Entrez votre adresse e-mail pour le contact, pas %s"
 msgid "Errors"
 msgstr "Erreurs"
 
-#: src/wx/keys_preferences_page.cc:83
+#: src/wx/keys_preferences_page.cc:84
 msgid "Export KDM decryption leaf certificate..."
 msgstr "Exporter le certificat d'entité finale de décryptage KDM..."
 
-#: src/wx/keys_preferences_page.cc:85
+#: src/wx/keys_preferences_page.cc:86
 msgid "Export all KDM decryption settings..."
 msgstr "Exporter tous les paramètres de décryptage de KDM..."
 
@@ -1401,7 +1431,7 @@ msgstr "FTP (pour Dolby)"
 msgid "Facility"
 msgstr "Établissement"
 
-#: src/wx/audio_panel.cc:103 src/wx/video_panel.cc:167
+#: src/wx/audio_panel.cc:104 src/wx/video_panel.cc:167
 msgid "Fade in"
 msgstr "Fondu de début"
 
@@ -1409,7 +1439,7 @@ msgstr "Fondu de début"
 msgid "Fade in time"
 msgstr "Durée du fondu début"
 
-#: src/wx/audio_panel.cc:106 src/wx/video_panel.cc:170
+#: src/wx/audio_panel.cc:107 src/wx/video_panel.cc:170
 msgid "Fade out"
 msgstr "Fondu de fin"
 
@@ -1546,7 +1576,7 @@ msgstr ""
 "L'image %frame a une composante d'image trop grande (la composante "
 "%component a une taille de %size bytes)."
 
-#: src/wx/dcp_panel.cc:821
+#: src/wx/dcp_panel.cc:848
 msgid "Frame Rate"
 msgstr "Fréquence d'images"
 
@@ -1592,7 +1622,7 @@ msgstr "GB"
 msgid "GDC"
 msgstr "GDC"
 
-#: src/wx/audio_panel.cc:77
+#: src/wx/audio_panel.cc:78
 msgid "Gain"
 msgstr "Gain"
 
@@ -1718,7 +1748,7 @@ msgstr ""
 "\n"
 "dans la case ci-dessous, puis cliquez sur OK."
 
-#: src/wx/keys_preferences_page.cc:196
+#: src/wx/keys_preferences_page.cc:189
 msgid ""
 "If you continue with this operation you will no longer be able to use any "
 "DKDMs that you have created with the current certificates and key.  Also, "
@@ -1730,7 +1760,7 @@ msgstr ""
 "KDMs que vous avez reçus pour ces certificats deviendront inutilisables.  "
 "Soyez prudent·e !"
 
-#: src/wx/keys_preferences_page.cc:246
+#: src/wx/keys_preferences_page.cc:217
 msgid ""
 "If you continue with this operation you will no longer be able to use any "
 "DKDMs that you have created.  Also, any KDMs that have been sent to you will "
@@ -1759,7 +1789,7 @@ msgstr "Image sur le primaire, contrôles sur le secondaire"
 msgid "Image on secondary, controls on primary"
 msgstr "Image sur le secondaire, contrôles sur le primaire"
 
-#: src/wx/keys_preferences_page.cc:87
+#: src/wx/keys_preferences_page.cc:88
 msgid "Import all KDM decryption settings..."
 msgstr "Importer tous les paramètres de décryptage KDM..."
 
@@ -1791,7 +1821,7 @@ msgstr "Puissance d'entrée"
 msgid "Input transfer function"
 msgstr "Fonction de transfert d'entrée"
 
-#: src/wx/audio_dialog.cc:434
+#: src/wx/audio_dialog.cc:437
 #, c-format
 msgid "Integrated loudness %.2f LUFS"
 msgstr "Intensité sonore %.2f LUFS"
@@ -1812,11 +1842,11 @@ msgstr "International avec texte"
 msgid "International textless"
 msgstr "International sans texte"
 
-#: src/wx/dcp_panel.cc:159
+#: src/wx/dcp_panel.cc:163
 msgid "Interop"
 msgstr "Interop"
 
-#: src/wx/keys_preferences_page.cc:236
+#: src/wx/keys_preferences_page.cc:206
 #, c-format
 msgid "Invalid %s export file"
 msgstr "Fichier d'exportation %s non valide"
@@ -1841,7 +1871,7 @@ msgstr "Nom commun de l'émetteur"
 msgid "Issuer organization name"
 msgstr "Nom de l'organisation de l'émetteur"
 
-#: src/wx/audio_panel.cc:331
+#: src/wx/audio_panel.cc:332
 msgid ""
 "It is not possible to adjust the content's gain for this fader change as it "
 "would cause the DCP's audio to clip.  The gain has not been changed."
@@ -1891,11 +1921,11 @@ msgstr "KDM|Validité"
 msgid "Keep video and subtitles in sequence"
 msgstr "Conserver la vidéo et les sous-titres dans la séquence"
 
-#: src/wx/keys_preferences_page.cc:64
+#: src/wx/keys_preferences_page.cc:65
 msgid "Keys"
 msgstr "Clés"
 
-#: src/wx/audio_dialog.cc:452
+#: src/wx/audio_dialog.cc:455
 #, c-format
 msgid "LEQ(m) %.2fdB"
 msgstr "LEQ(m) %.2fdB"
@@ -1904,7 +1934,7 @@ msgstr "LEQ(m) %.2fdB"
 msgid "Label"
 msgstr "Label"
 
-#: src/wx/dcp_panel.cc:947 src/wx/dcp_text_track_dialog.cc:35
+#: src/wx/dcp_panel.cc:974 src/wx/dcp_text_track_dialog.cc:35
 #: src/wx/text_panel.cc:161
 msgid "Language"
 msgstr "Langue"
@@ -2002,11 +2032,11 @@ msgstr "Charger le certificat..."
 msgid "Load configuration from ZIP file"
 msgstr "Charger la configuration depuis le fichier ZIP"
 
-#: src/wx/playlist_controls.cc:407
+#: src/wx/playlist_controls.cc:423
 msgid "Loading content"
 msgstr "Chargement du contenu"
 
-#: src/wx/playlist_controls.cc:334
+#: src/wx/playlist_controls.cc:348
 msgid "Loading playlist and KDMs"
 msgstr "Chargement des playlists et KDMs"
 
@@ -2019,7 +2049,7 @@ msgstr "Sites"
 msgid "Log"
 msgstr "Rapport"
 
-#: src/wx/audio_dialog.cc:443
+#: src/wx/audio_dialog.cc:446
 #, c-format
 msgid "Loudness range %.2f LU"
 msgstr "Plage dynamique %.2f LU"
@@ -2061,7 +2091,7 @@ msgstr "MP4 / H.264"
 msgid "MP4 files (*.mp4)|*.mp4"
 msgstr "Fichiers MP4 (*.mp4)|*.mp4"
 
-#: src/wx/dcp_panel.cc:160
+#: src/wx/dcp_panel.cc:164
 msgid "MPEG2 Interop"
 msgstr "Interop MPEG2"
 
@@ -2111,7 +2141,7 @@ msgstr "Marquer les canaux audio jusqu'à (et y compris)"
 msgid "Markers"
 msgstr "Marqueurs"
 
-#: src/wx/dcp_panel.cc:113
+#: src/wx/dcp_panel.cc:116
 msgid "Markers..."
 msgstr "Marqueurs..."
 
@@ -2135,7 +2165,7 @@ msgstr "Nombre maximum d'images à stocker par thread"
 msgid "Maximum reel size"
 msgstr "Taille maximum de bobine"
 
-#: src/wx/dcp_panel.cc:830 src/wx/full_config_dialog.cc:1046
+#: src/wx/dcp_panel.cc:857 src/wx/full_config_dialog.cc:1046
 #: src/wx/full_config_dialog.cc:1055
 msgid "Mbit/s"
 msgstr "Mbit/s"
@@ -2148,7 +2178,7 @@ msgstr "Boîte de messages"
 msgid "Metadata"
 msgstr "Métadonnées"
 
-#: src/wx/dcp_panel.cc:114
+#: src/wx/dcp_panel.cc:117
 msgid "Metadata..."
 msgstr "Métadonnées..."
 
@@ -2306,7 +2336,7 @@ msgstr "KDM NÉCESSAIRE : "
 msgid "NEEDS OV: "
 msgstr "OV NÉCESSAIRE : "
 
-#: src/wx/cinema_dialog.cc:49 src/wx/dcp_panel.cc:86
+#: src/wx/cinema_dialog.cc:49 src/wx/dcp_panel.cc:88
 #: src/wx/dcp_text_track_dialog.cc:33 src/wx/recipient_dialog.cc:68
 #: src/wx/screen_dialog.cc:141 src/wx/spl_entry_dialog.cc:41
 msgid "Name"
@@ -2375,7 +2405,7 @@ msgid "Non-standard"
 msgstr "Non-standard"
 
 #: src/wx/content_advanced_dialog.cc:74 src/wx/content_advanced_dialog.cc:156
-#: src/wx/content_advanced_dialog.cc:164 src/wx/dcp_panel.cc:1051
+#: src/wx/content_advanced_dialog.cc:164 src/wx/dcp_panel.cc:1079
 #: src/wx/subtitle_appearance_dialog.cc:151
 msgid "None"
 msgstr "Aucun"
@@ -2564,12 +2594,12 @@ msgstr "Pause"
 msgid "Peak"
 msgstr "Crête"
 
-#: src/wx/audio_panel.cc:465
+#: src/wx/audio_panel.cc:467
 #, c-format
 msgid "Peak: %.2fdB"
 msgstr "Crête : %.2fdB"
 
-#: src/wx/audio_panel.cc:467
+#: src/wx/audio_panel.cc:469
 msgid "Peak: unknown"
 msgstr "Crête : inconnue"
 
@@ -2609,7 +2639,7 @@ msgstr "Elément de la liste de lecture"
 msgid "Playlists"
 msgstr "Listes de lecture"
 
-#: src/wx/audio_plot.cc:118
+#: src/wx/audio_plot.cc:116
 msgid "Please wait; audio is being analysed..."
 msgstr "Merci de patienter ; l'audio est en cours d'analyse..."
 
@@ -2625,7 +2655,7 @@ msgstr "Pré-sortie"
 msgid "Previous"
 msgstr "Précédent"
 
-#: src/wx/dcp_panel.cc:943
+#: src/wx/dcp_panel.cc:970
 msgid "Processor"
 msgstr "Processeur"
 
@@ -2679,7 +2709,7 @@ msgstr "Classification"
 msgid "Ratings"
 msgstr "Classification"
 
-#: src/wx/dcp_panel.cc:832
+#: src/wx/dcp_panel.cc:859
 msgid "Re-encode JPEG2000 data from input"
 msgstr "Ré-encoder les données JPEG2000"
 
@@ -2687,7 +2717,7 @@ msgstr "Ré-encoder les données JPEG2000"
 msgid "Re-examine..."
 msgstr "Examiner à nouveau..."
 
-#: src/wx/certificate_chain_editor.cc:117 src/wx/keys_preferences_page.cc:109
+#: src/wx/certificate_chain_editor.cc:117 src/wx/keys_preferences_page.cc:110
 msgid "Re-make certificates and key..."
 msgstr "Re-créer les certificats et clés..."
 
@@ -2745,7 +2775,7 @@ msgstr "Mode bobine"
 msgid "Reels"
 msgstr "Bobines"
 
-#: src/wx/dcp_panel.cc:115
+#: src/wx/dcp_panel.cc:118
 msgid "Reels..."
 msgstr "Bobines..."
 
@@ -2837,7 +2867,7 @@ msgstr "Rétablir le sujet et le texte par défaut"
 msgid "Reset to default text"
 msgstr "Rétablir le texte par défaut"
 
-#: src/wx/dcp_panel.cc:818
+#: src/wx/dcp_panel.cc:845
 msgid "Resolution"
 msgstr "Résolution"
 
@@ -2878,11 +2908,11 @@ msgstr "S-Gamut3"
 msgid "SCP (for AAM and Doremi)"
 msgstr "SCP (pour AAM et Doremi)"
 
-#: src/wx/dcp_panel.cc:155
+#: src/wx/dcp_panel.cc:159
 msgid "SMPTE"
 msgstr "SMPTE"
 
-#: src/wx/dcp_panel.cc:157
+#: src/wx/dcp_panel.cc:161
 msgid "SMPTE (Bv2.0 only)"
 msgstr "SMPTE (Bv2.0 uniquement)"
 
@@ -2906,12 +2936,12 @@ msgstr "Même emplacement que la dernière fois"
 msgid "Same place as project"
 msgstr "Même emplacement que le projet"
 
-#: src/wx/audio_dialog.cc:400
+#: src/wx/audio_dialog.cc:403
 #, c-format
 msgid "Sample peak is %.2fdB at %s on %s"
 msgstr "La crête d'échantillon est de %.2fdB à %s sur le canal %s"
 
-#: src/wx/dcp_panel.cc:939
+#: src/wx/dcp_panel.cc:966
 msgid "Sample rate"
 msgstr "Taux d'échantillonnage"
 
@@ -2971,7 +3001,7 @@ msgstr "Selectionner"
 msgid "Select CPL XML file"
 msgstr "Sélectionner le fichier CPL XML"
 
-#: src/wx/certificate_chain_editor.cc:244 src/wx/keys_preferences_page.cc:265
+#: src/wx/certificate_chain_editor.cc:244 src/wx/keys_preferences_page.cc:236
 #: src/wx/recipient_dialog.cc:170 src/wx/screen_dialog.cc:297
 msgid "Select Certificate File"
 msgstr "Sélectionner le fichier de certificat"
@@ -2988,11 +3018,11 @@ msgstr "Sélectionner le fichier de chaîne"
 msgid "Select Cinemas File"
 msgstr "Sélectionner le fichier cinémas"
 
-#: src/wx/keys_preferences_page.cc:169
+#: src/wx/keys_preferences_page.cc:171
 msgid "Select Export File"
 msgstr "Sélectionner le fichier d'export"
 
-#: src/wx/keys_preferences_page.cc:203
+#: src/wx/keys_preferences_page.cc:196
 msgid "Select File To Import"
 msgstr "Sélectionner le fichier à importer"
 
@@ -3132,7 +3162,7 @@ msgstr "Afficher"
 msgid "Show experimental audio processors"
 msgstr "Afficher les processeurs audio expérimentaux"
 
-#: src/wx/audio_panel.cc:74 src/wx/dcp_panel.cc:951
+#: src/wx/audio_panel.cc:75 src/wx/dcp_panel.cc:978
 msgid "Show graph of audio levels..."
 msgstr "Afficher le graphique des niveaux audio..."
 
@@ -3153,7 +3183,7 @@ msgstr "Afficher la zone des sous-titres"
 msgid "Sign language video language"
 msgstr "Langue de la vidéo en langue des signes"
 
-#: src/wx/keys_preferences_page.cc:100 src/wx/keys_preferences_page.cc:156
+#: src/wx/keys_preferences_page.cc:101 src/wx/keys_preferences_page.cc:157
 msgid "Signing DCPs and KDMs"
 msgstr "Signature des DCPs et KDMs"
 
@@ -3251,7 +3281,7 @@ msgstr "Séparer par contenu vidéo"
 msgid "Stable version"
 msgstr "Version stable"
 
-#: src/wx/dcp_panel.cc:110 src/wx/metadata_dialog.cc:78
+#: src/wx/dcp_panel.cc:113 src/wx/metadata_dialog.cc:78
 #: src/wx/rating_dialog.cc:50
 msgid "Standard"
 msgstr "Standard"
@@ -3676,7 +3706,7 @@ msgstr ""
 "\n"
 "DCP-o-matic doit-il essayer de le démonter maintenant ?"
 
-#: src/wx/wx_util.cc:713
+#: src/wx/wx_util.cc:717
 msgid ""
 "The existing configuration failed to load.  Default values will be used "
 "instead.  These may take a short time to create."
@@ -3785,7 +3815,7 @@ msgstr "La ressource sonore %f a nombre de bits par échantillon %n invalide."
 msgid "The sound asset %f has an invalid frame rate of %n."
 msgstr "La ressource sonore %f a une fréquence d'image invalide de %n."
 
-#: src/wx/dcp_panel.cc:138
+#: src/wx/dcp_panel.cc:142
 msgid ""
 "The standard that the DCP should use.  Interop is older, and SMPTE is the "
 "newer (current) standard.  If in doubt, choose 'SMPTE'"
@@ -3968,18 +3998,18 @@ msgstr ""
 "autre projet.  Choisissez le répertoire DCP à l'intérieur du dossier de "
 "projet %s si c'est ce que vous voulez importer."
 
-#: src/wx/playlist_controls.cc:352
+#: src/wx/playlist_controls.cc:366
 msgid "This playlist cannot be loaded as a KDM is missing or incorrect."
 msgstr ""
 "La liste de lecture ne peut être chargée en raison d'un KDM manquant ou "
 "invalide."
 
-#: src/wx/playlist_controls.cc:318
+#: src/wx/playlist_controls.cc:331
 msgid "This playlist cannot be loaded as some content is missing."
 msgstr ""
 "La liste de lecture ne peut être chargé en raison d'un contenu manquant."
 
-#: src/wx/playlist_controls.cc:324
+#: src/wx/playlist_controls.cc:337
 msgid "This playlist is empty."
 msgstr "La liste de lecture est vide."
 
@@ -4120,7 +4150,7 @@ msgstr "Couper au début"
 msgid "Trim up to current position"
 msgstr "Couper jusqu'à la position actuelle"
 
-#: src/wx/audio_dialog.cc:420
+#: src/wx/audio_dialog.cc:423
 #, c-format
 msgid "True peak is %.2fdB"
 msgstr "La crête véritable est de %.2fdB"
@@ -4285,7 +4315,7 @@ msgstr "Mise à jour"
 msgid "Upload DCP to TMS after creation"
 msgstr "Envoyer le DCP vers le TMS après création"
 
-#: src/wx/dcp_panel.cc:90
+#: src/wx/dcp_panel.cc:92
 msgid "Use ISDCF name"
 msgstr "Utiliser le nom ISDCF"
 
@@ -4297,7 +4327,7 @@ msgstr "Utiliser le nom ISDCF par défaut"
 msgid "Use as"
 msgstr "Utiliser comme"
 
-#: src/wx/dcp_panel.cc:824
+#: src/wx/dcp_panel.cc:851
 msgid "Use best"
 msgstr "Utiliser la meilleure"
 
@@ -4305,7 +4335,7 @@ msgstr "Utiliser la meilleure"
 msgid "Use preset"
 msgstr "Utiliser le préréglage"
 
-#: src/wx/audio_panel.cc:109
+#: src/wx/audio_panel.cc:110
 msgid "Use same fades as video"
 msgstr "Utiliser les mêmes fondus que la vidéo"
 
@@ -4354,7 +4384,7 @@ msgstr "Réglage de la Version File (VF)"
 msgid "Version number"
 msgstr "Numéro de version"
 
-#: src/wx/content_properties_dialog.cc:77 src/wx/dcp_panel.cc:120
+#: src/wx/content_properties_dialog.cc:77 src/wx/dcp_panel.cc:123
 #: src/wx/timeline_labels_view.cc:41 src/wx/timeline_labels_view.cc:74
 #: src/wx/video_panel.cc:70
 msgid "Video"
@@ -4368,7 +4398,7 @@ msgstr "Vidéo (MPEG, 16-235)"
 msgid "Video Waveform"
 msgstr "Forme d'onde vidéo"
 
-#: src/wx/dcp_panel.cc:828
+#: src/wx/dcp_panel.cc:855
 msgid ""
 "Video bit rate\n"
 "for newly-encoded data"
@@ -4552,7 +4582,7 @@ msgstr "sous-titres codés optionnels"
 msgid "component value"
 msgstr "valeurs des composants"
 
-#: src/wx/audio_panel.cc:111
+#: src/wx/audio_panel.cc:112
 msgid "content"
 msgstr "contenu"
 
@@ -4564,7 +4594,7 @@ msgstr "nom de fichier de contenu"
 msgid "custom"
 msgstr "personnalisée"
 
-#: src/wx/audio_gain_dialog.cc:37 src/wx/audio_panel.cc:87
+#: src/wx/audio_gain_dialog.cc:37 src/wx/audio_panel.cc:88
 msgid "dB"
 msgstr "dB"
 
@@ -4621,7 +4651,7 @@ msgid "months"
 msgstr "mois"
 
 #. TRANSLATORS: this is an abbreviation for milliseconds, the unit of time
-#: src/wx/audio_panel.cc:101 src/wx/full_config_dialog.cc:273
+#: src/wx/audio_panel.cc:102 src/wx/full_config_dialog.cc:273
 #: src/wx/sound_preferences_page.cc:91
 msgid "ms"
 msgstr "ms"

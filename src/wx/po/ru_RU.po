@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-07 10:02+0200\n"
+"POT-Creation-Date: 2025-11-09 20:17+0100\n"
 "PO-Revision-Date: 2025-06-08 21:02+0300\n"
 "Last-Translator: Mikhail Epshteyn <virus-2006@yandex.ru>\n"
 "Language-Team: Russian\n"
@@ -94,7 +94,12 @@ msgid "%s already exists as a file, so you cannot use it for a film."
 msgstr ""
 "%s уже существует как файл, поэтому вы не можете использовать его в проекте."
 
-#: src/wx/audio_dialog.cc:170 src/wx/audio_dialog.cc:172
+#: src/wx/audio_dialog.cc:175
+#, fuzzy, c-format
+msgid "%s audio"
+msgstr "%s аудио - %s"
+
+#: src/wx/audio_dialog.cc:171 src/wx/audio_dialog.cc:173
 #, c-format
 msgid "%s audio - %s"
 msgstr "%s аудио - %s"
@@ -172,11 +177,11 @@ msgstr "2D"
 msgid "2D version of 3D DCP"
 msgstr "2D версия 3D DCP"
 
-#: src/wx/dcp_panel.cc:853
+#: src/wx/dcp_panel.cc:880
 msgid "2K"
 msgstr "2K"
 
-#: src/wx/dcp_panel.cc:826 src/wx/video_panel.cc:213
+#: src/wx/dcp_panel.cc:853 src/wx/video_panel.cc:213
 msgid "3D"
 msgstr "3D"
 
@@ -204,11 +209,11 @@ msgstr "3D верх/низ"
 msgid "4 - L/C/R/Lfe"
 msgstr "4 - Л/Ц/П/НЧ"
 
-#: src/wx/dcp_panel.cc:965
+#: src/wx/dcp_panel.cc:992
 msgid "48kHz"
 msgstr "48kHz"
 
-#: src/wx/dcp_panel.cc:854
+#: src/wx/dcp_panel.cc:881
 msgid "4K"
 msgstr "4K"
 
@@ -220,7 +225,7 @@ msgstr "6 - 5.1"
 msgid "8 - 5.1/HI/VI"
 msgstr "8 - 5.1/HI/VI"
 
-#: src/wx/dcp_panel.cc:966
+#: src/wx/dcp_panel.cc:993
 msgid "96kHz"
 msgstr "96kHz"
 
@@ -510,8 +515,8 @@ msgstr "Дополнительные настройки контента"
 msgid "Advanced settings..."
 msgstr "Дополнительные настройки…"
 
-#: src/wx/kdm_output_panel.cc:128 src/wx/keys_preferences_page.cc:89
-#: src/wx/keys_preferences_page.cc:107
+#: src/wx/kdm_output_panel.cc:128 src/wx/keys_preferences_page.cc:90
+#: src/wx/keys_preferences_page.cc:108
 msgid "Advanced..."
 msgstr "Дополнительно…"
 
@@ -631,8 +636,8 @@ msgstr "Имеется субтитр, длительность которого
 msgid "Atmos"
 msgstr "Atmos"
 
-#: src/wx/audio_dialog.cc:65 src/wx/audio_panel.cc:65
-#: src/wx/content_properties_dialog.cc:80 src/wx/dcp_panel.cc:121
+#: src/wx/audio_dialog.cc:65 src/wx/audio_panel.cc:66
+#: src/wx/content_properties_dialog.cc:80 src/wx/dcp_panel.cc:124
 #: src/wx/timeline_labels_view.cc:42 src/wx/timeline_labels_view.cc:92
 msgid "Audio"
 msgstr "Аудио"
@@ -724,7 +729,7 @@ msgstr "Аннотация к CPL"
 msgid "CPL's content is not encrypted."
 msgstr "Содержимое CPL-файла не зашифровано."
 
-#: src/wx/audio_panel.cc:88
+#: src/wx/audio_panel.cc:89
 msgid "Calculate..."
 msgstr "Просчитать..."
 
@@ -788,7 +793,7 @@ msgstr "Сеть кинотеатров"
 msgid "Channel gain"
 msgstr "Усиление канала"
 
-#: src/wx/audio_dialog.cc:110 src/wx/dcp_panel.cc:934
+#: src/wx/audio_dialog.cc:110 src/wx/dcp_panel.cc:961
 msgid "Channels"
 msgstr "Каналы"
 
@@ -897,12 +902,12 @@ msgstr "Config|Тайминг"
 msgid "Confirm KDM email"
 msgstr "Подтверждать отправку KDM"
 
-#: src/wx/dcp_panel.cc:814
+#: src/wx/dcp_panel.cc:841
 msgid "Container"
 msgstr "Контейнер"
 
 # Main
-#: src/wx/audio_panel.cc:111 src/wx/film_editor.cc:61
+#: src/wx/audio_panel.cc:112 src/wx/film_editor.cc:61
 #: src/wx/playlist_controls.cc:95
 msgid "Content"
 msgstr "Контент"
@@ -911,7 +916,7 @@ msgstr "Контент"
 msgid "Content Properties"
 msgstr "Свойства контента"
 
-#: src/wx/dcp_panel.cc:101
+#: src/wx/dcp_panel.cc:103
 msgid "Content Type"
 msgstr "Тип контента"
 
@@ -936,7 +941,7 @@ msgstr "Контраст"
 msgid "Coord|Y"
 msgstr "Coord|Y"
 
-#: src/wx/dcp_panel.cc:91
+#: src/wx/dcp_panel.cc:93
 msgid "Copy as name"
 msgstr "Копировать в название"
 
@@ -956,7 +961,7 @@ msgstr "Скопировать кинотеатры из ZIP-файла в ис�
 msgid "CoreAudio"
 msgstr "CoreAudio"
 
-#: src/wx/audio_dialog.cc:304
+#: src/wx/audio_dialog.cc:307
 msgid "Could not analyse audio."
 msgstr "Не удалось проанализировать аудио."
 
@@ -983,7 +988,7 @@ msgstr "Не удалось импортировать сертификат (%s)
 msgid "Could not load KDM"
 msgstr "Не удалось загрузить KDM"
 
-#: src/wx/playlist_controls.cc:347
+#: src/wx/playlist_controls.cc:361
 msgid "Could not load KDM."
 msgstr "Не удалось загрузить KDM."
 
@@ -1062,12 +1067,12 @@ msgstr "вывод"
 msgid "Current version"
 msgstr "Текущая версия"
 
-#: src/wx/audio_dialog.cc:476
+#: src/wx/audio_dialog.cc:479
 #, c-format
 msgid "Cursor: %.1fdB at %s"
 msgstr "Курсор: %.1f дБ на %s"
 
-#: src/wx/audio_dialog.cc:470
+#: src/wx/audio_dialog.cc:473
 msgid "Cursor: none"
 msgstr "Курсор: нет"
 
@@ -1085,7 +1090,7 @@ msgid "DCI X'Y'Z'"
 msgstr ""
 
 # Main
-#: src/wx/audio_panel.cc:111 src/wx/film_editor.cc:63
+#: src/wx/audio_panel.cc:112 src/wx/film_editor.cc:63
 #: src/wx/player_information.cc:58 src/wx/sound_preferences_page.cc:97
 msgid "DCP"
 msgstr "DCP"
@@ -1143,7 +1148,7 @@ msgstr "Разрешение декодирования: %dx%d"
 msgid "Decode resolution: unknown"
 msgstr "Разрешение декодирования: неизвестно"
 
-#: src/wx/keys_preferences_page.cc:76 src/wx/keys_preferences_page.cc:134
+#: src/wx/keys_preferences_page.cc:77 src/wx/keys_preferences_page.cc:135
 msgid "Decrypting KDMs"
 msgstr "Ключи расшифровки (KDM)"
 
@@ -1191,7 +1196,7 @@ msgstr "Умолчания"
 msgid "Define font in output and export font file"
 msgstr "Задайте шрифт для файла вывода и экспорта"
 
-#: src/wx/audio_panel.cc:90
+#: src/wx/audio_panel.cc:91
 msgid "Delay"
 msgstr "Задержка"
 
@@ -1301,7 +1306,7 @@ msgid "Edit screen"
 msgstr "Изменить экран"
 
 #: src/wx/audio_mapping_view.cc:90 src/wx/content_advanced_dialog.cc:75
-#: src/wx/dcp_panel.cc:949 src/wx/language_tag_widget.cc:51
+#: src/wx/dcp_panel.cc:976 src/wx/language_tag_widget.cc:51
 #: src/wx/recipients_panel.cc:71 src/wx/region_subtag_widget.cc:52
 #: src/wx/video_panel.cc:183 src/wx/video_panel.cc:194
 #: src/wx/editable_list.h:145
@@ -1336,9 +1341,34 @@ msgstr "Включить интерфейс управления HTTP на по�
 msgid "Encoding Servers"
 msgstr "Серверы кодирования"
 
-#: src/wx/dcp_panel.cc:104 src/wx/spl_entry_dialog.cc:51
+#: src/wx/encryption_settings_dialog.cc:33
+#, fuzzy
+msgid "Encrypt picture"
+msgstr "Зашифрован"
+
+#: src/wx/encryption_settings_dialog.cc:34
+#, fuzzy
+msgid "Encrypt sound"
+msgstr "Зашифрован"
+
+#: src/wx/encryption_settings_dialog.cc:35
+#, fuzzy
+msgid "Encrypt text"
+msgstr "Зашифрован"
+
+#: src/wx/dcp_panel.cc:106 src/wx/spl_entry_dialog.cc:51
 msgid "Encrypted"
 msgstr "Зашифрован"
+
+#: src/wx/encryption_settings_dialog.cc:31
+#, fuzzy
+msgid "Encryption settings"
+msgstr "Экспортировать все настройки расшифровки KDM…"
+
+#: src/wx/dcp_panel.cc:107
+#, fuzzy
+msgid "Encryption settings..."
+msgstr "Экспортировать все настройки расшифровки KDM…"
 
 #: src/wx/text_view.cc:68
 msgid "End"
@@ -1354,11 +1384,11 @@ msgstr "Введите ваш email для связи, не %s"
 msgid "Errors"
 msgstr "Ошибки"
 
-#: src/wx/keys_preferences_page.cc:83
+#: src/wx/keys_preferences_page.cc:84
 msgid "Export KDM decryption leaf certificate..."
 msgstr "Экспортировать конечный сертификат расшифровки KDM…"
 
-#: src/wx/keys_preferences_page.cc:85
+#: src/wx/keys_preferences_page.cc:86
 msgid "Export all KDM decryption settings..."
 msgstr "Экспортировать все настройки расшифровки KDM…"
 
@@ -1395,7 +1425,7 @@ msgstr "FTP (для Dolby)"
 msgid "Facility"
 msgstr "Создатель DCP-пакета"
 
-#: src/wx/audio_panel.cc:103 src/wx/video_panel.cc:167
+#: src/wx/audio_panel.cc:104 src/wx/video_panel.cc:167
 msgid "Fade in"
 msgstr "Нарастание"
 
@@ -1403,7 +1433,7 @@ msgstr "Нарастание"
 msgid "Fade in time"
 msgstr "Время плавного нарастания"
 
-#: src/wx/audio_panel.cc:106 src/wx/video_panel.cc:170
+#: src/wx/audio_panel.cc:107 src/wx/video_panel.cc:170
 msgid "Fade out"
 msgstr "Затухание"
 
@@ -1540,7 +1570,7 @@ msgstr ""
 "Кадр %frame содержит слишком большой компонент изображения (размер "
 "компонента %component равен %size в байтах)."
 
-#: src/wx/dcp_panel.cc:821
+#: src/wx/dcp_panel.cc:848
 msgid "Frame Rate"
 msgstr "Частота Кадров"
 
@@ -1588,7 +1618,7 @@ msgstr "ГБ"
 msgid "GDC"
 msgstr "GDC"
 
-#: src/wx/audio_panel.cc:77
+#: src/wx/audio_panel.cc:78
 msgid "Gain"
 msgstr "Усиление"
 
@@ -1713,7 +1743,7 @@ msgstr ""
 "\n"
 "в поле ниже и нажмите ОК."
 
-#: src/wx/keys_preferences_page.cc:196
+#: src/wx/keys_preferences_page.cc:189
 msgid ""
 "If you continue with this operation you will no longer be able to use any "
 "DKDMs that you have created with the current certificates and key.  Also, "
@@ -1725,7 +1755,7 @@ msgstr ""
 "Также, любые KDM, отправленные вам для этих сертификатов, станут бесполезны. "
 "Действуйте с осторожностью!"
 
-#: src/wx/keys_preferences_page.cc:246
+#: src/wx/keys_preferences_page.cc:217
 msgid ""
 "If you continue with this operation you will no longer be able to use any "
 "DKDMs that you have created.  Also, any KDMs that have been sent to you will "
@@ -1753,7 +1783,7 @@ msgstr "Изображение на основном, управление на 
 msgid "Image on secondary, controls on primary"
 msgstr "Изображение на второстепенном, управление на основном"
 
-#: src/wx/keys_preferences_page.cc:87
+#: src/wx/keys_preferences_page.cc:88
 msgid "Import all KDM decryption settings..."
 msgstr "Импортировать все настройки расшифровки KDM…"
 
@@ -1785,7 +1815,7 @@ msgstr "Входная мощность"
 msgid "Input transfer function"
 msgstr "Входная функция передачи"
 
-#: src/wx/audio_dialog.cc:434
+#: src/wx/audio_dialog.cc:437
 #, c-format
 msgid "Integrated loudness %.2f LUFS"
 msgstr "Интегральная громкость: %.2f LUFS"
@@ -1806,11 +1836,11 @@ msgstr "Международные текстовые сообщения"
 msgid "International textless"
 msgstr "Международный текстовый сервис без текста"
 
-#: src/wx/dcp_panel.cc:159
+#: src/wx/dcp_panel.cc:163
 msgid "Interop"
 msgstr "Interop"
 
-#: src/wx/keys_preferences_page.cc:236
+#: src/wx/keys_preferences_page.cc:206
 #, c-format
 msgid "Invalid %s export file"
 msgstr "Некорректный файл экспорта %s"
@@ -1835,7 +1865,7 @@ msgstr "Общее наименование эмитента"
 msgid "Issuer organization name"
 msgstr "Название организации-эмитента"
 
-#: src/wx/audio_panel.cc:331
+#: src/wx/audio_panel.cc:332
 msgid ""
 "It is not possible to adjust the content's gain for this fader change as it "
 "would cause the DCP's audio to clip.  The gain has not been changed."
@@ -1884,11 +1914,11 @@ msgstr "Тайминг"
 msgid "Keep video and subtitles in sequence"
 msgstr "Хранить видео и субтитры в последовательности"
 
-#: src/wx/keys_preferences_page.cc:64
+#: src/wx/keys_preferences_page.cc:65
 msgid "Keys"
 msgstr "Ключи"
 
-#: src/wx/audio_dialog.cc:452
+#: src/wx/audio_dialog.cc:455
 #, c-format
 msgid "LEQ(m) %.2fdB"
 msgstr "LEQ(m): %.2f дБ"
@@ -1897,7 +1927,7 @@ msgstr "LEQ(m): %.2f дБ"
 msgid "Label"
 msgstr "Метка"
 
-#: src/wx/dcp_panel.cc:947 src/wx/dcp_text_track_dialog.cc:35
+#: src/wx/dcp_panel.cc:974 src/wx/dcp_text_track_dialog.cc:35
 #: src/wx/text_panel.cc:161
 msgid "Language"
 msgstr "Язык"
@@ -1994,11 +2024,11 @@ msgstr "Загрузить сертификат…"
 msgid "Load configuration from ZIP file"
 msgstr "Загрузить конфигурацию из ZIP файла"
 
-#: src/wx/playlist_controls.cc:407
+#: src/wx/playlist_controls.cc:423
 msgid "Loading content"
 msgstr "Загрузка содержимого"
 
-#: src/wx/playlist_controls.cc:334
+#: src/wx/playlist_controls.cc:348
 msgid "Loading playlist and KDMs"
 msgstr "Загрузка списка воспроизведения и KDM"
 
@@ -2011,7 +2041,7 @@ msgstr "Директории"
 msgid "Log"
 msgstr "Лог"
 
-#: src/wx/audio_dialog.cc:443
+#: src/wx/audio_dialog.cc:446
 #, c-format
 msgid "Loudness range %.2f LU"
 msgstr "Диапазон громкости: %.2f LU"
@@ -2053,7 +2083,7 @@ msgstr "MP4 / H.264"
 msgid "MP4 files (*.mp4)|*.mp4"
 msgstr "Файлы MP4 (*.mp4)|*.mp4"
 
-#: src/wx/dcp_panel.cc:160
+#: src/wx/dcp_panel.cc:164
 msgid "MPEG2 Interop"
 msgstr "MPEG2 Interop"
 
@@ -2104,7 +2134,7 @@ msgstr "Пометить аудиоканалы до (включительно)"
 msgid "Markers"
 msgstr "Маркеры"
 
-#: src/wx/dcp_panel.cc:113
+#: src/wx/dcp_panel.cc:116
 msgid "Markers..."
 msgstr "Маркеры..."
 
@@ -2128,7 +2158,7 @@ msgstr "Максимальное число хранимых кадров на �
 msgid "Maximum reel size"
 msgstr "Максимальный размер части"
 
-#: src/wx/dcp_panel.cc:830 src/wx/full_config_dialog.cc:1046
+#: src/wx/dcp_panel.cc:857 src/wx/full_config_dialog.cc:1046
 #: src/wx/full_config_dialog.cc:1055
 msgid "Mbit/s"
 msgstr "МБит/с"
@@ -2141,7 +2171,7 @@ msgstr "Диалоговое окно"
 msgid "Metadata"
 msgstr "Метаданные"
 
-#: src/wx/dcp_panel.cc:114
+#: src/wx/dcp_panel.cc:117
 msgid "Metadata..."
 msgstr "Метаданные..."
 
@@ -2309,7 +2339,7 @@ msgstr "НЕОБХОДИМ KDM: "
 msgid "NEEDS OV: "
 msgstr "НЕОБХОДИМ OV: "
 
-#: src/wx/cinema_dialog.cc:49 src/wx/dcp_panel.cc:86
+#: src/wx/cinema_dialog.cc:49 src/wx/dcp_panel.cc:88
 #: src/wx/dcp_text_track_dialog.cc:33 src/wx/recipient_dialog.cc:68
 #: src/wx/screen_dialog.cc:141 src/wx/spl_entry_dialog.cc:41
 msgid "Name"
@@ -2381,7 +2411,7 @@ msgstr "Нестандартный"
 
 # +
 #: src/wx/content_advanced_dialog.cc:74 src/wx/content_advanced_dialog.cc:156
-#: src/wx/content_advanced_dialog.cc:164 src/wx/dcp_panel.cc:1051
+#: src/wx/content_advanced_dialog.cc:164 src/wx/dcp_panel.cc:1079
 #: src/wx/subtitle_appearance_dialog.cc:151
 msgid "None"
 msgstr "Нет"
@@ -2565,12 +2595,12 @@ msgstr "Пазуа"
 msgid "Peak"
 msgstr "Пик"
 
-#: src/wx/audio_panel.cc:465
+#: src/wx/audio_panel.cc:467
 #, c-format
 msgid "Peak: %.2fdB"
 msgstr "Пик: %.2f дБ"
 
-#: src/wx/audio_panel.cc:467
+#: src/wx/audio_panel.cc:469
 msgid "Peak: unknown"
 msgstr "Пик: неизвестно"
 
@@ -2611,7 +2641,7 @@ msgstr "Плейлисты"
 msgid "Playlists"
 msgstr "Плейлисты"
 
-#: src/wx/audio_plot.cc:118
+#: src/wx/audio_plot.cc:116
 msgid "Please wait; audio is being analysed..."
 msgstr "Пожалуйста, подождите, аудио анализируется..."
 
@@ -2627,7 +2657,7 @@ msgstr "Пре-релиз"
 msgid "Previous"
 msgstr "Предыдущий"
 
-#: src/wx/dcp_panel.cc:943
+#: src/wx/dcp_panel.cc:970
 msgid "Processor"
 msgstr "Обработчик"
 
@@ -2682,7 +2712,7 @@ msgstr "Возрастное ограничение"
 msgid "Ratings"
 msgstr "Возрастные ограничения"
 
-#: src/wx/dcp_panel.cc:832
+#: src/wx/dcp_panel.cc:859
 msgid "Re-encode JPEG2000 data from input"
 msgstr "Перекодировать данные JPEG2000 из потока"
 
@@ -2690,7 +2720,7 @@ msgstr "Перекодировать данные JPEG2000 из потока"
 msgid "Re-examine..."
 msgstr "Перепроверить..."
 
-#: src/wx/certificate_chain_editor.cc:117 src/wx/keys_preferences_page.cc:109
+#: src/wx/certificate_chain_editor.cc:117 src/wx/keys_preferences_page.cc:110
 msgid "Re-make certificates and key..."
 msgstr "Пересоздать сертификаты и ключ..."
 
@@ -2748,7 +2778,7 @@ msgstr "Режим части фильма"
 msgid "Reels"
 msgstr "Части фильма"
 
-#: src/wx/dcp_panel.cc:115
+#: src/wx/dcp_panel.cc:118
 msgid "Reels..."
 msgstr "Части фильма..."
 
@@ -2840,7 +2870,7 @@ msgstr "Восстановить тему и текст по умолчанию"
 msgid "Reset to default text"
 msgstr "Восстановить текст по умолчанию"
 
-#: src/wx/dcp_panel.cc:818
+#: src/wx/dcp_panel.cc:845
 msgid "Resolution"
 msgstr "Разрешение"
 
@@ -2882,11 +2912,11 @@ msgstr "S-Gamut3"
 msgid "SCP (for AAM and Doremi)"
 msgstr "SCP (для AAM и Doremi)"
 
-#: src/wx/dcp_panel.cc:155
+#: src/wx/dcp_panel.cc:159
 msgid "SMPTE"
 msgstr "SMPTE"
 
-#: src/wx/dcp_panel.cc:157
+#: src/wx/dcp_panel.cc:161
 msgid "SMPTE (Bv2.0 only)"
 msgstr "SMPTE (только Bv2.0)"
 
@@ -2910,12 +2940,12 @@ msgstr "На том же месте, что и в прошлый раз"
 msgid "Same place as project"
 msgstr "Там же, где и проект"
 
-#: src/wx/audio_dialog.cc:400
+#: src/wx/audio_dialog.cc:403
 #, c-format
 msgid "Sample peak is %.2fdB at %s on %s"
 msgstr "Пиковая громкость семпла: %.2f дБ в %s на канале %s"
 
-#: src/wx/dcp_panel.cc:939
+#: src/wx/dcp_panel.cc:966
 msgid "Sample rate"
 msgstr "Частота дискретизации"
 
@@ -2976,7 +3006,7 @@ msgstr "Выбрать"
 msgid "Select CPL XML file"
 msgstr "Выберите XML-файл CPL"
 
-#: src/wx/certificate_chain_editor.cc:244 src/wx/keys_preferences_page.cc:265
+#: src/wx/certificate_chain_editor.cc:244 src/wx/keys_preferences_page.cc:236
 #: src/wx/recipient_dialog.cc:170 src/wx/screen_dialog.cc:297
 msgid "Select Certificate File"
 msgstr "Выберите файл сертификата"
@@ -2993,11 +3023,11 @@ msgstr "Выберите файл цепочки"
 msgid "Select Cinemas File"
 msgstr "Выберите файл кинотеатров"
 
-#: src/wx/keys_preferences_page.cc:169
+#: src/wx/keys_preferences_page.cc:171
 msgid "Select Export File"
 msgstr "Выберите файл экспорта"
 
-#: src/wx/keys_preferences_page.cc:203
+#: src/wx/keys_preferences_page.cc:196
 msgid "Select File To Import"
 msgstr "Выберите импортируемый файл"
 
@@ -3137,7 +3167,7 @@ msgstr "Показать"
 msgid "Show experimental audio processors"
 msgstr "Показать экспериментальные обработчики аудио"
 
-#: src/wx/audio_panel.cc:74 src/wx/dcp_panel.cc:951
+#: src/wx/audio_panel.cc:75 src/wx/dcp_panel.cc:978
 msgid "Show graph of audio levels..."
 msgstr "Показать график уровней громкости..."
 
@@ -3158,7 +3188,7 @@ msgstr "Показать область субтитров"
 msgid "Sign language video language"
 msgstr "Язык видео с языком жестов"
 
-#: src/wx/keys_preferences_page.cc:100 src/wx/keys_preferences_page.cc:156
+#: src/wx/keys_preferences_page.cc:101 src/wx/keys_preferences_page.cc:157
 msgid "Signing DCPs and KDMs"
 msgstr "Подписывание DCP и KDM"
 
@@ -3256,7 +3286,7 @@ msgstr "Разделять по видеоконтенту"
 msgid "Stable version"
 msgstr "Стабильная версия"
 
-#: src/wx/dcp_panel.cc:110 src/wx/metadata_dialog.cc:78
+#: src/wx/dcp_panel.cc:113 src/wx/metadata_dialog.cc:78
 #: src/wx/rating_dialog.cc:50
 msgid "Standard"
 msgstr "Стандарт"
@@ -3672,7 +3702,7 @@ msgstr ""
 "\n"
 "Позволить DCP-o-matic размонтировать его сейчас?"
 
-#: src/wx/wx_util.cc:713
+#: src/wx/wx_util.cc:717
 msgid ""
 "The existing configuration failed to load.  Default values will be used "
 "instead.  These may take a short time to create."
@@ -3773,7 +3803,7 @@ msgstr "Звуковой ресурс %f имеет некорректную б�
 msgid "The sound asset %f has an invalid frame rate of %n."
 msgstr "Звуковой ресурс %f имеет некорректную частоту кадров %n."
 
-#: src/wx/dcp_panel.cc:138
+#: src/wx/dcp_panel.cc:142
 msgid ""
 "The standard that the DCP should use.  Interop is older, and SMPTE is the "
 "newer (current) standard.  If in doubt, choose 'SMPTE'"
@@ -3946,18 +3976,18 @@ msgstr ""
 "проекту.  Выберите папку DCP внутри папки проекта %s, если это то, что вы "
 "хотите импортировать."
 
-#: src/wx/playlist_controls.cc:352
+#: src/wx/playlist_controls.cc:366
 msgid "This playlist cannot be loaded as a KDM is missing or incorrect."
 msgstr ""
 "Этот плейлист не может быть загружен, так как KDM отсутствует или указан "
 "неправильно."
 
-#: src/wx/playlist_controls.cc:318
+#: src/wx/playlist_controls.cc:331
 msgid "This playlist cannot be loaded as some content is missing."
 msgstr ""
 "Этот плейлист не может быть загружен из-за отсутствия некоторого содержимого."
 
-#: src/wx/playlist_controls.cc:324
+#: src/wx/playlist_controls.cc:337
 msgid "This playlist is empty."
 msgstr "Этот плейлист пуст."
 
@@ -4100,7 +4130,7 @@ msgstr "Обрезать с начала"
 msgid "Trim up to current position"
 msgstr "Обрезать до текущей позиции"
 
-#: src/wx/audio_dialog.cc:420
+#: src/wx/audio_dialog.cc:423
 #, c-format
 msgid "True peak is %.2fdB"
 msgstr "Истинный пик: %.2f дБ"
@@ -4264,7 +4294,7 @@ msgstr "Обновление"
 msgid "Upload DCP to TMS after creation"
 msgstr "Загрузить DCP на TMS (Theatre Management System) после создания"
 
-#: src/wx/dcp_panel.cc:90
+#: src/wx/dcp_panel.cc:92
 msgid "Use ISDCF name"
 msgstr "Использовать ISDCF"
 
@@ -4276,7 +4306,7 @@ msgstr "Использовать имя ISDCF по-умолчанию"
 msgid "Use as"
 msgstr "Использовать как"
 
-#: src/wx/dcp_panel.cc:824
+#: src/wx/dcp_panel.cc:851
 msgid "Use best"
 msgstr "Рекомендуется"
 
@@ -4284,7 +4314,7 @@ msgstr "Рекомендуется"
 msgid "Use preset"
 msgstr "Использовать параметры"
 
-#: src/wx/audio_panel.cc:109
+#: src/wx/audio_panel.cc:110
 msgid "Use same fades as video"
 msgstr "Использовать эффекты затухания из видео"
 
@@ -4333,7 +4363,7 @@ msgstr "Настройка файла версии (VF)"
 msgid "Version number"
 msgstr "Номер версии"
 
-#: src/wx/content_properties_dialog.cc:77 src/wx/dcp_panel.cc:120
+#: src/wx/content_properties_dialog.cc:77 src/wx/dcp_panel.cc:123
 #: src/wx/timeline_labels_view.cc:41 src/wx/timeline_labels_view.cc:74
 #: src/wx/video_panel.cc:70
 msgid "Video"
@@ -4347,7 +4377,7 @@ msgstr "Видео (MPEG, 16-235)"
 msgid "Video Waveform"
 msgstr "Волновой график видео"
 
-#: src/wx/dcp_panel.cc:828
+#: src/wx/dcp_panel.cc:855
 msgid ""
 "Video bit rate\n"
 "for newly-encoded data"
@@ -4532,7 +4562,7 @@ msgstr "срытые субтитры"
 msgid "component value"
 msgstr "значение компонента"
 
-#: src/wx/audio_panel.cc:111
+#: src/wx/audio_panel.cc:112
 msgid "content"
 msgstr "контент"
 
@@ -4544,7 +4574,7 @@ msgstr "имя файла контента"
 msgid "custom"
 msgstr "настроить"
 
-#: src/wx/audio_gain_dialog.cc:37 src/wx/audio_panel.cc:87
+#: src/wx/audio_gain_dialog.cc:37 src/wx/audio_panel.cc:88
 msgid "dB"
 msgstr "дБ"
 
@@ -4601,7 +4631,7 @@ msgid "months"
 msgstr "месяцев"
 
 #. TRANSLATORS: this is an abbreviation for milliseconds, the unit of time
-#: src/wx/audio_panel.cc:101 src/wx/full_config_dialog.cc:273
+#: src/wx/audio_panel.cc:102 src/wx/full_config_dialog.cc:273
 #: src/wx/sound_preferences_page.cc:91
 msgid "ms"
 msgstr "мс"

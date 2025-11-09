@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-07 10:02+0200\n"
+"POT-Creation-Date: 2025-11-09 20:17+0100\n"
 "PO-Revision-Date: 2024-10-05 17:45+0330\n"
 "Last-Translator: Soleyman Rahmani Aghdam <Soleyman.rahmani@gmail.com>\n"
 "Language-Team: \n"
@@ -98,7 +98,12 @@ msgstr ""
 "%s به عنوان فایل وجود دارد، بنابر این نمیتوانید از آن برای یک فیلم استفاده "
 "کنید."
 
-#: src/wx/audio_dialog.cc:170 src/wx/audio_dialog.cc:172
+#: src/wx/audio_dialog.cc:175
+#, fuzzy, c-format
+msgid "%s audio"
+msgstr "%s صدا - %s"
+
+#: src/wx/audio_dialog.cc:171 src/wx/audio_dialog.cc:173
 #, c-format
 msgid "%s audio - %s"
 msgstr "%s صدا - %s"
@@ -176,11 +181,11 @@ msgstr "دو بعدی"
 msgid "2D version of 3D DCP"
 msgstr "نسخه دو بعدی از دی سی پی سه بعدی"
 
-#: src/wx/dcp_panel.cc:853
+#: src/wx/dcp_panel.cc:880
 msgid "2K"
 msgstr "2k"
 
-#: src/wx/dcp_panel.cc:826 src/wx/video_panel.cc:213
+#: src/wx/dcp_panel.cc:853 src/wx/video_panel.cc:213
 msgid "3D"
 msgstr "سه بعدی"
 
@@ -208,11 +213,11 @@ msgstr "بالا/پایین سه بعدی"
 msgid "4 - L/C/R/Lfe"
 msgstr "4 - L/C/R/Lfe"
 
-#: src/wx/dcp_panel.cc:965
+#: src/wx/dcp_panel.cc:992
 msgid "48kHz"
 msgstr "48 هزار هرتز"
 
-#: src/wx/dcp_panel.cc:854
+#: src/wx/dcp_panel.cc:881
 msgid "4K"
 msgstr "4K"
 
@@ -224,7 +229,7 @@ msgstr "6 - 5.1"
 msgid "8 - 5.1/HI/VI"
 msgstr "8 - 5.1/HI/VI"
 
-#: src/wx/dcp_panel.cc:966
+#: src/wx/dcp_panel.cc:993
 msgid "96kHz"
 msgstr "96 هزار هرتز"
 
@@ -510,8 +515,8 @@ msgstr "تنظیمات پیشرفته محتوا"
 msgid "Advanced settings..."
 msgstr "تنظیمات پیشرفته..."
 
-#: src/wx/kdm_output_panel.cc:128 src/wx/keys_preferences_page.cc:89
-#: src/wx/keys_preferences_page.cc:107
+#: src/wx/kdm_output_panel.cc:128 src/wx/keys_preferences_page.cc:90
+#: src/wx/keys_preferences_page.cc:108
 msgid "Advanced..."
 msgstr "پیشرفته..."
 
@@ -631,8 +636,8 @@ msgstr "حداقل یک زیرنویس با زمان کمتر از 15 فریم �
 msgid "Atmos"
 msgstr "دالبی اتمز"
 
-#: src/wx/audio_dialog.cc:65 src/wx/audio_panel.cc:65
-#: src/wx/content_properties_dialog.cc:80 src/wx/dcp_panel.cc:121
+#: src/wx/audio_dialog.cc:65 src/wx/audio_panel.cc:66
+#: src/wx/content_properties_dialog.cc:80 src/wx/dcp_panel.cc:124
 #: src/wx/timeline_labels_view.cc:42 src/wx/timeline_labels_view.cc:92
 msgid "Audio"
 msgstr "صدا"
@@ -723,7 +728,7 @@ msgstr "متن یادداشت سی پی ال"
 msgid "CPL's content is not encrypted."
 msgstr "محتوای سی پی ال رمزگذاری نشده است."
 
-#: src/wx/audio_panel.cc:88
+#: src/wx/audio_panel.cc:89
 msgid "Calculate..."
 msgstr "محاسبه..."
 
@@ -787,7 +792,7 @@ msgstr "زنجیره"
 msgid "Channel gain"
 msgstr "گین کانال"
 
-#: src/wx/audio_dialog.cc:110 src/wx/dcp_panel.cc:934
+#: src/wx/audio_dialog.cc:110 src/wx/dcp_panel.cc:961
 msgid "Channels"
 msgstr "کانالها"
 
@@ -895,11 +900,11 @@ msgstr "زمانبندی"
 msgid "Confirm KDM email"
 msgstr "تایید ایمیل کلید"
 
-#: src/wx/dcp_panel.cc:814
+#: src/wx/dcp_panel.cc:841
 msgid "Container"
 msgstr "ظرف"
 
-#: src/wx/audio_panel.cc:111 src/wx/film_editor.cc:61
+#: src/wx/audio_panel.cc:112 src/wx/film_editor.cc:61
 #: src/wx/playlist_controls.cc:95
 msgid "Content"
 msgstr "محتوا"
@@ -908,7 +913,7 @@ msgstr "محتوا"
 msgid "Content Properties"
 msgstr "ویژگی های محتوا"
 
-#: src/wx/dcp_panel.cc:101
+#: src/wx/dcp_panel.cc:103
 msgid "Content Type"
 msgstr "نوع محتوا"
 
@@ -933,7 +938,7 @@ msgstr "کنتراست"
 msgid "Coord|Y"
 msgstr "محور عمودی"
 
-#: src/wx/dcp_panel.cc:91
+#: src/wx/dcp_panel.cc:93
 msgid "Copy as name"
 msgstr "کپی به عنوان نام"
 
@@ -953,7 +958,7 @@ msgstr "کپی سینماها در فایل فشرده زیپ در محل اصل
 msgid "CoreAudio"
 msgstr "هسته صدا"
 
-#: src/wx/audio_dialog.cc:304
+#: src/wx/audio_dialog.cc:307
 msgid "Could not analyse audio."
 msgstr "صدا آنالیز نشد."
 
@@ -980,7 +985,7 @@ msgstr "نمیتوان گواهی نامه را ایمپورت کرد(%s)"
 msgid "Could not load KDM"
 msgstr "کلید بارگذاری نشد"
 
-#: src/wx/playlist_controls.cc:347
+#: src/wx/playlist_controls.cc:361
 msgid "Could not load KDM."
 msgstr "کلید بارگذاری نشد."
 
@@ -1059,12 +1064,12 @@ msgstr "خروجی"
 msgid "Current version"
 msgstr "نسخه جاری"
 
-#: src/wx/audio_dialog.cc:476
+#: src/wx/audio_dialog.cc:479
 #, c-format
 msgid "Cursor: %.1fdB at %s"
 msgstr "کرسر: %.1fدسیبل در %s"
 
-#: src/wx/audio_dialog.cc:470
+#: src/wx/audio_dialog.cc:473
 msgid "Cursor: none"
 msgstr "کرسر: هیچکدام"
 
@@ -1081,7 +1086,7 @@ msgstr "مقیاس دلخواه"
 msgid "DCI X'Y'Z'"
 msgstr ""
 
-#: src/wx/audio_panel.cc:111 src/wx/film_editor.cc:63
+#: src/wx/audio_panel.cc:112 src/wx/film_editor.cc:63
 #: src/wx/player_information.cc:58 src/wx/sound_preferences_page.cc:97
 msgid "DCP"
 msgstr "دی سی پی"
@@ -1139,7 +1144,7 @@ msgstr "رزولوشن رمزگشایی: %dx%d"
 msgid "Decode resolution: unknown"
 msgstr "رزولوشن رمزگشایی: ناشناخته"
 
-#: src/wx/keys_preferences_page.cc:76 src/wx/keys_preferences_page.cc:134
+#: src/wx/keys_preferences_page.cc:77 src/wx/keys_preferences_page.cc:135
 msgid "Decrypting KDMs"
 msgstr "کلید(ها) رمز گشایی"
 
@@ -1187,7 +1192,7 @@ msgstr "پیش فرض ها"
 msgid "Define font in output and export font file"
 msgstr "فونت خروجی و فایل اکسپورت را تعیین کنید"
 
-#: src/wx/audio_panel.cc:90
+#: src/wx/audio_panel.cc:91
 msgid "Delay"
 msgstr "تاخیر"
 
@@ -1297,7 +1302,7 @@ msgid "Edit screen"
 msgstr "ویرایش سالن سینما"
 
 #: src/wx/audio_mapping_view.cc:90 src/wx/content_advanced_dialog.cc:75
-#: src/wx/dcp_panel.cc:949 src/wx/language_tag_widget.cc:51
+#: src/wx/dcp_panel.cc:976 src/wx/language_tag_widget.cc:51
 #: src/wx/recipients_panel.cc:71 src/wx/region_subtag_widget.cc:52
 #: src/wx/video_panel.cc:183 src/wx/video_panel.cc:194
 #: src/wx/editable_list.h:145
@@ -1332,9 +1337,34 @@ msgstr "فعال کردن کنترل اینرفیس HTTP روی پورت"
 msgid "Encoding Servers"
 msgstr "سرورهای رمزگذاری"
 
-#: src/wx/dcp_panel.cc:104 src/wx/spl_entry_dialog.cc:51
+#: src/wx/encryption_settings_dialog.cc:33
+#, fuzzy
+msgid "Encrypt picture"
+msgstr "رمزگذاری شده"
+
+#: src/wx/encryption_settings_dialog.cc:34
+#, fuzzy
+msgid "Encrypt sound"
+msgstr "رمزگذاری شده"
+
+#: src/wx/encryption_settings_dialog.cc:35
+#, fuzzy
+msgid "Encrypt text"
+msgstr "رمزگذاری شده"
+
+#: src/wx/dcp_panel.cc:106 src/wx/spl_entry_dialog.cc:51
 msgid "Encrypted"
 msgstr "رمزگذاری شده"
+
+#: src/wx/encryption_settings_dialog.cc:31
+#, fuzzy
+msgid "Encryption settings"
+msgstr "اکسپورت همه تنظیمات رمزگشایی کلید..."
+
+#: src/wx/dcp_panel.cc:107
+#, fuzzy
+msgid "Encryption settings..."
+msgstr "اکسپورت همه تنظیمات رمزگشایی کلید..."
 
 #: src/wx/text_view.cc:68
 msgid "End"
@@ -1350,11 +1380,11 @@ msgstr "آدرس ایمیل خود را برای مخاطب وارد کنید، 
 msgid "Errors"
 msgstr "خطاها"
 
-#: src/wx/keys_preferences_page.cc:83
+#: src/wx/keys_preferences_page.cc:84
 msgid "Export KDM decryption leaf certificate..."
 msgstr "اکسپورت گواهی نامه برگ رمزگشایی کلید..."
 
-#: src/wx/keys_preferences_page.cc:85
+#: src/wx/keys_preferences_page.cc:86
 msgid "Export all KDM decryption settings..."
 msgstr "اکسپورت همه تنظیمات رمزگشایی کلید..."
 
@@ -1391,7 +1421,7 @@ msgstr "FTP (برای دالبی)"
 msgid "Facility"
 msgstr "دستگاه / سیستم"
 
-#: src/wx/audio_panel.cc:103 src/wx/video_panel.cc:167
+#: src/wx/audio_panel.cc:104 src/wx/video_panel.cc:167
 msgid "Fade in"
 msgstr "محو شدن در"
 
@@ -1399,7 +1429,7 @@ msgstr "محو شدن در"
 msgid "Fade in time"
 msgstr "زمان محو شدن"
 
-#: src/wx/audio_panel.cc:106 src/wx/video_panel.cc:170
+#: src/wx/audio_panel.cc:107 src/wx/video_panel.cc:170
 msgid "Fade out"
 msgstr "از محو خارج شدن"
 
@@ -1533,7 +1563,7 @@ msgid ""
 "is %size bytes in size)."
 msgstr "اجزا تصویری فریم %f بسیار بزرگ است(اندازه جز%c برابر %s بایت است)."
 
-#: src/wx/dcp_panel.cc:821
+#: src/wx/dcp_panel.cc:848
 msgid "Frame Rate"
 msgstr "نرخ فریم"
 
@@ -1579,7 +1609,7 @@ msgstr "گیگابایت"
 msgid "GDC"
 msgstr "GDC"
 
-#: src/wx/audio_panel.cc:77
+#: src/wx/audio_panel.cc:78
 msgid "Gain"
 msgstr "گین"
 
@@ -1704,7 +1734,7 @@ msgstr ""
 "\n"
 "را تایپ کرده و کلید تایید را بزنید."
 
-#: src/wx/keys_preferences_page.cc:196
+#: src/wx/keys_preferences_page.cc:189
 msgid ""
 "If you continue with this operation you will no longer be able to use any "
 "DKDMs that you have created with the current certificates and key.  Also, "
@@ -1715,7 +1745,7 @@ msgstr ""
 "ایجاد کرده اید استفاده کنید.  هم چنین هر کلیدی هم که برای گواهینامه فعلی شما "
 "ارسال شده است بی فایده خواهد شد.  با احتیاط ادامه دهید!"
 
-#: src/wx/keys_preferences_page.cc:246
+#: src/wx/keys_preferences_page.cc:217
 msgid ""
 "If you continue with this operation you will no longer be able to use any "
 "DKDMs that you have created.  Also, any KDMs that have been sent to you will "
@@ -1742,7 +1772,7 @@ msgstr "تصویر روی صفحه اصلی، کنترل روی صفحه دوم"
 msgid "Image on secondary, controls on primary"
 msgstr "تصویر روی صفحه دوم، کنترل روی صفحه اصلی"
 
-#: src/wx/keys_preferences_page.cc:87
+#: src/wx/keys_preferences_page.cc:88
 msgid "Import all KDM decryption settings..."
 msgstr "ایمپورت تمام تنظیمات رمزگشایی کلید..."
 
@@ -1774,7 +1804,7 @@ msgstr "توان ورودی"
 msgid "Input transfer function"
 msgstr "تابع تبدیل ورودی"
 
-#: src/wx/audio_dialog.cc:434
+#: src/wx/audio_dialog.cc:437
 #, c-format
 msgid "Integrated loudness %.2f LUFS"
 msgstr "بلندی صدای یکپارچه %.2f برجسب LUFS"
@@ -1795,11 +1825,11 @@ msgstr "با یادداشت بین المللی"
 msgid "International textless"
 msgstr "بدون یادداشت بین المللی"
 
-#: src/wx/dcp_panel.cc:159
+#: src/wx/dcp_panel.cc:163
 msgid "Interop"
 msgstr "اینتروپ"
 
-#: src/wx/keys_preferences_page.cc:236
+#: src/wx/keys_preferences_page.cc:206
 #, c-format
 msgid "Invalid %s export file"
 msgstr "فایل اکسپورت نامعتبر %s"
@@ -1824,7 +1854,7 @@ msgstr "اسم متداول صادرکننده"
 msgid "Issuer organization name"
 msgstr "نام سازمان صادرکننده"
 
-#: src/wx/audio_panel.cc:331
+#: src/wx/audio_panel.cc:332
 msgid ""
 "It is not possible to adjust the content's gain for this fader change as it "
 "would cause the DCP's audio to clip.  The gain has not been changed."
@@ -1873,11 +1903,11 @@ msgstr "زمان بندی"
 msgid "Keep video and subtitles in sequence"
 msgstr "حفظ ترتیب ویدیو و زیرنویس"
 
-#: src/wx/keys_preferences_page.cc:64
+#: src/wx/keys_preferences_page.cc:65
 msgid "Keys"
 msgstr "کلیدها"
 
-#: src/wx/audio_dialog.cc:452
+#: src/wx/audio_dialog.cc:455
 #, c-format
 msgid "LEQ(m) %.2fdB"
 msgstr "LEQ(m) %.2fdB"
@@ -1886,7 +1916,7 @@ msgstr "LEQ(m) %.2fdB"
 msgid "Label"
 msgstr "برچسب"
 
-#: src/wx/dcp_panel.cc:947 src/wx/dcp_text_track_dialog.cc:35
+#: src/wx/dcp_panel.cc:974 src/wx/dcp_text_track_dialog.cc:35
 #: src/wx/text_panel.cc:161
 msgid "Language"
 msgstr "زبان"
@@ -1982,11 +2012,11 @@ msgstr "بارگذاری گواهینامه..."
 msgid "Load configuration from ZIP file"
 msgstr "بارگذاری پیکربندی از فایل فشرده زیپ"
 
-#: src/wx/playlist_controls.cc:407
+#: src/wx/playlist_controls.cc:423
 msgid "Loading content"
 msgstr "بارگذاری محتوا"
 
-#: src/wx/playlist_controls.cc:334
+#: src/wx/playlist_controls.cc:348
 msgid "Loading playlist and KDMs"
 msgstr "بارگذاری لیست نمایش و کلیدها"
 
@@ -1999,7 +2029,7 @@ msgstr "محل ها"
 msgid "Log"
 msgstr "گزارش"
 
-#: src/wx/audio_dialog.cc:443
+#: src/wx/audio_dialog.cc:446
 #, c-format
 msgid "Loudness range %.2f LU"
 msgstr "محدوده بلندی %.2f برحسب LU"
@@ -2041,7 +2071,7 @@ msgstr "MP4 / H.264"
 msgid "MP4 files (*.mp4)|*.mp4"
 msgstr "MP4 files (*.mp4)|*.mp4"
 
-#: src/wx/dcp_panel.cc:160
+#: src/wx/dcp_panel.cc:164
 msgid "MPEG2 Interop"
 msgstr "اینتروپ MPEG2"
 
@@ -2091,7 +2121,7 @@ msgstr "نشان گذاری کانال های صدا تا (و شامل)"
 msgid "Markers"
 msgstr "نشانه گذاری"
 
-#: src/wx/dcp_panel.cc:113
+#: src/wx/dcp_panel.cc:116
 msgid "Markers..."
 msgstr "نشانه گذاری..."
 
@@ -2115,7 +2145,7 @@ msgstr "حداکثر تعداد فریم برای ذخیره برهر رشته �
 msgid "Maximum reel size"
 msgstr "حداکثراندازه ریل"
 
-#: src/wx/dcp_panel.cc:830 src/wx/full_config_dialog.cc:1046
+#: src/wx/dcp_panel.cc:857 src/wx/full_config_dialog.cc:1046
 #: src/wx/full_config_dialog.cc:1055
 msgid "Mbit/s"
 msgstr "مگابیت بر ثانیه"
@@ -2128,7 +2158,7 @@ msgstr "صندوق پیام"
 msgid "Metadata"
 msgstr "متا دیتا"
 
-#: src/wx/dcp_panel.cc:114
+#: src/wx/dcp_panel.cc:117
 msgid "Metadata..."
 msgstr "متا دیتا..."
 
@@ -2287,7 +2317,7 @@ msgstr "نیاز به کلید دارد: "
 msgid "NEEDS OV: "
 msgstr "نیاز به نسخه اصلی دارد: "
 
-#: src/wx/cinema_dialog.cc:49 src/wx/dcp_panel.cc:86
+#: src/wx/cinema_dialog.cc:49 src/wx/dcp_panel.cc:88
 #: src/wx/dcp_text_track_dialog.cc:33 src/wx/recipient_dialog.cc:68
 #: src/wx/screen_dialog.cc:141 src/wx/spl_entry_dialog.cc:41
 msgid "Name"
@@ -2358,7 +2388,7 @@ msgid "Non-standard"
 msgstr "غیر استاندارد"
 
 #: src/wx/content_advanced_dialog.cc:74 src/wx/content_advanced_dialog.cc:156
-#: src/wx/content_advanced_dialog.cc:164 src/wx/dcp_panel.cc:1051
+#: src/wx/content_advanced_dialog.cc:164 src/wx/dcp_panel.cc:1079
 #: src/wx/subtitle_appearance_dialog.cc:151
 msgid "None"
 msgstr "هیچکدام"
@@ -2542,12 +2572,12 @@ msgstr "مکث"
 msgid "Peak"
 msgstr "قله"
 
-#: src/wx/audio_panel.cc:465
+#: src/wx/audio_panel.cc:467
 #, c-format
 msgid "Peak: %.2fdB"
 msgstr "فله: %.2f دسیبل"
 
-#: src/wx/audio_panel.cc:467
+#: src/wx/audio_panel.cc:469
 msgid "Peak: unknown"
 msgstr "قله: ناشناخته"
 
@@ -2588,7 +2618,7 @@ msgstr "لیست نمایش"
 msgid "Playlists"
 msgstr "لیست نمایش"
 
-#: src/wx/audio_plot.cc:118
+#: src/wx/audio_plot.cc:116
 msgid "Please wait; audio is being analysed..."
 msgstr "لطفا صبر کنید، صدا در حال آنالیز شدن است..."
 
@@ -2604,7 +2634,7 @@ msgstr "پیش از انتشار"
 msgid "Previous"
 msgstr "قبلی"
 
-#: src/wx/dcp_panel.cc:943
+#: src/wx/dcp_panel.cc:970
 msgid "Processor"
 msgstr "پردازشگر"
 
@@ -2658,7 +2688,7 @@ msgstr "رتبه بندی"
 msgid "Ratings"
 msgstr "رتبه بندی"
 
-#: src/wx/dcp_panel.cc:832
+#: src/wx/dcp_panel.cc:859
 msgid "Re-encode JPEG2000 data from input"
 msgstr "رمزگذاری مجدد داده های JPEG2000 از ورودی"
 
@@ -2666,7 +2696,7 @@ msgstr "رمزگذاری مجدد داده های JPEG2000 از ورودی"
 msgid "Re-examine..."
 msgstr "امتحان مجدد..."
 
-#: src/wx/certificate_chain_editor.cc:117 src/wx/keys_preferences_page.cc:109
+#: src/wx/certificate_chain_editor.cc:117 src/wx/keys_preferences_page.cc:110
 msgid "Re-make certificates and key..."
 msgstr "ساخت مجدد گواهی نامه ها و کلید..."
 
@@ -2724,7 +2754,7 @@ msgstr "مد ریل"
 msgid "Reels"
 msgstr "حلقه ها"
 
-#: src/wx/dcp_panel.cc:115
+#: src/wx/dcp_panel.cc:118
 msgid "Reels..."
 msgstr "حلقه ها..."
 
@@ -2816,7 +2846,7 @@ msgstr "تنظیم مجدد به عنوان و متن پیش فرض"
 msgid "Reset to default text"
 msgstr "تنظیم مجدد به متن پیش فرض"
 
-#: src/wx/dcp_panel.cc:818
+#: src/wx/dcp_panel.cc:845
 msgid "Resolution"
 msgstr "رزولوشن"
 
@@ -2857,11 +2887,11 @@ msgstr "S-Gamut3"
 msgid "SCP (for AAM and Doremi)"
 msgstr "SCP (for AAM and Doremi)"
 
-#: src/wx/dcp_panel.cc:155
+#: src/wx/dcp_panel.cc:159
 msgid "SMPTE"
 msgstr "SMPTE"
 
-#: src/wx/dcp_panel.cc:157
+#: src/wx/dcp_panel.cc:161
 msgid "SMPTE (Bv2.0 only)"
 msgstr "SMPTE (Bv2.0 only)"
 
@@ -2885,12 +2915,12 @@ msgstr "همان محل آخرین بار"
 msgid "Same place as project"
 msgstr "همان محل پروژه"
 
-#: src/wx/audio_dialog.cc:400
+#: src/wx/audio_dialog.cc:403
 #, c-format
 msgid "Sample peak is %.2fdB at %s on %s"
 msgstr "قله نمونه صدا %.2f دسیبل است در %s روی %s"
 
-#: src/wx/dcp_panel.cc:939
+#: src/wx/dcp_panel.cc:966
 msgid "Sample rate"
 msgstr "نرخ نمونه"
 
@@ -2951,7 +2981,7 @@ msgstr "انتخاب"
 msgid "Select CPL XML file"
 msgstr "انتخاب فایل CPL XML"
 
-#: src/wx/certificate_chain_editor.cc:244 src/wx/keys_preferences_page.cc:265
+#: src/wx/certificate_chain_editor.cc:244 src/wx/keys_preferences_page.cc:236
 #: src/wx/recipient_dialog.cc:170 src/wx/screen_dialog.cc:297
 msgid "Select Certificate File"
 msgstr "انتخاب فایل گواهینامه"
@@ -2969,11 +2999,11 @@ msgstr "انتخاب فایل زنجیره"
 msgid "Select Cinemas File"
 msgstr "انتخاب فایل سینماها"
 
-#: src/wx/keys_preferences_page.cc:169
+#: src/wx/keys_preferences_page.cc:171
 msgid "Select Export File"
 msgstr "انتخاب فایل اکسپورت"
 
-#: src/wx/keys_preferences_page.cc:203
+#: src/wx/keys_preferences_page.cc:196
 msgid "Select File To Import"
 msgstr "انتخاب فایل برای ایمپورت"
 
@@ -3114,7 +3144,7 @@ msgstr "نمایش دادن"
 msgid "Show experimental audio processors"
 msgstr "نمایش پردازنده های صوتی آزمایشی"
 
-#: src/wx/audio_panel.cc:74 src/wx/dcp_panel.cc:951
+#: src/wx/audio_panel.cc:75 src/wx/dcp_panel.cc:978
 msgid "Show graph of audio levels..."
 msgstr "نمایش گرافیکی لول های صدا..."
 
@@ -3135,7 +3165,7 @@ msgstr "نمایش محدوده زیرنویس"
 msgid "Sign language video language"
 msgstr "زبان اشاره زبان ویدیو"
 
-#: src/wx/keys_preferences_page.cc:100 src/wx/keys_preferences_page.cc:156
+#: src/wx/keys_preferences_page.cc:101 src/wx/keys_preferences_page.cc:157
 msgid "Signing DCPs and KDMs"
 msgstr "امضا دی سی پی ها و کلیدها"
 
@@ -3230,7 +3260,7 @@ msgstr "تقسیم بر اساس محتوای ویدیو"
 msgid "Stable version"
 msgstr "نسخه پایدار"
 
-#: src/wx/dcp_panel.cc:110 src/wx/metadata_dialog.cc:78
+#: src/wx/dcp_panel.cc:113 src/wx/metadata_dialog.cc:78
 #: src/wx/rating_dialog.cc:50
 msgid "Standard"
 msgstr "استاندارد"
@@ -3641,7 +3671,7 @@ msgstr ""
 "\n"
 "آیا دی سی پی-او-ماتیک باید اکنون آن را جدا کند؟"
 
-#: src/wx/wx_util.cc:713
+#: src/wx/wx_util.cc:717
 msgid ""
 "The existing configuration failed to load.  Default values will be used "
 "instead.  These may take a short time to create."
@@ -3743,7 +3773,7 @@ msgstr "فایل صدای %f دارای عمق بیت نامعتبر %n است."
 msgid "The sound asset %f has an invalid frame rate of %n."
 msgstr "فایل صدای %f دارای نرخ فریم نامعتبر %n است."
 
-#: src/wx/dcp_panel.cc:138
+#: src/wx/dcp_panel.cc:142
 msgid ""
 "The standard that the DCP should use.  Interop is older, and SMPTE is the "
 "newer (current) standard.  If in doubt, choose 'SMPTE'"
@@ -3920,15 +3950,15 @@ msgstr ""
 "کرد. اگر می خواهید پوشه دی سی پی انتخاب کنید از داخل پوشه پروژه %s آن را "
 "انتخاب کنید، اگر این همان چیزی است که میخواهید ایمپورت کنید."
 
-#: src/wx/playlist_controls.cc:352
+#: src/wx/playlist_controls.cc:366
 msgid "This playlist cannot be loaded as a KDM is missing or incorrect."
 msgstr "لیست نمایش به دلیل فقدان و یا نادرست بودن کلید قابل بارگذاری نیست."
 
-#: src/wx/playlist_controls.cc:318
+#: src/wx/playlist_controls.cc:331
 msgid "This playlist cannot be loaded as some content is missing."
 msgstr "لیست نمایش به دلیل فقدان برخی از محتواها قابل بارگذاری نیست."
 
-#: src/wx/playlist_controls.cc:324
+#: src/wx/playlist_controls.cc:337
 msgid "This playlist is empty."
 msgstr "این لیست نمایش خالی است."
 
@@ -4066,7 +4096,7 @@ msgstr "برش از شروع"
 msgid "Trim up to current position"
 msgstr "برش تا محل فعلی"
 
-#: src/wx/audio_dialog.cc:420
+#: src/wx/audio_dialog.cc:423
 #, c-format
 msgid "True peak is %.2fdB"
 msgstr "قله واقعی %.2f دسیبل است"
@@ -4230,7 +4260,7 @@ msgstr "به روز"
 msgid "Upload DCP to TMS after creation"
 msgstr "پس از ساخت دی سی پی آنرا به تی ام اس آپلود کنید"
 
-#: src/wx/dcp_panel.cc:90
+#: src/wx/dcp_panel.cc:92
 msgid "Use ISDCF name"
 msgstr "از نام گذاری ISDCF استفاده کنید"
 
@@ -4242,7 +4272,7 @@ msgstr "از نام گذاری ISDCF به صورت پیش فرض استفاده 
 msgid "Use as"
 msgstr "استفاده کنید به عنوان"
 
-#: src/wx/dcp_panel.cc:824
+#: src/wx/dcp_panel.cc:851
 msgid "Use best"
 msgstr "از بهترین استفاده کنید"
 
@@ -4250,7 +4280,7 @@ msgstr "از بهترین استفاده کنید"
 msgid "Use preset"
 msgstr "از پیش تنظیم استفاده کنید"
 
-#: src/wx/audio_panel.cc:109
+#: src/wx/audio_panel.cc:110
 msgid "Use same fades as video"
 msgstr "از فید مشابه ویدیو استفاده کنید"
 
@@ -4299,7 +4329,7 @@ msgstr "تنظیم فایل نسخه(VF)"
 msgid "Version number"
 msgstr "شماره نسخه"
 
-#: src/wx/content_properties_dialog.cc:77 src/wx/dcp_panel.cc:120
+#: src/wx/content_properties_dialog.cc:77 src/wx/dcp_panel.cc:123
 #: src/wx/timeline_labels_view.cc:41 src/wx/timeline_labels_view.cc:74
 #: src/wx/video_panel.cc:70
 msgid "Video"
@@ -4313,7 +4343,7 @@ msgstr "ویدیو (MPEG, 16-235)"
 msgid "Video Waveform"
 msgstr "شکل موج ویدیو"
 
-#: src/wx/dcp_panel.cc:828
+#: src/wx/dcp_panel.cc:855
 msgid ""
 "Video bit rate\n"
 "for newly-encoded data"
@@ -4498,7 +4528,7 @@ msgstr "زیرنویس پایانی"
 msgid "component value"
 msgstr "مقدار مولفه"
 
-#: src/wx/audio_panel.cc:111
+#: src/wx/audio_panel.cc:112
 msgid "content"
 msgstr "محتوا"
 
@@ -4510,7 +4540,7 @@ msgstr "اسم فایل محتوا"
 msgid "custom"
 msgstr "دلخواه"
 
-#: src/wx/audio_gain_dialog.cc:37 src/wx/audio_panel.cc:87
+#: src/wx/audio_gain_dialog.cc:37 src/wx/audio_panel.cc:88
 msgid "dB"
 msgstr "دسیبل"
 
@@ -4567,7 +4597,7 @@ msgid "months"
 msgstr "ماه"
 
 #. TRANSLATORS: this is an abbreviation for milliseconds, the unit of time
-#: src/wx/audio_panel.cc:101 src/wx/full_config_dialog.cc:273
+#: src/wx/audio_panel.cc:102 src/wx/full_config_dialog.cc:273
 #: src/wx/sound_preferences_page.cc:91
 msgid "ms"
 msgstr "میلی ثانبه"
