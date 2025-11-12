@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-11-09 20:17+0100\n"
-"PO-Revision-Date: 2025-10-10 23:40+0200\n"
+"PO-Revision-Date: 2025-11-12 19:18+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.7\n"
+"X-Generator: Poedit 3.8\n"
 
 #: src/lib/video_content.cc:513
 #, c-format
@@ -204,30 +204,30 @@ msgstr "; {} resterend; klaar om {}{}"
 #: src/lib/analytics.cc:58
 #, c-format, c++-format
 msgid ""
-"<h2>You have made {} DCPs with {}!</h2><img width=\"20%%\" "
-"src=\"memory:me.jpg\" align=\"center\"><font size=\"+1\"><p>Hello. I'm Carl "
-"and I'm the developer of {}. I work on it in my spare time (with the help of "
-"a volunteer team of testers and translators) and I release it as free "
-"software.<p>If you find {} useful, please consider a donation to the "
-"project. Financial support will help me to spend more time developing {} and "
-"making it better!<p><ul><li><a href=\"https://dcpomatic.com/donate_amount?"
-"amount=40\">Go to Paypal to donate €40</a><li><a href=\"https://"
-"dcpomatic.com/donate_amount?amount=20\">Go to Paypal to donate €20</a><li><a "
-"href=\"https://dcpomatic.com/donate_amount?amount=10\">Go to Paypal to "
-"donate €10</a></ul><p>Thank you!</font>"
+"<h2>You have made {} DCPs with {}!</h2><img width=\"20%%\" src=\"memory:me."
+"jpg\" align=\"center\"><font size=\"+1\"><p>Hello. I'm Carl and I'm the "
+"developer of {}. I work on it in my spare time (with the help of a volunteer "
+"team of testers and translators) and I release it as free software.<p>If you "
+"find {} useful, please consider a donation to the project. Financial support "
+"will help me to spend more time developing {} and making it better!"
+"<p><ul><li><a href=\"https://dcpomatic.com/donate_amount?amount=40\">Go to "
+"Paypal to donate €40</a><li><a href=\"https://dcpomatic.com/donate_amount?"
+"amount=20\">Go to Paypal to donate €20</a><li><a href=\"https://dcpomatic."
+"com/donate_amount?amount=10\">Go to Paypal to donate €10</a></ul><p>Thank "
+"you!</font>"
 msgstr ""
-"<h2>U heeft {} DCP's gemaakt met {}!</h2><img width=\"20%%\" "
-"src=\"memory:me.jpg\" align=\"center\"><font size=\"+1\"><p>Hallo.  Ik ben "
-"Carl en ik ben de ontwikkelaar van {}.  Ik werk eraan in mijn vrije tijd "
-"(met de hulp van een vrijwilligersteam van testers en vertalers) en ik geef "
-"het vrij als gratis software.<p>Als u {} nuttig vindt, overweeg dan een "
-"donatie aan het project.  Financiële ondersteuning zal me helpen om meer "
-"tijd te besteden aan de ontwikkeling van {} en het beter te maken!"
-"<p><ul><li><a href=\"https://dcpomatic.com/donate_amount?amount=40\">Ga naar "
-"Paypal om €40 te doneren</a><li><a href=\"https://dcpomatic.com/"
-"donate_amount?amount=20\">Ga naar Paypal om €20 te doneren</a><li><a "
-"href=\"https://dcpomatic.com/donate_amount?amount=10\">Ga naar Paypal om €10 "
-"te doneren</a></ul><p>Dank u wel!</font>"
+"<h2>U heeft {} DCP's gemaakt met {}!</h2><img width=\"20%%\" src=\"memory:me."
+"jpg\" align=\"center\"><font size=\"+1\"><p>Hallo.  Ik ben Carl en ik ben de "
+"ontwikkelaar van {}.  Ik werk eraan in mijn vrije tijd (met de hulp van een "
+"vrijwilligersteam van testers en vertalers) en ik geef het vrij als gratis "
+"software.<p>Als u {} nuttig vindt, overweeg dan een donatie aan het "
+"project.  Financiële ondersteuning zal me helpen om meer tijd te besteden "
+"aan de ontwikkeling van {} en het beter te maken!<p><ul><li><a "
+"href=\"https://dcpomatic.com/donate_amount?amount=40\">Ga naar Paypal om €40 "
+"te doneren</a><li><a href=\"https://dcpomatic.com/donate_amount?"
+"amount=20\">Ga naar Paypal om €20 te doneren</a><li><a href=\"https://"
+"dcpomatic.com/donate_amount?amount=10\">Ga naar Paypal om €10 te doneren</"
+"a></ul><p>Dank u wel!</font>"
 
 #: src/lib/hints.cc:176
 msgid ""
@@ -1541,9 +1541,8 @@ msgid "SMPTE ST 2084 for 10, 12, 14 and 16 bit systems"
 msgstr "SMPTE ST 2084 voor 10-, 12-, 14- en 16-bits systemen"
 
 #: src/lib/ffmpeg_content.cc:660
-#, fuzzy
 msgid "SMPTE ST 2128, IPT-C2"
-msgstr "SMPTE ST 428-1"
+msgstr "SMPTE ST 2128, IPT-C2"
 
 #: src/lib/ffmpeg_content.cc:636
 msgid "SMPTE ST 428-1"
@@ -1630,15 +1629,12 @@ msgstr ""
 "instellingen te controleren."
 
 #: src/lib/check_content_job.cc:94
-#, fuzzy
 msgid ""
 "Some files must be re-examined due to a bug fix in DCP-o-matic.  You may "
 "need to check their settings."
 msgstr ""
-"Sommige bestanden zijn gewijzigd sinds ze aan het project zijn toegevoegd.\n"
-"\n"
-"Deze bestanden worden nu opnieuw onderzocht, dus het kan nodig zijn om hun "
-"instellingen te controleren."
+"Sommige bestanden moeten opnieuw worden onderzocht vanwege een bugfix in DCP-"
+"o-matic.  Het kan nodig zijn om hun instellingen te controleren."
 
 #: src/lib/hints.cc:605
 #, c++-format
@@ -1667,6 +1663,11 @@ msgid ""
 "in doubt, set everything (picture, sound and text) to be either encrypted or "
 "not."
 msgstr ""
+"Een deel van uw content is versleuteld en een deel niet.  Hoewel sommige "
+"distributeurs (zoals Netflix) vereisen dat ondertitels niet versleuteld zijn "
+"(zelfs als beeld en geluid dat wel zijn), zullen anderen fouten in de DCP "
+"van dit project signaleren.  Als u twijfelt, stel dan alles (video, audio en "
+"tekst) in op versleuteld of niet."
 
 #: src/lib/make_dcp.cc:69
 msgid "Some of your content is missing"
@@ -1888,9 +1889,9 @@ msgid ""
 "again."
 msgstr ""
 "Deze fout is waarschijnlijk opgetreden omdat u de 32-bits versie van {} "
-"gebruikt en probeert te veel encoderings-threads te gebruiken.  Verminder "
-"a.u.b. het 'Aantal threads dat {} moet gebruiken' in het \"Algemeen\"-"
-"tabblad bij Voorkeuren en probeer het opnieuw."
+"gebruikt en probeert te veel encoderings-threads te gebruiken.  Verminder a."
+"u.b. het 'Aantal threads dat {} moet gebruiken' in het \"Algemeen\"-tabblad "
+"bij Voorkeuren en probeer het opnieuw."
 
 #: src/lib/job.cc:155
 #, c++-format
@@ -2056,11 +2057,11 @@ msgstr "YCOCG"
 
 #: src/lib/ffmpeg_content.cc:661
 msgid "YCgCo-R, even addition"
-msgstr ""
+msgstr "YCgCo-R, even toevoeging"
 
 #: src/lib/ffmpeg_content.cc:662
 msgid "YCgCo-R, odd addition"
-msgstr ""
+msgstr "YCgCo-R, oneven toevoeging"
 
 #: src/lib/filter.cc:98
 msgid "Yet Another Deinterlacing Filter"
