@@ -491,8 +491,7 @@ try
 		_signer_chain = create_certificate_chain();
 	}
 
-	auto decryption = f.optional_node_child("Decryption");
-	if (decryption) {
+	if (auto decryption = f.optional_node_child("Decryption")) {
 		auto c = make_shared<dcp::CertificateChain>();
 		for (auto i: decryption->node_children("Certificate")) {
 			c->add(dcp::Certificate(i->content ()));
@@ -513,8 +512,7 @@ try
 		}
 	}
 
-	auto bad = check_certificates();
-	if (bad) {
+	if (auto bad = check_certificates()) {
 		auto const remake = Bad(*bad);
 		if (remake && *remake) {
 			switch (*bad) {
