@@ -37,15 +37,22 @@ LIBDCP_ENABLE_WARNINGS
 
 using std::shared_ptr;
 using std::string;
+using std::vector;
 using boost::optional;
 
 
-VerifyDCPDialog::VerifyDCPDialog(wxWindow* parent, wxString title, shared_ptr<VerifyDCPJob> job)
+VerifyDCPDialog::VerifyDCPDialog(
+	wxWindow* parent,
+	wxString title,
+	vector<boost::filesystem::path> dcp_directories,
+	vector<boost::filesystem::path> kdms
+	)
 	: wxDialog (parent, wxID_ANY, title)
 	, _progress_panel(new VerifyDCPProgressPanel(this))
 	, _result_panel(new VerifyDCPResultPanel(this))
 	, _cancel_pending(false)
-	, _job(job)
+	, _dcp_directories(std::move(dcp_directories))
+	, _kdms(std::move(kdms))
 {
 	auto overall_sizer = new wxBoxSizer (wxVERTICAL);
 
@@ -91,13 +98,17 @@ VerifyDCPDialog::verify_clicked()
 	_cancel->Enable(true);
 	_verify->Enable(false);
 
+	dcp::VerificationOptions options;
+	options.check_picture_details = _check_picture_details->get();
+	auto job = std::make_shared<VerifyDCPJob>(_dcp_directories, _kdms, options);
+
 	auto jm = JobManager::instance();
-	jm->add(_job);
+	jm->add(job);
 
 	while (jm->work_to_do() && !_cancel_pending) {
 		wxEventLoopBase::GetActive()->YieldFor(wxEVT_CATEGORY_UI | wxEVT_CATEGORY_USER_INPUT);
 		dcpomatic_sleep_milliseconds(250);
-		_progress_panel->update(_job);
+		_progress_panel->update(job);
 	}
 
 	if (_cancel_pending) {
@@ -105,7 +116,7 @@ VerifyDCPDialog::verify_clicked()
 		EndModal(0);
 	} else {
 		_progress_panel->clear();
-		_result_panel->add({ _job });
+		_result_panel->add({ job });
 		_cancel->Enable(false);
 		_verify->Enable(false);
 		_check_picture_details->Enable(false);

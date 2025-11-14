@@ -1034,8 +1034,7 @@ private:
 		auto dcp = std::dynamic_pointer_cast<DCPContent>(_film->content().front());
 		DCPOMATIC_ASSERT(dcp);
 
-		auto job = make_shared<VerifyDCPJob>(dcp->directories(), _kdms, dcp::VerificationOptions{});
-		VerifyDCPDialog dialog(this, _("Verify DCP"), job);
+		VerifyDCPDialog dialog(this, _("Verify DCP"), dcp->directories(), _kdms);
 		dialog.ShowModal();
 	}
 

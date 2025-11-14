@@ -23,6 +23,7 @@
 LIBDCP_DISABLE_WARNINGS
 #include <wx/wx.h>
 LIBDCP_ENABLE_WARNINGS
+#include <boost/filesystem.hpp>
 #include <memory>
 
 
@@ -36,7 +37,12 @@ class VerifyDCPResultPanel;
 class VerifyDCPDialog : public wxDialog
 {
 public:
-	VerifyDCPDialog(wxWindow* parent, wxString title, std::shared_ptr<VerifyDCPJob> job);
+	VerifyDCPDialog(
+		wxWindow* parent,
+		wxString title,
+		std::vector<boost::filesystem::path> dcp_directories,
+		std::vector<boost::filesystem::path> kdms
+	);
 
 private:
 	void verify_clicked();
@@ -48,7 +54,8 @@ private:
 	Button* _cancel;
 	Button* _verify;
 	bool _cancel_pending;
-	std::shared_ptr<VerifyDCPJob> _job;
+	std::vector<boost::filesystem::path> _dcp_directories;
+	std::vector<boost::filesystem::path> _kdms;
 };
 
 
