@@ -96,7 +96,9 @@ Response
 HTTPServer::get(string const& url)
 {
 	if (url == "/") {
-		return Response(200, fmt::format(dcp::file_to_string(resources_path() / "web" / "index.html"), variant::dcpomatic_player()));
+		auto page = dcp::file_to_string(resources_path() / "web" / "index.html");
+		boost::algorithm::replace_all(page, "TITLE", variant::dcpomatic_player());
+		return Response(200, page);
 	} else if (url == "/api/v1/status") {
 		nlohmann::json json;
 		{
