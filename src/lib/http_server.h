@@ -46,6 +46,7 @@ public:
 	void send(std::shared_ptr<Socket> socket);
 
 	static Response ERROR_404;
+	static Response ERROR_500;
 
 private:
 	int _code;
