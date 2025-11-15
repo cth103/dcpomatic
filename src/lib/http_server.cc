@@ -38,6 +38,7 @@ using std::vector;
 
 
 Response Response::ERROR_404 = { 404, "<html><head><title>Error 404</title></head><body><h1>Error 404</h1></body></html>"};
+Response Response::ERROR_500 = { 500, "<html><head><title>Error 500</title></head><body><h1>Error 500</h1></body></html>"};
 
 
 HTTPServer::HTTPServer(int port, int timeout)
@@ -156,8 +157,8 @@ HTTPServer::request(vector<string> const& request)
 		LOG_ERROR("Unknown exception while handling HTTP request");
 	}
 
-	LOG_HTTP("404 {}", parts[0]);
-	return Response::ERROR_404;
+	LOG_HTTP("500 {}", parts[0]);
+	return Response::ERROR_500;
 }
 
 
