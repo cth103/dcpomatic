@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-11-09 20:17+0100\n"
-"PO-Revision-Date: 2025-11-12 19:13+0100\n"
+"PO-Revision-Date: 2025-11-15 11:52+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -754,7 +754,7 @@ msgstr "Kan niet aan deze DCP refereren"
 
 #: src/wx/dcp_referencing_dialog.cc:187
 msgid "Cannot reference this DCP's audio"
-msgstr "Kan niet aan het geluid van deze DCP refereren"
+msgstr "Kan niet aan de audio van deze DCP refereren"
 
 #: src/wx/dcp_referencing_dialog.cc:201
 msgid "Cannot reference this DCP's closed captions"
@@ -766,7 +766,7 @@ msgstr "Kan niet aan de ondertitels van deze DCP refereren"
 
 #: src/wx/dcp_referencing_dialog.cc:180
 msgid "Cannot reference this DCP's video"
-msgstr "Kan niet aan het beeld van deze DCP refereren"
+msgstr "Kan niet aan de video van deze DCP refereren"
 
 #: src/wx/text_view.cc:76
 msgid "Caption"
@@ -2578,7 +2578,7 @@ msgstr "Prestaties"
 
 #: src/wx/dcp_referencing_dialog.cc:115
 msgid "Picture"
-msgstr "Beeld"
+msgstr "Video"
 
 #: src/wx/email_preferences_page.cc:79
 msgid "Plain"
@@ -2594,7 +2594,7 @@ msgstr "Afspeelduur"
 
 #: src/wx/sound_preferences_page.cc:76
 msgid "Play sound via"
-msgstr "Speel geluid af via"
+msgstr "Speel audio af via"
 
 #: src/wx/locations_preferences_page.cc:71
 msgid "Playlist directory"
@@ -3217,7 +3217,7 @@ msgstr ""
 
 #: src/wx/dcp_referencing_dialog.cc:115 src/wx/sound_preferences_page.cc:65
 msgid "Sound"
-msgstr "Geluid"
+msgstr "Audio"
 
 #: src/wx/verify_dcp_result_panel.cc:640
 msgid "Sound assets do not all have the same channel count."
@@ -3756,7 +3756,7 @@ msgstr "De taal van de filmtitel (\"%s\")"
 #: src/wx/verify_dcp_result_panel.cc:268
 #, c-format
 msgid "The picture in a reel has a frame rate of %n, which is not valid."
-msgstr "Het beeld in een reel heeft een frame rate van %n, wat niet geldig is."
+msgstr "De video in een reel heeft een frame rate van %n, wat niet geldig is."
 
 #: src/wx/verify_dcp_result_panel.cc:595
 #, c-format
