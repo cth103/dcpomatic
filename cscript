@@ -570,9 +570,10 @@ def configure_options(target, options, for_package=False):
     if target.platform == 'osx' and target.arch == 'arm64':
         opt += ' --wx-config=%s/wx-config' % target.bin
 
+    ubuntu_year = int(target.version.split('.')[0]) if target.platform == 'linux' and target.distro == 'ubuntu' else None
     if target.platform == 'linux' and (
-        (target.distro == 'ubuntu' and target.version == '24.04') or
-        (target.distro == 'fedora' and target.version == '42')
+        (target.distro == 'ubuntu' and ubuntu_year >= 24) or
+        (target.distro == 'fedora' and int(target.version) >= 42)
     ):
         opt += ' --enable-grok --workaround-mutter'
 
