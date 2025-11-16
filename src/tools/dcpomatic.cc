@@ -1703,6 +1703,8 @@ private:
 			*/
 			Config::Bad.connect (boost::bind(&App::config_bad, this, _1));
 
+			signal_manager = new wxSignalManager (this);
+
 			_frame = new DOMFrame(variant::wx::dcpomatic());
 			SetTopWindow (_frame);
 			_frame->Maximize ();
@@ -1724,7 +1726,6 @@ private:
 
 			_frame->Show ();
 
-			signal_manager = new wxSignalManager (this);
 			Bind (wxEVT_IDLE, boost::bind (&App::idle, this, _1));
 
 			if (!_film_to_load.empty() && dcp::filesystem::is_directory(_film_to_load)) {
