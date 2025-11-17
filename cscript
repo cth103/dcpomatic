@@ -575,7 +575,13 @@ def configure_options(target, options, for_package=False):
         (target.distro == 'ubuntu' and ubuntu_year >= 24) or
         (target.distro == 'fedora' and int(target.version) >= 42)
     ):
-        opt += ' --enable-grok --workaround-mutter'
+        opt += ' --workaround-mutter'
+
+    if target.platform == 'linux' and (
+        (target.distro == 'ubuntu' and target.version == "24.04") or
+        (target.distro == 'fedora' and target.version == "42")
+    ):
+        opt += ' --enable-grok'
 
     if build_with_cpp17(target):
         opt += ' --c++17'
