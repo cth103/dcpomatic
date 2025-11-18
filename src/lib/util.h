@@ -103,6 +103,15 @@ extern std::string rfc_2822_date(time_t time);
 bool paths_exist(std::vector<boost::filesystem::path> const& paths);
 std::function<AVPixelFormat (AVPixelFormat)> force(AVPixelFormat format);
 
+/** @param path Some path.
+ *  @param base Some base path.
+ *  @return path relative to base, if possible, otherwise path.
+ *
+ *  This wraps boost::filesystem::path which returns an empty path if you try to get an impossible
+ *  relative path on Windows (e.g. X:\foo relative to C:\bar).
+ */
+boost::filesystem::path relative_path(boost::filesystem::path const& path, boost::filesystem::path const& base);
+
 
 template <class T>
 T

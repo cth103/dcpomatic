@@ -1180,3 +1180,15 @@ force(AVPixelFormat format)
 	return [format](AVPixelFormat) { return format; };
 }
 
+
+boost::filesystem::path
+relative_path(boost::filesystem::path const& path, boost::filesystem::path const& base)
+{
+	auto relative = boost::filesystem::relative(path, base);
+	if (relative == boost::filesystem::path()) {
+		return path;
+	}
+
+	return relative;
+}
+

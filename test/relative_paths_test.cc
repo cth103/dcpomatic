@@ -23,6 +23,7 @@
 #include "lib/content_factory.h"
 #include "lib/config.h"
 #include "lib/film.h"
+#include "lib/util.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
 
@@ -42,3 +43,19 @@ BOOST_AUTO_TEST_CASE(relative_paths_test)
 	BOOST_REQUIRE(paths_exist(film2->content()[0]->paths()));
 }
 
+
+#ifdef DCPOMATIC_WINDOWS
+BOOST_AUTO_TEST_CASE(relative_paths_test_windows_other_drive)
+{
+	/* Assumes we're on C: */
+
+	ConfigRestorer cr;
+	Config::instance()->set_relative_paths(true);
+
+	auto film = new_test_film("relative_paths_test_windows_other_drive");
+
+	BOOST_REQUIRE(static_cast<bool>(film->directory()));
+	BOOST_CHECK(relative_path("C:\\foo\\bar", *film->directory()).is_relative());
+	BOOST_CHECK(relative_path("X:\\foo\\bar.png", *film->directory()) == boost::filesystem::path("X:\\foo\\bar.png"));
+}
+#endif
