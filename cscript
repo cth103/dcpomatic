@@ -42,7 +42,7 @@ def debian_name(variant):
 
 deb_build_depends = dict()
 
-deb_build_depends_base = ['debhelper', 'g++', 'pkg-config', 'libsndfile1-dev', 'libx264-dev']
+deb_build_depends_base = ['debhelper', 'g++', 'pkg-config', 'libsndfile1-dev', 'libx264-dev', 'libcap2-bin']
 
 for v in ['16.04', '18.04', '20.04']:
     deb_build_depends[v] = copy.deepcopy(deb_build_depends_base)
