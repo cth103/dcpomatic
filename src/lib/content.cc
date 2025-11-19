@@ -138,7 +138,7 @@ Content::as_xml(xmlpp::Element* element, bool with_paths, PathBehaviour path_beh
 			auto path = _paths[i];
 			if (path_behaviour == PathBehaviour::MAKE_RELATIVE) {
 				DCPOMATIC_ASSERT(film_directory);
-				path = boost::filesystem::relative(path, *film_directory);
+				path = relative_path(path, *film_directory);
 			}
 			auto p = cxml::add_child(element, "Path");
 			p->add_child_text(path.string());
