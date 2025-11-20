@@ -19,8 +19,6 @@
 */
 
 
-#define UNICODE 1
-
 #include "cross.h"
 #include "log.h"
 #include "dcpomatic_log.h"
