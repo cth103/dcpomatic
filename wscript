@@ -212,6 +212,8 @@ def configure(conf):
         conf.env.append_value('CXXFLAGS', '-DBOOST_USE_WINDOWS_H')
         conf.env.append_value('CXXFLAGS', '-DBOOST_THREAD_PROVIDES_GENERIC_SHARED_MUTEX_ON_WIN')
         conf.env.append_value('CXXFLAGS', '-Wcast-align')
+        conf.env.append_value('CXXFLAGS', '-DUNICODE=1')
+        conf.env.append_value('CXXFLAGS', '-D_UNICODE=1')
         wxrc = os.popen('wx-config --rescomp').read().split()[1:]
         conf.env.append_value('WINRCFLAGS', wxrc)
         if conf.options.enable_debug:

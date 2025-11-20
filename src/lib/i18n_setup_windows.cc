@@ -19,9 +19,6 @@
 */
 
 
-#define UNICODE 1
-
-
 #include "i18n_setup.h"
 #include <fmt/format.h>
 #include <boost/filesystem.hpp>
