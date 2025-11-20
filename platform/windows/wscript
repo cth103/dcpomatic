@@ -107,6 +107,10 @@ static_deps = (
     "libhpdf.dll",
     "libltdl-7.dll",
     "libdl.dll",
+    "libwebpdemux-2.dll",
+    "libnghttp2-14.dll"
+    "libpsl-5.dll",
+    "libzstd.dll",
 )
 
 fonts = (
