@@ -253,7 +253,7 @@ exception_handler(struct _EXCEPTION_POINTERS * info)
 {
 	dcp::File f(backtrace_file, "w");
 	if (f) {
-		fprintf(f.get(), "C-style exception %d\n", info->ExceptionRecord->ExceptionCode);
+		fprintf(f.get(), "C-style exception %ld\n", info->ExceptionRecord->ExceptionCode);
 		f.close();
 	}
 
