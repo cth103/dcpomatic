@@ -13,5 +13,6 @@ docker run --init --rm -it \
     -e DISPLAY=:0 \
     -e DCPOMATIC_GRAPHICS=$DCPOMATIC_GRAPHICS \
     --device /dev/snd \
+    -e HOME=$HOME \
     -p 8080:8080 \
     dcpomatic-v2.19.x $binary $* 2> >(grep -v Gtk-CRITICAL | grep -v Gtk-WARNING)
