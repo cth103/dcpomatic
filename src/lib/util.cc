@@ -23,9 +23,6 @@
  */
 
 
-#define UNICODE 1
-
-
 #include "audio_buffers.h"
 #include "audio_processor.h"
 #include "cinema_sound_processor.h"
