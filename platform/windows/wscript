@@ -201,6 +201,10 @@ File "%static_deps%/bin/libsharpyuv-0.dll"
 File "%static_deps%/bin/libsqlite3-0.dll"
 File "%static_deps%/bin/libfmt.dll"
 File "%static_deps%/bin/libhpdf.dll"
+File "%static_deps%/bin/libwebpdemux-2.dll"
+File "%static_deps%/bin/libnghttp2-14.dll"
+File "%static_deps%/bin/libpsl-5.dll"
+File "%static_deps%/bin/libzstd.dll"
     """, file=f)
 
     if bits == 32:
