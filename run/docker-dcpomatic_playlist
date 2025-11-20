@@ -1,0 +1,18 @@
+#!/bin/bash
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+source $DIR/environment
+binary=$build/src/tools/dcpomatic2_playlist
+
+xhost + local:docker
+docker run --init --rm -it \
+    -u carl \
+    -v /home/carl:/home/carl \
+    -v /tmp/.X11-unix:/tmp/.X11-unix \
+    -v /run:/run \
+    -e DISPLAY=:0 \
+    -e DCPOMATIC_GRAPHICS=$DCPOMATIC_GRAPHICS \
+    --device /dev/snd \
+    -e HOME=$HOME \
+    -w /home/carl \
+    dcpomatic-v2.19.x $binary $* 2> >(grep -v Gtk-CRITICAL | grep -v Gtk-WARNING)
