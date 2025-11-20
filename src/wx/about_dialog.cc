@@ -58,7 +58,6 @@ AboutDialog::AboutDialog(wxWindow* parent)
 	t->SetFont(title_font);
 	sizer->Add(t, wxSizerFlags().Centre().Border(wxALL, 16));
 
-	wxString s;
 	if (strcmp(dcpomatic_git_commit, "release") == 0) {
 		t = new StaticText(this, std_to_wx(fmt::format("Version {}", dcpomatic_version)));
 	} else {
