@@ -23,6 +23,8 @@
 #include "dcpomatic_log.h"
 #include "dcpomatic_socket.h"
 #include "http_server.h"
+#include "show_playlist.h"
+#include "show_playlist_list.h"
 #include "util.h"
 #include "variant.h"
 #include <nlohmann/json.hpp>
@@ -106,6 +108,15 @@ HTTPServer::get(string const& url)
 			json["playing"] = _playing;
 			json["position"] = seconds_to_hms(_position.seconds());
 			json["dcp_name"] = _dcp_name;
+		}
+		auto response = Response(200, json.dump());
+		response.set_type(Response::Type::JSON);
+		return response;
+	} else if (url == "/api/v1/playlists") {
+		ShowPlaylistList list;
+		nlohmann::json json;
+		for (auto spl: list.show_playlists()) {
+			json.push_back(spl.second.as_json());
 		}
 		auto response = Response(200, json.dump());
 		response.set_type(Response::Type::JSON);
