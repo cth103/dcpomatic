@@ -41,14 +41,14 @@ static_deps = (
     "libstdc++-6.dll",
     "zlib1.dll",
     "libjpeg-9.dll",
-    "wxbase317u_gcc_custom.dll",
-    "wxmsw317u_core_gcc_custom.dll",
-    "wxmsw317u_adv_gcc_custom.dll",
-    "wxmsw317u_richtext_gcc_custom.dll",
-    "wxmsw317u_html_gcc_custom.dll",
-    "wxmsw317u_gl_gcc_custom.dll",
-    "wxmsw317u_propgrid_gcc_custom.dll",
-    "wxbase317u_xml_gcc_custom.dll",
+    "wxbase331u_gcc_custom.dll",
+    "wxmsw331u_core_gcc_custom.dll",
+    "wxmsw331u_adv_gcc_custom.dll",
+    "wxmsw331u_richtext_gcc_custom.dll",
+    "wxmsw331u_html_gcc_custom.dll",
+    "wxmsw331u_gl_gcc_custom.dll",
+    "wxmsw331u_propgrid_gcc_custom.dll",
+    "wxbase331u_xml_gcc_custom.dll",
     "libcairo-2.dll",
     "libfreetype-6.dll",
     "libgthread-2.0-0.dll",
@@ -69,7 +69,7 @@ static_deps = (
     "libxmlsec1-openssl.dll",
     "libexslt-0.dll",
     "libxslt-1.dll",
-    "libffi-7.dll",
+    "libffi-8.dll",
     "openssl.exe",
     "libcurl-4.dll",
     "libzip.dll",
@@ -77,22 +77,24 @@ static_deps = (
     "libpangomm-1.4-1.dll",
     "libsamplerate-0.dll",
     "libnettle-8.dll",
-    "icuuc66.dll",
-    "icudt66.dll",
-    "icuin66.dll",
+    "icuuc74.dll",
+    "icudt74.dll",
+    "icuin74.dll",
     "liblzma-5.dll",
-    "libpcre-1.dll",
+    "libpcre-2-16-0.dll",
+    "libpcre-2-8-0.dll",
+    "libpcre-2-posix-3.dll",
     "libharfbuzz-0.dll",
     "libwinpthread-1.dll",
     "libgnutls-30.dll",
     "libgmp-10.dll",
     "libhogweed-6.dll",
     "libidn2-0.dll",
-    "libunistring-2.dll",
+    "libunistring-5.dll",
     "libssh2-1.dll",
     "libgcrypt-20.dll",
     "libgpg-error-0.dll",
-    "libx264-155.dll",
+    "libx264-165.dll",
     "libwebp-7.dll",
     "GLEW.dll",
     "libdav1d.dll",
@@ -353,7 +355,7 @@ def write_installer(bits, dcpomatic_version, debug, disk, variant):
             print(f'File "%binaries%/src/wx/mo/{language}_{country}/libdcpomatic2-wx.mo"', file=f)
             print(f'File "%binaries%/src/tools/mo/{language}_{country}/dcpomatic2.mo"', file=f)
             if wx:
-                print(f'File "%static_deps%/share/locale/{lc}/LC_MESSAGES/wxstd-3.1.mo"', file=f)
+                print(f'File "%static_deps%/share/locale/{lc}/LC_MESSAGES/wxstd-3.3.mo"', file=f)
 
         language('fr', 'FR')
         language('it', 'IT')
@@ -377,7 +379,7 @@ def write_installer(bits, dcpomatic_version, debug, disk, variant):
         language('hu', 'HU', wx=False, full=True)
         language('ja', 'JP', wx=False, full=True)
         language('fa', 'IR', wx=False, full=True)
-        print('File /oname=wxstd-3.1.mo "%binaries%/src/wx/mo/fa_IR/wxstd.mo"', file=f)
+        print('File /oname=wxstd-3.3.mo "%binaries%/src/wx/mo/fa_IR/wxstd.mo"', file=f)
 
         print('SetOutPath "$INSTDIR"', file=f)
 
