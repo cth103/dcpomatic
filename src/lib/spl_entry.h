@@ -49,7 +49,7 @@ public:
 	/** CPL ID */
 	boost::optional<std::string> id;
 	boost::optional<dcp::ContentKind> kind;
-	bool encrypted;
+	bool encrypted = false;
 	boost::optional<float> crop_to_ratio;
 
 private:
