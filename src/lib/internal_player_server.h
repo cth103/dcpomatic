@@ -24,7 +24,9 @@
 #include "signaller.h"
 #include "types.h"
 #include <boost/filesystem.hpp>
+LIBDCP_DISABLE_WARNINGS
 #include <boost/signals2.hpp>
+LIBDCP_ENABLE_WARNINGS
 
 
 /** A server which is always started, that listens for requests from the main

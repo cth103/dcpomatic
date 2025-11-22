@@ -32,7 +32,9 @@
 #include "text_type.h"
 #include "video_ring_buffers.h"
 #include <boost/asio.hpp>
+LIBDCP_DISABLE_WARNINGS
 #include <boost/signals2.hpp>
+LIBDCP_ENABLE_WARNINGS
 #include <boost/thread.hpp>
 #include <boost/thread/condition.hpp>
 

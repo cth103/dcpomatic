@@ -27,7 +27,9 @@
 #include "text_type.h"
 #include "weak_film.h"
 #include <boost/atomic.hpp>
+LIBDCP_DISABLE_WARNINGS
 #include <boost/signals2.hpp>
+LIBDCP_ENABLE_WARNINGS
 #include <string>
 #include <vector>
 
