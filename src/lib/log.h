@@ -32,7 +32,9 @@
 #include <dcp/types.h>
 #include <boost/thread/mutex.hpp>
 #include <boost/filesystem.hpp>
+LIBDCP_DISABLE_WARNINGS
 #include <boost/signals2.hpp>
+LIBDCP_ENABLE_WARNINGS
 #include <string>
 
 
