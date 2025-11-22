@@ -30,7 +30,9 @@
 #include "types.h"
 #include <dcp/subtitle_standard.h>
 #include <dcp/text_string.h>
+LIBDCP_DISABLE_WARNINGS
 #include <boost/signals2.hpp>
+LIBDCP_ENABLE_WARNINGS
 
 
 namespace sub {

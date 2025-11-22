@@ -26,7 +26,9 @@ LIBDCP_DISABLE_WARNINGS
 #include <wx/wx.h>
 LIBDCP_ENABLE_WARNINGS
 #include <boost/filesystem.hpp>
+LIBDCP_DISABLE_WARNINGS
 #include <boost/signals2.hpp>
+LIBDCP_ENABLE_WARNINGS
 
 
 class KDMCPLPanel : public wxPanel
