@@ -24,9 +24,12 @@
 
 
 #include <dcp/array_data.h>
+#include <dcp/warnings.h>
 #include <libcxml/cxml.h>
 #include <boost/optional.hpp>
+LIBDCP_DISABLE_WARNINGS
 #include <boost/signals2.hpp>
+LIBDCP_ENABLE_WARNINGS
 #include <boost/filesystem.hpp>
 #include <string>
 

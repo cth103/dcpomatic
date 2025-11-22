@@ -39,7 +39,6 @@
 #include "text_content.h"
 #include "video_decoder.h"
 #include "writer.h"
-#include <boost/signals2.hpp>
 #include <iostream>
 
 #include "i18n.h"
