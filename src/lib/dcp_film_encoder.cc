@@ -35,7 +35,6 @@
 #include "referenced_reel_asset.h"
 #include "text_content.h"
 #include "writer.h"
-#include <boost/signals2.hpp>
 #include <iostream>
 
 #include "i18n.h"
