@@ -22,7 +22,10 @@
 #include "atmos_metadata.h"
 #include "content_atmos.h"
 #include "decoder_part.h"
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
 #include <boost/signals2.hpp>
+LIBDCP_ENABLE_WARNINGS
 
 
 class AtmosDecoder : public DecoderPart

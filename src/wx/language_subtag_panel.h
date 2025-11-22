@@ -24,8 +24,8 @@
 LIBDCP_DISABLE_WARNINGS
 #include <wx/srchctrl.h>
 #include <wx/wx.h>
-LIBDCP_ENABLE_WARNINGS
 #include <boost/signals2.hpp>
+LIBDCP_ENABLE_WARNINGS
 
 
 /** A panel which offers a list of subtags in two columns: subtag and name, and has a search box to

@@ -32,7 +32,9 @@
 #include "content_audio.h"
 #include "decoder.h"
 #include "decoder_part.h"
+LIBDCP_DISABLE_WARNINGS
 #include <boost/signals2.hpp>
+LIBDCP_ENABLE_WARNINGS
 
 
 class AudioBuffers;

@@ -23,8 +23,8 @@
 LIBDCP_DISABLE_WARNINGS
 #include <wx/wx.h>
 #include <wx/listctrl.h>
-LIBDCP_ENABLE_WARNINGS
 #include <boost/signals2.hpp>
+LIBDCP_ENABLE_WARNINGS
 
 class ServersListDialog : public wxDialog
 {

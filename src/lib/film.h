@@ -53,7 +53,9 @@
 #include <dcp/rating.h>
 #include <dcp/types.h>
 #include <boost/filesystem.hpp>
+LIBDCP_DISABLE_WARNINGS
 #include <boost/signals2.hpp>
+LIBDCP_ENABLE_WARNINGS
 #include <boost/thread.hpp>
 #include <boost/thread/mutex.hpp>
 #include <inttypes.h>
