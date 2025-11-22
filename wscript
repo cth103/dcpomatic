@@ -618,6 +618,7 @@ def configure(conf):
                        uselib_store='BOOST_DATETIME')
 
         conf.check_cxx(fragment="""
+                   _Pragma("GCC diagnostic ignored \\"-Wunused-parameter\\"")
     			    #include <boost/signals2.hpp>\n
     			    int main() { boost::signals2::signal<void (int)> x; }\n
 			    """,
