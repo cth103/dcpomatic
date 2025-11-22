@@ -502,7 +502,7 @@ def build_with_cpp17(target):
 
 
 def dependencies(target, options):
-    deps = [('libdcp', 'cbccdb4b600de0aa323b0a80b84c17f94ca0a45a', {'c++17': build_with_cpp17(target)})]
+    deps = [('libdcp', '23f02e6ba2dd482a52812d951eecc7870b9f177f', {'c++17': build_with_cpp17(target)})]
     deps.append(('libsub', 'v1.6.58'))
     deps.append(('leqm-nrt', 'd75d0af984d9c14bfefca8f1bdbc215c3bf3a388'))
     if target.platform != 'linux' or target.distro != 'arch':
