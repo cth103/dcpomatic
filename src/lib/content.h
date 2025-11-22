@@ -36,7 +36,9 @@
 #include "text_type.h"
 #include <libcxml/cxml.h>
 #include <boost/filesystem.hpp>
+LIBDCP_DISABLE_WARNINGS
 #include <boost/signals2.hpp>
+LIBDCP_ENABLE_WARNINGS
 #include <boost/thread/mutex.hpp>
 
 

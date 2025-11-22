@@ -34,7 +34,9 @@ LIBDCP_ENABLE_WARNINGS
 #include <boost/algorithm/string.hpp>
 #include <boost/bind/bind.hpp>
 #include <boost/optional.hpp>
+LIBDCP_DISABLE_WARNINGS
 #include <boost/signals2.hpp>
+LIBDCP_ENABLE_WARNINGS
 #include <iterator>
 #include <string>
 #include <vector>

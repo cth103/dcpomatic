@@ -27,8 +27,8 @@ LIBDCP_DISABLE_WARNINGS
 #include <wx/srchctrl.h>
 #include <wx/treelist.h>
 #include <wx/wx.h>
-LIBDCP_ENABLE_WARNINGS
 #include <boost/signals2.hpp>
+LIBDCP_ENABLE_WARNINGS
 #include <list>
 #include <map>
 #include <set>

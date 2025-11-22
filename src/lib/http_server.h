@@ -22,7 +22,9 @@
 #include "dcpomatic_time.h"
 #include "server.h"
 #include "signaller.h"
+LIBDCP_DISABLE_WARNINGS
 #include <boost/signals2.hpp>
+LIBDCP_ENABLE_WARNINGS
 
 
 class Response
