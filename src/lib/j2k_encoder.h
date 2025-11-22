@@ -35,8 +35,11 @@
 #include "j2k_encoder_thread.h"
 #include "writer.h"
 #include "video_encoder.h"
+#include <dcp/warnings.h>
 #include <boost/optional.hpp>
+LIBDCP_DISABLE_WARNINGS
 #include <boost/signals2.hpp>
+LIBDCP_ENABLE_WARNINGS
 #include <boost/thread.hpp>
 #include <boost/thread/condition.hpp>
 #include <boost/thread/mutex.hpp>
