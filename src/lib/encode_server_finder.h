@@ -28,7 +28,9 @@
 #include "encode_server_description.h"
 #include "exception_store.h"
 #include "signaller.h"
+LIBDCP_DISABLE_WARNINGS
 #include <boost/signals2.hpp>
+LIBDCP_ENABLE_WARNINGS
 #include <boost/thread/condition.hpp>
 
 
