@@ -32,9 +32,12 @@
 #include "test.h"
 #include <dcp/file.h>
 #include <dcp/raw_convert.h>
+#include <dcp/warnings.h>
 #include <boost/test/unit_test.hpp>
 #include <boost/bind/bind.hpp>
+LIBDCP_DISABLE_WARNINGS
 #include <boost/signals2.hpp>
+LIBDCP_ENABLE_WARNINGS
 #include <iostream>
 
 

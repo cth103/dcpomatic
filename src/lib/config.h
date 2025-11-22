@@ -37,7 +37,10 @@
 #include <dcp/certificate_chain.h>
 #include <dcp/encrypted_kdm.h>
 #include <dcp/language_tag.h>
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
 #include <boost/signals2.hpp>
+LIBDCP_ENABLE_WARNINGS
 #include <boost/filesystem.hpp>
 #include <vector>
 
