@@ -212,7 +212,7 @@ BOOST_AUTO_TEST_CASE(render_text_with_stretch_test)
 		image_as_png(Image::ensure_alignment(images.front().image, Image::Alignment::PADDED)).write(
 			fmt::format("build/test/render_text_with_stretch_{}_test.png", stretch.second)
 			);
-#if PANGO_VERSION_CHECK(1, 52, 1)
+#if PANGO_VERSION_CHECK(1, 51, 2)
 		check_image(
 			fmt::format("test/data/render_text_with_stretch_{}_test.png", stretch.second),
 			fmt::format("build/test/render_text_with_stretch_{}_test.png", stretch.second)
