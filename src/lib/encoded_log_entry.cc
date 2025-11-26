@@ -26,22 +26,22 @@
 using std::string;
 
 
-EncodedLogEntry::EncodedLogEntry (int frame, string ip, double receive, double encode, double send)
-	: LogEntry (LogEntry::TYPE_GENERAL)
-	, _frame (frame)
-	, _ip (ip)
-	, _receive (receive)
-	, _encode (encode)
-	, _send (send)
+EncodedLogEntry::EncodedLogEntry(int frame, string ip, double receive, double encode, double send)
+	: LogEntry(LogEntry::TYPE_GENERAL)
+	, _frame(frame)
+	, _ip(ip)
+	, _receive(receive)
+	, _encode(encode)
+	, _send(send)
 {
 
 }
 
 
 string
-EncodedLogEntry::message () const
+EncodedLogEntry::message() const
 {
 	char buffer[256];
-	snprintf (buffer, sizeof(buffer), "Encoded frame %d from %s: receive %.2fs encode %.2fs send %.2fs.", _frame, _ip.c_str(), _receive, _encode, _send);
+	snprintf(buffer, sizeof(buffer), "Encoded frame %d from %s: receive %.2fs encode %.2fs send %.2fs.", _frame, _ip.c_str(), _receive, _encode, _send);
 	return buffer;
 }
