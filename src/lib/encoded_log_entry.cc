@@ -20,7 +20,7 @@
 
 
 #include "encoded_log_entry.h"
-#include <cstdio>
+#include <fmt/format.h>
 
 
 using std::string;
@@ -41,7 +41,5 @@ EncodedLogEntry::EncodedLogEntry(int frame, string ip, double receive, double en
 string
 EncodedLogEntry::message() const
 {
-	char buffer[256];
-	snprintf(buffer, sizeof(buffer), "Encoded frame %d from %s: receive %.2fs encode %.2fs send %.2fs.", _frame, _ip.c_str(), _receive, _encode, _send);
-	return buffer;
+	return fmt::format("Encoded frame {} from {}: receive {:.2f}s encode {:.2f}s send {:.2f}s.", _frame, _ip.c_str(), _receive, _encode, _send);
 }
