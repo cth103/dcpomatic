@@ -305,7 +305,7 @@ def can_build_disk(target):
             return True
         if target.distro == 'debian' and target.version != '9':
             return True
-        if target.detail == 'appimage':
+        if target.detail == 'appimage' and target.version != '14.04':
             return True 
         if target.distro == 'fedora' and int(target.version) >= 31:
             return True
