@@ -79,10 +79,6 @@ static unsigned int const log_lines = 128;
 class ServerLog : public Log, public Signaller
 {
 public:
-	ServerLog()
-		: _fps(0)
-	{}
-
 	string get() const {
 		string a;
 		for (auto const& i: _log) {
@@ -124,8 +120,7 @@ private:
 		append(entry->message());
 		_last_time = *local;
 
-		auto encoded = dynamic_pointer_cast<const EncodedLogEntry>(entry);
-		if (encoded) {
+		if (auto encoded = dynamic_pointer_cast<const EncodedLogEntry>(entry)) {
 			_history.push_back(encoded->seconds());
 			if (_history.size() > 48) {
 				_history.pop_front();
@@ -148,7 +143,7 @@ private:
 	std::list<double> _history;
 
 	mutable boost::mutex _state_mutex;
-	float _fps;
+	float _fps = 0;
 };
 
 
