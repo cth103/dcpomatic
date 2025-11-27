@@ -79,11 +79,11 @@ static unsigned int const log_lines = 128;
 class ServerLog : public Log, public Signaller
 {
 public:
-	ServerLog ()
-		: _fps (0)
+	ServerLog()
+		: _fps(0)
 	{}
 
-	string get () const {
+	string get() const {
 		string a;
 		for (auto const& i: _log) {
 			a += i + "\n";
@@ -91,8 +91,8 @@ public:
 		return a;
 	}
 
-	float fps () const {
-		boost::mutex::scoped_lock lm (_state_mutex);
+	float fps() const {
+		boost::mutex::scoped_lock lm(_state_mutex);
 		return _fps;
 	}
 
@@ -100,10 +100,10 @@ public:
 	boost::signals2::signal<void(int)> Removed;
 
 private:
-	void do_log (shared_ptr<const LogEntry> entry) override
+	void do_log(shared_ptr<const LogEntry> entry) override
 	{
-		time_t const s = entry->seconds ();
-		struct tm* local = localtime (&s);
+		time_t const s = entry->seconds();
+		struct tm* local = localtime(&s);
 		if (
 			!_last_time ||
 			local->tm_yday != _last_time->tm_yday ||
@@ -112,35 +112,35 @@ private:
 			local->tm_min != _last_time->tm_min
 			) {
 			char buffer[64];
-			strftime (buffer, 64, "%c", local);
-			append (buffer);
+			strftime(buffer, 64, "%c", local);
+			append(buffer);
 		}
 
 		if (_log.size() > log_lines) {
-			emit (boost::bind (boost::ref (Removed), _log.front().length()));
-			_log.pop_front ();
+			emit(boost::bind(boost::ref(Removed), _log.front().length()));
+			_log.pop_front();
 		}
 
-		append (entry->message ());
+		append(entry->message());
 		_last_time = *local;
 
-		auto encoded = dynamic_pointer_cast<const EncodedLogEntry> (entry);
+		auto encoded = dynamic_pointer_cast<const EncodedLogEntry>(entry);
 		if (encoded) {
-			_history.push_back (encoded->seconds ());
+			_history.push_back(encoded->seconds());
 			if (_history.size() > 48) {
-				_history.pop_front ();
+				_history.pop_front();
 			}
 			if (_history.size() > 2) {
-				boost::mutex::scoped_lock lm (_state_mutex);
+				boost::mutex::scoped_lock lm(_state_mutex);
 				_fps = _history.size() / (_history.back() - _history.front());
 			}
 		}
 	}
 
-	void append (string s)
+	void append(string s)
 	{
-		_log.push_back (s);
-		emit (boost::bind(boost::ref(Appended), s));
+		_log.push_back(s);
+		emit(boost::bind(boost::ref(Appended), s));
 	}
 
 	list<string> _log;
@@ -158,8 +158,8 @@ static shared_ptr<ServerLog> server_log;
 class StatusDialog : public wxDialog
 {
 public:
-	StatusDialog ()
-		: wxDialog (
+	StatusDialog()
+		: wxDialog(
 			nullptr, wxID_ANY, variant::wx::dcpomatic_encode_server(),
 			wxDefaultPosition, wxDefaultSize,
 #ifdef DCPOMATIC_OSX
@@ -175,8 +175,8 @@ public:
 		_fps = new StaticText(this, {});
 		state_sizer->Add(_fps, 1, wxLEFT, DCPOMATIC_DIALOG_BORDER);
 
-		_text = new wxTextCtrl (
-			this, wxID_ANY, std_to_wx (server_log->get()), wxDefaultPosition, wxDefaultSize,
+		_text = new wxTextCtrl(
+			this, wxID_ANY, std_to_wx(server_log->get()), wxDefaultPosition, wxDefaultSize,
 			wxTE_READONLY | wxTE_MULTILINE
 			);
 
@@ -186,23 +186,23 @@ public:
 		SetSizer(overall_sizer);
 		overall_sizer->Layout();
 
-		Bind (wxEVT_TIMER, boost::bind (&StatusDialog::update_state, this));
-		_timer.reset (new wxTimer (this));
-		_timer->Start (1000);
+		Bind(wxEVT_TIMER, boost::bind(&StatusDialog::update_state, this));
+		_timer.reset(new wxTimer(this));
+		_timer->Start(1000);
 
-		server_log->Appended.connect (bind (&StatusDialog::appended, this, _1));
-		server_log->Removed.connect (bind (&StatusDialog::removed, this, _1));
+		server_log->Appended.connect(bind(&StatusDialog::appended, this, _1));
+		server_log->Removed.connect(bind(&StatusDialog::removed, this, _1));
 
 		SetSize(800, 600);
 	}
 
 private:
-	void appended (string s)
+	void appended(string s)
 	{
 		(*_text) << std_to_wx(s) << char_to_wx("\n");
 	}
 
-	void removed (int n)
+	void removed(int n)
 	{
 #ifdef DCPOMATIC_WINDOWS
 		_text->Remove(0, n + 2);
@@ -211,7 +211,7 @@ private:
 #endif
 	}
 
-	void update_state ()
+	void update_state()
 	{
 		_fps->SetLabel(wxString::Format(char_to_wx("%.1f"), server_log->fps()));
 	}
@@ -228,15 +228,15 @@ static StatusDialog* status_dialog = nullptr;
 class TaskBarIcon : public wxTaskBarIcon
 {
 public:
-	TaskBarIcon ()
+	TaskBarIcon()
 	{
-		set_icon ();
+		set_icon();
 
-		Bind (wxEVT_MENU, boost::bind (&TaskBarIcon::status, this), ID_status);
-		Bind (wxEVT_MENU, boost::bind (&TaskBarIcon::quit, this), ID_quit);
+		Bind(wxEVT_MENU, boost::bind(&TaskBarIcon::status, this), ID_status);
+		Bind(wxEVT_MENU, boost::bind(&TaskBarIcon::quit, this), ID_quit);
 	}
 
-	wxMenu* CreatePopupMenu () override
+	wxMenu* CreatePopupMenu() override
 	{
 		auto menu = new wxMenu;
 		menu->Append(ID_status, _("Status..."));
@@ -244,32 +244,32 @@ public:
 		return menu;
 	}
 
-	void set_icon ()
+	void set_icon()
 	{
 #ifdef DCPOMATIC_WINDOWS
-		wxIcon icon (std_to_wx("id"));
+		wxIcon icon(std_to_wx("id"));
 #else
 		string const colour = gui_is_dark() ? "white" : "black";
-		wxBitmap bitmap (
+		wxBitmap bitmap(
 			bitmap_path(fmt::format("dcpomatic_small_{}.png", colour)),
 			wxBITMAP_TYPE_PNG
 			);
 		wxIcon icon;
-		icon.CopyFromBitmap (bitmap);
+		icon.CopyFromBitmap(bitmap);
 #endif
 
 		SetIcon(icon, _("DCP-o-matic Encode Server"));
 	}
 
 private:
-	void status ()
+	void status()
 	{
-		status_dialog->Show ();
+		status_dialog->Show();
 	}
 
-	void quit ()
+	void quit()
 	{
-		wxTheApp->ExitMainLoop ();
+		wxTheApp->ExitMainLoop();
 	}
 };
 
@@ -277,36 +277,36 @@ private:
 class App : public wxApp, public ExceptionStore
 {
 public:
-	App ()
-		: wxApp ()
+	App()
+		: wxApp()
 	{}
 
 private:
 
-	bool OnInit () override
+	bool OnInit() override
 	{
 		if (!wxApp::OnInit()) {
 			return false;
 		}
 
-		wxInitAllImageHandlers ();
+		wxInitAllImageHandlers();
 
-		server_log.reset (new ServerLog);
-		server_log->set_types (LogEntry::TYPE_GENERAL | LogEntry::TYPE_WARNING | LogEntry::TYPE_ERROR);
+		server_log.reset(new ServerLog);
+		server_log->set_types(LogEntry::TYPE_GENERAL | LogEntry::TYPE_WARNING | LogEntry::TYPE_ERROR);
 		dcpomatic_log = server_log;
 
 		Config::FailedToLoad.connect(boost::bind(&App::config_failed_to_load, this, _1));
-		Config::Warning.connect (boost::bind (&App::config_warning, this, _1));
+		Config::Warning.connect(boost::bind(&App::config_warning, this, _1));
 
-		auto splash = maybe_show_splash ();
+		auto splash = maybe_show_splash();
 
-		dcpomatic_setup_path_encoding ();
+		dcpomatic_setup_path_encoding();
 		dcpomatic::wx::setup_i18n();
-		dcpomatic_setup ();
-		Config::drop ();
+		dcpomatic_setup();
+		Config::drop();
 
-		signal_manager = new wxSignalManager (this);
-		Bind (wxEVT_IDLE, boost::bind (&App::idle, this));
+		signal_manager = new wxSignalManager(this);
+		Bind(wxEVT_IDLE, boost::bind(&App::idle, this));
 
 		/* Bad things happen (on Linux at least) if the config is reloaded by main_thread;
 		   it seems like there's a race which results in the locked_sstream mutex being
@@ -315,24 +315,24 @@ private:
 		*/
 		Config::instance();
 
-		status_dialog = new StatusDialog ();
+		status_dialog = new StatusDialog();
 #ifdef DCPOMATIC_LINUX
-		status_dialog->Show ();
+		status_dialog->Show();
 #else
 		_icon = new TaskBarIcon;
-		status_dialog->Bind (wxEVT_SYS_COLOUR_CHANGED, boost::bind(&TaskBarIcon::set_icon, _icon));
+		status_dialog->Bind(wxEVT_SYS_COLOUR_CHANGED, boost::bind(&TaskBarIcon::set_icon, _icon));
 #endif
-		_thread = thread (bind (&App::main_thread, this));
+		_thread = thread(bind(&App::main_thread, this));
 
-		Bind (wxEVT_TIMER, boost::bind (&App::check, this));
-		_timer.reset (new wxTimer (this));
-		_timer->Start (1000);
+		Bind(wxEVT_TIMER, boost::bind(&App::check, this));
+		_timer.reset(new wxTimer(this));
+		_timer->Start(1000);
 
 		if (splash) {
-			splash->Destroy ();
+			splash->Destroy();
 		}
 
-		SetExitOnFrameDelete (false);
+		SetExitOnFrameDelete(false);
 
 #ifdef DCPOMATIC_GROK
 		grk_plugin::setMessengerLogger(new grk_plugin::GrokLogger("[GROK] "));
@@ -342,36 +342,36 @@ private:
 		return true;
 	}
 
-	int OnExit () override
+	int OnExit() override
 	{
 		delete _icon;
-		return wxApp::OnExit ();
+		return wxApp::OnExit();
 	}
 
-	void main_thread ()
+	void main_thread()
 	try {
-		EncodeServer server (false, Config::instance()->server_encoding_threads());
-		server.run ();
+		EncodeServer server(false, Config::instance()->server_encoding_threads());
+		server.run();
 	} catch (...) {
-		store_current ();
+		store_current();
 	}
 
-	void check ()
+	void check()
 	{
 		try {
-			rethrow ();
+			rethrow();
 		} catch (exception& e) {
-			error_dialog (nullptr, std_to_wx(e.what()));
-			wxTheApp->ExitMainLoop ();
+			error_dialog(nullptr, std_to_wx(e.what()));
+			wxTheApp->ExitMainLoop();
 		} catch (...) {
 			error_dialog(nullptr, variant::wx::insert_dcpomatic_encode_server(_("An unknown error has occurred with the %s.")));
-			wxTheApp->ExitMainLoop ();
+			wxTheApp->ExitMainLoop();
 		}
 	}
 
-	void idle ()
+	void idle()
 	{
-		signal_manager->ui_idle ();
+		signal_manager->ui_idle();
 	}
 
 	void config_failed_to_load(Config::LoadFailure what)
@@ -379,9 +379,9 @@ private:
 		report_config_load_failure(nullptr, what);
 	}
 
-	void config_warning (string m)
+	void config_warning(string m)
 	{
-		message_dialog (nullptr, std_to_wx(m));
+		message_dialog(nullptr, std_to_wx(m));
 	}
 
 	boost::thread _thread;
@@ -389,4 +389,4 @@ private:
 	shared_ptr<wxTimer> _timer;
 };
 
-IMPLEMENT_APP (App)
+IMPLEMENT_APP(App)
