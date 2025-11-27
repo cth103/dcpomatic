@@ -253,7 +253,7 @@ EncodeServer::run ()
 	for (int i = 0; i < _num_threads; ++i) {
 #ifdef DCPOMATIC_LINUX
 		boost::thread* t = _worker_threads.create_thread (bind(&EncodeServer::worker_thread, this));
-		pthread_setname_np (t->native_handle(), "encode-server-worker");
+		pthread_setname_np(t->native_handle(), fmt::format("encode-{}", i).c_str());
 #else
 		_worker_threads.create_thread (bind(&EncodeServer::worker_thread, this));
 #endif
