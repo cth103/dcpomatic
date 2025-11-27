@@ -21,6 +21,9 @@
 
 #include "encoded_log_entry.h"
 #include <fmt/format.h>
+#ifdef DCPOMATIC_LINUX
+#include <pthread.h>
+#endif
 
 
 using std::string;
@@ -34,12 +37,20 @@ EncodedLogEntry::EncodedLogEntry(int frame, string ip, double receive, double en
 	, _encode(encode)
 	, _send(send)
 {
-
+#ifdef DCPOMATIC_LINUX
+	char name[16];
+	pthread_getname_np(pthread_self(), name, sizeof(name));
+	_thread_name = name;
+#endif
 }
 
 
 string
 EncodedLogEntry::message() const
 {
-	return fmt::format("Encoded frame {} from {}: receive {:.2f}s encode {:.2f}s send {:.2f}s.", _frame, _ip.c_str(), _receive, _encode, _send);
+	string thread_info;
+#ifdef DCPOMATIC_LINUX
+	thread_info = fmt::format(" on {}", _thread_name);
+#endif
+	return fmt::format("Encoded frame {} from {}{}: receive {:.2f}s encode {:.2f}s send {:.2f}s.", _frame, _ip.c_str(), thread_info, _receive, _encode, _send);
 }

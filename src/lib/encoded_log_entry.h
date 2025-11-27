@@ -35,4 +35,7 @@ private:
 	double _receive;
 	double _encode;
 	double _send;
+#ifdef DCPOMATIC_LINUX
+	std::string _thread_name;
+#endif
 };
