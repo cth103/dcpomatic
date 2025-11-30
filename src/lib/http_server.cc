@@ -24,6 +24,7 @@
 #include "dcpomatic_socket.h"
 #include "http_server.h"
 #include "show_playlist.h"
+#include "show_playlist_content_store.h"
 #include "show_playlist_list.h"
 #include "util.h"
 #include "variant.h"
@@ -158,6 +159,30 @@ HTTPServer::get(string const& url)
 		for (auto entry: list.entries(parts[4])) {
 			json["content"].push_back(entry.as_json());
 		}
+		auto response = Response(200, json.dump());
+		response.set_type(Response::Type::JSON);
+		return response;
+	} else if (url == "/api/v1/content") {
+		nlohmann::json json;
+		for (auto i: ShowPlaylistContentStore::instance()->all()) {
+			/* XXX: converting to JSON this way feels a bit grotty */
+			json.push_back(ShowPlaylistEntry(i, {}).as_json());
+		}
+		auto response = Response(200, json.dump());
+		response.set_type(Response::Type::JSON);
+		return response;
+	} else if (boost::algorithm::starts_with(url, "/api/v1/content/")) {
+		vector<string> parts;
+		boost::algorithm::split(parts, url, boost::is_any_of("/"));
+		if (parts.size() != 5) {
+			return Response::ERROR_404;
+		}
+		auto content = ShowPlaylistContentStore::instance()->get(parts[4]);
+		if (!content) {
+			return Response::ERROR_404;
+		}
+		/* XXX: converting to JSON this way feels a bit grotty */
+		auto json = ShowPlaylistEntry(content, {}).as_json();
 		auto response = Response(200, json.dump());
 		response.set_type(Response::Type::JSON);
 		return response;
