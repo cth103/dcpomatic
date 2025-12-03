@@ -118,7 +118,7 @@ HTTPServer::get(string const& url)
 
 
 Response
-HTTPServer::post(string const& url)
+HTTPServer::post(string const& url, string const& body)
 {
 	if (url == "/api/v1/play") {
 		emit(boost::bind(boost::ref(Play)));
@@ -137,7 +137,7 @@ HTTPServer::post(string const& url)
 
 
 Response
-HTTPServer::request(vector<string> const& request)
+HTTPServer::request(vector<string> const& request, string const& body)
 {
 	vector<string> parts;
 	boost::split(parts, request[0], boost::is_any_of(" "));
@@ -151,7 +151,7 @@ HTTPServer::request(vector<string> const& request)
 			return get(parts[1]);
 		} else if (parts[0] == "POST") {
 			LOG_HTTP("POST {}", parts[1]);
-			return post(parts[1]);
+			return post(parts[1], body);
 		}
 	} catch (std::exception& e) {
 		LOG_ERROR("Error while handling HTTP request: {}", e.what());
@@ -179,24 +179,28 @@ HTTPServer::handle(shared_ptr<Socket> socket)
 			}
 
 			for (std::size_t i = 0; i < size; ++i) {
-				if (_line.length() >= 1024) {
-					_close = true;
-					return;
-				}
-				_line += data[i];
-				if (_line.length() >= 2 && _line.substr(_line.length() - 2) == "\r\n") {
-					if (_line.length() == 2) {
-						_got_request = true;
-						return;
-					} else if (_request.size() > 64) {
+				if (_got_request) {
+					_body += data[i];
+				} else {
+					if (_line.length() >= 1024) {
 						_close = true;
 						return;
-					} else if (_line.size() >= 2) {
-						_line = _line.substr(0, _line.length() - 2);
 					}
-					LOG_HTTP("Receive: {}", _line);
-					_request.push_back(_line);
-					_line = "";
+					_line += data[i];
+					if (_line.length() >= 2 && _line.substr(_line.length() - 2) == "\r\n") {
+						if (_line.length() == 2) {
+							_got_request = true;
+						} else if (_request.size() > 64) {
+							_close = true;
+							return;
+						} else {
+							_line = _line.substr(0, _line.length() - 2);
+						}
+
+						LOG_HTTP("Receive: {}", _line);
+						_request.push_back(_line);
+						_line = "";
+					}
 				}
 			}
 		}
@@ -214,13 +218,18 @@ HTTPServer::handle(shared_ptr<Socket> socket)
 			return _error_code;
 		}
 
-		vector<std::string> const& get() const {
+		vector<std::string> const& request() const {
 			return _request;
+		}
+
+		std::string const& body() const {
+			return _body;
 		}
 
 	private:
 		std::string _line;
 		vector<std::string> _request;
+		std::string _body;
 		bool _got_request = false;
 		bool _close = false;
 		boost::system::error_code _error_code;
@@ -242,7 +251,7 @@ HTTPServer::handle(shared_ptr<Socket> socket)
 
 	if (reader.got_request() && !reader.close()) {
 		try {
-			auto response = request(reader.get());
+			auto response = request(reader.request(), reader.body());
 			response.send(socket);
 		} catch (runtime_error& e) {
 			LOG_ERROR(e.what());
