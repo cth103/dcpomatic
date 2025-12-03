@@ -68,7 +68,7 @@ public:
 	bool missing(std::string const& show_playlist_uuid) const;
 	bool missing(ShowPlaylistID id) const;
 
-	/** Write a playlist entry to the database */
+	/** Add a playlist entry to the end of a playlist in the database */
 	void add_entry(ShowPlaylistID, ShowPlaylistEntry const& entry);
 	/** Set the values in the database from entry */
 	void update_entry(ShowPlaylistID, int index, ShowPlaylistEntry const& entry);
