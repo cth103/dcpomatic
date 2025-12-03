@@ -261,7 +261,7 @@ HTTPServer::handle(shared_ptr<Socket> socket)
 	/* I think we should keep the socket open if the client requested keep-alive, but some browsers
 	 * send keep-alive then don't re-use the connection.  Since we can only accept one request at once,
 	 * this blocks until our request read (above) times out.  We probably should accept multiple
-	 * requests in parallel, but it's easier for not to use close the socket.
+	 * requests in parallel, but it's easier for now to close the socket.
 	 */
 	socket->close();
 }
