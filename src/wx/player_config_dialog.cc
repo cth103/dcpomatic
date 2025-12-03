@@ -318,6 +318,8 @@ private:
 			/// TRANSLATORS: translate the word "Timing" here; do not include the "Config|" prefix
 			_log_timing = new CheckBox(_panel, S_("Config|Timing"));
 			t->Add(_log_timing, 1, wxEXPAND | wxALL);
+			_log_http = new CheckBox(_panel, _("HTTP"));
+			t->Add(_log_http, 1, wxEXPAND | wxALL);
 			_log_debug_video_view = new CheckBox(_panel, _("Debug: video view"));
 			t->Add(_log_debug_video_view, 1, wxEXPAND | wxALL);
 			_log_debug_player = new CheckBox(_panel, _("Debug: player"));
@@ -337,6 +339,7 @@ private:
 		_log_timing->bind(&PlayerAdvancedPage::log_changed, this);
 		_log_debug_video_view->bind(&PlayerAdvancedPage::log_changed, this);
 		_log_debug_player->bind(&PlayerAdvancedPage::log_changed, this);
+		_log_http->bind(&PlayerAdvancedPage::log_changed, this);
 #ifdef DCPOMATIC_WINDOWS
 		_win32_console->bind(&PlayerAdvancedPage::win32_console_changed, this);
 #endif
@@ -353,6 +356,7 @@ private:
 		checked_set(_log_timing, config->log_types() & LogEntry::TYPE_TIMING);
 		checked_set(_log_debug_video_view, config->log_types() & LogEntry::TYPE_DEBUG_VIDEO_VIEW);
 		checked_set(_log_debug_player, config->log_types() & LogEntry::TYPE_DEBUG_PLAYER);
+		checked_set(_log_http, config->log_types() & LogEntry::TYPE_HTTP);
 #ifdef DCPOMATIC_WINDOWS
 		checked_set(_win32_console, config->win32_console());
 #endif
@@ -383,6 +387,9 @@ private:
 		if (_log_debug_player->GetValue()) {
 			types |= LogEntry::TYPE_DEBUG_PLAYER;
 		}
+		if (_log_http->GetValue()) {
+			types |= LogEntry::TYPE_HTTP;
+		}
 		Config::instance()->set_log_types(types);
 	}
 
@@ -409,6 +416,7 @@ private:
 	CheckBox* _log_timing = nullptr;
 	CheckBox* _log_debug_video_view = nullptr;
 	CheckBox* _log_debug_player = nullptr;
+	CheckBox* _log_http = nullptr;
 #ifdef DCPOMATIC_WINDOWS
 	CheckBox* _win32_console = nullptr;
 #endif
