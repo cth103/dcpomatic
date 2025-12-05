@@ -107,9 +107,9 @@ polkit_callback (GObject *, GAsyncResult* res, gpointer data)
 		} else {
 			failed = true;
 			if (polkit_authorization_result_get_is_challenge(result)) {
-				LOG_DISK_NC("polkit authority check failed (challenge)");
+				LOG_DISK("polkit authority check failed (challenge)");
 			} else {
-				LOG_DISK_NC("polkit authority check failed (not authorized)");
+				LOG_DISK("polkit authority check failed (not authorized)");
 			}
 		}
 	}
@@ -168,7 +168,7 @@ try
 		auto xml_head = nanomsg->receive (LONG_TIMEOUT);
 		auto xml_body = nanomsg->receive (LONG_TIMEOUT);
 		if (!xml_head || !xml_body) {
-			LOG_DISK_NC("Failed to receive unmount request");
+			LOG_DISK("Failed to receive unmount request");
 			throw CommunicationFailedError ();
 		}
 		auto xml = *xml_head + *xml_body;
@@ -183,20 +183,20 @@ try
 					sent_reply = DiskWriterBackEndResponse::error("Could not unmount drive", 1, 0).write_to_nanomsg(*nanomsg, LONG_TIMEOUT);
 				}
 				if (!sent_reply) {
-					LOG_DISK_NC("CommunicationFailedError in unmount_finished");
+					LOG_DISK("CommunicationFailedError in unmount_finished");
 					throw CommunicationFailedError ();
 				}
 			},
 			[]() {
 				if (!DiskWriterBackEndResponse::error("Could not get permission to unmount drive", 1, 0).write_to_nanomsg(*nanomsg, LONG_TIMEOUT)) {
-					LOG_DISK_NC("CommunicationFailedError in unmount_finished");
+					LOG_DISK("CommunicationFailedError in unmount_finished");
 					throw CommunicationFailedError ();
 				}
 			});
 	} else if (*s == DISK_WRITER_WRITE) {
 		auto device_opt = nanomsg->receive (LONG_TIMEOUT);
 		if (!device_opt) {
-			LOG_DISK_NC("Failed to receive write request");
+			LOG_DISK("Failed to receive write request");
 			throw CommunicationFailedError();
 		}
 		auto device = *device_opt;
@@ -205,7 +205,7 @@ try
 		while (true) {
 			auto dcp_path_opt = nanomsg->receive (LONG_TIMEOUT);
 			if (!dcp_path_opt) {
-				LOG_DISK_NC("Failed to receive write request");
+				LOG_DISK("Failed to receive write request");
 				throw CommunicationFailedError();
 			}
 			if (*dcp_path_opt != "") {
@@ -313,7 +313,7 @@ main ()
 	 * a better place to put them.
 	 */
 	dcpomatic_log.reset(new FileLog(State::write_path("disk_writer.log"), LogEntry::TYPE_DISK));
-	LOG_DISK_NC("dcpomatic_disk_writer started");
+	LOG_DISK("dcpomatic_disk_writer started");
 #endif
 
 #ifdef DCPOMATIC_OSX
@@ -326,11 +326,11 @@ main ()
 	try {
 		nanomsg = new Nanomsg (false);
 	} catch (runtime_error& e) {
-		LOG_DISK_NC("Could not set up nanomsg socket");
+		LOG_DISK("Could not set up nanomsg socket");
 		exit (EXIT_FAILURE);
 	}
 
-	LOG_DISK_NC("Entering main loop");
+	LOG_DISK("Entering main loop");
 	auto ml = Glib::MainLoop::create ();
 	Glib::signal_timeout().connect(sigc::ptr_fun(&idle), 500);
 	ml->run ();

@@ -142,7 +142,7 @@ FontConfig::system_font_with_name(string name)
 		}
 		FcFontSetDestroy(font_set);
 	} else {
-		LOG_GENERAL_NC("No candidate fonts found");
+		LOG_GENERAL("No candidate fonts found");
 	}
 
 	FcObjectSetDestroy(object_set);

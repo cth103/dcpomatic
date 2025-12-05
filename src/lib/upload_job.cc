@@ -76,7 +76,7 @@ UploadJob::json_name() const
 void
 UploadJob::run()
 {
-	LOG_GENERAL_NC(N_("Upload job starting"));
+	LOG_GENERAL(N_("Upload job starting"));
 
 	scoped_ptr<Uploader> uploader;
 	switch (Config::instance()->tms_protocol()) {

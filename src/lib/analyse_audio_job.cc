@@ -57,7 +57,7 @@ AnalyseAudioJob::AnalyseAudioJob(shared_ptr<const Film> film, shared_ptr<const P
 	, _path(film->audio_analysis_path(playlist))
 	, _whole_film(whole_film)
 {
-	LOG_DEBUG_AUDIO_ANALYSIS_NC("AnalyseAudioJob::AnalyseAudioJob");
+	LOG_DEBUG_AUDIO_ANALYSIS("AnalyseAudioJob::AnalyseAudioJob");
 }
 
 
@@ -84,7 +84,7 @@ AnalyseAudioJob::json_name() const
 void
 AnalyseAudioJob::run()
 {
-	LOG_DEBUG_AUDIO_ANALYSIS_NC("AnalyseAudioJob::run");
+	LOG_DEBUG_AUDIO_ANALYSIS("AnalyseAudioJob::run");
 
 	auto player = make_shared<Player>(_film, _playlist, false);
 	player->set_ignore_video();
@@ -108,13 +108,13 @@ AnalyseAudioJob::run()
 		while (!player->pass()) {}
 	}
 
-	LOG_DEBUG_AUDIO_ANALYSIS_NC("Loop complete");
+	LOG_DEBUG_AUDIO_ANALYSIS("Loop complete");
 
 	_analyser.finish();
 	auto analysis = _analyser.get();
 	analysis.write(_path);
 
-	LOG_DEBUG_AUDIO_ANALYSIS_NC("Job finished");
+	LOG_DEBUG_AUDIO_ANALYSIS("Job finished");
 	set_progress(1);
 	set_state(FINISHED_OK);
 }

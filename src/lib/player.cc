@@ -711,7 +711,7 @@ Player::pass()
 
 	if (_suspended) {
 		/* We can't pass in this state */
-		LOG_DEBUG_PLAYER_NC("Player is suspended");
+		LOG_DEBUG_PLAYER("Player is suspended");
 		return false;
 	}
 

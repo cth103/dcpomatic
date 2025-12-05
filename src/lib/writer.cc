@@ -578,18 +578,18 @@ void
 Writer::finish()
 {
 	if (_thread.joinable()) {
-		LOG_GENERAL_NC("Terminating writer thread");
+		LOG_GENERAL("Terminating writer thread");
 		terminate_thread(true);
 	}
 
-	LOG_GENERAL_NC("Finishing ReelWriters");
+	LOG_GENERAL("Finishing ReelWriters");
 
 	for (auto& reel: _reels) {
 		write_hanging_text(reel);
 		reel.finish(_output_dir);
 	}
 
-	LOG_GENERAL_NC("Writing XML");
+	LOG_GENERAL("Writing XML");
 
 	dcp::DCP dcp(_output_dir);
 

@@ -207,7 +207,7 @@ J2KEncoder::end()
 	}
 	lock.unlock ();
 
-	LOG_GENERAL_NC (N_("Terminating encoder threads"));
+	LOG_GENERAL (N_("Terminating encoder threads"));
 
 	terminate_threads ();
 

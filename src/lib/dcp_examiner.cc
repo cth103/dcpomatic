@@ -332,7 +332,7 @@ DCPExaminer::DCPExaminer(shared_ptr<const DCPContent> content, bool tolerant)
 
 	_kdm_valid = true;
 
-	LOG_GENERAL_NC("Check that everything encrypted has a key");
+	LOG_GENERAL("Check that everything encrypted has a key");
 
 	/* Check first that anything encrypted has a key.  We must do this, as if we try to
 	 * read encrypted data with asdcplib without even offering a key it will just return
@@ -346,7 +346,7 @@ DCPExaminer::DCPExaminer(shared_ptr<const DCPContent> content, bool tolerant)
 				auto pic = i->main_picture()->asset();
 				if (pic->encrypted() && !pic->key()) {
 					_kdm_valid = false;
-					LOG_GENERAL_NC("Picture has no key");
+					LOG_GENERAL("Picture has no key");
 					break;
 				}
 				auto j2k_mono = dynamic_pointer_cast<dcp::MonoJ2KPictureAsset>(pic);
@@ -376,7 +376,7 @@ DCPExaminer::DCPExaminer(shared_ptr<const DCPContent> content, bool tolerant)
 				auto sound = i->main_sound()->asset();
 				if (sound->encrypted() && !sound->key()) {
 					_kdm_valid = false;
-					LOG_GENERAL_NC("Sound has no key");
+					LOG_GENERAL("Sound has no key");
 					break;
 				}
 				auto reader = sound->start_read();
@@ -389,7 +389,7 @@ DCPExaminer::DCPExaminer(shared_ptr<const DCPContent> content, bool tolerant)
 				auto mxf_sub = dynamic_pointer_cast<dcp::MXF>(sub);
 				if (mxf_sub && mxf_sub->encrypted() && !mxf_sub->key()) {
 					_kdm_valid = false;
-					LOG_GENERAL_NC("Subtitle has no key");
+					LOG_GENERAL("Subtitle has no key");
 					break;
 				}
 				sub->texts();
@@ -400,7 +400,7 @@ DCPExaminer::DCPExaminer(shared_ptr<const DCPContent> content, bool tolerant)
 				auto mxf_cap = dynamic_pointer_cast<dcp::MXF>(cap);
 				if (mxf_cap && mxf_cap->encrypted() && !mxf_cap->key()) {
 					_kdm_valid = false;
-					LOG_GENERAL_NC("Caption has no key");
+					LOG_GENERAL("Caption has no key");
 					break;
 				}
 				cap->texts();
@@ -410,7 +410,7 @@ DCPExaminer::DCPExaminer(shared_ptr<const DCPContent> content, bool tolerant)
 				if (auto atmos = i->atmos()->asset()) {
 					if (atmos->encrypted() && !atmos->key()) {
 						_kdm_valid = false;
-						LOG_GENERAL_NC("ATMOS sound has no key");
+						LOG_GENERAL("ATMOS sound has no key");
 						break;
 					}
 					auto reader = atmos->start_read();

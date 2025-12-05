@@ -187,7 +187,7 @@ AudioAnalyser::analyse(shared_ptr<AudioBuffers> b, DCPTime time)
 
 	DCPTime const length = _playlist->length(_film);
 	_set_progress((time.seconds() - _start.seconds()) / (length.seconds() - _start.seconds()));
-	LOG_DEBUG_AUDIO_ANALYSIS_NC("Frames processed");
+	LOG_DEBUG_AUDIO_ANALYSIS("Frames processed");
 }
 
 

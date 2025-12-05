@@ -113,7 +113,7 @@ FFmpegDecoder::flush ()
 	switch (_flush_state) {
 	case FlushState::CODECS:
 		if (flush_codecs() == FlushResult::DONE) {
-			LOG_DEBUG_PLAYER_NC("Finished flushing codecs");
+			LOG_DEBUG_PLAYER("Finished flushing codecs");
 			_flush_state = FlushState::AUDIO_DECODER;
 		}
 		break;
@@ -121,12 +121,12 @@ FFmpegDecoder::flush ()
 		if (audio) {
 			audio->flush();
 		}
-		LOG_DEBUG_PLAYER_NC("Finished flushing audio decoder");
+		LOG_DEBUG_PLAYER("Finished flushing audio decoder");
 		_flush_state = FlushState::FILL;
 		break;
 	case FlushState::FILL:
 		if (flush_fill() == FlushResult::DONE) {
-			LOG_DEBUG_PLAYER_NC("Finished flushing fills");
+			LOG_DEBUG_PLAYER("Finished flushing fills");
 			return FlushResult::DONE;
 		}
 		break;
@@ -562,7 +562,7 @@ FFmpegDecoder::decode_and_process_audio_packet (AVPacket* packet)
 		r = avcodec_receive_frame (context, frame);
 		if (r == AVERROR(EAGAIN)) {
 			/* More input is required */
-			LOG_DEBUG_PLAYER_NC("EAGAIN after trying to receive audio frame");
+			LOG_DEBUG_PLAYER("EAGAIN after trying to receive audio frame");
 			return;
 		}
 
@@ -630,7 +630,7 @@ FFmpegDecoder::process_video_frame ()
 				ContentTime::from_seconds(pts)
 				);
 		} else {
-			LOG_WARNING_NC ("Dropping frame without PTS");
+			LOG_WARNING ("Dropping frame without PTS");
 		}
 	}
 }

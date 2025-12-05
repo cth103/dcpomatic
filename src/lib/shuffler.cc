@@ -63,7 +63,7 @@ Shuffler::video (weak_ptr<Piece> weak_piece, ContentVideo video)
 	DCPOMATIC_ASSERT (piece);
 
 	if (!_last && video.eyes == Eyes::LEFT) {
-		LOG_DEBUG_THREE_D_NC ("Shuffler first after clear");
+		LOG_DEBUG_THREE_D ("Shuffler first after clear");
 		/* We haven't seen anything since the last clear() and we have some eyes-left so assume everything is OK */
 		Video (weak_piece, video);
 		_last = video;
@@ -112,7 +112,7 @@ Shuffler::video (weak_ptr<Piece> weak_piece, ContentVideo video)
 void
 Shuffler::clear ()
 {
-	LOG_DEBUG_THREE_D_NC ("Shuffler::clear");
+	LOG_DEBUG_THREE_D ("Shuffler::clear");
 	_store.clear ();
 	_last = optional<ContentVideo>();
 }

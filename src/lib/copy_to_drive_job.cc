@@ -82,7 +82,7 @@ CopyToDriveJob::run ()
 	}
 	request += "\n";
 	if (!_nanomsg.send(request, 2000)) {
-		LOG_DISK_NC("Failed to send write request.");
+		LOG_DISK("Failed to send write request.");
 		throw CommunicationFailedError ();
 	}
 

@@ -335,7 +335,7 @@ public:
 		} catch (std::exception& e) {
 			LOG_ERROR("Destructor threw {}", e.what());
 		} catch (...) {
-			LOG_ERROR_NC("Destructor threw");
+			LOG_ERROR("Destructor threw");
 		}
 	}
 

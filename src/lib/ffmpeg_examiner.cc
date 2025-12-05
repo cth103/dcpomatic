@@ -208,7 +208,7 @@ FFmpegExaminer::FFmpegExaminer(shared_ptr<const FFmpegContent> c, shared_ptr<Job
 	if (temporal_reference.find("T2T3B2B3T2T3B2B3") != string::npos || temporal_reference.find("B2B3T2T3B2B3T2T3") != string::npos) {
 		/* The magical sequence (taken from mediainfo) suggests that 2:3 pull-down is in use */
 		_pulldown = true;
-		LOG_GENERAL_NC("Suggest that this may be 2:3 pull-down (soft telecine)");
+		LOG_GENERAL("Suggest that this may be 2:3 pull-down (soft telecine)");
 	}
 
 	check_for_duplicate_ids();

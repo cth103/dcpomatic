@@ -80,7 +80,7 @@ make_dcp (shared_ptr<Film> film, TranscodeJob::ChangedBehaviour behaviour)
 	film->set_isdcf_date_today ();
 
 	for (auto info: environment_info()) {
-		LOG_GENERAL_NC (info);
+		LOG_GENERAL (info);
 	}
 
 	for (auto content: film->content()) {

@@ -196,7 +196,7 @@ start_tool(string executable, string app)
 		int const r = system(exe_path.string().c_str());
 		exit(WEXITSTATUS(r));
 	} else if (pid == -1) {
-		LOG_ERROR_NC("Fork failed in start_tool");
+		LOG_ERROR("Fork failed in start_tool");
 	}
 }
 
@@ -298,7 +298,7 @@ disk_appeared(DADiskRef disk, void* context)
 {
 	auto bsd_name = DADiskGetBSDName(disk);
 	if (!bsd_name) {
-		LOG_DISK_NC("Disk with no BSDName appeared");
+		LOG_DISK("Disk with no BSDName appeared");
 		return;
 	}
 	LOG_DISK("{} appeared", bsd_name);
@@ -319,7 +319,7 @@ disk_appeared(DADiskRef disk, void* context)
 
 	auto media_size_cstr = CFDictionaryGetValue(description, kDADiskDescriptionMediaSizeKey);
 	if (!media_size_cstr) {
-		LOG_DISK_NC("Could not read media size");
+		LOG_DISK("Could not read media size");
 		return;
 	}
 
@@ -349,14 +349,14 @@ Drive::get()
 	using namespace boost::algorithm;
 	vector<OSXDisk> disks;
 
-	LOG_DISK_NC("Drive::get() starts");
+	LOG_DISK("Drive::get() starts");
 
 	auto session = DASessionCreate(kCFAllocatorDefault);
 	if (!session) {
 		return {};
 	}
 
-	LOG_DISK_NC("Drive::get() has session");
+	LOG_DISK("Drive::get() has session");
 
 	DARegisterDiskAppearedCallback(session, NULL, disk_appeared, &disks);
 	auto run_loop = CFRunLoopGetCurrent();
@@ -431,13 +431,13 @@ struct UnmountState
 
 void done_callback(DADiskRef, DADissenterRef dissenter, void* context)
 {
-	LOG_DISK_NC("Unmount finished");
+	LOG_DISK("Unmount finished");
 	auto state = reinterpret_cast<UnmountState*>(context);
 	state->callback = true;
 	if (dissenter) {
 		LOG_DISK("Error: {}", DADissenterGetStatus(dissenter));
 	} else {
-		LOG_DISK_NC("Successful");
+		LOG_DISK("Successful");
 		state->success = true;
 	}
 }
@@ -446,7 +446,7 @@ void done_callback(DADiskRef, DADissenterRef dissenter, void* context)
 bool
 Drive::unmount()
 {
-	LOG_DISK_NC("Unmount operation started");
+	LOG_DISK("Unmount operation started");
 
 	auto session = DASessionCreate(kCFAllocatorDefault);
 	if (!session) {
@@ -469,7 +469,7 @@ Drive::unmount()
 	CFRelease(session);
 
 	if (!state.callback) {
-		LOG_DISK_NC("End of unmount: timeout");
+		LOG_DISK("End of unmount: timeout");
 	} else {
 		LOG_DISK("End of unmount: {}", state.success ? "success" : "failure");
 	}

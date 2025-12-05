@@ -289,7 +289,7 @@ Drive::get ()
 				}
 			}
 			drives.push_back(Drive("/dev/" + name, mount_points, size, vendor, model));
-			LOG_DISK_NC(drives.back().log_summary());
+			LOG_DISK(drives.back().log_summary());
 		}
 	}
 

@@ -208,7 +208,7 @@ public:
 
 #ifdef DCPOMATIC_LINUX
 		if (getenv("DCPOMATIC_NO_START_WRITER")) {
-			LOG_DISK_NC("Not starting writer process as DCPOMATIC_NO_START_WRITER is set");
+			LOG_DISK("Not starting writer process as DCPOMATIC_NO_START_WRITER is set");
 		} else {
 			LOG_DISK("Starting writer process {}", disk_writer_path().string());
 #ifdef DCPOMATIC_BOOST_PROCESS_V1
@@ -220,7 +220,7 @@ public:
 #endif
 
 #ifdef DCPOMATIC_OSX
-		LOG_DISK_NC("Sending notification to writer daemon");
+		LOG_DISK("Sending notification to writer daemon");
 		notify_post ("com.dcpomatic.disk.writer.start");
 #endif
 	}
@@ -344,7 +344,7 @@ private:
 			dialog.ShowModal();
 			return;
 #else
-			LOG_DISK_NC ("Failed to ping writer");
+			LOG_DISK ("Failed to ping writer");
 			throw CommunicationFailedError ();
 #endif
 		}
@@ -359,11 +359,11 @@ private:
 
 			LOG_DISK("Sending unmount request to disk writer for {}", drive.as_xml());
 			if (!_nanomsg.send(DISK_WRITER_UNMOUNT "\n", 2000)) {
-				LOG_DISK_NC("Failed to send unmount request.");
+				LOG_DISK("Failed to send unmount request.");
 				throw CommunicationFailedError ();
 			}
 			if (!_nanomsg.send(drive.as_xml(), 2000)) {
-				LOG_DISK_NC("Failed to send drive for unmount request.");
+				LOG_DISK("Failed to send drive for unmount request.");
 				throw CommunicationFailedError ();
 			}
 			/* The reply may have to wait for the user to authenticate, so let's wait a while */

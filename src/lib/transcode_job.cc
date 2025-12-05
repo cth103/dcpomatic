@@ -115,12 +115,12 @@ TranscodeJob::run()
 				set_state(FINISHED_ERROR);
 				return;
 			default:
-				LOG_GENERAL_NC(_("Some files have been changed since they were added to the project."));
+				LOG_GENERAL(_("Some files have been changed since they were added to the project."));
 				break;
 			}
 		}
 
-		LOG_GENERAL_NC(N_("Transcode job starting"));
+		LOG_GENERAL(N_("Transcode job starting"));
 
 		DCPOMATIC_ASSERT(_encoder);
 		_encoder->go();

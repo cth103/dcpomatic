@@ -153,7 +153,7 @@ HTTPServer::request(vector<string> const& request)
 	} catch (std::exception& e) {
 		LOG_ERROR("Error while handling HTTP request: {}", e.what());
 	} catch (...) {
-		LOG_ERROR_NC("Unknown exception while handling HTTP request");
+		LOG_ERROR("Unknown exception while handling HTTP request");
 	}
 
 	LOG_HTTP("404 {}", parts[0]);
@@ -242,7 +242,7 @@ HTTPServer::handle(shared_ptr<Socket> socket)
 			auto response = request(reader.get());
 			response.send(socket);
 		} catch (runtime_error& e) {
-			LOG_ERROR_NC(e.what());
+			LOG_ERROR(e.what());
 		}
 	}
 

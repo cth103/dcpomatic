@@ -135,12 +135,12 @@ run_ffprobe(boost::filesystem::path content, boost::filesystem::path out, bool e
 	HANDLE child_out_read;
 	HANDLE child_out_write;
 	if (!CreatePipe(&child_out_read, &child_out_write, &security, 0)) {
-		LOG_ERROR_NC("ffprobe call failed (could not CreatePipe)");
+		LOG_ERROR("ffprobe call failed (could not CreatePipe)");
 		return;
 	}
 
 	if (!SetHandleInformation(child_out_read, HANDLE_FLAG_INHERIT, 0)) {
-		LOG_ERROR_NC("ffprobe call failed (could not SetHandleInformation)");
+		LOG_ERROR("ffprobe call failed (could not SetHandleInformation)");
 		return;
 	}
 
@@ -174,13 +174,13 @@ run_ffprobe(boost::filesystem::path content, boost::filesystem::path out, bool e
 	PROCESS_INFORMATION process_info;
 	ZeroMemory(&process_info, sizeof(process_info));
 	if (!CreateProcess(0, command, 0, 0, TRUE, CREATE_NO_WINDOW, 0, dir, &startup_info, &process_info)) {
-		LOG_ERROR_NC(N_("ffprobe call failed (could not CreateProcess)"));
+		LOG_ERROR(N_("ffprobe call failed (could not CreateProcess)"));
 		return;
 	}
 
 	dcp::File o(out, "w");
 	if (!o) {
-		LOG_ERROR_NC(N_("ffprobe call failed (could not create output file)"));
+		LOG_ERROR(N_("ffprobe call failed (could not create output file)"));
 		return;
 	}
 
@@ -417,7 +417,7 @@ get_device_number(HDEVINFO device_info, SP_DEVINFO_DATA* device_info_data)
 	r = SetupDiGetDeviceInterfaceDetailW(device_info, &device_interface_data, 0, 0, &size, 0);
 	PSP_DEVICE_INTERFACE_DETAIL_DATA_W device_detail_data = static_cast<PSP_DEVICE_INTERFACE_DETAIL_DATA_W>(malloc(size));
 	if (!device_detail_data) {
-		LOG_DISK_NC("malloc failed");
+		LOG_DISK("malloc failed");
 		return optional<int>();
 	}
 
@@ -426,7 +426,7 @@ get_device_number(HDEVINFO device_info, SP_DEVINFO_DATA* device_info_data)
 	/* And get the path */
 	r = SetupDiGetDeviceInterfaceDetailW(device_info, &device_interface_data, device_detail_data, size, &size, 0);
 	if (!r) {
-		LOG_DISK_NC("SetupDiGetDeviceInterfaceDetailW failed");
+		LOG_DISK("SetupDiGetDeviceInterfaceDetailW failed");
 		free(device_detail_data);
 		return optional<int>();
 	}
@@ -547,7 +547,7 @@ Drive::get()
 	/* Get a `device information set' containing information about all disks */
 	auto device_info = SetupDiGetClassDevsA(&GUID_DEVICE_INTERFACE_DISK, 0, 0, DIGCF_PRESENT | DIGCF_DEVICEINTERFACE);
 	if (device_info == INVALID_HANDLE_VALUE) {
-		LOG_DISK_NC("SetupDiClassDevsA failed");
+		LOG_DISK("SetupDiClassDevsA failed");
 		return drives;
 	}
 
@@ -580,7 +580,7 @@ Drive::get()
 				);
 
 		if (device == INVALID_HANDLE_VALUE) {
-			LOG_DISK_NC("Could not open PHYSICALDRIVE");
+			LOG_DISK("Could not open PHYSICALDRIVE");
 			continue;
 		}
 

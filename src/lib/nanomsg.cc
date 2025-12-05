@@ -106,7 +106,7 @@ Nanomsg::recv_and_parse (int flags)
 			return;
 		}
 
-		LOG_DISK_NC("nn_recv failed");
+		LOG_DISK("nn_recv failed");
 		throw CommunicationFailedError ();
 	}
 

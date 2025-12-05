@@ -319,7 +319,7 @@ try
 	if (!bd) {
 		throw CopyError("Failed to open drive", 0, ext4_blockdev_errno);
 	}
-	LOG_DISK_NC("Opened drive");
+	LOG_DISK("Opened drive");
 
 	struct ext4_mbr_parts parts;
 	parts.division[0] = 100;
@@ -332,7 +332,7 @@ try
 	if (r) {
 		throw CopyError("Failed to write MBR", r, ext4_blockdev_errno);
 	}
-	LOG_DISK_NC("Wrote MBR");
+	LOG_DISK("Wrote MBR");
 
 	struct ext4_mbr_bdevs bdevs;
 	r = ext4_mbr_scan(bd, &bdevs);
@@ -371,25 +371,25 @@ try
 	if (!bd) {
 		throw CopyError("Failed to open partition", 0, ext4_blockdev_errno);
 	}
-	LOG_DISK_NC("Opened partition");
+	LOG_DISK("Opened partition");
 
 	r = ext4_mkfs(&fs, bd, &info, F_SET_EXT2, format_progress, nanomsg);
 	if (r != EOK) {
 		throw CopyError("Failed to make filesystem", r, ext4_blockdev_errno);
 	}
-	LOG_DISK_NC("Made filesystem");
+	LOG_DISK("Made filesystem");
 
 	r = ext4_device_register(bd, "ext4_fs");
 	if (r != EOK) {
 		throw CopyError("Failed to register device", r, ext4_blockdev_errno);
 	}
-	LOG_DISK_NC("Registered device");
+	LOG_DISK("Registered device");
 
 	r = ext4_mount("ext4_fs", "/mp/", false);
 	if (r != EOK) {
 		throw CopyError("Failed to mount device", r, ext4_blockdev_errno);
 	}
-	LOG_DISK_NC("Mounted device");
+	LOG_DISK("Mounted device");
 
 	uint64_t total_bytes = 0;
 	count(dcp_paths, total_bytes);
@@ -409,7 +409,7 @@ try
 	if (r != EOK) {
 		throw CopyError("Failed to mount device", r, ext4_blockdev_errno);
 	}
-	LOG_DISK_NC("Re-mounted device");
+	LOG_DISK("Re-mounted device");
 
 	verify(copied_files, total_bytes, nanomsg);
 

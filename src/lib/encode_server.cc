@@ -143,7 +143,7 @@ EncodeServer::process (shared_ptr<Socket> socket, struct timeval& after_read, st
 	*/
 	if (xml->number_child<int> ("Version") != SERVER_LINK_VERSION) {
 		cerr << "Mismatched server/client versions\n";
-		LOG_ERROR_NC ("Mismatched server/client versions");
+		LOG_ERROR ("Mismatched server/client versions");
 		return -1;
 	}
 
