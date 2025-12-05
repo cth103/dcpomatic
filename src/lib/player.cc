@@ -1029,7 +1029,7 @@ Player::emit_video_until(DCPTime time)
 			} else {
 				frame(black_player_video_frame(Eyes::BOTH), next);
 			}
-			LOG_DEBUG_PLAYER("Black selected for DCP {}", to_string(next));
+			LOG_DEBUG_PLAYER("Black selected for {}", to_string(next));
 		}
 	}
 }
