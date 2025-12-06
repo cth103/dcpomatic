@@ -81,6 +81,7 @@ AudioMerger::pull(DCPTime time)
 			/* Though time > i.time, overlap could be 0 if the difference in time is less than one frame */
 			if (overlap > 0) {
 				auto audio = make_shared<AudioBuffers>(i.audio, overlap, 0);
+				DCPOMATIC_ASSERT(audio->frames() > 0);
 				out.push_back(make_pair(audio, i.time));
 				i.audio->trim_start(overlap);
 				i.time += DCPTime::from_frames(overlap, _frame_rate);
@@ -95,10 +96,6 @@ AudioMerger::pull(DCPTime time)
 	}
 
 	_buffers = new_buffers;
-
-	for (auto const& i: out) {
-		DCPOMATIC_ASSERT(i.first->frames() > 0);
-	}
 
 	return out;
 }
