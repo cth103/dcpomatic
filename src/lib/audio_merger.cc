@@ -40,17 +40,17 @@ using boost::optional;
 using namespace dcpomatic;
 
 
-AudioMerger::AudioMerger (int frame_rate)
-	: _frame_rate (frame_rate)
+AudioMerger::AudioMerger(int frame_rate)
+	: _frame_rate(frame_rate)
 {
 
 }
 
 
 Frame
-AudioMerger::frames (DCPTime t) const
+AudioMerger::frames(DCPTime t) const
 {
-	return t.frames_floor (_frame_rate);
+	return t.frames_floor(_frame_rate);
 }
 
 
@@ -60,44 +60,44 @@ AudioMerger::frames (DCPTime t) const
  *  @return Blocks of merged audio up to `time'.
  */
 list<pair<shared_ptr<AudioBuffers>, DCPTime>>
-AudioMerger::pull (DCPTime time)
+AudioMerger::pull(DCPTime time)
 {
 	list<pair<shared_ptr<AudioBuffers>, DCPTime>> out;
 
 	list<Buffer> new_buffers;
 
-	_buffers.sort ([](Buffer const& a, Buffer const& b) {
+	_buffers.sort([](Buffer const& a, Buffer const& b) {
 		return a.time < b.time;
 	});
 
 	for (auto i: _buffers) {
 		if (i.period().to <= time) {
 			/* Completely within the pull period */
-			DCPOMATIC_ASSERT (i.audio->frames() > 0);
-			out.push_back (make_pair (i.audio, i.time));
+			DCPOMATIC_ASSERT(i.audio->frames() > 0);
+			out.push_back(make_pair(i.audio, i.time));
 		} else if (i.time < time) {
 			/* Overlaps the end of the pull period */
 			int32_t const overlap = frames(DCPTime(time - i.time));
 			/* Though time > i.time, overlap could be 0 if the difference in time is less than one frame */
 			if (overlap > 0) {
 				auto audio = make_shared<AudioBuffers>(i.audio, overlap, 0);
-				out.push_back (make_pair(audio, i.time));
-				i.audio->trim_start (overlap);
+				out.push_back(make_pair(audio, i.time));
+				i.audio->trim_start(overlap);
 				i.time += DCPTime::from_frames(overlap, _frame_rate);
-				DCPOMATIC_ASSERT (i.audio->frames() > 0);
-				new_buffers.push_back (i);
+				DCPOMATIC_ASSERT(i.audio->frames() > 0);
+				new_buffers.push_back(i);
 			}
 		} else {
 			/* Not involved */
-			DCPOMATIC_ASSERT (i.audio->frames() > 0);
-			new_buffers.push_back (i);
+			DCPOMATIC_ASSERT(i.audio->frames() > 0);
+			new_buffers.push_back(i);
 		}
 	}
 
 	_buffers = new_buffers;
 
 	for (auto const& i: out) {
-		DCPOMATIC_ASSERT (i.first->frames() > 0);
+		DCPOMATIC_ASSERT(i.first->frames() > 0);
 	}
 
 	return out;
@@ -106,11 +106,11 @@ AudioMerger::pull (DCPTime time)
 
 /** Push some data into the merger at a given time */
 void
-AudioMerger::push (std::shared_ptr<const AudioBuffers> audio, DCPTime time)
+AudioMerger::push(std::shared_ptr<const AudioBuffers> audio, DCPTime time)
 {
-	DCPOMATIC_ASSERT (audio->frames() > 0);
+	DCPOMATIC_ASSERT(audio->frames() > 0);
 
-	DCPTimePeriod period (time, time + DCPTime::from_frames (audio->frames(), _frame_rate));
+	DCPTimePeriod period(time, time + DCPTime::from_frames(audio->frames(), _frame_rate));
 
 	/* Mix any overlapping parts of this new block with existing ones */
 	for (auto i: _buffers) {
@@ -128,7 +128,7 @@ AudioMerger::push (std::shared_ptr<const AudioBuffers> audio, DCPTime time)
 
 	list<DCPTimePeriod> periods;
 	for (auto i: _buffers) {
-		periods.push_back (i.period());
+		periods.push_back(i.period());
 	}
 
 	/* Add the non-overlapping parts */
@@ -150,28 +150,28 @@ AudioMerger::push (std::shared_ptr<const AudioBuffers> audio, DCPTime time)
 		if (before == _buffers.end() && after == _buffers.end()) {
 			if (part->frames() > 0) {
 				/* New buffer */
-				_buffers.push_back (Buffer (part, time, _frame_rate));
+				_buffers.push_back(Buffer(part, time, _frame_rate));
 			}
 		} else if (before != _buffers.end() && after == _buffers.end()) {
 			/* We have an existing buffer before this one; append new data to it */
-			before->audio->append (part);
+			before->audio->append(part);
 		} else if (before ==_buffers.end() && after != _buffers.end()) {
 			/* We have an existing buffer after this one; append it to the new data and replace */
-			part->append (after->audio);
+			part->append(after->audio);
 			after->audio = part;
 			after->time = time;
 		} else {
 			/* We have existing buffers both before and after; coalesce them all */
-			before->audio->append (part);
-			before->audio->append (after->audio);
-			_buffers.erase (after);
+			before->audio->append(part);
+			before->audio->append(after->audio);
+			_buffers.erase(after);
 		}
 	}
 }
 
 
 void
-AudioMerger::clear ()
+AudioMerger::clear()
 {
-	_buffers.clear ();
+	_buffers.clear();
 }
