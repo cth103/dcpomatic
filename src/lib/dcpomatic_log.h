@@ -44,6 +44,7 @@ extern std::shared_ptr<Log> dcpomatic_log;
 #define LOG_DEBUG_PLAYER_NC(...) dcpomatic_log->log(__VA_ARGS__, LogEntry::TYPE_DEBUG_PLAYER);
 #define LOG_DEBUG_AUDIO_ANALYSIS(...)    dcpomatic_log->log(fmt::format(__VA_ARGS__), LogEntry::TYPE_DEBUG_AUDIO_ANALYSIS);
 #define LOG_DEBUG_AUDIO_ANALYSIS_NC(...) dcpomatic_log->log(__VA_ARGS__, LogEntry::TYPE_DEBUG_AUDIO_ANALYSIS);
+#define LOG_DEBUG_BUTLER(...) dcpomatic_log->log(fmt::format(__VA_ARGS__), LogEntry::TYPE_DEBUG_BUTLER);
 #define LOG_HTTP(...)         dcpomatic_log->log(fmt::format(__VA_ARGS__), LogEntry::TYPE_HTTP);
 #define LOG_HTTP_NC(...)      dcpomatic_log->log(__VA_ARGS__, LogEntry::TYPE_HTTP);
 

@@ -43,6 +43,7 @@ public:
 	static const int TYPE_DEBUG_PLAYER;     ///< the Player class
 	static const int TYPE_DEBUG_AUDIO_ANALYSIS; ///< audio analysis job
 	static const int TYPE_HTTP;
+	static const int TYPE_DEBUG_BUTLER;
 
 	explicit LogEntry (int type);
 	virtual ~LogEntry () {}

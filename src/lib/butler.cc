@@ -134,6 +134,8 @@ Butler::~Butler()
 bool
 Butler::should_run() const
 {
+	LOG_DEBUG_BUTLER("BUT: video={} audio={}", _video.size(), _audio.size());
+
 	if (_video.size() >= MAXIMUM_VIDEO_READAHEAD * 10) {
 		/* This is way too big */
 		auto pos = _audio.peek();

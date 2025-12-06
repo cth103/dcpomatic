@@ -27,18 +27,19 @@
 #include "i18n.h"
 
 
-int const LogEntry::TYPE_GENERAL      = 0x001;
-int const LogEntry::TYPE_WARNING      = 0x002;
-int const LogEntry::TYPE_ERROR        = 0x004;
-int const LogEntry::TYPE_DEBUG_THREE_D = 0x008;
-int const LogEntry::TYPE_DEBUG_ENCODE = 0x010;
-int const LogEntry::TYPE_TIMING       = 0x020;
-int const LogEntry::TYPE_DEBUG_EMAIL  = 0x040;
-int const LogEntry::TYPE_DEBUG_VIDEO_VIEW = 0x080;
-int const LogEntry::TYPE_DISK         = 0x100;
-int const LogEntry::TYPE_DEBUG_PLAYER = 0x200;
-int const LogEntry::TYPE_DEBUG_AUDIO_ANALYSIS = 0x400;
-int const LogEntry::TYPE_HTTP         = 0x800;
+int const LogEntry::TYPE_GENERAL              = 0x0001;
+int const LogEntry::TYPE_WARNING              = 0x0002;
+int const LogEntry::TYPE_ERROR                = 0x0004;
+int const LogEntry::TYPE_DEBUG_THREE_D        = 0x0008;
+int const LogEntry::TYPE_DEBUG_ENCODE         = 0x0010;
+int const LogEntry::TYPE_TIMING               = 0x0020;
+int const LogEntry::TYPE_DEBUG_EMAIL          = 0x0040;
+int const LogEntry::TYPE_DEBUG_VIDEO_VIEW     = 0x0080;
+int const LogEntry::TYPE_DISK                 = 0x0100;
+int const LogEntry::TYPE_DEBUG_PLAYER         = 0x0200;
+int const LogEntry::TYPE_DEBUG_AUDIO_ANALYSIS = 0x0400;
+int const LogEntry::TYPE_HTTP                 = 0x0800;
+int const LogEntry::TYPE_DEBUG_BUTLER         = 0x1000;
 
 
 using std::string;

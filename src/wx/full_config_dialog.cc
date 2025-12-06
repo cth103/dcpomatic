@@ -1298,6 +1298,8 @@ private:
 			t->Add(_log_debug_player, 1, wxEXPAND | wxALL);
 			_log_debug_audio_analysis = new CheckBox(_panel, _("Debug: audio analysis"));
 			t->Add(_log_debug_audio_analysis, 1, wxEXPAND | wxALL);
+			_log_debug_butler = new CheckBox(_panel, _("Debug: butler"));
+			t->Add(_log_debug_butler, 1, wxEXPAND | wxALL);
 			table->Add(t, 0, wxALL, 6);
 		}
 
@@ -1328,6 +1330,7 @@ private:
 		_log_debug_video_view->bind(&AdvancedPage::log_changed, this);
 		_log_debug_player->bind(&AdvancedPage::log_changed, this);
 		_log_debug_audio_analysis->bind(&AdvancedPage::log_changed, this);
+		_log_debug_butler->bind(&AdvancedPage::log_changed, this);
 #ifdef DCPOMATIC_WINDOWS
 		_win32_console->bind(&AdvancedPage::win32_console_changed, this);
 #endif
@@ -1358,6 +1361,7 @@ private:
 		checked_set(_log_debug_video_view, config->log_types() & LogEntry::TYPE_DEBUG_VIDEO_VIEW);
 		checked_set(_log_debug_player, config->log_types() & LogEntry::TYPE_DEBUG_PLAYER);
 		checked_set(_log_debug_audio_analysis, config->log_types() & LogEntry::TYPE_DEBUG_AUDIO_ANALYSIS);
+		checked_set(_log_debug_butler, config->log_types() & LogEntry::TYPE_DEBUG_BUTLER);
 		checked_set(_frames_in_memory_multiplier, config->frames_in_memory_multiplier());
 #ifdef DCPOMATIC_WINDOWS
 		checked_set(_win32_console, config->win32_console());
@@ -1436,6 +1440,9 @@ private:
 		if (_log_debug_audio_analysis->GetValue()) {
 			types |= LogEntry::TYPE_DEBUG_AUDIO_ANALYSIS;
 		}
+		if (_log_debug_butler->GetValue()) {
+			types |= LogEntry::TYPE_DEBUG_BUTLER;
+		}
 		Config::instance()->set_log_types(types);
 	}
 
@@ -1463,6 +1470,7 @@ private:
 	CheckBox* _log_debug_video_view = nullptr;
 	CheckBox* _log_debug_player = nullptr;
 	CheckBox* _log_debug_audio_analysis = nullptr;
+	CheckBox* _log_debug_butler = nullptr;
 #ifdef DCPOMATIC_WINDOWS
 	CheckBox* _win32_console = nullptr;
 #endif

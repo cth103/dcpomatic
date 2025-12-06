@@ -108,12 +108,12 @@ FFmpegDecoder::FFmpegDecoder (shared_ptr<const Film> film, shared_ptr<const FFmp
 FFmpegDecoder::FlushResult
 FFmpegDecoder::flush ()
 {
-	LOG_DEBUG_PLAYER("Flush FFmpeg decoder: current state {}", static_cast<int>(_flush_state));
+	LOG_DEBUG_PLAYER("DEC: Flush FFmpeg decoder: current state {}", static_cast<int>(_flush_state));
 
 	switch (_flush_state) {
 	case FlushState::CODECS:
 		if (flush_codecs() == FlushResult::DONE) {
-			LOG_DEBUG_PLAYER("Finished flushing codecs");
+			LOG_DEBUG_PLAYER("DEC: Finished flushing codecs");
 			_flush_state = FlushState::AUDIO_DECODER;
 		}
 		break;
@@ -121,12 +121,12 @@ FFmpegDecoder::flush ()
 		if (audio) {
 			audio->flush();
 		}
-		LOG_DEBUG_PLAYER("Finished flushing audio decoder");
+		LOG_DEBUG_PLAYER("DEC: Finished flushing audio decoder");
 		_flush_state = FlushState::FILL;
 		break;
 	case FlushState::FILL:
 		if (flush_fill() == FlushResult::DONE) {
-			LOG_DEBUG_PLAYER("Finished flushing fills");
+			LOG_DEBUG_PLAYER("DEC: Finished flushing fills");
 			return FlushResult::DONE;
 		}
 		break;
@@ -192,7 +192,7 @@ FFmpegDecoder::flush_fill()
 			   here.  I'm not sure if that's the right idea.
 			*/
 			if (a > ContentTime() && a < full_length) {
-				LOG_DEBUG_PLAYER("Flush inserts silence at {}", to_string(a));
+				LOG_DEBUG_PLAYER("DEC: Flush inserts silence at {}", to_string(a));
 				auto to_do = min (full_length - a, ContentTime::from_seconds (0.1));
 				auto silence = make_shared<AudioBuffers>(i->channels(), to_do.frames_ceil (i->frame_rate()));
 				silence->make_silent ();
@@ -219,7 +219,7 @@ FFmpegDecoder::pass ()
 	   Hence it makes sense to continue here in that case.
 	*/
 	if (r < 0 && r != AVERROR_INVALIDDATA) {
-		LOG_DEBUG_PLAYER("FFpmegDecoder::pass flushes because av_read_frame returned {}", r);
+		LOG_DEBUG_PLAYER("DEC: FFpmegDecoder::pass flushes because av_read_frame returned {}", r);
 		if (r != AVERROR_EOF) {
 			/* Maybe we should fail here, but for now we'll just finish off instead */
 			char buf[256];
@@ -504,7 +504,7 @@ FFmpegDecoder::process_audio_frame (shared_ptr<FFmpegAudioStream> stream)
 			av_q2d(time_base))
 			+ _pts_offset;
 		LOG_DEBUG_PLAYER(
-			"Process audio with timestamp {} (BET {}, timebase {}/{}, (PTS offset {})",
+			"DEC: Process audio with timestamp {} (BET {}, timebase {}/{}, (PTS offset {})",
 			to_string(ct),
 			frame->best_effort_timestamp,
 			time_base.num,
@@ -553,7 +553,7 @@ FFmpegDecoder::decode_and_process_audio_packet (AVPacket* packet)
 	auto context = _codec_context[stream->index(_format_context)];
 	auto frame = audio_frame (stream);
 
-	LOG_DEBUG_PLAYER("Send audio packet on stream {}", stream->index(_format_context));
+	LOG_DEBUG_PLAYER("DEC: Send audio packet on stream {}", stream->index(_format_context));
 	int r = avcodec_send_packet (context, packet);
 	if (r < 0) {
 		LOG_WARNING("avcodec_send_packet returned {} for an audio packet", r);
@@ -562,7 +562,7 @@ FFmpegDecoder::decode_and_process_audio_packet (AVPacket* packet)
 		r = avcodec_receive_frame (context, frame);
 		if (r == AVERROR(EAGAIN)) {
 			/* More input is required */
-			LOG_DEBUG_PLAYER("EAGAIN after trying to receive audio frame");
+			LOG_DEBUG_PLAYER("DEC: EAGAIN after trying to receive audio frame");
 			return;
 		}
 
@@ -584,6 +584,7 @@ FFmpegDecoder::decode_and_process_video_packet (AVPacket* packet)
 
 	bool pending = false;
 	do {
+		LOG_DEBUG_PLAYER("DEC: Send video packet");
 		int r = avcodec_send_packet (context, packet);
 		if (r < 0) {
 			LOG_WARNING("avcodec_send_packet returned {} for a video packet", r);
@@ -624,6 +625,7 @@ FFmpegDecoder::process_video_frame ()
 		if (i.second != AV_NOPTS_VALUE) {
 			double const pts = i.second * av_q2d(_format_context->streams[_video_stream.get()]->time_base) + _pts_offset.seconds();
 
+			LOG_DEBUG_PLAYER("DEC: Process video with timestamp {}", to_string(ContentTime::from_seconds(pts)))
 			video->emit (
 				film(),
 				make_shared<RawImageProxy>(image),

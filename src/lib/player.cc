@@ -711,7 +711,7 @@ Player::pass()
 
 	if (_suspended) {
 		/* We can't pass in this state */
-		LOG_DEBUG_PLAYER("Player is suspended");
+		LOG_DEBUG_PLAYER("PLY: Player is suspended");
 		return false;
 	}
 
@@ -755,7 +755,7 @@ Player::pass()
 	switch (which) {
 	case CONTENT:
 	{
-		LOG_DEBUG_PLAYER("Calling pass() on {}", earliest_content->content->path(0).string());
+		LOG_DEBUG_PLAYER("PLY: Calling pass() on {}", earliest_content->content->path(0).string());
 		earliest_content->done = earliest_content->decoder->pass();
 		auto dcp = dynamic_pointer_cast<DCPContent>(earliest_content->content);
 		if (dcp && !_play_referenced) {
@@ -773,7 +773,7 @@ Player::pass()
 		break;
 	}
 	case BLACK:
-		LOG_DEBUG_PLAYER("Emit black for gap at {}", to_string(_black.position()));
+		LOG_DEBUG_PLAYER("PLY: Emit black for gap at {}", to_string(_black.position()));
 		if (!_next_video_time) {
 			/* Deciding to emit black has the same effect as getting some video from the content
 			 * when we are inaccurately seeking.
@@ -790,7 +790,7 @@ Player::pass()
 		break;
 	case SILENT:
 	{
-		LOG_DEBUG_PLAYER("Emit silence for gap at {}", to_string(_silent.position()));
+		LOG_DEBUG_PLAYER("PLY: Emit silence for gap at {}", to_string(_silent.position()));
 		DCPTimePeriod period(_silent.period_at_position());
 		if (_next_audio_time) {
 			/* Sometimes the thing that happened last finishes fractionally before
@@ -845,7 +845,7 @@ Player::pass()
 	std::map<AudioStreamPtr, StreamState> alive_stream_states;
 
 	if (latest_last_push_end != have_pushed.end()) {
-		LOG_DEBUG_PLAYER("Leading audio stream is in {} at {}", latest_last_push_end->second.piece->content->path(0).string(), to_string(latest_last_push_end->second.last_push_end.get()));
+		LOG_DEBUG_PLAYER("PLY: Leading audio stream is in {} at {}", latest_last_push_end->second.piece->content->path(0).string(), to_string(latest_last_push_end->second.last_push_end.get()));
 
 		auto const ignore_threshold = dcpomatic::DCPTime::from_seconds(ignore_streams_behind);
 		auto const leader_time = latest_last_push_end->second.last_push_end.get();
@@ -859,7 +859,7 @@ Player::pass()
 			if ((i.second.last_push_end && (leader_time - i.second.last_push_end.get()) < ignore_threshold) || ((leader_time - i.second.piece->content->position()) < ignore_threshold)) {
 				alive_stream_states.insert(i);
 			} else {
-				LOG_DEBUG_PLAYER("Ignoring stream {} because it is too far behind", i.second.piece->content->path(0).string());
+				LOG_DEBUG_PLAYER("PLY: Ignoring stream {} because it is too far behind", i.second.piece->content->path(0).string());
 			}
 		}
 	}
@@ -875,7 +875,7 @@ Player::pass()
 		pull_to = _silent.position();
 	}
 
-	LOG_DEBUG_PLAYER("Emitting audio up to {}", to_string(pull_to));
+	LOG_DEBUG_PLAYER("PLY: Emitting audio up to {}", to_string(pull_to));
 	auto audio = _audio_merger.pull(pull_to);
 	for (auto i = audio.begin(); i != audio.end(); ++i) {
 		if (_next_audio_time && i->second < *_next_audio_time) {
@@ -895,7 +895,7 @@ Player::pass()
 
 	if (done) {
 		if (_next_video_time) {
-			LOG_DEBUG_PLAYER("Done: emit video until end of film at {}", to_string(film->length()));
+			LOG_DEBUG_PLAYER("PLY: Done: emit video until end of film at {}", to_string(film->length()));
 			emit_video_until(film->length());
 		}
 
@@ -971,7 +971,7 @@ Player::open_texts_for_frame(DCPTime time) const
 void
 Player::emit_video_until(DCPTime time)
 {
-	LOG_DEBUG_PLAYER("emit_video_until {}; next video time is {}", to_string(time), to_string(_next_video_time.get_value_or({})));
+	LOG_DEBUG_PLAYER("PLY: emit_video_until {}; next video time is {}", to_string(time), to_string(_next_video_time.get_value_or({})));
 	auto frame = [this](shared_ptr<PlayerVideo> pv, DCPTime time) {
 		/* We need a delay to give a little wiggle room to ensure that relevant subtitles arrive at the
 		   player before the video that requires them.
@@ -1020,7 +1020,7 @@ Player::emit_video_until(DCPTime time)
 			frame(right.first, next);
 		} else if (both.first && (both.second - next) < age_threshold(both)) {
 			frame(both.first, next);
-			LOG_DEBUG_PLAYER("Content {} selected for DCP {} (age {})", to_string(both.second), to_string(next), to_string(both.second - next));
+			LOG_DEBUG_PLAYER("PLY: Content {} selected for DCP {} (age {})", to_string(both.second), to_string(next), to_string(both.second - next));
 		} else {
 			auto film = _film.lock();
 			if (film && film->three_d()) {
@@ -1029,7 +1029,7 @@ Player::emit_video_until(DCPTime time)
 			} else {
 				frame(black_player_video_frame(Eyes::BOTH), next);
 			}
-			LOG_DEBUG_PLAYER("Black selected for {}", to_string(next));
+			LOG_DEBUG_PLAYER("PLY: Black selected for {}", to_string(next));
 		}
 	}
 }
@@ -1080,7 +1080,7 @@ Player::video(weak_ptr<Piece> weak_piece, ContentVideo video)
 
 	/* Time of the frame we just received within the DCP */
 	auto const time = content_time_to_dcp(piece, video.time);
-	LOG_DEBUG_PLAYER("Received video frame {} {} eyes {}", to_string(video.time), to_string(time), static_cast<int>(video.eyes));
+	LOG_DEBUG_PLAYER("PLY: Received video frame {} {} eyes {}", to_string(video.time), to_string(time), static_cast<int>(video.eyes));
 
 	if (time < piece->content->position()) {
 		return;
@@ -1170,7 +1170,7 @@ Player::audio(weak_ptr<Piece> weak_piece, AudioStreamPtr stream, ContentAudio co
 
 	/* And the end of this block in the DCP */
 	auto end = time + DCPTime::from_frames(content_audio.audio->frames(), rfr);
-	LOG_DEBUG_PLAYER("Received audio frame {} covering {} to {} ({})", content_audio.frame, to_string(time), to_string(end), piece->content->path(0).filename().string());
+	LOG_DEBUG_PLAYER("PLY: Received audio frame {} covering {} to {} ({})", content_audio.frame, to_string(time), to_string(end), piece->content->path(0).filename().string());
 
 	/* Remove anything that comes before the start or after the end of the content */
 	if (time < piece->content->position()) {
@@ -1389,7 +1389,7 @@ void
 Player::seek(DCPTime time, bool accurate)
 {
 	boost::mutex::scoped_lock lm(_mutex);
-	LOG_DEBUG_PLAYER("Seek to {} ({}accurate)", to_string(time), accurate ? "" : "in");
+	LOG_DEBUG_PLAYER("PLY: Seek to {} ({}accurate)", to_string(time), accurate ? "" : "in");
 
 	if (_suspended) {
 		/* We can't seek in this state */
