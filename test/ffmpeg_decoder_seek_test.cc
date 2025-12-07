@@ -68,7 +68,7 @@ check(shared_ptr<FFmpegDecoder> decoder, ContentTime time)
 {
 	BOOST_REQUIRE(decoder->ffmpeg_content()->video_frame_rate());
 	decoder->seek(time, true);
-	stored = optional<ContentVideo>();
+	stored = {};
 	while (!decoder->pass() && !stored) {}
 	BOOST_CHECK(stored->time <= time);
 }
