@@ -56,7 +56,7 @@ using namespace dcpomatic;
 
 static optional<ContentVideo> stored;
 static bool
-store (ContentVideo v)
+store(ContentVideo v)
 {
 	stored = v;
 	return true;
@@ -64,34 +64,34 @@ store (ContentVideo v)
 
 
 static void
-check (shared_ptr<FFmpegDecoder> decoder, ContentTime time)
+check(shared_ptr<FFmpegDecoder> decoder, ContentTime time)
 {
-	BOOST_REQUIRE (decoder->ffmpeg_content()->video_frame_rate ());
+	BOOST_REQUIRE(decoder->ffmpeg_content()->video_frame_rate());
 	decoder->seek(time, true);
-	stored = optional<ContentVideo> ();
+	stored = optional<ContentVideo>();
 	while (!decoder->pass() && !stored) {}
 	BOOST_CHECK(stored->time <= time);
 }
 
 
 static void
-test (boost::filesystem::path file, vector<ContentTime> times)
+test(boost::filesystem::path file, vector<ContentTime> times)
 {
 	auto path = TestPaths::private_data() / file;
-	BOOST_REQUIRE (boost::filesystem::exists (path));
+	BOOST_REQUIRE(boost::filesystem::exists(path));
 
 	auto content = make_shared<FFmpegContent>(path);
 	auto film = new_test_film("ffmpeg_decoder_seek_test_" + file.string(), { content });
 	auto decoder = make_shared<FFmpegDecoder>(film, content, false);
-	decoder->video->Data.connect (bind (&store, _1));
+	decoder->video->Data.connect(bind(&store, _1));
 
 	for (auto i: times) {
-		check (decoder, i);
+		check(decoder, i);
 	}
 }
 
 
-BOOST_AUTO_TEST_CASE (ffmpeg_decoder_seek_test)
+BOOST_AUTO_TEST_CASE(ffmpeg_decoder_seek_test)
 {
 	test(
 		"boon_telly.mkv",
