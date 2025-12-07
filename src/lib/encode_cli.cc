@@ -21,6 +21,7 @@
 
 #include "ansi.h"
 #include "audio_content.h"
+#include "cinema_list.h"
 #include "config.h"
 #include "cross.h"
 #include "dcpomatic_log.h"
@@ -71,13 +72,14 @@ help(function <void (string)> out)
 	out(fmt::format("Syntax: {} [OPTION] [COMMAND] [<PARAMETER>]\n", program_name));
 
 	out("\nCommands:\n\n");
-	out("  make-dcp <FILM>              make DCP from the given film; default if no other command is specified\n");
-	out(variant::insert_dcpomatic("  list-servers                 display a list of encoding servers that {} can use (until Ctrl-C)\n"));
-	out("  dump <FILM>                  show a summary of the film's settings\n");
+	out("  make-dcp <FILM>                   make DCP from the given film; default if no other command is specified\n");
+	out(variant::insert_dcpomatic("  list-servers                      display a list of encoding servers that {} can use (until Ctrl-C)\n"));
+	out("  dump <FILM>                       show a summary of the film's settings\n");
+	out("  convert-screen-db <in> <out>      convert a given XML screen database to SQLite\n");
 #ifdef DCPOMATIC_GROK
-	out("  config-params                list the parameters that can be set with `config`\n");
-	out("  config <PARAMETER> <VALUE>   set a DCP-o-matic configuration value\n");
-	out("  list-gpus                    list available GPUs\n");
+	out("  config-params                     list the parameters that can be set with `config`\n");
+	out("  config <PARAMETER> <VALUE>        set a DCP-o-matic configuration value\n");
+	out("  list-gpus                         list available GPUs\n");
 #endif
 
 	out("\nOptions:\n\n");
@@ -103,6 +105,7 @@ help(function <void (string)> out)
 	out("\ne.g.\n");
 	out(fmt::format("\n  {} -t 4 make-dcp my_great_movie\n", program_name));
 	out(fmt::format("\n  {} config grok-licence 12345ABCD\n", program_name));
+	out(fmt::format("\n  {} convert-screen-db database.xml database.sqlite3", program_name));
 	out("\n");
 }
 
@@ -388,7 +391,8 @@ encode_cli(int argc, char* argv[], function<void (string)> out, function<void ()
 		"config",
 		"list-gpus"
 #else
-		"dump"
+		"dump",
+		"convert-screen-db"
 #endif
 	};
 
@@ -449,6 +453,18 @@ encode_cli(int argc, char* argv[], function<void (string)> out, function<void ()
 		return {};
 	}
 #endif
+
+	if (command == "convert-screen-db") {
+		if (optind < argc - 1) {
+			string const input = argv[optind++];
+			string const output = argv[optind++];
+			CinemaList cinemas(output);
+			cinemas.read_legacy_file(input);
+		} else {
+			return fmt::format("Missing parameter: use {} config <input-xml-file> <output-sqlite3-file>", program_name);
+		}
+		return {};
+	}
 
 	if (config) {
 		State::override_path = *config;
