@@ -133,3 +133,22 @@ BOOST_AUTO_TEST_CASE(ffmpeg_decoder_seek_test)
 		}
 	    );
 }
+
+
+BOOST_AUTO_TEST_CASE(seek_when_backward_fails)
+{
+	auto content = make_shared<FFmpegContent>(TestPaths::private_data() / "strange_keyframes.mp4");
+	auto film = new_test_film("seek_when_backward_fails", { content });
+	auto decoder = make_shared<FFmpegDecoder>(film, content, false);
+	decoder->video->Data.connect(bind(&store, _1));
+
+	/* Due to a bug this seek would fail silently, giving us different frame each time */
+	for (auto i = 0; i < 3; ++i) {
+		decoder->seek(dcpomatic::ContentTime(), true);
+		stored = {};
+		while (!decoder->pass() && !stored) {}
+		BOOST_REQUIRE(static_cast<bool>(stored));
+		BOOST_CHECK(stored->time == dcpomatic::ContentTime());
+	}
+}
+

@@ -431,12 +431,19 @@ FFmpegDecoder::seek (ContentTime time, bool accurate)
 	if (u < ContentTime ()) {
 		u = ContentTime ();
 	}
-	av_seek_frame (
-		_format_context,
-		stream.get(),
-		u.seconds() / av_q2d (_format_context->streams[stream.get()]->time_base),
-		AVSEEK_FLAG_BACKWARD
-		);
+
+	auto seek = [&](int flag) {
+		return av_seek_frame(
+			_format_context,
+			stream.get(),
+			u.seconds() / av_q2d (_format_context->streams[stream.get()]->time_base),
+			flag
+			);
+	};
+
+	if (seek(AVSEEK_FLAG_BACKWARD) < 0) {
+		DCPOMATIC_ASSERT(seek(AVSEEK_FLAG_ANY) >= 0);
+	};
 
 	/* Force re-creation of filter graphs to reset them, to make sure
 	   they don't have any pre-seek frames.
