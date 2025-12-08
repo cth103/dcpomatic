@@ -247,7 +247,7 @@ from_film(
 	}
 
 	/* XXX: allow specification of this */
-	vector<CPLSummary> cpls = film->cpls();
+	auto cpls = film->cpls();
 	if (cpls.empty()) {
 		throw KDMCLIError("no CPLs found in film");
 	} else if (cpls.size() > 1) {
