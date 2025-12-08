@@ -39,7 +39,6 @@ class KDMCPLPanel;
 class KDMOutputPanel;
 class KDMTimingPanel;
 class ScreensPanel;
-struct CPLSummary;
 
 
 class KDMDialog : public wxDialog
