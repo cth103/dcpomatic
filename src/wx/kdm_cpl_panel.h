@@ -20,6 +20,7 @@
 
 
 #include "lib/types.h"
+#include <dcp/cpl_summary.h>
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/wx.h>
@@ -31,7 +32,7 @@ LIBDCP_ENABLE_WARNINGS
 class KDMCPLPanel : public wxPanel
 {
 public:
-	KDMCPLPanel (wxWindow* parent, std::vector<CPLSummary> cpls);
+	KDMCPLPanel(wxWindow* parent, std::vector<dcp::CPLSummary> cpls);
 
 	boost::filesystem::path cpl () const;
 	bool has_selected () const;
@@ -49,5 +50,5 @@ private:
 	wxStaticText* _cpl_id;
 	wxStaticText* _cpl_annotation_text;
 
-	std::vector<CPLSummary> _cpls;
+	std::vector<dcp::CPLSummary> _cpls;
 };

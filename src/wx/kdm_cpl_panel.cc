@@ -34,7 +34,7 @@ LIBDCP_ENABLE_WARNINGS
 using std::vector;
 
 
-KDMCPLPanel::KDMCPLPanel (wxWindow* parent, vector<CPLSummary> cpls)
+KDMCPLPanel::KDMCPLPanel(wxWindow* parent, vector<dcp::CPLSummary> cpls)
 	: wxPanel (parent, wxID_ANY)
 	, _cpls (cpls)
 {
@@ -94,7 +94,7 @@ KDMCPLPanel::update_cpl_summary ()
 		return;
 	}
 
-	_dcp_directory->SetLabel (std_to_wx (_cpls[n].dcp_directory));
+	_dcp_directory->SetLabel(std_to_wx(_cpls[n].dcp_directory.string()));
 	_cpl_id->SetLabel (std_to_wx (_cpls[n].cpl_id));
 	_cpl_annotation_text->SetLabel (std_to_wx(_cpls[n].cpl_annotation_text.get_value_or("")));
 
@@ -140,7 +140,7 @@ KDMCPLPanel::cpl_browse_clicked ()
 		*/
 
 		_cpls.push_back (
-			CPLSummary (
+			dcp::CPLSummary(
 				dcp_dir.filename().string(),
 				cpl_document.string_child("Id").substr (9),
 				cpl_document.string_child("ContentTitleText"),

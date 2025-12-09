@@ -1414,14 +1414,14 @@ Film::j2c_path(int reel, Frame frame, Eyes eyes, bool tmp) const
 /** Find all the DCPs in our directory that can be dcp::DCP::read() and return details of their CPLs.
  *  The list will be returned in reverse order of timestamp (i.e. most recent first).
  */
-vector<CPLSummary>
+vector<dcp::CPLSummary>
 Film::cpls() const
 {
 	if (!directory()) {
 		return {};
 	}
 
-	vector<CPLSummary> out;
+	vector<dcp::CPLSummary> out;
 
 	auto const dir = directory().get();
 	for (auto const& item: dcp::filesystem::directory_iterator(dir)) {
@@ -1431,14 +1431,15 @@ Film::cpls() const
 			) {
 
 			try {
-				out.push_back(CPLSummary(item));
-			} catch (...) {
-
-			}
+				dcp::DCP dcp(item.path());
+				for (auto cpl: dcp.cpl_summaries()) {
+					out.push_back(cpl);
+				}
+			} catch (...) {}
 		}
 	}
 
-	sort(out.begin(), out.end(), [](CPLSummary const& a, CPLSummary const& b) {
+	sort(out.begin(), out.end(), [](dcp::CPLSummary const& a, dcp::CPLSummary const& b) {
 		return a.last_write_time > b.last_write_time;
 	});
 

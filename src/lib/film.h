@@ -45,6 +45,7 @@
 #include "types.h"
 #include "util.h"
 #include "video_encoding.h"
+#include <dcp/cpl_summary.h>
 #include <dcp/encrypted_kdm.h>
 #include <dcp/file.h>
 #include <dcp/key.h>
@@ -140,7 +141,7 @@ public:
 	dcp::Size frame_size() const;
 	dcp::Size active_area() const;
 
-	std::vector<CPLSummary> cpls() const;
+	std::vector<dcp::CPLSummary> cpls() const;
 
 	std::list<DCPTextTrack> closed_text_tracks() const;
 

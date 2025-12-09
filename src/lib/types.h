@@ -117,28 +117,6 @@ std::string reel_type_to_string(ReelType type);
 ReelType string_to_reel_type(std::string type);
 
 
-struct CPLSummary
-{
-	CPLSummary (boost::filesystem::path p);
-
-	CPLSummary (std::string d, std::string i, std::string a, boost::filesystem::path f, bool e, time_t t)
-		: dcp_directory (d)
-		, cpl_id (i)
-		, cpl_annotation_text (a)
-		, cpl_file (f)
-		, encrypted (e)
-		, last_write_time (t)
-	{}
-
-	std::string dcp_directory;
-	std::string cpl_id;
-	boost::optional<std::string> cpl_annotation_text;
-	boost::filesystem::path cpl_file;
-	/** true if this CPL has any encrypted assets */
-	bool encrypted;
-	time_t last_write_time;
-};
-
 enum class FileTransferProtocol {
 	SCP,
 	FTP

@@ -99,7 +99,7 @@ KDMDialog::KDMDialog (wxWindow* parent, shared_ptr<const Film> film)
 	h->SetFont (subheading_font);
 	right->Add (h);
 
-	vector<CPLSummary> cpls;
+	vector<dcp::CPLSummary> cpls;
 	for (auto const& i: film->cpls()) {
 		if (i.encrypted) {
 			cpls.push_back (i);

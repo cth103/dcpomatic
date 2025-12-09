@@ -18,6 +18,7 @@
 
 */
 
+#include "timer.h"
 #include "types.h"
 #include "dcpomatic_assert.h"
 #include <dcp/cpl.h>
@@ -39,40 +40,6 @@ using std::string;
 using std::list;
 using std::shared_ptr;
 using std::vector;
-
-
-CPLSummary::CPLSummary (boost::filesystem::path p)
-	: dcp_directory(p.filename().string())
-{
-	dcp::DCP dcp (p);
-
-	vector<dcp::VerificationNote> notes;
-	dcp.read (&notes);
-	for (auto i: notes) {
-		if (i.code() != dcp::VerificationNote::Code::EXTERNAL_ASSET) {
-			/* It's not just a warning about this DCP being a VF */
-			throw dcp::ReadError(dcp::note_to_string(i));
-		}
-	}
-
-	cpl_id = dcp.cpls().front()->id();
-	cpl_annotation_text = dcp.cpls().front()->annotation_text();
-	cpl_file = dcp.cpls().front()->file().get();
-
-	encrypted = false;
-	for (auto j: dcp.cpls()) {
-		for (auto k: j->reel_file_assets()) {
-			if (k->encrypted()) {
-				encrypted = true;
-			}
-		}
-	}
-
-	boost::system::error_code ec;
-	auto last_write = dcp::filesystem::last_write_time(p, ec);
-	last_write_time = ec ? 0 : last_write;
-}
-
 
 
 ReelType
