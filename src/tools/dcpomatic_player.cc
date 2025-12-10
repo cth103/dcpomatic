@@ -829,6 +829,7 @@ private:
 		}
 
 		_info->triggered_update();
+		set_menu_sensitivity();
 	}
 
 	void file_save_frame()
@@ -1228,14 +1229,16 @@ private:
 
 	void set_menu_sensitivity()
 	{
-		auto const enable = _film && !_film->content().empty();
-		_tools_verify->Enable(enable);
-		_tools_audio_graph->Enable(enable);
-		_file_add_ov->Enable(enable);
-		_file_add_kdm->Enable(enable);
-		_file_save_frame->Enable(enable);
-		_view_cpl->Enable(enable);
-		_view_eye->Enable(enable && _film->three_d());
+		auto const have_content = _film && !_film->content().empty();
+		auto const dcp = _viewer.dcp();
+		auto const playable = dcp && !dcp->needs_assets() && !dcp->needs_kdm();
+		_tools_verify->Enable(have_content);
+		_tools_audio_graph->Enable(playable);
+		_file_add_ov->Enable(have_content);
+		_file_add_kdm->Enable(have_content);
+		_file_save_frame->Enable(playable);
+		_view_cpl->Enable(have_content);
+		_view_eye->Enable(have_content && _film->three_d());
 	}
 
 	void start_stop_pressed()
