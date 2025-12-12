@@ -28,6 +28,8 @@
  */
 
 
+#include "lib/audio_decoder.h"
+#include "lib/content_audio.h"
 #include "lib/content_video.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/ffmpeg_decoder.h"
@@ -150,5 +152,25 @@ BOOST_AUTO_TEST_CASE(seek_when_backward_fails)
 		BOOST_REQUIRE(static_cast<bool>(stored));
 		BOOST_CHECK(stored->time == dcpomatic::ContentTime());
 	}
+}
+
+
+BOOST_AUTO_TEST_CASE(seek_with_no_video_two_audio)
+{
+	auto content = make_shared<FFmpegContent>("test/data/no_video_two_audio.mov");
+	auto film = new_test_film("seek_with_no_video_two_audio", { content });
+	auto decoder = make_shared<FFmpegDecoder>(film, content, false);
+
+	optional<Frame> frame;
+	auto audio = [&](AudioStreamPtr, ContentAudio audio) {
+		frame = audio.frame;
+	};
+
+	decoder->audio->Data.connect(boost::bind<void>(audio, _1, _2));
+	decoder->seek(dcpomatic::ContentTime::from_seconds(1), false);
+	while (!decoder->pass() && frame == boost::none) {}
+
+	BOOST_REQUIRE(frame != boost::none);
+	BOOST_CHECK(*frame > 0);
 }
 

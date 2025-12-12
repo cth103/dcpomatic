@@ -418,11 +418,10 @@ FFmpegDecoder::seek (ContentTime time, bool accurate)
 	if (_video_stream) {
 		stream = _video_stream;
 	} else {
-		DCPOMATIC_ASSERT (_ffmpeg_content->audio);
-		auto s = dynamic_pointer_cast<FFmpegAudioStream>(_ffmpeg_content->audio->stream());
-		if (s) {
-			stream = s->index (_format_context);
-		}
+		DCPOMATIC_ASSERT(_ffmpeg_content->audio);
+		auto streams = _ffmpeg_content->ffmpeg_audio_streams();
+		DCPOMATIC_ASSERT(!streams.empty());
+		stream = streams[0]->index(_format_context);
 	}
 
 	DCPOMATIC_ASSERT (stream);
