@@ -41,32 +41,32 @@
 using std::make_shared;
 
 
-BOOST_AUTO_TEST_CASE (ffmpeg_dcp_test)
+BOOST_AUTO_TEST_CASE(ffmpeg_dcp_test)
 {
 	auto c = make_shared<FFmpegContent>("test/data/test.mp4");
 	auto film = new_test_film("ffmpeg_dcp_test", { c });
 	film->set_name("test_film2");
-	make_and_verify_dcp (film);
+	make_and_verify_dcp(film);
 }
 
 
 /** Briefly test Film::cpls() */
-BOOST_AUTO_TEST_CASE (ffmpeg_have_dcp_test, * boost::unit_test::depends_on("ffmpeg_dcp_test"))
+BOOST_AUTO_TEST_CASE(ffmpeg_have_dcp_test, * boost::unit_test::depends_on("ffmpeg_dcp_test"))
 {
-	auto p = test_film_dir ("ffmpeg_dcp_test");
+	auto p = test_film_dir("ffmpeg_dcp_test");
 	auto film = make_shared<Film>(p);
-	film->read_metadata ();
-	BOOST_CHECK (!film->cpls().empty());
+	film->read_metadata();
+	BOOST_CHECK(!film->cpls().empty());
 
 	p /= film->dcp_name();
-	auto i = boost::filesystem::directory_iterator (p);
+	auto i = boost::filesystem::directory_iterator(p);
 	while (i != boost::filesystem::directory_iterator() && !boost::algorithm::starts_with(i->path().filename().string(), "j2c")) {
 		++i;
 	}
 
-	if (i != boost::filesystem::directory_iterator ()) {
-		boost::filesystem::remove (i->path ());
+	if (i != boost::filesystem::directory_iterator()) {
+		boost::filesystem::remove(i->path());
 	}
 
-	BOOST_CHECK (film->cpls().empty());
+	BOOST_CHECK(film->cpls().empty());
 }
