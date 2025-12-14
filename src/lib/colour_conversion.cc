@@ -288,7 +288,9 @@ PresetColourConversion::setup_colour_conversion_presets()
 	_presets.push_back(PresetColourConversion(_("sRGB"), "srgb", dcp::ColourConversion::srgb_to_xyz()));
 	_presets.push_back(PresetColourConversion(_("Rec. 601"), "rec601", dcp::ColourConversion::rec601_to_xyz()));
 	_presets.push_back(PresetColourConversion(_("Rec. 709"), "rec709", dcp::ColourConversion::rec709_to_xyz()));
-	_presets.push_back(PresetColourConversion(_("P3"), "p3", dcp::ColourConversion::p3_to_xyz()));
+	_presets.push_back(PresetColourConversion(_("P3 DCI (~6300K)"), "p3", dcp::ColourConversion::p3_dci_to_xyz()));
+	_presets.push_back(PresetColourConversion(_("P3 D65 (~6500K)"), "p3-d65", dcp::ColourConversion::p3_d65_to_xyz()));
+	_presets.push_back(PresetColourConversion(_("P3 D60 (~6000K)"), "p3-d60", dcp::ColourConversion::p3_d60_to_xyz()));
 	_presets.push_back(PresetColourConversion(_("Rec. 1886"), "rec1886", dcp::ColourConversion::rec1886_to_xyz()));
 	_presets.push_back(PresetColourConversion(_("Rec. 2020"), "rec2020", dcp::ColourConversion::rec2020_to_xyz()));
 	_presets.push_back(PresetColourConversion(_("S-Gamut3/S-Log3"), "sgamut3", dcp::ColourConversion::s_gamut3_to_xyz()));
