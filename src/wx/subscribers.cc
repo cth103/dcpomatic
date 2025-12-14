@@ -13,6 +13,7 @@ subscribers.Add (wxT ("Luke Granger-Brown"));
 subscribers.Add (wxT ("Film.Ca Inc."));
 subscribers.Add (wxT ("Lichtspiele Kalk"));
 subscribers.Add (wxT ("Zbigniew Kamiński"));
+subscribers.Add (wxT ("Murat Yildirim Katadrom"));
 subscribers.Add (wxT ("Timm Kröger"));
 subscribers.Add (wxT ("Carlos Lagido"));
 subscribers.Add (wxT ("Ross Meyer"));
