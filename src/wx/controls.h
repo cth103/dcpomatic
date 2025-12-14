@@ -54,28 +54,28 @@ namespace dcp {
 class Controls : public wxPanel
 {
 public:
-	Controls (
+	Controls(
 		wxWindow* parent,
 		FilmViewer &,
 		bool editor_controls = true
 		);
 
-	void set_film (std::shared_ptr<Film> film);
+	void set_film(std::shared_ptr<Film> film);
 
-	virtual void play () {};
-	virtual void stop () {};
-	void seek (int slider);
+	virtual void play() {};
+	virtual void stop() {};
+	void seek(int slider);
 
-	std::shared_ptr<Film> film () const;
-	void back_frame ();
-	void forward_frame ();
+	std::shared_ptr<Film> film() const;
+	void back_frame();
+	void forward_frame();
 
 protected:
 
-	virtual void started ();
-	virtual void stopped ();
-	virtual void setup_sensitivity ();
-	virtual void config_changed (int property);
+	virtual void started();
+	virtual void stopped();
+	virtual void setup_sensitivity();
+	virtual void config_changed(int property);
 
 	wxSizer* _v_sizer;
 	wxBoxSizer* _button_sizer;
@@ -87,22 +87,22 @@ protected:
 
 private:
 
-	void update_position_label ();
-	void update_position_slider ();
-	void rewind_clicked (wxMouseEvent &);
-	void back_clicked (wxKeyboardState& s);
-	void forward_clicked (wxKeyboardState &);
-	void slider_moved (bool page);
-	void slider_released ();
-	void frame_number_clicked ();
-	void jump_to_selected_clicked ();
-	void timecode_clicked ();
-	void active_jobs_changed (boost::optional<std::string>);
-	dcpomatic::DCPTime nudge_amount (wxKeyboardState& ev);
-	void image_changed (std::weak_ptr<PlayerVideo>);
-	void outline_content_changed ();
-	void eye_changed ();
-	void update_position ();
+	void update_position_label();
+	void update_position_slider();
+	void rewind_clicked(wxMouseEvent &);
+	void back_clicked(wxKeyboardState& s);
+	void forward_clicked(wxKeyboardState &);
+	void slider_moved(bool page);
+	void slider_released();
+	void frame_number_clicked();
+	void jump_to_selected_clicked();
+	void timecode_clicked();
+	void active_jobs_changed(boost::optional<std::string>);
+	dcpomatic::DCPTime nudge_amount(wxKeyboardState& ev);
+	void image_changed(std::weak_ptr<PlayerVideo>);
+	void outline_content_changed();
+	void eye_changed();
+	void update_position();
 	void film_change(ChangeType, FilmProperty);
 
 	typedef std::pair<std::shared_ptr<dcp::CPL>, boost::filesystem::path> CPL;
