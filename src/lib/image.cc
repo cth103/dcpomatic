@@ -822,6 +822,7 @@ alpha_blend_onto_yuv420p(TargetParams const& target, OtherYUVParams const& other
 {
 	auto const ts = target.size;
 	auto const os = other.size;
+	int const os_width = os.width & ~1;
 	for (int ty = target.start_y, oy = other.start_y; ty < ts.height && oy < os.height; ++ty, ++oy) {
 		int const hty = ty / 2;
 		int const hoy = oy / 2;
@@ -832,7 +833,7 @@ alpha_blend_onto_yuv420p(TargetParams const& target, OtherYUVParams const& other
 		uint8_t* oU = other.data[1] + (hoy * other.stride[1]) + other.start_x / 2;
 		uint8_t* oV = other.data[2] + (hoy * other.stride[2]) + other.start_x / 2;
 		uint8_t* alpha = other.alpha_data[0] + (oy * other.alpha_stride[0]) + other.start_x * other.alpha_bpp;
-		for (int tx = target.start_x, ox = other.start_x; tx < ts.width && ox < os.width; ++tx, ++ox) {
+		for (int tx = target.start_x, ox = other.start_x; tx < ts.width && ox < os_width; ++tx, ++ox) {
 			float const a = get_alpha(alpha);
 			*tY = *oY * a + *tY * (1 - a);
 			*tU = *oU * a + *tU * (1 - a);
@@ -859,6 +860,7 @@ alpha_blend_onto_yuv420p10(TargetParams const& target, OtherYUVParams const& oth
 {
 	auto const ts = target.size;
 	auto const os = other.size;
+	int const os_width = os.width & ~1;
 	for (int ty = target.start_y, oy = other.start_y; ty < ts.height && oy < os.height; ++ty, ++oy) {
 		int const hty = ty / 2;
 		int const hoy = oy / 2;
@@ -869,7 +871,7 @@ alpha_blend_onto_yuv420p10(TargetParams const& target, OtherYUVParams const& oth
 		uint16_t* oU = reinterpret_cast<uint16_t*>(other.data[1] + (hoy * other.stride[1])) + other.start_x / 2;
 		uint16_t* oV = reinterpret_cast<uint16_t*>(other.data[2] + (hoy * other.stride[2])) + other.start_x / 2;
 		uint8_t* alpha = other.alpha_data[0] + (oy * other.alpha_stride[0]) + other.start_x * other.alpha_bpp;
-		for (int tx = target.start_x, ox = other.start_x; tx < ts.width && ox < os.width; ++tx, ++ox) {
+		for (int tx = target.start_x, ox = other.start_x; tx < ts.width && ox < os_width; ++tx, ++ox) {
 			float const a = get_alpha(alpha);
 			*tY = *oY * a + *tY * (1 - a);
 			*tU = *oU * a + *tU * (1 - a);
@@ -896,6 +898,7 @@ alpha_blend_onto_yuv422p9or10le(TargetParams const& target, OtherYUVParams const
 {
 	auto const ts = target.size;
 	auto const os = other.size;
+	int const os_width = os.width & ~1;
 	for (int ty = target.start_y, oy = other.start_y; ty < ts.height && oy < os.height; ++ty, ++oy) {
 		uint16_t* tY = reinterpret_cast<uint16_t*>(target.data[0] + (ty * target.stride[0])) + target.start_x;
 		uint16_t* tU = reinterpret_cast<uint16_t*>(target.data[1] + (ty * target.stride[1])) + target.start_x / 2;
@@ -904,7 +907,7 @@ alpha_blend_onto_yuv422p9or10le(TargetParams const& target, OtherYUVParams const
 		uint16_t* oU = reinterpret_cast<uint16_t*>(other.data[1] + (oy * other.stride[1])) + other.start_x / 2;
 		uint16_t* oV = reinterpret_cast<uint16_t*>(other.data[2] + (oy * other.stride[2])) + other.start_x / 2;
 		uint8_t* alpha = other.alpha_data[0] + (oy * other.alpha_stride[0]) + other.start_x * other.alpha_bpp;
-		for (int tx = target.start_x, ox = other.start_x; tx < ts.width && ox < os.width; ++tx, ++ox) {
+		for (int tx = target.start_x, ox = other.start_x; tx < ts.width && ox < os_width; ++tx, ++ox) {
 			float const a = get_alpha(alpha);
 			*tY = *oY * a + *tY * (1 - a);
 			*tU = *oU * a + *tU * (1 - a);

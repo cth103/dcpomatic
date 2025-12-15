@@ -217,7 +217,7 @@ alpha_blend_test_rgba64be_onto(AVPixelFormat format, string suffix)
 
 	for (int y = 256; y < 384; ++y) {
 		auto p = reinterpret_cast<uint16_t*>(overlay->data()[0] + y * overlay->stride()[0]);
-		for (int x = 0; x < 128; ++x) {
+		for (int x = 0; x < 431; ++x) {
 			p[x * 4 + 2] = 65535;
 			p[x * 4 + 3] = 65535;
 		}
