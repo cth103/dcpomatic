@@ -59,13 +59,15 @@ BOOST_AUTO_TEST_CASE(ffmpeg_have_dcp_test, * boost::unit_test::depends_on("ffmpe
 	BOOST_CHECK(!film->cpls().empty());
 
 	p /= film->dcp_name();
-	auto i = boost::filesystem::directory_iterator(p);
-	while (i != boost::filesystem::directory_iterator() && !boost::algorithm::starts_with(i->path().filename().string(), "j2c")) {
-		++i;
-	}
+	auto iter = std::find_if(
+		boost::filesystem::directory_iterator(p),
+		boost::filesystem::directory_iterator(),
+		[](boost::filesystem::directory_entry const& entry) {
+			return boost::algorithm::starts_with(entry.path().filename().string(), "cpl");
+		});
 
-	if (i != boost::filesystem::directory_iterator()) {
-		boost::filesystem::remove(i->path());
+	if (iter != boost::filesystem::directory_iterator()) {
+		boost::filesystem::remove(iter->path());
 	}
 
 	BOOST_CHECK(film->cpls().empty());
