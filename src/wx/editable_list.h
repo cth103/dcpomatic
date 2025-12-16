@@ -115,12 +115,12 @@ public:
 		 * window, so put a border in to help.
 		 */
 		auto border = new wxPanel (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL | wxBORDER_THEME);
-		_list = new wxListCtrl (border, wxID_ANY, wxDefaultPosition, wxSize(total_width, 100), style);
+		_list = new wxListCtrl(border, wxID_ANY, wxDefaultPosition, wxSize(total_width, -1), style);
 		auto border_sizer = new wxBoxSizer (wxHORIZONTAL);
 		border_sizer->Add (_list, 1, wxALL | wxEXPAND, 2);
 		border->SetSizer (border_sizer);
 #else
-		_list = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxSize(total_width, 100), style);
+		_list = new wxListCtrl(this, wxID_ANY, wxDefaultPosition, wxSize(total_width, -1), style);
 #endif
 
 		int j = 0;
