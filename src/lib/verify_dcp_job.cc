@@ -43,6 +43,24 @@ VerifyDCPJob::VerifyDCPJob(
 	)
 	: Job({})
 	, _directories(directories)
+	, _options(options)
+{
+	vector<dcp::DecryptedKDM> decrypted_kdms;
+	if (auto key = Config::instance()->decryption_chain()->key()) {
+		for (auto const& kdm: kdms) {
+			_kdms.push_back(dcp::DecryptedKDM{dcp::EncryptedKDM(dcp::file_to_string(kdm)), *key});
+		}
+	}
+}
+
+
+VerifyDCPJob::VerifyDCPJob(
+	vector<boost::filesystem::path> directories,
+	vector<dcp::DecryptedKDM> kdms,
+	dcp::VerificationOptions options
+	)
+	: Job({})
+	, _directories(directories)
 	, _kdms(kdms)
 	, _options(options)
 {
@@ -83,17 +101,9 @@ VerifyDCPJob::update_stage(string s, optional<boost::filesystem::path> path)
 void
 VerifyDCPJob::run()
 {
-	vector<dcp::DecryptedKDM> decrypted_kdms;
-	auto key = Config::instance()->decryption_chain()->key();
-	if (key) {
-		for (auto kdm: _kdms) {
-			decrypted_kdms.push_back(dcp::DecryptedKDM{dcp::EncryptedKDM(dcp::file_to_string(kdm)), *key});
-		}
-	}
-
 	_result = dcp::verify(
 		_directories,
-		decrypted_kdms,
+		_kdms,
 		bind(&VerifyDCPJob::update_stage, this, _1, _2),
 		bind(&VerifyDCPJob::set_progress, this, _1, false),
 		_options,
