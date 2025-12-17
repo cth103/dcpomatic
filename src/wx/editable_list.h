@@ -86,7 +86,8 @@ public:
 		std::function<void (wxWindow*, T&)> edit,
 		std::function<std::string (T, int)> column,
 		EditableListTitle title,
-		int buttons
+		int buttons,
+		boost::optional<wxString> custom_button = {}
 		)
 		: wxPanel (parent)
 		, _get (get)
@@ -148,6 +149,10 @@ public:
 				_edit_button = new Button(this, _("Edit..."));
 				s->Add(_edit_button, 1, wxEXPAND | wxTOP | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
 			}
+			if (custom_button) {
+				_custom_button = new Button(this, *custom_button);
+				s->Add(_custom_button, 1, wxEXPAND | wxTOP | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
+			}
 			if (buttons & EditableListButton::REMOVE) {
 				_remove_button = new Button(this, _("Remove"));
 				s->Add(_remove_button, 1, wxEXPAND | wxTOP | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
@@ -202,6 +207,11 @@ public:
 	void layout ()
 	{
 		_sizer->Layout ();
+	}
+
+	Button* custom_button()
+	{
+		return _custom_button;
 	}
 
 	boost::signals2::signal<void ()> SelectionChanged;
@@ -340,6 +350,7 @@ private:
 
 	wxButton* _add_button = nullptr;
 	wxButton* _edit_button = nullptr;
+	Button* _custom_button = nullptr;
 	wxButton* _remove_button = nullptr;
 	wxListCtrl* _list;
 	wxBoxSizer* _sizer;
