@@ -37,6 +37,7 @@
 #include <dcp/mono_j2k_picture_frame.h>
 #include <dcp/mono_mpeg2_picture_asset.h>
 #include <dcp/mpeg2_transcode.h>
+#include <dcp/picture_encoding.h>
 #include <dcp/reel.h>
 #include <dcp/reel_atmos_asset.h>
 #include <dcp/reel_markers_asset.h>
@@ -339,94 +340,10 @@ DCPExaminer::DCPExaminer(shared_ptr<const DCPContent> content, bool tolerant)
 	 * the encrypted data.  Secondly, check that we can read the first thing from each
 	 * asset in each reel.  This checks that when we do have a key it's the right one.
 	 */
-	try {
-		for (auto i: selected_cpl->reels()) {
-			LOG_GENERAL("Reel {}", i->id());
-			if (i->main_picture() && i->main_picture()->asset_ref().resolved()) {
-				auto pic = i->main_picture()->asset();
-				if (pic->encrypted() && !pic->key()) {
-					_kdm_valid = false;
-					LOG_GENERAL("Picture has no key");
-					break;
-				}
-				auto j2k_mono = dynamic_pointer_cast<dcp::MonoJ2KPictureAsset>(pic);
-				auto j2k_stereo = dynamic_pointer_cast<dcp::StereoJ2KPictureAsset>(pic);
-				auto mpeg2_mono = dynamic_pointer_cast<dcp::MonoMPEG2PictureAsset>(pic);
-
-				if (j2k_mono) {
-					auto reader = j2k_mono->start_read();
-					reader->set_check_hmac(false);
-					reader->get_frame(0)->xyz_image();
-					_video_encoding = VideoEncoding::JPEG2000;
-				} else if (j2k_stereo) {
-					auto reader = j2k_stereo->start_read();
-					reader->set_check_hmac(false);
-					reader->get_frame(0)->xyz_image(dcp::Eye::LEFT);
-					_video_encoding = VideoEncoding::JPEG2000;
-				} else if (mpeg2_mono) {
-					auto reader = mpeg2_mono->start_read();
-					reader->set_check_hmac(false);
-					dcp::MPEG2Decompressor decompressor;
-					decompressor.decompress_frame(reader->get_frame(0));
-					_video_encoding = VideoEncoding::MPEG2;
-				}
-			}
-
-			if (i->main_sound() && i->main_sound()->asset_ref().resolved()) {
-				auto sound = i->main_sound()->asset();
-				if (sound->encrypted() && !sound->key()) {
-					_kdm_valid = false;
-					LOG_GENERAL("Sound has no key");
-					break;
-				}
-				auto reader = sound->start_read();
-				reader->set_check_hmac(false);
-				reader->get_frame(0);
-			}
-
-			if (i->main_subtitle() && i->main_subtitle()->asset_ref().resolved()) {
-				auto sub = i->main_subtitle()->asset();
-				auto mxf_sub = dynamic_pointer_cast<dcp::MXF>(sub);
-				if (mxf_sub && mxf_sub->encrypted() && !mxf_sub->key()) {
-					_kdm_valid = false;
-					LOG_GENERAL("Subtitle has no key");
-					break;
-				}
-				sub->texts();
-			}
-
-			if (i->main_caption() && i->main_caption()->asset_ref().resolved()) {
-				auto cap = i->main_caption()->asset();
-				auto mxf_cap = dynamic_pointer_cast<dcp::MXF>(cap);
-				if (mxf_cap && mxf_cap->encrypted() && !mxf_cap->key()) {
-					_kdm_valid = false;
-					LOG_GENERAL("Caption has no key");
-					break;
-				}
-				cap->texts();
-			}
-
-			if (i->atmos() && i->atmos()->asset_ref().resolved()) {
-				if (auto atmos = i->atmos()->asset()) {
-					if (atmos->encrypted() && !atmos->key()) {
-						_kdm_valid = false;
-						LOG_GENERAL("ATMOS sound has no key");
-						break;
-					}
-					auto reader = atmos->start_read();
-					reader->set_check_hmac(false);
-					reader->get_frame(0);
-				}
-			}
-		}
-	} catch (dcp::ReadError& e) {
-		_kdm_valid = false;
-		LOG_GENERAL("KDM is invalid: {}", e.what());
-	} catch (dcp::MiscError& e) {
-		_kdm_valid = false;
-		LOG_GENERAL("KDM is invalid: {}", e.what());
-	}
-
+	_kdm_valid = selected_cpl->can_be_read();
+	auto encoding = selected_cpl->picture_encoding();
+	DCPOMATIC_ASSERT(encoding == dcp::PictureEncoding::JPEG2000 || encoding == dcp::PictureEncoding::MPEG2);
+	_video_encoding = encoding == dcp::PictureEncoding::MPEG2 ? VideoEncoding::MPEG2 : VideoEncoding::JPEG2000;
 	_standard = selected_cpl->standard();
 	if (!selected_cpl->reels().empty()) {
 		auto first_reel = selected_cpl->reels()[0];
