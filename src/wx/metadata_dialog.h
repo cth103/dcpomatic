@@ -57,7 +57,7 @@ protected:
 	virtual void film_changed(ChangeType type, FilmProperty property);
 	virtual void setup_sensitivity ();
 
-	EditableList<dcp::Rating, RatingDialog>* _ratings;
+	EditableList<dcp::Rating>* _ratings;
 	std::unordered_map<std::string, std::string> _rating_system_agency_to_name;
 
 private:

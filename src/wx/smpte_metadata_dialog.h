@@ -68,7 +68,7 @@ private:
 	wxChoice* _status;
 	CheckBox* _enable_distributor;
 	wxTextCtrl* _distributor;
-	EditableList<std::string, ContentVersionDialog>* _content_versions;
+	EditableList<std::string>* _content_versions;
 };
 
 

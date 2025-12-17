@@ -104,11 +104,13 @@ public:
 		vector<EditableListColumn> columns;
 		columns.push_back(EditableListColumn(_("Input DCP"), 600, true));
 
-		_input = new EditableList<boost::filesystem::path, DirDialogWrapper>(
+		_input = new EditableList<boost::filesystem::path>(
 			overall_panel,
 			columns,
 			boost::bind(&DOMFrame::inputs, this),
 			boost::bind(&DOMFrame::set_inputs, this, _1),
+			EditableList<boost::filesystem::path>::add_with_dialog<DirDialogWrapper>,
+			EditableList<boost::filesystem::path>::edit_with_dialog<DirDialogWrapper>,
 			&display_string,
 			EditableListTitle::VISIBLE,
 			EditableListButton::NEW | EditableListButton::REMOVE
@@ -204,7 +206,7 @@ private:
 		_combine->Enable (!_output->GetPath().IsEmpty());
 	}
 
-	EditableList<boost::filesystem::path, DirDialogWrapper>* _input;
+	EditableList<boost::filesystem::path>* _input;
 	wxTextCtrl* _annotation_text = nullptr;
 	DirPickerCtrl* _output;
 	vector<boost::filesystem::path> _inputs;

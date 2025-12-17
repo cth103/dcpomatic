@@ -477,11 +477,13 @@ private:
 
 		vector<EditableListColumn> columns;
 		columns.push_back(EditableListColumn(_("IP address / host name")));
-		_servers_list = new EditableList<string, ServerDialog>(
+		_servers_list = new EditableList<string>(
 			_panel,
 			columns,
 			boost::bind(&Config::servers, Config::instance()),
 			boost::bind(&Config::set_servers, Config::instance(), _1),
+			EditableList<string>::add_with_dialog<ServerDialog>,
+			EditableList<string>::edit_with_dialog<ServerDialog>,
 			boost::bind(&EncodingServersPage::server_column, this, _1),
 			EditableListTitle::INVISIBLE,
 			EditableListButton::NEW | EditableListButton::EDIT | EditableListButton::REMOVE
@@ -509,7 +511,7 @@ private:
 	}
 
 	CheckBox* _use_any_servers;
-	EditableList<string, ServerDialog>* _servers_list;
+	EditableList<string>* _servers_list;
 };
 
 
@@ -693,11 +695,13 @@ private:
 		vector<EditableListColumn> columns;
 		columns.push_back(EditableListColumn(_("Address")));
 		add_label_to_sizer(table, _panel, _("CC addresses"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
-		_cc = new EditableList<string, EmailDialog>(
+		_cc = new EditableList<string>(
 			_panel,
 			columns,
 			bind(&Config::notification_cc, Config::instance()),
 			bind(&Config::set_notification_cc, Config::instance(), _1),
+			EditableList<string>::add_with_dialog<EmailDialog>,
+			EditableList<string>::edit_with_dialog<EmailDialog>,
 			[] (string s, int) {
 				return s;
 			},
@@ -807,7 +811,7 @@ private:
 	wxTextCtrl* _subject;
 	wxTextCtrl* _from;
 	wxTextCtrl* _to;
-	EditableList<string, EmailDialog>* _cc;
+	EditableList<string>* _cc;
 	wxTextCtrl* _bcc;
 	wxTextCtrl* _email;
 	wxButton* _reset_email;

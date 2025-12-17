@@ -35,7 +35,7 @@ public:
 private:
 	void set(std::vector<std::string> emails);
 
-	EditableList<std::string, EmailDialog>* _email_list;
+	EditableList<std::string>* _email_list;
 	std::vector<std::string> _emails;
 };
 

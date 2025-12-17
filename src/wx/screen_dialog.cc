@@ -208,11 +208,13 @@ ScreenDialog::ScreenDialog (
 
 	vector<EditableListColumn> columns;
 	columns.push_back (EditableListColumn(_("Thumbprint")));
-	_trusted_device_list = new EditableList<TrustedDevice, TrustedDeviceDialog> (
+	_trusted_device_list = new EditableList<TrustedDevice> (
 		this,
 		columns,
 		bind (&ScreenDialog::trusted_devices, this),
 		bind (&ScreenDialog::set_trusted_devices, this, _1),
+		EditableList<TrustedDevice>::add_with_dialog<TrustedDeviceDialog>,
+		EditableList<TrustedDevice>::edit_with_dialog<TrustedDeviceDialog>,
 		[] (TrustedDevice const& d, int) {
 			return d.thumbprint();
 		},

@@ -107,11 +107,13 @@ SMPTEMetadataDialog::setup_advanced (wxPanel* panel, wxSizer* sizer)
 
 	vector<EditableListColumn> columns;
 	columns.push_back(EditableListColumn(_("Version"), 350, true));
-	_content_versions = new EditableList<string, ContentVersionDialog> (
+	_content_versions = new EditableList<string> (
 		panel,
 		columns,
 		boost::bind(&SMPTEMetadataDialog::content_versions, this),
 		boost::bind(&SMPTEMetadataDialog::set_content_versions, this, _1),
+		EditableList<string>::add_with_dialog<ContentVersionDialog>,
+		EditableList<string>::edit_with_dialog<ContentVersionDialog>,
 		boost::bind(&content_versions_column, _1, _2),
 		EditableListTitle::INVISIBLE,
 		EditableListButton::NEW | EditableListButton::REMOVE

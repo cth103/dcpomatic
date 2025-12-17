@@ -221,13 +221,15 @@ public:
 		++r;
 
 		add_label_to_sizer(sizer, this, _("Reels"), true, wxGBPosition(r, 0));
-		_reels = new EditableList<shared_ptr<dcp::Reel>, ReelEditor>(
+		_reels = new EditableList<shared_ptr<dcp::Reel>>(
 			this,
 			{ EditableListColumn(_("Name"), 600, true) },
 			[this]() { return _cpl->reels(); },
 			[this](vector<shared_ptr<dcp::Reel>> reels) {
 				_cpl->set(reels);
 			},
+			EditableList<shared_ptr<dcp::Reel>>::add_with_dialog<ReelEditor>,
+			EditableList<shared_ptr<dcp::Reel>>::edit_with_dialog<ReelEditor>,
 			[](shared_ptr<dcp::Reel> reel, int) {
 				return reel->id();
 			},
@@ -272,7 +274,7 @@ private:
 	wxTextCtrl* _issuer = nullptr;
 	wxTextCtrl* _creator = nullptr;
 	wxTextCtrl* _content_title_text = nullptr;
-	EditableList<shared_ptr<dcp::Reel>, ReelEditor>* _reels;
+	EditableList<shared_ptr<dcp::Reel>>* _reels;
 };
 
 

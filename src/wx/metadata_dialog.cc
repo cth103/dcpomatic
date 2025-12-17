@@ -216,11 +216,13 @@ MetadataDialog::setup_standard (wxPanel* panel, wxSizer* sizer)
 	vector<EditableListColumn> columns;
 	columns.push_back(EditableListColumn(_("Agency"), 200, true));
 	columns.push_back(EditableListColumn(_("Label"), 400, true));
-	_ratings = new EditableList<dcp::Rating, RatingDialog> (
+	_ratings = new EditableList<dcp::Rating> (
 		panel,
 		columns,
 		boost::bind(&MetadataDialog::ratings, this),
 		boost::bind(&MetadataDialog::set_ratings, this, _1),
+		EditableList<dcp::Rating>::add_with_dialog<RatingDialog>,
+		EditableList<dcp::Rating>::edit_with_dialog<RatingDialog>,
 		[this](dcp::Rating r, int c) {
 			if (c == 0) {
 				auto iter = _rating_system_agency_to_name.find(r.agency);

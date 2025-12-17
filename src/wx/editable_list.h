@@ -69,12 +69,11 @@ enum class EditableListTitle
 
 
 /** @param T type of things being edited.
- *  @param S dialog to edit a thing.
  *  @param get Function to get a std::vector of the things being edited.
  *  @param set Function set the things from a a std::vector.
  *  @param column Function to get the display string for a given column in a given item.
  */
-template<class T, class S>
+template<class T>
 class EditableList : public wxPanel
 {
 public:
@@ -83,6 +82,8 @@ public:
 		std::vector<EditableListColumn> columns,
 		std::function<std::vector<T> ()> get,
 		std::function<void (std::vector<T>)> set,
+		std::function<std::vector<T> (wxWindow*)> add,
+		std::function<void (wxWindow*, T&)> edit,
 		std::function<std::string (T, int)> column,
 		EditableListTitle title,
 		int buttons
@@ -90,6 +91,8 @@ public:
 		: wxPanel (parent)
 		, _get (get)
 		, _set (set)
+		, _add(add)
+		, _edit(edit)
 		, _columns (columns)
 		, _column (column)
 		, _default_width (200)
@@ -138,28 +141,28 @@ public:
 		{
 			auto s = new wxBoxSizer (wxVERTICAL);
 			if (buttons & EditableListButton::NEW) {
-				_add = new Button (this, _("Add..."));
-				s->Add (_add, 1, wxEXPAND | wxTOP | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
+				_add_button = new Button(this, _("Add..."));
+				s->Add(_add_button, 1, wxEXPAND | wxTOP | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
 			}
 			if (buttons & EditableListButton::EDIT) {
-				_edit = new Button (this, _("Edit..."));
-				s->Add (_edit, 1, wxEXPAND | wxTOP | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
+				_edit_button = new Button(this, _("Edit..."));
+				s->Add(_edit_button, 1, wxEXPAND | wxTOP | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
 			}
 			if (buttons & EditableListButton::REMOVE) {
-				_remove = new Button (this, _("Remove"));
-				s->Add (_remove, 1, wxEXPAND | wxTOP | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
+				_remove_button = new Button(this, _("Remove"));
+				s->Add(_remove_button, 1, wxEXPAND | wxTOP | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
 			}
 			_sizer->Add (s, 0, wxLEFT, DCPOMATIC_SIZER_X_GAP);
 		}
 
-		if (_add) {
-			_add->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&EditableList::add_clicked, this));
+		if (_add_button) {
+			_add_button->Bind(wxEVT_COMMAND_BUTTON_CLICKED, boost::bind(&EditableList::add_clicked, this));
 		}
-		if (_edit) {
-			_edit->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&EditableList::edit_clicked, this));
+		if (_edit_button) {
+			_edit_button->Bind(wxEVT_COMMAND_BUTTON_CLICKED, boost::bind(&EditableList::edit_clicked, this));
 		}
-		if (_remove) {
-			_remove->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&EditableList::remove_clicked, this));
+		if (_remove_button) {
+			_remove_button->Bind(wxEVT_COMMAND_BUTTON_CLICKED, boost::bind(&EditableList::remove_clicked, this));
 		}
 
 		_list->Bind (wxEVT_COMMAND_LIST_ITEM_SELECTED, boost::bind (&EditableList::selection_changed, this));
@@ -203,6 +206,32 @@ public:
 
 	boost::signals2::signal<void ()> SelectionChanged;
 
+	template <class S>
+	static std::vector<T> add_with_dialog(wxWindow* parent)
+	{
+		S dialog(parent);
+
+		if (dialog.ShowModal() == wxID_OK) {
+			return dialog.get();
+		} else {
+			return {};
+		}
+	}
+
+	template <class S>
+	static void edit_with_dialog(wxWindow* parent, T& item)
+	{
+		S dialog(parent);
+		dialog.set(item);
+		if (dialog.ShowModal() == wxID_OK) {
+			auto const value = dialog.get();
+			if (!value.empty()) {
+				DCPOMATIC_ASSERT(value.size() == 1);
+				item = value[0];
+			}
+		}
+	}
+
 private:
 
 	void add_to_control (T item)
@@ -220,11 +249,11 @@ private:
 	void selection_changed ()
 	{
 		int const i = _list->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
-		if (_edit) {
-			_edit->Enable (i >= 0);
+		if (_edit_button) {
+			_edit_button->Enable(i >= 0);
 		}
-		if (_remove) {
-			_remove->Enable (i >= 0);
+		if (_remove_button) {
+			_remove_button->Enable(i >= 0);
 		}
 
 		SelectionChanged ();
@@ -232,18 +261,12 @@ private:
 
 	void add_clicked ()
 	{
-		S dialog(this);
-
-		if (dialog.ShowModal() == wxID_OK) {
-			auto const values = dialog.get();
-			static_assert(std::is_same<typename std::remove_const<decltype(values)>::type, std::vector<T>>::value, "get() must return std::vector<T>");
-			auto all = _get();
-			for (auto item: values) {
-				add_to_control(item);
-				all.push_back(item);
-			}
-			_set(all);
+		auto all = _get();
+		for (auto item: _add(this)) {
+			add_to_control(item);
+			all.push_back(item);
 		}
+		_set(all);
 	}
 
 	void edit_clicked ()
@@ -256,17 +279,7 @@ private:
 		std::vector<T> all = _get ();
 		DCPOMATIC_ASSERT (item >= 0 && item < int (all.size ()));
 
-		S dialog(this);
-		dialog.set(all[item]);
-		if (dialog.ShowModal() == wxID_OK) {
-			auto const value = dialog.get();
-			static_assert(std::is_same<typename std::remove_const<decltype(value)>::type, std::vector<T>>::value, "get() must return std::vector<T>");
-			if (value.empty()) {
-				return;
-			}
-			DCPOMATIC_ASSERT(value.size() == 1);
-			all[item] = value[0];
-		}
+		_edit(this, all[item]);
 
 		for (size_t i = 0; i < _columns.size(); ++i) {
 			_list->SetItem (item, i, std_to_wx (_column (all[item], i)));
@@ -320,12 +333,14 @@ private:
 
 	std::function <std::vector<T> ()> _get;
 	std::function <void (std::vector<T>)> _set;
+	std::function<std::vector<T> (wxWindow*)> _add;
+	std::function<void (wxWindow*, T&)> _edit;
 	std::vector<EditableListColumn> _columns;
 	std::function<std::string (T, int)> _column;
 
-	wxButton* _add = nullptr;
-	wxButton* _edit = nullptr;
-	wxButton* _remove = nullptr;
+	wxButton* _add_button = nullptr;
+	wxButton* _edit_button = nullptr;
+	wxButton* _remove_button = nullptr;
 	wxListCtrl* _list;
 	wxBoxSizer* _sizer;
 	int _default_width;

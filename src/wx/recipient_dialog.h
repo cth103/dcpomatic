@@ -65,7 +65,7 @@ private:
 	wxTextCtrl* _notes;
 	wxStaticText* _recipient_thumbprint;
 	wxButton* _get_recipient_from_file;
-	EditableList<std::string, EmailDialog>* _email_list;
+	EditableList<std::string>* _email_list;
 	std::vector<std::string> _emails;
 
 	boost::optional<dcp::Certificate> _recipient;

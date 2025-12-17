@@ -55,7 +55,7 @@ private:
 
 	wxTextCtrl* _name;
 	wxTextCtrl* _notes;
-	EditableList<std::string, EmailDialog>* _email_list;
+	EditableList<std::string>* _email_list;
 	std::vector<std::string> _emails;
 	Choice* _utc_offset;
 	std::vector<Offset> _offsets;

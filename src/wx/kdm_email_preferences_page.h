@@ -52,7 +52,7 @@ private:
 
 	wxTextCtrl* _subject;
 	wxTextCtrl* _from;
-	EditableList<std::string, EmailDialog>* _cc;
+	EditableList<std::string>* _cc;
 	wxTextCtrl* _bcc;
 	wxTextCtrl* _email;
 	wxButton* _reset_email;

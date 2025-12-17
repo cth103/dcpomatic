@@ -77,13 +77,15 @@ KDMEmailPage::setup()
 	table->Add(_from, 1, wxEXPAND | wxALL);
 
 	vector<EditableListColumn> columns;
-	columns.push_back(EditableListColumn(_("Address")));
+	columns.push_back(EditableListColumn(_("Address"), 1024, true));
 	add_label_to_sizer(table, _panel, _("CC addresses"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
-	_cc = new EditableList<string, EmailDialog>(
+	_cc = new EditableList<string>(
 		_panel,
 		columns,
 		bind(&Config::kdm_cc, Config::instance()),
 		bind(&Config::set_kdm_cc, Config::instance(), _1),
+		EditableList<string>::add_with_dialog<EmailDialog>,
+		EditableList<string>::edit_with_dialog<EmailDialog>,
 		[] (string s, int) {
 			return s;
 		},

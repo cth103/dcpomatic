@@ -45,10 +45,16 @@ ExtraKDMEmailDialog::ExtraKDMEmailDialog (wxWindow* parent, vector<string> email
 
 	vector<EditableListColumn> columns;
 	columns.push_back (EditableListColumn(_("Address"), 500, true));
-	_email_list = new EditableList<string, EmailDialog> (
-		this, columns, bind(&ExtraKDMEmailDialog::get, this), bind(&ExtraKDMEmailDialog::set, this, _1), [](string s, int) {
-			return s;
-		}, EditableListTitle::INVISIBLE, EditableListButton::NEW | EditableListButton::EDIT | EditableListButton::REMOVE
+	_email_list = new EditableList<string>(
+		this,
+		columns,
+		bind(&ExtraKDMEmailDialog::get, this),
+		bind(&ExtraKDMEmailDialog::set, this, _1),
+		EditableList<string>::add_with_dialog<EmailDialog>,
+		EditableList<string>::edit_with_dialog<EmailDialog>,
+		[](string s, int) { return s; },
+		EditableListTitle::INVISIBLE,
+		EditableListButton::NEW | EditableListButton::EDIT | EditableListButton::REMOVE
 		);
 
 	sizer->Add (_email_list, wxGBPosition(r, 0), wxGBSpan(1, 2), wxEXPAND);

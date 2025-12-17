@@ -79,7 +79,7 @@ private:
 	wxStaticText* _not_valid_after;
 	wxButton* _get_recipient_from_file;
 	wxButton* _download_recipient;
-	EditableList<TrustedDevice, TrustedDeviceDialog>* _trusted_device_list;
+	EditableList<TrustedDevice>* _trusted_device_list;
 
 	boost::optional<dcp::Certificate> _recipient;
 	std::vector<TrustedDevice> _trusted_devices;
