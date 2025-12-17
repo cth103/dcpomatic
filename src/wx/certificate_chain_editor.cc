@@ -384,6 +384,7 @@ CertificateChainEditor::import_private_key()
 	}
 
 	update_sensitivity();
+	update_certificate_list();
 }
 
 void
