@@ -29,6 +29,7 @@
 #include "wx/dcpomatic_button.h"
 #include "wx/dir_picker_ctrl.h"
 #include "wx/editable_list.h"
+#include "wx/file_dialog.h"
 #include "wx/i18n_setup.h"
 #include "wx/id.h"
 #include "wx/verify_dcp_progress_panel.h"
@@ -41,11 +42,13 @@
 #include "lib/verify_dcp_job.h"
 #include "lib/util.h"
 #include "lib/variant.h"
+#include <dcp/dcp.h>
 #include <dcp/search.h>
 #include <dcp/text_formatter.h>
 #include <dcp/verify_report.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/evtloop.h>
+#include <wx/progdlg.h>
 #include <wx/wx.h>
 LIBDCP_ENABLE_WARNINGS
 #ifdef __WXGTK__
@@ -57,6 +60,7 @@ using std::dynamic_pointer_cast;
 using std::exception;
 using std::make_shared;
 using std::shared_ptr;
+using std::string;
 using std::vector;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
@@ -68,39 +72,50 @@ enum {
 };
 
 
-class DirDialogWrapper : public wxDirDialog
+class DCPPath
 {
 public:
-	DirDialogWrapper(wxWindow* parent)
-		: wxDirDialog(parent, _("Choose a folder"), {}, wxDD_DIR_MUST_EXIST)
+	explicit DCPPath(boost::filesystem::path path, vector<dcp::DecryptedKDM> const& kdms)
+		: _path(std::move(path))
 	{
-
+		check(kdms);
 	}
 
-	vector<boost::filesystem::path> get() const
+	void check(vector<dcp::DecryptedKDM> const& kdms)
 	{
-		return dcp::find_potential_dcps(boost::filesystem::path(wx_to_std(GetPath())));
+		dcp::DCP dcp(_path);
+		dcp.read(nullptr, true);
+		_encrypted = dcp.any_encrypted();
+		if (_encrypted) {
+			for (auto const& kdm: kdms) {
+				dcp.add(kdm);
+			}
+		}
+		_readable = dcp.can_be_read();
 	}
 
-	void set(boost::filesystem::path)
+	string description() const
 	{
-		/* Not used */
+		string d = _path.filename().string();
+		if (_encrypted) {
+			if (_readable) {
+				d += string{" "} + wx_to_std(_("(encrypted, have KDM)"));
+			} else {
+				d += string{" "} + wx_to_std(_("(encrypted, no KDM)"));
+			}
+		}
+		return d;
+	}
+
+	boost::filesystem::path path() const {
+		return _path;
 	}
 
 private:
-	void search(vector<boost::filesystem::path>& dcp, boost::filesystem::path path) const
-	{
-		if (dcp::filesystem::exists(path / "ASSETMAP") || dcp::filesystem::exists(path / "ASSETMAP.xml")) {
-			dcp.push_back(path);
-		} else if (boost::filesystem::is_directory(path)) {
-			for (auto i: boost::filesystem::directory_iterator(path)) {
-				search(dcp, i.path());
-			}
-		}
-	};
+	boost::filesystem::path _path;
+	bool _encrypted;
+	bool _readable;
 };
-
-
 
 
 class DOMFrame : public wxFrame
@@ -128,19 +143,36 @@ public:
 		auto dcp_sizer = new wxBoxSizer(wxHORIZONTAL);
 		add_label_to_sizer(dcp_sizer, _overall_panel, _("DCPs"), true, 0, wxALIGN_CENTER_VERTICAL);
 
-		auto dcps = new EditableList<boost::filesystem::path>(
+		auto add = [this](wxWindow* parent) {
+			wxDirDialog dialog(parent);
+
+			if (dialog.ShowModal() == wxID_OK) {
+				wxProgressDialog progress(variant::wx::dcpomatic(), _("Examining DCPs"));
+				vector<DCPPath> paths;
+				for (auto const& dcp: dcp::find_potential_dcps(boost::filesystem::path(wx_to_std(dialog.GetPath())))) {
+					progress.Pulse();
+					paths.push_back(DCPPath(dcp, _kdms));
+				}
+				return paths;
+			} else {
+				return std::vector<DCPPath>{};
+			}
+		};
+
+		_dcps = new EditableList<DCPPath>(
 			_overall_panel,
 			{ EditableListColumn(_("DCP"), 300, true) },
 			boost::bind(&DOMFrame::dcp_paths, this),
 			boost::bind(&DOMFrame::set_dcp_paths, this, _1),
-			EditableList<boost::filesystem::path>::add_with_dialog<DirDialogWrapper>,
-			EditableList<boost::filesystem::path>::edit_with_dialog<DirDialogWrapper>,
-			[](boost::filesystem::path p, int) { return p.filename().string(); },
+			add,
+			std::function<void (wxWindow*, DCPPath&)>(),
+			[](DCPPath p, int) { return p.description(); },
 			EditableListTitle::INVISIBLE,
-			EditableListButton::NEW | EditableListButton::REMOVE
+			EditableListButton::NEW | EditableListButton::REMOVE,
+			_("Add KDM...")
 			);
 
-		dcp_sizer->Add(dcps, 1, wxLEFT | wxEXPAND, DCPOMATIC_SIZER_GAP);
+		dcp_sizer->Add(_dcps, 1, wxLEFT | wxEXPAND, DCPOMATIC_SIZER_GAP);
 		overall_sizer->Add(dcp_sizer, 0, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 
 		auto options_sizer = new wxBoxSizer(wxVERTICAL);
@@ -172,6 +204,7 @@ public:
 
 		_cancel->bind(&DOMFrame::cancel_clicked, this);
 		_verify->bind(&DOMFrame::verify_clicked, this);
+		_dcps->custom_button()->bind(&DOMFrame::add_kdm_clicked, this);
 
 		setup_sensitivity();
 	}
@@ -227,8 +260,8 @@ private:
 		vector<shared_ptr<const VerifyDCPJob>> jobs;
 		for (auto const& dcp: _dcp_paths) {
 			auto job = make_shared<VerifyDCPJob>(
-				std::vector<boost::filesystem::path>{dcp},
-				std::vector<boost::filesystem::path>(),
+				std::vector<boost::filesystem::path>{dcp.path()},
+				_kdms,
 				options
 			);
 			job_manager->add(job);
@@ -260,7 +293,7 @@ private:
 		_result_panel->add(jobs);
 		if (_write_log->get()) {
 			for (size_t i = 0; i < _dcp_paths.size(); ++i) {
-				dcp::TextFormatter formatter(_dcp_paths[i] / "REPORT.txt");
+				dcp::TextFormatter formatter(_dcp_paths[i].path() / "REPORT.txt");
 				dcp::verify_report({ jobs[i]->result() }, formatter);
 			}
 		}
@@ -270,19 +303,58 @@ private:
 	}
 
 private:
-	void set_dcp_paths (vector<boost::filesystem::path> dcps)
+	void set_dcp_paths(vector<DCPPath> dcps)
 	{
 		_dcp_paths = dcps;
 		setup_sensitivity();
 	}
 
-	vector<boost::filesystem::path> dcp_paths() const
+	vector<DCPPath> dcp_paths() const
 	{
 		return _dcp_paths;
 	}
 
+	void add_kdm_clicked()
+	{
+		FileDialog dialog(this, _("Select KDM"), char_to_wx("XML files|*.xml|All files|*.*"), wxFD_MULTIPLE, "AddKDMPath");
+		if (!dialog.show()) {
+			return;
+		}
+
+		for (auto path: dialog.paths()) {
+			try {
+				auto encrypted = dcp::EncryptedKDM(dcp::file_to_string(path));
+				_kdms.push_back(dcp::DecryptedKDM(encrypted, Config::instance()->decryption_chain()->key().get()));
+			} catch (dcp::KDMFormatError& e) {
+				error_dialog (
+					this,
+					_("Could not read file as a KDM.  Perhaps it is badly formatted, or not a KDM at all."),
+					std_to_wx(e.what())
+					);
+				return;
+			} catch (dcp::KDMDecryptionError &) {
+				error_dialog (
+					this,
+					_("Could not decrypt the DKDM.  Perhaps it was not created with the correct certificate.")
+					);
+			} catch (exception& e) {
+				error_dialog(this, wxString::Format(_("Could not load KDM.")), std_to_wx(e.what()));
+				return;
+			}
+		}
+
+		wxProgressDialog progress(variant::wx::dcpomatic(), _("Checking KDM"));
+		for (auto& dcp: _dcp_paths) {
+			dcp.check(_kdms);
+			progress.Pulse();
+		}
+		_dcps->refresh();
+	}
+
 	wxPanel* _overall_panel = nullptr;
-	std::vector<boost::filesystem::path> _dcp_paths;
+	EditableList<DCPPath>* _dcps;
+	std::vector<DCPPath> _dcp_paths;
+	std::vector<dcp::DecryptedKDM> _kdms;
 	CheckBox* _check_picture_details;
 	CheckBox* _write_log;
 	Button* _cancel;
