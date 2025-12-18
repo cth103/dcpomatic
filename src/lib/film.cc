@@ -1383,6 +1383,13 @@ Film::set_isdcf_date_today()
 }
 
 
+void
+Film::set_isdcf_date(boost::gregorian::date date)
+{
+	_isdcf_date = std::move(date);
+}
+
+
 boost::filesystem::path
 Film::j2c_path(int reel, Frame frame, Eyes eyes, bool tmp) const
 {

@@ -78,11 +78,6 @@ class Job;
 class Log;
 class Playlist;
 struct atmos_encrypted_passthrough_test;
-struct isdcf_name_test;
-struct isdcf_name_with_atmos;
-struct isdcf_name_with_ccap;
-struct isdcf_name_with_closed_subtitles;
-struct ov_subs_in_vf_name;
 struct recover_test_2d_encrypted;
 
 
@@ -413,6 +408,7 @@ public:
 	void set_audio_channels(int);
 	void set_three_d(bool);
 	void set_isdcf_date_today();
+	void set_isdcf_date(boost::gregorian::date);
 	void set_sequence(bool);
 	void set_interop(bool);
 	void set_video_encoding(VideoEncoding encoding);
@@ -481,12 +477,6 @@ public:
 
 private:
 	friend struct ::atmos_encrypted_passthrough_test;
-	friend struct film_metadata_test;
-	friend struct ::isdcf_name_test;
-	friend struct ::isdcf_name_with_atmos;
-	friend struct ::isdcf_name_with_ccap;
-	friend struct ::isdcf_name_with_closed_subtitles;
-	friend struct ::ov_subs_in_vf_name;
 	friend struct paths_test;
 	friend struct ::recover_test_2d_encrypted;
 	template <class, class> friend class ChangeSignalDespatcher;

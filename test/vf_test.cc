@@ -537,7 +537,7 @@ BOOST_AUTO_TEST_CASE(ov_subs_in_vf_name)
 	vf->set_name("foo");
 	vf->set_audio_channels(8);
 	ov_dcp->set_reference_text(TextType::OPEN_SUBTITLE, true);
-	vf->_isdcf_date = boost::gregorian::date(2023, boost::gregorian::Jan, 18);
+	vf->set_isdcf_date(boost::gregorian::date(2023, boost::gregorian::Jan, 18));
 
 	BOOST_CHECK_EQUAL(vf->isdcf_name(false), "Foo_TST-1_F_XX-DE_51-HI-VI_2K_20230118_SMPTE_VF");
 }

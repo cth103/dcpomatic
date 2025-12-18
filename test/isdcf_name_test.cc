@@ -54,7 +54,7 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 	film->set_name ("My Nice Film");
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("FTR"));
 	film->set_container (Ratio::from_id ("185"));
-	film->_isdcf_date = boost::gregorian::date (2014, boost::gregorian::Jul, 4);
+	film->set_isdcf_date(boost::gregorian::date(2014, boost::gregorian::Jul, 4));
 	film->set_audio_language(dcp::LanguageTag("en-US"));
 	film->set_content_versions({"1"});
 	film->set_release_territory(dcp::LanguageTag::RegionSubtag("GB"));
@@ -73,7 +73,7 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 	film->set_name ("My Nice Film With A Very Long Name");
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	film->set_container (Ratio::from_id ("239"));
-	film->_isdcf_date = boost::gregorian::date (2014, boost::gregorian::Jul, 4);
+	film->set_isdcf_date(boost::gregorian::date(2014, boost::gregorian::Jul, 4));
 	film->set_audio_channels (1);
 	film->set_resolution (Resolution::FOUR_K);
 	auto text = content_factory("test/data/subrip.srt")[0];
@@ -258,7 +258,7 @@ BOOST_AUTO_TEST_CASE(isdcf_name_with_atmos)
 {
 	auto content = content_factory(TestPaths::private_data() / "atmos_asset.mxf");
 	auto film = new_test_film("isdcf_name_with_atmos", content);
-	film->_isdcf_date = boost::gregorian::date(2023, boost::gregorian::Jan, 18);
+	film->set_isdcf_date(boost::gregorian::date(2023, boost::gregorian::Jan, 18));
 	film->set_name("Hello");
 
 	BOOST_CHECK_EQUAL(film->isdcf_name(false), "Hello_TST-1_F_XX-XX_MOS-IAB_2K_20230118_SMPTE_OV");
@@ -272,7 +272,7 @@ BOOST_AUTO_TEST_CASE(isdcf_name_with_ccap)
 	content->text[0]->set_use(true);
 	content->text[0]->set_type(TextType::CLOSED_CAPTION);
 	content->text[0]->set_dcp_track(DCPTextTrack("Foo", dcp::LanguageTag("de-DE")));
-	film->_isdcf_date = boost::gregorian::date(2023, boost::gregorian::Jan, 18);
+	film->set_isdcf_date(boost::gregorian::date(2023, boost::gregorian::Jan, 18));
 	film->set_name("Hello");
 
 	BOOST_CHECK_EQUAL(film->isdcf_name(false), "Hello_TST-1_F_XX-DE-CCAP_MOS_2K_20230118_SMPTE_OV");
@@ -286,7 +286,7 @@ BOOST_AUTO_TEST_CASE(isdcf_name_with_closed_subtitles)
 	content->text[0]->set_use(true);
 	content->text[0]->set_type(TextType::CLOSED_SUBTITLE);
 	content->text[0]->set_dcp_track(DCPTextTrack("Foo", dcp::LanguageTag("de-DE")));
-	film->_isdcf_date = boost::gregorian::date(2023, boost::gregorian::Jan, 18);
+	film->set_isdcf_date(boost::gregorian::date(2023, boost::gregorian::Jan, 18));
 	film->set_name("Hello");
 
 	BOOST_CHECK_EQUAL(film->isdcf_name(false), "Hello_TST-1_F_XX-DE_MOS_2K_20230118_SMPTE_OV");
