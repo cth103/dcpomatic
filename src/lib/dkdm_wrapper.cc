@@ -19,19 +19,20 @@
 */
 
 
-#include "dkdm_wrapper.h"
 #include "dcpomatic_assert.h"
+#include "dkdm_wrapper.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
 LIBDCP_ENABLE_WARNINGS
 
 
-using std::string;
-using std::list;
-using std::shared_ptr;
-using std::make_shared;
 using std::dynamic_pointer_cast;
+using std::list;
+using std::make_shared;
+using std::shared_ptr;
+using std::string;
+using std::vector;
 
 
 shared_ptr<DKDMBase>
@@ -146,3 +147,17 @@ DKDMGroup::contains_dkdm() const
 
 	return false;
 }
+
+
+vector<dcp::EncryptedKDM>
+DKDMGroup::all_dkdms() const
+{
+	vector<dcp::EncryptedKDM> all;
+	for (auto child: _children) {
+		for (auto dkdm: child->all_dkdms()) {
+			all.push_back(dkdm);
+		}
+	}
+	return all;
+}
+
