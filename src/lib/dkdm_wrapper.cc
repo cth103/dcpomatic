@@ -36,7 +36,7 @@ using std::vector;
 
 
 shared_ptr<DKDMBase>
-DKDMBase::read (cxml::ConstNodePtr node)
+DKDMBase::read(cxml::ConstNodePtr node)
 {
 	if (node->name() == "DKDM") {
 		return make_shared<DKDM>(dcp::EncryptedKDM(node->content()));
@@ -48,7 +48,7 @@ DKDMBase::read (cxml::ConstNodePtr node)
 		auto group = make_shared<DKDMGroup>(*name);
 		for (auto i: node->node_children()) {
 			if (auto c = read(i)) {
-				group->add (c);
+				group->add(c);
 			}
 		}
 		return group;
@@ -59,7 +59,7 @@ DKDMBase::read (cxml::ConstNodePtr node)
 
 
 string
-DKDM::name () const
+DKDM::name() const
 {
 	return fmt::format("{} ({})", _dkdm.content_title_text(), _dkdm.cpl_id());
 }
@@ -78,40 +78,40 @@ DKDMGroup::as_xml(xmlpp::Element* element) const
 	auto f = cxml::add_child(element, "DKDMGroup");
 	f->set_attribute("name", _name);
 	for (auto i: _children) {
-		i->as_xml (f);
+		i->as_xml(f);
 	}
 }
 
 
 void
-DKDMGroup::add (shared_ptr<DKDMBase> child, shared_ptr<DKDM> previous)
+DKDMGroup::add(shared_ptr<DKDMBase> child, shared_ptr<DKDM> previous)
 {
-	DCPOMATIC_ASSERT (child);
+	DCPOMATIC_ASSERT(child);
 	if (previous) {
-		auto i = find (_children.begin(), _children.end(), previous);
+		auto i = find(_children.begin(), _children.end(), previous);
 		if (i != _children.end()) {
 			++i;
 		}
-		_children.insert (i, child);
+		_children.insert(i, child);
 	} else {
-		_children.push_back (child);
+		_children.push_back(child);
 	}
-	child->set_parent (dynamic_pointer_cast<DKDMGroup>(shared_from_this()));
+	child->set_parent(dynamic_pointer_cast<DKDMGroup>(shared_from_this()));
 }
 
 
 void
-DKDMGroup::remove (shared_ptr<DKDMBase> child)
+DKDMGroup::remove(shared_ptr<DKDMBase> child)
 {
 	for (auto i = _children.begin(); i != _children.end(); ++i) {
 		if (*i == child) {
-			_children.erase (i);
-			child->set_parent (shared_ptr<DKDMGroup>());
+			_children.erase(i);
+			child->set_parent(shared_ptr<DKDMGroup>());
 			return;
 		}
-		auto g = dynamic_pointer_cast<DKDMGroup> (*i);
+		auto g = dynamic_pointer_cast<DKDMGroup>(*i);
 		if (g) {
-			g->remove (child);
+			g->remove(child);
 		}
 	}
 }

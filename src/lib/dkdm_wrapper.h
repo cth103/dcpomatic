@@ -35,20 +35,20 @@ class DKDMGroup;
 class DKDMBase : public std::enable_shared_from_this<DKDMBase>
 {
 public:
-	virtual ~DKDMBase () {}
-	virtual std::string name () const = 0;
-	virtual void as_xml (xmlpp::Element *) const = 0;
+	virtual ~DKDMBase() {}
+	virtual std::string name() const = 0;
+	virtual void as_xml(xmlpp::Element *) const = 0;
 	/** @return true if this thing is, or contains, any actual DKDM */
 	virtual bool contains_dkdm() const = 0;
 	virtual std::vector<dcp::EncryptedKDM> all_dkdms() const = 0;
 
-	static std::shared_ptr<DKDMBase> read (cxml::ConstNodePtr node);
+	static std::shared_ptr<DKDMBase> read(cxml::ConstNodePtr node);
 
-	std::shared_ptr<DKDMGroup> parent () const {
+	std::shared_ptr<DKDMGroup> parent() const {
 		return _parent;
 	}
 
-	void set_parent (std::shared_ptr<DKDMGroup> parent) {
+	void set_parent(std::shared_ptr<DKDMGroup> parent) {
 		_parent = parent;
 	}
 
@@ -60,12 +60,12 @@ private:
 class DKDM : public DKDMBase
 {
 public:
-	explicit DKDM (dcp::EncryptedKDM k)
-		: _dkdm (k)
+	explicit DKDM(dcp::EncryptedKDM k)
+		: _dkdm(k)
 	{}
 
-	std::string name () const override;
-	void as_xml (xmlpp::Element *) const override;
+	std::string name() const override;
+	void as_xml(xmlpp::Element *) const override;
 	bool contains_dkdm() const override {
 		return true;
 	}
@@ -73,7 +73,7 @@ public:
 		return { _dkdm };
 	}
 
-	dcp::EncryptedKDM dkdm () const {
+	dcp::EncryptedKDM dkdm() const {
 		return _dkdm;
 	}
 
@@ -85,26 +85,26 @@ private:
 class DKDMGroup : public DKDMBase
 {
 public:
-	explicit DKDMGroup (std::string name)
-		: _name (name)
+	explicit DKDMGroup(std::string name)
+		: _name(name)
 	{}
 
-	std::string name () const override {
+	std::string name() const override {
 		return _name;
 	}
 
-	void as_xml (xmlpp::Element *) const override;
+	void as_xml(xmlpp::Element *) const override;
 
 	bool contains_dkdm() const override;
 
 	std::vector<dcp::EncryptedKDM> all_dkdms() const override;
 
-	std::list<std::shared_ptr<DKDMBase>> children () const {
+	std::list<std::shared_ptr<DKDMBase>> children() const {
 		return _children;
 	}
 
-	void add (std::shared_ptr<DKDMBase> child, std::shared_ptr<DKDM> previous = std::shared_ptr<DKDM>());
-        void remove (std::shared_ptr<DKDMBase> child);
+	void add(std::shared_ptr<DKDMBase> child, std::shared_ptr<DKDM> previous = std::shared_ptr<DKDM>());
+        void remove(std::shared_ptr<DKDMBase> child);
 
 	bool contains(std::string dkdm_id) const;
 
