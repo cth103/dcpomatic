@@ -38,6 +38,7 @@
 #include "wx/wx_variant.h"
 #include "lib/constants.h"
 #include "lib/cross.h"
+#include "lib/dkdm_wrapper.h"
 #include "lib/job_manager.h"
 #include "lib/verify_dcp_job.h"
 #include "lib/util.h"
@@ -207,6 +208,14 @@ public:
 		_dcps->custom_button()->bind(&DOMFrame::add_kdm_clicked, this);
 
 		setup_sensitivity();
+
+		if (auto private_key = Config::instance()->decryption_chain()->key()) {
+			for (auto dkdm: Config::instance()->dkdms()->all_dkdms()) {
+				try {
+					_kdms.push_back(dcp::DecryptedKDM(dkdm, *private_key));
+				} catch (...) {}
+			}
+		}
 	}
 
 private:
