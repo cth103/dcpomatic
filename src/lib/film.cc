@@ -972,9 +972,7 @@ Film::isdcf_name(bool if_created_now) const
 		}
 	}
 
-	fixed_name = fixed_name.substr(0, Config::instance()->isdcf_name_part_length());
-
-	isdcf_name += careful_string_filter(fixed_name, L"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-");
+	isdcf_name += careful_string_filter(fixed_name, L"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-").substr(0, Config::instance()->isdcf_name_part_length());
 
 	if (dcp_content_type()) {
 		isdcf_name += "_" + dcp_content_type()->isdcf_name();

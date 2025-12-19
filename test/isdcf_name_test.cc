@@ -291,3 +291,13 @@ BOOST_AUTO_TEST_CASE(isdcf_name_with_closed_subtitles)
 
 	BOOST_CHECK_EQUAL(film->isdcf_name(false), "Hello_TST-1_F_XX-DE_MOS_2K_20230118_SMPTE_OV");
 }
+
+
+BOOST_AUTO_TEST_CASE(isdcf_name_with_accent)
+{
+	auto film = new_test_film("isdcf_name_test_with_accent");
+	film->set_isdcf_date(boost::gregorian::date(2023, boost::gregorian::Jan, 18));
+	film->set_name("BezüglichMeineKatze");
+	BOOST_CHECK_EQUAL(film->isdcf_name(false), "BezuglichMeine_TST-1_F_XX-XX_MOS_2K_20230118_SMPTE_OV");
+}
+
