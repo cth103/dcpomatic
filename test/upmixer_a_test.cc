@@ -54,50 +54,50 @@ static SNDFILE* Rs;
 
 
 static void
-write (shared_ptr<AudioBuffers> b, DCPTime)
+write(shared_ptr<AudioBuffers> b, DCPTime)
 {
-	sf_write_float (L, b->data(0), b->frames());
-	sf_write_float (R, b->data(1), b->frames());
-	sf_write_float (C, b->data(2), b->frames());
-	sf_write_float (Lfe, b->data(3), b->frames());
-	sf_write_float (Ls, b->data(4), b->frames());
-	sf_write_float (Rs, b->data(5), b->frames());
+	sf_write_float(L, b->data(0), b->frames());
+	sf_write_float(R, b->data(1), b->frames());
+	sf_write_float(C, b->data(2), b->frames());
+	sf_write_float(Lfe, b->data(3), b->frames());
+	sf_write_float(Ls, b->data(4), b->frames());
+	sf_write_float(Rs, b->data(5), b->frames());
 
 }
 
 
-BOOST_AUTO_TEST_CASE (upmixer_a_test)
+BOOST_AUTO_TEST_CASE(upmixer_a_test)
 {
 	auto content = make_shared<FFmpegContent>("test/data/white.wav");
 	auto film = new_test_film("upmixer_a_test", { content });
-	film->set_audio_processor (AudioProcessor::from_id("stereo-5.1-upmix-a"));
+	film->set_audio_processor(AudioProcessor::from_id("stereo-5.1-upmix-a"));
 
 	SF_INFO info;
 	info.samplerate = 48000;
 	info.channels = 1;
 	info.format = SF_FORMAT_WAV | SF_FORMAT_PCM_16;
-	L = sf_open ("build/test/upmixer_a_test/L.wav", SFM_WRITE, &info);
-	R = sf_open ("build/test/upmixer_a_test/R.wav", SFM_WRITE, &info);
-	C = sf_open ("build/test/upmixer_a_test/C.wav", SFM_WRITE, &info);
-	Lfe = sf_open ("build/test/upmixer_a_test/Lfe.wav", SFM_WRITE, &info);
-	Ls = sf_open ("build/test/upmixer_a_test/Ls.wav", SFM_WRITE, &info);
-	Rs = sf_open ("build/test/upmixer_a_test/Rs.wav", SFM_WRITE, &info);
+	L = sf_open("build/test/upmixer_a_test/L.wav", SFM_WRITE, &info);
+	R = sf_open("build/test/upmixer_a_test/R.wav", SFM_WRITE, &info);
+	C = sf_open("build/test/upmixer_a_test/C.wav", SFM_WRITE, &info);
+	Lfe = sf_open("build/test/upmixer_a_test/Lfe.wav", SFM_WRITE, &info);
+	Ls = sf_open("build/test/upmixer_a_test/Ls.wav", SFM_WRITE, &info);
+	Rs = sf_open("build/test/upmixer_a_test/Rs.wav", SFM_WRITE, &info);
 
 	auto player = make_shared<Player>(film, Image::Alignment::COMPACT, false);
-	player->Audio.connect (bind (&write, _1, _2));
+	player->Audio.connect(bind(&write, _1, _2));
 	while (!player->pass()) {}
 
-	sf_close (L);
-	sf_close (R);
-	sf_close (C);
-	sf_close (Lfe);
-	sf_close (Ls);
-	sf_close (Rs);
+	sf_close(L);
+	sf_close(R);
+	sf_close(C);
+	sf_close(Lfe);
+	sf_close(Ls);
+	sf_close(Rs);
 
-	check_wav_file ("test/data/upmixer_a_test/L.wav", "build/test/upmixer_a_test/L.wav");
-	check_wav_file ("test/data/upmixer_a_test/R.wav", "build/test/upmixer_a_test/R.wav");
-	check_wav_file ("test/data/upmixer_a_test/C.wav", "build/test/upmixer_a_test/C.wav");
-	check_wav_file ("test/data/upmixer_a_test/Lfe.wav", "build/test/upmixer_a_test/Lfe.wav");
-	check_wav_file ("test/data/upmixer_a_test/Ls.wav", "build/test/upmixer_a_test/Ls.wav");
-	check_wav_file ("test/data/upmixer_a_test/Rs.wav", "build/test/upmixer_a_test/Rs.wav");
+	check_wav_file("test/data/upmixer_a_test/L.wav", "build/test/upmixer_a_test/L.wav");
+	check_wav_file("test/data/upmixer_a_test/R.wav", "build/test/upmixer_a_test/R.wav");
+	check_wav_file("test/data/upmixer_a_test/C.wav", "build/test/upmixer_a_test/C.wav");
+	check_wav_file("test/data/upmixer_a_test/Lfe.wav", "build/test/upmixer_a_test/Lfe.wav");
+	check_wav_file("test/data/upmixer_a_test/Ls.wav", "build/test/upmixer_a_test/Ls.wav");
+	check_wav_file("test/data/upmixer_a_test/Rs.wav", "build/test/upmixer_a_test/Rs.wav");
 }
