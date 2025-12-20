@@ -715,10 +715,7 @@ ContentPanel::remove_clicked(bool hotkey)
 		return true;
 	}
 
-	for (auto i: selected()) {
-		_film->remove_content(i);
-	}
-
+	_film->remove_content(selected());
 	check_selection();
 	return false;
 }
