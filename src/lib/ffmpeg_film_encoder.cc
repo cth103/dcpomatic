@@ -59,12 +59,12 @@ FFmpegFilmEncoder::FFmpegFilmEncoder(
 	)
 	: FilmEncoder(film, job)
 	, _output_audio_channels(mixdown_to_stereo ? 2 : (_film->audio_channels() > 8 ? 16 : _film->audio_channels()))
-	, _history (200)
-	, _output (output)
-	, _format (format)
-	, _split_reels (split_reels)
-	, _audio_stream_per_channel (audio_stream_per_channel)
-	, _x264_crf (x264_crf)
+	, _history(200)
+	, _output(output)
+	, _format(format)
+	, _split_reels(split_reels)
+	, _audio_stream_per_channel(audio_stream_per_channel)
+	, _x264_crf(x264_crf)
 	, _butler(
 		_film,
 		_player,
@@ -129,9 +129,9 @@ void
 FFmpegFilmEncoder::go()
 {
 	{
-		auto job = _job.lock ();
-		DCPOMATIC_ASSERT (job);
-		job->sub (_("Encoding"));
+		auto job = _job.lock();
+		DCPOMATIC_ASSERT(job);
+		job->sub(_("Encoding"));
 	}
 
 	Waker waker(Waker::Reason::ENCODING);
@@ -151,8 +151,8 @@ FFmpegFilmEncoder::go()
 			filename = filename.string() + fmt::format(_("_reel{}"), i + 1);
 		}
 
-		file_encoders.push_back (
-			FileEncoderSet (
+		file_encoders.push_back(
+			FileEncoderSet(
 				_film->frame_size(),
 				_film->video_frame_rate(),
 				_film->audio_frame_rate(),
@@ -167,11 +167,11 @@ FFmpegFilmEncoder::go()
 			);
 	}
 
-	auto reel_periods = _film->reels ();
-	auto reel = reel_periods.begin ();
-	auto encoder = file_encoders.begin ();
+	auto reel_periods = _film->reels();
+	auto reel = reel_periods.begin();
+	auto encoder = file_encoders.begin();
 
-	auto const video_frame = DCPTime::from_frames (1, _film->video_frame_rate ());
+	auto const video_frame = DCPTime::from_frames(1, _film->video_frame_rate());
 	int const audio_frames = video_frame.frames_round(_film->audio_frame_rate());
 	std::vector<float> interleaved(_output_audio_channels * audio_frames);
 	auto deinterleaved = make_shared<AudioBuffers>(_output_audio_channels, audio_frames);
@@ -182,8 +182,8 @@ FFmpegFilmEncoder::go()
 			/* Next reel and file */
 			++reel;
 			++encoder;
-			DCPOMATIC_ASSERT (reel != reel_periods.end());
-			DCPOMATIC_ASSERT (encoder != file_encoders.end());
+			DCPOMATIC_ASSERT(reel != reel_periods.end());
+			DCPOMATIC_ASSERT(encoder != file_encoders.end());
 		}
 
 		for (int j = 0; j < gets_per_frame; ++j) {
@@ -202,19 +202,19 @@ FFmpegFilmEncoder::go()
 			}
 		}
 
-		_history.event ();
+		_history.event();
 
 		{
-			boost::mutex::scoped_lock lm (_mutex);
+			boost::mutex::scoped_lock lm(_mutex);
 			_last_time = time;
 		}
 
-		auto job = _job.lock ();
+		auto job = _job.lock();
 		if (job) {
 			job->set_progress(float(time.get()) / _film->length().get());
 		}
 
-		waker.nudge ();
+		waker.nudge();
 
 		_butler.get_audio(Butler::Behaviour::BLOCKING, interleaved.data(), audio_frames);
 		/* XXX: inefficient; butler interleaves and we deinterleave again */
@@ -224,25 +224,25 @@ FFmpegFilmEncoder::go()
 				deinterleaved->data(k)[j] = *p++;
 			}
 		}
-		encoder->audio (deinterleaved);
+		encoder->audio(deinterleaved);
 	}
 
 	for (auto i: file_encoders) {
-		i.flush ();
+		i.flush();
 	}
 }
 
 optional<float>
 FFmpegFilmEncoder::current_rate() const
 {
-	return _history.rate ();
+	return _history.rate();
 }
 
 Frame
 FFmpegFilmEncoder::frames_done() const
 {
-	boost::mutex::scoped_lock lm (_mutex);
-	return _last_time.frames_round (_film->video_frame_rate ());
+	boost::mutex::scoped_lock lm(_mutex);
+	return _last_time.frames_round(_film->video_frame_rate());
 }
 
 FFmpegFilmEncoder::FileEncoderSet::FileEncoderSet(
@@ -291,8 +291,8 @@ FFmpegFilmEncoder::FileEncoderSet::get(Eyes eyes) const
 		}
 	}
 
-	auto i = _encoders.find (eyes);
-	DCPOMATIC_ASSERT (i != _encoders.end());
+	auto i = _encoders.find(eyes);
+	DCPOMATIC_ASSERT(i != _encoders.end());
 	return i->second;
 }
 
@@ -300,7 +300,7 @@ void
 FFmpegFilmEncoder::FileEncoderSet::flush()
 {
 	for (auto& i: _encoders) {
-		i.second->flush ();
+		i.second->flush();
 	}
 }
 
@@ -308,6 +308,6 @@ void
 FFmpegFilmEncoder::FileEncoderSet::audio(shared_ptr<AudioBuffers> a)
 {
 	for (auto& i: _encoders) {
-		i.second->audio (a);
+		i.second->audio(a);
 	}
 }

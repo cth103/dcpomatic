@@ -42,11 +42,11 @@ public:
 		int x264_crf
 		);
 
-	void go () override;
+	void go() override;
 
-	boost::optional<float> current_rate () const override;
-	Frame frames_done () const override;
-	bool finishing () const override {
+	boost::optional<float> current_rate() const override;
+	Frame frames_done() const override;
+	bool finishing() const override {
 		return false;
 	}
 
@@ -55,7 +55,7 @@ private:
 	class FileEncoderSet
 	{
 	public:
-		FileEncoderSet (
+		FileEncoderSet(
 			dcp::Size video_frame_size,
 			int video_frame_rate,
 			int audio_frame_rate,
@@ -68,9 +68,9 @@ private:
 			std::string extension
 			);
 
-		std::shared_ptr<FFmpegFileEncoder> get (Eyes eyes) const;
-		void flush ();
-		void audio (std::shared_ptr<AudioBuffers>);
+		std::shared_ptr<FFmpegFileEncoder> get(Eyes eyes) const;
+		void flush();
+		void audio(std::shared_ptr<AudioBuffers>);
 
 	private:
 		std::map<Eyes, std::shared_ptr<FFmpegFileEncoder>> _encoders;
