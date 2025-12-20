@@ -69,7 +69,7 @@ public:
 	bool missing(ShowPlaylistID id) const;
 
 	/** Add a playlist entry to the end of a playlist in the database */
-	void add_entry(ShowPlaylistID, ShowPlaylistEntry const& entry);
+	void add_entry(ShowPlaylistID playlist_id, ShowPlaylistEntry const& entry);
 	/** Insert the given playlist entry at the given index */
 	void insert_entry(ShowPlaylistID playlist_id, ShowPlaylistEntry const& entry, int index);
 	/** Set the values in the database from entry */
