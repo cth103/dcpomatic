@@ -37,6 +37,7 @@ using std::runtime_error;
 using std::shared_ptr;
 using std::string;
 using std::vector;
+using boost::optional;
 
 
 Response Response::ERROR_404 = { 404, "<html><head><title>Error 404</title></head><body><h1>Error 404</h1></body></html>"};
@@ -141,6 +142,35 @@ HTTPServer::post(string const& url, string const& body)
 		auto response = Response(303);
 		response.add_header("Location", "/");
 		return response;
+	} else if (boost::algorithm::starts_with(url, "/api/v1/playlist/")) {
+		vector<string> parts;
+		boost::algorithm::split(parts, url, boost::is_any_of("/"));
+		if (parts.size() != 6) {
+			return Response::ERROR_404;
+		}
+		ShowPlaylistList list;
+		auto playlist_id = list.get_show_playlist_id(parts[4]);
+		if (!playlist_id) {
+			return Response::ERROR_404;
+		}
+		nlohmann::json details = nlohmann::json::parse(body);
+		if (parts[5] == "insert") {
+			auto content = ShowPlaylistContentStore::instance()->get(details["uuid"]);
+			if (!content) {
+				return Response::ERROR_404;
+			}
+			list.insert_entry(*playlist_id, ShowPlaylistEntry(content, {}), details["index"]);
+		} else if (parts[5] == "move") {
+			list.move_entry(*playlist_id, details["old_index"], details["new_index"]);
+		} else if (parts[5] == "rename") {
+			if (auto playlist = list.show_playlist(*playlist_id)) {
+				playlist->set_name(details["name"]);
+				list.update_show_playlist(*playlist_id, *playlist);
+			}
+		} else {
+			return Response::ERROR_404;
+		}
+		return Response(200);
 	} else {
 		return Response::ERROR_404;
 	}
