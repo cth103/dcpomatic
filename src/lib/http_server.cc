@@ -122,6 +122,21 @@ HTTPServer::get(string const& url)
 		auto response = Response(200, json.dump());
 		response.set_type(Response::Type::JSON);
 		return response;
+	} else if (boost::algorithm::starts_with(url, "/api/v1/content/")) {
+		vector<string> parts;
+		boost::algorithm::split(parts, url, boost::is_any_of("/"));
+		if (parts.size() != 5) {
+			return Response::ERROR_404;
+		}
+		auto content = ShowPlaylistContentStore::instance()->get(parts[4]);
+		if (!content) {
+			return Response::ERROR_404;
+		}
+		/* XXX: converting to JSON this way feels a bit grotty */
+		auto json = ShowPlaylistEntry(content, {}).as_json();
+		auto response = Response(200, json.dump());
+		response.set_type(Response::Type::JSON);
+		return response;
 	} else {
 		LOG_HTTP("404 {}", url);
 		return Response::ERROR_404;
