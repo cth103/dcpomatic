@@ -137,6 +137,30 @@ HTTPServer::get(string const& url)
 		auto response = Response(200, json.dump());
 		response.set_type(Response::Type::JSON);
 		return response;
+	} else if (boost::algorithm::starts_with(url, "/api/v1/playlist/")) {
+		vector<string> parts;
+		boost::algorithm::split(parts, url, boost::is_any_of("/"));
+		if (parts.size() != 5) {
+			return Response::ERROR_404;
+		}
+		ShowPlaylistList list;
+		auto playlist_id = list.get_show_playlist_id(parts[4]);
+		if (!playlist_id) {
+			return Response::ERROR_404;
+		}
+		auto playlist = list.show_playlist(*playlist_id);
+		if (!playlist) {
+			return Response::ERROR_404;
+		}
+		nlohmann::json json = playlist->as_json();
+		json["content"] = nlohmann::json::array();
+		auto entries = list.entries(parts[4]);
+		for (auto entry: list.entries(parts[4])) {
+			json["content"].push_back(entry.as_json());
+		}
+		auto response = Response(200, json.dump());
+		response.set_type(Response::Type::JSON);
+		return response;
 	} else {
 		LOG_HTTP("404 {}", url);
 		return Response::ERROR_404;
