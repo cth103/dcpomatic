@@ -2028,6 +2028,7 @@ void
 Film::remove_content(ContentList c)
 {
 	_playlist->remove(c);
+	maybe_set_container_and_resolution();
 }
 
 void
