@@ -167,12 +167,8 @@ Content::calculate_digest() const
 
 
 void
-Content::examine(shared_ptr<const Film>, shared_ptr<Job> job, bool)
+Content::examine(shared_ptr<const Film>, shared_ptr<Job>, bool)
 {
-	if (job) {
-		job->sub(_("Computing digest"));
-	}
-
 	auto const d = calculate_digest();
 
 	boost::mutex::scoped_lock lm(_mutex);
