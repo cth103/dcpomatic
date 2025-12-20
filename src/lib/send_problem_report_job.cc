@@ -42,27 +42,27 @@ using std::string;
  *  @param from Email address to use for From:
  *  @param summary Summary of the problem.
  */
-SendProblemReportJob::SendProblemReportJob (
+SendProblemReportJob::SendProblemReportJob(
 	shared_ptr<const Film> film,
 	string from,
 	string summary
 	)
-	: Job (film)
-	, _from (from)
-	, _summary (summary)
+	: Job(film)
+	, _from(from)
+	, _summary(summary)
 {
 
 }
 
 
-SendProblemReportJob::~SendProblemReportJob ()
+SendProblemReportJob::~SendProblemReportJob()
 {
-	stop_thread ();
+	stop_thread();
 }
 
 
 string
-SendProblemReportJob::name () const
+SendProblemReportJob::name() const
 {
 	if (!_film) {
 		return _("Email problem report");
@@ -73,23 +73,23 @@ SendProblemReportJob::name () const
 
 
 string
-SendProblemReportJob::json_name () const
+SendProblemReportJob::json_name() const
 {
 	return N_("send_problem_report");
 }
 
 
 void
-SendProblemReportJob::run ()
+SendProblemReportJob::run()
 {
-	sub (_("Sending email"));
-	set_progress_unknown ();
+	sub(_("Sending email"));
+	set_progress_unknown();
 
 	string body = _summary + "\n\n";
 
 	body += "Version: " + string(dcpomatic_version) + " " + string(dcpomatic_git_commit) + "\n\n";
 
-	for (auto i: environment_info ()) {
+	for (auto i: environment_info()) {
 		body += i + "\n";
 	}
 
@@ -98,10 +98,10 @@ SendProblemReportJob::run ()
 	if (_film) {
 		body += "log head and tail:\n";
 		body += "---<8----\n";
-		body += _film->log()->head_and_tail (4096);
+		body += _film->log()->head_and_tail(4096);
 		body += "---<8----\n\n";
 
-		add_file (body, "ffprobe.log");
+		add_file(body, "ffprobe.log");
 
 		body += "---<8----\n";
 		body += _film->metadata()->write_to_string_formatted("UTF-8");
@@ -111,18 +111,18 @@ SendProblemReportJob::run ()
 	Email email(_from, {"report@dcpomatic.com"}, variant::insert_dcpomatic("{} problem report"), body);
 	email.send("main.carlh.net", 2525, EmailProtocol::STARTTLS);
 
-	set_progress (1);
-	set_state (FINISHED_OK);
+	set_progress(1);
+	set_state(FINISHED_OK);
 }
 
 
 void
-SendProblemReportJob::add_file (string& body, boost::filesystem::path file) const
+SendProblemReportJob::add_file(string& body, boost::filesystem::path file) const
 {
 	body += file.string() + ":\n";
 	body += "---<8----\n";
 	try {
-		body += dcp::file_to_string (_film->file(file));
+		body += dcp::file_to_string(_film->file(file));
 	} catch (...) {
 		body += "[could not be read]\n";
 	}

@@ -27,20 +27,20 @@
 class SendProblemReportJob : public Job
 {
 public:
-	SendProblemReportJob (
+	SendProblemReportJob(
 		std::shared_ptr<const Film> film,
 		std::string from,
 		std::string summary
 		);
 
-	~SendProblemReportJob ();
+	~SendProblemReportJob();
 
-	std::string name () const override;
-	std::string json_name () const override;
-	void run () override;
+	std::string name() const override;
+	std::string json_name() const override;
+	void run() override;
 
 private:
-	void add_file (std::string& body, boost::filesystem::path file) const;
+	void add_file(std::string& body, boost::filesystem::path file) const;
 
 	std::string _from;
 	std::string _summary;
