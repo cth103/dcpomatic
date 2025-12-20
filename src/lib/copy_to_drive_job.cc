@@ -42,17 +42,17 @@ using boost::optional;
 
 
 CopyToDriveJob::CopyToDriveJob(std::vector<boost::filesystem::path> const& dcps, Drive drive, Nanomsg& nanomsg)
-	: Job (shared_ptr<Film>())
-	, _dcps (dcps)
-	, _drive (drive)
-	, _nanomsg (nanomsg)
+	: Job(shared_ptr<Film>())
+	, _dcps(dcps)
+	, _drive(drive)
+	, _nanomsg(nanomsg)
 {
 
 }
 
 
 string
-CopyToDriveJob::name () const
+CopyToDriveJob::name() const
 {
 	if (_dcps.size() == 1) {
 		return fmt::format(_("Copying {}\nto {}"), _dcps[0].filename().string(), _drive.description());
@@ -63,13 +63,13 @@ CopyToDriveJob::name () const
 
 
 string
-CopyToDriveJob::json_name () const
+CopyToDriveJob::json_name() const
 {
 	return N_("copy");
 }
 
 void
-CopyToDriveJob::run ()
+CopyToDriveJob::run()
 {
 	LOG_DISK("Sending write requests to disk {} for:", _drive.device());
 	for (auto dcp: _dcps) {
@@ -83,7 +83,7 @@ CopyToDriveJob::run ()
 	request += "\n";
 	if (!_nanomsg.send(request, 2000)) {
 		LOG_DISK("Failed to send write request.");
-		throw CommunicationFailedError ();
+		throw CommunicationFailedError();
 	}
 
 	enum State {
@@ -101,7 +101,7 @@ CopyToDriveJob::run ()
 
 		switch (response->type()) {
 		case DiskWriterBackEndResponse::Type::OK:
-			set_state (FINISHED_OK);
+			set_state(FINISHED_OK);
 			return;
 		case DiskWriterBackEndResponse::Type::PONG:
 			break;
@@ -109,21 +109,21 @@ CopyToDriveJob::run ()
 			throw CopyError(response->error_message(), response->ext4_error_number(), response->platform_error_number());
 		case DiskWriterBackEndResponse::Type::FORMAT_PROGRESS:
 			if (state == SETUP) {
-				sub (_("Formatting drive"));
+				sub(_("Formatting drive"));
 				state = FORMAT;
 			}
 			set_progress(response->progress());
 			break;
 		case DiskWriterBackEndResponse::Type::COPY_PROGRESS:
 			if (state == FORMAT) {
-				sub (_("Copying DCP"));
+				sub(_("Copying DCP"));
 				state = COPY;
 			}
 			set_progress(response->progress());
 			break;
 		case DiskWriterBackEndResponse::Type::VERIFY_PROGRESS:
 			if (state == COPY) {
-				sub (_("Verifying copied files"));
+				sub(_("Verifying copied files"));
 				state = VERIFY;
 			}
 			set_progress(response->progress());
