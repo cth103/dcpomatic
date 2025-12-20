@@ -568,7 +568,7 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 				_("More JPEG2000 frames (not listed) contain invalid Rsiz values.")
 			);
 			break;
-		case dcp::VerificationNote::Code::MISSING_JPEG200_TLM_MARKER:
+		case dcp::VerificationNote::Code::MISSING_JPEG2000_TLM_MARKER:
 			add(
 				i.second,
 				_("A JPEG2000 frame has no TLM marker."),
