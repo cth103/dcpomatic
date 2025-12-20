@@ -252,6 +252,31 @@ ShowPlaylistList::add_entry(ShowPlaylistID playlist_id, ShowPlaylistEntry const&
 
 
 void
+ShowPlaylistList::insert_entry(ShowPlaylistID playlist_id, ShowPlaylistEntry const& entry, int index)
+{
+	SQLiteTransaction transaction(_db);
+
+	SQLiteStatement update(_db, "UPDATE entries SET sort_index=sort_index+1 WHERE show_playlist=? AND sort_index>=?");
+	update.bind_int64(1, playlist_id.get());
+	update.bind_int64(2, index);
+	update.execute();
+
+	SQLiteStatement insert_entry(_db, _entries.insert());
+	insert_entry.bind_int64(1, playlist_id.get());
+	insert_entry.bind_text(2, entry.uuid());
+	insert_entry.bind_text(3, entry.name());
+	insert_entry.bind_text(4, entry.kind().name());
+	insert_entry.bind_text(5, entry.approximate_length());
+	insert_entry.bind_int64(6, entry.encrypted());
+	insert_entry.bind_double(7, entry.crop_to_ratio().get_value_or(0));
+	insert_entry.bind_int64(8, index);
+	insert_entry.execute();
+
+	transaction.commit();
+}
+
+
+void
 ShowPlaylistList::update_entry(ShowPlaylistID playlist_id, int index, ShowPlaylistEntry const& entry)
 {
 	SQLiteStatement update_entry(_db, _entries.update("WHERE show_playlist=? AND sort_index=?"));
