@@ -67,8 +67,8 @@ using namespace dcpomatic;
 DCPFilmEncoder::DCPFilmEncoder(shared_ptr<const Film> film, weak_ptr<Job> job)
 	: FilmEncoder(film, job)
 	, _writer(film, job, film->dir(film->dcp_name()))
-	, _finishing (false)
-	, _non_burnt_subtitles (false)
+	, _finishing(false)
+	, _non_burnt_subtitles(false)
 {
 	switch (_film->video_encoding()) {
 	case VideoEncoding::JPEG2000:
@@ -89,7 +89,7 @@ DCPFilmEncoder::DCPFilmEncoder(shared_ptr<const Film> film, weak_ptr<Job> job)
 	_player_text_connection = _player.Text.connect(bind(&DCPFilmEncoder::text, this, _1, _2, _3, _4));
 	_player_atmos_connection = _player.Atmos.connect(bind(&DCPFilmEncoder::atmos, this, _1, _2, _3));
 
-	for (auto c: film->content ()) {
+	for (auto c: film->content()) {
 		for (auto i: c->text) {
 			if (i->use() && !i->burn()) {
 				_non_burnt_subtitles = true;
@@ -101,10 +101,10 @@ DCPFilmEncoder::DCPFilmEncoder(shared_ptr<const Film> film, weak_ptr<Job> job)
 DCPFilmEncoder::~DCPFilmEncoder()
 {
 	/* We must stop receiving more video data before we die */
-	_player_video_connection.release ();
-	_player_audio_connection.release ();
-	_player_text_connection.release ();
-	_player_atmos_connection.release ();
+	_player_video_connection.release();
+	_player_audio_connection.release();
+	_player_text_connection.release();
+	_player_atmos_connection.release();
 }
 
 void
@@ -114,9 +114,9 @@ DCPFilmEncoder::go()
 	_encoder->begin();
 
 	{
-		auto job = _job.lock ();
-		DCPOMATIC_ASSERT (job);
-		job->sub (_("Encoding"));
+		auto job = _job.lock();
+		DCPOMATIC_ASSERT(job);
+		job->sub(_("Encoding"));
 	}
 
 	if (_non_burnt_subtitles) {

@@ -45,13 +45,13 @@ public:
 	DCPFilmEncoder(std::shared_ptr<const Film> film, std::weak_ptr<Job> job);
 	~DCPFilmEncoder();
 
-	void go () override;
+	void go() override;
 
-	boost::optional<float> current_rate () const override;
-	Frame frames_done () const override;
+	boost::optional<float> current_rate() const override;
+	Frame frames_done() const override;
 
 	/** @return true if we are in the process of calling Encoder::process_end */
-	bool finishing () const override {
+	bool finishing() const override {
 		return _finishing;
 	}
 
@@ -62,10 +62,10 @@ private:
 
 	friend struct ::frames_not_lost_when_threads_disappear;
 
-	void video (std::shared_ptr<PlayerVideo>, dcpomatic::DCPTime);
-	void audio (std::shared_ptr<AudioBuffers>, dcpomatic::DCPTime);
-	void text (PlayerText, TextType, boost::optional<DCPTextTrack>, dcpomatic::DCPTimePeriod);
-	void atmos (std::shared_ptr<const dcp::AtmosFrame>, dcpomatic::DCPTime, AtmosMetadata metadata);
+	void video(std::shared_ptr<PlayerVideo>, dcpomatic::DCPTime);
+	void audio(std::shared_ptr<AudioBuffers>, dcpomatic::DCPTime);
+	void text(PlayerText, TextType, boost::optional<DCPTextTrack>, dcpomatic::DCPTimePeriod);
+	void atmos(std::shared_ptr<const dcp::AtmosFrame>, dcpomatic::DCPTime, AtmosMetadata metadata);
 
 	Writer _writer;
 	std::unique_ptr<VideoEncoder> _encoder;
