@@ -192,7 +192,7 @@ CertificateChainEditor::add_certificate()
 				update_certificate_list();
 			}
 		} catch (dcp::MiscError& e) {
-			error_dialog(this, _("Could not read certificate file."), std_to_wx(e.what()));
+			error_dialog(this, _("Could not read certificate file.  Make sure it is in PEM format."), std_to_wx(e.what()));
 		}
 	}
 
