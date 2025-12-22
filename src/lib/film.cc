@@ -1357,7 +1357,7 @@ Film::signal_change(ChangeType type, FilmProperty p)
 
 		if (p == FilmProperty::CONTENT) {
 			if (!_user_explicit_video_frame_rate) {
-				set_video_frame_rate(best_video_frame_rate());
+				set_video_frame_rate(best_video_frame_rate(), false);
 			}
 		}
 

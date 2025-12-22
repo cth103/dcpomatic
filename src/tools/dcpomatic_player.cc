@@ -518,7 +518,7 @@ public:
 			}
 
 			if (dcp->video_frame_rate()) {
-				_film->set_video_frame_rate(dcp->video_frame_rate().get(), true);
+				_film->set_video_frame_rate(dcp->video_frame_rate().get());
 			}
 
 			switch (dcp->video_encoding()) {

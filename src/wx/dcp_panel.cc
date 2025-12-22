@@ -322,8 +322,7 @@ DCPPanel::frame_rate_choice_changed()
 	_film->set_video_frame_rate(
 		boost::lexical_cast<int>(
 			wx_to_std(_frame_rate_choice->GetString(*_frame_rate_choice->get()))
-			),
-		true
+			)
 		);
 }
 
@@ -762,7 +761,7 @@ DCPPanel::best_frame_rate_clicked()
 		return;
 	}
 
-	_film->set_video_frame_rate(_film->best_video_frame_rate());
+	_film->set_video_frame_rate(_film->best_video_frame_rate(), false);
 }
 
 

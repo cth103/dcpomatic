@@ -404,7 +404,7 @@ public:
 	void set_encrypt_sound(bool);
 	void set_encrypt_text(bool);
 	void set_video_bit_rate(VideoEncoding encoding, int64_t);
-	void set_video_frame_rate(int rate, bool user_explicit = false);
+	void set_video_frame_rate(int rate, bool user_explicit = true);
 	void set_audio_channels(int);
 	void set_three_d(bool);
 	void set_isdcf_date_today();
