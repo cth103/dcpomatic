@@ -186,6 +186,7 @@ Film::Film(optional<boost::filesystem::path> dir)
 	, _user_explicit_video_frame_rate(false)
 	, _user_explicit_container(false)
 	, _user_explicit_resolution(false)
+	, _user_explicit_interop(false)
 	, _name_language(dcp::LanguageTag("en-US"))
 	, _release_territory(Config::instance()->default_territory())
 	, _version_number(1)
@@ -480,6 +481,7 @@ Film::metadata(bool with_content_paths) const
 	}
 	cxml::add_text_child(root, "UserExplicitContainer", _user_explicit_container ? "1" : "0");
 	cxml::add_text_child(root, "UserExplicitResolution", _user_explicit_resolution ? "1" : "0");
+	cxml::add_text_child(root, "UserExplicitInterop", _user_explicit_interop ? "1" : "0");
 	if (_audio_language) {
 		cxml::add_text_child(root, "AudioLanguage", _audio_language->as_string());
 	}
@@ -708,6 +710,7 @@ Film::read_metadata(optional<boost::filesystem::path> path)
 	/* Disable guessing for files made in previous DCP-o-matic versions */
 	_user_explicit_container = f.optional_bool_child("UserExplicitContainer").get_value_or(true);
 	_user_explicit_resolution = f.optional_bool_child("UserExplicitResolution").get_value_or(true);
+	_user_explicit_interop = f.optional_bool_child("UserExplicitInterop").get_value_or(true);
 
 	auto audio_language = f.optional_string_child("AudioLanguage");
 	if (audio_language) {
@@ -1279,10 +1282,14 @@ Film::set_three_d(bool t)
 }
 
 void
-Film::set_interop(bool i)
+Film::set_interop(bool i, bool user_explicit)
 {
 	FilmChangeSignaller ch(this, FilmProperty::INTEROP);
 	_interop = i;
+
+	if (user_explicit) {
+		_user_explicit_interop = true;
+	}
 }
 
 
@@ -1565,6 +1572,7 @@ Film::add_content(vector<shared_ptr<Content>> const& content)
 
 	_playlist->add_at_end(shared_from_this(), content);
 	maybe_set_container_and_resolution();
+	maybe_set_interop();
 
 	if (any_atmos) {
 		if (_audio_channels < 14) {
@@ -1613,6 +1621,27 @@ Film::maybe_set_container_and_resolution()
 		}
 	}
 }
+
+
+void
+Film::maybe_set_interop()
+{
+	shared_ptr<DCPContent> dcp;
+	for (auto content: _playlist->content()) {
+		if (auto test = dynamic_pointer_cast<DCPContent>(content)) {
+			if (!dcp) {
+				dcp = test;
+			} else {
+				return;
+			}
+		}
+	}
+
+	if (dcp && !_user_explicit_interop) {
+		set_interop(dcp->standard() == dcp::Standard::INTEROP, false);
+	}
+}
+
 
 void
 Film::remove_content(shared_ptr<Content> c)

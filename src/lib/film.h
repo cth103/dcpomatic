@@ -410,7 +410,7 @@ public:
 	void set_isdcf_date_today();
 	void set_isdcf_date(boost::gregorian::date);
 	void set_sequence(bool);
-	void set_interop(bool);
+	void set_interop(bool interop, bool user_explicit = true);
 	void set_video_encoding(VideoEncoding encoding);
 	void set_limit_to_smpte_bv20(bool);
 	void set_audio_processor(AudioProcessor const * processor);
@@ -491,6 +491,7 @@ private:
 	void audio_analysis_finished();
 	void check_settings_consistency();
 	void maybe_set_container_and_resolution();
+	void maybe_set_interop();
 	void set_dirty(bool dirty);
 	void write_ui_state() const;
 	void check_reel_boundaries_for_atmos();
@@ -555,6 +556,7 @@ private:
 	bool _user_explicit_video_frame_rate;
 	bool _user_explicit_container;
 	bool _user_explicit_resolution;
+	bool _user_explicit_interop;
 	std::map<dcp::Marker, dcpomatic::DCPTime> _markers;
 	std::vector<dcp::Rating> _ratings;
 	std::vector<std::string> _content_versions;
