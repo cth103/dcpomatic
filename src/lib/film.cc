@@ -1585,7 +1585,8 @@ Film::maybe_set_container_and_resolution()
 			if (!video) {
 				video = content->video;
 			} else {
-				video.reset();
+				/* This is the second video: stop */
+				return;
 			}
 		}
 	}
