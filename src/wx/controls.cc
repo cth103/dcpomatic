@@ -67,7 +67,7 @@ using namespace dcpomatic;
 
 Controls::Controls(wxWindow* parent, FilmViewer& viewer, bool editor_controls)
 	: wxPanel(parent)
-	, _markers(new MarkersPanel(this, viewer))
+	, _markers(new MarkersPanel(this, viewer, editor_controls))
 	, _slider(new wxSlider(this, wxID_ANY, 0, 0, 4096))
 	, _viewer(viewer)
 	, _rewind_button(new Button(this, char_to_wx("|<")))

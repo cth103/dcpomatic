@@ -55,9 +55,10 @@ enum {
 };
 
 
-MarkersPanel::MarkersPanel(wxWindow* parent, FilmViewer& viewer)
+MarkersPanel::MarkersPanel(wxWindow* parent, FilmViewer& viewer, bool allow_editing)
 	: wxPanel(parent, wxID_ANY, wxDefaultPosition, wxSize(-1, 40))
 	, _viewer(viewer)
+	, _allow_editing(allow_editing)
 {
 	Bind(wxEVT_PAINT, boost::bind(&MarkersPanel::paint, this));
 	Bind(wxEVT_MOTION, boost::bind(&MarkersPanel::mouse_moved, this, _1));
@@ -267,6 +268,10 @@ MarkersPanel::mouse_left_down()
 void
 MarkersPanel::mouse_right_down(wxMouseEvent& ev)
 {
+	if (!_allow_editing) {
+		return;
+	}
+
 	wxMenu menu;
 	if (_over) {
 		DCPOMATIC_ASSERT(_over->marker);

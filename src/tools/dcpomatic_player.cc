@@ -42,6 +42,7 @@
 #include "lib/audio_content.h"
 #include "lib/config.h"
 #include "lib/constants.h"
+#include "lib/copy_dcp_details_to_film.h"
 #include "lib/cross.h"
 #include "lib/dcp_content.h"
 #include "lib/dcp_examiner.h"
@@ -499,6 +500,8 @@ public:
 
 		for (auto i: _film->content()) {
 			auto dcp = dynamic_pointer_cast<DCPContent>(i);
+
+			copy_dcp_markers_to_film(dcp, _film);
 
 			for (auto j: i->text) {
 				j->set_use(true);

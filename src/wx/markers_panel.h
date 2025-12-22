@@ -35,7 +35,7 @@ class wxTipWindow;
 class MarkersPanel : public wxPanel
 {
 public:
-	MarkersPanel(wxWindow* parent, FilmViewer& viewer);
+	MarkersPanel(wxWindow* parent, FilmViewer& viewer, bool allow_editing);
 
 	void set_film(std::weak_ptr<Film> film);
 
@@ -58,5 +58,6 @@ private:
 	MarkerLayoutComponent const* _over = nullptr;
 	FilmViewer& _viewer;
 	MarkerLayoutComponent const* _menu_marker = nullptr;
+	bool _allow_editing;
 };
 
