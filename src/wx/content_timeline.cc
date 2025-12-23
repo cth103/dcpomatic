@@ -568,59 +568,62 @@ ContentTimeline::left_down_select(wxMouseEvent& ev)
 	auto content_view = dynamic_pointer_cast<TimelineContentView>(view);
 
 	_down_view.reset ();
-
-	if (content_view) {
-		_down_view = content_view;
-		_down_view_position = content_view->content()->position ();
-	}
+	_first_move = false;
 
 	if (dynamic_pointer_cast<TimelineTimeAxisView>(view)) {
+		/* Seek when clicking in the time axis */
 		int vsx, vsy;
 		_main_canvas->GetViewStart(&vsx, &vsy);
 		_viewer.seek(DCPTime::from_seconds((ev.GetPosition().x + vsx * _x_scroll_rate) / _pixels_per_second.get_value_or(1)), true);
 	}
 
+	if (!content_view) {
+		/* Click outside all content selects none */
+		for (auto i: _views) {
+			if (auto cv = dynamic_pointer_cast<TimelineContentView>(i)) {
+				cv->set_selected(false);
+			}
+		}
+		return;
+	}
+
+	_down_view = content_view;
+	_down_view_position = content_view->content()->position ();
+
+	if (ev.ShiftDown()) {
+		/* Toggle */
+		content_view->set_selected (!content_view->selected ());
+	} else if (!content_view->selected()) {
+		/* Select one */
+		for (auto i: _views) {
+			if (auto cv = dynamic_pointer_cast<TimelineContentView>(i)) {
+				cv->set_selected(view == i);
+			}
+		}
+	}
+
+	/* Pre-compute the points that we might snap to */
 	for (auto i: _views) {
 		auto cv = dynamic_pointer_cast<TimelineContentView>(i);
-		if (!cv) {
+		if (!cv || cv == _down_view || cv->content() == _down_view->content()) {
 			continue;
 		}
 
-		if (!ev.ShiftDown ()) {
-			cv->set_selected (view == i);
+		auto film = _film.lock ();
+		DCPOMATIC_ASSERT (film);
+
+		_start_snaps.push_back (cv->content()->position());
+		_end_snaps.push_back (cv->content()->position());
+		_start_snaps.push_back (cv->content()->end(film));
+		_end_snaps.push_back (cv->content()->end(film));
+
+		for (auto i: cv->content()->reel_split_points(film)) {
+			_start_snaps.push_back (i);
 		}
 	}
 
-	if (content_view && ev.ShiftDown ()) {
-		content_view->set_selected (!content_view->selected ());
-	}
-
-	_first_move = false;
-
-	if (_down_view) {
-		/* Pre-compute the points that we might snap to */
-		for (auto i: _views) {
-			auto cv = dynamic_pointer_cast<TimelineContentView>(i);
-			if (!cv || cv == _down_view || cv->content() == _down_view->content()) {
-				continue;
-			}
-
-			auto film = _film.lock ();
-			DCPOMATIC_ASSERT (film);
-
-			_start_snaps.push_back (cv->content()->position());
-			_end_snaps.push_back (cv->content()->position());
-			_start_snaps.push_back (cv->content()->end(film));
-			_end_snaps.push_back (cv->content()->end(film));
-
-			for (auto i: cv->content()->reel_split_points(film)) {
-				_start_snaps.push_back (i);
-			}
-		}
-
-		/* Tell everyone that things might change frequently during the drag */
-		_down_view->content()->set_change_signals_frequent (true);
-	}
+	/* Tell everyone that things might change frequently during the drag */
+	_down_view->content()->set_change_signals_frequent (true);
 }
 
 
