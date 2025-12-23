@@ -79,7 +79,6 @@ ContentTimeline::ContentTimeline(wxWindow* parent, ContentPanel* cp, shared_ptr<
 	, _labels_view(new TimelineLabelsView(*this))
 	, _tracks(0)
 	, _left_down(false)
-	, _down_view_position(0)
 	, _first_move(false)
 	, _menu(this, viewer)
 	, _snap(true)
@@ -554,7 +553,7 @@ ContentTimeline::left_down_select(wxMouseEvent& ev)
 	auto view = event_to_view(ev);
 	auto content_view = dynamic_pointer_cast<TimelineContentView>(view);
 
-	_down_view.reset();
+	_dragging_views.clear();
 	_first_move = false;
 
 	if (dynamic_pointer_cast<TimelineTimeAxisView>(view)) {
@@ -574,9 +573,6 @@ ContentTimeline::left_down_select(wxMouseEvent& ev)
 		return;
 	}
 
-	_down_view = content_view;
-	_down_view_position = content_view->content()->position();
-
 	if (ev.ShiftDown()) {
 		/* Toggle */
 		content_view->set_selected(!content_view->selected());
@@ -592,7 +588,7 @@ ContentTimeline::left_down_select(wxMouseEvent& ev)
 	/* Pre-compute the points that we might snap to */
 	for (auto i: _views) {
 		auto cv = dynamic_pointer_cast<TimelineContentView>(i);
-		if (!cv || cv == _down_view || cv->content() == _down_view->content()) {
+		if (!cv || cv->selected()) {
 			continue;
 		}
 
@@ -606,8 +602,14 @@ ContentTimeline::left_down_select(wxMouseEvent& ev)
 		}
 	}
 
-	/* Tell everyone that things might change frequently during the drag */
-	_down_view->content()->set_change_signals_frequent(true);
+	for (auto view: _views) {
+		if (auto cv = dynamic_pointer_cast<TimelineContentView>(view)) {
+			if (cv->selected()) {
+				_dragging_views.push_back({cv, cv->content()->position()});
+				cv->content()->set_change_signals_frequent(true);
+			}
+		}
+	}
 }
 
 
@@ -634,8 +636,8 @@ ContentTimeline::left_up(wxMouseEvent& ev)
 void
 ContentTimeline::left_up_select(wxMouseEvent& ev)
 {
-	if (_down_view) {
-		_down_view->content()->set_change_signals_frequent(false);
+	for (auto view: _dragging_views) {
+		view.first->content()->set_change_signals_frequent(false);
 	}
 
 	_content_panel->set_selection(selected_content());
@@ -813,28 +815,30 @@ ContentTimeline::set_position_from_event(wxMouseEvent& ev, bool force_emit)
 		_first_move = true;
 	}
 
-	if (!_down_view) {
-		return;
-	}
+	/* Decide on snap */
 
-	auto new_position = _down_view_position + DCPTime::from_seconds((p.x - _down_point.x) / pps);
+	/* Signed `distance' to nearest thing (i.e. negative is left on the timeline, positive is right) */
+	optional<DCPTime> nearest_distance;
 
 	if (_snap) {
-		auto const new_end = new_position + _down_view->content()->length_after_trim(film());
-		/* Signed `distance' to nearest thing (i.e. negative is left on the timeline,
-		   positive is right).
-		*/
-		optional<DCPTime> nearest_distance;
+		for (auto view: _dragging_views) {
+			auto const new_position = view.second + DCPTime::from_seconds((p.x - _down_point.x) / pps);
+			auto const new_end = new_position + view.first->content()->length_after_trim(film());
 
-		/* Find the nearest snap point */
+			/* Find the nearest snap pooint */
+			for (auto i: _start_snaps) {
+				maybe_snap(i, new_position, nearest_distance);
+			}
 
-		for (auto i: _start_snaps) {
-			maybe_snap(i, new_position, nearest_distance);
+			for (auto i: _end_snaps) {
+				maybe_snap(i, new_end, nearest_distance);
+			}
 		}
+	}
 
-		for (auto i: _end_snaps) {
-			maybe_snap(i, new_end, nearest_distance);
-		}
+	/* Move things */
+	for (auto view: _dragging_views) {
+		auto new_position = view.second + DCPTime::from_seconds((p.x - _down_point.x) / pps);
 
 		if (nearest_distance) {
 			/* Snap if it's close; `close' means within a proportion of the time on the timeline */
@@ -842,13 +846,13 @@ ContentTimeline::set_position_from_event(wxMouseEvent& ev, bool force_emit)
 				new_position += nearest_distance.get();
 			}
 		}
-	}
 
-	if (new_position < DCPTime()) {
-		new_position = DCPTime();
-	}
+		if (new_position < DCPTime()) {
+			new_position = DCPTime();
+		}
 
-	_down_view->content()->set_position(film(), new_position, force_emit);
+		view.first->content()->set_position(film(), new_position, force_emit);
+	}
 
 	film()->set_sequence(false);
 }

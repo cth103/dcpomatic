@@ -130,8 +130,7 @@ private:
 	bool _left_down;
 	wxPoint _down_point;
 	boost::optional<wxPoint> _zoom_point;
-	std::shared_ptr<TimelineContentView> _down_view;
-	dcpomatic::DCPTime _down_view_position;
+	std::vector<std::pair<std::shared_ptr<TimelineContentView>, dcpomatic::DCPTime>> _dragging_views;
 	bool _first_move;
 	ContentMenu _menu;
 	bool _snap;
