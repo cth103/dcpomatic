@@ -883,7 +883,9 @@ ContentTimeline::force_redraw(dcpomatic::Rect<int> const & r)
 shared_ptr<const Film>
 ContentTimeline::film() const
 {
-	return _film.lock();
+	auto film = _film.lock();
+	DCPOMATIC_ASSERT(film);
+	return film;
 }
 
 
