@@ -218,7 +218,10 @@ public:
 
 	bool has_mapped_audio() const;
 
-	/* ChangeType::PENDING and ChangeType::CANCELLED may be emitted from any thread; ChangeType::DONE always from GUI thread */
+	/* ChangeType::PENDING and ChangeType::CANCELLED may be emitted from any thread; ChangeType::DONE always from GUI thread.
+	 * Second parameter is the property
+	 * Third parameter is true if these signals are likely to occur frequently
+	 */
 	boost::signals2::signal<void (ChangeType, int, bool)> Change;
 
 	std::shared_ptr<VideoContent> video;
