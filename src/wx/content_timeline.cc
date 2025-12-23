@@ -188,8 +188,7 @@ ContentTimeline::paint_labels()
 {
 	wxPaintDC dc(_labels_canvas);
 
-	auto film = _film.lock();
-	if (film->content().empty()) {
+	if (film()->content().empty()) {
 		return;
 	}
 
@@ -214,8 +213,7 @@ ContentTimeline::paint_main()
 	wxPaintDC dc(_main_canvas);
 	dc.Clear();
 
-	auto film = _film.lock();
-	if (film->content().empty()) {
+	if (film()->content().empty()) {
 		return;
 	}
 
@@ -293,16 +291,11 @@ ContentTimeline::film_change(ChangeType type, FilmProperty p)
 void
 ContentTimeline::recreate_views()
 {
-	auto film = _film.lock();
-	if (!film) {
-		return;
-	}
-
 	_views.clear();
 	_views.push_back(_time_axis_view);
 	_views.push_back(_reels_view);
 
-	for (auto i: film->content()) {
+	for (auto i: film()->content()) {
 		if (i->video) {
 			_views.push_back(make_shared<ContentTimelineVideoView>(*this, i));
 		}
@@ -447,9 +440,6 @@ ContentTimeline::assign_tracks()
 	   Audio N
 	*/
 
-	auto film = _film.lock();
-	DCPOMATIC_ASSERT(film);
-
 	_tracks = 0;
 
 	for (auto i: _views) {
@@ -459,8 +449,8 @@ ContentTimeline::assign_tracks()
 		}
 	}
 
-	int const video_tracks = place<ContentTimelineVideoView>(film, _views, _tracks);
-	int const text_tracks = place<ContentTimelineTextView>(film, _views, _tracks);
+	int const video_tracks = place<ContentTimelineVideoView>(film(), _views, _tracks);
+	int const text_tracks = place<ContentTimelineTextView>(film(), _views, _tracks);
 
 	/* Atmos */
 
@@ -483,7 +473,7 @@ ContentTimeline::assign_tracks()
 
 	auto views = _views;
 	sort(views.begin(), views.end(), AudioMappingComparator());
-	int const audio_tracks = place<ContentTimelineAudioView>(film, views, _tracks);
+	int const audio_tracks = place<ContentTimelineAudioView>(film(), views, _tracks);
 
 	_labels_view->set_video_tracks(video_tracks);
 	_labels_view->set_audio_tracks(audio_tracks);
@@ -505,8 +495,7 @@ ContentTimeline::tracks() const
 void
 ContentTimeline::setup_scrollbars()
 {
-	auto film = _film.lock();
-	if (!film || !_pixels_per_second) {
+	if (!_pixels_per_second) {
 		return;
 	}
 
@@ -514,7 +503,7 @@ ContentTimeline::setup_scrollbars()
 
 	_labels_canvas->SetVirtualSize(_labels_view->bbox().width, h);
 	_labels_canvas->SetScrollRate(_x_scroll_rate, _y_scroll_rate);
-	_main_canvas->SetVirtualSize(*_pixels_per_second * film->length().seconds(), h);
+	_main_canvas->SetVirtualSize(*_pixels_per_second * film()->length().seconds(), h);
 	_main_canvas->SetScrollRate(_x_scroll_rate, _y_scroll_rate);
 }
 
@@ -609,15 +598,12 @@ ContentTimeline::left_down_select(wxMouseEvent& ev)
 			continue;
 		}
 
-		auto film = _film.lock();
-		DCPOMATIC_ASSERT(film);
-
 		_start_snaps.push_back(cv->content()->position());
 		_end_snaps.push_back(cv->content()->position());
-		_start_snaps.push_back(cv->content()->end(film));
-		_end_snaps.push_back(cv->content()->end(film));
+		_start_snaps.push_back(cv->content()->end(film()));
+		_end_snaps.push_back(cv->content()->end(film()));
 
-		for (auto i: cv->content()->reel_split_points(film)) {
+		for (auto i: cv->content()->reel_split_points(film())) {
 			_start_snaps.push_back(i);
 		}
 	}
@@ -835,11 +821,8 @@ ContentTimeline::set_position_from_event(wxMouseEvent& ev, bool force_emit)
 
 	auto new_position = _down_view_position + DCPTime::from_seconds((p.x - _down_point.x) / pps);
 
-	auto film = _film.lock();
-	DCPOMATIC_ASSERT(film);
-
 	if (_snap) {
-		auto const new_end = new_position + _down_view->content()->length_after_trim(film);
+		auto const new_end = new_position + _down_view->content()->length_after_trim(film());
 		/* Signed `distance' to nearest thing (i.e. negative is left on the timeline,
 		   positive is right).
 		*/
@@ -867,9 +850,9 @@ ContentTimeline::set_position_from_event(wxMouseEvent& ev, bool force_emit)
 		new_position = DCPTime();
 	}
 
-	_down_view->content()->set_position(film, new_position, force_emit);
+	_down_view->content()->set_position(film(), new_position, force_emit);
 
-	film->set_sequence(false);
+	film()->set_sequence(false);
 }
 
 
@@ -880,8 +863,8 @@ ContentTimeline::force_redraw(dcpomatic::Rect<int> const & r)
 }
 
 
-shared_ptr<const Film>
-ContentTimeline::film() const
+shared_ptr<Film>
+ContentTimeline::film()
 {
 	auto film = _film.lock();
 	DCPOMATIC_ASSERT(film);
@@ -1000,9 +983,7 @@ ContentTimeline::tool_clicked(Tool t)
 void
 ContentTimeline::zoom_all()
 {
-	auto film = _film.lock();
-	DCPOMATIC_ASSERT(film);
-	set_pixels_per_second((_main_canvas->GetSize().GetWidth() - 32) / std::max(1.0, film->length().seconds()));
+	set_pixels_per_second((_main_canvas->GetSize().GetWidth() - 32) / std::max(1.0, film()->length().seconds()));
 	set_pixels_per_track((_main_canvas->GetSize().GetHeight() - tracks_y_offset() - _time_axis_view->bbox().height - 32) / std::max(1, _tracks));
 	setup_scrollbars();
 	_main_canvas->Scroll(0, 0);
@@ -1015,9 +996,7 @@ void
 ContentTimeline::keypress(wxKeyEvent const& event)
 {
 	if (event.GetKeyCode() == WXK_DELETE) {
-		auto film = _film.lock();
-		DCPOMATIC_ASSERT(film);
-		film->remove_content(selected_content());
+		film()->remove_content(selected_content());
 	} else {
 		switch (event.GetRawKeyCode()) {
 		case '+':

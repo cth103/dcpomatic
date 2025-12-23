@@ -49,7 +49,7 @@ class ContentTimeline : public Timeline
 public:
 	ContentTimeline(wxWindow *, ContentPanel *, std::shared_ptr<Film>, FilmViewer& viewer);
 
-	std::shared_ptr<const Film> film() const;
+	std::shared_ptr<Film> film();
 
 	void force_redraw(dcpomatic::Rect<int> const &);
 
