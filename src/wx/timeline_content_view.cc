@@ -42,7 +42,7 @@ TimelineContentView::TimelineContentView(ContentTimeline& tl, shared_ptr<Content
 	: ContentTimelineView(tl)
 	, _content (c)
 {
-	_content_connection = c->Change.connect (bind (&TimelineContentView::content_change, this, _1, _3));
+	_content_connection = c->Change.connect(bind(&TimelineContentView::content_change, this, _1, _2));
 }
 
 
