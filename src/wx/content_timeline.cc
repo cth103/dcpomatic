@@ -408,14 +408,12 @@ place(shared_ptr<const Film> film, ContentTimelineViewList& views, int& tracks)
 struct AudioMappingComparator {
 	bool operator()(shared_ptr<ContentTimelineView> a, shared_ptr<ContentTimelineView> b) {
 		int la = -1;
-		auto cva = dynamic_pointer_cast<ContentTimelineAudioView>(a);
-		if (cva) {
+		if (auto cva = dynamic_pointer_cast<ContentTimelineAudioView>(a)) {
 			auto oc = cva->content()->audio->mapping().mapped_output_channels();
 			la = *min_element(boost::begin(oc), boost::end(oc));
 		}
 		int lb = -1;
-		auto cvb = dynamic_pointer_cast<ContentTimelineAudioView>(b);
-		if (cvb) {
+		if (auto cvb = dynamic_pointer_cast<ContentTimelineAudioView>(b)) {
 			auto oc = cvb->content()->audio->mapping().mapped_output_channels();
 			lb = *min_element(boost::begin(oc), boost::end(oc));
 		}
@@ -443,8 +441,7 @@ ContentTimeline::assign_tracks()
 	_tracks = 0;
 
 	for (auto i: _views) {
-		auto c = dynamic_pointer_cast<TimelineContentView>(i);
-		if (c) {
+		if (auto c = dynamic_pointer_cast<TimelineContentView>(i)) {
 			c->unset_track();
 		}
 	}
@@ -887,8 +884,7 @@ void
 ContentTimeline::clear_selection()
 {
 	for (auto i: _views) {
-		shared_ptr<TimelineContentView> cv = dynamic_pointer_cast<TimelineContentView>(i);
-		if (cv) {
+		if (auto cv = dynamic_pointer_cast<TimelineContentView>(i)) {
 			cv->set_selected(false);
 		}
 	}
@@ -928,8 +924,7 @@ void
 ContentTimeline::set_selection(ContentList selection)
 {
 	for (auto i: _views) {
-		auto cv = dynamic_pointer_cast<TimelineContentView>(i);
-		if (cv) {
+		if (auto cv = dynamic_pointer_cast<TimelineContentView>(i)) {
 			cv->set_selected(find(selection.begin(), selection.end(), cv->content()) != selection.end());
 		}
 	}
