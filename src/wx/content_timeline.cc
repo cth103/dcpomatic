@@ -402,7 +402,7 @@ place(shared_ptr<const Film> film, ContentTimelineViewList& views, int& tracks)
 }
 
 
-/** Compare the mapped output channels of two TimelineViews, so we can into
+/** Compare the mapped output channels of two TimelineViews, so we can sort into
  *  order of first mapped DCP channel.
  */
 struct AudioMappingComparator {
