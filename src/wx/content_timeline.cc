@@ -69,66 +69,66 @@ int const ContentTimeline::_minimum_pixels_per_track = 16;
 
 ContentTimeline::ContentTimeline(wxWindow* parent, ContentPanel* cp, shared_ptr<Film> film, FilmViewer& viewer)
 	: Timeline(parent)
-	, _labels_canvas (new wxScrolledCanvas (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE))
-	, _main_canvas (new wxScrolledCanvas (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE))
-	, _content_panel (cp)
-	, _film (film)
-	, _viewer (viewer)
-	, _time_axis_view (new TimelineTimeAxisView (*this, 64))
-	, _reels_view (new TimelineReelsView (*this, 32))
-	, _labels_view (new TimelineLabelsView (*this))
-	, _tracks (0)
-	, _left_down (false)
-	, _down_view_position (0)
-	, _first_move (false)
-	, _menu (this, viewer)
-	, _snap (true)
-	, _tool (SELECT)
-	, _x_scroll_rate (16)
-	, _y_scroll_rate (16)
-	, _pixels_per_track (48)
-	, _first_resize (true)
-	, _timer (this)
+	, _labels_canvas(new wxScrolledCanvas(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE))
+	, _main_canvas(new wxScrolledCanvas(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE))
+	, _content_panel(cp)
+	, _film(film)
+	, _viewer(viewer)
+	, _time_axis_view(new TimelineTimeAxisView(*this, 64))
+	, _reels_view(new TimelineReelsView(*this, 32))
+	, _labels_view(new TimelineLabelsView(*this))
+	, _tracks(0)
+	, _left_down(false)
+	, _down_view_position(0)
+	, _first_move(false)
+	, _menu(this, viewer)
+	, _snap(true)
+	, _tool(SELECT)
+	, _x_scroll_rate(16)
+	, _y_scroll_rate(16)
+	, _pixels_per_track(48)
+	, _first_resize(true)
+	, _timer(this)
 {
 #ifndef __WXOSX__
-	_labels_canvas->SetDoubleBuffered (true);
-	_main_canvas->SetDoubleBuffered (true);
+	_labels_canvas->SetDoubleBuffered(true);
+	_main_canvas->SetDoubleBuffered(true);
 #endif
 
-	auto sizer = new wxBoxSizer (wxHORIZONTAL);
-	sizer->Add (_labels_canvas, 0, wxEXPAND);
-	_labels_canvas->SetMinSize (wxSize (_labels_view->bbox().width, -1));
-	sizer->Add (_main_canvas, 1, wxEXPAND);
-	SetSizer (sizer);
+	auto sizer = new wxBoxSizer(wxHORIZONTAL);
+	sizer->Add(_labels_canvas, 0, wxEXPAND);
+	_labels_canvas->SetMinSize(wxSize(_labels_view->bbox().width, -1));
+	sizer->Add(_main_canvas, 1, wxEXPAND);
+	SetSizer(sizer);
 
 	_labels_canvas->Bind(wxEVT_PAINT,      boost::bind(&ContentTimeline::paint_labels, this));
-	_main_canvas->Bind  (wxEVT_PAINT,      boost::bind(&ContentTimeline::paint_main,   this));
-	_main_canvas->Bind  (wxEVT_LEFT_DOWN,  boost::bind(&ContentTimeline::left_down,    this, _1));
-	_main_canvas->Bind  (wxEVT_LEFT_UP,    boost::bind(&ContentTimeline::left_up,      this, _1));
-	_main_canvas->Bind  (wxEVT_RIGHT_DOWN, boost::bind(&ContentTimeline::right_down,   this, _1));
-	_main_canvas->Bind  (wxEVT_MOTION,     boost::bind(&ContentTimeline::mouse_moved,  this, _1));
-	_main_canvas->Bind  (wxEVT_SIZE,       boost::bind(&ContentTimeline::resized,      this));
-	_main_canvas->Bind  (wxEVT_MOUSEWHEEL, boost::bind(&ContentTimeline::mouse_wheel_turned, this, _1));
-	_main_canvas->Bind  (wxEVT_SCROLLWIN_TOP,        boost::bind(&ContentTimeline::scrolled,     this, _1));
-	_main_canvas->Bind  (wxEVT_SCROLLWIN_BOTTOM,     boost::bind(&ContentTimeline::scrolled,     this, _1));
-	_main_canvas->Bind  (wxEVT_SCROLLWIN_LINEUP,     boost::bind(&ContentTimeline::scrolled,     this, _1));
-	_main_canvas->Bind  (wxEVT_SCROLLWIN_LINEDOWN,   boost::bind(&ContentTimeline::scrolled,     this, _1));
-	_main_canvas->Bind  (wxEVT_SCROLLWIN_PAGEUP,     boost::bind(&ContentTimeline::scrolled,     this, _1));
-	_main_canvas->Bind  (wxEVT_SCROLLWIN_PAGEDOWN,   boost::bind(&ContentTimeline::scrolled,     this, _1));
-	_main_canvas->Bind  (wxEVT_SCROLLWIN_THUMBTRACK, boost::bind(&ContentTimeline::scrolled,     this, _1));
+	_main_canvas->Bind(wxEVT_PAINT,      boost::bind(&ContentTimeline::paint_main,   this));
+	_main_canvas->Bind(wxEVT_LEFT_DOWN,  boost::bind(&ContentTimeline::left_down,    this, _1));
+	_main_canvas->Bind(wxEVT_LEFT_UP,    boost::bind(&ContentTimeline::left_up,      this, _1));
+	_main_canvas->Bind(wxEVT_RIGHT_DOWN, boost::bind(&ContentTimeline::right_down,   this, _1));
+	_main_canvas->Bind(wxEVT_MOTION,     boost::bind(&ContentTimeline::mouse_moved,  this, _1));
+	_main_canvas->Bind(wxEVT_SIZE,       boost::bind(&ContentTimeline::resized,      this));
+	_main_canvas->Bind(wxEVT_MOUSEWHEEL, boost::bind(&ContentTimeline::mouse_wheel_turned, this, _1));
+	_main_canvas->Bind(wxEVT_SCROLLWIN_TOP,        boost::bind(&ContentTimeline::scrolled,     this, _1));
+	_main_canvas->Bind(wxEVT_SCROLLWIN_BOTTOM,     boost::bind(&ContentTimeline::scrolled,     this, _1));
+	_main_canvas->Bind(wxEVT_SCROLLWIN_LINEUP,     boost::bind(&ContentTimeline::scrolled,     this, _1));
+	_main_canvas->Bind(wxEVT_SCROLLWIN_LINEDOWN,   boost::bind(&ContentTimeline::scrolled,     this, _1));
+	_main_canvas->Bind(wxEVT_SCROLLWIN_PAGEUP,     boost::bind(&ContentTimeline::scrolled,     this, _1));
+	_main_canvas->Bind(wxEVT_SCROLLWIN_PAGEDOWN,   boost::bind(&ContentTimeline::scrolled,     this, _1));
+	_main_canvas->Bind(wxEVT_SCROLLWIN_THUMBTRACK, boost::bind(&ContentTimeline::scrolled,     this, _1));
 
 	film_change(ChangeType::DONE, FilmProperty::CONTENT);
 
-	SetMinSize (wxSize (640, 4 * pixels_per_track() + 96));
+	SetMinSize(wxSize(640, 4 * pixels_per_track() + 96));
 
 	_film_changed_connection = film->Change.connect(bind(&ContentTimeline::film_change, this, _1, _2));
 	_film_content_change_connection = film->ContentChange.connect(bind(&ContentTimeline::film_content_change, this, _1, _2, _3));
 
 	Bind(wxEVT_TIMER, boost::bind(&ContentTimeline::update_playhead, this));
-	_timer.Start (200, wxTIMER_CONTINUOUS);
+	_timer.Start(200, wxTIMER_CONTINUOUS);
 
-	setup_scrollbars ();
-	_labels_canvas->ShowScrollbars (wxSHOW_SB_NEVER, wxSHOW_SB_NEVER);
+	setup_scrollbars();
+	_labels_canvas->ShowScrollbars(wxSHOW_SB_NEVER, wxSHOW_SB_NEVER);
 }
 
 
@@ -179,21 +179,21 @@ ContentTimeline::mouse_wheel_turned(wxMouseEvent& event)
 void
 ContentTimeline::update_playhead()
 {
-	Refresh ();
+	Refresh();
 }
 
 
 void
 ContentTimeline::paint_labels()
 {
-	wxPaintDC dc (_labels_canvas);
+	wxPaintDC dc(_labels_canvas);
 
 	auto film = _film.lock();
 	if (film->content().empty()) {
 		return;
 	}
 
-	auto gc = wxGraphicsContext::Create (dc);
+	auto gc = wxGraphicsContext::Create(dc);
 	if (!gc) {
 		return;
 	}
@@ -201,17 +201,17 @@ ContentTimeline::paint_labels()
 	dcp::ScopeGuard sg = [gc]() { delete gc; };
 
 	int vsx, vsy;
-	_labels_canvas->GetViewStart (&vsx, &vsy);
-	gc->Translate (-vsx * _x_scroll_rate, -vsy * _y_scroll_rate + tracks_y_offset());
+	_labels_canvas->GetViewStart(&vsx, &vsy);
+	gc->Translate(-vsx * _x_scroll_rate, -vsy * _y_scroll_rate + tracks_y_offset());
 
-	_labels_view->paint (gc, {});
+	_labels_view->paint(gc, {});
 }
 
 
 void
 ContentTimeline::paint_main()
 {
-	wxPaintDC dc (_main_canvas);
+	wxPaintDC dc(_main_canvas);
 	dc.Clear();
 
 	auto film = _film.lock();
@@ -219,25 +219,25 @@ ContentTimeline::paint_main()
 		return;
 	}
 
-	_main_canvas->DoPrepareDC (dc);
+	_main_canvas->DoPrepareDC(dc);
 
-	auto gc = wxGraphicsContext::Create (dc);
+	auto gc = wxGraphicsContext::Create(dc);
 	if (!gc) {
 		return;
 	}
 
 	dcp::ScopeGuard sg = [gc]() { delete gc; };
 
-	gc->SetAntialiasMode (wxANTIALIAS_DEFAULT);
+	gc->SetAntialiasMode(wxANTIALIAS_DEFAULT);
 
 	for (auto i: _views) {
 
-		auto ic = dynamic_pointer_cast<TimelineContentView> (i);
+		auto ic = dynamic_pointer_cast<TimelineContentView>(i);
 
 		/* Find areas of overlap with other content views, so that we can plot them */
 		list<dcpomatic::Rect<int>> overlaps;
 		for (auto j: _views) {
-			auto jc = dynamic_pointer_cast<TimelineContentView> (j);
+			auto jc = dynamic_pointer_cast<TimelineContentView>(j);
 			/* No overlap with non-content views, views on different tracks, audio views or non-active views */
 			if (!ic || !jc || i == j || ic->track() != jc->track() || ic->track().get_value_or(2) >= 2 || !ic->active() || !jc->active()) {
 				continue;
@@ -245,32 +245,32 @@ ContentTimeline::paint_main()
 
 			auto r = j->bbox().intersection(i->bbox());
 			if (r) {
-				overlaps.push_back (r.get ());
+				overlaps.push_back(r.get());
 			}
 		}
 
-		i->paint (gc, overlaps);
+		i->paint(gc, overlaps);
 	}
 
 	if (_zoom_point) {
 		gc->SetPen(gui_is_dark() ? *wxWHITE_PEN : *wxBLACK_PEN);
-		gc->SetBrush (*wxTRANSPARENT_BRUSH);
-		gc->DrawRectangle (
-			min (_down_point.x, _zoom_point->x),
-			min (_down_point.y, _zoom_point->y),
-			abs (_down_point.x - _zoom_point->x),
-			abs (_down_point.y - _zoom_point->y)
+		gc->SetBrush(*wxTRANSPARENT_BRUSH);
+		gc->DrawRectangle(
+			min(_down_point.x, _zoom_point->x),
+			min(_down_point.y, _zoom_point->y),
+			abs(_down_point.x - _zoom_point->x),
+			abs(_down_point.y - _zoom_point->y)
 			);
 	}
 
 	/* Playhead */
 
-	gc->SetPen (*wxRED_PEN);
-	auto path = gc->CreatePath ();
+	gc->SetPen(*wxRED_PEN);
+	auto path = gc->CreatePath();
 	double const ph = _viewer.position().seconds() * pixels_per_second().get_value_or(0);
-	path.MoveToPoint (ph, 0);
-	path.AddLineToPoint (ph, pixels_per_track() * _tracks + 32);
-	gc->StrokePath (path);
+	path.MoveToPoint(ph, 0);
+	path.AddLineToPoint(ph, pixels_per_track() * _tracks + 32);
+	gc->StrokePath(path);
 }
 
 
@@ -282,10 +282,10 @@ ContentTimeline::film_change(ChangeType type, FilmProperty p)
 	}
 
 	if (p == FilmProperty::CONTENT || p == FilmProperty::REEL_TYPE || p == FilmProperty::REEL_LENGTH) {
-		ensure_ui_thread ();
-		recreate_views ();
+		ensure_ui_thread();
+		recreate_views();
 	} else if (p == FilmProperty::CONTENT_ORDER) {
-		Refresh ();
+		Refresh();
 	}
 }
 
@@ -293,16 +293,16 @@ ContentTimeline::film_change(ChangeType type, FilmProperty p)
 void
 ContentTimeline::recreate_views()
 {
-	auto film = _film.lock ();
+	auto film = _film.lock();
 	if (!film) {
 		return;
 	}
 
-	_views.clear ();
-	_views.push_back (_time_axis_view);
-	_views.push_back (_reels_view);
+	_views.clear();
+	_views.push_back(_time_axis_view);
+	_views.push_back(_reels_view);
 
-	for (auto i: film->content ()) {
+	for (auto i: film->content()) {
 		if (i->video) {
 			_views.push_back(make_shared<ContentTimelineVideoView>(*this, i));
 		}
@@ -320,9 +320,9 @@ ContentTimeline::recreate_views()
 		}
 	}
 
-	assign_tracks ();
-	setup_scrollbars ();
-	Refresh ();
+	assign_tracks();
+	setup_scrollbars();
+	Refresh();
 }
 
 
@@ -333,21 +333,21 @@ ContentTimeline::film_content_change(ChangeType type, int property, bool frequen
 		return;
 	}
 
-	ensure_ui_thread ();
+	ensure_ui_thread();
 
 	switch (property) {
 	case AudioContentProperty::STREAMS:
 	case VideoContentProperty::FRAME_TYPE:
-		recreate_views ();
+		recreate_views();
 		break;
 	case ContentProperty::POSITION:
 	case ContentProperty::LENGTH:
-		_reels_view->force_redraw ();
+		_reels_view->force_redraw();
 		break;
 	default:
 		if (!frequent) {
-			setup_scrollbars ();
-			Refresh ();
+			setup_scrollbars();
+			Refresh();
 		}
 		break;
 	}
@@ -365,7 +365,7 @@ place(shared_ptr<const Film> film, ContentTimelineViewList& views, int& tracks)
 			continue;
 		}
 
-		auto cv = dynamic_pointer_cast<TimelineContentView> (i);
+		auto cv = dynamic_pointer_cast<TimelineContentView>(i);
 		DCPOMATIC_ASSERT(cv);
 
 		int t = base;
@@ -376,7 +376,7 @@ place(shared_ptr<const Film> film, ContentTimelineViewList& views, int& tracks)
 		while (true) {
 			auto j = views.begin();
 			while (j != views.end()) {
-				auto test = dynamic_pointer_cast<T> (*j);
+				auto test = dynamic_pointer_cast<T>(*j);
 				if (!test) {
 					++j;
 					continue;
@@ -395,14 +395,14 @@ place(shared_ptr<const Film> film, ContentTimelineViewList& views, int& tracks)
 				++j;
 			}
 
-			if (j == views.end ()) {
+			if (j == views.end()) {
 				/* no overlap on `t' */
 				break;
 			}
 		}
 
-		cv->set_track (t);
-		tracks = max (tracks, t + 1);
+		cv->set_track(t);
+		tracks = max(tracks, t + 1);
 	}
 
 	return tracks - base;
@@ -447,15 +447,15 @@ ContentTimeline::assign_tracks()
 	   Audio N
 	*/
 
-	auto film = _film.lock ();
-	DCPOMATIC_ASSERT (film);
+	auto film = _film.lock();
+	DCPOMATIC_ASSERT(film);
 
 	_tracks = 0;
 
 	for (auto i: _views) {
 		auto c = dynamic_pointer_cast<TimelineContentView>(i);
 		if (c) {
-			c->unset_track ();
+			c->unset_track();
 		}
 	}
 
@@ -468,7 +468,7 @@ ContentTimeline::assign_tracks()
 	for (auto i: _views) {
 		auto cv = dynamic_pointer_cast<ContentTimelineAtmosView>(i);
 		if (cv) {
-			cv->set_track (_tracks);
+			cv->set_track(_tracks);
 			have_atmos = true;
 		}
 	}
@@ -485,13 +485,13 @@ ContentTimeline::assign_tracks()
 	sort(views.begin(), views.end(), AudioMappingComparator());
 	int const audio_tracks = place<ContentTimelineAudioView>(film, views, _tracks);
 
-	_labels_view->set_video_tracks (video_tracks);
-	_labels_view->set_audio_tracks (audio_tracks);
-	_labels_view->set_text_tracks (text_tracks);
-	_labels_view->set_atmos (have_atmos);
+	_labels_view->set_video_tracks(video_tracks);
+	_labels_view->set_audio_tracks(audio_tracks);
+	_labels_view->set_text_tracks(text_tracks);
+	_labels_view->set_atmos(have_atmos);
 
-	_time_axis_view->set_y (tracks());
-	_reels_view->set_y (8);
+	_time_axis_view->set_y(tracks());
+	_reels_view->set_y(8);
 }
 
 
@@ -505,17 +505,17 @@ ContentTimeline::tracks() const
 void
 ContentTimeline::setup_scrollbars()
 {
-	auto film = _film.lock ();
+	auto film = _film.lock();
 	if (!film || !_pixels_per_second) {
 		return;
 	}
 
 	int const h = tracks() * pixels_per_track() + tracks_y_offset() + _time_axis_view->bbox().height;
 
-	_labels_canvas->SetVirtualSize (_labels_view->bbox().width, h);
-	_labels_canvas->SetScrollRate (_x_scroll_rate, _y_scroll_rate);
-	_main_canvas->SetVirtualSize (*_pixels_per_second * film->length().seconds(), h);
-	_main_canvas->SetScrollRate (_x_scroll_rate, _y_scroll_rate);
+	_labels_canvas->SetVirtualSize(_labels_view->bbox().width, h);
+	_labels_canvas->SetScrollRate(_x_scroll_rate, _y_scroll_rate);
+	_main_canvas->SetVirtualSize(*_pixels_per_second * film->length().seconds(), h);
+	_main_canvas->SetScrollRate(_x_scroll_rate, _y_scroll_rate);
 }
 
 
@@ -526,14 +526,14 @@ ContentTimeline::event_to_view(wxMouseEvent& ev)
 	auto i = _views.rbegin();
 
 	int vsx, vsy;
-	_main_canvas->GetViewStart (&vsx, &vsy);
-	Position<int> const p (ev.GetX() + vsx * _x_scroll_rate, ev.GetY() + vsy * _y_scroll_rate);
+	_main_canvas->GetViewStart(&vsx, &vsy);
+	Position<int> const p(ev.GetX() + vsx * _x_scroll_rate, ev.GetY() + vsy * _y_scroll_rate);
 
-	while (i != _views.rend() && !(*i)->bbox().contains (p)) {
+	while (i != _views.rend() && !(*i)->bbox().contains(p)) {
 		++i;
 	}
 
-	if (i == _views.rend ()) {
+	if (i == _views.rend()) {
 		return {};
 	}
 
@@ -545,11 +545,11 @@ void
 ContentTimeline::left_down(wxMouseEvent& ev)
 {
 	_left_down = true;
-	_down_point = ev.GetPosition ();
+	_down_point = ev.GetPosition();
 
 	switch (_tool) {
 	case SELECT:
-		left_down_select (ev);
+		left_down_select(ev);
 		break;
 	case ZOOM:
 	case ZOOM_ALL:
@@ -564,10 +564,10 @@ ContentTimeline::left_down(wxMouseEvent& ev)
 void
 ContentTimeline::left_down_select(wxMouseEvent& ev)
 {
-	auto view = event_to_view (ev);
+	auto view = event_to_view(ev);
 	auto content_view = dynamic_pointer_cast<TimelineContentView>(view);
 
-	_down_view.reset ();
+	_down_view.reset();
 	_first_move = false;
 
 	if (dynamic_pointer_cast<TimelineTimeAxisView>(view)) {
@@ -588,11 +588,11 @@ ContentTimeline::left_down_select(wxMouseEvent& ev)
 	}
 
 	_down_view = content_view;
-	_down_view_position = content_view->content()->position ();
+	_down_view_position = content_view->content()->position();
 
 	if (ev.ShiftDown()) {
 		/* Toggle */
-		content_view->set_selected (!content_view->selected ());
+		content_view->set_selected(!content_view->selected());
 	} else if (!content_view->selected()) {
 		/* Select one */
 		for (auto i: _views) {
@@ -609,21 +609,21 @@ ContentTimeline::left_down_select(wxMouseEvent& ev)
 			continue;
 		}
 
-		auto film = _film.lock ();
-		DCPOMATIC_ASSERT (film);
+		auto film = _film.lock();
+		DCPOMATIC_ASSERT(film);
 
-		_start_snaps.push_back (cv->content()->position());
-		_end_snaps.push_back (cv->content()->position());
-		_start_snaps.push_back (cv->content()->end(film));
-		_end_snaps.push_back (cv->content()->end(film));
+		_start_snaps.push_back(cv->content()->position());
+		_end_snaps.push_back(cv->content()->position());
+		_start_snaps.push_back(cv->content()->end(film));
+		_end_snaps.push_back(cv->content()->end(film));
 
 		for (auto i: cv->content()->reel_split_points(film)) {
-			_start_snaps.push_back (i);
+			_start_snaps.push_back(i);
 		}
 	}
 
 	/* Tell everyone that things might change frequently during the drag */
-	_down_view->content()->set_change_signals_frequent (true);
+	_down_view->content()->set_change_signals_frequent(true);
 }
 
 
@@ -634,10 +634,10 @@ ContentTimeline::left_up(wxMouseEvent& ev)
 
 	switch (_tool) {
 	case SELECT:
-		left_up_select (ev);
+		left_up_select(ev);
 		break;
 	case ZOOM:
-		left_up_zoom (ev);
+		left_up_zoom(ev);
 		break;
 	case ZOOM_ALL:
 	case SNAP:
@@ -651,60 +651,60 @@ void
 ContentTimeline::left_up_select(wxMouseEvent& ev)
 {
 	if (_down_view) {
-		_down_view->content()->set_change_signals_frequent (false);
+		_down_view->content()->set_change_signals_frequent(false);
 	}
 
-	_content_panel->set_selection (selected_content ());
+	_content_panel->set_selection(selected_content());
 	/* Since we may have just set change signals back to `not-frequent', we have to
 	   make sure this position change is signalled, even if the position value has
 	   not changed since the last time it was set (with frequent=true).  This is
 	   a bit of a hack.
 	*/
-	set_position_from_event (ev, true);
+	set_position_from_event(ev, true);
 
 	/* Clear up up the stuff we don't do during drag */
-	assign_tracks ();
-	setup_scrollbars ();
-	Refresh ();
+	assign_tracks();
+	setup_scrollbars();
+	Refresh();
 
-	_start_snaps.clear ();
-	_end_snaps.clear ();
+	_start_snaps.clear();
+	_end_snaps.clear();
 }
 
 
 void
 ContentTimeline::left_up_zoom(wxMouseEvent& ev)
 {
-	_zoom_point = ev.GetPosition ();
+	_zoom_point = ev.GetPosition();
 
 	int vsx, vsy;
-	_main_canvas->GetViewStart (&vsx, &vsy);
+	_main_canvas->GetViewStart(&vsx, &vsy);
 
 	wxPoint top_left(min(_down_point.x, _zoom_point->x), min(_down_point.y, _zoom_point->y));
 	wxPoint bottom_right(max(_down_point.x, _zoom_point->x), max(_down_point.y, _zoom_point->y));
 
 	if ((bottom_right.x - top_left.x) < 8 || (bottom_right.y - top_left.y) < 8) {
 		/* Very small zoom rectangle: we assume it wasn't intentional */
-		_zoom_point = optional<wxPoint> ();
-		Refresh ();
+		_zoom_point = optional<wxPoint>();
+		Refresh();
 		return;
 	}
 
 	auto const time_left = DCPTime::from_seconds((top_left.x + vsx) / *_pixels_per_second);
 	auto const time_right = DCPTime::from_seconds((bottom_right.x + vsx) / *_pixels_per_second);
-	set_pixels_per_second (double(GetSize().GetWidth()) / (time_right.seconds() - time_left.seconds()));
+	set_pixels_per_second(double(GetSize().GetWidth()) / (time_right.seconds() - time_left.seconds()));
 
 	double const tracks_top = double(top_left.y - tracks_y_offset()) / _pixels_per_track;
 	double const tracks_bottom = double(bottom_right.y - tracks_y_offset()) / _pixels_per_track;
-	set_pixels_per_track (lrint(GetSize().GetHeight() / (tracks_bottom - tracks_top)));
+	set_pixels_per_track(lrint(GetSize().GetHeight() / (tracks_bottom - tracks_top)));
 
-	setup_scrollbars ();
+	setup_scrollbars();
 	int const y = (tracks_top * _pixels_per_track + tracks_y_offset()) / _y_scroll_rate;
-	_main_canvas->Scroll (time_left.seconds() * *_pixels_per_second / _x_scroll_rate, y);
-	_labels_canvas->Scroll (0, y);
+	_main_canvas->Scroll(time_left.seconds() * *_pixels_per_second / _x_scroll_rate, y);
+	_labels_canvas->Scroll(0, y);
 
-	_zoom_point = optional<wxPoint> ();
-	Refresh ();
+	_zoom_point = optional<wxPoint>();
+	Refresh();
 }
 
 
@@ -720,10 +720,10 @@ ContentTimeline::mouse_moved(wxMouseEvent& ev)
 {
 	switch (_tool) {
 	case SELECT:
-		mouse_moved_select (ev);
+		mouse_moved_select(ev);
 		break;
 	case ZOOM:
-		mouse_moved_zoom (ev);
+		mouse_moved_zoom(ev);
 		break;
 	case ZOOM_ALL:
 	case SNAP:
@@ -740,7 +740,7 @@ ContentTimeline::mouse_moved_select(wxMouseEvent& ev)
 		return;
 	}
 
-	set_position_from_event (ev);
+	set_position_from_event(ev);
 }
 
 
@@ -751,9 +751,9 @@ ContentTimeline::mouse_moved_zoom(wxMouseEvent& ev)
 		return;
 	}
 
-	_zoom_point = ev.GetPosition ();
+	_zoom_point = ev.GetPosition();
 	setup_scrollbars();
-	Refresh ();
+	Refresh();
 }
 
 
@@ -762,14 +762,14 @@ ContentTimeline::right_down(wxMouseEvent& ev)
 {
 	switch (_tool) {
 	case SELECT:
-		right_down_select (ev);
+		right_down_select(ev);
 		break;
 	case ZOOM:
 		/* Zoom out */
-		set_pixels_per_second (*_pixels_per_second / 2);
-		set_pixels_per_track (_pixels_per_track / 2);
-		setup_scrollbars ();
-		Refresh ();
+		set_pixels_per_second(*_pixels_per_second / 2);
+		set_pixels_per_track(_pixels_per_track / 2);
+		setup_scrollbars();
+		Refresh();
 		break;
 	case ZOOM_ALL:
 	case SNAP:
@@ -782,18 +782,18 @@ ContentTimeline::right_down(wxMouseEvent& ev)
 void
 ContentTimeline::right_down_select(wxMouseEvent& ev)
 {
-	auto view = event_to_view (ev);
-	auto cv = dynamic_pointer_cast<TimelineContentView> (view);
+	auto view = event_to_view(ev);
+	auto cv = dynamic_pointer_cast<TimelineContentView>(view);
 	if (!cv) {
 		return;
 	}
 
-	if (!cv->selected ()) {
-		clear_selection ();
-		cv->set_selected (true);
+	if (!cv->selected()) {
+		clear_selection();
+		cv->set_selected(true);
 	}
 
-	_menu.popup (_film, selected_content (), selected_views (), ev.GetPosition ());
+	_menu.popup(_film, selected_content(), selected_views(), ev.GetPosition());
 }
 
 
@@ -814,7 +814,7 @@ ContentTimeline::set_position_from_event(wxMouseEvent& ev, bool force_emit)
 		return;
 	}
 
-	double const pps = _pixels_per_second.get ();
+	double const pps = _pixels_per_second.get();
 
 	auto const p = ev.GetPosition();
 
@@ -822,7 +822,7 @@ ContentTimeline::set_position_from_event(wxMouseEvent& ev, bool force_emit)
 		/* We haven't moved yet; in that case, we must move the mouse some reasonable distance
 		   before the drag is considered to have started.
 		*/
-		int const dist = sqrt (pow (p.x - _down_point.x, 2) + pow (p.y - _down_point.y, 2));
+		int const dist = sqrt(pow(p.x - _down_point.x, 2) + pow(p.y - _down_point.y, 2));
 		if (dist < 8) {
 			return;
 		}
@@ -833,10 +833,10 @@ ContentTimeline::set_position_from_event(wxMouseEvent& ev, bool force_emit)
 		return;
 	}
 
-	auto new_position = _down_view_position + DCPTime::from_seconds ((p.x - _down_point.x) / pps);
+	auto new_position = _down_view_position + DCPTime::from_seconds((p.x - _down_point.x) / pps);
 
-	auto film = _film.lock ();
-	DCPOMATIC_ASSERT (film);
+	auto film = _film.lock();
+	DCPOMATIC_ASSERT(film);
 
 	if (_snap) {
 		auto const new_end = new_position + _down_view->content()->length_after_trim(film);
@@ -848,42 +848,42 @@ ContentTimeline::set_position_from_event(wxMouseEvent& ev, bool force_emit)
 		/* Find the nearest snap point */
 
 		for (auto i: _start_snaps) {
-			maybe_snap (i, new_position, nearest_distance);
+			maybe_snap(i, new_position, nearest_distance);
 		}
 
 		for (auto i: _end_snaps) {
-			maybe_snap (i, new_end, nearest_distance);
+			maybe_snap(i, new_end, nearest_distance);
 		}
 
 		if (nearest_distance) {
 			/* Snap if it's close; `close' means within a proportion of the time on the timeline */
-			if (nearest_distance.get().abs() < DCPTime::from_seconds ((width() / pps) / SNAP_SUBDIVISION)) {
-				new_position += nearest_distance.get ();
+			if (nearest_distance.get().abs() < DCPTime::from_seconds((width() / pps) / SNAP_SUBDIVISION)) {
+				new_position += nearest_distance.get();
 			}
 		}
 	}
 
-	if (new_position < DCPTime ()) {
-		new_position = DCPTime ();
+	if (new_position < DCPTime()) {
+		new_position = DCPTime();
 	}
 
-	_down_view->content()->set_position (film, new_position, force_emit);
+	_down_view->content()->set_position(film, new_position, force_emit);
 
-	film->set_sequence (false);
+	film->set_sequence(false);
 }
 
 
 void
 ContentTimeline::force_redraw(dcpomatic::Rect<int> const & r)
 {
-	_main_canvas->RefreshRect (wxRect (r.x, r.y, r.width, r.height), false);
+	_main_canvas->RefreshRect(wxRect(r.x, r.y, r.width, r.height), false);
 }
 
 
 shared_ptr<const Film>
 ContentTimeline::film() const
 {
-	return _film.lock ();
+	return _film.lock();
 }
 
 
@@ -891,10 +891,10 @@ void
 ContentTimeline::resized()
 {
 	if (_main_canvas->GetSize().GetWidth() > 0 && _first_resize) {
-		zoom_all ();
+		zoom_all();
 		_first_resize = false;
 	}
-	setup_scrollbars ();
+	setup_scrollbars();
 }
 
 
@@ -904,7 +904,7 @@ ContentTimeline::clear_selection()
 	for (auto i: _views) {
 		shared_ptr<TimelineContentView> cv = dynamic_pointer_cast<TimelineContentView>(i);
 		if (cv) {
-			cv->set_selected (false);
+			cv->set_selected(false);
 		}
 	}
 }
@@ -918,7 +918,7 @@ ContentTimeline::selected_views() const
 	for (auto i: _views) {
 		auto cv = dynamic_pointer_cast<TimelineContentView>(i);
 		if (cv && cv->selected()) {
-			sel.push_back (cv);
+			sel.push_back(cv);
 		}
 	}
 
@@ -943,9 +943,9 @@ void
 ContentTimeline::set_selection(ContentList selection)
 {
 	for (auto i: _views) {
-		auto cv = dynamic_pointer_cast<TimelineContentView> (i);
+		auto cv = dynamic_pointer_cast<TimelineContentView>(i);
 		if (cv) {
-			cv->set_selected (find (selection.begin(), selection.end(), cv->content ()) != selection.end ());
+			cv->set_selected(find(selection.begin(), selection.end(), cv->content()) != selection.end());
 		}
 	}
 }
@@ -970,10 +970,10 @@ ContentTimeline::scrolled(wxScrollWinEvent& ev)
 {
 	if (ev.GetOrientation() == wxVERTICAL) {
 		int x, y;
-		_main_canvas->GetViewStart (&x, &y);
-		_labels_canvas->Scroll (0, y);
+		_main_canvas->GetViewStart(&x, &y);
+		_labels_canvas->Scroll(0, y);
 	}
-	ev.Skip ();
+	ev.Skip();
 }
 
 
@@ -986,7 +986,7 @@ ContentTimeline::tool_clicked(Tool t)
 		_tool = t;
 		break;
 	case ZOOM_ALL:
-		zoom_all ();
+		zoom_all();
 		break;
 	case SNAP:
 	case SEQUENCE:
@@ -998,14 +998,14 @@ ContentTimeline::tool_clicked(Tool t)
 void
 ContentTimeline::zoom_all()
 {
-	auto film = _film.lock ();
-	DCPOMATIC_ASSERT (film);
+	auto film = _film.lock();
+	DCPOMATIC_ASSERT(film);
 	set_pixels_per_second((_main_canvas->GetSize().GetWidth() - 32) / std::max(1.0, film->length().seconds()));
 	set_pixels_per_track((_main_canvas->GetSize().GetHeight() - tracks_y_offset() - _time_axis_view->bbox().height - 32) / std::max(1, _tracks));
-	setup_scrollbars ();
-	_main_canvas->Scroll (0, 0);
-	_labels_canvas->Scroll (0, 0);
-	Refresh ();
+	setup_scrollbars();
+	_main_canvas->Scroll(0, 0);
+	_labels_canvas->Scroll(0, 0);
+	Refresh();
 }
 
 

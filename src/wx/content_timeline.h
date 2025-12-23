@@ -49,27 +49,27 @@ class ContentTimeline : public Timeline
 public:
 	ContentTimeline(wxWindow *, ContentPanel *, std::shared_ptr<Film>, FilmViewer& viewer);
 
-	std::shared_ptr<const Film> film () const;
+	std::shared_ptr<const Film> film() const;
 
-	void force_redraw (dcpomatic::Rect<int> const &);
+	void force_redraw(dcpomatic::Rect<int> const &);
 
-	int width () const;
+	int width() const;
 
-	int pixels_per_track () const {
+	int pixels_per_track() const {
 		return _pixels_per_track;
 	}
 
-	int tracks () const;
+	int tracks() const;
 
-	void set_snap (bool s) {
+	void set_snap(bool s) {
 		_snap = s;
 	}
 
-	bool snap () const {
+	bool snap() const {
 		return _snap;
 	}
 
-	void set_selection (ContentList selection);
+	void set_selection(ContentList selection);
 
 	enum Tool {
 		SELECT,
@@ -79,43 +79,43 @@ public:
 		SEQUENCE
 	};
 
-	void tool_clicked (Tool t);
+	void tool_clicked(Tool t);
 
-	int tracks_y_offset () const;
+	int tracks_y_offset() const;
 
 	void keypress(wxKeyEvent const &);
 
 private:
-	void paint_labels ();
-	void paint_main ();
-	void left_down (wxMouseEvent &);
-	void left_down_select (wxMouseEvent &);
-	void left_up (wxMouseEvent &);
-	void left_up_select (wxMouseEvent &);
-	void left_up_zoom (wxMouseEvent &);
-	void right_down (wxMouseEvent &);
-	void right_down_select (wxMouseEvent &);
-	void mouse_moved (wxMouseEvent &);
-	void mouse_moved_select (wxMouseEvent &);
-	void mouse_moved_zoom (wxMouseEvent &);
+	void paint_labels();
+	void paint_main();
+	void left_down(wxMouseEvent &);
+	void left_down_select(wxMouseEvent &);
+	void left_up(wxMouseEvent &);
+	void left_up_select(wxMouseEvent &);
+	void left_up_zoom(wxMouseEvent &);
+	void right_down(wxMouseEvent &);
+	void right_down_select(wxMouseEvent &);
+	void mouse_moved(wxMouseEvent &);
+	void mouse_moved_select(wxMouseEvent &);
+	void mouse_moved_zoom(wxMouseEvent &);
 	void film_change(ChangeType type, FilmProperty);
-	void film_content_change (ChangeType type, int, bool frequent);
-	void resized ();
-	void assign_tracks ();
-	void set_position_from_event (wxMouseEvent& ev, bool force_emit = false);
-	void clear_selection ();
-	void recreate_views ();
-	void setup_scrollbars ();
-	void scrolled (wxScrollWinEvent& ev);
-	void set_pixels_per_track (int h);
-	void zoom_all ();
-	void update_playhead ();
+	void film_content_change(ChangeType type, int, bool frequent);
+	void resized();
+	void assign_tracks();
+	void set_position_from_event(wxMouseEvent& ev, bool force_emit = false);
+	void clear_selection();
+	void recreate_views();
+	void setup_scrollbars();
+	void scrolled(wxScrollWinEvent& ev);
+	void set_pixels_per_track(int h);
+	void zoom_all();
+	void update_playhead();
 	void mouse_wheel_turned(wxMouseEvent& event);
 
 	std::shared_ptr<ContentTimelineView> event_to_view(wxMouseEvent &);
-	TimelineContentViewList selected_views () const;
-	ContentList selected_content () const;
-	void maybe_snap (dcpomatic::DCPTime a, dcpomatic::DCPTime b, boost::optional<dcpomatic::DCPTime>& nearest_distance) const;
+	TimelineContentViewList selected_views() const;
+	ContentList selected_content() const;
+	void maybe_snap(dcpomatic::DCPTime a, dcpomatic::DCPTime b, boost::optional<dcpomatic::DCPTime>& nearest_distance) const;
 
 	wxScrolledCanvas* _labels_canvas;
 	wxScrolledCanvas* _main_canvas;
