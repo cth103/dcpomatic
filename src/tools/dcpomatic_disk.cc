@@ -134,11 +134,13 @@ public:
 		int r = 0;
 		add_label_to_sizer(grid, overall_panel, _("DCPs"), true, wxGBPosition(r, 0));
 		auto dcp_sizer = new wxBoxSizer(wxHORIZONTAL);
-		auto dcps = new EditableList<boost::filesystem::path, DirDialogWrapper>(
+		auto dcps = new EditableList<boost::filesystem::path>(
 			overall_panel,
 			{ EditableListColumn(_("DCP"), 300, true) },
 			boost::bind(&DOMFrame::dcp_paths, this),
 			boost::bind(&DOMFrame::set_dcp_paths, this, _1),
+			EditableList<boost::filesystem::path>::add_with_dialog<DirDialogWrapper>,
+			EditableList<boost::filesystem::path>::edit_with_dialog<DirDialogWrapper>,
 			[](boost::filesystem::path p, int) { return p.filename().string(); },
 			EditableListTitle::INVISIBLE,
 			EditableListButton::NEW | EditableListButton::REMOVE
