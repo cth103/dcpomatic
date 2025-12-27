@@ -177,7 +177,7 @@ ClosedCaptionsDialog::update()
 		auto track = _tracks[_track->GetSelection()];
 		if (butler) {
 			while (true) {
-				optional<TextRingBuffers::Data> d = butler->get_closed_caption();
+				auto d = butler->get_closed_caption();
 				if (!d) {
 					break;
 				}
