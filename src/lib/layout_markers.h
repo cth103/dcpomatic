@@ -74,7 +74,7 @@ class AllocationRow
 public:
 	AllocationRow() = default;
 
-	/** @return true if allocation succeded, otherwise false */
+	/** @return true if allocation succeeded, otherwise false */
 	bool allocate(int x1, int x2);
 
 private:
