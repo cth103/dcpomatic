@@ -94,7 +94,7 @@ ClosedCaptionsDialog::shown(wxShowEvent ev)
 void
 ClosedCaptionsDialog::track_selected()
 {
-	_current = optional<TextRingBuffers::Data>();
+	_current = {};
 	_viewer->slow_refresh();
 	update();
 }
@@ -166,7 +166,7 @@ ClosedCaptionsDialog::update()
 			_lines[j] = wxString{};
 		}
 		Refresh();
-		_current = optional<TextRingBuffers::Data>();
+		_current = {};
 	}
 
 	if (!_current && !_tracks.empty()) {
@@ -224,7 +224,7 @@ ClosedCaptionsDialog::update()
 void
 ClosedCaptionsDialog::clear()
 {
-	_current = optional<TextRingBuffers::Data>();
+	_current = {};
 	_current_in_lines = false;
 	Refresh();
 }
