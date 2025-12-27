@@ -25,6 +25,7 @@
 #include "lib/butler.h"
 #include "lib/constants.h"
 #include "lib/film.h"
+#include "lib/layout_closed_captions.h"
 #include "lib/string_text.h"
 #include "lib/text_content.h"
 #include <boost/bind/bind.hpp>
@@ -126,29 +127,6 @@ ClosedCaptionsDialog::paint()
 	}
 }
 
-class ClosedCaptionSorter
-{
-public:
-	bool operator()(StringText const & a, StringText const & b)
-	{
-		return from_top(a) < from_top(b);
-	}
-
-private:
-	float from_top(StringText const & c) const
-	{
-		switch (c.v_align()) {
-		case dcp::VAlign::TOP:
-			return c.v_position();
-		case dcp::VAlign::CENTER:
-			return c.v_position() + 0.5;
-		case dcp::VAlign::BOTTOM:
-			return 1.0 - c.v_position();
-		}
-		DCPOMATIC_ASSERT(false);
-		return 0;
-	}
-};
 
 void
 ClosedCaptionsDialog::update()
@@ -194,18 +172,16 @@ ClosedCaptionsDialog::update()
 	if (_current && _current->period.contains(time)) {
 		/* We need to set this new one up */
 
-		auto to_show = _current->text.string;
-
 		for (int j = 0; j < MAX_CLOSED_CAPTION_LINES; ++j) {
 			_lines[j] = wxString{};
 		}
 
-		std::sort(to_show.begin(), to_show.end(), ClosedCaptionSorter());
+		auto to_show = layout_closed_captions(_current->text.string);
 
 		auto j = to_show.begin();
 		int k = 0;
 		while (j != to_show.end() && k < MAX_CLOSED_CAPTION_LINES) {
-			_lines[k] = std_to_wx(j->text());
+			_lines[k] = std_to_wx(*j);
 			++j;
 			++k;
 		}

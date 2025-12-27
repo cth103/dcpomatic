@@ -158,6 +158,7 @@ sources = """
           kdm_recipient.cc
           kdm_with_metadata.cc
           kdm_util.cc
+          layout_closed_captions.cc
           layout_markers.cc
           log.cc
           log_entry.cc
