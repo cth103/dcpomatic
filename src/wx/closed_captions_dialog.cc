@@ -64,9 +64,9 @@ ClosedCaptionsDialog::ClosedCaptionsDialog(wxWindow* parent, FilmViewer* viewer)
 {
 	_lines.resize(MAX_CLOSED_CAPTION_LINES);
 
-	wxBoxSizer* sizer = new wxBoxSizer(wxVERTICAL);
+	auto sizer = new wxBoxSizer(wxVERTICAL);
 
-	wxBoxSizer* track_sizer = new wxBoxSizer(wxHORIZONTAL);
+	auto track_sizer = new wxBoxSizer(wxHORIZONTAL);
 	add_label_to_sizer(track_sizer, this, _("Track"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 	track_sizer->Add(_track, 0, wxEXPAND | wxLEFT, DCPOMATIC_SIZER_X_GAP);
 
@@ -114,10 +114,10 @@ ClosedCaptionsDialog::paint()
 	dc.SetFont(font);
 
 	for (int i = 0; i < MAX_CLOSED_CAPTION_LINES; ++i) {
-		wxString const good = _lines[i].Left(MAX_CLOSED_CAPTION_LENGTH);
+		auto const good = _lines[i].Left(MAX_CLOSED_CAPTION_LENGTH);
 		dc.DrawText(good, 8, line_height * i);
 		if (_lines[i].Length() > MAX_CLOSED_CAPTION_LENGTH) {
-			wxString const bad = _lines[i].Right(_lines[i].Length() - MAX_CLOSED_CAPTION_LENGTH);
+			auto const bad = _lines[i].Right(_lines[i].Length() - MAX_CLOSED_CAPTION_LENGTH);
 			wxSize size = dc.GetTextExtent(good);
 			dc.SetTextForeground(*wxRED);
 			dc.DrawText(bad, 8 + size.GetWidth(), line_height * i);
