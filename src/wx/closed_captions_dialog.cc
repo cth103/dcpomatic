@@ -44,8 +44,8 @@ using namespace boost::placeholders;
 using namespace dcpomatic;
 
 
-ClosedCaptionsDialog::ClosedCaptionsDialog (wxWindow* parent, FilmViewer* viewer)
-	: wxDialog (parent, wxID_ANY, _("Closed captions"), wxDefaultPosition, wxDefaultSize,
+ClosedCaptionsDialog::ClosedCaptionsDialog(wxWindow* parent, FilmViewer* viewer)
+	: wxDialog(parent, wxID_ANY, _("Closed captions"), wxDefaultPosition, wxDefaultSize,
 #ifdef DCPOMATIC_OSX
 		    /* I can't get wxFRAME_FLOAT_ON_PARENT to work on OS X, and although wxSTAY_ON_TOP keeps
 		       the window above all others (and not just our own) it's better than nothing for now.
@@ -55,73 +55,73 @@ ClosedCaptionsDialog::ClosedCaptionsDialog (wxWindow* parent, FilmViewer* viewer
 		    wxDEFAULT_FRAME_STYLE | wxRESIZE_BORDER | wxFULL_REPAINT_ON_RESIZE | wxFRAME_FLOAT_ON_PARENT
 #endif
 		)
-	, _viewer (viewer)
+	, _viewer(viewer)
 	  /* XXX: empirical and probably unhelpful default size here; needs to be related to font metrics */
-        , _display (new wxPanel(this, wxID_ANY, wxDefaultPosition, wxSize(640, (640 / 10) + 64)))
-	, _track (new wxChoice(this, wxID_ANY))
-	, _current_in_lines (false)
-	, _timer (this)
+        , _display(new wxPanel(this, wxID_ANY, wxDefaultPosition, wxSize(640, (640 / 10) + 64)))
+	, _track(new wxChoice(this, wxID_ANY))
+	, _current_in_lines(false)
+	, _timer(this)
 {
-	_lines.resize (MAX_CLOSED_CAPTION_LINES);
+	_lines.resize(MAX_CLOSED_CAPTION_LINES);
 
-	wxBoxSizer* sizer = new wxBoxSizer (wxVERTICAL);
+	wxBoxSizer* sizer = new wxBoxSizer(wxVERTICAL);
 
-	wxBoxSizer* track_sizer = new wxBoxSizer (wxHORIZONTAL);
-	add_label_to_sizer (track_sizer, this, _("Track"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
-	track_sizer->Add (_track, 0, wxEXPAND | wxLEFT, DCPOMATIC_SIZER_X_GAP);
+	wxBoxSizer* track_sizer = new wxBoxSizer(wxHORIZONTAL);
+	add_label_to_sizer(track_sizer, this, _("Track"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
+	track_sizer->Add(_track, 0, wxEXPAND | wxLEFT, DCPOMATIC_SIZER_X_GAP);
 
-	sizer->Add (track_sizer, 0, wxALL, DCPOMATIC_SIZER_GAP);
-	sizer->Add (_display, 1, wxEXPAND);
+	sizer->Add(track_sizer, 0, wxALL, DCPOMATIC_SIZER_GAP);
+	sizer->Add(_display, 1, wxEXPAND);
 
-	Bind (wxEVT_SHOW, boost::bind(&ClosedCaptionsDialog::shown, this, _1));
-	Bind (wxEVT_TIMER, boost::bind(&ClosedCaptionsDialog::update, this));
-	_display->Bind (wxEVT_PAINT, boost::bind(&ClosedCaptionsDialog::paint, this));
-	_track->Bind (wxEVT_CHOICE, boost::bind(&ClosedCaptionsDialog::track_selected, this));
+	Bind(wxEVT_SHOW, boost::bind(&ClosedCaptionsDialog::shown, this, _1));
+	Bind(wxEVT_TIMER, boost::bind(&ClosedCaptionsDialog::update, this));
+	_display->Bind(wxEVT_PAINT, boost::bind(&ClosedCaptionsDialog::paint, this));
+	_track->Bind(wxEVT_CHOICE, boost::bind(&ClosedCaptionsDialog::track_selected, this));
 
-	SetSizerAndFit (sizer);
+	SetSizerAndFit(sizer);
 }
 
 void
-ClosedCaptionsDialog::shown (wxShowEvent ev)
+ClosedCaptionsDialog::shown(wxShowEvent ev)
 {
-	if (ev.IsShown ()) {
-		_timer.Start (40);
+	if (ev.IsShown()) {
+		_timer.Start(40);
 	} else {
-		_timer.Stop ();
+		_timer.Stop();
 	}
 }
 
 void
-ClosedCaptionsDialog::track_selected ()
+ClosedCaptionsDialog::track_selected()
 {
-	_current = optional<TextRingBuffers::Data> ();
-	_viewer->slow_refresh ();
-	update ();
+	_current = optional<TextRingBuffers::Data>();
+	_viewer->slow_refresh();
+	update();
 }
 
 void
-ClosedCaptionsDialog::paint ()
+ClosedCaptionsDialog::paint()
 {
-	wxPaintDC dc (_display);
-	dc.SetBackground (*wxBLACK_BRUSH);
-	dc.Clear ();
-	dc.SetTextForeground (*wxWHITE);
+	wxPaintDC dc(_display);
+	dc.SetBackground(*wxBLACK_BRUSH);
+	dc.Clear();
+	dc.SetTextForeground(*wxWHITE);
 
 	/* Choose a font which fits vertically */
-	int const line_height = max (8, dc.GetSize().GetHeight() / MAX_CLOSED_CAPTION_LINES);
-	wxFont font (*wxNORMAL_FONT);
-	font.SetPixelSize (wxSize (0, line_height * 0.8));
-	dc.SetFont (font);
+	int const line_height = max(8, dc.GetSize().GetHeight() / MAX_CLOSED_CAPTION_LINES);
+	wxFont font(*wxNORMAL_FONT);
+	font.SetPixelSize(wxSize(0, line_height * 0.8));
+	dc.SetFont(font);
 
 	for (int i = 0; i < MAX_CLOSED_CAPTION_LINES; ++i) {
-		wxString const good = _lines[i].Left (MAX_CLOSED_CAPTION_LENGTH);
-		dc.DrawText (good, 8, line_height * i);
+		wxString const good = _lines[i].Left(MAX_CLOSED_CAPTION_LENGTH);
+		dc.DrawText(good, 8, line_height * i);
 		if (_lines[i].Length() > MAX_CLOSED_CAPTION_LENGTH) {
-			wxString const bad = _lines[i].Right (_lines[i].Length() - MAX_CLOSED_CAPTION_LENGTH);
-			wxSize size = dc.GetTextExtent (good);
-			dc.SetTextForeground (*wxRED);
-			dc.DrawText (bad, 8 + size.GetWidth(), line_height * i);
-			dc.SetTextForeground (*wxWHITE);
+			wxString const bad = _lines[i].Right(_lines[i].Length() - MAX_CLOSED_CAPTION_LENGTH);
+			wxSize size = dc.GetTextExtent(good);
+			dc.SetTextForeground(*wxRED);
+			dc.DrawText(bad, 8 + size.GetWidth(), line_height * i);
+			dc.SetTextForeground(*wxWHITE);
 		}
 	}
 }
@@ -129,13 +129,13 @@ ClosedCaptionsDialog::paint ()
 class ClosedCaptionSorter
 {
 public:
-	bool operator() (StringText const & a, StringText const & b)
+	bool operator()(StringText const & a, StringText const & b)
 	{
 		return from_top(a) < from_top(b);
 	}
 
 private:
-	float from_top (StringText const & c) const
+	float from_top(StringText const & c) const
 	{
 		switch (c.v_align()) {
 		case dcp::VAlign::TOP:
@@ -145,15 +145,15 @@ private:
 		case dcp::VAlign::BOTTOM:
 			return 1.0 - c.v_position();
 		}
-		DCPOMATIC_ASSERT (false);
+		DCPOMATIC_ASSERT(false);
 		return 0;
 	}
 };
 
 void
-ClosedCaptionsDialog::update ()
+ClosedCaptionsDialog::update()
 {
-	auto const time = _viewer->time ();
+	auto const time = _viewer->time();
 
 	if (_current_in_lines && _current && _current->period.to > time) {
 		/* Current one is fine */
@@ -165,19 +165,19 @@ ClosedCaptionsDialog::update ()
 		for (int j = 0; j < MAX_CLOSED_CAPTION_LINES; ++j) {
 			_lines[j] = wxString{};
 		}
-		Refresh ();
+		Refresh();
 		_current = optional<TextRingBuffers::Data>();
 	}
 
 	if (!_current && !_tracks.empty()) {
 		/* We have no current one: get another */
-		auto butler = _butler.lock ();
-		DCPOMATIC_ASSERT (_track->GetSelection() >= 0);
-		DCPOMATIC_ASSERT (_track->GetSelection() < int(_tracks.size()));
+		auto butler = _butler.lock();
+		DCPOMATIC_ASSERT(_track->GetSelection() >= 0);
+		DCPOMATIC_ASSERT(_track->GetSelection() < int(_tracks.size()));
 		auto track = _tracks[_track->GetSelection()];
 		if (butler) {
 			while (true) {
-				optional<TextRingBuffers::Data> d = butler->get_closed_caption ();
+				optional<TextRingBuffers::Data> d = butler->get_closed_caption();
 				if (!d) {
 					break;
 				}
@@ -205,12 +205,12 @@ ClosedCaptionsDialog::update ()
 		auto j = to_show.begin();
 		int k = 0;
 		while (j != to_show.end() && k < MAX_CLOSED_CAPTION_LINES) {
-			_lines[k] = std_to_wx (j->text());
+			_lines[k] = std_to_wx(j->text());
 			++j;
 			++k;
 		}
 
-		Refresh ();
+		Refresh();
 		_current_in_lines = true;
 	}
 
@@ -222,43 +222,43 @@ ClosedCaptionsDialog::update ()
 }
 
 void
-ClosedCaptionsDialog::clear ()
+ClosedCaptionsDialog::clear()
 {
 	_current = optional<TextRingBuffers::Data>();
 	_current_in_lines = false;
-	Refresh ();
+	Refresh();
 }
 
 
 void
-ClosedCaptionsDialog::set_butler (weak_ptr<Butler> butler)
+ClosedCaptionsDialog::set_butler(weak_ptr<Butler> butler)
 {
 	_butler = butler;
 }
 
 void
-ClosedCaptionsDialog::update_tracks (shared_ptr<const Film> film)
+ClosedCaptionsDialog::update_tracks(shared_ptr<const Film> film)
 {
-	_tracks.clear ();
+	_tracks.clear();
 
 	for (auto i: film->content()) {
 		for (auto j: i->text) {
 			if (j->use() && j->type() == TextType::CLOSED_CAPTION && j->dcp_track()) {
 				if (find(_tracks.begin(), _tracks.end(), j->dcp_track()) == _tracks.end()) {
-					_tracks.push_back (*j->dcp_track());
+					_tracks.push_back(*j->dcp_track());
 				}
 			}
 		}
 	}
 
-	_track->Clear ();
+	_track->Clear();
 	for (auto const& i: _tracks) {
 		_track->Append(std_to_wx(fmt::format("{} ({})", i.name, i.language ? i.language->as_string() : wx_to_std(_("Unknown")))));
 	}
 
 	if (_track->GetCount() > 0) {
-		_track->SetSelection (0);
+		_track->SetSelection(0);
 	}
 
-	track_selected ();
+	track_selected();
 }

@@ -35,15 +35,15 @@ class ClosedCaptionsDialog : public wxDialog
 public:
 	ClosedCaptionsDialog(wxWindow* parent, FilmViewer* viewer);
 
-	void clear ();
-	void update_tracks (std::shared_ptr<const Film> film);
-	void set_butler (std::weak_ptr<Butler>);
+	void clear();
+	void update_tracks(std::shared_ptr<const Film> film);
+	void set_butler(std::weak_ptr<Butler>);
 
 private:
-	void shown (wxShowEvent);
-	void update ();
-	void paint ();
-	void track_selected ();
+	void shown(wxShowEvent);
+	void update();
+	void paint();
+	void track_selected();
 
 	FilmViewer* _viewer;
 	wxPanel* _display;
