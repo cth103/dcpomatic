@@ -79,6 +79,7 @@ BOOST_AUTO_TEST_CASE(make_dcp_with_subs_from_interop_dcp)
 {
 	auto dcp = make_shared<DCPContent>("test/data/Iopsubs_FTR-1_F_XX-XX_MOS_2K_20220710_IOP_OV");
 	auto film = new_test_film("make_dcp_with_subs_from_interop_dcp", { dcp });
+	film->set_interop(false);
 	dcp->text.front()->set_use(true);
 	make_and_verify_dcp(
 		film,
@@ -179,6 +180,7 @@ BOOST_AUTO_TEST_CASE(make_dcp_with_subs_in_dcp_without_font_tag)
 	auto film = new_test_film("make_dcp_with_subs_without_font_tag", { dcp_content });
 	BOOST_REQUIRE(!dcp_content->text.empty());
 	dcp_content->text.front()->set_use(true);
+	film->set_interop(false);
 	make_and_verify_dcp(
 		film,
 		{
@@ -275,6 +277,7 @@ BOOST_AUTO_TEST_CASE(use_first_loadfont_as_default)
 {
 	auto dcp = std::make_shared<DCPContent>("test/data/use_default_font");
 	auto film = new_test_film("use_first_loadfont_as_default", { dcp });
+	film->set_interop(false);
 	dcp->only_text()->set_use(true);
 	dcp->only_text()->set_language(dcp::LanguageTag("de"));
 	make_and_verify_dcp(
