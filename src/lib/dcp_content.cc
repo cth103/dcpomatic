@@ -428,7 +428,9 @@ DCPContent::as_xml(xmlpp::Element* element, bool with_paths, PathBehaviour path_
 			DCPOMATIC_ASSERT(false);
 		}
 	}
-	cxml::add_text_child(element, "VideoEncoding", video_encoding_to_string(_video_encoding));
+	if (_video_encoding) {
+		cxml::add_text_child(element, "VideoEncoding", video_encoding_to_string(*_video_encoding));
+	}
 	cxml::add_text_child(element, "ThreeD", _three_d ? "1" : "0");
 	if (_content_kind) {
 		cxml::add_text_child(element, "ContentKind", _content_kind->name());

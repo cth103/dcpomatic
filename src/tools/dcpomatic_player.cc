@@ -524,7 +524,7 @@ public:
 				_film->set_video_frame_rate(dcp->video_frame_rate().get());
 			}
 
-			switch (dcp->video_encoding()) {
+			switch (dcp->video_encoding().get_value_or(VideoEncoding::JPEG2000)) {
 			case VideoEncoding::JPEG2000:
 				_viewer.set_optimisation(Optimisation::JPEG2000);
 				break;

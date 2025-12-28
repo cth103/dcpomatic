@@ -191,7 +191,7 @@ public:
 		return _standard.get();
 	}
 
-	VideoEncoding video_encoding() const {
+	boost::optional<VideoEncoding> video_encoding() const {
 		boost::mutex::scoped_lock lm(_mutex);
 		return _video_encoding;
 	}
@@ -258,7 +258,7 @@ private:
 	EnumIndexedVector<bool, TextType> _reference_text;
 
 	boost::optional<dcp::Standard> _standard;
-	VideoEncoding _video_encoding = VideoEncoding::JPEG2000;
+	boost::optional<VideoEncoding> _video_encoding;
 	boost::optional<dcp::ContentKind> _content_kind;
 	bool _three_d;
 	/** ID of the CPL to use; older metadata might not specify this: in that case

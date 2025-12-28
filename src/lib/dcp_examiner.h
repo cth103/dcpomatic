@@ -150,7 +150,7 @@ public:
 		return _standard;
 	}
 
-	VideoEncoding video_encoding() const {
+	boost::optional<VideoEncoding> video_encoding() const {
 		return _video_encoding;
 	}
 
@@ -230,7 +230,7 @@ private:
 	bool _needs_assets = false;
 	bool _kdm_valid = false;
 	boost::optional<dcp::Standard> _standard;
-	VideoEncoding _video_encoding = VideoEncoding::JPEG2000;
+	boost::optional<VideoEncoding> _video_encoding;
 	bool _three_d = false;
 	boost::optional<dcp::ContentKind> _content_kind;
 	std::string _cpl;

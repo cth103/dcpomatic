@@ -341,9 +341,16 @@ DCPExaminer::DCPExaminer(shared_ptr<const DCPContent> content, bool tolerant)
 	 * asset in each reel.  This checks that when we do have a key it's the right one.
 	 */
 	_kdm_valid = selected_cpl->can_be_read();
-	auto encoding = selected_cpl->picture_encoding();
-	DCPOMATIC_ASSERT(encoding == dcp::PictureEncoding::JPEG2000 || encoding == dcp::PictureEncoding::MPEG2);
-	_video_encoding = encoding == dcp::PictureEncoding::MPEG2 ? VideoEncoding::MPEG2 : VideoEncoding::JPEG2000;
+	switch (selected_cpl->picture_encoding()) {
+	case dcp::PictureEncoding::JPEG2000:
+		_video_encoding = VideoEncoding::JPEG2000;
+		break;
+	case dcp::PictureEncoding::MPEG2:
+		_video_encoding = VideoEncoding::MPEG2;
+		break;
+	default:
+		break;
+	}
 	_standard = selected_cpl->standard();
 	if (!selected_cpl->reels().empty()) {
 		auto first_reel = selected_cpl->reels()[0];
