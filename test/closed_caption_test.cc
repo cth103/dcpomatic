@@ -20,6 +20,8 @@
 
 
 #include "lib/film.h"
+#include "lib/layout_closed_captions.h"
+#include "lib/string_text.h"
 #include "lib/string_text_file_content.h"
 #include "lib/text_content.h"
 #include "test.h"
@@ -32,6 +34,7 @@
 
 using std::list;
 using std::make_shared;
+using std::vector;
 
 
 /** Basic test that Interop closed captions are written */
@@ -121,3 +124,43 @@ BOOST_AUTO_TEST_CASE (closed_caption_test2)
 
 	cl.run ();
 }
+
+
+BOOST_AUTO_TEST_CASE(closed_captions_with_italics_test)
+{
+	vector<StringText> text = {
+		{
+			{
+				{}, false, true, true, {}, 42, 1, dcp::Time(0, 0, 0, 0, 24), dcp::Time(0, 0, 1, 0, 24),
+				0, dcp::HAlign::CENTER,
+				0, dcp::VAlign::CENTER,
+				0,
+				{}, dcp::Direction::LTR, "Hello ", dcp::Effect::NONE, {}, {}, {}, 0, {}
+			}, 1, {}, dcp::SubtitleStandard::SMPTE_2014
+		},
+		{
+			{
+				{}, true, true, true, {}, 42, 1, dcp::Time(0, 0, 0, 0, 24), dcp::Time(0, 0, 1, 0, 24),
+				0, dcp::HAlign::CENTER,
+				0, dcp::VAlign::CENTER,
+				0,
+				{}, dcp::Direction::LTR, "world", dcp::Effect::NONE, {}, {}, {}, 0, {}
+			}, 1, {}, dcp::SubtitleStandard::SMPTE_2014
+		},
+		{
+			{
+				{}, false, true, true, {}, 42, 1, dcp::Time(0, 0, 0, 0, 24), dcp::Time(0, 0, 1, 0, 24),
+				0, dcp::HAlign::CENTER,
+				4, dcp::VAlign::CENTER,
+				0,
+				{}, dcp::Direction::LTR, "It's a new line", dcp::Effect::NONE, {}, {}, {}, 0, {}
+			}, 1, {}, dcp::SubtitleStandard::SMPTE_2014
+		}
+	};
+
+	auto const strings = layout_closed_captions(text);
+	BOOST_REQUIRE_EQUAL(strings.size(), 2U);
+	BOOST_CHECK_EQUAL(strings[0], "Hello world");
+	BOOST_CHECK_EQUAL(strings[1], "It's a new line");
+}
+

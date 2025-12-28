@@ -22,10 +22,12 @@
 #include "dcpomatic_assert.h"
 #include "layout_closed_captions.h"
 #include "string_text.h"
+#include "util.h"
 
 
 using std::string;
 using std::vector;
+using boost::optional;
 
 
 vector<string>
@@ -48,8 +50,19 @@ layout_closed_captions(vector<StringText> text)
 	std::sort(text.begin(), text.end(), [&](StringText const & a, StringText const & b) { return from_top(a) < from_top(b); });
 
 	vector<string> strings;
+	string current;
+	optional<float> last_position;
 	for (auto const& t: text) {
-		strings.push_back(t.text());
+		if (last_position && !text_positions_close(*last_position, t.v_position()) && !current.empty()) {
+			strings.push_back(current);
+			current = "";
+		}
+		current += t.text();
+		last_position = t.v_position();
+	}
+
+	if (!current.empty()) {
+		strings.push_back(current);
 	}
 
 	return strings;
