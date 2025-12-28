@@ -100,7 +100,7 @@ ContentTimeline::ContentTimeline(wxWindow* parent, ContentPanel* cp, shared_ptr<
 	sizer->Add(_main_canvas, 1, wxEXPAND);
 	SetSizer(sizer);
 
-	_labels_canvas->Bind(wxEVT_PAINT,      boost::bind(&ContentTimeline::paint_labels, this));
+	_labels_canvas->Bind(wxEVT_PAINT,    boost::bind(&ContentTimeline::paint_labels, this));
 	_main_canvas->Bind(wxEVT_PAINT,      boost::bind(&ContentTimeline::paint_main,   this));
 	_main_canvas->Bind(wxEVT_LEFT_DOWN,  boost::bind(&ContentTimeline::left_down,    this, _1));
 	_main_canvas->Bind(wxEVT_LEFT_DCLICK,boost::bind(&ContentTimeline::left_down,    this, _1));
