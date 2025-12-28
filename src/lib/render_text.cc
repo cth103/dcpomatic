@@ -472,8 +472,8 @@ render_text(vector<StringText> subtitles, dcp::Size target, DCPTime time, int fr
 	for (auto const& i: subtitles) {
 		if (!pending.empty()) {
 			auto const last = pending.back();
-			auto const different_v = i.v_align() != last.v_align() || fabs(i.v_position() - last.v_position()) > 1e-4;
-			auto const different_h = i.h_align() != last.h_align() || fabs(i.h_position() - pending.back().h_position()) > 1e-4;
+			auto const different_v = i.v_align() != last.v_align() || !text_positions_close(i.v_position(), last.v_position());
+			auto const different_h = i.h_align() != last.h_align() || !text_positions_close(i.h_position(), pending.back().h_position());
 			if (different_v || different_h) {
 				/* We need a new line if any new positioning (horizontal or vertical) changes for this section */
 				images.push_back(render_line(pending, target, time, frame_rate));
@@ -509,7 +509,7 @@ bounding_box(vector<StringText> subtitles, dcp::Size target, optional<dcp::Subti
 	};
 
 	for (auto const& i: subtitles) {
-		if (!pending.empty() && (i.v_align() != pending.back().v_align() || fabs(i.v_position() - pending.back().v_position()) > 1e-4)) {
+		if (!pending.empty() && (i.v_align() != pending.back().v_align() || !text_positions_close(i.v_position(), pending.back().v_position()))) {
 			use_pending();
 			pending.clear();
 		}

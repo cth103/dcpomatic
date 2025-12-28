@@ -102,6 +102,7 @@ extern std::string join_strings(std::vector<std::string> const& in, std::string 
 extern std::string rfc_2822_date(time_t time);
 bool paths_exist(std::vector<boost::filesystem::path> const& paths);
 std::function<AVPixelFormat (AVPixelFormat)> force(AVPixelFormat format);
+bool text_positions_close(float a, float b);
 
 /** @param path Some path.
  *  @param base Some base path.

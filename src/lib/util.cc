@@ -1192,3 +1192,10 @@ relative_path(boost::filesystem::path const& path, boost::filesystem::path const
 	return relative;
 }
 
+
+bool
+text_positions_close(float a, float b)
+{
+	return std::abs(a - b) < 1e-4;
+}
+
