@@ -1502,8 +1502,7 @@ Player::fill_audio(DCPTimePeriod period)
 	DCPTime t = period.from;
 	while (t < period.to) {
 		DCPTime block = min(DCPTime::from_seconds(0.5), period.to - t);
-		Frame const samples = block.frames_round(film->audio_frame_rate());
-		if (samples) {
+		if (auto const samples = block.frames_round(film->audio_frame_rate())) {
 			auto silence = make_shared<AudioBuffers>(film->audio_channels(), samples);
 			silence->make_silent();
 			emit_audio(silence, t);
