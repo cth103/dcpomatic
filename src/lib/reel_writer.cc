@@ -577,13 +577,10 @@ ReelWriter::create_reel_sound(shared_ptr<dcp::Reel> reel, list<ReferencedReelAss
 			reel_asset->actual_duration(),
 			period_duration
 			);
-		if (reel_asset->actual_duration() != period_duration) {
-			throw ProgrammingError(
-				__FILE__, __LINE__,
-				fmt::format("{} vs {}", reel_asset->actual_duration(), period_duration)
-				);
-		}
-
+		throw ProgrammingError(
+			__FILE__, __LINE__,
+			fmt::format("{} vs {}", reel_asset->actual_duration(), period_duration)
+			);
 	}
 	reel->add(reel_asset);
 }
