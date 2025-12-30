@@ -654,7 +654,7 @@ Player::set_always_burn_open_subtitles()
 }
 
 
-/** Sets up the player to be faster, possibly at the expense of quality */
+/** Set up the player to be faster, possibly at the expense of quality */
 void
 Player::set_fast()
 {

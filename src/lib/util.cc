@@ -921,7 +921,7 @@ copy_in_bits(boost::filesystem::path from, boost::filesystem::path to, std::func
 		throw OpenFileError(to, t.open_error(), OpenFileError::WRITE);
 	}
 
-	/* on the order of a second's worth of copying */
+	/* About a second's worth of copying */
 	boost::uintmax_t const chunk = 20 * 1024 * 1024;
 
 	std::vector<uint8_t> buffer(chunk);
