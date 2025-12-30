@@ -899,6 +899,10 @@ Player::pass()
 			emit_video_until(film->length());
 		}
 
+		if (_next_audio_time) {
+			fill_audio(DCPTimePeriod(*_next_audio_time, film->length()));
+		}
+
 		if (_shuffler) {
 			_shuffler->flush();
 		}
