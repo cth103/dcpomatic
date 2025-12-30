@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LIBDCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-09 20:17+0100\n"
+"POT-Creation-Date: 2025-12-30 21:17+0100\n"
 "PO-Revision-Date: 2025-10-05 13:31+0800\n"
 "Last-Translator: Dian Li <xslidian@gmail.com>\n"
 "Language-Team: Chinese Simplified (Rov8 branch)\n"
@@ -81,7 +81,7 @@ msgstr " (%.2f:1)"
 msgid " on {}"
 msgstr " 于 {}"
 
-#: src/lib/config.cc:1274
+#: src/lib/config.cc:1272
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -105,7 +105,7 @@ msgstr ""
 "长度: $LENGTH\n"
 "大小: $SIZE\n"
 
-#: src/lib/config.cc:1252
+#: src/lib/config.cc:1250
 msgid "$JOB_NAME: $JOB_STATUS"
 msgstr "$任务名称: $JOB_STATUS"
 
@@ -439,7 +439,7 @@ msgstr "不能包含斜杠"
 msgid "Cannot handle pixel format {} during {}"
 msgstr "在 {} 不能处理图片格式 {}"
 
-#: src/lib/film.cc:1903
+#: src/lib/film.cc:1939
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr "不能生成KDM，因为项目没有被加密。"
 
@@ -520,10 +520,6 @@ msgstr "色彩空间"
 #: src/lib/combine_dcp_job.cc:48
 msgid "Combine DCPs"
 msgstr "合并 DCP"
-
-#: src/lib/content.cc:173
-msgid "Computing digest"
-msgstr "计算Hash值中"
 
 #: src/lib/writer.cc:522
 msgid "Computing digests"
@@ -730,7 +726,7 @@ msgstr "无法打开下载的zip文件"
 msgid "Could not open downloaded ZIP file ({}:{}: {})"
 msgstr "无法打开下载的zip文件 ({}:{}: {})"
 
-#: src/lib/config.cc:1176
+#: src/lib/config.cc:1174
 msgid "Could not open file for writing"
 msgstr "无法执行写入，目标文件无法打开"
 
@@ -787,11 +783,11 @@ msgstr "DCI Flat(遮幅/1.77/1.78/1.85)"
 msgid "DCI Scope"
 msgstr "DCI Scope(宽银幕/2.35/2.39)"
 
-#: src/lib/film.cc:2011
+#: src/lib/film.cc:2047
 msgid "DCP"
 msgstr "DCP"
 
-#: src/lib/film.cc:2008
+#: src/lib/film.cc:2044
 #, c++-format
 msgid "DCP (via {})"
 msgstr "DCP (via {})"
@@ -813,7 +809,7 @@ msgstr "DCP队列将在速度 %.1f%% 下运行。\n"
 msgid "DCP will use every other frame of the content.\n"
 msgstr "将使用隔帧打包DCP。\n"
 
-#: src/lib/film.cc:1820
+#: src/lib/film.cc:1856
 msgid ""
 "DCP-o-matic had to set your container to 1920x1080 as it's the only one that "
 "can be used with MPEG2 encoding."
@@ -821,13 +817,13 @@ msgstr ""
 "DCP-o-matic必须将您的容器设置为1920x1080，因为它是唯一可以用于MPEG2编码的容"
 "器。"
 
-#: src/lib/film.cc:1824
+#: src/lib/film.cc:1860
 msgid ""
 "DCP-o-matic had to set your film to 2D as 3D is not yet supported with MPEG2 "
 "encoding."
 msgstr "DCP-o-matic必须将您的电影设置为2D，因为MPEG2编码尚不支持3D。"
 
-#: src/lib/film.cc:1828
+#: src/lib/film.cc:1864
 msgid ""
 "DCP-o-matic set your container to DCI Flat as it was previously 1920x1080 "
 "and that is not a standard ratio with JPEG2000 encoding."
@@ -844,7 +840,7 @@ msgstr "数据来自AP20或AP25"
 msgid "De-interlacing"
 msgstr "去除隔行"
 
-#: src/lib/config.cc:1237
+#: src/lib/config.cc:1235
 #, c++-format
 msgid ""
 "Dear Projectionist\n"
@@ -999,11 +995,11 @@ msgstr "电子邮件发送失败"
 msgid "Feature"
 msgstr "正片"
 
-#: src/lib/content.cc:459
+#: src/lib/content.cc:455
 msgid "Filename"
 msgstr "文件名"
 
-#: src/lib/content.cc:459
+#: src/lib/content.cc:455
 msgid "Filenames"
 msgstr "文件名"
 
@@ -1023,7 +1019,7 @@ msgstr "定位长度"
 msgid "Formatting drive"
 msgstr "格式化驱动器中"
 
-#: src/lib/content.cc:469
+#: src/lib/content.cc:465
 msgid "Frame rate"
 msgstr "帧率"
 
@@ -1147,7 +1143,7 @@ msgstr "未知原因错误。{}"
 msgid "JEDEC P22"
 msgstr "JEDEC P22"
 
-#: src/lib/config.cc:427 src/lib/config.cc:1234
+#: src/lib/config.cc:427 src/lib/config.cc:1232
 msgid "KDM delivery: $CPL_NAME"
 msgstr "发行KDM: $CPL_NAME"
 
@@ -1233,19 +1229,19 @@ msgstr "中置解码"
 msgid "Misc"
 msgstr "其他"
 
-#: src/lib/dcp_examiner.cc:193
+#: src/lib/dcp_examiner.cc:194
 msgid "Mismatched audio channel counts in DCP"
 msgstr "DCP中的音频通道数不匹配"
 
-#: src/lib/dcp_examiner.cc:201
+#: src/lib/dcp_examiner.cc:202
 msgid "Mismatched audio sample rates in DCP"
 msgstr "DCP中的音频采样率不匹配"
 
-#: src/lib/dcp_examiner.cc:162
+#: src/lib/dcp_examiner.cc:163
 msgid "Mismatched frame rates in DCP"
 msgstr "DCP中的帧率不匹配"
 
-#: src/lib/dcp_examiner.cc:169
+#: src/lib/dcp_examiner.cc:170
 msgid "Mismatched video sizes in DCP"
 msgstr "DCP中的视频分辨率不匹配"
 
@@ -1340,9 +1336,17 @@ msgstr "内存不足"
 msgid "Overcomplete wavelet denoiser"
 msgstr "小波降噪"
 
+#: src/lib/colour_conversion.cc:293
+msgid "P3 D60 (~6000K)"
+msgstr ""
+
+#: src/lib/colour_conversion.cc:292
+msgid "P3 D65 (~6500K)"
+msgstr ""
+
 #: src/lib/colour_conversion.cc:291
-msgid "P3"
-msgstr "P3"
+msgid "P3 DCI (~6300K)"
+msgstr ""
 
 #: src/lib/util.cc:1137
 #, c++-format
@@ -1359,7 +1363,7 @@ msgstr "政策相关"
 msgid "Premultiply alpha channel"
 msgstr "预乘alpha通道"
 
-#: src/lib/content.cc:478
+#: src/lib/content.cc:474
 msgid "Prepared for video frame rate"
 msgstr "准备视频帧率"
 
@@ -1396,11 +1400,11 @@ msgstr "颜色模式 RGB / sRGB (IEC61966-2-1)"
 msgid "Rating"
 msgstr "分级"
 
-#: src/lib/colour_conversion.cc:292
+#: src/lib/colour_conversion.cc:294
 msgid "Rec. 1886"
 msgstr "Rec. 1886"
 
-#: src/lib/colour_conversion.cc:293
+#: src/lib/colour_conversion.cc:295
 msgid "Rec. 2020"
 msgstr "Rec. 2020"
 
@@ -1440,7 +1444,7 @@ msgstr "顺时针旋转90°"
 msgid "Rs"
 msgstr "右环绕"
 
-#: src/lib/colour_conversion.cc:294
+#: src/lib/colour_conversion.cc:296
 msgid "S-Gamut3/S-Log3"
 msgstr "索尼S-Gamut3/S-Log3"
 
@@ -1767,7 +1771,7 @@ msgstr ""
 "调低得多或高得多的音调播放。建议将DCP帧速率设置为更接近您的内容，前提是您的目"
 "标投影系统支持您选择的DCP速率。"
 
-#: src/lib/dcp_content.cc:721
+#: src/lib/dcp_content.cc:723
 msgid "There is no video in this DCP"
 msgstr "DCP中不包含视频画面"
 
@@ -1816,14 +1820,14 @@ msgstr ""
 "这是一个KDM密钥文件。KDM密钥文件可以通过在你的DCP包上右键，点击“添加KDM文件”"
 "添加到DCP中。"
 
-#: src/lib/film.cc:555
+#: src/lib/film.cc:557
 #, c++-format
 msgid ""
 "This film was created with a newer version of {}, and it cannot be loaded "
 "into this version.  Sorry!"
 msgstr "这一工程文件是使用新版 {} 创建的，无法被这一版本的软件加载。抱歉！"
 
-#: src/lib/film.cc:536
+#: src/lib/film.cc:538
 #, c++-format
 msgid ""
 "This film was created with an older version of {}, and unfortunately it "
@@ -1920,7 +1924,7 @@ msgstr "上变换混音（右）"
 msgid "VI"
 msgstr "视力障碍"
 
-#: src/lib/verify_dcp_job.cc:62
+#: src/lib/verify_dcp_job.cc:80
 msgid "Verify DCP"
 msgstr "验证DCP"
 
@@ -2013,7 +2017,7 @@ msgstr ""
 "你用的是 {} 双声道转5.1环绕声的上混音器。这是实验性的功能，可能导致音频质量变"
 "差。如果你继续，你应该在影院试听完成的DCP声音以确认。"
 
-#: src/lib/film.cc:1757
+#: src/lib/film.cc:1793
 msgid ""
 "You have more than one piece of Atmos content, and they do not have the same "
 "frame rate.  You must remove some Atmos content."
@@ -2195,7 +2199,7 @@ msgstr "在async读取时出现错误 ({})"
 msgid "error during async_write ({})"
 msgstr "在async写入时出现错误 ({})"
 
-#: src/lib/content.cc:471 src/lib/content.cc:480
+#: src/lib/content.cc:467 src/lib/content.cc:476
 msgid "frames per second"
 msgstr "每秒帧数"
 
@@ -2205,11 +2209,11 @@ msgid "h"
 msgstr "小时"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:678
+#: src/lib/dcp_content.cc:680
 msgid "it has a different frame rate to the film."
 msgstr "它的帧率与影片不一致。"
 
-#: src/lib/dcp_content.cc:760
+#: src/lib/dcp_content.cc:762
 #, c++-format
 msgid ""
 "it has a different number of audio channels than the project; set the "
@@ -2217,48 +2221,48 @@ msgid ""
 msgstr "它的音频通道数量与项目不同；将项目设置为具有 {} 个通道。"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:796
+#: src/lib/dcp_content.cc:798
 msgid ""
 "it has a start trim so its subtitles or closed captions must be re-written."
 msgstr "当前内容有修剪，所以字幕或隐藏字幕必须重写。"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:731
+#: src/lib/dcp_content.cc:733
 msgid "it is 2K and the film is 4K."
 msgstr "它是 2K 分辨率，而影片是 4K。"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:728
+#: src/lib/dcp_content.cc:730
 msgid "it is 4K and the film is 2K."
 msgstr "它是 4K 分辨率，而影片是 2K。"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:666
+#: src/lib/dcp_content.cc:668
 msgid "it is Interop and the film is set to SMPTE."
 msgstr "它是Interop类型，而实际打包类型是 SMPTE。"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:670
+#: src/lib/dcp_content.cc:672
 msgid "it is SMPTE and the film is set to Interop."
 msgstr "它是SMPTE类型，而实际打包类型是 Interop。"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:771
+#: src/lib/dcp_content.cc:773
 msgid "it overlaps other audio content."
 msgstr "与其他音频内容重叠。"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:806
+#: src/lib/dcp_content.cc:808
 msgid "it overlaps other text content."
 msgstr "与其他文本内容重叠。"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:746
+#: src/lib/dcp_content.cc:748
 msgid "it overlaps other video content."
 msgstr "与其他视频内容重叠。"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:701
+#: src/lib/dcp_content.cc:703
 msgid ""
 "its reel lengths differ from those in the film; set the reel mode to 'split "
 "by video content'."
@@ -2266,7 +2270,7 @@ msgstr ""
 "其分卷时长与影片中的不一致；请设置 【 分卷模式 】 为【 按视频内容分割 】。"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:736
+#: src/lib/dcp_content.cc:738
 msgid "its video frame size differs from the film's."
 msgstr "视频帧大小与影片不一致。"
 
@@ -2284,14 +2288,14 @@ msgid "name"
 msgstr "名字"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:790
+#: src/lib/dcp_content.cc:792
 msgid ""
 "one of its closed caption has a non-zero entry point so it must be re-"
 "written."
 msgstr "它的一个隐藏字幕有一个非零的时间点，因此必须重写。"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:784
+#: src/lib/dcp_content.cc:786
 msgid ""
 "one of its subtitle reels has a non-zero entry point so it must be re-"
 "written."
@@ -2355,7 +2359,7 @@ msgid ""
 "unexpected format."
 msgstr "{} 无法打开文件{} ({})。文件不存在或格式无法识别。"
 
-#: src/lib/film.cc:1794
+#: src/lib/film.cc:1830
 #, c++-format
 msgid ""
 "{} had to change your settings for referring to DCPs as OV.  Please review "
@@ -2363,21 +2367,21 @@ msgid ""
 msgstr ""
 "{}必须更改您DCP的设置为OV。请重新检查设置确认设置内容是否为您的期望值。"
 
-#: src/lib/film.cc:1760
+#: src/lib/film.cc:1796
 #, c++-format
 msgid ""
 "{} had to change your settings so that the film's frame rate is the same as "
 "that of your Atmos content."
 msgstr "{}必须更改您DCP的设置，使影片的帧率与 Atmos 内容一致。"
 
-#: src/lib/film.cc:1807
+#: src/lib/film.cc:1843
 #, c++-format
 msgid ""
 "{} had to remove one of your custom reel boundaries as it no longer lies "
 "within the film."
 msgstr "{} 必须删除一个自定义卷轴边界，因为它不再位于影片内。"
 
-#: src/lib/film.cc:1805
+#: src/lib/film.cc:1841
 #, c++-format
 msgid ""
 "{} had to remove some of your custom reel boundaries as they no longer lie "
@@ -2389,7 +2393,7 @@ msgstr "{}必须删除一些自定义卷轴边界，因为它不再位于影片�
 msgid "{} no longer supports the `{}' filter, so it has been turned off."
 msgstr "{} 不再支持 {} 滤镜，因此它必须被关闭。"
 
-#: src/lib/config.cc:437 src/lib/config.cc:1249
+#: src/lib/config.cc:437 src/lib/config.cc:1247
 #, c++-format
 msgid "{} notification"
 msgstr "{} 提醒"
@@ -2398,6 +2402,12 @@ msgstr "{} 提醒"
 #, c++-format
 msgid "{}; {}/{} frames"
 msgstr "{}; {}/{} 帧"
+
+#~ msgid "Computing digest"
+#~ msgstr "计算Hash值中"
+
+#~ msgid "P3"
+#~ msgstr "P3"
 
 #~ msgid "container"
 #~ msgstr "打包类型"

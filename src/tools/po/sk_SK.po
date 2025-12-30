@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-09 20:17+0100\n"
+"POT-Creation-Date: 2025-12-30 21:17+0100\n"
 "PO-Revision-Date: 2016-01-06 00:23+0100\n"
 "Last-Translator: Tomáš Hlaváč\n"
 "Language-Team: \n"
@@ -28,13 +28,13 @@ msgstr ""
 msgid "%d KDMs written to %s"
 msgstr ""
 
-#: src/tools/dcpomatic_combiner.cc:175
+#: src/tools/dcpomatic_combiner.cc:177
 #, fuzzy, c-format
 msgid "%s already exists as a file, so you cannot use it for a DCP."
 msgstr "{} už existuje ako súbor, takže ho nemôžete použiť pre nový film."
 
-#: src/tools/dcpomatic_disk.cc:516 src/tools/dcpomatic_kdm.cc:944
-#: src/tools/dcpomatic_player.cc:1421
+#: src/tools/dcpomatic_disk.cc:518 src/tools/dcpomatic_kdm.cc:944
+#: src/tools/dcpomatic_player.cc:1426
 #, fuzzy, c-format
 msgid "%s could not start"
 msgstr "DCP-o-matic"
@@ -44,12 +44,12 @@ msgstr "DCP-o-matic"
 msgid "%s could not start %s"
 msgstr "DCP-o-matic"
 
-#: src/tools/dcpomatic_combiner.cc:270
+#: src/tools/dcpomatic_combiner.cc:272
 #, fuzzy, c-format
 msgid "%s could not start (%s)"
 msgstr "DCP-o-matic"
 
-#: src/tools/dcpomatic.cc:1770 src/tools/dcpomatic_editor.cc:564
+#: src/tools/dcpomatic.cc:1771 src/tools/dcpomatic_editor.cc:566
 #, fuzzy, c-format
 msgid "%s could not start."
 msgstr "DCP-o-matic"
@@ -59,12 +59,12 @@ msgstr "DCP-o-matic"
 msgid "&Add Film...\tCtrl-A"
 msgstr "&Pridať film..."
 
-#: src/tools/dcpomatic_player.cc:657
+#: src/tools/dcpomatic_player.cc:660
 #, fuzzy
 msgid "&Add OV..."
 msgstr "Pridať film..."
 
-#: src/tools/dcpomatic_player.cc:665
+#: src/tools/dcpomatic_player.cc:668
 msgid "&Close"
 msgstr ""
 
@@ -74,28 +74,28 @@ msgid "&Close\tCtrl-W"
 msgstr "&Uložiť\tCtrl-S"
 
 #: src/tools/dcpomatic_batch.cc:110 src/tools/dcpomatic.cc:1445
-#: src/tools/dcpomatic_kdm.cc:347 src/tools/dcpomatic_player.cc:725
+#: src/tools/dcpomatic_kdm.cc:347 src/tools/dcpomatic_player.cc:728
 #: src/tools/dcpomatic_playlist.cc:625
 msgid "&Edit"
 msgstr "&Upraviť"
 
 #: src/tools/dcpomatic_batch.cc:90 src/tools/dcpomatic.cc:1367
-#: src/tools/dcpomatic_editor.cc:422 src/tools/dcpomatic_player.cc:669
-#: src/tools/dcpomatic_playlist.cc:609 src/tools/dcpomatic_verifier.cc:196
+#: src/tools/dcpomatic_editor.cc:424 src/tools/dcpomatic_player.cc:672
+#: src/tools/dcpomatic_playlist.cc:609 src/tools/dcpomatic_verifier.cc:240
 msgid "&Exit"
 msgstr "&Koniec"
 
 #: src/tools/dcpomatic_batch.cc:108 src/tools/dcpomatic.cc:1444
-#: src/tools/dcpomatic_editor.cc:434 src/tools/dcpomatic_kdm.cc:346
-#: src/tools/dcpomatic_player.cc:722 src/tools/dcpomatic_playlist.cc:623
-#: src/tools/dcpomatic_verifier.cc:201
+#: src/tools/dcpomatic_editor.cc:436 src/tools/dcpomatic_kdm.cc:346
+#: src/tools/dcpomatic_player.cc:725 src/tools/dcpomatic_playlist.cc:623
+#: src/tools/dcpomatic_verifier.cc:245
 msgid "&File"
 msgstr "&Súbor"
 
 #: src/tools/dcpomatic_batch.cc:113 src/tools/dcpomatic.cc:1449
-#: src/tools/dcpomatic_editor.cc:435 src/tools/dcpomatic_kdm.cc:349
-#: src/tools/dcpomatic_player.cc:729 src/tools/dcpomatic_playlist.cc:612
-#: src/tools/dcpomatic_playlist.cc:626 src/tools/dcpomatic_verifier.cc:205
+#: src/tools/dcpomatic_editor.cc:437 src/tools/dcpomatic_kdm.cc:349
+#: src/tools/dcpomatic_player.cc:732 src/tools/dcpomatic_playlist.cc:612
+#: src/tools/dcpomatic_playlist.cc:626 src/tools/dcpomatic_verifier.cc:249
 msgid "&Help"
 msgstr "&Pomoc"
 
@@ -107,36 +107,36 @@ msgstr "&Práce"
 msgid "&Make DCP\tCtrl-M"
 msgstr "&Vytvoriť DCP\tCtrl-M"
 
-#: src/tools/dcpomatic.cc:1347 src/tools/dcpomatic_editor.cc:417
-#: src/tools/dcpomatic_player.cc:656
+#: src/tools/dcpomatic.cc:1347 src/tools/dcpomatic_editor.cc:419
+#: src/tools/dcpomatic_player.cc:659
 msgid "&Open...\tCtrl-O"
 msgstr "&Otvoriť...\tCtrl-O"
 
 #: src/tools/dcpomatic_batch.cc:96 src/tools/dcpomatic.cc:1382
-#: src/tools/dcpomatic_kdm.cc:336 src/tools/dcpomatic_player.cc:675
+#: src/tools/dcpomatic_kdm.cc:336 src/tools/dcpomatic_player.cc:678
 #: src/tools/dcpomatic_playlist.cc:607
 #, fuzzy
 msgid "&Preferences...\tCtrl-,"
 msgstr "&Nastavenia...\tCtrl-P"
 
 #: src/tools/dcpomatic_batch.cc:99 src/tools/dcpomatic.cc:1386
-#: src/tools/dcpomatic_kdm.cc:328 src/tools/dcpomatic_player.cc:678
+#: src/tools/dcpomatic_kdm.cc:328 src/tools/dcpomatic_player.cc:681
 #: src/tools/dcpomatic_playlist.cc:618
 msgid "&Preferences...\tCtrl-P"
 msgstr "&Nastavenia...\tCtrl-P"
 
 #: src/tools/dcpomatic_batch.cc:92 src/tools/dcpomatic.cc:1369
-#: src/tools/dcpomatic_editor.cc:424 src/tools/dcpomatic_kdm.cc:326
-#: src/tools/dcpomatic_player.cc:671 src/tools/dcpomatic_playlist.cc:615
-#: src/tools/dcpomatic_verifier.cc:200
+#: src/tools/dcpomatic_editor.cc:426 src/tools/dcpomatic_kdm.cc:326
+#: src/tools/dcpomatic_player.cc:674 src/tools/dcpomatic_playlist.cc:615
+#: src/tools/dcpomatic_verifier.cc:244
 msgid "&Quit"
 msgstr "&Ukončiť"
 
-#: src/tools/dcpomatic.cc:1350 src/tools/dcpomatic_editor.cc:419
+#: src/tools/dcpomatic.cc:1350 src/tools/dcpomatic_editor.cc:421
 msgid "&Save\tCtrl-S"
 msgstr "&Uložiť\tCtrl-S"
 
-#: src/tools/dcpomatic_player.cc:660
+#: src/tools/dcpomatic_player.cc:663
 #, fuzzy
 msgid "&Save frame to file...\tCtrl-S"
 msgstr "&Otvoriť...\tCtrl-O"
@@ -146,12 +146,20 @@ msgid "&Send DCP to TMS"
 msgstr "&Odoslať DCP do TMS"
 
 #: src/tools/dcpomatic_batch.cc:112 src/tools/dcpomatic.cc:1448
-#: src/tools/dcpomatic_player.cc:728
+#: src/tools/dcpomatic_player.cc:731
 msgid "&Tools"
 msgstr "&Nástroje"
 
-#: src/tools/dcpomatic.cc:1447 src/tools/dcpomatic_player.cc:727
+#: src/tools/dcpomatic.cc:1447 src/tools/dcpomatic_player.cc:730
 msgid "&View"
+msgstr ""
+
+#: src/tools/dcpomatic_verifier.cc:103
+msgid "(encrypted, have KDM)"
+msgstr ""
+
+#: src/tools/dcpomatic_verifier.cc:105
+msgid "(encrypted, no KDM)"
 msgstr ""
 
 #: src/tools/dcpomatic_playlist.cc:324
@@ -163,15 +171,15 @@ msgid "<b>Playlists</b>"
 msgstr ""
 
 #: src/tools/dcpomatic_batch.cc:106 src/tools/dcpomatic.cc:1438
-#: src/tools/dcpomatic_editor.cc:431 src/tools/dcpomatic_kdm.cc:339
-#: src/tools/dcpomatic_player.cc:716 src/tools/dcpomatic_playlist.cc:621
-#: src/tools/dcpomatic_verifier.cc:203
+#: src/tools/dcpomatic_editor.cc:433 src/tools/dcpomatic_kdm.cc:339
+#: src/tools/dcpomatic_player.cc:719 src/tools/dcpomatic_playlist.cc:621
+#: src/tools/dcpomatic_verifier.cc:247
 msgid "About"
 msgstr "O"
 
-#: src/tools/dcpomatic.cc:1436 src/tools/dcpomatic_editor.cc:429
-#: src/tools/dcpomatic_kdm.cc:337 src/tools/dcpomatic_player.cc:714
-#: src/tools/dcpomatic_playlist.cc:610 src/tools/dcpomatic_verifier.cc:197
+#: src/tools/dcpomatic.cc:1436 src/tools/dcpomatic_editor.cc:431
+#: src/tools/dcpomatic_kdm.cc:337 src/tools/dcpomatic_player.cc:717
+#: src/tools/dcpomatic_playlist.cc:610 src/tools/dcpomatic_verifier.cc:241
 #, fuzzy, c-format
 msgid "About %s"
 msgstr "O"
@@ -180,9 +188,14 @@ msgstr "O"
 msgid "Add"
 msgstr ""
 
-#: src/tools/dcpomatic_player.cc:658
+#: src/tools/dcpomatic_player.cc:661
 #, fuzzy
 msgid "Add &KDM..."
+msgstr "Pridať film..."
+
+#: src/tools/dcpomatic_verifier.cc:173
+#, fuzzy
+msgid "Add KDM..."
 msgstr "Pridať film..."
 
 #: src/tools/dcpomatic_playlist.cc:80
@@ -208,8 +221,8 @@ msgstr "Pridať film..."
 msgid "Add..."
 msgstr ""
 
-#: src/tools/dcpomatic_combiner.cc:311 src/tools/dcpomatic_editor.cc:603
-#: src/tools/dcpomatic_player.cc:1479 src/tools/dcpomatic_playlist.cc:740
+#: src/tools/dcpomatic_combiner.cc:313 src/tools/dcpomatic_editor.cc:605
+#: src/tools/dcpomatic_player.cc:1484 src/tools/dcpomatic_playlist.cc:740
 #, fuzzy, c-format
 msgid ""
 "An exception occurred: %s\n"
@@ -219,10 +232,10 @@ msgstr ""
 "Vyskytol sa problém: %s.\n"
 "\n"
 
-#: src/tools/dcpomatic.cc:1823 src/tools/dcpomatic_combiner.cc:301
-#: src/tools/dcpomatic_disk.cc:563 src/tools/dcpomatic_editor.cc:593
-#: src/tools/dcpomatic_kdm.cc:959 src/tools/dcpomatic_player.cc:1469
-#: src/tools/dcpomatic_playlist.cc:730 src/tools/dcpomatic_verifier.cc:367
+#: src/tools/dcpomatic.cc:1824 src/tools/dcpomatic_combiner.cc:303
+#: src/tools/dcpomatic_disk.cc:565 src/tools/dcpomatic_editor.cc:595
+#: src/tools/dcpomatic_kdm.cc:959 src/tools/dcpomatic_player.cc:1474
+#: src/tools/dcpomatic_playlist.cc:730 src/tools/dcpomatic_verifier.cc:450
 #, fuzzy, c-format
 msgid ""
 "An exception occurred: %s (%s)\n"
@@ -232,7 +245,7 @@ msgstr ""
 "Vyskytol sa problém: %s (%s)\n"
 "\n"
 
-#: src/tools/dcpomatic.cc:1833 src/tools/dcpomatic_verifier.cc:377
+#: src/tools/dcpomatic.cc:1834 src/tools/dcpomatic_verifier.cc:460
 #, fuzzy, c-format
 msgid ""
 "An exception occurred: %s (%s) (%s)\n"
@@ -242,8 +255,8 @@ msgstr ""
 "Vyskytol sa problém: %s (%s)\n"
 "\n"
 
-#: src/tools/dcpomatic.cc:1844 src/tools/dcpomatic_disk.cc:573
-#: src/tools/dcpomatic_kdm.cc:969 src/tools/dcpomatic_verifier.cc:388
+#: src/tools/dcpomatic.cc:1845 src/tools/dcpomatic_disk.cc:575
+#: src/tools/dcpomatic_kdm.cc:969 src/tools/dcpomatic_verifier.cc:471
 #, fuzzy, c-format
 msgid ""
 "An exception occurred: %s.\n"
@@ -253,7 +266,7 @@ msgstr ""
 "Vyskytol sa problém: %s.\n"
 "\n"
 
-#: src/tools/dcpomatic_server.cc:367
+#: src/tools/dcpomatic_server.cc:362
 #, fuzzy, c-format
 msgid "An unknown error has occurred with the %s."
 msgstr "Vyskytol sa neznámy problém"
@@ -262,17 +275,17 @@ msgstr "Vyskytol sa neznámy problém"
 msgid "An unknown exception occurred."
 msgstr "Vyskytol sa neznámy problém"
 
-#: src/tools/dcpomatic.cc:1850 src/tools/dcpomatic_combiner.cc:317
-#: src/tools/dcpomatic_disk.cc:579 src/tools/dcpomatic_editor.cc:609
+#: src/tools/dcpomatic.cc:1851 src/tools/dcpomatic_combiner.cc:319
+#: src/tools/dcpomatic_disk.cc:581 src/tools/dcpomatic_editor.cc:611
 #: src/tools/dcpomatic_kdm.cc:975 src/tools/dcpomatic_kdm.cc:984
-#: src/tools/dcpomatic_player.cc:1485 src/tools/dcpomatic_playlist.cc:746
-#: src/tools/dcpomatic_playlist.cc:755 src/tools/dcpomatic_verifier.cc:394
+#: src/tools/dcpomatic_player.cc:1490 src/tools/dcpomatic_playlist.cc:746
+#: src/tools/dcpomatic_playlist.cc:755 src/tools/dcpomatic_verifier.cc:477
 #, fuzzy, c-format
 msgid "An unknown exception occurred. %s"
 msgstr "Vyskytol sa neznámy problém"
 
-#: src/tools/dcpomatic_combiner.cc:120 src/tools/dcpomatic_editor.cc:84
-#: src/tools/dcpomatic_editor.cc:203 src/tools/dcpomatic_editor.cc:290
+#: src/tools/dcpomatic_combiner.cc:122 src/tools/dcpomatic_editor.cc:84
+#: src/tools/dcpomatic_editor.cc:203 src/tools/dcpomatic_editor.cc:292
 msgid "Annotation text"
 msgstr ""
 
@@ -282,7 +295,7 @@ msgid ""
 "be undone."
 msgstr ""
 
-#: src/tools/dcpomatic_player.cc:706
+#: src/tools/dcpomatic_player.cc:709
 msgid "Audio graph..."
 msgstr ""
 
@@ -291,7 +304,7 @@ msgstr ""
 msgid "Bad setting for %s."
 msgstr "Zlé nastavenia pre %s."
 
-#: src/tools/dcpomatic_editor.cc:387 src/tools/dcpomatic_player.cc:687
+#: src/tools/dcpomatic_editor.cc:389 src/tools/dcpomatic_player.cc:690
 #: src/tools/dcpomatic_playlist.cc:339
 msgid "CPL"
 msgstr ""
@@ -300,28 +313,28 @@ msgstr ""
 msgid "CPL's content is not encrypted."
 msgstr "CPL obsah nie je enkryptovaný."
 
-#: src/tools/dcpomatic_editor.cc:405
+#: src/tools/dcpomatic_editor.cc:407
 #, c-format
 msgid "CPL: %s"
 msgstr ""
 
-#: src/tools/dcpomatic_verifier.cc:157
+#: src/tools/dcpomatic_verifier.cc:192
 msgid "Cancel"
 msgstr ""
 
-#: src/tools/dcpomatic.cc:1426 src/tools/dcpomatic_player.cc:708
+#: src/tools/dcpomatic.cc:1426 src/tools/dcpomatic_player.cc:711
 msgid "Check for updates"
 msgstr "Skontrolovať aktualizácie"
+
+#: src/tools/dcpomatic_verifier.cc:355
+msgid "Checking KDM"
+msgstr ""
 
 #: src/tools/dcpomatic_combiner.cc:68 src/tools/dcpomatic_disk.cc:84
 msgid "Choose a DCP folder"
 msgstr ""
 
-#: src/tools/dcpomatic_verifier.cc:75
-msgid "Choose a folder"
-msgstr ""
-
-#: src/tools/dcpomatic.cc:1954 src/tools/dcpomatic.cc:1973
+#: src/tools/dcpomatic.cc:1955 src/tools/dcpomatic.cc:1974
 #, c-format
 msgid "Close %s"
 msgstr ""
@@ -330,15 +343,15 @@ msgstr ""
 msgid "Close without saving film"
 msgstr ""
 
-#: src/tools/dcpomatic.cc:1418 src/tools/dcpomatic_player.cc:693
+#: src/tools/dcpomatic.cc:1418 src/tools/dcpomatic_player.cc:696
 msgid "Closed captions..."
 msgstr ""
 
-#: src/tools/dcpomatic_combiner.cc:128
+#: src/tools/dcpomatic_combiner.cc:130
 msgid "Combine"
 msgstr ""
 
-#: src/tools/dcpomatic_combiner.cc:182
+#: src/tools/dcpomatic_combiner.cc:184
 msgid "Combining DCPs"
 msgstr ""
 
@@ -346,7 +359,7 @@ msgstr ""
 msgid "Content title text"
 msgstr ""
 
-#: src/tools/dcpomatic_disk.cc:164
+#: src/tools/dcpomatic_disk.cc:166
 msgid "Copy DCPs"
 msgstr ""
 
@@ -358,7 +371,7 @@ msgstr ""
 msgid "Could not create folder to store film."
 msgstr ""
 
-#: src/tools/dcpomatic_kdm.cc:652
+#: src/tools/dcpomatic_kdm.cc:652 src/tools/dcpomatic_verifier.cc:347
 msgid ""
 "Could not decrypt the DKDM.  Perhaps it was not created with the correct "
 "certificate."
@@ -385,22 +398,22 @@ msgid ""
 "running."
 msgstr ""
 
-#: src/tools/dcpomatic_editor.cc:399
+#: src/tools/dcpomatic_editor.cc:401
 #, fuzzy
 msgid "Could not load DCP"
 msgstr "Nemôžem vytvoriť DCP: %s"
 
-#: src/tools/dcpomatic_player.cc:1398
+#: src/tools/dcpomatic_player.cc:1403
 #, fuzzy, c-format
 msgid "Could not load DCP %s"
 msgstr "Nemôžem vytvoriť DCP: %s"
 
-#: src/tools/dcpomatic_player.cc:878
+#: src/tools/dcpomatic_player.cc:882
 #, fuzzy, c-format
 msgid "Could not load DCP %s."
 msgstr "Nemôžem vytvoriť DCP: %s"
 
-#: src/tools/dcpomatic_player.cc:646
+#: src/tools/dcpomatic_player.cc:649
 #, fuzzy, c-format
 msgid ""
 "Could not load DCP.\n"
@@ -408,13 +421,13 @@ msgid ""
 "%s."
 msgstr "Nemôžem vytvoriť DCP: %s"
 
-#: src/tools/dcpomatic_player.cc:826
+#: src/tools/dcpomatic_player.cc:829 src/tools/dcpomatic_verifier.cc:350
 #, fuzzy
 msgid "Could not load KDM."
 msgstr "Nemôžem zobraziť DCP"
 
-#: src/tools/dcpomatic_player.cc:455 src/tools/dcpomatic_player.cc:464
-#: src/tools/dcpomatic_player.cc:466
+#: src/tools/dcpomatic_player.cc:456 src/tools/dcpomatic_player.cc:465
+#: src/tools/dcpomatic_player.cc:467
 #, fuzzy, c-format
 msgid "Could not load a DCP from %s"
 msgstr "Nemôžem vytvoriť DCP: %s"
@@ -424,12 +437,12 @@ msgstr "Nemôžem vytvoriť DCP: %s"
 msgid "Could not load film {}"
 msgstr "Nemôžem načítať film {} ({})"
 
-#: src/tools/dcpomatic.cc:1734
+#: src/tools/dcpomatic.cc:1735
 #, c++-format
 msgid "Could not load film {} ({})"
 msgstr "Nemôžem načítať film {} ({})"
 
-#: src/tools/dcpomatic_player.cc:1406
+#: src/tools/dcpomatic_player.cc:1411
 #, fuzzy, c-format
 msgid "Could not load stress test file %s"
 msgstr "Nemôžem načítať film {} ({})"
@@ -456,7 +469,7 @@ msgid ""
 "loading a DKDM (XML) file."
 msgstr ""
 
-#: src/tools/dcpomatic_kdm.cc:645
+#: src/tools/dcpomatic_kdm.cc:645 src/tools/dcpomatic_verifier.cc:340
 msgid ""
 "Could not read file as a KDM.  Perhaps it is badly formatted, or not a KDM "
 "at all."
@@ -493,13 +506,13 @@ msgid ""
 msgstr ""
 
 #: src/tools/dcpomatic_batch.cc:365 src/tools/dcpomatic.cc:1461
-#: src/tools/dcpomatic_player.cc:1125 src/tools/dcpomatic_playlist.cc:639
+#: src/tools/dcpomatic_player.cc:1128 src/tools/dcpomatic_playlist.cc:639
 #, c-format
 msgid ""
 "Could not write to config file at %s.  Your changes have not been saved."
 msgstr ""
 
-#: src/tools/dcpomatic_player.cc:1133
+#: src/tools/dcpomatic_player.cc:1136
 msgid "Could not write to config file.  Your changes have not been saved."
 msgstr ""
 
@@ -507,7 +520,7 @@ msgstr ""
 msgid "Create KDMs"
 msgstr ""
 
-#: src/tools/dcpomatic_editor.cc:213 src/tools/dcpomatic_editor.cc:300
+#: src/tools/dcpomatic_editor.cc:213 src/tools/dcpomatic_editor.cc:302
 msgid "Creator"
 msgstr ""
 
@@ -515,20 +528,20 @@ msgstr ""
 msgid "Crop"
 msgstr ""
 
-#: src/tools/dcpomatic_disk.cc:139 src/tools/dcpomatic_verifier.cc:133
+#: src/tools/dcpomatic_disk.cc:139 src/tools/dcpomatic_verifier.cc:165
 msgid "DCP"
 msgstr ""
 
-#: src/tools/dcpomatic_server.cc:261
+#: src/tools/dcpomatic_server.cc:256
 #, fuzzy
 msgid "DCP-o-matic Encode Server"
 msgstr "DCP-o-matic konvertor"
 
-#: src/tools/dcpomatic_disk.cc:135 src/tools/dcpomatic_verifier.cc:129
+#: src/tools/dcpomatic_disk.cc:135 src/tools/dcpomatic_verifier.cc:145
 msgid "DCPs"
 msgstr ""
 
-#: src/tools/dcpomatic_combiner.cc:192
+#: src/tools/dcpomatic_combiner.cc:194
 msgid "DCPs combined successfully."
 msgstr ""
 
@@ -541,15 +554,15 @@ msgstr ""
 msgid "DKDM %s is already in the DKDM list and will not be added again."
 msgstr ""
 
-#: src/tools/dcpomatic_player.cc:700
+#: src/tools/dcpomatic_player.cc:703
 msgid "Decode at full resolution"
 msgstr ""
 
-#: src/tools/dcpomatic_player.cc:701
+#: src/tools/dcpomatic_player.cc:704
 msgid "Decode at half resolution"
 msgstr ""
 
-#: src/tools/dcpomatic_player.cc:702
+#: src/tools/dcpomatic_player.cc:705
 msgid "Decode at quarter resolution"
 msgstr ""
 
@@ -557,24 +570,24 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: src/tools/dcpomatic_disk.cc:342
+#: src/tools/dcpomatic_disk.cc:344
 #, c-format
 msgid ""
 "Did you install the %s Disk Writer.pkg from the .dmg?  Please check and try "
 "again."
 msgstr ""
 
-#: src/tools/dcpomatic_disk.cc:188
+#: src/tools/dcpomatic_disk.cc:190
 #, fuzzy
 msgid "Disk Writer"
 msgstr "DCP-o-matic"
 
-#: src/tools/dcpomatic.cc:1921 src/tools/dcpomatic.cc:1938
-#: src/tools/dcpomatic.cc:1992
+#: src/tools/dcpomatic.cc:1922 src/tools/dcpomatic.cc:1939
+#: src/tools/dcpomatic.cc:1993
 msgid "Do nothing"
 msgstr ""
 
-#: src/tools/dcpomatic_disk.cc:334
+#: src/tools/dcpomatic_disk.cc:336
 msgid ""
 "Do you see a 'User Account Control' dialogue asking about "
 "dcpomatic2_disk_writer.exe?  If so, click 'Yes', then try again."
@@ -597,11 +610,11 @@ msgstr ""
 msgid "Down"
 msgstr ""
 
-#: src/tools/dcpomatic_disk.cc:151
+#: src/tools/dcpomatic_disk.cc:153
 msgid "Drive"
 msgstr ""
 
-#: src/tools/dcpomatic_player.cc:690
+#: src/tools/dcpomatic_player.cc:693
 msgid "Dual screen\tShift+F11"
 msgstr ""
 
@@ -646,6 +659,10 @@ msgstr ""
 msgid "Entry point"
 msgstr ""
 
+#: src/tools/dcpomatic_verifier.cc:151
+msgid "Examining DCPs"
+msgstr ""
+
 #: src/tools/dcpomatic.cc:1431
 #, fuzzy
 msgid "Export preferences..."
@@ -666,7 +683,7 @@ msgstr "&Otvoriť...\tCtrl-O"
 msgid "Export..."
 msgstr "&Otvoriť...\tCtrl-O"
 
-#: src/tools/dcpomatic_player.cc:697
+#: src/tools/dcpomatic_player.cc:700
 msgid "Eye"
 msgstr ""
 
@@ -681,7 +698,7 @@ msgstr "Priečinok %s už existuje a nie je prázdny. Chcete pokračovať ?"
 msgid "Film changed"
 msgstr "Film bol zmenený"
 
-#: src/tools/dcpomatic_disk.cc:188
+#: src/tools/dcpomatic_disk.cc:190
 msgid "Finding disks"
 msgstr ""
 
@@ -690,11 +707,11 @@ msgstr ""
 msgid "Folder %s already exists.  Do you want to overwrite it?"
 msgstr "Priečinok %s už existuje a nie je prázdny. Chcete pokračovať ?"
 
-#: src/tools/dcpomatic_server.cc:174
+#: src/tools/dcpomatic_server.cc:169
 msgid "Frames per second"
 msgstr ""
 
-#: src/tools/dcpomatic_player.cc:689
+#: src/tools/dcpomatic_player.cc:692
 msgid "Full screen\tF11"
 msgstr ""
 
@@ -715,7 +732,7 @@ msgstr ""
 msgid "Intrinsic duration"
 msgstr ""
 
-#: src/tools/dcpomatic_editor.cc:208 src/tools/dcpomatic_editor.cc:295
+#: src/tools/dcpomatic_editor.cc:208 src/tools/dcpomatic_editor.cc:297
 msgid "Issuer"
 msgstr ""
 
@@ -732,7 +749,7 @@ msgstr ""
 msgid "KDM|Timing"
 msgstr ""
 
-#: src/tools/dcpomatic_player.cc:695
+#: src/tools/dcpomatic_player.cc:698
 msgid "Left"
 msgstr ""
 
@@ -740,7 +757,7 @@ msgstr ""
 msgid "Length"
 msgstr ""
 
-#: src/tools/dcpomatic_player.cc:448 src/tools/dcpomatic_player.cc:800
+#: src/tools/dcpomatic_player.cc:449 src/tools/dcpomatic_player.cc:803
 msgid "Loading content"
 msgstr ""
 
@@ -803,7 +820,7 @@ msgstr ""
 msgid "Open DCP in &player"
 msgstr ""
 
-#: src/tools/dcpomatic_editor.cc:344
+#: src/tools/dcpomatic_editor.cc:346
 msgid "Open a DCP using File -> Open"
 msgstr ""
 
@@ -811,11 +828,11 @@ msgstr ""
 msgid "Output"
 msgstr ""
 
-#: src/tools/dcpomatic_combiner.cc:124
+#: src/tools/dcpomatic_combiner.cc:126
 msgid "Output DCP folder"
 msgstr ""
 
-#: src/tools/dcpomatic_editor.cc:408
+#: src/tools/dcpomatic_editor.cc:410
 #, c-format
 msgid "PKL: %s"
 msgstr ""
@@ -852,17 +869,17 @@ msgstr ""
 msgid "Question|Y"
 msgstr ""
 
-#: src/tools/dcpomatic_server.cc:243
+#: src/tools/dcpomatic_server.cc:238
 #, fuzzy
 msgid "Quit"
 msgstr "&Ukončiť"
 
-#: src/tools/dcpomatic.cc:1964
+#: src/tools/dcpomatic.cc:1965
 msgid "Recreate KDM decryption chain"
 msgstr ""
 
-#: src/tools/dcpomatic.cc:1915 src/tools/dcpomatic.cc:1932
-#: src/tools/dcpomatic.cc:1946 src/tools/dcpomatic.cc:1983
+#: src/tools/dcpomatic.cc:1916 src/tools/dcpomatic.cc:1933
+#: src/tools/dcpomatic.cc:1947 src/tools/dcpomatic.cc:1984
 msgid "Recreate signing certificates"
 msgstr ""
 
@@ -870,11 +887,11 @@ msgstr ""
 msgid "Reels"
 msgstr ""
 
-#: src/tools/dcpomatic_disk.cc:155
+#: src/tools/dcpomatic_disk.cc:157
 msgid "Refresh"
 msgstr ""
 
-#: src/tools/dcpomatic.cc:1757
+#: src/tools/dcpomatic.cc:1758
 msgid "Release notes"
 msgstr ""
 
@@ -883,7 +900,7 @@ msgid "Remove"
 msgstr ""
 
 #: src/tools/dcpomatic.cc:1441 src/tools/dcpomatic_kdm.cc:342
-#: src/tools/dcpomatic_player.cc:719
+#: src/tools/dcpomatic_player.cc:722
 msgid "Report a problem..."
 msgstr "Nahlásiť problém..."
 
@@ -891,7 +908,7 @@ msgstr "Nahlásiť problém..."
 msgid "Restore default preferences"
 msgstr "Obnoviť pôvodné nastavenia"
 
-#: src/tools/dcpomatic_player.cc:696
+#: src/tools/dcpomatic_player.cc:699
 msgid "Right"
 msgstr ""
 
@@ -937,7 +954,7 @@ msgstr ""
 msgid "Save film and duplicate"
 msgstr ""
 
-#: src/tools/dcpomatic_player.cc:836
+#: src/tools/dcpomatic_player.cc:840
 msgid "Save frame to file"
 msgstr ""
 
@@ -945,12 +962,12 @@ msgstr ""
 msgid "Screens"
 msgstr ""
 
-#: src/tools/dcpomatic_editor.cc:441 src/tools/dcpomatic_player.cc:740
+#: src/tools/dcpomatic_editor.cc:443 src/tools/dcpomatic_player.cc:743
 #, fuzzy
 msgid "Select DCP to open"
 msgstr "Vybrať film na otvorenie"
 
-#: src/tools/dcpomatic_player.cc:768
+#: src/tools/dcpomatic_player.cc:771
 #, fuzzy
 msgid "Select DCP to open as OV"
 msgstr "Vybrať film na otvorenie"
@@ -965,7 +982,7 @@ msgstr "Vybrať film na otvorenie"
 msgid "Select DKDM file"
 msgstr "Vybrať film na otvorenie"
 
-#: src/tools/dcpomatic_player.cc:807
+#: src/tools/dcpomatic_player.cc:810 src/tools/dcpomatic_verifier.cc:328
 #, fuzzy
 msgid "Select KDM"
 msgstr "Vybrať film na otvorenie"
@@ -982,7 +999,7 @@ msgstr "Vybrať film na otvorenie"
 msgid "Send KDM emails"
 msgstr ""
 
-#: src/tools/dcpomatic_player.cc:699
+#: src/tools/dcpomatic_player.cc:702
 msgid "Set decode resolution to match display"
 msgstr ""
 
@@ -994,7 +1011,7 @@ msgstr ""
 msgid "Specify ZIP file"
 msgstr ""
 
-#: src/tools/dcpomatic_server.cc:242
+#: src/tools/dcpomatic_server.cc:237
 msgid "Status..."
 msgstr ""
 
@@ -1002,11 +1019,11 @@ msgstr ""
 msgid "Subtitle"
 msgstr ""
 
-#: src/tools/dcpomatic.cc:1427 src/tools/dcpomatic_player.cc:710
+#: src/tools/dcpomatic.cc:1427 src/tools/dcpomatic_player.cc:713
 msgid "System information..."
 msgstr ""
 
-#: src/tools/dcpomatic.cc:1529 src/tools/dcpomatic_player.cc:1107
+#: src/tools/dcpomatic.cc:1529 src/tools/dcpomatic_player.cc:1110
 #, fuzzy, c-format
 msgid "The %s download server could not be contacted."
 msgstr "DCP-o-matic download server je nedostupný."
@@ -1030,7 +1047,7 @@ msgstr ""
 "DCP pre tento film bude zaberať aspoň %.1f Gb a disk, ktorý momentálne "
 "používate má len %.1f Gb dostupých.  Chete pokračovať ?"
 
-#: src/tools/dcpomatic_player.cc:377
+#: src/tools/dcpomatic_player.cc:378
 msgid "The KDM does not allow playback of this content at this time."
 msgstr ""
 
@@ -1052,7 +1069,7 @@ msgstr ""
 msgid "The certificate chain for signing is invalid"
 msgstr ""
 
-#: src/tools/dcpomatic.cc:1966
+#: src/tools/dcpomatic.cc:1967
 #, c-format
 msgid ""
 "The certificate chain that %s uses for decrypting KDMs is inconsistent and\n"
@@ -1063,7 +1080,7 @@ msgid ""
 "configuration before continuing."
 msgstr ""
 
-#: src/tools/dcpomatic.cc:1917
+#: src/tools/dcpomatic.cc:1918
 #, c-format
 msgid ""
 "The certificate chain that %s uses for signing DCPs and KDMs contains a "
@@ -1073,7 +1090,7 @@ msgid ""
 "the certificate chain for signing DCPs and KDMs?"
 msgstr ""
 
-#: src/tools/dcpomatic.cc:1985
+#: src/tools/dcpomatic.cc:1986
 #, c-format
 msgid ""
 "The certificate chain that %s uses for signing DCPs and KDMs contains a "
@@ -1085,7 +1102,7 @@ msgid ""
 "for signing DCPs and KDMs?"
 msgstr ""
 
-#: src/tools/dcpomatic.cc:1934
+#: src/tools/dcpomatic.cc:1935
 #, c-format
 msgid ""
 "The certificate chain that %s uses for signing DCPs and KDMs has a validity "
@@ -1095,7 +1112,7 @@ msgid ""
 "Do you want to re-create the certificate chain for signing DCPs and KDMs?"
 msgstr ""
 
-#: src/tools/dcpomatic.cc:1948
+#: src/tools/dcpomatic.cc:1949
 #, c-format
 msgid ""
 "The certificate chain that %s uses for signing DCPs and KDMs is inconsistent "
@@ -1105,37 +1122,37 @@ msgid ""
 "the certificate chain for signing DCPs and KDMs?"
 msgstr ""
 
-#: src/tools/dcpomatic_combiner.cc:165
+#: src/tools/dcpomatic_combiner.cc:167
 #, c++-format
 msgid ""
 "The directory {} already exists and is not empty.  Are you sure you want to "
 "use it?"
 msgstr "Priečinok {} už existuje a nie je prázdny. Chcete pokračovať ?"
 
-#: src/tools/dcpomatic_disk.cc:297
+#: src/tools/dcpomatic_disk.cc:299
 msgid "The disk you selected is no longer available.  Please choose another."
 msgstr ""
 
-#: src/tools/dcpomatic_disk.cc:376
+#: src/tools/dcpomatic_disk.cc:378
 #, c-format
 msgid ""
 "The drive %s could not be unmounted.\n"
 "Close any application that is using it, then try again. (%s)"
 msgstr ""
 
-#: src/tools/dcpomatic_disk.cc:541 src/tools/dcpomatic_player.cc:1512
+#: src/tools/dcpomatic_disk.cc:543 src/tools/dcpomatic_player.cc:1517
 msgid ""
 "The existing configuration failed to load.  Default values will be used "
 "instead.  These may take a short time to create."
 msgstr ""
 
-#: src/tools/dcpomatic.cc:1531 src/tools/dcpomatic_player.cc:1109
+#: src/tools/dcpomatic.cc:1531 src/tools/dcpomatic_player.cc:1112
 #, fuzzy, c-format
 msgid "There are no new versions of %s available."
 msgstr "Žiadne nové verzie DCP-o-matic nie sú dostupné."
 
 #: src/tools/dcpomatic_batch.cc:278 src/tools/dcpomatic.cc:1172
-#: src/tools/dcpomatic_disk.cc:272
+#: src/tools/dcpomatic_disk.cc:274
 msgid "There are unfinished jobs; are you sure you want to quit?"
 msgstr "Ešte sú nie sú dokončené úlohy; chcete skončiť ?"
 
@@ -1147,7 +1164,7 @@ msgstr ""
 "Tento film bol vytvorený staršou verziou DVD-o-matic a nemusí v tejto verzií "
 "fungovať správne. Prosím, skontrolujte nastavenia filmu."
 
-#: src/tools/dcpomatic_player.cc:457
+#: src/tools/dcpomatic_player.cc:458
 #, c-format
 msgid ""
 "This looks like a %s project folder, which cannot be loaded into the "
@@ -1155,13 +1172,13 @@ msgid ""
 "you want to play."
 msgstr ""
 
-#: src/tools/dcpomatic_verifier.cc:148
+#: src/tools/dcpomatic_verifier.cc:183
 msgid ""
 "Tick to check details of the picture asset, such as frame sizes and JPEG2000 "
 "bitstream validity.  These checks are quite time-consuming."
 msgstr ""
 
-#: src/tools/dcpomatic_player.cc:709
+#: src/tools/dcpomatic_player.cc:712
 msgid "Timing..."
 msgstr ""
 
@@ -1180,7 +1197,7 @@ msgid "Type"
 msgstr ""
 
 #: src/tools/dcpomatic_batch.cc:279 src/tools/dcpomatic.cc:1173
-#: src/tools/dcpomatic_disk.cc:273
+#: src/tools/dcpomatic_disk.cc:275
 msgid "Unfinished jobs"
 msgstr "Nedokončené úlohy"
 
@@ -1188,7 +1205,7 @@ msgstr "Nedokončené úlohy"
 msgid "Uninstall..."
 msgstr ""
 
-#: src/tools/dcpomatic_player.cc:856
+#: src/tools/dcpomatic_player.cc:860
 #, c-format
 msgid "Unrecognised file extension %s (use .jpg, .jpeg or .png)"
 msgstr ""
@@ -1197,19 +1214,19 @@ msgstr ""
 msgid "Up"
 msgstr ""
 
-#: src/tools/dcpomatic_verifier.cc:159
+#: src/tools/dcpomatic_verifier.cc:194
 msgid "Verify"
 msgstr ""
 
-#: src/tools/dcpomatic_player.cc:1038
+#: src/tools/dcpomatic_player.cc:1041
 msgid "Verify DCP"
 msgstr ""
 
-#: src/tools/dcpomatic_player.cc:705
+#: src/tools/dcpomatic_player.cc:708
 msgid "Verify DCP..."
 msgstr ""
 
-#: src/tools/dcpomatic_verifier.cc:145
+#: src/tools/dcpomatic_verifier.cc:180
 msgid "Verify picture asset details"
 msgstr ""
 
@@ -1221,7 +1238,7 @@ msgstr ""
 msgid "Video waveform..."
 msgstr "Analýza videa..."
 
-#: src/tools/dcpomatic_verifier.cc:152
+#: src/tools/dcpomatic_verifier.cc:187
 msgid "Write logs to DCP folders"
 msgstr ""
 
@@ -1253,7 +1270,7 @@ msgid ""
 "size=\"larger\">BACKED UP</span> if you want to make KDMs for this film."
 msgstr ""
 
-#: src/tools/dcpomatic.cc:1715
+#: src/tools/dcpomatic.cc:1717
 #, c-format
 msgid ""
 "You are running the 32-bit version of %s on a 64-bit version of Windows.  "
@@ -1261,15 +1278,15 @@ msgid ""
 "strongly advised to install the 64-bit version of %s."
 msgstr ""
 
-#: src/tools/dcpomatic_disk.cc:392
+#: src/tools/dcpomatic_disk.cc:394
 msgid ""
 "You did not correctly confirm that you read the warning that was just "
 "shown.  Please try again."
 msgstr ""
 
 #: src/tools/dcpomatic_batch.cc:343 src/tools/dcpomatic.cc:612
-#: src/tools/dcpomatic_editor.cc:447 src/tools/dcpomatic_player.cc:746
-#: src/tools/dcpomatic_player.cc:777
+#: src/tools/dcpomatic_editor.cc:449 src/tools/dcpomatic_player.cc:749
+#: src/tools/dcpomatic_player.cc:780
 msgid ""
 "You did not select a folder.  Make sure that you select a folder before "
 "clicking Open."

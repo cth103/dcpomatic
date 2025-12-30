@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-09 20:17+0100\n"
+"POT-Creation-Date: 2025-12-30 21:17+0100\n"
 "PO-Revision-Date: 2025-11-15 11:35+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
@@ -75,7 +75,7 @@ msgstr " (%.2f:1)"
 msgid " on {}"
 msgstr " op {}"
 
-#: src/lib/config.cc:1274
+#: src/lib/config.cc:1272
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -99,7 +99,7 @@ msgstr ""
 "Lengte: $LENGTH\n"
 "Grootte: $SIZE\n"
 
-#: src/lib/config.cc:1252
+#: src/lib/config.cc:1250
 msgid "$JOB_NAME: $JOB_STATUS"
 msgstr "$JOB_NAME: $JOB_STATUS"
 
@@ -204,30 +204,30 @@ msgstr "; {} resterend; klaar om {}{}"
 #: src/lib/analytics.cc:58
 #, c-format, c++-format
 msgid ""
-"<h2>You have made {} DCPs with {}!</h2><img width=\"20%%\" src=\"memory:me."
-"jpg\" align=\"center\"><font size=\"+1\"><p>Hello. I'm Carl and I'm the "
-"developer of {}. I work on it in my spare time (with the help of a volunteer "
-"team of testers and translators) and I release it as free software.<p>If you "
-"find {} useful, please consider a donation to the project. Financial support "
-"will help me to spend more time developing {} and making it better!"
-"<p><ul><li><a href=\"https://dcpomatic.com/donate_amount?amount=40\">Go to "
-"Paypal to donate €40</a><li><a href=\"https://dcpomatic.com/donate_amount?"
-"amount=20\">Go to Paypal to donate €20</a><li><a href=\"https://dcpomatic."
-"com/donate_amount?amount=10\">Go to Paypal to donate €10</a></ul><p>Thank "
-"you!</font>"
+"<h2>You have made {} DCPs with {}!</h2><img width=\"20%%\" "
+"src=\"memory:me.jpg\" align=\"center\"><font size=\"+1\"><p>Hello. I'm Carl "
+"and I'm the developer of {}. I work on it in my spare time (with the help of "
+"a volunteer team of testers and translators) and I release it as free "
+"software.<p>If you find {} useful, please consider a donation to the "
+"project. Financial support will help me to spend more time developing {} and "
+"making it better!<p><ul><li><a href=\"https://dcpomatic.com/donate_amount?"
+"amount=40\">Go to Paypal to donate €40</a><li><a href=\"https://"
+"dcpomatic.com/donate_amount?amount=20\">Go to Paypal to donate €20</a><li><a "
+"href=\"https://dcpomatic.com/donate_amount?amount=10\">Go to Paypal to "
+"donate €10</a></ul><p>Thank you!</font>"
 msgstr ""
-"<h2>U heeft {} DCP's gemaakt met {}!</h2><img width=\"20%%\" src=\"memory:me."
-"jpg\" align=\"center\"><font size=\"+1\"><p>Hallo.  Ik ben Carl en ik ben de "
-"ontwikkelaar van {}.  Ik werk eraan in mijn vrije tijd (met de hulp van een "
-"vrijwilligersteam van testers en vertalers) en ik geef het vrij als gratis "
-"software.<p>Als u {} nuttig vindt, overweeg dan een donatie aan het "
-"project.  Financiële ondersteuning zal me helpen om meer tijd te besteden "
-"aan de ontwikkeling van {} en het beter te maken!<p><ul><li><a "
-"href=\"https://dcpomatic.com/donate_amount?amount=40\">Ga naar Paypal om €40 "
-"te doneren</a><li><a href=\"https://dcpomatic.com/donate_amount?"
-"amount=20\">Ga naar Paypal om €20 te doneren</a><li><a href=\"https://"
-"dcpomatic.com/donate_amount?amount=10\">Ga naar Paypal om €10 te doneren</"
-"a></ul><p>Dank u wel!</font>"
+"<h2>U heeft {} DCP's gemaakt met {}!</h2><img width=\"20%%\" "
+"src=\"memory:me.jpg\" align=\"center\"><font size=\"+1\"><p>Hallo.  Ik ben "
+"Carl en ik ben de ontwikkelaar van {}.  Ik werk eraan in mijn vrije tijd "
+"(met de hulp van een vrijwilligersteam van testers en vertalers) en ik geef "
+"het vrij als gratis software.<p>Als u {} nuttig vindt, overweeg dan een "
+"donatie aan het project.  Financiële ondersteuning zal me helpen om meer "
+"tijd te besteden aan de ontwikkeling van {} en het beter te maken!"
+"<p><ul><li><a href=\"https://dcpomatic.com/donate_amount?amount=40\">Ga naar "
+"Paypal om €40 te doneren</a><li><a href=\"https://dcpomatic.com/"
+"donate_amount?amount=20\">Ga naar Paypal om €20 te doneren</a><li><a "
+"href=\"https://dcpomatic.com/donate_amount?amount=10\">Ga naar Paypal om €10 "
+"te doneren</a></ul><p>Dank u wel!</font>"
 
 #: src/lib/hints.cc:176
 msgid ""
@@ -456,7 +456,7 @@ msgstr "Mag geen slash bevatten"
 msgid "Cannot handle pixel format {} during {}"
 msgstr "Kan pixelformaat {} niet verwerken tijdens {}"
 
-#: src/lib/film.cc:1903
+#: src/lib/film.cc:1939
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr "Kan geen KDM maken omdat dit project niet is versleuteld."
 
@@ -540,10 +540,6 @@ msgstr "Kleurruimte"
 #: src/lib/combine_dcp_job.cc:48
 msgid "Combine DCPs"
 msgstr "Combineer DCP's"
-
-#: src/lib/content.cc:173
-msgid "Computing digest"
-msgstr "Berekenen samenvatting"
 
 #: src/lib/writer.cc:522
 msgid "Computing digests"
@@ -777,7 +773,7 @@ msgstr "Kan gedownload ZIP-bestand niet openen"
 msgid "Could not open downloaded ZIP file ({}:{}: {})"
 msgstr "Kan gedownload ZIP-bestand niet openen ({}:{}: {})"
 
-#: src/lib/config.cc:1176
+#: src/lib/config.cc:1174
 msgid "Could not open file for writing"
 msgstr "Kan bestand niet openen om te schrijven"
 
@@ -834,11 +830,11 @@ msgstr "DCI Flat"
 msgid "DCI Scope"
 msgstr "DCI Scope"
 
-#: src/lib/film.cc:2011
+#: src/lib/film.cc:2047
 msgid "DCP"
 msgstr "DCP"
 
-#: src/lib/film.cc:2008
+#: src/lib/film.cc:2044
 #, c++-format
 msgid "DCP (via {})"
 msgstr "DCP (via {})"
@@ -860,7 +856,7 @@ msgstr "DCP zal afspelen met %.1f%% van de content-snelheid.\n"
 msgid "DCP will use every other frame of the content.\n"
 msgstr "DCP zal om het andere frame van de content gebruiken.\n"
 
-#: src/lib/film.cc:1820
+#: src/lib/film.cc:1856
 msgid ""
 "DCP-o-matic had to set your container to 1920x1080 as it's the only one that "
 "can be used with MPEG2 encoding."
@@ -868,7 +864,7 @@ msgstr ""
 "DCP-o-matic moest uw container instellen op 1920x1080, omdat dit de enige is "
 "die kan worden gebruikt met MPEG2-codering."
 
-#: src/lib/film.cc:1824
+#: src/lib/film.cc:1860
 msgid ""
 "DCP-o-matic had to set your film to 2D as 3D is not yet supported with MPEG2 "
 "encoding."
@@ -876,7 +872,7 @@ msgstr ""
 "DCP-o-matic moest uw film op 2D instellen, omdat 3D nog niet wordt "
 "ondersteund met MPEG2-codering."
 
-#: src/lib/film.cc:1828
+#: src/lib/film.cc:1864
 msgid ""
 "DCP-o-matic set your container to DCI Flat as it was previously 1920x1080 "
 "and that is not a standard ratio with JPEG2000 encoding."
@@ -893,7 +889,7 @@ msgstr "Datasat AP20 of AP25"
 msgid "De-interlacing"
 msgstr "Deinterlacing"
 
-#: src/lib/config.cc:1237
+#: src/lib/config.cc:1235
 #, c++-format
 msgid ""
 "Dear Projectionist\n"
@@ -1047,11 +1043,11 @@ msgstr "Verzenden e-mail mislukt"
 msgid "Feature"
 msgstr "Feature"
 
-#: src/lib/content.cc:459
+#: src/lib/content.cc:455
 msgid "Filename"
 msgstr "Bestandsnaam"
 
-#: src/lib/content.cc:459
+#: src/lib/content.cc:455
 msgid "Filenames"
 msgstr "Bestandsnamen"
 
@@ -1071,7 +1067,7 @@ msgstr "Bepalen lengte"
 msgid "Formatting drive"
 msgstr "Formatteren schijf"
 
-#: src/lib/content.cc:469
+#: src/lib/content.cc:465
 msgid "Frame rate"
 msgstr "Frame rate"
 
@@ -1201,7 +1197,7 @@ msgstr "Het is onbekend hoe deze fout is ontstaan.  {}"
 msgid "JEDEC P22"
 msgstr "JEDEC P22"
 
-#: src/lib/config.cc:427 src/lib/config.cc:1234
+#: src/lib/config.cc:427 src/lib/config.cc:1232
 msgid "KDM delivery: $CPL_NAME"
 msgstr "KDM-levering: $CPL_NAME"
 
@@ -1286,19 +1282,19 @@ msgstr "Midden-zijkant decoder"
 msgid "Misc"
 msgstr "Diversen"
 
-#: src/lib/dcp_examiner.cc:193
+#: src/lib/dcp_examiner.cc:194
 msgid "Mismatched audio channel counts in DCP"
 msgstr "Ongelijke aantallen audio-kanalen in DCP"
 
-#: src/lib/dcp_examiner.cc:201
+#: src/lib/dcp_examiner.cc:202
 msgid "Mismatched audio sample rates in DCP"
 msgstr "Ongelijke audio sample rates in DCP"
 
-#: src/lib/dcp_examiner.cc:162
+#: src/lib/dcp_examiner.cc:163
 msgid "Mismatched frame rates in DCP"
 msgstr "Ongelijke frame rates in DCP"
 
-#: src/lib/dcp_examiner.cc:169
+#: src/lib/dcp_examiner.cc:170
 msgid "Mismatched video sizes in DCP"
 msgstr "Ongelijke beeldgroottes in DCP"
 
@@ -1403,9 +1399,17 @@ msgstr "Onvoldoende geheugen"
 msgid "Overcomplete wavelet denoiser"
 msgstr "Overcomplete wavelet denoiser"
 
+#: src/lib/colour_conversion.cc:293
+msgid "P3 D60 (~6000K)"
+msgstr ""
+
+#: src/lib/colour_conversion.cc:292
+msgid "P3 D65 (~6500K)"
+msgstr ""
+
 #: src/lib/colour_conversion.cc:291
-msgid "P3"
-msgstr "P3"
+msgid "P3 DCI (~6300K)"
+msgstr ""
 
 #: src/lib/util.cc:1137
 #, c++-format
@@ -1424,7 +1428,7 @@ msgstr "Policy"
 msgid "Premultiply alpha channel"
 msgstr "Premultiply alpha channel"
 
-#: src/lib/content.cc:478
+#: src/lib/content.cc:474
 msgid "Prepared for video frame rate"
 msgstr "Voorbereid voor video frame rate"
 
@@ -1460,11 +1464,11 @@ msgstr "RGB / sRGB (IEC61966-2-1)"
 msgid "Rating"
 msgstr "Rating"
 
-#: src/lib/colour_conversion.cc:292
+#: src/lib/colour_conversion.cc:294
 msgid "Rec. 1886"
 msgstr "Rec. 1886"
 
-#: src/lib/colour_conversion.cc:293
+#: src/lib/colour_conversion.cc:295
 msgid "Rec. 2020"
 msgstr "Rec. 2020"
 
@@ -1504,7 +1508,7 @@ msgstr "Roteer 90 graden met de klok mee"
 msgid "Rs"
 msgstr "Rs"
 
-#: src/lib/colour_conversion.cc:294
+#: src/lib/colour_conversion.cc:296
 msgid "S-Gamut3/S-Log3"
 msgstr "S-Gamut3/S-Log3"
 
@@ -1856,7 +1860,7 @@ msgstr ""
 "op voorwaarde dat uw doelprojectiesystemen de door u gekozen DCP frame rate "
 "ondersteunen."
 
-#: src/lib/dcp_content.cc:721
+#: src/lib/dcp_content.cc:723
 msgid "There is no video in this DCP"
 msgstr "Deze DCP heeft geen video"
 
@@ -1889,9 +1893,9 @@ msgid ""
 "again."
 msgstr ""
 "Deze fout is waarschijnlijk opgetreden omdat u de 32-bits versie van {} "
-"gebruikt en probeert te veel encoderings-threads te gebruiken.  Verminder a."
-"u.b. het 'Aantal threads dat {} moet gebruiken' in het \"Algemeen\"-tabblad "
-"bij Voorkeuren en probeer het opnieuw."
+"gebruikt en probeert te veel encoderings-threads te gebruiken.  Verminder "
+"a.u.b. het 'Aantal threads dat {} moet gebruiken' in het \"Algemeen\"-"
+"tabblad bij Voorkeuren en probeer het opnieuw."
 
 #: src/lib/job.cc:155
 #, c++-format
@@ -1911,7 +1915,7 @@ msgstr ""
 "met de rechtermuisknop op de content te klikken en \"Voeg KDM toe\" te "
 "kiezen."
 
-#: src/lib/film.cc:555
+#: src/lib/film.cc:557
 #, c++-format
 msgid ""
 "This film was created with a newer version of {}, and it cannot be loaded "
@@ -1920,7 +1924,7 @@ msgstr ""
 "Deze film is aangemaakt met een nieuwere versie van {} en kan niet met deze "
 "versie geladen worden.  Sorry!"
 
-#: src/lib/film.cc:536
+#: src/lib/film.cc:538
 #, c++-format
 msgid ""
 "This film was created with an older version of {}, and unfortunately it "
@@ -2018,7 +2022,7 @@ msgstr "Upmix R"
 msgid "VI"
 msgstr "VI"
 
-#: src/lib/verify_dcp_job.cc:62
+#: src/lib/verify_dcp_job.cc:80
 msgid "Verify DCP"
 msgstr "Controleer DCP"
 
@@ -2118,7 +2122,7 @@ msgstr ""
 "bioscoop naar de resulterende DCP luisteren om er zeker van te zijn dat het "
 "goed klinkt."
 
-#: src/lib/film.cc:1757
+#: src/lib/film.cc:1793
 msgid ""
 "You have more than one piece of Atmos content, and they do not have the same "
 "frame rate.  You must remove some Atmos content."
@@ -2312,7 +2316,7 @@ msgstr "fout tijdens async_read ({})"
 msgid "error during async_write ({})"
 msgstr "fout tijdens async_write ({})"
 
-#: src/lib/content.cc:471 src/lib/content.cc:480
+#: src/lib/content.cc:467 src/lib/content.cc:476
 msgid "frames per second"
 msgstr "frames per seconde"
 
@@ -2322,11 +2326,11 @@ msgid "h"
 msgstr "h"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:678
+#: src/lib/dcp_content.cc:680
 msgid "it has a different frame rate to the film."
 msgstr "hij heeft een andere frame rate dan de film."
 
-#: src/lib/dcp_content.cc:760
+#: src/lib/dcp_content.cc:762
 #, c++-format
 msgid ""
 "it has a different number of audio channels than the project; set the "
@@ -2336,7 +2340,7 @@ msgstr ""
 "in op {} kanalen."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:796
+#: src/lib/dcp_content.cc:798
 msgid ""
 "it has a start trim so its subtitles or closed captions must be re-written."
 msgstr ""
@@ -2344,42 +2348,42 @@ msgstr ""
 "captions moeten opnieuw geschreven worden."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:731
+#: src/lib/dcp_content.cc:733
 msgid "it is 2K and the film is 4K."
 msgstr "hij is 2K en de film is 4k."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:728
+#: src/lib/dcp_content.cc:730
 msgid "it is 4K and the film is 2K."
 msgstr "hij is 4K en de film is 2K."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:666
+#: src/lib/dcp_content.cc:668
 msgid "it is Interop and the film is set to SMPTE."
 msgstr "hij is Interop en de film is SMPTE."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:670
+#: src/lib/dcp_content.cc:672
 msgid "it is SMPTE and the film is set to Interop."
 msgstr "hij is SMPTE en de film is Interop."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:771
+#: src/lib/dcp_content.cc:773
 msgid "it overlaps other audio content."
 msgstr "hij overlapt met andere audio-content."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:806
+#: src/lib/dcp_content.cc:808
 msgid "it overlaps other text content."
 msgstr "hij overlapt met andere tekst-content."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:746
+#: src/lib/dcp_content.cc:748
 msgid "it overlaps other video content."
 msgstr "hij overlapt met andere video-content."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:701
+#: src/lib/dcp_content.cc:703
 msgid ""
 "its reel lengths differ from those in the film; set the reel mode to 'split "
 "by video content'."
@@ -2388,7 +2392,7 @@ msgstr ""
 "'splits per video-content'."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:736
+#: src/lib/dcp_content.cc:738
 msgid "its video frame size differs from the film's."
 msgstr "zijn video-beeldgrootte verschilt van die in de film."
 
@@ -2406,7 +2410,7 @@ msgid "name"
 msgstr "naam"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:790
+#: src/lib/dcp_content.cc:792
 msgid ""
 "one of its closed caption has a non-zero entry point so it must be re-"
 "written."
@@ -2415,7 +2419,7 @@ msgstr ""
 "moet opnieuw geschreven worden."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:784
+#: src/lib/dcp_content.cc:786
 msgid ""
 "one of its subtitle reels has a non-zero entry point so it must be re-"
 "written."
@@ -2483,7 +2487,7 @@ msgstr ""
 "{} kan het bestand {} ({}) niet openen.  Misschien bestaat het niet of wordt "
 "het formaat niet ondersteund."
 
-#: src/lib/film.cc:1794
+#: src/lib/film.cc:1830
 #, c++-format
 msgid ""
 "{} had to change your settings for referring to DCPs as OV.  Please review "
@@ -2493,7 +2497,7 @@ msgstr ""
 "Controleer a.u.b. deze instellingen om er zeker van te zijn dat ze zijn "
 "zoals u wilt."
 
-#: src/lib/film.cc:1760
+#: src/lib/film.cc:1796
 #, c++-format
 msgid ""
 "{} had to change your settings so that the film's frame rate is the same as "
@@ -2502,7 +2506,7 @@ msgstr ""
 "{} moest uw instellingen wijzigen zodat de frame rate van de film hetzelfde "
 "is als die van uw Atmos-content."
 
-#: src/lib/film.cc:1807
+#: src/lib/film.cc:1843
 #, c++-format
 msgid ""
 "{} had to remove one of your custom reel boundaries as it no longer lies "
@@ -2511,7 +2515,7 @@ msgstr ""
 "{} moest een van uw aangepaste reel-grenzen verwijderen omdat deze niet meer "
 "binnen de film valt."
 
-#: src/lib/film.cc:1805
+#: src/lib/film.cc:1841
 #, c++-format
 msgid ""
 "{} had to remove some of your custom reel boundaries as they no longer lie "
@@ -2526,7 +2530,7 @@ msgid "{} no longer supports the `{}' filter, so it has been turned off."
 msgstr ""
 "{} ondersteunt het filter `{}' niet langer, daarom is het uitgeschakeld."
 
-#: src/lib/config.cc:437 src/lib/config.cc:1249
+#: src/lib/config.cc:437 src/lib/config.cc:1247
 #, c++-format
 msgid "{} notification"
 msgstr "{} notificatie"
@@ -2535,6 +2539,12 @@ msgstr "{} notificatie"
 #, c++-format
 msgid "{}; {}/{} frames"
 msgstr "{}; {}/{} frames"
+
+#~ msgid "Computing digest"
+#~ msgstr "Berekenen samenvatting"
+
+#~ msgid "P3"
+#~ msgstr "P3"
 
 #~ msgid "container"
 #~ msgstr "container"
