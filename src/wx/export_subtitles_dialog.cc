@@ -60,13 +60,13 @@ ExportSubtitlesDialog::ExportSubtitlesDialog (wxWindow* parent, int reels, bool 
 	wxString const wildcard = _interop ? _("Subtitle files (.xml)|*.xml") : _("Subtitle files (.mxf)|*.mxf");
 
 	_file_label = new wxStaticText(this, wxID_ANY, _("Output file"));
-	sizer->Add(_file_label, wxGBPosition(r, 0));
+	sizer->Add(_file_label, wxGBPosition(r, 0), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
 	_file = new FilePickerCtrl(this, _("Select output file"), wildcard, false, true, "ExportSubtitlesPath");
 	sizer->Add(_file, wxGBPosition(r, 1));
 	++r;
 
 	_dir_label = new wxStaticText(this, wxID_ANY, (_("Output folder")));
-	sizer->Add(_dir_label, wxGBPosition(r, 0));
+	sizer->Add(_dir_label, wxGBPosition(r, 0), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
 	_dir = new DirPickerCtrl (this);
 	sizer->Add(_dir, wxGBPosition(r, 1));
 
