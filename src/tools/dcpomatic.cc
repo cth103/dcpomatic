@@ -1400,7 +1400,7 @@ private:
 		jobs_menu->AppendSeparator ();
 		/* [Shortcut] Ctrl+E:Export video file */
 		add_item (jobs_menu, _("Export video file...\tCtrl-E"), ID_jobs_export_video_file, NEEDS_FILM);
-		add_item (jobs_menu, _("Export subtitles..."), ID_jobs_export_subtitles, NEEDS_FILM);
+		add_item (jobs_menu, _("Export subtitles...\tShift-Ctrl-E"), ID_jobs_export_subtitles, NEEDS_FILM);
 		jobs_menu->AppendSeparator ();
 		add_item (jobs_menu, _("&Send DCP to TMS"), ID_jobs_send_dcp_to_tms, NEEDS_FILM | NOT_DURING_DCP_CREATION | NEEDS_CPL);
 
