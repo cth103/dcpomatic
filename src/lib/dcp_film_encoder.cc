@@ -125,12 +125,14 @@ DCPFilmEncoder::go()
 		_writer->write(_player.get_subtitle_fonts());
 	}
 
+	auto const length = _film->length().frames_round(_film->video_frame_rate());
+
 	int passes = 0;
 	while (!_player.pass()) {
 		if ((++passes % 8) == 0) {
 			auto job = _job.lock();
 			DCPOMATIC_ASSERT(job);
-			job->set_progress(_player.progress());
+			job->set_progress(static_cast<float>(frames_done()) / length);
 		}
 	}
 
@@ -201,5 +203,9 @@ DCPFilmEncoder::current_rate() const
 Frame
 DCPFilmEncoder::frames_done() const
 {
-	return _player.frames_done();
+	if (!_encoder) {
+		return 0;
+	}
+
+	return _encoder->video_frames_encoded();
 }
