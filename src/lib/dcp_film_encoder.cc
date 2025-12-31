@@ -66,24 +66,9 @@ using namespace dcpomatic;
  */
 DCPFilmEncoder::DCPFilmEncoder(shared_ptr<const Film> film, weak_ptr<Job> job)
 	: FilmEncoder(film, job)
-	, _writer(film, job, film->dir(film->dcp_name()))
 	, _finishing(false)
 	, _non_burnt_subtitles(false)
 {
-	switch (_film->video_encoding()) {
-	case VideoEncoding::JPEG2000:
-		_encoder.reset(new J2KEncoder(film, _writer));
-		break;
-	case VideoEncoding::MPEG2:
-		_encoder.reset(new MPEG2Encoder(film, _writer));
-		break;
-	case VideoEncoding::COUNT:
-		DCPOMATIC_ASSERT(false);
-	}
-
-	/* Now that we have a Writer we can clear out the assets directory */
-	clean_up_asset_directory(film->assets_path());
-
 	_player_video_connection = _player.Video.connect(bind(&DCPFilmEncoder::video, this, _1, _2));
 	_player_audio_connection = _player.Audio.connect(bind(&DCPFilmEncoder::audio, this, _1, _2));
 	_player_text_connection = _player.Text.connect(bind(&DCPFilmEncoder::text, this, _1, _2, _3, _4));
@@ -110,7 +95,24 @@ DCPFilmEncoder::~DCPFilmEncoder()
 void
 DCPFilmEncoder::go()
 {
-	_writer.start();
+	auto job = _job.lock();
+	_writer.reset(new Writer(_film, job, _film->dir(_film->dcp_name())));
+
+	switch (_film->video_encoding()) {
+	case VideoEncoding::JPEG2000:
+		_encoder.reset(new J2KEncoder(_film, *_writer));
+		break;
+	case VideoEncoding::MPEG2:
+		_encoder.reset(new MPEG2Encoder(_film, *_writer));
+		break;
+	case VideoEncoding::COUNT:
+		DCPOMATIC_ASSERT(false);
+	}
+
+	/* Now that we have a Writer we can clear out the assets directory */
+	clean_up_asset_directory(_film->assets_path());
+
+	_writer->start();
 	_encoder->begin();
 
 	{
@@ -120,7 +122,7 @@ DCPFilmEncoder::go()
 	}
 
 	if (_non_burnt_subtitles) {
-		_writer.write(_player.get_subtitle_fonts());
+		_writer->write(_player.get_subtitle_fonts());
 	}
 
 	int passes = 0;
@@ -133,12 +135,12 @@ DCPFilmEncoder::go()
 	}
 
 	for (auto i: get_referenced_reel_assets(_film, _film->playlist())) {
-		_writer.write(i);
+		_writer->write(i);
 	}
 
 	_finishing = true;
 	_encoder->end();
-	_writer.finish();
+	_writer->finish();
 }
 
 
@@ -164,14 +166,16 @@ DCPFilmEncoder::video(shared_ptr<PlayerVideo> data, DCPTime time)
 void
 DCPFilmEncoder::audio(shared_ptr<AudioBuffers> data, DCPTime time)
 {
-	_writer.write(data, time);
+	DCPOMATIC_ASSERT(_writer);
+	_writer->write(data, time);
 }
 
 void
 DCPFilmEncoder::text(PlayerText data, TextType type, optional<DCPTextTrack> track, DCPTimePeriod period)
 {
 	if (type == TextType::CLOSED_CAPTION || _non_burnt_subtitles) {
-		_writer.write(data, type, track, period);
+		DCPOMATIC_ASSERT(_writer);
+		_writer->write(data, type, track, period);
 	}
 }
 
@@ -179,13 +183,18 @@ DCPFilmEncoder::text(PlayerText data, TextType type, optional<DCPTextTrack> trac
 void
 DCPFilmEncoder::atmos(shared_ptr<const dcp::AtmosFrame> data, DCPTime time, AtmosMetadata metadata)
 {
-	_writer.write(data, time, metadata);
+	DCPOMATIC_ASSERT(_writer);
+	_writer->write(data, time, metadata);
 }
 
 
 optional<float>
 DCPFilmEncoder::current_rate() const
 {
+	if (!_encoder) {
+		return {};
+	}
+
 	return _encoder->current_encoding_rate();
 }
 

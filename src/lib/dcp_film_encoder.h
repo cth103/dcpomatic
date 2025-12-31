@@ -67,7 +67,7 @@ private:
 	void text(PlayerText, TextType, boost::optional<DCPTextTrack>, dcpomatic::DCPTimePeriod);
 	void atmos(std::shared_ptr<const dcp::AtmosFrame>, dcpomatic::DCPTime, AtmosMetadata metadata);
 
-	Writer _writer;
+	std::unique_ptr<Writer> _writer;
 	std::unique_ptr<VideoEncoder> _encoder;
 	bool _finishing;
 	bool _non_burnt_subtitles;
