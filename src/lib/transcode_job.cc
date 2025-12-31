@@ -209,7 +209,7 @@ TranscodeJob::remaining_time() const
 	}
 
 	/* Compute approximate proposed length here, as it's only here that we need it */
-	return(_film->length().frames_round(_film->video_frame_rate()) - e->frames_done()) / *fps;
+	return (_film->length().frames_round(_film->video_frame_rate()) - e->frames_done()) / *fps;
 }
 
 
