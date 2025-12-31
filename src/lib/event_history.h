@@ -35,14 +35,16 @@ public:
 
 	boost::optional<float> rate() const;
 	void event();
+	int events() const;
 
 private:
-	/** Mutex for _history */
+	/** Mutex for _history and _events */
 	mutable boost::mutex _mutex;
 	/** List of the times of the last _history_size events
 	    first is the most recently completed.
 	*/
 	std::list<struct timeval> _history;
+	int _events = 0;
 	/** Number of events that we should keep history for */
 	int const _size;
 };

@@ -60,4 +60,15 @@ EventHistory::event()
 	if (int(_history.size()) > _size) {
 		_history.pop_back();
 	}
+
+	++_events;
 }
+
+
+int
+EventHistory::events() const
+{
+	boost::mutex::scoped_lock lock(_mutex);
+	return _events;
+}
+
