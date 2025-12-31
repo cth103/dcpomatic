@@ -281,8 +281,6 @@ J2KEncoder::encode(shared_ptr<PlayerVideo> pv, DCPTime time)
 	}
 #endif
 
-	VideoEncoder::encode(pv, time);
-
 	_waker.nudge();
 
 	size_t threads = 0;

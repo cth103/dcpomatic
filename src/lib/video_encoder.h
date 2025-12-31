@@ -45,7 +45,7 @@ public:
 	virtual void begin() {}
 
 	/** Called to pass a bit of video to be encoded as the next DCP frame */
-	virtual void encode(std::shared_ptr<PlayerVideo> pv, dcpomatic::DCPTime time);
+	virtual void encode(std::shared_ptr<PlayerVideo> pv, dcpomatic::DCPTime time) = 0;
 
 	virtual void pause() = 0;
 	virtual void resume() = 0;
@@ -53,7 +53,6 @@ public:
 	/** Called when a processing run has finished */
 	virtual void end() = 0;
 
-	int video_frames_enqueued() const;
 	int video_frames_encoded() const;
 	boost::optional<float> current_encoding_rate() const;
 
@@ -62,7 +61,6 @@ protected:
 	std::shared_ptr<const Film> _film;
 	Writer& _writer;
 	EventHistory _history;
-	boost::optional<dcpomatic::DCPTime> _last_player_video_time;
 };
 
 
