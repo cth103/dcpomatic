@@ -107,7 +107,7 @@ J2KEncoder::J2KEncoder(shared_ptr<const Film> film, Writer& writer)
 }
 
 
-J2KEncoder::~J2KEncoder ()
+J2KEncoder::~J2KEncoder()
 {
 	_server_found_connection.disconnect();
 
@@ -149,12 +149,12 @@ J2KEncoder::servers_list_changed()
 
 
 void
-J2KEncoder::begin ()
+J2KEncoder::begin()
 {
 	_server_found_connection = EncodeServerFinder::instance()->ServersListChanged.connect(
 		boost::bind(&J2KEncoder::servers_list_changed, this)
 		);
-	servers_list_changed ();
+	servers_list_changed();
 }
 
 
@@ -169,10 +169,10 @@ J2KEncoder::pause()
 
 	/* XXX; the same problem may occur here as in the destructor, perhaps? */
 
-	terminate_threads ();
+	terminate_threads();
 
 	/* Something might have been thrown during terminate_threads */
-	rethrow ();
+	rethrow();
 
 	delete _context;
 	_context = nullptr;
@@ -196,25 +196,25 @@ void J2KEncoder::resume()
 void
 J2KEncoder::end()
 {
-	boost::mutex::scoped_lock lock (_queue_mutex);
+	boost::mutex::scoped_lock lock(_queue_mutex);
 
-	LOG_GENERAL (N_("Clearing queue of {}"), _queue.size ());
+	LOG_GENERAL(N_("Clearing queue of {}"), _queue.size());
 
 	/* Keep waking workers until the queue is empty */
-	while (!_queue.empty ()) {
-		rethrow ();
-		_full_condition.wait (lock);
+	while (!_queue.empty()) {
+		rethrow();
+		_full_condition.wait(lock);
 	}
-	lock.unlock ();
+	lock.unlock();
 
-	LOG_GENERAL (N_("Terminating encoder threads"));
+	LOG_GENERAL(N_("Terminating encoder threads"));
 
-	terminate_threads ();
+	terminate_threads();
 
 	/* Something might have been thrown during terminate_threads */
-	rethrow ();
+	rethrow();
 
-	LOG_GENERAL (N_("Mopping up {}"), _queue.size());
+	LOG_GENERAL(N_("Mopping up {}"), _queue.size());
 
 	/* The following sequence of events can occur in the above code:
 	     1. a remote worker takes the last image off the queue
@@ -228,7 +228,7 @@ J2KEncoder::end()
 #ifdef DCPOMATIC_GROK
 		if (Config::instance()->grok().enable) {
 			if (!_context->scheduleCompress(i)){
-				LOG_GENERAL (N_("[{}] J2KEncoder thread pushes frame {} back onto queue after failure"), thread_id(), i.index());
+				LOG_GENERAL(N_("[{}] J2KEncoder thread pushes frame {} back onto queue after failure"), thread_id(), i.index());
 				// handle error
 			}
 		} else {
@@ -242,9 +242,9 @@ J2KEncoder::end()
 					i.index(),
 					i.eyes()
 					);
-				frame_done ();
+				frame_done();
 			} catch (std::exception& e) {
-				LOG_ERROR (N_("Local encode failed ({})"), e.what ());
+				LOG_ERROR(N_("Local encode failed ({})"), e.what());
 			}
 		}
 	}
@@ -258,9 +258,9 @@ J2KEncoder::end()
 
 /** Should be called when a frame has been encoded successfully */
 void
-J2KEncoder::frame_done ()
+J2KEncoder::frame_done()
 {
-	_history.event ();
+	_history.event();
 }
 
 
@@ -273,7 +273,7 @@ J2KEncoder::frame_done ()
  *  @param time Time of \p pv within the DCP.
  */
 void
-J2KEncoder::encode (shared_ptr<PlayerVideo> pv, DCPTime time)
+J2KEncoder::encode(shared_ptr<PlayerVideo> pv, DCPTime time)
 {
 #ifdef DCPOMATIC_GROK
 	if (_give_up) {
@@ -283,23 +283,23 @@ J2KEncoder::encode (shared_ptr<PlayerVideo> pv, DCPTime time)
 
 	VideoEncoder::encode(pv, time);
 
-	_waker.nudge ();
+	_waker.nudge();
 
 	size_t threads = 0;
 	{
-		boost::mutex::scoped_lock lm (_threads_mutex);
+		boost::mutex::scoped_lock lm(_threads_mutex);
 		threads = _threads.size();
 	}
 
-	boost::mutex::scoped_lock queue_lock (_queue_mutex);
+	boost::mutex::scoped_lock queue_lock(_queue_mutex);
 
 	/* Wait until the queue has gone down a bit.  Allow one thing in the queue even
 	   when there are no threads.
 	*/
 	while (_queue.size() >= (threads * 2) + 1) {
-		LOG_TIMING ("decoder-sleep queue={} threads={}", _queue.size(), threads);
-		_full_condition.wait (queue_lock);
-		LOG_TIMING ("decoder-wake queue={} threads={}", _queue.size(), threads);
+		LOG_TIMING("decoder-sleep queue={} threads={}", _queue.size(), threads);
+		_full_condition.wait(queue_lock);
+		LOG_TIMING("decoder-wake queue={} threads={}", _queue.size(), threads);
 	}
 
 	_writer.rethrow();
@@ -307,27 +307,27 @@ J2KEncoder::encode (shared_ptr<PlayerVideo> pv, DCPTime time)
 	   than one has thrown an exception, only one will be rethrown, I think;
 	   but then, if that happens something has gone badly wrong.
 	*/
-	rethrow ();
+	rethrow();
 
 	auto const position = time.frames_floor(_film->video_frame_rate());
 
 	if (_writer.can_fake_write(position)) {
 		/* We can fake-write this frame */
 		LOG_DEBUG_ENCODE("Frame @ {} FAKE", to_string(time));
-		_writer.fake_write(position, pv->eyes ());
-		frame_done ();
+		_writer.fake_write(position, pv->eyes());
+		frame_done();
 	} else if (pv->has_j2k() && !_film->reencode_j2k()) {
 		LOG_DEBUG_ENCODE("Frame @ {} J2K", to_string(time));
 		/* This frame already has J2K data, so just write it */
-		_writer.write(pv->j2k(), position, pv->eyes ());
-		frame_done ();
+		_writer.write(pv->j2k(), position, pv->eyes());
+		frame_done();
 	} else if (_last_player_video[pv->eyes()] && _writer.can_repeat(position) && pv->same(_last_player_video[pv->eyes()])) {
 		LOG_DEBUG_ENCODE("Frame @ {} REPEAT", to_string(time));
 		_writer.repeat(position, pv->eyes());
 	} else {
 		LOG_DEBUG_ENCODE("Frame @ {} ENCODE", to_string(time));
 		/* Queue this new frame for encoding */
-		LOG_TIMING ("add-frame-to-queue queue={}", _queue.size ());
+		LOG_TIMING("add-frame-to-queue queue={}", _queue.size());
 		auto dcpv = DCPVideo(
 				pv,
 				position,
@@ -335,12 +335,12 @@ J2KEncoder::encode (shared_ptr<PlayerVideo> pv, DCPTime time)
 				_film->video_bit_rate(VideoEncoding::JPEG2000),
 				_film->resolution()
 				);
-		_queue.push_back (dcpv);
+		_queue.push_back(dcpv);
 
 		/* The queue might not be empty any more, so notify anything which is
 		   waiting on that.
 		*/
-		_empty_condition.notify_all ();
+		_empty_condition.notify_all();
 	}
 
 	_last_player_video[pv->eyes()] = pv;
@@ -348,7 +348,7 @@ J2KEncoder::encode (shared_ptr<PlayerVideo> pv, DCPTime time)
 
 
 void
-J2KEncoder::terminate_threads ()
+J2KEncoder::terminate_threads()
 {
 	boost::mutex::scoped_lock lm(_threads_mutex);
 	boost::this_thread::disable_interruption dis;
@@ -373,7 +373,7 @@ J2KEncoder::remake_threads(int cpu, int gpu, list<EncodeServerDescription> serve
 		++cpu;
 	}
 
-	boost::mutex::scoped_lock lm (_threads_mutex);
+	boost::mutex::scoped_lock lm(_threads_mutex);
 	if (_ending) {
 		return;
 	}
@@ -463,7 +463,7 @@ J2KEncoder::pop()
 {
 	boost::mutex::scoped_lock lock(_queue_mutex);
 	while (_queue.empty()) {
-		_empty_condition.wait (lock);
+		_empty_condition.wait(lock);
 	}
 
 	LOG_TIMING("encoder-wake thread={} queue={}", thread_id(), _queue.size());

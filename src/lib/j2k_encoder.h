@@ -70,16 +70,16 @@ class J2KEncoder : public VideoEncoder, public ExceptionStore
 {
 public:
 	J2KEncoder(std::shared_ptr<const Film> film, Writer& writer);
-	~J2KEncoder ();
+	~J2KEncoder();
 
-	J2KEncoder (J2KEncoder const&) = delete;
-	J2KEncoder& operator= (J2KEncoder const&) = delete;
+	J2KEncoder(J2KEncoder const&) = delete;
+	J2KEncoder& operator=(J2KEncoder const&) = delete;
 
 	/** Called to indicate that a processing run is about to begin */
 	void begin() override;
 
 	/** Called to pass a video frame to be encoded as the next DCP frame */
-	void encode (std::shared_ptr<PlayerVideo> pv, dcpomatic::DCPTime time) override;
+	void encode(std::shared_ptr<PlayerVideo> pv, dcpomatic::DCPTime time) override;
 
 	void pause() override;
 	void resume() override;
@@ -96,10 +96,10 @@ private:
 	friend struct ::remote_threads_created_and_destroyed;
 	friend struct ::frames_not_lost_when_threads_disappear;
 
-	void frame_done ();
-	void servers_list_changed ();
+	void frame_done();
+	void servers_list_changed();
 	void remake_threads(int cpu, int gpu, std::list<EncodeServerDescription> servers);
-	void terminate_threads ();
+	void terminate_threads();
 
 	boost::mutex _threads_mutex;
 	std::vector<std::shared_ptr<J2KEncoderThread>> _threads;
