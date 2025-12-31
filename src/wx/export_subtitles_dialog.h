@@ -34,14 +34,14 @@ class FilePickerCtrl;
 class ExportSubtitlesDialog : public wxDialog
 {
 public:
-	ExportSubtitlesDialog (wxWindow* parent, int reels, bool interop);
+	ExportSubtitlesDialog(wxWindow* parent, int reels, bool interop);
 
-	boost::filesystem::path path () const;
-	bool split_reels () const;
-	bool include_font () const;
+	boost::filesystem::path path() const;
+	bool split_reels() const;
+	bool include_font() const;
 
 private:
-	void setup_sensitivity ();
+	void setup_sensitivity();
 
 	bool _interop;
 	CheckBox* _split_reels;
