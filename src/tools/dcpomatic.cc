@@ -1061,8 +1061,16 @@ private:
 		}
 		auto job = make_shared<TranscodeJob>(_film, TranscodeJob::ChangedBehaviour::EXAMINE_THEN_STOP);
 		job->set_encoder(
-			make_shared<SubtitleFilmEncoder>(_film, job, dialog.path(), _film->isdcf_name(true), dialog.split_reels(), dialog.include_font())
-			);
+			make_shared<SubtitleFilmEncoder>(
+				_film,
+				job,
+				dialog.path(),
+				_film->isdcf_name(true),
+				dialog.split_reels(),
+				dialog.include_font(),
+				dialog.standard()
+			)
+		);
 		JobManager::instance()->add(job);
 	}
 

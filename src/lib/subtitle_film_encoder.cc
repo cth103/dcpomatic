@@ -49,19 +49,28 @@ using namespace boost::placeholders;
  *  @param initial_name Hint that may be used to create filenames, if @ref output is a directory.
  *  @param include_font true to refer to and export any font file (for Interop; ignored for SMPTE).
  */
-SubtitleFilmEncoder::SubtitleFilmEncoder(shared_ptr<const Film> film, shared_ptr<Job> job, boost::filesystem::path output, string initial_name, bool split_reels, bool include_font)
+SubtitleFilmEncoder::SubtitleFilmEncoder(
+	shared_ptr<const Film> film,
+	shared_ptr<Job> job,
+	boost::filesystem::path output,
+	string initial_name,
+	bool split_reels,
+	bool include_font,
+	dcp::Standard standard
+	)
 	: FilmEncoder(film, job)
 	, _split_reels(split_reels)
 	, _include_font(include_font)
 	, _reel_index(0)
 	, _length(film->length())
+	, _standard(standard)
 {
 	_player.set_play_referenced();
 	_player.set_ignore_video();
 	_player.set_ignore_audio();
 	_player.Text.connect(boost::bind(&SubtitleFilmEncoder::text, this, _1, _2, _3, _4));
 
-	string const extension = film->interop() ? ".xml" : ".mxf";
+	string const extension = standard == dcp::Standard::INTEROP ? ".xml" : ".mxf";
 
 	int const files = split_reels ? film->reels().size() : 1;
 	for (int i = 0; i < files; ++i) {
@@ -105,20 +114,27 @@ SubtitleFilmEncoder::go()
 	for (auto& i: _assets) {
 		if (!i.first) {
 			/* No subtitles arrived for this asset; make an empty one so we write something to the output */
-			if (_film->interop()) {
+			switch (_standard) {
+			case dcp::Standard::INTEROP:
+			{
 				auto s = make_shared<dcp::InteropTextAsset>();
 				s->set_movie_title(_film->name());
 				s->set_reel_number(fmt::to_string(reel + 1));
 				i.first = s;
-			} else {
+				break;
+			}
+			case dcp::Standard::SMPTE:
+			{
 				auto s = make_shared<dcp::SMPTETextAsset>();
 				s->set_content_title_text(_film->name());
 				s->set_reel_number(reel + 1);
 				i.first = s;
+				break;
+			}
 			}
 		}
 
-		if (!_film->interop() || _include_font) {
+		if (_standard == dcp::Standard::SMPTE || _include_font) {
 			for (auto j: _player.get_subtitle_fonts()) {
 				i.first->add_font(j->id(), j->data().get_value_or(_default_font));
 			}
@@ -140,7 +156,9 @@ SubtitleFilmEncoder::text(PlayerText subs, TextType type, optional<DCPTextTrack>
 	if (!_assets[_reel_index].first) {
 		shared_ptr<dcp::TextAsset> asset;
 		auto const lang = _film->open_text_languages();
-		if (_film->interop()) {
+		switch (_standard) {
+		case dcp::Standard::INTEROP:
+		{
 			auto s = make_shared<dcp::InteropTextAsset>();
 			s->set_movie_title(_film->name());
 			if (lang.first) {
@@ -148,7 +166,10 @@ SubtitleFilmEncoder::text(PlayerText subs, TextType type, optional<DCPTextTrack>
 			}
 			s->set_reel_number(fmt::to_string(_reel_index + 1));
 			_assets[_reel_index].first = s;
-		} else {
+			break;
+		}
+		case dcp::Standard::SMPTE:
+		{
 			auto s = make_shared<dcp::SMPTETextAsset>();
 			s->set_content_title_text(_film->name());
 			if (lang.first) {
@@ -164,6 +185,8 @@ SubtitleFilmEncoder::text(PlayerText subs, TextType type, optional<DCPTextTrack>
 				s->set_key(_film->key());
 			}
 			_assets[_reel_index].first = s;
+			break;
+		}
 		}
 	}
 
@@ -171,7 +194,7 @@ SubtitleFilmEncoder::text(PlayerText subs, TextType type, optional<DCPTextTrack>
 		/* XXX: couldn't / shouldn't we use period here rather than getting time from the subtitle? */
 		i.set_in (i.in());
 		i.set_out(i.out());
-		if (_film->interop() && !_include_font) {
+		if (_standard == dcp::Standard::INTEROP && !_include_font) {
 			i.unset_font();
 		}
 		_assets[_reel_index].first->add(make_shared<dcp::TextString>(i));

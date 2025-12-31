@@ -20,6 +20,7 @@
 
 
 #include "check_box.h"
+#include "dcpomatic_choice.h"
 #include "export_subtitles_dialog.h"
 #include "file_picker_ctrl.h"
 #include "wx_util.h"
@@ -36,11 +37,19 @@ using boost::bind;
 
 ExportSubtitlesDialog::ExportSubtitlesDialog(wxWindow* parent, int reels, bool interop)
 	: wxDialog(parent, wxID_ANY, _("Export subtitles"))
-	, _interop(interop)
 {
 	auto sizer = new wxGridBagSizer(DCPOMATIC_SIZER_GAP, DCPOMATIC_SIZER_GAP);
 
 	int r = 0;
+
+	add_label_to_sizer(sizer, this, _("Format"), true, wxGBPosition(r, 0));
+	_format = new Choice(this);
+	_format->add_entry(_("XML (Interop)"));
+	_format->add_entry(_("MXF (SMPTE)"));
+	_format->set(interop ? 0 : 1);
+	sizer->Add(_format, wxGBPosition(r, 1));
+	++r;
+
 	_split_reels = new CheckBox(this, _("Write reels into separate files"));
 	sizer->Add(_split_reels, wxGBPosition(r, 0), wxGBSpan(1, 2));
 	++r;
@@ -53,23 +62,16 @@ ExportSubtitlesDialog::ExportSubtitlesDialog(wxWindow* parent, int reels, bool i
 	sizer->Add(_include_font, wxGBPosition(r, 0), wxGBSpan(1, 2));
 	++r;
 
-	if (!_interop) {
-		_include_font->Enable(false);
-	}
-
-	wxString const wildcard = _interop ? _("Subtitle files (.xml)|*.xml") : _("Subtitle files (.mxf)|*.mxf");
-
-	_file_label = new wxStaticText(this, wxID_ANY, _("Output file"));
-	sizer->Add(_file_label, wxGBPosition(r, 0), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
-	_file = new FilePickerCtrl(this, _("Select output file"), wildcard, false, true, "ExportSubtitlesPath");
+	_file_label = add_label_to_sizer(sizer, this, _("Output file"), true, wxGBPosition(r, 0));
+	_file = new FilePickerCtrl(this, _("Select output file"), wxT(""), false, true, "ExportSubtitlesPath");
 	sizer->Add(_file, wxGBPosition(r, 1));
 	++r;
 
-	_dir_label = new wxStaticText(this, wxID_ANY, (_("Output folder")));
-	sizer->Add(_dir_label, wxGBPosition(r, 0), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
+	_dir_label = add_label_to_sizer(sizer, this, _("Output folder"), true, wxGBPosition(r, 0));
 	_dir = new DirPickerCtrl(this);
 	sizer->Add(_dir, wxGBPosition(r, 1));
 
+	_format->bind(&ExportSubtitlesDialog::format_changed, this);
 	_split_reels->bind(&ExportSubtitlesDialog::setup_sensitivity, this);
 	_include_font->bind(&ExportSubtitlesDialog::setup_sensitivity, this);
 	_file->Bind(wxEVT_FILEPICKER_CHANGED, bind(&ExportSubtitlesDialog::setup_sensitivity, this));
@@ -85,13 +87,45 @@ ExportSubtitlesDialog::ExportSubtitlesDialog(wxWindow* parent, int reels, bool i
 
 	SetSizerAndFit(overall_sizer);
 	setup_sensitivity();
+	setup_wildcard();
+}
+
+
+void
+ExportSubtitlesDialog::format_changed()
+{
+	setup_sensitivity();
+	setup_wildcard();
+}
+
+
+void
+ExportSubtitlesDialog::setup_wildcard()
+{
+	_file->set_wildcard(standard() == dcp::Standard::INTEROP ? _("Subtitle files (.xml)|*.xml") : _("Subtitle files (.mxf)|*.mxf"));
+}
+
+
+dcp::Standard
+ExportSubtitlesDialog::standard() const
+{
+	switch (_format->get().get_value_or(0)) {
+	case 0:
+		return dcp::Standard::INTEROP;
+	case 1:
+		return dcp::Standard::SMPTE;
+	}
+
+	DCPOMATIC_ASSERT(false);
+	return dcp::Standard::SMPTE;
 }
 
 
 void
 ExportSubtitlesDialog::setup_sensitivity()
 {
-	bool const multi = split_reels() || (_interop && _include_font->GetValue());
+	bool const multi = split_reels() || (standard() == dcp::Standard::INTEROP && _include_font->GetValue());
+	_include_font->Enable(standard() == dcp::Standard::INTEROP);
 	_file_label->Enable(!multi);
 	_file->Enable(!multi);
 	_dir_label->Enable(multi);
@@ -112,7 +146,7 @@ ExportSubtitlesDialog::path() const
 	if (_file->IsEnabled()) {
 		if (auto path = _file->path()) {
 			wxFileName fn(std_to_wx(path->string()));
-			fn.SetExt(char_to_wx(_interop ? "xml" : "mxf"));
+			fn.SetExt(char_to_wx(standard() == dcp::Standard::INTEROP ? "xml" : "mxf"));
 			return wx_to_std(fn.GetFullPath());
 		}
 	}
@@ -131,6 +165,6 @@ ExportSubtitlesDialog::split_reels() const
 bool
 ExportSubtitlesDialog::include_font() const
 {
-	return !_interop || _include_font->GetValue();
+	return standard() == dcp::Standard::SMPTE || _include_font->GetValue();
 }
 

@@ -20,6 +20,7 @@
 
 
 #include "dir_picker_ctrl.h"
+#include <dcp/types.h>
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/wx.h>
@@ -28,22 +29,27 @@ LIBDCP_ENABLE_WARNINGS
 
 
 class CheckBox;
+class Choice;
 class FilePickerCtrl;
 
 
 class ExportSubtitlesDialog : public wxDialog
 {
 public:
+	/** @param interop true to default to XML export, otherwise MXF */
 	ExportSubtitlesDialog(wxWindow* parent, int reels, bool interop);
 
 	boost::filesystem::path path() const;
 	bool split_reels() const;
 	bool include_font() const;
+	dcp::Standard standard() const;
 
 private:
+	void format_changed();
 	void setup_sensitivity();
+	void setup_wildcard();
 
-	bool _interop;
+	Choice* _format;
 	CheckBox* _split_reels;
 	CheckBox* _include_font = nullptr;
 	wxStaticText* _file_label;

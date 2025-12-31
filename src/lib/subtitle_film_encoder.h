@@ -39,7 +39,15 @@ class Film;
 class SubtitleFilmEncoder : public FilmEncoder
 {
 public:
-	SubtitleFilmEncoder(std::shared_ptr<const Film> film, std::shared_ptr<Job> job, boost::filesystem::path output, std::string initial_name, bool split_reels, bool include_font);
+	SubtitleFilmEncoder(
+		std::shared_ptr<const Film> film,
+		std::shared_ptr<Job> job,
+		boost::filesystem::path output,
+		std::string initial_name,
+		bool split_reels,
+		bool include_font,
+		dcp::Standard standard
+	);
 
 	void go() override;
 
@@ -60,5 +68,6 @@ private:
 	int _reel_index;
 	boost::optional<dcpomatic::DCPTime> _last;
 	dcpomatic::DCPTime _length;
+	dcp::Standard _standard;
 	dcp::ArrayData _default_font;
 };
