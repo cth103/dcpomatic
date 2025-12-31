@@ -324,6 +324,7 @@ J2KEncoder::encode(shared_ptr<PlayerVideo> pv, DCPTime time)
 	} else if (_last_player_video[pv->eyes()] && _writer.can_repeat(position) && pv->same(_last_player_video[pv->eyes()])) {
 		LOG_DEBUG_ENCODE("Frame @ {} REPEAT", to_string(time));
 		_writer.repeat(position, pv->eyes());
+		frame_done();
 	} else {
 		LOG_DEBUG_ENCODE("Frame @ {} ENCODE", to_string(time));
 		/* Queue this new frame for encoding */
