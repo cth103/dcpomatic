@@ -174,6 +174,10 @@ TranscodeJob::status() const
 		return Job::status();
 	}
 
+	if (_encoder->frames_done() == 0) {
+		return Job::status();
+	}
+
 	auto status = fmt::format(_("{}; {}/{} frames"), Job::status(), _encoder->frames_done(), _film->length().frames_round(_film->video_frame_rate()));
 	if (auto const fps = _encoder->current_rate()) {
 		/// TRANSLATORS: fps here is an abbreviation for frames per second
