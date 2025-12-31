@@ -190,7 +190,12 @@ ReelWriter::ReelWriter(
 		/* XXX: what about if the encryption key changes? */
 		auto new_asset_filename = _output_dir / existing_asset_filename->filename();
 		if (new_asset_filename != *existing_asset_filename) {
-			dcp::filesystem::copy(*existing_asset_filename, new_asset_filename);
+			if (job) {
+				job->sub(_("Copying existing asset"));
+				copy_in_bits(*existing_asset_filename, new_asset_filename, boost::bind(&Job::set_progress, job.get(), _1, false));
+			} else {
+				dcp::filesystem::copy(*existing_asset_filename, new_asset_filename);
+			}
 			remembered_assets.push_back(RememberedAsset(new_asset_filename, period, film()->video_identifier()));
 		}
 		film()->write_remembered_assets(remembered_assets);
