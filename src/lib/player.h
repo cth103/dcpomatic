@@ -91,7 +91,6 @@ public:
 	/** @return true when playback is finished, and there is no more data to come */
 	bool pass();
 	void seek(dcpomatic::DCPTime time, bool accurate);
-	Frame frames_done() const;
 	float progress() const;
 
 	std::vector<std::shared_ptr<dcpomatic::Font>> get_subtitle_fonts();

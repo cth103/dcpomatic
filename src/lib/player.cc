@@ -1650,20 +1650,6 @@ Player::set_disable_audio_processor()
 }
 
 
-Frame
-Player::frames_done() const
-{
-	auto film = _film.lock();
-	DCPOMATIC_ASSERT(film);
-
-	shared_ptr<Piece> earliest_content;
-	optional<DCPTime> earliest_time;
-	std::tie(earliest_content, earliest_time) = earliest_piece_and_time();
-
-	return earliest_time.get_value_or(film->length()).frames_round(film->video_frame_rate());
-}
-
-
 float
 Player::progress() const
 {
