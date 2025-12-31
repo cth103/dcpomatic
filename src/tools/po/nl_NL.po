@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-12-30 21:17+0100\n"
-"PO-Revision-Date: 2025-11-15 11:57+0100\n"
+"PO-Revision-Date: 2025-12-30 23:38+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -152,11 +152,11 @@ msgstr "&Toon"
 
 #: src/tools/dcpomatic_verifier.cc:103
 msgid "(encrypted, have KDM)"
-msgstr ""
+msgstr "(versleuteld, met KDM)"
 
 #: src/tools/dcpomatic_verifier.cc:105
 msgid "(encrypted, no KDM)"
-msgstr ""
+msgstr "(versleuteld, zonder KDM)"
 
 #: src/tools/dcpomatic_playlist.cc:324
 msgid "<b>Playlist:</b>"
@@ -189,9 +189,8 @@ msgid "Add &KDM..."
 msgstr "Voeg &KDM toe..."
 
 #: src/tools/dcpomatic_verifier.cc:173
-#, fuzzy
 msgid "Add KDM..."
-msgstr "Voeg &KDM toe..."
+msgstr "Voeg KDM toe..."
 
 #: src/tools/dcpomatic_playlist.cc:80
 msgid "Add content"
@@ -326,7 +325,7 @@ msgstr "Controleer op updates"
 
 #: src/tools/dcpomatic_verifier.cc:355
 msgid "Checking KDM"
-msgstr ""
+msgstr "Controleren KDM"
 
 #: src/tools/dcpomatic_combiner.cc:68 src/tools/dcpomatic_disk.cc:84
 msgid "Choose a DCP folder"
@@ -507,8 +506,8 @@ msgstr ""
 msgid ""
 "Could not start the player.  You may need to download it from dcpomatic.com."
 msgstr ""
-"Kan de Player niet starten.  Mogelijk moet u hem downloaden van "
-"dcpomatic.com."
+"Kan de Player niet starten.  Mogelijk moet u hem downloaden van dcpomatic."
+"com."
 
 #: src/tools/dcpomatic_batch.cc:365 src/tools/dcpomatic.cc:1461
 #: src/tools/dcpomatic_player.cc:1128 src/tools/dcpomatic_playlist.cc:639
@@ -584,8 +583,8 @@ msgid ""
 "Did you install the %s Disk Writer.pkg from the .dmg?  Please check and try "
 "again."
 msgstr ""
-"Heeft u de %s Disk Writer.pkg geïnstalleerd vanuit de .dmg?  Controleer "
-"a.u.b. en probeer het opnieuw."
+"Heeft u de %s Disk Writer.pkg geïnstalleerd vanuit de .dmg?  Controleer a.u."
+"b. en probeer het opnieuw."
 
 #: src/tools/dcpomatic_disk.cc:190
 msgid "Disk Writer"
@@ -670,9 +669,8 @@ msgid "Entry point"
 msgstr "Entry point"
 
 #: src/tools/dcpomatic_verifier.cc:151
-#, fuzzy
 msgid "Examining DCPs"
-msgstr "Combineren DCP's"
+msgstr "Onderzoeken DCP's"
 
 #: src/tools/dcpomatic.cc:1431
 msgid "Export preferences..."
