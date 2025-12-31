@@ -54,6 +54,13 @@ VideoEncoder::video_frames_enqueued() const
 }
 
 
+int
+VideoEncoder::video_frames_encoded() const
+{
+	return _history.events();
+}
+
+
 /** @return an estimate of the current number of frames we are encoding per second,
  *  if known.
  */

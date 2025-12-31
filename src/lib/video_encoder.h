@@ -54,6 +54,7 @@ public:
 	virtual void end() = 0;
 
 	int video_frames_enqueued() const;
+	int video_frames_encoded() const;
 	boost::optional<float> current_encoding_rate() const;
 
 protected:
