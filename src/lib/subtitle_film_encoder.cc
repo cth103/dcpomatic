@@ -51,10 +51,10 @@ using namespace boost::placeholders;
  */
 SubtitleFilmEncoder::SubtitleFilmEncoder(shared_ptr<const Film> film, shared_ptr<Job> job, boost::filesystem::path output, string initial_name, bool split_reels, bool include_font)
 	: FilmEncoder(film, job)
-	, _split_reels (split_reels)
-	, _include_font (include_font)
-	, _reel_index (0)
-	, _length (film->length())
+	, _split_reels(split_reels)
+	, _include_font(include_font)
+	, _reel_index(0)
+	, _length(film->length())
 {
 	_player.set_play_referenced();
 	_player.set_ignore_video();
@@ -81,10 +81,10 @@ SubtitleFilmEncoder::SubtitleFilmEncoder(shared_ptr<const Film> film, shared_ptr
 	}
 
 	for (auto i: film->reels()) {
-		_reels.push_back (i);
+		_reels.push_back(i);
 	}
 
-	_default_font = dcp::ArrayData (default_font_file());
+	_default_font = dcp::ArrayData(default_font_file());
 }
 
 
@@ -92,9 +92,9 @@ void
 SubtitleFilmEncoder::go()
 {
 	{
-		shared_ptr<Job> job = _job.lock ();
-		DCPOMATIC_ASSERT (job);
-		job->sub (_("Extracting"));
+		shared_ptr<Job> job = _job.lock();
+		DCPOMATIC_ASSERT(job);
+		job->sub(_("Extracting"));
 	}
 
 	_reel_index = 0;
@@ -107,13 +107,13 @@ SubtitleFilmEncoder::go()
 			/* No subtitles arrived for this asset; make an empty one so we write something to the output */
 			if (_film->interop()) {
 				auto s = make_shared<dcp::InteropTextAsset>();
-				s->set_movie_title (_film->name());
+				s->set_movie_title(_film->name());
 				s->set_reel_number(fmt::to_string(reel + 1));
 				i.first = s;
 			} else {
 				auto s = make_shared<dcp::SMPTETextAsset>();
-				s->set_content_title_text (_film->name());
-				s->set_reel_number (reel + 1);
+				s->set_content_title_text(_film->name());
+				s->set_reel_number(reel + 1);
 				i.first = s;
 			}
 		}
@@ -124,7 +124,7 @@ SubtitleFilmEncoder::go()
 			}
 		}
 
-		i.first->write (i.second);
+		i.first->write(i.second);
 		++reel;
 	}
 }
@@ -140,9 +140,9 @@ SubtitleFilmEncoder::text(PlayerText subs, TextType type, optional<DCPTextTrack>
 	if (!_assets[_reel_index].first) {
 		shared_ptr<dcp::TextAsset> asset;
 		auto const lang = _film->open_text_languages();
-		if (_film->interop ()) {
+		if (_film->interop()) {
 			auto s = make_shared<dcp::InteropTextAsset>();
-			s->set_movie_title (_film->name());
+			s->set_movie_title(_film->name());
 			if (lang.first) {
 				s->set_language(lang.first->as_string());
 			}
@@ -150,18 +150,18 @@ SubtitleFilmEncoder::text(PlayerText subs, TextType type, optional<DCPTextTrack>
 			_assets[_reel_index].first = s;
 		} else {
 			auto s = make_shared<dcp::SMPTETextAsset>();
-			s->set_content_title_text (_film->name());
+			s->set_content_title_text(_film->name());
 			if (lang.first) {
-				s->set_language (*lang.first);
+				s->set_language(*lang.first);
 			} else if (track->language) {
-				s->set_language (track->language.get());
+				s->set_language(track->language.get());
 			}
-			s->set_edit_rate (dcp::Fraction (_film->video_frame_rate(), 1));
-			s->set_reel_number (_reel_index + 1);
-			s->set_time_code_rate (_film->video_frame_rate());
-			s->set_start_time (dcp::Time());
-			if (_film->encrypted ()) {
-				s->set_key (_film->key ());
+			s->set_edit_rate(dcp::Fraction(_film->video_frame_rate(), 1));
+			s->set_reel_number(_reel_index + 1);
+			s->set_time_code_rate(_film->video_frame_rate());
+			s->set_start_time(dcp::Time());
+			if (_film->encrypted()) {
+				s->set_key(_film->key());
 			}
 			_assets[_reel_index].first = s;
 		}
@@ -169,10 +169,10 @@ SubtitleFilmEncoder::text(PlayerText subs, TextType type, optional<DCPTextTrack>
 
 	for (auto i: subs.string) {
 		/* XXX: couldn't / shouldn't we use period here rather than getting time from the subtitle? */
-		i.set_in  (i.in());
-		i.set_out (i.out());
+		i.set_in (i.in());
+		i.set_out(i.out());
 		if (_film->interop() && !_include_font) {
-			i.unset_font ();
+			i.unset_font();
 		}
 		_assets[_reel_index].first->add(make_shared<dcp::TextString>(i));
 	}
@@ -183,9 +183,8 @@ SubtitleFilmEncoder::text(PlayerText subs, TextType type, optional<DCPTextTrack>
 
 	_last = period.from;
 
-	auto job = _job.lock ();
-	if (job) {
-		job->set_progress (float(period.from.get()) / _length.get());
+	if (auto job = _job.lock()) {
+		job->set_progress(float(period.from.get()) / _length.get());
 	}
 }
 

@@ -34,24 +34,24 @@ class Film;
 
 
 /** @class SubtitleFilmEncoder.
- *  @brief An `encoder' which extracts a film's subtitles to DCP XML format.
+ *  @brief An `encoder' which extracts a film's subtitles to DCP XML or MXF format.
  */
 class SubtitleFilmEncoder : public FilmEncoder
 {
 public:
 	SubtitleFilmEncoder(std::shared_ptr<const Film> film, std::shared_ptr<Job> job, boost::filesystem::path output, std::string initial_name, bool split_reels, bool include_font);
 
-	void go () override;
+	void go() override;
 
 	/** @return the number of frames that are done */
-	Frame frames_done () const override;
+	Frame frames_done() const override;
 
-	bool finishing () const override {
+	bool finishing() const override {
 		return false;
 	}
 
 private:
-	void text (PlayerText subs, TextType type, boost::optional<DCPTextTrack> track, dcpomatic::DCPTimePeriod period);
+	void text(PlayerText subs, TextType type, boost::optional<DCPTextTrack> track, dcpomatic::DCPTimePeriod period);
 
 	std::vector<std::pair<std::shared_ptr<dcp::TextAsset>, boost::filesystem::path>> _assets;
 	std::vector<dcpomatic::DCPTimePeriod> _reels;
