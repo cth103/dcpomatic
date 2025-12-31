@@ -27,37 +27,37 @@
 using boost::optional;
 
 
-EventHistory::EventHistory (int size)
-	: _size (size)
+EventHistory::EventHistory(int size)
+	: _size(size)
 {
 
 }
 
 
 optional<float>
-EventHistory::rate () const
+EventHistory::rate() const
 {
-	boost::mutex::scoped_lock lock (_mutex);
+	boost::mutex::scoped_lock lock(_mutex);
 	if (int(_history.size()) < _size) {
 		return {};
 	}
 
 	struct timeval now;
-	gettimeofday (&now, 0);
+	gettimeofday(&now, 0);
 
-	return _size / (seconds (now) - seconds (_history.back ()));
+	return _size / (seconds(now) - seconds(_history.back()));
 }
 
 
 void
-EventHistory::event ()
+EventHistory::event()
 {
-	boost::mutex::scoped_lock lock (_mutex);
+	boost::mutex::scoped_lock lock(_mutex);
 
 	struct timeval tv;
-	gettimeofday (&tv, 0);
-	_history.push_front (tv);
+	gettimeofday(&tv, 0);
+	_history.push_front(tv);
 	if (int(_history.size()) > _size) {
-		_history.pop_back ();
+		_history.pop_back();
 	}
 }

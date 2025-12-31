@@ -23,18 +23,18 @@
 #define DCPOMATIC_EVENT_HISTORY_H
 
 
-#include <boost/thread/mutex.hpp>
 #include <boost/optional.hpp>
+#include <boost/thread/mutex.hpp>
 #include <list>
 
 
 class EventHistory
 {
 public:
-	explicit EventHistory (int size);
+	explicit EventHistory(int size);
 
-	boost::optional<float> rate () const;
-	void event ();
+	boost::optional<float> rate() const;
+	void event();
 
 private:
 	/** Mutex for _history */
