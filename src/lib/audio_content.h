@@ -53,56 +53,56 @@ public:
 class AudioContent : public ContentPart
 {
 public:
-	explicit AudioContent (Content* parent);
-	AudioContent (Content* parent, std::vector<std::shared_ptr<Content>>);
-	AudioContent (Content* parent, cxml::ConstNodePtr);
+	explicit AudioContent(Content* parent);
+	AudioContent(Content* parent, std::vector<std::shared_ptr<Content>>);
+	AudioContent(Content* parent, cxml::ConstNodePtr);
 
 	void as_xml(xmlpp::Element*) const;
-	std::string technical_summary () const;
-	void take_settings_from (std::shared_ptr<const AudioContent> c);
+	std::string technical_summary() const;
+	void take_settings_from(std::shared_ptr<const AudioContent> c);
 
-	AudioMapping mapping () const;
-	void set_mapping (AudioMapping);
-	int resampled_frame_rate (std::shared_ptr<const Film> film) const;
-	std::vector<NamedChannel> channel_names () const;
+	AudioMapping mapping() const;
+	void set_mapping(AudioMapping);
+	int resampled_frame_rate(std::shared_ptr<const Film> film) const;
+	std::vector<NamedChannel> channel_names() const;
 
 	/** Set gain in dB */
-	void set_gain (double);
+	void set_gain(double);
 	/** Set delay in milliseconds (positive moves audio later) */
-	void set_delay (int);
+	void set_delay(int);
 
-	double gain () const {
-		boost::mutex::scoped_lock lm (_mutex);
+	double gain() const {
+		boost::mutex::scoped_lock lm(_mutex);
 		return _gain;
 	}
 
-	int delay () const {
-		boost::mutex::scoped_lock lm (_mutex);
+	int delay() const {
+		boost::mutex::scoped_lock lm(_mutex);
 		return _delay;
 	}
 
-	dcpomatic::ContentTime fade_in () const;
-	dcpomatic::ContentTime fade_out () const;
+	dcpomatic::ContentTime fade_in() const;
+	dcpomatic::ContentTime fade_out() const;
 	bool use_same_fades_as_video() const;
 
-	void set_fade_in (dcpomatic::ContentTime time);
-	void set_fade_out (dcpomatic::ContentTime time);
-	void set_use_same_fades_as_video (bool s);
+	void set_fade_in(dcpomatic::ContentTime time);
+	void set_fade_out(dcpomatic::ContentTime time);
+	void set_use_same_fades_as_video(bool s);
 
-	std::string processing_description (std::shared_ptr<const Film> film) const;
+	std::string processing_description(std::shared_ptr<const Film> film) const;
 
-	std::vector<AudioStreamPtr> streams () const {
-		boost::mutex::scoped_lock lm (_mutex);
+	std::vector<AudioStreamPtr> streams() const {
+		boost::mutex::scoped_lock lm(_mutex);
 		return _streams;
 	}
 
-	void add_stream (AudioStreamPtr stream);
-	void set_stream (AudioStreamPtr stream);
-	AudioStreamPtr stream () const;
+	void add_stream(AudioStreamPtr stream);
+	void set_stream(AudioStreamPtr stream);
+	AudioStreamPtr stream() const;
 
-	void add_properties (std::shared_ptr<const Film> film, std::list<UserProperty> &) const;
+	void add_properties(std::shared_ptr<const Film> film, std::list<UserProperty> &) const;
 
-	void modify_position (std::shared_ptr<const Film> film, dcpomatic::DCPTime& pos) const;
+	void modify_position(std::shared_ptr<const Film> film, dcpomatic::DCPTime& pos) const;
 	void modify_trim_start(std::shared_ptr<const Film> film, dcpomatic::ContentTime& pos) const;
 
 	/** @param frame frame within the whole (untrimmed) content.
@@ -110,9 +110,9 @@ public:
 	 *  @return a fade coefficient for @ref length samples starting at an offset @frame within
 	 *  the content, or an empty vector if the given section has no fade.
 	 */
-	std::vector<float> fade (AudioStreamPtr stream, Frame frame, Frame length, int frame_rate) const;
+	std::vector<float> fade(AudioStreamPtr stream, Frame frame, Frame length, int frame_rate) const;
 
-	static std::shared_ptr<AudioContent> from_xml (Content* parent, cxml::ConstNodePtr, int version);
+	static std::shared_ptr<AudioContent> from_xml(Content* parent, cxml::ConstNodePtr, int version);
 
 private:
 
