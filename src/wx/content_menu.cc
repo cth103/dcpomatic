@@ -476,8 +476,13 @@ ContentMenu::properties ()
 {
 	auto film = _film.lock ();
 	DCPOMATIC_ASSERT (film);
-	ContentPropertiesDialog dialog(_parent, film, _content.front());
-	dialog.ShowModal();
+	if (_content_properties_dialog) {
+		_content_properties_dialog->Destroy();
+		_content_properties_dialog = nullptr;
+	}
+
+	_content_properties_dialog = new ContentPropertiesDialog(_parent, film, _content.front());
+	_content_properties_dialog->Show();
 }
 
 

@@ -34,6 +34,7 @@ LIBDCP_ENABLE_WARNINGS
 #include <memory>
 
 
+class ContentPropertiesDialog;
 class DCPContent;
 class Film;
 class FilmViewer;
@@ -89,6 +90,8 @@ private:
 	wxMenuItem* _set_dcp_settings;
 	wxMenuItem* _set_dcp_markers;
 	wxMenuItem* _remove;
+
+	ContentPropertiesDialog* _content_properties_dialog = nullptr;
 
 	wx_ptr<AutoCropDialog> _auto_crop_dialog;
 	boost::signals2::scoped_connection _auto_crop_config_connection;
