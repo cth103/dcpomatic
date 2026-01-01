@@ -102,11 +102,12 @@ BOOST_AUTO_TEST_CASE(frames_not_lost_when_threads_disappear)
 	auto film = new_test_film("frames_not_lost", content);
 	film->write_metadata();
 	auto job = make_dcp(film, TranscodeJob::ChangedBehaviour::IGNORE);
-	auto encoder = dynamic_cast<J2KEncoder*>(dynamic_pointer_cast<DCPFilmEncoder>(job->_encoder)->_encoder.get());
 
 	while (JobManager::instance()->work_to_do()) {
-		encoder->remake_threads((rand() % 7) + 1, 0, {});
-		dcpomatic_sleep_seconds(1);
+		if (auto encoder = dynamic_cast<J2KEncoder*>(dynamic_pointer_cast<DCPFilmEncoder>(job->_encoder)->_encoder.get())) {
+			encoder->remake_threads((rand() % 7) + 1, 0, {});
+			dcpomatic_sleep_seconds(1);
+		}
 	}
 
 	BOOST_CHECK(!JobManager::instance()->errors());
