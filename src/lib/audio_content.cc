@@ -293,48 +293,48 @@ AudioContent::channel_names() const
 void
 AudioContent::add_properties(shared_ptr<const Film> film, list<UserProperty>& p) const
 {
-	shared_ptr<const AudioStream> stream;
-	if (streams().size() == 1) {
-		stream = streams().front();
-	}
-
-	if (stream) {
-		p.push_back(UserProperty(UserProperty::AUDIO, _("Channels"), stream->channels()));
-		p.push_back(UserProperty(UserProperty::AUDIO, _("Content sample rate"), stream->frame_rate(), _("Hz")));
-		if (auto bits = stream->bit_depth()) {
-			p.push_back(UserProperty(UserProperty::AUDIO, _("Content bit depth"), *bits, _("bits")));
-		}
-	}
-
 	FrameRateChange const frc(_parent->active_video_frame_rate(film), film->video_frame_rate());
 	ContentTime const c(_parent->full_length(film), frc);
+
+	int index = 0;
+	bool const multiple_streams = streams().size() > 1;
+	for (auto stream: streams()) {
+		optional<string> name;
+		if (multiple_streams) {
+			name = fmt::format("Stream {}", index++);
+		}
+		p.push_back(UserProperty(UserProperty::AUDIO, _("Channels"), stream->channels(), "", name));
+		p.push_back(UserProperty(UserProperty::AUDIO, _("Content sample rate"), stream->frame_rate(), _("Hz"), name));
+		auto bits = stream->bit_depth();
+		if (bits && *bits) {
+			p.push_back(UserProperty(UserProperty::AUDIO, _("Content bit depth"), *bits, _("bits"), name));
+		}
+		p.push_back(
+			UserProperty(
+				UserProperty::LENGTH,
+				_("Full length in audio samples at content rate"),
+				c.frames_round(stream->frame_rate()),
+				"",
+				name
+				)
+			);
+		p.push_back(
+			UserProperty(
+				UserProperty::LENGTH,
+				_("Full length in audio samples at DCP rate"),
+				c.frames_round(resampled_frame_rate(film)),
+				"",
+				name
+				)
+			);
+	}
 
 	p.push_back(
 		UserProperty(UserProperty::LENGTH, _("Full length in video frames at content rate"), c.frames_round(frc.source))
 		);
 
-	if (stream) {
-		p.push_back(
-			UserProperty(
-				UserProperty::LENGTH,
-				_("Full length in audio samples at content rate"),
-				c.frames_round(stream->frame_rate())
-				)
-			);
-	}
-
 	p.push_back(UserProperty(UserProperty::AUDIO, _("DCP sample rate"), resampled_frame_rate(film), _("Hz")));
 	p.push_back(UserProperty(UserProperty::LENGTH, _("Full length in video frames at DCP rate"), c.frames_round(frc.dcp)));
-
-	if(stream) {
-		p.push_back(
-			UserProperty(
-				UserProperty::LENGTH,
-				_("Full length in audio samples at DCP rate"),
-				c.frames_round(resampled_frame_rate(film))
-				)
-			);
-	}
 }
 
 

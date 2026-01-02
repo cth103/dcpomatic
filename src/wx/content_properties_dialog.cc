@@ -20,20 +20,22 @@
 
 
 #include "content_properties_dialog.h"
-#include "wx_util.h"
 #include "static_text.h"
+#include "wx_util.h"
+#include "lib/audio_content.h"
 #include "lib/content.h"
 #include "lib/video_content.h"
-#include "lib/audio_content.h"
 #include <boost/algorithm/string.hpp>
 
 
-using std::string;
-using std::list;
-using std::pair;
-using std::map;
-using std::shared_ptr;
 using std::dynamic_pointer_cast;
+using std::list;
+using std::map;
+using std::pair;
+using std::shared_ptr;
+using std::string;
+using std::vector;
+using boost::optional;
 
 
 ContentPropertiesDialog::ContentPropertiesDialog(wxWindow* parent, shared_ptr<const Film> film, shared_ptr<Content> content)
@@ -94,8 +96,35 @@ ContentPropertiesDialog::maybe_add_group(map<UserProperty::Category, list<UserPr
 	add(m, false);
 	add_spacer();
 
+	vector<string> sub_headings;
 	for (auto j: i->second) {
-		add_label_to_sizer(_table, this, std_to_wx(j.key), true, 0, wxALIGN_TOP);
-		add(new StaticText(this, std_to_wx(j.value + " " + j.unit)));
+		if (j.sub_heading) {
+			sub_headings.push_back(*j.sub_heading);
+		}
+	}
+
+	std::sort(sub_headings.begin(), sub_headings.end());
+	auto last = std::unique(sub_headings.begin(), sub_headings.end());
+	sub_headings.erase(last, sub_headings.end());
+
+	auto add_sub_heading = [&](optional<string> sub_heading) {
+		if (sub_heading) {
+			auto heading = add_label_to_sizer(_table, this, std_to_wx(*sub_heading), true, 0, wxALIGN_TOP);
+			wxFont font(*wxNORMAL_FONT);
+			font.SetStyle(wxFONTSTYLE_ITALIC);
+			heading->SetFont(font);
+			add_spacer();
+		}
+		for (auto j: i->second) {
+			if (j.sub_heading == sub_heading) {
+				add_label_to_sizer(_table, this, std_to_wx(j.key), true, 0, wxALIGN_TOP);
+				add(new StaticText(this, std_to_wx(j.value + " " + j.unit)));
+			}
+		}
+	};
+
+	add_sub_heading(boost::none);
+	for (auto const& h: sub_headings) {
+		add_sub_heading(h);
 	}
 }
