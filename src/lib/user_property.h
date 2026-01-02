@@ -37,14 +37,16 @@ public:
 	};
 
 	template <class T>
-	UserProperty(Category category_, std::string key_, T value_, std::string unit_ = "")
+	UserProperty(Category category_, std::string key_, T value_, std::string unit_ = "", boost::optional<std::string> sub_heading_ = boost::none)
 		: category(category_)
+		, sub_heading(sub_heading_)
 		, key(key_)
 		, value(dcp::locale_convert<std::string>(value_))
 		, unit(unit_)
 	{}
 
 	Category category;
+	boost::optional<std::string> sub_heading;
 	std::string key;
 	std::string value;
 	std::string unit;
