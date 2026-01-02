@@ -37,11 +37,11 @@ public:
 	};
 
 	template <class T>
-	UserProperty (Category category_, std::string key_, T value_, std::string unit_ = "")
-		: category (category_)
-		, key (key_)
-		, value (dcp::locale_convert<std::string> (value_))
-		, unit (unit_)
+	UserProperty(Category category_, std::string key_, T value_, std::string unit_ = "")
+		: category(category_)
+		, key(key_)
+		, value(dcp::locale_convert<std::string>(value_))
+		, unit(unit_)
 	{}
 
 	Category category;
