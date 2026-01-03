@@ -149,8 +149,7 @@ get_from_zip_url(string url, string file, bool pasv, bool skip_pasv_ip, function
 {
 	/* Download the ZIP file to temp_zip */
 	ScopedTemporary temp_zip;
-	auto e = get_from_url(url, pasv, skip_pasv_ip, temp_zip);
-	if (e) {
+	if (auto e = get_from_url(url, pasv, skip_pasv_ip, temp_zip)) {
 		return e;
 	}
 
