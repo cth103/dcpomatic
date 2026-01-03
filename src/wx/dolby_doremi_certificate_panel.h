@@ -25,8 +25,8 @@
 class DolbyDoremiCertificatePanel : public DownloadCertificatePanel
 {
 public:
-	DolbyDoremiCertificatePanel (DownloadCertificateDialog* dialog);
+	DolbyDoremiCertificatePanel(DownloadCertificateDialog* dialog);
 
-	void do_download () override;
-	wxString name () const override;
+	void do_download() override;
+	wxString name() const override;
 };

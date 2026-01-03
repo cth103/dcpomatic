@@ -55,8 +55,8 @@ public:
 };
 
 
-DolbyDoremiCertificatePanel::DolbyDoremiCertificatePanel (DownloadCertificateDialog* dialog)
-	: DownloadCertificatePanel (dialog)
+DolbyDoremiCertificatePanel::DolbyDoremiCertificatePanel(DownloadCertificateDialog* dialog)
+	: DownloadCertificatePanel(dialog)
 {
 
 }
@@ -93,7 +93,7 @@ try_common(vector<Location>& locations, string prefix, string serial)
 static void
 try_cat862(vector<Location>& locations, string prefix, string serial)
 {
-	int const serial_int = raw_convert<int> (serial);
+	int const serial_int = raw_convert<int>(serial);
 
 	string cat862;
 	if (serial_int <= 510999) {
@@ -137,7 +137,7 @@ try_dsp100(vector<Location>& locations, string prefix, string serial)
 static void
 try_cat745(vector<Location>& locations, string prefix, string serial)
 {
-	int const serial_int = raw_convert<int>(serial.substr (1));
+	int const serial_int = raw_convert<int>(serial.substr(1));
 
 	string cat745;
 	if (serial_int <= 999) {
@@ -159,7 +159,7 @@ try_cat745(vector<Location>& locations, string prefix, string serial)
 static void
 try_cp850(vector<Location>& locations, string prefix, string serial)
 {
-	int const serial_int = raw_convert<int> (serial.substr (1));
+	int const serial_int = raw_convert<int>(serial.substr(1));
 
 	int const lower = serial_int - (serial_int % 1000);
 	locations.push_back({
@@ -170,7 +170,7 @@ try_cp850(vector<Location>& locations, string prefix, string serial)
 
 
 void
-DolbyDoremiCertificatePanel::do_download ()
+DolbyDoremiCertificatePanel::do_download()
 {
 	string serial = wx_to_std(_serial->GetValue());
 	trim(serial);
@@ -184,7 +184,7 @@ DolbyDoremiCertificatePanel::do_download ()
 	optional<char> starting_char;
 
 	if (!serial.empty()) {
-		if (isdigit (serial[0])) {
+		if (isdigit(serial[0])) {
 			starts_with_digit = true;
 		} else {
 			starting_char = serial[0];
@@ -213,15 +213,15 @@ DolbyDoremiCertificatePanel::do_download ()
 		auto error = get_from_zip_url(location->url, location->file, true, true, boost::bind(&DownloadCertificatePanel::load_certificate, this, _1, _2));
 		++location;
 		if (error) {
-			errors.push_back (error.get ());
+			errors.push_back(error.get());
 		} else {
 			ok = true;
 		}
 	}
 
 	if (ok) {
-		_dialog->message()->SetLabel (_("Certificate downloaded"));
-		_dialog->setup_sensitivity ();
+		_dialog->message()->SetLabel(_("Certificate downloaded"));
+		_dialog->setup_sensitivity();
 	} else {
 		_dialog->message()->SetLabel({});
 
@@ -230,13 +230,13 @@ DolbyDoremiCertificatePanel::do_download ()
 			s += e + "\n";
 		}
 
-		error_dialog (this, std_to_wx (s));
+		error_dialog(this, std_to_wx(s));
 	}
 }
 
 
 wxString
-DolbyDoremiCertificatePanel::name () const
+DolbyDoremiCertificatePanel::name() const
 {
 	return _("Dolby / Doremi");
 }
