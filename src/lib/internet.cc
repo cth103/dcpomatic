@@ -92,6 +92,7 @@ get_from_url_data(void* buffer, size_t size, size_t nmemb, void* stream)
 }
 
 
+static
 optional<string>
 get_from_url(string url, bool pasv, bool skip_pasv_ip, ScopedTemporary& temp)
 {

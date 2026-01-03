@@ -26,8 +26,6 @@
 class ScopedTemporary;
 
 
-boost::optional<std::string> get_from_url(std::string url, bool pasv, bool skip_pasv_ip, ScopedTemporary& temp);
-
 boost::optional<std::string> get_from_url(
 	std::string url,
 	bool pasv,
