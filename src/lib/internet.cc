@@ -42,7 +42,7 @@ using boost::optional;
 
 
 static size_t
-ls_url_data (void* buffer, size_t size, size_t nmemb, void* output)
+ls_url_data(void* buffer, size_t size, size_t nmemb, void* output)
 {
 	string* s = reinterpret_cast<string*>(output);
 	char* c = reinterpret_cast<char*>(buffer);
@@ -54,16 +54,16 @@ ls_url_data (void* buffer, size_t size, size_t nmemb, void* output)
 
 
 list<string>
-ls_url (string url)
+ls_url(string url)
 {
-	auto curl = curl_easy_init ();
-	curl_easy_setopt (curl, CURLOPT_URL, url.c_str());
-	curl_easy_setopt (curl, CURLOPT_DIRLISTONLY, 1);
+	auto curl = curl_easy_init();
+	curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+	curl_easy_setopt(curl, CURLOPT_DIRLISTONLY, 1);
 
 	string ls;
-	curl_easy_setopt (curl, CURLOPT_WRITEFUNCTION, ls_url_data);
-	curl_easy_setopt (curl, CURLOPT_WRITEDATA, &ls);
-	auto const cr = curl_easy_perform (curl);
+	curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, ls_url_data);
+	curl_easy_setopt(curl, CURLOPT_WRITEDATA, &ls);
+	auto const cr = curl_easy_perform(curl);
 
 	if (cr != CURLE_OK) {
 		return {};
@@ -79,46 +79,46 @@ ls_url (string url)
 		}
 	}
 
-	result.pop_back ();
+	result.pop_back();
 	return result;
 }
 
 
 static size_t
-get_from_url_data (void* buffer, size_t size, size_t nmemb, void* stream)
+get_from_url_data(void* buffer, size_t size, size_t nmemb, void* stream)
 {
-	auto f = reinterpret_cast<FILE*> (stream);
-	return fwrite (buffer, size, nmemb, f);
+	auto f = reinterpret_cast<FILE*>(stream);
+	return fwrite(buffer, size, nmemb, f);
 }
 
 
 optional<string>
-get_from_url (string url, bool pasv, bool skip_pasv_ip, ScopedTemporary& temp)
+get_from_url(string url, bool pasv, bool skip_pasv_ip, ScopedTemporary& temp)
 {
-	auto curl = curl_easy_init ();
-	curl_easy_setopt (curl, CURLOPT_URL, url.c_str());
+	auto curl = curl_easy_init();
+	curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
 
-	auto& f = temp.open ("wb");
-	curl_easy_setopt (curl, CURLOPT_WRITEFUNCTION, get_from_url_data);
-	curl_easy_setopt (curl, CURLOPT_WRITEDATA, f.get());
-	curl_easy_setopt (curl, CURLOPT_FTP_USE_EPSV, 0);
-	curl_easy_setopt (curl, CURLOPT_FTP_USE_EPRT, 0);
+	auto& f = temp.open("wb");
+	curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, get_from_url_data);
+	curl_easy_setopt(curl, CURLOPT_WRITEDATA, f.get());
+	curl_easy_setopt(curl, CURLOPT_FTP_USE_EPSV, 0);
+	curl_easy_setopt(curl, CURLOPT_FTP_USE_EPRT, 0);
 	if (skip_pasv_ip) {
-		curl_easy_setopt (curl, CURLOPT_FTP_SKIP_PASV_IP, 1);
+		curl_easy_setopt(curl, CURLOPT_FTP_SKIP_PASV_IP, 1);
 	}
 	if (!pasv) {
-		curl_easy_setopt (curl, CURLOPT_FTPPORT, "-");
+		curl_easy_setopt(curl, CURLOPT_FTPPORT, "-");
 	}
 	curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
 	curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
 
 	/* Maximum time is 20s */
-	curl_easy_setopt (curl, CURLOPT_TIMEOUT, 20);
+	curl_easy_setopt(curl, CURLOPT_TIMEOUT, 20);
 
-	auto const cr = curl_easy_perform (curl);
+	auto const cr = curl_easy_perform(curl);
 
 	f.close();
-	curl_easy_cleanup (curl);
+	curl_easy_cleanup(curl);
 	if (cr != CURLE_OK) {
 		return fmt::format(_("Download failed ({} error {})"), url, (int) cr);
 	}
@@ -128,14 +128,14 @@ get_from_url (string url, bool pasv, bool skip_pasv_ip, ScopedTemporary& temp)
 
 
 optional<string>
-get_from_url (string url, bool pasv, bool skip_pasv_ip, function<optional<string> (boost::filesystem::path, string)> load)
+get_from_url(string url, bool pasv, bool skip_pasv_ip, function<optional<string> (boost::filesystem::path, string)> load)
 {
 	ScopedTemporary temp;
-	auto e = get_from_url (url, pasv, skip_pasv_ip, temp);
+	auto e = get_from_url(url, pasv, skip_pasv_ip, temp);
 	if (e) {
 		return e;
 	}
-	return load (temp.path(), url);
+	return load(temp.path(), url);
 }
 
 
@@ -144,11 +144,11 @@ get_from_url (string url, bool pasv, bool skip_pasv_ip, function<optional<string
  *  @param load Function passed a (temporary) filesystem path of the unpacked file.
  */
 optional<string>
-get_from_zip_url (string url, string file, bool pasv, bool skip_pasv_ip, function<optional<string> (boost::filesystem::path, string)> load)
+get_from_zip_url(string url, string file, bool pasv, bool skip_pasv_ip, function<optional<string> (boost::filesystem::path, string)> load)
 {
 	/* Download the ZIP file to temp_zip */
 	ScopedTemporary temp_zip;
-	auto e = get_from_url (url, pasv, skip_pasv_ip, temp_zip);
+	auto e = get_from_url(url, pasv, skip_pasv_ip, temp_zip);
 	if (e) {
 		return e;
 	}
@@ -166,40 +166,40 @@ get_from_zip_url (string url, string file, bool pasv, bool skip_pasv_ip, functio
 		return string(_("Could not open downloaded ZIP file"));
 	}
 
-	auto zip_source = zip_source_filep_create (zip_file.take(), 0, -1, 0);
+	auto zip_source = zip_source_filep_create(zip_file.take(), 0, -1, 0);
 	if (!zip_source) {
 		return string(_("Could not open downloaded ZIP file"));
 	}
 
 	zip_error_t error;
-	zip_error_init (&error);
-	auto zip = zip_open_from_source (zip_source, ZIP_RDONLY, &error);
+	zip_error_init(&error);
+	auto zip = zip_open_from_source(zip_source, ZIP_RDONLY, &error);
 	if (!zip) {
 		return fmt::format(_("Could not open downloaded ZIP file ({}:{}: {})"), error.zip_err, error.sys_err, error.str ? error.str : "");
 	}
 
 #else
-	struct zip* zip = zip_open (temp_zip.c_str(), 0, 0);
+	struct zip* zip = zip_open(temp_zip.c_str(), 0, 0);
 #endif
 
-	struct zip_file* file_in_zip = zip_fopen (zip, file.c_str(), 0);
+	struct zip_file* file_in_zip = zip_fopen(zip, file.c_str(), 0);
 	if (!file_in_zip) {
 		return string(_("Unexpected ZIP file contents"));
 	}
 
 	ScopedTemporary temp_cert;
-	auto& f = temp_cert.open ("wb");
+	auto& f = temp_cert.open("wb");
 	char buffer[4096];
 	while (true) {
-		int const N = zip_fread (file_in_zip, buffer, sizeof (buffer));
+		int const N = zip_fread(file_in_zip, buffer, sizeof(buffer));
 		f.checked_write(buffer, N);
-		if (N < int (sizeof (buffer))) {
+		if (N < int(sizeof(buffer))) {
 			break;
 		}
 	}
-	zip_fclose (file_in_zip);
-	zip_close (zip);
-	f.close ();
+	zip_fclose(file_in_zip);
+	zip_close(zip);
+	f.close();
 
-	return load (temp_cert.path(), url);
+	return load(temp_cert.path(), url);
 }

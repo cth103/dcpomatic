@@ -26,21 +26,21 @@
 class ScopedTemporary;
 
 
-boost::optional<std::string> get_from_url (std::string url, bool pasv, bool skip_pasv_ip, ScopedTemporary& temp);
+boost::optional<std::string> get_from_url(std::string url, bool pasv, bool skip_pasv_ip, ScopedTemporary& temp);
 
-boost::optional<std::string> get_from_url (
+boost::optional<std::string> get_from_url(
 	std::string url,
 	bool pasv,
 	bool skip_pasv_ip,
-	std::function<boost::optional<std::string> (boost::filesystem::path, std::string)> load
+	std::function<boost::optional<std::string>(boost::filesystem::path, std::string)> load
 	);
 
-boost::optional<std::string> get_from_zip_url (
+boost::optional<std::string> get_from_zip_url(
 	std::string url,
 	std::string file,
 	bool pasv,
 	bool skip_pasv_ip,
-	std::function<boost::optional<std::string> (boost::filesystem::path, std::string)> load
+	std::function<boost::optional<std::string>(boost::filesystem::path, std::string)> load
 	);
 
-std::list<std::string> ls_url (std::string url);
+std::list<std::string> ls_url(std::string url);
