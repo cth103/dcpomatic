@@ -23,9 +23,9 @@
 class BarcoAlchemyCertificatePanel : public CredentialsDownloadCertificatePanel
 {
 public:
-	BarcoAlchemyCertificatePanel (DownloadCertificateDialog* dialog);
+	BarcoAlchemyCertificatePanel(DownloadCertificateDialog* dialog);
 
-	bool ready_to_download () const override;
-	void do_download () override;
-	wxString name () const override;
+	bool ready_to_download() const override;
+	void do_download() override;
+	wxString name() const override;
 };

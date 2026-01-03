@@ -35,8 +35,8 @@ using namespace boost::placeholders;
 #endif
 
 
-BarcoAlchemyCertificatePanel::BarcoAlchemyCertificatePanel (DownloadCertificateDialog* dialog)
-	: CredentialsDownloadCertificatePanel (
+BarcoAlchemyCertificatePanel::BarcoAlchemyCertificatePanel(DownloadCertificateDialog* dialog)
+	: CredentialsDownloadCertificatePanel(
 			dialog,
 			boost::bind(&Config::barco_username, Config::instance()),
 			boost::bind(&Config::set_barco_username, Config::instance(), _1),
@@ -50,15 +50,15 @@ BarcoAlchemyCertificatePanel::BarcoAlchemyCertificatePanel (DownloadCertificateD
 }
 
 bool
-BarcoAlchemyCertificatePanel::ready_to_download () const
+BarcoAlchemyCertificatePanel::ready_to_download() const
 {
 	return CredentialsDownloadCertificatePanel::ready_to_download() && _serial->GetValue().Length() == 10;
 }
 
 void
-BarcoAlchemyCertificatePanel::do_download ()
+BarcoAlchemyCertificatePanel::do_download()
 {
-	string serial = wx_to_std (_serial->GetValue());
+	string serial = wx_to_std(_serial->GetValue());
 	trim(serial);
 	string url = fmt::format(
 		"sftp://{}:{}@certificates.barco.com/{}xxx/{}/Barco-ICMP.{}_cert.pem",
@@ -70,18 +70,18 @@ BarcoAlchemyCertificatePanel::do_download ()
 		);
 	trim(url);
 
-	auto error = get_from_url (url, true, false, boost::bind (&DownloadCertificatePanel::load_certificate, this, _1, _2));
+	auto error = get_from_url(url, true, false, boost::bind(&DownloadCertificatePanel::load_certificate, this, _1, _2));
 	if (error) {
 		_dialog->message()->SetLabel({});
-		error_dialog (this, std_to_wx(*error));
+		error_dialog(this, std_to_wx(*error));
 	} else {
-		_dialog->message()->SetLabel (_("Certificate downloaded"));
-		_dialog->setup_sensitivity ();
+		_dialog->message()->SetLabel(_("Certificate downloaded"));
+		_dialog->setup_sensitivity();
 	}
 }
 
 wxString
-BarcoAlchemyCertificatePanel::name () const
+BarcoAlchemyCertificatePanel::name() const
 {
 	return _("Barco Alchemy");
 }
