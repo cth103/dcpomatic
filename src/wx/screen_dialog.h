@@ -36,7 +36,7 @@ class TrustedDeviceDialog;
 class ScreenDialog : public wxDialog
 {
 public:
-	ScreenDialog (
+	ScreenDialog(
 		wxWindow *,
 		wxString,
 		std::string name = "",
@@ -46,23 +46,23 @@ public:
 		std::vector<TrustedDevice> d = {}
 		);
 
-	std::string name () const;
-	std::string notes () const;
-	boost::optional<dcp::Certificate> recipient () const;
-	boost::optional<std::string> recipient_file () const;
-	std::vector<TrustedDevice> trusted_devices () {
+	std::string name() const;
+	std::string notes() const;
+	boost::optional<dcp::Certificate> recipient() const;
+	boost::optional<std::string> recipient_file() const;
+	std::vector<TrustedDevice> trusted_devices() {
 		return _trusted_devices;
 	}
 
 private:
-	void get_recipient_from_file ();
-	void load_recipient (boost::filesystem::path);
-	void download_recipient ();
-	void setup_sensitivity ();
-	void set_recipient (boost::optional<dcp::Certificate>);
+	void get_recipient_from_file();
+	void load_recipient(boost::filesystem::path);
+	void download_recipient();
+	void setup_sensitivity();
+	void set_recipient(boost::optional<dcp::Certificate>);
 	void set_recipient_file(std::string file);
 
-	void set_trusted_devices (std::vector<TrustedDevice> d) {
+	void set_trusted_devices(std::vector<TrustedDevice> d) {
 		_trusted_devices = d;
 	}
 
