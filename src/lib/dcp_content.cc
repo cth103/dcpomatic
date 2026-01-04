@@ -192,7 +192,7 @@ DCPContent::read_directory(boost::filesystem::path p)
 
 	if (!have_assetmap) {
 		if (!have_metadata) {
-			throw DCPError("No ASSETMAP or ASSETMAP.xml file found: is this a DCP?");
+			throw DCPError(_("No ASSETMAP or ASSETMAP.xml file found: is this a DCP?"));
 		} else {
 			throw ProjectFolderError();
 		}

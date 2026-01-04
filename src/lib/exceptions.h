@@ -342,9 +342,7 @@ public:
 class CPLNotFoundError : public DCPError
 {
 public:
-	CPLNotFoundError(std::string id)
-		: DCPError(fmt::format("CPL {} not found", id))
-	{}
+	CPLNotFoundError(std::string id);
 };
 
 

@@ -190,3 +190,10 @@ SQLError::get_filename(SQLiteDatabase& db)
 
 	return {};
 }
+
+
+CPLNotFoundError::CPLNotFoundError(string id)
+	: DCPError(fmt::format(_("CPL {} not found"), id))
+{
+
+}

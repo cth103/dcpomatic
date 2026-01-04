@@ -112,7 +112,7 @@ DCPExaminer::DCPExaminer(shared_ptr<const DCPContent> content, bool tolerant)
 	}
 
 	if (!selected_cpl) {
-		throw DCPError("No CPLs found in DCP");
+		throw DCPError(_("No CPLs found in DCP"));
 	}
 
 	if (content->kdm()) {
