@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 21:17+0100\n"
+"POT-Creation-Date: 2026-01-05 12:22+0100\n"
 "PO-Revision-Date: 2021-12-28 14:46+0100\n"
 "Last-Translator: Mattias Mattsson <vitplister@gmail.com>\n"
 "Language-Team: \n"
@@ -191,7 +191,7 @@ msgid "9"
 msgstr ""
 
 #. TRANSLATORS: fps here is an abbreviation for frames per second
-#: src/lib/transcode_job.cc:180
+#: src/lib/transcode_job.cc:184
 #, c++-format
 msgid "; {} fps"
 msgstr "; {} fps"
@@ -443,6 +443,11 @@ msgstr "BsR"
 msgid "C"
 msgstr "C"
 
+#: src/lib/exceptions.cc:196
+#, c++-format
+msgid "CPL {} not found"
+msgstr ""
+
 #: src/lib/job.cc:657
 msgid "Cancelled"
 msgstr "Avbruten"
@@ -464,7 +469,7 @@ msgstr "Kan inte göra KDM eftersom projektet inte är krypterat."
 msgid "Centre"
 msgstr "Center"
 
-#: src/lib/audio_content.cc:302
+#: src/lib/audio_content.cc:306
 msgid "Channels"
 msgstr "Antal kanaler"
 
@@ -483,7 +488,7 @@ msgstr ""
 msgid "Checking content"
 msgstr "Kontrollerar om källmaterialet har ändrats"
 
-#: src/lib/reel_writer.cc:253
+#: src/lib/reel_writer.cc:258
 msgid "Checking existing image data"
 msgstr "Kontrollerar befintlig bilddata"
 
@@ -552,12 +557,12 @@ msgstr "Hurra!"
 msgid "Content and DCP have the same rate.\n"
 msgstr "Källmaterial och DCP har samma bildhastighet.\n"
 
-#: src/lib/audio_content.cc:305
+#: src/lib/audio_content.cc:310
 #, fuzzy
 msgid "Content bit depth"
 msgstr "filmtyp"
 
-#: src/lib/audio_content.cc:303
+#: src/lib/audio_content.cc:307
 #, fuzzy
 msgid "Content sample rate"
 msgstr "Källmaterialets samplingsfrekvens"
@@ -720,6 +725,11 @@ msgstr "Kombinera DCP:er"
 msgid "Copying DCPs to {}"
 msgstr "Kopiera DCP till TMS"
 
+#: src/lib/reel_writer.cc:194
+#, fuzzy
+msgid "Copying existing asset"
+msgstr "Kontrollerar befintlig bilddata"
+
 #: src/lib/copy_to_drive_job.cc:58
 #, fuzzy, c++-format
 msgid ""
@@ -841,7 +851,7 @@ msgstr ""
 msgid "DCP XML subtitles"
 msgstr "DCP XML-undertexter"
 
-#: src/lib/audio_content.cc:326
+#: src/lib/audio_content.cc:336
 msgid "DCP sample rate"
 msgstr "DCP:ns samplingsfrekvens"
 
@@ -922,7 +932,7 @@ msgstr ""
 msgid "Dolby CP650 or CP750"
 msgstr "Dolby CP650 eller CP750"
 
-#: src/lib/internet.cc:123
+#: src/lib/internet.cc:124
 #, c++-format
 msgid "Download failed ({} error {})"
 msgstr "Nedladdning misslyckades ({} fel {})"
@@ -967,7 +977,7 @@ msgstr "E-posta felrapport"
 msgid "Email problem report for {}"
 msgstr "E-posta felrapport för {}"
 
-#: src/lib/dcp_film_encoder.cc:119 src/lib/ffmpeg_film_encoder.cc:134
+#: src/lib/dcp_film_encoder.cc:121 src/lib/ffmpeg_film_encoder.cc:134
 msgid "Encoding"
 msgstr "Kodar"
 
@@ -1010,7 +1020,7 @@ msgstr "Läser undertexter"
 msgid "Examining subtitles and closed captions"
 msgstr "Undersöker undertexter"
 
-#: src/lib/subtitle_film_encoder.cc:97
+#: src/lib/subtitle_film_encoder.cc:106
 msgid "Extracting"
 msgstr "Extraherar"
 
@@ -1088,19 +1098,19 @@ msgstr "Komplett (0-{})"
 msgid "Full frame"
 msgstr "Full frame"
 
-#: src/lib/audio_content.cc:333
+#: src/lib/audio_content.cc:324
 msgid "Full length in audio samples at DCP rate"
 msgstr "Speltid i ljudsampel i DCP:ns hastighet"
 
-#: src/lib/audio_content.cc:320
+#: src/lib/audio_content.cc:315
 msgid "Full length in audio samples at content rate"
 msgstr "Speltid i ljudsampel i källmaterialets hastighet"
 
-#: src/lib/audio_content.cc:327
+#: src/lib/audio_content.cc:337
 msgid "Full length in video frames at DCP rate"
 msgstr "Speltid i bildrutor i DCP:ns hastighet"
 
-#: src/lib/audio_content.cc:313
+#: src/lib/audio_content.cc:333
 msgid "Full length in video frames at content rate"
 msgstr "Speltid i bildrutor i källmaterialets hastighet"
 
@@ -1144,7 +1154,7 @@ msgstr ""
 msgid "Horizontal flip"
 msgstr "Horisontell spegling"
 
-#: src/lib/audio_content.cc:303 src/lib/audio_content.cc:326
+#: src/lib/audio_content.cc:307 src/lib/audio_content.cc:336
 msgid "Hz"
 msgstr "Hz"
 
@@ -1312,6 +1322,15 @@ msgstr "Mono"
 #: src/lib/filter.cc:96
 msgid "Motion compensating deinterlacer"
 msgstr "Rörelsekompenserande avflätare"
+
+#: src/lib/dcp_content.cc:195
+msgid "No ASSETMAP or ASSETMAP.xml file found: is this a DCP?"
+msgstr ""
+
+#: src/lib/dcp_examiner.cc:115
+#, fuzzy
+msgid "No CPLs found in DCP"
+msgstr "Inga CPL:er hittades i DCP:n."
 
 #: src/lib/dcp_decoder.cc:114
 msgid "No CPLs found in DCP."
@@ -2206,7 +2225,7 @@ msgstr "[undertexter]"
 msgid "_reel{}"
 msgstr "_akt{}"
 
-#: src/lib/audio_content.cc:305
+#: src/lib/audio_content.cc:310
 msgid "bits"
 msgstr ""
 
@@ -2231,12 +2250,12 @@ msgstr "kopierar {}"
 msgid "could not find stream information"
 msgstr "kunde inte hitta information om strömmen"
 
-#: src/lib/reel_writer.cc:403
+#: src/lib/reel_writer.cc:408
 #, c++-format
 msgid "could not move atmos asset into the DCP ({})"
 msgstr "kunde inte flytta in atmos innehållet till DCP:n ({})"
 
-#: src/lib/reel_writer.cc:386
+#: src/lib/reel_writer.cc:391
 #, c++-format
 msgid "could not move audio asset into the DCP ({})"
 msgstr "kunde inte flytta in ljud till DCP:n ({})"
@@ -2498,7 +2517,7 @@ msgstr "DCP-o-matic stödjer inte längre '{}'-filtret, så det har inaktiverats
 msgid "{} notification"
 msgstr "E-postmeddelande"
 
-#: src/lib/transcode_job.cc:177
+#: src/lib/transcode_job.cc:181
 #, c++-format
 msgid "{}; {}/{} frames"
 msgstr ""

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 21:17+0100\n"
+"POT-Creation-Date: 2026-01-05 12:22+0100\n"
 "PO-Revision-Date: 2022-05-10 16:47+0200\n"
 "Last-Translator: Michał Tomaszewski <goku1933@gmail.com>\n"
 "Language-Team: Polish <http://translations.dcpomatic.com/projects/dcpomatic/"
@@ -194,7 +194,7 @@ msgid "9"
 msgstr ""
 
 #. TRANSLATORS: fps here is an abbreviation for frames per second
-#: src/lib/transcode_job.cc:180
+#: src/lib/transcode_job.cc:184
 #, c++-format
 msgid "; {} fps"
 msgstr "; {} kl/s"
@@ -450,6 +450,11 @@ msgstr "BsR"
 msgid "C"
 msgstr "C"
 
+#: src/lib/exceptions.cc:196
+#, c++-format
+msgid "CPL {} not found"
+msgstr ""
+
 #: src/lib/job.cc:657
 msgid "Cancelled"
 msgstr "Anulowane"
@@ -471,7 +476,7 @@ msgstr "Nie mogę stworzyć KDM, ponieważ ten Projekt nie jest zaszyfrowany."
 msgid "Centre"
 msgstr "Centralny"
 
-#: src/lib/audio_content.cc:302
+#: src/lib/audio_content.cc:306
 msgid "Channels"
 msgstr "Kanały dźwiękowe"
 
@@ -490,7 +495,7 @@ msgstr "Sprawdź nowe ustawienia, a następnie spróbuj ponownie."
 msgid "Checking content"
 msgstr "Szukam zmian w materiale"
 
-#: src/lib/reel_writer.cc:253
+#: src/lib/reel_writer.cc:258
 msgid "Checking existing image data"
 msgstr "Sprawdzanie danych obrazu"
 
@@ -559,12 +564,12 @@ msgstr "Gratulacje!"
 msgid "Content and DCP have the same rate.\n"
 msgstr "Dodany plik i docelowy DCP mają taką samą liczbę kl/s.\n"
 
-#: src/lib/audio_content.cc:305
+#: src/lib/audio_content.cc:310
 #, fuzzy
 msgid "Content bit depth"
 msgstr "typ materiału"
 
-#: src/lib/audio_content.cc:303
+#: src/lib/audio_content.cc:307
 #, fuzzy
 msgid "Content sample rate"
 msgstr "Częstotliwość dźwięku dodanego materiału"
@@ -712,6 +717,11 @@ msgstr "Połącz paczki DCP"
 msgid "Copying DCPs to {}"
 msgstr "Kopiuj DCP do TMS"
 
+#: src/lib/reel_writer.cc:194
+#, fuzzy
+msgid "Copying existing asset"
+msgstr "Sprawdzanie danych obrazu"
+
 #: src/lib/copy_to_drive_job.cc:58
 #, fuzzy, c++-format
 msgid ""
@@ -833,7 +843,7 @@ msgstr ""
 msgid "DCP XML subtitles"
 msgstr "Napisy DCP XML"
 
-#: src/lib/audio_content.cc:326
+#: src/lib/audio_content.cc:336
 msgid "DCP sample rate"
 msgstr "Liczba kl/s DCP"
 
@@ -914,7 +924,7 @@ msgstr ""
 msgid "Dolby CP650 or CP750"
 msgstr "Dolby CP650 lub CP750"
 
-#: src/lib/internet.cc:123
+#: src/lib/internet.cc:124
 #, c++-format
 msgid "Download failed ({} error {})"
 msgstr "Pobieranie nie powiodło się ({} błąd {})"
@@ -957,7 +967,7 @@ msgstr "Wyślij raport błędu"
 msgid "Email problem report for {}"
 msgstr "Wyślij raport błędu do {}"
 
-#: src/lib/dcp_film_encoder.cc:119 src/lib/ffmpeg_film_encoder.cc:134
+#: src/lib/dcp_film_encoder.cc:121 src/lib/ffmpeg_film_encoder.cc:134
 msgid "Encoding"
 msgstr "Kodowanie"
 
@@ -1000,7 +1010,7 @@ msgstr "Analizowanie napisów"
 msgid "Examining subtitles and closed captions"
 msgstr "Analizowanie napisów i napisów kodowanych"
 
-#: src/lib/subtitle_film_encoder.cc:97
+#: src/lib/subtitle_film_encoder.cc:106
 msgid "Extracting"
 msgstr "Wypakowywanie"
 
@@ -1077,20 +1087,20 @@ msgstr "Pełny (0-{})"
 msgid "Full frame"
 msgstr "Pełna klatka"
 
-#: src/lib/audio_content.cc:333
+#: src/lib/audio_content.cc:324
 msgid "Full length in audio samples at DCP rate"
 msgstr "Pełna długość dźwięku przy częstotliwości DCP"
 
-#: src/lib/audio_content.cc:320
+#: src/lib/audio_content.cc:315
 msgid "Full length in audio samples at content rate"
 msgstr ""
 "Pełna długość próbkowania dźwięku przy częstotliwości próbkowania materiału"
 
-#: src/lib/audio_content.cc:327
+#: src/lib/audio_content.cc:337
 msgid "Full length in video frames at DCP rate"
 msgstr "Pełna długość klatek obrazu przy częstotliwości DCP"
 
-#: src/lib/audio_content.cc:313
+#: src/lib/audio_content.cc:333
 msgid "Full length in video frames at content rate"
 msgstr "Pełna długość klatek obrazu przy częstotliwości materiału"
 
@@ -1133,7 +1143,7 @@ msgstr ""
 msgid "Horizontal flip"
 msgstr "Przerzuć w poziomie"
 
-#: src/lib/audio_content.cc:303 src/lib/audio_content.cc:326
+#: src/lib/audio_content.cc:307 src/lib/audio_content.cc:336
 msgid "Hz"
 msgstr "Hz"
 
@@ -1301,6 +1311,15 @@ msgstr "Mono"
 #: src/lib/filter.cc:96
 msgid "Motion compensating deinterlacer"
 msgstr "Usuwanie przeplotu z kompensacją ruchu"
+
+#: src/lib/dcp_content.cc:195
+msgid "No ASSETMAP or ASSETMAP.xml file found: is this a DCP?"
+msgstr ""
+
+#: src/lib/dcp_examiner.cc:115
+#, fuzzy
+msgid "No CPLs found in DCP"
+msgstr "Nie znaleziono plików CPL w paczce DCP."
 
 #: src/lib/dcp_decoder.cc:114
 msgid "No CPLs found in DCP."
@@ -2198,7 +2217,7 @@ msgstr "[napisy]"
 msgid "_reel{}"
 msgstr "_rolka{}"
 
-#: src/lib/audio_content.cc:305
+#: src/lib/audio_content.cc:310
 msgid "bits"
 msgstr ""
 
@@ -2223,12 +2242,12 @@ msgstr "kopiowanie {}"
 msgid "could not find stream information"
 msgstr "nie udało się znaleźć informacji o strumieniu"
 
-#: src/lib/reel_writer.cc:403
+#: src/lib/reel_writer.cc:408
 #, c++-format
 msgid "could not move atmos asset into the DCP ({})"
 msgstr "nie udało się przenieść materiałów Atmos do DCP ({})"
 
-#: src/lib/reel_writer.cc:386
+#: src/lib/reel_writer.cc:391
 #, c++-format
 msgid "could not move audio asset into the DCP ({})"
 msgstr "nie udało się przenieść dźwięku do DCP ({})"
@@ -2493,7 +2512,7 @@ msgstr "DCP-o-matic nie wspiera już filtru `{}', więc został on wyłączony."
 msgid "{} notification"
 msgstr "Powiadomienie email"
 
-#: src/lib/transcode_job.cc:177
+#: src/lib/transcode_job.cc:181
 #, c++-format
 msgid "{}; {}/{} frames"
 msgstr "{}; {}/{} klatki"

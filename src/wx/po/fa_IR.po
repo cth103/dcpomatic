@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 21:17+0100\n"
+"POT-Creation-Date: 2026-01-05 12:22+0100\n"
 "PO-Revision-Date: 2024-10-05 17:45+0330\n"
 "Last-Translator: Soleyman Rahmani Aghdam <Soleyman.rahmani@gmail.com>\n"
 "Language-Team: \n"
@@ -114,8 +114,9 @@ msgid "%s test email"
 msgstr "ایمیل تست %s"
 
 #: src/wx/about_dialog.cc:95
+#, fuzzy
 msgid ""
-"(C) 2012-2025 Carl Hetherington, Terrence Meiczinger\n"
+"(C) 2012-2026 Carl Hetherington, Terrence Meiczinger\n"
 "Aaron Boxer"
 msgstr ""
 "(C) 2012-2025 Carl Hetherington, Terrence Meiczinger\n"
@@ -637,7 +638,7 @@ msgid "Atmos"
 msgstr "دالبی اتمز"
 
 #: src/wx/audio_dialog.cc:65 src/wx/audio_panel.cc:66
-#: src/wx/content_properties_dialog.cc:80 src/wx/dcp_panel.cc:124
+#: src/wx/content_properties_dialog.cc:82 src/wx/dcp_panel.cc:124
 #: src/wx/timeline_labels_view.cc:42 src/wx/timeline_labels_view.cc:92
 msgid "Audio"
 msgstr "صدا"
@@ -909,7 +910,7 @@ msgstr "ظرف"
 msgid "Content"
 msgstr "محتوا"
 
-#: src/wx/content_properties_dialog.cc:40
+#: src/wx/content_properties_dialog.cc:42
 msgid "Content Properties"
 msgstr "ویژگی های محتوا"
 
@@ -971,7 +972,7 @@ msgstr "زیرنویس آنالیز نشد."
 msgid "Could not find serial number %s"
 msgstr "شماره سریال پیدا نشد %s"
 
-#: src/wx/content_menu.cc:635
+#: src/wx/content_menu.cc:640
 #, c-format
 msgid "Could not find this content in the project \"%s\"."
 msgstr "این محتوا در پروژه \"%s\" پیدا نشد."
@@ -1197,7 +1198,7 @@ msgstr "پیش فرض مدت زمان تصاویر ثابت"
 msgid "Defaults"
 msgstr "پیش فرض ها"
 
-#: src/wx/export_subtitles_dialog.cc:52
+#: src/wx/export_subtitles_dialog.cc:61
 msgid "Define font in output and export font file"
 msgstr "فونت خروجی و فایل اکسپورت را تعیین کنید"
 
@@ -1405,7 +1406,7 @@ msgstr "اکسپورت گواهی نامه..."
 msgid "Export chain..."
 msgstr "اکسپورت زنجیره..."
 
-#: src/wx/export_subtitles_dialog.cc:38
+#: src/wx/export_subtitles_dialog.cc:39
 msgid "Export subtitles"
 msgstr "اکسپورت زیرنویسها"
 
@@ -1468,7 +1469,7 @@ msgstr "فرمت اسم فایل"
 msgid "Film name"
 msgstr "اسم فیلم"
 
-#: src/wx/content_menu.cc:621
+#: src/wx/content_menu.cc:626
 msgid "Film to copy settings from"
 msgstr "فیلم برای کپی تنظیمات از"
 
@@ -1543,7 +1544,7 @@ msgstr "نشان گذاری صدا از نظر قانونی"
 msgid "Forensically mark video"
 msgstr "نشان گذاری ویدیو از نظر قانونی"
 
-#: src/wx/export_video_file_dialog.cc:76
+#: src/wx/export_subtitles_dialog.cc:45 src/wx/export_video_file_dialog.cc:76
 msgid "Format"
 msgstr "فرمت"
 
@@ -1631,7 +1632,7 @@ msgstr "محاسبه گر گین"
 msgid "Gain for content channel %d in DCP channel %d"
 msgstr "گین کانال محتوا %d در کانال دی سی پی %d"
 
-#: src/wx/content_properties_dialog.cc:74 src/wx/full_config_dialog.cc:1284
+#: src/wx/content_properties_dialog.cc:76 src/wx/full_config_dialog.cc:1284
 #: src/wx/general_preferences_page.cc:66 src/wx/kdm_config_dialog.cc:136
 #: src/wx/player_config_dialog.cc:312
 msgid "General"
@@ -2000,7 +2001,7 @@ msgstr "کلید خصوصی برگ با گواهی نامه برگ سازگار 
 msgid "Left"
 msgstr "چپ"
 
-#: src/wx/content_properties_dialog.cc:83
+#: src/wx/content_properties_dialog.cc:85
 msgid "Length"
 msgstr "مدت"
 
@@ -2083,6 +2084,11 @@ msgstr "MP4 files (*.mp4)|*.mp4"
 #: src/wx/dcp_panel.cc:164
 msgid "MPEG2 Interop"
 msgstr "اینتروپ MPEG2"
+
+#: src/wx/export_subtitles_dialog.cc:48
+#, fuzzy
+msgid "MXF (SMPTE)"
+msgstr "SMPTE"
 
 #. TRANSLATORS: Main and Additional here are a choice for whether a set of subtitles is in the "main" language of the
 #. film or an "additional" language.
@@ -2511,11 +2517,11 @@ msgstr "عرض لبه بیرونی قابل اعمال نیست تا زیرنو�
 msgid "Output"
 msgstr "خروجی"
 
-#: src/wx/export_subtitles_dialog.cc:62 src/wx/export_video_file_dialog.cc:98
+#: src/wx/export_subtitles_dialog.cc:65 src/wx/export_video_file_dialog.cc:98
 msgid "Output file"
 msgstr "فایل خروجی"
 
-#: src/wx/export_subtitles_dialog.cc:68
+#: src/wx/export_subtitles_dialog.cc:70
 msgid "Output folder"
 msgstr "پوشه خروجی"
 
@@ -3049,7 +3055,7 @@ msgstr "انتخاب فایل پیکربندی"
 msgid "Select debug log file"
 msgstr "انتخاب فایل گزارش اشکال زدایی"
 
-#: src/wx/export_subtitles_dialog.cc:64 src/wx/export_video_file_dialog.cc:104
+#: src/wx/export_subtitles_dialog.cc:66 src/wx/export_video_file_dialog.cc:104
 msgid "Select output file"
 msgstr "انتخاب فایل خروجی"
 
@@ -3327,11 +3333,11 @@ msgstr "ظاهر زیرنویس"
 msgid "Subtitle asset %n has a non-zero <EntryPoint>."
 msgstr "محتوای زیرنویس %n یک غیر صفر در <EntryPoint> دارد."
 
-#: src/wx/export_subtitles_dialog.cc:60
+#: src/wx/export_subtitles_dialog.cc:105
 msgid "Subtitle files (.mxf)|*.mxf"
 msgstr "فایلهای زیرنویس (.mxf)|*.mxf"
 
-#: src/wx/export_subtitles_dialog.cc:60
+#: src/wx/export_subtitles_dialog.cc:105
 msgid "Subtitle files (.xml)|*.xml"
 msgstr "فایلهای زیرنویس (.xml)|*.xml"
 
@@ -4338,7 +4344,7 @@ msgstr "تنظیم فایل نسخه(VF)"
 msgid "Version number"
 msgstr "شماره نسخه"
 
-#: src/wx/content_properties_dialog.cc:77 src/wx/dcp_panel.cc:123
+#: src/wx/content_properties_dialog.cc:79 src/wx/dcp_panel.cc:123
 #: src/wx/timeline_labels_view.cc:41 src/wx/timeline_labels_view.cc:74
 #: src/wx/video_panel.cc:70
 msgid "Video"
@@ -4419,7 +4425,7 @@ msgstr "تمام کلیدها را در یک پوشه بنویس"
 msgid "Write each audio channel to its own stream"
 msgstr "هر کانال صدا را در رشته داده خودش بنویس"
 
-#: src/wx/export_subtitles_dialog.cc:44 src/wx/export_video_file_dialog.cc:83
+#: src/wx/export_subtitles_dialog.cc:53 src/wx/export_video_file_dialog.cc:83
 msgid "Write reels into separate files"
 msgstr "حلقه ها را در فایلهای جدا بنویس"
 
@@ -4439,6 +4445,11 @@ msgstr "نوشته شده توسط"
 #: src/wx/text_panel.cc:89 src/wx/text_panel.cc:97
 msgid "X"
 msgstr "X"
+
+#: src/wx/export_subtitles_dialog.cc:47
+#, fuzzy
+msgid "XML (Interop)"
+msgstr "اینتروپ"
 
 #: src/wx/text_panel.cc:92
 msgid "Y"

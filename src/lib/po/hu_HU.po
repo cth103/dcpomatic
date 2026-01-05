@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 21:17+0100\n"
+"POT-Creation-Date: 2026-01-05 12:22+0100\n"
 "PO-Revision-Date: 2022-08-31 21:35+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -190,7 +190,7 @@ msgid "9"
 msgstr "9"
 
 #. TRANSLATORS: fps here is an abbreviation for frames per second
-#: src/lib/transcode_job.cc:180
+#: src/lib/transcode_job.cc:184
 #, c++-format
 msgid "; {} fps"
 msgstr "; {} fps"
@@ -442,6 +442,11 @@ msgstr "BsR"
 msgid "C"
 msgstr "C"
 
+#: src/lib/exceptions.cc:196
+#, c++-format
+msgid "CPL {} not found"
+msgstr ""
+
 #: src/lib/job.cc:657
 msgid "Cancelled"
 msgstr "Megszakítva"
@@ -463,7 +468,7 @@ msgstr "Nem lehet KDM-et létrehozni, mivel ez a projekt nem titkosított."
 msgid "Centre"
 msgstr "Közép"
 
-#: src/lib/audio_content.cc:302
+#: src/lib/audio_content.cc:306
 msgid "Channels"
 msgstr "Csatornák"
 
@@ -481,7 +486,7 @@ msgstr "Kérlek ellenőrizd az új beállításokat és próbáld újra."
 msgid "Checking content"
 msgstr "Tartalom vizsgálata"
 
-#: src/lib/reel_writer.cc:253
+#: src/lib/reel_writer.cc:258
 msgid "Checking existing image data"
 msgstr "Meglévő kép adatok ellenőrzése"
 
@@ -550,12 +555,12 @@ msgstr "Gratulálok!"
 msgid "Content and DCP have the same rate.\n"
 msgstr "A tartalom és a DCP aránya azonos.\n"
 
-#: src/lib/audio_content.cc:305
+#: src/lib/audio_content.cc:310
 #, fuzzy
 msgid "Content bit depth"
 msgstr "tartalom típusa"
 
-#: src/lib/audio_content.cc:303
+#: src/lib/audio_content.cc:307
 #, fuzzy
 msgid "Content sample rate"
 msgstr "Tartalom mintavételezési frekvenciája"
@@ -705,6 +710,11 @@ msgstr "DCPk egyesítése"
 msgid "Copying DCPs to {}"
 msgstr "DCP másolása a TMS-re"
 
+#: src/lib/reel_writer.cc:194
+#, fuzzy
+msgid "Copying existing asset"
+msgstr "Meglévő kép adatok ellenőrzése"
+
 #: src/lib/copy_to_drive_job.cc:58
 #, fuzzy, c++-format
 msgid ""
@@ -824,7 +834,7 @@ msgstr ""
 msgid "DCP XML subtitles"
 msgstr "DCP XML feliratok"
 
-#: src/lib/audio_content.cc:326
+#: src/lib/audio_content.cc:336
 msgid "DCP sample rate"
 msgstr ""
 
@@ -905,7 +915,7 @@ msgstr ""
 msgid "Dolby CP650 or CP750"
 msgstr "Dolby CP650 vagy CP750"
 
-#: src/lib/internet.cc:123
+#: src/lib/internet.cc:124
 #, c++-format
 msgid "Download failed ({} error {})"
 msgstr "Letöltés közben hiba lépett fel ({} hiba {})"
@@ -948,7 +958,7 @@ msgstr "Hibajelentés küldése"
 msgid "Email problem report for {}"
 msgstr "Hibajelentés küldése a következőhöz: {}"
 
-#: src/lib/dcp_film_encoder.cc:119 src/lib/ffmpeg_film_encoder.cc:134
+#: src/lib/dcp_film_encoder.cc:121 src/lib/ffmpeg_film_encoder.cc:134
 msgid "Encoding"
 msgstr "Kódolás"
 
@@ -991,7 +1001,7 @@ msgstr "Feliratok vizsgálata"
 msgid "Examining subtitles and closed captions"
 msgstr "Feliratok és hangleíró feliratok vizsgálata"
 
-#: src/lib/subtitle_film_encoder.cc:97
+#: src/lib/subtitle_film_encoder.cc:106
 msgid "Extracting"
 msgstr "Kicsomagolás"
 
@@ -1067,19 +1077,19 @@ msgstr ""
 msgid "Full frame"
 msgstr "Teljes keret"
 
-#: src/lib/audio_content.cc:333
+#: src/lib/audio_content.cc:324
 msgid "Full length in audio samples at DCP rate"
 msgstr ""
 
-#: src/lib/audio_content.cc:320
+#: src/lib/audio_content.cc:315
 msgid "Full length in audio samples at content rate"
 msgstr ""
 
-#: src/lib/audio_content.cc:327
+#: src/lib/audio_content.cc:337
 msgid "Full length in video frames at DCP rate"
 msgstr ""
 
-#: src/lib/audio_content.cc:313
+#: src/lib/audio_content.cc:333
 msgid "Full length in video frames at content rate"
 msgstr ""
 
@@ -1122,7 +1132,7 @@ msgstr ""
 msgid "Horizontal flip"
 msgstr "Függőleges elforgatás"
 
-#: src/lib/audio_content.cc:303 src/lib/audio_content.cc:326
+#: src/lib/audio_content.cc:307 src/lib/audio_content.cc:336
 msgid "Hz"
 msgstr ""
 
@@ -1284,6 +1294,15 @@ msgstr "Mono"
 #: src/lib/filter.cc:96
 msgid "Motion compensating deinterlacer"
 msgstr ""
+
+#: src/lib/dcp_content.cc:195
+msgid "No ASSETMAP or ASSETMAP.xml file found: is this a DCP?"
+msgstr ""
+
+#: src/lib/dcp_examiner.cc:115
+#, fuzzy
+msgid "No CPLs found in DCP"
+msgstr "Nem található CPL fájl a DCP-ben."
 
 #: src/lib/dcp_decoder.cc:114
 msgid "No CPLs found in DCP."
@@ -2094,7 +2113,7 @@ msgstr "[felirat]"
 msgid "_reel{}"
 msgstr "_reel{}"
 
-#: src/lib/audio_content.cc:305
+#: src/lib/audio_content.cc:310
 msgid "bits"
 msgstr ""
 
@@ -2119,12 +2138,12 @@ msgstr "{} másolása"
 msgid "could not find stream information"
 msgstr "nem található az adatfolyam információ"
 
-#: src/lib/reel_writer.cc:403
+#: src/lib/reel_writer.cc:408
 #, c++-format
 msgid "could not move atmos asset into the DCP ({})"
 msgstr "nem sikerült az atmos anyagot DCP-be írni ({})"
 
-#: src/lib/reel_writer.cc:386
+#: src/lib/reel_writer.cc:391
 #, c++-format
 msgid "could not move audio asset into the DCP ({})"
 msgstr "nem sikerült a hanganyagot DCP-be írni ({})"
@@ -2371,7 +2390,7 @@ msgstr ""
 msgid "{} notification"
 msgstr "Email értesítés"
 
-#: src/lib/transcode_job.cc:177
+#: src/lib/transcode_job.cc:181
 #, c++-format
 msgid "{}; {}/{} frames"
 msgstr "{}; {}/{} képkocka"

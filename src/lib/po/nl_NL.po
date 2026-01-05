@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 21:17+0100\n"
+"POT-Creation-Date: 2026-01-05 12:22+0100\n"
 "PO-Revision-Date: 2025-12-30 23:27+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
@@ -191,7 +191,7 @@ msgid "9"
 msgstr "9"
 
 #. TRANSLATORS: fps here is an abbreviation for frames per second
-#: src/lib/transcode_job.cc:180
+#: src/lib/transcode_job.cc:184
 #, c++-format
 msgid "; {} fps"
 msgstr "; {} fps"
@@ -204,30 +204,30 @@ msgstr "; {} resterend; klaar om {}{}"
 #: src/lib/analytics.cc:58
 #, c-format, c++-format
 msgid ""
-"<h2>You have made {} DCPs with {}!</h2><img width=\"20%%\" src=\"memory:me."
-"jpg\" align=\"center\"><font size=\"+1\"><p>Hello. I'm Carl and I'm the "
-"developer of {}. I work on it in my spare time (with the help of a volunteer "
-"team of testers and translators) and I release it as free software.<p>If you "
-"find {} useful, please consider a donation to the project. Financial support "
-"will help me to spend more time developing {} and making it better!"
-"<p><ul><li><a href=\"https://dcpomatic.com/donate_amount?amount=40\">Go to "
-"Paypal to donate €40</a><li><a href=\"https://dcpomatic.com/donate_amount?"
-"amount=20\">Go to Paypal to donate €20</a><li><a href=\"https://dcpomatic."
-"com/donate_amount?amount=10\">Go to Paypal to donate €10</a></ul><p>Thank "
-"you!</font>"
+"<h2>You have made {} DCPs with {}!</h2><img width=\"20%%\" "
+"src=\"memory:me.jpg\" align=\"center\"><font size=\"+1\"><p>Hello. I'm Carl "
+"and I'm the developer of {}. I work on it in my spare time (with the help of "
+"a volunteer team of testers and translators) and I release it as free "
+"software.<p>If you find {} useful, please consider a donation to the "
+"project. Financial support will help me to spend more time developing {} and "
+"making it better!<p><ul><li><a href=\"https://dcpomatic.com/donate_amount?"
+"amount=40\">Go to Paypal to donate €40</a><li><a href=\"https://"
+"dcpomatic.com/donate_amount?amount=20\">Go to Paypal to donate €20</a><li><a "
+"href=\"https://dcpomatic.com/donate_amount?amount=10\">Go to Paypal to "
+"donate €10</a></ul><p>Thank you!</font>"
 msgstr ""
-"<h2>U heeft {} DCP's gemaakt met {}!</h2><img width=\"20%%\" src=\"memory:me."
-"jpg\" align=\"center\"><font size=\"+1\"><p>Hallo.  Ik ben Carl en ik ben de "
-"ontwikkelaar van {}.  Ik werk eraan in mijn vrije tijd (met de hulp van een "
-"vrijwilligersteam van testers en vertalers) en ik geef het vrij als gratis "
-"software.<p>Als u {} nuttig vindt, overweeg dan een donatie aan het "
-"project.  Financiële ondersteuning zal me helpen om meer tijd te besteden "
-"aan de ontwikkeling van {} en het beter te maken!<p><ul><li><a "
-"href=\"https://dcpomatic.com/donate_amount?amount=40\">Ga naar Paypal om €40 "
-"te doneren</a><li><a href=\"https://dcpomatic.com/donate_amount?"
-"amount=20\">Ga naar Paypal om €20 te doneren</a><li><a href=\"https://"
-"dcpomatic.com/donate_amount?amount=10\">Ga naar Paypal om €10 te doneren</"
-"a></ul><p>Dank u wel!</font>"
+"<h2>U heeft {} DCP's gemaakt met {}!</h2><img width=\"20%%\" "
+"src=\"memory:me.jpg\" align=\"center\"><font size=\"+1\"><p>Hallo.  Ik ben "
+"Carl en ik ben de ontwikkelaar van {}.  Ik werk eraan in mijn vrije tijd "
+"(met de hulp van een vrijwilligersteam van testers en vertalers) en ik geef "
+"het vrij als gratis software.<p>Als u {} nuttig vindt, overweeg dan een "
+"donatie aan het project.  Financiële ondersteuning zal me helpen om meer "
+"tijd te besteden aan de ontwikkeling van {} en het beter te maken!"
+"<p><ul><li><a href=\"https://dcpomatic.com/donate_amount?amount=40\">Ga naar "
+"Paypal om €40 te doneren</a><li><a href=\"https://dcpomatic.com/"
+"donate_amount?amount=20\">Ga naar Paypal om €20 te doneren</a><li><a "
+"href=\"https://dcpomatic.com/donate_amount?amount=10\">Ga naar Paypal om €10 "
+"te doneren</a></ul><p>Dank u wel!</font>"
 
 #: src/lib/hints.cc:176
 msgid ""
@@ -443,6 +443,11 @@ msgstr "BsR"
 msgid "C"
 msgstr "C"
 
+#: src/lib/exceptions.cc:196
+#, c++-format
+msgid "CPL {} not found"
+msgstr ""
+
 #: src/lib/job.cc:657
 msgid "Cancelled"
 msgstr "Geannuleerd"
@@ -464,7 +469,7 @@ msgstr "Kan geen KDM maken omdat dit project niet is versleuteld."
 msgid "Centre"
 msgstr "Midden (C)"
 
-#: src/lib/audio_content.cc:302
+#: src/lib/audio_content.cc:306
 msgid "Channels"
 msgstr "Kanalen"
 
@@ -485,7 +490,7 @@ msgstr "Controleer hun nieuwe instellingen en probeer het opnieuw."
 msgid "Checking content"
 msgstr "Controleren content"
 
-#: src/lib/reel_writer.cc:253
+#: src/lib/reel_writer.cc:258
 msgid "Checking existing image data"
 msgstr "Controleren bestaande beelddata"
 
@@ -553,11 +558,11 @@ msgstr "Gefeliciteerd!"
 msgid "Content and DCP have the same rate.\n"
 msgstr "Content en DCP hebben dezelfde frame rate.\n"
 
-#: src/lib/audio_content.cc:305
+#: src/lib/audio_content.cc:310
 msgid "Content bit depth"
 msgstr "Content bit depth"
 
-#: src/lib/audio_content.cc:303
+#: src/lib/audio_content.cc:307
 msgid "Content sample rate"
 msgstr "Content sample rate"
 
@@ -721,6 +726,11 @@ msgstr "Kopiëren DCP"
 msgid "Copying DCPs to {}"
 msgstr "Kopiëren DCP's naar {}"
 
+#: src/lib/reel_writer.cc:194
+#, fuzzy
+msgid "Copying existing asset"
+msgstr "Controleren bestaande beelddata"
+
 #: src/lib/copy_to_drive_job.cc:58
 #, c++-format
 msgid ""
@@ -843,7 +853,7 @@ msgstr "DCP (via {})"
 msgid "DCP XML subtitles"
 msgstr "DCP XML ondertitels"
 
-#: src/lib/audio_content.cc:326
+#: src/lib/audio_content.cc:336
 msgid "DCP sample rate"
 msgstr "DCP sample rate"
 
@@ -930,7 +940,7 @@ msgstr "Schijf vol bij het schrijven van {}"
 msgid "Dolby CP650 or CP750"
 msgstr "Dolby CP650 of CP750"
 
-#: src/lib/internet.cc:123
+#: src/lib/internet.cc:124
 #, c++-format
 msgid "Download failed ({} error {})"
 msgstr "Download mislukt ({} fout {})"
@@ -972,7 +982,7 @@ msgstr "E-mail probleemrapport"
 msgid "Email problem report for {}"
 msgstr "E-mail probleemrapport voor {}"
 
-#: src/lib/dcp_film_encoder.cc:119 src/lib/ffmpeg_film_encoder.cc:134
+#: src/lib/dcp_film_encoder.cc:121 src/lib/ffmpeg_film_encoder.cc:134
 msgid "Encoding"
 msgstr "Encoderen"
 
@@ -1014,7 +1024,7 @@ msgstr "Onderzoeken ondertitels"
 msgid "Examining subtitles and closed captions"
 msgstr "Onderzoeken ondertitels en closed captions"
 
-#: src/lib/subtitle_film_encoder.cc:97
+#: src/lib/subtitle_film_encoder.cc:106
 msgid "Extracting"
 msgstr "Uitpakken"
 
@@ -1088,19 +1098,19 @@ msgstr "Full (0-{})"
 msgid "Full frame"
 msgstr "DCI Full Container"
 
-#: src/lib/audio_content.cc:333
+#: src/lib/audio_content.cc:324
 msgid "Full length in audio samples at DCP rate"
 msgstr "Volledige lengte in audio samples bij DCP-snelheid"
 
-#: src/lib/audio_content.cc:320
+#: src/lib/audio_content.cc:315
 msgid "Full length in audio samples at content rate"
 msgstr "Volledige lengte in audio samples bij content-snelheid"
 
-#: src/lib/audio_content.cc:327
+#: src/lib/audio_content.cc:337
 msgid "Full length in video frames at DCP rate"
 msgstr "Volledige lengte in video frames bij DCP-snelheid"
 
-#: src/lib/audio_content.cc:313
+#: src/lib/audio_content.cc:333
 msgid "Full length in video frames at content rate"
 msgstr "Volledige lengte in video frames bij content-snelheid"
 
@@ -1146,7 +1156,7 @@ msgstr "Highlights"
 msgid "Horizontal flip"
 msgstr "Spiegel horizontaal"
 
-#: src/lib/audio_content.cc:303 src/lib/audio_content.cc:326
+#: src/lib/audio_content.cc:307 src/lib/audio_content.cc:336
 msgid "Hz"
 msgstr "Hz"
 
@@ -1314,6 +1324,15 @@ msgstr "Mono"
 #: src/lib/filter.cc:96
 msgid "Motion compensating deinterlacer"
 msgstr "Motion compensating deinterlacer"
+
+#: src/lib/dcp_content.cc:195
+msgid "No ASSETMAP or ASSETMAP.xml file found: is this a DCP?"
+msgstr ""
+
+#: src/lib/dcp_examiner.cc:115
+#, fuzzy
+msgid "No CPLs found in DCP"
+msgstr "Geen CPL's gevonden in DCP."
 
 #: src/lib/dcp_decoder.cc:114
 msgid "No CPLs found in DCP."
@@ -1893,9 +1912,9 @@ msgid ""
 "again."
 msgstr ""
 "Deze fout is waarschijnlijk opgetreden omdat u de 32-bits versie van {} "
-"gebruikt en probeert te veel encoderings-threads te gebruiken.  Verminder a."
-"u.b. het 'Aantal threads dat {} moet gebruiken' in het \"Algemeen\"-tabblad "
-"bij Voorkeuren en probeer het opnieuw."
+"gebruikt en probeert te veel encoderings-threads te gebruiken.  Verminder "
+"a.u.b. het 'Aantal threads dat {} moet gebruiken' in het \"Algemeen\"-"
+"tabblad bij Voorkeuren en probeer het opnieuw."
 
 #: src/lib/job.cc:155
 #, c++-format
@@ -2236,7 +2255,7 @@ msgstr "[ondertitels]"
 msgid "_reel{}"
 msgstr "_reel{}"
 
-#: src/lib/audio_content.cc:305
+#: src/lib/audio_content.cc:310
 msgid "bits"
 msgstr "bits"
 
@@ -2261,12 +2280,12 @@ msgstr "kopiëren van {}"
 msgid "could not find stream information"
 msgstr "kan geen stream-informatie vinden"
 
-#: src/lib/reel_writer.cc:403
+#: src/lib/reel_writer.cc:408
 #, c++-format
 msgid "could not move atmos asset into the DCP ({})"
 msgstr "kan Atmos asset niet naar de DCP verplaatsen ({})"
 
-#: src/lib/reel_writer.cc:386
+#: src/lib/reel_writer.cc:391
 #, c++-format
 msgid "could not move audio asset into the DCP ({})"
 msgstr "kan audio asset niet naar de DCP verplaatsen ({})"
@@ -2535,7 +2554,7 @@ msgstr ""
 msgid "{} notification"
 msgstr "{} notificatie"
 
-#: src/lib/transcode_job.cc:177
+#: src/lib/transcode_job.cc:181
 #, c++-format
 msgid "{}; {}/{} frames"
 msgstr "{}; {}/{} frames"

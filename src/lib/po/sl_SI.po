@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 21:17+0100\n"
+"POT-Creation-Date: 2026-01-05 12:22+0100\n"
 "PO-Revision-Date: 2024-02-10 16:15+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: \n"
@@ -190,7 +190,7 @@ msgid "9"
 msgstr "9"
 
 #. TRANSLATORS: fps here is an abbreviation for frames per second
-#: src/lib/transcode_job.cc:180
+#: src/lib/transcode_job.cc:184
 #, c++-format
 msgid "; {} fps"
 msgstr "; {} sl/s"
@@ -438,6 +438,11 @@ msgstr "BsR (D)"
 msgid "C"
 msgstr "C"
 
+#: src/lib/exceptions.cc:196
+#, c++-format
+msgid "CPL {} not found"
+msgstr ""
+
 #: src/lib/job.cc:657
 msgid "Cancelled"
 msgstr "Preklicano"
@@ -459,7 +464,7 @@ msgstr "KDM ni mogoče narediti, ker ta projekt ni šifriran."
 msgid "Centre"
 msgstr "Sredinsko"
 
-#: src/lib/audio_content.cc:302
+#: src/lib/audio_content.cc:306
 msgid "Channels"
 msgstr "Kanali"
 
@@ -477,7 +482,7 @@ msgstr "Preverite njihove nove nastavitve in poskusite znova."
 msgid "Checking content"
 msgstr "Preverjanje vsebine"
 
-#: src/lib/reel_writer.cc:253
+#: src/lib/reel_writer.cc:258
 msgid "Checking existing image data"
 msgstr "Preverjanje obstoječih slikovnih podatkov"
 
@@ -546,11 +551,11 @@ msgstr "Čestitamo!"
 msgid "Content and DCP have the same rate.\n"
 msgstr "Vsebina in DCP imata enako hitrost.\n"
 
-#: src/lib/audio_content.cc:305
+#: src/lib/audio_content.cc:310
 msgid "Content bit depth"
 msgstr "Bitna globina vsebine"
 
-#: src/lib/audio_content.cc:303
+#: src/lib/audio_content.cc:307
 msgid "Content sample rate"
 msgstr "Mera vzorčenja vsebine"
 
@@ -713,6 +718,11 @@ msgstr "Združi DCP-je"
 msgid "Copying DCPs to {}"
 msgstr "Kopiraj DCP v TMS"
 
+#: src/lib/reel_writer.cc:194
+#, fuzzy
+msgid "Copying existing asset"
+msgstr "Preverjanje obstoječih slikovnih podatkov"
+
 #: src/lib/copy_to_drive_job.cc:58
 #, fuzzy, c++-format
 msgid ""
@@ -834,7 +844,7 @@ msgstr ""
 msgid "DCP XML subtitles"
 msgstr "Podnaslovi DCP XML"
 
-#: src/lib/audio_content.cc:326
+#: src/lib/audio_content.cc:336
 msgid "DCP sample rate"
 msgstr "Mera vzorčenja DCP"
 
@@ -915,7 +925,7 @@ msgstr ""
 msgid "Dolby CP650 or CP750"
 msgstr "Dolby CP650 ali CP750"
 
-#: src/lib/internet.cc:123
+#: src/lib/internet.cc:124
 #, c++-format
 msgid "Download failed ({} error {})"
 msgstr "Prenos ni uspel ({} napaka {})"
@@ -958,7 +968,7 @@ msgstr "Poročilo o težavah z e-pošto"
 msgid "Email problem report for {}"
 msgstr "Poročilo o težavah z e-pošto za {}"
 
-#: src/lib/dcp_film_encoder.cc:119 src/lib/ffmpeg_film_encoder.cc:134
+#: src/lib/dcp_film_encoder.cc:121 src/lib/ffmpeg_film_encoder.cc:134
 msgid "Encoding"
 msgstr "Kodiranje"
 
@@ -1000,7 +1010,7 @@ msgstr "Preučevanje podnaslovov"
 msgid "Examining subtitles and closed captions"
 msgstr "Preučevanje podnaslovov in zaprtih napisov"
 
-#: src/lib/subtitle_film_encoder.cc:97
+#: src/lib/subtitle_film_encoder.cc:106
 msgid "Extracting"
 msgstr "Razširjanje"
 
@@ -1076,19 +1086,19 @@ msgstr "Polno (0-{})"
 msgid "Full frame"
 msgstr "Celotna sličica (full frame)"
 
-#: src/lib/audio_content.cc:333
+#: src/lib/audio_content.cc:324
 msgid "Full length in audio samples at DCP rate"
 msgstr "Polna dolžina v zvočnih vzorcih pri hitrosti DCP"
 
-#: src/lib/audio_content.cc:320
+#: src/lib/audio_content.cc:315
 msgid "Full length in audio samples at content rate"
 msgstr "Polna dolžina v zvočnih vzorcih pri hitrosti vsebine"
 
-#: src/lib/audio_content.cc:327
+#: src/lib/audio_content.cc:337
 msgid "Full length in video frames at DCP rate"
 msgstr "Polna dolžina v video sličicah pri hitrosti DCP"
 
-#: src/lib/audio_content.cc:313
+#: src/lib/audio_content.cc:333
 msgid "Full length in video frames at content rate"
 msgstr "Polna dolžina v video sličicah pri hitrosti vsebine"
 
@@ -1131,7 +1141,7 @@ msgstr "Svetli toni"
 msgid "Horizontal flip"
 msgstr "Vodoravno preobrni"
 
-#: src/lib/audio_content.cc:303 src/lib/audio_content.cc:326
+#: src/lib/audio_content.cc:307 src/lib/audio_content.cc:336
 msgid "Hz"
 msgstr "Hz"
 
@@ -1298,6 +1308,15 @@ msgstr "Mono"
 #: src/lib/filter.cc:96
 msgid "Motion compensating deinterlacer"
 msgstr "Razpletalnik s kompenzacijo gibanja"
+
+#: src/lib/dcp_content.cc:195
+msgid "No ASSETMAP or ASSETMAP.xml file found: is this a DCP?"
+msgstr ""
+
+#: src/lib/dcp_examiner.cc:115
+#, fuzzy
+msgid "No CPLs found in DCP"
+msgstr "V DCP-ju ni CPL-jev."
 
 #: src/lib/dcp_decoder.cc:114
 msgid "No CPLs found in DCP."
@@ -2203,7 +2222,7 @@ msgstr "[podnaslovi]"
 msgid "_reel{}"
 msgstr "_reel{}"
 
-#: src/lib/audio_content.cc:305
+#: src/lib/audio_content.cc:310
 msgid "bits"
 msgstr "bitov"
 
@@ -2228,12 +2247,12 @@ msgstr "kopiranje {}"
 msgid "could not find stream information"
 msgstr "podatkov o toku ni mogoče najti"
 
-#: src/lib/reel_writer.cc:403
+#: src/lib/reel_writer.cc:408
 #, c++-format
 msgid "could not move atmos asset into the DCP ({})"
 msgstr "sredstva atmos ni bilo mogoče premakniti v DCP ({})"
 
-#: src/lib/reel_writer.cc:386
+#: src/lib/reel_writer.cc:391
 #, c++-format
 msgid "could not move audio asset into the DCP ({})"
 msgstr "zvočnega sredstva ni bilo mogoče premakniti v DCP ({})"
@@ -2498,7 +2517,7 @@ msgstr "DCP-o-matic ne podpira več filtra »{}«, zato je bil izklopljen."
 msgid "{} notification"
 msgstr "E-poštno obvestilo"
 
-#: src/lib/transcode_job.cc:177
+#: src/lib/transcode_job.cc:181
 #, c++-format
 msgid "{}; {}/{} frames"
 msgstr "{}; {}/{} sličic"

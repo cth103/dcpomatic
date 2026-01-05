@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 21:17+0100\n"
+"POT-Creation-Date: 2026-01-05 12:22+0100\n"
 "PO-Revision-Date: 2025-06-11 07:36+0200\n"
 "Last-Translator: Tomáš Begeni <begeni@razdva.cz>\n"
 "Language-Team: DCP-o-matic translators\n"
@@ -113,8 +113,9 @@ msgid "%s test email"
 msgstr "%s testovací email"
 
 #: src/wx/about_dialog.cc:95
+#, fuzzy
 msgid ""
-"(C) 2012-2025 Carl Hetherington, Terrence Meiczinger\n"
+"(C) 2012-2026 Carl Hetherington, Terrence Meiczinger\n"
 "Aaron Boxer"
 msgstr ""
 "(C) 2012-2025 Carl Hetherington, Terrence Meiczinger\n"
@@ -637,7 +638,7 @@ msgid "Atmos"
 msgstr "Atmos"
 
 #: src/wx/audio_dialog.cc:65 src/wx/audio_panel.cc:66
-#: src/wx/content_properties_dialog.cc:80 src/wx/dcp_panel.cc:124
+#: src/wx/content_properties_dialog.cc:82 src/wx/dcp_panel.cc:124
 #: src/wx/timeline_labels_view.cc:42 src/wx/timeline_labels_view.cc:92
 msgid "Audio"
 msgstr "Zvuk"
@@ -909,7 +910,7 @@ msgstr "Kontejner"
 msgid "Content"
 msgstr "Obsah"
 
-#: src/wx/content_properties_dialog.cc:40
+#: src/wx/content_properties_dialog.cc:42
 msgid "Content Properties"
 msgstr "Nastavení obsahu"
 
@@ -971,7 +972,7 @@ msgstr "Titulky nelze analyzovat."
 msgid "Could not find serial number %s"
 msgstr "Nelze najít sériové číslo %s"
 
-#: src/wx/content_menu.cc:635
+#: src/wx/content_menu.cc:640
 #, c-format
 msgid "Could not find this content in the project \"%s\"."
 msgstr "Tento obsah se nepodařilo najít v projektu „%s“."
@@ -1197,7 +1198,7 @@ msgstr "Předvolená dálka statických snímků"
 msgid "Defaults"
 msgstr "Předvolené"
 
-#: src/wx/export_subtitles_dialog.cc:52
+#: src/wx/export_subtitles_dialog.cc:61
 msgid "Define font in output and export font file"
 msgstr "Definujte písmo ve výstupu a exportujte soubor písem"
 
@@ -1404,7 +1405,7 @@ msgstr "Exportovat certifikát…"
 msgid "Export chain..."
 msgstr "Export řetězce…"
 
-#: src/wx/export_subtitles_dialog.cc:38
+#: src/wx/export_subtitles_dialog.cc:39
 msgid "Export subtitles"
 msgstr "Exportovat titulky"
 
@@ -1467,7 +1468,7 @@ msgstr "Formát nazvu souboru"
 msgid "Film name"
 msgstr "Název filmu"
 
-#: src/wx/content_menu.cc:621
+#: src/wx/content_menu.cc:626
 msgid "Film to copy settings from"
 msgstr "Film pro kopírování nastavení z"
 
@@ -1543,7 +1544,7 @@ msgstr "Forenzní označení zvuku"
 msgid "Forensically mark video"
 msgstr "Forenzní označení videa"
 
-#: src/wx/export_video_file_dialog.cc:76
+#: src/wx/export_subtitles_dialog.cc:45 src/wx/export_video_file_dialog.cc:76
 msgid "Format"
 msgstr "Formát"
 
@@ -1633,7 +1634,7 @@ msgstr "Vypočítání hlasitosti"
 msgid "Gain for content channel %d in DCP channel %d"
 msgstr "Zesílit kanál %d in DCP kanály %d"
 
-#: src/wx/content_properties_dialog.cc:74 src/wx/full_config_dialog.cc:1284
+#: src/wx/content_properties_dialog.cc:76 src/wx/full_config_dialog.cc:1284
 #: src/wx/general_preferences_page.cc:66 src/wx/kdm_config_dialog.cc:136
 #: src/wx/player_config_dialog.cc:312
 msgid "General"
@@ -2004,7 +2005,7 @@ msgstr "List soukromého klíče neodpovídá listu certifikátu!"
 msgid "Left"
 msgstr "Levý"
 
-#: src/wx/content_properties_dialog.cc:83
+#: src/wx/content_properties_dialog.cc:85
 msgid "Length"
 msgstr "Délka"
 
@@ -2087,6 +2088,11 @@ msgstr "MP4 soubor (*.mp4)|*.mp4"
 #: src/wx/dcp_panel.cc:164
 msgid "MPEG2 Interop"
 msgstr "MPEG2 Interop"
+
+#: src/wx/export_subtitles_dialog.cc:48
+#, fuzzy
+msgid "MXF (SMPTE)"
+msgstr "SMPTE"
 
 #. TRANSLATORS: Main and Additional here are a choice for whether a set of subtitles is in the "main" language of the
 #. film or an "additional" language.
@@ -2500,11 +2506,11 @@ msgstr "Šířku obrysu nelze nastavit, pokud nevypalujete titulky."
 msgid "Output"
 msgstr "Výstup"
 
-#: src/wx/export_subtitles_dialog.cc:62 src/wx/export_video_file_dialog.cc:98
+#: src/wx/export_subtitles_dialog.cc:65 src/wx/export_video_file_dialog.cc:98
 msgid "Output file"
 msgstr "Výstupní soubor"
 
-#: src/wx/export_subtitles_dialog.cc:68
+#: src/wx/export_subtitles_dialog.cc:70
 msgid "Output folder"
 msgstr "Výstupní adresář"
 
@@ -3035,7 +3041,7 @@ msgstr "Vybrat soubor s konfigurací"
 msgid "Select debug log file"
 msgstr "Vybrat soubor protokolu ladění"
 
-#: src/wx/export_subtitles_dialog.cc:64 src/wx/export_video_file_dialog.cc:104
+#: src/wx/export_subtitles_dialog.cc:66 src/wx/export_video_file_dialog.cc:104
 msgid "Select output file"
 msgstr "Vybrat výstupní soubor"
 
@@ -3316,11 +3322,11 @@ msgstr "Vzhled titulků"
 msgid "Subtitle asset %n has a non-zero <EntryPoint>."
 msgstr "Datový zdroj titulků %n má nenulový <EntryPoint>."
 
-#: src/wx/export_subtitles_dialog.cc:60
+#: src/wx/export_subtitles_dialog.cc:105
 msgid "Subtitle files (.mxf)|*.mxf"
 msgstr "Soubory titulků (.mxf)|*.mxf"
 
-#: src/wx/export_subtitles_dialog.cc:60
+#: src/wx/export_subtitles_dialog.cc:105
 msgid "Subtitle files (.xml)|*.xml"
 msgstr "Soubory titulků (.xml)|*.xml"
 
@@ -4324,7 +4330,7 @@ msgstr "Nastavení souboru verze (VF)"
 msgid "Version number"
 msgstr "Serial number"
 
-#: src/wx/content_properties_dialog.cc:77 src/wx/dcp_panel.cc:123
+#: src/wx/content_properties_dialog.cc:79 src/wx/dcp_panel.cc:123
 #: src/wx/timeline_labels_view.cc:41 src/wx/timeline_labels_view.cc:74
 #: src/wx/video_panel.cc:70
 msgid "Video"
@@ -4405,7 +4411,7 @@ msgstr "Zadejte všechny KDMs pro každou složku"
 msgid "Write each audio channel to its own stream"
 msgstr "Zápis každého zvukového kanálu do vlastního datového proudu"
 
-#: src/wx/export_subtitles_dialog.cc:44 src/wx/export_video_file_dialog.cc:83
+#: src/wx/export_subtitles_dialog.cc:53 src/wx/export_video_file_dialog.cc:83
 msgid "Write reels into separate files"
 msgstr "Zapisovat reely do samostatných souborů"
 
@@ -4425,6 +4431,11 @@ msgstr "Napsal"
 #: src/wx/text_panel.cc:89 src/wx/text_panel.cc:97
 msgid "X"
 msgstr "X"
+
+#: src/wx/export_subtitles_dialog.cc:47
+#, fuzzy
+msgid "XML (Interop)"
+msgstr "Interop"
 
 #: src/wx/text_panel.cc:92
 msgid "Y"

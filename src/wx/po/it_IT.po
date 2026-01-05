@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 21:17+0100\n"
+"POT-Creation-Date: 2026-01-05 12:22+0100\n"
 "PO-Revision-Date: 2018-09-30 18:21+0200\n"
 "Last-Translator: William Fanelli <william.f@impronte.com>\n"
 "Language-Team: \n"
@@ -111,8 +111,9 @@ msgid "%s test email"
 msgstr "Invia per email"
 
 #: src/wx/about_dialog.cc:95
+#, fuzzy
 msgid ""
-"(C) 2012-2025 Carl Hetherington, Terrence Meiczinger\n"
+"(C) 2012-2026 Carl Hetherington, Terrence Meiczinger\n"
 "Aaron Boxer"
 msgstr ""
 "(C) 2012-2025 Carl Hetherington, Terrence Meiczinger\n"
@@ -646,7 +647,7 @@ msgid "Atmos"
 msgstr "Atmos"
 
 #: src/wx/audio_dialog.cc:65 src/wx/audio_panel.cc:66
-#: src/wx/content_properties_dialog.cc:80 src/wx/dcp_panel.cc:124
+#: src/wx/content_properties_dialog.cc:82 src/wx/dcp_panel.cc:124
 #: src/wx/timeline_labels_view.cc:42 src/wx/timeline_labels_view.cc:92
 msgid "Audio"
 msgstr "Audio"
@@ -931,7 +932,7 @@ msgstr "Contenitore"
 msgid "Content"
 msgstr "Contenuto"
 
-#: src/wx/content_properties_dialog.cc:40
+#: src/wx/content_properties_dialog.cc:42
 msgid "Content Properties"
 msgstr "Proprietà del contenuto"
 
@@ -996,7 +997,7 @@ msgstr "Impossibile analizzare l'audio."
 msgid "Could not find serial number %s"
 msgstr "Impossibile importare il file del certificato (%s)"
 
-#: src/wx/content_menu.cc:635
+#: src/wx/content_menu.cc:640
 #, fuzzy, c-format
 msgid "Could not find this content in the project \"%s\"."
 msgstr "Impossibile importare il file del certificato (%s)"
@@ -1239,7 +1240,7 @@ msgstr "Durata predefinita delle immagini statiche"
 msgid "Defaults"
 msgstr "Predefiniti"
 
-#: src/wx/export_subtitles_dialog.cc:52
+#: src/wx/export_subtitles_dialog.cc:61
 msgid "Define font in output and export font file"
 msgstr ""
 
@@ -1451,7 +1452,7 @@ msgstr "Scaricare certificato"
 msgid "Export chain..."
 msgstr "Esporta..."
 
-#: src/wx/export_subtitles_dialog.cc:38
+#: src/wx/export_subtitles_dialog.cc:39
 #, fuzzy
 msgid "Export subtitles"
 msgstr "Usa sottotitoli"
@@ -1518,7 +1519,7 @@ msgstr "Formato del file"
 msgid "Film name"
 msgstr "Nome del film"
 
-#: src/wx/content_menu.cc:621
+#: src/wx/content_menu.cc:626
 msgid "Film to copy settings from"
 msgstr ""
 
@@ -1594,7 +1595,7 @@ msgstr ""
 msgid "Forensically mark video"
 msgstr ""
 
-#: src/wx/export_video_file_dialog.cc:76
+#: src/wx/export_subtitles_dialog.cc:45 src/wx/export_video_file_dialog.cc:76
 msgid "Format"
 msgstr "Formato"
 
@@ -1679,7 +1680,7 @@ msgstr "Calcolatore del guadagno"
 msgid "Gain for content channel %d in DCP channel %d"
 msgstr "Guadagno per il canale sorgente %d nel canale DCP %d"
 
-#: src/wx/content_properties_dialog.cc:74 src/wx/full_config_dialog.cc:1284
+#: src/wx/content_properties_dialog.cc:76 src/wx/full_config_dialog.cc:1284
 #: src/wx/general_preferences_page.cc:66 src/wx/kdm_config_dialog.cc:136
 #: src/wx/player_config_dialog.cc:312
 msgid "General"
@@ -2030,7 +2031,7 @@ msgstr "La chiave privata Foglia non corrisponde al certificato!"
 msgid "Left"
 msgstr "Sinistra"
 
-#: src/wx/content_properties_dialog.cc:83
+#: src/wx/content_properties_dialog.cc:85
 msgid "Length"
 msgstr "Lunghezza"
 
@@ -2122,6 +2123,11 @@ msgstr "MP4 files (*.mp4)|*.mp4"
 #, fuzzy
 msgid "MPEG2 Interop"
 msgstr "Interop"
+
+#: src/wx/export_subtitles_dialog.cc:48
+#, fuzzy
+msgid "MXF (SMPTE)"
+msgstr "SMPTE"
 
 #. TRANSLATORS: Main and Additional here are a choice for whether a set of subtitles is in the "main" language of the
 #. film or an "additional" language.
@@ -2539,11 +2545,11 @@ msgstr ""
 msgid "Output"
 msgstr "Uscita"
 
-#: src/wx/export_subtitles_dialog.cc:62 src/wx/export_video_file_dialog.cc:98
+#: src/wx/export_subtitles_dialog.cc:65 src/wx/export_video_file_dialog.cc:98
 msgid "Output file"
 msgstr "Salva file in uscita"
 
-#: src/wx/export_subtitles_dialog.cc:68
+#: src/wx/export_subtitles_dialog.cc:70
 #, fuzzy
 msgid "Output folder"
 msgstr "Salva file in uscita"
@@ -3096,7 +3102,7 @@ msgstr "Seleziona il file di configurazione"
 msgid "Select debug log file"
 msgstr "Seleziona il file di uscita"
 
-#: src/wx/export_subtitles_dialog.cc:64 src/wx/export_video_file_dialog.cc:104
+#: src/wx/export_subtitles_dialog.cc:66 src/wx/export_video_file_dialog.cc:104
 msgid "Select output file"
 msgstr "Seleziona il file di uscita"
 
@@ -3386,12 +3392,12 @@ msgstr "Aspetto dei sottotitoli"
 msgid "Subtitle asset %n has a non-zero <EntryPoint>."
 msgstr ""
 
-#: src/wx/export_subtitles_dialog.cc:60
+#: src/wx/export_subtitles_dialog.cc:105
 #, fuzzy
 msgid "Subtitle files (.mxf)|*.mxf"
 msgstr "MOV files (*.mov)|*.mov"
 
-#: src/wx/export_subtitles_dialog.cc:60
+#: src/wx/export_subtitles_dialog.cc:105
 #, fuzzy
 msgid "Subtitle files (.xml)|*.xml"
 msgstr "MOV files (*.mov)|*.mov"
@@ -4341,7 +4347,7 @@ msgstr ""
 msgid "Version number"
 msgstr "Numero versione"
 
-#: src/wx/content_properties_dialog.cc:77 src/wx/dcp_panel.cc:123
+#: src/wx/content_properties_dialog.cc:79 src/wx/dcp_panel.cc:123
 #: src/wx/timeline_labels_view.cc:41 src/wx/timeline_labels_view.cc:74
 #: src/wx/video_panel.cc:70
 msgid "Video"
@@ -4425,7 +4431,7 @@ msgstr "Scrivi tutti i KDM nella stessa cartella"
 msgid "Write each audio channel to its own stream"
 msgstr "Genera file audio in canali separati"
 
-#: src/wx/export_subtitles_dialog.cc:44 src/wx/export_video_file_dialog.cc:83
+#: src/wx/export_subtitles_dialog.cc:53 src/wx/export_video_file_dialog.cc:83
 msgid "Write reels into separate files"
 msgstr "Scrivi le bobine in file separati"
 
@@ -4445,6 +4451,11 @@ msgstr "Scritto da"
 #: src/wx/text_panel.cc:89 src/wx/text_panel.cc:97
 msgid "X"
 msgstr ""
+
+#: src/wx/export_subtitles_dialog.cc:47
+#, fuzzy
+msgid "XML (Interop)"
+msgstr "Interop"
 
 #: src/wx/text_panel.cc:92
 msgid "Y"

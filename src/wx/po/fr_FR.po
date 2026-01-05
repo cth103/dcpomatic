@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 21:17+0100\n"
+"POT-Creation-Date: 2026-01-05 12:22+0100\n"
 "PO-Revision-Date: 2025-09-28 15:33+0200\n"
 "Last-Translator: Dan Cohen <thedan.cohen@protonmail.com>\n"
 "Language-Team: \n"
@@ -113,8 +113,9 @@ msgid "%s test email"
 msgstr "e-mail de test %s"
 
 #: src/wx/about_dialog.cc:95
+#, fuzzy
 msgid ""
-"(C) 2012-2025 Carl Hetherington, Terrence Meiczinger\n"
+"(C) 2012-2026 Carl Hetherington, Terrence Meiczinger\n"
 "Aaron Boxer"
 msgstr ""
 "(C) 2012-2025 Carl Hetherington, Terrence Meiczinger\n"
@@ -646,7 +647,7 @@ msgid "Atmos"
 msgstr "Atmos"
 
 #: src/wx/audio_dialog.cc:65 src/wx/audio_panel.cc:66
-#: src/wx/content_properties_dialog.cc:80 src/wx/dcp_panel.cc:124
+#: src/wx/content_properties_dialog.cc:82 src/wx/dcp_panel.cc:124
 #: src/wx/timeline_labels_view.cc:42 src/wx/timeline_labels_view.cc:92
 msgid "Audio"
 msgstr "Audio"
@@ -920,7 +921,7 @@ msgstr "Conteneur"
 msgid "Content"
 msgstr "Contenu"
 
-#: src/wx/content_properties_dialog.cc:40
+#: src/wx/content_properties_dialog.cc:42
 msgid "Content Properties"
 msgstr "Propriétés du contenu"
 
@@ -982,7 +983,7 @@ msgstr "Impossible d'analyser les sous-titres."
 msgid "Could not find serial number %s"
 msgstr "Impossible de trouver le numéro de série %s"
 
-#: src/wx/content_menu.cc:635
+#: src/wx/content_menu.cc:640
 #, c-format
 msgid "Could not find this content in the project \"%s\"."
 msgstr "Impossible de trouver le numéro de série \"%s\"."
@@ -1209,7 +1210,7 @@ msgstr "Durée des images fixes par défaut"
 msgid "Defaults"
 msgstr "Valeurs par défaut"
 
-#: src/wx/export_subtitles_dialog.cc:52
+#: src/wx/export_subtitles_dialog.cc:61
 msgid "Define font in output and export font file"
 msgstr "Définir la police dans la sortie et exporter le fichier de police"
 
@@ -1415,7 +1416,7 @@ msgstr "Exporter le certificat..."
 msgid "Export chain..."
 msgstr "Exporter la chaîne..."
 
-#: src/wx/export_subtitles_dialog.cc:38
+#: src/wx/export_subtitles_dialog.cc:39
 msgid "Export subtitles"
 msgstr "Exporter les sous-titres"
 
@@ -1478,7 +1479,7 @@ msgstr "Format du nom de fichier"
 msgid "Film name"
 msgstr "Nom du film"
 
-#: src/wx/content_menu.cc:621
+#: src/wx/content_menu.cc:626
 msgid "Film to copy settings from"
 msgstr "Film dont copier les réglages"
 
@@ -1554,7 +1555,7 @@ msgstr "Appliquer un marquage de traçabilité sur l'audio"
 msgid "Forensically mark video"
 msgstr "Appliquer un marquage de traçabilité sur la vidéo"
 
-#: src/wx/export_video_file_dialog.cc:76
+#: src/wx/export_subtitles_dialog.cc:45 src/wx/export_video_file_dialog.cc:76
 msgid "Format"
 msgstr "Format"
 
@@ -1644,7 +1645,7 @@ msgstr "Calculateur de gain"
 msgid "Gain for content channel %d in DCP channel %d"
 msgstr "Gain pour le canal de contenu %d dans le canal du DCP %d"
 
-#: src/wx/content_properties_dialog.cc:74 src/wx/full_config_dialog.cc:1284
+#: src/wx/content_properties_dialog.cc:76 src/wx/full_config_dialog.cc:1284
 #: src/wx/general_preferences_page.cc:66 src/wx/kdm_config_dialog.cc:136
 #: src/wx/player_config_dialog.cc:312
 msgid "General"
@@ -2020,7 +2021,7 @@ msgstr ""
 msgid "Left"
 msgstr "Gauche"
 
-#: src/wx/content_properties_dialog.cc:83
+#: src/wx/content_properties_dialog.cc:85
 msgid "Length"
 msgstr "Durée"
 
@@ -2103,6 +2104,11 @@ msgstr "Fichiers MP4 (*.mp4)|*.mp4"
 #: src/wx/dcp_panel.cc:164
 msgid "MPEG2 Interop"
 msgstr "Interop MPEG2"
+
+#: src/wx/export_subtitles_dialog.cc:48
+#, fuzzy
+msgid "MXF (SMPTE)"
+msgstr "SMPTE"
 
 #. TRANSLATORS: Main and Additional here are a choice for whether a set of subtitles is in the "main" language of the
 #. film or an "additional" language.
@@ -2532,11 +2538,11 @@ msgstr ""
 msgid "Output"
 msgstr "Sortie"
 
-#: src/wx/export_subtitles_dialog.cc:62 src/wx/export_video_file_dialog.cc:98
+#: src/wx/export_subtitles_dialog.cc:65 src/wx/export_video_file_dialog.cc:98
 msgid "Output file"
 msgstr "Fichier de sortie"
 
-#: src/wx/export_subtitles_dialog.cc:68
+#: src/wx/export_subtitles_dialog.cc:70
 msgid "Output folder"
 msgstr "Dossier de sortie"
 
@@ -3067,7 +3073,7 @@ msgstr "Sélectionner le fichier de configuration"
 msgid "Select debug log file"
 msgstr "Sélectionner le fichier rapport de débogage"
 
-#: src/wx/export_subtitles_dialog.cc:64 src/wx/export_video_file_dialog.cc:104
+#: src/wx/export_subtitles_dialog.cc:66 src/wx/export_video_file_dialog.cc:104
 msgid "Select output file"
 msgstr "Sélectionner le fichier de sortie"
 
@@ -3348,11 +3354,11 @@ msgstr "Apparence de sous-titre"
 msgid "Subtitle asset %n has a non-zero <EntryPoint>."
 msgstr "La ressource de sous-titres %n a un <EntryPoint> non nul."
 
-#: src/wx/export_subtitles_dialog.cc:60
+#: src/wx/export_subtitles_dialog.cc:105
 msgid "Subtitle files (.mxf)|*.mxf"
 msgstr "Fichiers de sous-titres (.mxf)|*.mxf"
 
-#: src/wx/export_subtitles_dialog.cc:60
+#: src/wx/export_subtitles_dialog.cc:105
 msgid "Subtitle files (.xml)|*.xml"
 msgstr "Fichiers de sous-titres (.xml)|*.xml"
 
@@ -4393,7 +4399,7 @@ msgstr "Réglage de la Version File (VF)"
 msgid "Version number"
 msgstr "Numéro de version"
 
-#: src/wx/content_properties_dialog.cc:77 src/wx/dcp_panel.cc:123
+#: src/wx/content_properties_dialog.cc:79 src/wx/dcp_panel.cc:123
 #: src/wx/timeline_labels_view.cc:41 src/wx/timeline_labels_view.cc:74
 #: src/wx/video_panel.cc:70
 msgid "Video"
@@ -4474,7 +4480,7 @@ msgstr "Créer toutes les KDMs dans le même dossier"
 msgid "Write each audio channel to its own stream"
 msgstr "Écrire chaque canal audio dans son propre flux"
 
-#: src/wx/export_subtitles_dialog.cc:44 src/wx/export_video_file_dialog.cc:83
+#: src/wx/export_subtitles_dialog.cc:53 src/wx/export_video_file_dialog.cc:83
 msgid "Write reels into separate files"
 msgstr "Écrire les bobines dans des fichiers séparés"
 
@@ -4494,6 +4500,11 @@ msgstr "Développé par"
 #: src/wx/text_panel.cc:89 src/wx/text_panel.cc:97
 msgid "X"
 msgstr "X"
+
+#: src/wx/export_subtitles_dialog.cc:47
+#, fuzzy
+msgid "XML (Interop)"
+msgstr "Interop"
 
 #: src/wx/text_panel.cc:92
 msgid "Y"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 21:17+0100\n"
+"POT-Creation-Date: 2026-01-05 12:22+0100\n"
 "PO-Revision-Date: 2025-06-10 15:13+0200\n"
 "Last-Translator: Tomáš Begeni <begeni@razdva.cz>\n"
 "Language-Team: \n"
@@ -191,7 +191,7 @@ msgid "9"
 msgstr "9"
 
 #. TRANSLATORS: fps here is an abbreviation for frames per second
-#: src/lib/transcode_job.cc:180
+#: src/lib/transcode_job.cc:184
 #, c++-format
 msgid "; {} fps"
 msgstr "; {} fps"
@@ -436,6 +436,11 @@ msgstr "BsR"
 msgid "C"
 msgstr "C"
 
+#: src/lib/exceptions.cc:196
+#, c++-format
+msgid "CPL {} not found"
+msgstr ""
+
 #: src/lib/job.cc:657
 msgid "Cancelled"
 msgstr "Zrušené"
@@ -457,7 +462,7 @@ msgstr "Nelze vytvořit KDM, protože tento projekt není zašifrován."
 msgid "Centre"
 msgstr "Center"
 
-#: src/lib/audio_content.cc:302
+#: src/lib/audio_content.cc:306
 msgid "Channels"
 msgstr "Kanály"
 
@@ -475,7 +480,7 @@ msgstr "Zkontrolujte jejich nové nastavení a zkuste to znovu."
 msgid "Checking content"
 msgstr "Kontrola obsahu"
 
-#: src/lib/reel_writer.cc:253
+#: src/lib/reel_writer.cc:258
 msgid "Checking existing image data"
 msgstr "Kontroluji existující video data"
 
@@ -543,11 +548,11 @@ msgstr "Blahopřejeme!"
 msgid "Content and DCP have the same rate.\n"
 msgstr "Obsah a DCP mají stejný bitrate,\n"
 
-#: src/lib/audio_content.cc:305
+#: src/lib/audio_content.cc:310
 msgid "Content bit depth"
 msgstr "Bitová hloubka obsahu"
 
-#: src/lib/audio_content.cc:303
+#: src/lib/audio_content.cc:307
 msgid "Content sample rate"
 msgstr "Vzorkovací frekvence obsahu"
 
@@ -694,6 +699,11 @@ msgstr "Kombinovat DCPs"
 msgid "Copying DCPs to {}"
 msgstr "Kopírovat DCP do TMS"
 
+#: src/lib/reel_writer.cc:194
+#, fuzzy
+msgid "Copying existing asset"
+msgstr "Kontroluji existující video data"
+
 #: src/lib/copy_to_drive_job.cc:58
 #, fuzzy, c++-format
 msgid ""
@@ -815,7 +825,7 @@ msgstr ""
 msgid "DCP XML subtitles"
 msgstr "DCP XML titulky"
 
-#: src/lib/audio_content.cc:326
+#: src/lib/audio_content.cc:336
 msgid "DCP sample rate"
 msgstr "Snímková frekvence DCP"
 
@@ -902,7 +912,7 @@ msgstr "Disk plný při zápisu {}"
 msgid "Dolby CP650 or CP750"
 msgstr "Dolby CP650 nebo CP750"
 
-#: src/lib/internet.cc:123
+#: src/lib/internet.cc:124
 #, c++-format
 msgid "Download failed ({} error {})"
 msgstr "Stahování selhalo ({} error {})"
@@ -945,7 +955,7 @@ msgstr "Správa o problému s Emailem"
 msgid "Email problem report for {}"
 msgstr "Správa o problému s Emailem pro {}"
 
-#: src/lib/dcp_film_encoder.cc:119 src/lib/ffmpeg_film_encoder.cc:134
+#: src/lib/dcp_film_encoder.cc:121 src/lib/ffmpeg_film_encoder.cc:134
 msgid "Encoding"
 msgstr "Kódování"
 
@@ -987,7 +997,7 @@ msgstr "Zkoumání titulků"
 msgid "Examining subtitles and closed captions"
 msgstr "Zkoumání titulků a skrytých titulků"
 
-#: src/lib/subtitle_film_encoder.cc:97
+#: src/lib/subtitle_film_encoder.cc:106
 msgid "Extracting"
 msgstr "Rozbalování"
 
@@ -1062,19 +1072,19 @@ msgstr "Full (0-{})"
 msgid "Full frame"
 msgstr "Full frame (Celý obraz)"
 
-#: src/lib/audio_content.cc:333
+#: src/lib/audio_content.cc:324
 msgid "Full length in audio samples at DCP rate"
 msgstr "Plná délka zvukových snímků v DCP rychlosti"
 
-#: src/lib/audio_content.cc:320
+#: src/lib/audio_content.cc:315
 msgid "Full length in audio samples at content rate"
 msgstr "Plná délka zvukových snímků v rychlosti obsahu"
 
-#: src/lib/audio_content.cc:327
+#: src/lib/audio_content.cc:337
 msgid "Full length in video frames at DCP rate"
 msgstr "Plná délka video snímků v DCP rychlosti"
 
-#: src/lib/audio_content.cc:313
+#: src/lib/audio_content.cc:333
 msgid "Full length in video frames at content rate"
 msgstr "Plná délka video snímků v rychlosti obsahu"
 
@@ -1119,7 +1129,7 @@ msgstr "Zvýraznění"
 msgid "Horizontal flip"
 msgstr "Horizontální flip"
 
-#: src/lib/audio_content.cc:303 src/lib/audio_content.cc:326
+#: src/lib/audio_content.cc:307 src/lib/audio_content.cc:336
 msgid "Hz"
 msgstr "Hz"
 
@@ -1286,6 +1296,15 @@ msgstr "Mono"
 #: src/lib/filter.cc:96
 msgid "Motion compensating deinterlacer"
 msgstr "Pohybový kompenzační odstraňovač"
+
+#: src/lib/dcp_content.cc:195
+msgid "No ASSETMAP or ASSETMAP.xml file found: is this a DCP?"
+msgstr ""
+
+#: src/lib/dcp_examiner.cc:115
+#, fuzzy
+msgid "No CPLs found in DCP"
+msgstr "V DCP nebyla nalezena žádná CPLs."
 
 #: src/lib/dcp_decoder.cc:114
 msgid "No CPLs found in DCP."
@@ -2191,7 +2210,7 @@ msgstr "[titulky]"
 msgid "_reel{}"
 msgstr "_reel{}"
 
-#: src/lib/audio_content.cc:305
+#: src/lib/audio_content.cc:310
 msgid "bits"
 msgstr "bity"
 
@@ -2216,12 +2235,12 @@ msgstr "kopíruji {}"
 msgid "could not find stream information"
 msgstr "nemohu najít informace o streamu"
 
-#: src/lib/reel_writer.cc:403
+#: src/lib/reel_writer.cc:408
 #, fuzzy, c++-format
 msgid "could not move atmos asset into the DCP ({})"
 msgstr "nemohu přesunout atmos asset do DCP (% 1)"
 
-#: src/lib/reel_writer.cc:386
+#: src/lib/reel_writer.cc:391
 #, c++-format
 msgid "could not move audio asset into the DCP ({})"
 msgstr "nemohu přesunout audio do DCP ({})"
@@ -2484,7 +2503,7 @@ msgstr "{} již nepodporuje filtr `{}', proto byl vypnut."
 msgid "{} notification"
 msgstr "{} oznámení"
 
-#: src/lib/transcode_job.cc:177
+#: src/lib/transcode_job.cc:181
 #, c++-format
 msgid "{}; {}/{} frames"
 msgstr "{}; {}/{} snímků"

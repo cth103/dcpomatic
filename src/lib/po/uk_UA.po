@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-30 21:17+0100\n"
+"POT-Creation-Date: 2026-01-05 12:22+0100\n"
 "PO-Revision-Date: 2018-08-20 19:32+0300\n"
 "Last-Translator: Igor Voytovich <i.voyt@dualvfilms.com>\n"
 "Language-Team: Українська\n"
@@ -186,7 +186,7 @@ msgid "9"
 msgstr ""
 
 #. TRANSLATORS: fps here is an abbreviation for frames per second
-#: src/lib/transcode_job.cc:180
+#: src/lib/transcode_job.cc:184
 #, c++-format
 msgid "; {} fps"
 msgstr "; {} кадр/сек"
@@ -411,6 +411,11 @@ msgstr "BsR"
 msgid "C"
 msgstr "C"
 
+#: src/lib/exceptions.cc:196
+#, c++-format
+msgid "CPL {} not found"
+msgstr ""
+
 #: src/lib/job.cc:657
 msgid "Cancelled"
 msgstr "Відмінено"
@@ -432,7 +437,7 @@ msgstr "Не можна створити KDM так як цей проект н�
 msgid "Centre"
 msgstr "Центральний"
 
-#: src/lib/audio_content.cc:302
+#: src/lib/audio_content.cc:306
 msgid "Channels"
 msgstr "Канали"
 
@@ -451,7 +456,7 @@ msgstr ""
 msgid "Checking content"
 msgstr "Перевірка контенту"
 
-#: src/lib/reel_writer.cc:253
+#: src/lib/reel_writer.cc:258
 msgid "Checking existing image data"
 msgstr "Перевірка данних зображення"
 
@@ -521,12 +526,12 @@ msgstr ""
 msgid "Content and DCP have the same rate.\n"
 msgstr "У контента та DCP однакова частота кадрів.\n"
 
-#: src/lib/audio_content.cc:305
+#: src/lib/audio_content.cc:310
 #, fuzzy
 msgid "Content bit depth"
 msgstr "тип контенту"
 
-#: src/lib/audio_content.cc:303
+#: src/lib/audio_content.cc:307
 #, fuzzy
 msgid "Content sample rate"
 msgstr "Швидкість аудіо-контенту"
@@ -688,6 +693,11 @@ msgstr "копіювання {}"
 msgid "Copying DCPs to {}"
 msgstr "Копіювати DCP на TMS (Theater Management System)"
 
+#: src/lib/reel_writer.cc:194
+#, fuzzy
+msgid "Copying existing asset"
+msgstr "Перевірка данних зображення"
+
 #: src/lib/copy_to_drive_job.cc:58
 #, fuzzy, c++-format
 msgid ""
@@ -810,7 +820,7 @@ msgstr ""
 msgid "DCP XML subtitles"
 msgstr "DCP XML субтитри"
 
-#: src/lib/audio_content.cc:326
+#: src/lib/audio_content.cc:336
 msgid "DCP sample rate"
 msgstr "Частота кадрів DCP"
 
@@ -892,7 +902,7 @@ msgstr ""
 msgid "Dolby CP650 or CP750"
 msgstr "Dolby CP650 и CP750"
 
-#: src/lib/internet.cc:123
+#: src/lib/internet.cc:124
 #, fuzzy, c++-format
 msgid "Download failed ({} error {})"
 msgstr "Помилка завантаження ({}/{} помилка {})"
@@ -935,7 +945,7 @@ msgstr "Повідомити про проблему"
 msgid "Email problem report for {}"
 msgstr "Помилка відправки ключей {} по Email"
 
-#: src/lib/dcp_film_encoder.cc:119 src/lib/ffmpeg_film_encoder.cc:134
+#: src/lib/dcp_film_encoder.cc:121 src/lib/ffmpeg_film_encoder.cc:134
 msgid "Encoding"
 msgstr "Кодування"
 
@@ -981,7 +991,7 @@ msgstr "Пошук субтитрів"
 msgid "Examining subtitles and closed captions"
 msgstr "Пошук субтитрів"
 
-#: src/lib/subtitle_film_encoder.cc:97
+#: src/lib/subtitle_film_encoder.cc:106
 #, fuzzy
 msgid "Extracting"
 msgstr "RTG (Рейтинг)"
@@ -1061,19 +1071,19 @@ msgstr "Повний (0-{})"
 msgid "Full frame"
 msgstr "FULL (2048x1080)"
 
-#: src/lib/audio_content.cc:333
+#: src/lib/audio_content.cc:324
 msgid "Full length in audio samples at DCP rate"
 msgstr "Повна довжина аудіо-семплів на швидкості DCP"
 
-#: src/lib/audio_content.cc:320
+#: src/lib/audio_content.cc:315
 msgid "Full length in audio samples at content rate"
 msgstr "Повна довжина аудіо-семплів на швидкості контенту"
 
-#: src/lib/audio_content.cc:327
+#: src/lib/audio_content.cc:337
 msgid "Full length in video frames at DCP rate"
 msgstr "Повна довжина відео-кадрів на швидкості DCP"
 
-#: src/lib/audio_content.cc:313
+#: src/lib/audio_content.cc:333
 msgid "Full length in video frames at content rate"
 msgstr "Повна довжина відео-кадрів на швидкості контенту"
 
@@ -1116,7 +1126,7 @@ msgstr ""
 msgid "Horizontal flip"
 msgstr "Перевернути по горизонталі"
 
-#: src/lib/audio_content.cc:303 src/lib/audio_content.cc:326
+#: src/lib/audio_content.cc:307 src/lib/audio_content.cc:336
 msgid "Hz"
 msgstr "Гц"
 
@@ -1278,6 +1288,15 @@ msgstr "Моно"
 #: src/lib/filter.cc:96
 msgid "Motion compensating deinterlacer"
 msgstr "Деінтерлейсер компенсації руху"
+
+#: src/lib/dcp_content.cc:195
+msgid "No ASSETMAP or ASSETMAP.xml file found: is this a DCP?"
+msgstr ""
+
+#: src/lib/dcp_examiner.cc:115
+#, fuzzy
+msgid "No CPLs found in DCP"
+msgstr "У DCP не виявлені CPL-файли."
 
 #: src/lib/dcp_decoder.cc:114
 msgid "No CPLs found in DCP."
@@ -2133,7 +2152,7 @@ msgstr "[субтитри]"
 msgid "_reel{}"
 msgstr ""
 
-#: src/lib/audio_content.cc:305
+#: src/lib/audio_content.cc:310
 msgid "bits"
 msgstr ""
 
@@ -2158,12 +2177,12 @@ msgstr "копіювання {}"
 msgid "could not find stream information"
 msgstr "не вдалося знайти інформацію про поток"
 
-#: src/lib/reel_writer.cc:403
+#: src/lib/reel_writer.cc:408
 #, fuzzy, c++-format
 msgid "could not move atmos asset into the DCP ({})"
 msgstr "не вдалося перемістити аудіо в DCP-пакет ({})"
 
-#: src/lib/reel_writer.cc:386
+#: src/lib/reel_writer.cc:391
 #, c++-format
 msgid "could not move audio asset into the DCP ({})"
 msgstr "не вдалося перемістити аудіо в DCP-пакет ({})"
@@ -2420,7 +2439,7 @@ msgstr "DCP-o-matic більше не підтримує фильтр `{}', то
 msgid "{} notification"
 msgstr "E-mail повідомлення"
 
-#: src/lib/transcode_job.cc:177
+#: src/lib/transcode_job.cc:181
 #, c++-format
 msgid "{}; {}/{} frames"
 msgstr ""
