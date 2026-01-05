@@ -49,30 +49,30 @@ public:
 		PADDED
 	};
 
-	Image (AVPixelFormat p, dcp::Size s, Alignment alignment);
-	explicit Image (AVFrame const *, Alignment alignment);
-	explicit Image (Image const &);
-	Image (std::shared_ptr<const Image>, Alignment alignment);
-	Image& operator= (Image const &);
-	~Image ();
+	Image(AVPixelFormat p, dcp::Size s, Alignment alignment);
+	explicit Image(AVFrame const *, Alignment alignment);
+	explicit Image(Image const &);
+	Image(std::shared_ptr<const Image>, Alignment alignment);
+	Image& operator=(Image const &);
+	~Image();
 
-	uint8_t * const * data () const;
+	uint8_t * const * data() const;
 	/** @return array of sizes of the data in each line, in bytes (not including any alignment padding) */
-	int const * line_size () const;
+	int const * line_size() const;
 	/** @return array of sizes of the data in each line, in bytes (including any alignment padding) */
-	int const * stride () const;
-	dcp::Size size () const;
-	Alignment alignment () const;
+	int const * stride() const;
+	dcp::Size size() const;
+	Alignment alignment() const;
 
-	int planes () const;
-	int vertical_factor (int) const;
-	int horizontal_factor (int) const;
-	dcp::Size sample_size (int) const;
+	int planes() const;
+	int vertical_factor(int) const;
+	int horizontal_factor(int) const;
+	dcp::Size sample_size(int) const;
 	float bytes_per_pixel(int component) const;
 
-	std::shared_ptr<Image> convert_pixel_format (dcp::YUVToRGB yuv_to_rgb, AVPixelFormat out_format, Alignment alignment, bool fast) const;
-	std::shared_ptr<Image> scale (dcp::Size out_size, dcp::YUVToRGB yuv_to_rgb, AVPixelFormat out_format, Alignment alignment, bool fast) const;
-	std::shared_ptr<Image> crop_scale_window (
+	std::shared_ptr<Image> convert_pixel_format(dcp::YUVToRGB yuv_to_rgb, AVPixelFormat out_format, Alignment alignment, bool fast) const;
+	std::shared_ptr<Image> scale(dcp::Size out_size, dcp::YUVToRGB yuv_to_rgb, AVPixelFormat out_format, Alignment alignment, bool fast) const;
+	std::shared_ptr<Image> crop_scale_window(
 		Crop crop,
 		dcp::Size inter_size,
 		dcp::Size out_size,
@@ -86,35 +86,35 @@ public:
 
 	std::shared_ptr<Image> crop(Crop crop) const;
 
-	void make_black ();
-	void make_transparent ();
-	void alpha_blend (std::shared_ptr<const Image> image, Position<int> pos);
-	void copy (std::shared_ptr<const Image> image, Position<int> pos);
-	void fade (float);
+	void make_black();
+	void make_transparent();
+	void alpha_blend(std::shared_ptr<const Image> image, Position<int> pos);
+	void copy(std::shared_ptr<const Image> image, Position<int> pos);
+	void fade(float);
 
-	void read_from_socket (std::shared_ptr<Socket>);
-	void write_to_socket (std::shared_ptr<Socket>) const;
+	void read_from_socket(std::shared_ptr<Socket>);
+	void write_to_socket(std::shared_ptr<Socket>) const;
 
-	AVPixelFormat pixel_format () const {
+	AVPixelFormat pixel_format() const {
 		return _pixel_format;
 	}
 
 	bool has_alpha() const;
 
-	size_t memory_used () const;
+	size_t memory_used() const;
 
-	static std::shared_ptr<const Image> ensure_alignment (std::shared_ptr<const Image> image, Alignment alignment);
+	static std::shared_ptr<const Image> ensure_alignment(std::shared_ptr<const Image> image, Alignment alignment);
 
 private:
 	friend struct pixel_formats_test;
 	friend struct make_part_black_test;
 
-	void allocate ();
-	void swap (Image &);
-	void make_part_black (int x, int w);
-	void yuv_16_black (uint16_t, bool);
-	static uint16_t swap_16 (uint16_t);
-	void video_range_to_full_range ();
+	void allocate();
+	void swap(Image &);
+	void make_part_black(int x, int w);
+	void yuv_16_black(uint16_t, bool);
+	static uint16_t swap_16(uint16_t);
+	void video_range_to_full_range();
 	std::pair<std::vector<uint8_t*>, dcp::Size> crop_source_pointers(Crop crop) const;
 
 	dcp::Size _size;
@@ -125,7 +125,7 @@ private:
 	Alignment _alignment;
 };
 
-extern PositionImage merge (std::list<PositionImage> images, Image::Alignment alignment);
-extern bool operator== (Image const & a, Image const & b);
+extern PositionImage merge(std::list<PositionImage> images, Image::Alignment alignment);
+extern bool operator==(Image const & a, Image const & b);
 
 #endif

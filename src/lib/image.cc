@@ -81,7 +81,7 @@ static uint16_t const sixteen_bit_uv =	(1 << 15) - 1;
 
 
 int
-Image::vertical_factor (int n) const
+Image::vertical_factor(int n) const
 {
 	if (n == 0) {
 		return 1;
@@ -89,14 +89,14 @@ Image::vertical_factor (int n) const
 
 	auto d = av_pix_fmt_desc_get(_pixel_format);
 	if (!d) {
-		throw PixelFormatError ("line_factor()", _pixel_format);
+		throw PixelFormatError("line_factor()", _pixel_format);
 	}
 
 	return lrintf(powf(2.0f, d->log2_chroma_h));
 }
 
 int
-Image::horizontal_factor (int n) const
+Image::horizontal_factor(int n) const
 {
 	if (n == 0) {
 		return 1;
@@ -104,7 +104,7 @@ Image::horizontal_factor (int n) const
 
 	auto d = av_pix_fmt_desc_get(_pixel_format);
 	if (!d) {
-		throw PixelFormatError ("sample_size()", _pixel_format);
+		throw PixelFormatError("sample_size()", _pixel_format);
 	}
 
 	return lrintf(powf(2.0f, d->log2_chroma_w));
@@ -115,18 +115,18 @@ Image::horizontal_factor (int n) const
  *  @return Number of samples (i.e. pixels, unless sub-sampled) in each direction for this component.
  */
 dcp::Size
-Image::sample_size (int n) const
+Image::sample_size(int n) const
 {
-	return dcp::Size (
-		lrint (ceil(static_cast<double>(size().width) / horizontal_factor(n))),
-		lrint (ceil(static_cast<double>(size().height) / vertical_factor(n)))
+	return dcp::Size(
+		lrint(ceil(static_cast<double>(size().width) / horizontal_factor(n))),
+		lrint(ceil(static_cast<double>(size().height) / vertical_factor(n)))
 		);
 }
 
 
 /** @return Number of planes */
 int
-Image::planes () const
+Image::planes() const
 {
 	if (_pixel_format == AV_PIX_FMT_PAL8) {
 		return 2;
@@ -134,7 +134,7 @@ Image::planes () const
 
 	auto d = av_pix_fmt_desc_get(_pixel_format);
 	if (!d) {
-		throw PixelFormatError ("planes()", _pixel_format);
+		throw PixelFormatError("planes()", _pixel_format);
 	}
 
 	if ((d->flags & AV_PIX_FMT_FLAG_PLANAR) == 0) {
@@ -147,7 +147,7 @@ Image::planes () const
 
 static
 int
-round_width_for_subsampling (int p, AVPixFmtDescriptor const * desc)
+round_width_for_subsampling(int p, AVPixFmtDescriptor const * desc)
 {
 	return p & ~ ((1 << desc->log2_chroma_w) - 1);
 }
@@ -155,7 +155,7 @@ round_width_for_subsampling (int p, AVPixFmtDescriptor const * desc)
 
 static
 int
-round_height_for_subsampling (int p, AVPixFmtDescriptor const * desc)
+round_height_for_subsampling(int p, AVPixFmtDescriptor const * desc)
 {
 	return p & ~ ((1 << desc->log2_chroma_h) - 1);
 }
@@ -213,7 +213,7 @@ Image::crop_source_pointers(Crop crop) const
  *  fast bilinear rather than bicubic scaling.
  */
 shared_ptr<Image>
-Image::crop_scale_window (
+Image::crop_scale_window(
 	Crop crop,
 	dcp::Size inter_size,
 	dcp::Size out_size,
@@ -228,30 +228,30 @@ Image::crop_scale_window (
 	/* Empirical testing suggests that sws_scale() will crash if
 	   the input image is not padded.
 	*/
-	DCPOMATIC_ASSERT (alignment() == Alignment::PADDED);
+	DCPOMATIC_ASSERT(alignment() == Alignment::PADDED);
 
-	DCPOMATIC_ASSERT (out_size.width >= inter_size.width);
-	DCPOMATIC_ASSERT (out_size.height >= inter_size.height);
+	DCPOMATIC_ASSERT(out_size.width >= inter_size.width);
+	DCPOMATIC_ASSERT(out_size.height >= inter_size.height);
 
 	auto out = make_shared<Image>(out_format, out_size, out_alignment);
-	out->make_black ();
+	out->make_black();
 
 	vector<uint8_t*> scale_in_data;
 	dcp::Size cropped_size;
 	std::tie(scale_in_data, cropped_size) = crop_source_pointers(crop);
 
 	/* Scale context for a scale from cropped_size to inter_size */
-	auto scale_context = sws_getContext (
+	auto scale_context = sws_getContext(
 			cropped_size.width, cropped_size.height, pixel_format(),
 			inter_size.width, inter_size.height, out_format,
 			fast ? SWS_FAST_BILINEAR : SWS_BICUBIC, 0, 0, 0
 		);
 
 	if (!scale_context) {
-		throw runtime_error (N_("Could not allocate SwsContext"));
+		throw runtime_error(N_("Could not allocate SwsContext"));
 	}
 
-	DCPOMATIC_ASSERT (yuv_to_rgb < dcp::YUVToRGB::COUNT);
+	DCPOMATIC_ASSERT(yuv_to_rgb < dcp::YUVToRGB::COUNT);
 	EnumIndexedVector<int, dcp::YUVToRGB> lut;
 	lut[dcp::YUVToRGB::REC601] = SWS_CS_ITU601;
 	lut[dcp::YUVToRGB::REC709] = SWS_CS_ITU709;
@@ -268,20 +268,20 @@ Image::crop_scale_window (
 	   parameters unless the both source and destination images
 	   are isYUV or isGray.  (If either is not, it uses video range).
 	*/
-	sws_setColorspaceDetails (
+	sws_setColorspaceDetails(
 		scale_context,
 		sws_getCoefficients(lut[yuv_to_rgb]), video_range == VideoRange::VIDEO ? 0 : 1,
 		sws_getCoefficients(lut[yuv_to_rgb]), out_video_range == VideoRange::VIDEO ? 0 : 1,
 		0, 1 << 16, 1 << 16
 		);
 
-	auto out_desc = av_pix_fmt_desc_get (out_format);
+	auto out_desc = av_pix_fmt_desc_get(out_format);
 	if (!out_desc) {
-		throw PixelFormatError ("crop_scale_window()", out_format);
+		throw PixelFormatError("crop_scale_window()", out_format);
 	}
 
 	/* Corner of the image within out_size */
-	Position<int> const corner (
+	Position<int> const corner(
 		round_width_for_subsampling((out_size.width - inter_size.width) / 2, out_desc),
 		round_height_for_subsampling((out_size.height - inter_size.height) / 2, out_desc)
 		);
@@ -292,14 +292,14 @@ Image::crop_scale_window (
 		scale_out_data[c] = out->data()[c] + x + out->stride()[c] * (corner.y / out->vertical_factor(c));
 	}
 
-	sws_scale (
+	sws_scale(
 		scale_context,
 		scale_in_data.data(), stride(),
 		0, cropped_size.height,
 		scale_out_data, out->stride()
 		);
 
-	sws_freeContext (scale_context);
+	sws_freeContext(scale_context);
 
 	/* There are some cases where there will be unwanted image data left in the image at this point:
 	 *
@@ -319,7 +319,7 @@ Image::crop_scale_window (
 		av_pix_fmt_desc_get(_pixel_format)->flags & AV_PIX_FMT_FLAG_RGB
 	   ) {
 		/* libswscale will not convert video range for RGB sources, so we have to do it ourselves */
-		out->video_range_to_full_range ();
+		out->video_range_to_full_range();
 	}
 
 	return out;
@@ -327,7 +327,7 @@ Image::crop_scale_window (
 
 
 shared_ptr<Image>
-Image::convert_pixel_format (dcp::YUVToRGB yuv_to_rgb, AVPixelFormat out_format, Alignment out_alignment, bool fast) const
+Image::convert_pixel_format(dcp::YUVToRGB yuv_to_rgb, AVPixelFormat out_format, Alignment out_alignment, bool fast) const
 {
 	return scale(size(), yuv_to_rgb, out_format, out_alignment, fast);
 }
@@ -341,19 +341,19 @@ Image::convert_pixel_format (dcp::YUVToRGB yuv_to_rgb, AVPixelFormat out_format,
  *  fast bilinear rather than bicubic scaling.
  */
 shared_ptr<Image>
-Image::scale (dcp::Size out_size, dcp::YUVToRGB yuv_to_rgb, AVPixelFormat out_format, Alignment out_alignment, bool fast) const
+Image::scale(dcp::Size out_size, dcp::YUVToRGB yuv_to_rgb, AVPixelFormat out_format, Alignment out_alignment, bool fast) const
 {
 	/* Empirical testing suggests that sws_scale() will crash if
 	   the input image alignment is not PADDED.
 	*/
-	DCPOMATIC_ASSERT (alignment() == Alignment::PADDED);
+	DCPOMATIC_ASSERT(alignment() == Alignment::PADDED);
 	DCPOMATIC_ASSERT(size().width > 0);
 	DCPOMATIC_ASSERT(size().height > 0);
 	DCPOMATIC_ASSERT(out_size.width > 0);
 	DCPOMATIC_ASSERT(out_size.height > 0);
 
 	auto scaled = make_shared<Image>(out_format, out_size, out_alignment);
-	auto scale_context = sws_getContext (
+	auto scale_context = sws_getContext(
 		size().width, size().height, pixel_format(),
 		out_size.width, out_size.height, out_format,
 		(fast ? SWS_FAST_BILINEAR : SWS_BICUBIC) | SWS_ACCURATE_RND, 0, 0, 0
@@ -361,7 +361,7 @@ Image::scale (dcp::Size out_size, dcp::YUVToRGB yuv_to_rgb, AVPixelFormat out_fo
 
 	DCPOMATIC_ASSERT(scale_context);
 
-	DCPOMATIC_ASSERT (yuv_to_rgb < dcp::YUVToRGB::COUNT);
+	DCPOMATIC_ASSERT(yuv_to_rgb < dcp::YUVToRGB::COUNT);
 	EnumIndexedVector<int, dcp::YUVToRGB> lut;
 	lut[dcp::YUVToRGB::REC601] = SWS_CS_ITU601;
 	lut[dcp::YUVToRGB::REC709] = SWS_CS_ITU709;
@@ -378,21 +378,21 @@ Image::scale (dcp::Size out_size, dcp::YUVToRGB yuv_to_rgb, AVPixelFormat out_fo
 	   parameters unless the corresponding image isYUV or isGray.
 	   (If it's neither, it uses video range).
 	*/
-	sws_setColorspaceDetails (
+	sws_setColorspaceDetails(
 		scale_context,
 		sws_getCoefficients(lut[yuv_to_rgb]), 0,
 		sws_getCoefficients(lut[yuv_to_rgb]), 0,
 		0, 1 << 16, 1 << 16
 		);
 
-	sws_scale (
+	sws_scale(
 		scale_context,
 		data(), stride(),
 		0, size().height,
 		scaled->data(), scaled->stride()
 		);
 
-	sws_freeContext (scale_context);
+	sws_freeContext(scale_context);
 
 	return scaled;
 }
@@ -400,11 +400,11 @@ Image::scale (dcp::Size out_size, dcp::YUVToRGB yuv_to_rgb, AVPixelFormat out_fo
 
 /** Blacken a YUV image whose bits per pixel is rounded up to 16 */
 void
-Image::yuv_16_black (uint16_t v, bool alpha)
+Image::yuv_16_black(uint16_t v, bool alpha)
 {
-	memset (data()[0], 0, sample_size(0).height * stride()[0]);
+	memset(data()[0], 0, sample_size(0).height * stride()[0]);
 	for (int i = 1; i < 3; ++i) {
-		auto p = reinterpret_cast<int16_t*> (data()[i]);
+		auto p = reinterpret_cast<int16_t*>(data()[i]);
 		int const lines = sample_size(i).height;
 		for (int y = 0; y < lines; ++y) {
 			/* We divide by 2 here because we are writing 2 bytes at a time */
@@ -416,20 +416,20 @@ Image::yuv_16_black (uint16_t v, bool alpha)
 	}
 
 	if (alpha) {
-		memset (data()[3], 0, sample_size(3).height * stride()[3]);
+		memset(data()[3], 0, sample_size(3).height * stride()[3]);
 	}
 }
 
 
 uint16_t
-Image::swap_16 (uint16_t v)
+Image::swap_16(uint16_t v)
 {
 	return ((v >> 8) & 0xff) | ((v & 0xff) << 8);
 }
 
 
 void
-Image::make_part_black (int const start, int const width)
+Image::make_part_black(int const start, int const width)
 {
 	auto y_part = [&]() {
 		int const bpp = bytes_per_pixel(0);
@@ -437,7 +437,7 @@ Image::make_part_black (int const start, int const width)
 		int const s = stride()[0];
 		auto p = data()[0];
 		for (int y = 0; y < h; ++y) {
-			memset (p + start * bpp, 0, width * bpp);
+			memset(p + start * bpp, 0, width * bpp);
 			p += s;
 		}
 	};
@@ -458,14 +458,14 @@ Image::make_part_black (int const start, int const width)
 		int const s = stride()[0];
 		uint8_t* p = data()[0];
 		for (int y = 0; y < h; y++) {
-			memset (p + start * bpp, 0, width * bpp);
+			memset(p + start * bpp, 0, width * bpp);
 			p += s;
 		}
 		break;
 	}
 	case AV_PIX_FMT_YUV420P:
 	{
-		y_part ();
+		y_part();
 		for (int i = 1; i < 3; ++i) {
 			auto p = data()[i];
 			int const h = sample_size(i).height;
@@ -480,7 +480,7 @@ Image::make_part_black (int const start, int const width)
 	}
 	case AV_PIX_FMT_YUV422P10LE:
 	{
-		y_part ();
+		y_part();
 		for (int i = 1; i < 3; ++i) {
 			auto p = reinterpret_cast<int16_t*>(data()[i]);
 			int const h = sample_size(i).height;
@@ -509,91 +509,91 @@ Image::make_part_black (int const start, int const width)
 		break;
 	}
 	default:
-		throw PixelFormatError ("make_part_black()", _pixel_format);
+		throw PixelFormatError("make_part_black()", _pixel_format);
 	}
 }
 
 
 void
-Image::make_black ()
+Image::make_black()
 {
 	switch (_pixel_format) {
 	case AV_PIX_FMT_YUV420P:
 	case AV_PIX_FMT_YUV422P:
 	case AV_PIX_FMT_YUV444P:
 	case AV_PIX_FMT_YUV411P:
-		memset (data()[0], 0, sample_size(0).height * stride()[0]);
-		memset (data()[1], eight_bit_uv, sample_size(1).height * stride()[1]);
-		memset (data()[2], eight_bit_uv, sample_size(2).height * stride()[2]);
+		memset(data()[0], 0, sample_size(0).height * stride()[0]);
+		memset(data()[1], eight_bit_uv, sample_size(1).height * stride()[1]);
+		memset(data()[2], eight_bit_uv, sample_size(2).height * stride()[2]);
 		break;
 
 	case AV_PIX_FMT_YUVJ420P:
 	case AV_PIX_FMT_YUVJ422P:
 	case AV_PIX_FMT_YUVJ444P:
-		memset (data()[0], 0, sample_size(0).height * stride()[0]);
-		memset (data()[1], eight_bit_uv + 1, sample_size(1).height * stride()[1]);
-		memset (data()[2], eight_bit_uv + 1, sample_size(2).height * stride()[2]);
+		memset(data()[0], 0, sample_size(0).height * stride()[0]);
+		memset(data()[1], eight_bit_uv + 1, sample_size(1).height * stride()[1]);
+		memset(data()[2], eight_bit_uv + 1, sample_size(2).height * stride()[2]);
 		break;
 
 	case AV_PIX_FMT_YUV422P9LE:
 	case AV_PIX_FMT_YUV444P9LE:
-		yuv_16_black (nine_bit_uv, false);
+		yuv_16_black(nine_bit_uv, false);
 		break;
 
 	case AV_PIX_FMT_YUV422P9BE:
 	case AV_PIX_FMT_YUV444P9BE:
-		yuv_16_black (swap_16 (nine_bit_uv), false);
+		yuv_16_black(swap_16(nine_bit_uv), false);
 		break;
 
 	case AV_PIX_FMT_YUV422P10LE:
 	case AV_PIX_FMT_YUV444P10LE:
-		yuv_16_black (ten_bit_uv, false);
+		yuv_16_black(ten_bit_uv, false);
 		break;
 
 	case AV_PIX_FMT_YUV422P16LE:
 	case AV_PIX_FMT_YUV444P16LE:
-		yuv_16_black (sixteen_bit_uv, false);
+		yuv_16_black(sixteen_bit_uv, false);
 		break;
 
 	case AV_PIX_FMT_YUV444P10BE:
 	case AV_PIX_FMT_YUV422P10BE:
-		yuv_16_black (swap_16 (ten_bit_uv), false);
+		yuv_16_black(swap_16(ten_bit_uv), false);
 		break;
 
 	case AV_PIX_FMT_YUVA420P9BE:
 	case AV_PIX_FMT_YUVA422P9BE:
 	case AV_PIX_FMT_YUVA444P9BE:
-		yuv_16_black (swap_16 (nine_bit_uv), true);
+		yuv_16_black(swap_16(nine_bit_uv), true);
 		break;
 
 	case AV_PIX_FMT_YUVA420P9LE:
 	case AV_PIX_FMT_YUVA422P9LE:
 	case AV_PIX_FMT_YUVA444P9LE:
-		yuv_16_black (nine_bit_uv, true);
+		yuv_16_black(nine_bit_uv, true);
 		break;
 
 	case AV_PIX_FMT_YUVA420P10BE:
 	case AV_PIX_FMT_YUVA422P10BE:
 	case AV_PIX_FMT_YUVA444P10BE:
-		yuv_16_black (swap_16 (ten_bit_uv), true);
+		yuv_16_black(swap_16(ten_bit_uv), true);
 		break;
 
 	case AV_PIX_FMT_YUVA420P10LE:
 	case AV_PIX_FMT_YUVA422P10LE:
 	case AV_PIX_FMT_YUVA444P10LE:
-		yuv_16_black (ten_bit_uv, true);
+		yuv_16_black(ten_bit_uv, true);
 		break;
 
 	case AV_PIX_FMT_YUVA420P16BE:
 	case AV_PIX_FMT_YUVA422P16BE:
 	case AV_PIX_FMT_YUVA444P16BE:
-		yuv_16_black (swap_16 (sixteen_bit_uv), true);
+		yuv_16_black(swap_16(sixteen_bit_uv), true);
 		break;
 
 	case AV_PIX_FMT_YUVA420P16LE:
 	case AV_PIX_FMT_YUVA422P16LE:
 	case AV_PIX_FMT_YUVA444P16LE:
-		yuv_16_black (sixteen_bit_uv, true);
+		yuv_16_black(sixteen_bit_uv, true);
 		break;
 
 	case AV_PIX_FMT_RGB24:
@@ -605,7 +605,7 @@ Image::make_black ()
 	case AV_PIX_FMT_RGB48LE:
 	case AV_PIX_FMT_RGB48BE:
 	case AV_PIX_FMT_XYZ12LE:
-		memset (data()[0], 0, sample_size(0).height * stride()[0]);
+		memset(data()[0], 0, sample_size(0).height * stride()[0]);
 		break;
 
 	case AV_PIX_FMT_UYVY422:
@@ -625,19 +625,19 @@ Image::make_black ()
 	}
 
 	default:
-		throw PixelFormatError ("make_black()", _pixel_format);
+		throw PixelFormatError("make_black()", _pixel_format);
 	}
 }
 
 
 void
-Image::make_transparent ()
+Image::make_transparent()
 {
 	if (_pixel_format != AV_PIX_FMT_BGRA && _pixel_format != AV_PIX_FMT_RGBA && _pixel_format != AV_PIX_FMT_RGBA64BE) {
-		throw PixelFormatError ("make_transparent()", _pixel_format);
+		throw PixelFormatError("make_transparent()", _pixel_format);
 	}
 
-	memset (data()[0], 0, sample_size(0).height * stride()[0]);
+	memset(data()[0], 0, sample_size(0).height * stride()[0]);
 }
 
 
@@ -960,7 +960,7 @@ alpha_blend_onto_yuv444p9or10le(TargetParams const& target, OtherYUVParams const
 
 
 void
-Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
+Image::alpha_blend(shared_ptr<const Image> other, Position<int> position)
 {
 	DCPOMATIC_ASSERT(
 		other->pixel_format() == AV_PIX_FMT_BGRA ||
@@ -1075,7 +1075,7 @@ Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 		break;
 	case AV_PIX_FMT_YUV420P:
 	{
-		auto yuv = other->convert_pixel_format (dcp::YUVToRGB::REC709, _pixel_format, Alignment::COMPACT, false);
+		auto yuv = other->convert_pixel_format(dcp::YUVToRGB::REC709, _pixel_format, Alignment::COMPACT, false);
 		other_yuv_params.data = yuv->data();
 		other_yuv_params.stride = yuv->stride();
 		other_yuv_params.alpha_data = other->data();
@@ -1089,7 +1089,7 @@ Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 	}
 	case AV_PIX_FMT_YUV420P10:
 	{
-		auto yuv = other->convert_pixel_format (dcp::YUVToRGB::REC709, _pixel_format, Alignment::COMPACT, false);
+		auto yuv = other->convert_pixel_format(dcp::YUVToRGB::REC709, _pixel_format, Alignment::COMPACT, false);
 		other_yuv_params.data = yuv->data();
 		other_yuv_params.stride = yuv->stride();
 		other_yuv_params.alpha_data = other->data();
@@ -1104,7 +1104,7 @@ Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 	case AV_PIX_FMT_YUV422P9LE:
 	case AV_PIX_FMT_YUV422P10LE:
 	{
-		auto yuv = other->convert_pixel_format (dcp::YUVToRGB::REC709, _pixel_format, Alignment::COMPACT, false);
+		auto yuv = other->convert_pixel_format(dcp::YUVToRGB::REC709, _pixel_format, Alignment::COMPACT, false);
 		other_yuv_params.data = yuv->data();
 		other_yuv_params.stride = yuv->stride();
 		other_yuv_params.alpha_data = other->data();
@@ -1119,7 +1119,7 @@ Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 	case AV_PIX_FMT_YUV444P9LE:
 	case AV_PIX_FMT_YUV444P10LE:
 	{
-		auto yuv = other->convert_pixel_format (dcp::YUVToRGB::REC709, _pixel_format, Alignment::COMPACT, false);
+		auto yuv = other->convert_pixel_format(dcp::YUVToRGB::REC709, _pixel_format, Alignment::COMPACT, false);
 		other_yuv_params.data = yuv->data();
 		other_yuv_params.stride = yuv->stride();
 		other_yuv_params.alpha_data = other->data();
@@ -1132,35 +1132,35 @@ Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 		break;
 	}
 	default:
-		throw PixelFormatError ("alpha_blend()", _pixel_format);
+		throw PixelFormatError("alpha_blend()", _pixel_format);
 	}
 }
 
 
 void
-Image::copy (shared_ptr<const Image> other, Position<int> position)
+Image::copy(shared_ptr<const Image> other, Position<int> position)
 {
 	/* Only implemented for RGB24 onto RGB24 so far */
-	DCPOMATIC_ASSERT (_pixel_format == AV_PIX_FMT_RGB24 && other->pixel_format() == AV_PIX_FMT_RGB24);
-	DCPOMATIC_ASSERT (position.x >= 0 && position.y >= 0);
+	DCPOMATIC_ASSERT(_pixel_format == AV_PIX_FMT_RGB24 && other->pixel_format() == AV_PIX_FMT_RGB24);
+	DCPOMATIC_ASSERT(position.x >= 0 && position.y >= 0);
 
-	int const N = min (position.x + other->size().width, size().width) - position.x;
+	int const N = min(position.x + other->size().width, size().width) - position.x;
 	for (int ty = position.y, oy = 0; ty < size().height && oy < other->size().height; ++ty, ++oy) {
 		uint8_t * const tp = data()[0] + ty * stride()[0] + position.x * 3;
 		uint8_t * const op = other->data()[0] + oy * other->stride()[0];
-		memcpy (tp, op, N * 3);
+		memcpy(tp, op, N * 3);
 	}
 }
 
 
 void
-Image::read_from_socket (shared_ptr<Socket> socket)
+Image::read_from_socket(shared_ptr<Socket> socket)
 {
 	for (int i = 0; i < planes(); ++i) {
 		uint8_t* p = data()[i];
 		int const lines = sample_size(i).height;
 		for (int y = 0; y < lines; ++y) {
-			socket->read (p, line_size()[i]);
+			socket->read(p, line_size()[i]);
 			p += stride()[i];
 		}
 	}
@@ -1168,13 +1168,13 @@ Image::read_from_socket (shared_ptr<Socket> socket)
 
 
 void
-Image::write_to_socket (shared_ptr<Socket> socket) const
+Image::write_to_socket(shared_ptr<Socket> socket) const
 {
 	for (int i = 0; i < planes(); ++i) {
 		uint8_t* p = data()[i];
 		int const lines = sample_size(i).height;
 		for (int y = 0; y < lines; ++y) {
-			socket->write (p, line_size()[i]);
+			socket->write(p, line_size()[i]);
 			p += stride()[i];
 		}
 	}
@@ -1186,7 +1186,7 @@ Image::bytes_per_pixel(int component) const
 {
 	auto d = av_pix_fmt_desc_get(_pixel_format);
 	if (!d) {
-		throw PixelFormatError ("bytes_per_pixel()", _pixel_format);
+		throw PixelFormatError("bytes_per_pixel()", _pixel_format);
 	}
 
 	if (component >= planes()) {
@@ -1196,26 +1196,26 @@ Image::bytes_per_pixel(int component) const
 	float bpp[4] = { 0, 0, 0, 0 };
 
 #ifdef DCPOMATIC_HAVE_AVCOMPONENTDESCRIPTOR_DEPTH_MINUS1
-	bpp[0] = floor ((d->comp[0].depth_minus1 + 8) / 8);
+	bpp[0] = floor((d->comp[0].depth_minus1 + 8) / 8);
 	if (d->nb_components > 1) {
-		bpp[1] = floor ((d->comp[1].depth_minus1 + 8) / 8) / pow (2.0f, d->log2_chroma_w);
+		bpp[1] = floor((d->comp[1].depth_minus1 + 8) / 8) / pow(2.0f, d->log2_chroma_w);
 	}
 	if (d->nb_components > 2) {
-		bpp[2] = floor ((d->comp[2].depth_minus1 + 8) / 8) / pow (2.0f, d->log2_chroma_w);
+		bpp[2] = floor((d->comp[2].depth_minus1 + 8) / 8) / pow(2.0f, d->log2_chroma_w);
 	}
 	if (d->nb_components > 3) {
-		bpp[3] = floor ((d->comp[3].depth_minus1 + 8) / 8) / pow (2.0f, d->log2_chroma_w);
+		bpp[3] = floor((d->comp[3].depth_minus1 + 8) / 8) / pow(2.0f, d->log2_chroma_w);
 	}
 #else
-	bpp[0] = floor ((d->comp[0].depth + 7) / 8);
+	bpp[0] = floor((d->comp[0].depth + 7) / 8);
 	if (d->nb_components > 1) {
-		bpp[1] = floor ((d->comp[1].depth + 7) / 8) / pow (2.0f, d->log2_chroma_w);
+		bpp[1] = floor((d->comp[1].depth + 7) / 8) / pow(2.0f, d->log2_chroma_w);
 	}
 	if (d->nb_components > 2) {
-		bpp[2] = floor ((d->comp[2].depth + 7) / 8) / pow (2.0f, d->log2_chroma_w);
+		bpp[2] = floor((d->comp[2].depth + 7) / 8) / pow(2.0f, d->log2_chroma_w);
 	}
 	if (d->nb_components > 3) {
-		bpp[3] = floor ((d->comp[3].depth + 7) / 8) / pow (2.0f, d->log2_chroma_w);
+		bpp[3] = floor((d->comp[3].depth + 7) / 8) / pow(2.0f, d->log2_chroma_w);
 	}
 #endif
 
@@ -1235,25 +1235,25 @@ Image::bytes_per_pixel(int component) const
  *  @param s Size in pixels.
  *  @param alignment PADDED to make each row of this image aligned to a ALIGNMENT-byte boundary, otherwise COMPACT.
  */
-Image::Image (AVPixelFormat p, dcp::Size s, Alignment alignment)
-	: _size (s)
-	, _pixel_format (p)
-	, _alignment (alignment)
+Image::Image(AVPixelFormat p, dcp::Size s, Alignment alignment)
+	: _size(s)
+	, _pixel_format(p)
+	, _alignment(alignment)
 {
-	allocate ();
+	allocate();
 }
 
 
 void
-Image::allocate ()
+Image::allocate()
 {
-	_data = (uint8_t **) wrapped_av_malloc (4 * sizeof (uint8_t *));
+	_data = (uint8_t **) wrapped_av_malloc(4 * sizeof(uint8_t *));
 	_data[0] = _data[1] = _data[2] = _data[3] = 0;
 
-	_line_size = (int *) wrapped_av_malloc (4 * sizeof (int));
+	_line_size = (int *) wrapped_av_malloc(4 * sizeof(int));
 	_line_size[0] = _line_size[1] = _line_size[2] = _line_size[3] = 0;
 
-	_stride = (int *) wrapped_av_malloc (4 * sizeof (int));
+	_stride = (int *) wrapped_av_malloc(4 * sizeof(int));
 	_stride[0] = _stride[1] = _stride[2] = _stride[3] = 0;
 
 	auto stride_round_up = [](int stride, int t) {
@@ -1262,8 +1262,8 @@ Image::allocate ()
 	};
 
 	for (int i = 0; i < planes(); ++i) {
-		_line_size[i] = ceil (_size.width * bytes_per_pixel(i));
-		_stride[i] = stride_round_up (_line_size[i], _alignment == Alignment::PADDED ? ALIGNMENT : 1);
+		_line_size[i] = ceil(_size.width * bytes_per_pixel(i));
+		_stride[i] = stride_round_up(_line_size[i], _alignment == Alignment::PADDED ? ALIGNMENT : 1);
 
 		/* The assembler function ff_rgb24ToY_avx (in libswscale/x86/input.asm)
 		   uses a 16-byte fetch to read three bytes (R/G/B) of image data.
@@ -1302,31 +1302,31 @@ Image::allocate ()
 		   |XXXwrittenXXX|<------line-size------------->|XXXwrittenXXXXXXwrittenXXX
 		                                                               ^^^^ out of bounds
 		*/
-		_data[i] = (uint8_t *) wrapped_av_malloc (_stride[i] * (sample_size(i).height + 1) + ALIGNMENT);
+		_data[i] = (uint8_t *) wrapped_av_malloc(_stride[i] * (sample_size(i).height + 1) + ALIGNMENT);
 #if HAVE_VALGRIND_MEMCHECK_H
 		/* The data between the end of the line size and the stride is undefined but processed by
 		   libswscale, causing lots of valgrind errors.  Mark it all defined to quell these errors.
 		*/
-		VALGRIND_MAKE_MEM_DEFINED (_data[i], _stride[i] * (sample_size(i).height + 1) + ALIGNMENT);
+		VALGRIND_MAKE_MEM_DEFINED(_data[i], _stride[i] * (sample_size(i).height + 1) + ALIGNMENT);
 #endif
 	}
 }
 
 
-Image::Image (Image const & other)
+Image::Image(Image const & other)
 	: std::enable_shared_from_this<Image>(other)
-	, _size (other._size)
-	, _pixel_format (other._pixel_format)
-	, _alignment (other._alignment)
+	, _size(other._size)
+	, _pixel_format(other._pixel_format)
+	, _alignment(other._alignment)
 {
-	allocate ();
+	allocate();
 
 	for (int i = 0; i < planes(); ++i) {
 		uint8_t* p = _data[i];
 		uint8_t* q = other._data[i];
 		int const lines = sample_size(i).height;
 		for (int j = 0; j < lines; ++j) {
-			memcpy (p, q, _line_size[i]);
+			memcpy(p, q, _line_size[i]);
 			p += stride()[i];
 			q += other.stride()[i];
 		}
@@ -1334,21 +1334,21 @@ Image::Image (Image const & other)
 }
 
 
-Image::Image (AVFrame const * frame, Alignment alignment)
-	: _size (frame->width, frame->height)
-	, _pixel_format (static_cast<AVPixelFormat>(frame->format))
-	, _alignment (alignment)
+Image::Image(AVFrame const * frame, Alignment alignment)
+	: _size(frame->width, frame->height)
+	, _pixel_format(static_cast<AVPixelFormat>(frame->format))
+	, _alignment(alignment)
 {
-	DCPOMATIC_ASSERT (_pixel_format != AV_PIX_FMT_NONE);
+	DCPOMATIC_ASSERT(_pixel_format != AV_PIX_FMT_NONE);
 
-	allocate ();
+	allocate();
 
 	for (int i = 0; i < planes(); ++i) {
 		uint8_t* p = _data[i];
 		uint8_t* q = frame->data[i];
 		int const lines = sample_size(i).height;
 		for (int j = 0; j < lines; ++j) {
-			memcpy (p, q, _line_size[i]);
+			memcpy(p, q, _line_size[i]);
 			p += stride()[i];
 			/* AVFrame's linesize is what we call `stride' */
 			q += frame->linesize[i];
@@ -1357,20 +1357,20 @@ Image::Image (AVFrame const * frame, Alignment alignment)
 }
 
 
-Image::Image (shared_ptr<const Image> other, Alignment alignment)
-	: _size (other->_size)
-	, _pixel_format (other->_pixel_format)
-	, _alignment (alignment)
+Image::Image(shared_ptr<const Image> other, Alignment alignment)
+	: _size(other->_size)
+	, _pixel_format(other->_pixel_format)
+	, _alignment(alignment)
 {
-	allocate ();
+	allocate();
 
 	for (int i = 0; i < planes(); ++i) {
-		DCPOMATIC_ASSERT (line_size()[i] == other->line_size()[i]);
+		DCPOMATIC_ASSERT(line_size()[i] == other->line_size()[i]);
 		uint8_t* p = _data[i];
 		uint8_t* q = other->data()[i];
 		int const lines = sample_size(i).height;
 		for (int j = 0; j < lines; ++j) {
-			memcpy (p, q, line_size()[i]);
+			memcpy(p, q, line_size()[i]);
 			p += stride()[i];
 			q += other->stride()[i];
 		}
@@ -1379,85 +1379,85 @@ Image::Image (shared_ptr<const Image> other, Alignment alignment)
 
 
 Image&
-Image::operator= (Image const & other)
+Image::operator=(Image const & other)
 {
 	if (this == &other) {
 		return *this;
 	}
 
-	Image tmp (other);
-	swap (tmp);
+	Image tmp(other);
+	swap(tmp);
 	return *this;
 }
 
 
 void
-Image::swap (Image & other)
+Image::swap(Image & other)
 {
-	std::swap (_size, other._size);
-	std::swap (_pixel_format, other._pixel_format);
+	std::swap(_size, other._size);
+	std::swap(_pixel_format, other._pixel_format);
 
 	for (int i = 0; i < 4; ++i) {
-		std::swap (_data[i], other._data[i]);
-		std::swap (_line_size[i], other._line_size[i]);
-		std::swap (_stride[i], other._stride[i]);
+		std::swap(_data[i], other._data[i]);
+		std::swap(_line_size[i], other._line_size[i]);
+		std::swap(_stride[i], other._stride[i]);
 	}
 
-	std::swap (_alignment, other._alignment);
+	std::swap(_alignment, other._alignment);
 }
 
 
-Image::~Image ()
+Image::~Image()
 {
 	for (int i = 0; i < planes(); ++i) {
-		av_free (_data[i]);
+		av_free(_data[i]);
 	}
 
-	av_free (_data);
-	av_free (_line_size);
-	av_free (_stride);
+	av_free(_data);
+	av_free(_line_size);
+	av_free(_stride);
 }
 
 
 uint8_t * const *
-Image::data () const
+Image::data() const
 {
 	return _data;
 }
 
 
 int const *
-Image::line_size () const
+Image::line_size() const
 {
 	return _line_size;
 }
 
 
 int const *
-Image::stride () const
+Image::stride() const
 {
 	return _stride;
 }
 
 
 dcp::Size
-Image::size () const
+Image::size() const
 {
 	return _size;
 }
 
 
 Image::Alignment
-Image::alignment () const
+Image::alignment() const
 {
 	return _alignment;
 }
 
 
 PositionImage
-merge (list<PositionImage> images, Image::Alignment alignment)
+merge(list<PositionImage> images, Image::Alignment alignment)
 {
-	if (images.empty ()) {
+	if (images.empty()) {
 		return {};
 	}
 
@@ -1466,18 +1466,18 @@ merge (list<PositionImage> images, Image::Alignment alignment)
 		return images.front();
 	}
 
-	dcpomatic::Rect<int> all (images.front().position, images.front().image->size().width, images.front().image->size().height);
+	dcpomatic::Rect<int> all(images.front().position, images.front().image->size().width, images.front().image->size().height);
 	for (auto const& i: images) {
-		all.extend (dcpomatic::Rect<int>(i.position, i.image->size().width, i.image->size().height));
+		all.extend(dcpomatic::Rect<int>(i.position, i.image->size().width, i.image->size().height));
 	}
 
 	auto merged = make_shared<Image>(images.front().image->pixel_format(), dcp::Size(all.width, all.height), alignment);
-	merged->make_transparent ();
+	merged->make_transparent();
 	for (auto const& i: images) {
-		merged->alpha_blend (i.image, i.position - all.position());
+		merged->alpha_blend(i.image, i.position - all.position());
 	}
 
-	return PositionImage (merged, all.position ());
+	return PositionImage(merged, all.position());
 }
 
 
@@ -1497,7 +1497,7 @@ operator== (Image const & a, Image const & b)
 		uint8_t* q = b.data()[c];
 		int const lines = a.sample_size(c).height;
 		for (int y = 0; y < lines; ++y) {
-			if (memcmp (p, q, a.line_size()[c]) != 0) {
+			if (memcmp(p, q, a.line_size()[c]) != 0) {
 				return false;
 			}
 
@@ -1514,7 +1514,7 @@ operator== (Image const & a, Image const & b)
  *  @param f Amount to fade by; 0 is black, 1 is no fade.
  */
 void
-Image::fade (float f)
+Image::fade(float f)
 {
 	/* U/V black value for 8-bit colour */
 	static int const eight_bit_uv =    (1 << 7) - 1;
@@ -1561,7 +1561,7 @@ Image::fade (float f)
 		for (int y = 0; y < lines; ++y) {
 			uint8_t* q = p;
 			for (int x = 0; x < line_size()[0]; ++x) {
-				*q = int (float (*q) * f);
+				*q = int(float(*q) * f);
 				++q;
 			}
 			p += stride()[0];
@@ -1575,12 +1575,12 @@ Image::fade (float f)
 		for (int c = 0; c < 3; ++c) {
 			int const stride_pixels = stride()[c] / 2;
 			int const line_size_pixels = line_size()[c] / 2;
-			uint16_t* p = reinterpret_cast<uint16_t*> (data()[c]);
+			uint16_t* p = reinterpret_cast<uint16_t*>(data()[c]);
 			int const lines = sample_size(c).height;
 			for (int y = 0; y < lines; ++y) {
 				uint16_t* q = p;
 				for (int x = 0; x < line_size_pixels; ++x) {
-					*q = int (float (*q) * f);
+					*q = int(float(*q) * f);
 					++q;
 				}
 				p += stride_pixels;
@@ -1594,7 +1594,7 @@ Image::fade (float f)
 		{
 			int const stride_pixels = stride()[0] / 2;
 			int const line_size_pixels = line_size()[0] / 2;
-			uint16_t* p = reinterpret_cast<uint16_t*> (data()[0]);
+			uint16_t* p = reinterpret_cast<uint16_t*>(data()[0]);
 			int const lines = sample_size(0).height;
 			for (int y = 0; y < lines; ++y) {
 				uint16_t* q = p;
@@ -1610,7 +1610,7 @@ Image::fade (float f)
 		for (int c = 1; c < 3; ++c) {
 			int const stride_pixels = stride()[c] / 2;
 			int const line_size_pixels = line_size()[c] / 2;
-			uint16_t* p = reinterpret_cast<uint16_t*> (data()[c]);
+			uint16_t* p = reinterpret_cast<uint16_t*>(data()[c]);
 			int const lines = sample_size(c).height;
 			for (int y = 0; y < lines; ++y) {
 				uint16_t* q = p;
@@ -1626,13 +1626,13 @@ Image::fade (float f)
 	}
 
 	default:
-		throw PixelFormatError ("fade()", _pixel_format);
+		throw PixelFormatError("fade()", _pixel_format);
 	}
 }
 
 
 shared_ptr<const Image>
-Image::ensure_alignment (shared_ptr<const Image> image, Image::Alignment alignment)
+Image::ensure_alignment(shared_ptr<const Image> image, Image::Alignment alignment)
 {
 	if (image->alignment() == alignment) {
 		return image;
@@ -1643,7 +1643,7 @@ Image::ensure_alignment (shared_ptr<const Image> image, Image::Alignment alignme
 
 
 size_t
-Image::memory_used () const
+Image::memory_used() const
 {
 	size_t m = 0;
 	for (int i = 0; i < planes(); ++i) {
@@ -1654,7 +1654,7 @@ Image::memory_used () const
 
 
 void
-Image::video_range_to_full_range ()
+Image::video_range_to_full_range()
 {
 	switch (_pixel_format) {
 	case AV_PIX_FMT_RGB24:
@@ -1706,7 +1706,7 @@ Image::video_range_to_full_range ()
 		break;
 	}
 	default:
-		throw PixelFormatError ("video_range_to_full_range()", _pixel_format);
+		throw PixelFormatError("video_range_to_full_range()", _pixel_format);
 	}
 }
 
