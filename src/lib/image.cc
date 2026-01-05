@@ -44,7 +44,7 @@ extern "C" {
 #include <libswscale/swscale.h>
 }
 LIBDCP_ENABLE_WARNINGS
-#if HAVE_VALGRIND_MEMCHECK_H
+#if DCPOMATIC_HAVE_VALGRIND_MEMCHECK_H
 #include <valgrind/memcheck.h>
 #endif
 #include <iostream>
@@ -1303,7 +1303,7 @@ Image::allocate()
 		                                                               ^^^^ out of bounds
 		*/
 		_data[i] = (uint8_t *) wrapped_av_malloc(_stride[i] * (sample_size(i).height + 1) + ALIGNMENT);
-#if HAVE_VALGRIND_MEMCHECK_H
+#ifdef DCPOMATIC_HAVE_VALGRIND_MEMCHECK_H
 		/* The data between the end of the line size and the stride is undefined but processed by
 		   libswscale, causing lots of valgrind errors.  Mark it all defined to quell these errors.
 		*/

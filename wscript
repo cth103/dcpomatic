@@ -702,7 +702,7 @@ def configure(conf):
     # Other stuff
 
     conf.find_program('msgfmt', var='MSGFMT')
-    conf.check(header_name='valgrind/memcheck.h', mandatory=False)
+    conf.check(header_name='valgrind/memcheck.h', mandatory=False, define_name='DCPOMATIC_HAVE_VALGRIND_MEMCHECK_H')
 
     datadir = conf.env.DATADIR
     if not datadir:

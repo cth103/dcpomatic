@@ -47,7 +47,7 @@ LIBDCP_ENABLE_WARNINGS
 #include <fmt/format.h>
 #include <boost/algorithm/string.hpp>
 #include <boost/scoped_array.hpp>
-#ifdef HAVE_VALGRIND_H
+#ifdef DCPOMATIC_HAVE_VALGRIND_MEMCHECK_H
 #include <valgrind/memcheck.h>
 #endif
 #include <string>
@@ -74,10 +74,10 @@ using dcp::Size;
 
 
 EncodeServer::EncodeServer (bool verbose, int num_threads)
-#if !defined(RUNNING_ON_VALGRIND) || RUNNING_ON_VALGRIND == 0
-	: Server (ENCODE_FRAME_PORT)
+#ifdef DCPOMATIC_HAVE_VALGRIND_MEMCHECK_H
+	: Server(ENCODE_FRAME_PORT, RUNNING_ON_VALGRIND ? 2400 : 30)
 #else
-	: Server (ENCODE_FRAME_PORT, 2400)
+	: Server(ENCODE_FRAME_PORT)
 #endif
 	, _verbose (verbose)
 	, _num_threads (num_threads)
