@@ -193,7 +193,7 @@ public:
 		actions_sizer->Add(_cancel, 0, wxRIGHT, DCPOMATIC_SIZER_GAP);
 		_verify = new Button(_overall_panel, _("Verify"));
 		actions_sizer->Add(_verify, 0, wxRIGHT, DCPOMATIC_SIZER_GAP);
-		overall_sizer->Add(actions_sizer, 1, wxLEFT | wxRIGHT | wxALIGN_CENTER, DCPOMATIC_DIALOG_BORDER);
+		overall_sizer->Add(actions_sizer, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER, DCPOMATIC_DIALOG_BORDER);
 
 		_progress_panel = new VerifyDCPProgressPanel(_overall_panel);
 		overall_sizer->Add(_progress_panel, 0, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
