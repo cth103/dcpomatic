@@ -560,7 +560,7 @@ ContentTimeline::left_down_select(wxMouseEvent& ev)
 		/* Seek when clicking in the time axis */
 		int vsx, vsy;
 		_main_canvas->GetViewStart(&vsx, &vsy);
-		_viewer.seek(DCPTime::from_seconds((ev.GetPosition().x + vsx * _x_scroll_rate) / _pixels_per_second.get_value_or(1)), true);
+		_viewer.seek(DCPTime::from_seconds((ev.GetPosition().x + vsx * _x_scroll_rate) / _pixels_per_second.get_value_or(1)), false);
 	}
 
 	if (!content_view) {
