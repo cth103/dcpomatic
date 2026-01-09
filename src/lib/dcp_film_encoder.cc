@@ -95,8 +95,7 @@ DCPFilmEncoder::~DCPFilmEncoder()
 void
 DCPFilmEncoder::go()
 {
-	auto job = _job.lock();
-	_writer.reset(new Writer(_film, job, _film->dir(_film->dcp_name())));
+	_writer.reset(new Writer(_film, _job, _film->dir(_film->dcp_name())));
 
 	switch (_film->video_encoding()) {
 	case VideoEncoding::JPEG2000:
