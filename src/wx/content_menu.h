@@ -46,26 +46,26 @@ class ContentMenu
 public:
 	ContentMenu(wxWindow* parent, FilmViewer& viewer);
 
-	ContentMenu (ContentMenu const &) = delete;
-	ContentMenu& operator= (ContentMenu const &) = delete;
+	ContentMenu(ContentMenu const &) = delete;
+	ContentMenu& operator=(ContentMenu const &) = delete;
 
-	void popup (std::weak_ptr<Film>, ContentList, TimelineContentViewList, wxPoint);
+	void popup(std::weak_ptr<Film>, ContentList, TimelineContentViewList, wxPoint);
 
 private:
-	void repeat ();
-	void join ();
-	void find_missing ();
-	void properties ();
-	void advanced ();
-	void re_examine ();
-	void auto_crop ();
+	void repeat();
+	void join();
+	void find_missing();
+	void properties();
+	void advanced();
+	void re_examine();
+	void auto_crop();
 	void copy_settings();
-	void kdm ();
-	void ov ();
-	void set_dcp_settings ();
+	void kdm();
+	void ov();
+	void set_dcp_settings();
 	void set_dcp_markers();
-	void remove ();
-	void cpl_selected (wxCommandEvent& ev);
+	void remove();
+	void cpl_selected(wxCommandEvent& ev);
 
 	wxMenu* _menu;
 	wxMenu* _cpl_menu;

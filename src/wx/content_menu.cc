@@ -93,47 +93,47 @@ enum {
 
 
 ContentMenu::ContentMenu(wxWindow* p, FilmViewer& viewer)
-	: _menu (new wxMenu)
-	, _parent (p)
-	, _pop_up_open (false)
-	, _viewer (viewer)
+	: _menu(new wxMenu)
+	, _parent(p)
+	, _pop_up_open(false)
+	, _viewer(viewer)
 {
-	_repeat = _menu->Append (ID_repeat, _("Repeat..."));
-	_join = _menu->Append (ID_join, _("Join"));
-	_find_missing = _menu->Append (ID_find_missing, _("Find missing..."));
-	_re_examine = _menu->Append (ID_re_examine, _("Re-examine..."));
-	_auto_crop = _menu->Append (ID_auto_crop, _("Auto-crop..."));
+	_repeat = _menu->Append(ID_repeat, _("Repeat..."));
+	_join = _menu->Append(ID_join, _("Join"));
+	_find_missing = _menu->Append(ID_find_missing, _("Find missing..."));
+	_re_examine = _menu->Append(ID_re_examine, _("Re-examine..."));
+	_auto_crop = _menu->Append(ID_auto_crop, _("Auto-crop..."));
 	_copy_settings = _menu->Append(ID_copy_settings, _("Copy settings from another project..."));
-	_properties = _menu->Append (ID_properties, _("Properties..."));
-	_advanced = _menu->Append (ID_advanced, _("Advanced settings..."));
-	_menu->AppendSeparator ();
-	_kdm = _menu->Append (ID_kdm, _("Add KDM..."));
-	_ov = _menu->Append (ID_ov, _("Add OV..."));
-	_cpl_menu = new wxMenu ();
-	_choose_cpl = _menu->Append (ID_choose_cpl, _("Choose CPL..."), _cpl_menu);
-	_set_dcp_settings = _menu->Append (ID_set_dcp_settings, _("Set project DCP settings from this DCP"));
+	_properties = _menu->Append(ID_properties, _("Properties..."));
+	_advanced = _menu->Append(ID_advanced, _("Advanced settings..."));
+	_menu->AppendSeparator();
+	_kdm = _menu->Append(ID_kdm, _("Add KDM..."));
+	_ov = _menu->Append(ID_ov, _("Add OV..."));
+	_cpl_menu = new wxMenu();
+	_choose_cpl = _menu->Append(ID_choose_cpl, _("Choose CPL..."), _cpl_menu);
+	_set_dcp_settings = _menu->Append(ID_set_dcp_settings, _("Set project DCP settings from this DCP"));
 	_set_dcp_markers = _menu->Append(ID_set_dcp_markers, _("Set project markers from this DCP"));
-	_menu->AppendSeparator ();
-	_remove = _menu->Append (ID_remove, _("Remove"));
+	_menu->AppendSeparator();
+	_remove = _menu->Append(ID_remove, _("Remove"));
 
-	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::repeat, this), ID_repeat);
-	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::join, this), ID_join);
-	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::find_missing, this), ID_find_missing);
-	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::properties, this), ID_properties);
-	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::advanced, this), ID_advanced);
-	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::re_examine, this), ID_re_examine);
-	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::auto_crop, this), ID_auto_crop);
-	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::copy_settings, this), ID_copy_settings);
-	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::kdm, this), ID_kdm);
-	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::ov, this), ID_ov);
-	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::set_dcp_settings, this), ID_set_dcp_settings);
-	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::set_dcp_markers, this), ID_set_dcp_markers);
-	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::remove, this), ID_remove);
-	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::cpl_selected, this, _1), 1, ID_repeat - 1);
+	_parent->Bind(wxEVT_MENU, boost::bind(&ContentMenu::repeat, this), ID_repeat);
+	_parent->Bind(wxEVT_MENU, boost::bind(&ContentMenu::join, this), ID_join);
+	_parent->Bind(wxEVT_MENU, boost::bind(&ContentMenu::find_missing, this), ID_find_missing);
+	_parent->Bind(wxEVT_MENU, boost::bind(&ContentMenu::properties, this), ID_properties);
+	_parent->Bind(wxEVT_MENU, boost::bind(&ContentMenu::advanced, this), ID_advanced);
+	_parent->Bind(wxEVT_MENU, boost::bind(&ContentMenu::re_examine, this), ID_re_examine);
+	_parent->Bind(wxEVT_MENU, boost::bind(&ContentMenu::auto_crop, this), ID_auto_crop);
+	_parent->Bind(wxEVT_MENU, boost::bind(&ContentMenu::copy_settings, this), ID_copy_settings);
+	_parent->Bind(wxEVT_MENU, boost::bind(&ContentMenu::kdm, this), ID_kdm);
+	_parent->Bind(wxEVT_MENU, boost::bind(&ContentMenu::ov, this), ID_ov);
+	_parent->Bind(wxEVT_MENU, boost::bind(&ContentMenu::set_dcp_settings, this), ID_set_dcp_settings);
+	_parent->Bind(wxEVT_MENU, boost::bind(&ContentMenu::set_dcp_markers, this), ID_set_dcp_markers);
+	_parent->Bind(wxEVT_MENU, boost::bind(&ContentMenu::remove, this), ID_remove);
+	_parent->Bind(wxEVT_MENU, boost::bind(&ContentMenu::cpl_selected, this, _1), 1, ID_repeat - 1);
 }
 
 void
-ContentMenu::popup (weak_ptr<Film> film, ContentList c, TimelineContentViewList v, wxPoint p)
+ContentMenu::popup(weak_ptr<Film> film, ContentList c, TimelineContentViewList v, wxPoint p)
 {
 	_film = film;
 	_content = c;
@@ -141,48 +141,48 @@ ContentMenu::popup (weak_ptr<Film> film, ContentList c, TimelineContentViewList 
 
 	int const N = _cpl_menu->GetMenuItemCount();
 	for (int i = DCPOMATIC_CPL_MENU; i < DCPOMATIC_CPL_MENU + N; ++i) {
-		_cpl_menu->Delete (i);
+		_cpl_menu->Delete(i);
 	}
 
-	_repeat->Enable (!_content.empty ());
+	_repeat->Enable(!_content.empty());
 
 	int n = 0;
 	for (auto i: _content) {
-		if (dynamic_pointer_cast<FFmpegContent> (i)) {
+		if (dynamic_pointer_cast<FFmpegContent>(i)) {
 			++n;
 		}
 	}
 
-	_join->Enable (n > 1);
+	_join->Enable(n > 1);
 
 	_find_missing->Enable(_content.size() == 1 && (!paths_exist(_content.front()->paths()) || !paths_exist(_content.front()->font_paths())));
-	_properties->Enable (_content.size() == 1);
-	_advanced->Enable (_content.size() == 1);
-	_re_examine->Enable (!_content.empty ());
-	_auto_crop->Enable (_content.size() == 1);
+	_properties->Enable(_content.size() == 1);
+	_advanced->Enable(_content.size() == 1);
+	_re_examine->Enable(!_content.empty());
+	_auto_crop->Enable(_content.size() == 1);
 	_copy_settings->Enable(_content.size() == 1);
 
 	if (_content.size() == 1) {
-		auto dcp = dynamic_pointer_cast<DCPContent> (_content.front());
+		auto dcp = dynamic_pointer_cast<DCPContent>(_content.front());
 		if (dcp) {
-			_kdm->Enable (dcp->encrypted ());
-			_ov->Enable (dcp->needs_assets ());
-			_set_dcp_settings->Enable (static_cast<bool>(dcp));
+			_kdm->Enable(dcp->encrypted());
+			_ov->Enable(dcp->needs_assets());
+			_set_dcp_settings->Enable(static_cast<bool>(dcp));
 			_set_dcp_markers->Enable(static_cast<bool>(dcp));
 			try {
-				auto cpls = dcp::find_and_resolve_cpls (dcp->directories(), true);
-				_choose_cpl->Enable (cpls.size() > 1);
+				auto cpls = dcp::find_and_resolve_cpls(dcp->directories(), true);
+				_choose_cpl->Enable(cpls.size() > 1);
 				int id = DCPOMATIC_CPL_MENU;
 				for (auto i: cpls) {
-					auto item = _cpl_menu->AppendRadioItem (
+					auto item = _cpl_menu->AppendRadioItem(
 						id++,
-						wxString::Format (
+						wxString::Format(
 							char_to_wx("%s (%s)"),
 							std_to_wx(i->annotation_text().get_value_or("")).data(),
 							std_to_wx(i->id()).data()
 							)
 						);
-					item->Check (dcp->cpl() && dcp->cpl() == i->id());
+					item->Check(dcp->cpl() && dcp->cpl() == i->id());
 				}
 			} catch (dcp::ReadError &) {
 				/* The DCP is probably missing */
@@ -192,38 +192,38 @@ ContentMenu::popup (weak_ptr<Film> film, ContentList c, TimelineContentViewList 
 				/* We have an incorrect KDM */
 			}
 		} else {
-			_kdm->Enable (false);
-			_ov->Enable (false);
-			_choose_cpl->Enable (false);
-			_set_dcp_settings->Enable (false);
+			_kdm->Enable(false);
+			_ov->Enable(false);
+			_choose_cpl->Enable(false);
+			_set_dcp_settings->Enable(false);
 			_set_dcp_markers->Enable(false);
 		}
 	} else {
-		_kdm->Enable (false);
+		_kdm->Enable(false);
 		_ov->Enable(false);
-		_set_dcp_settings->Enable (false);
+		_set_dcp_settings->Enable(false);
 		_set_dcp_markers->Enable(false);
 	}
 
-	_remove->Enable (!_content.empty ());
+	_remove->Enable(!_content.empty());
 
 	_pop_up_open = true;
-	_parent->PopupMenu (_menu, p);
+	_parent->PopupMenu(_menu, p);
 	_pop_up_open = false;
 }
 
 
 void
-ContentMenu::set_dcp_settings ()
+ContentMenu::set_dcp_settings()
 {
-	auto film = _film.lock ();
+	auto film = _film.lock();
 	if (!film) {
 		return;
 	}
 
-	DCPOMATIC_ASSERT (_content.size() == 1);
+	DCPOMATIC_ASSERT(_content.size() == 1);
 	auto dcp = dynamic_pointer_cast<DCPContent>(_content.front());
-	DCPOMATIC_ASSERT (dcp);
+	DCPOMATIC_ASSERT(dcp);
 	copy_dcp_settings_to_film(dcp, film);
 }
 
@@ -244,9 +244,9 @@ ContentMenu::set_dcp_markers()
 
 
 void
-ContentMenu::repeat ()
+ContentMenu::repeat()
 {
-	if (_content.empty ()) {
+	if (_content.empty()) {
 		return;
 	}
 
@@ -255,66 +255,66 @@ ContentMenu::repeat ()
 		return;
 	}
 
-	auto film = _film.lock ();
+	auto film = _film.lock();
 	if (!film) {
 		return;
 	}
 
 	film->repeat_content(_content, dialog.number());
 
-	_content.clear ();
-	_views.clear ();
+	_content.clear();
+	_views.clear();
 }
 
 
 void
-ContentMenu::join ()
+ContentMenu::join()
 {
 	vector<shared_ptr<Content>> fc;
 	for (auto i: _content) {
-		auto f = dynamic_pointer_cast<FFmpegContent> (i);
+		auto f = dynamic_pointer_cast<FFmpegContent>(i);
 		if (f) {
-			fc.push_back (f);
+			fc.push_back(f);
 		}
 	}
 
-	DCPOMATIC_ASSERT (fc.size() > 1);
+	DCPOMATIC_ASSERT(fc.size() > 1);
 
-	auto film = _film.lock ();
+	auto film = _film.lock();
 	if (!film) {
 		return;
 	}
 
 	try {
 		auto joined = make_shared<FFmpegContent>(fc);
-		film->remove_content (_content);
+		film->remove_content(_content);
 		film->examine_and_add_content({joined});
 	} catch (JoinError& e) {
-		error_dialog (_parent, std_to_wx (e.what ()));
+		error_dialog(_parent, std_to_wx(e.what()));
 	}
 }
 
 
 void
-ContentMenu::remove ()
+ContentMenu::remove()
 {
-	if (_content.empty ()) {
+	if (_content.empty()) {
 		return;
 	}
 
-	auto film = _film.lock ();
+	auto film = _film.lock();
 	if (!film) {
 		return;
 	}
 
 	/* We are removing from the timeline if _views is not empty */
 	bool handled = false;
-	if (!_views.empty ()) {
+	if (!_views.empty()) {
 		/* Special case: we only remove FFmpegContent if its video view is selected;
 		   if not, and its audio view is selected, we unmap the audio.
 		*/
 		for (auto i: _content) {
-			auto fc = dynamic_pointer_cast<FFmpegContent> (i);
+			auto fc = dynamic_pointer_cast<FFmpegContent>(i);
 			if (!fc) {
 				continue;
 			}
@@ -333,43 +333,43 @@ ContentMenu::remove ()
 			}
 
 			if (!video && audio) {
-				auto m = fc->audio->mapping ();
-				m.unmap_all ();
-				fc->audio->set_mapping (m);
+				auto m = fc->audio->mapping();
+				m.unmap_all();
+				fc->audio->set_mapping(m);
 				handled = true;
 			}
 		}
 	}
 
 	if (!handled) {
-		film->remove_content (_content);
+		film->remove_content(_content);
 	}
 
-	_content.clear ();
-	_views.clear ();
+	_content.clear();
+	_views.clear();
 }
 
 
 void
-ContentMenu::find_missing ()
+ContentMenu::find_missing()
 {
 	if (_content.size() != 1) {
 		return;
 	}
 
-	auto film = _film.lock ();
+	auto film = _film.lock();
 	if (!film) {
 		return;
 	}
 
 	/* XXX: a bit nasty */
-	auto ic = dynamic_pointer_cast<ImageContent> (_content.front());
-	auto dc = dynamic_pointer_cast<DCPContent> (_content.front());
+	auto ic = dynamic_pointer_cast<ImageContent>(_content.front());
+	auto dc = dynamic_pointer_cast<DCPContent>(_content.front());
 
 	int r = wxID_CANCEL;
 	boost::filesystem::path path;
 
-	if ((ic && !ic->still ()) || dc) {
+	if ((ic && !ic->still()) || dc) {
 		wxDirDialog dialog(nullptr, _("Choose a folder"), {}, wxDD_DIR_MUST_EXIST);
 		r = dialog.ShowModal();
 		path = wx_to_std(dialog.GetPath());
@@ -383,13 +383,13 @@ ContentMenu::find_missing ()
 		return;
 	}
 
-	dcpomatic::find_missing (film->content(), path);
+	dcpomatic::find_missing(film->content(), path);
 }
 
 void
-ContentMenu::re_examine ()
+ContentMenu::re_examine()
 {
-	auto film = _film.lock ();
+	auto film = _film.lock();
 	if (!film) {
 		return;
 	}
@@ -401,11 +401,11 @@ ContentMenu::re_examine ()
 
 
 void
-ContentMenu::kdm ()
+ContentMenu::kdm()
 {
-	DCPOMATIC_ASSERT (!_content.empty ());
-	auto dcp = dynamic_pointer_cast<DCPContent> (_content.front());
-	DCPOMATIC_ASSERT (dcp);
+	DCPOMATIC_ASSERT(!_content.empty());
+	auto dcp = dynamic_pointer_cast<DCPContent>(_content.front());
+	DCPOMATIC_ASSERT(dcp);
 
 	FileDialog dialog(_parent, _("Select KDM"), char_to_wx("XML files|*.xml|All files|*.*"), 0, "AddKDMPath");
 
@@ -417,47 +417,47 @@ ContentMenu::kdm ()
 	try {
 		kdm = dcp::EncryptedKDM(dcp::file_to_string(dialog.path(), MAX_KDM_SIZE));
 	} catch (exception& e) {
-		error_dialog (_parent, _("Could not load KDM"), std_to_wx(e.what()));
+		error_dialog(_parent, _("Could not load KDM"), std_to_wx(e.what()));
 		return;
 	}
 
 	/* Try to decrypt it to get an early preview of any errors */
 	try {
-		decrypt_kdm_with_helpful_error (*kdm);
+		decrypt_kdm_with_helpful_error(*kdm);
 	} catch (KDMError& e) {
-		error_dialog (_parent, std_to_wx(e.summary()), std_to_wx(e.detail()));
+		error_dialog(_parent, std_to_wx(e.summary()), std_to_wx(e.detail()));
 		return;
 	} catch (exception& e) {
 		error_dialog(_parent, std_to_wx(e.what()));
 		return;
 	}
 
-	auto cpls = dcp::find_and_resolve_cpls (dcp->directories(), true);
+	auto cpls = dcp::find_and_resolve_cpls(dcp->directories(), true);
 	bool const kdm_matches_any_cpl = std::any_of(cpls.begin(), cpls.end(), [kdm](shared_ptr<const dcp::CPL> cpl) { return cpl->id() == kdm->cpl_id(); });
 	bool const kdm_matches_selected_cpl = dcp->cpl() || kdm->cpl_id() == dcp->cpl().get();
 
 	if (!kdm_matches_any_cpl) {
-		error_dialog (_parent, _("This KDM was not made for this DCP.  You will need a different one."));
+		error_dialog(_parent, _("This KDM was not made for this DCP.  You will need a different one."));
 		return;
 	}
 
 	if (!kdm_matches_selected_cpl && kdm_matches_any_cpl) {
-		message_dialog (_parent, _("This KDM was made for one of the CPLs in this DCP, but not the currently selected one.  To play the currently-selected CPL you will need a different KDM."));
+		message_dialog(_parent, _("This KDM was made for one of the CPLs in this DCP, but not the currently selected one.  To play the currently-selected CPL you will need a different KDM."));
 	}
 
-	dcp->add_kdm (*kdm);
+	dcp->add_kdm(*kdm);
 
-	auto film = _film.lock ();
-	DCPOMATIC_ASSERT (film);
+	auto film = _film.lock();
+	DCPOMATIC_ASSERT(film);
 	JobManager::instance()->add(make_shared<ExamineContentJob>(film, vector<shared_ptr<Content>>{dcp}, false));
 }
 
 void
-ContentMenu::ov ()
+ContentMenu::ov()
 {
-	DCPOMATIC_ASSERT (!_content.empty ());
-	auto dcp = dynamic_pointer_cast<DCPContent> (_content.front());
-	DCPOMATIC_ASSERT (dcp);
+	DCPOMATIC_ASSERT(!_content.empty());
+	auto dcp = dynamic_pointer_cast<DCPContent>(_content.front());
+	DCPOMATIC_ASSERT(dcp);
 
 	auto film = _film.lock();
 	DCPOMATIC_ASSERT(film);
@@ -466,16 +466,16 @@ ContentMenu::ov ()
 	if (dialog.show()) {
 		dcp->add_ov(dialog.path());
 		auto film = _film.lock();
-		DCPOMATIC_ASSERT (film);
-		JobManager::instance()->add (make_shared<ExamineContentJob>(film, vector<shared_ptr<Content>>{dcp}, false));
+		DCPOMATIC_ASSERT(film);
+		JobManager::instance()->add(make_shared<ExamineContentJob>(film, vector<shared_ptr<Content>>{dcp}, false));
 	}
 }
 
 void
-ContentMenu::properties ()
+ContentMenu::properties()
 {
-	auto film = _film.lock ();
-	DCPOMATIC_ASSERT (film);
+	auto film = _film.lock();
+	DCPOMATIC_ASSERT(film);
 	if (_content_properties_dialog) {
 		_content_properties_dialog->Destroy();
 		_content_properties_dialog = nullptr;
@@ -487,7 +487,7 @@ ContentMenu::properties ()
 
 
 void
-ContentMenu::advanced ()
+ContentMenu::advanced()
 {
 	DCPOMATIC_ASSERT(!_content.empty());
 
@@ -519,39 +519,39 @@ ContentMenu::advanced ()
 
 
 void
-ContentMenu::cpl_selected (wxCommandEvent& ev)
+ContentMenu::cpl_selected(wxCommandEvent& ev)
 {
 	if (!_pop_up_open) {
 		return;
 	}
 
-	DCPOMATIC_ASSERT (!_content.empty ());
-	auto dcp = dynamic_pointer_cast<DCPContent> (_content.front());
-	DCPOMATIC_ASSERT (dcp);
+	DCPOMATIC_ASSERT(!_content.empty());
+	auto dcp = dynamic_pointer_cast<DCPContent>(_content.front());
+	DCPOMATIC_ASSERT(dcp);
 
-	auto cpls = dcp::find_and_resolve_cpls (dcp->directories(), true);
+	auto cpls = dcp::find_and_resolve_cpls(dcp->directories(), true);
 
 	DCPOMATIC_ASSERT(ev.GetId() >= DCPOMATIC_CPL_MENU);
 	DCPOMATIC_ASSERT(ev.GetId() < int(DCPOMATIC_CPL_MENU + cpls.size()));
 	dcp->set_cpl(cpls[ev.GetId() - DCPOMATIC_CPL_MENU]->id());
 
-	auto film = _film.lock ();
-	DCPOMATIC_ASSERT (film);
+	auto film = _film.lock();
+	DCPOMATIC_ASSERT(film);
 	JobManager::instance()->add(make_shared<ExamineContentJob>(film, vector<shared_ptr<Content>>{dcp}, false));
 }
 
 
 void
-ContentMenu::auto_crop ()
+ContentMenu::auto_crop()
 {
-	DCPOMATIC_ASSERT (_content.size() == 1);
+	DCPOMATIC_ASSERT(_content.size() == 1);
 
-	auto film = _film.lock ();
-	DCPOMATIC_ASSERT (film);
+	auto film = _film.lock();
+	DCPOMATIC_ASSERT(film);
 
 	auto update_viewer = [this](Crop crop) {
 		auto film = _film.lock();
-		DCPOMATIC_ASSERT (film);
+		DCPOMATIC_ASSERT(film);
 		auto const content = _content.front();
 		auto const current_crop = content->video->actual_crop();
 		auto const video_size_guess = content->video->size().get_value_or(dcp::Size(1998, 1080));
@@ -573,16 +573,16 @@ ContentMenu::auto_crop ()
 
 	/* Make an initial guess in the view and open the dialog */
 
-	auto const crop = guess_crop_for_content ();
-	update_viewer (crop);
+	auto const crop = guess_crop_for_content();
+	update_viewer(crop);
 
 	_auto_crop_dialog.reset(_parent, crop);
-	_auto_crop_dialog->Show ();
+	_auto_crop_dialog->Show();
 
 	/* Update the dialog and view when the crop threshold changes */
 	_auto_crop_config_connection = Config::instance()->Changed.connect([this, guess_crop_for_content, update_viewer](Config::Property property) {
 		auto film = _film.lock();
-		DCPOMATIC_ASSERT (film);
+		DCPOMATIC_ASSERT(film);
 		if (property == Config::AUTO_CROP_THRESHOLD) {
 			auto const crop = guess_crop_for_content();
 			_auto_crop_dialog->set(crop);
@@ -599,18 +599,18 @@ ContentMenu::auto_crop ()
 
 	/* Handle the user closing the dialog (with OK or cancel) */
 	_auto_crop_dialog->Bind(wxEVT_BUTTON, [this](wxCommandEvent& ev) {
-		_auto_crop_config_connection.disconnect ();
-		_auto_crop_viewer_connection.disconnect ();
+		_auto_crop_config_connection.disconnect();
+		_auto_crop_viewer_connection.disconnect();
 		if (ev.GetId() == wxID_OK) {
 			_content.front()->video->set_crop(_auto_crop_dialog->get());
 		}
-		_auto_crop_dialog->Show (false);
-		_viewer.unset_crop_guess ();
+		_auto_crop_dialog->Show(false);
+		_viewer.unset_crop_guess();
 	});
 
 	/* Update the view when something in the dialog is changed */
 	_auto_crop_dialog->Changed.connect([update_viewer](Crop crop) {
-		update_viewer (crop);
+		update_viewer(crop);
 	});
 }
 
@@ -621,7 +621,7 @@ ContentMenu::copy_settings()
 	DCPOMATIC_ASSERT(_content.size() == 1);
 
 	auto film = _film.lock();
-	DCPOMATIC_ASSERT (film);
+	DCPOMATIC_ASSERT(film);
 
 	DirDialog dialog(_parent, _("Film to copy settings from"), wxDD_DIR_MUST_EXIST, "CopySettingsPath", dcpomatic::film::add_files_override_path(film));
 
