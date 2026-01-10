@@ -146,14 +146,13 @@ ContentMenu::popup(weak_ptr<Film> film, ContentList c, TimelineContentViewList v
 
 	_repeat->Enable(!_content.empty());
 
-	int n = 0;
-	for (auto i: _content) {
-		if (dynamic_pointer_cast<FFmpegContent>(i)) {
-			++n;
-		}
-	}
+	auto ffmpeg_count = std::count_if(
+		_content.begin(),
+		_content.end(),
+		[](shared_ptr<Content> content) { return static_cast<bool>(dynamic_pointer_cast<FFmpegContent>(content)); }
+	);
 
-	_join->Enable(n > 1);
+	_join->Enable(ffmpeg_count > 1);
 
 	_find_missing->Enable(_content.size() == 1 && (!paths_exist(_content.front()->paths()) || !paths_exist(_content.front()->font_paths())));
 	_properties->Enable(_content.size() == 1);
