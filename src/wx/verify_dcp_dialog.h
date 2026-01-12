@@ -19,6 +19,8 @@
 */
 
 
+#include <dcp/decrypted_kdm.h>
+#include <dcp/encrypted_kdm.h>
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/wx.h>
@@ -41,10 +43,18 @@ public:
 		wxWindow* parent,
 		wxString title,
 		std::vector<boost::filesystem::path> dcp_directories,
+		std::vector<dcp::EncryptedKDM> const& kdms
+	);
+
+	VerifyDCPDialog(
+		wxWindow* parent,
+		wxString title,
+		std::vector<boost::filesystem::path> dcp_directories,
 		std::vector<boost::filesystem::path> kdms
 	);
 
 private:
+	void setup();
 	void verify_clicked();
 	void cancel_clicked();
 
@@ -55,7 +65,7 @@ private:
 	Button* _verify;
 	bool _cancel_pending;
 	std::vector<boost::filesystem::path> _dcp_directories;
-	std::vector<boost::filesystem::path> _kdms;
+	std::vector<dcp::DecryptedKDM> _kdms;
 };
 
 

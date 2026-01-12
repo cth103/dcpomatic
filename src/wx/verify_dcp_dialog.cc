@@ -52,7 +52,41 @@ VerifyDCPDialog::VerifyDCPDialog(
 	, _result_panel(new VerifyDCPResultPanel(this))
 	, _cancel_pending(false)
 	, _dcp_directories(std::move(dcp_directories))
-	, _kdms(std::move(kdms))
+{
+	setup();
+
+	if (auto key = Config::instance()->decryption_chain()->key()) {
+		for (auto const& kdm: kdms) {
+			_kdms.push_back(dcp::DecryptedKDM{dcp::EncryptedKDM(dcp::file_to_string(kdm)), *key});
+		}
+	}
+}
+
+
+VerifyDCPDialog::VerifyDCPDialog(
+	wxWindow* parent,
+	wxString title,
+	vector<boost::filesystem::path> dcp_directories,
+	vector<dcp::EncryptedKDM> const& kdms
+	)
+	: wxDialog (parent, wxID_ANY, title)
+	, _progress_panel(new VerifyDCPProgressPanel(this))
+	, _result_panel(new VerifyDCPResultPanel(this))
+	, _cancel_pending(false)
+	, _dcp_directories(std::move(dcp_directories))
+{
+	setup();
+
+	if (auto key = Config::instance()->decryption_chain()->key()) {
+		for (auto const& kdm: kdms) {
+			_kdms.push_back(dcp::DecryptedKDM{kdm, *key});
+		}
+	}
+}
+
+
+void
+VerifyDCPDialog::setup()
 {
 	auto overall_sizer = new wxBoxSizer (wxVERTICAL);
 
@@ -76,7 +110,7 @@ VerifyDCPDialog::VerifyDCPDialog(
 	overall_sizer->Add(_progress_panel, 0, wxEXPAND | wxALL, DCPOMATIC_SIZER_GAP);
 	overall_sizer->Add(_result_panel, 0, wxEXPAND | wxALL, DCPOMATIC_SIZER_GAP);
 
-	SetSizerAndFit (overall_sizer);
+	SetSizerAndFit(overall_sizer);
 
 	_verify->bind(&VerifyDCPDialog::verify_clicked, this);
 	_cancel->bind(&VerifyDCPDialog::cancel_clicked, this);

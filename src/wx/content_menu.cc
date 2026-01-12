@@ -31,6 +31,7 @@
 #include "id.h"
 #include "repeat_dialog.h"
 #include "wx_util.h"
+#include "verify_dcp_dialog.h"
 #include "lib/audio_content.h"
 #include "lib/config.h"
 #include "lib/content_factory.h"
@@ -88,7 +89,8 @@ enum {
 	ID_choose_cpl,
 	ID_set_dcp_settings,
 	ID_set_dcp_markers,
-	ID_remove
+	ID_remove,
+	ID_verify
 };
 
 
@@ -102,6 +104,7 @@ ContentMenu::ContentMenu(wxWindow* p, FilmViewer& viewer)
 	_join = _menu->Append(ID_join, _("Join"));
 	_find_missing = _menu->Append(ID_find_missing, _("Find missing..."));
 	_re_examine = _menu->Append(ID_re_examine, _("Re-examine..."));
+	_verify = _menu->Append(ID_verify, _("Verify..."));
 	_auto_crop = _menu->Append(ID_auto_crop, _("Auto-crop..."));
 	_copy_settings = _menu->Append(ID_copy_settings, _("Copy settings from another project..."));
 	_properties = _menu->Append(ID_properties, _("Properties..."));
@@ -122,6 +125,7 @@ ContentMenu::ContentMenu(wxWindow* p, FilmViewer& viewer)
 	_parent->Bind(wxEVT_MENU, boost::bind(&ContentMenu::properties, this), ID_properties);
 	_parent->Bind(wxEVT_MENU, boost::bind(&ContentMenu::advanced, this), ID_advanced);
 	_parent->Bind(wxEVT_MENU, boost::bind(&ContentMenu::re_examine, this), ID_re_examine);
+	_parent->Bind(wxEVT_MENU, boost::bind(&ContentMenu::verify, this), ID_verify);
 	_parent->Bind(wxEVT_MENU, boost::bind(&ContentMenu::auto_crop, this), ID_auto_crop);
 	_parent->Bind(wxEVT_MENU, boost::bind(&ContentMenu::copy_settings, this), ID_copy_settings);
 	_parent->Bind(wxEVT_MENU, boost::bind(&ContentMenu::kdm, this), ID_kdm);
@@ -152,12 +156,19 @@ ContentMenu::popup(weak_ptr<Film> film, ContentList c, TimelineContentViewList v
 		[](shared_ptr<Content> content) { return static_cast<bool>(dynamic_pointer_cast<FFmpegContent>(content)); }
 	);
 
+	auto dcp_count = std::count_if(
+		_content.begin(),
+		_content.end(),
+		[](shared_ptr<Content> content) { return static_cast<bool>(dynamic_pointer_cast<DCPContent>(content)); }
+	);
+
 	_join->Enable(ffmpeg_count > 1);
 
 	_find_missing->Enable(_content.size() == 1 && (!paths_exist(_content.front()->paths()) || !paths_exist(_content.front()->font_paths())));
 	_properties->Enable(_content.size() == 1);
 	_advanced->Enable(_content.size() == 1);
 	_re_examine->Enable(!_content.empty());
+	_verify->Enable(dcp_count == 1);
 	_auto_crop->Enable(_content.size() == 1);
 	_copy_settings->Enable(_content.size() == 1);
 
@@ -396,6 +407,23 @@ ContentMenu::re_examine()
 	for (auto i: _content) {
 		JobManager::instance()->add(make_shared<ExamineContentJob>(film, vector<shared_ptr<Content>>{i}, false));
 	}
+}
+
+
+void
+ContentMenu::verify()
+{
+	DCPOMATIC_ASSERT(!_content.empty());
+	auto dcp = std::dynamic_pointer_cast<DCPContent>(_content.front());
+	DCPOMATIC_ASSERT(dcp);
+
+	vector<dcp::EncryptedKDM> kdms;
+	if (dcp->kdm()) {
+		kdms.push_back(*dcp->kdm());
+	}
+
+	VerifyDCPDialog dialog(_parent, _("Verify DCP"), dcp->directories(), kdms);
+	dialog.ShowModal();
 }
 
 

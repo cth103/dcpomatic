@@ -58,6 +58,7 @@ private:
 	void properties();
 	void advanced();
 	void re_examine();
+	void verify();
 	void auto_crop();
 	void copy_settings();
 	void kdm();
@@ -82,6 +83,7 @@ private:
 	wxMenuItem* _properties;
 	wxMenuItem* _advanced;
 	wxMenuItem* _re_examine;
+	wxMenuItem* _verify;
 	wxMenuItem* _auto_crop;
 	wxMenuItem* _copy_settings;
 	wxMenuItem* _kdm;
