@@ -170,7 +170,7 @@ AboutDialog::AboutDialog(wxWindow* parent)
 		add_section(_("Translated by"), translated_by);
 
 		wxArrayString patrons;
-		patrons.Add(char_to_wx("Lightbender Post"));
+		patrons.Add(char_to_wx("LightBenders Color Grading Boutique"));
 		add_section(_("Patrons"), patrons);
 
 		wxArrayString subscribers;
