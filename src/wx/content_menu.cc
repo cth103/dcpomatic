@@ -113,7 +113,7 @@ ContentMenu::ContentMenu(wxWindow* p, FilmViewer& viewer)
 	_kdm = _menu->Append(ID_kdm, _("Add KDM..."));
 	_ov = _menu->Append(ID_ov, _("Add OV..."));
 	_cpl_menu = new wxMenu();
-	_choose_cpl = _menu->Append(ID_choose_cpl, _("Choose CPL..."), _cpl_menu);
+	_choose_cpl = _menu->Append(ID_choose_cpl, _("Choose CPL"), _cpl_menu);
 	_set_dcp_settings = _menu->Append(ID_set_dcp_settings, _("Set project DCP settings from this DCP"));
 	_set_dcp_markers = _menu->Append(ID_set_dcp_markers, _("Set project markers from this DCP"));
 	_menu->AppendSeparator();
