@@ -81,6 +81,9 @@ ContentView::selected () const
 void
 ContentView::update ()
 {
+	update_content_store();
+
+	DeleteAllItems();
 	for (auto content: ShowPlaylistContentStore::instance()->all()) {
 		add(content);
 	}
