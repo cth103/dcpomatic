@@ -261,7 +261,7 @@ public:
 
 		Bind(wxEVT_CLOSE_WINDOW, boost::bind(&DOMFrame::close, this, _1));
 
-		if (Config::instance()->player_mode() == Config::PlayerMode::DUAL || Config::instance()->enable_player_http_server()) {
+		if (Config::instance()->enable_player_http_server()) {
 			update_content_store();
 		}
 
