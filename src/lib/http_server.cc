@@ -60,8 +60,9 @@ Response::Response(int code)
 }
 
 
-Response::Response(int code, string payload)
+Response::Response(int code, string payload, Type type)
 	: _code(code)
+	, _type(type)
 	, _payload(payload)
 {
 
@@ -85,6 +86,9 @@ Response::send(shared_ptr<Socket> socket)
 		break;
 	case Type::JSON:
 		socket->write("Content-Type: text/json; charset=utf-8\r\n");
+		break;
+	case Type::CSS:
+		socket->write("Content-Type: text/css; charset=utf-8\r\n");
 		break;
 	}
 	socket->write(fmt::format("Content-Length: {}\r\n", _payload.length()));
@@ -117,18 +121,14 @@ HTTPServer::get_request(string const& url)
 			json["position"] = seconds_to_hms(_position.seconds());
 			json["dcp_name"] = _dcp_name;
 		}
-		auto response = Response(200, json.dump());
-		response.set_type(Response::Type::JSON);
-		return response;
+		return Response(200, json.dump(), Response::Type::JSON);
 	} else if (url == "/api/v1/playlists") {
 		ShowPlaylistList list;
 		nlohmann::json json;
 		for (auto spl: list.show_playlists()) {
 			json.push_back(spl.second.as_json());
 		}
-		auto response = Response(200, json.dump());
-		response.set_type(Response::Type::JSON);
-		return response;
+		return Response(200, json.dump(), Response::Type::JSON);
 	} else if (boost::algorithm::starts_with(url, "/api/v1/content/")) {
 		vector<string> parts;
 		boost::algorithm::split(parts, url, boost::is_any_of("/"));
@@ -141,9 +141,7 @@ HTTPServer::get_request(string const& url)
 		}
 		/* XXX: converting to JSON this way feels a bit grotty */
 		auto json = ShowPlaylistEntry(content, {}).as_json();
-		auto response = Response(200, json.dump());
-		response.set_type(Response::Type::JSON);
-		return response;
+		return Response(200, json.dump(), Response::Type::JSON);
 	} else if (boost::algorithm::starts_with(url, "/api/v1/playlist/")) {
 		vector<string> parts;
 		boost::algorithm::split(parts, url, boost::is_any_of("/"));
@@ -165,18 +163,14 @@ HTTPServer::get_request(string const& url)
 		for (auto entry: list.entries(parts[4])) {
 			json["content"].push_back(entry.as_json());
 		}
-		auto response = Response(200, json.dump());
-		response.set_type(Response::Type::JSON);
-		return response;
+		return Response(200, json.dump(), Response::Type::JSON);
 	} else if (url == "/api/v1/content") {
 		nlohmann::json json;
 		for (auto i: ShowPlaylistContentStore::instance()->all()) {
 			/* XXX: converting to JSON this way feels a bit grotty */
 			json.push_back(ShowPlaylistEntry(i, {}).as_json());
 		}
-		auto response = Response(200, json.dump());
-		response.set_type(Response::Type::JSON);
-		return response;
+		return Response(200, json.dump(), Response::Type::JSON);
 	} else if (boost::algorithm::starts_with(url, "/api/v1/content/")) {
 		vector<string> parts;
 		boost::algorithm::split(parts, url, boost::is_any_of("/"));
@@ -189,9 +183,7 @@ HTTPServer::get_request(string const& url)
 		}
 		/* XXX: converting to JSON this way feels a bit grotty */
 		auto json = ShowPlaylistEntry(content, {}).as_json();
-		auto response = Response(200, json.dump());
-		response.set_type(Response::Type::JSON);
-		return response;
+		return Response(200, json.dump(), Response::Type::JSON);
 	} else {
 		LOG_HTTP("404 {}", url);
 		return Response::ERROR_404;
