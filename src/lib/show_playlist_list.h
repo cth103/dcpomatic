@@ -80,6 +80,8 @@ public:
 	void move_entry_up(ShowPlaylistID, int index);
 	/** Move the given playlist entry one place lower (later) */
 	void move_entry_down(ShowPlaylistID, int index);
+	/** Move the given playlist entry to the given index */
+	void move_entry(ShowPlaylistID playlist_id, int old_index, int new_index);
 
 	void read_legacy(boost::filesystem::path dir);
 

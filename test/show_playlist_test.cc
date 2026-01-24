@@ -166,6 +166,37 @@ BOOST_AUTO_TEST_CASE(test_show_playlist_list)
 	BOOST_CHECK_EQUAL(list.show_playlists().size(), 1U);
 	BOOST_CHECK(list.show_playlists()[0].first == id2);
 	BOOST_CHECK(list.show_playlists()[0].second == spl3);
+
+	auto spl4 = ShowPlaylist("The Meaning of Life");
+	auto id4 = list.add_show_playlist(spl4);
+
+	list.add_entry(id4, ShowPlaylistEntry(store->get("e781b9d108a555b0fa12bfbaf308f0202058"), {}));
+	list.add_entry(id4, ShowPlaylistEntry(store->get("70eb015a-6328-468e-b53d-0211faaca64f"), {}));
+	list.add_entry(id4, ShowPlaylistEntry(store->get("22a6a978-4f66-4eae-96d9-91d638016616"), {}));
+	list.add_entry(id4, ShowPlaylistEntry(store->get("b54730b85a5f8ebefcb003dff602a3bb2085"), {}));
+	list.add_entry(id4, ShowPlaylistEntry(store->get("95caf5d5-2d33-45f3-b79e-a82c6932830d"), {}));
+	list.add_entry(id4, ShowPlaylistEntry(store->get("f166bb61-9312-4afa-bf54-6a1bdfb75a12"), {}));
+	list.add_entry(id4, ShowPlaylistEntry(store->get("b1f91cd7-830c-43ca-97fe-bac388d33061"), {}));
+
+	list.move_entry(id4, 2, 5);
+
+	BOOST_CHECK_EQUAL(list.entries(id4).size(), 7U);
+	BOOST_CHECK(list.entries(id4)[0] == ShowPlaylistEntry(store->get("e781b9d108a555b0fa12bfbaf308f0202058"), {}));
+	BOOST_CHECK(list.entries(id4)[1] == ShowPlaylistEntry(store->get("70eb015a-6328-468e-b53d-0211faaca64f"), {}));
+	BOOST_CHECK(list.entries(id4)[2] == ShowPlaylistEntry(store->get("b54730b85a5f8ebefcb003dff602a3bb2085"), {}));
+	BOOST_CHECK(list.entries(id4)[3] == ShowPlaylistEntry(store->get("95caf5d5-2d33-45f3-b79e-a82c6932830d"), {}));
+	BOOST_CHECK(list.entries(id4)[4] == ShowPlaylistEntry(store->get("f166bb61-9312-4afa-bf54-6a1bdfb75a12"), {}));
+	BOOST_CHECK(list.entries(id4)[5] == ShowPlaylistEntry(store->get("22a6a978-4f66-4eae-96d9-91d638016616"), {}));
+	BOOST_CHECK(list.entries(id4)[6] == ShowPlaylistEntry(store->get("b1f91cd7-830c-43ca-97fe-bac388d33061"), {}));
+
+	list.move_entry(id4, 6, 0);
+	BOOST_CHECK(list.entries(id4)[0] == ShowPlaylistEntry(store->get("b1f91cd7-830c-43ca-97fe-bac388d33061"), {}));
+	BOOST_CHECK(list.entries(id4)[1] == ShowPlaylistEntry(store->get("e781b9d108a555b0fa12bfbaf308f0202058"), {}));
+	BOOST_CHECK(list.entries(id4)[2] == ShowPlaylistEntry(store->get("70eb015a-6328-468e-b53d-0211faaca64f"), {}));
+	BOOST_CHECK(list.entries(id4)[3] == ShowPlaylistEntry(store->get("b54730b85a5f8ebefcb003dff602a3bb2085"), {}));
+	BOOST_CHECK(list.entries(id4)[4] == ShowPlaylistEntry(store->get("95caf5d5-2d33-45f3-b79e-a82c6932830d"), {}));
+	BOOST_CHECK(list.entries(id4)[5] == ShowPlaylistEntry(store->get("f166bb61-9312-4afa-bf54-6a1bdfb75a12"), {}));
+	BOOST_CHECK(list.entries(id4)[6] == ShowPlaylistEntry(store->get("22a6a978-4f66-4eae-96d9-91d638016616"), {}));
 }
 
 
