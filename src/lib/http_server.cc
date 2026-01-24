@@ -97,7 +97,7 @@ Response::send(shared_ptr<Socket> socket)
 
 
 Response
-HTTPServer::get(string const& url)
+HTTPServer::get_request(string const& url)
 {
 	if (url == "/") {
 		auto page = dcp::file_to_string(resources_path() / "web" / "index.html");
@@ -200,7 +200,7 @@ HTTPServer::get(string const& url)
 
 
 Response
-HTTPServer::post(string const& url, string const& body)
+HTTPServer::post_request(string const& url, string const& body)
 {
 	if (url == "/api/v1/play") {
 		emit(boost::bind(boost::ref(Play)));
@@ -212,6 +212,11 @@ HTTPServer::post(string const& url, string const& body)
 		auto response = Response(303);
 		response.add_header("Location", "/");
 		return response;
+	} else if (url == "/api/v1/playlists") {
+		ShowPlaylist playlist("New Playlist");
+		ShowPlaylistList list;
+		list.add_show_playlist(playlist);
+		return Response(200);
 	} else if (boost::algorithm::starts_with(url, "/api/v1/playlist/")) {
 		vector<string> parts;
 		boost::algorithm::split(parts, url, boost::is_any_of("/"));
@@ -248,6 +253,28 @@ HTTPServer::post(string const& url, string const& body)
 
 
 Response
+HTTPServer::delete_request(string const& url)
+{
+	if (boost::algorithm::starts_with(url, "/api/v1/playlist/")) {
+		vector<string> parts;
+		boost::algorithm::split(parts, url, boost::is_any_of("/"));
+		if (parts.size() != 5) {
+			return Response::ERROR_404;
+		}
+		ShowPlaylistList list;
+		auto playlist_id = list.get_show_playlist_id(parts[4]);
+		if (!playlist_id) {
+			return Response::ERROR_404;
+		}
+		list.remove_show_playlist(*playlist_id);
+		return Response(200);
+	}
+
+	return Response::ERROR_404;
+}
+
+
+Response
 HTTPServer::request(vector<string> const& request, string const& body)
 {
 	vector<string> parts;
@@ -259,10 +286,13 @@ HTTPServer::request(vector<string> const& request, string const& body)
 	try {
 		if (parts[0] == "GET") {
 			LOG_HTTP("GET {}", parts[1]);
-			return get(parts[1]);
+			return get_request(parts[1]);
 		} else if (parts[0] == "POST") {
 			LOG_HTTP("POST {}", parts[1]);
-			return post(parts[1], body);
+			return post_request(parts[1], body);
+		} else if (parts[0] == "DELETE") {
+			LOG_HTTP("DELETE {}", parts[1]);
+			return delete_request(parts[1]);
 		}
 	} catch (std::exception& e) {
 		LOG_ERROR("Error while handling HTTP request: {}", e.what());
