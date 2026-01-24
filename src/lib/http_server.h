@@ -30,13 +30,14 @@ LIBDCP_ENABLE_WARNINGS
 class Response
 {
 public:
-	Response(int code);
-	Response(int code, std::string payload);
-
 	enum class Type {
 		HTML,
-		JSON
+		JSON,
+		CSS
 	};
+
+	Response(int code);
+	Response(int code, std::string payload, Type type = Type::HTML);
 
 	void add_header(std::string key, std::string value);
 	void set_type(Type type) {
