@@ -114,9 +114,13 @@ ShowPlaylistList::update_show_playlist(ShowPlaylistID id, ShowPlaylist const& pl
 void
 ShowPlaylistList::remove_show_playlist(ShowPlaylistID id)
 {
-	SQLiteStatement statement(_db, "DELETE FROM show_playlists WHERE ID=?");
-	statement.bind_int64(1, id.get());
-	statement.execute();
+	SQLiteStatement playlists(_db, "DELETE FROM show_playlists WHERE ID=?");
+	playlists.bind_int64(1, id.get());
+	playlists.execute();
+
+	SQLiteStatement entries(_db, "DELETE FROM entries WHERE show_playlist=?");
+	entries.bind_int64(1, id.get());
+	entries.execute();
 }
 
 
