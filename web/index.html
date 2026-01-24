@@ -3,25 +3,104 @@
 <head>
 <link rel="stylesheet" href="common.css">
 <script>
-	setInterval(function() {
-		status = fetch("/api/v1/status").then(response => {
-			response.json().then(data => {
-				if (data.playing) {
-					document.getElementById('playing').innerHTML = "Playing";
-				} else {
-					document.getElementById('playing').innerHTML = "Stopped";
-				}
-				document.getElementById('dcp_name').innerHTML = data.dcp_name;
-				document.getElementById('position').innerHTML = data.position;
+
+setInterval(function() {
+	status = fetch("/api/v1/status").then(response => {
+		response.json().then(data => {
+			if (data.playing) {
+				document.getElementById('playing').innerHTML = "Playing";
+			} else {
+				document.getElementById('playing').innerHTML = "Stopped";
+			}
+			document.getElementById('dcp_name').innerHTML = data.dcp_name;
+			document.getElementById('position').innerHTML = data.position;
+		});
+	});
+}, 250);
+function play() {
+	fetch("/api/v1/play", { method: "POST" });
+}
+function stop() {
+	fetch("/api/v1/stop", { method: "POST" });
+}
+
+function selectedPlaylistId()
+{
+	var children = document.getElementById("content-and-playlists-inner").children;
+	for (var i = 0; i < children.length; i++) {
+		if (children[i].classList.contains("selected")) {
+			return children[i].uuid;
+		}
+	}
+
+	return null;
+}
+
+
+function setSelectedPlaylist(uuid)
+{
+	var children = document.getElementById("content-and-playlists-inner").children;
+	for (var i = 0; i < children.length; i++) {
+		var child = children[i];
+		if (child.uuid == uuid) {
+			child.classList.add("selected");
+		} else {
+			child.classList.remove("selected");
+		}
+	}
+};
+
+	
+// Fetch all playlists and put them in the shared content/playlists div
+function showPlaylists()
+{
+	var div = document.getElementById('content-and-playlists-inner');
+	if (div) {
+		div.innerHTML = "";
+	}
+
+	fetch("/api/v1/playlists").then(response => {
+		response.json().then(data => {
+			data.forEach(playlist => {
+				var li = document.createElement("li");
+				li.classList.add("playlist");
+				li.appendChild(document.createTextNode(playlist.name));
+				li.uuid = playlist['uuid'];
+				li.onclick = function() {
+					setSelectedPlaylist(playlist['uuid']);
+				};
+				document.getElementById('content-and-playlists-inner').appendChild(li);
+			});
+
+			document.getElementById('playlists-tab').classList.add('selected');
+			document.getElementById('content-tab').classList.remove('selected');
+		});
+	});
+}
+
+function showContent()
+{
+	var div = document.getElementById('content-and-playlists-inner');
+	if (div) {
+		div.innerHTML = "";
+	}
+
+	fetch("/api/v1/content").then(response => {
+		response.json().then(data => {
+			data.forEach(content => {
+				var li = document.createElement("li");
+				li.classList.add("playlist");
+				li.appendChild(document.createTextNode(content.name));
+				document.getElementById('content-and-playlists-inner').appendChild(li);
+
+				document.getElementById('content-tab').classList.add('selected');
+				document.getElementById('playlists-tab').classList.remove('selected');
 			});
 		});
-	}, 250);
-	function play() {
-		fetch("/api/v1/play", { method: "POST" });
-	}
-	function stop() {
-		fetch("/api/v1/stop", { method: "POST" });
-	}
+	})
+}
+
+showPlaylists();
 </script>
 
 <style>
@@ -43,6 +122,34 @@ td {
 	text-align: left;
 	border: 1px solid black;
 }
+
+div.tab {
+	padding: 6px;
+	border: 0.5px solid black;
+	background-color: #eeeeee;
+	width: fit-content;
+	display: inline-block;
+	cursor: pointer;
+	margin: 2px;
+}
+
+div.tab.selected {
+	background-color: #cccccc;
+}
+
+li.playlist {
+	border: 1px solid black;
+	background-color: #a7bad9;
+	padding: 3px;
+	list-style-type: none;
+	cursor: pointer;
+}
+
+li.playlist.selected {
+	background-color: #d343e0;
+	cursor: pointer;
+}
+
 </style>
 
 <title>TITLE</title>
@@ -50,8 +157,9 @@ td {
 </head>
 <body>
 
-	SIDEBAR
+SIDEBAR
 
+<div id="controls" style="float: left; width: 20%;">
 	<button name="play" value="play" onclick="play()">Play</button>
 	<button name="stop" value="stop" onclick="stop()">Stop</button>
 	<table>
@@ -59,5 +167,16 @@ td {
 		<tr><td>State</td><td><p id="playing"></td></tr>
 		<tr><td>Position</td><td><p id="position"></td></tr>
 	</table>
+</div>
+
+<div id="current-playlist" style="float: left; width: 20%;">
+Current playlist:
+</div>
+
+<div id="content-and-playlists" style="float: left; width: 20%;">
+<div id="playlists-tab" onclick="showPlaylists();" class="tab selected">Playlists</div>
+<div id="content-tab" onclick="showContent();" class="tab">Content</div>
+<div id="content-and-playlists-inner" style="margin-top: 5pt; margin-bottom: 5pt;"></div>
+</div>
 </body>
 </html>
