@@ -102,6 +102,7 @@ HTTPServer::get(string const& url)
 	if (url == "/") {
 		auto page = dcp::file_to_string(resources_path() / "web" / "index.html");
 		boost::algorithm::replace_all(page, "TITLE", variant::dcpomatic_player());
+		boost::algorithm::replace_all(page, "SIDEBAR", dcp::file_to_string(resources_path() / "web" / "sidebar.html"));
 		return Response(200, page);
 	} else if (url == "/playlists") {
 		auto page = dcp::file_to_string(resources_path() / "web" / "playlists.html");
