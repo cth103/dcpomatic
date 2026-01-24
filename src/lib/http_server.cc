@@ -113,6 +113,9 @@ HTTPServer::get_request(string const& url)
 		boost::algorithm::replace_all(page, "TITLE", variant::dcpomatic_player());
 		boost::algorithm::replace_all(page, "SIDEBAR", dcp::file_to_string(resources_path() / "web" / "sidebar.html"));
 		return Response(200, page);
+	} else if (url == "/common.css") {
+		auto page = dcp::file_to_string(resources_path() / "web" / "common.css");
+		return Response(200, page, Response::Type::CSS);
 	} else if (url == "/api/v1/status") {
 		nlohmann::json json;
 		{
