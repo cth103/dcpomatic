@@ -277,6 +277,46 @@ ShowPlaylistList::insert_entry(ShowPlaylistID playlist_id, ShowPlaylistEntry con
 
 
 void
+ShowPlaylistList::move_entry(ShowPlaylistID playlist_id, int old_index, int new_index)
+{
+	SQLiteTransaction transaction(_db);
+
+	if (old_index == new_index) {
+		return;
+	}
+
+	SQLiteStatement find_id(_db, "SELECT id FROM entries WHERE show_playlist=? AND sort_index=?");
+	find_id.bind_int64(1, playlist_id.get());
+	find_id.bind_int64(2, old_index);
+
+	optional<int> moving_id;
+	find_id.execute([&moving_id](SQLiteStatement& statement) {
+		DCPOMATIC_ASSERT(statement.data_count() == 1);
+		moving_id = statement.column_int64(0);
+	});
+	DCPOMATIC_ASSERT(moving_id);
+
+	auto const lower = old_index < new_index ? (old_index + 1) : new_index;
+	auto const upper = old_index < new_index ? new_index : (old_index - 1);
+	auto const direction = old_index < new_index ? "-1" : "+1";
+
+	SQLiteStatement update_others(_db, fmt::format("UPDATE entries SET sort_index=sort_index{} WHERE show_playlist=? AND sort_index>=? AND sort_index<=?", direction));
+	update_others.bind_int64(1, playlist_id.get());
+	update_others.bind_int64(2, lower);
+	update_others.bind_int64(3, upper);
+	update_others.execute();
+
+	SQLiteStatement update(_db, "UPDATE entries SET sort_index=? WHERE show_playlist=? AND id=?");
+	update.bind_int64(1, new_index);
+	update.bind_int64(2, playlist_id.get());
+	update.bind_int64(3, *moving_id);
+	update.execute();
+
+	transaction.commit();
+}
+
+
+void
 ShowPlaylistList::update_entry(ShowPlaylistID playlist_id, int index, ShowPlaylistEntry const& entry)
 {
 	SQLiteStatement update_entry(_db, _entries.update("WHERE show_playlist=? AND sort_index=?"));
