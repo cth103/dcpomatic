@@ -219,9 +219,7 @@ PlayerFrame::PlayerFrame()
 	}
 
 	if (Config::instance()->player_mode() == Config::PlayerMode::DUAL) {
-		auto pc = new PlaylistControls(_overall_panel, _viewer);
-		_controls = pc;
-		pc->ResetFilm.connect(bind(&PlayerFrame::reset_film_weak, this, _1, _2));
+		_controls = new PlaylistControls(_overall_panel, this, _viewer);
 	} else {
 		_controls = new StandardControls(_overall_panel, _viewer, false);
 	}
@@ -434,15 +432,6 @@ PlayerFrame::load_dcp(boost::filesystem::path dir)
 		error_dialog(this, wxString::Format(_("Could not load a DCP from %s"), std_to_wx(dir.string())), std_to_wx(e.what()));
 	} catch (DCPError& e) {
 		error_dialog(this, wxString::Format(_("Could not load a DCP from %s"), std_to_wx(dir.string())), std_to_wx(e.what()));
-	}
-}
-
-
-void
-PlayerFrame::reset_film_weak(weak_ptr<Film> weak_film, optional<float> crop_to_ratio)
-{
-	if (auto film = weak_film.lock()) {
-		reset_film(film, crop_to_ratio);
 	}
 }
 

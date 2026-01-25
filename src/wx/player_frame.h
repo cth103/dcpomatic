@@ -65,7 +65,6 @@ public:
 	void too_many_frames_dropped();
 	void set_decode_reduction(boost::optional<int> reduction);
 	void load_dcp(boost::filesystem::path dir);
-	void reset_film_weak(std::weak_ptr<Film> weak_film, boost::optional<float> crop_to_ratio);
 	void reset_film(std::shared_ptr<Film> film = std::make_shared<Film>(boost::none), boost::optional<float> crop_to_ratio = {});
 
 	/* _film is now something new: set up to play it */
