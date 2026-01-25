@@ -27,17 +27,19 @@
 class DCPContent;
 class ShowPlaylistList;
 
+namespace dcpomatic {
+namespace ui {
+
+class PlayerFrame;
+
+}
+}
+
 
 class PlaylistControls : public Controls
 {
 public:
-	PlaylistControls(wxWindow* parent, FilmViewer& viewer);
-
-	/** This is so that we can tell our parent player to reset the film
-	    when we have created one from a SPL.  We could call a method
-	    in the player's DOMFrame but we don't have that in a header.
-	*/
-	boost::signals2::signal<void (std::weak_ptr<Film>, boost::optional<float>)> ResetFilm;
+	PlaylistControls(wxWindow* parent, dcpomatic::ui::PlayerFrame* player, FilmViewer& viewer);
 
 	void play() override;
 	void stop() override;
@@ -65,6 +67,8 @@ private:
 	void deselect_playlist();
 
 	boost::optional<dcp::EncryptedKDM> get_kdm_from_directory(std::shared_ptr<DCPContent> dcp);
+
+	dcpomatic::ui::PlayerFrame* _player;
 
 	wxButton* _play_button;
 	wxButton* _pause_button;
