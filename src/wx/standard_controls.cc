@@ -33,7 +33,7 @@ using std::shared_ptr;
 
 
 StandardControls::StandardControls(wxWindow* parent, FilmViewer& viewer, bool editor_controls)
-	: Controls (parent, viewer, editor_controls)
+	: Controls(parent, viewer, editor_controls)
 	, _play_button (new wxToggleButton(this, wxID_ANY, _("Play")))
 {
 	_button_sizer->Add (_play_button, 0, wxALL | wxALIGN_CENTER_VERTICAL, 2);
