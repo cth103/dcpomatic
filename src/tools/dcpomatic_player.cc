@@ -18,28 +18,17 @@
 
 */
 
+
 #include "wx/i18n_setup.h"
 #include "wx/id.h"
 #include "wx/player_frame.h"
-#include "wx/wx_ptr.h"
 #include "wx/wx_signal_manager.h"
 #include "wx/wx_util.h"
 #include "wx/wx_variant.h"
 #include "lib/constants.h"
 #include "lib/cross.h"
-#include "lib/dcp_examiner.h"
-#include "lib/dcpomatic_socket.h"
-#include "lib/ffmpeg_content.h"
 #include "lib/film.h"
-#include "lib/internet.h"
-#include "lib/job.h"
-#include "lib/player.h"
-#include "lib/player_video.h"
-#include "lib/ratio.h"
-#include "lib/scoped_temporary.h"
-#include "lib/server.h"
 #include "lib/update_checker.h"
-#include "lib/verify_dcp_job.h"
 #include <dcp/dcp.h>
 #include <dcp/exceptions.h>
 #include <dcp/filesystem.h>
@@ -53,7 +42,6 @@ LIBDCP_ENABLE_WARNINGS
 #ifdef __WXGTK__
 #include <X11/Xlib.h>
 #endif
-#include <boost/algorithm/string.hpp>
 #include <boost/bind/bind.hpp>
 #include <iostream>
 
