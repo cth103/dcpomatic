@@ -136,6 +136,7 @@ sources = """
           password_entry.cc
           player_config_dialog.cc
           player_information.cc
+          player_frame.cc
           player_stress_tester.cc
           playhead_to_timecode_dialog.cc
           playhead_to_frame_dialog.cc
