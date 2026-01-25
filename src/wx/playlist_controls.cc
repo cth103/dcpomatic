@@ -22,6 +22,7 @@
 #include "content_view.h"
 #include "dcpomatic_button.h"
 #include "film_viewer.h"
+#include "player_frame.h"
 #include "playlist_controls.h"
 #include "static_text.h"
 #include "wx_util.h"
@@ -53,10 +54,12 @@ using std::string;
 using std::vector;
 using boost::optional;
 using namespace dcpomatic;
+using namespace dcpomatic::ui;
 
 
-PlaylistControls::PlaylistControls(wxWindow* parent, FilmViewer& viewer)
+PlaylistControls::PlaylistControls(wxWindow* parent, PlayerFrame* player, FilmViewer& viewer)
 	: Controls(parent, viewer, false)
+	, _player(player)
 	, _play_button(new Button(this, _("Play")))
 	, _pause_button(new Button(this, _("Pause")))
 	, _stop_button(new Button(this, _("Stop")))
@@ -155,7 +158,7 @@ PlaylistControls::deselect_playlist()
 		_selected_playlist = boost::none;
 		_spl_view->SetItemState(selected, 0, wxLIST_STATE_SELECTED);
 	}
-	ResetFilm(std::make_shared<Film>(optional<boost::filesystem::path>()), {});
+	_player->reset_film();
 }
 
 
@@ -388,7 +391,7 @@ PlaylistControls::reset_film()
 	DCPOMATIC_ASSERT(_selected_playlist_position < static_cast<int>(entries.size()));
 	auto const entry = entries[_selected_playlist_position];
 	film->add_content(vector<shared_ptr<Content>>{ShowPlaylistContentStore::instance()->get(entry)});
-	ResetFilm(film, entry.crop_to_ratio());
+	_player->reset_film(film, entry.crop_to_ratio());
 }
 
 
@@ -434,7 +437,7 @@ PlaylistControls::viewer_finished()
 	} else {
 		/* Finished the whole SPL */
 		_selected_playlist_position = 0;
-		ResetFilm(std::make_shared<Film>(optional<boost::filesystem::path>()), {});
+		_player->reset_film();
 		_play_button->Enable(true);
 		_pause_button->Enable(false);
 	}
