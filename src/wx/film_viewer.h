@@ -19,6 +19,10 @@
 */
 
 
+#ifndef DCPOMATIC_FILM_VIEWER_H
+#define DCPOMATIC_FILM_VIEWER_H
+
+
 /** @file  src/film_viewer.h
  *  @brief FilmViewer class.
  */
@@ -242,3 +246,7 @@ private:
 
 	boost::signals2::scoped_connection _config_changed_connection;
 };
+
+
+#endif
+
