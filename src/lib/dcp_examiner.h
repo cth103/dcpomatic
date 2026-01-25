@@ -28,6 +28,7 @@
 #include "dcp_text_track.h"
 #include "dcpomatic_assert.h"
 #include "video_examiner.h"
+#include <dcp/content_kind.h>
 #include <dcp/dcp_time.h>
 #include <dcp/rating.h>
 
