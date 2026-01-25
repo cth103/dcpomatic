@@ -1617,7 +1617,7 @@ Player::atmos(weak_ptr<Piece> weak_piece, ContentAtmos data)
 
 	auto const vfr = film->video_frame_rate();
 
-	DCPTime const dcp_time = DCPTime::from_frames(data.frame, vfr) - DCPTime(piece->content->trim_start(), FrameRateChange(vfr, vfr));
+	DCPTime const dcp_time = content_time_to_dcp(piece, ContentTime::from_frames(data.frame, vfr));
 	if (dcp_time < piece->content->position() || dcp_time >= (piece->content->end(film))) {
 		return;
 	}

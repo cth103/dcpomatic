@@ -148,3 +148,36 @@ BOOST_AUTO_TEST_CASE(atmos_replace_test)
 	check(vf, 1);
 }
 
+
+BOOST_AUTO_TEST_CASE(atmos_multi_reel_test)
+{
+	vector<shared_ptr<Content>> picture;
+	vector<shared_ptr<Content>> atmos;
+	vector<shared_ptr<Content>> all;
+	for (int i = 0; i < 3; ++i) {
+		picture.push_back(content_factory("test/data/flat_red.png")[0]);
+		all.push_back(picture.back());
+		atmos.push_back(content_factory("test/data/atmos_0.mxf")[0]);
+		all.push_back(atmos.back());
+	}
+
+	auto film = new_test_film("atmos_multi_reel_test", all);
+	for (auto i = 0; i < 3; ++i) {
+		picture[i]->set_position(film, dcpomatic::DCPTime::from_seconds(i * 10));
+		atmos[i]->set_position(film, dcpomatic::DCPTime::from_seconds(i * 10));
+	}
+
+	make_and_verify_dcp(film);
+
+	dcp::DCP dcp(film->dir(film->dcp_name()));
+	dcp.read();
+	auto cpls = dcp.cpls();
+	BOOST_REQUIRE_EQUAL(cpls.size(), 1U);
+	auto reels = cpls[0]->reels();
+	BOOST_REQUIRE_EQUAL(reels.size(), 3U);
+
+	for (int i = 0; i < 3; ++i) {
+		BOOST_CHECK(reels[i]->atmos());
+	}
+}
+
