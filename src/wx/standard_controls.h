@@ -27,9 +27,6 @@ class StandardControls : public Controls
 public:
 	StandardControls(wxWindow* parent, FilmViewer& viewer, bool editor_controls);
 
-	void play () override;
-	void stop () override;
-
 private:
 	void check_play_state ();
 	void play_clicked ();

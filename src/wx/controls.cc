@@ -457,3 +457,18 @@ Controls::seek(int slider)
 	slider_moved(false);
 	slider_released();
 }
+
+
+void
+Controls::play()
+{
+	_viewer.start();
+}
+
+
+void
+Controls::stop()
+{
+	_viewer.stop();
+}
+

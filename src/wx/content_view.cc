@@ -51,6 +51,9 @@ using std::string;
 using std::vector;
 using std::weak_ptr;
 using boost::optional;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 using namespace dcpomatic;
 
 
@@ -62,6 +65,16 @@ ContentView::ContentView (wxWindow* parent)
 	AppendColumn({}, wxLIST_FORMAT_LEFT, 80);
 	/* annotation text */
 	AppendColumn({}, wxLIST_FORMAT_LEFT, 580);
+
+	Bind(wxEVT_LIST_ITEM_ACTIVATED, boost::bind(&ContentView::activated, this, _1));
+}
+
+
+void
+ContentView::activated(wxListEvent& ev)
+{
+	DCPOMATIC_ASSERT(ev.GetIndex() < static_cast<int>(_content.size()));
+	Activated(_content[ev.GetIndex()]);
 }
 
 
