@@ -62,13 +62,15 @@ public:
 
 	void set_film(std::shared_ptr<Film> film);
 
-	virtual void play() {};
-	virtual void stop() {};
+	void play();
+	void stop();
 	void seek(int slider);
 
 	std::shared_ptr<Film> film() const;
 	void back_frame();
 	void forward_frame();
+
+	virtual void playlist_changed() {}
 
 protected:
 
