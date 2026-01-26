@@ -48,6 +48,7 @@
 #include "lib/font_config.h"
 #include "lib/job_manager.h"
 #include "lib/null_log.h"
+#include "lib/show_playlist_content_store.h"
 #include "lib/text_content.h"
 #include "lib/update_checker.h"
 #include "lib/variant.h"
@@ -59,6 +60,7 @@
 LIBDCP_DISABLE_WARNINGS
 #include <wx/display.h>
 #include <wx/preferences.h>
+#include <wx/progdlg.h>
 #include <wx/stdpaths.h>
 LIBDCP_ENABLE_WARNINGS
 
@@ -214,9 +216,7 @@ PlayerFrame::PlayerFrame()
 
 	Bind(wxEVT_CLOSE_WINDOW, boost::bind(&PlayerFrame::close, this, _1));
 
-	if (Config::instance()->enable_player_http_server()) {
-		update_content_store();
-	}
+	update_content_store();
 
 	if (Config::instance()->player_mode() == Config::PlayerMode::DUAL) {
 		_controls = new PlaylistControls(_overall_panel, this, _viewer);
@@ -227,6 +227,7 @@ PlayerFrame::PlayerFrame()
 	_viewer.set_dcp_decode_reduction(Config::instance()->decode_reduction());
 	_viewer.PlaybackPermitted.connect(bind(&PlayerFrame::playback_permitted, this));
 	_viewer.TooManyDropped.connect(bind(&PlayerFrame::too_many_frames_dropped, this));
+	_viewer.Finished.connect(boost::bind(&PlayerFrame::viewer_finished, this));
 	_info = new PlayerInformation(_overall_panel, _viewer);
 	setup_main_sizer(Config::instance()->player_mode());
 #ifdef __WXOSX__
@@ -267,7 +268,7 @@ PlayerFrame::PlayerFrame()
 	Bind(wxEVT_MENU, boost::bind(&PlayerFrame::go_to_start, this), ID_go_to_start);
 	Bind(wxEVT_MENU, boost::bind(&PlayerFrame::go_to_end,   this), ID_go_to_end);
 
-	reset_film();
+	take_playlist_entry();
 
 	UpdateChecker::instance()->StateChanged.connect(boost::bind(&PlayerFrame::update_checker_state_changed, this));
 	setup_screen();
@@ -324,14 +325,14 @@ PlayerFrame::setup_main_sizer(Config::PlayerMode mode)
 bool
 PlayerFrame::playback_permitted()
 {
-	if (!_film || !Config::instance()->respect_kdm_validity_periods()) {
+	if (!Config::instance()->respect_kdm_validity_periods()) {
 		return true;
 	}
 
 	bool ok = true;
-	for (auto i: _film->content()) {
-		auto d = dynamic_pointer_cast<DCPContent>(i);
-		if (d && !d->kdm_timing_window_valid()) {
+	for (auto content: _playlist) {
+		auto dcp = dynamic_pointer_cast<DCPContent>(content.first);
+		if (dcp && !dcp->kdm_timing_window_valid()) {
 			ok = false;
 		}
 	}
@@ -379,39 +380,30 @@ PlayerFrame::set_decode_reduction(optional<int> reduction)
 void
 PlayerFrame::load_dcp(boost::filesystem::path dir)
 {
-	DCPOMATIC_ASSERT(_film);
-
-	auto film = std::make_shared<Film>(optional<boost::filesystem::path>());
-
 	try {
 		_stress.set_suspended(true);
 
 		/* Handler to set things up once the DCP has been examined */
-		auto setup = [this](weak_ptr<Film> weak_film, weak_ptr<Job> weak_job, weak_ptr<Content> weak_content)
+		auto setup = [this](weak_ptr<Job> weak_job, weak_ptr<Content> weak_content)
 		{
 			auto job = weak_job.lock();
 			if (!job || !job->finished_ok()) {
 				return;
 			}
 
-			auto content = weak_content.lock();
-			if (!content) {
-				return;
+			if (auto content = weak_content.lock()) {
+				_playlist = { make_pair(content, boost::optional<float>()) };
+				_playlist_position = 0;
+				_controls->playlist_changed();
+				take_playlist_entry();
 			}
 
-			auto film = weak_film.lock();
-			if (!film) {
-				return;
-			}
-
-			film->add_content({content});
 			_stress.set_suspended(false);
-			reset_film(film);
 		};
 
 		auto dcp = make_shared<DCPContent>(dir);
 		auto job = make_shared<ExamineContentJob>(vector<shared_ptr<Content>>{dcp}, true);
-		_examine_job_connection = job->Finished.connect(boost::bind<void>(setup, weak_ptr<Film>(film), weak_ptr<Job>(job), weak_ptr<Content>(dcp)));
+		_examine_job_connection = job->Finished.connect(boost::bind<void>(setup, weak_ptr<Job>(job), weak_ptr<Content>(dcp)));
 		JobManager::instance()->add(job);
 		bool const ok = display_progress(variant::wx::dcpomatic_player(), _("Loading content"));
 		if (ok && report_errors_from_last_job(this)) {
@@ -433,19 +425,6 @@ PlayerFrame::load_dcp(boost::filesystem::path dir)
 	} catch (DCPError& e) {
 		error_dialog(this, wxString::Format(_("Could not load a DCP from %s"), std_to_wx(dir.string())), std_to_wx(e.what()));
 	}
-}
-
-
-void
-PlayerFrame::reset_film(shared_ptr<Film> film, optional<float> crop_to_ratio)
-{
-	_film = film;
-
-	if (!crop_to_ratio) {
-		crop_to_ratio = Config::instance()->player_crop_output_ratio();
-	}
-
-	prepare_to_play_film(crop_to_ratio);
 }
 
 
@@ -553,13 +532,9 @@ PlayerFrame::prepare_to_play_film(optional<float> crop_to_ratio)
 void
 PlayerFrame::set_audio_delay_from_config()
 {
-	if (!_film) {
-		return;
-	}
-
-	for (auto i: _film->content()) {
-		if (i->audio) {
-			i->audio->set_delay(Config::instance()->player_audio_delay());
+	for (auto content: _playlist) {
+		if (content.first->audio) {
+			content.first->audio->set_delay(Config::instance()->player_audio_delay());
 		}
 	}
 }
@@ -596,8 +571,11 @@ PlayerFrame::idle()
 void
 PlayerFrame::examine_content()
 {
-	DCPOMATIC_ASSERT(_film);
-	auto dcp = dynamic_pointer_cast<DCPContent>(_film->content().front());
+	if (_playlist.empty()) {
+		return;
+	}
+
+	auto dcp = dynamic_pointer_cast<DCPContent>(_playlist.front().first);
 	DCPOMATIC_ASSERT(dcp);
 	dcp->examine({}, true);
 
@@ -761,9 +739,8 @@ PlayerFrame::file_add_ov()
 	}
 
 	if (r == wxID_OK) {
-		DCPOMATIC_ASSERT(_film);
-		DCPOMATIC_ASSERT(!_film->content().empty());
-		auto dcp = std::dynamic_pointer_cast<DCPContent>(_film->content().front());
+		DCPOMATIC_ASSERT(!_playlist.empty());
+		auto dcp = std::dynamic_pointer_cast<DCPContent>(_playlist.front().first);
 		DCPOMATIC_ASSERT(dcp);
 
 		try {
@@ -774,7 +751,7 @@ PlayerFrame::file_add_ov()
 		}
 
 		auto job = make_shared<ExamineContentJob>(vector<shared_ptr<Content>>{dcp}, true);
-		_examine_job_connection = job->Finished.connect(boost::bind(&PlayerFrame::prepare_to_play_film, this, Config::instance()->player_crop_output_ratio()));
+		_examine_job_connection = job->Finished.connect(boost::bind(&PlayerFrame::take_playlist_entry, this));
 		JobManager::instance()->add(job);
 
 		display_progress(variant::wx::dcpomatic_player(), _("Loading content"));
@@ -789,21 +766,19 @@ PlayerFrame::file_add_kdm()
 	FileDialog dialog(this, _("Select KDM"), char_to_wx("XML files|*.xml|All files|*.*"), wxFD_MULTIPLE, "AddKDMPath");
 
 	if (dialog.show()) {
-		DCPOMATIC_ASSERT(_film);
-		auto dcp = std::dynamic_pointer_cast<DCPContent>(_film->content().front());
+		DCPOMATIC_ASSERT(!_playlist.empty());
+		auto dcp = std::dynamic_pointer_cast<DCPContent>(_playlist.front().first);
 		DCPOMATIC_ASSERT(dcp);
 		try {
-			if (dcp) {
-				dcp::ScopeGuard sg([this]() {
-					_viewer.set_coalesce_player_changes(false);
-				});
-				_viewer.set_coalesce_player_changes(true);
-				for (auto path: dialog.paths()) {
-					dcp->add_kdm(dcp::EncryptedKDM(dcp::file_to_string(path)));
-					_kdms.push_back(path);
-				}
-				examine_content();
+			dcp::ScopeGuard sg([this]() {
+				_viewer.set_coalesce_player_changes(false);
+			});
+			_viewer.set_coalesce_player_changes(true);
+			for (auto path: dialog.paths()) {
+				dcp->add_kdm(dcp::EncryptedKDM(dcp::file_to_string(path)));
+				_kdms.push_back(path);
 			}
+			examine_content();
 		} catch (exception& e) {
 			error_dialog(this, wxString::Format(_("Could not load KDM.")), std_to_wx(e.what()));
 			return;
@@ -871,7 +846,11 @@ PlayerFrame::file_history(wxCommandEvent& event)
 void
 PlayerFrame::file_close()
 {
-	reset_film();
+	_playlist.clear();
+	_playlist_position = 0;
+	_controls->playlist_changed();
+
+	take_playlist_entry();
 	_info->triggered_update();
 	set_menu_sensitivity();
 }
@@ -901,7 +880,8 @@ PlayerFrame::edit_preferences()
 void
 PlayerFrame::view_cpl(wxCommandEvent& ev)
 {
-	auto dcp = std::dynamic_pointer_cast<DCPContent>(_film->content().front());
+	DCPOMATIC_ASSERT(!_playlist.empty());
+	auto dcp = std::dynamic_pointer_cast<DCPContent>(_playlist.front().first);
 	DCPOMATIC_ASSERT(dcp);
 	auto cpls = dcp->cpls();
 	int id = ev.GetId() - ID_view_cpl;
@@ -1041,8 +1021,8 @@ PlayerFrame::view_closed_captions()
 void
 PlayerFrame::tools_verify()
 {
-	DCPOMATIC_ASSERT(!_film->content().empty());
-	auto dcp = std::dynamic_pointer_cast<DCPContent>(_film->content().front());
+	DCPOMATIC_ASSERT(!_playlist.empty());
+	auto dcp = std::dynamic_pointer_cast<DCPContent>(_playlist.front().first);
 	DCPOMATIC_ASSERT(dcp);
 
 	VerifyDCPDialog dialog(this, _("Verify DCP"), dcp->directories(), _kdms);
@@ -1053,8 +1033,8 @@ PlayerFrame::tools_verify()
 void
 PlayerFrame::tools_audio_graph()
 {
-	DCPOMATIC_ASSERT(!_film->content().empty());
-	auto dcp = std::dynamic_pointer_cast<DCPContent>(_film->content().front());
+	DCPOMATIC_ASSERT(!_playlist.empty());
+	auto dcp = std::dynamic_pointer_cast<DCPContent>(_playlist.front().first);
 	DCPOMATIC_ASSERT(dcp);
 
 	_audio_dialog.reset(this, _film, dcp);
@@ -1265,7 +1245,7 @@ PlayerFrame::update_from_config(Config::Property prop)
 void
 PlayerFrame::set_menu_sensitivity()
 {
-	auto const have_content = _film && !_film->content().empty();
+	auto const have_content = !_playlist.empty();
 	auto const dcp = _viewer.dcp();
 	auto const playable = dcp && !dcp->needs_assets() && !dcp->needs_kdm();
 	_tools_verify->Enable(have_content);
@@ -1322,3 +1302,276 @@ PlayerFrame::go_to_end()
 {
 	_viewer.seek(_film->length() - _viewer.one_video_frame(), true);
 }
+
+static
+optional<dcp::EncryptedKDM>
+get_kdm_from_directory(shared_ptr<DCPContent> dcp)
+{
+	using namespace boost::filesystem;
+	auto kdm_dir = Config::instance()->player_kdm_directory();
+	if (!kdm_dir) {
+		return {};
+	}
+	for (auto i: directory_iterator(*kdm_dir)) {
+		try {
+			if (file_size(i.path()) < MAX_KDM_SIZE) {
+				dcp::EncryptedKDM kdm(dcp::file_to_string(i.path()));
+				if (kdm.cpl_id() == dcp->cpl()) {
+					return kdm;
+				}
+			}
+		} catch (std::exception& e) {
+			/* Hey well */
+		}
+	}
+
+	return {};
+}
+
+
+bool
+PlayerFrame::set_playlist(vector<ShowPlaylistEntry> playlist)
+{
+	bool was_playing = false;
+	if (_viewer.playing()) {
+		was_playing = true;
+		_viewer.stop();
+	}
+
+	wxProgressDialog dialog(variant::wx::dcpomatic(), _("Loading playlist and KDMs"));
+
+	_playlist.clear();
+	_playlist_position = 0;
+
+	auto const store = ShowPlaylistContentStore::instance();
+	for (auto const& entry: playlist) {
+		dialog.Pulse();
+		auto content = store->get(entry);
+		if (!content) {
+			error_dialog(this, _("This playlist cannot be loaded as some content is missing."));
+			_playlist.clear();
+			_controls->playlist_changed();
+			return false;
+		}
+
+		auto dcp = dynamic_pointer_cast<DCPContent>(content);
+		if (dcp && dcp->needs_kdm()) {
+			optional<dcp::EncryptedKDM> kdm;
+			kdm = get_kdm_from_directory(dcp);
+			if (kdm) {
+				try {
+					dcp->add_kdm(*kdm);
+					dcp->examine(shared_ptr<Job>(), true);
+				} catch (KDMError& e) {
+					error_dialog(this, _("Could not load KDM."));
+				}
+			}
+			if (dcp->needs_kdm()) {
+				/* We didn't get a KDM for this */
+				error_dialog(this, _("This playlist cannot be loaded as a KDM is missing or incorrect."));
+				_playlist.clear();
+				_controls->playlist_changed();
+				return false;
+			}
+		}
+		_playlist.push_back({content, entry.crop_to_ratio()});
+	}
+
+	take_playlist_entry();
+
+	if (was_playing) {
+		_viewer.start();
+	}
+
+	_controls->playlist_changed();
+
+	return true;
+}
+
+
+/** Stop the viewer, take the thing at _playlist_position and prepare to play it.
+ *  Set up to play nothing if the playlist is empty, or we're off the
+ *  end of it.
+ *  @return true if the viewer was playing when this method was called.
+ */
+bool
+PlayerFrame::take_playlist_entry()
+{
+	boost::optional<float> crop_to_ratio;
+
+	if (_playlist_position < 0 || _playlist_position >= static_cast<int>(_playlist.size())) {
+		_film = std::make_shared<Film>(boost::none);
+	} else {
+		auto const entry = _playlist[_playlist_position];
+
+		_film = std::make_shared<Film>(optional<boost::filesystem::path>());
+		_film->add_content({entry.first});
+
+		if (!entry.second) {
+			crop_to_ratio = Config::instance()->player_crop_output_ratio();
+		}
+	}
+
+	bool const playing = _viewer.playing();
+	if (playing) {
+		_viewer.stop();
+	}
+
+	/* Start off as Flat */
+	auto auto_ratio = Ratio::from_id("185");
+
+	_film->set_audio_channels(MAX_DCP_AUDIO_CHANNELS);
+
+	for (auto i: _film->content()) {
+		auto dcp = dynamic_pointer_cast<DCPContent>(i);
+
+		copy_dcp_markers_to_film(dcp, _film);
+
+		for (auto j: i->text) {
+			j->set_use(true);
+		}
+
+		if (i->video && i->video->size()) {
+			auto const r = Ratio::nearest_from_ratio(i->video->size()->ratio());
+			if (r.id() == "239") {
+				/* Any scope content means we use scope */
+				auto_ratio = r;
+			}
+		}
+
+		/* Any 3D content means we use 3D mode */
+		if (i->video && i->video->frame_type() != VideoFrameType::TWO_D) {
+			_film->set_three_d(true);
+		}
+
+		if (dcp->video_frame_rate()) {
+			_film->set_video_frame_rate(dcp->video_frame_rate().get());
+		}
+
+		switch (dcp->video_encoding().get_value_or(VideoEncoding::JPEG2000)) {
+		case VideoEncoding::JPEG2000:
+			_viewer.set_optimisation(Optimisation::JPEG2000);
+			break;
+		case VideoEncoding::MPEG2:
+			_viewer.set_optimisation(Optimisation::MPEG2);
+			break;
+		case VideoEncoding::COUNT:
+			DCPOMATIC_ASSERT(false);
+		}
+	}
+
+	set_audio_delay_from_config();
+
+	auto old = _cpl_menu->GetMenuItems();
+	for (auto const& i: old) {
+		_cpl_menu->Remove(i);
+	}
+
+	if (_film->content().size() == 1) {
+		/* Offer a CPL menu */
+		if (auto first = dynamic_pointer_cast<DCPContent>(_film->content().front())) {
+			int id = ID_view_cpl;
+			for (auto i: dcp::find_and_resolve_cpls(first->directories(), true)) {
+				auto j = _cpl_menu->AppendRadioItem(
+					id,
+					wxString::Format(char_to_wx("%s (%s)"), std_to_wx(i->content_title_text()).data(), std_to_wx(i->id()).data())
+					);
+				j->Check(!first->cpl() || i->id() == *first->cpl());
+				++id;
+			}
+		}
+
+		if (crop_to_ratio) {
+			auto size = _film->content()[0]->video->size().get_value_or({1998, 1080});
+			int pixels = 0;
+			if (*crop_to_ratio > (2048.0 / 1080.0)) {
+				pixels = (size.height - (size.width / *crop_to_ratio)) / 2;
+				_film->content()[0]->video->set_crop(Crop{0, 0, std::max(0, pixels), std::max(0, pixels)});
+			} else {
+				pixels = (size.width - (size.height * *crop_to_ratio)) / 2;
+				_film->content()[0]->video->set_crop(Crop{std::max(0, pixels), std::max(0, pixels), 0, 0});
+			}
+		}
+	}
+
+	if (crop_to_ratio) {
+		_film->set_container(Ratio(*crop_to_ratio, "custom", "custom", {}, "custom"));
+	} else {
+		_film->set_container(auto_ratio);
+	}
+
+	_viewer.set_film(_film);
+	_viewer.seek(DCPTime(), true);
+	_viewer.set_eyes(_view_eye_left->IsChecked() ? Eyes::LEFT : Eyes::RIGHT);
+	_info->triggered_update();
+	set_menu_sensitivity();
+
+	_controls->set_film(_film);
+	return playing;
+}
+
+
+void
+PlayerFrame::viewer_finished()
+{
+	_playlist_position++;
+
+	/* Either get the next piece of content, or go black */
+	take_playlist_entry();
+
+	if (_playlist_position < static_cast<int>(_playlist.size())) {
+		/* Start the next piece of content */
+		_viewer.start();
+	} else {
+		/* Be ready to start again from the top of the playlist */
+		_playlist_position = 0;
+	}
+}
+
+
+
+bool
+PlayerFrame::can_do_next() const
+{
+	return _playlist_position < (static_cast<int>(_playlist.size()) - 1);
+}
+
+
+void
+PlayerFrame::next()
+{
+	_playlist_position++;
+	if (take_playlist_entry()) {
+		_viewer.start();
+	}
+}
+
+
+bool
+PlayerFrame::can_do_previous() const
+{
+	return _playlist_position > 0;
+}
+
+
+void
+PlayerFrame::previous()
+{
+	_playlist_position--;
+	if (take_playlist_entry()) {
+		_viewer.start();
+	}
+}
+
+
+vector<shared_ptr<Content>>
+PlayerFrame::playlist() const
+{
+	vector<shared_ptr<Content>> content;
+	for (auto entry: _playlist) {
+		content.push_back(entry.first);
+	}
+	return content;
+}
+
+

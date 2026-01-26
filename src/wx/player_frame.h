@@ -26,6 +26,7 @@
 #include "wx_ptr.h"
 #include "lib/config.h"
 #include "lib/http_server.h"
+#include "lib/show_playlist_entry.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/dnd.h>
@@ -65,13 +66,22 @@ public:
 	void too_many_frames_dropped();
 	void set_decode_reduction(boost::optional<int> reduction);
 	void load_dcp(boost::filesystem::path dir);
-	void reset_film(std::shared_ptr<Film> film = std::make_shared<Film>(boost::none), boost::optional<float> crop_to_ratio = {});
 
-	/* _film is now something new: set up to play it */
-	void prepare_to_play_film(boost::optional<float> crop_to_ratio);
 	void set_audio_delay_from_config();
 	void load_stress_script(boost::filesystem::path path);
 	void idle();
+
+	/** Set the playlist.  If we're currently playing, this will stop whatever is
+	 *  happening now and start playing this playlist.
+	 */
+	bool set_playlist(std::vector<ShowPlaylistEntry> playlist);
+
+	std::vector<std::shared_ptr<Content>> playlist() const;
+
+	bool can_do_next() const;
+	void next();
+	bool can_do_previous() const;
+	void previous();
 
 private:
 	void examine_content();
@@ -115,6 +125,10 @@ private:
 	void go_to_start();
 	void go_to_end();
 
+	bool take_playlist_entry();
+	void prepare_to_play_film(boost::optional<float> crop_to_ratio);
+	void viewer_finished();
+
 	wxFrame* _dual_screen = nullptr;
 	bool _update_news_requested = false;
 	PlayerInformation* _info = nullptr;
@@ -134,6 +148,8 @@ private:
 	Controls* _controls;
 	wx_ptr<SystemInformationDialog> _system_information_dialog;
 	std::shared_ptr<Film> _film;
+	std::vector<std::pair<std::shared_ptr<Content>, boost::optional<float>>> _playlist;
+	int _playlist_position = 0;
 	boost::signals2::scoped_connection _config_changed_connection;
 	boost::signals2::scoped_connection _examine_job_connection;
 	wxMenuItem* _file_add_ov = nullptr;
