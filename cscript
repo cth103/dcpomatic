@@ -513,7 +513,7 @@ def dependencies(target, options):
         deps.append(('openssl', '54298369cacfe0ae01c5aa42ace8a463fd2e7a2e'))
         deps.append(('rtaudio', 'f619b76'))
     if can_build_disk(target):
-        deps.append(('lwext4', 'ab082923a791b58478d1d9939d65a0583566ac1f'))
+        deps.append(('lwext4', '5755f8f25aadf18ec49e0350b6daaab3a648b9d7'))
     if build_tests(target):
         deps.append(('ffcmp', '3fe689acaa71e6a355eb03d59f76d4c3dbf1d5b9'))
 
