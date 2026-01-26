@@ -24,33 +24,6 @@ function stop() {
 	fetch("/api/v1/stop", { method: "POST" });
 }
 
-function selectedPlaylistId()
-{
-	var children = document.getElementById("content-and-playlists-inner").children;
-	for (var i = 0; i < children.length; i++) {
-		if (children[i].classList.contains("selected")) {
-			return children[i].uuid;
-		}
-	}
-
-	return null;
-}
-
-
-function setSelectedPlaylist(uuid)
-{
-	var children = document.getElementById("content-and-playlists-inner").children;
-	for (var i = 0; i < children.length; i++) {
-		var child = children[i];
-		if (child.uuid == uuid) {
-			child.classList.add("selected");
-		} else {
-			child.classList.remove("selected");
-		}
-	}
-};
-
-	
 // Fetch all playlists and put them in the shared content/playlists div
 function showPlaylists()
 {
@@ -67,7 +40,20 @@ function showPlaylists()
 				li.appendChild(document.createTextNode(playlist.name));
 				li.uuid = playlist['uuid'];
 				li.onclick = function() {
-					setSelectedPlaylist(playlist['uuid']);
+					fetch("/api/v1/playlist/" + playlist['uuid']).then(response => {
+						response.json().then(data => {
+							var nextPlaylist = document.getElementById('next-playlist');
+							nextPlaylist.innerHTML = "";
+							var ul = document.createElement("ul");
+							nextPlaylist.appendChild(ul);
+							data.content.forEach(content => {
+								var li = document.createElement("li");
+								li.appendChild(document.createTextNode(content.name));
+								ul.appendChild(li);
+							});
+							console.log(data);
+						})
+					});
 				};
 				document.getElementById('content-and-playlists-inner').appendChild(li);
 			});
@@ -159,6 +145,8 @@ li.playlist.selected {
 
 SIDEBAR
 
+<div style="margin-left: 15%;">
+
 <div id="controls" style="float: left; width: 20%;">
 	<button name="play" value="play" onclick="play()">Play</button>
 	<button name="stop" value="stop" onclick="stop()">Stop</button>
@@ -169,14 +157,29 @@ SIDEBAR
 	</table>
 </div>
 
-<div id="current-playlist" style="float: left; width: 20%;">
-Current playlist:
+<div style="float: right; width: 70%;">
+
+<div style="float: right; width: 100%;">
+Next playlist:
+<div id="next-playlist" style="width: 100%; height: 40vh;">
+</div>
 </div>
 
-<div id="content-and-playlists" style="float: left; width: 20%;">
+<div style="float: right; width: 100%; margin-top: 4em;">
+Current playlist:
+<div id="current-playlist" style="width: 100%; height: 10vh;">
+</div>
+</div>
+
+</div>
+
+<div id="content-and-playlists" style="float: left; width: 20%; left-margin: 10%;">
 <div id="playlists-tab" onclick="showPlaylists();" class="tab selected">Playlists</div>
 <div id="content-tab" onclick="showContent();" class="tab">Content</div>
 <div id="content-and-playlists-inner" style="margin-top: 5pt; margin-bottom: 5pt;"></div>
 </div>
+
+</div>
+
 </body>
 </html>

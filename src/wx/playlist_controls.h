@@ -41,8 +41,7 @@ class PlaylistControls : public Controls
 public:
 	PlaylistControls(wxWindow* parent, dcpomatic::ui::PlayerFrame* player, FilmViewer& viewer);
 
-	void play() override;
-	void stop() override;
+	void playlist_changed() override;
 
 private:
 	void play_clicked();
@@ -50,21 +49,20 @@ private:
 	void stop_clicked();
 	void next_clicked();
 	void previous_clicked();
-	void add_playlist_to_list(ShowPlaylist spl);
-	void update_content_directory();
+
 	void update_playlists();
-	void spl_selection_changed();
-	void select_playlist(ShowPlaylistID selected, int position);
+	void playlist_selection_changed();
+
+	void config_changed(int) override;
 	void started() override;
 	void stopped() override;
+
 	void setup_sensitivity() override;
-	void config_changed(int) override;
-	void viewer_finished();
-	void reset_film();
-	void update_current_content();
-	bool can_do_previous();
-	bool can_do_next();
-	void deselect_playlist();
+
+	void add_playlist_to_list(ShowPlaylist spl);
+	void add_next_playlist_entry(ShowPlaylistEntry entry);
+	void clear_next_playlist();
+	void content_activated(std::weak_ptr<Content> content);
 
 	boost::optional<dcp::EncryptedKDM> get_kdm_from_directory(std::shared_ptr<DCPContent> dcp);
 
@@ -78,11 +76,15 @@ private:
 
 	ContentView* _content_view;
 	wxButton* _refresh_content_view;
-	wxListCtrl* _spl_view;
-	wxButton* _refresh_spl_view;
-	wxListCtrl* _current_spl_view;
+	wxListCtrl* _playlists_view;
+	wxButton* _refresh_playlists_view;
+	wxListCtrl* _next_playlist_view;
+	wxButton* _clear_next_playlist;
+
+	wxListCtrl* _current_playlist_view;
 
 	std::unique_ptr<ShowPlaylistList> _playlists;
-	boost::optional<ShowPlaylistID> _selected_playlist;
-	int _selected_playlist_position;
+	std::vector<ShowPlaylistEntry> _next_playlist;
+
+	bool _paused = false;
 };
