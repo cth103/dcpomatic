@@ -24,6 +24,7 @@
 LIBDCP_DISABLE_WARNINGS
 #include <wx/listctrl.h>
 LIBDCP_ENABLE_WARNINGS
+#include <boost/signals2.hpp>
 #include <vector>
 
 
@@ -39,8 +40,11 @@ public:
 	std::shared_ptr<Content> selected () const;
 	void update ();
 
+	boost::signals2::signal<void (std::weak_ptr<Content>)> Activated;
+
 private:
 	void add (std::shared_ptr<Content> content);
+	void activated(wxListEvent& ev);
 
 	std::weak_ptr<Film> _film;
 	std::vector<std::shared_ptr<Content>> _content;

@@ -87,18 +87,3 @@ StandardControls::setup_sensitivity ()
 	_play_button->Enable (_film && !_film->content().empty() && !active_job);
 }
 
-
-void
-StandardControls::play ()
-{
-	_play_button->SetValue (true);
-	play_clicked ();
-}
-
-
-void
-StandardControls::stop ()
-{
-	_play_button->SetValue (false);
-	play_clicked ();
-}
