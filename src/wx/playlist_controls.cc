@@ -52,7 +52,11 @@ using std::shared_ptr;
 using std::sort;
 using std::string;
 using std::vector;
+using std::weak_ptr;
 using boost::optional;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 using namespace dcpomatic;
 using namespace dcpomatic::ui;
 
@@ -72,26 +76,26 @@ PlaylistControls::PlaylistControls(wxWindow* parent, PlayerFrame* player, FilmVi
 	_button_sizer->Add(_stop_button, 0, wxEXPAND);
 	_button_sizer->Add(_next_button, 0, wxEXPAND);
 
-	_spl_view = new wxListCtrl(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT | wxLC_NO_HEADER);
-	_spl_view->AppendColumn({}, wxLIST_FORMAT_LEFT, 740);
+	_playlists_view = new wxListCtrl(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT | wxLC_NO_HEADER);
+	_playlists_view->AppendColumn({}, wxLIST_FORMAT_LEFT, 740);
 
 	auto left_sizer = new wxBoxSizer(wxVERTICAL);
-	auto e_sizer = new wxBoxSizer(wxHORIZONTAL);
+	auto h_sizer = new wxBoxSizer(wxHORIZONTAL);
 
 	wxFont subheading_font(*wxNORMAL_FONT);
 	subheading_font.SetWeight(wxFONTWEIGHT_BOLD);
 
-	auto spl_header = new wxBoxSizer(wxHORIZONTAL);
+	auto playlists_header = new wxBoxSizer(wxHORIZONTAL);
 	{
 		auto m = new StaticText(this, _("Playlists"));
 		m->SetFont(subheading_font);
-		spl_header->Add(m, 1, wxALIGN_CENTER_VERTICAL);
+		playlists_header->Add(m, 1, wxALIGN_CENTER_VERTICAL);
 	}
-	_refresh_spl_view = new Button(this, _("Refresh"));
-	spl_header->Add(_refresh_spl_view, 0, wxBOTTOM, DCPOMATIC_SIZER_GAP / 2);
+	_refresh_playlists_view = new Button(this, _("Refresh"));
+	playlists_header->Add(_refresh_playlists_view, 0, wxBOTTOM, DCPOMATIC_SIZER_GAP / 2);
 
-	left_sizer->Add(spl_header, 0, wxLEFT | wxRIGHT | wxEXPAND, DCPOMATIC_SIZER_GAP);
-	left_sizer->Add(_spl_view, 1, wxLEFT | wxRIGHT | wxBOTTOM | wxEXPAND, DCPOMATIC_SIZER_GAP);
+	left_sizer->Add(playlists_header, 0, wxLEFT | wxRIGHT | wxEXPAND, DCPOMATIC_SIZER_GAP);
+	left_sizer->Add(_playlists_view, 1, wxLEFT | wxRIGHT | wxBOTTOM | wxEXPAND, DCPOMATIC_SIZER_GAP);
 
 	_content_view = new ContentView(this);
 
@@ -107,24 +111,54 @@ PlaylistControls::PlaylistControls(wxWindow* parent, PlayerFrame* player, FilmVi
 	left_sizer->Add(content_header, 0, wxTOP | wxLEFT | wxRIGHT | wxEXPAND, DCPOMATIC_SIZER_GAP);
 	left_sizer->Add(_content_view, 1, wxLEFT | wxRIGHT | wxBOTTOM | wxEXPAND, DCPOMATIC_SIZER_GAP);
 
-	_current_spl_view = new wxListCtrl(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT | wxLC_NO_HEADER);
-	_current_spl_view->AppendColumn({}, wxLIST_FORMAT_LEFT, 500);
-	_current_spl_view->AppendColumn({}, wxLIST_FORMAT_LEFT, 80);
-	e_sizer->Add(left_sizer, 1, wxALL | wxEXPAND, DCPOMATIC_SIZER_GAP);
-	e_sizer->Add(_current_spl_view, 1, wxALL | wxEXPAND, DCPOMATIC_SIZER_GAP);
+	auto right_sizer = new wxBoxSizer(wxVERTICAL);
 
-	_v_sizer->Add(e_sizer, 1, wxEXPAND);
+	_next_playlist_view = new wxListCtrl(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT | wxLC_NO_HEADER);
+	_next_playlist_view->AppendColumn({}, wxLIST_FORMAT_LEFT, 600);
+	_next_playlist_view->AppendColumn({}, wxLIST_FORMAT_LEFT, 80);
+
+	auto next_playlist_header = new wxBoxSizer(wxHORIZONTAL);
+	{
+		auto m = new StaticText(this, _("Next playlist"));
+		m->SetFont(subheading_font);
+		next_playlist_header->Add(m, 1, wxALIGN_CENTER_VERTICAL);
+	}
+	_clear_next_playlist = new wxButton(this, wxID_ANY, _("Clear"));
+	next_playlist_header->Add(_clear_next_playlist, 0, wxBOTTOM, DCPOMATIC_SIZER_GAP / 2);
+
+	right_sizer->Add(next_playlist_header, 0, wxLEFT | wxRIGHT | wxEXPAND, DCPOMATIC_SIZER_GAP);
+	right_sizer->Add(_next_playlist_view, 1, wxLEFT | wxRIGHT | wxBOTTOM | wxEXPAND, DCPOMATIC_SIZER_GAP);
+
+	_current_playlist_view = new wxListCtrl(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT | wxLC_NO_HEADER);
+	_current_playlist_view->AppendColumn({}, wxLIST_FORMAT_LEFT, 600);
+	_current_playlist_view->AppendColumn({}, wxLIST_FORMAT_LEFT, 80);
+
+	auto current_playlist_header = new wxBoxSizer(wxHORIZONTAL);
+	{
+		auto m = new StaticText(this, _("Current playlist"));
+		m->SetFont(subheading_font);
+		current_playlist_header->Add(m, 1, wxALIGN_CENTER_VERTICAL);
+	}
+
+	right_sizer->Add(current_playlist_header, 0, wxTOP | wxBOTTOM | wxLEFT | wxRIGHT | wxEXPAND, DCPOMATIC_SIZER_GAP);
+	right_sizer->Add(_current_playlist_view, 1, wxLEFT | wxRIGHT | wxBOTTOM | wxEXPAND, DCPOMATIC_SIZER_GAP);
+
+	h_sizer->Add(left_sizer, 1, wxALL | wxEXPAND, DCPOMATIC_SIZER_GAP);
+	h_sizer->Add(right_sizer, 1, wxALL | wxEXPAND, DCPOMATIC_SIZER_GAP);
+	_v_sizer->Add(h_sizer, 1, wxEXPAND);
 
 	_play_button->Bind    (wxEVT_BUTTON, boost::bind(&PlaylistControls::play_clicked,  this));
 	_pause_button->Bind   (wxEVT_BUTTON, boost::bind(&PlaylistControls::pause_clicked, this));
 	_stop_button->Bind    (wxEVT_BUTTON, boost::bind(&PlaylistControls::stop_clicked,  this));
 	_next_button->Bind    (wxEVT_BUTTON, boost::bind(&PlaylistControls::next_clicked,  this));
 	_previous_button->Bind(wxEVT_BUTTON, boost::bind(&PlaylistControls::previous_clicked,  this));
-	_spl_view->Bind       (wxEVT_LIST_ITEM_SELECTED,   boost::bind(&PlaylistControls::spl_selection_changed, this));
-	_spl_view->Bind       (wxEVT_LIST_ITEM_DESELECTED, boost::bind(&PlaylistControls::spl_selection_changed, this));
-	_viewer.Finished.connect(boost::bind(&PlaylistControls::viewer_finished, this));
-	_refresh_spl_view->Bind(wxEVT_BUTTON, boost::bind(&PlaylistControls::update_playlists, this));
+	_playlists_view->Bind       (wxEVT_LIST_ITEM_SELECTED,   boost::bind(&PlaylistControls::playlist_selection_changed, this));
+	_playlists_view->Bind       (wxEVT_LIST_ITEM_DESELECTED, boost::bind(&PlaylistControls::playlist_selection_changed, this));
+	_refresh_playlists_view->Bind(wxEVT_BUTTON, boost::bind(&PlaylistControls::update_playlists, this));
 	_refresh_content_view->Bind(wxEVT_BUTTON, boost::bind(&ContentView::update, _content_view));
+	_clear_next_playlist->Bind(wxEVT_BUTTON, boost::bind(&PlaylistControls::clear_next_playlist, this));
+
+	_content_view->Activated.connect(boost::bind(&PlaylistControls::content_activated, this, _1));
 
 	update_playlists();
 	_content_view->update();
@@ -132,11 +166,27 @@ PlaylistControls::PlaylistControls(wxWindow* parent, PlayerFrame* player, FilmVi
 
 
 void
+PlaylistControls::clear_next_playlist()
+{
+	_next_playlist_view->DeleteAllItems();
+	_next_playlist.clear();
+}
+
+
+void
+PlaylistControls::content_activated(weak_ptr<Content> weak_content)
+{
+	if (auto content = weak_content.lock()) {
+		add_next_playlist_entry(ShowPlaylistEntry(content, {}));
+	}
+}
+
+
+void
 PlaylistControls::started()
 {
 	Controls::started();
-	_play_button->Enable(false);
-	_pause_button->Enable(true);
+	setup_sensitivity();
 }
 
 
@@ -145,27 +195,16 @@ void
 PlaylistControls::stopped()
 {
 	Controls::stopped();
-	_play_button->Enable(true);
-	_pause_button->Enable(false);
-}
-
-
-void
-PlaylistControls::deselect_playlist()
-{
-	long int const selected = _spl_view->GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
-	if (selected != -1) {
-		_selected_playlist = boost::none;
-		_spl_view->SetItemState(selected, 0, wxLIST_STATE_SELECTED);
-	}
-	_player->reset_film();
+	setup_sensitivity();
 }
 
 
 void
 PlaylistControls::play_clicked()
 {
-	_viewer.start();
+	if (_player->set_playlist(_next_playlist)) {
+		_viewer.start();
+	}
 }
 
 
@@ -173,92 +212,70 @@ void
 PlaylistControls::setup_sensitivity()
 {
 	Controls::setup_sensitivity();
-	bool const active_job = _active_job && *_active_job != "examine_content";
-	bool const c = _film && !_film->content().empty() && !active_job;
-	_play_button->Enable(c && !_viewer.playing());
-	_pause_button->Enable(_viewer.playing());
-	_spl_view->Enable(!_viewer.playing());
-	_next_button->Enable(can_do_next());
-	_previous_button->Enable(can_do_previous());
+	_play_button->Enable(!_viewer.playing() && !_paused && !_next_playlist.empty());
+	_pause_button->Enable(_viewer.playing() || _paused);
+	_stop_button->Enable(_viewer.playing() || _paused);
+	_next_button->Enable(_player->can_do_next());
+	_previous_button->Enable(_player->can_do_previous());
 }
 
 
 void
 PlaylistControls::pause_clicked()
 {
-	_viewer.stop();
+	if (_paused) {
+		_viewer.start();
+		_paused = false;
+	} else {
+		_viewer.stop();
+		_paused = true;
+	}
+	setup_sensitivity();
 }
 
 
 void
 PlaylistControls::stop_clicked()
 {
+	_paused = false;
 	_viewer.stop();
 	_viewer.seek(DCPTime(), true);
-	if (_selected_playlist) {
-		_selected_playlist_position = 0;
-		update_current_content();
-	}
-	deselect_playlist();
-}
-
-
-bool
-PlaylistControls::can_do_previous()
-{
-	return _selected_playlist && (_selected_playlist_position - 1) >= 0;
+	_player->set_playlist({});
 }
 
 
 void
 PlaylistControls::previous_clicked()
 {
-	if (!can_do_previous()) {
-		return;
-	}
-
-	_selected_playlist_position--;
-	update_current_content();
-}
-
-
-bool
-PlaylistControls::can_do_next()
-{
-	return _selected_playlist && (_selected_playlist_position + 1) < static_cast<int>(_playlists->entries(*_selected_playlist).size());
+	_player->previous();
 }
 
 
 void
 PlaylistControls::next_clicked()
 {
-	if (!can_do_next()) {
-		return;
-	}
-
-	_selected_playlist_position++;
-	update_current_content();
+	_player->next();
 }
 
 
 void
-PlaylistControls::add_playlist_to_list(ShowPlaylist spl)
+PlaylistControls::add_playlist_to_list(ShowPlaylist playlist)
 {
-	int const N = _spl_view->GetItemCount();
+	int const N = _playlists_view->GetItemCount();
 
 	wxListItem it;
 	it.SetId(N);
 	it.SetColumn(0);
-	auto id = _playlists->get_show_playlist_id(spl.uuid());
+	auto id = _playlists->get_show_playlist_id(playlist.uuid());
 	DCPOMATIC_ASSERT(id);
 	it.SetData(id->get());
-	string t = spl.name();
+	string t = playlist.name();
 
-	if (_playlists->missing(spl.uuid())) {
+	if (_playlists->missing(playlist.uuid())) {
 		t += " (content missing)";
 	}
 	it.SetText(std_to_wx(t));
-	_spl_view->InsertItem(it);
+	_playlists_view->InsertItem(it);
 }
 
 
@@ -267,14 +284,12 @@ PlaylistControls::update_playlists()
 {
 	using namespace boost::filesystem;
 
-	_spl_view->DeleteAllItems();
+	_playlists_view->DeleteAllItems();
 	_playlists.reset(new ShowPlaylistList());
 
 	for (auto i: _playlists->show_playlists()) {
 		add_playlist_to_list(i.second);
 	}
-
-	_selected_playlist = boost::none;
 }
 
 
@@ -304,20 +319,31 @@ PlaylistControls::get_kdm_from_directory(shared_ptr<DCPContent> dcp)
 
 
 void
-PlaylistControls::spl_selection_changed()
+PlaylistControls::add_next_playlist_entry(ShowPlaylistEntry entry)
 {
-	long int selected = _spl_view->GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+	wxListItem it;
+	it.SetId(_next_playlist_view->GetItemCount());
+	it.SetColumn(0);
+	it.SetText(std_to_wx(entry.name()));
+	_next_playlist_view->InsertItem(it);
+	_next_playlist.push_back(entry);
+
+	setup_sensitivity();
+}
+
+
+void
+PlaylistControls::playlist_selection_changed()
+{
+	long int selected = _playlists_view->GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
 	if (selected == -1) {
-		_current_spl_view->DeleteAllItems();
-		_selected_playlist = boost::none;
 		return;
 	}
 
-	auto const id = ShowPlaylistID(_spl_view->GetItemData(selected));
+	auto const id = ShowPlaylistID(_playlists_view->GetItemData(selected));
 
 	if (_playlists->missing(id)) {
 		error_dialog(this, _("This playlist cannot be loaded as some content is missing."));
-		deselect_playlist();
 		return;
 	}
 
@@ -326,72 +352,11 @@ PlaylistControls::spl_selection_changed()
 		return;
 	}
 
-	select_playlist(id, 0);
-}
-
-
-void
-PlaylistControls::select_playlist(ShowPlaylistID selected, int position)
-{
-	wxProgressDialog dialog(variant::wx::dcpomatic(), _("Loading playlist and KDMs"));
-
-	auto const store = ShowPlaylistContentStore::instance();
-	for (auto const& i: _playlists->entries(selected)) {
-		dialog.Pulse();
-		auto dcp = dynamic_pointer_cast<DCPContent>(store->get(i));
-		if (dcp && dcp->needs_kdm()) {
-			optional<dcp::EncryptedKDM> kdm;
-			kdm = get_kdm_from_directory(dcp);
-			if (kdm) {
-				try {
-					dcp->add_kdm(*kdm);
-					dcp->examine(shared_ptr<Job>(), true);
-				} catch (KDMError& e) {
-					error_dialog(this, _("Could not load KDM."));
-				}
-			}
-			if (dcp->needs_kdm()) {
-				/* We didn't get a KDM for this */
-				error_dialog(this, _("This playlist cannot be loaded as a KDM is missing or incorrect."));
-				deselect_playlist();
-				return;
-			}
-		}
+	_next_playlist_view->DeleteAllItems();
+	_next_playlist.clear();
+	for (auto const& i: _playlists->entries(id)) {
+		add_next_playlist_entry(i);
 	}
-
-	_current_spl_view->DeleteAllItems();
-
-	int N = 0;
-	for (auto const& i: _playlists->entries(selected)) {
-		wxListItem it;
-		it.SetId(N);
-		it.SetColumn(0);
-		it.SetText(std_to_wx(i.name()));
-		_current_spl_view->InsertItem(it);
-		++N;
-	}
-
-	_selected_playlist = selected;
-	_selected_playlist_position = position;
- 	dialog.Pulse();
-	reset_film();
- 	dialog.Pulse();
-	update_current_content();
-}
-
-
-void
-PlaylistControls::reset_film()
-{
-	DCPOMATIC_ASSERT(_selected_playlist);
-
-	auto film = std::make_shared<Film>(optional<boost::filesystem::path>());
-
-	auto const entries = _playlists->entries(*_selected_playlist);
-	DCPOMATIC_ASSERT(_selected_playlist_position < static_cast<int>(entries.size()));
-	auto const entry = entries[_selected_playlist_position];
-	film->add_content(vector<shared_ptr<Content>>{ShowPlaylistContentStore::instance()->get(entry)});
-	_player->reset_film(film, entry.crop_to_ratio());
 }
 
 
@@ -409,50 +374,18 @@ PlaylistControls::config_changed(int property)
 
 
 void
-PlaylistControls::update_current_content()
+PlaylistControls::playlist_changed()
 {
-	DCPOMATIC_ASSERT(_selected_playlist);
+	_current_playlist_view->DeleteAllItems();
 
-	wxProgressDialog dialog(variant::wx::dcpomatic(), _("Loading content"));
-
-	setup_sensitivity();
-	dialog.Pulse();
-	reset_film();
-}
-
-
-/** One piece of content in our SPL has finished playing */
-void
-PlaylistControls::viewer_finished()
-{
-	if (!_selected_playlist) {
-		return;
-	}
-
-	_selected_playlist_position++;
-	if (_selected_playlist_position < int(_playlists->entries(*_selected_playlist).size())) {
-		/* Next piece of content on the SPL */
-		update_current_content();
-		_viewer.start();
-	} else {
-		/* Finished the whole SPL */
-		_selected_playlist_position = 0;
-		_player->reset_film();
-		_play_button->Enable(true);
-		_pause_button->Enable(false);
+	int N = 0;
+	for (auto content: _player->playlist()) {
+		wxListItem it;
+		it.SetId(N++);
+		it.SetColumn(0);
+		ShowPlaylistEntry entry(content, {});
+		it.SetText(std_to_wx(entry.name()));
+		_current_playlist_view->InsertItem(it);
 	}
 }
 
-
-void
-PlaylistControls::play()
-{
-	play_clicked();
-}
-
-
-void
-PlaylistControls::stop()
-{
-	stop_clicked();
-}
