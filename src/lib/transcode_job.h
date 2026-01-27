@@ -52,7 +52,7 @@ public:
 		IGNORE
 	};
 
-	explicit TranscodeJob(std::shared_ptr<const Film> film, ChangedBehaviour changed);
+	TranscodeJob(std::shared_ptr<const Film> film, ChangedBehaviour changed);
 	~TranscodeJob();
 
 	std::string name() const override;
