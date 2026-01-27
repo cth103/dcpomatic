@@ -47,7 +47,7 @@ SendProblemReportJob::SendProblemReportJob(
 	string from,
 	string summary
 	)
-	: Job(film)
+	: _film(film)
 	, _from(from)
 	, _summary(summary)
 {

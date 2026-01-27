@@ -45,6 +45,7 @@ public:
 private:
 	void analyse(PlayerText const& text, TextType type);
 
+	std::shared_ptr<const Film> _film;
 	std::weak_ptr<Content> _content;
 	boost::filesystem::path _path;
 	boost::optional<dcpomatic::Rect<double>> _bounding_box;

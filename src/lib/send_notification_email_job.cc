@@ -33,8 +33,7 @@ using std::shared_ptr;
 
 /** @param body Email body */
 SendNotificationEmailJob::SendNotificationEmailJob (string body)
-	: Job (shared_ptr<Film>())
-	, _body (body)
+	: _body(body)
 {
 
 }

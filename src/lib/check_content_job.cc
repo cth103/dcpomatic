@@ -40,7 +40,7 @@ using std::string;
 
 
 CheckContentJob::CheckContentJob(shared_ptr<const Film> film)
-	: Job(film)
+	: _film(film)
 {
 
 }
