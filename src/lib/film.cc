@@ -1551,12 +1551,15 @@ Film::maybe_add_content(weak_ptr<Job> j, vector<weak_ptr<Content>> const& weak_c
 	}
 }
 
+
 void
 Film::add_content(vector<shared_ptr<Content>> const& content)
 {
 	bool any_atmos = false;
 
 	for (auto c: content) {
+		c->prepare_for_add_to_film(shared_from_this());
+
 		if (_template_film) {
 			/* Take settings from the first piece of content of c's type in _template */
 			for (auto i: _template_film->content()) {

@@ -300,15 +300,9 @@ FFmpegContent::examine(shared_ptr<const Film> film, shared_ptr<Job> job, bool to
 
 		if (!examiner->audio_streams().empty()) {
 			audio = make_shared<AudioContent>(this);
-
 			for (auto i: examiner->audio_streams()) {
 				audio->add_stream(i);
 			}
-
-			auto as = audio->streams().front();
-			auto m = as->mapping();
-			m.make_default(film ? film->audio_processor() : 0, first_path);
-			as->set_mapping(m);
 		}
 
 		_subtitle_streams = examiner->subtitle_streams();
@@ -332,6 +326,23 @@ FFmpegContent::examine(shared_ptr<const Film> film, shared_ptr<Job> job, bool to
 		video->set_length(video->length() * 24.0 / 30);
 	}
 }
+
+
+void
+FFmpegContent::prepare_for_add_to_film(shared_ptr<const Film> film)
+{
+	auto first_path = path(0);
+
+	boost::mutex::scoped_lock lm(_mutex);
+
+	if (audio && !audio->streams().empty()) {
+		auto as = audio->streams().front();
+		auto m = as->mapping();
+		m.make_default(film->audio_processor(), first_path);
+		as->set_mapping(m);
+	}
+}
+
 
 
 string

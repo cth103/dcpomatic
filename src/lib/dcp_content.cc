@@ -280,11 +280,10 @@ DCPContent::examine(shared_ptr<const Film> film, shared_ptr<Job> job, bool toler
 			boost::mutex::scoped_lock lm(_mutex);
 			audio = make_shared<AudioContent>(this);
 		}
-		auto as = make_shared<AudioStream>(examiner->audio_frame_rate(), examiner->audio_length(), examiner->audio_channels(), 24);
-		audio->set_stream(as);
-		auto m = as->mapping();
-		m.make_default(film ? film->audio_processor() : 0);
-		as->set_mapping(m);
+
+		audio->set_stream(
+			make_shared<AudioStream>(examiner->audio_frame_rate(), examiner->audio_length(), examiner->audio_channels(), 24)
+		);
 
 		_active_audio_channels = examiner->active_audio_channels();
 		_audio_language = examiner->audio_language();
@@ -373,6 +372,21 @@ DCPContent::examine(shared_ptr<const Film> film, shared_ptr<Job> job, bool toler
 		video->set_frame_type(_three_d ? VideoFrameType::THREE_D : VideoFrameType::TWO_D);
 	}
 }
+
+
+void
+DCPContent::prepare_for_add_to_film(shared_ptr<const Film> film)
+{
+	boost::mutex::scoped_lock lm(_mutex);
+
+	if (audio) {
+		auto as = audio->stream();
+		auto m = as->mapping();
+		m.make_default(film->audio_processor());
+		as->set_mapping(m);
+	}
+}
+
 
 string
 DCPContent::summary() const

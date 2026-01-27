@@ -70,11 +70,7 @@ ImageExaminer::ImageExaminer (shared_ptr<const Film> film, shared_ptr<const Imag
 		_has_alpha = image.image->has_alpha();
 	}
 
-	if (content->still ()) {
-		_video_length = Config::instance()->default_still_length() * video_frame_rate().get_value_or (film->video_frame_rate ());
-	} else {
-		_video_length = _image_content->number_of_paths ();
-	}
+	_video_length = _image_content->number_of_paths();
 }
 
 
