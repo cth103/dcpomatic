@@ -47,7 +47,7 @@ void
 DCPTranscodeJob::post_transcode ()
 {
 	if (Config::instance()->upload_after_make_dcp()) {
-		JobManager::instance()->add(make_shared<UploadJob>(_film));
+		JobManager::instance()->add(make_shared<UploadJob>(_film->dir(_film->dcp_name())));
 	}
 
 	/* The first directory is the project's DCP, so the first CPL will also be from the project
