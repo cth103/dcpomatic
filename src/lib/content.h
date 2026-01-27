@@ -93,6 +93,9 @@ public:
 	 */
 	virtual void examine(std::shared_ptr<const Film> film, std::shared_ptr<Job> job, bool tolerant);
 
+	/** Adapt anything about this content just before it's added to the given film */
+	virtual void prepare_for_add_to_film(std::shared_ptr<const Film>) {}
+
 	virtual void take_settings_from(std::shared_ptr<const Content> c);
 
 	/** @return Quick one-line summary of the content, as will be presented in the
