@@ -203,7 +203,7 @@ BOOST_AUTO_TEST_CASE(no_closed_caption_hint_with_trimmed_away_captions)
 	content->text.front()->set_type(TextType::CLOSED_CAPTION);
 	film->examine_and_add_content({content});
 	BOOST_REQUIRE(!wait_for_jobs());
-	content->set_trim_start(film, dcpomatic::ContentTime::from_seconds(content->full_length(film).seconds()));
+	content->set_trim_start(dcpomatic::ContentTime::from_seconds(content->full_length(film).seconds()));
 	auto const hints = get_hints(film);
 	BOOST_CHECK_MESSAGE(!has_hint(hints, NO_TRACK), name << " no track");
 	BOOST_CHECK_MESSAGE(!has_hint(hints, NO_LANGUAGE), name << " no language");

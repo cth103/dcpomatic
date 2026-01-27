@@ -90,11 +90,11 @@ AudioMXFContent::valid_mxf(boost::filesystem::path path)
 
 
 void
-AudioMXFContent::examine(shared_ptr<const Film> film, shared_ptr<Job> job, bool tolerant)
+AudioMXFContent::examine(shared_ptr<Job> job, bool tolerant)
 {
 	job->set_progress_unknown();
 
-	Content::examine(film, job, tolerant);
+	Content::examine(job, tolerant);
 
 	dcp::SoundAsset asset(path(0));
 	if (asset.encrypted()) {
@@ -115,10 +115,19 @@ AudioMXFContent::examine(shared_ptr<const Film> film, shared_ptr<Job> job, bool 
 	);
 
 	audio->set_stream(stream);
-	auto mapping = stream->mapping();
-	mapping.make_default(film ? film->audio_processor() : nullptr);
-	stream->set_mapping(mapping);
 }
+
+
+void
+AudioMXFContent::prepare_for_add_to_film(shared_ptr<const Film> film)
+{
+	boost::mutex::scoped_lock lm(_mutex);
+
+	auto mapping = audio->stream()->mapping();
+	mapping.make_default(film ? film->audio_processor() : nullptr);
+	audio->stream()->set_mapping(mapping);
+}
+
 
 
 string
