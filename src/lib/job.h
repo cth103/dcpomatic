@@ -39,16 +39,13 @@ LIBDCP_ENABLE_WARNINGS
 #include <string>
 
 
-class Film;
-
-
 /** @class Job
  *  @brief A parent class to represent long-running tasks which are run in their own thread.
  */
 class Job : public std::enable_shared_from_this<Job>, public Signaller
 {
 public:
-	explicit Job(std::shared_ptr<const Film> film);
+	Job();
 	virtual ~Job();
 
 	Job(Job const&) = delete;
@@ -97,10 +94,6 @@ public:
 	boost::optional<float> progress() const;
 	boost::optional<float> seconds_since_last_progress_update() const;
 
-	std::shared_ptr<const Film> film() const {
-		return _film;
-	}
-
 	enum class Result {
 		RESULT_OK,
 		RESULT_ERROR,     // we can't have plain ERROR on Windows
@@ -139,8 +132,6 @@ protected:
 	int elapsed_sub_time() const;
 	void check_for_interruption_or_pause();
 	void stop_thread();
-
-	std::shared_ptr<const Film> _film;
 
 	time_t _start_time = 0;
 	time_t _finish_time = 0;

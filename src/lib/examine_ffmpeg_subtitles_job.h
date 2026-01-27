@@ -26,7 +26,7 @@ class FFmpegContent;
 class ExamineFFmpegSubtitlesJob : public Job, public FFmpeg
 {
 public:
-	ExamineFFmpegSubtitlesJob (std::shared_ptr<const Film>, std::shared_ptr<FFmpegContent>);
+	ExamineFFmpegSubtitlesJob(std::shared_ptr<FFmpegContent>);
 	~ExamineFFmpegSubtitlesJob ();
 
 	std::string name () const override;
