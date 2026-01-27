@@ -78,9 +78,9 @@ font_names(StringTextFile const& string_text_file)
 
 
 void
-StringTextFileContent::examine(shared_ptr<const Film> film, shared_ptr<Job> job, bool tolerant)
+StringTextFileContent::examine(shared_ptr<Job> job, bool tolerant)
 {
-	Content::examine(film, job, tolerant);
+	Content::examine(job, tolerant);
 	StringTextFile file (shared_from_this());
 
 	only_text()->clear_fonts();
