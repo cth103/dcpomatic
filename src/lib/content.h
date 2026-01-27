@@ -204,7 +204,7 @@ public:
 		return _video_frame_rate;
 	}
 
-	void set_video_frame_rate(std::shared_ptr<const Film> film, double r);
+	void set_video_frame_rate(double r);
 	void unset_video_frame_rate();
 
 	double active_video_frame_rate(std::shared_ptr<const Film> film) const;
