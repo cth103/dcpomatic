@@ -22,6 +22,9 @@
 #include "job.h"
 
 
+class Film;
+
+
 /** @class CheckContentJob
  *  @brief A job to check content that was just loaded to see if anything needs fixing about it.
  */
@@ -36,4 +39,7 @@ public:
 	std::string name() const override;
 	std::string json_name() const override;
 	void run() override;
+
+private:
+	std::shared_ptr<const Film> _film;
 };

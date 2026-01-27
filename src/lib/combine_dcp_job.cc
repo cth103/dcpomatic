@@ -33,8 +33,7 @@ using std::shared_ptr;
 
 
 CombineDCPJob::CombineDCPJob (vector<boost::filesystem::path> inputs, boost::filesystem::path output, string annotation_text)
-	: Job (shared_ptr<Film>())
-	, _inputs (inputs)
+	: _inputs (inputs)
 	, _output (output)
 	, _annotation_text (annotation_text)
 {

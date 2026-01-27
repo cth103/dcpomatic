@@ -41,8 +41,7 @@ VerifyDCPJob::VerifyDCPJob(
 	vector<boost::filesystem::path> kdms,
 	dcp::VerificationOptions options
 	)
-	: Job({})
-	, _directories(directories)
+	: _directories(directories)
 	, _options(options)
 {
 	vector<dcp::DecryptedKDM> decrypted_kdms;
@@ -59,8 +58,7 @@ VerifyDCPJob::VerifyDCPJob(
 	vector<dcp::DecryptedKDM> kdms,
 	dcp::VerificationOptions options
 	)
-	: Job({})
-	, _directories(directories)
+	: _directories(directories)
 	, _kdms(kdms)
 	, _options(options)
 {
