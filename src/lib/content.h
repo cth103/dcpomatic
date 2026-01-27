@@ -174,7 +174,7 @@ public:
 		return _position;
 	}
 
-	void set_trim_start(std::shared_ptr<const Film> film, dcpomatic::ContentTime);
+	void set_trim_start(dcpomatic::ContentTime);
 
 	dcpomatic::ContentTime trim_start() const {
 		boost::mutex::scoped_lock lm(_mutex);
