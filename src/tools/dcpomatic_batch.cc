@@ -61,9 +61,11 @@ using std::dynamic_pointer_cast;
 using std::exception;
 using std::list;
 using std::make_shared;
+using std::pair;
 using std::set;
 using std::shared_ptr;
 using std::string;
+using std::vector;
 using boost::scoped_array;
 using boost::thread;
 #if BOOST_VERSION >= 106100
@@ -222,23 +224,18 @@ public:
 
 			film->should_be_enough_disk_space(total_required, available);
 
-			set<shared_ptr<const Film>> films;
+			vector<pair<shared_ptr<const Film>, float>> films_with_progress;
 
 			for (auto i: JobManager::instance()->get()) {
-				films.insert (i->film());
+				if (auto transcode = dynamic_pointer_cast<TranscodeJob>(i)) {
+					films_with_progress.push_back({ transcode->film(), i->progress().get_value_or(0) });
+				}
 			}
 
-			for (auto i: films) {
-				double progress = 0;
-				for (auto j: JobManager::instance()->get()) {
-					if (i == j->film() && dynamic_pointer_cast<TranscodeJob>(j)) {
-						progress = j->progress().get_value_or(0);
-					}
-				}
-
+			for (auto const& i: films_with_progress) {
 				double required;
-				i->should_be_enough_disk_space(required, available);
-				total_required += (1 - progress) * required;
+				i.first->should_be_enough_disk_space(required, available);
+				total_required += (1 - i.second) * required;
 			}
 
 			if ((total_required - available) > 1) {
