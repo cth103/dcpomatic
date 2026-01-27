@@ -56,7 +56,7 @@ BOOST_AUTO_TEST_CASE (test_subtitle_timing_with_frame_rate_change)
 
 	auto film = new_test_film(name, { picture, sub }, &cl);
 	film->set_video_bit_rate(VideoEncoding::JPEG2000, 10000000);
-	picture->set_video_frame_rate(film, content_frame_rate);
+	picture->set_video_frame_rate(content_frame_rate);
 	auto const dcp_frame_rate = film->video_frame_rate();
 
 	make_and_verify_dcp (film, {dcp::VerificationNote::Code::INVALID_SUBTITLE_FIRST_TEXT_TIME, dcp::VerificationNote::Code::INVALID_PICTURE_FRAME_RATE_FOR_2K });
