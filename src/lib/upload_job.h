@@ -30,7 +30,7 @@
 class UploadJob : public Job
 {
 public:
-	explicit UploadJob(std::shared_ptr<const Film>);
+	explicit UploadJob(boost::filesystem::path directory);
 	~UploadJob();
 
 	std::string name() const override;
@@ -41,6 +41,7 @@ public:
 private:
 	void set_status(std::string);
 
+	boost::filesystem::path _directory;
 	mutable boost::mutex _status_mutex;
 	std::string _status;
 };
