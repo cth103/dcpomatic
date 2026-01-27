@@ -386,7 +386,7 @@ Content::reel_split_points(shared_ptr<const Film>) const
 
 
 void
-Content::set_video_frame_rate(shared_ptr<const Film>, double r)
+Content::set_video_frame_rate(double r)
 {
 	ContentChangeSignaller cc(this, ContentProperty::VIDEO_FRAME_RATE);
 

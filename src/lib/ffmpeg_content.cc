@@ -322,7 +322,7 @@ FFmpegContent::examine(shared_ptr<const Film> film, shared_ptr<Job> job, bool to
 		/* FFmpeg has detected this file as 29.97 and the examiner thinks it is using "soft" 2:3 pulldown (telecine).
 		 * This means we can treat it as a 23.976fps file.
 		 */
-		set_video_frame_rate(film, 24000.0 / 1001);
+		set_video_frame_rate(24000.0 / 1001);
 		video->set_length(video->length() * 24.0 / 30);
 	}
 }
