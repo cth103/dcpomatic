@@ -249,7 +249,7 @@ FFmpegContent::as_xml(xmlpp::Element* element, bool with_paths, PathBehaviour pa
 
 
 void
-FFmpegContent::examine(shared_ptr<const Film> film, shared_ptr<Job> job, bool tolerant)
+FFmpegContent::examine(shared_ptr<Job> job, bool tolerant)
 {
 	ContentChangeSignaller cc1(this, FFmpegContentProperty::SUBTITLE_STREAMS);
 	ContentChangeSignaller cc2(this, FFmpegContentProperty::SUBTITLE_STREAM);
@@ -258,7 +258,7 @@ FFmpegContent::examine(shared_ptr<const Film> film, shared_ptr<Job> job, bool to
 		job->set_progress_unknown();
 	}
 
-	Content::examine(film, job, tolerant);
+	Content::examine(job, tolerant);
 
 	auto examiner = make_shared<FFmpegExaminer>(shared_from_this(), job);
 
