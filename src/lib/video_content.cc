@@ -295,7 +295,7 @@ VideoContent::as_xml(xmlpp::Element* element) const
 }
 
 void
-VideoContent::take_from_examiner(shared_ptr<const Film>, shared_ptr<VideoExaminer> d)
+VideoContent::take_from_examiner(shared_ptr<VideoExaminer> d)
 {
 	/* These examiner calls could call other content methods which take a lock on the mutex */
 	auto const vs = d->video_size();

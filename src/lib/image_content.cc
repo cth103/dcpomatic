@@ -139,7 +139,7 @@ ImageContent::examine(shared_ptr<const Film> film, shared_ptr<Job> job, bool tol
 	Content::examine(film, job, tolerant);
 
 	auto examiner = make_shared<ImageExaminer>(film, shared_from_this(), job);
-	video->take_from_examiner(film, examiner);
+	video->take_from_examiner(examiner);
 	set_default_colour_conversion ();
 }
 
