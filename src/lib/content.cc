@@ -167,7 +167,7 @@ Content::calculate_digest() const
 
 
 void
-Content::examine(shared_ptr<const Film>, shared_ptr<Job>, bool)
+Content::examine(shared_ptr<Job>, bool)
 {
 	auto const d = calculate_digest();
 

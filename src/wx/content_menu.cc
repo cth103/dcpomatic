@@ -399,13 +399,8 @@ ContentMenu::find_missing()
 void
 ContentMenu::re_examine()
 {
-	auto film = _film.lock();
-	if (!film) {
-		return;
-	}
-
 	for (auto i: _content) {
-		JobManager::instance()->add(make_shared<ExamineContentJob>(film, vector<shared_ptr<Content>>{i}, false));
+		JobManager::instance()->add(make_shared<ExamineContentJob>(vector<shared_ptr<Content>>{i}, false));
 	}
 }
 
@@ -476,7 +471,7 @@ ContentMenu::kdm()
 
 	auto film = _film.lock();
 	DCPOMATIC_ASSERT(film);
-	JobManager::instance()->add(make_shared<ExamineContentJob>(film, vector<shared_ptr<Content>>{dcp}, false));
+	JobManager::instance()->add(make_shared<ExamineContentJob>(vector<shared_ptr<Content>>{dcp}, false));
 }
 
 void
@@ -494,7 +489,7 @@ ContentMenu::ov()
 		dcp->add_ov(dialog.path());
 		auto film = _film.lock();
 		DCPOMATIC_ASSERT(film);
-		JobManager::instance()->add(make_shared<ExamineContentJob>(film, vector<shared_ptr<Content>>{dcp}, false));
+		JobManager::instance()->add(make_shared<ExamineContentJob>(vector<shared_ptr<Content>>{dcp}, false));
 	}
 }
 
@@ -562,7 +557,7 @@ ContentMenu::cpl_selected(wxCommandEvent& ev)
 
 	auto film = _film.lock();
 	DCPOMATIC_ASSERT(film);
-	JobManager::instance()->add(make_shared<ExamineContentJob>(film, vector<shared_ptr<Content>>{dcp}, false));
+	JobManager::instance()->add(make_shared<ExamineContentJob>(vector<shared_ptr<Content>>{dcp}, false));
 }
 
 

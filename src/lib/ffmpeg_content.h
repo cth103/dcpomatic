@@ -66,7 +66,7 @@ public:
 		return std::dynamic_pointer_cast<const FFmpegContent>(Content::shared_from_this());
 	}
 
-	void examine(std::shared_ptr<const Film> film, std::shared_ptr<Job>, bool tolerant) override;
+	void examine(std::shared_ptr<Job>, bool tolerant) override;
 	void prepare_for_add_to_film(std::shared_ptr<const Film> film) override;
 	void take_settings_from(std::shared_ptr<const Content> c) override;
 	std::string summary() const override;
