@@ -232,7 +232,7 @@ Content::set_position(shared_ptr<const Film> film, DCPTime p, bool force_emit)
 
 
 void
-Content::set_trim_start(shared_ptr<const Film> film, ContentTime t)
+Content::set_trim_start(shared_ptr<const Film>, ContentTime t)
 {
 	DCPOMATIC_ASSERT(t.get() >= 0);
 
@@ -244,7 +244,7 @@ Content::set_trim_start(shared_ptr<const Film> film, ContentTime t)
 
 	/* See note in ::set_position */
 	if (!video && audio) {
-		audio->modify_trim_start(film, t);
+		audio->modify_trim_start(t);
 	}
 
 	ContentChangeSignaller cc(this, ContentProperty::TRIM_START);
