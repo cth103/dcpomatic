@@ -42,7 +42,7 @@ public:
 		return std::dynamic_pointer_cast<const StringTextFileContent> (Content::shared_from_this ());
 	}
 
-	void examine(std::shared_ptr<const Film> film, std::shared_ptr<Job>, bool tolerant) override;
+	void examine(std::shared_ptr<Job>, bool tolerant) override;
 	std::string summary () const override;
 	std::string technical_summary () const override;
 

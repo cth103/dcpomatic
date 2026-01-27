@@ -110,7 +110,7 @@ ContentView::update ()
 			}
 
 			if (content) {
-				auto job = make_shared<ExamineContentJob>(shared_ptr<Film>(), vector<shared_ptr<Content>>{content}, false);
+				auto job = make_shared<ExamineContentJob>(vector<shared_ptr<Content>>{content}, false);
 				jm->add (job);
 				jobs.push_back (job);
 			}
