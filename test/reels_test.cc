@@ -250,7 +250,7 @@ BOOST_AUTO_TEST_CASE (reels_test5)
 	}
 
 	{
-		dcp->set_trim_start(film, ContentTime::from_seconds(0.5));
+		dcp->set_trim_start(ContentTime::from_seconds(0.5));
 		auto p = dcp->reels (film);
 		BOOST_REQUIRE_EQUAL (p.size(), 4U);
 		auto i = p.begin();
@@ -272,7 +272,7 @@ BOOST_AUTO_TEST_CASE (reels_test5)
 	}
 
 	{
-		dcp->set_trim_start(film, ContentTime::from_seconds(1.5));
+		dcp->set_trim_start(ContentTime::from_seconds(1.5));
 		auto p = dcp->reels (film);
 		BOOST_REQUIRE_EQUAL (p.size(), 3U);
 		auto i = p.begin();
@@ -618,7 +618,7 @@ BOOST_AUTO_TEST_CASE (repeated_dcp_into_reels)
 
 	for (int i = 0; i < 4; ++i) {
 		original_dcp[i]->set_position(film2, DCPTime::from_frames(total_frames * i / 4, frame_rate));
-		original_dcp[i]->set_trim_start(film2, ContentTime::from_frames(total_frames * i / 4, frame_rate));
+		original_dcp[i]->set_trim_start(ContentTime::from_frames(total_frames * i / 4, frame_rate));
 		original_dcp[i]->set_trim_end  (ContentTime::from_frames(total_frames * (4 - i - 1) / 4, frame_rate));
 		original_dcp[i]->set_reference_video(true);
 		original_dcp[i]->set_reference_audio(true);

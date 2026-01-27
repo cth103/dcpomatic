@@ -282,7 +282,7 @@ BOOST_AUTO_TEST_CASE (player_trim_test)
        BOOST_REQUIRE (!wait_for_jobs ());
        B->video->set_length (10 * 24);
        B->set_position (film, DCPTime::from_seconds(10));
-       B->set_trim_start(film, ContentTime::from_seconds(2));
+       B->set_trim_start(ContentTime::from_seconds(2));
 
        make_and_verify_dcp (film);
 }
@@ -349,7 +349,7 @@ BOOST_AUTO_TEST_CASE (player_trim_crash)
 	/* Wait for the butler to fill */
 	dcpomatic_sleep_seconds (5);
 
-	boon->set_trim_start(film, ContentTime::from_seconds(5));
+	boon->set_trim_start(ContentTime::from_seconds(5));
 
 	butler->seek (DCPTime(), true);
 
@@ -558,7 +558,7 @@ BOOST_AUTO_TEST_CASE(trimmed_sound_mix_bug_13)
 	A->audio->set_gain(-12);
 	B->set_position(film, DCPTime());
 	B->audio->set_gain(-12);
-	B->set_trim_start(film, ContentTime(13));
+	B->set_trim_start(ContentTime(13));
 
 	make_and_verify_dcp(film, { dcp::VerificationNote::Code::MISSING_CPL_METADATA });
 	check_mxf_audio_file("test/data/trimmed_sound_mix_bug_13.mxf", dcp_file(film, "pcm_"));
@@ -575,7 +575,7 @@ BOOST_AUTO_TEST_CASE(trimmed_sound_mix_bug_13_frame_rate_change)
 	A->audio->set_gain(-12);
 	B->set_position(film, DCPTime());
 	B->audio->set_gain(-12);
-	B->set_trim_start(film, ContentTime(13));
+	B->set_trim_start(ContentTime(13));
 
 	A->set_video_frame_rate(film, 24);
 	B->set_video_frame_rate(film, 24);
@@ -779,8 +779,8 @@ BOOST_AUTO_TEST_CASE(test_fill_audio_at_end)
 {
 	auto content = content_factory(TestPaths::private_data() / "Video Ts-1.m4v");
 	auto film = new_test_film("test_fill_audio_at_end", content);
-	content[0]->set_trim_start(film, ContentTime::from_seconds((60 + 42) * 60));
+	content[0]->set_trim_start(ContentTime::from_seconds((60 + 42) * 60));
 
-	make_and_verify_dcp(film, {});// dcp::VerificationNote::Code::MISSING_CPL_METADATA });
+	make_and_verify_dcp(film, {});
 }
 
