@@ -60,7 +60,7 @@ BOOST_AUTO_TEST_CASE (content_test2)
 {
 	auto content = content_factory("test/data/red_23976.mp4")[0];
 	auto film = new_test_film("content_test2", {content});
-	content->set_trim_start(film, ContentTime::from_seconds(0.5));
+	content->set_trim_start(ContentTime::from_seconds(0.5));
 	make_and_verify_dcp (film);
 }
 
@@ -75,15 +75,15 @@ BOOST_AUTO_TEST_CASE (content_test3)
 	/* Trim */
 
 	/* 12 frames */
-	content->set_trim_start(film, ContentTime::from_seconds (12.0 / 24.0));
+	content->set_trim_start(ContentTime::from_seconds (12.0 / 24.0));
 	BOOST_CHECK (content->trim_start() == ContentTime::from_seconds (12.0 / 24.0));
 
 	/* 11.2 frames */
-	content->set_trim_start(film, ContentTime::from_seconds (11.2 / 24.0));
+	content->set_trim_start(ContentTime::from_seconds (11.2 / 24.0));
 	BOOST_CHECK (content->trim_start() == ContentTime::from_seconds (11.0 / 24.0));
 
 	/* 13.9 frames */
-	content->set_trim_start(film, ContentTime::from_seconds (13.9 / 24.0));
+	content->set_trim_start(ContentTime::from_seconds (13.9 / 24.0));
 	BOOST_CHECK (content->trim_start() == ContentTime::from_seconds (14.0 / 24.0));
 
 	/* Position */
