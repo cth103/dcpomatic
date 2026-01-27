@@ -21,7 +21,6 @@
 
 #include "content.h"
 #include "examine_content_job.h"
-#include "film.h"
 #include "log.h"
 #include <boost/filesystem.hpp>
 #include <iostream>
@@ -35,9 +34,8 @@ using std::string;
 using std::vector;
 
 
-ExamineContentJob::ExamineContentJob(shared_ptr<const Film> film, vector<shared_ptr<Content>> content, bool tolerant)
-	: _film(film)
-	, _content(std::move(content))
+ExamineContentJob::ExamineContentJob(vector<shared_ptr<Content>> content, bool tolerant)
+	: _content(std::move(content))
 	, _tolerant(tolerant)
 {
 
@@ -69,7 +67,7 @@ ExamineContentJob::run()
 {
 	int n = 0;
 	for (auto c: _content) {
-		c->examine(_film, shared_from_this(), _tolerant);
+		c->examine(shared_from_this(), _tolerant);
 		set_progress(float(n) / _content.size());
 		++n;
 	}

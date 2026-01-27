@@ -427,7 +427,7 @@ BOOST_AUTO_TEST_CASE(test_duplicate_font_id_in_vf)
 
 	auto test = new_test_film(name + "_test", { vf_dcp });
 	vf_dcp->add_ov(ov->dir(ov->dcp_name(false)));
-	JobManager::instance()->add(make_shared<ExamineContentJob>(test, vector<shared_ptr<Content>>{vf_dcp}, false));
+	JobManager::instance()->add(make_shared<ExamineContentJob>(vector<shared_ptr<Content>>{vf_dcp}, false));
 	BOOST_CHECK(!wait_for_jobs());
 
 	make_and_verify_dcp(

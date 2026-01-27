@@ -86,11 +86,11 @@ VideoMXFContent::valid_mxf (boost::filesystem::path path)
 
 
 void
-VideoMXFContent::examine(shared_ptr<const Film> film, shared_ptr<Job> job, bool tolerant)
+VideoMXFContent::examine(shared_ptr<Job> job, bool tolerant)
 {
 	job->set_progress_unknown ();
 
-	Content::examine(film, job, tolerant);
+	Content::examine(job, tolerant);
 
 	video.reset (new VideoContent (this));
 	auto examiner = make_shared<VideoMXFExaminer>(shared_from_this());

@@ -443,7 +443,7 @@ public:
 			};
 
 			auto dcp = make_shared<DCPContent>(dir);
-			auto job = make_shared<ExamineContentJob>(film, vector<shared_ptr<Content>>{dcp}, true);
+			auto job = make_shared<ExamineContentJob>(vector<shared_ptr<Content>>{dcp}, true);
 			_examine_job_connection = job->Finished.connect(boost::bind<void>(setup, weak_ptr<Film>(film), weak_ptr<Job>(job), weak_ptr<Content>(dcp)));
 			JobManager::instance()->add(job);
 			bool const ok = display_progress(variant::wx::dcpomatic_player(), _("Loading content"));
@@ -630,7 +630,7 @@ private:
 		DCPOMATIC_ASSERT(_film);
 		auto dcp = dynamic_pointer_cast<DCPContent>(_film->content().front());
 		DCPOMATIC_ASSERT(dcp);
-		dcp->examine(_film, {}, true);
+		dcp->examine({}, true);
 
 		/* Examining content re-creates the TextContent objects, so we must re-enable them */
 		for (auto i: dcp->text) {
@@ -796,7 +796,7 @@ private:
 				return;
 			}
 
-			auto job = make_shared<ExamineContentJob>(_film, vector<shared_ptr<Content>>{dcp}, true);
+			auto job = make_shared<ExamineContentJob>(vector<shared_ptr<Content>>{dcp}, true);
 			_examine_job_connection = job->Finished.connect(boost::bind(&DOMFrame::prepare_to_play_film, this, Config::instance()->player_crop_output_ratio()));
 			JobManager::instance()->add(job);
 

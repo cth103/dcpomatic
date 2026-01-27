@@ -25,7 +25,7 @@ class ImageContent;
 class ImageExaminer : public VideoExaminer
 {
 public:
-	ImageExaminer (std::shared_ptr<const Film>, std::shared_ptr<const ImageContent>, std::shared_ptr<Job>);
+	ImageExaminer(std::shared_ptr<const ImageContent>, std::shared_ptr<Job>);
 
 	bool has_video () const override {
 		return true;
