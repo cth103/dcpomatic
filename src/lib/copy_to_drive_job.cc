@@ -42,8 +42,7 @@ using boost::optional;
 
 
 CopyToDriveJob::CopyToDriveJob(std::vector<boost::filesystem::path> const& dcps, Drive drive, Nanomsg& nanomsg)
-	: Job(shared_ptr<Film>())
-	, _dcps(dcps)
+	: _dcps(dcps)
 	, _drive(drive)
 	, _nanomsg(nanomsg)
 {
