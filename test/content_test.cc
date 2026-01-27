@@ -100,7 +100,7 @@ BOOST_AUTO_TEST_CASE (content_test3)
 	content->set_position (film, DCPTime::from_seconds(13.9 / 24.0));
 	BOOST_CHECK (content->position() == DCPTime::from_seconds (14.0 / 24.0));
 
-	content->set_video_frame_rate(film, 25);
+	content->set_video_frame_rate(25);
 
 	/* Check that trim is fixed when the content's video frame rate is `forced' */
 
