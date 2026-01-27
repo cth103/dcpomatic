@@ -91,7 +91,7 @@ public:
 	 *  @param tolerant true to try to carry on in the presence of problems with the content,
 	 *  false to throw exceptions in these cases.
 	 */
-	virtual void examine(std::shared_ptr<const Film> film, std::shared_ptr<Job> job, bool tolerant);
+	virtual void examine(std::shared_ptr<Job> job, bool tolerant);
 
 	/** Adapt anything about this content just before it's added to the given film */
 	virtual void prepare_for_add_to_film(std::shared_ptr<const Film>) {}
