@@ -27,9 +27,11 @@
 #include <boost/bind/bind.hpp>
 #include <boost/thread.hpp>
 #include <iostream>
+#include <memory>
 
 
 using std::cout;
+using std::dynamic_pointer_cast;
 using std::make_shared;
 using std::map;
 using std::shared_ptr;

@@ -288,33 +288,12 @@ DCPContent::examine(shared_ptr<const Film> film, shared_ptr<Job> job, bool toler
 		{
 			boost::mutex::scoped_lock lm(_mutex);
 			audio = make_shared<AudioContent>(this);
-		}
-		auto as = make_shared<AudioStream>(examiner->audio_frame_rate(), examiner->audio_length(), examiner->audio_channels(), 24);
-		audio->set_stream(as);
-		auto mapping = as->mapping();
-		mapping.make_default(film ? film->audio_processor() : 0);
-
-		/* An ATMOS DCP probably has its channels labelled, so we know whether or not it has
-		 * HI/VI.  To take advantage of this (and prevent ATMOS DCPs always getting labelled
-		 * HI-VI) we look at > 8 channel DCPs and unmap any unlabelled channels (if there
-		 * are any labels at all).
-		 */
-		auto const labelled = examiner->labelled_audio_channels();
-		if (examiner->audio_channels() > 8 && !labelled.empty()) {
-			for (int input = 0; input < mapping.input_channels(); ++input) {
-				if (labelled.find(input) == labelled.end()) {
-					mapping.unmap_input(input);
-				}
-			}
-		}
-
-		as->set_mapping(mapping);
-
-		{
-			boost::mutex::scoped_lock lm(_mutex);
 			_labelled_audio_channels = examiner->labelled_audio_channels();
 			_audio_language = examiner->audio_language();
 		}
+		audio->set_stream(
+			make_shared<AudioStream>(examiner->audio_frame_rate(), examiner->audio_length(), examiner->audio_channels(), 24)
+		);
 	}
 
 	if (examiner->has_atmos()) {
@@ -404,6 +383,35 @@ DCPContent::examine(shared_ptr<const Film> film, shared_ptr<Job> job, bool toler
 		video->set_frame_type(_three_d ? VideoFrameType::THREE_D : VideoFrameType::TWO_D);
 	}
 }
+
+
+void
+DCPContent::prepare_for_add_to_film(shared_ptr<const Film> film)
+{
+	boost::mutex::scoped_lock lm(_mutex);
+
+	if (audio) {
+		auto as = audio->stream();
+		auto mapping = as->mapping();
+		mapping.make_default(film->audio_processor());
+
+		/* An ATMOS DCP probably has its channels labelled, so we know whether or not it has
+		 * HI/VI.  To take advantage of this (and prevent ATMOS DCPs always getting labelled
+		 * HI-VI) we look at > 8 channel DCPs and unmap any unlabelled channels (if there
+		 * are any labels at all).
+		 */
+		if (as->channels() > 8 && !_labelled_audio_channels.empty()) {
+			for (int input = 0; input < mapping.input_channels(); ++input) {
+				if (_labelled_audio_channels.find(input) == _labelled_audio_channels.end()) {
+					mapping.unmap_input(input);
+				}
+			}
+		}
+
+		as->set_mapping(mapping);
+	}
+}
+
 
 string
 DCPContent::summary() const

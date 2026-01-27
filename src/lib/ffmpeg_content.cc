@@ -301,22 +301,9 @@ FFmpegContent::examine(shared_ptr<const Film> film, shared_ptr<Job> job, bool to
 
 		if (!examiner->audio_streams().empty()) {
 			audio = make_shared<AudioContent>(this);
-
 			for (auto i: examiner->audio_streams()) {
 				audio->add_stream(i);
 			}
-
-			auto audio_stream = examiner->audio_streams().front();
-			auto mapping = audio_stream->mapping();
-			auto const processor = film ? film->audio_processor() : nullptr;
-			mapping.make_default(processor, first_path);
-			if (channel_layout_equals(audio_stream->channel_layout, AV_CHANNEL_LAYOUT_7POINT1) && !processor && mapping.output_channels() >= static_cast<int>(dcp::Channel::BSR)) {
-				mapping.map_to_single_output(4, dcp::Channel::BSL, 1);
-				mapping.map_to_single_output(5, dcp::Channel::BSR, 1);
-				mapping.map_to_single_output(6, dcp::Channel::LS, 1);
-				mapping.map_to_single_output(7, dcp::Channel::RS, 1);
-			}
-			audio_stream->set_mapping(mapping);
 		}
 
 		_subtitle_streams = examiner->subtitle_streams();
@@ -340,6 +327,31 @@ FFmpegContent::examine(shared_ptr<const Film> film, shared_ptr<Job> job, bool to
 		video->set_length(video->length() * 24.0 / 30);
 	}
 }
+
+
+void
+FFmpegContent::prepare_for_add_to_film(shared_ptr<const Film> film)
+{
+	auto first_path = path(0);
+
+	boost::mutex::scoped_lock lm(_mutex);
+
+	if (audio && !audio->streams().empty()) {
+		auto as = dynamic_pointer_cast<FFmpegAudioStream>(audio->streams().front());
+		DCPOMATIC_ASSERT(as);
+		auto mapping = as->mapping();
+		mapping.make_default(film->audio_processor(), first_path);
+		auto processor = film->audio_processor();
+		if (channel_layout_equals(as->channel_layout, AV_CHANNEL_LAYOUT_7POINT1) && !processor && mapping.output_channels() >= static_cast<int>(dcp::Channel::BSR)) {
+			mapping.map_to_single_output(4, dcp::Channel::BSL, 1);
+			mapping.map_to_single_output(5, dcp::Channel::BSR, 1);
+			mapping.map_to_single_output(6, dcp::Channel::LS, 1);
+			mapping.map_to_single_output(7, dcp::Channel::RS, 1);
+		}
+		as->set_mapping(mapping);
+	}
+}
+
 
 
 string
