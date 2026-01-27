@@ -38,7 +38,7 @@ BOOST_AUTO_TEST_CASE(video_trim_test)
 	auto content = content_factory("test/data/count300bd24.m2ts")[0];
 	auto film = new_test_film("trim_video_test", { content });
 
-	content->set_trim_start(film, dcpomatic::ContentTime::from_frames(8, 24));
+	content->set_trim_start(dcpomatic::ContentTime::from_frames(8, 24));
 
 	shared_ptr<PlayerVideo> first_video;
 
