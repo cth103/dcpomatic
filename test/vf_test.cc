@@ -175,7 +175,7 @@ BOOST_AUTO_TEST_CASE(vf_test3)
 	auto dcp = make_shared<DCPContent>(ov->dir(ov->dcp_name()));
 	auto vf = new_test_film("vf_test3_vf", { dcp });
 	vf->set_reel_type(ReelType::BY_VIDEO_CONTENT);
-	dcp->set_trim_start(vf, ContentTime::from_seconds(1));
+	dcp->set_trim_start(ContentTime::from_seconds(1));
 	dcp->set_trim_end(ContentTime::from_seconds(1));
 	dcp->set_reference_video(true);
 	dcp->set_reference_audio(true);
@@ -363,7 +363,7 @@ BOOST_AUTO_TEST_CASE(test_vf_with_trimmed_multi_reel_dcp)
 	vf->set_reel_type(ReelType::BY_VIDEO_CONTENT);
 	vf_dcp->set_reference_video(true);
 	vf_dcp->set_reference_audio(true);
-	vf_dcp->set_trim_start(vf, ContentTime::from_seconds(10));
+	vf_dcp->set_trim_start(ContentTime::from_seconds(10));
 	vf_dcp->set_position(vf, DCPTime::from_seconds(10));
 	make_and_verify_dcp(vf, { dcp::VerificationNote::Code::EXTERNAL_ASSET }, false);
 }

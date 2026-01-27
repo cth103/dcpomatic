@@ -368,7 +368,7 @@ TimingPanel::trim_start_changed()
 		}
 
 		auto const trim = _trim_start->get(i->video_frame_rate().get_value_or(_parent->film()->video_frame_rate()));
-		i->set_trim_start(_parent->film(), trim);
+		i->set_trim_start(trim);
 	}
 
 	if (ref) {
@@ -443,7 +443,7 @@ TimingPanel::trim_start_to_playhead_clicked()
 	for (auto i: _parent->selected()) {
 		if (i->position() < ph && ph < i->end(film)) {
 			auto const frc = film->active_frame_rate_change(i->position());
-			i->set_trim_start(film, i->trim_start() + ContentTime(ph - i->position(), frc));
+			i->set_trim_start(i->trim_start() + ContentTime(ph - i->position(), frc));
 			new_ph = i->position();
 		}
 	}
