@@ -41,8 +41,7 @@ SendKDMEmailJob::SendKDMEmailJob(
 	string cpl_name,
 	vector<string> extra_addresses
 	)
-	: Job({})
-	, _container_name_format(container_name_format)
+	: _container_name_format(container_name_format)
 	, _filename_format(filename_format)
 	, _cpl_name(cpl_name)
 	, _extra_addresses(extra_addresses)
@@ -68,8 +67,7 @@ SendKDMEmailJob::SendKDMEmailJob(
 	string cpl_name,
 	vector<string> extra_addresses
 	)
-	: Job({})
-	, _container_name_format(container_name_format)
+	: _container_name_format(container_name_format)
 	, _filename_format(filename_format)
 	, _cpl_name(cpl_name)
 	, _kdms(kdms)

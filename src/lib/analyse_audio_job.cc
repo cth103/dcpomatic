@@ -51,7 +51,7 @@ using namespace boost::placeholders;
  *  use processors).
  */
 AnalyseAudioJob::AnalyseAudioJob(shared_ptr<const Film> film, shared_ptr<const Playlist> playlist, bool whole_film)
-	: Job(film)
+	: _film(film)
 	, _analyser(film, playlist, whole_film, boost::bind(&Job::set_progress, this, _1, false))
 	, _playlist(playlist)
 	, _path(film->audio_analysis_path(playlist))
