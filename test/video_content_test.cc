@@ -32,7 +32,7 @@ BOOST_AUTO_TEST_CASE(video_content_fade_test)
 	auto film = new_test_film("video_content_fade_test", { content });
 
 	content->video->set_length(240);
-	content->set_trim_start(film, dcpomatic::ContentTime::from_frames(24, 24));
+	content->set_trim_start(dcpomatic::ContentTime::from_frames(24, 24));
 	content->video->set_fade_in(15);
 	content->video->set_fade_out(4);
 
