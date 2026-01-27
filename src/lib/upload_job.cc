@@ -27,7 +27,6 @@
 #include "config.h"
 #include "curl_uploader.h"
 #include "dcpomatic_log.h"
-#include "film.h"
 #include "log.h"
 #include "scp_uploader.h"
 #include "upload_job.h"
@@ -45,8 +44,9 @@ using namespace boost::placeholders;
 #endif
 
 
-UploadJob::UploadJob(shared_ptr<const Film> film)
-	: Job(film)
+UploadJob::UploadJob(boost::filesystem::path directory)
+	: Job({})
+	, _directory(std::move(directory))
 	, _status(_("Waiting"))
 {
 
@@ -88,7 +88,7 @@ UploadJob::run()
 		break;
 	}
 
-	uploader->upload(_film->dir(_film->dcp_name()));
+	uploader->upload(_directory);
 
 	set_progress(1);
 	set_status(N_(""));
