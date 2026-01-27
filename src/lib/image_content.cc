@@ -112,7 +112,7 @@ ImageContent::as_xml(xmlpp::Element* element, bool with_paths, PathBehaviour pat
 
 
 void
-ImageContent::examine(shared_ptr<const Film> film, shared_ptr<Job> job, bool tolerant)
+ImageContent::examine(shared_ptr<Job> job, bool tolerant)
 {
 	if (_path_to_scan) {
 		job->sub (_("Scanning image files"));
@@ -136,9 +136,9 @@ ImageContent::examine(shared_ptr<const Film> film, shared_ptr<Job> job, bool tol
 		set_paths (paths);
 	}
 
-	Content::examine(film, job, tolerant);
+	Content::examine(job, tolerant);
 
-	auto examiner = make_shared<ImageExaminer>(film, shared_from_this(), job);
+	auto examiner = make_shared<ImageExaminer>(shared_from_this(), job);
 	video->take_from_examiner(examiner);
 	set_default_colour_conversion ();
 }

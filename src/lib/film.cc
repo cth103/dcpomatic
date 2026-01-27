@@ -1501,7 +1501,7 @@ Film::examine_and_add_content(vector<shared_ptr<Content>> const& content, bool d
 		run_ffprobe(content[0]->path(0), file("ffprobe.log"));
 	}
 
-	auto j = make_shared<ExamineContentJob>(shared_from_this(), content, false);
+	auto j = make_shared<ExamineContentJob>(content, false);
 
 	vector<weak_ptr<Content>> weak_content;
 	for (auto i: content) {

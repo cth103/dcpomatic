@@ -44,9 +44,8 @@ using std::sort;
 using boost::optional;
 
 
-ImageExaminer::ImageExaminer (shared_ptr<const Film> film, shared_ptr<const ImageContent> content, shared_ptr<Job>)
-	: _film (film)
-	, _image_content (content)
+ImageExaminer::ImageExaminer(shared_ptr<const ImageContent> content, shared_ptr<Job>)
+	: _image_content (content)
 {
 	auto path = content->path(0);
 	if (valid_j2k_file (path)) {

@@ -57,9 +57,9 @@ DCPSubtitleContent::DCPSubtitleContent(cxml::ConstNodePtr node, boost::optional<
 }
 
 void
-DCPSubtitleContent::examine(shared_ptr<const Film> film, shared_ptr<Job> job, bool tolerant)
+DCPSubtitleContent::examine(shared_ptr<Job> job, bool tolerant)
 {
-	Content::examine(film, job, tolerant);
+	Content::examine(job, tolerant);
 
 	auto subtitle_asset = load(path(0));
 

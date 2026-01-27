@@ -241,9 +241,8 @@ DCPContent::read_sub_directory(boost::filesystem::path p)
 	}
 }
 
-/** @param film Film, or 0 */
 void
-DCPContent::examine(shared_ptr<const Film> film, shared_ptr<Job> job, bool tolerant)
+DCPContent::examine(shared_ptr<Job> job, bool tolerant)
 {
 	bool const needed_assets = needs_assets();
 	bool const needed_kdm = needs_kdm();
@@ -262,7 +261,7 @@ DCPContent::examine(shared_ptr<const Film> film, shared_ptr<Job> job, bool toler
 	if (job) {
 		job->set_progress_unknown();
 	}
-	Content::examine(film, job, tolerant);
+	Content::examine(job, tolerant);
 
 	auto examiner = make_shared<DCPExaminer>(shared_from_this(), tolerant);
 
@@ -276,11 +275,8 @@ DCPContent::examine(shared_ptr<const Film> film, shared_ptr<Job> job, bool toler
 	}
 
 	if (examiner->has_audio()) {
-		{
-			boost::mutex::scoped_lock lm(_mutex);
-			audio = make_shared<AudioContent>(this);
-		}
-
+		boost::mutex::scoped_lock lm(_mutex);
+		audio = make_shared<AudioContent>(this);
 		audio->set_stream(
 			make_shared<AudioStream>(examiner->audio_frame_rate(), examiner->audio_length(), examiner->audio_channels(), 24)
 		);
