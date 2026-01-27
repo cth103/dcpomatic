@@ -556,9 +556,7 @@ Job::error_summary() const
 void
 Job::set_error(string s, string d)
 {
-	if (_film) {
-		_film->log()->log(fmt::format("Error in job: {} ({})", s, d), LogEntry::TYPE_ERROR);
-	}
+	LOG_ERROR(fmt::format("Error in job: {} ({})", s, d));
 
 	boost::mutex::scoped_lock lm(_state_mutex);
 	_error_summary = s;
