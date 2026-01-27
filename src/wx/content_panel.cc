@@ -662,7 +662,7 @@ ContentPanel::add_folder(boost::filesystem::path folder)
 			if (dialog.ShowModal() != wxID_OK) {
 				return;
 			}
-			ic->set_video_frame_rate(_film, dialog.frame_rate());
+			ic->set_video_frame_rate(dialog.frame_rate());
 		}
 
 	}

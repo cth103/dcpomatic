@@ -408,7 +408,7 @@ BOOST_AUTO_TEST_CASE (reels_test11)
 	auto film = new_test_film("reels_test11", {A});
 	film->set_video_frame_rate (24);
 	A->video->set_length (240);
-	A->set_video_frame_rate(film, 24);
+	A->set_video_frame_rate(24);
 	A->set_position (film, DCPTime::from_seconds(1));
 	film->set_reel_type (ReelType::BY_VIDEO_CONTENT);
 	make_and_verify_dcp (film);
@@ -437,11 +437,11 @@ BOOST_AUTO_TEST_CASE (reels_test12)
 	film->set_sequence (false);
 
 	A->video->set_length (240);
-	A->set_video_frame_rate(film, 24);
+	A->set_video_frame_rate(24);
 	A->set_position (film, DCPTime::from_seconds(1));
 
 	B->video->set_length (120);
-	B->set_video_frame_rate(film, 24);
+	B->set_video_frame_rate(24);
 	B->set_position (film, DCPTime::from_seconds(14));
 
 	auto r = film->reels ();

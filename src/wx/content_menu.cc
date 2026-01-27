@@ -536,9 +536,7 @@ ContentMenu::advanced()
 	}
 
 	if (dialog.video_frame_rate()) {
-		auto film = _film.lock();
-		DCPOMATIC_ASSERT(film);
-		content->set_video_frame_rate(film, *dialog.video_frame_rate());
+		content->set_video_frame_rate(*dialog.video_frame_rate());
 	} else {
 		content->unset_video_frame_rate();
 	}
