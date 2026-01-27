@@ -250,7 +250,7 @@ Playlist::set_from_xml(shared_ptr<const Film> film, cxml::ConstNodePtr node, int
 
 		/* ...or have a start trim which is an integer number of frames */
 		auto const old_trim = content->trim_start();
-		content->set_trim_start(film, old_trim);
+		content->set_trim_start(old_trim);
 		if (old_trim != content->trim_start()) {
 			string note = _("Your project contains video content whose trim was not aligned to a frame boundary.");
 			note += "  ";
