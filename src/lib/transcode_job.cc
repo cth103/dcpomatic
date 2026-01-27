@@ -55,7 +55,7 @@ using std::dynamic_pointer_cast;
 
 /** @param film Film to use */
 TranscodeJob::TranscodeJob(shared_ptr<const Film> film, ChangedBehaviour changed)
-	: Job(film)
+	: _film(film)
 	, _changed(changed)
 {
 

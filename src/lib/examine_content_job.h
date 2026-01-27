@@ -40,6 +40,7 @@ public:
 	}
 
 private:
+	std::shared_ptr<const Film> _film;
 	std::vector<std::shared_ptr<Content>> _content;
 
 	bool _tolerant;

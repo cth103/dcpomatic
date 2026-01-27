@@ -40,12 +40,6 @@ using std::vector;
 class TestJob : public Job
 {
 public:
-	explicit TestJob (shared_ptr<Film> film)
-		: Job (film)
-	{
-
-	}
-
 	~TestJob ()
 	{
 		stop_thread ();
@@ -84,7 +78,7 @@ BOOST_AUTO_TEST_CASE (job_manager_test1)
 	shared_ptr<Film> film;
 
 	/* Single job */
-	auto a = make_shared<TestJob>(film);
+	auto a = make_shared<TestJob>();
 
 	JobManager::instance()->add (a);
 	dcpomatic_sleep_seconds (1);
@@ -101,7 +95,7 @@ BOOST_AUTO_TEST_CASE (job_manager_test2)
 
 	vector<shared_ptr<TestJob>> jobs;
 	for (int i = 0; i < 16; ++i) {
-		auto job = make_shared<TestJob>(film);
+		auto job = make_shared<TestJob>();
 		jobs.push_back (job);
 		JobManager::instance()->add (job);
 	}
@@ -147,7 +141,7 @@ BOOST_AUTO_TEST_CASE(cancel_job_test)
 
 	vector<shared_ptr<TestJob>> jobs;
 	for (int i = 0; i < 2; ++i) {
-		auto job = make_shared<TestJob>(film);
+		auto job = make_shared<TestJob>();
 		jobs.push_back(job);
 		JobManager::instance()->add(job);
 	}

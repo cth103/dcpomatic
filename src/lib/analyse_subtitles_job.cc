@@ -43,7 +43,7 @@ using namespace boost::placeholders;
 
 
 AnalyseSubtitlesJob::AnalyseSubtitlesJob (shared_ptr<const Film> film, shared_ptr<Content> content)
-	: Job (film)
+	: _film(film)
 	, _content (content)
 	, _path (_film->subtitle_analysis_path(content))
 {

@@ -42,6 +42,7 @@ public:
 private:
 	void add_file(std::string& body, boost::filesystem::path file) const;
 
+	std::shared_ptr<const Film> _film;
 	std::string _from;
 	std::string _summary;
 };

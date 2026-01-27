@@ -36,7 +36,7 @@ using std::vector;
 
 
 ExamineContentJob::ExamineContentJob(shared_ptr<const Film> film, vector<shared_ptr<Content>> content, bool tolerant)
-	: Job(film)
+	: _film(film)
 	, _content(std::move(content))
 	, _tolerant(tolerant)
 {

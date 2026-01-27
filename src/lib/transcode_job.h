@@ -67,6 +67,13 @@ public:
 
 	void set_encoder(std::shared_ptr<FilmEncoder> encoder);
 
+	std::shared_ptr<const Film> film() const {
+		return _film;
+	}
+
+protected:
+	std::shared_ptr<const Film> _film;
+
 private:
 	friend struct ::frames_not_lost_when_threads_disappear;
 

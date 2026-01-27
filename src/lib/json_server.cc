@@ -212,8 +212,8 @@ JSONServer::request (string url, shared_ptr<tcp::socket> socket)
 		for (auto i = jobs.cbegin(); i != jobs.cend(); ++i) {
 			json += "{ ";
 
-			if ((*i)->film()) {
-				json += "\"dcp\": \"" + (*i)->film()->dcp_name() + "\", ";
+			if (auto transcode = dynamic_pointer_cast<const TranscodeJob>(*i)) {
+				json += "\"dcp\": \"" + transcode->film()->dcp_name() + "\", ";
 			}
 
 			json += "\"name\": \"" + (*i)->json_name() + "\", ";

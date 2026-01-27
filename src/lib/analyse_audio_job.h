@@ -65,8 +65,8 @@ public:
 	}
 
 private:
+	std::shared_ptr<const Film> _film;
 	AudioAnalyser _analyser;
-
 	std::shared_ptr<const Playlist> _playlist;
 	/** playlist's audio analysis path when the job was created */
 	boost::filesystem::path _path;
