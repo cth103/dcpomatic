@@ -45,8 +45,7 @@ using namespace boost::placeholders;
 
 
 UploadJob::UploadJob(boost::filesystem::path directory)
-	: Job({})
-	, _directory(std::move(directory))
+	: _directory(std::move(directory))
 	, _status(_("Waiting"))
 {
 

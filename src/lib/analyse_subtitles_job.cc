@@ -42,8 +42,8 @@ using namespace boost::placeholders;
 #endif
 
 
-AnalyseSubtitlesJob::AnalyseSubtitlesJob(shared_ptr<const Film> film, shared_ptr<Content> content)
-	: Job(film)
+AnalyseSubtitlesJob::AnalyseSubtitlesJob (shared_ptr<const Film> film, shared_ptr<Content> content)
+	: _film(film)
 	, _content(content)
 	, _path(_film->subtitle_analysis_path(content))
 {

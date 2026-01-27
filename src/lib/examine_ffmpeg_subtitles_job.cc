@@ -35,10 +35,9 @@ using std::string;
 using std::cout;
 using std::shared_ptr;
 
-ExamineFFmpegSubtitlesJob::ExamineFFmpegSubtitlesJob (shared_ptr<const Film> film, shared_ptr<FFmpegContent> c)
-	: Job (film)
-	, FFmpeg (c)
-	, _content (c)
+ExamineFFmpegSubtitlesJob::ExamineFFmpegSubtitlesJob(shared_ptr<FFmpegContent> c)
+	: FFmpeg(c)
+	, _content(c)
 {
 
 }

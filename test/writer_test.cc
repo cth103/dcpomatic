@@ -110,10 +110,6 @@ BOOST_AUTO_TEST_CASE(writer_progress_test)
 	class TestJob : public Job
 	{
 	public:
-		explicit TestJob(shared_ptr<const Film> film)
-			: Job(film)
-		{}
-
 		~TestJob()
 		{
 			stop_thread();
@@ -137,7 +133,7 @@ BOOST_AUTO_TEST_CASE(writer_progress_test)
 	picture2->video->set_length(240);
 	picture2->set_position(film, dcpomatic::DCPTime::from_seconds(10));
 
-	auto job = std::make_shared<TestJob>(film);
+	auto job = std::make_shared<TestJob>();
 	job->set_rate_limit_progress(false);
 
 	float last_progress = 0;
