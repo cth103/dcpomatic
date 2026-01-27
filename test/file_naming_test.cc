@@ -68,13 +68,13 @@ BOOST_AUTO_TEST_CASE (file_naming_test)
 	film->set_video_frame_rate (24);
 
 	r->set_position (film, dcpomatic::DCPTime::from_seconds(0));
-	r->set_video_frame_rate(film, 24);
+	r->set_video_frame_rate(24);
 	r->video->set_length (24);
 	g->set_position (film, dcpomatic::DCPTime::from_seconds(1));
-	g->set_video_frame_rate(film, 24);
+	g->set_video_frame_rate(24);
 	g->video->set_length (24);
 	b->set_position (film, dcpomatic::DCPTime::from_seconds(2));
-	b->set_video_frame_rate(film, 24);
+	b->set_video_frame_rate(24);
 	b->video->set_length (24);
 
 	film->set_reel_type (ReelType::BY_VIDEO_CONTENT);
@@ -115,13 +115,13 @@ BOOST_AUTO_TEST_CASE (file_naming_test2)
 	auto film = new_test_film("file_naming_test2", { r, g, b });
 
 	r->set_position (film, dcpomatic::DCPTime::from_seconds(0));
-	r->set_video_frame_rate(film, 24);
+	r->set_video_frame_rate(24);
 	r->video->set_length (24);
 	g->set_position (film, dcpomatic::DCPTime::from_seconds(1));
-	g->set_video_frame_rate(film, 24);
+	g->set_video_frame_rate(24);
 	g->video->set_length (24);
 	b->set_position (film, dcpomatic::DCPTime::from_seconds(2));
-	b->set_video_frame_rate(film, 24);
+	b->set_video_frame_rate(24);
 	b->video->set_length (24);
 
 	film->set_reel_type (ReelType::BY_VIDEO_CONTENT);

@@ -367,7 +367,7 @@ BOOST_AUTO_TEST_CASE (player_silence_crash)
 
 	auto sine = content_factory("test/data/impulse_train.wav")[0];
 	auto film = new_test_film("player_silence_crash", { sine }, &cl);
-	sine->set_video_frame_rate(film, 23.976);
+	sine->set_video_frame_rate(23.976);
 	make_and_verify_dcp (film, {dcp::VerificationNote::Code::MISSING_CPL_METADATA});
 
 	cl.run();
@@ -577,8 +577,8 @@ BOOST_AUTO_TEST_CASE(trimmed_sound_mix_bug_13_frame_rate_change)
 	B->audio->set_gain(-12);
 	B->set_trim_start(ContentTime(13));
 
-	A->set_video_frame_rate(film, 24);
-	B->set_video_frame_rate(film, 24);
+	A->set_video_frame_rate(24);
+	B->set_video_frame_rate(24);
 	film->set_video_frame_rate(25);
 	film->set_audio_channels(16);
 
@@ -740,7 +740,7 @@ BOOST_AUTO_TEST_CASE(frames_are_copied_correctly_for_low_frame_rates)
 	auto content = content_factory("test/data/flat_red.png");
 	auto film = new_test_film("frames_are_copied_correctly_for_low_frame_rates", content);
 
-	content[0]->set_video_frame_rate(film, 10);
+	content[0]->set_video_frame_rate(10);
 	film->set_video_frame_rate(30);
 
 	Player player(film, Image::Alignment::COMPACT, false);
