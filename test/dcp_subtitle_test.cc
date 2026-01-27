@@ -329,7 +329,7 @@ BOOST_AUTO_TEST_CASE(dcp_subtitle_trim_test)
 {
 	auto content = make_shared<DCPSubtitleContent>("test/data/dcp_sub7.xml");
 	auto film = new_test_film("dcp_subtitle_trim_start_test", { content });
-	content->set_trim_start(film, dcpomatic::ContentTime::from_seconds(10.5));
+	content->set_trim_start(dcpomatic::ContentTime::from_seconds(10.5));
 	content->set_trim_end(dcpomatic::ContentTime::from_seconds(2.5));
 	content->text[0]->set_language(dcp::LanguageTag("en"));
 
