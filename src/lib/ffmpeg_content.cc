@@ -264,7 +264,7 @@ FFmpegContent::examine(shared_ptr<const Film> film, shared_ptr<Job> job, bool to
 
 	if (examiner->has_video()) {
 		video = make_shared<VideoContent>(this);
-		video->take_from_examiner(film, examiner);
+		video->take_from_examiner(examiner);
 	}
 
 	auto first_path = path(0);

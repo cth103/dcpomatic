@@ -94,7 +94,7 @@ VideoMXFContent::examine(shared_ptr<const Film> film, shared_ptr<Job> job, bool 
 
 	video.reset (new VideoContent (this));
 	auto examiner = make_shared<VideoMXFExaminer>(shared_from_this());
-	video->take_from_examiner(film, examiner);
+	video->take_from_examiner(examiner);
 	video->unset_colour_conversion ();
 }
 
