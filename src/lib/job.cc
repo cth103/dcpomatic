@@ -28,7 +28,6 @@
 #include "cross.h"
 #include "dcpomatic_log.h"
 #include "exceptions.h"
-#include "film.h"
 #include "job.h"
 #include "log.h"
 #include "util.h"
@@ -53,10 +52,8 @@ using boost::optional;
 using namespace dcpomatic;
 
 
-/** @param film Associated film, or 0 */
-Job::Job(shared_ptr<const Film> film)
-	: _film(film)
-	, _state(NEW)
+Job::Job()
+	: _state(NEW)
 	, _sub_start_time(0)
 	, _progress(0)
 	, _rate_limit_progress(true)
