@@ -19,6 +19,7 @@
 */
 
 
+#include "config.h"
 #include "exceptions.h"
 #include "film.h"
 #include "frame_rate_change.h"
@@ -140,6 +141,15 @@ ImageContent::examine(shared_ptr<const Film> film, shared_ptr<Job> job, bool tol
 	auto examiner = make_shared<ImageExaminer>(film, shared_from_this(), job);
 	video->take_from_examiner(film, examiner);
 	set_default_colour_conversion ();
+}
+
+
+void
+ImageContent::prepare_for_add_to_film(shared_ptr<const Film> film)
+{
+	if (still()) {
+		video->set_length(Config::instance()->default_still_length() * video_frame_rate().get_value_or(film->video_frame_rate()));
+	}
 }
 
 
