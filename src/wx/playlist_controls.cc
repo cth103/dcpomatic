@@ -202,7 +202,7 @@ PlaylistControls::stopped()
 void
 PlaylistControls::play_clicked()
 {
-	if (_player->set_playlist(_next_playlist)) {
+	if (_player->load_playlist(_next_playlist)) {
 		_viewer.start();
 	}
 }
@@ -240,7 +240,7 @@ PlaylistControls::stop_clicked()
 	_paused = false;
 	_viewer.stop();
 	_viewer.seek(DCPTime(), true);
-	_player->set_playlist({});
+	_player->clear_playlist();
 }
 
 
