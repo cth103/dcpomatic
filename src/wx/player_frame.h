@@ -71,10 +71,14 @@ public:
 	void load_stress_script(boost::filesystem::path path);
 	void idle();
 
-	/** Set the playlist.  If we're currently playing, this will stop whatever is
+	/** Load some ShowPlaylistEntrys and set our playlist to them
+	 *  If we're currently playing, this will stop whatever is
 	 *  happening now and start playing this playlist.
+	 *  @return true on success, false on failure
 	 */
-	bool set_playlist(std::vector<ShowPlaylistEntry> playlist);
+	bool load_playlist(std::vector<ShowPlaylistEntry> const& playlist);
+	bool load_pair_playlist(std::vector<std::pair<std::string, boost::optional<float>>> const& playlist);
+	void clear_playlist();
 
 	std::vector<std::shared_ptr<Content>> playlist() const;
 
