@@ -28,12 +28,14 @@
 #include "show_playlist_list.h"
 #include "util.h"
 #include "variant.h"
+#include <dcp/raw_convert.h>
 #include <nlohmann/json.hpp>
 #include <boost/algorithm/string.hpp>
 #include <stdexcept>
 
 
 using std::make_pair;
+using std::pair;
 using std::runtime_error;
 using std::shared_ptr;
 using std::string;
@@ -207,6 +209,22 @@ HTTPServer::post_request(string const& url, string const& body)
 		auto response = Response(303);
 		response.add_header("Location", "/");
 		return response;
+	} else if (url == "/api/v1/load-playlist") {
+		nlohmann::json details = nlohmann::json::parse(body);
+		vector<pair<string, boost::optional<float>>> entries;
+		for (auto const& entry: details["entries"]) {
+			if (!entry.contains("uuid")) {
+				continue;
+			}
+			boost::optional<float> crop;
+			if (entry.contains("crop_to_ratio")) {
+				crop = entry["crop_to_ratio"];
+			}
+			entries.push_back({entry["uuid"], crop});
+		}
+		emit(boost::bind(boost::ref(LoadPlaylist), entries));
+		/* XXX: return a failure if LoadPlaylist fails */
+		return Response(200);
 	} else if (url == "/api/v1/playlists") {
 		ShowPlaylist playlist("New Playlist");
 		ShowPlaylistList list;
