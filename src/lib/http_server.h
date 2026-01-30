@@ -65,6 +65,7 @@ public:
 
 	boost::signals2::signal<void ()> Play;
 	boost::signals2::signal<void ()> Stop;
+	boost::signals2::signal<void (std::vector<std::pair<std::string, boost::optional<float>>>)> LoadPlaylist;
 
 	void set_playing(bool playing) {
 		boost::mutex::scoped_lock lm(_mutex);

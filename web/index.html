@@ -18,6 +18,13 @@ setInterval(function() {
 	});
 }, 250);
 function play() {
+	entries = [];
+	var nextPlaylist = document.getElementById('next-playlist').children[0].children;
+	for (var i = 0; i < nextPlaylist.length; i++) {
+		entries.push({"uuid": nextPlaylist[i].uuid, "crop_to_ratio": nextPlaylist[i].crop_to_ratio});
+	}
+	console.log(JSON.stringify({"entries": entries}));
+	fetch("/api/v1/load-playlist", { method: "POST", body: JSON.stringify({"entries": entries}) });
 	fetch("/api/v1/play", { method: "POST" });
 }
 function stop() {
@@ -49,9 +56,10 @@ function showPlaylists()
 							data.content.forEach(content => {
 								var li = document.createElement("li");
 								li.appendChild(document.createTextNode(content.name));
+								li.uuid = content.uuid;
+								li.crop_to_ratio = content.crop_to_ratio;
 								ul.appendChild(li);
 							});
-							console.log(data);
 						})
 					});
 				};

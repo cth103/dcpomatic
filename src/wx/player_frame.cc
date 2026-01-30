@@ -71,6 +71,7 @@ LIBDCP_ENABLE_WARNINGS
 using std::dynamic_pointer_cast;
 using std::exception;
 using std::make_shared;
+using std::pair;
 using std::shared_ptr;
 using std::string;
 using std::weak_ptr;
@@ -1203,6 +1204,7 @@ PlayerFrame::setup_http_server()
 			_http_server.reset(new HTTPServer(config->player_http_server_port()));
 			_http_server->Play.connect(boost::bind(&FilmViewer::start, &_viewer));
 			_http_server->Stop.connect(boost::bind(&FilmViewer::stop, &_viewer));
+			_http_server->LoadPlaylist.connect(boost::bind(&PlayerFrame::load_pair_playlist, this, _1));
 			_http_server_thread = boost::thread(boost::bind(&HTTPServer::run, _http_server.get()));
 		}
 	} catch (std::exception& e) {
@@ -1365,7 +1367,18 @@ get_kdm_from_directory(shared_ptr<DCPContent> dcp)
 
 
 bool
-PlayerFrame::set_playlist(vector<ShowPlaylistEntry> playlist)
+PlayerFrame::load_playlist(vector<ShowPlaylistEntry> const& playlist)
+{
+	vector<pair<string, optional<float>>> details;
+	for (auto const& entry: playlist) {
+		details.push_back({entry.uuid(), entry.crop_to_ratio()});
+	}
+	return load_pair_playlist(details);
+}
+
+
+bool
+PlayerFrame::load_pair_playlist(vector<pair<string, optional<float>>> const& playlist)
 {
 	bool was_playing = false;
 	if (_viewer.playing()) {
@@ -1381,7 +1394,7 @@ PlayerFrame::set_playlist(vector<ShowPlaylistEntry> playlist)
 	auto const store = ShowPlaylistContentStore::instance();
 	for (auto const& entry: playlist) {
 		dialog.Pulse();
-		auto content = store->get(entry);
+		auto content = store->get(entry.first);
 		if (!content) {
 			error_dialog(this, _("This playlist cannot be loaded as some content is missing."));
 			_playlist.clear();
@@ -1409,7 +1422,7 @@ PlayerFrame::set_playlist(vector<ShowPlaylistEntry> playlist)
 				return false;
 			}
 		}
-		_playlist.push_back({content, entry.crop_to_ratio()});
+		_playlist.push_back({content, entry.second});
 	}
 
 	take_playlist_entry();
@@ -1421,6 +1434,16 @@ PlayerFrame::set_playlist(vector<ShowPlaylistEntry> playlist)
 	_controls->playlist_changed();
 
 	return true;
+}
+
+
+void
+PlayerFrame::clear_playlist()
+{
+	_playlist.clear();
+	_playlist_position = 0;
+	take_playlist_entry();
+	_controls->playlist_changed();
 }
 
 
