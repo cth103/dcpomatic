@@ -43,7 +43,7 @@ rewrite_bad_config (string filename, string extra_line)
 {
 	using namespace boost::filesystem;
 
-	auto base = path("build/test/bad_config/2.18");
+	auto base = path("build/test/bad_config/2.20");
 	auto file = base / filename;
 
 	boost::system::error_code ec;
@@ -75,7 +75,7 @@ BOOST_AUTO_TEST_CASE (config_backup_test)
 	 */
 	Config::instance();
 
-	boost::filesystem::path const prefix = "build/test/bad_config/2.18";
+	boost::filesystem::path const prefix = "build/test/bad_config/2.20";
 
 	BOOST_CHECK(boost::filesystem::exists(prefix / "config.xml.1"));
 	BOOST_CHECK(dcp::file_to_string(prefix / "config.xml.1") == first_write_xml);
@@ -126,7 +126,7 @@ BOOST_AUTO_TEST_CASE (config_backup_with_link_test)
 	using namespace boost::filesystem;
 
 	auto base = path("build/test/bad_config");
-	auto version = base / "2.18";
+	auto version = base / "2.20";
 
 	ConfigRestorer cr(base);
 
@@ -258,7 +258,7 @@ BOOST_AUTO_TEST_CASE (config_keep_cinemas_if_making_new_config)
 	boost::filesystem::copy_file(dir / "cinemas.sqlite3", dir / "backup_for_test.sqlite3");
 
 	Config::drop ();
-	boost::filesystem::remove (dir / "2.18" / "config.xml");
+	boost::filesystem::remove (dir / "2.20" / "config.xml");
 	Config::instance();
 
 	check_file(dir / "backup_for_test.sqlite3", dir / "cinemas.sqlite3");
@@ -280,7 +280,7 @@ BOOST_AUTO_TEST_CASE(keep_config_if_cinemas_fail_to_load)
 	auto const cinemas = dir / "cinemas.sqlite3";
 
 	/* Back things up */
-	boost::filesystem::copy_file(dir / "2.18" / "config.xml", dir / "config_backup_for_test.xml");
+	boost::filesystem::copy_file(dir / "2.20" / "config.xml", dir / "config_backup_for_test.xml");
 	boost::filesystem::copy_file(cinemas, dir / "cinemas_backup_for_test.sqlite3");
 
 	/* Corrupt the cinemas */
@@ -291,7 +291,7 @@ BOOST_AUTO_TEST_CASE(keep_config_if_cinemas_fail_to_load)
 	Config::instance();
 
 	/* We should have the old config.xml */
-	check_text_file(dir / "2.18" / "config.xml", dir / "config_backup_for_test.xml");
+	check_text_file(dir / "2.20" / "config.xml", dir / "config_backup_for_test.xml");
 }
 
 
@@ -301,12 +301,12 @@ BOOST_AUTO_TEST_CASE(read_cinemas_xml_and_write_sqlite)
 	boost::filesystem::path dir = "build/test/read_cinemas_xml_and_write_sqlite";
 	boost::filesystem::remove_all(dir);
 	boost::filesystem::create_directories(dir);
-	boost::filesystem::create_directories(dir / "2.18");
+	boost::filesystem::create_directories(dir / "2.20");
 
 	boost::filesystem::copy_file("test/data/cinemas.xml", dir / "cinemas.xml");
-	boost::filesystem::copy_file("test/data/2.18.config.xml", dir / "2.18" / "config.xml");
+	boost::filesystem::copy_file("test/data/2.20.config.xml", dir / "2.20" / "config.xml");
 	{
-		Editor editor(dir / "2.18" / "config.xml");
+		Editor editor(dir / "2.20" / "config.xml");
 		editor.replace(
 			"/home/realldoesnt/exist/this/path/is/nonsense.sqlite3",
 			boost::filesystem::canonical(dir / "cinemas.xml").string()
@@ -355,12 +355,12 @@ BOOST_AUTO_TEST_CASE(read_dkdm_recipients_xml_and_write_sqlite)
 	boost::filesystem::path dir = "build/test/read_dkdm_recipients_xml_and_write_sqlite";
 	boost::filesystem::remove_all(dir);
 	boost::filesystem::create_directories(dir);
-	boost::filesystem::create_directories(dir / "2.18");
+	boost::filesystem::create_directories(dir / "2.20");
 
 	boost::filesystem::copy_file("test/data/dkdm_recipients.xml", dir / "dkdm_recipients.xml");
-	boost::filesystem::copy_file("test/data/2.18.config.xml", dir / "2.18" / "config.xml");
+	boost::filesystem::copy_file("test/data/2.20.config.xml", dir / "2.20" / "config.xml");
 	{
-		Editor editor(dir / "2.18" / "config.xml");
+		Editor editor(dir / "2.20" / "config.xml");
 		editor.replace(
 			"<DKDMRecipientsFile>/home/realldoesnt/exist/this/path/is/nonsense.sqlite3",
 			string{"<DKDMRecipientsFile>"} + boost::filesystem::canonical(dir / "dkdm_recipients.xml").string()
@@ -408,7 +408,7 @@ BOOST_AUTO_TEST_CASE(save_config_as_zip_test)
 	boost::system::error_code ec;
 	boost::filesystem::remove_all(dir, ec);
 	boost::filesystem::create_directories(dir);
-	boost::filesystem::copy_file("test/data/2.18.config.xml", dir / "config.xml");
+	boost::filesystem::copy_file("test/data/2.20.config.xml", dir / "config.xml");
 
 	Config::instance()->set_cinemas_file(dir / "cinemas.sqlite3");
 	Config::instance()->set_dkdm_recipients_file(dir / "dkdm_recipients.sqlite3");
@@ -446,7 +446,7 @@ BOOST_AUTO_TEST_CASE(load_config_from_zip_with_only_xml_current)
 	zipper.add(
 		"config.xml",
 		boost::algorithm::replace_all_copy(
-			dcp::file_to_string("test/data/2.18.config.xml"),
+			dcp::file_to_string("test/data/2.20.config.xml"),
 			"/home/realldoesnt/exist/this/path/is/nonsense.xml",
 			""
 			)
@@ -483,7 +483,7 @@ BOOST_AUTO_TEST_CASE(load_config_from_zip_with_only_xml_zip)
 	zipper.add(
 		"config.xml",
 		boost::algorithm::replace_all_copy(
-			dcp::file_to_string("test/data/2.18.config.xml"),
+			dcp::file_to_string("test/data/2.20.config.xml"),
 			"/home/realldoesnt/exist/this/path/is/nonsense.sqlite3",
 			path(current_path() / "build/test/hide/it/here/cinemas.sqlite3").string()
 			)
@@ -521,7 +521,7 @@ BOOST_AUTO_TEST_CASE(load_config_from_zip_with_only_xml_ignore)
 	zipper.add(
 		"config.xml",
 		boost::algorithm::replace_all_copy(
-			dcp::file_to_string("test/data/2.18.config.xml"),
+			dcp::file_to_string("test/data/2.20.config.xml"),
 			"/home/realldoesnt/exist/this/path/is/nonsense.xml",
 			path(current_path() / "build/test/hide/it/here/cinemas.sqlite3").string()
 			)
@@ -545,12 +545,12 @@ BOOST_AUTO_TEST_CASE(use_sqlite_if_present)
 		boost::filesystem::path dir = "build/test/use_sqlite_if_present";
 		boost::filesystem::remove_all(dir);
 		boost::filesystem::create_directories(dir);
-		boost::filesystem::create_directories(dir / "2.18");
+		boost::filesystem::create_directories(dir / "2.20");
 
 		boost::filesystem::copy_file("test/data/cinemas.xml", dir / (file + ".xml"));
-		boost::filesystem::copy_file("test/data/2.18.config.xml", dir / "2.18" / "config.xml");
+		boost::filesystem::copy_file("test/data/2.20.config.xml", dir / "2.20" / "config.xml");
 		{
-			Editor editor(dir / "2.18" / "config.xml");
+			Editor editor(dir / "2.20" / "config.xml");
 			editor.replace(
 				"/home/realldoesnt/exist/this/path/is/nonsense.sqlite3",
 				boost::filesystem::canonical(dir / (file + ".xml")).string()
