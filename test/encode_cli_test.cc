@@ -118,7 +118,7 @@ BOOST_AUTO_TEST_CASE(encode_cli_set_grok_licence)
 	BOOST_CHECK(!error);
 
 	cxml::Document check("Config");
-	check.read_file(config / "2.18" / "config.xml");
+	check.read_file(config / "2.20" / "config.xml");
 	BOOST_CHECK_EQUAL(check.node_child("Grok")->string_child("Licence"), "12345678ABC");
 }
 
@@ -137,7 +137,7 @@ BOOST_AUTO_TEST_CASE(encode_cli_enable_grok)
 		BOOST_CHECK(!error);
 
 		cxml::Document check("Config");
-		check.read_file(config / "2.18" / "config.xml");
+		check.read_file(config / "2.20" / "config.xml");
 		BOOST_CHECK_EQUAL(check.node_child("Grok")->string_child("Enable"), value);
 	}
 }
@@ -156,7 +156,7 @@ BOOST_AUTO_TEST_CASE(encode_cli_set_grok_binary_location)
 	BOOST_CHECK(!error);
 
 	cxml::Document check("Config");
-	check.read_file(config / "2.18" / "config.xml");
+	check.read_file(config / "2.20" / "config.xml");
 	BOOST_CHECK_EQUAL(check.node_child("Grok")->string_child("BinaryLocation"), "foo/bar/baz");
 }
 #endif
