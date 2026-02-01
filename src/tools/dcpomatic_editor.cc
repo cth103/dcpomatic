@@ -21,6 +21,7 @@
 
 #include "wx/about_dialog.h"
 #include "wx/dcpomatic_spin_ctrl.h"
+#include "wx/dir_dialog.h"
 #include "wx/editable_list.h"
 #include "wx/i18n_setup.h"
 #include "wx/id.h"
@@ -373,6 +374,8 @@ public:
 		SetIcon(wxIcon(std_to_wx("id")));
 #endif
 
+		Config::instance()->Changed.connect(boost::bind(&DOMFrame::config_changed, this, _1));
+
 		Bind(wxEVT_MENU, boost::bind(&DOMFrame::file_open, this), ID_file_open);
 		Bind(wxEVT_MENU, boost::bind(&DOMFrame::file_save, this), ID_file_save);
 		Bind(wxEVT_MENU, boost::bind(&DOMFrame::file_exit, this), wxID_EXIT);
@@ -412,6 +415,12 @@ public:
 	}
 
 private:
+	void config_changed(Config::Property what)
+	{
+		try {
+			Config::instance()->write_config();
+		} catch (exception& e) {}
+	}
 
 	void setup_menu (wxMenuBar* m)
 	{
@@ -439,22 +448,20 @@ private:
 
 	void file_open ()
 	{
-		auto d = wxStandardPaths::Get().GetDocumentsDir();
-		wxDirDialog dialog(this, _("Select DCP to open"), d, wxDEFAULT_DIALOG_STYLE | wxDD_DIR_MUST_EXIST);
+		DirDialog dialog(this, _("Select DCP to open"), wxDEFAULT_DIALOG_STYLE | wxDD_DIR_MUST_EXIST, "AddEditorInputPath");
 
-		int r;
+		bool r;
 		while (true) {
-			r = dialog.ShowModal();
-			if (r == wxID_OK && dialog.GetPath() == wxStandardPaths::Get().GetDocumentsDir()) {
+			r = dialog.show();
+			if (r && dialog.GetPath() == wxStandardPaths::Get().GetDocumentsDir()) {
 				error_dialog (this, _("You did not select a folder.  Make sure that you select a folder before clicking Open."));
 			} else {
 				break;
 			}
 		}
 
-		if (r == wxID_OK) {
-			boost::filesystem::path const dcp(wx_to_std(dialog.GetPath()));
-			load_dcp (dcp);
+		if (r) {
+			load_dcp(dialog.path());
 		}
 	}
 
