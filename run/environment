@@ -7,7 +7,7 @@ fi
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 build=$DIR/../build
 env=$DIR/../../..
-export LD_LIBRARY_PATH=$build/src/lib:$build/src/wx:$env/lib:/usr/local/lib64:/usr/local/lib:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=$build/src/lib:$build/src/wx:$env/lib:$env/lib64:/usr/local/lib64:/usr/local/lib:$LD_LIBRARY_PATH
 if [[ $(readlink -f $DIR/..) =~ (.*build/[^/]*) ]]; then
   export LD_LIBRARY_PATH=${BASH_REMATCH[1]}/lib:$LD_LIBRARY_PATH
 fi
