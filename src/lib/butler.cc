@@ -93,7 +93,7 @@ Butler::Butler(
 	/* The butler must hear about things first, otherwise it might not sort out suspensions in time for
 	   get_video() to be called in response to this signal.
 	*/
-	_player_change_connection = _player.Change.connect(bind(&Butler::player_change, this, _1, _2), boost::signals2::at_front);
+	_player_change_connection = _player.Change.connect(bind(&Butler::player_change, this, _1, _2, _3), boost::signals2::at_front);
 	_thread = boost::thread(bind(&Butler::thread, this));
 #ifdef DCPOMATIC_LINUX
 	pthread_setname_np(_thread.native_handle(), "butler");
@@ -404,8 +404,12 @@ Butler::memory_used() const
 
 
 void
-Butler::player_change(ChangeType type, int property)
+Butler::player_change(ChangeType type, int property, bool frequent)
 {
+	if (frequent) {
+		return;
+	}
+
 	if (property == VideoContentProperty::CROP) {
 		if (type == ChangeType::DONE) {
 			auto film = _film.lock();

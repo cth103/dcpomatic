@@ -407,26 +407,28 @@ Player::playlist_content_change(ChangeType type, int property, bool frequent)
 		return;
 	}
 
-	if (property == VideoContentProperty::CROP) {
-		if (type == ChangeType::DONE) {
-			boost::mutex::scoped_lock lm(_mutex);
-			for (auto const& i: _delay) {
-				i.first->reset_metadata(film, _video_container_size);
+	if (!frequent) {
+		if (property == VideoContentProperty::CROP) {
+			if (type == ChangeType::DONE) {
+				boost::mutex::scoped_lock lm(_mutex);
+				for (auto const& i: _delay) {
+					i.first->reset_metadata(film, _video_container_size);
+				}
 			}
-		}
-	} else {
-		if (type == ChangeType::PENDING) {
-			/* The player content is probably about to change, so we can't carry on
-			   until that has happened and we've rebuilt our pieces.  Stop pass()
-			   and seek() from working until then.
-			*/
-			++_suspended;
-		} else if (type == ChangeType::DONE) {
-			/* A change in our content has gone through.  Re-build our pieces. */
-			setup_pieces();
-			--_suspended;
-		} else if (type == ChangeType::CANCELLED) {
-			--_suspended;
+		} else {
+			if (type == ChangeType::PENDING) {
+				/* The player content is probably about to change, so we can't carry on
+				   until that has happened and we've rebuilt our pieces.  Stop pass()
+				   and seek() from working until then.
+				*/
+				++_suspended;
+			} else if (type == ChangeType::DONE) {
+				/* A change in our content has gone through.  Re-build our pieces. */
+				setup_pieces();
+				--_suspended;
+			} else if (type == ChangeType::CANCELLED) {
+				--_suspended;
+			}
 		}
 	}
 
