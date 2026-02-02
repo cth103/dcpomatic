@@ -179,7 +179,9 @@ ContentTimeline::mouse_wheel_turned(wxMouseEvent& event)
 void
 ContentTimeline::update_playhead()
 {
-	Refresh();
+	if (!_last_drawn_playhead || playhead_position() != *_last_drawn_playhead) {
+		Refresh();
+	}
 }
 
 
@@ -265,10 +267,17 @@ ContentTimeline::paint_main()
 
 	gc->SetPen(*wxRED_PEN);
 	auto path = gc->CreatePath();
-	double const ph = _viewer.position().seconds() * pixels_per_second().get_value_or(0);
-	path.MoveToPoint(ph, 0);
-	path.AddLineToPoint(ph, pixels_per_track() * _tracks + 32);
+	_last_drawn_playhead = playhead_position();
+	path.MoveToPoint(*_last_drawn_playhead, 0);
+	path.AddLineToPoint(*_last_drawn_playhead, pixels_per_track() * _tracks + 32);
 	gc->StrokePath(path);
+}
+
+
+int
+ContentTimeline::playhead_position() const
+{
+	return std::round(_viewer.position().seconds() * pixels_per_second().get_value_or(0));
 }
 
 
