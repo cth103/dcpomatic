@@ -134,6 +134,13 @@ HTTPServer::get_request(string const& url)
 			json.push_back(spl.second.as_json());
 		}
 		return Response(200, json.dump(), Response::Type::JSON);
+	} else if (url == "/api/v1/current-playlist") {
+		nlohmann::json json;
+		boost::mutex::scoped_lock lm(_mutex);
+		for (auto entry: _current_playlist) {
+			json.push_back(entry);
+		}
+		return Response(200, json.dump(), Response::Type::JSON);
 	} else if (boost::algorithm::starts_with(url, "/api/v1/content/")) {
 		vector<string> parts;
 		boost::algorithm::split(parts, url, boost::is_any_of("/"));
