@@ -563,6 +563,12 @@ PlayerFrame::idle()
 				_http_server->set_dcp_name("");
 			}
 			_http_server->set_position(_viewer.position());
+			vector<string> names;
+			for (auto const& entry: _playlist) {
+				ShowPlaylistEntry e(entry.first, {});
+				names.push_back(e.name());
+			}
+			_http_server->set_current_playlist(names);
 			_last_http_server_update = now;
 		}
 	}
