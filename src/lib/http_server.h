@@ -82,6 +82,11 @@ public:
 		_dcp_name = name;
 	}
 
+	void set_current_playlist(std::vector<std::string> playlist) {
+		boost::mutex::scoped_lock lm(_mutex);
+		_current_playlist = playlist;
+	}
+
 private:
 	void handle(std::shared_ptr<Socket> socket) override;
 	Response request(std::vector<std::string> const& request, std::string const& body);
@@ -93,5 +98,6 @@ private:
 	bool _playing = false;
 	dcpomatic::DCPTime _position;
 	std::string _dcp_name;
+	std::vector<std::string> _current_playlist;
 };
 
