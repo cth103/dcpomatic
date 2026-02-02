@@ -16,6 +16,21 @@ setInterval(function() {
 			document.getElementById('position').innerHTML = data.position;
 		});
 	});
+	current_playlist = fetch("/api/v1/current-playlist").then(response => {
+		response.json().then(data => {
+			var div = document.getElementById('current-playlist');
+			if (div && data) {
+				div.innerHTML = "";
+				var ul = document.createElement("ul");
+				var list = div.appendChild(ul);
+				data.forEach(entry => {
+					var li = document.createElement("li");
+					li.appendChild(document.createTextNode(entry));
+					list.appendChild(li);
+				});
+			}
+		});
+	});
 }, 250);
 function play() {
 	entries = [];
