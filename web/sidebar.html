@@ -1,17 +1,36 @@
+<!--
+Sidebar menu, included by the web server where SIDEBAR is written in
+applicable .html files.
+-->
+
 <style>
 div.nav {
-	margin-right: 4em;
 	height: 100vh;
 	width: 10%;
 	position: fixed;
 }
+
+img.nav {
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+}
+
+ul.nav {
+	padding-left: 2em;
+	padding-right: 2em;
+}
+
 li.nav {
 	border: 1px solid rgba(57, 61, 65, 0.50);
 	border-radius: 6px;
 	list-style-type: none;
 	padding: 8px;
 	margin: 4px;
+	background-color: #eeeeee;
+	text-align: center;
 }
+
 a.nav {
 	color: black;
 	text-decoration: none;
@@ -19,6 +38,7 @@ a.nav {
 </style>
 
 <div class="nav">
+<img class="nav" src="dom.png"/>
 <ul class="nav">
 	<li class="nav"><a class="nav" href="/">Transport</a></li>
 	<li class="nav"><a class="nav" href="/playlists">Playlists</a></li>
