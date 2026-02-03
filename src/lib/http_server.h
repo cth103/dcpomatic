@@ -33,7 +33,8 @@ public:
 	enum class Type {
 		HTML,
 		JSON,
-		CSS
+		CSS,
+		PNG
 	};
 
 	Response(int code);
