@@ -92,6 +92,9 @@ Response::send(shared_ptr<Socket> socket)
 	case Type::CSS:
 		socket->write("Content-Type: text/css; charset=utf-8\r\n");
 		break;
+	case Type::PNG:
+		socket->write("Content-Type: image/png;\r\n");
+		break;
 	}
 	socket->write(fmt::format("Content-Length: {}\r\n", _payload.length()));
 	for (auto const& header: _headers) {
@@ -118,6 +121,9 @@ HTTPServer::get_request(string const& url)
 	} else if (url == "/common.css") {
 		auto page = dcp::file_to_string(resources_path() / "web" / "common.css");
 		return Response(200, page, Response::Type::CSS);
+	} else if (url == "/dom.png") {
+		auto page = dcp::file_to_string(resources_path() / "web" / "dom.png");
+		return Response(200, page, Response::Type::PNG);
 	} else if (url == "/api/v1/status") {
 		nlohmann::json json;
 		{
