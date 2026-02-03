@@ -1,5 +1,11 @@
 <!DOCTYPE html>
+<!--
+Playlist editor
+-->
+
 <html>
+<head>
+<link rel="stylesheet" href="common.css">
 <script>
 
 var selectedPlaylistIndices = [];
@@ -66,7 +72,7 @@ function renamePlaylist()
 function makePlaylistEntry(content)
 {
 	var li = document.createElement("li");
-	li.classList.add("playlist");
+	li.classList.add("list");
 
 	var table = document.createElement('table');
 	table.style.width = '100%';
@@ -173,7 +179,7 @@ function updatePlaylist()
 			playlistContents.setAttribute("playlist-id", playlistId);
 			playlistContents.innerHTML = "";
 			var ul = document.createElement("ul");
-			ul.classList.add("playlist");
+			ul.classList.add("list");
 			var list = playlistContents.appendChild(ul);
 			var index = 0;
 			data.content.forEach(content => {
@@ -218,7 +224,7 @@ function updatePlaylistList()
 		response.json().then(data => {
 			data.forEach(playlist => {
 				var li = document.createElement("li");
-				li.classList.add("playlist");
+				li.classList.add("list");
 				li.appendChild(document.createTextNode(playlist.name));
 				li.uuid = playlist['uuid'];
 				li.onclick = function() {
@@ -244,7 +250,7 @@ fetch("/api/v1/content").then(response => {
 	response.json().then(data => {
 		data.forEach(content => {
 			var li = document.createElement("li");
-			li.classList.add("playlist");
+			li.classList.add("list");
 			li.appendChild(document.createTextNode(content.name));
 			li.draggable = "true";
 			li.ondragstart = function(event) {
@@ -263,27 +269,9 @@ ul#playlists {
 	width: 400px;
 }
 
-ul.playlist {
-	padding: 2em;
-	margin: 0pt;
-}
-
-li.playlist {
-	border: 1px solid black;
-	background-color: #a7bad9;
-	padding: 3px;
-	list-style-type: none;
-	cursor: pointer;
-}
-
-li.playlist.selected {
+li.list.selected {
 	background-color: #d343e0;
 	cursor: pointer;
-}
-
-div.playlist, div.content {
-	box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-	border: 2px solid black;
 }
 
 div.content {
@@ -297,8 +285,6 @@ ul#content {
 }
 
 </style>
-<head>
-<link rel="stylesheet" href="common.css">
 <title>Playlists</title>
 </head>
 
@@ -314,13 +300,13 @@ SIDEBAR
 </ul>
 
 <p>Playlist: <input id="playlist-name" type="text" maxlength="60"></input> <button onclick="renamePlaylist();">Rename</button>
-<div id="playlist" class="playlist" ondragover="allowDrop(event)">
+<div id="playlist" class="list" ondragover="allowDrop(event)">
 </div>
 </div>
 
 <div style="float: right;">
 <p>Content:
-<div class="content">
+<div class="list">
 <ul id="content">
 </div>
 </ul>
