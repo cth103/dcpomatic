@@ -1,1 +1,21 @@
 
+div.list {
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+	border: 2px solid black;
+	padding: 1em;
+}
+
+ul.list {
+	padding-left: 0pt;
+	margin: 0pt;
+}
+
+li.list {
+	border: 1px solid black;
+	background-color: #a7bad9;
+	padding: 3px;
+	list-style-type: none;
+	cursor: pointer;
+}
+
+
