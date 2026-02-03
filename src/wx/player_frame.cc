@@ -499,6 +499,9 @@ PlayerFrame::prepare_to_play_film(optional<float> crop_to_ratio)
 					);
 				j->Check(!first->cpl() || i->id() == *first->cpl());
 				++id;
+				if (id >= (ID_view_cpl + MAX_CPLS)) {
+				    break;
+				}
 			}
 		}
 
