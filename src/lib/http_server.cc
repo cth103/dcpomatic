@@ -105,18 +105,24 @@ Response::send(shared_ptr<Socket> socket)
 }
 
 
+void
+HTTPServer::substitute(string& page) const
+{
+	boost::algorithm::replace_all(page, "TITLE", variant::dcpomatic_player());
+	boost::algorithm::replace_all(page, "SIDEBAR", dcp::file_to_string(resources_path() / "web" / "sidebar.html"));
+}
+
+
 Response
 HTTPServer::get_request(string const& url)
 {
 	if (url == "/") {
 		auto page = dcp::file_to_string(resources_path() / "web" / "index.html");
-		boost::algorithm::replace_all(page, "TITLE", variant::dcpomatic_player());
-		boost::algorithm::replace_all(page, "SIDEBAR", dcp::file_to_string(resources_path() / "web" / "sidebar.html"));
+		substitute(page);
 		return Response(200, page);
 	} else if (url == "/playlists") {
 		auto page = dcp::file_to_string(resources_path() / "web" / "playlists.html");
-		boost::algorithm::replace_all(page, "TITLE", variant::dcpomatic_player());
-		boost::algorithm::replace_all(page, "SIDEBAR", dcp::file_to_string(resources_path() / "web" / "sidebar.html"));
+		substitute(page);
 		return Response(200, page);
 	} else if (url == "/common.css") {
 		auto page = dcp::file_to_string(resources_path() / "web" / "common.css");
