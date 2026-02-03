@@ -90,6 +90,7 @@ public:
 
 private:
 	void handle(std::shared_ptr<Socket> socket) override;
+	void substitute(std::string& page) const;
 	Response request(std::vector<std::string> const& request, std::string const& body);
 	Response get_request(std::string const& url);
 	Response post_request(std::string const& url, std::string const& body);
