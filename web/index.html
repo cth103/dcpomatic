@@ -1,10 +1,15 @@
 <!DOCTYPE html>
+<!--
+Landing page for the web interface.
+-->
+
 <html>
 <head>
 <link rel="stylesheet" href="common.css">
 <script>
 
 setInterval(function() {
+	// Update basic status
 	status = fetch("/api/v1/status").then(response => {
 		response.json().then(data => {
 			if (data.playing) {
@@ -16,6 +21,7 @@ setInterval(function() {
 			document.getElementById('position').innerHTML = data.position;
 		});
 	});
+	// Update current playlist
 	current_playlist = fetch("/api/v1/current-playlist").then(response => {
 		response.json().then(data => {
 			var div = document.getElementById('current-playlist');
@@ -25,6 +31,7 @@ setInterval(function() {
 				var list = div.appendChild(ul);
 				data.forEach(entry => {
 					var li = document.createElement("li");
+					li.classList.add("playlist");
 					li.appendChild(document.createTextNode(entry));
 					list.appendChild(li);
 				});
@@ -32,6 +39,8 @@ setInterval(function() {
 		});
 	});
 }, 250);
+
+// Load the next playlist into the current playlist and start playback
 function play() {
 	entries = [];
 	var nextPlaylist = document.getElementById('next-playlist').children[0].children;
@@ -42,6 +51,8 @@ function play() {
 	fetch("/api/v1/load-playlist", { method: "POST", body: JSON.stringify({"entries": entries}) });
 	fetch("/api/v1/play", { method: "POST" });
 }
+
+// Stop playback
 function stop() {
 	fetch("/api/v1/stop", { method: "POST" });
 }
@@ -70,6 +81,7 @@ function showPlaylists()
 							nextPlaylist.appendChild(ul);
 							data.content.forEach(content => {
 								var li = document.createElement("li");
+								li.classList.add("playlist");
 								li.appendChild(document.createTextNode(content.name));
 								li.uuid = content.uuid;
 								li.crop_to_ratio = content.crop_to_ratio;
@@ -113,12 +125,62 @@ showPlaylists();
 </script>
 
 <style>
-table {
+
+div#controls {
+	border: 3px solid #214709;
+	border-radius: 10px;
+	background-color: #71945a;
+	float: left;
+	padding: 1em;
+}
+
+button.control {
+	border: 1px solid rgba(27, 31, 35, 0.15);
+	border-radius: 6px;
+	color: #24292E;
+	display: inline-block;
+	line-height: 20px;
+	padding: 6px 16px;
+	vertical-align: middle;
+	white-space: nowrap;
+	word-wrap: break-word;
+}
+
+button.control:hover {
+	background-color: #F3F4F6;
+	text-decoration: none;
+	transition-duration: 0.1s;
+}
+
+button.control:active {
+	background-color: #EDEFF2;
+	box-shadow: rgba(225, 228, 232, 0.2) 0 1px 0 inset;
+	transition: none 0s;
+}
+
+button.control:focus {
+	outline: 1px transparent;
+}
+
+button.control:before {
+	display: none;
+}
+
+div#status {
+	background-color: #c6e8b0;
+	margin-left: 2em;
+	float: left;
+}
+
+table.status {
 	border-collapse: collapse;
-	margin: 25px 0;
 	font-size: 0.9em;
 	box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 	border: 2px solid black;
+}
+
+ul {
+	padding-left: 0px;
 }
 
 tr {
@@ -130,6 +192,11 @@ td {
 	padding: 4px 16px;
 	text-align: left;
 	border: 1px solid black;
+}
+
+hr {
+	margin-top: 2em;
+	margin-bottom: 2em;
 }
 
 div.tab {
@@ -154,9 +221,18 @@ li.playlist {
 	cursor: pointer;
 }
 
-li.playlist.selected {
-	background-color: #d343e0;
-	cursor: pointer;
+div#next-playlist {
+	margin-left: 0px;
+	height: 30vh;
+	width: 100%;
+	overflow: auto;
+}
+
+div#current-playlist {
+	margin-left: 0px;
+	height: 30vh;
+	width: 100%;
+	overflow: auto;
 }
 
 </style>
@@ -168,35 +244,41 @@ li.playlist.selected {
 
 SIDEBAR
 
-<div style="margin-left: 15%;">
+<div style="margin-left: 12%;">
 
-<div id="controls" style="float: left; width: 20%;">
-	<button name="play" value="play" onclick="play()">Play</button>
-	<button name="stop" value="stop" onclick="stop()">Stop</button>
-	<table>
+<div id="controls">
+	<button class="control" name="play" value="play" onclick="play()">Play</button>
+	<button class="control" name="stop" value="stop" onclick="stop()">Stop</button>
+</div>
+
+<div id="status">
+	<table class="status">
 		<tr><td>DCP</td><td><p id="dcp_name"></td></tr>
 		<tr><td>State</td><td><p id="playing"></td></tr>
 		<tr><td>Position</td><td><p id="position"></td></tr>
 	</table>
 </div>
 
-<div style="float: right; width: 70%;">
+<div style="clear: both;"></div>
+<hr>
+
+<div style="float: right; width: 65%;">
 
 <div style="float: right; width: 100%;">
 Next playlist:
-<div id="next-playlist" style="width: 100%; height: 40vh;">
+<div id="next-playlist">
 </div>
 </div>
 
 <div style="float: right; width: 100%; margin-top: 4em;">
 Current playlist:
-<div id="current-playlist" style="width: 100%; height: 10vh;">
+<div id="current-playlist">
 </div>
 </div>
 
 </div>
 
-<div id="content-and-playlists" style="float: left; width: 20%; left-margin: 10%;">
+<div id="content-and-playlists" style="float: left; width: 30%; left-margin: 5%;">
 <div id="playlists-tab" onclick="showPlaylists();" class="tab selected">Playlists</div>
 <div id="content-tab" onclick="showContent();" class="tab">Content</div>
 <div id="content-and-playlists-inner" style="margin-top: 5pt; margin-bottom: 5pt;"></div>
