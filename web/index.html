@@ -31,7 +31,7 @@ setInterval(function() {
 				var list = div.appendChild(ul);
 				data.forEach(entry => {
 					var li = document.createElement("li");
-					li.classList.add("playlist");
+					li.classList.add("list");
 					li.appendChild(document.createTextNode(entry));
 					list.appendChild(li);
 				});
@@ -69,7 +69,7 @@ function showPlaylists()
 		response.json().then(data => {
 			data.forEach(playlist => {
 				var li = document.createElement("li");
-				li.classList.add("playlist");
+				li.classList.add("list");
 				li.appendChild(document.createTextNode(playlist.name));
 				li.uuid = playlist['uuid'];
 				li.onclick = function() {
@@ -81,7 +81,7 @@ function showPlaylists()
 							nextPlaylist.appendChild(ul);
 							data.content.forEach(content => {
 								var li = document.createElement("li");
-								li.classList.add("playlist");
+								li.classList.add("list");
 								li.appendChild(document.createTextNode(content.name));
 								li.uuid = content.uuid;
 								li.crop_to_ratio = content.crop_to_ratio;
@@ -110,7 +110,7 @@ function showContent()
 		response.json().then(data => {
 			data.forEach(content => {
 				var li = document.createElement("li");
-				li.classList.add("playlist");
+				li.classList.add("list");
 				li.appendChild(document.createTextNode(content.name));
 				document.getElementById('content-and-playlists-inner').appendChild(li);
 
@@ -211,14 +211,6 @@ div.tab {
 
 div.tab.selected {
 	background-color: #cccccc;
-}
-
-li.playlist {
-	border: 1px solid black;
-	background-color: #a7bad9;
-	padding: 3px;
-	list-style-type: none;
-	cursor: pointer;
 }
 
 div#next-playlist {
