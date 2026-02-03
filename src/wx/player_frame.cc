@@ -63,6 +63,7 @@ LIBDCP_DISABLE_WARNINGS
 #include <wx/progdlg.h>
 #include <wx/stdpaths.h>
 LIBDCP_ENABLE_WARNINGS
+#include <iostream>
 
 
 #define MAX_CPLS 32
@@ -175,7 +176,7 @@ PlayerFrame::PlayerFrame()
 
 #if defined(DCPOMATIC_WINDOWS)
 	maybe_open_console();
-	cout << variant::dcpomatic_player() << " is starting." << "\n";
+	std::cout << variant::dcpomatic_player() << " is starting." << "\n";
 #endif
 
 	auto bar = new wxMenuBar;
