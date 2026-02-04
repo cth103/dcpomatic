@@ -370,6 +370,15 @@ HTTPServer::handle(shared_ptr<Socket> socket)
 							_line = _line.substr(0, _line.length() - 2);
 						}
 
+						if (boost::algorithm::starts_with(_line, "Content-Length:")) {
+							vector<string> parts;
+							boost::algorithm::split(parts, _line, boost::is_any_of(":"));
+							if (parts.size() == 2) {
+								boost::trim(parts[1]);
+								_body_length = dcp::raw_convert<int>(parts[1]);
+							}
+						}
+
 						LOG_HTTP("Receive: {}", _line);
 						_request.push_back(_line);
 						_line = "";
@@ -379,8 +388,8 @@ HTTPServer::handle(shared_ptr<Socket> socket)
 		}
 
 
-		bool got_request() const {
-			return _got_request;
+		bool finished() const {
+			return _got_request && static_cast<int>(_body.length()) == _body_length;
 		}
 
 		bool close() const {
@@ -405,6 +414,7 @@ HTTPServer::handle(shared_ptr<Socket> socket)
 		std::string _body;
 		bool _got_request = false;
 		bool _close = false;
+		int _body_length = 0;
 		boost::system::error_code _error_code;
 	};
 
@@ -412,17 +422,25 @@ HTTPServer::handle(shared_ptr<Socket> socket)
 
 	vector<uint8_t> buffer(2048);
 	socket->set_deadline_from_now(2);
-	socket->socket().async_read_some(
-		boost::asio::buffer(buffer.data(), buffer.size()),
-		[&reader, &buffer, socket](boost::system::error_code const& ec, std::size_t bytes_transferred) {
-			reader.read_block(ec, buffer.data(), bytes_transferred);
-		});
 
-	while (!reader.got_request() && !reader.close() && socket->is_open()) {
+	std::function<void ()> read;
+
+	read = [&]() {
+		socket->socket().async_read_some(
+			boost::asio::buffer(buffer.data(), buffer.size()),
+			[&reader, &buffer, socket, &read](boost::system::error_code const& ec, std::size_t bytes_transferred) {
+				reader.read_block(ec, buffer.data(), bytes_transferred);
+				read();
+			});
+	};
+
+	read();
+
+	while (!reader.finished() && !reader.close() && socket->is_open()) {
 		socket->run();
 	}
 
-	if (reader.got_request() && !reader.close()) {
+	if (reader.finished() && !reader.close()) {
 		try {
 			auto response = request(reader.request(), reader.body());
 			response.send(socket);
