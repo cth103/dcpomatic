@@ -162,7 +162,7 @@ BOOST_AUTO_TEST_CASE (config_write_utf8_test)
 }
 
 
-/* 2.14 -> 2.18 */
+/* 2.14 -> 2.20 */
 BOOST_AUTO_TEST_CASE (config_upgrade_test1)
 {
 	boost::filesystem::path dir = "build/test/config_upgrade_test1";
@@ -194,18 +194,18 @@ BOOST_AUTO_TEST_CASE (config_upgrade_test1)
 
 #if defined(DCPOMATIC_WINDOWS)
 	/* This file has the windows path for dkdm_recipients.xml (with backslashes) */
-	check_xml(dir / "2.18" / "config.xml", "test/data/2.18.config.windows.sqlite.xml", {});
+	check_xml(dir / "2.20" / "config.xml", "test/data/2.20.config.windows.sqlite.xml", {});
 #elif defined(DCPOMATIC_GROK)
-	check_xml(dir / "2.18" / "config.xml", "test/data/2.18.config.sqlite.grok.xml", {});
+	check_xml(dir / "2.20" / "config.xml", "test/data/2.20.config.sqlite.grok.xml", {});
 #else
-	check_xml(dir / "2.18" / "config.xml", "test/data/2.18.config.sqlite.xml", {});
+	check_xml(dir / "2.20" / "config.xml", "test/data/2.20.config.sqlite.xml", {});
 #endif
-	/* cinemas.xml is not copied into 2.18 as its format has not changed */
-	BOOST_REQUIRE (!boost::filesystem::exists(dir / "2.18" / "cinemas.xml"));
+	/* cinemas.xml is not copied into 2.20 as its format has not changed */
+	BOOST_REQUIRE (!boost::filesystem::exists(dir / "2.20" / "cinemas.xml"));
 }
 
 
-/* 2.16 -> 2.18 */
+/* 2.16 -> 2.20 */
 BOOST_AUTO_TEST_CASE (config_upgrade_test2)
 {
 	boost::filesystem::path dir = "build/test/config_upgrade_test2";
@@ -229,17 +229,17 @@ BOOST_AUTO_TEST_CASE (config_upgrade_test2)
 	check_xml(dir / "cinemas.xml", "test/data/2.14.cinemas.xml", {});
 #if defined(DCPOMATIC_WINDOWS)
 	/* This file has the windows path for dkdm_recipients.xml (with backslashes) */
-	check_xml(dir / "2.18" / "config.xml", "test/data/2.18.config.windows.xml", {});
+	check_xml(dir / "2.20" / "config.xml", "test/data/2.20.config.windows.xml", {});
 	check_xml(dir / "config.xml", "test/data/2.16.config.windows.xml", {});
 #elif defined(DCPOMATIC_GROK)
-	check_xml(dir / "2.18" / "config.xml", "test/data/2.18.config.grok.xml", {});
+	check_xml(dir / "2.20" / "config.xml", "test/data/2.20.config.grok.xml", {});
 	check_xml(dir / "config.xml", "test/data/2.16.config.xml", {});
 #else
-	check_xml(dir / "2.18" / "config.xml", "test/data/2.18.config.xml", {});
+	check_xml(dir / "2.20" / "config.xml", "test/data/2.20.config.xml", {});
 	check_xml(dir / "config.xml", "test/data/2.16.config.xml", {});
 #endif
-	/* cinemas.xml is not copied into 2.18 as its format has not changed */
-	BOOST_REQUIRE (!boost::filesystem::exists(dir / "2.18" / "cinemas.xml"));
+	/* cinemas.xml is not copied into 2.20 as its format has not changed */
+	BOOST_REQUIRE (!boost::filesystem::exists(dir / "2.20" / "cinemas.xml"));
 }
 
 
