@@ -789,7 +789,7 @@ DCPContent::can_reference_text(shared_ptr<const Film> film, TextType type, strin
 
 	if (_has_non_zero_entry_point[TextType::CLOSED_CAPTION]) {
 		/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
-		why_not = _("one of its closed caption has a non-zero entry point so it must be re-written.");
+		why_not = _("one of its closed caption reels has a non-zero entry point so it must be re-written.");
 		return false;
         }
 
