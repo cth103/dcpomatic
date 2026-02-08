@@ -1084,9 +1084,9 @@ private:
 			table->Add(s, 1);
 		}
 
-		_maximum_j2k_video_bit_rate->SetRange(1, 1000);
+		_maximum_j2k_video_bit_rate->SetRange(250, 1000);
 		_maximum_j2k_video_bit_rate->Bind(wxEVT_SPINCTRL, boost::bind(&NonStandardPage::maximum_j2k_video_bit_rate_changed, this));
-		_maximum_mpeg2_video_bit_rate->SetRange(1, 100);
+		_maximum_mpeg2_video_bit_rate->SetRange(50, 100);
 		_maximum_mpeg2_video_bit_rate->Bind(wxEVT_SPINCTRL, boost::bind(&NonStandardPage::maximum_mpeg2_video_bit_rate_changed, this));
 		_allow_any_dcp_frame_rate->bind(&NonStandardPage::allow_any_dcp_frame_rate_changed, this);
 		_allow_any_container->bind(&NonStandardPage::allow_any_container_changed, this);
