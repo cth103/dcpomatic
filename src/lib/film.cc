@@ -2175,7 +2175,7 @@ Film::use_template(optional<string> name)
 	_container = _template_film->_container;
 	_resolution = _template_film->_resolution;
 	for (auto encoding: { VideoEncoding::JPEG2000, VideoEncoding::MPEG2 }) {
-		_video_bit_rate[encoding] = _template_film->_video_bit_rate[encoding];
+		_video_bit_rate[encoding] = std::min(_template_film->_video_bit_rate[encoding], Config::instance()->maximum_video_bit_rate(encoding));
 	}
 	_video_frame_rate = _template_film->_video_frame_rate;
 	_encrypt_picture = _template_film->_encrypt_picture;
