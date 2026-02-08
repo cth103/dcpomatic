@@ -180,7 +180,7 @@ map_cli(int argc, char* argv[], std::function<void (string)> out)
 	/* Find all the CPLs */
 	vector<shared_ptr<dcp::CPL>> cpls;
 	for (auto filename_or_id: cpl_filenames_or_ids) {
-		if (boost::filesystem::exists(filename_or_id)) {
+		if (dcp::filesystem::exists(filename_or_id)) {
 			try {
 				auto cpl = make_shared<dcp::CPL>(filename_or_id);
 				cpl->resolve_refs(assets);

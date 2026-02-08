@@ -86,7 +86,7 @@ boost::filesystem::path
 resources_path ()
 {
 	auto installed = directory_containing_executable().parent_path() / "share" / "dcpomatic2";
-	if (boost::filesystem::exists(installed)) {
+	if (dcp::filesystem::exists(installed)) {
 		return installed;
 	}
 

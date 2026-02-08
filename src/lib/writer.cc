@@ -941,7 +941,7 @@ try
 		if (file && !file->hash()) {
 			auto filename = file->asset_ref().asset()->file();
 			DCPOMATIC_ASSERT(filename);
-			total_size += boost::filesystem::file_size(*filename);
+			total_size += dcp::filesystem::file_size(*filename);
 		}
 	}
 
@@ -952,7 +952,7 @@ try
 			file->asset_ref().asset()->hash([&total_done, total_size, set_progress](int64_t done, int64_t) {
 				set_progress(total_done + done, total_size);
 			});
-			total_done += boost::filesystem::file_size(*file->asset_ref().asset()->file());
+			total_done += dcp::filesystem::file_size(*file->asset_ref().asset()->file());
 			file->set_hash(file->asset_ref().asset()->hash());
 		}
 	}

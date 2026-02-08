@@ -755,7 +755,7 @@ try
 
 	int64_t total_size = 0;
 	for (auto asset: assets) {
-		total_size += asset->file() ? boost::filesystem::file_size(*asset->file()) : 0;
+		total_size += asset->file() ? dcp::filesystem::file_size(*asset->file()) : 0;
 	}
 
 	int64_t total_done = 0;
@@ -763,7 +763,7 @@ try
 		asset->hash([&total_done, total_size, set_progress](int64_t done, int64_t) {
 			set_progress(total_done + done, total_size);
 		});
-		total_done += asset->file() ? boost::filesystem::file_size(*asset->file()) : 0;
+		total_done += asset->file() ? dcp::filesystem::file_size(*asset->file()) : 0;
 	}
 
 } catch (boost::thread_interrupted) {

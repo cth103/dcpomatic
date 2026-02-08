@@ -636,7 +636,7 @@ bitmap_path (string name)
 		base = resources_path();
 	}
 
-	if (!boost::filesystem::exists(base / name)) {
+	if (!dcp::filesystem::exists(base / name)) {
 		base = path / boost::filesystem::path("osx/preferences");
 	}
 #else

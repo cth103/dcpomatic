@@ -2572,7 +2572,7 @@ Film::read_remembered_assets() const
 {
 	auto const filename = dcp::filesystem::fix_long_path(file(assets_file));
 
-	if (!boost::filesystem::exists(filename)) {
+	if (!dcp::filesystem::exists(filename)) {
 		return {};
 	}
 
