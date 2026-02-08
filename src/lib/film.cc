@@ -211,9 +211,8 @@ Film::Film(optional<boost::filesystem::path> dir)
 		_studio = metadata["studio"];
 	}
 
-	for (auto encoding: {VideoEncoding::JPEG2000, VideoEncoding::MPEG2}) {
-		_video_bit_rate[encoding] = Config::instance()->default_video_bit_rate(encoding);
-	}
+	_video_bit_rate[VideoEncoding::JPEG2000] = std::min(150000000L, Config::instance()->maximum_video_bit_rate(VideoEncoding::JPEG2000));
+	_video_bit_rate[VideoEncoding::MPEG2] = std::min(5000000L, Config::instance()->maximum_video_bit_rate(VideoEncoding::MPEG2));
 
 	_playlist_change_connection = _playlist->Change.connect(bind(&Film::playlist_change, this, _1));
 	_playlist_order_changed_connection = _playlist->OrderChange.connect(bind(&Film::playlist_order_changed, this));
@@ -598,7 +597,7 @@ Film::read_metadata(optional<boost::filesystem::path> path)
 	} else {
 		_video_bit_rate[VideoEncoding::JPEG2000] = f.number_child<int64_t>("J2KVideoBitRate");
 	}
-	_video_bit_rate[VideoEncoding::MPEG2] = f.optional_number_child<int64_t>("MPEG2VideoBitRate").get_value_or(Config::instance()->default_video_bit_rate(VideoEncoding::MPEG2));
+	_video_bit_rate[VideoEncoding::MPEG2] = f.optional_number_child<int64_t>("MPEG2VideoBitRate").get_value_or(5000000);
 	_video_frame_rate = f.number_child<int>("VideoFrameRate");
 	_audio_frame_rate = f.optional_number_child<int>("AudioFrameRate").get_value_or(48000);
 	auto encrypted = f.optional_bool_child("Encrypted").get_value_or(false);

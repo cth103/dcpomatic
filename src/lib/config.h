@@ -238,10 +238,6 @@ public:
 		return _dcp_j2k_comment;
 	}
 
-	int64_t default_video_bit_rate(VideoEncoding encoding) const {
-		return _default_video_bit_rate[encoding];
-	}
-
 	int default_audio_delay() const {
 		return _default_audio_delay;
 	}
@@ -1397,7 +1393,6 @@ private:
 	std::string _dcp_product_name;
 	std::string _dcp_product_version;
 	std::string _dcp_j2k_comment;
-	EnumIndexedVector<int64_t, VideoEncoding> _default_video_bit_rate;
 	/** Default audio delay in ms */
 	int _default_audio_delay;
 	/** Delay for audio (with respect to picture) in the player, in ms.

@@ -110,8 +110,6 @@ Config::set_defaults()
 	_show_experimental_audio_processors = false;
 	_language = optional<string>();
 	_default_still_length = 10;
-	_default_video_bit_rate[VideoEncoding::JPEG2000] = 150000000;
-	_default_video_bit_rate[VideoEncoding::MPEG2] = 5000000;
 	_default_audio_delay = 0;
 	_player_audio_delay = 0;
 	_default_interop = false;
@@ -375,12 +373,6 @@ try
 	_dcp_j2k_comment = f.optional_string_child("DCPJ2KComment").get_value_or("");
 
 	_default_still_length = f.optional_number_child<int>("DefaultStillLength").get_value_or(10);
-	if (auto j2k = f.optional_number_child<int>("DefaultJ2KBandwidth")) {
-		_default_video_bit_rate[VideoEncoding::JPEG2000] = *j2k;
-	} else {
-		_default_video_bit_rate[VideoEncoding::JPEG2000] = f.optional_number_child<int64_t>("DefaultJ2KVideoBitRate").get_value_or(200000000);
-	}
-	_default_video_bit_rate[VideoEncoding::MPEG2] = f.optional_number_child<int64_t>("DefaultMPEG2VideoBitRate").get_value_or(5000000);
 	_default_audio_delay = f.optional_number_child<int>("DefaultAudioDelay").get_value_or(0);
 	_player_audio_delay = f.optional_number_child<int>("PlayerAudioDelay").get_value_or(0);
 	_default_interop = f.optional_bool_child("DefaultInterop").get_value_or(false);
