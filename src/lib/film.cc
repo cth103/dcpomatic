@@ -211,8 +211,8 @@ Film::Film(optional<boost::filesystem::path> dir)
 		_studio = metadata["studio"];
 	}
 
-	_video_bit_rate[VideoEncoding::JPEG2000] = std::min(150000000LL, Config::instance()->maximum_video_bit_rate(VideoEncoding::JPEG2000));
-	_video_bit_rate[VideoEncoding::MPEG2] = std::min(5000000LL, Config::instance()->maximum_video_bit_rate(VideoEncoding::MPEG2));
+	_video_bit_rate[VideoEncoding::JPEG2000] = std::min(static_cast<int64_t>(150000000), Config::instance()->maximum_video_bit_rate(VideoEncoding::JPEG2000));
+	_video_bit_rate[VideoEncoding::MPEG2] = std::min(static_cast<int64_t>(5000000), Config::instance()->maximum_video_bit_rate(VideoEncoding::MPEG2));
 
 	_playlist_change_connection = _playlist->Change.connect(bind(&Film::playlist_change, this, _1));
 	_playlist_order_changed_connection = _playlist->OrderChange.connect(bind(&Film::playlist_order_changed, this));
