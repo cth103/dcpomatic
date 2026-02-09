@@ -200,6 +200,22 @@ public:
 		return _has_non_zero_entry_point;
 	}
 
+	boost::optional<std::string> chain() const {
+		return _chain;
+	}
+
+	boost::optional<std::string> distributor() const {
+		return _distributor;
+	}
+
+	boost::optional<std::string> facility() const {
+		return _facility;
+	}
+
+	boost::optional<dcp::Luminance> luminance() const {
+		return _luminance;
+	}
+
 	void add_fonts(std::shared_ptr<TextContent> content);
 
 private:
@@ -243,6 +259,10 @@ private:
 	dcp::Fraction _atmos_edit_rate;
 	EnumIndexedVector<bool, TextType> _has_non_zero_entry_point;
 	VideoRange _video_range = VideoRange::FULL;
+	boost::optional<std::string> _chain;
+	boost::optional<std::string> _distributor;
+	boost::optional<std::string> _facility;
+	boost::optional<dcp::Luminance> _luminance;
 
 	struct Font
 	{

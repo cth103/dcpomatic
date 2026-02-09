@@ -30,6 +30,7 @@
 
 using std::make_shared;
 using std::shared_ptr;
+using std::string;
 using std::vector;
 
 
@@ -74,4 +75,31 @@ BOOST_AUTO_TEST_CASE(test_copy_dcp_markers_to_film)
 	BOOST_CHECK(film2->marker(dcp::Marker::FFEC) == dcpomatic::DCPTime::from_seconds(22));
 }
 
+
+BOOST_AUTO_TEST_CASE(copy_metadata_to_film)
+{
+	auto picture = content_factory("test/data/flat_red.png")[0];
+	auto sound = content_factory("test/data/sine_440.wav")[0];
+	auto film1 = new_test_film("copy_metadata_to_film", { picture, sound });
+	film1->set_chain(string{"Carl's Cinemas"});
+	film1->set_distributor(string{"IPoAC Film Distribution"});
+	film1->set_facility(string{"Hand-Rolled JPEG2000 Mastering"});
+	film1->set_luminance(dcp::Luminance(9, dcp::Luminance::Unit::FOOT_LAMBERT));
+	make_and_verify_dcp(
+		film1,
+		{
+			dcp::VerificationNote::Code::MISSING_CPL_METADATA
+		});
+
+	auto dcp = make_shared<DCPContent>(film1->dir(film1->dcp_name()));
+	auto film2 = new_test_film("copy_metadata_to_film2", { dcp });
+	copy_dcp_settings_to_film(dcp, film2);
+	film2->write_metadata();
+
+	BOOST_CHECK_EQUAL(film2->chain().get_value_or(""), "Carl's Cinemas");
+	BOOST_CHECK_EQUAL(film2->distributor().get_value_or(""), "IPoAC Film Distribution");
+	BOOST_CHECK_EQUAL(film2->facility().get_value_or(""), "Hand-Rolled JPEG2000 Mastering");
+	BOOST_CHECK(film2->luminance());
+	BOOST_CHECK(film2->luminance() == dcp::Luminance(9, dcp::Luminance::Unit::FOOT_LAMBERT));
+}
 

@@ -39,6 +39,7 @@
 #include <dcp/reel_text_asset.h>
 #include <dcp/reel.h>
 #include <dcp/scope_guard.h>
+#include <dcp/types.h>
 #include <libxml++/libxml++.h>
 #include <fmt/format.h>
 #include <iterator>
@@ -171,6 +172,22 @@ DCPContent::DCPContent(cxml::ConstNodePtr node, boost::optional<boost::filesyste
 			auto type = string_to_text_type(non_zero->string_attribute("type"));
 			_has_non_zero_entry_point[type] = non_zero->content() == "1";
 		} catch (MetadataError&) {}
+	}
+
+	if (auto chain = node->optional_string_child("Chain")) {
+		_chain = *chain;
+	}
+
+	if (auto distributor = node->optional_string_child("Distributor")) {
+		_distributor = *distributor;
+	}
+
+	if (auto facility = node->optional_string_child("Facility")) {
+		_facility = *facility;
+	}
+
+	if (auto luminance = node->optional_node_child("Luminance")) {
+		_luminance = dcp::Luminance(luminance);
 	}
 }
 
@@ -334,6 +351,10 @@ DCPContent::examine(shared_ptr<const Film> film, shared_ptr<Job> job, bool toler
 		_ratings = examiner->ratings();
 		_content_versions = examiner->content_versions();
 		_has_non_zero_entry_point = examiner->has_non_zero_entry_point();
+		_chain = examiner->chain();
+		_distributor = examiner->distributor();
+		_facility = examiner->facility();
+		_luminance = examiner->luminance();
 	}
 
 	if (needed_assets == needs_assets()) {
@@ -471,6 +492,22 @@ DCPContent::as_xml(xmlpp::Element* element, bool with_paths, PathBehaviour path_
 			has->add_child_text("1");
 			has->set_attribute("type", text_type_to_string(static_cast<TextType>(i)));
 		}
+	}
+
+	if (_chain) {
+		cxml::add_text_child(element, "Chain", *_chain);
+	}
+
+	if (_distributor) {
+		cxml::add_text_child(element, "Distributor", *_distributor);
+	}
+
+	if (_facility) {
+		cxml::add_text_child(element, "Facility", *_facility);
+	}
+
+	if (_luminance) {
+		_luminance->as_xml(element, "");
 	}
 }
 

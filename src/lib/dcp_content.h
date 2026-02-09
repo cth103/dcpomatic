@@ -223,6 +223,22 @@ public:
 
 	void check_font_ids();
 
+	boost::optional<std::string> chain() const {
+		return _chain;
+	}
+
+	boost::optional<std::string> distributor() const {
+		return _distributor;
+	}
+
+	boost::optional<std::string> facility() const {
+		return _facility;
+	}
+
+	boost::optional<dcp::Luminance> luminance() const {
+		return _luminance;
+	}
+
 	std::list<dcpomatic::DCPTimePeriod> reels(std::shared_ptr<const Film> film) const;
 
 private:
@@ -274,6 +290,11 @@ private:
 
 	boost::optional<int> _active_audio_channels;
 	boost::optional<dcp::LanguageTag> _audio_language;
+
+	boost::optional<std::string> _chain;
+	boost::optional<std::string> _distributor;
+	boost::optional<std::string> _facility;
+	boost::optional<dcp::Luminance> _luminance;
 };
 
 

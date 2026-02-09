@@ -68,6 +68,10 @@ copy_dcp_settings_to_film(shared_ptr<const DCPContent> dcp, shared_ptr<Film> fil
 
 	film->set_ratings(dcp->ratings());
 	film->set_content_versions(dcp->content_versions());
+	film->set_chain(dcp->chain());
+	film->set_distributor(dcp->distributor());
+	film->set_facility(dcp->facility());
+	film->set_luminance(dcp->luminance());
 }
 
 

@@ -122,6 +122,10 @@ DCPExaminer::DCPExaminer(shared_ptr<const DCPContent> content, bool tolerant)
 	_cpl = selected_cpl->id();
 	_name = selected_cpl->content_title_text();
 	_content_kind = selected_cpl->content_kind();
+	_chain = selected_cpl->chain();
+	_distributor = selected_cpl->distributor();
+	_facility = selected_cpl->facility();
+	_luminance = selected_cpl->luminance();
 
 	LOG_GENERAL("Selected CPL {}", _cpl);
 
