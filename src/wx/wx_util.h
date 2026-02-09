@@ -144,6 +144,7 @@ namespace wx {
 	extern wxString report_problem();
 	extern int linked_value_width();
 	extern wxSize link_size(wxWindow* parent);
+	extern wxString link_bitmap_path();
 }
 }
 

@@ -52,6 +52,7 @@ private:
 	void y_offset_changed ();
 	void x_scale_changed ();
 	void y_scale_changed ();
+	void link_clicked();
 	void line_spacing_changed ();
 	void dcp_track_changed ();
 	void stream_changed ();
@@ -90,8 +91,9 @@ private:
 	wxStaticText* _x_scale_pc_label;
 	wxStaticText* _y_scale_label;
 	wxStaticText* _y_scale_pc_label;
-	SpinCtrl* _x_scale;
-	SpinCtrl* _y_scale;
+	wxSpinCtrl* _x_scale;
+	wxSpinCtrl* _y_scale;
+	wxToggleButton* _link;
 	wxStaticText* _line_spacing_label;
 	wxStaticText* _line_spacing_pc_label;
 	SpinCtrl* _line_spacing;
@@ -112,6 +114,8 @@ private:
 
 	int _outline_subtitles_row;
 	int _ccap_track_or_language_row;
+
+	bool _x_changed_last = false;
 
 	std::weak_ptr<Content> _analysis_content;
 	boost::signals2::scoped_connection _analysis_finished_connection;

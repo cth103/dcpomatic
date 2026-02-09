@@ -53,6 +53,7 @@
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/spinctrl.h>
+#include <wx/tglbtn.h>
 LIBDCP_ENABLE_WARNINGS
 
 
@@ -95,11 +96,14 @@ TextPanel::create ()
 
 	_scale_label = create_label (this, _("Scale"), true);
 	_x_scale_label = create_label (this, _("X"), true);
-	_x_scale = new SpinCtrl(this);
+	_x_scale = new wxSpinCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(dcpomatic::wx::linked_value_width(), -1));
 	_x_scale_pc_label = new StaticText (this, _("%"));
 	_y_scale_label = create_label (this, S_("Coord|Y"), true);
-	_y_scale = new SpinCtrl(this);
+	_y_scale = new wxSpinCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(dcpomatic::wx::linked_value_width(), -1));
 	_y_scale_pc_label = new StaticText (this, _("%"));
+
+	_link = new wxToggleButton(this, wxID_ANY, {}, wxDefaultPosition, dcpomatic::wx::link_size(this));
+	_link->SetBitmap(wxBitmap(dcpomatic::wx::link_bitmap_path(), wxBITMAP_TYPE_PNG));
 
 	_line_spacing_label = create_label (this, _("Line spacing"), true);
 	_line_spacing = new SpinCtrl(this);
@@ -125,6 +129,7 @@ TextPanel::create ()
 	_y_offset->Bind                 (wxEVT_SPINCTRL, boost::bind (&TextPanel::y_offset_changed, this));
 	_x_scale->Bind                  (wxEVT_SPINCTRL, boost::bind (&TextPanel::x_scale_changed, this));
 	_y_scale->Bind                  (wxEVT_SPINCTRL, boost::bind (&TextPanel::y_scale_changed, this));
+	_link->Bind                     (wxEVT_TOGGLEBUTTON, boost::bind(&TextPanel::link_clicked, this));
 	_line_spacing->Bind             (wxEVT_SPINCTRL, boost::bind (&TextPanel::line_spacing_changed, this));
 	_stream->Bind                   (wxEVT_CHOICE,   boost::bind (&TextPanel::stream_changed, this));
 	_text_view_button->Bind         (wxEVT_BUTTON,   boost::bind (&TextPanel::text_view_clicked, this));
@@ -222,10 +227,10 @@ TextPanel::add_to_grid ()
 	auto use = new wxBoxSizer (wxHORIZONTAL);
 	use->Add (_use, 0, wxEXPAND | wxRIGHT, DCPOMATIC_SIZER_GAP);
 	use->Add (_type, 1, wxEXPAND, 0);
-	_grid->Add (use, wxGBPosition (r, 0), wxGBSpan (1, 2));
+	_grid->Add(use, wxGBPosition(r, 0), wxGBSpan(1, 3));
 	++r;
 
-	_grid->Add (_burn, wxGBPosition (r, 0), wxGBSpan (1, 2));
+	_grid->Add(_burn, wxGBPosition(r, 0), wxGBSpan(1, 3));
 	++r;
 
 	_outline_subtitles_row = r;
@@ -235,11 +240,16 @@ TextPanel::add_to_grid ()
 	auto offset = new wxBoxSizer (wxHORIZONTAL);
 	add_label_to_sizer (offset, _x_offset_label, true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL);
 	offset->Add (_x_offset, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP);
-	offset->Add (_x_offset_pc_label, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP * 2);
 #ifdef __WXGTK3__
+	offset->Add (_x_offset_pc_label, 0, wxALIGN_CENTER_VERTICAL);
 	_grid->Add (offset, wxGBPosition(r, 1));
 	++r;
 	offset = new wxBoxSizer (wxHORIZONTAL);
+#else
+	offset->Add(_x_offset_pc_label, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP);
+	/* Pad so that Y scale aligns with Y offset even though there's no link button for scale */
+	auto padding = new wxStaticText(this, wxID_ANY, wxEmptyString, wxDefaultPosition, dcpomatic::wx::link_size(this));
+	offset->Add(padding, 0, 0);
 #endif
 	add_label_to_sizer (offset, _y_offset_label, true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL);
 	offset->Add (_y_offset, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP);
@@ -251,15 +261,19 @@ TextPanel::add_to_grid ()
 	auto scale = new wxBoxSizer (wxHORIZONTAL);
 	add_label_to_sizer (scale, _x_scale_label, true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL);
 	scale->Add (_x_scale, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP);
-	scale->Add (_x_scale_pc_label, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP * 2);
 #ifdef __WXGTK3__
+	scale->Add (_x_scale_pc_label, 0, wxALIGN_CENTER_VERTICAL);
 	_grid->Add (scale, wxGBPosition(r, 1));
+	_grid->Add(_link, wxGBPosition(r, 2), wxGBSpan(2, 1), wxALIGN_CENTER_VERTICAL);
 	++r;
 	scale = new wxBoxSizer (wxHORIZONTAL);
+#else
+	scale->Add (_x_scale_pc_label, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP);
+	scale->Add(_link, 0, wxALIGN_CENTER_VERTICAL);
 #endif
 	add_label_to_sizer (scale, _y_scale_label, true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL);
 	scale->Add (_y_scale, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP);
-	add_label_to_sizer (scale, _y_scale_pc_label, false, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL);
+	add_label_to_sizer(scale, _y_scale_pc_label, false, 0, wxALIGN_CENTER_VERTICAL);
 	_grid->Add (scale, wxGBPosition (r, 1));
 	++r;
 
@@ -286,7 +300,7 @@ TextPanel::add_to_grid ()
 		s->Add (_fonts_dialog_button, 0, wxALL, DCPOMATIC_SIZER_GAP);
 		s->Add (_appearance_dialog_button, 0, wxALL, DCPOMATIC_SIZER_GAP);
 
-		_grid->Add (s, wxGBPosition(r, 0), wxGBSpan(1, 2));
+		_grid->Add(s, wxGBPosition(r, 0), wxGBSpan(1, 3));
 		++r;
 	}
 
@@ -649,8 +663,13 @@ TextPanel::y_offset_changed ()
 void
 TextPanel::x_scale_changed ()
 {
+	_x_changed_last = true;
 	for (auto i: _parent->selected_text ()) {
-		i->text_of_original_type(_original_type)->set_x_scale (_x_scale->GetValue() / 100.0);
+		auto text = i->text_of_original_type(_original_type);
+		text->set_x_scale(_x_scale->GetValue() / 100.0);
+		if (_link->GetValue()) {
+			text->set_y_scale(_x_scale->GetValue() / 100.0);
+		}
 	}
 }
 
@@ -658,8 +677,13 @@ TextPanel::x_scale_changed ()
 void
 TextPanel::y_scale_changed ()
 {
+	_x_changed_last = false;
 	for (auto i: _parent->selected_text ()) {
-		i->text_of_original_type(_original_type)->set_y_scale (_y_scale->GetValue() / 100.0);
+		auto text = i->text_of_original_type(_original_type);
+		text->set_y_scale(_y_scale->GetValue() / 100.0);
+		if (_link->GetValue()) {
+			text->set_x_scale(_y_scale->GetValue() / 100.0);
+		}
 	}
 }
 
@@ -871,6 +895,17 @@ TextPanel::language_is_additional_changed ()
 		if (t) {
 			t->set_language_is_additional (_language_type->GetSelection() == 1);
 		}
+	}
+}
+
+
+void
+TextPanel::link_clicked()
+{
+	if (_x_changed_last) {
+		x_scale_changed();
+	} else {
+		y_scale_changed();
 	}
 }
 

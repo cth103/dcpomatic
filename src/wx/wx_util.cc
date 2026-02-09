@@ -776,3 +776,9 @@ dcpomatic::wx::link_size(wxWindow*)
 
 #endif
 
+wxString
+dcpomatic::wx::link_bitmap_path()
+{
+	return bitmap_path(gui_is_dark() ? "link_white.png" : "link_black.png");
+}
+
