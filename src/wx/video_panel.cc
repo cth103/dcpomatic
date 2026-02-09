@@ -90,32 +90,10 @@ VideoPanel::create()
 
 	_crop_label = create_label(this, _("Crop"), true);
 
-#if defined(__WXGTK3__)
-	int const crop_width = 128;
-	int const link_width = 32;
-	int const link_height = 64;
-#elif defined(__WXGTK20__)
-	int const crop_width = 56;
-	int const link_width = 24;
-	int const link_height = 32;
-#elif defined(DCPOMATIC_OSX)
-	int const crop_width = 56;
-#if wxCHECK_VERSION(3, 2, 0)
-	int const link_width = 8 + 15 / dpi_scale_factor(this);
-#else
-	int const link_width = 23;
-#endif
-	int const link_height = 28;
-#else
-	int const crop_width = 56;
-	int const link_width = 22;
-	int const link_height = 28;
-#endif
-
 	_left_crop_label = create_label(this, _("Left"), true);
 	_left_crop = new ContentSpinCtrl<VideoContent>(
 		this,
-		new wxSpinCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(crop_width, -1)),
+		new wxSpinCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(dcpomatic::wx::linked_value_width(), -1)),
 		VideoContentProperty::CROP,
 		&Content::video,
 		boost::mem_fn(&VideoContent::requested_left_crop),
@@ -125,13 +103,13 @@ VideoPanel::create()
 
 	auto const link_path = bitmap_path(gui_is_dark() ? "link_white.png" : "link_black.png");
 
-	_left_right_link = new wxToggleButton(this, wxID_ANY, {}, wxDefaultPosition, wxSize(link_width, link_height));
+	_left_right_link = new wxToggleButton(this, wxID_ANY, {}, wxDefaultPosition, dcpomatic::wx::link_size(this));
 	_left_right_link->SetBitmap(wxBitmap(link_path, wxBITMAP_TYPE_PNG));
 
 	_right_crop_label = create_label(this, _("Right"), true);
 	_right_crop = new ContentSpinCtrl<VideoContent>(
 		this,
-		new wxSpinCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(crop_width, -1)),
+		new wxSpinCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(dcpomatic::wx::linked_value_width(), -1)),
 		VideoContentProperty::CROP,
 		&Content::video,
 		boost::mem_fn(&VideoContent::requested_right_crop),
@@ -142,7 +120,7 @@ VideoPanel::create()
 	_top_crop_label = create_label(this, _("Top"), true);
 	_top_crop = new ContentSpinCtrl<VideoContent>(
 		this,
-		new wxSpinCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(crop_width, -1)),
+		new wxSpinCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(dcpomatic::wx::linked_value_width(), -1)),
 		VideoContentProperty::CROP,
 		&Content::video,
 		boost::mem_fn(&VideoContent::requested_top_crop),
@@ -150,13 +128,13 @@ VideoPanel::create()
 		boost::bind(&VideoPanel::top_crop_changed, this)
 		);
 
-	_top_bottom_link = new wxToggleButton(this, wxID_ANY, {}, wxDefaultPosition, wxSize(link_width, link_height));
+	_top_bottom_link = new wxToggleButton(this, wxID_ANY, {}, wxDefaultPosition, dcpomatic::wx::link_size(this));
 	_top_bottom_link->SetBitmap(wxBitmap(link_path, wxBITMAP_TYPE_PNG));
 
 	_bottom_crop_label = create_label(this, _("Bottom"), true);
 	_bottom_crop = new ContentSpinCtrl<VideoContent>(
 		this,
-		new wxSpinCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(crop_width, -1)),
+		new wxSpinCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(dcpomatic::wx::linked_value_width(), -1)),
 		VideoContentProperty::CROP,
 		&Content::video,
 		boost::mem_fn(&VideoContent::requested_bottom_crop),

@@ -738,3 +738,41 @@ layout_for_short_screen(wxWindow* reference)
 	return sn >= 0 && wxDisplay(sn).GetClientArea().height <= 800;
 }
 
+
+int
+dcpomatic::wx::linked_value_width()
+{
+#if defined(__WXGTK3__)
+	return 128;
+#else
+	return 56;
+#endif
+}
+
+
+#if defined(DCPOMATIC_OSX) && wxCHECK_VERSION(3, 2, 0)
+
+wxSize
+dcpomatic::wx::link_size(wxWindow* window)
+{
+	return wxSize(8 + 15 / dpi_scale_factor(window), 28);
+}
+
+#else
+
+wxSize
+dcpomatic::wx::link_size(wxWindow*)
+{
+#if defined(__WXGTK3__)
+	return wxSize(32, 64);
+#elif defined(__WXGTK20__)
+	return wxSize(24, 32);
+#elif defined(DCPOMATIC_OSX)
+	return wxSize(23, 28);
+#else
+	return wxSize(22, 28);
+#endif
+}
+
+#endif
+
