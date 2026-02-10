@@ -228,7 +228,7 @@ VideoPanel::add_to_grid()
 	add_label_to_sizer(crop, _left_crop_label, true, wxGBPosition(cr, 0));
 	_left_crop->add(crop, wxGBPosition(cr, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
 #ifdef __WXGTK3__
-	crop->Add(_left_right_link, wxGBPosition(cr, 2), wxGBSpan(2, 1));
+	crop->Add(_left_right_link, wxGBPosition(cr, 2), wxGBSpan(2, 1), wxALIGN_CENTER_VERTICAL);
 	++cr;
 	add_label_to_sizer(crop, _right_crop_label, true, wxGBPosition(cr, 0));
 	_right_crop->add(crop, wxGBPosition(cr, 1));
@@ -241,7 +241,7 @@ VideoPanel::add_to_grid()
 	add_label_to_sizer(crop, _top_crop_label, true, wxGBPosition(cr, 0));
 	_top_crop->add(crop, wxGBPosition(cr, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
 #ifdef __WXGTK3__
-	crop->Add(_top_bottom_link, wxGBPosition(cr, 2), wxGBSpan(2, 1));
+	crop->Add(_top_bottom_link, wxGBPosition(cr, 2), wxGBSpan(2, 1), wxALIGN_CENTER_VERTICAL);
 	++cr;
 	add_label_to_sizer(crop, _bottom_crop_label, true, wxGBPosition(cr, 0));
 	_bottom_crop->add(crop, wxGBPosition(cr, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
