@@ -830,7 +830,7 @@ TextPanel::update_outline_subtitles_in_viewer ()
 			auto content = _analysis_content.lock ();
 			DCPOMATIC_ASSERT (content);
 			rect->x += content->text.front()->x_offset() - _analysis->analysis_x_offset();
-			rect->y += content->text.front()->y_offset() - _analysis->analysis_y_offset();
+			rect->y += _analysis->analysis_y_offset() - content->text.front()->y_offset();
 		}
 		fv.set_outline_subtitles(rect);
 	} else {
