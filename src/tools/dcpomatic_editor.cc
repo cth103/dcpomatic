@@ -374,7 +374,7 @@ public:
 		SetIcon(wxIcon(std_to_wx("id")));
 #endif
 
-		Config::instance()->Changed.connect(boost::bind(&DOMFrame::config_changed, this, _1));
+		Config::instance()->Changed.connect(boost::bind(&DOMFrame::config_changed, this));
 
 		Bind(wxEVT_MENU, boost::bind(&DOMFrame::file_open, this), ID_file_open);
 		Bind(wxEVT_MENU, boost::bind(&DOMFrame::file_save, this), ID_file_save);
@@ -415,7 +415,7 @@ public:
 	}
 
 private:
-	void config_changed(Config::Property what)
+	void config_changed()
 	{
 		try {
 			Config::instance()->write_config();
