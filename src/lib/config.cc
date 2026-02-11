@@ -200,6 +200,7 @@ Config::set_defaults()
 	_initial_paths["SelectCertificatePath"] = boost::none;
 	_initial_paths["AddCombinerInputPath"] = boost::none;
 	_initial_paths["AddEditorInputPath"] = boost::none;
+	_initial_paths["AddVerifierInputPath"] = boost::none;
 	_initial_paths["ExportSubtitlesPath"] = boost::none;
 	_initial_paths["ExportVideoPath"] = boost::none;
 	_initial_paths["DebugLogPath"] = boost::none;

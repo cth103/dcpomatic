@@ -27,6 +27,7 @@
 #include "wx/about_dialog.h"
 #include "wx/check_box.h"
 #include "wx/dcpomatic_button.h"
+#include "wx/dir_dialog.h"
 #include "wx/dir_picker_ctrl.h"
 #include "wx/editable_list.h"
 #include "wx/file_dialog.h"
@@ -145,14 +146,16 @@ public:
 		add_label_to_sizer(dcp_sizer, _overall_panel, _("DCPs"), true, 0, wxALIGN_CENTER_VERTICAL);
 
 		auto add = [this](wxWindow* parent) {
-			wxDirDialog dialog(parent);
+			DirDialog dialog(parent, _("Select DCP(s)"), wxDD_MULTIPLE, "AddVerifierInputPath");
 
-			if (dialog.ShowModal() == wxID_OK) {
+			if (dialog.show()) {
 				wxProgressDialog progress(variant::wx::dcpomatic(), _("Examining DCPs"));
 				vector<DCPPath> paths;
-				for (auto const& dcp: dcp::find_potential_dcps(boost::filesystem::path(wx_to_std(dialog.GetPath())))) {
-					progress.Pulse();
-					paths.push_back(DCPPath(dcp, _kdms));
+				for (auto path: dialog.paths()) {
+					for (auto const& dcp: dcp::find_potential_dcps(path)) {
+						progress.Pulse();
+						paths.push_back(DCPPath(dcp, _kdms));
+					}
 				}
 				return paths;
 			} else {
