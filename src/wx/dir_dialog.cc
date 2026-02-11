@@ -23,8 +23,12 @@
 #include "wx_util.h"
 #include "lib/config.h"
 #include "lib/cross.h"
+#include <dcp/warnings.h>
 #include <boost/filesystem.hpp>
 #include <vector>
+LIBDCP_DISABLE_WARNINGS
+#include <wx/dirdlg.h>
+LIBDCP_ENABLE_WARNINGS
 
 
 using std::vector;
@@ -60,6 +64,21 @@ DirDialog::path() const
 }
 
 
+vector<boost::filesystem::path>
+DirDialog::paths() const
+{
+	wxArrayString wx;
+	GetPaths(wx);
+
+	vector<boost::filesystem::path> std;
+	for (size_t i = 0; i < wx.GetCount(); ++i) {
+		std.push_back(wx_to_std(wx[i]));
+	}
+
+	return std;
+}
+
+
 bool
 DirDialog::show()
 {
@@ -71,7 +90,8 @@ DirDialog::show()
 		return false;
 	}
 
-	Config::instance()->set_initial_path(_initial_path_key, path().parent_path());
+	auto initial = GetWindowStyle() & wxDD_MULTIPLE ? paths()[0] : path();
+	Config::instance()->set_initial_path(_initial_path_key, initial.parent_path());
 	return true;
 }
 

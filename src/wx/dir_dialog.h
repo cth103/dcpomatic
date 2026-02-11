@@ -46,6 +46,7 @@ public:
 	bool show();
 
 	boost::filesystem::path path() const;
+	std::vector<boost::filesystem::path> paths() const;
 
 private:
 	std::string _initial_path_key;
