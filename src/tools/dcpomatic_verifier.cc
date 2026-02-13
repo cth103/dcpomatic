@@ -146,7 +146,11 @@ public:
 		add_label_to_sizer(dcp_sizer, _overall_panel, _("DCPs"), true, 0, wxALIGN_CENTER_VERTICAL);
 
 		auto add = [this](wxWindow* parent) {
+#if wxCHECK_VERSION(3, 1, 4)
 			DirDialog dialog(parent, _("Select DCP(s)"), wxDD_MULTIPLE, "AddVerifierInputPath");
+#else
+			DirDialog dialog(parent, _("Select DCP(s)"), 0, "AddVerifierInputPath");
+#endif
 
 			if (dialog.show()) {
 				wxProgressDialog progress(variant::wx::dcpomatic(), _("Examining DCPs"));

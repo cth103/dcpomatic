@@ -68,7 +68,11 @@ vector<boost::filesystem::path>
 DirDialog::paths() const
 {
 	wxArrayString wx;
+#if wxCHECK_VERSION(3, 1, 4)
 	GetPaths(wx);
+#else
+	wx.Append(GetPath());
+#endif
 
 	vector<boost::filesystem::path> std;
 	for (size_t i = 0; i < wx.GetCount(); ++i) {
@@ -90,7 +94,11 @@ DirDialog::show()
 		return false;
 	}
 
+#if wxCHECK_VERSION(3, 1, 4)
 	auto initial = GetWindowStyle() & wxDD_MULTIPLE ? paths()[0] : path();
+#else
+	auto initial = path();
+#endif
 	Config::instance()->set_initial_path(_initial_path_key, initial.parent_path());
 	return true;
 }
