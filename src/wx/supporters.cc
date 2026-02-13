@@ -694,6 +694,7 @@ supported_by.Add (wxT ("Paul Jones"));
 supported_by.Add (wxT ("Anthony Jonick"));
 supported_by.Add (wxT ("Leif Jonker"));
 supported_by.Add (wxT ("Kate Jopson"));
+supported_by.Add (wxT ("Patrick Josse"));
 supported_by.Add (wxT ("Camille Jouhair"));
 supported_by.Add (wxT ("Thierry Journet"));
 supported_by.Add (wxT ("Viktor Jovanoski"));
