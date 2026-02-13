@@ -71,7 +71,7 @@ DirDialog::paths() const
 #if wxCHECK_VERSION(3, 1, 4)
 	GetPaths(wx);
 #else
-	wx.Append(GetPath());
+	wx.Add(GetPath());
 #endif
 
 	vector<boost::filesystem::path> std;
