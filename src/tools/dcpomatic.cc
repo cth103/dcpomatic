@@ -254,6 +254,7 @@ enum {
 	ID_tools_restore_default_preferences,
 	ID_tools_export_preferences,
 	ID_tools_import_preferences,
+	ID_help_user_manual,
 	ID_help_report_a_problem,
 	/* IDs for shortcuts (with no associated menu item) */
 	ID_add_file,
@@ -366,6 +367,7 @@ public:
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::tools_export_preferences, this), ID_tools_export_preferences);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::tools_import_preferences, this), ID_tools_import_preferences);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::help_about, this),              wxID_ABOUT);
+		Bind (wxEVT_MENU, boost::bind (&DOMFrame::help_user_manual, this),        ID_help_user_manual);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::help_report_a_problem, this),   ID_help_report_a_problem);
 
 		Bind (wxEVT_CLOSE_WINDOW, boost::bind (&DOMFrame::close, this, _1));
@@ -1161,6 +1163,11 @@ private:
 		dialog.ShowModal();
 	}
 
+	void help_user_manual()
+	{
+		wxLaunchDefaultBrowser(std_to_wx("https://dcpomatic.com/manual"));
+	}
+
 	void help_report_a_problem ()
 	{
 		ReportProblemDialog dialog(this, _film);
@@ -1445,6 +1452,7 @@ private:
 #else
 		add_item (help, _("About"), wxID_ABOUT, ALWAYS);
 #endif
+		add_item(help, _("User manual..."), ID_help_user_manual, ALWAYS);
 		if (variant::show_report_a_problem()) {
 			add_item(help, _("Report a problem..."), ID_help_report_a_problem, ALWAYS);
 		}
