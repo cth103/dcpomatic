@@ -156,12 +156,26 @@ void
 DCPPanel::update_standards()
 {
 	_standard->Clear();
-	_standard->add_entry(_("SMPTE"), string{"smpte"});
-	if (Config::instance()->allow_smpte_bv20() || (_film && _film->limit_to_smpte_bv20())) {
-		_standard->add_entry(_("SMPTE (Bv2.0 only)"), string{"smpte-bv20"});
+
+	auto const ref = _film && (_film->references_dcp_video() || _film->references_dcp_audio());
+	auto const atmos = _film && _film->contains_atmos_content();
+	auto const interop = _film && _film->interop();
+
+	if (!ref || !interop) {
+		_standard->add_entry(_("SMPTE"), string{"smpte"});
+		if (Config::instance()->allow_smpte_bv20() || (_film && _film->limit_to_smpte_bv20())) {
+			_standard->add_entry(_("SMPTE (Bv2.0 only)"), string{"smpte-bv20"});
+		}
 	}
-	_standard->add_entry(_("Interop"), string{"interop"});
-	_standard->add_entry(_("MPEG2 Interop"), string{"mpeg2-interop"});
+
+	if (!atmos && (!ref || interop)) {
+		_standard->add_entry(_("Interop"), string{"interop"});
+	}
+
+	if (!ref && !atmos) {
+		_standard->add_entry(_("MPEG2 Interop"), string{"mpeg2-interop"});
+	}
+
 	_sizer->Layout();
 }
 
@@ -499,6 +513,8 @@ DCPPanel::film_changed(FilmProperty p)
 		setup_sensitivity();
 		/* Maybe we now have ATMOS content which changes our minimum_allowed_audio_channels */
 		setup_audio_channels_choice(_audio_channels, minimum_allowed_audio_channels());
+		update_standards();
+		set_standard();
 		film_changed(FilmProperty::AUDIO_CHANNELS);
 		break;
 	case FilmProperty::AUDIO_LANGUAGE:
@@ -556,6 +572,8 @@ DCPPanel::film_content_changed(int property)
 	case DCPContentProperty::REFERENCE_AUDIO:
 	case DCPContentProperty::REFERENCE_TEXT:
 		setup_dcp_name();
+		update_standards();
+		set_standard();
 		setup_sensitivity();
 		break;
 	}
@@ -711,10 +729,8 @@ DCPPanel::setup_sensitivity()
 	_standard->Enable(
 		_generally_sensitive &&
 		_film &&
-		!_film->references_dcp_video() &&
-		!_film->references_dcp_audio() &&
-		!_film->contains_atmos_content()
-		);
+		_standard->size() > 1
+	);
 
 	_reencode_j2k->Enable          (_generally_sensitive && _film);
 	_show_audio->Enable            (_generally_sensitive && _film);
