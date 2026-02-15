@@ -1020,7 +1020,7 @@ DCPPanel::add_audio_panel_to_grid()
 	int r = 0;
 
 	add_label_to_sizer(_audio_grid, _channels_label, true, wxGBPosition(r, 0));
-	_audio_grid->Add(_audio_channels, wxGBPosition(r, 1));
+	_audio_grid->Add(_audio_channels, wxGBPosition(r, 1), wxDefaultSpan, wxEXPAND);
 	++r;
 
 	if (_audio_sample_rate_label && _audio_sample_rate) {
