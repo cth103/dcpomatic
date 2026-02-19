@@ -2314,7 +2314,7 @@ Alice, however, needs to know the key so she can play the DCP in her
 cinema.  A simple approach might be for us to send Alice the key.
 However, if Mallory can intercept the DCP, he might also be able to
 intercept our communication of the key to Alice.  Furthermore, if Alice
-happened to know Mallory, he could just send her a copy of the key.
+happened to know Mallory, she could just send him a copy of the key.
 </para>
 
 <para>
