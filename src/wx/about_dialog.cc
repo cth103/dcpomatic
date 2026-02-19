@@ -167,6 +167,7 @@ AboutDialog::AboutDialog(wxWindow* parent)
 		translated_by.Add(char_to_wx("Rov (若文)"));
 		translated_by.Add(char_to_wx("刘汉源"));
 		translated_by.Add(char_to_wx("poppinzhang"));
+		translated_by.Add(char_to_wx("林雅成"));
 		add_section(_("Translated by"), translated_by);
 
 		wxArrayString patrons;

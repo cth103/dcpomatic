@@ -6,209 +6,211 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-02-15 21:03+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2026-02-19 17:44+0900\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ja_JP\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.8\n"
 
 #: src/tools/dcpomatic_kdm.cc:491
 #, c-format
 msgid "%d KDM written to %s"
-msgstr ""
+msgstr "%d KDM が %s に書き込まれました"
 
 #: src/tools/dcpomatic_kdm.cc:491
 #, c-format
 msgid "%d KDMs written to %s"
-msgstr ""
+msgstr "%d KDM が %s に書き込まれました"
 
 #: src/tools/dcpomatic_combiner.cc:177
 #, c-format
 msgid "%s already exists as a file, so you cannot use it for a DCP."
 msgstr ""
+"%s は既にファイルとして存在するため、DCP として使用することはできません。"
 
 #: src/tools/dcpomatic_disk.cc:518 src/tools/dcpomatic_kdm.cc:944
 #: src/tools/dcpomatic_player.cc:1426
 #, c-format
 msgid "%s could not start"
-msgstr ""
+msgstr "%s を起動できませんでした"
 
 #: src/tools/dcpomatic_playlist.cc:717
 #, c-format
 msgid "%s could not start %s"
-msgstr ""
+msgstr "%s は %s を起動できませんでした"
 
 #: src/tools/dcpomatic_combiner.cc:272
 #, c-format
 msgid "%s could not start (%s)"
-msgstr ""
+msgstr "%s を起動できませんでした (%s)"
 
 #: src/tools/dcpomatic.cc:1787 src/tools/dcpomatic_editor.cc:573
 #, c-format
 msgid "%s could not start."
-msgstr ""
+msgstr "%s を開始できませんでした。"
 
 #: src/tools/dcpomatic_batch.cc:88
 msgid "&Add Film...\tCtrl-A"
-msgstr ""
+msgstr "プロジェクトを追加... \tCtrl-A"
 
 #: src/tools/dcpomatic_player.cc:660
 msgid "&Add OV..."
-msgstr ""
+msgstr "&OVを追加..."
 
 #: src/tools/dcpomatic_player.cc:668
 msgid "&Close"
-msgstr ""
+msgstr "&閉じる"
 
 #: src/tools/dcpomatic.cc:1375
 msgid "&Close\tCtrl-W"
-msgstr ""
+msgstr "&閉じる\tCtrl-W"
 
 #: src/tools/dcpomatic_batch.cc:110 src/tools/dcpomatic.cc:1461
 #: src/tools/dcpomatic_kdm.cc:347 src/tools/dcpomatic_player.cc:728
 #: src/tools/dcpomatic_playlist.cc:625
 msgid "&Edit"
-msgstr ""
+msgstr "&編集"
 
 #: src/tools/dcpomatic_batch.cc:90 src/tools/dcpomatic.cc:1382
 #: src/tools/dcpomatic_editor.cc:433 src/tools/dcpomatic_player.cc:672
 #: src/tools/dcpomatic_playlist.cc:609 src/tools/dcpomatic_verifier.cc:247
 msgid "&Exit"
-msgstr ""
+msgstr "&終了"
 
 #: src/tools/dcpomatic_batch.cc:108 src/tools/dcpomatic.cc:1460
 #: src/tools/dcpomatic_editor.cc:445 src/tools/dcpomatic_kdm.cc:346
 #: src/tools/dcpomatic_player.cc:725 src/tools/dcpomatic_playlist.cc:623
 #: src/tools/dcpomatic_verifier.cc:252
 msgid "&File"
-msgstr ""
+msgstr "&ファイル"
 
 #: src/tools/dcpomatic_batch.cc:113 src/tools/dcpomatic.cc:1465
 #: src/tools/dcpomatic_editor.cc:446 src/tools/dcpomatic_kdm.cc:349
 #: src/tools/dcpomatic_player.cc:732 src/tools/dcpomatic_playlist.cc:612
 #: src/tools/dcpomatic_playlist.cc:626 src/tools/dcpomatic_verifier.cc:256
 msgid "&Help"
-msgstr ""
+msgstr "&ヘルプ"
 
 #: src/tools/dcpomatic.cc:1462
 msgid "&Jobs"
-msgstr ""
+msgstr "&処理"
 
 #: src/tools/dcpomatic.cc:1406
 msgid "&Make DCP\tCtrl-M"
-msgstr ""
+msgstr "&DCPを作成\tCtrl-M"
 
 #: src/tools/dcpomatic.cc:1362 src/tools/dcpomatic_editor.cc:428
 #: src/tools/dcpomatic_player.cc:659
 msgid "&Open...\tCtrl-O"
-msgstr ""
+msgstr "&プロジェクトを開く...\tCtrl-O"
 
 #: src/tools/dcpomatic_batch.cc:96 src/tools/dcpomatic.cc:1397
 #: src/tools/dcpomatic_kdm.cc:336 src/tools/dcpomatic_player.cc:678
 #: src/tools/dcpomatic_playlist.cc:607
 msgid "&Preferences...\tCtrl-,"
-msgstr ""
+msgstr "&設定...\tCtrl-,"
 
 #: src/tools/dcpomatic_batch.cc:99 src/tools/dcpomatic.cc:1401
 #: src/tools/dcpomatic_kdm.cc:328 src/tools/dcpomatic_player.cc:681
 #: src/tools/dcpomatic_playlist.cc:618
 msgid "&Preferences...\tCtrl-P"
-msgstr ""
+msgstr "&設定...\tCtrl-P"
 
 #: src/tools/dcpomatic_batch.cc:92 src/tools/dcpomatic.cc:1384
 #: src/tools/dcpomatic_editor.cc:435 src/tools/dcpomatic_kdm.cc:326
 #: src/tools/dcpomatic_player.cc:674 src/tools/dcpomatic_playlist.cc:615
 #: src/tools/dcpomatic_verifier.cc:251
 msgid "&Quit"
-msgstr ""
+msgstr "&終了する"
 
 #: src/tools/dcpomatic.cc:1365 src/tools/dcpomatic_editor.cc:430
 msgid "&Save\tCtrl-S"
-msgstr ""
+msgstr "&プロジェクトを保存\tCtrl-S"
 
 #: src/tools/dcpomatic_player.cc:663
 msgid "&Save frame to file...\tCtrl-S"
-msgstr ""
+msgstr "フレームをファイルに保存... \tCtrl-S"
 
 #: src/tools/dcpomatic.cc:1420
 msgid "&Send DCP to TMS"
-msgstr ""
+msgstr "&DCP を TMS に送信する"
 
 #: src/tools/dcpomatic_batch.cc:112 src/tools/dcpomatic.cc:1464
 #: src/tools/dcpomatic_player.cc:731
 msgid "&Tools"
-msgstr ""
+msgstr "&ツール"
 
 #: src/tools/dcpomatic.cc:1463 src/tools/dcpomatic_player.cc:730
 msgid "&View"
-msgstr ""
+msgstr "&表示"
 
 #: src/tools/dcpomatic_verifier.cc:104
 msgid "(encrypted, have KDM)"
-msgstr ""
+msgstr "(暗号化、KDM あり)"
 
 #: src/tools/dcpomatic_verifier.cc:106
 msgid "(encrypted, no KDM)"
-msgstr ""
+msgstr "(暗号化、KDM なし)"
 
 #: src/tools/dcpomatic_playlist.cc:324
 msgid "<b>Playlist:</b>"
-msgstr ""
+msgstr "<b>プレイリスト:</b>"
 
 #: src/tools/dcpomatic_playlist.cc:132
 msgid "<b>Playlists</b>"
-msgstr ""
+msgstr "<b>プレイリスト</b>"
 
 #: src/tools/dcpomatic_batch.cc:106 src/tools/dcpomatic.cc:1453
 #: src/tools/dcpomatic_editor.cc:442 src/tools/dcpomatic_kdm.cc:339
 #: src/tools/dcpomatic_player.cc:719 src/tools/dcpomatic_playlist.cc:621
 #: src/tools/dcpomatic_verifier.cc:254
 msgid "About"
-msgstr ""
+msgstr "About"
 
 #: src/tools/dcpomatic.cc:1451 src/tools/dcpomatic_editor.cc:440
 #: src/tools/dcpomatic_kdm.cc:337 src/tools/dcpomatic_player.cc:717
 #: src/tools/dcpomatic_playlist.cc:610 src/tools/dcpomatic_verifier.cc:248
 #, c-format
 msgid "About %s"
-msgstr ""
+msgstr "About %s"
 
 #: src/tools/dcpomatic_playlist.cc:349
 msgid "Add"
-msgstr ""
+msgstr "追加"
 
 #: src/tools/dcpomatic_player.cc:661
 msgid "Add &KDM..."
-msgstr ""
+msgstr "KDMを追加..."
 
 #: src/tools/dcpomatic_verifier.cc:180
 msgid "Add KDM..."
-msgstr ""
+msgstr "KDMを追加..."
 
 #: src/tools/dcpomatic_playlist.cc:80
 msgid "Add content"
-msgstr ""
+msgstr "コンテンツを追加"
 
 #: src/tools/dcpomatic_batch.cc:177
 msgid "Add film"
-msgstr ""
+msgstr "プロジェクトを追加"
 
 #: src/tools/dcpomatic_batch.cc:177
 msgid "Add film for conversion"
-msgstr ""
+msgstr "変換用のプロジェクトを追加"
 
 #: src/tools/dcpomatic_kdm.cc:216
 msgid "Add folder..."
-msgstr ""
+msgstr "フォルダを追加..."
 
 #: src/tools/dcpomatic_kdm.cc:214
 msgid "Add..."
-msgstr ""
+msgstr "追加..."
 
 #: src/tools/dcpomatic_combiner.cc:313 src/tools/dcpomatic_editor.cc:612
 #: src/tools/dcpomatic_player.cc:1484 src/tools/dcpomatic_playlist.cc:740
@@ -218,6 +220,9 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
+"例外が発生しました : %s\n"
+"\n"
+"%s"
 
 #: src/tools/dcpomatic.cc:1840 src/tools/dcpomatic_combiner.cc:303
 #: src/tools/dcpomatic_disk.cc:565 src/tools/dcpomatic_editor.cc:602
@@ -229,6 +234,9 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
+"例外が発生しました : %s (%s)\n"
+"\n"
+"%s"
 
 #: src/tools/dcpomatic.cc:1850 src/tools/dcpomatic_verifier.cc:467
 #, c-format
@@ -237,6 +245,9 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
+"例外が発生しました : %s (%s) (%s)\n"
+"\n"
+"%s"
 
 #: src/tools/dcpomatic.cc:1861 src/tools/dcpomatic_disk.cc:575
 #: src/tools/dcpomatic_kdm.cc:969 src/tools/dcpomatic_verifier.cc:478
@@ -246,15 +257,18 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
+"例外が発生しました : %s.\n"
+"\n"
+"%s"
 
 #: src/tools/dcpomatic_server.cc:362
 #, c-format
 msgid "An unknown error has occurred with the %s."
-msgstr ""
+msgstr "%s で不明なエラーが発生しました。"
 
 #: src/tools/dcpomatic.cc:1026 src/tools/dcpomatic_kdm.cc:515
 msgid "An unknown exception occurred."
-msgstr ""
+msgstr "不明な例外が発生しました。"
 
 #: src/tools/dcpomatic.cc:1867 src/tools/dcpomatic_combiner.cc:319
 #: src/tools/dcpomatic_disk.cc:581 src/tools/dcpomatic_editor.cc:618
@@ -263,112 +277,114 @@ msgstr ""
 #: src/tools/dcpomatic_playlist.cc:755 src/tools/dcpomatic_verifier.cc:484
 #, c-format
 msgid "An unknown exception occurred. %s"
-msgstr ""
+msgstr "不明な例外が発生しました。%s"
 
 #: src/tools/dcpomatic_combiner.cc:122 src/tools/dcpomatic_editor.cc:85
 #: src/tools/dcpomatic_editor.cc:204 src/tools/dcpomatic_editor.cc:293
 msgid "Annotation text"
-msgstr ""
+msgstr "注釈テキスト"
 
 #: src/tools/dcpomatic.cc:777
 msgid ""
 "Are you sure you want to restore preferences to their defaults?  This cannot "
 "be undone."
-msgstr ""
+msgstr "設定をデフォルトに戻してもよろしいですか? 元に戻すことはできません。"
 
 #: src/tools/dcpomatic_player.cc:709
 msgid "Audio graph..."
-msgstr ""
+msgstr "音声グラフ..."
 
 #: src/tools/dcpomatic.cc:878
 #, c-format
 msgid "Bad setting for %s."
-msgstr ""
+msgstr "%s の設定が間違っています。"
 
 #: src/tools/dcpomatic_editor.cc:392 src/tools/dcpomatic_player.cc:690
 #: src/tools/dcpomatic_playlist.cc:339
 msgid "CPL"
-msgstr ""
+msgstr "CPL"
 
 #: src/tools/dcpomatic.cc:1022 src/tools/dcpomatic_kdm.cc:511
 msgid "CPL's content is not encrypted."
-msgstr ""
+msgstr "CPL のコンテンツは暗号化されていません。"
 
 #: src/tools/dcpomatic_editor.cc:410
 #, c-format
 msgid "CPL: %s"
-msgstr ""
+msgstr "CPL: %s"
 
 #: src/tools/dcpomatic_verifier.cc:199
 msgid "Cancel"
-msgstr ""
+msgstr "キャンセル"
 
 #: src/tools/dcpomatic.cc:1441 src/tools/dcpomatic_player.cc:711
 msgid "Check for updates"
-msgstr ""
+msgstr "アップデートを確認する"
 
 #: src/tools/dcpomatic_verifier.cc:362
 msgid "Checking KDM"
-msgstr ""
+msgstr "KDMの確認"
 
 #: src/tools/dcpomatic_combiner.cc:68 src/tools/dcpomatic_disk.cc:84
 msgid "Choose a DCP folder"
-msgstr ""
+msgstr "DCPフォルダを選択"
 
 #: src/tools/dcpomatic.cc:1971 src/tools/dcpomatic.cc:1990
 #, c-format
 msgid "Close %s"
-msgstr ""
+msgstr "閉じる %s"
 
 #: src/tools/dcpomatic.cc:167
 msgid "Close without saving film"
-msgstr ""
+msgstr "プロジェクトを保存せずに閉じる"
 
 #: src/tools/dcpomatic.cc:1433 src/tools/dcpomatic_player.cc:696
 msgid "Closed captions..."
-msgstr ""
+msgstr "クローズドキャプション..."
 
 #: src/tools/dcpomatic_combiner.cc:130
 msgid "Combine"
-msgstr ""
+msgstr "結合"
 
 #: src/tools/dcpomatic_combiner.cc:184
 msgid "Combining DCPs"
-msgstr ""
+msgstr "DCPを結合"
 
 #: src/tools/dcpomatic_editor.cc:219
 msgid "Content title text"
-msgstr ""
+msgstr "コンテンツのタイトルテキスト"
 
 #: src/tools/dcpomatic_disk.cc:166
 msgid "Copy DCPs"
-msgstr ""
+msgstr "DCPをコピー"
 
 #: src/tools/dcpomatic.cc:1389
 msgid "Copy settings\tCtrl-C"
-msgstr ""
+msgstr "設定をコピー \tCtrl-C"
 
 #: src/tools/dcpomatic.cc:587 src/tools/dcpomatic.cc:596
 msgid "Could not create folder to store film."
-msgstr ""
+msgstr "プロジェクトを保存するフォルダを作成できませんでした。"
 
 #: src/tools/dcpomatic_kdm.cc:652 src/tools/dcpomatic_verifier.cc:354
 msgid ""
 "Could not decrypt the DKDM.  Perhaps it was not created with the correct "
 "certificate."
 msgstr ""
+"DKDMを復号化できませんでした。正しい証明書で作成されていない可能性がありま"
+"す。"
 
 #: src/tools/dcpomatic.cc:661 src/tools/dcpomatic.cc:678
 msgid "Could not duplicate project."
-msgstr ""
+msgstr "プロジェクトを複製できませんでした。"
 
 #: src/tools/dcpomatic.cc:955
 msgid "Could not find batch converter."
-msgstr ""
+msgstr "バッチコンバーターが見つかりませんでした。"
 
 #: src/tools/dcpomatic.cc:970
 msgid "Could not find player."
-msgstr ""
+msgstr "プレーヤーが見つかりませんでした。"
 
 #: src/tools/dcpomatic_batch.cc:478
 #, c-format
@@ -376,20 +392,22 @@ msgid ""
 "Could not listen for new batch jobs.  Perhaps another instance of the %s is "
 "running."
 msgstr ""
+"新しいバッチ処理を実行できませんでした。%s の別のインスタンスが実行中である可"
+"能性があります。."
 
 #: src/tools/dcpomatic_editor.cc:404
 msgid "Could not load DCP"
-msgstr ""
+msgstr "DCPを読み込めませんでした"
 
 #: src/tools/dcpomatic_player.cc:1403
 #, c-format
 msgid "Could not load DCP %s"
-msgstr ""
+msgstr "%s DCPを読み込めませんでした"
 
 #: src/tools/dcpomatic_player.cc:882
 #, c-format
 msgid "Could not load DCP %s."
-msgstr ""
+msgstr "%s DCPを読み込めませんでした。"
 
 #: src/tools/dcpomatic_player.cc:649
 #, c-format
@@ -398,147 +416,159 @@ msgid ""
 "\n"
 "%s."
 msgstr ""
+"DCPを読み込めませんでした。\n"
+"\n"
+"%s"
 
 #: src/tools/dcpomatic_player.cc:829 src/tools/dcpomatic_verifier.cc:357
 msgid "Could not load KDM."
-msgstr ""
+msgstr "KDMを読み込めませんでした。"
 
 #: src/tools/dcpomatic_player.cc:456 src/tools/dcpomatic_player.cc:465
 #: src/tools/dcpomatic_player.cc:467
 #, c-format
 msgid "Could not load a DCP from %s"
-msgstr ""
+msgstr "%s から DCP を読み込めませんでした"
 
 #: src/tools/dcpomatic_batch.cc:495
 msgid "Could not load film {}"
-msgstr ""
+msgstr "プロジェクトを読み込めませんでした  {}"
 
 #: src/tools/dcpomatic.cc:1751
 msgid "Could not load film {} ({})"
-msgstr ""
+msgstr "プロジェクトを読み込めませんでした  {}({})"
 
 #: src/tools/dcpomatic_player.cc:1411
 #, c-format
 msgid "Could not load stress test file %s"
-msgstr ""
+msgstr "ストレステストファイル %s を読み込めませんでした"
 
 #: src/tools/dcpomatic.cc:880
 msgid "Could not make DCP."
-msgstr ""
+msgstr "DCP を作成できませんでした。"
 
 #: src/tools/dcpomatic_batch.cc:259 src/tools/dcpomatic.cc:509
 #: src/tools/dcpomatic.cc:514
 #, c-format
 msgid "Could not open film at %s"
-msgstr ""
+msgstr "このプロジェクトを開くことが出来ませんでした。 %s"
 
 #: src/tools/dcpomatic.cc:502
 #, c-format
 msgid "Could not open this folder as a %s project."
-msgstr ""
+msgstr "このフォルダをプロジェクトとして開けませんでした。 %s."
 
 #: src/tools/dcpomatic_kdm.cc:657
 msgid ""
 "Could not read file as a KDM.  It is much too large.  Make sure you are "
 "loading a DKDM (XML) file."
 msgstr ""
+"ファイルをKDMとして読み込めませんでした。ファイルが大きすぎます。DKDM（XML）"
+"ファイルを読み込んでいることを確認してください。"
 
 #: src/tools/dcpomatic_kdm.cc:645 src/tools/dcpomatic_verifier.cc:347
 msgid ""
 "Could not read file as a KDM.  Perhaps it is badly formatted, or not a KDM "
 "at all."
 msgstr ""
+"ファイルをKDMとして読み込めませんでした。フォーマットが間違っているかKDMでは"
+"ない可能性があります。"
 
 #: src/tools/dcpomatic.cc:799
 msgid "Could not remove existing preferences file"
-msgstr ""
+msgstr "既存の設定ファイルを削除できませんでした"
 
 #: src/tools/dcpomatic.cc:630 src/tools/dcpomatic.cc:1328
 msgid "Could not save project."
-msgstr ""
+msgstr "プロジェクトを保存できませんでした。"
 
 #: src/tools/dcpomatic.cc:645
 msgid "Could not save template."
-msgstr ""
+msgstr "テンプレートを保存できませんでした。"
 
 #: src/tools/dcpomatic.cc:1089
 msgid "Could not show DCP."
-msgstr ""
+msgstr "DCP を表示できませんでした。"
 
 #: src/tools/dcpomatic.cc:953
 msgid ""
 "Could not start the batch converter.  You may need to download it from "
 "dcpomatic.com."
 msgstr ""
+"バッチコンバータを起動できませんでした。dcpomatic.com からダウンロードする必"
+"要がある可能性があります。"
 
 #: src/tools/dcpomatic.cc:968
 msgid ""
 "Could not start the player.  You may need to download it from dcpomatic.com."
 msgstr ""
+"プレーヤーを起動できませんでした。dcpomatic.com からダウンロードする必要があ"
+"る可能性があります。"
 
 #: src/tools/dcpomatic_batch.cc:365 src/tools/dcpomatic.cc:1477
 #: src/tools/dcpomatic_player.cc:1128 src/tools/dcpomatic_playlist.cc:639
 #, c-format
 msgid ""
 "Could not write to config file at %s.  Your changes have not been saved."
-msgstr ""
+msgstr "%s の設定ファイルに書き込めませんでした。変更は保存されていません。"
 
 #: src/tools/dcpomatic_player.cc:1136
 msgid "Could not write to config file.  Your changes have not been saved."
-msgstr ""
+msgstr "設定ファイルに書き込めませんでした。変更は保存されていません。"
 
 #: src/tools/dcpomatic_kdm.cc:239
 msgid "Create KDMs"
-msgstr ""
+msgstr "KDMを作成"
 
 #: src/tools/dcpomatic_editor.cc:214 src/tools/dcpomatic_editor.cc:303
 msgid "Creator"
-msgstr ""
+msgstr "作成者"
 
 #: src/tools/dcpomatic_playlist.cc:342
 msgid "Crop"
-msgstr ""
+msgstr "作物"
 
 #: src/tools/dcpomatic_disk.cc:139 src/tools/dcpomatic_verifier.cc:172
 msgid "DCP"
-msgstr ""
+msgstr "DCP"
 
 #: src/tools/dcpomatic_server.cc:256
 msgid "DCP-o-matic Encode Server"
-msgstr ""
+msgstr "DCP-o-matic Encode Server"
 
 #: src/tools/dcpomatic_disk.cc:135 src/tools/dcpomatic_verifier.cc:146
 msgid "DCPs"
-msgstr ""
+msgstr "DCP一覧"
 
 #: src/tools/dcpomatic_combiner.cc:194
 msgid "DCPs combined successfully."
-msgstr ""
+msgstr "DCP が正常に結合されました。"
 
 #: src/tools/dcpomatic_kdm.cc:175
 msgid "DKDM"
-msgstr ""
+msgstr "DKDM"
 
 #: src/tools/dcpomatic_kdm.cc:632
 #, c-format
 msgid "DKDM %s is already in the DKDM list and will not be added again."
 msgstr ""
+"DKDM %s はすでに DKDM リストに存在するため、再度追加されることはありません。"
 
 #: src/tools/dcpomatic_player.cc:703
 msgid "Decode at full resolution"
-msgstr ""
+msgstr "フル解像度でデコード"
 
 #: src/tools/dcpomatic_player.cc:704
 msgid "Decode at half resolution"
-msgstr ""
+msgstr "半分の解像度でデコードする"
 
 #: src/tools/dcpomatic_player.cc:705
 msgid "Decode at quarter resolution"
-msgstr ""
+msgstr "1/4解像度でデコード"
 
 #: src/tools/dcpomatic_playlist.cc:145
 msgid "Delete"
-msgstr ""
+msgstr "削除"
 
 #: src/tools/dcpomatic_disk.cc:344
 #, c-format
@@ -546,158 +576,162 @@ msgid ""
 "Did you install the %s Disk Writer.pkg from the .dmg?  Please check and try "
 "again."
 msgstr ""
+"%s Disk Writer.pkg を .dmg からインストールしましたか? 確認してもう一度お試し"
+"ください。"
 
 #: src/tools/dcpomatic_disk.cc:190
 msgid "Disk Writer"
-msgstr ""
+msgstr "ディスクへ書込み"
 
 #: src/tools/dcpomatic.cc:1938 src/tools/dcpomatic.cc:1955
 #: src/tools/dcpomatic.cc:2009
 msgid "Do nothing"
-msgstr ""
+msgstr "何もしない"
 
 #: src/tools/dcpomatic_disk.cc:336
 msgid ""
 "Do you see a 'User Account Control' dialogue asking about "
 "dcpomatic2_disk_writer.exe?  If so, click 'Yes', then try again."
 msgstr ""
+"dcpomatic2_disk_writer.exe に関する「ユーザー アカウント制御」ダイアログが表"
+"示されましたか? その場合は、「はい」をクリックして、もう一度お試しください。"
 
 #: src/tools/dcpomatic.cc:863
 #, c-format
 msgid "Do you want to overwrite the existing DCP %s?"
-msgstr ""
+msgstr "既存の DCP %s を上書きしますか?"
 
 #: src/tools/dcpomatic.cc:167
 msgid "Don't close"
-msgstr ""
+msgstr "閉じず戻る"
 
 #: src/tools/dcpomatic.cc:195
 msgid "Don't duplicate"
-msgstr ""
+msgstr "重複しない"
 
 #: src/tools/dcpomatic_playlist.cc:348
 msgid "Down"
-msgstr ""
+msgstr "下へ"
 
 #: src/tools/dcpomatic_disk.cc:153
 msgid "Drive"
-msgstr ""
+msgstr "ドライブ"
 
 #: src/tools/dcpomatic_player.cc:693
 msgid "Dual screen\tShift+F11"
-msgstr ""
+msgstr "2画面表示\tShift+F11"
 
 #: src/tools/dcpomatic.cc:652 src/tools/dcpomatic.cc:668
 msgid "Duplicate Film"
-msgstr ""
+msgstr "プロジェクトを複製"
 
 #: src/tools/dcpomatic.cc:1369
 msgid "Duplicate and open..."
-msgstr ""
+msgstr "プロジェクトを複製して開く..."
 
 #: src/tools/dcpomatic.cc:195
 msgid "Duplicate without saving film"
-msgstr ""
+msgstr "プロジェクトを保存せずに複製する"
 
 #: src/tools/dcpomatic.cc:1368
 msgid "Duplicate..."
-msgstr ""
+msgstr "プロジェクトを複製..."
 
 #: src/tools/dcpomatic_editor.cc:95
 msgid "Duration"
-msgstr ""
+msgstr "プロジェクトを複製"
 
 #: src/tools/dcpomatic_editor.cc:155
 msgid "Edit reel"
-msgstr ""
+msgstr "リールの編集"
 
 #: src/tools/dcpomatic_playlist.cc:351
 msgid "Edit..."
-msgstr ""
+msgstr "編集..."
 
 #: src/tools/dcpomatic_batch.cc:103 src/tools/dcpomatic.cc:1439
 msgid "Encoding servers..."
-msgstr ""
+msgstr "エンコード サーバー..."
 
 #: src/tools/dcpomatic_playlist.cc:341
 msgid "Encrypted"
-msgstr ""
+msgstr "暗号化"
 
 #: src/tools/dcpomatic_editor.cc:90
 msgid "Entry point"
-msgstr ""
+msgstr "エントリーポイント"
 
 #: src/tools/dcpomatic_verifier.cc:156
 msgid "Examining DCPs"
-msgstr ""
+msgstr "DCP一覧の検討"
 
 #: src/tools/dcpomatic.cc:1446
 msgid "Export preferences..."
-msgstr ""
+msgstr "設定をエクスポート..."
 
 #: src/tools/dcpomatic.cc:1418
 msgid "Export subtitles...\tShift-Ctrl-E"
-msgstr ""
+msgstr "字幕をエクスポート... \tShift-Ctrl-E"
 
 #: src/tools/dcpomatic.cc:1417
 msgid "Export video file...\tCtrl-E"
-msgstr ""
+msgstr "動画ファイルをエクスポート...\tCtrl-E"
 
 #: src/tools/dcpomatic_kdm.cc:220
 msgid "Export..."
-msgstr ""
+msgstr "エクスポート..."
 
 #: src/tools/dcpomatic_player.cc:700
 msgid "Eye"
-msgstr ""
+msgstr "3D視点"
 
 #: src/tools/dcpomatic.cc:1041 src/tools/dcpomatic_kdm.cc:362
 #, c-format
 msgid "File %s already exists.  Do you want to overwrite it?"
-msgstr ""
+msgstr "ファイル %s は既に存在します。上書きしますか?"
 
 #. TRANSLATORS: this is the heading for a dialog box, which tells the user that the current
 #. project (Film) has been changed since it was last saved.
 #: src/tools/dcpomatic.cc:162 src/tools/dcpomatic.cc:190
 msgid "Film changed"
-msgstr ""
+msgstr "プロジェクトを変更しました"
 
 #: src/tools/dcpomatic_disk.cc:190
 msgid "Finding disks"
-msgstr ""
+msgstr "ディスクを発見"
 
 #: src/tools/dcpomatic_kdm.cc:357
 #, c-format
 msgid "Folder %s already exists.  Do you want to overwrite it?"
-msgstr ""
+msgstr "フォルダ %s は既に存在します。上書きしますか?"
 
 #: src/tools/dcpomatic_server.cc:169
 msgid "Frames per second"
-msgstr ""
+msgstr "1秒あたりのフレーム数"
 
 #: src/tools/dcpomatic_player.cc:692
 msgid "Full screen\tF11"
-msgstr ""
+msgstr "フルスクリーン\tF11"
 
 #: src/tools/dcpomatic.cc:1438
 msgid "Hints..."
-msgstr ""
+msgstr "ヒント..."
 
 #: src/tools/dcpomatic.cc:1447
 msgid "Import preferences..."
-msgstr ""
+msgstr "設定をインポート..."
 
 #: src/tools/dcpomatic_combiner.cc:105
 msgid "Input DCP"
-msgstr ""
+msgstr "DCPを入力"
 
 #: src/tools/dcpomatic_editor.cc:100
 msgid "Intrinsic duration"
-msgstr ""
+msgstr "本質的持続時間"
 
 #: src/tools/dcpomatic_editor.cc:209 src/tools/dcpomatic_editor.cc:298
 msgid "Issuer"
-msgstr ""
+msgstr "発行者"
 
 #: src/tools/dcpomatic.cc:504
 #, c-format
@@ -706,114 +740,122 @@ msgid ""
 "projects, not DCPs.  To import a DCP, create a new project with File -> New "
 "and then click the \"Add DCP...\" button."
 msgstr ""
+"DCPを開こうとしているようです。「ファイル」→「開く」は%sプロジェクトの読み込"
+"み用であり、DCPの読み込み用ではありません。DCPをインポートするには、「ファイ"
+"ル」→「新規」で新規プロジェクトを作成し、「DCPを追加...」ボタンをクリックして"
+"ください。"
 
 #. TRANSLATORS: translate the word "Timing" here; do not include the "KDM|" prefix
 #: src/tools/dcpomatic_kdm.cc:169
 msgid "KDM|Timing"
-msgstr ""
+msgstr "KDM|タイミング"
 
 #: src/tools/dcpomatic_player.cc:698
 msgid "Left"
-msgstr ""
+msgstr "左"
 
 #: src/tools/dcpomatic_playlist.cc:140
 msgid "Length"
-msgstr ""
+msgstr "長さ"
 
 #: src/tools/dcpomatic_player.cc:449 src/tools/dcpomatic_player.cc:803
 msgid "Loading content"
-msgstr ""
+msgstr "コンテンツを読み込み"
 
 #: src/tools/dcpomatic.cc:1413
 msgid "Make &DKDMs...\tCtrl-D"
-msgstr ""
+msgstr "DKDMを作成...\tCtrl-D"
 
 #: src/tools/dcpomatic.cc:1411
 msgid "Make &KDMs...\tCtrl-K"
-msgstr ""
+msgstr "KDMを作成...\tCtrl-K"
 
 #: src/tools/dcpomatic.cc:1408
 msgid "Make DCP in &batch converter\tCtrl-B"
-msgstr ""
+msgstr "バッチコンバータで DCP を作成する\tCtrl-B"
 
 #: src/tools/dcpomatic.cc:1414
 #, c-format
 msgid "Make DKDM for %s..."
-msgstr ""
+msgstr "%s の DKDM を作成..."
 
 #: src/tools/dcpomatic.cc:1440
 msgid "Manage templates..."
-msgstr ""
+msgstr "テンプレートを管理..."
 
 #: src/tools/dcpomatic_editor.cc:227 src/tools/dcpomatic_playlist.cc:139
 #: src/tools/dcpomatic_playlist.cc:338
 msgid "Name"
-msgstr ""
+msgstr "名前"
 
 #: src/tools/dcpomatic_playlist.cc:143
 msgid "New"
-msgstr ""
+msgstr "新規"
 
 #: src/tools/dcpomatic.cc:568
 msgid "New Film"
-msgstr ""
+msgstr "プロジェクトの新規作成"
 
 #: src/tools/dcpomatic_playlist.cc:257
 msgid "New Playlist"
-msgstr ""
+msgstr "プレイリストを新規作成"
 
 #: src/tools/dcpomatic.cc:1360
 msgid "New...\tCtrl-N"
-msgstr ""
+msgstr "新規作成...\tCtrl-N"
 
 #: src/tools/dcpomatic_disk.cc:93
 msgid ""
 "No ASSETMAP or ASSETMAP.xml found in this folder.  Please choose a DCP "
 "folder."
 msgstr ""
+"このフォルダにASSETMAPまたはASSETMAP.xmlが見つかりません。DCPフォルダを選択し"
+"てください。"
 
 #: src/tools/dcpomatic_playlist.cc:253
 msgid ""
 "No playlist folder is specified in preferences.  Please set one and then try "
 "again."
 msgstr ""
+"設定でプレイリストフォルダが指定されていません。設定してからもう一度お試しく"
+"ださい。"
 
 #: src/tools/dcpomatic.cc:1430
 msgid "Open DCP in &player"
-msgstr ""
+msgstr "DCP をプレーヤーで開く"
 
 #: src/tools/dcpomatic_editor.cc:347
 msgid "Open a DCP using File -> Open"
-msgstr ""
+msgstr "DCPを開く（ファイル->プロジェクトを開く）"
 
 #: src/tools/dcpomatic_kdm.cc:227
 msgid "Output"
-msgstr ""
+msgstr "出力"
 
 #: src/tools/dcpomatic_combiner.cc:126
 msgid "Output DCP folder"
-msgstr ""
+msgstr "出力先DCPフォルダー"
 
 #: src/tools/dcpomatic_editor.cc:413
 #, c-format
 msgid "PKL: %s"
-msgstr ""
+msgstr "PKL: %s"
 
 #: src/tools/dcpomatic.cc:1391
 msgid "Paste settings...\tCtrl-V"
-msgstr ""
+msgstr "設定を貼り付け... \tCtrl-V"
 
 #: src/tools/dcpomatic_batch.cc:178
 msgid "Pause or resume conversion"
-msgstr ""
+msgstr "変換を一時停止 / 再開"
 
 #: src/tools/dcpomatic_batch.cc:178
 msgid "Pause/resume"
-msgstr ""
+msgstr "一時停止/再開"
 
 #: src/tools/dcpomatic_editor.cc:173
 msgid "Picture"
-msgstr ""
+msgstr "画像"
 
 #: src/tools/dcpomatic.cc:592
 #, c-format
@@ -821,167 +863,169 @@ msgid ""
 "Please check that you do not have Windows controlled folder access enabled "
 "for %s."
 msgstr ""
+"%s に対して Windows の制御フォルダー アクセスが有効になっていることを確認して"
+"ください。"
 
 #: src/tools/dcpomatic_playlist.cc:429
 msgid "Question|N"
-msgstr ""
+msgstr "質問|N"
 
 #: src/tools/dcpomatic_playlist.cc:429
 msgid "Question|Y"
-msgstr ""
+msgstr "質問|Y"
 
 #: src/tools/dcpomatic_server.cc:238
 msgid "Quit"
-msgstr ""
+msgstr "終了"
 
 #: src/tools/dcpomatic.cc:1981
 msgid "Recreate KDM decryption chain"
-msgstr ""
+msgstr "KDM復号証明書チェーンを再作成する"
 
 #: src/tools/dcpomatic.cc:1932 src/tools/dcpomatic.cc:1949
 #: src/tools/dcpomatic.cc:1963 src/tools/dcpomatic.cc:2000
 msgid "Recreate signing certificates"
-msgstr ""
+msgstr "署名証明書を再作成する"
 
 #: src/tools/dcpomatic_editor.cc:224
 msgid "Reels"
-msgstr ""
+msgstr "リール"
 
 #: src/tools/dcpomatic_disk.cc:157
 msgid "Refresh"
-msgstr ""
+msgstr "リフレッシュ"
 
 #: src/tools/dcpomatic.cc:1774
 msgid "Release notes"
-msgstr ""
+msgstr "リリースノート"
 
 #: src/tools/dcpomatic_kdm.cc:218 src/tools/dcpomatic_playlist.cc:350
 msgid "Remove"
-msgstr ""
+msgstr "削除"
 
 #: src/tools/dcpomatic.cc:1457 src/tools/dcpomatic_kdm.cc:342
 #: src/tools/dcpomatic_player.cc:722
 msgid "Report a problem..."
-msgstr ""
+msgstr "問題を報告する..."
 
 #: src/tools/dcpomatic.cc:778 src/tools/dcpomatic.cc:1444
 msgid "Restore default preferences"
-msgstr ""
+msgstr "デフォルトの設定を復元する"
 
 #: src/tools/dcpomatic_player.cc:699
 msgid "Right"
-msgstr ""
+msgstr "右"
 
 #: src/tools/dcpomatic.cc:1425
 msgid "S&how DCP in Explorer"
-msgstr ""
+msgstr "エクスプローラーで DCP を表示"
 
 #: src/tools/dcpomatic.cc:1427
 msgid "S&how DCP in Files"
-msgstr ""
+msgstr "ファイル内の DCP を表示"
 
 #: src/tools/dcpomatic.cc:1423
 msgid "S&how DCP in Finder"
-msgstr ""
+msgstr "FinderでDCPを表示"
 
 #: src/tools/dcpomatic_playlist.cc:328
 msgid "Save"
-msgstr ""
+msgstr "保存"
 
 #: src/tools/dcpomatic.cc:1367
 msgid "Save as &template..."
-msgstr ""
+msgstr "テンプレートとして保存..."
 
 #: src/tools/dcpomatic.cc:159
 #, c-format
 msgid "Save changes to film \"%s\" before closing?"
-msgstr ""
+msgstr "「%s」への変更を保存しますか？"
 
 #: src/tools/dcpomatic.cc:187
 #, c-format
 msgid "Save changes to film \"%s\" before duplicating?"
-msgstr ""
+msgstr "複製する前に「%s」への変更を保存しますか?"
 
 #: src/tools/dcpomatic.cc:167
 msgid "Save film and close"
-msgstr ""
+msgstr "プロジェクトを保存して閉じる"
 
 #: src/tools/dcpomatic.cc:195
 msgid "Save film and duplicate"
-msgstr ""
+msgstr "プロジェクトを保存して複製する"
 
 #: src/tools/dcpomatic_player.cc:840
 msgid "Save frame to file"
-msgstr ""
+msgstr "フレームをファイルに保存"
 
 #: src/tools/dcpomatic_kdm.cc:162
 msgid "Screens"
-msgstr ""
+msgstr "スクリーン"
 
 #: src/tools/dcpomatic_editor.cc:451 src/tools/dcpomatic_player.cc:743
 msgid "Select DCP to open"
-msgstr ""
+msgstr "DCPを選択して開く"
 
 #: src/tools/dcpomatic_player.cc:771
 msgid "Select DCP to open as OV"
-msgstr ""
+msgstr "DCP(OV)を選択して開く"
 
 #: src/tools/dcpomatic_verifier.cc:150 src/tools/dcpomatic_verifier.cc:152
 msgid "Select DCP(s)"
-msgstr ""
+msgstr "DCPを選択"
 
 #: src/tools/dcpomatic_kdm.cc:821
 msgid "Select DKDM File"
-msgstr ""
+msgstr "DKDMファイルを選択"
 
 #: src/tools/dcpomatic_kdm.cc:607
 msgid "Select DKDM file"
-msgstr ""
+msgstr "DKDMファイルを選択"
 
 #: src/tools/dcpomatic_player.cc:810 src/tools/dcpomatic_verifier.cc:335
 msgid "Select KDM"
-msgstr ""
+msgstr "KDMを選択"
 
 #: src/tools/dcpomatic.cc:1394
 msgid "Select all\tShift-Ctrl-A"
-msgstr ""
+msgstr "全て選択\tShift-Ctrl-A"
 
 #: src/tools/dcpomatic_batch.cc:334 src/tools/dcpomatic.cc:605
 msgid "Select film to open"
-msgstr ""
+msgstr "プロジェクトを選んで開く"
 
 #: src/tools/dcpomatic_kdm.cc:485
 msgid "Send KDM emails"
-msgstr ""
+msgstr "KDMメールを送信する"
 
 #: src/tools/dcpomatic_player.cc:702
 msgid "Set decode resolution to match display"
-msgstr ""
+msgstr "ディスプレイに合わせてデコード解像度を設定する"
 
 #: src/tools/dcpomatic_editor.cc:176
 msgid "Sound"
-msgstr ""
+msgstr "音声"
 
 #: src/tools/dcpomatic.cc:790 src/tools/dcpomatic.cc:810
 msgid "Specify ZIP file"
-msgstr ""
+msgstr "ZIPファイルを指定"
 
 #: src/tools/dcpomatic_server.cc:237
 msgid "Status..."
-msgstr ""
+msgstr "ステータス..."
 
 #: src/tools/dcpomatic_editor.cc:179
 msgid "Subtitle"
-msgstr ""
+msgstr "字幕"
 
 #: src/tools/dcpomatic.cc:1442 src/tools/dcpomatic_player.cc:713
 msgid "System information..."
-msgstr ""
+msgstr "システムインフォネメーション..."
 
 #: src/tools/dcpomatic.cc:1545 src/tools/dcpomatic_player.cc:1110
 #, c-format
 msgid "The %s download server could not be contacted."
-msgstr ""
+msgstr "%s ダウンロード サーバーに接続できませんでした。"
 
 #: src/tools/dcpomatic.cc:836
 #, c-format
@@ -989,6 +1033,8 @@ msgid ""
 "The DCP for this film will take up about %.1f GB, and the disk that you are "
 "using only has %.1f GB available.  Do you want to continue anyway?"
 msgstr ""
+"この映画のDCPは約%.1f GBを占有しますが、現在使用しているディスクの空き容量"
+"は%.1f GBしかありません。続行しますか？"
 
 #: src/tools/dcpomatic_batch.cc:248
 #, c-format
@@ -997,10 +1043,13 @@ msgid ""
 "%.1f GB.  The disks that you are using only have %.1f GB available.  Do you "
 "want to add this film to the queue anyway?"
 msgstr ""
+"この映画と既にキューに入っている映画のDCPは約%.1f GBを消費します。現在使用し"
+"ているディスクの空き容量は%.1f GBしかありません。それでもこの映画をキューに追"
+"加しますか？"
 
 #: src/tools/dcpomatic_player.cc:378
 msgid "The KDM does not allow playback of this content at this time."
-msgstr ""
+msgstr "このKDM では現時点でこのコンテンツの再生が許可されません。"
 
 #: src/tools/dcpomatic_kdm.cc:504
 #, c-format
@@ -1009,16 +1058,21 @@ msgid ""
 "certificates' validity period.  Either use an earlier end time for this KDM "
 "or re-create your signing certificates in the %s preferences window."
 msgstr ""
+"KDMの終了期間が、署名証明書の有効期限の終了日以降（または終了日に近い）になっ"
+"ています。このKDMの終了時間を早めるか、%sの設定ウィンドウで署名証明書を再作成"
+"してください。."
 
 #: src/tools/dcpomatic_kdm.cc:499
 msgid ""
 "The KDM start period is before (or close to) the start of the signing "
 "certificate's validity period.  Use a later start time for this KDM."
 msgstr ""
+"KDMの開始期間が署名証明書の有効期間の開始前（または開始日に近い）になっていま"
+"す。このKDMにはより遅い開始時刻を使用してください。"
 
 #: src/tools/dcpomatic.cc:1005
 msgid "The certificate chain for signing is invalid"
-msgstr ""
+msgstr "署名用の証明書チェーンが無効です"
 
 #: src/tools/dcpomatic.cc:1983
 #, c-format
@@ -1030,6 +1084,11 @@ msgid ""
 "and back up your\n"
 "configuration before continuing."
 msgstr ""
+"%s が KDM の復号化に使用する証明書チェーンに矛盾があるため、使用できませ"
+"ん。\n"
+"証明書チェーンを再作成しなければ %s を起動できません。\n"
+"KDM の復号化に使用する証明書チェーンを再作成しますか？\n"
+"ここで「いいえ」を選択し、続行する前に設定をバックアップしてください。"
 
 #: src/tools/dcpomatic.cc:1934
 #, c-format
@@ -1040,6 +1099,10 @@ msgid ""
 "you want to re-create\n"
 "the certificate chain for signing DCPs and KDMs?"
 msgstr ""
+"%s が DCP および KDM の署名に使用する証明書チェーンに小さなエラーが含まれてい"
+"ます。\n"
+"このエラーにより、一部のシステムでは DCP が正しく検証されません。DCP および "
+"KDM の署名に使用する証明書チェーンを再作成しますか？"
 
 #: src/tools/dcpomatic.cc:2002
 #, c-format
@@ -1052,6 +1115,12 @@ msgid ""
 "certificate chain\n"
 "for signing DCPs and KDMs?"
 msgstr ""
+"%s が DCP および KDM の署名に使用する証明書チェーンに小さなエラーが含まれてい"
+"ます。\n"
+"このエラーにより、一部のシステムでは DCP が正しく検証されません。このエラー"
+"は\n"
+"%s のバグによって発生しましたが、現在は修正されています。DCP および KDM の署"
+"名に使用する証明書チェーンを再作成しますか？"
 
 #: src/tools/dcpomatic.cc:1951
 #, c-format
@@ -1062,6 +1131,9 @@ msgid ""
 "systems.\n"
 "Do you want to re-create the certificate chain for signing DCPs and KDMs?"
 msgstr ""
+"%s が DCP および KDM の署名に使用する証明書チェーンの有効期間が長すぎます。\n"
+"このため、一部のシステムでは DCP の再生に問題が発生します。\n"
+"DCP および KDM の署名に使用する証明書チェーンを再作成しますか?"
 
 #: src/tools/dcpomatic.cc:1965
 #, c-format
@@ -1072,16 +1144,21 @@ msgid ""
 "create\n"
 "the certificate chain for signing DCPs and KDMs?"
 msgstr ""
+"%s が DCP および KDM の署名に使用する証明書チェーンに矛盾があるため、使用でき"
+"ません。\n"
+"再作成しない限り、%s は起動できません。\n"
+"DCP および KDM の署名に使用する証明書チェーンを再作成しますか？"
 
 #: src/tools/dcpomatic_combiner.cc:167
 msgid ""
 "The directory {} already exists and is not empty.  Are you sure you want to "
 "use it?"
 msgstr ""
+"ディレクトリ {} は既に使用済みで空ではありません。使用してもよろしいですか?"
 
 #: src/tools/dcpomatic_disk.cc:299
 msgid "The disk you selected is no longer available.  Please choose another."
-msgstr ""
+msgstr "選択したディスクは現在利用できません。別のディスクを選択してください。"
 
 #: src/tools/dcpomatic_disk.cc:378
 #, c-format
@@ -1089,28 +1166,35 @@ msgid ""
 "The drive %s could not be unmounted.\n"
 "Close any application that is using it, then try again. (%s)"
 msgstr ""
+"ドライブ %s をアンマウントできませんでした。\n"
+"ドライブを使用しているアプリケーションをすべて閉じてから、もう一度お試しくだ"
+"さい。(%s)"
 
 #: src/tools/dcpomatic_disk.cc:543 src/tools/dcpomatic_player.cc:1517
 msgid ""
 "The existing configuration failed to load.  Default values will be used "
 "instead.  These may take a short time to create."
 msgstr ""
+"既存の設定を読み込めませんでした。代わりにデフォルト値が使用されます。作成に"
+"は少し時間がかかる場合があります。"
 
 #: src/tools/dcpomatic.cc:1547 src/tools/dcpomatic_player.cc:1112
 #, c-format
 msgid "There are no new versions of %s available."
-msgstr ""
+msgstr "%s  の利用可能な新しいバージョンはありません。"
 
 #: src/tools/dcpomatic_batch.cc:278 src/tools/dcpomatic.cc:1187
 #: src/tools/dcpomatic_disk.cc:274
 msgid "There are unfinished jobs; are you sure you want to quit?"
-msgstr ""
+msgstr "未完了の仕事があります。本当に終了してもよろしいですか?"
 
 #: src/tools/dcpomatic.cc:485
 msgid ""
 "This film was created with an old version of DVD-o-matic and may not load "
 "correctly in this version.  Please check the film's settings carefully."
 msgstr ""
+"この映画は古いバージョンのDVD-o-maticで作成されたため、現在のバージョンでは正"
+"しく読み込まれない可能性があります。映画の設定をよくご確認ください。"
 
 #: src/tools/dcpomatic_player.cc:458
 #, c-format
@@ -1119,85 +1203,92 @@ msgid ""
 "player.  Choose the DCP folder inside the %s project folder if that's what "
 "you want to play."
 msgstr ""
+"これは%sプロジェクトフォルダのようですがプレーヤーに読み込めません。再生した"
+"い場合は、%sプロジェクトフォルダ内のDCPフォルダを選択してください。"
 
 #: src/tools/dcpomatic_verifier.cc:190
 msgid ""
 "Tick to check details of the picture asset, such as frame sizes and JPEG2000 "
 "bitstream validity.  These checks are quite time-consuming."
 msgstr ""
+"フレームサイズやJPEG2000ビットストリームの有効性など、画像アセットの詳細を確"
+"認するにはチェックを入れてください。これらのチェックにはかなり時間がかかりま"
+"す。"
 
 #: src/tools/dcpomatic_player.cc:712
 msgid "Timing..."
-msgstr ""
+msgstr "タイミング..."
 
 #: src/tools/dcpomatic_disk.cc:119
 msgid "Tools"
-msgstr ""
+msgstr "ツール"
 
 #: src/tools/dcpomatic.cc:590
 #, c-format
 msgid "Try removing the %s characters from your folder name."
-msgstr ""
+msgstr "フォルダ名から %s の文字を削除してください。"
 
 #: src/tools/dcpomatic_playlist.cc:340
 msgid "Type"
-msgstr ""
+msgstr "タイプ"
 
 #: src/tools/dcpomatic_batch.cc:279 src/tools/dcpomatic.cc:1188
 #: src/tools/dcpomatic_disk.cc:275
 msgid "Unfinished jobs"
-msgstr ""
+msgstr "未完了の処理"
 
 #: src/tools/dcpomatic_disk.cc:118
 msgid "Uninstall..."
-msgstr ""
+msgstr "アンインストール..."
 
 #: src/tools/dcpomatic_player.cc:860
 #, c-format
 msgid "Unrecognised file extension %s (use .jpg, .jpeg or .png)"
-msgstr ""
+msgstr "認識されないファイル拡張子です %s (use .jpg, .jpeg or .png)"
 
 #: src/tools/dcpomatic_playlist.cc:347
 msgid "Up"
-msgstr ""
+msgstr "上へ"
 
 #: src/tools/dcpomatic.cc:1455
 msgid "User manual..."
-msgstr ""
+msgstr "ユーザーマニュアルl..."
 
 #: src/tools/dcpomatic_verifier.cc:201
 msgid "Verify"
-msgstr ""
+msgstr "確認"
 
 #: src/tools/dcpomatic_player.cc:1041
 msgid "Verify DCP"
-msgstr ""
+msgstr "DCPを検証"
 
 #: src/tools/dcpomatic_player.cc:708
 msgid "Verify DCP..."
-msgstr ""
+msgstr "DCPを検証..."
 
 #: src/tools/dcpomatic_verifier.cc:187
 msgid "Verify picture asset details"
-msgstr ""
+msgstr "画像アセットの詳細を確認する"
 
 #: src/tools/dcpomatic.cc:1437
 msgid "Version File (VF)..."
-msgstr ""
+msgstr "バージョンファイル (VF)..."
 
 #: src/tools/dcpomatic.cc:1434
 msgid "Video waveform..."
-msgstr ""
+msgstr "動画波形..."
 
 #: src/tools/dcpomatic_verifier.cc:194
 msgid "Write logs to DCP folders"
-msgstr ""
+msgstr "DCPフォルダにログを書込む"
 
 #: src/tools/dcpomatic_kdm.cc:795
 msgid ""
 "You are about to remove a DKDM.  This will make it impossible to decrypt the "
 "DCP that the DKDM was made for, and it cannot be undone.  Are you sure?"
 msgstr ""
+"DKDMを削除しようとしています。削除するとこれまでに作成されたDKDMでDCPの復号が"
+"不可能になり元に戻すこともできなくなります。よろしいですか？"
 
 #: src/tools/dcpomatic.cc:990
 #, c-format
@@ -1210,6 +1301,13 @@ msgid ""
 "you <span weight=\"bold\" size=\"larger\">BACK UP THIS FILE</span> since if "
 "it is lost your DKDMs (and the DCPs they protect) will become useless."
 msgstr ""
+"作成中のDKDMは、\n"
+"\n"
+"<tt>%s</tt> に保管されている秘密鍵で暗号化されています。\n"
+"\n"
+"このファイルを紛失すると、DKDM（およびそれによって保護されているDCP）が使用で"
+"きなくなるため、<span weight=\"bold\" size=\"larger\">このファイルのバック"
+"アップ</span>は<span weight=\"bold\" size=\"larger\">極めて重要</span>です。"
 
 #: src/tools/dcpomatic.cc:853
 msgid ""
@@ -1220,6 +1318,12 @@ msgid ""
 "You should ensure that these files are <span weight=\"bold\" "
 "size=\"larger\">BACKED UP</span> if you want to make KDMs for this film."
 msgstr ""
+"暗号化されたDCPを作成しています。映画内の<tt>metadata.xml</tt>ファイルとDCP内"
+"のメタデータファイルのコピーがなければ、このDCPのKDMを作成することはできませ"
+"ん。\n"
+"\n"
+"この映画のKDMを作成する場合は、これらのファイルを<span weight=\"bold\" "
+"size=\"larger\">バックアップ</span>しておく必要があります。"
 
 #: src/tools/dcpomatic.cc:1733
 #, c-format
@@ -1228,12 +1332,17 @@ msgid ""
 "This will limit the memory available to %s and may cause errors.  You are "
 "strongly advised to install the 64-bit version of %s."
 msgstr ""
+"64ビット版のWindowsで32ビット版%sを実行しています。これにより %sで使用できる"
+"メモリが制限されエラーが発生する可能性があります。64ビット版の%sをインストー"
+"ルすることを強くお勧めします。"
 
 #: src/tools/dcpomatic_disk.cc:394
 msgid ""
 "You did not correctly confirm that you read the warning that was just "
 "shown.  Please try again."
 msgstr ""
+"表示された警告を正しく読んだかどうか確認できませんでした。もう一度お試しくだ"
+"さい。"
 
 #: src/tools/dcpomatic_batch.cc:343 src/tools/dcpomatic.cc:614
 #: src/tools/dcpomatic_editor.cc:457 src/tools/dcpomatic_player.cc:749
@@ -1242,3 +1351,5 @@ msgid ""
 "You did not select a folder.  Make sure that you select a folder before "
 "clicking Open."
 msgstr ""
+"フォルダが選択されていません。「開く」をクリックする前に必ずフォルダを選択し"
+"てください。"

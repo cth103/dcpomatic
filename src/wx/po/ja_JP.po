@@ -6,26 +6,27 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-02-15 21:03+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2026-02-19 17:41+0900\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ja_JP\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.8\n"
 
 #: src/wx/player_information.cc:111
 #, c-format
 msgid " (%d error)"
-msgstr ""
+msgstr " (%d エラー)"
 
 #: src/wx/player_information.cc:113
 #, c-format
 msgid " (%d errors)"
-msgstr ""
+msgstr " (%d エラー)"
 
 #: src/wx/content_timeline_audio_view.cc:73
 #, c-format
@@ -40,7 +41,7 @@ msgstr ""
 #: src/wx/text_panel.cc:92 src/wx/text_panel.cc:95 src/wx/text_panel.cc:100
 #: src/wx/text_panel.cc:103 src/wx/text_panel.cc:110
 msgid "%"
-msgstr ""
+msgstr "%"
 
 #. TRANSLATORS: this will be used in the middle of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
 #: src/wx/verify_dcp_result_panel.cc:138
@@ -77,12 +78,12 @@ msgstr ""
 #: src/wx/verify_dcp_result_panel.cc:130
 #, c-format
 msgid "%d errors, "
-msgstr ""
+msgstr "%d エラー, "
 
 #: src/wx/player_information.cc:207 src/wx/player_information.cc:209
 #, c-format
 msgid "%s %s"
-msgstr ""
+msgstr "%s %s"
 
 #: src/wx/kdm_config_dialog.cc:191 src/wx/player_config_dialog.cc:421
 #: src/wx/playlist_editor_config_dialog.cc:38
@@ -98,12 +99,12 @@ msgstr ""
 #: src/wx/audio_dialog.cc:175
 #, c-format
 msgid "%s audio"
-msgstr ""
+msgstr "%s オーディオ"
 
 #: src/wx/audio_dialog.cc:171 src/wx/audio_dialog.cc:173
 #, c-format
 msgid "%s audio - %s"
-msgstr ""
+msgstr "%s オーディオ - %s"
 
 #: src/wx/email_preferences_page.cc:191
 #, c-format
@@ -115,62 +116,64 @@ msgid ""
 "(C) 2012-2026 Carl Hetherington, Terrence Meiczinger\n"
 "Aaron Boxer"
 msgstr ""
+"(C) 2012-2026 Carl Hetherington, Terrence Meiczinger\n"
+"Aaron Boxer"
 
 #: src/wx/full_config_dialog.cc:1210 src/wx/player_config_dialog.cc:131
 #, c-format
 msgid "(restart %s to change display mode)"
-msgstr ""
+msgstr "(表示モードを変更するには %s を再起動してください)"
 
 #: src/wx/general_preferences_page.cc:104
 #, c-format
 msgid "(restart %s to see language changes)"
-msgstr ""
+msgstr "(言語の変更を確認するには %s を再起動してください)"
 
 #: src/wx/audio_mapping_view.cc:89
 msgid "+3dB"
-msgstr ""
+msgstr "+3dB"
 
 #: src/wx/audio_mapping_view.cc:87
 msgid "-6dB"
-msgstr ""
+msgstr "-6dB"
 
 #: src/wx/export_video_file_dialog.cc:92
 msgid "0 is best, 51 is worst"
-msgstr ""
+msgstr "最高:0、最低:51"
 
 #: src/wx/audio_mapping_view.cc:88
 msgid "0dB (unchanged)"
-msgstr ""
+msgstr "0dB (不変)"
 
 #. TRANSLATORS: this will be used in the middle of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
 #: src/wx/verify_dcp_result_panel.cc:135
 msgid "1 Bv2.1 error, "
-msgstr ""
+msgstr "1 Bv2.1 エラー, "
 
 #. TRANSLATORS: this will be used at the start of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
 #: src/wx/verify_dcp_result_panel.cc:127
 msgid "1 error, "
-msgstr ""
+msgstr "1 エラー, "
 
 #: src/wx/ratio_picker.cc:156
 msgid "1.85"
-msgstr ""
+msgstr "1.85"
 
 #: src/wx/wx_util.cc:494
 msgid "12 - 7.1/HI/VI"
-msgstr ""
+msgstr "12 - 7.1/HI/VI"
 
 #: src/wx/wx_util.cc:486
 msgid "2 - stereo"
-msgstr ""
+msgstr "2 - stereo"
 
 #: src/wx/rgba_colour_picker.cc:40
 msgid "255"
-msgstr ""
+msgstr "255"
 
 #: src/wx/video_panel.cc:188
 msgid "2D"
-msgstr ""
+msgstr "2D"
 
 #: src/wx/metadata_dialog.cc:316
 msgid "2D version of 3D DCP"
@@ -178,11 +181,11 @@ msgstr ""
 
 #: src/wx/dcp_panel.cc:895
 msgid "2K"
-msgstr ""
+msgstr "2K"
 
 #: src/wx/dcp_panel.cc:868 src/wx/video_panel.cc:189
 msgid "3D"
-msgstr ""
+msgstr "3D"
 
 #: src/wx/video_panel.cc:192
 msgid "3D alternate"
@@ -206,108 +209,111 @@ msgstr ""
 
 #: src/wx/wx_util.cc:488
 msgid "4 - L/C/R/Lfe"
-msgstr ""
+msgstr "4 - L/C/R/Lfe"
 
 #: src/wx/dcp_panel.cc:1007
 msgid "48kHz"
-msgstr ""
+msgstr "48kHz"
 
 #: src/wx/dcp_panel.cc:896
 msgid "4K"
-msgstr ""
+msgstr "4K"
 
 #: src/wx/wx_util.cc:490
 msgid "6 - 5.1"
-msgstr ""
+msgstr "6 - 5.1"
 
 #: src/wx/wx_util.cc:492
 msgid "8 - 5.1/HI/VI"
-msgstr ""
+msgstr "8 - 5.1/HI/VI"
 
 #: src/wx/dcp_panel.cc:1008
 msgid "96kHz"
-msgstr ""
+msgstr "96kHz"
 
 #: src/wx/ratio_picker.cc:44
 msgid ":1"
-msgstr ""
+msgstr ":1"
 
 #: src/wx/verify_dcp_result_panel.cc:637
 #, c-format
 msgid "<IssueDate> has an invalid value %n"
-msgstr ""
+msgstr "<IssueDate> 無効な値があります %n"
 
 #: src/wx/verify_dcp_result_panel.cc:643
 #, c-format
 msgid "<MainSoundConfiguration> is invalid (%n)"
-msgstr ""
+msgstr "<MainSoundConfiguration> 無効です (%n)"
 
 #: src/wx/subtitle_appearance_dialog.cc:118
 msgid "<b>New colour</b>"
-msgstr ""
+msgstr "<b>新色</b>"
 
 #: src/wx/subtitle_appearance_dialog.cc:115
 msgid "<b>Original colour</b>"
-msgstr ""
+msgstr "<b>オリジナルカラー</b>"
 
 #: src/wx/report_problem_dialog.cc:85
 msgid ""
 "<i>It is important that you enter a valid email address here, otherwise I "
 "can't ask you for more details on your problem.</i>"
 msgstr ""
+"<i>有効なメールアドレスを入力することが重要です。メールアドレスが無効の場合、"
+"受信者が問題の詳細について質問することができません。</i>"
 
 #: src/wx/colour_conversion_editor.cc:87
 msgid "A"
-msgstr ""
+msgstr "A"
 
 #: src/wx/verify_dcp_result_panel.cc:546
 #, c-format
 msgid "A 2K JPEG2000 frame contains %n tile parts instead of 3."
-msgstr ""
+msgstr "2K JPEG2000 フレームには、3 個ではなく %n 個のタイル部分が含まれます。"
 
 #: src/wx/verify_dcp_result_panel.cc:560
 #, c-format
 msgid "A 2K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %n"
-msgstr ""
+msgstr "2K JPEG2000フレームに無効なRsiz（機能）値%nが含まれています"
 
 #: src/wx/verify_dcp_result_panel.cc:518
 #, c-format
 msgid "A 2K JPEG2000 frame has %n POC marker(s) instead of 0."
-msgstr ""
+msgstr "2K JPEG2000 フレームには、0 ではなく %n 個の POC マーカーがあります。"
 
 #: src/wx/verify_dcp_result_panel.cc:483
 #, c-format
 msgid "A 2K JPEG2000 frame has %n guard bits instead of 1."
-msgstr ""
+msgstr "2K JPEG2000 フレームには、1 ではなく %n のガード ビットがあります。"
 
 #: src/wx/verify_dcp_result_panel.cc:553
 #, c-format
 msgid "A 4K JPEG2000 frame contains %n tile parts instead of 6."
-msgstr ""
+msgstr "4K JPEG2000 フレームには、6 個ではなく %n 個のタイル部分が含まれます。"
 
 #: src/wx/verify_dcp_result_panel.cc:567
 #, c-format
 msgid "A 4K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %n"
-msgstr ""
+msgstr "4K JPEG2000フレームに無効なRsiz（機能）値%nが含まれています"
 
 #: src/wx/verify_dcp_result_panel.cc:525
 #, c-format
 msgid "A 4K JPEG2000 frame has %n POC marker(s) instead of 1."
 msgstr ""
+"4K JPEG2000 フレームには、1 個ではなく %n 個の POC マーカーがあります。"
 
 #: src/wx/verify_dcp_result_panel.cc:490
 #, c-format
 msgid "A 4K JPEG2000 frame has %n guard bits instead of 2."
-msgstr ""
+msgstr "4K JPEG2000 フレームには 2 ではなく %n のガード ビットがあります。"
 
 #: src/wx/verify_dcp_result_panel.cc:539
 msgid "A JPEG2000 frame contains a POC marker in an invalid location."
-msgstr ""
+msgstr "JPEG2000 フレームに無効な場所に POC マーカーが含まれています。"
 
 #: src/wx/verify_dcp_result_panel.cc:532
 #, c-format
 msgid "A JPEG2000 frame contains an invalid POC marker (%n)."
-msgstr ""
+msgstr "JPEG2000 フレームに無効な POC マーカー (%n) が含まれています。"
 
 #: src/wx/verify_dcp_result_panel.cc:511
 #, c-format
@@ -317,7 +323,7 @@ msgstr ""
 #: src/wx/verify_dcp_result_panel.cc:504
 #, c-format
 msgid "A JPEG2000 frame has a code-block width of %n instead of 32."
-msgstr ""
+msgstr "JPEG2000 フレームのコード ブロック幅は 32 ではなく %n です。"
 
 #: src/wx/verify_dcp_result_panel.cc:574
 msgid "A JPEG2000 frame has no TLM marker."
@@ -325,26 +331,26 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:497
 msgid "A JPEG2000 tile size does not match the image size."
-msgstr ""
+msgstr "JPEG2000 タイルのサイズが画像のサイズと一致しません。"
 
 #: src/wx/update_dialog.cc:45
 #, c-format
 msgid "A new version of %s is available."
-msgstr ""
+msgstr "%s の新しいバージョンが利用可能です。"
 
 #: src/wx/verify_dcp_result_panel.cc:476
 #, c-format
 msgid "A picture frame has an invalid JPEG2000 codestream (%n)."
-msgstr ""
+msgstr "画像フレームに無効な JPEG2000 コードストリーム (%n) があります。"
 
 #: src/wx/hints_dialog.cc:183
 #, c-format
 msgid "A problem occurred when looking for hints (%s)"
-msgstr ""
+msgstr "ヒントの検索中に問題が発生しました (%s)"
 
 #: src/wx/verify_dcp_result_panel.cc:579
 msgid "A subtitle lasts longer than the reel it is in."
-msgstr ""
+msgstr "字幕の長さは、字幕が含まれるリールの長さよりも長くなります。"
 
 #: src/wx/verify_dcp_result_panel.cc:659
 #, c-format
@@ -355,52 +361,52 @@ msgstr ""
 
 #: src/wx/sound_preferences_page.cc:199
 msgid "ALSA"
-msgstr ""
+msgstr "ALSA"
 
 #: src/wx/sound_preferences_page.cc:195
 msgid "ASIO"
-msgstr ""
+msgstr "ASIO"
 
 #: src/wx/about_dialog.cc:42
 #, c-format
 msgid "About %s"
-msgstr ""
+msgstr "About %s"
 
 #: src/wx/screens_panel.cc:268
 msgid "Add Cinema"
-msgstr ""
+msgstr "映画館を追加"
 
 #: src/wx/screens_panel.cc:84
 msgid "Add Cinema..."
-msgstr ""
+msgstr "映画館を追加..."
 
 #: src/wx/content_panel.cc:280
 msgid "Add DCP..."
-msgstr ""
+msgstr "DCPを追加..."
 
 #: src/wx/new_dkdm_folder_dialog.cc:26
 msgid "Add DKDM folder"
-msgstr ""
+msgstr "DKDM フォルダを追加"
 
 #: src/wx/content_menu.cc:113
 msgid "Add KDM..."
-msgstr ""
+msgstr "KDMを追加..."
 
 #: src/wx/content_menu.cc:114
 msgid "Add OV..."
-msgstr ""
+msgstr "OVを追加..."
 
 #: src/wx/screens_panel.cc:389
 msgid "Add Screen"
-msgstr ""
+msgstr "スクリーンを追加"
 
 #: src/wx/screens_panel.cc:90
 msgid "Add Screen..."
-msgstr ""
+msgstr "スクリーンを追加..."
 
 #: src/wx/content_panel.cc:281
 msgid "Add a DCP."
-msgstr ""
+msgstr "DCPを追加."
 
 #: src/wx/content_panel.cc:277
 msgid ""
@@ -410,102 +416,105 @@ msgstr ""
 
 #: src/wx/full_language_tag_dialog.cc:69
 msgid "Add extended"
-msgstr ""
+msgstr "拡張を追加"
 
 #: src/wx/content_panel.cc:272
 msgid "Add file(s)..."
-msgstr ""
+msgstr "ファイルを追加..."
 
 #: src/wx/content_panel.cc:276
 msgid "Add folder..."
-msgstr ""
+msgstr "フォルダを追加..."
 
 #: src/wx/image_sequence_dialog.cc:31
 msgid "Add image sequence"
-msgstr ""
+msgstr "画像シーケンスを追加"
 
 #: src/wx/language_tag_dialog.cc:43
 msgid "Add language..."
-msgstr ""
+msgstr "言語を追加..."
 
 #: src/wx/text_panel.cc:360
 msgid "Add new..."
-msgstr ""
+msgstr "新規追加..."
 
 #: src/wx/markers_panel.cc:286
 msgid "Add or move marker to current position"
-msgstr ""
+msgstr "現在の位置にマーカーを追加または移動する"
 
 #: src/wx/recipients_panel.cc:123
 msgid "Add recipient"
-msgstr ""
+msgstr "受信者を追加"
 
 #: src/wx/dcp_timeline.cc:173
 msgid "Add reel boundary"
-msgstr ""
+msgstr "リール境界を追加"
 
 #: src/wx/full_language_tag_dialog.cc:65
 msgid "Add region"
-msgstr ""
+msgstr "地域を追加"
 
 #: src/wx/full_language_tag_dialog.cc:63
 msgid "Add script"
-msgstr ""
+msgstr "スクリプトを追加"
 
 #: src/wx/full_language_tag_dialog.cc:67
 msgid "Add variant"
-msgstr ""
+msgstr "バリエーションを追加"
 
 #: src/wx/content_panel.cc:273
 msgid "Add video, image, sound or subtitle files to the film (Ctrl+A)."
 msgstr ""
+"プロジェクトに動画、画像、サウンド、または字幕ファイルを追加する (Ctrl+A)。"
 
 #: src/wx/certificate_chain_editor.cc:89 src/wx/recipients_panel.cc:69
 #: src/wx/editable_list.h:145
 msgid "Add..."
-msgstr ""
+msgstr "追加..."
 
 #: src/wx/certificate_chain_editor.cc:186
 msgid ""
 "Adding this certificate would make the chain inconsistent, so it will not be "
 "added. Add certificates in order from root to intermediate to leaf."
 msgstr ""
+"この証明書を追加すると証明書チェーンの整合性が失われるため追加されません。"
+"ルート、中間CA、リーフの順に証明書を追加してください。"
 
 #: src/wx/text_panel.cc:176
 msgid "Additional"
-msgstr ""
+msgstr "追加"
 
 #: src/wx/cinema_dialog.cc:70 src/wx/extra_kdm_email_dialog.cc:47
 #: src/wx/full_config_dialog.cc:696 src/wx/kdm_email_preferences_page.cc:80
 #: src/wx/recipient_dialog.cc:84
 msgid "Address"
-msgstr ""
+msgstr "アドレス"
 
 #: src/wx/colour_conversion_editor.cc:187
 msgid "Adjust white point to"
-msgstr ""
+msgstr "ホワイトポイントを調整する"
 
 #: src/wx/full_config_dialog.cc:1178 src/wx/kdm_config_dialog.cc:105
 #: src/wx/metadata_dialog.cc:79 src/wx/player_config_dialog.cc:277
 msgid "Advanced"
-msgstr ""
+msgstr "高度な設定"
 
 #: src/wx/kdm_advanced_dialog.cc:35
 msgid "Advanced KDM options"
-msgstr ""
+msgstr "高度なKDMオプション"
 
 #: src/wx/content_advanced_dialog.cc:59
 msgid "Advanced content settings"
-msgstr ""
+msgstr "高度なコンテンツ設定"
 
 #: src/wx/content_menu.cc:111
 msgid "Advanced settings..."
-msgstr ""
+msgstr "高度な設定..."
 
 #: src/wx/kdm_output_panel.cc:128 src/wx/keys_preferences_page.cc:90
 #: src/wx/keys_preferences_page.cc:108
 msgid "Advanced..."
-msgstr ""
+msgstr "高度な設定..."
 
 #: src/wx/metadata_dialog.cc:217 src/wx/rating_dialog.cc:136
 #: src/wx/rating_dialog.cc:292
@@ -514,27 +523,27 @@ msgstr ""
 
 #: src/wx/audio_mapping_view.cc:92
 msgid "All off"
-msgstr ""
+msgstr "全てoff"
 
 #: src/wx/full_config_dialog.cc:1069
 msgid "Allow any DCP frame rate"
-msgstr ""
+msgstr "任意のDCPフレームレートを許可"
 
 #: src/wx/full_config_dialog.cc:1075
 msgid "Allow creation of DCPs with 96kHz audio"
-msgstr ""
+msgstr "96kHzオーディオのDCP作成を可能にする"
 
 #: src/wx/full_config_dialog.cc:1071
 msgid "Allow full-frame and non-standard container ratios"
-msgstr ""
+msgstr "フルフレームと非標準コンテナ比率を許可する"
 
 #: src/wx/full_config_dialog.cc:1076
 msgid "Allow mapping to all audio channels"
-msgstr ""
+msgstr "すべてのオーディオチャンネルへのマッピングを許可する"
 
 #: src/wx/full_config_dialog.cc:1077
 msgid "Allow use of SMPTE Bv2.0"
-msgstr ""
+msgstr "SMPTE Bv2.0の使用を許可する"
 
 #: src/wx/rgba_colour_picker.cc:37
 msgid "Alpha   0"
@@ -542,7 +551,7 @@ msgstr ""
 
 #: src/wx/about_dialog.cc:182
 msgid "Also supported by"
-msgstr ""
+msgstr "更なる支援者"
 
 #: src/wx/verify_dcp_result_panel.cc:283
 msgid "An asset has an empty path in the ASSETMAP."
@@ -551,15 +560,15 @@ msgstr ""
 #: src/wx/verify_dcp_result_panel.cc:622
 #, c-format
 msgid "An invalid <ContentKind> %n has been used."
-msgstr ""
+msgstr "無効な <ContentKind> %n が使用されました。"
 
 #: src/wx/dkdm_output_panel.cc:204 src/wx/kdm_output_panel.cc:321
 msgid "An unknown exception occurred."
-msgstr ""
+msgstr "不明な例外が発生しました。"
 
 #: src/wx/short_kdm_output_panel.cc:100 src/wx/tall_kdm_output_panel.cc:81
 msgid "Annotation text"
-msgstr ""
+msgstr "注釈テキスト"
 
 #: src/wx/text_panel.cc:117
 msgid "Appearance..."
@@ -567,42 +576,47 @@ msgstr ""
 
 #: src/wx/job_view.cc:192
 msgid "Are you sure you want to cancel this job?"
-msgstr ""
+msgstr "この処理をキャンセルしてもよろしいですか?"
 
 #: src/wx/screens_panel.cc:359
 #, c-format
 msgid "Are you sure you want to remove %d cinemas?"
-msgstr ""
+msgstr "%d の映画館を削除してもよろしいですか?"
 
 #: src/wx/screens_panel.cc:482
 #, c-format
 msgid "Are you sure you want to remove %d screens?"
-msgstr ""
+msgstr "%d 個の画面を削除してもよろしいですか?"
 
 #: src/wx/screens_panel.cc:355
 #, c-format
 msgid "Are you sure you want to remove the cinema '%s'?"
-msgstr ""
+msgstr "映画館 '%s' を削除してもよろしいですか？"
 
 #: src/wx/screens_panel.cc:478
 #, c-format
 msgid "Are you sure you want to remove the screen '%s'?"
-msgstr ""
+msgstr "画面 '%s' を削除してもよろしいですか?"
 
 #: src/wx/confirm_kdm_email_dialog.cc:36
 msgid ""
 "Are you sure you want to send emails to the following addresses?\n"
 "\n"
 msgstr ""
+"次のアドレスにメールを送信してもよろしいですか?\n"
+"\n"
 
 #: src/wx/verify_dcp_result_panel.cc:607
 msgid "At least one <Text> node in a subtitle or closed caption is empty."
 msgstr ""
+"字幕またはクローズドキャプション内の少なくとも 1 つの  <Text>ノードが空です。"
 
 #: src/wx/verify_dcp_result_panel.cc:408
 msgid ""
 "At least one asset in a reel does not have the same duration as the others."
 msgstr ""
+"リール内の少なくとも 1 つのアセットの長さが、他のアセットと同じではありませ"
+"ん。"
 
 #: src/wx/verify_dcp_result_panel.cc:378
 msgid "At least one pair of subtitles is separated by less than 2 frames."
@@ -610,31 +624,33 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:372
 msgid "At least one subtitle has zero or negative duration."
-msgstr ""
+msgstr "少なくとも 1 つの字幕の長さがゼロまたはそれ以下です。"
 
 #: src/wx/verify_dcp_result_panel.cc:375
 msgid "At least one subtitle lasts less than 15 frames."
-msgstr ""
+msgstr "少なくとも 1 つの字幕の長さが 15 フレーム未満です。"
 
 #: src/wx/timeline_labels_view.cc:44 src/wx/timeline_labels_view.cc:86
 msgid "Atmos"
-msgstr ""
+msgstr "Atmos"
 
 #: src/wx/audio_dialog.cc:65 src/wx/audio_panel.cc:66
 #: src/wx/content_properties_dialog.cc:82 src/wx/dcp_panel.cc:124
 #: src/wx/timeline_labels_view.cc:42 src/wx/timeline_labels_view.cc:92
 msgid "Audio"
-msgstr ""
+msgstr "音声"
 
 #: src/wx/player_information.cc:168
 #, c-format
 msgid "Audio channels: %d"
-msgstr ""
+msgstr "音声チャンネル: %d"
 
 #: src/wx/audio_mapping_view.cc:547
 #, c-format
 msgid "Audio will be passed from %s channel %s to %s channel %s unaltered."
 msgstr ""
+"オーディオは %s チャンネル %s から %s チャンネル %s に変更されずに渡されま"
+"す。"
 
 #: src/wx/audio_mapping_view.cc:556
 #, c-format
@@ -644,44 +660,44 @@ msgstr ""
 
 #: src/wx/email_preferences_page.cc:78
 msgid "Auto"
-msgstr ""
+msgstr "Auto"
 
 #: src/wx/auto_crop_dialog.cc:29
 msgid "Auto crop"
-msgstr ""
+msgstr "自動切り抜き"
 
 #: src/wx/content_menu.cc:108
 msgid "Auto-crop..."
-msgstr ""
+msgstr "自動切り抜き..."
 
 #: src/wx/full_config_dialog.cc:142
 msgid "Automatically analyse content audio"
-msgstr ""
+msgstr "コンテンツの音声を自動的に分析"
 
 #: src/wx/colour_conversion_editor.cc:90
 msgid "B"
-msgstr ""
+msgstr "B"
 
 #: src/wx/full_config_dialog.cc:713 src/wx/kdm_email_preferences_page.cc:97
 msgid "BCC address"
-msgstr ""
+msgstr "BCC先メールアドレス"
 
 #: src/wx/barco_alchemy_certificate_panel.cc:86
 msgid "Barco Alchemy"
-msgstr ""
+msgstr "Barco Alchemy"
 
 #: src/wx/colour_conversion_editor.cc:154
 msgid "Blue chromaticity"
-msgstr ""
+msgstr "色度 青"
 
 #: src/wx/auto_crop_dialog.cc:37 src/wx/video_panel.cc:132
 msgid "Bottom"
-msgstr ""
+msgstr "下"
 
 #: src/wx/dir_picker_ctrl.cc:49 src/wx/file_picker_ctrl.cc:64
 #: src/wx/file_picker_ctrl.cc:80 src/wx/kdm_cpl_panel.cc:48
 msgid "Browse..."
-msgstr ""
+msgstr "参照する..."
 
 #: src/wx/text_panel.cc:87
 msgid "Burn subtitles into image"
@@ -689,20 +705,20 @@ msgstr ""
 
 #: src/wx/gain_calculator_dialog.cc:39
 msgid "But it only sounds correct at fader"
-msgstr ""
+msgstr "現在のフェーダー値"
 
 #: src/wx/full_config_dialog.cc:697 src/wx/kdm_email_preferences_page.cc:81
 msgid "CC addresses"
-msgstr ""
+msgstr "CC先メールアドレス"
 
 #: src/wx/dkdm_dialog.cc:93 src/wx/kdm_cpl_panel.cc:45 src/wx/kdm_dialog.cc:98
 #: src/wx/self_dkdm_dialog.cc:69 src/wx/spl_entry_dialog.cc:47
 msgid "CPL"
-msgstr ""
+msgstr "CPL"
 
 #: src/wx/dkdm_output_panel.cc:69 src/wx/kdm_cpl_panel.cc:57
 msgid "CPL ID"
-msgstr ""
+msgstr "CPL ID"
 
 #: src/wx/kdm_cpl_panel.cc:60
 msgid "CPL annotation text"
@@ -714,12 +730,12 @@ msgstr ""
 
 #: src/wx/audio_panel.cc:89
 msgid "Calculate..."
-msgstr ""
+msgstr "計算する..."
 
 #: src/wx/invalid_certificate_period_dialog.cc:99 src/wx/job_view.cc:76
 #: src/wx/verify_dcp_dialog.cc:104
 msgid "Cancel"
-msgstr ""
+msgstr "キャンセル"
 
 #: src/wx/dcp_referencing_dialog.cc:175
 msgid "Cannot reference this DCP"
@@ -731,7 +747,7 @@ msgstr ""
 
 #: src/wx/dcp_referencing_dialog.cc:201
 msgid "Cannot reference this DCP's closed captions"
-msgstr ""
+msgstr "このDCPのクローズドキャプションを参照できません"
 
 #: src/wx/dcp_referencing_dialog.cc:194
 msgid "Cannot reference this DCP's subtitles"
@@ -743,15 +759,15 @@ msgstr ""
 
 #: src/wx/text_view.cc:76
 msgid "Caption"
-msgstr ""
+msgstr "見出し"
 
 #: src/wx/text_view.cc:51
 msgid "Captions"
-msgstr ""
+msgstr "見出し"
 
 #: src/wx/recreate_chain_dialog.cc:35
 msgid "Certificate chain"
-msgstr ""
+msgstr "証明書チェーン"
 
 #: src/wx/barco_alchemy_certificate_panel.cc:78
 #: src/wx/christie_certificate_panel.cc:80
@@ -762,92 +778,95 @@ msgstr ""
 
 #: src/wx/invalid_certificate_period_dialog.cc:63
 msgid "Certificate end"
-msgstr ""
+msgstr "証明書の終了"
 
 #: src/wx/invalid_certificate_period_dialog.cc:55
 msgid "Certificate start"
-msgstr ""
+msgstr "証明書の開始"
 
 #: src/wx/metadata_dialog.cc:299
 msgid "Chain"
-msgstr ""
+msgstr "証明書チェーン"
 
 #: src/wx/audio_gain_dialog.cc:33
 msgid "Channel gain"
-msgstr ""
+msgstr "チャンネルゲイン"
 
 #: src/wx/audio_dialog.cc:110 src/wx/dcp_panel.cc:976
 msgid "Channels"
-msgstr ""
+msgstr "音声チャンネル"
 
 #: src/wx/screens_panel.cc:101
 msgid "Check all"
-msgstr ""
+msgstr "全チェック"
 
 #: src/wx/general_preferences_page.cc:202
 msgid "Check for testing updates on startup"
-msgstr ""
+msgstr "起動時にテスト更新を確認する"
 
 #: src/wx/general_preferences_page.cc:198
 msgid "Check for updates on startup"
-msgstr ""
+msgstr "起動時にアップデートを確認する"
 
 #: src/wx/content_menu.cc:116
 msgid "Choose CPL"
-msgstr ""
+msgstr "CPLを選択"
 
 #: src/wx/content_panel.cc:677
 msgid "Choose a DCP folder"
-msgstr ""
+msgstr "DCPフォルダを選択"
 
 #: src/wx/content_menu.cc:387
 msgid "Choose a file"
-msgstr ""
+msgstr "ファイルを選択"
 
 #: src/wx/content_panel.cc:617
 msgid "Choose a file or files"
-msgstr ""
+msgstr "ファイルを選択してください"
 
 #: src/wx/content_menu.cc:383 src/wx/content_panel.cc:634
 msgid "Choose a folder"
-msgstr ""
+msgstr "フォルダを選択"
 
 #: src/wx/system_font_dialog.cc:37
 msgid "Choose a font"
-msgstr ""
+msgstr "フォントを選択"
 
 #: src/wx/fonts_dialog.cc:187
 msgid "Choose a font file"
-msgstr ""
+msgstr "フォントファイルを選択"
 
 #: src/wx/christie_certificate_panel.cc:91
 msgid "Christie"
-msgstr ""
+msgstr "Christie"
 
 #: src/wx/invalid_certificate_period_dialog.cc:39
 msgid "Cinema"
-msgstr ""
+msgstr "映画館"
 
 #: src/wx/general_preferences_page.cc:125
 msgid "Cinema and screen database file"
-msgstr ""
+msgstr "映画とスクリーンのデータベースファイル"
 
 #: src/wx/content_widget.h:88
 msgid "Click the button to set all selected content to the same value."
 msgstr ""
+"ボタンをクリックすると、選択したすべてのコンテンツが同じ値に設定されます。"
 
 #: src/wx/verify_dcp_result_panel.cc:426
 #, c-format
 msgid "Closed caption asset %n has a non-zero <EntryPoint>."
 msgstr ""
+"クローズド キャプション アセット %n には、ゼロ以外の <EntryPoint> がありま"
+"す。."
 
 #: src/wx/closed_captions_dialog.cc:49 src/wx/dcp_referencing_dialog.cc:115
 msgid "Closed captions"
-msgstr ""
+msgstr "クローズドキャプション"
 
 #: src/wx/short_kdm_output_panel.cc:75 src/wx/tall_kdm_output_panel.cc:100
 msgid "Collection"
-msgstr ""
+msgstr "収集"
 
 #: src/wx/subtitle_appearance_dialog.cc:85
 msgid "Colour"
@@ -855,29 +874,29 @@ msgstr ""
 
 #: src/wx/content_colour_conversion_dialog.cc:41
 msgid "Colour conversion"
-msgstr ""
+msgstr "色変換"
 
 #. TRANSLATORS: translate the word "Custom" here; do not include the "Colour|" prefix
 #: src/wx/video_panel.cc:169
 msgid "Colour|Custom"
-msgstr ""
+msgstr "カラー|カスタム"
 
 #: src/wx/full_config_dialog.cc:927
 msgid "Company name"
-msgstr ""
+msgstr "会社名"
 
 #: src/wx/video_waveform_dialog.cc:64
 msgid "Component"
-msgstr ""
+msgstr "コンポーネント"
 
 #: src/wx/general_preferences_page.cc:120
 msgid "Configuration file"
-msgstr ""
+msgstr "設定ファイル"
 
 #. TRANSLATORS: translate the word "Timing" here; do not include the "Config|" prefix
 #: src/wx/full_config_dialog.cc:1291 src/wx/player_config_dialog.cc:319
 msgid "Config|Timing"
-msgstr ""
+msgstr "設定|タイミング"
 
 #: src/wx/confirm_kdm_email_dialog.cc:34
 msgid "Confirm KDM email"
@@ -885,37 +904,37 @@ msgstr ""
 
 #: src/wx/dcp_panel.cc:856
 msgid "Container"
-msgstr ""
+msgstr "アスペクト比"
 
 #: src/wx/audio_panel.cc:112 src/wx/film_editor.cc:61
 #: src/wx/playlist_controls.cc:95
 msgid "Content"
-msgstr ""
+msgstr "コンテンツ"
 
 #: src/wx/content_properties_dialog.cc:42
 msgid "Content Properties"
-msgstr ""
+msgstr "コンテンツのプロパティ"
 
 #: src/wx/dcp_panel.cc:103
 msgid "Content Type"
-msgstr ""
+msgstr "コンテンツの種類"
 
 #: src/wx/locations_preferences_page.cc:66
 msgid "Content directory"
-msgstr ""
+msgstr "コンテンツのディレクトリ"
 
 #: src/wx/content_version_dialog.cc:32 src/wx/content_version_dialog.cc:34
 #: src/wx/interop_metadata_dialog.cc:64
 msgid "Content version"
-msgstr ""
+msgstr "コンテンツのバージョン"
 
 #: src/wx/smpte_metadata_dialog.cc:104
 msgid "Content versions"
-msgstr ""
+msgstr "コンテンツのバージョン"
 
 #: src/wx/video_waveform_dialog.cc:67
 msgid "Contrast"
-msgstr ""
+msgstr "コントラスト"
 
 #: src/wx/text_panel.cc:101
 msgid "Coord|Y"
@@ -923,11 +942,11 @@ msgstr ""
 
 #: src/wx/dcp_panel.cc:93
 msgid "Copy as name"
-msgstr ""
+msgstr "ISDCF名をコピー"
 
 #: src/wx/content_menu.cc:109
 msgid "Copy settings from another project..."
-msgstr ""
+msgstr "別のプロジェクトから設定をコピーする..."
 
 #: src/wx/load_config_from_zip_dialog.cc:31
 msgid "Copy the cinemas in the ZIP file over the current list at"
@@ -952,12 +971,12 @@ msgstr ""
 #: src/wx/qube_certificate_panel.cc:72
 #, c-format
 msgid "Could not find serial number %s"
-msgstr ""
+msgstr "シリアル番号 %s が見つかりませんでした"
 
 #: src/wx/content_menu.cc:667
 #, c-format
 msgid "Could not find this content in the project \"%s\"."
-msgstr ""
+msgstr "プロジェクト「%s」でこのコンテンツが見つかりませんでした。"
 
 #: src/wx/certificate_chain_editor.cc:170
 #, c-format
@@ -1005,6 +1024,7 @@ msgstr ""
 #: src/wx/certificate_chain_editor.cc:195
 msgid "Could not read certificate file.  Make sure it is in PEM format."
 msgstr ""
+"証明書ファイルを読み取れませんでした。PEM形式であることを確認してください。"
 
 #: src/wx/qube_certificate_panel.cc:55
 msgid "Could not read certificates from Qube server."
@@ -1013,7 +1033,7 @@ msgstr ""
 #: src/wx/certificate_chain_editor.cc:372
 #, c-format
 msgid "Could not read key file; file is too long (%s)"
-msgstr ""
+msgstr "秘密鍵ファイルを読み取れませんでした。ファイルが長すぎます (%s)"
 
 #: src/wx/film_viewer.cc:638 src/wx/film_viewer.cc:680
 msgid ""
@@ -1022,7 +1042,7 @@ msgstr ""
 
 #: src/wx/full_config_dialog.cc:836
 msgid "Cover Sheet"
-msgstr ""
+msgstr "表紙"
 
 #: src/wx/invalid_certificate_period_dialog.cc:98
 msgid "Create KDMs anyway"
@@ -1034,11 +1054,11 @@ msgstr ""
 
 #: src/wx/full_config_dialog.cc:919
 msgid "Creator"
-msgstr ""
+msgstr "作成者"
 
 #: src/wx/video_panel.cc:91
 msgid "Crop"
-msgstr ""
+msgstr "切り抜き"
 
 #: src/wx/ratio_picker.cc:37
 msgid "Crop output to"
@@ -1051,29 +1071,29 @@ msgstr ""
 #: src/wx/audio_dialog.cc:479
 #, c-format
 msgid "Cursor: %.1fdB at %s"
-msgstr ""
+msgstr "カーソル位置: %.1fdB at %s"
 
 #: src/wx/audio_dialog.cc:473
 msgid "Cursor: none"
-msgstr ""
+msgstr "カーソル位置: なし"
 
 #: src/wx/dcp_timeline.cc:271 src/wx/rating_dialog.cc:51
 #: src/wx/ratio_picker.cc:49
 msgid "Custom"
-msgstr ""
+msgstr "カスタム"
 
 #: src/wx/custom_scale_dialog.cc:39
 msgid "Custom scale"
-msgstr ""
+msgstr "カスタムスケール"
 
 #: src/wx/video_panel.cc:163
 msgid "DCI X'Y'Z'"
-msgstr ""
+msgstr "DCI X'Y'Z'"
 
 #: src/wx/audio_panel.cc:112 src/wx/film_editor.cc:63
 #: src/wx/player_information.cc:58 src/wx/sound_preferences_page.cc:97
 msgid "DCP"
-msgstr ""
+msgstr "DCP"
 
 #: src/wx/dcp_text_track_dialog.cc:31
 msgid "DCP Text Track"
@@ -1081,7 +1101,7 @@ msgstr ""
 
 #: src/wx/full_config_dialog.cc:1257
 msgid "DCP asset filename format"
-msgstr ""
+msgstr "DCPアセットファイル名の形式"
 
 #: src/wx/kdm_cpl_panel.cc:54
 msgid "DCP directory"
@@ -1089,104 +1109,104 @@ msgstr ""
 
 #: src/wx/full_config_dialog.cc:1238
 msgid "DCP metadata filename format"
-msgstr ""
+msgstr "DCP詳細情報ファイル名の形式"
 
 #: src/wx/kdm_config_dialog.cc:63 src/wx/player_config_dialog.cc:142
 msgid "Debug log file"
-msgstr ""
+msgstr "Debug log file"
 
 #: src/wx/full_config_dialog.cc:1293
 msgid "Debug: 3D"
-msgstr ""
+msgstr "Debug: 3D"
 
 #: src/wx/full_config_dialog.cc:1303
 msgid "Debug: audio analysis"
-msgstr ""
+msgstr "Debug: audio analysis"
 
 #: src/wx/full_config_dialog.cc:1305
 msgid "Debug: butler"
-msgstr ""
+msgstr "Debug: butler"
 
 #: src/wx/full_config_dialog.cc:1297 src/wx/kdm_config_dialog.cc:142
 msgid "Debug: email sending"
-msgstr ""
+msgstr "Debug: email sending"
 
 #: src/wx/full_config_dialog.cc:1295
 msgid "Debug: encode"
-msgstr ""
+msgstr "Debug: encode"
 
 #: src/wx/full_config_dialog.cc:1301 src/wx/player_config_dialog.cc:323
 msgid "Debug: player"
-msgstr ""
+msgstr "Debug: player"
 
 #: src/wx/full_config_dialog.cc:1299 src/wx/player_config_dialog.cc:321
 msgid "Debug: video view"
-msgstr ""
+msgstr "Debug: video view"
 
 #: src/wx/player_information.cc:196
 #, c-format
 msgid "Decode resolution: %dx%d"
-msgstr ""
+msgstr "デコード解像度: %dx%d"
 
 #: src/wx/player_information.cc:198
 msgid "Decode resolution: unknown"
-msgstr ""
+msgstr "デコード解像度: 不明"
 
 #: src/wx/keys_preferences_page.cc:77 src/wx/keys_preferences_page.cc:135
 msgid "Decrypting KDMs"
-msgstr ""
+msgstr "KDMの復号化"
 
 #: src/wx/full_config_dialog.cc:127
 msgid "Default \"add file\" location"
-msgstr ""
+msgstr "「ファイルを追加...」時のデフォルトフォルダ位置"
 
 #: src/wx/full_config_dialog.cc:282
 msgid "Default KDM directory"
-msgstr ""
+msgstr "デフォルトの KDM ディレクトリ"
 
 #: src/wx/full_config_dialog.cc:294
 msgid "Default KDM duration"
-msgstr ""
+msgstr "デフォルトの KDM ディレクトリ"
 
 #: src/wx/full_config_dialog.cc:290
 msgid "Default KDM type"
-msgstr ""
+msgstr "デフォルトのKDMタイプ"
 
 #: src/wx/full_config_dialog.cc:269
 msgid "Default audio delay"
-msgstr ""
+msgstr "デフォルトの音声遅延"
 
 #: src/wx/full_config_dialog.cc:277
 msgid "Default audio language"
-msgstr ""
+msgstr "デフォルトの音声言語"
 
 #: src/wx/full_config_dialog.cc:279
 msgid "Default audio language to use for new DCPs"
-msgstr ""
+msgstr "新しいDCPで使用するデフォルト音声言語"
 
 #: src/wx/full_config_dialog.cc:260
 msgid "Default directory for new films"
-msgstr ""
+msgstr "デフォルトの新しいプロジェクトディレクトリ"
 
 #: src/wx/full_config_dialog.cc:252
 msgid "Default duration of still images"
-msgstr ""
+msgstr "静止画像のデフォルトの継続時間"
 
 #: src/wx/full_config_dialog.cc:234
 msgid "Defaults"
-msgstr ""
+msgstr "デフォルト値"
 
 #: src/wx/export_subtitles_dialog.cc:61
 msgid "Define font in output and export font file"
-msgstr ""
+msgstr "出力でフォントを定義し、フォントファイルを出力する"
 
 #: src/wx/audio_panel.cc:91
 msgid "Delay"
-msgstr ""
+msgstr "遅延"
 
 #: src/wx/sound_preferences_page.cc:87
 msgid "Delay audio by"
-msgstr ""
+msgstr "オーディオ遅延"
 
 #. TRANSLATORS: Destination here refers to where some KDMs will be written or sent
 #. (a place on disk or some email addresses).
@@ -1196,15 +1216,15 @@ msgstr ""
 
 #: src/wx/screen_dialog.cc:136 src/wx/short_kdm_output_panel.cc:53
 msgid "Details"
-msgstr ""
+msgstr "詳細"
 
 #: src/wx/job_view.cc:80
 msgid "Details..."
-msgstr ""
+msgstr "詳細..."
 
 #: src/wx/sound_preferences_page.cc:196
 msgid "Direct Sound"
-msgstr ""
+msgstr "直接音"
 
 #: src/wx/smpte_metadata_dialog.cc:94
 msgid "Distributor"
@@ -1216,7 +1236,7 @@ msgstr ""
 
 #: src/wx/dolby_doremi_certificate_panel.cc:241
 msgid "Dolby / Doremi"
-msgstr ""
+msgstr "Dolby / Doremi"
 
 #: src/wx/confirm_kdm_email_dialog.cc:43 src/wx/recreate_chain_dialog.cc:41
 msgid "Don't ask this again"
@@ -1224,68 +1244,68 @@ msgstr ""
 
 #: src/wx/confirm_kdm_email_dialog.cc:34
 msgid "Don't send emails"
-msgstr ""
+msgstr "メールを送信しないでください"
 
 #: src/wx/hints_dialog.cc:65
 msgid "Don't show hints again"
-msgstr ""
+msgstr "今後ヒントを表示しない"
 
 #: src/wx/nag_dialog.cc:45
 msgid "Don't show this message again"
-msgstr ""
+msgstr "このメッセージを再度表示しない"
 
 #: src/wx/download_certificate_dialog.cc:48
 msgid "Download"
-msgstr ""
+msgstr "ダウンロード"
 
 #: src/wx/download_certificate_dialog.cc:38
 msgid "Download certificate"
-msgstr ""
+msgstr "証明書をダウンロード"
 
 #: src/wx/screen_dialog.cc:157
 msgid "Download..."
-msgstr ""
+msgstr "ダウンロード..."
 
 #: src/wx/download_certificate_panel.cc:103
 msgid "Downloading certificate"
-msgstr ""
+msgstr "証明書をダウンロード中"
 
 #: src/wx/player_information.cc:109
 #, c-format
 msgid "Dropped frames: %d"
-msgstr ""
+msgstr "ドロップされたフレーム: %d"
 
 #: src/wx/player_config_dialog.cc:117
 msgid "Dual-screen displays"
-msgstr ""
+msgstr "2画面表示"
 
 #: src/wx/sound_preferences_page.cc:202
 msgid "Dummy"
-msgstr ""
+msgstr "ダミー"
 
 #: src/wx/content_panel.cc:288
 msgid "Earlier"
-msgstr ""
+msgstr "前へ"
 
 #: src/wx/screens_panel.cc:86
 msgid "Edit Cinema..."
-msgstr ""
+msgstr "映画館を編集..."
 
 #: src/wx/screens_panel.cc:92
 msgid "Edit Screen..."
-msgstr ""
+msgstr "スクリーンを編集..."
 
 #: src/wx/screens_panel.cc:335
 msgid "Edit cinema"
-msgstr ""
+msgstr "映画館を編集"
 
 #: src/wx/recipients_panel.cc:148
 msgid "Edit recipient"
-msgstr ""
+msgstr "受信者を編集"
 
 #: src/wx/screens_panel.cc:434
 msgid "Edit screen"
-msgstr ""
+msgstr "スクリーンを編集"
 
 #: src/wx/audio_mapping_view.cc:90 src/wx/content_advanced_dialog.cc:75
 #: src/wx/dcp_panel.cc:991 src/wx/language_tag_widget.cc:51
@@ -1293,148 +1313,148 @@ msgstr ""
 #: src/wx/video_panel.cc:159 src/wx/video_panel.cc:170
 #: src/wx/editable_list.h:149
 msgid "Edit..."
-msgstr ""
+msgstr "編集..."
 
 #: src/wx/subtitle_appearance_dialog.cc:88
 msgid "Effect"
-msgstr ""
+msgstr "エフェクト"
 
 #: src/wx/subtitle_appearance_dialog.cc:91
 msgid "Effect colour"
-msgstr ""
+msgstr "効果色"
 
 #: src/wx/email_preferences_page.cc:46 src/wx/full_config_dialog.cc:679
 msgid "Email"
-msgstr ""
+msgstr "Email"
 
 #: src/wx/email_dialog.cc:32 src/wx/email_dialog.cc:34
 msgid "Email address"
-msgstr ""
+msgstr "Email アドレス"
 
 #: src/wx/cinema_dialog.cc:64 src/wx/recipient_dialog.cc:78
 msgid "Email addresses for KDM delivery"
-msgstr ""
+msgstr "KDM配信用のメールアドレス"
 
 #: src/wx/player_config_dialog.cc:103
 msgid "Enable HTTP control interface on port"
-msgstr ""
+msgstr "ポートでHTTP制御インターフェースを有効にする"
 
 #: src/wx/servers_list_dialog.cc:35
 msgid "Encoding Servers"
-msgstr ""
+msgstr "エンコーディングサーバー"
 
 #: src/wx/encryption_settings_dialog.cc:33
 msgid "Encrypt picture"
-msgstr ""
+msgstr "画像を暗号化する"
 
 #: src/wx/encryption_settings_dialog.cc:34
 msgid "Encrypt sound"
-msgstr ""
+msgstr "音声を暗号化する"
 
 #: src/wx/encryption_settings_dialog.cc:35
 msgid "Encrypt text"
-msgstr ""
+msgstr "テキストを暗号化する"
 
 #: src/wx/dcp_panel.cc:106 src/wx/spl_entry_dialog.cc:51
 msgid "Encrypted"
-msgstr ""
+msgstr "暗号化する"
 
 #: src/wx/encryption_settings_dialog.cc:31
 msgid "Encryption settings"
-msgstr ""
+msgstr "暗号化の設定"
 
 #: src/wx/dcp_panel.cc:107
 msgid "Encryption settings..."
-msgstr ""
+msgstr "暗号化の設定..."
 
 #: src/wx/text_view.cc:68
 msgid "End"
-msgstr ""
+msgstr "エンド"
 
 #: src/wx/report_problem_dialog.cc:119
 #, c-format
 msgid "Enter your email address for the contact, not %s"
-msgstr ""
+msgstr "連絡先のメールアドレスを入力してください。%s"
 
 #: src/wx/full_config_dialog.cc:1288 src/wx/kdm_config_dialog.cc:140
 #: src/wx/player_config_dialog.cc:316 src/wx/verify_dcp_result_panel.cc:61
 msgid "Errors"
-msgstr ""
+msgstr "エラー"
 
 #: src/wx/keys_preferences_page.cc:84
 msgid "Export KDM decryption leaf certificate..."
-msgstr ""
+msgstr "KDM 復号化リーフ証明書を出力する..."
 
 #: src/wx/keys_preferences_page.cc:86
 msgid "Export all KDM decryption settings..."
-msgstr ""
+msgstr "すべての KDM 復号化設定を出力する..."
 
 #: src/wx/certificate_chain_editor.cc:93
 msgid "Export certificate..."
-msgstr ""
+msgstr "証明書を出力..."
 
 #: src/wx/certificate_chain_editor.cc:95
 msgid "Export chain..."
-msgstr ""
+msgstr "証明書チェーンを出力..."
 
 #: src/wx/export_subtitles_dialog.cc:39
 msgid "Export subtitles"
-msgstr ""
+msgstr "字幕を出力"
 
 #: src/wx/export_video_file_dialog.cc:71
 msgid "Export video file"
-msgstr ""
+msgstr "動画ファイルを出力"
 
 #: src/wx/certificate_chain_editor.cc:112
 #: src/wx/general_preferences_page.cc:128
 msgid "Export..."
-msgstr ""
+msgstr "出力..."
 
 #: src/wx/extra_kdm_email_dialog.cc:37
 msgid "Extra addresses for KDM delivery"
-msgstr ""
+msgstr "KDM 配信用の追加アドレス"
 
 #: src/wx/full_config_dialog.cc:572
 msgid "FTP (for Dolby)"
-msgstr ""
+msgstr "FTP (for Dolby)"
 
 #: src/wx/metadata_dialog.cc:289
 msgid "Facility"
-msgstr ""
+msgstr "設備・機関"
 
 #: src/wx/audio_panel.cc:104 src/wx/video_panel.cc:143
 msgid "Fade in"
-msgstr ""
+msgstr "フェードイン"
 
 #: src/wx/subtitle_appearance_dialog.cc:99
 msgid "Fade in time"
-msgstr ""
+msgstr "フェードイン時間"
 
 #: src/wx/audio_panel.cc:107 src/wx/video_panel.cc:146
 msgid "Fade out"
-msgstr ""
+msgstr "フェードアウト"
 
 #: src/wx/subtitle_appearance_dialog.cc:102
 msgid "Fade out time"
-msgstr ""
+msgstr "フェードアウト時間"
 
 #: src/wx/fonts_dialog.cc:61
 msgid "File"
-msgstr ""
+msgstr "ファイル"
 
 #: src/wx/dkdm_dialog.cc:152 src/wx/kdm_dialog.cc:178
 #, c-format
 msgid "File %s already exists.  Do you want to overwrite it?"
-msgstr ""
+msgstr "ファイル %s は既に存在します。上書きしますか?"
 
 #: src/wx/screen_dialog.cc:181
 msgid "Filename"
-msgstr ""
+msgstr "ファイル名"
 
 #: src/wx/dkdm_output_panel.cc:65 src/wx/short_kdm_output_panel.cc:118
 #: src/wx/tall_kdm_output_panel.cc:87
 msgid "Filename format"
-msgstr ""
+msgstr "ファイル名フォーマット"
 
 #: src/wx/film_name_location_dialog.cc:48
 msgid "Film name"
@@ -1442,7 +1462,7 @@ msgstr ""
 
 #: src/wx/content_menu.cc:653
 msgid "Film to copy settings from"
-msgstr ""
+msgstr "設定をコピーするプロジェクト"
 
 #: src/wx/filter_dialog.cc:40
 msgid "Filters"
@@ -1450,16 +1470,18 @@ msgstr ""
 
 #: src/wx/smpte_metadata_dialog.cc:139
 msgid "Final"
-msgstr ""
+msgstr "ファイナル"
 
 #: src/wx/full_config_dialog.cc:137
 msgid ""
 "Find integrated loudness, true peak and loudness range when analysing audio"
 msgstr ""
+"オーディオを分析する際、統合ラウドネス、トゥルーピーク、ラウドネス範囲を見つ"
+"ける"
 
 #: src/wx/content_menu.cc:105
 msgid "Find missing..."
-msgstr ""
+msgstr "紛失物を探す..."
 
 #: src/wx/subtitle_appearance_dialog.cc:130
 msgid "Finding the colours in these subtitles..."
@@ -1487,31 +1509,31 @@ msgstr ""
 
 #: src/wx/short_kdm_output_panel.cc:115 src/wx/tall_kdm_output_panel.cc:84
 msgid "Folder / ZIP name format"
-msgstr ""
+msgstr "フォルダ / ZIP 名フォーマット"
 
 #: src/wx/new_dkdm_folder_dialog.cc:28
 msgid "Folder name"
-msgstr ""
+msgstr "フォルダ名"
 
 #: src/wx/fonts_dialog.cc:44
 msgid "Fonts"
-msgstr ""
+msgstr "フォント"
 
 #: src/wx/text_panel.cc:116
 msgid "Fonts..."
-msgstr ""
+msgstr "フォント..."
 
 #: src/wx/kdm_advanced_dialog.cc:41
 msgid "Forensically mark audio"
-msgstr ""
+msgstr "鑑識的に音声をマーク"
 
 #: src/wx/kdm_advanced_dialog.cc:37
 msgid "Forensically mark video"
-msgstr ""
+msgstr "鑑識的に動画をマーク"
 
 #: src/wx/export_subtitles_dialog.cc:45 src/wx/export_video_file_dialog.cc:76
 msgid "Format"
-msgstr ""
+msgstr "フォーマット"
 
 #: src/wx/verify_dcp_result_panel.cc:319
 #, c-format
@@ -1536,29 +1558,29 @@ msgstr ""
 
 #: src/wx/dcp_panel.cc:863
 msgid "Frame Rate"
-msgstr ""
+msgstr "フレームレート"
 
 #: src/wx/image_sequence_dialog.cc:33
 msgid "Frame rate"
-msgstr ""
+msgstr "フレームレート"
 
 #: src/wx/player_information.cc:165
 #, c-format
 msgid "Frame rate: %d"
-msgstr ""
+msgstr "フレームレート: %d"
 
 #: src/wx/about_dialog.cc:74
 msgid "Free, open-source DCP creation from almost anything."
-msgstr ""
+msgstr "ほぼあらゆるものから無料のオープンソース DCP を作成できます。"
 
 #: src/wx/kdm_timing_panel.cc:55
 msgid "From"
-msgstr ""
+msgstr "開始"
 
 #: src/wx/full_config_dialog.cc:687 src/wx/kdm_email_preferences_page.cc:75
 #: src/wx/send_test_email_dialog.cc:28
 msgid "From address"
-msgstr ""
+msgstr "送信先メールアドレス"
 
 #: src/wx/film_name_location_dialog.cc:66
 msgid "From template"
@@ -1566,46 +1588,46 @@ msgstr ""
 
 #: src/wx/video_panel.cc:174
 msgid "Full (JPEG, 0-255)"
-msgstr ""
+msgstr "Full (JPEG, 0-255)"
 
 #: src/wx/timing_panel.cc:108
 msgid "Full length"
-msgstr ""
+msgstr "全長時間"
 
 #: src/wx/dcp_timeline.cc:309
 msgid "GB"
-msgstr ""
+msgstr "GB"
 
 #: src/wx/gdc_certificate_panel.cc:80
 msgid "GDC"
-msgstr ""
+msgstr "GDC"
 
 #: src/wx/audio_panel.cc:78
 msgid "Gain"
-msgstr ""
+msgstr "ゲイン"
 
 #: src/wx/gain_calculator_dialog.cc:31
 msgid "Gain Calculator"
-msgstr ""
+msgstr "ゲイン計算機"
 
 #: src/wx/audio_gain_dialog.cc:35
 #, c-format
 msgid "Gain for content channel %d in DCP channel %d"
-msgstr ""
+msgstr "DCP チャネル %d のコンテンツ チャネル %d のゲイン"
 
 #: src/wx/content_properties_dialog.cc:76 src/wx/full_config_dialog.cc:1284
 #: src/wx/general_preferences_page.cc:66 src/wx/kdm_config_dialog.cc:136
 #: src/wx/player_config_dialog.cc:312
 msgid "General"
-msgstr ""
+msgstr "一般"
 
 #: src/wx/recipient_dialog.cc:112 src/wx/screen_dialog.cc:156
 msgid "Get from file..."
-msgstr ""
+msgstr "ファイルから取得..."
 
 #: src/wx/hints_dialog.cc:79
 msgid "Go back"
-msgstr ""
+msgstr "戻る"
 
 #: src/wx/playhead_to_timecode_dialog.cc:29
 #: src/wx/playhead_to_frame_dialog.cc:32
@@ -1622,7 +1644,7 @@ msgstr ""
 
 #: src/wx/colour_conversion_editor.cc:147
 msgid "Green chromaticity"
-msgstr ""
+msgstr "色度 緑"
 
 #: src/wx/batch_job_view.cc:53
 msgid "Higher priority"
@@ -1630,39 +1652,39 @@ msgstr ""
 
 #: src/wx/hints_dialog.cc:49
 msgid "Hints"
-msgstr ""
+msgstr "ヒント"
 
 #: src/wx/servers_list_dialog.cc:45
 msgid "Host"
-msgstr ""
+msgstr "ホスト"
 
 #: src/wx/server_dialog.cc:41
 msgid "Host name or IP address"
-msgstr ""
+msgstr "ホスト名 / IPアドレス"
 
 #: src/wx/gain_calculator_dialog.cc:36
 msgid "I want to play this at fader"
-msgstr ""
+msgstr "フェーダー基準値"
 
 #: src/wx/fonts_dialog.cc:53
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #: src/wx/full_config_dialog.cc:555
 msgid "IP address"
-msgstr ""
+msgstr "IPアドレス"
 
 #: src/wx/full_config_dialog.cc:479
 msgid "IP address / host name"
-msgstr ""
+msgstr "IPアドレス / ホスト名"
 
 #: src/wx/full_config_dialog.cc:1080
 msgid "ISDCF name part length"
-msgstr ""
+msgstr "ISDCF名部分の最大文字長"
 
 #: src/wx/full_config_dialog.cc:895
 msgid "Identifiers"
-msgstr ""
+msgstr "識別子"
 
 #: src/wx/drive_wipe_warning_dialog.cc:51
 #, c-format
@@ -1686,6 +1708,21 @@ msgid ""
 "\n"
 "into the box below, then click OK."
 msgstr ""
+"この操作を続行すると、\n"
+"\n"
+"<span weight=\"bold\" size=\"20480\" foreground=\"red\">ドライブ上のすべての"
+"データ</span>\n"
+"\n"
+"\n"
+"<b>%s</b>\n"
+"\n"
+"は\n"
+"\n"
+"<span weight=\"bold\" size=\"20480\" foreground=\"red\">完全に消去されます。"
+"</span>\n"
+"\n"
+"続行する場合は、下のボックスに「<tt>%s</tt>」と入力し、「OK」をクリックしてく"
+"ださい。"
 
 #: src/wx/keys_preferences_page.cc:189
 msgid ""
@@ -1694,6 +1731,9 @@ msgid ""
 "any KDMs that have been sent to you for those certificates will become "
 "useless.  Proceed with caution!"
 msgstr ""
+"この操作を続行すると現在の証明書と秘密鍵が変更され、これまでに作成したDKDMが"
+"使用できなくなります。またそれらの証明書用に送付されたKDMもすべて無効になりま"
+"す。慎重に進めてください!"
 
 #: src/wx/keys_preferences_page.cc:217
 msgid ""
@@ -1701,11 +1741,15 @@ msgid ""
 "DKDMs that you have created.  Also, any KDMs that have been sent to you will "
 "become useless.  Proceed with caution!"
 msgstr ""
+"この操作を続行すると、これまでに作成したDKDMは使用できなくなります。またこれ"
+"までに送信されたKDMも無効になります。慎重に操作してください!"
 
 #: src/wx/content_advanced_dialog.cc:101
 msgid ""
 "Ignore this content's video and use only audio, subtitles and closed captions"
 msgstr ""
+"このコンテンツの動画を無視し、音声、字幕、クローズドキャプションのみを使用し"
+"ます"
 
 #: src/wx/video_waveform_dialog.cc:74
 msgid "Image X position"
@@ -1721,15 +1765,15 @@ msgstr ""
 
 #: src/wx/keys_preferences_page.cc:88
 msgid "Import all KDM decryption settings..."
-msgstr ""
+msgstr "すべての KDM 復号化設定をインポートする..."
 
 #: src/wx/certificate_chain_editor.cc:110
 msgid "Import..."
-msgstr ""
+msgstr "インポート..."
 
 #: src/wx/drive_wipe_warning_dialog.cc:28 src/wx/nag_dialog.cc:38
 msgid "Important notice"
-msgstr ""
+msgstr "重要なお知らせ"
 
 #: src/wx/servers_list_dialog.cc:91
 msgid "Incorrect version"
@@ -1737,11 +1781,11 @@ msgstr ""
 
 #: src/wx/colour_conversion_editor.cc:74
 msgid "Input gamma"
-msgstr ""
+msgstr "入力ガンマ"
 
 #: src/wx/colour_conversion_editor.cc:64
 msgid "Input gamma correction"
-msgstr ""
+msgstr "入力ガンマ補正"
 
 #: src/wx/colour_conversion_editor.cc:79
 msgid "Input power"
@@ -1749,32 +1793,32 @@ msgstr ""
 
 #: src/wx/colour_conversion_editor.cc:66
 msgid "Input transfer function"
-msgstr ""
+msgstr "入力伝達関数"
 
 #: src/wx/audio_dialog.cc:437
 #, c-format
 msgid "Integrated loudness %.2f LUFS"
-msgstr ""
+msgstr "統合ラウドネス %.2f LUFS"
 
 #: src/wx/certificate_chain_editor.cc:312
 msgid "Intermediate"
-msgstr ""
+msgstr "中間CA"
 
 #: src/wx/make_chain_dialog.cc:100
 msgid "Intermediate common name"
-msgstr ""
+msgstr "中間CA共通名"
 
 #: src/wx/metadata_dialog.cc:207
 msgid "International texted"
-msgstr ""
+msgstr "国際テキストメッセージ"
 
 #: src/wx/metadata_dialog.cc:208
 msgid "International textless"
-msgstr ""
+msgstr "国際テキストレス"
 
 #: src/wx/dcp_panel.cc:172
 msgid "Interop"
-msgstr ""
+msgstr "Interop"
 
 #: src/wx/keys_preferences_page.cc:206
 #, c-format
@@ -1787,7 +1831,7 @@ msgstr ""
 
 #: src/wx/colour_conversion_editor.cc:215
 msgid "Inverse 2.6 gamma correction on output"
-msgstr ""
+msgstr "出力時に逆2.6ガンマ補正"
 
 #: src/wx/full_config_dialog.cc:911
 msgid "Issuer"
@@ -1795,11 +1839,11 @@ msgstr ""
 
 #: src/wx/screen_dialog.cc:189
 msgid "Issuer common name"
-msgstr ""
+msgstr "発行者共通名"
 
 #: src/wx/screen_dialog.cc:190
 msgid "Issuer organization name"
-msgstr ""
+msgstr "発行組織名"
 
 #: src/wx/audio_panel.cc:332
 msgid ""
@@ -1813,23 +1857,23 @@ msgstr ""
 
 #: src/wx/full_config_dialog.cc:951
 msgid "JPEG2000 comment"
-msgstr ""
+msgstr "JPEG2000コメント"
 
 #: src/wx/content_menu.cc:104
 msgid "Join"
-msgstr ""
+msgstr "参加"
 
 #: src/wx/controls.cc:92
 msgid "Jump to selected content"
-msgstr ""
+msgstr "選択したコンテンツへ移動する"
 
 #: src/wx/player_information.cc:77
 msgid "KDM"
-msgstr ""
+msgstr "KDM"
 
 #: src/wx/kdm_email_preferences_page.cc:51
 msgid "KDM Email"
-msgstr ""
+msgstr "KDM Email"
 
 #: src/wx/locations_preferences_page.cc:76
 msgid "KDM directory"
@@ -1837,12 +1881,12 @@ msgstr ""
 
 #: src/wx/short_kdm_output_panel.cc:93 src/wx/tall_kdm_output_panel.cc:74
 msgid "KDM type"
-msgstr ""
+msgstr "KDM タイプ"
 
 #. TRANSLATORS: translate the word "Timing" here; do not include the "KDM|" prefix
 #: src/wx/dkdm_dialog.cc:86 src/wx/kdm_dialog.cc:91
 msgid "KDM|Timing"
-msgstr ""
+msgstr "KDM|有効期間"
 
 #: src/wx/content_timeline_dialog.cc:79
 msgid "Keep video and subtitles in sequence"
@@ -1850,25 +1894,25 @@ msgstr ""
 
 #: src/wx/keys_preferences_page.cc:65
 msgid "Keys"
-msgstr ""
+msgstr "秘密鍵|証明書"
 
 #: src/wx/audio_dialog.cc:455
 #, c-format
 msgid "LEQ(m) %.2fdB"
-msgstr ""
+msgstr "LEQ(m) %.2fdB"
 
 #: src/wx/metadata_dialog.cc:218
 msgid "Label"
-msgstr ""
+msgstr "ラベル"
 
 #: src/wx/dcp_panel.cc:989 src/wx/dcp_text_track_dialog.cc:35
 #: src/wx/text_panel.cc:166
 msgid "Language"
-msgstr ""
+msgstr "言語"
 
 #: src/wx/full_language_tag_dialog.cc:56 src/wx/language_tag_dialog.cc:38
 msgid "Language Tag"
-msgstr ""
+msgstr "言語選択"
 
 #: src/wx/content_advanced_dialog.cc:97
 msgid "Language of burnt-in subtitles in this content"
@@ -1904,31 +1948,31 @@ msgstr ""
 
 #: src/wx/content_panel.cc:292
 msgid "Later"
-msgstr ""
+msgstr "後へ"
 
 #: src/wx/full_config_dialog.cc:1225
 msgid "Layout for short screen"
-msgstr ""
+msgstr "短い画面のレイアウト"
 
 #: src/wx/certificate_chain_editor.cc:310
 msgid "Leaf"
-msgstr ""
+msgstr "リーフ"
 
 #: src/wx/make_chain_dialog.cc:111
 msgid "Leaf common name"
-msgstr ""
+msgstr "リーフ共通名"
 
 #: src/wx/certificate_chain_editor.cc:104
 msgid "Leaf private key"
-msgstr ""
+msgstr "リーフ秘密鍵"
 
 #: src/wx/certificate_chain_editor.cc:122
 msgid "Leaf private key does not match leaf certificate!"
-msgstr ""
+msgstr "リーフ秘密鍵がリーフ証明書と一致しません!"
 
 #: src/wx/auto_crop_dialog.cc:31 src/wx/controls.cc:88 src/wx/video_panel.cc:93
 msgid "Left"
-msgstr ""
+msgstr "左"
 
 #: src/wx/content_properties_dialog.cc:85
 msgid "Length"
@@ -1960,12 +2004,12 @@ msgstr ""
 
 #: src/wx/locations_preferences_page.cc:47
 msgid "Locations"
-msgstr ""
+msgstr "場所"
 
 #: src/wx/full_config_dialog.cc:1282 src/wx/kdm_config_dialog.cc:134
 #: src/wx/player_config_dialog.cc:310
 msgid "Log"
-msgstr ""
+msgstr "Log"
 
 #: src/wx/audio_dialog.cc:446
 #, c-format
@@ -1982,28 +2026,28 @@ msgstr ""
 
 #: src/wx/content_panel.cc:903
 msgid "MISSING: "
-msgstr ""
+msgstr "欠落: "
 
 #: src/wx/export_video_file_dialog.cc:43
 msgid "MOV / ProRes 4444"
-msgstr ""
+msgstr "MOV / ProRes 4444"
 
 #: src/wx/export_video_file_dialog.cc:44
 msgid "MOV / ProRes HQ"
-msgstr ""
+msgstr "MOV / ProRes HQ"
 
 #: src/wx/export_video_file_dialog.cc:45
 msgid "MOV / ProRes LT"
-msgstr ""
+msgstr "MOV / ProRes LT"
 
 #: src/wx/export_video_file_dialog.cc:50 src/wx/export_video_file_dialog.cc:51
 #: src/wx/export_video_file_dialog.cc:52
 msgid "MOV files (*.mov)|*.mov"
-msgstr ""
+msgstr "MOV ファイル (*.mov)|*.mov"
 
 #: src/wx/export_video_file_dialog.cc:46
 msgid "MP4 / H.264"
-msgstr ""
+msgstr "MP4 / H.264"
 
 #: src/wx/export_video_file_dialog.cc:53
 msgid "MP4 files (*.mp4)|*.mp4"
@@ -2025,23 +2069,23 @@ msgstr ""
 
 #: src/wx/hints_dialog.cc:77
 msgid "Make DCP"
-msgstr ""
+msgstr "DCPを作成"
 
 #: src/wx/self_dkdm_dialog.cc:59
 msgid "Make DKDM for DCP-o-matic"
-msgstr ""
+msgstr "DCP-o-matic用のDKDMを作成する"
 
 #: src/wx/dkdm_dialog.cc:62 src/wx/dkdm_dialog.cc:114
 msgid "Make DKDMs"
-msgstr ""
+msgstr "DKDMを作成"
 
 #: src/wx/kdm_dialog.cc:67 src/wx/kdm_dialog.cc:119
 msgid "Make KDMs"
-msgstr ""
+msgstr "KDMを作成"
 
 #: src/wx/make_chain_dialog.cc:40
 msgid "Make certificate chain"
-msgstr ""
+msgstr "証明書チェーンを作成する"
 
 #: src/wx/video_panel.cc:394
 msgid "Many"
@@ -2049,39 +2093,39 @@ msgstr ""
 
 #: src/wx/sound_preferences_page.cc:96
 msgid "Mapping"
-msgstr ""
+msgstr "音声マッピング"
 
 #: src/wx/kdm_advanced_dialog.cc:46
 msgid "Mark all audio channels"
-msgstr ""
+msgstr "すべての音声チャンネルをマーク"
 
 #: src/wx/kdm_advanced_dialog.cc:50
 msgid "Mark audio channels up to (and including)"
-msgstr ""
+msgstr "オーディオチャンネルを最大（含む）までマーク"
 
 #: src/wx/markers_dialog.cc:126
 msgid "Markers"
-msgstr ""
+msgstr "マーカー"
 
 #: src/wx/dcp_panel.cc:116
 msgid "Markers..."
-msgstr ""
+msgstr "マーカー..."
 
 #: src/wx/colour_conversion_editor.cc:137
 msgid "Matrix"
-msgstr ""
+msgstr "マトリックス"
 
 #: src/wx/full_config_dialog.cc:1046
 msgid "Maximum JPEG2000 bit rate"
-msgstr ""
+msgstr "JPEG2000の最大ビットレート"
 
 #: src/wx/full_config_dialog.cc:1055
 msgid "Maximum MPEG2 bit rate"
-msgstr ""
+msgstr "MPEG2の最大ビットレート"
 
 #: src/wx/full_config_dialog.cc:1230
 msgid "Maximum number of frames to store per thread"
-msgstr ""
+msgstr "スレッドあたりに保存可能なフレームの最大数"
 
 #: src/wx/dcp_timeline.cc:303
 msgid "Maximum reel size"
@@ -2090,51 +2134,63 @@ msgstr ""
 #: src/wx/dcp_panel.cc:872 src/wx/full_config_dialog.cc:1050
 #: src/wx/full_config_dialog.cc:1059
 msgid "Mbit/s"
-msgstr ""
+msgstr "Mbit/s"
 
 #: src/wx/full_config_dialog.cc:675
 msgid "Message box"
-msgstr ""
+msgstr "メッセージボックス"
 
 #: src/wx/metadata_dialog.cc:53
 msgid "Metadata"
-msgstr ""
+msgstr "付帯情報"
 
 #: src/wx/dcp_panel.cc:117
 msgid "Metadata..."
-msgstr ""
+msgstr "付帯情報..."
 
 #: src/wx/export_video_file_dialog.cc:80
 msgid "Mix audio down to stereo"
-msgstr ""
+msgstr "音声をステレオへMIX"
 
 #: src/wx/verify_dcp_result_panel.cc:547
 msgid ""
 "More 2K JPEG2000 frames (not listed) contain the wrong number of tile parts."
 msgstr ""
+"さらに多くの 2K JPEG2000 フレーム（リストに無い） には、間違った数のタイル部"
+"分が含まれています。"
 
 #: src/wx/verify_dcp_result_panel.cc:484
 msgid ""
 "More 2K JPEG2000 frames (not listed) have an invalid number of guard bits."
 msgstr ""
+"さらに多くの 2K JPEG2000 フレーム（リストに無い）には、無効な数のガード ビッ"
+"トがあります。"
 
 #: src/wx/verify_dcp_result_panel.cc:519
 msgid "More 2K JPEG2000 frames (not listed) have too many POC markers."
 msgstr ""
+"さらに多くの 2K JPEG2000 フレーム（リストにない）には、POC マーカーが多すぎま"
+"す。"
 
 #: src/wx/verify_dcp_result_panel.cc:491
 msgid ""
 "More 4K JPEG2000 frames (not listed) have an invalid number of guard bits."
 msgstr ""
+"さらに多くの 4K JPEG2000 フレーム（リストに無い）には、無効な数のガード ビッ"
+"トがあります。"
 
 #: src/wx/verify_dcp_result_panel.cc:526
 msgid "More 4K JPEG2000 frames (not listed) have too many POC markers."
 msgstr ""
+"さらに多くの 4K JPEG2000 フレーム（リストに無い）には、POC マーカーが多すぎま"
+"す。"
 
 #: src/wx/verify_dcp_result_panel.cc:540
 msgid ""
 "More JPEG2000 frames (not listed) contain POC markers in invalid locations."
 msgstr ""
+"さらに多くの JPEG2000 フレーム（リストに無い）には、無効な場所に POC マーカー"
+"が含まれています。"
 
 #: src/wx/verify_dcp_result_panel.cc:533
 msgid "More JPEG2000 frames (not listed) contain invalid POC markers."
@@ -2196,7 +2252,7 @@ msgstr ""
 
 #: src/wx/move_to_dialog.cc:36
 msgid "Move content"
-msgstr ""
+msgstr "コンテンツを移動"
 
 #: src/wx/content_panel.cc:289
 msgid "Move the selected piece of content earlier in the film."
@@ -2208,7 +2264,7 @@ msgstr ""
 
 #: src/wx/timing_panel.cc:107
 msgid "Move to start of reel"
-msgstr ""
+msgstr "リールの先頭へ移動"
 
 #: src/wx/video_panel.cc:483
 msgid "Multiple content selected"
@@ -2224,37 +2280,37 @@ msgstr ""
 
 #: src/wx/report_problem_dialog.cc:59
 msgid "My problem is"
-msgstr ""
+msgstr "問題点"
 
 #: src/wx/content_panel.cc:907
 msgid "NEEDS KDM: "
-msgstr ""
+msgstr "KDMが必要: "
 
 #: src/wx/content_panel.cc:911
 msgid "NEEDS OV: "
-msgstr ""
+msgstr "OVが必要: "
 
 #: src/wx/cinema_dialog.cc:49 src/wx/dcp_panel.cc:88
 #: src/wx/dcp_text_track_dialog.cc:33 src/wx/recipient_dialog.cc:68
 #: src/wx/screen_dialog.cc:141 src/wx/spl_entry_dialog.cc:41
 msgid "Name"
-msgstr ""
+msgstr "名前"
 
 #: src/wx/short_kdm_output_panel.cc:58
 msgid "Name formats"
-msgstr ""
+msgstr "名前の形式"
 
 #: src/wx/player_information.cc:151
 msgid "Needs KDM"
-msgstr ""
+msgstr "KDMが必要"
 
 #: src/wx/player_information.cc:146
 msgid "Needs OV"
-msgstr ""
+msgstr "OVが必要"
 
 #: src/wx/rename_template_dialog.cc:28
 msgid "New name"
-msgstr ""
+msgstr "新しい名前"
 
 #: src/wx/update_dialog.cc:47
 #, c-format
@@ -2263,11 +2319,11 @@ msgstr ""
 
 #: src/wx/playlist_controls.cc:61
 msgid "Next"
-msgstr ""
+msgstr "次"
 
 #: src/wx/spl_entry_dialog.cc:52
 msgid "No"
-msgstr ""
+msgstr "いいえ"
 
 #: src/wx/verify_dcp_result_panel.cc:301
 msgid "No ASSETMAP or ASSETMAP.xml file was found."
@@ -2275,7 +2331,7 @@ msgstr ""
 
 #: src/wx/player_information.cc:125
 msgid "No DCP loaded."
-msgstr ""
+msgstr "DCPが読み込まれていません。."
 
 #: src/wx/verify_dcp_result_panel.cc:700
 msgid "No SMPTE Bv2.1 errors found."
@@ -2292,21 +2348,21 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:696
 msgid "No errors found."
-msgstr ""
+msgstr "異常は見つかりませんでした。."
 
 #: src/wx/verify_dcp_result_panel.cc:704
 msgid "No warnings found."
-msgstr ""
+msgstr "警告は見つかりませんでした。."
 
 #: src/wx/full_config_dialog.cc:1028
 msgid "Non-standard"
-msgstr ""
+msgstr "カスタマイズ"
 
 #: src/wx/content_advanced_dialog.cc:74 src/wx/content_advanced_dialog.cc:156
 #: src/wx/content_advanced_dialog.cc:164 src/wx/dcp_panel.cc:1094
 #: src/wx/subtitle_appearance_dialog.cc:151
 msgid "None"
-msgstr ""
+msgstr "なし"
 
 #: src/wx/verify_dcp_result_panel.cc:360
 msgid "Not all subtitle assets specify the same <Language> tag."
@@ -2323,204 +2379,206 @@ msgstr ""
 #: src/wx/cinema_dialog.cc:59 src/wx/recipient_dialog.cc:73
 #: src/wx/screen_dialog.cc:146
 msgid "Notes"
-msgstr ""
+msgstr "注記"
 
 #: src/wx/full_config_dialog.cc:658
 msgid "Notifications"
-msgstr ""
+msgstr "通知"
 
 #: src/wx/job_view.cc:89
 msgid "Notify when complete"
-msgstr ""
+msgstr "完了後に通知"
 
 #: src/wx/full_config_dialog.cc:115 src/wx/full_config_dialog.cc:120
 #, c-format
 msgid "Number of threads %s should use"
-msgstr ""
+msgstr "%s が使用するスレッド数"
 
 #: src/wx/sound_preferences_page.cc:201
 msgid "OSS"
-msgstr ""
+msgstr "OSS"
 
 #: src/wx/dcp_referencing_dialog.cc:115
 msgid "OV DCP"
-msgstr ""
+msgstr "OV DCP"
 
 #: src/wx/audio_mapping_view.cc:86
 msgid "Off"
-msgstr ""
+msgstr "オフ"
 
 #: src/wx/text_panel.cc:89
 msgid "Offset"
-msgstr ""
+msgstr "オフセット"
 
 #: src/wx/full_config_dialog.cc:1221
 msgid "Only servers encode"
-msgstr ""
+msgstr "エンコードサーバーのみ"
 
 #: src/wx/full_config_dialog.cc:1311 src/wx/player_config_dialog.cc:329
 msgid "Open console window"
-msgstr ""
+msgstr "コンソールウィンドウを開く"
 
 #: src/wx/content_panel.cc:297
 msgid "Open the timeline for the film (Ctrl+T)."
-msgstr ""
+msgstr "映画のタイムラインを開く (Ctrl+T)。"
 
 #: src/wx/full_config_dialog.cc:1318 src/wx/player_config_dialog.cc:127
 msgid "OpenGL (faster)"
-msgstr ""
+msgstr "OpenGL (高速)"
 
 #: src/wx/system_information_dialog.cc:83
 #, c-format
 msgid "OpenGL renderer not supported by this %s version"
-msgstr ""
+msgstr "OpenGL renderer はこの %s バージョンではサポートされていません"
 
 #: src/wx/system_information_dialog.cc:51
 #: src/wx/system_information_dialog.cc:82
 msgid "OpenGL version"
-msgstr ""
+msgstr "OpenGL version"
 
 #: src/wx/make_chain_dialog.cc:84
 msgid "Organisation"
-msgstr ""
+msgstr "組織"
 
 #: src/wx/make_chain_dialog.cc:86
 msgid "Organisational unit"
-msgstr ""
+msgstr "部署・部門・グループ"
 
 #: src/wx/screen_dialog.cc:200 src/wx/screen_dialog.cc:202
 msgid "Other trusted devices"
-msgstr ""
+msgstr "その他の信頼できるデバイス"
 
 #: src/wx/email_preferences_page.cc:66
 msgid "Outgoing mail server"
-msgstr ""
+msgstr "送信メールサーバー"
 
 #: src/wx/subtitle_appearance_dialog.cc:152
 msgid "Outline"
-msgstr ""
+msgstr "アウトライン"
 
 #: src/wx/controls.cc:85
 msgid "Outline content"
-msgstr ""
+msgstr "コンテンツのアウトライン表示"
 
 #: src/wx/subtitle_appearance_dialog.cc:94
 msgid "Outline width"
-msgstr ""
+msgstr "アウトライン幅"
 
 #: src/wx/subtitle_appearance_dialog.cc:316
 msgid "Outline width cannot be set unless you are burning in subtitles."
-msgstr ""
+msgstr "字幕を焼き込まない限り、アウトラインの幅は設定できません。"
 
 #: src/wx/dkdm_dialog.cc:108 src/wx/kdm_dialog.cc:113
 #: src/wx/self_dkdm_dialog.cc:76 src/wx/sound_preferences_page.cc:97
 msgid "Output"
-msgstr ""
+msgstr "出力"
 
 #: src/wx/export_subtitles_dialog.cc:65 src/wx/export_video_file_dialog.cc:98
 msgid "Output file"
-msgstr ""
+msgstr "ファイル出力"
 
 #: src/wx/export_subtitles_dialog.cc:70
 msgid "Output folder"
-msgstr ""
+msgstr "出力フォルダ"
 
 #: src/wx/colour_conversion_editor.cc:213
 msgid "Output gamma correction"
-msgstr ""
+msgstr "出力ガンマ補正"
 
 #: src/wx/content_advanced_dialog.cc:82
 msgid "Override detected video frame rate"
-msgstr ""
+msgstr "検出されたビデオフレームレートを上書きする"
 
 #: src/wx/config_move_dialog.cc:33
 msgid "Overwrite this file with current configuration"
-msgstr ""
+msgstr "このファイルを現在の設定で上書きします"
 
 #: src/wx/verify_dcp_result_panel.cc:604
 msgid "Part of the DCP could not be checked because no KDM was available."
-msgstr ""
+msgstr "KDM が利用できないため、DCP の一部をチェックできませんでした。"
 
 #: src/wx/verify_dcp_result_panel.cc:289
 msgid ""
 "Parts of the DCP are written according to the Interop standard and parts "
 "according to SMPTE."
 msgstr ""
+"DCP の一部は Interop 標準に従って記述され、一部は SMPTE に従って記述されてい"
+"ます。"
 
 #: src/wx/full_config_dialog.cc:551
 msgid "Passive mode"
-msgstr ""
+msgstr "Passive モード"
 
 #: src/wx/credentials_download_certificate_panel.cc:54
 #: src/wx/email_preferences_page.cc:90 src/wx/full_config_dialog.cc:567
 msgid "Password"
-msgstr ""
+msgstr "パスワード"
 
 #: src/wx/paste_dialog.cc:27
 msgid "Paste"
-msgstr ""
+msgstr "貼付"
 
 #: src/wx/paste_dialog.cc:32
 msgid "Paste audio settings"
-msgstr ""
+msgstr "オーディオ設定の貼付"
 
 #: src/wx/paste_dialog.cc:35
 msgid "Paste subtitle and caption settings"
-msgstr ""
+msgstr "字幕とキャプションの設定を貼付け"
 
 #: src/wx/paste_dialog.cc:29
 msgid "Paste video settings"
-msgstr ""
+msgstr "動画設定を貼付け"
 
 #: src/wx/about_dialog.cc:174
 msgid "Patrons"
-msgstr ""
+msgstr "後援者"
 
 #: src/wx/normal_job_view.cc:44 src/wx/normal_job_view.cc:62
 #: src/wx/playlist_controls.cc:59
 msgid "Pause"
-msgstr ""
+msgstr "一時停止"
 
 #: src/wx/audio_dialog.cc:131
 msgid "Peak"
-msgstr ""
+msgstr "Peak"
 
 #: src/wx/audio_panel.cc:467
 #, c-format
 msgid "Peak: %.2fdB"
-msgstr ""
+msgstr "Peak: %.2fdB"
 
 #: src/wx/audio_panel.cc:469
 msgid "Peak: unknown"
-msgstr ""
+msgstr "Peak: 不明"
 
 #: src/wx/player_information.cc:90
 msgid "Performance"
-msgstr ""
+msgstr "パフォーマンス"
 
 #: src/wx/dcp_referencing_dialog.cc:115
 msgid "Picture"
-msgstr ""
+msgstr "画像"
 
 #: src/wx/email_preferences_page.cc:79
 msgid "Plain"
-msgstr ""
+msgstr "Plain"
 
 #: src/wx/playlist_controls.cc:58 src/wx/standard_controls.cc:37
 msgid "Play"
-msgstr ""
+msgstr "再生"
 
 #: src/wx/timing_panel.cc:116
 msgid "Play length"
-msgstr ""
+msgstr "再生時間"
 
 #: src/wx/sound_preferences_page.cc:76
 msgid "Play sound via"
-msgstr ""
+msgstr "音声再生ユニット"
 
 #: src/wx/locations_preferences_page.cc:71
 msgid "Playlist directory"
-msgstr ""
+msgstr "プレイリストディレクトリ"
 
 #: src/wx/spl_entry_dialog.cc:38
 msgid "Playlist item"
@@ -2528,15 +2586,15 @@ msgstr ""
 
 #: src/wx/playlist_controls.cc:81
 msgid "Playlists"
-msgstr ""
+msgstr "プレイリスト"
 
 #: src/wx/audio_plot.cc:116
 msgid "Please wait; audio is being analysed..."
-msgstr ""
+msgstr "音声を分析中です。しばらくお待ちください。..."
 
 #: src/wx/timing_panel.cc:105
 msgid "Position"
-msgstr ""
+msgstr "位置"
 
 #: src/wx/metadata_dialog.cc:308 src/wx/smpte_metadata_dialog.cc:138
 msgid "Pre-release"
@@ -2548,15 +2606,15 @@ msgstr ""
 
 #: src/wx/dcp_panel.cc:985
 msgid "Processor"
-msgstr ""
+msgstr "プロセッサー"
 
 #: src/wx/full_config_dialog.cc:935
 msgid "Product name"
-msgstr ""
+msgstr "製品名"
 
 #: src/wx/full_config_dialog.cc:943
 msgid "Product version"
-msgstr ""
+msgstr "製品バージョン"
 
 #: src/wx/content_menu.cc:110
 msgid "Properties..."
@@ -2564,7 +2622,7 @@ msgstr ""
 
 #: src/wx/full_config_dialog.cc:547
 msgid "Protocol"
-msgstr ""
+msgstr "プロトコル"
 
 #: src/wx/sound_preferences_page.cc:200
 msgid "PulseAudio"
@@ -2581,20 +2639,20 @@ msgstr ""
 
 #: src/wx/colour_conversion_editor.cc:133
 msgid "RGB to XYZ conversion"
-msgstr ""
+msgstr "RGB から XYZ へ変換"
 
 #: src/wx/audio_dialog.cc:132
 msgid "RMS"
-msgstr ""
+msgstr "RMS"
 
 #: src/wx/video_panel.cc:172
 msgid "Range"
-msgstr ""
+msgstr "レンジ"
 
 #: src/wx/rating_dialog.cc:43 src/wx/rating_dialog.cc:142
 #: src/wx/rating_dialog.cc:294
 msgid "Rating"
-msgstr ""
+msgstr "評価"
 
 #: src/wx/interop_metadata_dialog.cc:58 src/wx/smpte_metadata_dialog.cc:73
 msgid "Ratings"
@@ -2602,7 +2660,7 @@ msgstr ""
 
 #: src/wx/dcp_panel.cc:874
 msgid "Re-encode JPEG2000 data from input"
-msgstr ""
+msgstr "入力からJPEG2000データを再エンコード"
 
 #: src/wx/content_menu.cc:106
 msgid "Re-examine..."
@@ -2610,7 +2668,7 @@ msgstr ""
 
 #: src/wx/certificate_chain_editor.cc:117 src/wx/keys_preferences_page.cc:110
 msgid "Re-make certificates and key..."
-msgstr ""
+msgstr "証明書と秘密鍵を再作成する..."
 
 #: src/wx/content_view.cc:93
 msgid "Reading content directory"
@@ -2618,15 +2676,15 @@ msgstr ""
 
 #: src/wx/colour_conversion_editor.cc:121
 msgid "Rec. 2020"
-msgstr ""
+msgstr "Rec. 2020"
 
 #: src/wx/colour_conversion_editor.cc:119
 msgid "Rec. 601"
-msgstr ""
+msgstr "Rec. 601"
 
 #: src/wx/colour_conversion_editor.cc:120
 msgid "Rec. 709"
-msgstr ""
+msgstr "Rec. 709"
 
 #: src/wx/screen_dialog.cc:151
 msgid "Recipient"
@@ -2646,7 +2704,7 @@ msgstr ""
 
 #: src/wx/colour_conversion_editor.cc:140
 msgid "Red chromaticity"
-msgstr ""
+msgstr "色度 赤"
 
 #: src/wx/timeline_reels_view.cc:96
 #, c-format
@@ -2695,36 +2753,36 @@ msgstr ""
 #: src/wx/recipients_panel.cc:73 src/wx/templates_dialog.cc:61
 #: src/wx/editable_list.h:157
 msgid "Remove"
-msgstr ""
+msgstr "削除"
 
 #: src/wx/markers_panel.cc:279
 #, c-format
 msgid "Remove %s marker"
-msgstr ""
+msgstr "マーカーを削除する %s"
 
 #: src/wx/screens_panel.cc:88
 msgid "Remove Cinema"
-msgstr ""
+msgstr "映画館を削除"
 
 #: src/wx/screens_panel.cc:94
 msgid "Remove Screen"
-msgstr ""
+msgstr "スクリーンを削除"
 
 #: src/wx/dcp_timeline.cc:175
 msgid "Remove reel boundary"
-msgstr ""
+msgstr "リールの境界を削除"
 
 #: src/wx/content_panel.cc:285
 msgid "Remove the selected piece of content from the film (Delete)."
-msgstr ""
+msgstr "選択したコンテンツをプロジェクトから削除します (削除)。"
 
 #: src/wx/rename_template_dialog.cc:26
 msgid "Rename template"
-msgstr ""
+msgstr "テンプレート名を変更"
 
 #: src/wx/templates_dialog.cc:59
 msgid "Rename..."
-msgstr ""
+msgstr "名前を変更..."
 
 #: src/wx/system_information_dialog.cc:66
 msgid "Renderer"
@@ -2732,7 +2790,7 @@ msgstr ""
 
 #: src/wx/repeat_dialog.cc:27
 msgid "Repeat"
-msgstr ""
+msgstr "リピート"
 
 #: src/wx/repeat_dialog.cc:25
 msgid "Repeat Content"
@@ -2744,23 +2802,23 @@ msgstr ""
 
 #: src/wx/report_problem_dialog.cc:44
 msgid "Report A Problem"
-msgstr ""
+msgstr "問題を報告"
 
 #: src/wx/sound_preferences_page.cc:101
 msgid "Reset to default"
-msgstr ""
+msgstr "デフォルトにリセット"
 
 #: src/wx/full_config_dialog.cc:720 src/wx/kdm_email_preferences_page.cc:104
 msgid "Reset to default subject and text"
-msgstr ""
+msgstr "件名と本文をデフォルトにリセット"
 
 #: src/wx/full_config_dialog.cc:852
 msgid "Reset to default text"
-msgstr ""
+msgstr "デフォルトのテキストにリセット"
 
 #: src/wx/dcp_panel.cc:860
 msgid "Resolution"
-msgstr ""
+msgstr "解像度"
 
 #: src/wx/player_config_dialog.cc:138
 msgid "Respect KDM validity periods"
@@ -2777,7 +2835,7 @@ msgstr ""
 #: src/wx/auto_crop_dialog.cc:33 src/wx/controls.cc:89
 #: src/wx/video_panel.cc:107
 msgid "Right"
-msgstr ""
+msgstr "右"
 
 #: src/wx/audio_mapping_view.cc:565
 msgid "Right click to change gain."
@@ -2785,11 +2843,11 @@ msgstr ""
 
 #: src/wx/certificate_chain_editor.cc:308
 msgid "Root"
-msgstr ""
+msgstr "ルート"
 
 #: src/wx/make_chain_dialog.cc:89
 msgid "Root common name"
-msgstr ""
+msgstr "ルート共通名"
 
 #: src/wx/colour_conversion_editor.cc:70
 msgid "S-Gamut3"
@@ -2801,68 +2859,68 @@ msgstr ""
 
 #: src/wx/dcp_panel.cc:165
 msgid "SMPTE"
-msgstr ""
+msgstr "SMPTE"
 
 #: src/wx/dcp_panel.cc:167
 msgid "SMPTE (Bv2.0 only)"
-msgstr ""
+msgstr "SMPTE (Bv2.0 only)"
 
 #: src/wx/verify_dcp_result_panel.cc:62
 msgid "SMPTE Bv2.1 errors"
-msgstr ""
+msgstr "SMPTE Bv2.1 エラー"
 
 #: src/wx/email_preferences_page.cc:81
 msgid "SSL"
-msgstr ""
+msgstr "SSL"
 
 #: src/wx/email_preferences_page.cc:80
 msgid "STARTTLS"
-msgstr ""
+msgstr "STARTTLS"
 
 #: src/wx/full_config_dialog.cc:148
 msgid "Same place as last time"
-msgstr ""
+msgstr "前回と同じ場所"
 
 #: src/wx/full_config_dialog.cc:149
 msgid "Same place as project"
-msgstr ""
+msgstr "プロジェクトと同じ場所"
 
 #: src/wx/audio_dialog.cc:403
 #, c-format
 msgid "Sample peak is %.2fdB at %s on %s"
-msgstr ""
+msgstr "サンプルピークは %.2fdB at %s on %schです"
 
 #: src/wx/dcp_panel.cc:981
 msgid "Sample rate"
-msgstr ""
+msgstr "サンプルレート"
 
 #: src/wx/save_template_dialog.cc:41
 msgid "Save as default"
-msgstr ""
+msgstr "デフォルトとして保存"
 
 #: src/wx/save_template_dialog.cc:45
 msgid "Save as new with name"
-msgstr ""
+msgstr "名前を付けて新規保存"
 
 #: src/wx/save_template_dialog.cc:43
 msgid "Save over existing template"
-msgstr ""
+msgstr "既存のテンプレートを上書き保存"
 
 #: src/wx/verify_dcp_result_panel.cc:81
 msgid "Save report as HTML..."
-msgstr ""
+msgstr "レポートをHTMLとして保存..."
 
 #: src/wx/verify_dcp_result_panel.cc:83
 msgid "Save report as PDF..."
-msgstr ""
+msgstr "レポートをPDFとして保存..."
 
 #: src/wx/verify_dcp_result_panel.cc:79
 msgid "Save report as text..."
-msgstr ""
+msgstr "レポートをテキストとして保存..."
 
 #: src/wx/save_template_dialog.cc:39
 msgid "Save template"
-msgstr ""
+msgstr "テンプレートを保存"
 
 #: src/wx/self_dkdm_dialog.cc:80
 msgid "Save to KDM Creator tool's list"
@@ -2870,23 +2928,23 @@ msgstr ""
 
 #: src/wx/text_panel.cc:97 src/wx/video_panel.cc:156
 msgid "Scale"
-msgstr ""
+msgstr "スケール"
 
 #: src/wx/invalid_certificate_period_dialog.cc:47
 msgid "Screen"
-msgstr ""
+msgstr "スクリーン"
 
 #: src/wx/kdm_dialog.cc:83
 msgid "Screens"
-msgstr ""
+msgstr "スクリーン"
 
 #: src/wx/full_config_dialog.cc:475
 msgid "Search network for servers"
-msgstr ""
+msgstr "ネットワーク上のサーバーを検索"
 
 #: src/wx/content_timeline_dialog.cc:75
 msgid "Select"
-msgstr ""
+msgstr "選択"
 
 #: src/wx/kdm_cpl_panel.cc:107
 msgid "Select CPL XML file"
@@ -2903,7 +2961,7 @@ msgstr ""
 
 #: src/wx/certificate_chain_editor.cc:274
 msgid "Select Chain File"
-msgstr ""
+msgstr "証明書チェーンを選択"
 
 #: src/wx/general_preferences_page.cc:185
 msgid "Select Cinemas File"
@@ -2911,7 +2969,7 @@ msgstr ""
 
 #: src/wx/keys_preferences_page.cc:171
 msgid "Select Export File"
-msgstr ""
+msgstr "出力ファイルを選択"
 
 #: src/wx/keys_preferences_page.cc:196
 msgid "Select File To Import"
@@ -2919,19 +2977,19 @@ msgstr ""
 
 #: src/wx/content_menu.cc:437
 msgid "Select KDM"
-msgstr ""
+msgstr "KDMを選択"
 
 #: src/wx/certificate_chain_editor.cc:399
 msgid "Select Key File"
-msgstr ""
+msgstr "秘密鍵ファイルを選択"
 
 #: src/wx/certificate_chain_editor.cc:364
 msgid "Select Key file"
-msgstr ""
+msgstr "秘密鍵ファイルを選択"
 
 #: src/wx/content_menu.cc:491
 msgid "Select OV"
-msgstr ""
+msgstr "OVを選択"
 
 #: src/wx/content_timeline_dialog.cc:75
 msgid "Select and move content"
@@ -2955,27 +3013,27 @@ msgstr ""
 
 #: src/wx/full_language_tag_dialog.cc:222
 msgid "Select..."
-msgstr ""
+msgstr "選択..."
 
 #: src/wx/dkdm_output_panel.cc:99 src/wx/kdm_output_panel.cc:98
 msgid "Send by email"
-msgstr ""
+msgstr "メールで送信"
 
 #: src/wx/confirm_kdm_email_dialog.cc:34
 msgid "Send emails"
-msgstr ""
+msgstr "メール送信"
 
 #: src/wx/report_problem_dialog.cc:71
 msgid "Send logs"
-msgstr ""
+msgstr "ログを送信"
 
 #: src/wx/send_test_email_dialog.cc:26
 msgid "Send test email"
-msgstr ""
+msgstr "テストメールを送信"
 
 #: src/wx/email_preferences_page.cc:95
 msgid "Send test email..."
-msgstr ""
+msgstr "テストメールを送信..."
 
 #: src/wx/content_timeline_dialog.cc:79
 msgid "Sequence"
@@ -2983,23 +3041,23 @@ msgstr ""
 
 #: src/wx/download_certificate_panel.cc:48
 msgid "Serial number"
-msgstr ""
+msgstr "シリアル番号"
 
 #: src/wx/server_dialog.cc:34
 msgid "Server"
-msgstr ""
+msgstr "サーバー"
 
 #: src/wx/full_config_dialog.cc:462
 msgid "Servers"
-msgstr ""
+msgstr "サーバー"
 
 #: src/wx/content_advanced_dialog.cc:88 src/wx/timecode.cc:74
 msgid "Set"
-msgstr ""
+msgstr "セット"
 
 #: src/wx/kdm_output_panel.cc:99
 msgid "Set additional email addresses..."
-msgstr ""
+msgstr "追加のメールアドレスを設定..."
 
 #: src/wx/markers_dialog.cc:59
 msgid "Set from current position"
@@ -3015,11 +3073,11 @@ msgstr ""
 
 #: src/wx/general_preferences_page.cc:73
 msgid "Set language"
-msgstr ""
+msgstr "言語選択"
 
 #: src/wx/content_menu.cc:117
 msgid "Set project DCP settings from this DCP"
-msgstr ""
+msgstr "このDCPからプロジェクトのDCP設定を設定する"
 
 #: src/wx/content_menu.cc:118
 msgid "Set project markers from this DCP"
@@ -3043,44 +3101,44 @@ msgstr ""
 
 #: src/wx/subtitle_appearance_dialog.cc:153
 msgid "Shadow"
-msgstr ""
+msgstr "シャドウ"
 
 #: src/wx/password_entry.cc:36
 msgid "Show"
-msgstr ""
+msgstr "表示する"
 
 #: src/wx/full_config_dialog.cc:1217
 msgid "Show experimental audio processors"
-msgstr ""
+msgstr "試験的なオーディオプロセッサを表示"
 
 #: src/wx/audio_panel.cc:75 src/wx/dcp_panel.cc:993
 msgid "Show graph of audio levels..."
-msgstr ""
+msgstr "音声レベルのグラフを表示..."
 
 #: src/wx/screens_panel.cc:740
 #, c-format
 msgid "Show only %d checked"
-msgstr ""
+msgstr "チェックした %d のみを表示"
 
 #: src/wx/screens_panel.cc:66 src/wx/screens_panel.cc:738
 msgid "Show only checked"
-msgstr ""
+msgstr "チェックしたもののみを表示"
 
 #: src/wx/text_panel.cc:161
 msgid "Show subtitle area"
-msgstr ""
+msgstr "字幕エリアを表示"
 
 #: src/wx/metadata_dialog.cc:285
 msgid "Sign language video language"
-msgstr ""
+msgstr "手話動画言語"
 
 #: src/wx/keys_preferences_page.cc:101 src/wx/keys_preferences_page.cc:157
 msgid "Signing DCPs and KDMs"
-msgstr ""
+msgstr "DCPとKDMの署名"
 
 #: src/wx/full_config_dialog.cc:1316 src/wx/player_config_dialog.cc:126
 msgid "Simple (safer)"
-msgstr ""
+msgstr "シンプル（安全）"
 
 #: src/wx/colour_conversion_editor.cc:68
 msgid "Simple gamma"
@@ -3092,20 +3150,20 @@ msgstr ""
 
 #: src/wx/dcp_timeline.cc:262
 msgid "Single reel"
-msgstr ""
+msgstr "Single reel"
 
 #: src/wx/player_information.cc:160
 #, c-format
 msgid "Size: %dx%d"
-msgstr ""
+msgstr "サイズ: %dx%d"
 
 #: src/wx/player_information.cc:162
 msgid "Size: unknown"
-msgstr ""
+msgstr "サイズ: 不明"
 
 #: src/wx/audio_dialog.cc:142
 msgid "Smoothing"
-msgstr ""
+msgstr "スムージング"
 
 #: src/wx/content_timeline_dialog.cc:78
 msgid "Snap"
@@ -3131,6 +3189,7 @@ msgstr ""
 msgid ""
 "Some closed captions are not listed in the order of their vertical position."
 msgstr ""
+"一部のクローズドキャプションは、垂直位置の順序どおりにリストされていません。"
 
 #: src/wx/dcp_referencing_dialog.cc:115 src/wx/sound_preferences_page.cc:65
 msgid "Sound"
@@ -3142,13 +3201,15 @@ msgstr ""
 
 #: src/wx/gain_calculator_dialog.cc:33
 msgid "Sound processor"
-msgstr ""
+msgstr "サウンドプロセッサ"
 
 #: src/wx/video_panel.cc:161
 msgid ""
 "Source\n"
 "colourspace"
 msgstr ""
+"ソース\n"
+"カラースペース"
 
 #: src/wx/metadata_dialog.cc:206
 msgid "Specific"
@@ -3169,11 +3230,11 @@ msgstr ""
 #: src/wx/dcp_panel.cc:113 src/wx/metadata_dialog.cc:78
 #: src/wx/rating_dialog.cc:50
 msgid "Standard"
-msgstr ""
+msgstr "規格"
 
 #: src/wx/text_view.cc:60
 msgid "Start"
-msgstr ""
+msgstr "開始"
 
 #: src/wx/move_to_dialog.cc:39
 msgid "Start of reel"
@@ -3185,27 +3246,27 @@ msgstr ""
 
 #: src/wx/smpte_metadata_dialog.cc:90
 msgid "Status"
-msgstr ""
+msgstr "ステータス"
 
 #: src/wx/playlist_controls.cc:60
 msgid "Stop"
-msgstr ""
+msgstr "停止"
 
 #: src/wx/text_panel.cc:112
 msgid "Stream"
-msgstr ""
+msgstr "ストリーム"
 
 #: src/wx/metadata_dialog.cc:294
 msgid "Studio"
-msgstr ""
+msgstr "スタジオ"
 
 #: src/wx/full_config_dialog.cc:683 src/wx/kdm_email_preferences_page.cc:71
 msgid "Subject"
-msgstr ""
+msgstr "メール件名"
 
 #: src/wx/screen_dialog.cc:187
 msgid "Subject common name"
-msgstr ""
+msgstr "件名共通名"
 
 #: src/wx/screen_dialog.cc:188
 msgid "Subject organization name"
@@ -3213,7 +3274,7 @@ msgstr ""
 
 #: src/wx/about_dialog.cc:178
 msgid "Subscribers"
-msgstr ""
+msgstr "購読者"
 
 #: src/wx/subtitle_appearance_dialog.cc:61
 msgid "Subtitle appearance"
@@ -3226,60 +3287,60 @@ msgstr ""
 
 #: src/wx/export_subtitles_dialog.cc:105
 msgid "Subtitle files (.mxf)|*.mxf"
-msgstr ""
+msgstr "サブタイトルファイル (.mxf)|*.mxf"
 
 #: src/wx/export_subtitles_dialog.cc:105
 msgid "Subtitle files (.xml)|*.xml"
-msgstr ""
+msgstr "サブタイトルファイル (.xml)|*.xml"
 
 #: src/wx/dcp_referencing_dialog.cc:115
 msgid "Subtitles"
-msgstr ""
+msgstr "サブタイトル"
 
 #: src/wx/timeline_labels_view.cc:43 src/wx/timeline_labels_view.cc:80
 msgid "Subtitles/captions"
-msgstr ""
+msgstr "字幕/キャプション"
 
 #: src/wx/player_information.cc:173
 msgid "Subtitles: no"
-msgstr ""
+msgstr "サブタイトル: いいえ"
 
 #: src/wx/player_information.cc:171
 msgid "Subtitles: yes"
-msgstr ""
+msgstr "サブタイトル: はい"
 
 #: src/wx/system_information_dialog.cc:46
 #: src/wx/system_information_dialog.cc:80
 msgid "System information"
-msgstr ""
+msgstr "システムインフォメーション"
 
 #: src/wx/full_config_dialog.cc:527
 msgid "TMS"
-msgstr ""
+msgstr "TMS"
 
 #: src/wx/full_config_dialog.cc:559
 msgid "Target path"
-msgstr ""
+msgstr "ターゲットパス"
 
 #: src/wx/templates_dialog.cc:51
 msgid "Template"
-msgstr ""
+msgstr "テンプレート"
 
 #: src/wx/templates_dialog.cc:143
 msgid "Template names must not be empty."
-msgstr ""
+msgstr "テンプレート名は空にできません。"
 
 #: src/wx/templates_dialog.cc:41
 msgid "Templates"
-msgstr ""
+msgstr "テンプレート"
 
 #: src/wx/smpte_metadata_dialog.cc:137
 msgid "Temporary"
-msgstr ""
+msgstr "テンポラリー"
 
 #: src/wx/metadata_dialog.cc:304
 msgid "Temporary version"
-msgstr ""
+msgstr "テンポラリーバージョン"
 
 #: src/wx/metadata_dialog.cc:204
 msgid "Territory type"
@@ -3287,7 +3348,7 @@ msgstr ""
 
 #: src/wx/email_preferences_page.cc:201 src/wx/email_preferences_page.cc:204
 msgid "Test email sending failed."
-msgstr ""
+msgstr "テストメールの送信に失敗しました。"
 
 #: src/wx/email_preferences_page.cc:207
 msgid "Test email sent."
@@ -3295,15 +3356,15 @@ msgstr ""
 
 #: src/wx/update_dialog.cc:62
 msgid "Test version"
-msgstr ""
+msgstr "テストバージョン"
 
 #: src/wx/about_dialog.cc:249
 msgid "Tested by"
-msgstr ""
+msgstr "テスト実施者"
 
 #: src/wx/kdm_timing_panel.cc:161
 msgid "The 'until' time must be after the 'from' time."
-msgstr ""
+msgstr "「終了」時間は「開始」時間より後である必要があります。"
 
 #: src/wx/verify_dcp_result_panel.cc:668
 #, c-format
@@ -3315,6 +3376,7 @@ msgid ""
 "The <MainPictureActiveArea> is either not a multiple of 2, or is bigger than "
 "an asset."
 msgstr ""
+"<MainPictureActiveArea> が 2 の倍数でないか、アセットよりも大きいです。"
 
 #: src/wx/verify_dcp_result_panel.cc:631
 #, c-format
@@ -3367,7 +3429,7 @@ msgstr ""
 #: src/wx/verify_dcp_result_panel.cc:453
 #, c-format
 msgid "The CPL %cpl has no CPL metadata version number tag."
-msgstr ""
+msgstr "CPL %cpl には CPL付帯情報バージョン番号タグがありません。"
 
 #: src/wx/verify_dcp_result_panel.cc:459
 #, c-format
@@ -3389,10 +3451,14 @@ msgid ""
 "The DCP has closed captions but not every reel has the same number of closed "
 "caption assets."
 msgstr ""
+"DCP にはクローズド キャプションがありますが、すべてのリールには同じ数のクロー"
+"ズド キャプション アセットがあるわけではありません。"
 
 #: src/wx/verify_dcp_result_panel.cc:471
 msgid "The DCP has encrypted content, but not all its assets are encrypted."
 msgstr ""
+"DCP には暗号化されたコンテンツがありますが、すべての資産が暗号化されているわ"
+"けではありません。"
 
 #: src/wx/verify_dcp_result_panel.cc:438
 msgid "The DCP has no FFOC (first frame of content) marker."
@@ -3429,6 +3495,8 @@ msgid ""
 "The KDM start period is before (or close to) the start of the signing "
 "certificate's validity period.  Use a later start time for this KDM."
 msgstr ""
+"KDMの開始期間が、署名証明書の有効期間の開始前（または開始に近い）になっていま"
+"す。このKDMには、より遅い開始時刻を使用してください。"
 
 #: src/wx/verify_dcp_result_panel.cc:690
 #, c-format
@@ -3488,6 +3556,8 @@ msgid ""
 "The XML in the closed caption asset %f takes up %n bytes which is over the "
 "256KB limit."
 msgstr ""
+"クローズド キャプション アセット %f 内の XML は %n バイトを占めており、256 "
+"KB の制限を超えています。"
 
 #: src/wx/verify_dcp_result_panel.cc:656
 #, c-format
@@ -3530,7 +3600,7 @@ msgstr ""
 #: src/wx/verify_dcp_result_panel.cc:423
 #, c-format
 msgid "The closed caption asset %n has no <EntryPoint> tag."
-msgstr ""
+msgstr "クローズドキャプションアセット %n には <EntryPoint> タグがありません。"
 
 #: src/wx/film_name_location_dialog.cc:146
 #, c-format
@@ -3548,6 +3618,11 @@ msgid ""
 "\n"
 "Should DCP-o-matic try to unmount it now?"
 msgstr ""
+"ドライブ <b>%s</b> はマウントされています。\n"
+"\n"
+"%s が書き込む前に、ドライブをアンマウントする必要があります。\n"
+"\n"
+"DCP-o-matic は今すぐアンマウントを試行しますか?"
 
 #: src/wx/wx_util.cc:717
 msgid ""
@@ -3561,11 +3636,15 @@ msgid ""
 "The file %s already exists.  Do you want to use it as your new configuration "
 "or overwrite it with your current configuration?"
 msgstr ""
+"ファイル %s は既に存在します。これを新しい設定として使用しますか？もしくは現"
+"在の設定を上書きしますか?"
 
 #: src/wx/verify_dcp_result_panel.cc:369
 msgid ""
 "The first subtitle or closed caption happens before 4s into the first reel."
 msgstr ""
+"最初の字幕またはクローズド キャプションは、最初のリールの 4 秒前に表示されま"
+"す。"
 
 #: src/wx/verify_dcp_result_panel.cc:646
 #, c-format
@@ -3573,6 +3652,8 @@ msgid ""
 "The font file for font ID \"%n\" was not found, or was not referred to in "
 "the ASSETMAP."
 msgstr ""
+"フォント ID \"%n\" のフォント ファイルが見つからないか、ASSETMAP で参照されて"
+"いません。"
 
 #: src/wx/verify_dcp_result_panel.cc:354
 #, c-format
@@ -3695,7 +3776,7 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:390
 msgid "There are more than 3 closed caption lines in at least one place."
-msgstr ""
+msgstr "少なくとも 1 か所に 3 行を超えるクローズド キャプション行があります。"
 
 #: src/wx/verify_dcp_result_panel.cc:381
 msgid "There are more than 3 subtitle lines in at least one place."
@@ -3704,6 +3785,8 @@ msgstr ""
 #: src/wx/verify_dcp_result_panel.cc:393
 msgid "There are more than 32 characters in at least one closed caption line."
 msgstr ""
+"少なくとも 1 つのクローズド キャプション行に 32 文字を超える文字が含まれてい"
+"ます。"
 
 #: src/wx/verify_dcp_result_panel.cc:384
 msgid "There are more than 52 characters in at least one subtitle line."
@@ -3732,7 +3815,7 @@ msgstr ""
 #: src/wx/save_template_dialog.cc:105
 msgid ""
 "There is already a template with this name.  Do you want to overwrite it?"
-msgstr ""
+msgstr "このテンプレート名は既に存在します。上書きしても宜しいですか?"
 
 #: src/wx/film_viewer.cc:179
 msgid "There is not enough free memory to do that."
@@ -3743,6 +3826,8 @@ msgid ""
 "There was a problem starting audio playback.  Please try another audio "
 "output device in Preferences."
 msgstr ""
+"音声の再生を開始する際に問題が発生しました。設定で別の音声出力デバイスを試し"
+"てください。"
 
 #: src/wx/kdm_cpl_panel.cc:134
 msgid "This CPL contains no encrypted assets."
@@ -3853,11 +3938,11 @@ msgstr ""
 
 #: src/wx/servers_list_dialog.cc:53
 msgid "Threads"
-msgstr ""
+msgstr "スレッド"
 
 #: src/wx/auto_crop_dialog.cc:39
 msgid "Threshold"
-msgstr ""
+msgstr "スレッショルド|閾値"
 
 #: src/wx/certificate_chain_editor.cc:75 src/wx/screen_dialog.cc:54
 #: src/wx/screen_dialog.cc:178 src/wx/screen_dialog.cc:210
@@ -3872,15 +3957,15 @@ msgstr ""
 
 #: src/wx/content_timeline_dialog.cc:49
 msgid "Timeline"
-msgstr ""
+msgstr "タイムライン"
 
 #: src/wx/content_panel.cc:296
 msgid "Timeline..."
-msgstr ""
+msgstr "タイムライン..."
 
 #: src/wx/content_panel.cc:307
 msgid "Timing"
-msgstr ""
+msgstr "タイミング"
 
 #. TRANSLATORS: translate the word "Timing" here; do not include the "Timing|" prefix
 #: src/wx/timing_panel.cc:68
@@ -3893,40 +3978,40 @@ msgstr ""
 
 #: src/wx/full_config_dialog.cc:691 src/wx/send_test_email_dialog.cc:30
 msgid "To address"
-msgstr ""
+msgstr "宛先"
 
 #: src/wx/auto_crop_dialog.cc:35 src/wx/video_panel.cc:118
 msgid "Top"
-msgstr ""
+msgstr "上"
 
 #: src/wx/closed_captions_dialog.cc:71 src/wx/text_panel.cc:198
 msgid "Track"
-msgstr ""
+msgstr "トラック"
 
 #: src/wx/about_dialog.cc:170
 msgid "Translated by"
-msgstr ""
+msgstr "翻訳者"
 
 #: src/wx/timing_panel.cc:115
 msgid "Trim from current position to end"
-msgstr ""
+msgstr "現在の位置から末尾までカット"
 
 #: src/wx/timing_panel.cc:113
 msgid "Trim from end"
-msgstr ""
+msgstr "末尾からのカット位置"
 
 #: src/wx/timing_panel.cc:110
 msgid "Trim from start"
-msgstr ""
+msgstr "先頭からのカット位置"
 
 #: src/wx/timing_panel.cc:112
 msgid "Trim up to current position"
-msgstr ""
+msgstr "現在の位置までカット"
 
 #: src/wx/audio_dialog.cc:423
 #, c-format
 msgid "True peak is %.2fdB"
-msgstr ""
+msgstr "トゥルーピークは %.2fdBです"
 
 #: src/wx/screen_dialog.cc:52
 msgid "Trusted Device"
@@ -3939,131 +4024,131 @@ msgstr ""
 #: src/wx/audio_dialog.cc:125 src/wx/certificate_chain_editor.cc:67
 #: src/wx/spl_entry_dialog.cc:49 src/wx/video_panel.cc:79
 msgid "Type"
-msgstr ""
+msgstr "タイプ"
 
 #: src/wx/wx_util.cc:603
 msgid "UTC"
-msgstr ""
+msgstr "UTC"
 
 #: src/wx/cinema_dialog.cc:54
 msgid "UTC offset (time zone)"
-msgstr ""
+msgstr "UTC オフセット (タイムゾーン)"
 
 #: src/wx/wx_util.cc:604
 msgid "UTC+1"
-msgstr ""
+msgstr "UTC+1"
 
 #: src/wx/wx_util.cc:617
 msgid "UTC+10"
-msgstr ""
+msgstr "UTC+10"
 
 #: src/wx/wx_util.cc:618
 msgid "UTC+11"
-msgstr ""
+msgstr "UTC+11"
 
 #: src/wx/wx_util.cc:619
 msgid "UTC+12"
-msgstr ""
+msgstr "UTC+12"
 
 #: src/wx/wx_util.cc:605
 msgid "UTC+2"
-msgstr ""
+msgstr "UTC+2"
 
 #: src/wx/wx_util.cc:606
 msgid "UTC+3"
-msgstr ""
+msgstr "UTC+3"
 
 #: src/wx/wx_util.cc:607
 msgid "UTC+4"
-msgstr ""
+msgstr "UTC+4"
 
 #: src/wx/wx_util.cc:608
 msgid "UTC+5"
-msgstr ""
+msgstr "UTC+5"
 
 #: src/wx/wx_util.cc:609
 msgid "UTC+5:30"
-msgstr ""
+msgstr "UTC+5:30"
 
 #: src/wx/wx_util.cc:611
 msgid "UTC+5:45"
-msgstr ""
+msgstr "UTC+5:45"
 
 #: src/wx/wx_util.cc:612
 msgid "UTC+6"
-msgstr ""
+msgstr "UTC+6"
 
 #: src/wx/wx_util.cc:613
 msgid "UTC+7"
-msgstr ""
+msgstr "UTC+7"
 
 #: src/wx/wx_util.cc:614
 msgid "UTC+8"
-msgstr ""
+msgstr "UTC+8"
 
 #: src/wx/wx_util.cc:615
 msgid "UTC+9"
-msgstr ""
+msgstr "UTC+9"
 
 #: src/wx/wx_util.cc:616
 msgid "UTC+9:30"
-msgstr ""
+msgstr "UTC+9:30"
 
 #: src/wx/wx_util.cc:601
 msgid "UTC-1"
-msgstr ""
+msgstr "UTC-1"
 
 #: src/wx/wx_util.cc:590
 msgid "UTC-10"
-msgstr ""
+msgstr "UTC-10"
 
 #: src/wx/wx_util.cc:589
 msgid "UTC-11"
-msgstr ""
+msgstr "UTC-11"
 
 #: src/wx/wx_util.cc:600
 msgid "UTC-2"
-msgstr ""
+msgstr "UTC-2"
 
 #: src/wx/wx_util.cc:599
 msgid "UTC-3"
-msgstr ""
+msgstr "UTC-3"
 
 #: src/wx/wx_util.cc:598
 msgid "UTC-3:30"
-msgstr ""
+msgstr "UTC-3:30"
 
 #: src/wx/wx_util.cc:597
 msgid "UTC-4"
-msgstr ""
+msgstr "UTC-4"
 
 #: src/wx/wx_util.cc:596
 msgid "UTC-4:30"
-msgstr ""
+msgstr "UTC-4:30"
 
 #: src/wx/wx_util.cc:595
 msgid "UTC-5"
-msgstr ""
+msgstr "UTC-5"
 
 #: src/wx/wx_util.cc:594
 msgid "UTC-6"
-msgstr ""
+msgstr "UTC-6"
 
 #: src/wx/wx_util.cc:593
 msgid "UTC-7"
-msgstr ""
+msgstr "UTC-7"
 
 #: src/wx/wx_util.cc:592
 msgid "UTC-8"
-msgstr ""
+msgstr "UTC-8"
 
 #: src/wx/wx_util.cc:591
 msgid "UTC-9"
-msgstr ""
+msgstr "UTC-9"
 
 #: src/wx/screens_panel.cc:103
 msgid "Uncheck all"
-msgstr ""
+msgstr "全チェック解除"
 
 #: src/wx/closed_captions_dialog.cc:232
 msgid "Unknown"
@@ -4073,26 +4158,27 @@ msgstr ""
 msgid ""
 "Unrecognised serial number format (does not start with a number, H or F)"
 msgstr ""
+"認識されないシリアル番号の形式です（数字、H、または F で始まっていない）"
 
 #: src/wx/fonts_dialog.cc:119
 msgid "Unspecified"
-msgstr ""
+msgstr "未指定"
 
 #: src/wx/update_dialog.cc:38
 msgid "Update"
-msgstr ""
+msgstr "アップデート"
 
 #: src/wx/full_config_dialog.cc:540
 msgid "Upload DCP to TMS after creation"
-msgstr ""
+msgstr "作成後、DCPをTMSにアップロードする"
 
 #: src/wx/dcp_panel.cc:92
 msgid "Use ISDCF name"
-msgstr ""
+msgstr "ISDCF名を使用する"
 
 #: src/wx/full_config_dialog.cc:302
 msgid "Use ISDCF name by default"
-msgstr ""
+msgstr "デフォルトでISDCF名を使用する"
 
 #: src/wx/text_panel.cc:85
 msgid "Use as"
@@ -4100,188 +4186,190 @@ msgstr ""
 
 #: src/wx/dcp_panel.cc:866
 msgid "Use best"
-msgstr ""
+msgstr "推奨を利用"
 
 #: src/wx/content_colour_conversion_dialog.cc:49
 msgid "Use preset"
-msgstr ""
+msgstr "使用するプリセット"
 
 #: src/wx/audio_panel.cc:110
 msgid "Use same fades as video"
-msgstr ""
+msgstr "動画と同じフェード時間を使用する"
 
 #: src/wx/config_move_dialog.cc:32
 msgid "Use this file as new configuration"
-msgstr ""
+msgstr "このファイルを新しい設定として使用"
 
 #: src/wx/credentials_download_certificate_panel.cc:50
 #: src/wx/email_preferences_page.cc:86 src/wx/full_config_dialog.cc:563
 msgid "User name"
-msgstr ""
+msgstr "ユーザー名"
 
 #: src/wx/player_information.cc:79
 msgid "Valid from"
-msgstr ""
+msgstr "有効期間"
 
 #: src/wx/player_information.cc:81
 msgid "Valid to"
-msgstr ""
+msgstr "有効期間"
 
 #: src/wx/system_information_dialog.cc:65
 msgid "Vendor"
-msgstr ""
+msgstr "ベンダー"
 
 #: src/wx/verify_dcp_result_panel.cc:714
 msgid "Verification report"
-msgstr ""
+msgstr "検証レポート"
 
 #: src/wx/verify_dcp_dialog.cc:106
 msgid "Verify"
-msgstr ""
+msgstr "検証"
 
 #: src/wx/content_menu.cc:425
 msgid "Verify DCP"
-msgstr ""
+msgstr "DCPを検証"
 
 #: src/wx/verify_dcp_dialog.cc:94
 msgid "Verify picture asset details"
-msgstr ""
+msgstr "画像の詳細を検証する"
 
 #: src/wx/content_menu.cc:107
 msgid "Verify..."
-msgstr ""
+msgstr "検証..."
 
 #: src/wx/smpte_metadata_dialog.cc:109 src/wx/system_information_dialog.cc:67
 msgid "Version"
-msgstr ""
+msgstr "バージョン"
 
 #: src/wx/dcp_referencing_dialog.cc:44
 msgid "Version file (VF) setup"
-msgstr ""
+msgstr "バージョンファイル（VF）の設定"
 
 #: src/wx/smpte_metadata_dialog.cc:86
 msgid "Version number"
-msgstr ""
+msgstr "バージョン番号"
 
 #: src/wx/content_properties_dialog.cc:79 src/wx/dcp_panel.cc:123
 #: src/wx/timeline_labels_view.cc:41 src/wx/timeline_labels_view.cc:74
 #: src/wx/video_panel.cc:70
 msgid "Video"
-msgstr ""
+msgstr "動画"
 
 #: src/wx/video_panel.cc:175
 msgid "Video (MPEG, 16-235)"
-msgstr ""
+msgstr "Video (MPEG, 16-235)"
 
 #: src/wx/video_waveform_dialog.cc:42
 msgid "Video Waveform"
-msgstr ""
+msgstr "動画波形"
 
 #: src/wx/dcp_panel.cc:870
 msgid ""
 "Video bit rate\n"
 "for newly-encoded data"
 msgstr ""
+"新たにエンコードするデータの\n"
+"動画ビットレート"
 
 #: src/wx/full_config_dialog.cc:1206 src/wx/player_config_dialog.cc:124
 msgid "Video display mode"
-msgstr ""
+msgstr "動画表示モード"
 
 #: src/wx/content_advanced_dialog.cc:73
 msgid "Video filters"
-msgstr ""
+msgstr "動画フィルター"
 
 #: src/wx/content_advanced_dialog.cc:84
 msgid "Video frame rate that content was prepared for"
-msgstr ""
+msgstr "コンテンツで準備された動画フレームレート"
 
 #. TRANSLATORS: next to this control is a language selector, so together they will read, for example
 #. "Video has burnt-in subtitles in the language fr-FR"
 #: src/wx/content_advanced_dialog.cc:95
 msgid "Video has burnt-in subtitles in the language"
-msgstr ""
+msgstr "言語の字幕が動画に焼き込まれている"
 
 #: src/wx/text_panel.cc:115
 msgid "View..."
-msgstr ""
+msgstr "表示..."
 
 #: src/wx/sound_preferences_page.cc:197
 msgid "WASAPI"
-msgstr ""
+msgstr "Windows Audio Session API"
 
 #: src/wx/full_config_dialog.cc:1286 src/wx/kdm_config_dialog.cc:138
 #: src/wx/player_config_dialog.cc:314 src/wx/verify_dcp_result_panel.cc:63
 msgid "Warnings"
-msgstr ""
+msgstr "警告"
 
 #: src/wx/colour_conversion_editor.cc:161
 msgid "White point"
-msgstr ""
+msgstr "ホワイトポイント"
 
 #: src/wx/colour_conversion_editor.cc:185
 msgid "White point adjustment"
-msgstr ""
+msgstr "ホワイトポイントの調整"
 
 #: src/wx/about_dialog.cc:118
 msgid "With help from"
-msgstr ""
+msgstr "協力者"
 
 #: src/wx/kdm_output_panel.cc:96
 msgid "Write a ZIP file for each cinema's KDMs"
-msgstr ""
+msgstr "各映画館のKDMのZIPファイルを作成する"
 
 #: src/wx/kdm_output_panel.cc:95
 msgid "Write a folder for each cinema's KDMs"
-msgstr ""
+msgstr "各映画館のKDM用のフォルダを作成する"
 
 #: src/wx/kdm_output_panel.cc:94
 msgid "Write all KDMs to the same folder"
-msgstr ""
+msgstr "すべてのKDMを同じフォルダに書き込む"
 
 #: src/wx/export_video_file_dialog.cc:86
 msgid "Write each audio channel to its own stream"
-msgstr ""
+msgstr "各オーディオチャンネルを独自のストリームに書き込む"
 
 #: src/wx/export_subtitles_dialog.cc:53 src/wx/export_video_file_dialog.cc:83
 msgid "Write reels into separate files"
-msgstr ""
+msgstr "リールを別々のファイルに書き込む"
 
 #: src/wx/full_config_dialog.cc:132
 msgid "Write relative content paths"
-msgstr ""
+msgstr "相対コンテンツパスを書き込む"
 
 #: src/wx/dkdm_output_panel.cc:81 src/wx/kdm_output_panel.cc:78
 #: src/wx/self_dkdm_dialog.cc:85
 msgid "Write to"
-msgstr ""
+msgstr "出力先"
 
 #: src/wx/about_dialog.cc:109
 msgid "Written by"
-msgstr ""
+msgstr "著者"
 
 #: src/wx/text_panel.cc:90 src/wx/text_panel.cc:98
 msgid "X"
-msgstr ""
+msgstr "X"
 
 #: src/wx/export_subtitles_dialog.cc:47
 msgid "XML (Interop)"
-msgstr ""
+msgstr "XML (Interop)"
 
 #: src/wx/text_panel.cc:93
 msgid "Y"
-msgstr ""
+msgstr "Y"
 
 #: src/wx/colour_conversion_editor.cc:115
 msgid "YUV to RGB conversion"
-msgstr ""
+msgstr "YUVからRGBへ変換"
 
 #: src/wx/colour_conversion_editor.cc:117
 msgid "YUV to RGB matrix"
-msgstr ""
+msgstr "YUV to RGB マトリックス"
 
 #: src/wx/spl_entry_dialog.cc:52
 msgid "Yes"
-msgstr ""
+msgstr "はい"
 
 #: src/wx/screens_panel.cc:400
 #, c-format
@@ -4301,20 +4389,21 @@ msgstr ""
 msgid ""
 "You have selected some cinemas that have no configured email address.  Do "
 "you want to continue?"
-msgstr ""
+msgstr "メールアドレスが設定されていない映画館を選択しました。続行しますか？"
 
 #: src/wx/dkdm_output_panel.cc:138 src/wx/kdm_output_panel.cc:232
 msgid ""
 "You must set up a mail server in Preferences before you can send emails."
 msgstr ""
+"メールを送信する前に、環境設定でメール サーバーを設定する必要があります。"
 
 #: src/wx/report_problem_dialog.cc:76
 msgid "Your email address"
-msgstr ""
+msgstr "あなたのメールアドレス"
 
 #: src/wx/content_timeline_dialog.cc:76
 msgid "Zoom"
-msgstr ""
+msgstr "ズーム"
 
 #: src/wx/content_timeline_dialog.cc:77
 msgid "Zoom all"
@@ -4322,7 +4411,7 @@ msgstr ""
 
 #: src/wx/content_timeline_dialog.cc:76
 msgid "Zoom in / out"
-msgstr ""
+msgstr "拡大 / 縮小"
 
 #: src/wx/content_timeline_dialog.cc:77
 msgid "Zoom out to whole film"
@@ -4341,69 +4430,69 @@ msgstr ""
 
 #: src/wx/kdm_output_panel.cc:143
 msgid "cinema"
-msgstr ""
+msgstr "映画館"
 
 #: src/wx/text_panel.cc:596
 msgid "closed captions"
-msgstr ""
+msgstr "クローズドキャプリョン"
 
 #: src/wx/text_panel.cc:595
 msgid "closed subtitles"
-msgstr ""
+msgstr "字幕なし"
 
 #: src/wx/video_waveform_dialog.cc:78
 msgid "component value"
-msgstr ""
+msgstr "コンポーネント値"
 
 #: src/wx/audio_panel.cc:112
 msgid "content"
-msgstr ""
+msgstr "コンテンツ"
 
 #: src/wx/full_config_dialog.cc:1269
 msgid "content filename"
-msgstr ""
+msgstr "コンテンツファイル名"
 
 #: src/wx/video_panel.cc:158
 msgid "custom"
-msgstr ""
+msgstr "カスタム"
 
 #: src/wx/audio_gain_dialog.cc:37 src/wx/audio_panel.cc:88
 msgid "dB"
-msgstr ""
+msgstr "dB"
 
 #: src/wx/full_config_dialog.cc:310
 msgid "days"
-msgstr ""
+msgstr "日"
 
 #: src/wx/name_format_editor.cc:79
 #, c-format
 msgid "e.g. %s"
-msgstr ""
+msgstr "e.g. %s"
 
 #: src/wx/system_information_dialog.cc:71
 msgid "enabled"
-msgstr ""
+msgstr "有効"
 
 #. TRANSLATORS: this is an abbreviation for "frames"
 #: src/wx/timing_panel.cc:92
 msgid "f"
-msgstr ""
+msgstr "f"
 
 #: src/wx/dkdm_output_panel.cc:67 src/wx/kdm_output_panel.cc:142
 msgid "film name"
-msgstr ""
+msgstr "プロジェクト名称"
 
 #: src/wx/metadata_dialog.cc:335
 msgid "foot lambert"
-msgstr ""
+msgstr "フットランバート（fL）"
 
 #: src/wx/dkdm_output_panel.cc:70 src/wx/kdm_output_panel.cc:145
 msgid "from date/time"
-msgstr ""
+msgstr "開始日付/時刻"
 
 #: src/wx/player_config_dialog.cc:112
 msgid "full screen"
-msgstr ""
+msgstr "全画面"
 
 #: src/wx/player_config_dialog.cc:113
 msgid "full screen with separate advanced controls"
@@ -4412,22 +4501,22 @@ msgstr ""
 #. TRANSLATORS: this is an abbreviation for "hours"
 #: src/wx/timing_panel.cc:86
 msgid "h"
-msgstr ""
+msgstr "h"
 
 #. TRANSLATORS: this is an abbreviation for "minutes"
 #: src/wx/timing_panel.cc:88
 msgid "m"
-msgstr ""
+msgstr "m"
 
 #: src/wx/full_config_dialog.cc:312
 msgid "months"
-msgstr ""
+msgstr "ヶ月"
 
 #. TRANSLATORS: this is an abbreviation for milliseconds, the unit of time
 #: src/wx/audio_panel.cc:102 src/wx/full_config_dialog.cc:273
 #: src/wx/sound_preferences_page.cc:91
 msgid "ms"
-msgstr ""
+msgstr "ms"
 
 #: src/wx/system_information_dialog.cc:71
 msgid "not enabled"
@@ -4435,48 +4524,48 @@ msgstr ""
 
 #: src/wx/full_config_dialog.cc:1268
 msgid "number of reels"
-msgstr ""
+msgstr "リール番号"
 
 #: src/wx/text_panel.cc:593
 msgid "open captions"
-msgstr ""
+msgstr "キャプションを開く"
 
 #: src/wx/text_panel.cc:592
 msgid "open subtitles"
-msgstr ""
+msgstr "字幕を開く"
 
 #: src/wx/sound_preferences_page.cc:97
 msgid "output"
-msgstr ""
+msgstr "出力"
 
 #: src/wx/email_preferences_page.cc:71
 msgid "port"
-msgstr ""
+msgstr "ポート"
 
 #: src/wx/email_preferences_page.cc:75
 msgid "protocol"
-msgstr ""
+msgstr "プロトコル"
 
 #: src/wx/dkdm_output_panel.cc:68
 msgid "recipient name"
-msgstr ""
+msgstr "受取人名"
 
 #: src/wx/full_config_dialog.cc:1267
 msgid "reel number"
-msgstr ""
+msgstr "リール番号"
 
 #. TRANSLATORS: this is an abbreviation for "seconds"
 #: src/wx/full_config_dialog.cc:256 src/wx/timing_panel.cc:90
 msgid "s"
-msgstr ""
+msgstr "s"
 
 #: src/wx/kdm_output_panel.cc:144
 msgid "screen"
-msgstr ""
+msgstr "スクリーン"
 
 #: src/wx/colour_conversion_editor.cc:84
 msgid "threshold"
-msgstr ""
+msgstr "スレッショルド|閾値"
 
 #: src/wx/repeat_dialog.cc:29
 msgid "times"
@@ -4484,32 +4573,32 @@ msgstr ""
 
 #: src/wx/dkdm_output_panel.cc:71 src/wx/kdm_output_panel.cc:146
 msgid "to date/time"
-msgstr ""
+msgstr "終了日付/時刻"
 
 #: src/wx/video_panel.cc:157
 msgid "to fit DCP"
-msgstr ""
+msgstr "DCP適合"
 
 #: src/wx/full_config_dialog.cc:1266
 msgid "type (j2c/pcm/sub)"
-msgstr ""
+msgstr "タイプ（j2c/pcm/sub）"
 
 #: src/wx/full_config_dialog.cc:1247
 msgid "type(cpl/pkl)"
-msgstr ""
+msgstr "種類(cpl/pkl)"
 
 #: src/wx/system_information_dialog.cc:61
 msgid "unknown"
-msgstr ""
+msgstr "不明"
 
 #: src/wx/system_information_dialog.cc:52
 #, c-format
 msgid "unknown (OpenGL not enabled in %s)"
-msgstr ""
+msgstr "不明 (%s では OpenGL が有効になっていません)"
 
 #: src/wx/kdm_timing_panel.cc:69
 msgid "until"
-msgstr ""
+msgstr "終了"
 
 #: src/wx/system_information_dialog.cc:70
 msgid "vsync"
@@ -4517,27 +4606,27 @@ msgstr ""
 
 #: src/wx/full_config_dialog.cc:311
 msgid "weeks"
-msgstr ""
+msgstr "週"
 
 #: src/wx/player_config_dialog.cc:111
 msgid "window"
-msgstr ""
+msgstr "ウインドウ"
 
 #: src/wx/colour_conversion_editor.cc:135
 msgid "x"
-msgstr ""
+msgstr "x"
 
 #: src/wx/colour_conversion_editor.cc:136
 msgid "y"
-msgstr ""
+msgstr "y"
 
 #: src/wx/full_config_dialog.cc:313
 msgid "years"
-msgstr ""
+msgstr "年"
 
 #. TRANSLATORS: the user will be asked to type this phrase into a text entry to confirm that they have read
 #. the warning about a disk being wiped
 #: src/wx/drive_wipe_warning_dialog.cc:47
 #: src/wx/drive_wipe_warning_dialog.cc:61
 msgid "yes"
-msgstr ""
+msgstr "はい"
