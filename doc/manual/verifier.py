@@ -16,31 +16,23 @@ libdcp = Path(sys.argv[1])
 type = sys.argv[2]
 header = libdcp / "src" / "verify.h"
 
-# The types of note we have, and the strings to look for in order to recognise them
-types = {
-    "BV21_ERROR": ("BV21_ERROR", "bv21_error("),
-    "ERROR": ("ERROR", "error("),
-    "WARNING": ("WARNING", "warning("),
-    "OK": ("ok(",),
-}
+# The types of note we have
+types = ("BV21_ERROR", "ERROR", "WARNING", "OK")
 
 def find_type(name):
     """
-    Search source code to find where a given code is used and hence find out whether
-    it represents an error, Bv2.1 "error", warning or "this is OK" note.
+    Search verify.cc to find out whether given error is error, Bv2.1 "error",
+    warning or "this is OK" note.
     """
-    previous = ''
-    for source in ["verify_j2k.cc", "dcp.cc", "verify.cc", "cpl.cc", "pkl.cc"]:
-        path = libdcp / "src" / source
-        with open(path) as s:
-            for line in s:
-                if line.find(name) != -1:
-                    line_with_previous = previous + line
-                    for type, signatures in types.items():
-                        for s in signatures:
-                            if line_with_previous.find(s) != -1:
-                                return type
-                previous = line
+    next = False
+    with open(libdcp / "src" / "verify.cc") as s:
+        for line in s:
+            if line.find(name) != -1:
+                next = True
+            elif line.find("return") != -1 and next:
+                for type in types:
+                    if line.find(type) != -1:
+                        return type
     assert False, f"Could not find {name}"
 
 
