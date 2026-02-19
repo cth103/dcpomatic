@@ -24,10 +24,13 @@ def find_type(name):
     Search verify.cc to find out whether given error is error, Bv2.1 "error",
     warning or "this is OK" note.
     """
+    started = False
     next = False
     with open(libdcp / "src" / "verify.cc") as s:
         for line in s:
-            if line.find(name) != -1:
+            if line.find("dcp::VerificationNote::type() const") != -1:
+                started = True
+            if started and line.find(name) != -1:
                 next = True
             elif line.find("return") != -1 and next:
                 for type in types:
@@ -51,7 +54,6 @@ with open(header) as h:
                 text = strip.replace('/**', '').replace('*/', '').strip()
             elif not strip.startswith('/*') and not strip.startswith('*') and strip.endswith(','):
                 this_type = find_type(strip[:-1])
-                # print("find", strip[:-1], this_type)
                 if this_type == type:
                     text = re.sub(r"\[.*?\]", lambda m: f'(Bv2.1 {m[0][7:-1]})', text)
                     text = text.replace('<', '&lt;')
