@@ -59,7 +59,7 @@ ContentTimelineDialog::ContentTimelineDialog(ContentPanel* cp, shared_ptr<Film> 
 #endif
 		)
 	, _film (film)
-	, _timeline (this, cp, film, viewer)
+	, _timeline(this, film, viewer)
 {
 	auto sizer = new wxBoxSizer (wxVERTICAL);
 

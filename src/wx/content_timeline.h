@@ -139,7 +139,6 @@ private:
 	int _x_scroll_rate;
 	int _y_scroll_rate;
 	int _pixels_per_track;
-	bool _first_resize;
 	wxTimer _timer;
 	boost::optional<int> _last_mouse_wheel_x;
 	boost::optional<double> _last_mouse_wheel_time;

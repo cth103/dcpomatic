@@ -85,7 +85,6 @@ ContentTimeline::ContentTimeline(wxWindow* parent, shared_ptr<Film> film, FilmVi
 	, _x_scroll_rate(16)
 	, _y_scroll_rate(16)
 	, _pixels_per_track(48)
-	, _first_resize(true)
 	, _timer(this)
 {
 #ifndef __WXOSX__
@@ -886,9 +885,8 @@ ContentTimeline::film()
 void
 ContentTimeline::resized()
 {
-	if (_main_canvas->GetSize().GetWidth() > 0 && _first_resize) {
+	if (_main_canvas->GetSize().GetWidth() > 0) {
 		zoom_all();
-		_first_resize = false;
 	}
 	setup_scrollbars();
 }
