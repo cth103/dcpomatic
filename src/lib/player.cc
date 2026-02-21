@@ -1422,6 +1422,8 @@ Player::seek(DCPTime time, bool accurate)
 	_audio_merger.clear();
 	std::for_each(_active_texts.begin(), _active_texts.end(), [](ActiveText& a) { a.clear(); });
 
+	time = std::min(time, film->length());
+
 	for (auto i: _pieces) {
 		if (time < i->content->position()) {
 			/* Before; seek to the start of the content.  Even if this request is for an inaccurate seek
