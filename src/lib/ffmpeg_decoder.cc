@@ -102,6 +102,8 @@ FFmpegDecoder::FFmpegDecoder (shared_ptr<const Film> film, shared_ptr<const FFmp
 	for (auto i: c->ffmpeg_audio_streams()) {
 		_next_time[i] = boost::optional<dcpomatic::ContentTime>();
 	}
+
+	_dropped_time.resize(_format_context->nb_streams);
 }
 
 
@@ -240,6 +242,9 @@ FFmpegDecoder::pass ()
 		decode_and_process_subtitle_packet (packet);
 	} else if (audio) {
 		decode_and_process_audio_packet (packet);
+	} else {
+		DCPOMATIC_ASSERT(static_cast<int>(_dropped_time.size()) > si);
+		_dropped_time[si] = dcpomatic::ContentTime::from_seconds(packet->pts * av_q2d(_format_context->streams[si]->time_base) + _pts_offset.seconds());
 	}
 
 	if (_have_current_subtitle && _current_subtitle_to && position() > *_current_subtitle_to) {
@@ -465,6 +470,10 @@ FFmpegDecoder::seek (ContentTime time, bool accurate)
 
 	for (auto& i: _next_time) {
 		i.second = boost::optional<dcpomatic::ContentTime>();
+	}
+
+	for (auto& dropped: _dropped_time) {
+		dropped = boost::none;
 	}
 }
 
@@ -846,3 +855,34 @@ FFmpegDecoder::process_ass_subtitle (string ass, ContentTime from)
 		only_text()->emit_plain_start (from, i);
 	}
 }
+
+
+ContentTime
+FFmpegDecoder::position() const
+{
+	optional<ContentTime> pos;
+	auto f = film();
+
+	if (video && !video->ignore() && (!pos || video->position(f).get_value_or(ContentTime()) < *pos)) {
+		pos = video->position(f);
+	}
+
+	if (audio && !audio->ignore() && (!pos || audio->position(f).get_value_or(ContentTime()) < *pos)) {
+		pos = audio->position(f);
+	}
+
+	if (!pos) {
+		for (auto dropped: _dropped_time) {
+			if (dropped) {
+				if (pos) {
+					pos = std::min(*pos, *dropped);
+				} else {
+					pos = *dropped;
+				}
+			}
+		}
+	}
+
+	return pos.get_value_or(ContentTime());
+}
+

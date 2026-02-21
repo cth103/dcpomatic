@@ -53,6 +53,7 @@ public:
 
 	bool pass () override;
 	void seek (dcpomatic::ContentTime time, bool) override;
+	dcpomatic::ContentTime position() const override;
 
 private:
 	friend struct ::ffmpeg_pts_offset_test;
@@ -102,4 +103,6 @@ private:
 	};
 
 	FlushState _flush_state = FlushState::CODECS;
+
+	std::vector<boost::optional<dcpomatic::ContentTime>> _dropped_time;
 };
