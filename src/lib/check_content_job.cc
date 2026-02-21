@@ -86,7 +86,7 @@ CheckContentJob::run()
 		set_message(_("Some files have been changed since they were added to the project.\n\nThese files will now be re-examined, so you may need to check their settings."));
 	}
 
-	if (_film->last_written_by_earlier_than(2, 18, 30)) {
+	if (!_film->last_written_by_git() && _film->last_written_by_earlier_than(2, 18, 30)) {
 		std::vector<shared_ptr<Content>> needs_upgrade;
 		std::copy_if(content.begin(), content.end(), std::back_inserter(needs_upgrade), [](shared_ptr<Content> c) { return static_cast<bool>(dynamic_pointer_cast<FFmpegContent>(c)); });
 		if (!needs_upgrade.empty()) {

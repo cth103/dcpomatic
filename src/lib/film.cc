@@ -772,7 +772,7 @@ Film::read_metadata(optional<boost::filesystem::path> path)
 	 * Before 2.18.26 we wrote IDs which might now fail.  In 2.18.30 we added this check, to mistrust
 	 * any existing IDs and to re-create them.
 	 */
-	if (last_written_by_earlier_than(2, 18, 30)) {
+	if (!last_written_by_git() && last_written_by_earlier_than(2, 18, 30)) {
 		for (auto content: _playlist->content()) {
 			if (auto ffmpeg = dynamic_pointer_cast<FFmpegContent>(content)) {
 				ffmpeg->remove_stream_ids();
