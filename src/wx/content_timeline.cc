@@ -67,11 +67,10 @@ using namespace boost::placeholders;
 int const ContentTimeline::_minimum_pixels_per_track = 16;
 
 
-ContentTimeline::ContentTimeline(wxWindow* parent, ContentPanel* cp, shared_ptr<Film> film, FilmViewer& viewer)
+ContentTimeline::ContentTimeline(wxWindow* parent, shared_ptr<Film> film, FilmViewer& viewer)
 	: Timeline(parent)
 	, _labels_canvas(new wxScrolledCanvas(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE))
 	, _main_canvas(new wxScrolledCanvas(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE))
-	, _content_panel(cp)
 	, _film(film)
 	, _viewer(viewer)
 	, _time_axis_view(new TimelineTimeAxisView(*this, 64))
@@ -651,7 +650,6 @@ ContentTimeline::left_up_select(wxMouseEvent& ev)
 		view.first->content()->set_change_signals_frequent(false);
 	}
 
-	_content_panel->set_selection(selected_content());
 	/* Since we may have just set change signals back to `not-frequent', we have to
 	   make sure this position change is signalled, even if the position value has
 	   not changed since the last time it was set (with frequent=true).  This is

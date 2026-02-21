@@ -35,7 +35,6 @@ LIBDCP_ENABLE_WARNINGS
 #include <boost/signals2.hpp>
 
 
-class ContentPanel;
 class ContentTimelineView;
 class Film;
 class FilmViewer;
@@ -47,7 +46,7 @@ class TimelineTimeAxisView;
 class ContentTimeline : public Timeline
 {
 public:
-	ContentTimeline(wxWindow *, ContentPanel *, std::shared_ptr<Film>, FilmViewer& viewer);
+	ContentTimeline(wxWindow *, std::shared_ptr<Film>, FilmViewer& viewer);
 
 	std::shared_ptr<Film> film();
 
@@ -120,7 +119,6 @@ private:
 
 	wxScrolledCanvas* _labels_canvas;
 	wxScrolledCanvas* _main_canvas;
-	ContentPanel* _content_panel;
 	std::weak_ptr<Film> _film;
 	FilmViewer& _viewer;
 	ContentTimelineViewList _views;
