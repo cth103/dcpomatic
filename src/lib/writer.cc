@@ -436,7 +436,10 @@ try
 				LOG_DEBUG_ENCODE(N_("Writer FULL-writes {} ({})"), qi.frame, (int) qi.eyes);
 				if (!qi.encoded) {
 					/* Get the data back from disk where we stored it temporarily */
-					qi.encoded = make_shared<ArrayData>(film()->j2c_path(qi.reel, qi.frame, qi.eyes, false));
+					auto temp = film()->j2c_path(qi.reel, qi.frame, qi.eyes, false);
+					DCPOMATIC_ASSERT(dcp::filesystem::exists(temp));
+					qi.encoded = make_shared<ArrayData>(temp);
+					dcp::filesystem::remove(temp);
 				}
 				reel.write(qi.encoded, qi.frame, qi.eyes);
 				++_full_written;
