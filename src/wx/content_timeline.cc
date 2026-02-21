@@ -172,6 +172,8 @@ ContentTimeline::mouse_wheel_turned(wxMouseEvent& event)
 		_main_canvas->GetViewStart(&before_start_x, &before_start_y);
 		auto const width = _main_canvas->GetSize().GetWidth();
 		_main_canvas->Scroll(std::max(0.0, before_start_x - rotation * 100.0 / width), before_start_y);
+	} else {
+		event.Skip();
 	}
 }
 
