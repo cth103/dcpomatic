@@ -52,7 +52,7 @@ get_gpu_names()
 
 		return gpu_names;
 	} catch (std::exception& e) {
-		LOG_ERROR("Could not fetch GPU names: %1", e.what());
+		LOG_ERROR("Could not fetch GPU names: {}", e.what());
 		return {};
 	}
 }
