@@ -566,7 +566,9 @@ Film::read_metadata(optional<boost::filesystem::path> path)
 		}
 	}
 
-	_last_written_by = f.optional_string_child("LastWrittenBy");
+	if (auto last = f.optional_node_child("LastWrittenBy")) {
+		_last_written_by = LastWrittenBy{last->content(), last->string_attribute("git")};
+	}
 
 	_name = f.string_child("Name");
 	if (_state_version >= 9) {
@@ -2470,6 +2472,18 @@ Film::set_dirty(bool dirty)
 }
 
 
+bool
+Film::last_written_by_git() const
+{
+	if (_last_written_by) {
+		auto len = std::min(_last_written_by->version.length(), _last_written_by->git.length());
+		return _last_written_by->version.substr(0, len) == _last_written_by->git.substr(0, len);
+	}
+
+	return false;
+}
+
+
 /** @return true if the metadata was (probably) last written by a version earlier
  *  than the given one; false if it definitely was not.
  */
@@ -2481,7 +2495,7 @@ Film::last_written_by_earlier_than(int major, int minor, int micro) const
 	}
 
 	vector<string> parts;
-	boost::split(parts, *_last_written_by, boost::is_any_of("."));
+	boost::split(parts, _last_written_by->version, boost::is_any_of("."));
 
 	if (parts.size() != 3) {
 		/* Not sure what's going on, so let's say it was written by an old version */

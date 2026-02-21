@@ -198,6 +198,7 @@ public:
 	bool references_dcp_audio() const;
 	bool contains_atmos_content() const;
 
+	bool last_written_by_git() const;
 	bool last_written_by_earlier_than(int major, int minor, int micro) const;
 
 	/* GET */
@@ -506,7 +507,13 @@ private:
 	 */
 	boost::optional<boost::filesystem::path> _directory;
 
-	boost::optional<std::string> _last_written_by;
+	struct LastWrittenBy
+	{
+		std::string version;
+		std::string git;
+	};
+
+	boost::optional<LastWrittenBy> _last_written_by;
 
 	/** Name for DCP-o-matic */
 	std::string _name;
