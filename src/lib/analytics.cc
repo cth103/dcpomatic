@@ -56,7 +56,7 @@ Analytics::successful_dcp_encode ()
 				_("Congratulations!"),
 				fmt::format(_(
 					"<h2>You have made {} DCPs with {}!</h2>"
-					"<img width=\"20%%\" src=\"memory:me.jpg\" align=\"center\">"
+					"<img width=\"150\" height=\"193\" src=\"memory:me.jpg\" align=\"center\">"
 					"<font size=\"+1\">"
                                         "<p>Hello. I'm Carl and I'm the "
 					"developer of {}. I work on it in my spare time (with the help "
