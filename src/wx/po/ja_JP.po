@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-02-15 21:03+0100\n"
-"PO-Revision-Date: 2026-02-24 19:02+0900\n"
+"PO-Revision-Date: 2026-03-01 18:47+0900\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ja_JP\n"
@@ -1371,9 +1371,8 @@ msgid "Email addresses for KDM delivery"
 msgstr "KDM配信用のメールアドレス"
 
 #: src/wx/player_config_dialog.cc:103
-#, fuzzy
 msgid "Enable HTTP control interface on port"
-msgstr "ポートでHTTP制御インターフェースを有効にする"
+msgstr "次のポートでHTTP制御インターフェースを有効にする"
 
 #: src/wx/servers_list_dialog.cc:35
 msgid "Encoding Servers"
@@ -3121,9 +3120,8 @@ msgid "Set language"
 msgstr "言語選択"
 
 #: src/wx/content_menu.cc:117
-#, fuzzy
 msgid "Set project DCP settings from this DCP"
-msgstr "このDCPからプロジェクトのDCP設定を設定する"
+msgstr "このDCPからプロジェクトのDCPを設定する"
 
 #: src/wx/content_menu.cc:118
 msgid "Set project markers from this DCP"
@@ -3290,7 +3288,7 @@ msgstr "開始リール"
 
 #: src/wx/player_config_dialog.cc:109
 msgid "Start player as"
-msgstr ""
+msgstr "プレイヤーの起動設定"
 
 #: src/wx/smpte_metadata_dialog.cc:90
 msgid "Status"
@@ -4549,7 +4547,7 @@ msgstr "全画面"
 
 #: src/wx/player_config_dialog.cc:113
 msgid "full screen with separate advanced controls"
-msgstr ""
+msgstr "全画面 | 個別コントロール画面"
 
 #. TRANSLATORS: this is an abbreviation for "hours"
 #: src/wx/timing_panel.cc:86
@@ -4573,7 +4571,7 @@ msgstr "ms"
 
 #: src/wx/system_information_dialog.cc:71
 msgid "not enabled"
-msgstr ""
+msgstr "有効ではない"
 
 #: src/wx/full_config_dialog.cc:1268
 msgid "number of reels"
