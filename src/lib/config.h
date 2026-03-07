@@ -644,6 +644,10 @@ public:
 		return _allow_smpte_bv20;
 	}
 
+	bool allow_mpeg2() const {
+		return _allow_mpeg2;
+	}
+
 #ifdef DCPOMATIC_GROK
 	class Grok
 	{
@@ -1237,6 +1241,10 @@ public:
 		maybe_set(_allow_smpte_bv20, allow, ALLOW_SMPTE_BV20);
 	}
 
+	void set_allow_mpeg2(bool allow) {
+		maybe_set(_allow_mpeg2, allow, ALLOW_SMPTE_BV20);
+	}
+
 #ifdef DCPOMATIC_GROK
 	void set_grok(Grok const& grok);
 #endif
@@ -1502,6 +1510,7 @@ private:
 	boost::optional<int> _main_content_divider_sash_position;
 	DefaultAddFileLocation _default_add_file_location;
 	bool _allow_smpte_bv20;
+	bool _allow_mpeg2;
 	int _isdcf_name_part_length;
 	bool _enable_player_http_server;
 	int _player_http_server_port;

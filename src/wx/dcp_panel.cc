@@ -172,7 +172,12 @@ DCPPanel::update_standards()
 		_standard->add_entry(_("Interop"), string{"interop"});
 	}
 
-	if (!ref && !atmos) {
+	bool allow_mpeg2 = Config::instance()->allow_mpeg2();
+#ifdef DCPOMATIC_VARIANT_POST
+	allow_mpeg2 = true;
+#endif
+
+	if (allow_mpeg2 && !ref && !atmos) {
 		_standard->add_entry(_("MPEG2 Interop"), string{"mpeg2-interop"});
 	}
 
