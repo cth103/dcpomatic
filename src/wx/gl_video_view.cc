@@ -74,7 +74,7 @@ GLVideoView::GLVideoView(FilmViewer* viewer, wxWindow *parent, bool wake)
 	, _rec2020(false)
 	, _vsync_enabled(false)
 	, _playing(false)
-	, _one_shot(false)
+	, _request_set_image_and_draw(false)
 {
 	wxGLAttributes attributes;
 	/* We don't need a depth buffer, and indeed there is apparently a bug with Windows/Intel HD 630
@@ -161,7 +161,7 @@ GLVideoView::update()
 		_thread = boost::thread(boost::bind(&GLVideoView::thread, this));
 	}
 
-	request_one_shot();
+	request_set_image_and_draw();
 
 	rethrow();
 }
@@ -934,15 +934,15 @@ try
 
 	while (true) {
 		boost::mutex::scoped_lock lm(_playing_mutex);
-		while (!_playing && !_one_shot) {
+		while (!_playing && !_request_set_image_and_draw) {
 			_thread_work_condition.wait(lm);
 		}
 		lm.unlock();
 
 		if (_playing) {
 			thread_playing();
-		} else if (_one_shot) {
-			_one_shot = false;
+		} else if (_request_set_image_and_draw) {
+			_request_set_image_and_draw = false;
 			set_image_and_draw();
 		}
 
@@ -964,16 +964,16 @@ VideoView::NextFrameResult
 GLVideoView::display_next_frame(bool non_blocking)
 {
 	NextFrameResult const r = get_next_frame(non_blocking);
-	request_one_shot();
+	request_set_image_and_draw();
 	return r;
 }
 
 
 void
-GLVideoView::request_one_shot()
+GLVideoView::request_set_image_and_draw()
 {
 	boost::mutex::scoped_lock lm(_playing_mutex);
-	_one_shot = true;
+	_request_set_image_and_draw = true;
 	_thread_work_condition.notify_all();
 }
 

@@ -99,7 +99,7 @@ private:
 	void draw();
 	void thread();
 	void thread_playing();
-	void request_one_shot();
+	void request_set_image_and_draw();
 	void check_for_butler_errors();
 	void ensure_context();
 	void size_changed(wxSizeEvent const &);
@@ -150,7 +150,7 @@ private:
 	boost::mutex _playing_mutex;
 	boost::condition _thread_work_condition;
 	boost::atomic<bool> _playing;
-	boost::atomic<bool> _one_shot;
+	boost::atomic<bool> _request_set_image_and_draw;
 
 	GLuint _vao;
 	dcpomatic::gl::Uniform1i _fragment_type;
