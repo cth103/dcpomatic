@@ -94,12 +94,17 @@ public:
 	}
 
 private:
+	enum class Request {
+		NONE,
+		SET_IMAGE_AND_DRAW,
+	};
+
 	void set_image(std::shared_ptr<const PlayerVideo> pv);
 	void set_image_and_draw();
 	void draw();
 	void thread();
 	void thread_playing();
-	void request_set_image_and_draw();
+	void request(Request request);
 	void check_for_butler_errors();
 	void ensure_context();
 	void size_changed(wxSizeEvent const &);
@@ -150,7 +155,7 @@ private:
 	boost::mutex _playing_mutex;
 	boost::condition _thread_work_condition;
 	boost::atomic<bool> _playing;
-	boost::atomic<bool> _request_set_image_and_draw;
+	boost::atomic<Request> _pending_request;
 
 	GLuint _vao;
 	dcpomatic::gl::Uniform1i _fragment_type;
