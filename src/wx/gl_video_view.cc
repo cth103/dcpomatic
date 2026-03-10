@@ -817,6 +817,14 @@ GLVideoView::set_image(shared_ptr<const PlayerVideo> pv)
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	check_error("glTexParameterf");
+
+	_last_canvas_size.update();
+	_last_video_size.update();
+	_last_inter_position.update();
+	_last_inter_size.update();
+	_last_out_size.update();
+	_last_crop.update();
+	_last_crop_guess.update();
 }
 
 
