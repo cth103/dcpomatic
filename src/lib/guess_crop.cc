@@ -150,7 +150,7 @@ guess_crop_by_brightness(shared_ptr<const Film> film, shared_ptr<const Content> 
 	decoder->video->Data.connect (handle_video);
 	decoder->seek (position, false);
 
-	int tries_left = 50;
+	int tries_left = 500;
 	while (!done && tries_left >= 0) {
 		decoder->pass();
 		--tries_left;
