@@ -44,6 +44,7 @@ public:
 	}
 
 	void update() override;
+	void update_crop_guess() override;
 	void start() override;
 	NextFrameResult display_next_frame(bool non_blocking) override;
 

@@ -80,6 +80,7 @@ public:
 		return _canvas;
 	}
 	void update() override;
+	void update_crop_guess() override;
 	void start() override;
 	void stop() override;
 
@@ -97,6 +98,7 @@ private:
 	enum class Request {
 		NONE,
 		SET_IMAGE_AND_DRAW,
+		SET_CROP_GUESS_AND_DRAW,
 	};
 
 	void set_image(std::shared_ptr<const PlayerVideo> pv);

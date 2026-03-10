@@ -890,7 +890,7 @@ FilmViewer::set_crop_guess(dcpomatic::Rect<float> crop)
 {
 	if (crop != _crop_guess) {
 		_crop_guess = crop;
-		_video_view->update();
+		_video_view->update_crop_guess();
 	}
 }
 

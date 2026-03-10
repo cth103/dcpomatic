@@ -214,6 +214,13 @@ SimpleVideoView::display_next_frame(bool non_blocking)
 
 
 void
+SimpleVideoView::update_crop_guess()
+{
+	refresh_panel();
+}
+
+
+void
 SimpleVideoView::update()
 {
 	if (!player_video().first) {

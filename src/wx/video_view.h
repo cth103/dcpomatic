@@ -59,6 +59,8 @@ public:
 	virtual wxWindow* get() const = 0;
 	/** Re-make and display the image from the current _player_video */
 	virtual void update() = 0;
+	/** Re-draw after changes to the FilmViewer's crop_guess() */
+	virtual void update_crop_guess() = 0;
 	/** Called when playback starts */
 	virtual void start();
 	/** Called when playback stops */

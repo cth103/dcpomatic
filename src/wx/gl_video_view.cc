@@ -135,6 +135,15 @@ GLVideoView::check_for_butler_errors()
 }
 
 
+void
+GLVideoView::update_crop_guess()
+{
+	/* Assume at least one update() has happened before now */
+	request(Request::SET_CROP_GUESS_AND_DRAW);
+	rethrow();
+}
+
+
 /** Called from the UI thread */
 void
 GLVideoView::update()
@@ -952,6 +961,12 @@ try
 		} else if (_pending_request == Request::SET_IMAGE_AND_DRAW) {
 			_pending_request = Request::NONE;
 			set_image_and_draw();
+		} else if (_pending_request == Request::SET_CROP_GUESS_AND_DRAW) {
+			_pending_request = Request::NONE;
+			if (auto pv = player_video().first) {
+				set_image(pv);
+			}
+			draw();
 		}
 
 		boost::this_thread::interruption_point();
@@ -980,6 +995,11 @@ GLVideoView::display_next_frame(bool non_blocking)
 void
 GLVideoView::request(Request request)
 {
+	if (_pending_request == Request::SET_IMAGE_AND_DRAW) {
+		/* Don't replace this; it's a superset of other requests */
+		return;
+	}
+
 	boost::mutex::scoped_lock lm(_playing_mutex);
 	_pending_request = request;
 	_thread_work_condition.notify_all();
