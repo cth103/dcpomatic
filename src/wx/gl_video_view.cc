@@ -611,6 +611,9 @@ GLVideoView::draw()
 }
 
 
+/** Take a frame and set up the GL textures ready for it to be drawn.
+ *  This also prepares subtitles, the crop guess rectangle, etc.
+ */
 void
 GLVideoView::set_image(shared_ptr<const PlayerVideo> pv)
 {
