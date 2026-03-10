@@ -116,8 +116,7 @@ SimpleVideoView::paint()
 		dc.DrawRectangle(_inter_position.x, _inter_position.y + (panel_size.height - out_size.height) / 2, _inter_size.width, _inter_size.height);
 	}
 
-	auto subs = _viewer->outline_subtitles();
-	if (subs) {
+	if (auto subs = _viewer->outline_subtitles()) {
 		wxPen p(outline_subtitles_colour(), 2);
 		dc.SetPen(p);
 		dc.SetBrush(*wxTRANSPARENT_BRUSH);
