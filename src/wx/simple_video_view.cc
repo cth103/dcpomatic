@@ -51,85 +51,85 @@ SimpleVideoView::SimpleVideoView(FilmViewer* viewer, wxWindow* parent, bool wake
 	, _rec2020_filter("convert", "convert", "", "colorspace=all=bt709:iall=bt2020")
 	, _rec2020_filter_graph({ _rec2020_filter }, dcp::Fraction(24, 1))
 {
-	_panel = new wxPanel (parent);
+	_panel = new wxPanel(parent);
 
 #ifndef __WXOSX__
-	_panel->SetDoubleBuffered (true);
+	_panel->SetDoubleBuffered(true);
 #endif
 
-	_panel->SetBackgroundStyle (wxBG_STYLE_PAINT);
-	_panel->SetBackgroundColour (*wxBLACK);
+	_panel->SetBackgroundStyle(wxBG_STYLE_PAINT);
+	_panel->SetBackgroundColour(*wxBLACK);
 
-	_panel->Bind (wxEVT_PAINT, boost::bind (&SimpleVideoView::paint, this));
-	_panel->Bind (wxEVT_SIZE, boost::bind(boost::ref(Sized)));
+	_panel->Bind(wxEVT_PAINT, boost::bind(&SimpleVideoView::paint, this));
+	_panel->Bind(wxEVT_SIZE, boost::bind(boost::ref(Sized)));
 
-	_timer.Bind (wxEVT_TIMER, boost::bind(&SimpleVideoView::timer, this));
+	_timer.Bind(wxEVT_TIMER, boost::bind(&SimpleVideoView::timer, this));
 }
 
 
 void
-SimpleVideoView::paint ()
+SimpleVideoView::paint()
 {
         _state_timer.set("paint-panel");
-	wxPaintDC dc (_panel);
-	auto scale = 1 / dpi_scale_factor (_panel);
-	dc.SetLogicalScale (scale, scale);
+	wxPaintDC dc(_panel);
+	auto scale = 1 / dpi_scale_factor(_panel);
+	dc.SetLogicalScale(scale, scale);
 
 	auto const panel_size = dcp::Size(_panel->GetSize().GetWidth() / scale, _panel->GetSize().GetHeight() / scale);
 	auto pad = pad_colour();
 
 	dcp::Size out_size;
 	if (!_image) {
-		wxBrush b (pad);
-		dc.SetBackground (b);
-		dc.Clear ();
+		wxBrush b(pad);
+		dc.SetBackground(b);
+		dc.Clear();
 	} else {
-		DCPOMATIC_ASSERT (_image->alignment() == Image::Alignment::COMPACT);
+		DCPOMATIC_ASSERT(_image->alignment() == Image::Alignment::COMPACT);
 		out_size = _image->size();
-		wxImage frame (out_size.width, out_size.height, _image->data()[0], true);
-		wxBitmap frame_bitmap (frame);
+		wxImage frame(out_size.width, out_size.height, _image->data()[0], true);
+		wxBitmap frame_bitmap(frame);
 		dc.DrawBitmap(frame_bitmap, 0, max(0, (panel_size.height - out_size.height) / 2));
 	}
 
 	if (out_size.width < panel_size.width) {
-		wxPen   p (pad);
-		wxBrush b (pad);
-		dc.SetPen (p);
-		dc.SetBrush (b);
+		wxPen   p(pad);
+		wxBrush b(pad);
+		dc.SetPen(p);
+		dc.SetBrush(b);
 		dc.DrawRectangle(out_size.width, 0, panel_size.width - out_size.width, panel_size.height);
 	}
 
 	if (out_size.height < panel_size.height) {
-		wxPen   p (pad);
-		wxBrush b (pad);
-		dc.SetPen (p);
-		dc.SetBrush (b);
+		wxPen   p(pad);
+		wxBrush b(pad);
+		dc.SetPen(p);
+		dc.SetBrush(b);
 		int const gap = (panel_size.height - out_size.height) / 2;
 		dc.DrawRectangle(0, 0, panel_size.width, gap);
 		dc.DrawRectangle(0, gap + out_size.height, panel_size.width, gap + 1);
 	}
 
 	if (_viewer->outline_content()) {
-		wxPen p (outline_content_colour(), 2);
-		dc.SetPen (p);
-		dc.SetBrush (*wxTRANSPARENT_BRUSH);
+		wxPen p(outline_content_colour(), 2);
+		dc.SetPen(p);
+		dc.SetBrush(*wxTRANSPARENT_BRUSH);
 		dc.DrawRectangle(_inter_position.x, _inter_position.y + (panel_size.height - out_size.height) / 2, _inter_size.width, _inter_size.height);
 	}
 
 	auto subs = _viewer->outline_subtitles();
 	if (subs) {
-		wxPen p (outline_subtitles_colour(), 2);
-		dc.SetPen (p);
-		dc.SetBrush (*wxTRANSPARENT_BRUSH);
-		dc.DrawRectangle (subs->x * out_size.width, subs->y * out_size.height, subs->width * out_size.width, subs->height * out_size.height);
+		wxPen p(outline_subtitles_colour(), 2);
+		dc.SetPen(p);
+		dc.SetBrush(*wxTRANSPARENT_BRUSH);
+		dc.DrawRectangle(subs->x * out_size.width, subs->y * out_size.height, subs->width * out_size.width, subs->height * out_size.height);
 	}
 
 	if (_viewer->crop_guess()) {
-		wxPen p (crop_guess_colour(), 2);
-		dc.SetPen (p);
-		dc.SetBrush (*wxTRANSPARENT_BRUSH);
+		wxPen p(crop_guess_colour(), 2);
+		dc.SetPen(p);
+		dc.SetBrush(*wxTRANSPARENT_BRUSH);
 		auto const crop_guess = _viewer->crop_guess().get();
-		dc.DrawRectangle (
+		dc.DrawRectangle(
 			_inter_position.x + _inter_size.width * crop_guess.x,
 			_inter_position.y + _inter_size.height * crop_guess.y,
 			_inter_size.width * crop_guess.width,
@@ -142,32 +142,32 @@ SimpleVideoView::paint ()
 
 
 void
-SimpleVideoView::refresh_panel ()
+SimpleVideoView::refresh_panel()
 {
-	_state_timer.set ("refresh-panel");
-	_panel->Refresh ();
-	_panel->Update ();
-	_state_timer.unset ();
+	_state_timer.set("refresh-panel");
+	_panel->Refresh();
+	_panel->Update();
+	_state_timer.unset();
 }
 
 
 void
-SimpleVideoView::timer ()
+SimpleVideoView::timer()
 {
 	if (!_viewer->playing()) {
 		return;
 	}
 
-	display_next_frame (false);
+	display_next_frame(false);
 	auto const next = position() + _viewer->one_video_frame();
 
 	if (next >= length()) {
-		_viewer->finished ();
+		_viewer->finished();
 		return;
 	}
 
 	LOG_DEBUG_VIDEO_VIEW("{} -> {}; delay {}", next.seconds(), _viewer->time().seconds(), max((next.seconds() - _viewer->time().seconds()) * 1000, 1.0));
-	_timer.Start (max(1, time_until_next_frame().get_value_or(0)), wxTIMER_ONE_SHOT);
+	_timer.Start(max(1, time_until_next_frame().get_value_or(0)), wxTIMER_ONE_SHOT);
 
 	if (_viewer->butler()) {
 		try {
@@ -182,10 +182,10 @@ SimpleVideoView::timer ()
 
 
 void
-SimpleVideoView::start ()
+SimpleVideoView::start()
 {
-	VideoView::start ();
-	timer ();
+	VideoView::start();
+	timer();
 }
 
 
@@ -195,17 +195,17 @@ SimpleVideoView::start ()
  *  @return true on success, false if we did nothing because it would have taken too long.
  */
 VideoView::NextFrameResult
-SimpleVideoView::display_next_frame (bool non_blocking)
+SimpleVideoView::display_next_frame(bool non_blocking)
 {
-	auto const r = get_next_frame (non_blocking);
+	auto const r = get_next_frame(non_blocking);
 	if (r != SUCCESS) {
 		return r;
 	}
 
-	update ();
+	update();
 
 	try {
-		_viewer->butler()->rethrow ();
+		_viewer->butler()->rethrow();
 	} catch (DecodeError& e) {
 		error_dialog(get(), std_to_wx(e.what()));
 	}
@@ -215,11 +215,11 @@ SimpleVideoView::display_next_frame (bool non_blocking)
 
 
 void
-SimpleVideoView::update ()
+SimpleVideoView::update()
 {
 	if (!player_video().first) {
-		_image.reset ();
-		refresh_panel ();
+		_image.reset();
+		refresh_panel();
 		return;
 	}
 
@@ -227,7 +227,7 @@ SimpleVideoView::update ()
 		/* Too late; just drop this frame before we try to get its image (which will be the time-consuming
 		   part if this frame is J2K).
 		*/
-		add_dropped ();
+		add_dropped();
 		return;
 	}
 
@@ -249,7 +249,7 @@ SimpleVideoView::update ()
 	 * (from whatever the user has said it is) to RGB.
 	 */
 
-	_state_timer.set ("get image");
+	_state_timer.set("get image");
 
 	auto const pv = player_video();
 	_image = pv.first->image(force(AV_PIX_FMT_RGB24), VideoRange::FULL, true);
@@ -257,12 +257,12 @@ SimpleVideoView::update ()
 		_image = Image::ensure_alignment(_rec2020_filter_graph.get(_image->size(), _image->pixel_format())->process(_image).front(), Image::Alignment::COMPACT);
 	}
 
-	_state_timer.set ("ImageChanged");
-	_viewer->image_changed (player_video().first);
-	_state_timer.unset ();
+	_state_timer.set("ImageChanged");
+	_viewer->image_changed(player_video().first);
+	_state_timer.unset();
 
-	_inter_position = player_video().first->inter_position ();
-	_inter_size = player_video().first->inter_size ();
+	_inter_position = player_video().first->inter_position();
+	_inter_size = player_video().first->inter_size();
 
-	refresh_panel ();
+	refresh_panel();
 }
