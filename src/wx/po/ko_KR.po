@@ -6,345 +6,355 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-11 15:44+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2026-03-10 20:52+0900\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ko_KR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.8\n"
 
 #: src/wx/player_information.cc:111
 #, c-format
 msgid " (%d error)"
-msgstr ""
+msgstr " (%d 오류)"
 
 #: src/wx/player_information.cc:113
 #, c-format
 msgid " (%d errors)"
-msgstr ""
+msgstr " (%d 오류들)"
 
 #: src/wx/content_timeline_audio_view.cc:73
 #, c-format
 msgid " advanced by %dms"
-msgstr ""
+msgstr " %dms 앞당겨짐"
 
 #: src/wx/content_timeline_audio_view.cc:71
 #, c-format
 msgid " delayed by %dms"
-msgstr ""
+msgstr " %dms 지연됨"
 
 #: src/wx/text_panel.cc:91 src/wx/text_panel.cc:94 src/wx/text_panel.cc:99
 #: src/wx/text_panel.cc:102 src/wx/text_panel.cc:106
 msgid "%"
-msgstr ""
+msgstr "%"
 
 #. TRANSLATORS: this will be used in the middle of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
 #: src/wx/verify_dcp_result_panel.cc:138
 #, c-format
 msgid "%d Bv2.1 errors, "
-msgstr ""
+msgstr "%d Bv2.1 오류, "
 
 #: src/wx/dkdm_dialog.cc:196
 #, c-format
 msgid "%d DKDM written to %s"
-msgstr ""
+msgstr "%d DKDM이 %s에 저장되었습니다"
 
 #: src/wx/dkdm_dialog.cc:196
 #, c-format
 msgid "%d DKDMs written to %s"
-msgstr ""
+msgstr "%d DKDM들이 %s에 저장되었습니다"
 
 #: src/wx/kdm_dialog.cc:264
 #, c-format
 msgid "%d KDM written to %s"
-msgstr ""
+msgstr "%d KDM이 %s에 저장되었습니다"
 
 #: src/wx/kdm_dialog.cc:264
 #, c-format
 msgid "%d KDMs written to %s"
-msgstr ""
+msgstr "%d KDM들이 %s에 저장되었습니다"
 
 #: src/wx/sound_preferences_page.cc:207
-#, c-format
+#, fuzzy, c-format
 msgid "%d channels on %s"
-msgstr ""
+msgstr "%s의 %d 채널"
 
 #. TRANSLATORS: this will be used at the start of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
 #: src/wx/verify_dcp_result_panel.cc:130
 #, c-format
 msgid "%d errors, "
-msgstr ""
+msgstr "%d 오류, "
 
 #: src/wx/player_information.cc:207 src/wx/player_information.cc:209
 #, c-format
 msgid "%s %s"
-msgstr ""
+msgstr "%s %s"
 
 #: src/wx/kdm_config_dialog.cc:191 src/wx/player_config_dialog.cc:421
 #: src/wx/playlist_editor_config_dialog.cc:38
 #, c-format
 msgid "%s Preferences"
-msgstr ""
+msgstr "%s 설정"
 
 #: src/wx/film_name_location_dialog.cc:155
 #, c-format
 msgid "%s already exists as a file, so you cannot use it for a film."
-msgstr ""
+msgstr "%s 파일이 이미 존재하므로 필름에 사용할 수 없습니다."
 
 #: src/wx/audio_dialog.cc:175
 #, c-format
 msgid "%s audio"
-msgstr ""
+msgstr "%s 오디오"
 
 #: src/wx/audio_dialog.cc:171 src/wx/audio_dialog.cc:173
 #, c-format
 msgid "%s audio - %s"
-msgstr ""
+msgstr "%s 오디오 - %s"
 
 #: src/wx/email_preferences_page.cc:191
 #, c-format
 msgid "%s test email"
-msgstr ""
+msgstr "%s 테스트 이메일"
 
 #: src/wx/about_dialog.cc:95
 msgid ""
 "(C) 2012-2026 Carl Hetherington, Terrence Meiczinger\n"
 "Aaron Boxer"
 msgstr ""
+"(C) 2012-2026 Carl Hetherington, Terrence Meiczinger\n"
+"Aaron Boxer"
 
 #: src/wx/full_config_dialog.cc:1210 src/wx/player_config_dialog.cc:131
 #, c-format
 msgid "(restart %s to change display mode)"
-msgstr ""
+msgstr "(디스플레이 모드를 변경하려면 %s을(를) 재시작하세요)"
 
 #: src/wx/general_preferences_page.cc:103
 #, c-format
 msgid "(restart %s to see language changes)"
-msgstr ""
+msgstr "(언어 변경을 적용하려면 %s을(를) 재시작하세요)"
 
 #: src/wx/audio_mapping_view.cc:89
 msgid "+3dB"
-msgstr ""
+msgstr "+3dB"
 
 #: src/wx/audio_mapping_view.cc:87
 msgid "-6dB"
-msgstr ""
+msgstr "-6dB"
 
 #: src/wx/export_video_file_dialog.cc:92
 msgid "0 is best, 51 is worst"
-msgstr ""
+msgstr "0이 최상, 51이 최악"
 
 #: src/wx/audio_mapping_view.cc:88
 msgid "0dB (unchanged)"
-msgstr ""
+msgstr "0dB (변경 없음)"
 
 #. TRANSLATORS: this will be used in the middle of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
 #: src/wx/verify_dcp_result_panel.cc:135
 msgid "1 Bv2.1 error, "
-msgstr ""
+msgstr "1 Bv2.1 오류, "
 
 #. TRANSLATORS: this will be used at the start of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
 #: src/wx/verify_dcp_result_panel.cc:127
 msgid "1 error, "
-msgstr ""
+msgstr "1 오류, "
 
 #: src/wx/ratio_picker.cc:156
 msgid "1.85"
-msgstr ""
+msgstr "1.85"
 
 #: src/wx/wx_util.cc:494
 msgid "12 - 7.1/HI/VI"
-msgstr ""
+msgstr "12 - 7.1/HI/VI"
 
 #: src/wx/wx_util.cc:486
 msgid "2 - stereo"
-msgstr ""
+msgstr "2 - 스테레오"
 
 #: src/wx/rgba_colour_picker.cc:40
 msgid "255"
-msgstr ""
+msgstr "255"
 
 #: src/wx/video_panel.cc:212
 msgid "2D"
-msgstr ""
+msgstr "2D"
 
 #: src/wx/metadata_dialog.cc:316
 msgid "2D version of 3D DCP"
-msgstr ""
+msgstr "3D DCP의 2D 버전"
 
 #: src/wx/dcp_panel.cc:879
 msgid "2K"
-msgstr ""
+msgstr "2K"
 
 #: src/wx/dcp_panel.cc:852 src/wx/video_panel.cc:213
 msgid "3D"
-msgstr ""
+msgstr "3D"
 
 #: src/wx/video_panel.cc:216
+#, fuzzy
 msgid "3D alternate"
-msgstr ""
+msgstr "3D 얼터네이트"
 
 #: src/wx/video_panel.cc:217
 msgid "3D left only"
-msgstr ""
+msgstr "3D 왼쪽만"
 
 #: src/wx/video_panel.cc:214
 msgid "3D left/right"
-msgstr ""
+msgstr "3D 왼쪽/오른쪽"
 
 #: src/wx/video_panel.cc:218
 msgid "3D right only"
-msgstr ""
+msgstr "3D 오른쪽만"
 
 #: src/wx/video_panel.cc:215
 msgid "3D top/bottom"
-msgstr ""
+msgstr "3D 위/아래"
 
 #: src/wx/wx_util.cc:488
 msgid "4 - L/C/R/Lfe"
-msgstr ""
+msgstr "4 - L/C/R/Lfe"
 
 #: src/wx/dcp_panel.cc:991
 msgid "48kHz"
-msgstr ""
+msgstr "48kHz"
 
 #: src/wx/dcp_panel.cc:880
 msgid "4K"
-msgstr ""
+msgstr "4K"
 
 #: src/wx/wx_util.cc:490
 msgid "6 - 5.1"
-msgstr ""
+msgstr "6 - 5.1"
 
 #: src/wx/wx_util.cc:492
 msgid "8 - 5.1/HI/VI"
-msgstr ""
+msgstr "8 - 5.1/HI/VI"
 
 #: src/wx/dcp_panel.cc:992
 msgid "96kHz"
-msgstr ""
+msgstr "96kHz"
 
 #: src/wx/ratio_picker.cc:44
 msgid ":1"
-msgstr ""
+msgstr ":1"
 
 #: src/wx/verify_dcp_result_panel.cc:637
 #, c-format
 msgid "<IssueDate> has an invalid value %n"
-msgstr ""
+msgstr "<IssueDate>에 유효하지 않은 값 %n이(가) 있습니다"
 
 #: src/wx/verify_dcp_result_panel.cc:643
 #, c-format
 msgid "<MainSoundConfiguration> is invalid (%n)"
-msgstr ""
+msgstr "<MainSoundConfiguration>이 유효하지 않습니다 (%n)"
 
 #: src/wx/subtitle_appearance_dialog.cc:118
 msgid "<b>New colour</b>"
-msgstr ""
+msgstr "<b>새 색상</b>"
 
 #: src/wx/subtitle_appearance_dialog.cc:115
 msgid "<b>Original colour</b>"
-msgstr ""
+msgstr "<b>원본 색상</b>"
 
 #: src/wx/report_problem_dialog.cc:85
 msgid ""
 "<i>It is important that you enter a valid email address here, otherwise I "
 "can't ask you for more details on your problem.</i>"
 msgstr ""
+"<i>여기에 유효한 이메일 주소를 입력하는 것이 중요합니다. 그렇지 않으면 문제"
+"에 대한 자세한 내용을 문의할 수 없습니다.</i>"
 
 #: src/wx/colour_conversion_editor.cc:87
 msgid "A"
-msgstr ""
+msgstr "A"
 
 #: src/wx/verify_dcp_result_panel.cc:546
 #, c-format
 msgid "A 2K JPEG2000 frame contains %n tile parts instead of 3."
-msgstr ""
+msgstr "2K JPEG2000 프레임이 3개 대신 %n개의 타일 파트를 포함하고 있습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:560
 #, c-format
 msgid "A 2K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %n"
 msgstr ""
+"2K JPEG2000 프레임에 유효하지 않은 Rsiz(capabilities) 값 %n이(가) 포함되어 있"
+"습니다"
 
 #: src/wx/verify_dcp_result_panel.cc:518
 #, c-format
 msgid "A 2K JPEG2000 frame has %n POC marker(s) instead of 0."
-msgstr ""
+msgstr "2K JPEG2000 프레임에 0개 대신 %n개의 POC 마커가 있습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:483
 #, c-format
 msgid "A 2K JPEG2000 frame has %n guard bits instead of 1."
-msgstr ""
+msgstr "2K JPEG2000 프레임에 1개 대신 %n개의 가드 비트가 있습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:553
 #, c-format
 msgid "A 4K JPEG2000 frame contains %n tile parts instead of 6."
-msgstr ""
+msgstr "4K JPEG2000 프레임이 6개 대신 %n개의 타일 파트를 포함하고 있습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:567
 #, c-format
 msgid "A 4K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %n"
 msgstr ""
+"4K JPEG2000 프레임에 유효하지 않은 Rsiz(capabilities) 값 %n이(가) 포함되어 있"
+"습니다"
 
 #: src/wx/verify_dcp_result_panel.cc:525
 #, c-format
 msgid "A 4K JPEG2000 frame has %n POC marker(s) instead of 1."
-msgstr ""
+msgstr "4K JPEG2000 프레임에 1개 대신 %n개의 POC 마커가 있습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:490
 #, c-format
 msgid "A 4K JPEG2000 frame has %n guard bits instead of 2."
-msgstr ""
+msgstr "4K JPEG2000 프레임에 2개 대신 %n개의 가드 비트가 있습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:539
 msgid "A JPEG2000 frame contains a POC marker in an invalid location."
-msgstr ""
+msgstr "JPEG2000 프레임의 유효하지 않은 위치에 POC 마커가 포함되어 있습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:532
 #, c-format
 msgid "A JPEG2000 frame contains an invalid POC marker (%n)."
-msgstr ""
+msgstr "JPEG2000 프레임에 유효하지 않은 POC 마커(%n)가 포함되어 있습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:511
 #, c-format
 msgid "A JPEG2000 frame has a code-block height of %n instead of 32."
-msgstr ""
+msgstr "JPEG2000 프레임의 코드 블록 높이가 32 대신 %n입니다."
 
 #: src/wx/verify_dcp_result_panel.cc:504
 #, c-format
 msgid "A JPEG2000 frame has a code-block width of %n instead of 32."
-msgstr ""
+msgstr "JPEG2000 프레임의 코드 블록 너비가 32 대신 %n입니다."
 
 #: src/wx/verify_dcp_result_panel.cc:574
 msgid "A JPEG2000 frame has no TLM marker."
-msgstr ""
+msgstr "JPEG2000 프레임에 TLM 마커가 없습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:497
 msgid "A JPEG2000 tile size does not match the image size."
-msgstr ""
+msgstr "JPEG2000 타일 크기가 이미지 크기와 일치하지 않습니다."
 
 #: src/wx/update_dialog.cc:45
 #, c-format
 msgid "A new version of %s is available."
-msgstr ""
+msgstr "%s의 새 버전이 있습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:476
 #, c-format
 msgid "A picture frame has an invalid JPEG2000 codestream (%n)."
-msgstr ""
+msgstr "영상 프레임에 유효하지 않은 JPEG2000 코드스트림(%n)이 있습니다."
 
 #: src/wx/hints_dialog.cc:183
 #, c-format
 msgid "A problem occurred when looking for hints (%s)"
-msgstr ""
+msgstr "힌트를 찾는 중 문제가 발생했습니다 (%s)"
 
 #: src/wx/verify_dcp_result_panel.cc:579
 msgid "A subtitle lasts longer than the reel it is in."
-msgstr ""
+msgstr "자막이 해당 릴보다 더 오래 지속됩니다."
 
 #: src/wx/verify_dcp_result_panel.cc:659
 #, c-format
@@ -352,940 +362,968 @@ msgid ""
 "A subtitle or closed caption refers to a font with ID %id that does not have "
 "a corresponding <LoadFont> node."
 msgstr ""
+"자막 또는 캡션이 해당 <LoadFont> 노드가 없는 ID %id인 폰트를 참조하고 있습니"
+"다."
 
 #: src/wx/sound_preferences_page.cc:199
 msgid "ALSA"
-msgstr ""
+msgstr "ALSA"
 
 #: src/wx/sound_preferences_page.cc:195
 msgid "ASIO"
-msgstr ""
+msgstr "ASIO"
 
 #: src/wx/about_dialog.cc:42
 #, c-format
 msgid "About %s"
-msgstr ""
+msgstr "%s 정보"
 
 #: src/wx/screens_panel.cc:268
 msgid "Add Cinema"
-msgstr ""
+msgstr "영화관 추가"
 
 #: src/wx/screens_panel.cc:84
 msgid "Add Cinema..."
-msgstr ""
+msgstr "영화관 추가…"
 
 #: src/wx/content_panel.cc:280
 msgid "Add DCP..."
-msgstr ""
+msgstr "DCP 추가…"
 
 #: src/wx/new_dkdm_folder_dialog.cc:26
 msgid "Add DKDM folder"
-msgstr ""
+msgstr "DKDM 폴더 추가"
 
 #: src/wx/content_menu.cc:110
 msgid "Add KDM..."
-msgstr ""
+msgstr "KDM 추가…"
 
 #: src/wx/content_menu.cc:111
 msgid "Add OV..."
-msgstr ""
+msgstr "OV 추가…"
 
 #: src/wx/screens_panel.cc:389
 msgid "Add Screen"
-msgstr ""
+msgstr "스크린 추가"
 
 #: src/wx/screens_panel.cc:90
 msgid "Add Screen..."
-msgstr ""
+msgstr "스크린 추가…"
 
 #: src/wx/content_panel.cc:281
+#, fuzzy
 msgid "Add a DCP."
-msgstr ""
+msgstr "DCP를 추가합니다."
 
 #: src/wx/content_panel.cc:277
 msgid ""
 "Add a folder of image files (which will be used as a moving image sequence) "
 "or a folder of sound files."
 msgstr ""
+"이미지 파일 폴더(동영상 시퀀스로 사용됨) 또는 사운드 파일 폴더를 추가합니다."
 
 #: src/wx/full_language_tag_dialog.cc:69
+#, fuzzy
 msgid "Add extended"
-msgstr ""
+msgstr "확장 추가"
 
 #: src/wx/content_panel.cc:272
 msgid "Add file(s)..."
-msgstr ""
+msgstr "파일 추가…"
 
 #: src/wx/content_panel.cc:276
 msgid "Add folder..."
-msgstr ""
+msgstr "폴더 추가…"
 
 #: src/wx/image_sequence_dialog.cc:31
 msgid "Add image sequence"
-msgstr ""
+msgstr "이미지 시퀀스 추가"
 
 #: src/wx/language_tag_dialog.cc:43
 msgid "Add language..."
-msgstr ""
+msgstr "언어 추가…"
 
 #: src/wx/text_panel.cc:346
+#, fuzzy
 msgid "Add new..."
-msgstr ""
+msgstr "새로 추가…"
 
 #: src/wx/markers_panel.cc:286
 msgid "Add or move marker to current position"
-msgstr ""
+msgstr "현재 위치에 마커를 추가하거나 이동"
 
 #: src/wx/recipients_panel.cc:123
 msgid "Add recipient"
-msgstr ""
+msgstr "수신자 추가"
 
 #: src/wx/dcp_timeline.cc:173
+#, fuzzy
 msgid "Add reel boundary"
-msgstr ""
+msgstr "릴 경계 추가"
 
 #: src/wx/full_language_tag_dialog.cc:65
 msgid "Add region"
-msgstr ""
+msgstr "지역 추가"
 
 #: src/wx/full_language_tag_dialog.cc:63
 msgid "Add script"
-msgstr ""
+msgstr "스크립트 추가"
 
 #: src/wx/full_language_tag_dialog.cc:67
+#, fuzzy
 msgid "Add variant"
-msgstr ""
+msgstr "변형 추가"
 
 #: src/wx/content_panel.cc:273
 msgid "Add video, image, sound or subtitle files to the film (Ctrl+A)."
-msgstr ""
+msgstr "영화에 비디오, 이미지, 사운드 또는 자막 파일을 추가합니다 (Ctrl+A)."
 
 #: src/wx/certificate_chain_editor.cc:89 src/wx/recipients_panel.cc:69
 #: src/wx/editable_list.h:145
 msgid "Add..."
-msgstr ""
+msgstr "추가…"
 
 #: src/wx/certificate_chain_editor.cc:186
+#, fuzzy
 msgid ""
 "Adding this certificate would make the chain inconsistent, so it will not be "
 "added. Add certificates in order from root to intermediate to leaf."
 msgstr ""
+"이 인증서를 추가하면 체인이 일관되지 않으므로 추가되지 않습니다. 루트, 중간, "
+"리프 순서대로 인증서를 추가하십시오."
 
 #: src/wx/text_panel.cc:171
+#, fuzzy
 msgid "Additional"
-msgstr ""
+msgstr "추가사항"
 
 #: src/wx/cinema_dialog.cc:70 src/wx/extra_kdm_email_dialog.cc:47
 #: src/wx/full_config_dialog.cc:696 src/wx/kdm_email_preferences_page.cc:80
 #: src/wx/recipient_dialog.cc:84
 msgid "Address"
-msgstr ""
+msgstr "주소"
 
 #: src/wx/colour_conversion_editor.cc:187
 msgid "Adjust white point to"
-msgstr ""
+msgstr "화이트 포인트를 다음으로 조정:"
 
 #: src/wx/full_config_dialog.cc:1178 src/wx/kdm_config_dialog.cc:105
 #: src/wx/metadata_dialog.cc:79 src/wx/player_config_dialog.cc:277
 msgid "Advanced"
-msgstr ""
+msgstr "고급"
 
 #: src/wx/kdm_advanced_dialog.cc:35
 msgid "Advanced KDM options"
-msgstr ""
+msgstr "고급 KDM 옵션"
 
 #: src/wx/content_advanced_dialog.cc:59
 msgid "Advanced content settings"
-msgstr ""
+msgstr "고급 콘텐츠 설정"
 
 #: src/wx/content_menu.cc:108
 msgid "Advanced settings..."
-msgstr ""
+msgstr "고급 설정…"
 
 #: src/wx/kdm_output_panel.cc:128 src/wx/keys_preferences_page.cc:90
 #: src/wx/keys_preferences_page.cc:108
+#, fuzzy
 msgid "Advanced..."
-msgstr ""
+msgstr "고급…"
 
 #: src/wx/metadata_dialog.cc:217 src/wx/rating_dialog.cc:136
 #: src/wx/rating_dialog.cc:292
 msgid "Agency"
-msgstr ""
+msgstr "에이전시"
 
 #: src/wx/audio_mapping_view.cc:92
 msgid "All off"
-msgstr ""
+msgstr "모두 끄기"
 
 #: src/wx/full_config_dialog.cc:1069
 msgid "Allow any DCP frame rate"
-msgstr ""
+msgstr "모든 DCP 프레임 레이트 허용"
 
 #: src/wx/full_config_dialog.cc:1075
 msgid "Allow creation of DCPs with 96kHz audio"
-msgstr ""
+msgstr "96kHz 오디오를 포함한 DCP 생성 허용"
 
 #: src/wx/full_config_dialog.cc:1071
 msgid "Allow full-frame and non-standard container ratios"
-msgstr ""
+msgstr "풀프레임 및 비표준 컨테이너 비율 허용"
 
 #: src/wx/full_config_dialog.cc:1076
 msgid "Allow mapping to all audio channels"
-msgstr ""
+msgstr "모든 오디오 채널을 매핑 허용"
 
 #: src/wx/full_config_dialog.cc:1077
 msgid "Allow use of SMPTE Bv2.0"
-msgstr ""
+msgstr "MPTE Bv2.0 사용 허용"
 
 #: src/wx/rgba_colour_picker.cc:37
 msgid "Alpha   0"
-msgstr ""
+msgstr "알파   0"
 
 #: src/wx/about_dialog.cc:182
 msgid "Also supported by"
-msgstr ""
+msgstr "도움 주신 분들"
 
 #: src/wx/verify_dcp_result_panel.cc:283
 msgid "An asset has an empty path in the ASSETMAP."
-msgstr ""
+msgstr "ASSETMAP에 경로가 비어 있는 에셋이 있습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:622
 #, c-format
 msgid "An invalid <ContentKind> %n has been used."
-msgstr ""
+msgstr "유효하지 않은 <ContentKind> %n이(가) 사용되었습니다."
 
 #: src/wx/dkdm_output_panel.cc:204 src/wx/kdm_output_panel.cc:321
 msgid "An unknown exception occurred."
-msgstr ""
+msgstr "알 수 없는 예외가 발생했습니다."
 
 #: src/wx/short_kdm_output_panel.cc:100 src/wx/tall_kdm_output_panel.cc:81
 msgid "Annotation text"
-msgstr ""
+msgstr "주석 텍스트"
 
 #: src/wx/text_panel.cc:113
+#, fuzzy
 msgid "Appearance..."
-msgstr ""
+msgstr "모양새…"
 
 #: src/wx/job_view.cc:192
 msgid "Are you sure you want to cancel this job?"
-msgstr ""
+msgstr "이 작업을 취소하시겠습니까?"
 
 #: src/wx/screens_panel.cc:359
 #, c-format
 msgid "Are you sure you want to remove %d cinemas?"
-msgstr ""
+msgstr "%d개의 영화관을 삭제하시겠습니까?"
 
 #: src/wx/screens_panel.cc:482
 #, c-format
 msgid "Are you sure you want to remove %d screens?"
-msgstr ""
+msgstr "%d개의 스크린을 삭제하시겠습니까?"
 
 #: src/wx/screens_panel.cc:355
 #, c-format
 msgid "Are you sure you want to remove the cinema '%s'?"
-msgstr ""
+msgstr "영화관 '%s'을(를) 삭제하시겠습니까?"
 
 #: src/wx/screens_panel.cc:478
 #, c-format
 msgid "Are you sure you want to remove the screen '%s'?"
-msgstr ""
+msgstr "스크린 '%s'을(를) 삭제하시겠습니까?"
 
 #: src/wx/confirm_kdm_email_dialog.cc:36
 msgid ""
 "Are you sure you want to send emails to the following addresses?\n"
 "\n"
 msgstr ""
+"다음 주소로 이메일을 보내시겠습니까?\n"
+"\n"
 
 #: src/wx/verify_dcp_result_panel.cc:607
 msgid "At least one <Text> node in a subtitle or closed caption is empty."
-msgstr ""
+msgstr "자막 또는 캡션에 하나 이상의 <Text> 노드가 비어 있습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:408
 msgid ""
 "At least one asset in a reel does not have the same duration as the others."
-msgstr ""
+msgstr "릴의 하나 이상의 에셋이 다른 에셋과 재생 시간이 다릅니다."
 
 #: src/wx/verify_dcp_result_panel.cc:378
+#, fuzzy
 msgid "At least one pair of subtitles is separated by less than 2 frames."
-msgstr ""
+msgstr "하나 이상의 자막간 간격이 2프레임 미만입니다."
 
 #: src/wx/verify_dcp_result_panel.cc:372
 msgid "At least one subtitle has zero or negative duration."
-msgstr ""
+msgstr "하나 이상의 자막 재생 시간이 0이거나 음수입니다."
 
 #: src/wx/verify_dcp_result_panel.cc:375
 msgid "At least one subtitle lasts less than 15 frames."
-msgstr ""
+msgstr "하나 이상의 자막이 15프레임 미만으로 지속됩니다."
 
 #: src/wx/timeline_labels_view.cc:44 src/wx/timeline_labels_view.cc:86
 msgid "Atmos"
-msgstr ""
+msgstr "Atmos"
 
 #: src/wx/audio_dialog.cc:65 src/wx/audio_panel.cc:66
 #: src/wx/content_properties_dialog.cc:82 src/wx/dcp_panel.cc:124
 #: src/wx/timeline_labels_view.cc:42 src/wx/timeline_labels_view.cc:92
 msgid "Audio"
-msgstr ""
+msgstr "오디오"
 
 #: src/wx/player_information.cc:168
 #, c-format
 msgid "Audio channels: %d"
-msgstr ""
+msgstr "오디오 채널: %d"
 
 #: src/wx/audio_mapping_view.cc:547
 #, c-format
 msgid "Audio will be passed from %s channel %s to %s channel %s unaltered."
-msgstr ""
+msgstr "오디오가 %s 채널 %s에서 %s 채널 %s(으)로 변경 없이 전달됩니다."
 
 #: src/wx/audio_mapping_view.cc:556
 #, c-format
 msgid ""
 "Audio will be passed from %s channel %s to %s channel %s with gain %.1fdB."
 msgstr ""
+"오디오가 %s 채널 %s에서 %s 채널 %s(으)로 %.1fdB 게인과 함께 전달됩니다."
 
 #: src/wx/email_preferences_page.cc:78
 msgid "Auto"
-msgstr ""
+msgstr "자동"
 
 #: src/wx/auto_crop_dialog.cc:29
 msgid "Auto crop"
-msgstr ""
+msgstr "자동 크롭"
 
 #: src/wx/content_menu.cc:105
 msgid "Auto-crop..."
-msgstr ""
+msgstr "자동 크롭…"
 
 #: src/wx/full_config_dialog.cc:142
 msgid "Automatically analyse content audio"
-msgstr ""
+msgstr "콘텐츠 오디오 자동 분석"
 
 #: src/wx/colour_conversion_editor.cc:90
 msgid "B"
-msgstr ""
+msgstr "B"
 
 #: src/wx/full_config_dialog.cc:713 src/wx/kdm_email_preferences_page.cc:97
 msgid "BCC address"
-msgstr ""
+msgstr "BCC 주소"
 
 #: src/wx/barco_alchemy_certificate_panel.cc:86
 msgid "Barco Alchemy"
-msgstr ""
+msgstr "Barco Alchemy"
 
 #: src/wx/colour_conversion_editor.cc:154
 msgid "Blue chromaticity"
-msgstr ""
+msgstr "청색 색도"
 
 #: src/wx/auto_crop_dialog.cc:37 src/wx/video_panel.cc:156
 msgid "Bottom"
-msgstr ""
+msgstr "아래"
 
 #: src/wx/dir_picker_ctrl.cc:49 src/wx/file_picker_ctrl.cc:64
 #: src/wx/file_picker_ctrl.cc:80 src/wx/kdm_cpl_panel.cc:48
 msgid "Browse..."
-msgstr ""
+msgstr "찾아보기…"
 
 #: src/wx/text_panel.cc:86
 msgid "Burn subtitles into image"
-msgstr ""
+msgstr "이미지에 자막 번 인"
 
 #: src/wx/gain_calculator_dialog.cc:39
+#, fuzzy
 msgid "But it only sounds correct at fader"
-msgstr ""
+msgstr "하지만 페이더가 다음일 때만 정상적으로 들립니다:"
 
 #: src/wx/full_config_dialog.cc:697 src/wx/kdm_email_preferences_page.cc:81
 msgid "CC addresses"
-msgstr ""
+msgstr "CC 주소"
 
 #: src/wx/dkdm_dialog.cc:93 src/wx/kdm_cpl_panel.cc:45 src/wx/kdm_dialog.cc:98
 #: src/wx/self_dkdm_dialog.cc:69 src/wx/spl_entry_dialog.cc:47
 msgid "CPL"
-msgstr ""
+msgstr "CPL"
 
 #: src/wx/dkdm_output_panel.cc:69 src/wx/kdm_cpl_panel.cc:57
 msgid "CPL ID"
-msgstr ""
+msgstr "CPL ID"
 
 #: src/wx/kdm_cpl_panel.cc:60
 msgid "CPL annotation text"
-msgstr ""
+msgstr "CPL 주석 텍스트"
 
 #: src/wx/dkdm_output_panel.cc:200 src/wx/kdm_output_panel.cc:317
 msgid "CPL's content is not encrypted."
-msgstr ""
+msgstr "CPL의 콘텐츠가 암호화되어 있지 않습니다."
 
 #: src/wx/audio_panel.cc:89
 msgid "Calculate..."
-msgstr ""
+msgstr "계산…"
 
 #: src/wx/invalid_certificate_period_dialog.cc:99 src/wx/job_view.cc:76
 #: src/wx/verify_dcp_dialog.cc:70
 msgid "Cancel"
-msgstr ""
+msgstr "취소"
 
 #: src/wx/dcp_referencing_dialog.cc:175
 msgid "Cannot reference this DCP"
-msgstr ""
+msgstr "이 DCP를 참조할 수 없습니다"
 
 #: src/wx/dcp_referencing_dialog.cc:187
 msgid "Cannot reference this DCP's audio"
-msgstr ""
+msgstr "이 DCP의 오디오를 참조할 수 없습니다"
 
 #: src/wx/dcp_referencing_dialog.cc:201
 msgid "Cannot reference this DCP's closed captions"
-msgstr ""
+msgstr "이 DCP의 캡션(CC)을 참조할 수 없습니다"
 
 #: src/wx/dcp_referencing_dialog.cc:194
 msgid "Cannot reference this DCP's subtitles"
-msgstr ""
+msgstr "이 DCP의 자막을 참조할 수 없습니다"
 
 #: src/wx/dcp_referencing_dialog.cc:180
 msgid "Cannot reference this DCP's video"
-msgstr ""
+msgstr "이 DCP의 비디오를 참조할 수 없습니다"
 
 #: src/wx/text_view.cc:76
 msgid "Caption"
-msgstr ""
+msgstr "캡션"
 
 #: src/wx/text_view.cc:51
 msgid "Captions"
-msgstr ""
+msgstr "캡션들"
 
 #: src/wx/recreate_chain_dialog.cc:35
 msgid "Certificate chain"
-msgstr ""
+msgstr "인증서 체인"
 
 #: src/wx/barco_alchemy_certificate_panel.cc:78
 #: src/wx/christie_certificate_panel.cc:80
 #: src/wx/dolby_doremi_certificate_panel.cc:223
 #: src/wx/gdc_certificate_panel.cc:72 src/wx/qube_certificate_panel.cc:82
 msgid "Certificate downloaded"
-msgstr ""
+msgstr "인증서 다운로드됨"
 
 #: src/wx/invalid_certificate_period_dialog.cc:63
 msgid "Certificate end"
-msgstr ""
+msgstr "인증서 만료"
 
 #: src/wx/invalid_certificate_period_dialog.cc:55
 msgid "Certificate start"
-msgstr ""
+msgstr "인증서 시작"
 
 #: src/wx/metadata_dialog.cc:299
 msgid "Chain"
-msgstr ""
+msgstr "체인"
 
 #: src/wx/audio_gain_dialog.cc:33
 msgid "Channel gain"
-msgstr ""
+msgstr "채널 게인"
 
 #: src/wx/audio_dialog.cc:110 src/wx/dcp_panel.cc:960
+#, fuzzy
 msgid "Channels"
-msgstr ""
+msgstr "채널"
 
 #: src/wx/screens_panel.cc:101
 msgid "Check all"
-msgstr ""
+msgstr "모두 선택"
 
 #: src/wx/general_preferences_page.cc:201
 msgid "Check for testing updates on startup"
-msgstr ""
+msgstr "시작 시 테스트 버전 업데이트 확인"
 
 #: src/wx/general_preferences_page.cc:197
 msgid "Check for updates on startup"
-msgstr ""
+msgstr "시작 시 업데이트 확인"
 
 #: src/wx/content_menu.cc:113
 msgid "Choose CPL..."
-msgstr ""
+msgstr "CPL 선택…"
 
 #: src/wx/content_panel.cc:677
 msgid "Choose a DCP folder"
-msgstr ""
+msgstr "DCP폴더 선택"
 
 #: src/wx/content_menu.cc:377
 msgid "Choose a file"
-msgstr ""
+msgstr "파일 선택"
 
 #: src/wx/content_panel.cc:617
+#, fuzzy
 msgid "Choose a file or files"
-msgstr ""
+msgstr "하나 이상의 파일 선택"
 
 #: src/wx/content_menu.cc:373 src/wx/content_panel.cc:634
 msgid "Choose a folder"
-msgstr ""
+msgstr "폴더 선택"
 
 #: src/wx/system_font_dialog.cc:37
 msgid "Choose a font"
-msgstr ""
+msgstr "폰트 선택"
 
 #: src/wx/fonts_dialog.cc:187
 msgid "Choose a font file"
-msgstr ""
+msgstr "폰트 파일 선택"
 
 #: src/wx/christie_certificate_panel.cc:91
 msgid "Christie"
-msgstr ""
+msgstr "Christie"
 
 #: src/wx/invalid_certificate_period_dialog.cc:39
 msgid "Cinema"
-msgstr ""
+msgstr "영화관"
 
 #: src/wx/general_preferences_page.cc:124
 msgid "Cinema and screen database file"
-msgstr ""
+msgstr "영화관 및 스크린 데이터베이스 파일"
 
 #: src/wx/content_widget.h:88
 msgid "Click the button to set all selected content to the same value."
-msgstr ""
+msgstr "선택한 모든 콘텐츠를 동일한 값으로 설정하려면 버튼을 클릭하세요."
 
 #: src/wx/verify_dcp_result_panel.cc:426
 #, c-format
 msgid "Closed caption asset %n has a non-zero <EntryPoint>."
-msgstr ""
+msgstr "캡션 에셋 %n에 0이 아닌 <EntryPoint>가 있습니다."
 
 #: src/wx/closed_captions_dialog.cc:49 src/wx/dcp_referencing_dialog.cc:115
 msgid "Closed captions"
-msgstr ""
+msgstr "캡션(CC)"
 
 #: src/wx/short_kdm_output_panel.cc:75 src/wx/tall_kdm_output_panel.cc:100
 msgid "Collection"
-msgstr ""
+msgstr "컬렉션"
 
 #: src/wx/subtitle_appearance_dialog.cc:85
 msgid "Colour"
-msgstr ""
+msgstr "색상"
 
 #: src/wx/content_colour_conversion_dialog.cc:41
 msgid "Colour conversion"
-msgstr ""
+msgstr "샌 변환"
 
 #. TRANSLATORS: translate the word "Custom" here; do not include the "Colour|" prefix
 #: src/wx/video_panel.cc:193
 msgid "Colour|Custom"
-msgstr ""
+msgstr "사용자 정의"
 
 #: src/wx/full_config_dialog.cc:927
 msgid "Company name"
-msgstr ""
+msgstr "회사명"
 
 #: src/wx/video_waveform_dialog.cc:64
+#, fuzzy
 msgid "Component"
-msgstr ""
+msgstr "컴포넌트"
 
 #: src/wx/general_preferences_page.cc:119
 msgid "Configuration file"
-msgstr ""
+msgstr "설정 파일"
 
 #. TRANSLATORS: translate the word "Timing" here; do not include the "Config|" prefix
 #: src/wx/full_config_dialog.cc:1291 src/wx/player_config_dialog.cc:319
 msgid "Config|Timing"
-msgstr ""
+msgstr "타이밍"
 
 #: src/wx/confirm_kdm_email_dialog.cc:34
 msgid "Confirm KDM email"
-msgstr ""
+msgstr "KDM 이메일 확인"
 
 #: src/wx/dcp_panel.cc:840
 msgid "Container"
-msgstr ""
+msgstr "컨테이너"
 
 #: src/wx/audio_panel.cc:112 src/wx/film_editor.cc:61
 #: src/wx/playlist_controls.cc:95
 msgid "Content"
-msgstr ""
+msgstr "콘텐츠"
 
 #: src/wx/content_properties_dialog.cc:42
 msgid "Content Properties"
-msgstr ""
+msgstr "콘텐츠 속성"
 
 #: src/wx/dcp_panel.cc:103
 msgid "Content Type"
-msgstr ""
+msgstr "콘텐츠 유형"
 
 #: src/wx/locations_preferences_page.cc:66
 msgid "Content directory"
-msgstr ""
+msgstr "콘텐츠 디렉터리"
 
 #: src/wx/content_version_dialog.cc:32 src/wx/content_version_dialog.cc:34
 #: src/wx/interop_metadata_dialog.cc:64
 msgid "Content version"
-msgstr ""
+msgstr "콘텐츠 버전"
 
 #: src/wx/smpte_metadata_dialog.cc:104
+#, fuzzy
 msgid "Content versions"
-msgstr ""
+msgstr "콘텐츠 버전들"
 
 #: src/wx/video_waveform_dialog.cc:67
 msgid "Contrast"
-msgstr ""
+msgstr "콘트라스트"
 
 #: src/wx/text_panel.cc:100
 msgid "Coord|Y"
-msgstr ""
+msgstr "Coord|Y"
 
 #: src/wx/dcp_panel.cc:93
 msgid "Copy as name"
-msgstr ""
+msgstr "이름으로 복사"
 
 #: src/wx/content_menu.cc:106
 msgid "Copy settings from another project..."
-msgstr ""
+msgstr "다른 프로젝트에 설정 복사…"
 
 #: src/wx/load_config_from_zip_dialog.cc:31
 msgid "Copy the cinemas in the ZIP file over the current list at"
-msgstr ""
+msgstr "ZIP 파일에 있는 영화관 정보를 다음 위치의 현재 목록에 덮어쓰기:"
 
 #: src/wx/load_config_from_zip_dialog.cc:37
 msgid "Copy the cinemas in the ZIP file to the original location at"
-msgstr ""
+msgstr "ZIP 파일에 있는 영화관 정보를 다음의 원래 위치로 복사:"
 
 #: src/wx/sound_preferences_page.cc:194
 msgid "CoreAudio"
-msgstr ""
+msgstr "CoreAudio"
 
 #: src/wx/audio_dialog.cc:307
 msgid "Could not analyse audio."
-msgstr ""
+msgstr "오디오를 분석할 수 없습니다."
 
 #: src/wx/text_panel.cc:844
 msgid "Could not analyse subtitles."
-msgstr ""
+msgstr "자막을 분석할 수 없습니다."
 
 #: src/wx/qube_certificate_panel.cc:72
 #, c-format
 msgid "Could not find serial number %s"
-msgstr ""
+msgstr "시리얼 넘버 %s을(를) 찾을 수 없습니다"
 
 #: src/wx/content_menu.cc:640
 #, c-format
 msgid "Could not find this content in the project \"%s\"."
-msgstr ""
+msgstr "\"%s\" 프로젝트에서 이 콘텐츠를 찾을 수 없습니다."
 
 #: src/wx/certificate_chain_editor.cc:170
 #, c-format
 msgid "Could not import certificate (%s)"
-msgstr ""
+msgstr "인증서를 가져올 수 없습니다 (%s)"
 
 #: src/wx/content_menu.cc:420
 msgid "Could not load KDM"
-msgstr ""
+msgstr "KDM을 불러올 수 없습니다"
 
 #: src/wx/playlist_controls.cc:361
 msgid "Could not load KDM."
-msgstr ""
+msgstr "KDM을 불러올 수 없습니다."
 
 #: src/wx/screen_dialog.cc:77
 #, c-format
 msgid "Could not load certificate (%s)"
-msgstr ""
+msgstr "인증서를 불러올 수 없습니다 (%s)"
 
 #: src/wx/simple_video_view.cc:176
 msgid "Could not play content"
-msgstr ""
+msgstr "콘텐츠를 재생할 수 없습니다"
 
 #: src/wx/verify_dcp_result_panel.cc:262
 #, c-format
 msgid "Could not read DCP (%n)"
-msgstr ""
+msgstr "DCP를 읽을 수 없습니다 (%n)"
 
 #: src/wx/gl_video_view.cc:131
 #, c-format
 msgid "Could not read DCP: %s"
-msgstr ""
+msgstr "DCP를 읽을 수 없습니다: %s"
 
 #: src/wx/download_certificate_panel.cc:66
 #: src/wx/download_certificate_panel.cc:79
 msgid "Could not read certificate file ({})"
-msgstr ""
+msgstr "인증서 파일을 읽을 수 없습니다 ({})"
 
 #: src/wx/certificate_chain_editor.cc:382 src/wx/recipient_dialog.cc:163
 #: src/wx/recipient_dialog.cc:168 src/wx/screen_dialog.cc:285
 #: src/wx/screen_dialog.cc:291
 msgid "Could not read certificate file."
-msgstr ""
+msgstr "인증서 파일을 읽을 수 없습니다."
 
 #: src/wx/certificate_chain_editor.cc:195
 msgid "Could not read certificate file.  Make sure it is in PEM format."
-msgstr ""
+msgstr "인증서 파일을 읽을 수 없습니다. PEM 형식인지 확인하십시오."
 
 #: src/wx/qube_certificate_panel.cc:55
 msgid "Could not read certificates from Qube server."
-msgstr ""
+msgstr "Qube 서버에서 인증서를 읽을 수 없습니다."
 
 #: src/wx/certificate_chain_editor.cc:372
 #, c-format
 msgid "Could not read key file; file is too long (%s)"
-msgstr ""
+msgstr "키 파일을 읽을 수 없습니다. 파일이 너무 깁니다 (%s)"
 
 #: src/wx/film_viewer.cc:638 src/wx/film_viewer.cc:680
 msgid ""
 "Could not set up audio output.  There will be no audio during the preview."
 msgstr ""
+"오디오 출력을 설정할 수 없습니다.  프리뷰 동안 오디오가 재생되지 않습니다."
 
 #: src/wx/full_config_dialog.cc:836
 msgid "Cover Sheet"
-msgstr ""
+msgstr "커버 시트"
 
 #: src/wx/invalid_certificate_period_dialog.cc:98
 msgid "Create KDMs anyway"
-msgstr ""
+msgstr "그래도 KDM 생성"
 
 #: src/wx/film_name_location_dialog.cc:51
 msgid "Create in folder"
-msgstr ""
+msgstr "폴더에 생성"
 
 #: src/wx/full_config_dialog.cc:919
 msgid "Creator"
-msgstr ""
+msgstr "제작자"
 
 #: src/wx/video_panel.cc:91
 msgid "Crop"
-msgstr ""
+msgstr "크롭"
 
 #: src/wx/ratio_picker.cc:37
+#, fuzzy
 msgid "Crop output to"
-msgstr ""
+msgstr "출력 크롭 :"
 
 #: src/wx/update_dialog.cc:68
 msgid "Current version"
-msgstr ""
+msgstr "현재 버전"
 
 #: src/wx/audio_dialog.cc:479
-#, c-format
+#, fuzzy, c-format
 msgid "Cursor: %.1fdB at %s"
-msgstr ""
+msgstr "커서: %s에서 %.1fdB"
 
 #: src/wx/audio_dialog.cc:473
 msgid "Cursor: none"
-msgstr ""
+msgstr "커서: 없음"
 
 #: src/wx/dcp_timeline.cc:271 src/wx/rating_dialog.cc:51
 #: src/wx/ratio_picker.cc:49
 msgid "Custom"
-msgstr ""
+msgstr "사용자 정의"
 
 #: src/wx/custom_scale_dialog.cc:39
+#, fuzzy
 msgid "Custom scale"
-msgstr ""
+msgstr "사용자 정의 스케일"
 
 #: src/wx/video_panel.cc:187
 msgid "DCI X'Y'Z'"
-msgstr ""
+msgstr "DCI X'Y'Z'"
 
 #: src/wx/audio_panel.cc:112 src/wx/film_editor.cc:63
 #: src/wx/player_information.cc:58 src/wx/sound_preferences_page.cc:97
 msgid "DCP"
-msgstr ""
+msgstr "DCP"
 
 #: src/wx/dcp_text_track_dialog.cc:31
 msgid "DCP Text Track"
-msgstr ""
+msgstr "DCP 텍스트 트랙"
 
 #: src/wx/full_config_dialog.cc:1257
 msgid "DCP asset filename format"
-msgstr ""
+msgstr "DCP 에셋 파일명 형식"
 
 #: src/wx/kdm_cpl_panel.cc:54
 msgid "DCP directory"
-msgstr ""
+msgstr "DCP 디렉터리"
 
 #: src/wx/full_config_dialog.cc:1238
 msgid "DCP metadata filename format"
-msgstr ""
+msgstr "DCP 메타데이터 파일명 형식"
 
 #: src/wx/kdm_config_dialog.cc:63 src/wx/player_config_dialog.cc:142
 msgid "Debug log file"
-msgstr ""
+msgstr "디버그 로그 파일"
 
 #: src/wx/full_config_dialog.cc:1293
 msgid "Debug: 3D"
-msgstr ""
+msgstr "디버그: 3D"
 
 #: src/wx/full_config_dialog.cc:1303
 msgid "Debug: audio analysis"
-msgstr ""
+msgstr "디버그: 오디오 분석"
 
 #: src/wx/full_config_dialog.cc:1305
 msgid "Debug: butler"
-msgstr ""
+msgstr "디버그: 버틀러"
 
 #: src/wx/full_config_dialog.cc:1297 src/wx/kdm_config_dialog.cc:142
 msgid "Debug: email sending"
-msgstr ""
+msgstr "디버그: 이메일 전송"
 
 #: src/wx/full_config_dialog.cc:1295
 msgid "Debug: encode"
-msgstr ""
+msgstr "디버그: 인코딩"
 
 #: src/wx/full_config_dialog.cc:1301 src/wx/player_config_dialog.cc:323
 msgid "Debug: player"
-msgstr ""
+msgstr "디버그: 플레이어"
 
 #: src/wx/full_config_dialog.cc:1299 src/wx/player_config_dialog.cc:321
 msgid "Debug: video view"
-msgstr ""
+msgstr "디버그: 비디오 뷰"
 
 #: src/wx/player_information.cc:196
 #, c-format
 msgid "Decode resolution: %dx%d"
-msgstr ""
+msgstr "디코딩 해상도: %dx%d"
 
 #: src/wx/player_information.cc:198
 msgid "Decode resolution: unknown"
-msgstr ""
+msgstr "디코딩 해상도: 알 수 없음"
 
 #: src/wx/keys_preferences_page.cc:77 src/wx/keys_preferences_page.cc:135
 msgid "Decrypting KDMs"
-msgstr ""
+msgstr "KDM 복호화"
 
 #: src/wx/full_config_dialog.cc:127
 msgid "Default \"add file\" location"
-msgstr ""
+msgstr "기본 \"파일 추가\" 위치"
 
 #: src/wx/full_config_dialog.cc:282
 msgid "Default KDM directory"
-msgstr ""
+msgstr "기본 KDM 디렉터리"
 
 #: src/wx/full_config_dialog.cc:294
 msgid "Default KDM duration"
-msgstr ""
+msgstr "기본 KDM 유효기간"
 
 #: src/wx/full_config_dialog.cc:290
 msgid "Default KDM type"
-msgstr ""
+msgstr "기본 KDM 유형"
 
 #: src/wx/full_config_dialog.cc:269
 msgid "Default audio delay"
-msgstr ""
+msgstr "기본 오디오 딜레이"
 
 #: src/wx/full_config_dialog.cc:277
 msgid "Default audio language"
-msgstr ""
+msgstr "기본 오디오 언어"
 
 #: src/wx/full_config_dialog.cc:279
 msgid "Default audio language to use for new DCPs"
-msgstr ""
+msgstr "새 DCP용 기본 디렉터리"
 
 #: src/wx/full_config_dialog.cc:260
 msgid "Default directory for new films"
-msgstr ""
+msgstr "새 필름용 기본 디렉터리"
 
 #: src/wx/full_config_dialog.cc:252
 msgid "Default duration of still images"
-msgstr ""
+msgstr "스틸 이미지의 기본 재생 시간"
 
 #: src/wx/full_config_dialog.cc:234
 msgid "Defaults"
-msgstr ""
+msgstr "기본값"
 
 #: src/wx/export_subtitles_dialog.cc:61
 msgid "Define font in output and export font file"
-msgstr ""
+msgstr "출력에 글꼴을 정의하고 글꼴 파일 내보내기"
 
 #: src/wx/audio_panel.cc:91
 msgid "Delay"
-msgstr ""
+msgstr "지연"
 
 #: src/wx/sound_preferences_page.cc:87
 msgid "Delay audio by"
-msgstr ""
+msgstr "오디오 지연 시간:"
 
 #. TRANSLATORS: Destination here refers to where some KDMs will be written or sent
 #. (a place on disk or some email addresses).
 #: src/wx/short_kdm_output_panel.cc:48
 msgid "Destination"
-msgstr ""
+msgstr "전송 대상"
 
 #: src/wx/screen_dialog.cc:136 src/wx/short_kdm_output_panel.cc:53
 msgid "Details"
-msgstr ""
+msgstr "상세 내용"
 
 #: src/wx/job_view.cc:80
 msgid "Details..."
-msgstr ""
+msgstr "상세 내용…"
 
 #: src/wx/sound_preferences_page.cc:196
+#, fuzzy
 msgid "Direct Sound"
-msgstr ""
+msgstr "다이렉트 사운드"
 
 #: src/wx/smpte_metadata_dialog.cc:94
 msgid "Distributor"
-msgstr ""
+msgstr "배급사"
 
 #: src/wx/load_config_from_zip_dialog.cc:43
 msgid "Do not use the cinemas in the ZIP file"
-msgstr ""
+msgstr "ZIP 파일의 영화관 정보를 사용하지 않음"
 
 #: src/wx/dolby_doremi_certificate_panel.cc:241
 msgid "Dolby / Doremi"
-msgstr ""
+msgstr "Dolby / Doremi"
 
 #: src/wx/confirm_kdm_email_dialog.cc:43 src/wx/recreate_chain_dialog.cc:41
 msgid "Don't ask this again"
-msgstr ""
+msgstr "다시 묻지 않음"
 
 #: src/wx/confirm_kdm_email_dialog.cc:34
 msgid "Don't send emails"
-msgstr ""
+msgstr "이메일 보내지 않음"
 
 #: src/wx/hints_dialog.cc:65
 msgid "Don't show hints again"
-msgstr ""
+msgstr "힌트를 다시 표시하지 않음"
 
 #: src/wx/nag_dialog.cc:45
 msgid "Don't show this message again"
-msgstr ""
+msgstr "이 메세지를 다시 표시하지 않음"
 
 #: src/wx/download_certificate_dialog.cc:48
 msgid "Download"
-msgstr ""
+msgstr "다운로드"
 
 #: src/wx/download_certificate_dialog.cc:38
 msgid "Download certificate"
-msgstr ""
+msgstr "인증서 다운로드"
 
 #: src/wx/screen_dialog.cc:157
 msgid "Download..."
-msgstr ""
+msgstr "다운로드…"
 
 #: src/wx/download_certificate_panel.cc:103
+#, fuzzy
 msgid "Downloading certificate"
-msgstr ""
+msgstr "인증서 다운로드 중"
 
 #: src/wx/player_information.cc:109
 #, c-format
 msgid "Dropped frames: %d"
-msgstr ""
+msgstr "손실된 프레임: %d"
 
 #: src/wx/player_config_dialog.cc:117
 msgid "Dual-screen displays"
-msgstr ""
+msgstr "듀얼 스크린 디스플레이"
 
 #: src/wx/sound_preferences_page.cc:202
 msgid "Dummy"
-msgstr ""
+msgstr "더미"
 
 #: src/wx/content_panel.cc:288
 msgid "Earlier"
-msgstr ""
+msgstr "앞으로"
 
 #: src/wx/screens_panel.cc:86
 msgid "Edit Cinema..."
-msgstr ""
+msgstr "영화관 편집…"
 
 #: src/wx/screens_panel.cc:92
 msgid "Edit Screen..."
-msgstr ""
+msgstr "스크린 편집…"
 
 #: src/wx/screens_panel.cc:335
 msgid "Edit cinema"
-msgstr ""
+msgstr "영화관 편집"
 
 #: src/wx/recipients_panel.cc:148
 msgid "Edit recipient"
-msgstr ""
+msgstr "수신자 편집"
 
 #: src/wx/screens_panel.cc:434
 msgid "Edit screen"
-msgstr ""
+msgstr "스크린 편집"
 
 #: src/wx/audio_mapping_view.cc:90 src/wx/content_advanced_dialog.cc:75
 #: src/wx/dcp_panel.cc:975 src/wx/language_tag_widget.cc:51
@@ -1293,239 +1331,248 @@ msgstr ""
 #: src/wx/video_panel.cc:183 src/wx/video_panel.cc:194
 #: src/wx/editable_list.h:149
 msgid "Edit..."
-msgstr ""
+msgstr "편집…"
 
 #: src/wx/subtitle_appearance_dialog.cc:88
 msgid "Effect"
-msgstr ""
+msgstr "효과"
 
 #: src/wx/subtitle_appearance_dialog.cc:91
+#, fuzzy
 msgid "Effect colour"
-msgstr ""
+msgstr "효과 색상"
 
 #: src/wx/email_preferences_page.cc:46 src/wx/full_config_dialog.cc:679
 msgid "Email"
-msgstr ""
+msgstr "이메일"
 
 #: src/wx/email_dialog.cc:32 src/wx/email_dialog.cc:34
 msgid "Email address"
-msgstr ""
+msgstr "이메일 주소"
 
 #: src/wx/cinema_dialog.cc:64 src/wx/recipient_dialog.cc:78
 msgid "Email addresses for KDM delivery"
-msgstr ""
+msgstr "KDM 전송용 이메일 주소"
 
 #: src/wx/player_config_dialog.cc:103
 msgid "Enable HTTP control interface on port"
-msgstr ""
+msgstr "다음 포트에서 HTTP 제어 인터페이스 활성화:"
 
 #: src/wx/servers_list_dialog.cc:35
 msgid "Encoding Servers"
-msgstr ""
+msgstr "인코딩 서버"
 
 #: src/wx/encryption_settings_dialog.cc:33
+#, fuzzy
 msgid "Encrypt picture"
-msgstr ""
+msgstr "영상 암호화"
 
 #: src/wx/encryption_settings_dialog.cc:34
 msgid "Encrypt sound"
-msgstr ""
+msgstr "사운드 암호화"
 
 #: src/wx/encryption_settings_dialog.cc:35
 msgid "Encrypt text"
-msgstr ""
+msgstr "텍스트 암호화"
 
 #: src/wx/dcp_panel.cc:106 src/wx/spl_entry_dialog.cc:51
 msgid "Encrypted"
-msgstr ""
+msgstr "암호화 됨"
 
 #: src/wx/encryption_settings_dialog.cc:31
 msgid "Encryption settings"
-msgstr ""
+msgstr "암호화 설정"
 
 #: src/wx/dcp_panel.cc:107
 msgid "Encryption settings..."
-msgstr ""
+msgstr "암호화 설정…"
 
 #: src/wx/text_view.cc:68
 msgid "End"
-msgstr ""
+msgstr "종료"
 
 #: src/wx/report_problem_dialog.cc:119
 #, c-format
 msgid "Enter your email address for the contact, not %s"
-msgstr ""
+msgstr "연락을 위한 이메일 주소를 입력하세요. (%s 아님)"
 
 #: src/wx/full_config_dialog.cc:1288 src/wx/kdm_config_dialog.cc:140
 #: src/wx/player_config_dialog.cc:316 src/wx/verify_dcp_result_panel.cc:61
 msgid "Errors"
-msgstr ""
+msgstr "오류"
 
 #: src/wx/keys_preferences_page.cc:84
 msgid "Export KDM decryption leaf certificate..."
-msgstr ""
+msgstr "KDM 복호화 리프(Leaf) 인증서 내보내기…"
 
 #: src/wx/keys_preferences_page.cc:86
 msgid "Export all KDM decryption settings..."
-msgstr ""
+msgstr "모든 KDM 복호화 설정 내보내기…"
 
 #: src/wx/certificate_chain_editor.cc:93
 msgid "Export certificate..."
-msgstr ""
+msgstr "인증서 내보내기…"
 
 #: src/wx/certificate_chain_editor.cc:95
 msgid "Export chain..."
-msgstr ""
+msgstr "체인 내보내기…"
 
 #: src/wx/export_subtitles_dialog.cc:39
 msgid "Export subtitles"
-msgstr ""
+msgstr "자막 내보내기"
 
 #: src/wx/export_video_file_dialog.cc:71
 msgid "Export video file"
-msgstr ""
+msgstr "비디오 파일 내보내기"
 
 #: src/wx/certificate_chain_editor.cc:112
 #: src/wx/general_preferences_page.cc:127
 msgid "Export..."
-msgstr ""
+msgstr "내보내기…"
 
 #: src/wx/extra_kdm_email_dialog.cc:37
 msgid "Extra addresses for KDM delivery"
-msgstr ""
+msgstr "추가 KDM 이메일 주소"
 
 #: src/wx/full_config_dialog.cc:572
 msgid "FTP (for Dolby)"
-msgstr ""
+msgstr "FTP (Dolby용)"
 
 #: src/wx/metadata_dialog.cc:289
+#, fuzzy
 msgid "Facility"
-msgstr ""
+msgstr "시설"
 
 #: src/wx/audio_panel.cc:104 src/wx/video_panel.cc:167
 msgid "Fade in"
-msgstr ""
+msgstr "페이드 인"
 
 #: src/wx/subtitle_appearance_dialog.cc:99
 msgid "Fade in time"
-msgstr ""
+msgstr "페이드 인 시간"
 
 #: src/wx/audio_panel.cc:107 src/wx/video_panel.cc:170
 msgid "Fade out"
-msgstr ""
+msgstr "페이드 아웃"
 
 #: src/wx/subtitle_appearance_dialog.cc:102
 msgid "Fade out time"
-msgstr ""
+msgstr "페이드 아웃 시간"
 
 #: src/wx/fonts_dialog.cc:61
 msgid "File"
-msgstr ""
+msgstr "파일"
 
 #: src/wx/dkdm_dialog.cc:152 src/wx/kdm_dialog.cc:178
 #, c-format
 msgid "File %s already exists.  Do you want to overwrite it?"
-msgstr ""
+msgstr "%s 파일이 이미 존재합니다.  덮어쓰시겠습니까?"
 
 #: src/wx/screen_dialog.cc:181
 msgid "Filename"
-msgstr ""
+msgstr "파일명"
 
 #: src/wx/dkdm_output_panel.cc:65 src/wx/short_kdm_output_panel.cc:118
 #: src/wx/tall_kdm_output_panel.cc:87
 msgid "Filename format"
-msgstr ""
+msgstr "파일명 형식"
 
 #: src/wx/film_name_location_dialog.cc:48
 msgid "Film name"
-msgstr ""
+msgstr "필름 이름"
 
 #: src/wx/content_menu.cc:626
+#, fuzzy
 msgid "Film to copy settings from"
-msgstr ""
+msgstr "설정을 복사해올 필름"
 
 #: src/wx/filter_dialog.cc:40
 msgid "Filters"
-msgstr ""
+msgstr "필터"
 
 #: src/wx/smpte_metadata_dialog.cc:139
+#, fuzzy
 msgid "Final"
-msgstr ""
+msgstr "최종본"
 
 #: src/wx/full_config_dialog.cc:137
 msgid ""
 "Find integrated loudness, true peak and loudness range when analysing audio"
-msgstr ""
+msgstr "오디오 분석 시 통합 라우드니스, 트루 피크 및 라우드니스 레인지를 측정"
 
 #: src/wx/content_menu.cc:103
 msgid "Find missing..."
-msgstr ""
+msgstr "누락된 파일 찾기…"
 
 #: src/wx/subtitle_appearance_dialog.cc:130
 msgid "Finding the colours in these subtitles..."
-msgstr ""
+msgstr "자막에서 색상 추출…"
 
 #: src/wx/markers.cc:39
 msgid "First frame of end credits (FFEC)"
-msgstr ""
+msgstr "엔드 크레딧의 첫 번째 프레임 (FFEC)"
 
 #: src/wx/markers.cc:37
 msgid "First frame of intermission (FFOI)"
-msgstr ""
+msgstr "인터미션의 첫 번째 프레임 (FFOI)"
 
 #: src/wx/markers.cc:41
 msgid "First frame of moving credits (FFMC)"
-msgstr ""
+msgstr "롤링 크레딧의 첫 번째 프레임 (FFMC)"
 
 #: src/wx/markers.cc:33
 msgid "First frame of ratings band (FFOB)"
-msgstr ""
+msgstr "등급 고지의 첫 번째 프레임 (FFOB)"
 
 #: src/wx/markers.cc:35
 msgid "First frame of title credits (FFTC)"
-msgstr ""
+msgstr "타이틀 크레딧의 첫 번째 프레임(FFTC}"
 
 #: src/wx/short_kdm_output_panel.cc:115 src/wx/tall_kdm_output_panel.cc:84
 msgid "Folder / ZIP name format"
-msgstr ""
+msgstr "폴더 / ZIP 이름 형식"
 
 #: src/wx/new_dkdm_folder_dialog.cc:28
 msgid "Folder name"
-msgstr ""
+msgstr "폴더명"
 
 #: src/wx/fonts_dialog.cc:44
 msgid "Fonts"
-msgstr ""
+msgstr "폰트"
 
 #: src/wx/text_panel.cc:112
 msgid "Fonts..."
-msgstr ""
+msgstr "폰트…"
 
 #: src/wx/kdm_advanced_dialog.cc:41
 msgid "Forensically mark audio"
-msgstr ""
+msgstr "오디오에 포렌식 마킹 적용"
 
 #: src/wx/kdm_advanced_dialog.cc:37
 msgid "Forensically mark video"
-msgstr ""
+msgstr "비디오에 포렌식 마킹 적용"
 
 #: src/wx/export_subtitles_dialog.cc:45 src/wx/export_video_file_dialog.cc:76
 msgid "Format"
-msgstr ""
+msgstr "포맷"
 
 #: src/wx/verify_dcp_result_panel.cc:319
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "Frame %frame (timecode %timecode) in asset %f has an instantaneous bit rate "
 "that is close to the limit of 250Mbit/s."
 msgstr ""
+"에셋 %f의 프레임 %frame(타임코드 %timecode)의 순간 비트레이트가 제한치인 "
+"250Mbit/s에 근접합니다."
 
 #: src/wx/verify_dcp_result_panel.cc:312
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "Frame %frame (timecode %timecode) in asset %f has an instantaneous bit rate "
 "that is over the limit of 250Mbit/s."
 msgstr ""
+"에셋 %f의 프레임 %frame(타임코드 %timecode)의 순간 비트레이트가 제한치인 "
+"250Mbit/s를 초과했습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:651
 #, c-format
@@ -1533,136 +1580,141 @@ msgid ""
 "Frame %frame has an image component that is too large (component %component "
 "is %size bytes in size)."
 msgstr ""
+"프레임 %frame의 이미지 컴포넌트 크기가 너무 큽니다. (컴포넌트 %component의 크"
+"기가 %size 바이트임)"
 
 #: src/wx/dcp_panel.cc:847
 msgid "Frame Rate"
-msgstr ""
+msgstr "프레임 레이트"
 
 #: src/wx/image_sequence_dialog.cc:33
 msgid "Frame rate"
-msgstr ""
+msgstr "프레임 레이트"
 
 #: src/wx/player_information.cc:165
 #, c-format
 msgid "Frame rate: %d"
-msgstr ""
+msgstr "프레임 레이트: %d"
 
 #: src/wx/about_dialog.cc:74
 msgid "Free, open-source DCP creation from almost anything."
 msgstr ""
+"거의 모든 파일로부터 DCP를 제작할 수 있는 자유 오픈소스 소프트웨어입니다."
 
 #: src/wx/kdm_timing_panel.cc:55
+#, fuzzy
 msgid "From"
-msgstr ""
+msgstr "시작"
 
 #: src/wx/full_config_dialog.cc:687 src/wx/kdm_email_preferences_page.cc:75
 #: src/wx/send_test_email_dialog.cc:28
 msgid "From address"
-msgstr ""
+msgstr "발신 주소"
 
 #: src/wx/film_name_location_dialog.cc:66
 msgid "From template"
-msgstr ""
+msgstr "템플릿에서"
 
 #: src/wx/video_panel.cc:198
 msgid "Full (JPEG, 0-255)"
-msgstr ""
+msgstr "풀 (JPEG, 0-255)"
 
 #: src/wx/timing_panel.cc:108
 msgid "Full length"
-msgstr ""
+msgstr "전체 길이"
 
 #: src/wx/dcp_timeline.cc:309
 msgid "GB"
-msgstr ""
+msgstr "GB"
 
 #: src/wx/gdc_certificate_panel.cc:80
 msgid "GDC"
-msgstr ""
+msgstr "GDC"
 
 #: src/wx/audio_panel.cc:78
 msgid "Gain"
-msgstr ""
+msgstr "게인"
 
 #: src/wx/gain_calculator_dialog.cc:31
 msgid "Gain Calculator"
-msgstr ""
+msgstr "게인 계산기"
 
 #: src/wx/audio_gain_dialog.cc:35
 #, c-format
 msgid "Gain for content channel %d in DCP channel %d"
-msgstr ""
+msgstr "DCP 채널 %d에서 콘텐츠 채널 %d에 대한 게인"
 
 #: src/wx/content_properties_dialog.cc:76 src/wx/full_config_dialog.cc:1284
 #: src/wx/general_preferences_page.cc:66 src/wx/kdm_config_dialog.cc:136
 #: src/wx/player_config_dialog.cc:312
 msgid "General"
-msgstr ""
+msgstr "일반"
 
 #: src/wx/recipient_dialog.cc:112 src/wx/screen_dialog.cc:156
 msgid "Get from file..."
-msgstr ""
+msgstr "파일에서 가져오기…"
 
 #: src/wx/hints_dialog.cc:79
 msgid "Go back"
-msgstr ""
+msgstr "뒤로 가기"
 
 #: src/wx/playhead_to_timecode_dialog.cc:29
 #: src/wx/playhead_to_frame_dialog.cc:32
 msgid "Go to"
-msgstr ""
+msgstr "이동"
 
 #: src/wx/playhead_to_frame_dialog.cc:29
 msgid "Go to frame"
-msgstr ""
+msgstr "프레임으로 이동"
 
 #: src/wx/playhead_to_timecode_dialog.cc:26
 msgid "Go to timecode"
-msgstr ""
+msgstr "타임코드로 이동"
 
 #: src/wx/colour_conversion_editor.cc:147
 msgid "Green chromaticity"
-msgstr ""
+msgstr "녹색 색도"
 
 #: src/wx/batch_job_view.cc:53
 msgid "Higher priority"
-msgstr ""
+msgstr "높은 우선순위"
 
 #: src/wx/hints_dialog.cc:49
 msgid "Hints"
-msgstr ""
+msgstr "힌트"
 
 #: src/wx/servers_list_dialog.cc:45
 msgid "Host"
-msgstr ""
+msgstr "호스트"
 
 #: src/wx/server_dialog.cc:41
 msgid "Host name or IP address"
-msgstr ""
+msgstr "호스트 네임 또는 IP 주소"
 
 #: src/wx/gain_calculator_dialog.cc:36
 msgid "I want to play this at fader"
-msgstr ""
+msgstr "페이더를 다음으로 설정하여 재생하고 싶습니다:"
 
 #: src/wx/fonts_dialog.cc:53
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #: src/wx/full_config_dialog.cc:555
 msgid "IP address"
-msgstr ""
+msgstr "IP 주소"
 
 #: src/wx/full_config_dialog.cc:479
 msgid "IP address / host name"
-msgstr ""
+msgstr "IP 주소 / 호스트 네임"
 
 #: src/wx/full_config_dialog.cc:1080
+#, fuzzy
 msgid "ISDCF name part length"
-msgstr ""
+msgstr "ISDCF 이름 부분 길이"
 
 #: src/wx/full_config_dialog.cc:895
 msgid "Identifiers"
-msgstr ""
+msgstr "식별자"
 
 #: src/wx/drive_wipe_warning_dialog.cc:51
 #, c-format
@@ -1686,6 +1738,21 @@ msgid ""
 "\n"
 "into the box below, then click OK."
 msgstr ""
+"이 작업을 계속 진행하면\n"
+"\n"
+"<b>%s</b> 드라이브의\n"
+"\n"
+"<span weight=\\\"bold\\\" size=\\\"20480\\\" foreground=\\\"red\\\">모든 데이"
+"터</span>가\n"
+"\n"
+"<span weight=\\\"bold\\\" size=\\\"20480\\\" foreground=\\\"red\\\">영구적으"
+"로 삭제됩니다.</span>\n"
+"\n"
+"정말로 계속하시려면 아래 상자에\n"
+"\n"
+"<tt>%s</tt>\n"
+"\n"
+"를 입력한 후 확인을 클릭하십시오."
 
 #: src/wx/keys_preferences_page.cc:189
 msgid ""
@@ -1694,6 +1761,9 @@ msgid ""
 "any KDMs that have been sent to you for those certificates will become "
 "useless.  Proceed with caution!"
 msgstr ""
+"이 작업을 계속하면 현재의 인증서와 키로 생성한 모든 DKDM을 더 이상 사용할 수 "
+"없게 됩니다.  또한, 해당 인증서용으로 받은 모든 KDM도 무용지물이 됩니다.  주"
+"의해서 진행하십시오!"
 
 #: src/wx/keys_preferences_page.cc:217
 msgid ""
@@ -1701,1721 +1771,1789 @@ msgid ""
 "DKDMs that you have created.  Also, any KDMs that have been sent to you will "
 "become useless.  Proceed with caution!"
 msgstr ""
+"이 작업을 계속하면 생성한 모든 DKDM을 더 이상 사용할 수 없게 됩니다.  또한, "
+"전송받은 모든 KDM도 무용지물이 됩니다.  주의해서 진행하십시오!"
 
 #: src/wx/content_advanced_dialog.cc:101
 msgid ""
 "Ignore this content's video and use only audio, subtitles and closed captions"
-msgstr ""
+msgstr "이 콘텐츠의 비디오를 무시하고 오디오, 자막, 클로즈드 캡션만 사용"
 
 #: src/wx/video_waveform_dialog.cc:74
 msgid "Image X position"
-msgstr ""
+msgstr "이미지 X 위치"
 
 #: src/wx/player_config_dialog.cc:119
 msgid "Image on primary, controls on secondary"
-msgstr ""
+msgstr "이미지는 주 모니터에, 제어창은 보조 모니터에"
 
 #: src/wx/player_config_dialog.cc:120
 msgid "Image on secondary, controls on primary"
-msgstr ""
+msgstr "이미지는 보조 모니터에, 제어창은 주 모니터에"
 
 #: src/wx/keys_preferences_page.cc:88
 msgid "Import all KDM decryption settings..."
-msgstr ""
+msgstr "모든 KDM 복호화 설정 가져오기…"
 
 #: src/wx/certificate_chain_editor.cc:110
 msgid "Import..."
-msgstr ""
+msgstr "가져오기…"
 
 #: src/wx/drive_wipe_warning_dialog.cc:28 src/wx/nag_dialog.cc:38
 msgid "Important notice"
-msgstr ""
+msgstr "중요 공지"
 
 #: src/wx/servers_list_dialog.cc:91
 msgid "Incorrect version"
-msgstr ""
+msgstr "잘못된 버전"
 
 #: src/wx/colour_conversion_editor.cc:74
 msgid "Input gamma"
-msgstr ""
+msgstr "입력 감마"
 
 #: src/wx/colour_conversion_editor.cc:64
 msgid "Input gamma correction"
-msgstr ""
+msgstr "입력 감마 보정"
 
 #: src/wx/colour_conversion_editor.cc:79
 msgid "Input power"
-msgstr ""
+msgstr "입력 파워"
 
 #: src/wx/colour_conversion_editor.cc:66
 msgid "Input transfer function"
-msgstr ""
+msgstr "입력 전달 함수"
 
 #: src/wx/audio_dialog.cc:437
 #, c-format
 msgid "Integrated loudness %.2f LUFS"
-msgstr ""
+msgstr "통합 라우드니스 %.2f LUFS"
 
 #: src/wx/certificate_chain_editor.cc:312
 msgid "Intermediate"
-msgstr ""
+msgstr "중간(Intermediate)"
 
 #: src/wx/make_chain_dialog.cc:100
 msgid "Intermediate common name"
-msgstr ""
+msgstr "중간(Intermediate) 공통 이름"
 
 #: src/wx/metadata_dialog.cc:207
+#, fuzzy
 msgid "International texted"
-msgstr ""
+msgstr "국제판(텍스트 있음)"
 
 #: src/wx/metadata_dialog.cc:208
+#, fuzzy
 msgid "International textless"
-msgstr ""
+msgstr "국제판(텍스트 없음)"
 
 #: src/wx/dcp_panel.cc:163
 msgid "Interop"
-msgstr ""
+msgstr "Interop"
 
 #: src/wx/keys_preferences_page.cc:206
 #, c-format
 msgid "Invalid %s export file"
-msgstr ""
+msgstr "유효하지 않은 %s 내보내기 파일"
 
 #: src/wx/invalid_certificate_period_dialog.cc:33
 msgid "Invalid certificates"
-msgstr ""
+msgstr "유효하지 않은 인증서"
 
 #: src/wx/colour_conversion_editor.cc:215
 msgid "Inverse 2.6 gamma correction on output"
-msgstr ""
+msgstr "출력에 2.6 역감마 보정 적용"
 
 #: src/wx/full_config_dialog.cc:911
 msgid "Issuer"
-msgstr ""
+msgstr "발행자"
 
 #: src/wx/screen_dialog.cc:189
 msgid "Issuer common name"
-msgstr ""
+msgstr "발행자 공통 이름"
 
 #: src/wx/screen_dialog.cc:190
 msgid "Issuer organization name"
-msgstr ""
+msgstr "발행자 기관 이름"
 
 #: src/wx/audio_panel.cc:332
 msgid ""
 "It is not possible to adjust the content's gain for this fader change as it "
 "would cause the DCP's audio to clip.  The gain has not been changed."
 msgstr ""
+"이 페이더 변경에 대해 콘텐츠의 게인을 조정할 수 없습니다. 조정할 경우 DCP 오"
+"디오의 클리핑이 발생할 수 있기 때문입니다.  게인이 변경되지 않았습니다."
 
 #: src/wx/sound_preferences_page.cc:198
 msgid "JACK"
-msgstr ""
+msgstr "JACK"
 
 #: src/wx/full_config_dialog.cc:951
 msgid "JPEG2000 comment"
-msgstr ""
+msgstr "JPEG2000 주석"
 
 #: src/wx/content_menu.cc:102
 msgid "Join"
-msgstr ""
+msgstr "결합"
 
 #: src/wx/controls.cc:92
 msgid "Jump to selected content"
-msgstr ""
+msgstr "선택한 콘텐츠로 바로 가기"
 
 #: src/wx/player_information.cc:77
 msgid "KDM"
-msgstr ""
+msgstr "KDM"
 
 #: src/wx/kdm_email_preferences_page.cc:51
 msgid "KDM Email"
-msgstr ""
+msgstr "KDM 이메일"
 
 #: src/wx/locations_preferences_page.cc:76
 msgid "KDM directory"
-msgstr ""
+msgstr "KDM 디렉터리"
 
 #: src/wx/short_kdm_output_panel.cc:93 src/wx/tall_kdm_output_panel.cc:74
 msgid "KDM type"
-msgstr ""
+msgstr "KDM 유형"
 
 #. TRANSLATORS: translate the word "Timing" here; do not include the "KDM|" prefix
 #: src/wx/dkdm_dialog.cc:86 src/wx/kdm_dialog.cc:91
 msgid "KDM|Timing"
-msgstr ""
+msgstr "타이밍"
 
 #: src/wx/content_timeline_dialog.cc:79
 msgid "Keep video and subtitles in sequence"
-msgstr ""
+msgstr "비디오와 자막을 순서대로 유지"
 
 #: src/wx/keys_preferences_page.cc:65
 msgid "Keys"
-msgstr ""
+msgstr "키"
 
 #: src/wx/audio_dialog.cc:455
 #, c-format
 msgid "LEQ(m) %.2fdB"
-msgstr ""
+msgstr "LEQ(m) %.2fdB"
 
 #: src/wx/metadata_dialog.cc:218
 msgid "Label"
-msgstr ""
+msgstr "라벨"
 
 #: src/wx/dcp_panel.cc:973 src/wx/dcp_text_track_dialog.cc:35
 #: src/wx/text_panel.cc:161
 msgid "Language"
-msgstr ""
+msgstr "언어"
 
 #: src/wx/full_language_tag_dialog.cc:56 src/wx/language_tag_dialog.cc:38
 msgid "Language Tag"
-msgstr ""
+msgstr "언어 태그"
 
 #: src/wx/content_advanced_dialog.cc:97
 msgid "Language of burnt-in subtitles in this content"
-msgstr ""
+msgstr "이 콘텐츠에 포함된 번 인 자막의 언어"
 
 #: src/wx/text_panel.cc:164
 msgid "Language of these subtitles"
-msgstr ""
+msgstr "이 자막의 언어"
 
 #: src/wx/metadata_dialog.cc:286
 msgid "Language used for any sign language video track"
-msgstr ""
+msgstr "수어 비디오 트랙에 사용된 언어"
 
 #: src/wx/markers.cc:40
 msgid "Last frame of end credits (LFEC)"
-msgstr ""
+msgstr "엔드 크레딧의 마지막 프레임 (LFEC)"
 
 #: src/wx/markers.cc:38
 msgid "Last frame of intermission (LFOI)"
-msgstr ""
+msgstr "인터미션의 마지막 프레임 (LFOI)"
 
 #: src/wx/markers.cc:42
 msgid "Last frame of moving credits (LFMC)"
-msgstr ""
+msgstr "롤링 크레딧의 마지막 프레임 (LFMC)"
 
 #: src/wx/markers.cc:34
 msgid "Last frame of ratings band (LFOB)"
-msgstr ""
+msgstr "등급 고지의 마지막 프레임 (LFOB)"
 
 #: src/wx/markers.cc:36
 msgid "Last frame of title credits (LFTC)"
-msgstr ""
+msgstr "타이틀 크레딧의 마지막 프레임 (LFTC)"
 
 #: src/wx/content_panel.cc:292
 msgid "Later"
-msgstr ""
+msgstr "뒤로"
 
 #: src/wx/full_config_dialog.cc:1225
 msgid "Layout for short screen"
-msgstr ""
+msgstr "작은 화면용 레이아웃"
 
 #: src/wx/certificate_chain_editor.cc:310
 msgid "Leaf"
-msgstr ""
+msgstr "리프"
 
 #: src/wx/make_chain_dialog.cc:111
 msgid "Leaf common name"
-msgstr ""
+msgstr "리프 공통 이름"
 
 #: src/wx/certificate_chain_editor.cc:104
 msgid "Leaf private key"
-msgstr ""
+msgstr "리프 개인 키"
 
 #: src/wx/certificate_chain_editor.cc:122
 msgid "Leaf private key does not match leaf certificate!"
-msgstr ""
+msgstr "리프 개인 키가 리프 인증서와 일치하지 않습니다!"
 
 #: src/wx/auto_crop_dialog.cc:31 src/wx/controls.cc:88
 #: src/wx/video_panel.cc:115
 msgid "Left"
-msgstr ""
+msgstr "왼쪽"
 
 #: src/wx/content_properties_dialog.cc:85
 msgid "Length"
-msgstr ""
+msgstr "길이"
 
 #: src/wx/player_information.cc:181
 msgid "Length: {} ({} frames)"
-msgstr ""
+msgstr "길이: {} ({} 프레임)"
 
 #: src/wx/text_panel.cc:104
 msgid "Line spacing"
-msgstr ""
+msgstr "줄 간격"
 
 #: src/wx/screen_dialog.cc:56
 msgid "Load certificate..."
-msgstr ""
+msgstr "인증서 불러오기…"
 
 #: src/wx/load_config_from_zip_dialog.cc:29
 msgid "Load configuration from ZIP file"
-msgstr ""
+msgstr "ZIP 파일에서 설정 불러오기"
 
 #: src/wx/playlist_controls.cc:423
 msgid "Loading content"
-msgstr ""
+msgstr "콘텐츠 불러오기"
 
 #: src/wx/playlist_controls.cc:348
 msgid "Loading playlist and KDMs"
-msgstr ""
+msgstr "플레이리스트 및 KDM 불러오기"
 
 #: src/wx/locations_preferences_page.cc:47
 msgid "Locations"
-msgstr ""
+msgstr "위치"
 
 #: src/wx/full_config_dialog.cc:1282 src/wx/kdm_config_dialog.cc:134
 #: src/wx/player_config_dialog.cc:310
 msgid "Log"
-msgstr ""
+msgstr "로그"
 
 #: src/wx/audio_dialog.cc:446
 #, c-format
 msgid "Loudness range %.2f LU"
-msgstr ""
+msgstr "라우드니스 레인지 %.2f LU"
 
 #: src/wx/batch_job_view.cc:56
 msgid "Lower priority"
-msgstr ""
+msgstr "낮은 우선순위"
 
 #: src/wx/metadata_dialog.cc:320
 msgid "Luminance"
-msgstr ""
+msgstr "휘도"
 
 #: src/wx/content_panel.cc:903
 msgid "MISSING: "
-msgstr ""
+msgstr "누락됨: "
 
 #: src/wx/export_video_file_dialog.cc:43
 msgid "MOV / ProRes 4444"
-msgstr ""
+msgstr "MOV / ProRes 4444"
 
 #: src/wx/export_video_file_dialog.cc:44
 msgid "MOV / ProRes HQ"
-msgstr ""
+msgstr "MOV / ProRes HQ"
 
 #: src/wx/export_video_file_dialog.cc:45
 msgid "MOV / ProRes LT"
-msgstr ""
+msgstr "MOV / ProRes LT"
 
 #: src/wx/export_video_file_dialog.cc:50 src/wx/export_video_file_dialog.cc:51
 #: src/wx/export_video_file_dialog.cc:52
 msgid "MOV files (*.mov)|*.mov"
-msgstr ""
+msgstr "MOV 파일 (*.mov)|*.mov"
 
 #: src/wx/export_video_file_dialog.cc:46
 msgid "MP4 / H.264"
-msgstr ""
+msgstr "MP4 / H.264"
 
 #: src/wx/export_video_file_dialog.cc:53
 msgid "MP4 files (*.mp4)|*.mp4"
-msgstr ""
+msgstr "MP4 파일 (*.mp4)|*.mp4"
 
 #: src/wx/dcp_panel.cc:164
 msgid "MPEG2 Interop"
-msgstr ""
+msgstr "MPEG2 Interop"
 
 #: src/wx/export_subtitles_dialog.cc:48
 msgid "MXF (SMPTE)"
-msgstr ""
+msgstr "MXF (SMPTE)"
 
 #. TRANSLATORS: Main and Additional here are a choice for whether a set of subtitles is in the "main" language of the
 #. film or an "additional" language.
 #: src/wx/text_panel.cc:170
 msgid "Main"
-msgstr ""
+msgstr "주 언어"
 
 #: src/wx/hints_dialog.cc:77
 msgid "Make DCP"
-msgstr ""
+msgstr "DCP 생성"
 
 #: src/wx/self_dkdm_dialog.cc:59
 msgid "Make DKDM for DCP-o-matic"
-msgstr ""
+msgstr "DCP-o-matic용 DKDM 생성"
 
 #: src/wx/dkdm_dialog.cc:62 src/wx/dkdm_dialog.cc:114
 msgid "Make DKDMs"
-msgstr ""
+msgstr "DKDM 생성"
 
 #: src/wx/kdm_dialog.cc:67 src/wx/kdm_dialog.cc:119
 msgid "Make KDMs"
-msgstr ""
+msgstr "KDM 생성"
 
 #: src/wx/make_chain_dialog.cc:40
 msgid "Make certificate chain"
-msgstr ""
+msgstr "인증서 체인 생성"
 
 #: src/wx/video_panel.cc:418
 msgid "Many"
-msgstr ""
+msgstr "다수"
 
 #: src/wx/sound_preferences_page.cc:96
 msgid "Mapping"
-msgstr ""
+msgstr "맵핑"
 
 #: src/wx/kdm_advanced_dialog.cc:46
 msgid "Mark all audio channels"
-msgstr ""
+msgstr "모든 오디오 채널 마킹"
 
 #: src/wx/kdm_advanced_dialog.cc:50
 msgid "Mark audio channels up to (and including)"
-msgstr ""
+msgstr "다음 번호까지 오디오 채널 마킹: "
 
 #: src/wx/markers_dialog.cc:126
 msgid "Markers"
-msgstr ""
+msgstr "마커"
 
 #: src/wx/dcp_panel.cc:116
 msgid "Markers..."
-msgstr ""
+msgstr "마커…"
 
 #: src/wx/colour_conversion_editor.cc:137
 msgid "Matrix"
-msgstr ""
+msgstr "매트릭스"
 
 #: src/wx/full_config_dialog.cc:1046
 msgid "Maximum JPEG2000 bit rate"
-msgstr ""
+msgstr "최대 JPEG2000 비트레이트"
 
 #: src/wx/full_config_dialog.cc:1055
 msgid "Maximum MPEG2 bit rate"
-msgstr ""
+msgstr "최대 MPEG2 비트레이트"
 
 #: src/wx/full_config_dialog.cc:1230
 msgid "Maximum number of frames to store per thread"
-msgstr ""
+msgstr "스레드당 저장할 최대 프레임 수"
 
 #: src/wx/dcp_timeline.cc:303
 msgid "Maximum reel size"
-msgstr ""
+msgstr "최대 릴 크기"
 
 #: src/wx/dcp_panel.cc:856 src/wx/full_config_dialog.cc:1050
 #: src/wx/full_config_dialog.cc:1059
 msgid "Mbit/s"
-msgstr ""
+msgstr "Mbit/s"
 
 #: src/wx/full_config_dialog.cc:675
 msgid "Message box"
-msgstr ""
+msgstr "메시지 박스"
 
 #: src/wx/metadata_dialog.cc:53
 msgid "Metadata"
-msgstr ""
+msgstr "메타데이터"
 
 #: src/wx/dcp_panel.cc:117
 msgid "Metadata..."
-msgstr ""
+msgstr "메타데이터…"
 
 #: src/wx/export_video_file_dialog.cc:80
 msgid "Mix audio down to stereo"
-msgstr ""
+msgstr "오디오를 스테레오로 믹스다운"
 
 #: src/wx/verify_dcp_result_panel.cc:547
+#, fuzzy
 msgid ""
 "More 2K JPEG2000 frames (not listed) contain the wrong number of tile parts."
 msgstr ""
+"더 많은 2K JPEG2000 프레임(목록에 없음)에 잘못된 수의 타일 파트가 포함되어 있"
+"습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:484
+#, fuzzy
 msgid ""
 "More 2K JPEG2000 frames (not listed) have an invalid number of guard bits."
 msgstr ""
+"더 많은 2K JPEG2000 프레임(목록에 없음)에 유효하지 않은 수의 가드 비트가 있습"
+"니다."
 
 #: src/wx/verify_dcp_result_panel.cc:519
+#, fuzzy
 msgid "More 2K JPEG2000 frames (not listed) have too many POC markers."
 msgstr ""
+"더 많은 2K JPEG2000 프레임(목록에 없음)에 너무 많은 POC 마커가 있습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:491
+#, fuzzy
 msgid ""
 "More 4K JPEG2000 frames (not listed) have an invalid number of guard bits."
 msgstr ""
+"더 많은 4K JPEG2000 프레임(목록에 없음)에 유효하지 않은 수의 가드 비트가 있습"
+"니다."
 
 #: src/wx/verify_dcp_result_panel.cc:526
+#, fuzzy
 msgid "More 4K JPEG2000 frames (not listed) have too many POC markers."
 msgstr ""
+"더 많은 4K JPEG2000 프레임(목록에 없음)에 너무 많은 POC 마커가 있습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:540
+#, fuzzy
 msgid ""
 "More JPEG2000 frames (not listed) contain POC markers in invalid locations."
 msgstr ""
+"더 많은 JPEG2000 프레임(목록에 없음)의 유효하지 않은 위치에 POC 마커가 포함되"
+"어 있습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:533
+#, fuzzy
 msgid "More JPEG2000 frames (not listed) contain invalid POC markers."
 msgstr ""
+"더 많은 JPEG2000 프레임(목록에 없음)에 유효하지 않은 POC 마커가 포함되어 있습"
+"니다."
 
 #: src/wx/verify_dcp_result_panel.cc:561 src/wx/verify_dcp_result_panel.cc:568
+#, fuzzy
 msgid "More JPEG2000 frames (not listed) contain invalid Rsiz values."
 msgstr ""
+"더 많은 JPEG2000 프레임(목록에 없음)에 유효하지 않은 Rsiz 값이 포함되어 있습"
+"니다."
 
 #: src/wx/verify_dcp_result_panel.cc:554
+#, fuzzy
 msgid ""
 "More JPEG2000 frames (not listed) contain the wrong number of tile parts."
 msgstr ""
+"더 많은 JPEG2000 프레임(목록에 없음)에 잘못된 수의 타일 파트가 포함되어 있습"
+"니다."
 
 #: src/wx/verify_dcp_result_panel.cc:512
+#, fuzzy
 msgid "More JPEG2000 frames (not listed) have an invalid code-block height."
 msgstr ""
+"더 많은 JPEG2000 프레임(목록에 없음)에 유효하지 않은 코드 블록 높이가 있습니"
+"다."
 
 #: src/wx/verify_dcp_result_panel.cc:505
+#, fuzzy
 msgid "More JPEG2000 frames (not listed) have an invalid code-block width."
 msgstr ""
+"더 많은 JPEG2000 프레임(목록에 없음)에 유효하지 않은 코드 블록 너비가 있습니"
+"다."
 
 #: src/wx/verify_dcp_result_panel.cc:575
+#, fuzzy
 msgid "More JPEG2000 frames (not listed) have no TLM marker."
-msgstr ""
+msgstr "더 많은 JPEG2000 프레임(목록에 없음)에 TLM 마커가 없습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:498
+#, fuzzy
 msgid "More JPEG2000 tile sizes (not listed) do not match the image size."
 msgstr ""
+"더 많은 JPEG2000 타일 크기(목록에 없음)가 이미지 크기와 일치하지 않습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:320
+#, fuzzy
 msgid ""
 "More frames (not listed) have an instantaneous bit rate that is close to the "
 "limit of 250Mbit/s."
 msgstr ""
+"더 많은 프레임(목록에 없음)의 순간 비트레이트가 제한치인 250Mbit/s에 근접합니"
+"다."
 
 #: src/wx/verify_dcp_result_panel.cc:313
+#, fuzzy
 msgid ""
 "More frames (not listed) have an instantaneous bit rate that is over the "
 "limit of 250Mbit/s."
 msgstr ""
+"더 많은 프레임(목록에 없음)의 순간 비트레이트가 제한치인 250Mbit/s를 초과했습"
+"니다."
 
 #: src/wx/verify_dcp_result_panel.cc:652
+#, fuzzy
 msgid "More frames (not listed) have image components that are too large."
-msgstr ""
+msgstr "더 많은 프레임(목록에 없음)의 이미지 컴포넌트 크기가 너무 큽니다."
 
 #: src/wx/verify_dcp_result_panel.cc:477
+#, fuzzy
 msgid "More picture frames (not listed) have invalid JPEG2000 codestreams."
 msgstr ""
+"더 많은 비디오 프레임(목록에 없음)에 유효하지 않은 JPEG2000 코드스트림이 있습"
+"니다."
 
 #: src/wx/markers_panel.cc:278
 #, c-format
 msgid "Move %s marker to current position"
-msgstr ""
+msgstr "%s 마커를 현재 위치로 이동"
 
 #: src/wx/config_move_dialog.cc:31
+#, fuzzy
 msgid "Move configuration"
-msgstr ""
+msgstr "설정 이동"
 
 #: src/wx/move_to_dialog.cc:36
 msgid "Move content"
-msgstr ""
+msgstr "콘텐츠 이동"
 
 #: src/wx/content_panel.cc:289
 msgid "Move the selected piece of content earlier in the film."
-msgstr ""
+msgstr "선택한 콘텐츠를 필름의 앞쪽으로 이동합니다."
 
 #: src/wx/content_panel.cc:293
 msgid "Move the selected piece of content later in the film."
-msgstr ""
+msgstr "선택한 콘텐츠를 필름의 뒤쪽으로 이동합니다."
 
 #: src/wx/timing_panel.cc:107
 msgid "Move to start of reel"
-msgstr ""
+msgstr "릴의 시작 지점으로 이동"
 
 #: src/wx/video_panel.cc:507
 msgid "Multiple content selected"
-msgstr ""
+msgstr "여러 콘텐츠가 선택됨"
 
 #: src/wx/content_widget.h:78
 msgid "Multiple values"
-msgstr ""
+msgstr "다중 값"
 
 #: src/wx/dir_picker_ctrl.cc:62
 msgid "My Documents"
-msgstr ""
+msgstr "내 문서"
 
 #: src/wx/report_problem_dialog.cc:59
 msgid "My problem is"
-msgstr ""
+msgstr "발생한 문제는"
 
 #: src/wx/content_panel.cc:907
 msgid "NEEDS KDM: "
-msgstr ""
+msgstr "KDM 필요: "
 
 #: src/wx/content_panel.cc:911
 msgid "NEEDS OV: "
-msgstr ""
+msgstr "OV 필요: "
 
 #: src/wx/cinema_dialog.cc:49 src/wx/dcp_panel.cc:88
 #: src/wx/dcp_text_track_dialog.cc:33 src/wx/recipient_dialog.cc:68
 #: src/wx/screen_dialog.cc:141 src/wx/spl_entry_dialog.cc:41
 msgid "Name"
-msgstr ""
+msgstr "이름"
 
 #: src/wx/short_kdm_output_panel.cc:58
 msgid "Name formats"
-msgstr ""
+msgstr "이름 형식"
 
 #: src/wx/player_information.cc:151
 msgid "Needs KDM"
-msgstr ""
+msgstr "KDM 필요함"
 
 #: src/wx/player_information.cc:146
 msgid "Needs OV"
-msgstr ""
+msgstr "OV 필요함"
 
 #: src/wx/rename_template_dialog.cc:28
 msgid "New name"
-msgstr ""
+msgstr "새 이름"
 
 #: src/wx/update_dialog.cc:47
 #, c-format
 msgid "New versions of %s are available."
-msgstr ""
+msgstr "%s의 새 버전을 사용할 수 있습니다."
 
 #: src/wx/playlist_controls.cc:61
 msgid "Next"
-msgstr ""
+msgstr "다음"
 
 #: src/wx/spl_entry_dialog.cc:52
 msgid "No"
-msgstr ""
+msgstr "아니오"
 
 #: src/wx/verify_dcp_result_panel.cc:301
 msgid "No ASSETMAP or ASSETMAP.xml file was found."
-msgstr ""
+msgstr "ASSETMAP 또는 ASSETMAP.xml 파일을 찾을 수 없습니다."
 
 #: src/wx/player_information.cc:125
 msgid "No DCP loaded."
-msgstr ""
+msgstr "로드된 DCP가 없습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:700
 msgid "No SMPTE Bv2.1 errors found."
-msgstr ""
+msgstr "SMPTE Bv2.1 오류가 발견되지 않았습니다."
 
 #: src/wx/audio_mapping_view.cc:539
 #, c-format
 msgid "No audio will be passed from %s channel '%s' to %s channel '%s'."
-msgstr ""
+msgstr "%s 채널 '%s'에서 %s 채널 '%s'(으)로 전달될 오디오가 없습니다."
 
 #: src/wx/content_panel.cc:654
 msgid "No content found in this folder."
-msgstr ""
+msgstr "이 폴더에 콘텐츠가 없습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:696
 msgid "No errors found."
-msgstr ""
+msgstr "오류가 발견되지 않았습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:704
 msgid "No warnings found."
-msgstr ""
+msgstr "경고가 발견되지 않았습니다."
 
 #: src/wx/full_config_dialog.cc:1028
 msgid "Non-standard"
-msgstr ""
+msgstr "비표준"
 
 #: src/wx/content_advanced_dialog.cc:74 src/wx/content_advanced_dialog.cc:156
 #: src/wx/content_advanced_dialog.cc:164 src/wx/dcp_panel.cc:1078
 #: src/wx/subtitle_appearance_dialog.cc:151
 msgid "None"
-msgstr ""
+msgstr "없음"
 
 #: src/wx/verify_dcp_result_panel.cc:360
 msgid "Not all subtitle assets specify the same <Language> tag."
-msgstr ""
+msgstr "모든 자막 에셋이 동일한 <Language> 태그를 지정하지 않았습니다."
 
 #: src/wx/screen_dialog.cc:192
 msgid "Not valid after"
-msgstr ""
+msgstr "만료 일시"
 
 #: src/wx/screen_dialog.cc:191
 msgid "Not valid before"
-msgstr ""
+msgstr "개시 일시"
 
 #: src/wx/cinema_dialog.cc:59 src/wx/recipient_dialog.cc:73
 #: src/wx/screen_dialog.cc:146
 msgid "Notes"
-msgstr ""
+msgstr "참고"
 
 #: src/wx/full_config_dialog.cc:658
 msgid "Notifications"
-msgstr ""
+msgstr "알림"
 
 #: src/wx/job_view.cc:89
 msgid "Notify when complete"
-msgstr ""
+msgstr "완료 시 알림"
 
 #: src/wx/full_config_dialog.cc:115 src/wx/full_config_dialog.cc:120
 #, c-format
 msgid "Number of threads %s should use"
-msgstr ""
+msgstr "%s이(가) 사용할 스레드 수"
 
 #: src/wx/sound_preferences_page.cc:201
 msgid "OSS"
-msgstr ""
+msgstr "OSS"
 
 #: src/wx/dcp_referencing_dialog.cc:115
 msgid "OV DCP"
-msgstr ""
+msgstr "OV DCP"
 
 #: src/wx/audio_mapping_view.cc:86
+#, fuzzy
 msgid "Off"
-msgstr ""
+msgstr "꺼짐"
 
 #: src/wx/text_panel.cc:88
 msgid "Offset"
-msgstr ""
+msgstr "오프셋"
 
 #: src/wx/full_config_dialog.cc:1221
 msgid "Only servers encode"
-msgstr ""
+msgstr "서버에서만 인코딩"
 
 #: src/wx/full_config_dialog.cc:1311 src/wx/player_config_dialog.cc:329
 msgid "Open console window"
-msgstr ""
+msgstr "콘솔 창 열기"
 
 #: src/wx/content_panel.cc:297
 msgid "Open the timeline for the film (Ctrl+T)."
-msgstr ""
+msgstr "필름의 타임라인을 엽니다 (Ctrl+T)"
 
 #: src/wx/full_config_dialog.cc:1318 src/wx/player_config_dialog.cc:127
 msgid "OpenGL (faster)"
-msgstr ""
+msgstr "OpenGL (빠름)"
 
 #: src/wx/system_information_dialog.cc:83
 #, c-format
 msgid "OpenGL renderer not supported by this %s version"
-msgstr ""
+msgstr "이 %s 버전에서는 OpenGL 렌더러를 지원하지 않습니다"
 
 #: src/wx/system_information_dialog.cc:51
 #: src/wx/system_information_dialog.cc:82
 msgid "OpenGL version"
-msgstr ""
+msgstr "OpenGL 버전"
 
 #: src/wx/make_chain_dialog.cc:84
 msgid "Organisation"
-msgstr ""
+msgstr "기관"
 
 #: src/wx/make_chain_dialog.cc:86
 msgid "Organisational unit"
-msgstr ""
+msgstr "부서"
 
 #: src/wx/screen_dialog.cc:200 src/wx/screen_dialog.cc:202
 msgid "Other trusted devices"
-msgstr ""
+msgstr "다른 신뢰할 수 있는 장치"
 
 #: src/wx/email_preferences_page.cc:66
 msgid "Outgoing mail server"
-msgstr ""
+msgstr "보내는 메일 서버"
 
 #: src/wx/subtitle_appearance_dialog.cc:152
 msgid "Outline"
-msgstr ""
+msgstr "외곽선"
 
 #: src/wx/controls.cc:85
+#, fuzzy
 msgid "Outline content"
-msgstr ""
+msgstr "콘텐츠 외곽선 표시"
 
 #: src/wx/subtitle_appearance_dialog.cc:94
 msgid "Outline width"
-msgstr ""
+msgstr "외곽선 두꼐"
 
 #: src/wx/subtitle_appearance_dialog.cc:316
 msgid "Outline width cannot be set unless you are burning in subtitles."
-msgstr ""
+msgstr "자막 번 인을 선택하지 않으면 외곽선 두께를 설정할 수 없습니다."
 
 #: src/wx/dkdm_dialog.cc:108 src/wx/kdm_dialog.cc:113
 #: src/wx/self_dkdm_dialog.cc:76 src/wx/sound_preferences_page.cc:97
 msgid "Output"
-msgstr ""
+msgstr "출력"
 
 #: src/wx/export_subtitles_dialog.cc:65 src/wx/export_video_file_dialog.cc:98
 msgid "Output file"
-msgstr ""
+msgstr "출력 파일"
 
 #: src/wx/export_subtitles_dialog.cc:70
 msgid "Output folder"
-msgstr ""
+msgstr "출력 폴더"
 
 #: src/wx/colour_conversion_editor.cc:213
 msgid "Output gamma correction"
-msgstr ""
+msgstr "출력 감마 보정"
 
 #: src/wx/content_advanced_dialog.cc:82
 msgid "Override detected video frame rate"
-msgstr ""
+msgstr "감지된 비디오 프레임 레이트 무시"
 
 #: src/wx/config_move_dialog.cc:33
 msgid "Overwrite this file with current configuration"
-msgstr ""
+msgstr "현재 설정으로 이 파일을 덮어쓰기"
 
 #: src/wx/verify_dcp_result_panel.cc:604
 msgid "Part of the DCP could not be checked because no KDM was available."
-msgstr ""
+msgstr "KDM을 사용할 수 없어서 DCP의 일부를 확인하지 못했습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:289
 msgid ""
 "Parts of the DCP are written according to the Interop standard and parts "
 "according to SMPTE."
 msgstr ""
+"DCP의 일부는 Interop 표준에 따라 작성되었고 일부는 SMPTE에 따라 작성되었습다."
 
 #: src/wx/full_config_dialog.cc:551
 msgid "Passive mode"
-msgstr ""
+msgstr "패시브 모드"
 
 #: src/wx/credentials_download_certificate_panel.cc:54
 #: src/wx/email_preferences_page.cc:90 src/wx/full_config_dialog.cc:567
 msgid "Password"
-msgstr ""
+msgstr "패스워드"
 
 #: src/wx/paste_dialog.cc:27
 msgid "Paste"
-msgstr ""
+msgstr "붙여넣기"
 
 #: src/wx/paste_dialog.cc:32
 msgid "Paste audio settings"
-msgstr ""
+msgstr "오디오 설정 붙여넣기"
 
 #: src/wx/paste_dialog.cc:35
 msgid "Paste subtitle and caption settings"
-msgstr ""
+msgstr "자막 및 캡션 설정 붙여넣기"
 
 #: src/wx/paste_dialog.cc:29
 msgid "Paste video settings"
-msgstr ""
+msgstr "비디오 설정 붙여넣기"
 
 #: src/wx/about_dialog.cc:174
 msgid "Patrons"
-msgstr ""
+msgstr "후원자"
 
 #: src/wx/normal_job_view.cc:44 src/wx/normal_job_view.cc:62
 #: src/wx/playlist_controls.cc:59
 msgid "Pause"
-msgstr ""
+msgstr "일시 정지"
 
 #: src/wx/audio_dialog.cc:131
 msgid "Peak"
-msgstr ""
+msgstr "피크"
 
 #: src/wx/audio_panel.cc:467
 #, c-format
 msgid "Peak: %.2fdB"
-msgstr ""
+msgstr "피크: %.2fdB"
 
 #: src/wx/audio_panel.cc:469
 msgid "Peak: unknown"
-msgstr ""
+msgstr "피크: 알 수 없음"
 
 #: src/wx/player_information.cc:90
 msgid "Performance"
-msgstr ""
+msgstr "성능"
 
 #: src/wx/dcp_referencing_dialog.cc:115
 msgid "Picture"
-msgstr ""
+msgstr "영상"
 
 #: src/wx/email_preferences_page.cc:79
 msgid "Plain"
-msgstr ""
+msgstr "평문"
 
 #: src/wx/playlist_controls.cc:58 src/wx/standard_controls.cc:37
 msgid "Play"
-msgstr ""
+msgstr "재생"
 
 #: src/wx/timing_panel.cc:116
 msgid "Play length"
-msgstr ""
+msgstr "재생 길이"
 
 #: src/wx/sound_preferences_page.cc:76
 msgid "Play sound via"
-msgstr ""
+msgstr "오디오 재생장치: "
 
 #: src/wx/locations_preferences_page.cc:71
 msgid "Playlist directory"
-msgstr ""
+msgstr "플레이리스트 디렉터리"
 
 #: src/wx/spl_entry_dialog.cc:38
 msgid "Playlist item"
-msgstr ""
+msgstr "플레이 리스트 항목"
 
 #: src/wx/playlist_controls.cc:81
 msgid "Playlists"
-msgstr ""
+msgstr "플레이 리스트"
 
 #: src/wx/audio_plot.cc:116
 msgid "Please wait; audio is being analysed..."
-msgstr ""
+msgstr "잠시만 기다려 주세요. 오디오를 분석 중입니다..."
 
 #: src/wx/timing_panel.cc:105
 msgid "Position"
-msgstr ""
+msgstr "위치"
 
 #: src/wx/metadata_dialog.cc:308 src/wx/smpte_metadata_dialog.cc:138
 msgid "Pre-release"
-msgstr ""
+msgstr "프리 릴리즈"
 
 #: src/wx/playlist_controls.cc:62
 msgid "Previous"
-msgstr ""
+msgstr "이전"
 
 #: src/wx/dcp_panel.cc:969
 msgid "Processor"
-msgstr ""
+msgstr "프로세서"
 
 #: src/wx/full_config_dialog.cc:935
+#, fuzzy
 msgid "Product name"
-msgstr ""
+msgstr "제품명"
 
 #: src/wx/full_config_dialog.cc:943
+#, fuzzy
 msgid "Product version"
-msgstr ""
+msgstr "제조 버전"
 
 #: src/wx/content_menu.cc:107
 msgid "Properties..."
-msgstr ""
+msgstr "속성…"
 
 #: src/wx/full_config_dialog.cc:547
 msgid "Protocol"
-msgstr ""
+msgstr "프로토콜"
 
 #: src/wx/sound_preferences_page.cc:200
 msgid "PulseAudio"
-msgstr ""
+msgstr "PulseAudio"
 
 #: src/wx/export_video_file_dialog.cc:88
 msgid "Quality"
-msgstr ""
+msgstr "품질"
 
 #: src/wx/qube_certificate_panel.cc:91
 #, c-format
 msgid "Qube %s"
-msgstr ""
+msgstr "Qube %s"
 
 #: src/wx/colour_conversion_editor.cc:133
 msgid "RGB to XYZ conversion"
-msgstr ""
+msgstr "RGB에서 XYZ로 변환"
 
 #: src/wx/audio_dialog.cc:132
 msgid "RMS"
-msgstr ""
+msgstr "RMS"
 
 #: src/wx/video_panel.cc:196
 msgid "Range"
-msgstr ""
+msgstr "범위"
 
 #: src/wx/rating_dialog.cc:43 src/wx/rating_dialog.cc:142
 #: src/wx/rating_dialog.cc:294
 msgid "Rating"
-msgstr ""
+msgstr "등급"
 
 #: src/wx/interop_metadata_dialog.cc:58 src/wx/smpte_metadata_dialog.cc:73
 msgid "Ratings"
-msgstr ""
+msgstr "등급"
 
 #: src/wx/dcp_panel.cc:858
 msgid "Re-encode JPEG2000 data from input"
-msgstr ""
+msgstr "입력 데이터로부터 JPEG2000 다시 인코딩"
 
 #: src/wx/content_menu.cc:104
 msgid "Re-examine..."
-msgstr ""
+msgstr "다시 검사…"
 
 #: src/wx/certificate_chain_editor.cc:117 src/wx/keys_preferences_page.cc:110
 msgid "Re-make certificates and key..."
-msgstr ""
+msgstr "인증서 및 키 다시 만들기…"
 
 #: src/wx/content_view.cc:93
 msgid "Reading content directory"
-msgstr ""
+msgstr "콘텐츠 디렉터리 읽기"
 
 #: src/wx/colour_conversion_editor.cc:121
 msgid "Rec. 2020"
-msgstr ""
+msgstr "Rec. 2020"
 
 #: src/wx/colour_conversion_editor.cc:119
 msgid "Rec. 601"
-msgstr ""
+msgstr "Rec. 601"
 
 #: src/wx/colour_conversion_editor.cc:120
 msgid "Rec. 709"
-msgstr ""
+msgstr "Rec. 709"
 
 #: src/wx/screen_dialog.cc:151
 msgid "Recipient"
-msgstr ""
+msgstr "수신자"
 
 #: src/wx/recipient_dialog.cc:107
 msgid "Recipient certificate"
-msgstr ""
+msgstr "수신자 인증서"
 
 #: src/wx/dkdm_dialog.cc:78
 msgid "Recipients"
-msgstr ""
+msgstr "수신자들"
 
 #: src/wx/metadata_dialog.cc:312
 msgid "Red band"
-msgstr ""
+msgstr "레드 밴드"
 
 #: src/wx/colour_conversion_editor.cc:140
 msgid "Red chromaticity"
-msgstr ""
+msgstr "적색 색도"
 
 #: src/wx/timeline_reels_view.cc:96
 #, c-format
 msgid "Reel %d"
-msgstr ""
+msgstr "릴 %d"
 
 #: src/wx/dcp_timeline.cc:69
 #, c-format
 msgid "Reel %d to reel %d"
-msgstr ""
+msgstr "릴 %d 에서 릴 %d"
 
 #: src/wx/dcp_timeline.cc:297
 msgid "Reel mode"
-msgstr ""
+msgstr "릴 모드"
 
 #: src/wx/dcp_timeline_dialog.cc:49
 msgid "Reels"
-msgstr ""
+msgstr "릴"
 
 #: src/wx/dcp_panel.cc:118
 msgid "Reels..."
-msgstr ""
+msgstr "릴…"
 
 #: src/wx/dcp_referencing_dialog.cc:107
 msgid "Refer to"
-msgstr ""
+msgstr "참조 대상: "
 
 #: src/wx/playlist_controls.cc:85 src/wx/playlist_controls.cc:99
 msgid "Refresh"
-msgstr ""
+msgstr "새로고침"
 
 #: src/wx/region_subtag_dialog.cc:31
 msgid "Region"
-msgstr ""
+msgstr "지역"
 
 #: src/wx/metadata_dialog.cc:211
 msgid "Release territory"
-msgstr ""
+msgstr "개봉 지역"
 
 #: src/wx/metadata_dialog.cc:213
 msgid "Release territory for this DCP"
-msgstr ""
+msgstr "이 DCP의 개봉 지역"
 
 #: src/wx/certificate_chain_editor.cc:91 src/wx/content_menu.cc:117
 #: src/wx/content_panel.cc:284 src/wx/full_language_tag_dialog.cc:71
 #: src/wx/recipients_panel.cc:73 src/wx/templates_dialog.cc:61
 #: src/wx/editable_list.h:157
 msgid "Remove"
-msgstr ""
+msgstr "제거"
 
 #: src/wx/markers_panel.cc:279
 #, c-format
 msgid "Remove %s marker"
-msgstr ""
+msgstr "%s 마커 제거"
 
 #: src/wx/screens_panel.cc:88
 msgid "Remove Cinema"
-msgstr ""
+msgstr "영화관 제거"
 
 #: src/wx/screens_panel.cc:94
 msgid "Remove Screen"
-msgstr ""
+msgstr "스크린 제거"
 
 #: src/wx/dcp_timeline.cc:175
 msgid "Remove reel boundary"
-msgstr ""
+msgstr "릴 경계 제거"
 
 #: src/wx/content_panel.cc:285
 msgid "Remove the selected piece of content from the film (Delete)."
-msgstr ""
+msgstr "선택한 콘텐츠를 필름에서 제거합니다."
 
 #: src/wx/rename_template_dialog.cc:26
 msgid "Rename template"
-msgstr ""
+msgstr "템플릿 이름 변경"
 
 #: src/wx/templates_dialog.cc:59
 msgid "Rename..."
-msgstr ""
+msgstr "이름 변경…"
 
 #: src/wx/system_information_dialog.cc:66
 msgid "Renderer"
-msgstr ""
+msgstr "렌더러"
 
 #: src/wx/repeat_dialog.cc:27
 msgid "Repeat"
-msgstr ""
+msgstr "반복"
 
 #: src/wx/repeat_dialog.cc:25
 msgid "Repeat Content"
-msgstr ""
+msgstr "콘텐츠 반복"
 
 #: src/wx/content_menu.cc:101
 msgid "Repeat..."
-msgstr ""
+msgstr "반복…"
 
 #: src/wx/report_problem_dialog.cc:44
 msgid "Report A Problem"
-msgstr ""
+msgstr "문제 보고"
 
 #: src/wx/sound_preferences_page.cc:101
 msgid "Reset to default"
-msgstr ""
+msgstr "기본값으로 초기화"
 
 #: src/wx/full_config_dialog.cc:720 src/wx/kdm_email_preferences_page.cc:104
 msgid "Reset to default subject and text"
-msgstr ""
+msgstr "기본 제목 및 본문으로 초기화"
 
 #: src/wx/full_config_dialog.cc:852
 msgid "Reset to default text"
-msgstr ""
+msgstr "기본 텍스트로 초기화"
 
 #: src/wx/dcp_panel.cc:844
 msgid "Resolution"
-msgstr ""
+msgstr "해상도"
 
 #: src/wx/player_config_dialog.cc:138
 msgid "Respect KDM validity periods"
-msgstr ""
+msgstr "KDM 유효 기간 준수"
 
 #: src/wx/subtitle_appearance_dialog.cc:137
 msgid "Restore to original colours"
-msgstr ""
+msgstr "원본 색상으로 복원"
 
 #: src/wx/normal_job_view.cc:65
 msgid "Resume"
-msgstr ""
+msgstr "재개"
 
 #: src/wx/auto_crop_dialog.cc:33 src/wx/controls.cc:89
 #: src/wx/video_panel.cc:131
 msgid "Right"
-msgstr ""
+msgstr "오른쪽"
 
 #: src/wx/audio_mapping_view.cc:565
 msgid "Right click to change gain."
-msgstr ""
+msgstr "게인을 변경하려면 오른쪽 마우스 버튼을 클릭하세요."
 
 #: src/wx/certificate_chain_editor.cc:308
 msgid "Root"
-msgstr ""
+msgstr "루트"
 
 #: src/wx/make_chain_dialog.cc:89
 msgid "Root common name"
-msgstr ""
+msgstr "루트 공통 이름"
 
 #: src/wx/colour_conversion_editor.cc:70
 msgid "S-Gamut3"
-msgstr ""
+msgstr "S-Gamut3"
 
 #: src/wx/full_config_dialog.cc:571
 msgid "SCP (for AAM and Doremi)"
-msgstr ""
+msgstr "SCP (AAM 및 Doremi용)"
 
 #: src/wx/dcp_panel.cc:159
 msgid "SMPTE"
-msgstr ""
+msgstr "SMPTE"
 
 #: src/wx/dcp_panel.cc:161
 msgid "SMPTE (Bv2.0 only)"
-msgstr ""
+msgstr "SMPTE (Bv2.0만)"
 
 #: src/wx/verify_dcp_result_panel.cc:62
 msgid "SMPTE Bv2.1 errors"
-msgstr ""
+msgstr "SMPTE Bv2.1 오류"
 
 #: src/wx/email_preferences_page.cc:81
 msgid "SSL"
-msgstr ""
+msgstr "SSL"
 
 #: src/wx/email_preferences_page.cc:80
 msgid "STARTTLS"
-msgstr ""
+msgstr "STARTTLS"
 
 #: src/wx/full_config_dialog.cc:148
 msgid "Same place as last time"
-msgstr ""
+msgstr "지난번과 같은 위치"
 
 #: src/wx/full_config_dialog.cc:149
 msgid "Same place as project"
-msgstr ""
+msgstr "프로젝트와 같은 위치"
 
 #: src/wx/audio_dialog.cc:403
-#, c-format
+#, fuzzy, c-format
 msgid "Sample peak is %.2fdB at %s on %s"
-msgstr ""
+msgstr "샘플 피크는 %s %s에서 %.2fdB입니다"
 
 #: src/wx/dcp_panel.cc:965
 msgid "Sample rate"
-msgstr ""
+msgstr "샘플 레이트"
 
 #: src/wx/save_template_dialog.cc:41
 msgid "Save as default"
-msgstr ""
+msgstr "기본값으로 저장"
 
 #: src/wx/save_template_dialog.cc:45
 msgid "Save as new with name"
-msgstr ""
+msgstr "새 이름으로 저장"
 
 #: src/wx/save_template_dialog.cc:43
 msgid "Save over existing template"
-msgstr ""
+msgstr "기존 템플릿에 덮어쓰기"
 
 #: src/wx/verify_dcp_result_panel.cc:81
 msgid "Save report as HTML..."
-msgstr ""
+msgstr "보고서를 HTML로 저장…"
 
 #: src/wx/verify_dcp_result_panel.cc:83
 msgid "Save report as PDF..."
-msgstr ""
+msgstr "보고서를 PDF로 저장…"
 
 #: src/wx/verify_dcp_result_panel.cc:79
 msgid "Save report as text..."
-msgstr ""
+msgstr "보고서를 텍스트로 저장…"
 
 #: src/wx/save_template_dialog.cc:39
 msgid "Save template"
-msgstr ""
+msgstr "템플릿 저장"
 
 #: src/wx/self_dkdm_dialog.cc:80
 msgid "Save to KDM Creator tool's list"
-msgstr ""
+msgstr "KDM 생성 도구 목록에 저장"
 
 #: src/wx/text_panel.cc:96 src/wx/video_panel.cc:180
 msgid "Scale"
-msgstr ""
+msgstr "스케일"
 
 #: src/wx/invalid_certificate_period_dialog.cc:47
 msgid "Screen"
-msgstr ""
+msgstr "스크린"
 
 #: src/wx/kdm_dialog.cc:83
 msgid "Screens"
-msgstr ""
+msgstr "스크린"
 
 #: src/wx/full_config_dialog.cc:475
 msgid "Search network for servers"
-msgstr ""
+msgstr "네트워크에서 서버 검색"
 
 #: src/wx/content_timeline_dialog.cc:75
 msgid "Select"
-msgstr ""
+msgstr "선택"
 
 #: src/wx/kdm_cpl_panel.cc:107
 msgid "Select CPL XML file"
-msgstr ""
+msgstr "CPL XML 파일 선택"
 
 #: src/wx/certificate_chain_editor.cc:244 src/wx/keys_preferences_page.cc:236
 #: src/wx/recipient_dialog.cc:176 src/wx/screen_dialog.cc:299
 msgid "Select Certificate File"
-msgstr ""
+msgstr "인증서 파일 선택"
 
 #: src/wx/certificate_chain_editor.cc:161
 msgid "Select Certificate file"
-msgstr ""
+msgstr "인증서 파일 선택"
 
 #: src/wx/certificate_chain_editor.cc:274
 msgid "Select Chain File"
-msgstr ""
+msgstr "체인 파일 선택"
 
 #: src/wx/general_preferences_page.cc:184
 msgid "Select Cinemas File"
-msgstr ""
+msgstr "영화관 파일 선택"
 
 #: src/wx/keys_preferences_page.cc:171
 msgid "Select Export File"
-msgstr ""
+msgstr "내보낼 파일 선택"
 
 #: src/wx/keys_preferences_page.cc:196
 msgid "Select File To Import"
-msgstr ""
+msgstr "가져올 파일 선택"
 
 #: src/wx/content_menu.cc:410
 msgid "Select KDM"
-msgstr ""
+msgstr "KDM 선택"
 
 #: src/wx/certificate_chain_editor.cc:399
 msgid "Select Key File"
-msgstr ""
+msgstr "키 파일 선택"
 
 #: src/wx/certificate_chain_editor.cc:364
 msgid "Select Key file"
-msgstr ""
+msgstr "키 파일 선택"
 
 #: src/wx/content_menu.cc:464
 msgid "Select OV"
-msgstr ""
+msgstr "OV 선택"
 
 #: src/wx/content_timeline_dialog.cc:75
 msgid "Select and move content"
-msgstr ""
+msgstr "콘텐츠 선택 및 이동"
 
 #: src/wx/general_preferences_page.cc:125
 msgid "Select cinema and screen database file"
-msgstr ""
+msgstr "영화관 및 스크린 데이터베이스 파일 선택"
 
 #: src/wx/general_preferences_page.cc:120
 msgid "Select configuration file"
-msgstr ""
+msgstr "설정 파일 선택"
 
 #: src/wx/kdm_config_dialog.cc:64 src/wx/player_config_dialog.cc:143
 msgid "Select debug log file"
-msgstr ""
+msgstr "디버그 로그 파일 선택"
 
 #: src/wx/export_subtitles_dialog.cc:66 src/wx/export_video_file_dialog.cc:104
 msgid "Select output file"
-msgstr ""
+msgstr "출력 파일 선택"
 
 #: src/wx/full_language_tag_dialog.cc:222
 msgid "Select..."
-msgstr ""
+msgstr "선택…"
 
 #: src/wx/dkdm_output_panel.cc:99 src/wx/kdm_output_panel.cc:98
 msgid "Send by email"
-msgstr ""
+msgstr "이메일로 전송"
 
 #: src/wx/confirm_kdm_email_dialog.cc:34
 msgid "Send emails"
-msgstr ""
+msgstr "이메일 보내기"
 
 #: src/wx/report_problem_dialog.cc:71
 msgid "Send logs"
-msgstr ""
+msgstr "로그 전송"
 
 #: src/wx/send_test_email_dialog.cc:26
 msgid "Send test email"
-msgstr ""
+msgstr "테스트 이메일 보내기"
 
 #: src/wx/email_preferences_page.cc:95
 msgid "Send test email..."
-msgstr ""
+msgstr "테스트 이메일 보내기…"
 
 #: src/wx/content_timeline_dialog.cc:79
 msgid "Sequence"
-msgstr ""
+msgstr "시퀀스"
 
 #: src/wx/download_certificate_panel.cc:48
 msgid "Serial number"
-msgstr ""
+msgstr "시리얼 넘버"
 
 #: src/wx/server_dialog.cc:34
 msgid "Server"
-msgstr ""
+msgstr "서버"
 
 #: src/wx/full_config_dialog.cc:462
 msgid "Servers"
-msgstr ""
+msgstr "서버"
 
 #: src/wx/content_advanced_dialog.cc:88 src/wx/timecode.cc:74
 msgid "Set"
-msgstr ""
+msgstr "설정"
 
 #: src/wx/kdm_output_panel.cc:99
 msgid "Set additional email addresses..."
-msgstr ""
+msgstr "추가 이메일 주소 설정…"
 
 #: src/wx/markers_dialog.cc:59
 msgid "Set from current position"
-msgstr ""
+msgstr "현재 위치에서 설정"
 
 #: src/wx/fonts_dialog.cc:72
 msgid "Set from file..."
-msgstr ""
+msgstr "파일에서 설정…"
 
 #: src/wx/fonts_dialog.cc:76
 msgid "Set from system font..."
-msgstr ""
+msgstr "시스템 글꼴에서 설정…"
 
 #: src/wx/general_preferences_page.cc:73
 msgid "Set language"
-msgstr ""
+msgstr "언어 설정"
 
 #: src/wx/content_menu.cc:114
 msgid "Set project DCP settings from this DCP"
-msgstr ""
+msgstr "이 DCP의 설정으로 프로젝트 DCP 설정"
 
 #: src/wx/content_menu.cc:115
 msgid "Set project markers from this DCP"
-msgstr ""
+msgstr "이 DCP의 마커로 프로젝트 마커 설정"
 
 #: src/wx/custom_scale_dialog.cc:42
 msgid "Set ratio and fit to DCP container"
-msgstr ""
+msgstr "비율 설정 및 DCP 컨테이너에 맞춤"
 
 #: src/wx/custom_scale_dialog.cc:52
 msgid "Set size"
-msgstr ""
+msgstr "크기 설정"
 
 #: src/wx/subtitle_appearance_dialog.cc:230
 msgid "Set to"
-msgstr ""
+msgstr "설정 대상:"
 
 #: src/wx/system_information_dialog.cc:68
 msgid "Shading language version"
-msgstr ""
+msgstr "쉐이딩 언어 버전"
 
 #: src/wx/subtitle_appearance_dialog.cc:153
 msgid "Shadow"
-msgstr ""
+msgstr "그림자"
 
 #: src/wx/password_entry.cc:36
 msgid "Show"
-msgstr ""
+msgstr "표시"
 
 #: src/wx/full_config_dialog.cc:1217
 msgid "Show experimental audio processors"
-msgstr ""
+msgstr "실험적 오디오 프로세서 표시"
 
 #: src/wx/audio_panel.cc:75 src/wx/dcp_panel.cc:977
 msgid "Show graph of audio levels..."
-msgstr ""
+msgstr "오디오 레벨 그래프 표시…"
 
 #: src/wx/screens_panel.cc:740
 #, c-format
 msgid "Show only %d checked"
-msgstr ""
+msgstr "체크된 %d개만 표시"
 
 #: src/wx/screens_panel.cc:66 src/wx/screens_panel.cc:738
 msgid "Show only checked"
-msgstr ""
+msgstr "체크된 항목만 표시"
 
 #: src/wx/text_panel.cc:156
 msgid "Show subtitle area"
-msgstr ""
+msgstr "자막 영역 표시"
 
 #: src/wx/metadata_dialog.cc:285
 msgid "Sign language video language"
-msgstr ""
+msgstr "수어 비디오 언어"
 
 #: src/wx/keys_preferences_page.cc:101 src/wx/keys_preferences_page.cc:157
 msgid "Signing DCPs and KDMs"
-msgstr ""
+msgstr "DCP와 KDM 서명"
 
 #: src/wx/full_config_dialog.cc:1316 src/wx/player_config_dialog.cc:126
 msgid "Simple (safer)"
-msgstr ""
+msgstr "단순 (안전)"
 
 #: src/wx/colour_conversion_editor.cc:68
 msgid "Simple gamma"
-msgstr ""
+msgstr "단순 감마"
 
 #: src/wx/colour_conversion_editor.cc:69
 msgid "Simple gamma, linearised for small values"
-msgstr ""
+msgstr "단순 감마, 낮은 값에 대해 선형화됨"
 
 #: src/wx/dcp_timeline.cc:262
 msgid "Single reel"
-msgstr ""
+msgstr "단일 릴"
 
 #: src/wx/player_information.cc:160
 #, c-format
 msgid "Size: %dx%d"
-msgstr ""
+msgstr "크기: %dx%d"
 
 #: src/wx/player_information.cc:162
 msgid "Size: unknown"
-msgstr ""
+msgstr "크기: 알 수 없음"
 
 #: src/wx/audio_dialog.cc:142
+#, fuzzy
 msgid "Smoothing"
-msgstr ""
+msgstr "부드럽게"
 
 #: src/wx/content_timeline_dialog.cc:78
 msgid "Snap"
-msgstr ""
+msgstr "스냅"
 
 #: src/wx/dcp_timeline.cc:314
 msgid "Snap when dragging"
-msgstr ""
+msgstr "드래그할 때 스냅 적용"
 
 #: src/wx/invalid_certificate_period_dialog.cc:83
 msgid ""
 "Some KDMs would have validity periods which are outside the recipient "
 "certificate validity periods.  What do you want to do?"
 msgstr ""
+"일부 KDM의 유효 기간이 수신자 인증서의 유효 기간을 벗어납니다.  어떻게 하시겠"
+"습니까?"
 
 #: src/wx/verify_dcp_result_panel.cc:610
 msgid ""
 "Some closed <Text> or <Image> nodes have different vertical alignments "
 "within a <Subtitle>."
 msgstr ""
+"일부 클로즈드 <Text> 또는 <Image> 노드가 한 <Subtitle> 내에서 서로 다른 수직 "
+"정렬을 가지고 있습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:613
 msgid ""
 "Some closed captions are not listed in the order of their vertical position."
-msgstr ""
+msgstr "일부 클로즈드 캡션이 수직 위치 순서대로 나열되지 않았습니다."
 
 #: src/wx/dcp_referencing_dialog.cc:115 src/wx/sound_preferences_page.cc:65
 msgid "Sound"
-msgstr ""
+msgstr "사운드"
 
 #: src/wx/verify_dcp_result_panel.cc:640
 msgid "Sound assets do not all have the same channel count."
-msgstr ""
+msgstr "모든 사운드 에셋의 채널 수가 동일하지 않습니다."
 
 #: src/wx/gain_calculator_dialog.cc:33
 msgid "Sound processor"
-msgstr ""
+msgstr "사운드 프로세서"
 
 #: src/wx/video_panel.cc:185
 msgid ""
 "Source\n"
 "colourspace"
 msgstr ""
+"소스\n"
+"색공간"
 
 #: src/wx/metadata_dialog.cc:206
 msgid "Specific"
-msgstr ""
+msgstr "특정"
 
 #: src/wx/dcp_timeline.cc:268
 msgid "Split by maximum reel size"
-msgstr ""
+msgstr "최대 릴 크기로 나누기"
 
 #: src/wx/dcp_timeline.cc:265
 msgid "Split by video content"
-msgstr ""
+msgstr "비디오 콘텐츠별로 나누기"
 
 #: src/wx/update_dialog.cc:55
 msgid "Stable version"
-msgstr ""
+msgstr "안정 버전"
 
 #: src/wx/dcp_panel.cc:113 src/wx/metadata_dialog.cc:78
 #: src/wx/rating_dialog.cc:50
 msgid "Standard"
-msgstr ""
+msgstr "표준"
 
 #: src/wx/text_view.cc:60
 msgid "Start"
-msgstr ""
+msgstr "시작"
 
 #: src/wx/move_to_dialog.cc:39
 msgid "Start of reel"
-msgstr ""
+msgstr "릴의 시작"
 
 #: src/wx/player_config_dialog.cc:109
+#, fuzzy
 msgid "Start player as"
-msgstr ""
+msgstr "플레이어 시작 모드:"
 
 #: src/wx/smpte_metadata_dialog.cc:90
 msgid "Status"
-msgstr ""
+msgstr "상태"
 
 #: src/wx/playlist_controls.cc:60
 msgid "Stop"
-msgstr ""
+msgstr "정지"
 
 #: src/wx/text_panel.cc:108
 msgid "Stream"
-msgstr ""
+msgstr "스트림"
 
 #: src/wx/metadata_dialog.cc:294
 msgid "Studio"
-msgstr ""
+msgstr "스튜디오"
 
 #: src/wx/full_config_dialog.cc:683 src/wx/kdm_email_preferences_page.cc:71
 msgid "Subject"
-msgstr ""
+msgstr "주체"
 
 #: src/wx/screen_dialog.cc:187
 msgid "Subject common name"
-msgstr ""
+msgstr "주체 공통 이름"
 
 #: src/wx/screen_dialog.cc:188
 msgid "Subject organization name"
-msgstr ""
+msgstr "주체 기관명"
 
 #: src/wx/about_dialog.cc:178
 msgid "Subscribers"
-msgstr ""
+msgstr "구독자"
 
 #: src/wx/subtitle_appearance_dialog.cc:61
 msgid "Subtitle appearance"
-msgstr ""
+msgstr "자막 모양새"
 
 #: src/wx/verify_dcp_result_panel.cc:420
 #, c-format
 msgid "Subtitle asset %n has a non-zero <EntryPoint>."
-msgstr ""
+msgstr "자막 에셋 %n에 0이 아닌 <EntryPoint>가 있습니다."
 
 #: src/wx/export_subtitles_dialog.cc:105
 msgid "Subtitle files (.mxf)|*.mxf"
-msgstr ""
+msgstr "자막 파일 (.mxf)|*.mxf"
 
 #: src/wx/export_subtitles_dialog.cc:105
 msgid "Subtitle files (.xml)|*.xml"
-msgstr ""
+msgstr "자막 파일 (.xml)|*.xml"
 
 #: src/wx/dcp_referencing_dialog.cc:115
 msgid "Subtitles"
-msgstr ""
+msgstr "자막"
 
 #: src/wx/timeline_labels_view.cc:43 src/wx/timeline_labels_view.cc:80
 msgid "Subtitles/captions"
-msgstr ""
+msgstr "자막/캡션"
 
 #: src/wx/player_information.cc:173
 msgid "Subtitles: no"
-msgstr ""
+msgstr "자막: 없음"
 
 #: src/wx/player_information.cc:171
 msgid "Subtitles: yes"
-msgstr ""
+msgstr "자막: 있음"
 
 #: src/wx/system_information_dialog.cc:46
 #: src/wx/system_information_dialog.cc:80
 msgid "System information"
-msgstr ""
+msgstr "시스템 정보"
 
 #: src/wx/full_config_dialog.cc:527
 msgid "TMS"
-msgstr ""
+msgstr "TMS"
 
 #: src/wx/full_config_dialog.cc:559
 msgid "Target path"
-msgstr ""
+msgstr "대상 경로"
 
 #: src/wx/templates_dialog.cc:51
 msgid "Template"
-msgstr ""
+msgstr "템플릿"
 
 #: src/wx/templates_dialog.cc:143
 msgid "Template names must not be empty."
-msgstr ""
+msgstr "템플릿 이름은 비워둘 수 없습니다."
 
 #: src/wx/templates_dialog.cc:41
 msgid "Templates"
-msgstr ""
+msgstr "템플릿"
 
 #: src/wx/smpte_metadata_dialog.cc:137
 msgid "Temporary"
-msgstr ""
+msgstr "임시"
 
 #: src/wx/metadata_dialog.cc:304
 msgid "Temporary version"
-msgstr ""
+msgstr "임시 버전"
 
 #: src/wx/metadata_dialog.cc:204
 msgid "Territory type"
-msgstr ""
+msgstr "지역 유형"
 
 #: src/wx/email_preferences_page.cc:201 src/wx/email_preferences_page.cc:204
 msgid "Test email sending failed."
-msgstr ""
+msgstr "테스트 이메일 전송에 실패했습니다."
 
 #: src/wx/email_preferences_page.cc:207
 msgid "Test email sent."
-msgstr ""
+msgstr "테스트 이메일을 보냈습니다."
 
 #: src/wx/update_dialog.cc:62
 msgid "Test version"
-msgstr ""
+msgstr "테스트 버전"
 
 #: src/wx/about_dialog.cc:249
 msgid "Tested by"
-msgstr ""
+msgstr "테스트한 사람 "
 
 #: src/wx/kdm_timing_panel.cc:161
 msgid "The 'until' time must be after the 'from' time."
-msgstr ""
+msgstr "'종료' 시간은 '시작' 시간보다 늦어야 합니다."
 
 #: src/wx/verify_dcp_result_panel.cc:668
 #, c-format
 msgid "The <LabelText> in a <ContentVersion> in CPL %cpl is empty"
-msgstr ""
+msgstr "CPL %cpl의 <ContentVersion> 내 <LabelText>가 비어 있습니다"
 
 #: src/wx/verify_dcp_result_panel.cc:625
 msgid ""
 "The <MainPictureActiveArea> is either not a multiple of 2, or is bigger than "
 "an asset."
-msgstr ""
+msgstr "<MainPictureActiveArea>가 2의 배수가 아니거나 에셋보다 큽니다."
 
 #: src/wx/verify_dcp_result_panel.cc:631
 #, c-format
 msgid "The ASSETMAP %n has more than one asset with the same ID."
-msgstr ""
+msgstr "ASSETMAP %n에 동일한 ID를 가진 에셋이 둘 이상 있습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:585
+#, fuzzy
 msgid ""
 "The Asset ID in a timed text MXF is the same as the Resource ID or that of "
 "the contained XML."
 msgstr ""
+"Timed Text MXF의 에셋 ID가 리소스 ID 또는 포함된 XML의 ID와 동일합니다."
 
 #: src/wx/verify_dcp_result_panel.cc:405
 #, c-format
 msgid ""
 "The CPL %cpl has an <AnnotationText> which is not the same as its "
 "<ContentTitleText>."
-msgstr ""
+msgstr "CPL %cpl의 <AnnotationText>가 <ContentTitleText>와 다릅니다."
 
 #: src/wx/verify_dcp_result_panel.cc:671
 #, c-format
 msgid "The CPL %cpl has an invalid namespace %n"
-msgstr ""
+msgstr "CPL %cpl에 유효하지 않은 네임스페이스 %n이(가) 있습니다"
 
 #: src/wx/verify_dcp_result_panel.cc:462
 #, c-format
 msgid "The CPL %cpl has encrypted content but is not signed."
-msgstr ""
+msgstr "CPL %cpl에 암호화된 콘텐츠가 있지만 서명되지 않았습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:402
 #, c-format
 msgid "The CPL %cpl has no <AnnotationText> tag."
-msgstr ""
+msgstr "CPL %cpl에 <AnnotationText> 태그가 없습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:674
 #, c-format
 msgid "The CPL %cpl has no <ContentVersion> tag"
-msgstr ""
+msgstr "CPL %cpl에 <ContentVersion> 태그가 없습니다"
 
 #: src/wx/verify_dcp_result_panel.cc:456
 #, c-format
 msgid "The CPL %cpl has no CPL extension metadata tag."
-msgstr ""
+msgstr "CPL %cpl에 CPL 확장 메타데이터 태그가 없습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:450
 #, c-format
 msgid "The CPL %cpl has no CPL metadata tag."
-msgstr ""
+msgstr "CPL %cpl에 CPL 메타데이터 태그가 없습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:453
 #, c-format
 msgid "The CPL %cpl has no CPL metadata version number tag."
-msgstr ""
+msgstr "CPL %cpl에 CPL 메타데이터 버전 번호 태그가 없습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:459
 #, c-format
 msgid "The CPL %f has an invalid CPL extension metadata tag (%n)"
-msgstr ""
+msgstr "CPL %f에 유효하지 않은 CPL 확장 메타데이터 태그(%n)가 있습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:444
 #, c-format
 msgid "The DCP has a FFOC of %n instead of 1."
-msgstr ""
+msgstr "DCP의 FFOC가 1이 아닌 %n입니다."
 
 #: src/wx/verify_dcp_result_panel.cc:447
 #, c-format
 msgid "The DCP has a LFOC of %n instead of the reel duration minus one."
-msgstr ""
+msgstr "DCP의 LFOC가 (릴 길이 - 1)이 아닌 %n입니다."
 
 #: src/wx/verify_dcp_result_panel.cc:414
 msgid ""
 "The DCP has closed captions but not every reel has the same number of closed "
 "caption assets."
 msgstr ""
+"DCP에 클로즈드 캡션이 있지만, 모든 릴의 클로즈드 캡션 에셋 수가 동일하지 않습"
+"니다."
 
 #: src/wx/verify_dcp_result_panel.cc:471
 msgid "The DCP has encrypted content, but not all its assets are encrypted."
-msgstr ""
+msgstr "DCP에 암호화된 콘텐츠가 있지만, 모든 에셋이 암호화되지는 않았습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:438
 msgid "The DCP has no FFOC (first frame of content) marker."
-msgstr ""
+msgstr "DCP에 FFOC(콘텐츠 첫 프레임) 마커가 없습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:441
 msgid "The DCP has no LFOC (last frame of content) marker."
-msgstr ""
+msgstr "DCP에 LFOC(콘텐츠 마지막 프레임) 마커가 없습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:411
 msgid "The DCP has subtitles but at least one reel has no subtitle asset."
-msgstr ""
+msgstr "DCP에 자막이 있지만, 최소 하나 이상의 릴에 자막 에셋이 없습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:432
 msgid ""
 "The DCP is a feature but has no FFEC (first frame of end credits) marker."
-msgstr ""
+msgstr "본편 DCP임에도 FFEC(엔드 크레딧 첫 프레임) 마커가 없습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:435
 msgid ""
 "The DCP is a feature but has no FFMC (first frame of moving credits) marker."
-msgstr ""
+msgstr "본편 DCP임에도 FFMC(롤링 크레딧 첫 프레임) 마커가 없습니다."
 
 #: src/wx/dkdm_dialog.cc:178 src/wx/kdm_dialog.cc:246
 #, c-format
@@ -3424,17 +3562,21 @@ msgid ""
 "certificates' validity period.  Either use an earlier end time for this KDM "
 "or re-create your signing certificates in the %s preferences window."
 msgstr ""
+"KDM 종료 기간이 서명 인증서의 유효 기간 종료 후(또는 직후)입니다.  이 KDM의 "
+"종료 시간을 앞당기거나 %s 설정 창에서 서명 인증서를 다시 생성하십시오."
 
 #: src/wx/dkdm_dialog.cc:173 src/wx/kdm_dialog.cc:241
 msgid ""
 "The KDM start period is before (or close to) the start of the signing "
 "certificate's validity period.  Use a later start time for this KDM."
 msgstr ""
+"KDM 시작 기간이 서명 인증서의 유효 기간 시작 전(또는 직전)입니다. 이 KDM의 시"
+"작 시간을 더 늦춰주십시오."
 
 #: src/wx/verify_dcp_result_panel.cc:690
 #, c-format
 msgid "The PKL %f has an invalid namespace %n"
-msgstr ""
+msgstr "PKL %f에 유효하지 않은 네임스페이스 %n이(가) 있습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:468
 #, c-format
@@ -3442,96 +3584,98 @@ msgid ""
 "The PKL %n has an <AnnotationText> which does not match its CPL's "
 "<ContentTitleText>."
 msgstr ""
+"PKL %n의 <AnnotationText>가 해당 CPL의 <ContentTitleText>와 일치하지 않습니"
+"다."
 
 #: src/wx/verify_dcp_result_panel.cc:465
 #, c-format
 msgid "The PKL %n has encrypted content but is not signed."
-msgstr ""
+msgstr "PKL %n에 암호화된 콘텐츠가 포함되어 있지만 서명되지 않았습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:628
 #, c-format
 msgid "The PKL %n has more than one asset with the same ID."
-msgstr ""
+msgstr "PKL %n에 동일한 ID를 가진 에셋이 둘 이상 있습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:274
 #, c-format
 msgid "The PKL and CPL hashes disagree for picture asset %f."
-msgstr ""
+msgstr "영상 에셋 %f에 대한 PKL과 CPL의 해시값이 일치하지 않습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:280
 #, c-format
 msgid "The PKL and CPL hashes disagree for sound asset %f."
-msgstr ""
+msgstr "사운드 에셋 %f에 대한 PKL과 CPL의 해시값이 일치하지 않습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:582
 msgid ""
 "The Resource ID in a timed text MXF did not match the ID of the contained "
 "XML."
-msgstr ""
+msgstr "타임드 텍스트 MXF의 리소스 ID가 포함된 XML의 ID와 일치하지 않습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:662
 #, c-format
 msgid "The SMPTE subtitle asset %id has <Text> nodes but no <LoadFont> node"
-msgstr ""
+msgstr "SMPTE 자막 에셋 %id에 <Text> 노드는 있지만 <LoadFont> 노드가 없습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:296
 #, c-format
 msgid "The XML in %f is malformed (%n)."
-msgstr ""
+msgstr "%f의 XML 형식이 잘못되었습니다 (%n)."
 
 #: src/wx/verify_dcp_result_panel.cc:294
 msgid "The XML in %f is malformed on line %l (%n)."
-msgstr ""
+msgstr "%f의 XML 형식이 %l번째 줄에서 잘못되었습니다 (%n)."
 
 #: src/wx/verify_dcp_result_panel.cc:348
 #, c-format
 msgid ""
 "The XML in the closed caption asset %f takes up %n bytes which is over the "
 "256KB limit."
-msgstr ""
+msgstr "캡션 에셋 %f의 XML 용량이 %n 바이트로, 제한치인 256KB를 초과했습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:656
 #, c-format
 msgid ""
 "The XML in the subtitle asset %n has more than one namespace declaration."
-msgstr ""
+msgstr "자막 에셋 %n의 XML에 둘 이상의 네임스페이스 선언이 있습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:327
 #, c-format
 msgid "The asset %f is 3D but its MXF is marked as 2D."
-msgstr ""
+msgstr "에셋 %f는 3D이지만 해당 MXF는 2D로 표시되어 있습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:286
 #, c-format
 msgid "The asset %f is missing."
-msgstr ""
+msgstr "에셋 %f이(가) 누락되었습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:307
 #, c-format
 msgid "The asset %n has a duration of less than 1 second, which is invalid."
-msgstr ""
+msgstr "에셋 %n의 재생 시간이 1초 미만이며, 이는 유효하지 않습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:304
 #, c-format
 msgid ""
 "The asset %n has an intrinsic duration of less than 1 second, which is "
 "invalid."
-msgstr ""
+msgstr "에셋 %n의 고유 재생 시간이 1초 미만이며, 이는 유효하지 않습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:429
 #, c-format
 msgid "The asset %n has no <Hash> in the CPL."
-msgstr ""
+msgstr "에셋 %n에 대한 <Hash>가 CPL에 없습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:665
 #, c-format
 msgid "The asset with ID %id in the asset map actually has an id of %other_id"
-msgstr ""
+msgstr "에셋 맵의 ID %id인 에셋이 실제로는 %other_id라는 ID를 가지고 있습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:423
 #, c-format
 msgid "The closed caption asset %n has no <EntryPoint> tag."
-msgstr ""
+msgstr "캡션 에셋 %n에 <EntryPoint> 태그가 없습니다."
 
 #: src/wx/film_name_location_dialog.cc:146
 #, c-format
@@ -3539,6 +3683,7 @@ msgid ""
 "The directory %s already exists and is not empty.  Are you sure you want to "
 "use it?"
 msgstr ""
+"%s 디렉토리가 이미 존재하며 비어 있지 않습니다.  정말로 사용하시겠습니까?"
 
 #: src/wx/try_unmount_dialog.cc:44
 #, c-format
@@ -3549,12 +3694,19 @@ msgid ""
 "\n"
 "Should DCP-o-matic try to unmount it now?"
 msgstr ""
+"<b>%s</b> 드라이브가 마운트되어 있습니다.\n"
+"\n"
+"%s에서 쓰기 작업을 하려면 먼저 마운트를 해제해야 합니다.\n"
+"\n"
+"지금 DCP-o-matic이 마운트 해제를 시도할까요?"
 
 #: src/wx/wx_util.cc:717
 msgid ""
 "The existing configuration failed to load.  Default values will be used "
 "instead.  These may take a short time to create."
 msgstr ""
+"기존 설정을 불러오지 못했습니다.  대신 기본값이 사용됩니다.  기본값을 생성하"
+"는데 시간이 조금 걸릴 수 있습니다."
 
 #: src/wx/config_move_dialog.cc:37
 #, c-format
@@ -3562,11 +3714,13 @@ msgid ""
 "The file %s already exists.  Do you want to use it as your new configuration "
 "or overwrite it with your current configuration?"
 msgstr ""
+"%s 파일이 이미 존재합니다.  이 파일을 새 설정으로 사용하시겠습니까, 아니면 현"
+"재 설정으로 덮어쓰시겠습니까?"
 
 #: src/wx/verify_dcp_result_panel.cc:369
 msgid ""
 "The first subtitle or closed caption happens before 4s into the first reel."
-msgstr ""
+msgstr "첫 번째 자막 또는 캡션이 첫 번째 릴의 시작 후 4초 이전에 나타납니다."
 
 #: src/wx/verify_dcp_result_panel.cc:646
 #, c-format
@@ -3574,6 +3728,8 @@ msgid ""
 "The font file for font ID \"%n\" was not found, or was not referred to in "
 "the ASSETMAP."
 msgstr ""
+"폰트 ID \\\"%n\\\"에 대한 폰트 파일을 찾을 수 없거나 ASSETMAP에서 참조되지 않"
+"았습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:354
 #, c-format
@@ -3581,6 +3737,8 @@ msgid ""
 "The fonts in the timed text asset %f take up %n bytes which is over the 10MB "
 "limit."
 msgstr ""
+"타임드 텍스트 에셋 %f의 폰트 용량이 %n 바이트로, 제한치인 10MB를 초과했습니"
+"다."
 
 #: src/wx/verify_dcp_result_panel.cc:271
 msgid ""
@@ -3588,6 +3746,8 @@ msgid ""
 "PKL file (%reference_hash).  This probably means that the asset file is "
 "corrupt."
 msgstr ""
+"영상 에셋 %f의 해시값(%calculated_hash)이 PKL 파일(%reference_hash)과 일치하"
+"지 않습니다.  에셋 파일이 손상되었을 가능성이 있습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:277
 msgid ""
@@ -3595,6 +3755,8 @@ msgid ""
 "PKL file (%reference_hash).  This probably means that the asset file is "
 "corrupt."
 msgstr ""
+"사운드 에셋 %f의 해시값(%calculated_hash)이 PKL 파일(%reference_hash)과 일치"
+"하지 않습니다.  에셋 파일이 손상되었을 가능성이 있습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:265
 msgid ""
@@ -3602,21 +3764,23 @@ msgid ""
 "the CPL file (%calculated_hash).  This probably means that the CPL file is "
 "corrupt."
 msgstr ""
+"PKL 내 CPL %cpl의 해시값(%reference_hash)이 CPL 파일(%calculated_hash)과 일치"
+"하지 않습니다.  CPL 파일이 손상되었을 가능성이 있습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:333
 #, c-format
 msgid "The invalid language tag %n is used."
-msgstr ""
+msgstr "유효하지 않은 언어 태그 %n이(가) 사용되었습니다."
 
 #: src/wx/smpte_metadata_dialog.cc:63
 #, c-format
 msgid "The language that the film's title (\"%s\") is in"
-msgstr ""
+msgstr "필름 제목(\\\"%s\\\")에 사용된 언어"
 
 #: src/wx/verify_dcp_result_panel.cc:268
 #, c-format
 msgid "The picture in a reel has a frame rate of %n, which is not valid."
-msgstr ""
+msgstr "릴 내 영상의 프레임 레이트 %n은(는) 유효하지 않습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:595
 #, c-format
@@ -3624,130 +3788,139 @@ msgid ""
 "The reel duration (%s) of some timed text is not the same as the "
 "ContainerDuration (%s) of its MXF."
 msgstr ""
+"일부 타임드 텍스트의 릴 재생 시간(%s)이 해당 MXF의 컨테이너 재생 시간(%s)과 "
+"다릅니다."
 
 #: src/wx/verify_dcp_result_panel.cc:399
 #, c-format
 msgid "The sound asset %f has an invalid bit depth of %n."
-msgstr ""
+msgstr "사운드 에셋 %f의 비트 심도 %n은(는) 유효하지 않습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:396
 #, c-format
 msgid "The sound asset %f has an invalid frame rate of %n."
-msgstr ""
+msgstr "사운드 에셋 %f의 프레임 레이트 %n은(는) 유효하지 않습니다."
 
 #: src/wx/dcp_panel.cc:142
 msgid ""
 "The standard that the DCP should use.  Interop is older, and SMPTE is the "
 "newer (current) standard.  If in doubt, choose 'SMPTE'"
 msgstr ""
+"DCP가 사용할 표준입니다.  Interop은 예전 방식이며, SMPTE는 최신(현재) 표준입"
+"니다.  잘 모르시겠다면 'SMPTE'를 선택하십시오."
 
 #: src/wx/verify_dcp_result_panel.cc:357
 #, c-format
 msgid "The subtitle asset %f contains no <Language> tag."
-msgstr ""
+msgstr "자막 에셋 %f에 <Language> 태그가 없습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:363
 #, c-format
 msgid "The subtitle asset %f contains no <StartTime> tag."
-msgstr ""
+msgstr "자막 에셋 %f에 <StartTime> 태그가 없습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:366
 #, c-format
 msgid "The subtitle asset %f has a <StartTime> which is not zero."
-msgstr ""
+msgstr "자막 에셋 %f의 <StartTime>이 0이 아닙니다."
 
 #: src/wx/verify_dcp_result_panel.cc:634
 #, c-format
 msgid "The subtitle asset %n contains no subtitles."
-msgstr ""
+msgstr "자막 에셋 %n에 자막이 없습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:417
 #, c-format
 msgid "The subtitle asset %n has no <EntryPoint> tag."
-msgstr ""
+msgstr "자막 에셋 %n에 <EntryPoint> 태그가 없습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:351
 #, c-format
 msgid ""
 "The timed text asset %f takes up %n bytes which is over the 115MB limit."
 msgstr ""
+"타임드 텍스트 에셋 %f의 용량이 %n 바이트로, 제한치인 115MB를 초과했습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:345
 #, c-format
 msgid ""
 "The video asset %f uses the frame rate %n which is invalid for 3D video."
 msgstr ""
+"영상 에셋 %f에 사용된 프레임 레이트 %n은(는) 3D 영상에 유효하지 않습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:342
 #, c-format
 msgid ""
 "The video asset %f uses the frame rate %n which is invalid for 4K video."
 msgstr ""
+"영상 에셋 %f에 사용된 프레임 레이트 %n은(는) 4K 영상에 유효하지 않습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:339
 #, c-format
 msgid "The video asset %f uses the invalid frame rate %n."
-msgstr ""
+msgstr "영상 에셋 %f에 유효하지 않은 프레임 레이트 %n이(가) 사용되었습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:336
 #, c-format
 msgid "The video asset %f uses the invalid image size %n."
-msgstr ""
+msgstr "영상 에셋 %f에 유효하지 않은 이미지 크기 %n이(가) 사용되었습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:390
 msgid "There are more than 3 closed caption lines in at least one place."
-msgstr ""
+msgstr "최소 한 곳에서 클로즈드 캡션이 3줄을 초과합니다."
 
 #: src/wx/verify_dcp_result_panel.cc:381
 msgid "There are more than 3 subtitle lines in at least one place."
-msgstr ""
+msgstr "최소 한 곳에서 자막이 3줄을 초과합니다."
 
 #: src/wx/verify_dcp_result_panel.cc:393
 msgid "There are more than 32 characters in at least one closed caption line."
-msgstr ""
+msgstr "최소 한 줄의 클로즈드 캡션이 32글자를 초과합니다."
 
 #: src/wx/verify_dcp_result_panel.cc:384
 msgid "There are more than 52 characters in at least one subtitle line."
-msgstr ""
+msgstr "최소 한 줄의 자막이 52글자를 초과합니다."
 
 #: src/wx/verify_dcp_result_panel.cc:387
 msgid "There are more than 79 characters in at least one subtitle line."
-msgstr ""
+msgstr "최소 한 줄의 자막이 79글자를 초과합니다."
 
 #: src/wx/hints_dialog.cc:146
 msgid "There are no hints yet: project check in progress."
-msgstr ""
+msgstr "아직 힌트가 없습니다. 프로젝트 검사가 진행 중입니다."
 
 #: src/wx/hints_dialog.cc:144
 msgid "There are no hints: everything looks good!"
-msgstr ""
+msgstr "힌트가 없습니다. 모든 것이 완벽합니다!"
 
 #: src/wx/verify_dcp_result_panel.cc:619
 msgid "There is a <Duration> tag inside a <MainMarkers>."
-msgstr ""
+msgstr "<MainMarkers> 안에 <Duration> 태그가 있습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:616
 msgid "There is a <EntryPoint> tag inside a <MainMarkers>."
-msgstr ""
+msgstr "<MainMarkers> 안에 <EntryPoint> 태그가 있습니다."
 
 #: src/wx/save_template_dialog.cc:105
 msgid ""
 "There is already a template with this name.  Do you want to overwrite it?"
-msgstr ""
+msgstr "같은 이름의 템플릿이 이미 존재합니다. 덮어쓰시겠습니까?"
 
 #: src/wx/film_viewer.cc:179
 msgid "There is not enough free memory to do that."
-msgstr ""
+msgstr "메모리 용량이 부족하여 해당 작업을 수행할 수 없습니다."
 
 #: src/wx/film_viewer.cc:362
 msgid ""
 "There was a problem starting audio playback.  Please try another audio "
 "output device in Preferences."
 msgstr ""
+"오디오 재생을 시작하는 중 문제가 발생했습니다.  설정의 기본 설정에서 다른 오"
+"디오 출력 장치를 시도해 보십시오."
 
 #: src/wx/kdm_cpl_panel.cc:134
 msgid "This CPL contains no encrypted assets."
-msgstr ""
+msgstr "이 CPL에는 암호화된 에셋이 포함되어 있지 않습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:324
 #, c-format
@@ -3755,10 +3928,11 @@ msgid ""
 "This DCP refers to at the asset %n in another DCP (and perhaps others), so "
 "it is a \"version file\" (VF)"
 msgstr ""
+"이 DCP는 다른 DCP(또는 그 외)의 에셋 %n을 참조하므로 \"버전 파일\"(VF)입니다"
 
 #: src/wx/verify_dcp_result_panel.cc:330
 msgid "This DCP uses the Interop standard, but it should be made with SMPTE."
-msgstr ""
+msgstr "이 DCP는 Interop 표준을 사용하지만, SMPTE로 제작되어야 합니다."
 
 #: src/wx/content_menu.cc:445
 msgid ""
@@ -3766,25 +3940,29 @@ msgid ""
 "selected one.  To play the currently-selected CPL you will need a different "
 "KDM."
 msgstr ""
+"이 KDM은 이 DCP의 CPL 중 하나를 위해 제작되었지만, 현재 선택된 CPL용은 아닙니"
+"다.  현재 선택된 CPL을 재생하려면 다른 KDM이 필요합니다."
 
 #: src/wx/content_menu.cc:440
 msgid "This KDM was not made for this DCP.  You will need a different one."
-msgstr ""
+msgstr "이 KDM은 이 DCP용으로 제작되지 않았습니다.  다른 KDM이 필요합니다."
 
 #: src/wx/certificate_chain_editor.cc:177
 msgid ""
 "This file contains other certificates (or other data) after its first "
 "certificate. Only the first certificate will be used."
 msgstr ""
+"이 파일의 첫 번째 인증서 뒤에 다른 인증서(또는 다른 데이터)가 포함되어 있습니"
+"다.  첫 번째 인증서만 사용됩니다."
 
 #: src/wx/email_preferences_page.cc:192
 #, c-format
 msgid "This is a test email from %s."
-msgstr ""
+msgstr "이것은 %s에서 보낸 테스트 이메일입니다."
 
 #: src/wx/kdm_cpl_panel.cc:153 src/wx/kdm_cpl_panel.cc:156
 msgid "This is not a valid CPL file"
-msgstr ""
+msgstr "유효한 CPL 파일이 아닙니다"
 
 #: src/wx/content_panel.cc:694
 #, c-format
@@ -3793,18 +3971,20 @@ msgid ""
 "project.  Choose the DCP folder inside the %s project folder if that's what "
 "you want to import."
 msgstr ""
+"이것은 %s 프로젝트 폴더로 보이며, 다른 프로젝트에 추가할 수 없습니다.  가져오"
+"고 싶은 것이 DCP라면 %s 프로젝트 폴더 내의 DCP 폴더를 선택하십시오."
 
 #: src/wx/playlist_controls.cc:366
 msgid "This playlist cannot be loaded as a KDM is missing or incorrect."
-msgstr ""
+msgstr "KDM이 누락되었거나 올바르지 않아 이 재생목록을 불러올 수 없습니다."
 
 #: src/wx/playlist_controls.cc:331
 msgid "This playlist cannot be loaded as some content is missing."
-msgstr ""
+msgstr "일부 콘텐츠가 누락되어 이 재생목록을 불러올 수 없습니다."
 
 #: src/wx/playlist_controls.cc:337
 msgid "This playlist is empty."
-msgstr ""
+msgstr "재생목록이 비어 있습니다."
 
 #: src/wx/full_config_dialog.cc:955
 #, c-format
@@ -3813,6 +3993,8 @@ msgid ""
 "blank, a default value mentioning libdcp (an internal %s library) will be "
 "used."
 msgstr ""
+"이는 DCP의 JPEG2000 데이터에 주석으로 기록됩니다.  비워두면 libdcp(내부 %s 라"
+"이브러리)를 언급하는 기본값이 사용됩니다."
 
 #: src/wx/full_config_dialog.cc:931
 #, c-format
@@ -3821,6 +4003,8 @@ msgid ""
 "blank, a default value mentioning libdcp (an internal %s library) will be "
 "used."
 msgstr ""
+"이는 DCP의 MXF 파일에 '회사명'으로 기록됩니다. 비워두면 libdcp(내부 %s 라이브"
+"러리)를 언급하는 기본값이 사용됩니다."
 
 #: src/wx/full_config_dialog.cc:939
 #, c-format
@@ -3829,6 +4013,8 @@ msgid ""
 "blank, a default value mentioning libdcp (an internal %s library) will be "
 "used."
 msgstr ""
+"이는 DCP의 MXF 파일에 '제품명'으로 기록됩니다. 비워두면 libdcp(내부 %s 라이브"
+"러리)를 언급하는 기본값이 사용됩니다."
 
 #: src/wx/full_config_dialog.cc:947
 #, c-format
@@ -3837,6 +4023,8 @@ msgid ""
 "is blank, a default value mentioning libdcp (an internal %s library) will be "
 "used."
 msgstr ""
+"이는 DCP의 MXF 파일에 '제조 버전'으로 기록됩니다. 비워두면 libdcp(내부 %s 라"
+"이브러리)를 언급하는 기본값이 사용됩니다."
 
 #: src/wx/full_config_dialog.cc:923
 #, c-format
@@ -3844,6 +4032,8 @@ msgid ""
 "This will be written to the DCP's XML files as the <Creator>.  If it is "
 "blank, a default value mentioning %s will be used."
 msgstr ""
+"이는 DCP의 XML 파일에 <Creator>로 기록됩니다. 비워두면 %s를 언급하는 기본값"
+"이 사용됩니다."
 
 #: src/wx/full_config_dialog.cc:915
 #, c-format
@@ -3851,430 +4041,436 @@ msgid ""
 "This will be written to the DCP's XML files as the <Issuer>.  If it is "
 "blank, a default value mentioning %s will be used."
 msgstr ""
+"이는 DCP의 XML 파일에 <Issuer>로 기록됩니다. 비워두면 %s를 언급하는 기본값이 "
+"사용됩니다."
 
 #: src/wx/servers_list_dialog.cc:53
 msgid "Threads"
-msgstr ""
+msgstr "스레드"
 
 #: src/wx/auto_crop_dialog.cc:39
 msgid "Threshold"
-msgstr ""
+msgstr "임계값"
 
 #: src/wx/certificate_chain_editor.cc:75 src/wx/screen_dialog.cc:54
 #: src/wx/screen_dialog.cc:178 src/wx/screen_dialog.cc:210
 msgid "Thumbprint"
-msgstr ""
+msgstr "지문"
 
 #: src/wx/verify_dcp_dialog.cc:63
 msgid ""
 "Tick to check details of the picture asset, such as frame sizes and JPEG2000 "
 "bitstream validity.  These checks are quite time-consuming."
 msgstr ""
+"프레임 크기 및 JPEG2000 비트스트림 유효성과 같은 영상 에셋의 상세 정보를 확인"
+"하려면 선택하십시오.  이 확인 작업은 시간이 꽤 소요됩니다."
 
 #: src/wx/content_timeline_dialog.cc:49
 msgid "Timeline"
-msgstr ""
+msgstr "타임라인"
 
 #: src/wx/content_panel.cc:296
 msgid "Timeline..."
-msgstr ""
+msgstr "타임라인…"
 
 #: src/wx/content_panel.cc:307
 msgid "Timing"
-msgstr ""
+msgstr "타이밍"
 
 #. TRANSLATORS: translate the word "Timing" here; do not include the "Timing|" prefix
 #: src/wx/timing_panel.cc:68
 msgid "Timing|Timing"
-msgstr ""
+msgstr "타이밍"
 
 #: src/wx/smpte_metadata_dialog.cc:60
 msgid "Title language"
-msgstr ""
+msgstr "타이틀 언어"
 
 #: src/wx/full_config_dialog.cc:691 src/wx/send_test_email_dialog.cc:30
 msgid "To address"
-msgstr ""
+msgstr "수신 주소"
 
 #: src/wx/auto_crop_dialog.cc:35 src/wx/video_panel.cc:142
 msgid "Top"
-msgstr ""
+msgstr "위"
 
 #: src/wx/closed_captions_dialog.cc:71 src/wx/text_panel.cc:193
 msgid "Track"
-msgstr ""
+msgstr "트랙"
 
 #: src/wx/about_dialog.cc:170
 msgid "Translated by"
-msgstr ""
+msgstr "번역"
 
 #: src/wx/timing_panel.cc:115
 msgid "Trim from current position to end"
-msgstr ""
+msgstr "현재 위치부터 끝까지 자르기"
 
 #: src/wx/timing_panel.cc:113
 msgid "Trim from end"
-msgstr ""
+msgstr "끝에서 자르기"
 
 #: src/wx/timing_panel.cc:110
 msgid "Trim from start"
-msgstr ""
+msgstr "시작에서 자르기"
 
 #: src/wx/timing_panel.cc:112
 msgid "Trim up to current position"
-msgstr ""
+msgstr "현재 위치까지 자르기"
 
 #: src/wx/audio_dialog.cc:423
 #, c-format
 msgid "True peak is %.2fdB"
-msgstr ""
+msgstr "트루 피크는 %.2fdB입니다."
 
 #: src/wx/screen_dialog.cc:52
 msgid "Trusted Device"
-msgstr ""
+msgstr "신뢰할 수 있는 장치"
 
 #: src/wx/screen_dialog.cc:67
 msgid "Trusted Device certificate"
-msgstr ""
+msgstr "신뢰할 수 있는 장치 인증서"
 
 #: src/wx/audio_dialog.cc:125 src/wx/certificate_chain_editor.cc:67
 #: src/wx/spl_entry_dialog.cc:49 src/wx/video_panel.cc:79
 msgid "Type"
-msgstr ""
+msgstr "유형"
 
 #: src/wx/wx_util.cc:603
 msgid "UTC"
-msgstr ""
+msgstr "UTC"
 
 #: src/wx/cinema_dialog.cc:54
 msgid "UTC offset (time zone)"
-msgstr ""
+msgstr "UTC 오프셋 (시간대)"
 
 #: src/wx/wx_util.cc:604
 msgid "UTC+1"
-msgstr ""
+msgstr "UTC+1"
 
 #: src/wx/wx_util.cc:617
 msgid "UTC+10"
-msgstr ""
+msgstr "UTC+10"
 
 #: src/wx/wx_util.cc:618
 msgid "UTC+11"
-msgstr ""
+msgstr "UTC+11"
 
 #: src/wx/wx_util.cc:619
 msgid "UTC+12"
-msgstr ""
+msgstr "UTC+12"
 
 #: src/wx/wx_util.cc:605
 msgid "UTC+2"
-msgstr ""
+msgstr "UTC+2"
 
 #: src/wx/wx_util.cc:606
 msgid "UTC+3"
-msgstr ""
+msgstr "UTC+3"
 
 #: src/wx/wx_util.cc:607
 msgid "UTC+4"
-msgstr ""
+msgstr "UTC+4"
 
 #: src/wx/wx_util.cc:608
 msgid "UTC+5"
-msgstr ""
+msgstr "UTC+5"
 
 #: src/wx/wx_util.cc:609
 msgid "UTC+5:30"
-msgstr ""
+msgstr "UTC+5:30"
 
 #: src/wx/wx_util.cc:611
 msgid "UTC+5:45"
-msgstr ""
+msgstr "UTC+5:45"
 
 #: src/wx/wx_util.cc:612
 msgid "UTC+6"
-msgstr ""
+msgstr "UTC+6"
 
 #: src/wx/wx_util.cc:613
 msgid "UTC+7"
-msgstr ""
+msgstr "UTC+7"
 
 #: src/wx/wx_util.cc:614
 msgid "UTC+8"
-msgstr ""
+msgstr "UTC+8"
 
 #: src/wx/wx_util.cc:615
 msgid "UTC+9"
-msgstr ""
+msgstr "UTC+9"
 
 #: src/wx/wx_util.cc:616
 msgid "UTC+9:30"
-msgstr ""
+msgstr "UTC+9:30"
 
 #: src/wx/wx_util.cc:601
 msgid "UTC-1"
-msgstr ""
+msgstr "UTC-1"
 
 #: src/wx/wx_util.cc:590
 msgid "UTC-10"
-msgstr ""
+msgstr "UTC-10"
 
 #: src/wx/wx_util.cc:589
 msgid "UTC-11"
-msgstr ""
+msgstr "UTC-11"
 
 #: src/wx/wx_util.cc:600
 msgid "UTC-2"
-msgstr ""
+msgstr "UTC-2"
 
 #: src/wx/wx_util.cc:599
 msgid "UTC-3"
-msgstr ""
+msgstr "UTC-3"
 
 #: src/wx/wx_util.cc:598
 msgid "UTC-3:30"
-msgstr ""
+msgstr "UTC-3:30"
 
 #: src/wx/wx_util.cc:597
 msgid "UTC-4"
-msgstr ""
+msgstr "UTC-4"
 
 #: src/wx/wx_util.cc:596
 msgid "UTC-4:30"
-msgstr ""
+msgstr "UTC-4:30"
 
 #: src/wx/wx_util.cc:595
 msgid "UTC-5"
-msgstr ""
+msgstr "UTC-5"
 
 #: src/wx/wx_util.cc:594
 msgid "UTC-6"
-msgstr ""
+msgstr "UTC-6"
 
 #: src/wx/wx_util.cc:593
 msgid "UTC-7"
-msgstr ""
+msgstr "UTC-7"
 
 #: src/wx/wx_util.cc:592
 msgid "UTC-8"
-msgstr ""
+msgstr "UTC-8"
 
 #: src/wx/wx_util.cc:591
 msgid "UTC-9"
-msgstr ""
+msgstr "UTC-9"
 
 #: src/wx/screens_panel.cc:103
 msgid "Uncheck all"
-msgstr ""
+msgstr "모두 선택 해제"
 
 #: src/wx/closed_captions_dialog.cc:232
 msgid "Unknown"
-msgstr ""
+msgstr "알 수 없음"
 
 #: src/wx/dolby_doremi_certificate_panel.cc:206
 msgid ""
 "Unrecognised serial number format (does not start with a number, H or F)"
-msgstr ""
+msgstr "인식할 수 없는 시리얼 번호 형식입니다 (숫자, H 또는 F로 시작하지 않음)"
 
 #: src/wx/fonts_dialog.cc:119
 msgid "Unspecified"
-msgstr ""
+msgstr "지정되지 않음"
 
 #: src/wx/update_dialog.cc:38
 msgid "Update"
-msgstr ""
+msgstr "업데이트"
 
 #: src/wx/full_config_dialog.cc:540
 msgid "Upload DCP to TMS after creation"
-msgstr ""
+msgstr "생성 후 DCP를 TMS에 업로드"
 
 #: src/wx/dcp_panel.cc:92
 msgid "Use ISDCF name"
-msgstr ""
+msgstr "ISDCF 이름 사용"
 
 #: src/wx/full_config_dialog.cc:302
 msgid "Use ISDCF name by default"
-msgstr ""
+msgstr "기본값으로 ISDCF 이름 사용"
 
 #: src/wx/text_panel.cc:84
 msgid "Use as"
-msgstr ""
+msgstr "다음으로 사용:"
 
 #: src/wx/dcp_panel.cc:850
 msgid "Use best"
-msgstr ""
+msgstr "최적값 사용"
 
 #: src/wx/content_colour_conversion_dialog.cc:49
 msgid "Use preset"
-msgstr ""
+msgstr "프리셋 사용"
 
 #: src/wx/audio_panel.cc:110
 msgid "Use same fades as video"
-msgstr ""
+msgstr "비디오와 동일한 페이드 사용"
 
 #: src/wx/config_move_dialog.cc:32
 msgid "Use this file as new configuration"
-msgstr ""
+msgstr "이 파일을 새 설정으로 사용"
 
 #: src/wx/credentials_download_certificate_panel.cc:50
 #: src/wx/email_preferences_page.cc:86 src/wx/full_config_dialog.cc:563
 msgid "User name"
-msgstr ""
+msgstr "사용자 이름"
 
 #: src/wx/player_information.cc:79
 msgid "Valid from"
-msgstr ""
+msgstr "유효 기간 시작"
 
 #: src/wx/player_information.cc:81
 msgid "Valid to"
-msgstr ""
+msgstr "유효 기간 종료"
 
 #: src/wx/system_information_dialog.cc:65
 msgid "Vendor"
-msgstr ""
+msgstr "제조사"
 
 #: src/wx/verify_dcp_result_panel.cc:714
 msgid "Verification report"
-msgstr ""
+msgstr "검증 보고서"
 
 #: src/wx/verify_dcp_dialog.cc:72
 msgid "Verify"
-msgstr ""
+msgstr "검증"
 
 #: src/wx/verify_dcp_dialog.cc:60
 msgid "Verify picture asset details"
-msgstr ""
+msgstr "영상 에셋 상세 정보 검증"
 
 #: src/wx/smpte_metadata_dialog.cc:109 src/wx/system_information_dialog.cc:67
 msgid "Version"
-msgstr ""
+msgstr "버전"
 
 #: src/wx/dcp_referencing_dialog.cc:44
 msgid "Version file (VF) setup"
-msgstr ""
+msgstr "버전 파일(VF) 설정"
 
 #: src/wx/smpte_metadata_dialog.cc:86
 msgid "Version number"
-msgstr ""
+msgstr "버전 번호"
 
 #: src/wx/content_properties_dialog.cc:79 src/wx/dcp_panel.cc:123
 #: src/wx/timeline_labels_view.cc:41 src/wx/timeline_labels_view.cc:74
 #: src/wx/video_panel.cc:70
 msgid "Video"
-msgstr ""
+msgstr "비디오"
 
 #: src/wx/video_panel.cc:199
 msgid "Video (MPEG, 16-235)"
-msgstr ""
+msgstr "비디오 (MPEG, 16-235)"
 
 #: src/wx/video_waveform_dialog.cc:42
 msgid "Video Waveform"
-msgstr ""
+msgstr "비디오 웨이브폼"
 
 #: src/wx/dcp_panel.cc:854
 msgid ""
 "Video bit rate\n"
 "for newly-encoded data"
 msgstr ""
+"새로 인코딩될 데이터의\n"
+"비디오 비트레이트"
 
 #: src/wx/full_config_dialog.cc:1206 src/wx/player_config_dialog.cc:124
 msgid "Video display mode"
-msgstr ""
+msgstr "비디오 디스플레이 모드"
 
 #: src/wx/content_advanced_dialog.cc:73
 msgid "Video filters"
-msgstr ""
+msgstr "비디오 필터"
 
 #: src/wx/content_advanced_dialog.cc:84
 msgid "Video frame rate that content was prepared for"
-msgstr ""
+msgstr "콘텐츠 제작 시 기준 비디오 프레임 레이트"
 
 #. TRANSLATORS: next to this control is a language selector, so together they will read, for example
 #. "Video has burnt-in subtitles in the language fr-FR"
 #: src/wx/content_advanced_dialog.cc:95
 msgid "Video has burnt-in subtitles in the language"
-msgstr ""
+msgstr "비디오에 다음 언어의 번 인 자막이 포함됨:"
 
 #: src/wx/text_panel.cc:111
 msgid "View..."
-msgstr ""
+msgstr "보기…"
 
 #: src/wx/sound_preferences_page.cc:197
 msgid "WASAPI"
-msgstr ""
+msgstr "WASAPI"
 
 #: src/wx/full_config_dialog.cc:1286 src/wx/kdm_config_dialog.cc:138
 #: src/wx/player_config_dialog.cc:314 src/wx/verify_dcp_result_panel.cc:63
 msgid "Warnings"
-msgstr ""
+msgstr "경고"
 
 #: src/wx/colour_conversion_editor.cc:161
 msgid "White point"
-msgstr ""
+msgstr "화이트 포인트"
 
 #: src/wx/colour_conversion_editor.cc:185
 msgid "White point adjustment"
-msgstr ""
+msgstr "화이트 포인트 조정"
 
 #: src/wx/about_dialog.cc:118
 msgid "With help from"
-msgstr ""
+msgstr "도움 주신 분들"
 
 #: src/wx/kdm_output_panel.cc:96
 msgid "Write a ZIP file for each cinema's KDMs"
-msgstr ""
+msgstr "각 영화관의 KDM을 ZIP 파일로 저장"
 
 #: src/wx/kdm_output_panel.cc:95
 msgid "Write a folder for each cinema's KDMs"
-msgstr ""
+msgstr "각 영화관의 KDM을 폴더별로 저장"
 
 #: src/wx/kdm_output_panel.cc:94
 msgid "Write all KDMs to the same folder"
-msgstr ""
+msgstr "모든 KDM을 동일한 폴더에 저장"
 
 #: src/wx/export_video_file_dialog.cc:86
 msgid "Write each audio channel to its own stream"
-msgstr ""
+msgstr "각 오디오 채널을 개별 스트림으로 저장"
 
 #: src/wx/export_subtitles_dialog.cc:53 src/wx/export_video_file_dialog.cc:83
 msgid "Write reels into separate files"
-msgstr ""
+msgstr "릴을 개별 파일로 저장"
 
 #: src/wx/full_config_dialog.cc:132
 msgid "Write relative content paths"
-msgstr ""
+msgstr "콘텐츠 경로를 상대 경로로 저장"
 
 #: src/wx/dkdm_output_panel.cc:81 src/wx/kdm_output_panel.cc:78
 #: src/wx/self_dkdm_dialog.cc:85
 msgid "Write to"
-msgstr ""
+msgstr "저장 위치:"
 
 #: src/wx/about_dialog.cc:109
 msgid "Written by"
-msgstr ""
+msgstr "작성자"
 
 #: src/wx/text_panel.cc:89 src/wx/text_panel.cc:97
 msgid "X"
-msgstr ""
+msgstr "X"
 
 #: src/wx/export_subtitles_dialog.cc:47
 msgid "XML (Interop)"
-msgstr ""
+msgstr "XML (Interop)"
 
 #: src/wx/text_panel.cc:92
 msgid "Y"
-msgstr ""
+msgstr "Y"
 
 #: src/wx/colour_conversion_editor.cc:115
 msgid "YUV to RGB conversion"
-msgstr ""
+msgstr "YUV에서 RGB로 변환"
 
 #: src/wx/colour_conversion_editor.cc:117
 msgid "YUV to RGB matrix"
-msgstr ""
+msgstr "YUV에서 RGB로의 매트릭스"
 
 #: src/wx/spl_entry_dialog.cc:52
 msgid "Yes"
-msgstr ""
+msgstr "예"
 
 #: src/wx/screens_panel.cc:400
 #, c-format
@@ -4282,6 +4478,7 @@ msgid ""
 "You cannot add a screen called '%s' as the cinema already has a screen with "
 "this name."
 msgstr ""
+"영화관에 이미 같은 이름의 스크린이 있어 '%s' 스크린을 추가할 수 없습니다."
 
 #: src/wx/screens_panel.cc:451
 #, c-format
@@ -4289,248 +4486,250 @@ msgid ""
 "You cannot change this screen's name to '%s' as the cinema already has a "
 "screen with this name."
 msgstr ""
+"영화관에 이미 같은 이름의 스크린이 있어 스크린 이름을 '%s'(으)로 변경할 수 없"
+"습니다."
 
 #: src/wx/dkdm_output_panel.cc:150 src/wx/kdm_output_panel.cc:242
 msgid ""
 "You have selected some cinemas that have no configured email address.  Do "
 "you want to continue?"
-msgstr ""
+msgstr "이메일 주소가 설정되지 않은 영화관을 선택했습니다.  계속하시겠습니까?"
 
 #: src/wx/dkdm_output_panel.cc:138 src/wx/kdm_output_panel.cc:232
 msgid ""
 "You must set up a mail server in Preferences before you can send emails."
-msgstr ""
+msgstr "이메일을 보내려면 먼저 설정에서 메일 서버를 구성해야 합니다."
 
 #: src/wx/report_problem_dialog.cc:76
 msgid "Your email address"
-msgstr ""
+msgstr "사용자 이메일 주소"
 
 #: src/wx/content_timeline_dialog.cc:76
 msgid "Zoom"
-msgstr ""
+msgstr "확대/축소"
 
 #: src/wx/content_timeline_dialog.cc:77
 msgid "Zoom all"
-msgstr ""
+msgstr "전체 확대/축소"
 
 #: src/wx/content_timeline_dialog.cc:76
 msgid "Zoom in / out"
-msgstr ""
+msgstr "확대/축소"
 
 #: src/wx/content_timeline_dialog.cc:77
 msgid "Zoom out to whole film"
-msgstr ""
+msgstr "전체 필름 보기로 축소"
 
 #. TRANSLATORS: this will be used at the end of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
 #: src/wx/verify_dcp_result_panel.cc:146
 #, c-format
 msgid "and %d warnings."
-msgstr ""
+msgstr "및 %d개의 경고."
 
 #. TRANSLATORS: this will be used at the end of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
 #: src/wx/verify_dcp_result_panel.cc:143
 msgid "and 1 warning."
-msgstr ""
+msgstr "및 1개의 경고."
 
 #: src/wx/kdm_output_panel.cc:143
 msgid "cinema"
-msgstr ""
+msgstr "영화관"
 
 #: src/wx/text_panel.cc:582
 msgid "closed captions"
-msgstr ""
+msgstr "클로즈드 캡션"
 
 #: src/wx/text_panel.cc:581
 msgid "closed subtitles"
-msgstr ""
+msgstr "폐쇄형 자막"
 
 #: src/wx/video_waveform_dialog.cc:78
 msgid "component value"
-msgstr ""
+msgstr "컴포넌트 값"
 
 #: src/wx/audio_panel.cc:112
 msgid "content"
-msgstr ""
+msgstr "콘텐츠"
 
 #: src/wx/full_config_dialog.cc:1269
 msgid "content filename"
-msgstr ""
+msgstr "콘텐츠 파일명"
 
 #: src/wx/video_panel.cc:182
 msgid "custom"
-msgstr ""
+msgstr "사용자 정의"
 
 #: src/wx/audio_gain_dialog.cc:37 src/wx/audio_panel.cc:88
 msgid "dB"
-msgstr ""
+msgstr "dB"
 
 #: src/wx/full_config_dialog.cc:310
 msgid "days"
-msgstr ""
+msgstr "일"
 
 #: src/wx/name_format_editor.cc:79
 #, c-format
 msgid "e.g. %s"
-msgstr ""
+msgstr "예시: %s"
 
 #: src/wx/system_information_dialog.cc:71
 msgid "enabled"
-msgstr ""
+msgstr "활성화됨"
 
 #. TRANSLATORS: this is an abbreviation for "frames"
 #: src/wx/timing_panel.cc:92
 msgid "f"
-msgstr ""
+msgstr "f"
 
 #: src/wx/dkdm_output_panel.cc:67 src/wx/kdm_output_panel.cc:142
 msgid "film name"
-msgstr ""
+msgstr "필름 이름"
 
 #: src/wx/metadata_dialog.cc:335
 msgid "foot lambert"
-msgstr ""
+msgstr "풋 램버트 (ft-L)"
 
 #: src/wx/dkdm_output_panel.cc:70 src/wx/kdm_output_panel.cc:145
 msgid "from date/time"
-msgstr ""
+msgstr "시작 날짜/시간"
 
 #: src/wx/player_config_dialog.cc:112
 msgid "full screen"
-msgstr ""
+msgstr "전체 화면"
 
 #: src/wx/player_config_dialog.cc:113
 msgid "full screen with separate advanced controls"
-msgstr ""
+msgstr "별도의 고급 제어창이 있는 전체 화면"
 
 #. TRANSLATORS: this is an abbreviation for "hours"
 #: src/wx/timing_panel.cc:86
 msgid "h"
-msgstr ""
+msgstr "h"
 
 #. TRANSLATORS: this is an abbreviation for "minutes"
 #: src/wx/timing_panel.cc:88
 msgid "m"
-msgstr ""
+msgstr "m"
 
 #: src/wx/full_config_dialog.cc:312
 msgid "months"
-msgstr ""
+msgstr "개월"
 
 #. TRANSLATORS: this is an abbreviation for milliseconds, the unit of time
 #: src/wx/audio_panel.cc:102 src/wx/full_config_dialog.cc:273
 #: src/wx/sound_preferences_page.cc:91
 msgid "ms"
-msgstr ""
+msgstr "ms"
 
 #: src/wx/system_information_dialog.cc:71
 msgid "not enabled"
-msgstr ""
+msgstr "비활성화됨"
 
 #: src/wx/full_config_dialog.cc:1268
 msgid "number of reels"
-msgstr ""
+msgstr "릴 수"
 
 #: src/wx/text_panel.cc:579
 msgid "open captions"
-msgstr ""
+msgstr "오픈 캡션"
 
 #: src/wx/text_panel.cc:578
 msgid "open subtitles"
-msgstr ""
+msgstr "오픈 자막"
 
 #: src/wx/sound_preferences_page.cc:97
 msgid "output"
-msgstr ""
+msgstr "출력"
 
 #: src/wx/email_preferences_page.cc:71
 msgid "port"
-msgstr ""
+msgstr "포트"
 
 #: src/wx/email_preferences_page.cc:75
 msgid "protocol"
-msgstr ""
+msgstr "프로토콜"
 
 #: src/wx/dkdm_output_panel.cc:68
 msgid "recipient name"
-msgstr ""
+msgstr "수신자 이름"
 
 #: src/wx/full_config_dialog.cc:1267
 msgid "reel number"
-msgstr ""
+msgstr "릴 번호"
 
 #. TRANSLATORS: this is an abbreviation for "seconds"
 #: src/wx/full_config_dialog.cc:256 src/wx/timing_panel.cc:90
 msgid "s"
-msgstr ""
+msgstr "s"
 
 #: src/wx/kdm_output_panel.cc:144
 msgid "screen"
-msgstr ""
+msgstr "스크린"
 
 #: src/wx/colour_conversion_editor.cc:84
 msgid "threshold"
-msgstr ""
+msgstr "임계값"
 
 #: src/wx/repeat_dialog.cc:29
 msgid "times"
-msgstr ""
+msgstr "회"
 
 #: src/wx/dkdm_output_panel.cc:71 src/wx/kdm_output_panel.cc:146
 msgid "to date/time"
-msgstr ""
+msgstr "종료 날짜/시간"
 
 #: src/wx/video_panel.cc:181
 msgid "to fit DCP"
-msgstr ""
+msgstr "DCP에 맞춤"
 
 #: src/wx/full_config_dialog.cc:1266
 msgid "type (j2c/pcm/sub)"
-msgstr ""
+msgstr "유형 (j2c/pcm/sub)"
 
 #: src/wx/full_config_dialog.cc:1247
 msgid "type(cpl/pkl)"
-msgstr ""
+msgstr "유형(cpl/pkl)"
 
 #: src/wx/system_information_dialog.cc:61
 msgid "unknown"
-msgstr ""
+msgstr "알 수 없음"
 
 #: src/wx/system_information_dialog.cc:52
 #, c-format
 msgid "unknown (OpenGL not enabled in %s)"
-msgstr ""
+msgstr "알 수 없음 (%s에서 OpenGL이 활성화되지 않음)"
 
 #: src/wx/kdm_timing_panel.cc:69
 msgid "until"
-msgstr ""
+msgstr "종료 시점"
 
 #: src/wx/system_information_dialog.cc:70
 msgid "vsync"
-msgstr ""
+msgstr "수직 동기화"
 
 #: src/wx/full_config_dialog.cc:311
 msgid "weeks"
-msgstr ""
+msgstr "주"
 
 #: src/wx/player_config_dialog.cc:111
 msgid "window"
-msgstr ""
+msgstr "창"
 
 #: src/wx/colour_conversion_editor.cc:135
 msgid "x"
-msgstr ""
+msgstr "x"
 
 #: src/wx/colour_conversion_editor.cc:136
 msgid "y"
-msgstr ""
+msgstr "y"
 
 #: src/wx/full_config_dialog.cc:313
 msgid "years"
-msgstr ""
+msgstr "년"
 
 #. TRANSLATORS: the user will be asked to type this phrase into a text entry to confirm that they have read
 #. the warning about a disk being wiped
 #: src/wx/drive_wipe_warning_dialog.cc:47
 #: src/wx/drive_wipe_warning_dialog.cc:61
 msgid "yes"
-msgstr ""
+msgstr "예"

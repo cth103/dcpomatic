@@ -6,229 +6,217 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-11 15:44+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2026-03-06 17:25+0900\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ko_KR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.8\n"
 
 #: src/tools/dcpomatic_kdm.cc:491
 #, c-format
 msgid "%d KDM written to %s"
-msgstr ""
+msgstr "%d개의 KDM이 %s에 저장되었습니다"
 
 #: src/tools/dcpomatic_kdm.cc:491
 #, c-format
 msgid "%d KDMs written to %s"
-msgstr ""
+msgstr "%d개의 KDM들이 %s에 저장되었습니다"
 
 #: src/tools/dcpomatic_combiner.cc:177
 #, c-format
 msgid "%s already exists as a file, so you cannot use it for a DCP."
-msgstr ""
+msgstr "%s 파일이 이미 존재하므로 DCP용으로 사용할 수 없습니다."
 
-#: src/tools/dcpomatic_disk.cc:518 src/tools/dcpomatic_kdm.cc:944
-#: src/tools/dcpomatic_player.cc:1426
-#, c-format
+#: src/tools/dcpomatic_disk.cc:518 src/tools/dcpomatic_kdm.cc:944 src/tools/dcpomatic_player.cc:1426
+#, fuzzy, c-format
 msgid "%s could not start"
-msgstr ""
+msgstr "%s을(를) 시작할 수 없습니다"
 
 #: src/tools/dcpomatic_playlist.cc:717
-#, c-format
+#, fuzzy, c-format
 msgid "%s could not start %s"
-msgstr ""
+msgstr "%s이(가) %s을(를) 시작할 수 없습니다"
 
 #: src/tools/dcpomatic_combiner.cc:272
 #, c-format
 msgid "%s could not start (%s)"
-msgstr ""
+msgstr "%s을(를) 시작할 수 없습니다 (%s)."
 
 #: src/tools/dcpomatic.cc:1779 src/tools/dcpomatic_editor.cc:566
 #, c-format
 msgid "%s could not start."
-msgstr ""
+msgstr "%s을(를) 시작할 수 없습니다."
 
 #: src/tools/dcpomatic_batch.cc:88
 msgid "&Add Film...\tCtrl-A"
-msgstr ""
+msgstr "&필름 추가...\tCtrl-A"
 
 #: src/tools/dcpomatic_player.cc:660
 msgid "&Add OV..."
-msgstr ""
+msgstr "&OV 추가..."
 
 #: src/tools/dcpomatic_player.cc:668
 msgid "&Close"
-msgstr ""
+msgstr "&닫기"
 
 #: src/tools/dcpomatic.cc:1368
 msgid "&Close\tCtrl-W"
-msgstr ""
+msgstr "&닫기\tCtrl-W"
 
-#: src/tools/dcpomatic_batch.cc:110 src/tools/dcpomatic.cc:1453
-#: src/tools/dcpomatic_kdm.cc:347 src/tools/dcpomatic_player.cc:728
+#: src/tools/dcpomatic_batch.cc:110 src/tools/dcpomatic.cc:1453 src/tools/dcpomatic_kdm.cc:347 src/tools/dcpomatic_player.cc:728
 #: src/tools/dcpomatic_playlist.cc:625
 msgid "&Edit"
-msgstr ""
+msgstr "&편집"
 
-#: src/tools/dcpomatic_batch.cc:90 src/tools/dcpomatic.cc:1375
-#: src/tools/dcpomatic_editor.cc:424 src/tools/dcpomatic_player.cc:672
+#: src/tools/dcpomatic_batch.cc:90 src/tools/dcpomatic.cc:1375 src/tools/dcpomatic_editor.cc:424 src/tools/dcpomatic_player.cc:672
 #: src/tools/dcpomatic_playlist.cc:609 src/tools/dcpomatic_verifier.cc:240
 msgid "&Exit"
-msgstr ""
+msgstr "&종료"
 
-#: src/tools/dcpomatic_batch.cc:108 src/tools/dcpomatic.cc:1452
-#: src/tools/dcpomatic_editor.cc:436 src/tools/dcpomatic_kdm.cc:346
-#: src/tools/dcpomatic_player.cc:725 src/tools/dcpomatic_playlist.cc:623
-#: src/tools/dcpomatic_verifier.cc:245
+#: src/tools/dcpomatic_batch.cc:108 src/tools/dcpomatic.cc:1452 src/tools/dcpomatic_editor.cc:436 src/tools/dcpomatic_kdm.cc:346
+#: src/tools/dcpomatic_player.cc:725 src/tools/dcpomatic_playlist.cc:623 src/tools/dcpomatic_verifier.cc:245
 msgid "&File"
-msgstr ""
+msgstr "&파일"
 
-#: src/tools/dcpomatic_batch.cc:113 src/tools/dcpomatic.cc:1457
-#: src/tools/dcpomatic_editor.cc:437 src/tools/dcpomatic_kdm.cc:349
-#: src/tools/dcpomatic_player.cc:732 src/tools/dcpomatic_playlist.cc:612
-#: src/tools/dcpomatic_playlist.cc:626 src/tools/dcpomatic_verifier.cc:249
+#: src/tools/dcpomatic_batch.cc:113 src/tools/dcpomatic.cc:1457 src/tools/dcpomatic_editor.cc:437 src/tools/dcpomatic_kdm.cc:349
+#: src/tools/dcpomatic_player.cc:732 src/tools/dcpomatic_playlist.cc:612 src/tools/dcpomatic_playlist.cc:626 src/tools/dcpomatic_verifier.cc:249
 msgid "&Help"
-msgstr ""
+msgstr "&도움말"
 
 #: src/tools/dcpomatic.cc:1454
 msgid "&Jobs"
-msgstr ""
+msgstr "&작업"
 
 #: src/tools/dcpomatic.cc:1399
 msgid "&Make DCP\tCtrl-M"
-msgstr ""
+msgstr "&DCP 만들기\tCtrl-M"
 
-#: src/tools/dcpomatic.cc:1355 src/tools/dcpomatic_editor.cc:419
-#: src/tools/dcpomatic_player.cc:659
+#: src/tools/dcpomatic.cc:1355 src/tools/dcpomatic_editor.cc:419 src/tools/dcpomatic_player.cc:659
 msgid "&Open...\tCtrl-O"
-msgstr ""
+msgstr "&열기...\tCtrl-O"
 
-#: src/tools/dcpomatic_batch.cc:96 src/tools/dcpomatic.cc:1390
-#: src/tools/dcpomatic_kdm.cc:336 src/tools/dcpomatic_player.cc:678
+#: src/tools/dcpomatic_batch.cc:96 src/tools/dcpomatic.cc:1390 src/tools/dcpomatic_kdm.cc:336 src/tools/dcpomatic_player.cc:678
 #: src/tools/dcpomatic_playlist.cc:607
 msgid "&Preferences...\tCtrl-,"
-msgstr ""
+msgstr "&환경 설정...\tCtrl-,"
 
-#: src/tools/dcpomatic_batch.cc:99 src/tools/dcpomatic.cc:1394
-#: src/tools/dcpomatic_kdm.cc:328 src/tools/dcpomatic_player.cc:681
+#: src/tools/dcpomatic_batch.cc:99 src/tools/dcpomatic.cc:1394 src/tools/dcpomatic_kdm.cc:328 src/tools/dcpomatic_player.cc:681
 #: src/tools/dcpomatic_playlist.cc:618
 msgid "&Preferences...\tCtrl-P"
-msgstr ""
+msgstr "&환경 설정...\tCtrl-P"
 
-#: src/tools/dcpomatic_batch.cc:92 src/tools/dcpomatic.cc:1377
-#: src/tools/dcpomatic_editor.cc:426 src/tools/dcpomatic_kdm.cc:326
-#: src/tools/dcpomatic_player.cc:674 src/tools/dcpomatic_playlist.cc:615
-#: src/tools/dcpomatic_verifier.cc:244
+#: src/tools/dcpomatic_batch.cc:92 src/tools/dcpomatic.cc:1377 src/tools/dcpomatic_editor.cc:426 src/tools/dcpomatic_kdm.cc:326
+#: src/tools/dcpomatic_player.cc:674 src/tools/dcpomatic_playlist.cc:615 src/tools/dcpomatic_verifier.cc:244
 msgid "&Quit"
-msgstr ""
+msgstr "&종료"
 
 #: src/tools/dcpomatic.cc:1358 src/tools/dcpomatic_editor.cc:421
 msgid "&Save\tCtrl-S"
-msgstr ""
+msgstr "&저장\tCtrl-S"
 
 #: src/tools/dcpomatic_player.cc:663
 msgid "&Save frame to file...\tCtrl-S"
-msgstr ""
+msgstr "&프레임을 파일로 저장...\tCtrl-S"
 
 #: src/tools/dcpomatic.cc:1413
 msgid "&Send DCP to TMS"
-msgstr ""
+msgstr "&DCP를 TMS로 전송"
 
-#: src/tools/dcpomatic_batch.cc:112 src/tools/dcpomatic.cc:1456
-#: src/tools/dcpomatic_player.cc:731
+#: src/tools/dcpomatic_batch.cc:112 src/tools/dcpomatic.cc:1456 src/tools/dcpomatic_player.cc:731
 msgid "&Tools"
-msgstr ""
+msgstr "&도구"
 
 #: src/tools/dcpomatic.cc:1455 src/tools/dcpomatic_player.cc:730
 msgid "&View"
-msgstr ""
+msgstr "&보기"
 
 #: src/tools/dcpomatic_verifier.cc:103
 msgid "(encrypted, have KDM)"
-msgstr ""
+msgstr "(암호화됨, KDM 있음)"
 
 #: src/tools/dcpomatic_verifier.cc:105
 msgid "(encrypted, no KDM)"
-msgstr ""
+msgstr "(암호화됨, KDM 없음)"
 
 #: src/tools/dcpomatic_playlist.cc:324
 msgid "<b>Playlist:</b>"
-msgstr ""
+msgstr "<b>플레이리스트:</b>"
 
 #: src/tools/dcpomatic_playlist.cc:132
 msgid "<b>Playlists</b>"
-msgstr ""
+msgstr "<b>플레이리스트</b>"
 
-#: src/tools/dcpomatic_batch.cc:106 src/tools/dcpomatic.cc:1446
-#: src/tools/dcpomatic_editor.cc:433 src/tools/dcpomatic_kdm.cc:339
-#: src/tools/dcpomatic_player.cc:719 src/tools/dcpomatic_playlist.cc:621
-#: src/tools/dcpomatic_verifier.cc:247
+#: src/tools/dcpomatic_batch.cc:106 src/tools/dcpomatic.cc:1446 src/tools/dcpomatic_editor.cc:433 src/tools/dcpomatic_kdm.cc:339
+#: src/tools/dcpomatic_player.cc:719 src/tools/dcpomatic_playlist.cc:621 src/tools/dcpomatic_verifier.cc:247
 msgid "About"
-msgstr ""
+msgstr "정보"
 
-#: src/tools/dcpomatic.cc:1444 src/tools/dcpomatic_editor.cc:431
-#: src/tools/dcpomatic_kdm.cc:337 src/tools/dcpomatic_player.cc:717
+#: src/tools/dcpomatic.cc:1444 src/tools/dcpomatic_editor.cc:431 src/tools/dcpomatic_kdm.cc:337 src/tools/dcpomatic_player.cc:717
 #: src/tools/dcpomatic_playlist.cc:610 src/tools/dcpomatic_verifier.cc:241
 #, c-format
 msgid "About %s"
-msgstr ""
+msgstr "%s 정보"
 
 #: src/tools/dcpomatic_playlist.cc:349
 msgid "Add"
-msgstr ""
+msgstr "추가"
 
 #: src/tools/dcpomatic_player.cc:661
 msgid "Add &KDM..."
-msgstr ""
+msgstr "&KDM 추가..."
 
 #: src/tools/dcpomatic_verifier.cc:173
 msgid "Add KDM..."
-msgstr ""
+msgstr "KDM 추가..."
 
 #: src/tools/dcpomatic_playlist.cc:80
 msgid "Add content"
-msgstr ""
+msgstr "콘텐츠 추가"
 
 #: src/tools/dcpomatic_batch.cc:177
 msgid "Add film"
-msgstr ""
+msgstr "필름 추가"
 
 #: src/tools/dcpomatic_batch.cc:177
 msgid "Add film for conversion"
-msgstr ""
+msgstr "변환할 필름 추가"
 
 #: src/tools/dcpomatic_kdm.cc:216
 msgid "Add folder..."
-msgstr ""
+msgstr "폴더 추가..."
 
 #: src/tools/dcpomatic_kdm.cc:214
 msgid "Add..."
-msgstr ""
+msgstr "추가..."
 
-#: src/tools/dcpomatic_combiner.cc:313 src/tools/dcpomatic_editor.cc:605
-#: src/tools/dcpomatic_player.cc:1484 src/tools/dcpomatic_playlist.cc:740
+#: src/tools/dcpomatic_combiner.cc:313 src/tools/dcpomatic_editor.cc:605 src/tools/dcpomatic_player.cc:1484 src/tools/dcpomatic_playlist.cc:740
 #, c-format
 msgid ""
 "An exception occurred: %s\n"
 "\n"
 "%s"
 msgstr ""
+"예외가 발생했습니다: %s\n"
+"\n"
+"%s"
 
-#: src/tools/dcpomatic.cc:1832 src/tools/dcpomatic_combiner.cc:303
-#: src/tools/dcpomatic_disk.cc:565 src/tools/dcpomatic_editor.cc:595
-#: src/tools/dcpomatic_kdm.cc:959 src/tools/dcpomatic_player.cc:1474
-#: src/tools/dcpomatic_playlist.cc:730 src/tools/dcpomatic_verifier.cc:450
+#: src/tools/dcpomatic.cc:1832 src/tools/dcpomatic_combiner.cc:303 src/tools/dcpomatic_disk.cc:565 src/tools/dcpomatic_editor.cc:595
+#: src/tools/dcpomatic_kdm.cc:959 src/tools/dcpomatic_player.cc:1474 src/tools/dcpomatic_playlist.cc:730 src/tools/dcpomatic_verifier.cc:450
 #, c-format
 msgid ""
 "An exception occurred: %s (%s)\n"
 "\n"
 "%s"
 msgstr ""
+"예외가 발생했습니다: %s (%s)\n"
+"\n"
+"%s"
 
 #: src/tools/dcpomatic.cc:1842 src/tools/dcpomatic_verifier.cc:460
 #, c-format
@@ -237,159 +225,155 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
+"예외가 발생했습니다: %s (%s) (%s)\n"
+"\n"
+"%s"
 
-#: src/tools/dcpomatic.cc:1853 src/tools/dcpomatic_disk.cc:575
-#: src/tools/dcpomatic_kdm.cc:969 src/tools/dcpomatic_verifier.cc:471
+#: src/tools/dcpomatic.cc:1853 src/tools/dcpomatic_disk.cc:575 src/tools/dcpomatic_kdm.cc:969 src/tools/dcpomatic_verifier.cc:471
 #, c-format
 msgid ""
 "An exception occurred: %s.\n"
 "\n"
 "%s"
 msgstr ""
+"예외가 발생했습니다: %s.\n"
+"\n"
+"%s"
 
 #: src/tools/dcpomatic_server.cc:362
 #, c-format
 msgid "An unknown error has occurred with the %s."
-msgstr ""
+msgstr "%s에서 알 수 없는 오류가 발생했습니다."
 
 #: src/tools/dcpomatic.cc:1024 src/tools/dcpomatic_kdm.cc:515
 msgid "An unknown exception occurred."
-msgstr ""
+msgstr "알 수 없는 예외가 발생했습니다."
 
-#: src/tools/dcpomatic.cc:1859 src/tools/dcpomatic_combiner.cc:319
-#: src/tools/dcpomatic_disk.cc:581 src/tools/dcpomatic_editor.cc:611
-#: src/tools/dcpomatic_kdm.cc:975 src/tools/dcpomatic_kdm.cc:984
-#: src/tools/dcpomatic_player.cc:1490 src/tools/dcpomatic_playlist.cc:746
+#: src/tools/dcpomatic.cc:1859 src/tools/dcpomatic_combiner.cc:319 src/tools/dcpomatic_disk.cc:581 src/tools/dcpomatic_editor.cc:611
+#: src/tools/dcpomatic_kdm.cc:975 src/tools/dcpomatic_kdm.cc:984 src/tools/dcpomatic_player.cc:1490 src/tools/dcpomatic_playlist.cc:746
 #: src/tools/dcpomatic_playlist.cc:755 src/tools/dcpomatic_verifier.cc:477
 #, c-format
 msgid "An unknown exception occurred. %s"
-msgstr ""
+msgstr "알 수 없는 예외가 발생했습니다. %s"
 
-#: src/tools/dcpomatic_combiner.cc:122 src/tools/dcpomatic_editor.cc:84
-#: src/tools/dcpomatic_editor.cc:203 src/tools/dcpomatic_editor.cc:292
+#: src/tools/dcpomatic_combiner.cc:122 src/tools/dcpomatic_editor.cc:84 src/tools/dcpomatic_editor.cc:203 src/tools/dcpomatic_editor.cc:292
 msgid "Annotation text"
-msgstr ""
+msgstr "주석 텍스트"
 
 #: src/tools/dcpomatic.cc:775
-msgid ""
-"Are you sure you want to restore preferences to their defaults?  This cannot "
-"be undone."
-msgstr ""
+msgid "Are you sure you want to restore preferences to their defaults?  This cannot be undone."
+msgstr "환경 설정을 초기 상태로 복원하시겠습니까? 이 작업은 되돌릴 수 없습니다."
 
 #: src/tools/dcpomatic_player.cc:709
 msgid "Audio graph..."
-msgstr ""
+msgstr "오디오 그래프..."
 
 #: src/tools/dcpomatic.cc:876
 #, c-format
 msgid "Bad setting for %s."
-msgstr ""
+msgstr "%s의 설정이 잘못되었습니다."
 
-#: src/tools/dcpomatic_editor.cc:389 src/tools/dcpomatic_player.cc:690
-#: src/tools/dcpomatic_playlist.cc:339
+#: src/tools/dcpomatic_editor.cc:389 src/tools/dcpomatic_player.cc:690 src/tools/dcpomatic_playlist.cc:339
 msgid "CPL"
-msgstr ""
+msgstr "CPL"
 
 #: src/tools/dcpomatic.cc:1020 src/tools/dcpomatic_kdm.cc:511
 msgid "CPL's content is not encrypted."
-msgstr ""
+msgstr "CPL의 콘텐츠가 암호화되어 있지 않습니다."
 
 #: src/tools/dcpomatic_editor.cc:407
 #, c-format
 msgid "CPL: %s"
-msgstr ""
+msgstr "CPL: %s"
 
 #: src/tools/dcpomatic_verifier.cc:192
 msgid "Cancel"
-msgstr ""
+msgstr "취소"
 
 #: src/tools/dcpomatic.cc:1434 src/tools/dcpomatic_player.cc:711
 msgid "Check for updates"
-msgstr ""
+msgstr "업데이트 확인"
 
 #: src/tools/dcpomatic_verifier.cc:355
 msgid "Checking KDM"
-msgstr ""
+msgstr "KDM 확인 중"
 
 #: src/tools/dcpomatic_combiner.cc:68 src/tools/dcpomatic_disk.cc:84
 msgid "Choose a DCP folder"
-msgstr ""
+msgstr "DCP 폴더를 선택하세요"
 
 #: src/tools/dcpomatic.cc:1963 src/tools/dcpomatic.cc:1982
 #, c-format
 msgid "Close %s"
-msgstr ""
+msgstr "%s 닫기"
 
 #: src/tools/dcpomatic.cc:167
 msgid "Close without saving film"
-msgstr ""
+msgstr "필름을 저장하지 않고 닫기"
 
 #: src/tools/dcpomatic.cc:1426 src/tools/dcpomatic_player.cc:696
 msgid "Closed captions..."
-msgstr ""
+msgstr "클로즈드 캡션..."
 
 #: src/tools/dcpomatic_combiner.cc:130
 msgid "Combine"
-msgstr ""
+msgstr "결합"
 
 #: src/tools/dcpomatic_combiner.cc:184
+#, fuzzy
 msgid "Combining DCPs"
-msgstr ""
+msgstr "DCP 결합"
 
 #: src/tools/dcpomatic_editor.cc:218
 msgid "Content title text"
-msgstr ""
+msgstr "콘텐츠 제목 텍스트"
 
 #: src/tools/dcpomatic_disk.cc:166
 msgid "Copy DCPs"
-msgstr ""
+msgstr "DCP 복사"
 
 #: src/tools/dcpomatic.cc:1382
 msgid "Copy settings\tCtrl-C"
-msgstr ""
+msgstr "설정 복사\tCtrl-C"
 
 #: src/tools/dcpomatic.cc:585 src/tools/dcpomatic.cc:594
 msgid "Could not create folder to store film."
-msgstr ""
+msgstr "필름을 저장할 폴더를 생성할 수 없습니다."
 
 #: src/tools/dcpomatic_kdm.cc:652 src/tools/dcpomatic_verifier.cc:347
-msgid ""
-"Could not decrypt the DKDM.  Perhaps it was not created with the correct "
-"certificate."
-msgstr ""
+msgid "Could not decrypt the DKDM.  Perhaps it was not created with the correct certificate."
+msgstr "DKDM을 해독할 수 없습니다. 올바른 인증서로 생성되지 않았을 수 있습니다."
 
 #: src/tools/dcpomatic.cc:659 src/tools/dcpomatic.cc:676
 msgid "Could not duplicate project."
-msgstr ""
+msgstr "프로젝트를 복제할 수 없습니다."
 
 #: src/tools/dcpomatic.cc:953
 msgid "Could not find batch converter."
-msgstr ""
+msgstr "배치 변환기를 찾을 수 없습니다."
 
 #: src/tools/dcpomatic.cc:968
 msgid "Could not find player."
-msgstr ""
+msgstr "플레이어를 찾을 수 없습니다."
 
 #: src/tools/dcpomatic_batch.cc:478
 #, c-format
-msgid ""
-"Could not listen for new batch jobs.  Perhaps another instance of the %s is "
-"running."
-msgstr ""
+msgid "Could not listen for new batch jobs.  Perhaps another instance of the %s is running."
+msgstr "새 배치 작업을 대기할 수 없습니다. 이미 %s의 다른 인스턴스가 실행 중일 수 있습니다."
 
 #: src/tools/dcpomatic_editor.cc:401
 msgid "Could not load DCP"
-msgstr ""
+msgstr "DCP를 불러올 수 없습니다"
 
 #: src/tools/dcpomatic_player.cc:1403
-#, c-format
+#, fuzzy, c-format
 msgid "Could not load DCP %s"
-msgstr ""
+msgstr "DCP %s을(를) 불러올 수 없습니다"
 
 #: src/tools/dcpomatic_player.cc:882
 #, c-format
 msgid "Could not load DCP %s."
-msgstr ""
+msgstr "DCP %s을(를) 불러올 수 없습니다."
 
 #: src/tools/dcpomatic_player.cc:649
 #, c-format
@@ -398,686 +382,669 @@ msgid ""
 "\n"
 "%s."
 msgstr ""
+"DCP를 불러올 수 없습니다.\n"
+"\n"
+"%s."
 
 #: src/tools/dcpomatic_player.cc:829 src/tools/dcpomatic_verifier.cc:350
 msgid "Could not load KDM."
-msgstr ""
+msgstr "KDM을 불러올 수 없습니다."
 
-#: src/tools/dcpomatic_player.cc:456 src/tools/dcpomatic_player.cc:465
-#: src/tools/dcpomatic_player.cc:467
+#: src/tools/dcpomatic_player.cc:456 src/tools/dcpomatic_player.cc:465 src/tools/dcpomatic_player.cc:467
 #, c-format
 msgid "Could not load a DCP from %s"
-msgstr ""
+msgstr "%s에서 DCP를 불러올 수 없습니다"
 
 #: src/tools/dcpomatic_batch.cc:495
 msgid "Could not load film {}"
-msgstr ""
+msgstr "필름 {}을(를) 불러올 수 없습니다."
 
 #: src/tools/dcpomatic.cc:1743
 msgid "Could not load film {} ({})"
-msgstr ""
+msgstr "필름 {}을(를) 불러올 수 없습니다 ({})"
 
 #: src/tools/dcpomatic_player.cc:1411
 #, c-format
 msgid "Could not load stress test file %s"
-msgstr ""
+msgstr "스트레스 테스트 파일 %s을(를) 불러올 수 없습니다"
 
 #: src/tools/dcpomatic.cc:878
 msgid "Could not make DCP."
-msgstr ""
+msgstr "DCP를 만들 수 없습니다."
 
-#: src/tools/dcpomatic_batch.cc:259 src/tools/dcpomatic.cc:507
-#: src/tools/dcpomatic.cc:512
+#: src/tools/dcpomatic_batch.cc:259 src/tools/dcpomatic.cc:507 src/tools/dcpomatic.cc:512
 #, c-format
 msgid "Could not open film at %s"
-msgstr ""
+msgstr "%s 위치의 필름을 열 수 없습니다"
 
 #: src/tools/dcpomatic.cc:500
 #, c-format
 msgid "Could not open this folder as a %s project."
-msgstr ""
+msgstr "이 폴더를 %s 프로젝트로 열 수 없습니다."
 
 #: src/tools/dcpomatic_kdm.cc:657
-msgid ""
-"Could not read file as a KDM.  It is much too large.  Make sure you are "
-"loading a DKDM (XML) file."
-msgstr ""
+msgid "Could not read file as a KDM.  It is much too large.  Make sure you are loading a DKDM (XML) file."
+msgstr "파일을 KDM으로 읽을 수 없습니다. 파일이 너무 큽니다. DKDM (XML) 파일을 로드하고 있는지 확인하세요."
 
 #: src/tools/dcpomatic_kdm.cc:645 src/tools/dcpomatic_verifier.cc:340
-msgid ""
-"Could not read file as a KDM.  Perhaps it is badly formatted, or not a KDM "
-"at all."
-msgstr ""
+msgid "Could not read file as a KDM.  Perhaps it is badly formatted, or not a KDM at all."
+msgstr "파일을 KDM으로 읽을 수 없습니다. 형식이 잘못되었거나 KDM 파일이 아닐 수 있습니다."
 
 #: src/tools/dcpomatic.cc:797
 msgid "Could not remove existing preferences file"
-msgstr ""
+msgstr "기존 환경 설정 파일을 제거할 수 없습니다"
 
 #: src/tools/dcpomatic.cc:628 src/tools/dcpomatic.cc:1321
 msgid "Could not save project."
-msgstr ""
+msgstr "프로젝트를 저장할 수 없습니다."
 
 #: src/tools/dcpomatic.cc:643
 msgid "Could not save template."
-msgstr ""
+msgstr "템플릿을 저장할 수 없습니다."
 
 #: src/tools/dcpomatic.cc:1087
 msgid "Could not show DCP."
-msgstr ""
+msgstr "DCP를 표시할 수 없습니다."
 
 #: src/tools/dcpomatic.cc:951
-msgid ""
-"Could not start the batch converter.  You may need to download it from "
-"dcpomatic.com."
-msgstr ""
+msgid "Could not start the batch converter.  You may need to download it from dcpomatic.com."
+msgstr "배치 컨버터를 시작할 수 없습니다. dcpomatic.com에서 다운로드해야 할 수도 있습니다."
 
 #: src/tools/dcpomatic.cc:966
-msgid ""
-"Could not start the player.  You may need to download it from dcpomatic.com."
-msgstr ""
+msgid "Could not start the player.  You may need to download it from dcpomatic.com."
+msgstr "플레이어를 시작할 수 없습니다. dcpomatic.com에서 다운로드해야 할 수도 있습니다."
 
-#: src/tools/dcpomatic_batch.cc:365 src/tools/dcpomatic.cc:1469
-#: src/tools/dcpomatic_player.cc:1128 src/tools/dcpomatic_playlist.cc:639
+#: src/tools/dcpomatic_batch.cc:365 src/tools/dcpomatic.cc:1469 src/tools/dcpomatic_player.cc:1128 src/tools/dcpomatic_playlist.cc:639
 #, c-format
-msgid ""
-"Could not write to config file at %s.  Your changes have not been saved."
-msgstr ""
+msgid "Could not write to config file at %s.  Your changes have not been saved."
+msgstr "%s 위치의 설정 파일에 쓸 수 없습니다. 변경 사항이 저장되지 않았습니다."
 
 #: src/tools/dcpomatic_player.cc:1136
 msgid "Could not write to config file.  Your changes have not been saved."
-msgstr ""
+msgstr "설정 파일에 쓸 수 없습니다. 변경 사항이 저장되지 않았습니다."
 
 #: src/tools/dcpomatic_kdm.cc:239
 msgid "Create KDMs"
-msgstr ""
+msgstr "KDM 만들기"
 
 #: src/tools/dcpomatic_editor.cc:213 src/tools/dcpomatic_editor.cc:302
+#, fuzzy
 msgid "Creator"
-msgstr ""
+msgstr "작성자"
 
 #: src/tools/dcpomatic_playlist.cc:342
 msgid "Crop"
-msgstr ""
+msgstr "크롭"
 
 #: src/tools/dcpomatic_disk.cc:139 src/tools/dcpomatic_verifier.cc:165
 msgid "DCP"
-msgstr ""
+msgstr "DCP"
 
 #: src/tools/dcpomatic_server.cc:256
 msgid "DCP-o-matic Encode Server"
-msgstr ""
+msgstr "DCP-o-matic 인코드 서버"
 
 #: src/tools/dcpomatic_disk.cc:135 src/tools/dcpomatic_verifier.cc:145
 msgid "DCPs"
-msgstr ""
+msgstr "DCP들"
 
 #: src/tools/dcpomatic_combiner.cc:194
 msgid "DCPs combined successfully."
-msgstr ""
+msgstr "DCP들이 성공적으로 결합되었습니다."
 
 #: src/tools/dcpomatic_kdm.cc:175
 msgid "DKDM"
-msgstr ""
+msgstr "DKDM"
 
 #: src/tools/dcpomatic_kdm.cc:632
 #, c-format
 msgid "DKDM %s is already in the DKDM list and will not be added again."
-msgstr ""
+msgstr "DKDM %s이(가) 이미 목록에 있으며 다시 추가되지 않습니다."
 
 #: src/tools/dcpomatic_player.cc:703
 msgid "Decode at full resolution"
-msgstr ""
+msgstr "전체 해상도로 디코드"
 
 #: src/tools/dcpomatic_player.cc:704
 msgid "Decode at half resolution"
-msgstr ""
+msgstr "1/2 해상도로 디코드"
 
 #: src/tools/dcpomatic_player.cc:705
 msgid "Decode at quarter resolution"
-msgstr ""
+msgstr "1/4 해상도로 디코드"
 
 #: src/tools/dcpomatic_playlist.cc:145
 msgid "Delete"
-msgstr ""
+msgstr "삭제"
 
 #: src/tools/dcpomatic_disk.cc:344
 #, c-format
-msgid ""
-"Did you install the %s Disk Writer.pkg from the .dmg?  Please check and try "
-"again."
-msgstr ""
+msgid "Did you install the %s Disk Writer.pkg from the .dmg?  Please check and try again."
+msgstr ".dmg 파일에서 %s Disk Writer.pkg를 설치했습니까? 확인 후 다시 시도하세요."
 
 #: src/tools/dcpomatic_disk.cc:190
 msgid "Disk Writer"
-msgstr ""
+msgstr "디스크 라이터"
 
-#: src/tools/dcpomatic.cc:1930 src/tools/dcpomatic.cc:1947
-#: src/tools/dcpomatic.cc:2001
+#: src/tools/dcpomatic.cc:1930 src/tools/dcpomatic.cc:1947 src/tools/dcpomatic.cc:2001
 msgid "Do nothing"
-msgstr ""
+msgstr "아무것도 하지 않음"
 
 #: src/tools/dcpomatic_disk.cc:336
-msgid ""
-"Do you see a 'User Account Control' dialogue asking about "
-"dcpomatic2_disk_writer.exe?  If so, click 'Yes', then try again."
-msgstr ""
+msgid "Do you see a 'User Account Control' dialogue asking about dcpomatic2_disk_writer.exe?  If so, click 'Yes', then try again."
+msgstr "'사용자 계정 컨트롤' 대화 상자가 나타납니까? 그렇다면 '예'를 누른 후 다시 시도하세요."
 
 #: src/tools/dcpomatic.cc:861
 #, c-format
 msgid "Do you want to overwrite the existing DCP %s?"
-msgstr ""
+msgstr "기존 DCP %s을(를) 덮어쓰시겠습니까?"
 
 #: src/tools/dcpomatic.cc:167
 msgid "Don't close"
-msgstr ""
+msgstr "닫지 않음"
 
 #: src/tools/dcpomatic.cc:195
 msgid "Don't duplicate"
-msgstr ""
+msgstr "복제하지 않음"
 
 #: src/tools/dcpomatic_playlist.cc:348
+#, fuzzy
 msgid "Down"
-msgstr ""
+msgstr "아래로"
 
 #: src/tools/dcpomatic_disk.cc:153
 msgid "Drive"
-msgstr ""
+msgstr "드라이브"
 
-#: src/tools/dcpomatic_player.cc:693
+#: src/tools/dcpomatic_player.cc:793
 msgid "Dual screen\tShift+F11"
-msgstr ""
+msgstr "듀얼 스크린 \tShift+F11"
 
 #: src/tools/dcpomatic.cc:650 src/tools/dcpomatic.cc:666
 msgid "Duplicate Film"
-msgstr ""
+msgstr "필름 복제"
 
 #: src/tools/dcpomatic.cc:1362
 msgid "Duplicate and open..."
-msgstr ""
+msgstr "복제 및 열기..."
 
 #: src/tools/dcpomatic.cc:195
 msgid "Duplicate without saving film"
-msgstr ""
+msgstr "필름을 저장하지 않고 복제"
 
 #: src/tools/dcpomatic.cc:1361
 msgid "Duplicate..."
-msgstr ""
+msgstr "복제..."
 
 #: src/tools/dcpomatic_editor.cc:94
 msgid "Duration"
-msgstr ""
+msgstr "길이"
 
 #: src/tools/dcpomatic_editor.cc:154
 msgid "Edit reel"
-msgstr ""
+msgstr "릴 편집"
 
 #: src/tools/dcpomatic_playlist.cc:351
 msgid "Edit..."
-msgstr ""
+msgstr "편집..."
 
 #: src/tools/dcpomatic_batch.cc:103 src/tools/dcpomatic.cc:1432
 msgid "Encoding servers..."
-msgstr ""
+msgstr "인코딩 서버..."
 
 #: src/tools/dcpomatic_playlist.cc:341
 msgid "Encrypted"
-msgstr ""
+msgstr "암호화됨"
 
 #: src/tools/dcpomatic_editor.cc:89
+#, fuzzy
 msgid "Entry point"
-msgstr ""
+msgstr "시작점"
 
 #: src/tools/dcpomatic_verifier.cc:151
 msgid "Examining DCPs"
-msgstr ""
+msgstr "DCP 검사 중"
 
 #: src/tools/dcpomatic.cc:1439
 msgid "Export preferences..."
-msgstr ""
+msgstr "환경 설정 내보내기..."
 
 #: src/tools/dcpomatic.cc:1411
 msgid "Export subtitles...\tShift-Ctrl-E"
-msgstr ""
+msgstr "자막 내보내기...\tShift-Ctrl-E"
 
 #: src/tools/dcpomatic.cc:1410
 msgid "Export video file...\tCtrl-E"
-msgstr ""
+msgstr "비디오 파일 내보내기...\tCtrl-E"
 
 #: src/tools/dcpomatic_kdm.cc:220
 msgid "Export..."
-msgstr ""
+msgstr "내보내기..."
 
 #: src/tools/dcpomatic_player.cc:700
+#, fuzzy
 msgid "Eye"
-msgstr ""
+msgstr "눈"
 
 #: src/tools/dcpomatic.cc:1039 src/tools/dcpomatic_kdm.cc:362
 #, c-format
 msgid "File %s already exists.  Do you want to overwrite it?"
-msgstr ""
+msgstr "%s 파일이 이미 존재합니다. 덮어쓰시겠습니까?"
 
 #. TRANSLATORS: this is the heading for a dialog box, which tells the user that the current
 #. project (Film) has been changed since it was last saved.
 #: src/tools/dcpomatic.cc:162 src/tools/dcpomatic.cc:190
 msgid "Film changed"
-msgstr ""
+msgstr "필름 변경됨"
 
 #: src/tools/dcpomatic_disk.cc:190
+#, fuzzy
 msgid "Finding disks"
-msgstr ""
+msgstr "디스크 찾는 중"
 
 #: src/tools/dcpomatic_kdm.cc:357
 #, c-format
 msgid "Folder %s already exists.  Do you want to overwrite it?"
-msgstr ""
+msgstr "%s 폴더가 이미 존재합니다. 덮어쓰시겠습니까?"
 
 #: src/tools/dcpomatic_server.cc:169
 msgid "Frames per second"
-msgstr ""
+msgstr "초당 프레임 수(FPS)"
 
 #: src/tools/dcpomatic_player.cc:692
 msgid "Full screen\tF11"
-msgstr ""
+msgstr "전체 화면\tF11"
 
 #: src/tools/dcpomatic.cc:1431
 msgid "Hints..."
-msgstr ""
+msgstr "힌트..."
 
 #: src/tools/dcpomatic.cc:1440
 msgid "Import preferences..."
-msgstr ""
+msgstr "환경 설정 가져오기..."
 
 #: src/tools/dcpomatic_combiner.cc:105
 msgid "Input DCP"
-msgstr ""
+msgstr "입력 DCP"
 
 #: src/tools/dcpomatic_editor.cc:99
 msgid "Intrinsic duration"
-msgstr ""
+msgstr "고유 길이"
 
 #: src/tools/dcpomatic_editor.cc:208 src/tools/dcpomatic_editor.cc:297
 msgid "Issuer"
-msgstr ""
+msgstr "발행자"
 
 #: src/tools/dcpomatic.cc:502
 #, c-format
 msgid ""
-"It looks like you are trying to open a DCP.  File -> Open is for loading %s "
-"projects, not DCPs.  To import a DCP, create a new project with File -> New "
+"It looks like you are trying to open a DCP.  File -> Open is for loading %s projects, not DCPs.  To import a DCP, create a new project with File -> New "
 "and then click the \"Add DCP...\" button."
 msgstr ""
+"DCP를 열려고 시도 중인 것 같습니다. [파일 -> 열기]는 %s 프로젝트용입니다. DCP를 가져오려면 [파일 -> 새로 만들기]로 프로젝트를 만든 후 \"DCP 추가...\" 버"
+"튼을 클릭하세요."
 
-#. TRANSLATORS: translate the word "Timing" here; do not include the "KDM|" prefix
+#. TRANSLATORS: translate the word "Timing" here; do not include the "KDM|prefix
 #: src/tools/dcpomatic_kdm.cc:169
+#, fuzzy
 msgid "KDM|Timing"
-msgstr ""
+msgstr "KDM|타이밍"
 
 #: src/tools/dcpomatic_player.cc:698
 msgid "Left"
-msgstr ""
+msgstr "왼쪽"
 
 #: src/tools/dcpomatic_playlist.cc:140
 msgid "Length"
-msgstr ""
+msgstr "길이"
 
 #: src/tools/dcpomatic_player.cc:449 src/tools/dcpomatic_player.cc:803
 msgid "Loading content"
-msgstr ""
+msgstr "콘텐츠 불러오는 중"
 
 #: src/tools/dcpomatic.cc:1406
 msgid "Make &DKDMs...\tCtrl-D"
-msgstr ""
+msgstr "&DKDM 만들기...\tCtrl-D"
 
 #: src/tools/dcpomatic.cc:1404
 msgid "Make &KDMs...\tCtrl-K"
-msgstr ""
+msgstr "&KDM 만들기...\tCtrl-K"
 
 #: src/tools/dcpomatic.cc:1401
 msgid "Make DCP in &batch converter\tCtrl-B"
-msgstr ""
+msgstr "&배치 변환기에서 DCP 만들기\tCtrl-B"
 
 #: src/tools/dcpomatic.cc:1407
 #, c-format
 msgid "Make DKDM for %s..."
-msgstr ""
+msgstr "%s용 DKDM 만들기..."
 
 #: src/tools/dcpomatic.cc:1433
 msgid "Manage templates..."
-msgstr ""
+msgstr "템플릿 관리..."
 
-#: src/tools/dcpomatic_editor.cc:226 src/tools/dcpomatic_playlist.cc:139
-#: src/tools/dcpomatic_playlist.cc:338
+#: src/tools/dcpomatic_editor.cc:226 src/tools/dcpomatic_playlist.cc:139 src/tools/dcpomatic_playlist.cc:338
 msgid "Name"
-msgstr ""
+msgstr "이름"
 
 #: src/tools/dcpomatic_playlist.cc:143
 msgid "New"
-msgstr ""
+msgstr "새로 만들기"
 
 #: src/tools/dcpomatic.cc:566
 msgid "New Film"
-msgstr ""
+msgstr "새 필름"
 
 #: src/tools/dcpomatic_playlist.cc:257
 msgid "New Playlist"
-msgstr ""
+msgstr "새 플레이리스트"
 
 #: src/tools/dcpomatic.cc:1353
 msgid "New...\tCtrl-N"
-msgstr ""
+msgstr "새로 만들기...\tCtrl-N"
 
 #: src/tools/dcpomatic_disk.cc:93
-msgid ""
-"No ASSETMAP or ASSETMAP.xml found in this folder.  Please choose a DCP "
-"folder."
-msgstr ""
+msgid "No ASSETMAP or ASSETMAP.xml found in this folder.  Please choose a DCP folder."
+msgstr "이 폴더에서 ASSETMAP을 찾을 수 없습니다. DCP 폴더를 선택하세요."
 
 #: src/tools/dcpomatic_playlist.cc:253
-msgid ""
-"No playlist folder is specified in preferences.  Please set one and then try "
-"again."
-msgstr ""
+msgid "No playlist folder is specified in preferences.  Please set one and then try again."
+msgstr "환경 설정에 플레이리스트 폴더가 지정되지 않았습니다. 폴더를 설정한 후 다시 시도하세요."
 
 #: src/tools/dcpomatic.cc:1423
 msgid "Open DCP in &player"
-msgstr ""
+msgstr "플레이어에서 DCP 열기(&P)"
 
 #: src/tools/dcpomatic_editor.cc:346
 msgid "Open a DCP using File -> Open"
-msgstr ""
+msgstr "[파일 -> 열기]를 사용하여 DCP 열기"
 
 #: src/tools/dcpomatic_kdm.cc:227
 msgid "Output"
-msgstr ""
+msgstr "출력"
 
 #: src/tools/dcpomatic_combiner.cc:126
 msgid "Output DCP folder"
-msgstr ""
+msgstr "출력 DCP 폴더"
 
 #: src/tools/dcpomatic_editor.cc:410
 #, c-format
 msgid "PKL: %s"
-msgstr ""
+msgstr "PKL: %s"
 
 #: src/tools/dcpomatic.cc:1384
 msgid "Paste settings...\tCtrl-V"
-msgstr ""
+msgstr "설정 붙여넣기...\tCtrl-V"
 
 #: src/tools/dcpomatic_batch.cc:178
 msgid "Pause or resume conversion"
-msgstr ""
+msgstr "변환 일시 중지 또는 재개"
 
 #: src/tools/dcpomatic_batch.cc:178
 msgid "Pause/resume"
-msgstr ""
+msgstr "일시 중지/재개"
 
 #: src/tools/dcpomatic_editor.cc:172
 msgid "Picture"
-msgstr ""
+msgstr "그림"
 
 #: src/tools/dcpomatic.cc:590
-#, c-format
-msgid ""
-"Please check that you do not have Windows controlled folder access enabled "
-"for %s."
-msgstr ""
+#, fuzzy, c-format
+msgid "Please check that you do not have Windows controlled folder access enabled for %s."
+msgstr "윈도우의 '제어된 폴더 액세스'가 %s에 대해 활성화되어 있지 않은지 확인하세요."
 
 #: src/tools/dcpomatic_playlist.cc:429
+#, fuzzy
 msgid "Question|N"
-msgstr ""
+msgstr "Question|아니요"
 
 #: src/tools/dcpomatic_playlist.cc:429
+#, fuzzy
 msgid "Question|Y"
-msgstr ""
+msgstr "Question|예"
 
 #: src/tools/dcpomatic_server.cc:238
 msgid "Quit"
-msgstr ""
+msgstr "종료"
 
 #: src/tools/dcpomatic.cc:1973
 msgid "Recreate KDM decryption chain"
-msgstr ""
+msgstr "KDM 해독 체인 재생성"
 
-#: src/tools/dcpomatic.cc:1924 src/tools/dcpomatic.cc:1941
-#: src/tools/dcpomatic.cc:1955 src/tools/dcpomatic.cc:1992
+#: src/tools/dcpomatic.cc:1924 src/tools/dcpomatic.cc:1941 src/tools/dcpomatic.cc:1955 src/tools/dcpomatic.cc:1992
 msgid "Recreate signing certificates"
-msgstr ""
+msgstr "서명 인증서 재생성"
 
 #: src/tools/dcpomatic_editor.cc:223
 msgid "Reels"
-msgstr ""
+msgstr "릴"
 
 #: src/tools/dcpomatic_disk.cc:157
 msgid "Refresh"
-msgstr ""
+msgstr "새로고침"
 
 #: src/tools/dcpomatic.cc:1766
 msgid "Release notes"
-msgstr ""
+msgstr "릴리스 노트"
 
 #: src/tools/dcpomatic_kdm.cc:218 src/tools/dcpomatic_playlist.cc:350
 msgid "Remove"
-msgstr ""
+msgstr "제거"
 
-#: src/tools/dcpomatic.cc:1449 src/tools/dcpomatic_kdm.cc:342
-#: src/tools/dcpomatic_player.cc:722
+#: src/tools/dcpomatic.cc:1449 src/tools/dcpomatic_kdm.cc:342 src/tools/dcpomatic_player.cc:722
 msgid "Report a problem..."
-msgstr ""
+msgstr "문제 보고..."
 
 #: src/tools/dcpomatic.cc:776 src/tools/dcpomatic.cc:1437
 msgid "Restore default preferences"
-msgstr ""
+msgstr "기본 환경 설정으로 복원"
 
 #: src/tools/dcpomatic_player.cc:699
 msgid "Right"
-msgstr ""
+msgstr "오른쪽"
 
 #: src/tools/dcpomatic.cc:1418
 msgid "S&how DCP in Explorer"
-msgstr ""
+msgstr "탐색기에서 DCP 표시(&H)"
 
 #: src/tools/dcpomatic.cc:1420
 msgid "S&how DCP in Files"
-msgstr ""
+msgstr "파일 앱에서 DCP 표시(&H)"
 
 #: src/tools/dcpomatic.cc:1416
 msgid "S&how DCP in Finder"
-msgstr ""
+msgstr "Finder에서 DCP 표시(&H)"
 
 #: src/tools/dcpomatic_playlist.cc:328
 msgid "Save"
-msgstr ""
+msgstr "저장"
 
 #: src/tools/dcpomatic.cc:1360
 msgid "Save as &template..."
-msgstr ""
+msgstr "&템플릿으로 저장..."
 
 #: src/tools/dcpomatic.cc:159
 #, c-format
 msgid "Save changes to film \"%s\" before closing?"
-msgstr ""
+msgstr "닫기 전에 필름 \"%s\"의 변경 사항을 저장하시겠습니까?"
 
 #: src/tools/dcpomatic.cc:187
 #, c-format
 msgid "Save changes to film \"%s\" before duplicating?"
-msgstr ""
+msgstr "복제하기 전에 필름 \"%s\"의 변경 사항을 저장하시겠습니까?"
 
 #: src/tools/dcpomatic.cc:167
 msgid "Save film and close"
-msgstr ""
+msgstr "필름 저장 및 닫기"
 
 #: src/tools/dcpomatic.cc:195
 msgid "Save film and duplicate"
-msgstr ""
+msgstr "필름 저장 및 복제"
 
 #: src/tools/dcpomatic_player.cc:840
 msgid "Save frame to file"
-msgstr ""
+msgstr "프레임을 파일로 저장"
 
 #: src/tools/dcpomatic_kdm.cc:162
 msgid "Screens"
-msgstr ""
+msgstr "스크린"
 
 #: src/tools/dcpomatic_editor.cc:443 src/tools/dcpomatic_player.cc:743
 msgid "Select DCP to open"
-msgstr ""
+msgstr "열려는 DCP 선택"
 
 #: src/tools/dcpomatic_player.cc:771
 msgid "Select DCP to open as OV"
-msgstr ""
+msgstr "OV로 열려는 DCP 선택"
 
 #: src/tools/dcpomatic_kdm.cc:821
 msgid "Select DKDM File"
-msgstr ""
+msgstr "DKDM 파일 선택"
 
 #: src/tools/dcpomatic_kdm.cc:607
 msgid "Select DKDM file"
-msgstr ""
+msgstr "DKDM 파일 선택"
 
 #: src/tools/dcpomatic_player.cc:810 src/tools/dcpomatic_verifier.cc:328
 msgid "Select KDM"
-msgstr ""
+msgstr "KDM 선택"
 
 #: src/tools/dcpomatic.cc:1387
 msgid "Select all\tShift-Ctrl-A"
-msgstr ""
+msgstr "전체 선택\tShift-Ctrl-A"
 
 #: src/tools/dcpomatic_batch.cc:334 src/tools/dcpomatic.cc:603
 msgid "Select film to open"
-msgstr ""
+msgstr "열려는 필름 선택"
 
 #: src/tools/dcpomatic_kdm.cc:485
 msgid "Send KDM emails"
-msgstr ""
+msgstr "KDM 이메일 전송"
 
 #: src/tools/dcpomatic_player.cc:702
 msgid "Set decode resolution to match display"
-msgstr ""
+msgstr "디스플레이에 맞춰 디코드 해상도 설정"
 
 #: src/tools/dcpomatic_editor.cc:175
 msgid "Sound"
-msgstr ""
+msgstr "사운드"
 
 #: src/tools/dcpomatic.cc:788 src/tools/dcpomatic.cc:808
 msgid "Specify ZIP file"
-msgstr ""
+msgstr "ZIP 파일 지정"
 
 #: src/tools/dcpomatic_server.cc:237
 msgid "Status..."
-msgstr ""
+msgstr "상태..."
 
 #: src/tools/dcpomatic_editor.cc:178
 msgid "Subtitle"
-msgstr ""
+msgstr "자막"
 
 #: src/tools/dcpomatic.cc:1435 src/tools/dcpomatic_player.cc:713
 msgid "System information..."
-msgstr ""
+msgstr "시스템 정보..."
 
 #: src/tools/dcpomatic.cc:1537 src/tools/dcpomatic_player.cc:1110
 #, c-format
 msgid "The %s download server could not be contacted."
-msgstr ""
+msgstr "%s 다운로드 서버에 연결할 수 없습니다."
 
 #: src/tools/dcpomatic.cc:834
 #, c-format
-msgid ""
-"The DCP for this film will take up about %.1f GB, and the disk that you are "
-"using only has %.1f GB available.  Do you want to continue anyway?"
-msgstr ""
+msgid "The DCP for this film will take up about %.1f GB, and the disk that you are using only has %.1f GB available.  Do you want to continue anyway?"
+msgstr "이 필름의 DCP는 약 %.1f GB를 사용하며, 현재 디스크의 여유 공간은 %.1f GB뿐입니다. 계속하시겠습니까?"
 
 #: src/tools/dcpomatic_batch.cc:248
 #, c-format
 msgid ""
-"The DCPs for this film and the films already in the queue will take up about "
-"%.1f GB.  The disks that you are using only have %.1f GB available.  Do you "
+"The DCPs for this film and the films already in the queue will take up about %.1f GB.  The disks that you are using only have %.1f GB available.  Do you "
 "want to add this film to the queue anyway?"
-msgstr ""
+msgstr "이 필름과 대기열에 있는 필름들의 DCP는 약 %.1f GB를 사용합니다. 현재 디스크의 여유 공간은 %.1f GB뿐입니다. 대기열에 추가하시겠습니까?"
 
 #: src/tools/dcpomatic_player.cc:378
 msgid "The KDM does not allow playback of this content at this time."
-msgstr ""
+msgstr "이 KDM으로는 현재 이 콘텐츠를 재생할 수 없습니다."
 
 #: src/tools/dcpomatic_kdm.cc:504
 #, c-format
 msgid ""
-"The KDM end period is after (or close to) the end of the signing "
-"certificates' validity period.  Either use an earlier end time for this KDM "
-"or re-create your signing certificates in the %s preferences window."
-msgstr ""
+"The KDM end period is after (or close to) the end of the signing certificates' validity period.  Either use an earlier end time for this KDM or re-"
+"create your signing certificates in the %s preferences window."
+msgstr "KDM 만료일이 서명 인증서의 유효 기간을 초과하거나 가깝습니다. KDM 종료 시간을 앞당기거나 %s 환경 설정에서 서명 인증서를 다시 생성하세요."
 
 #: src/tools/dcpomatic_kdm.cc:499
-msgid ""
-"The KDM start period is before (or close to) the start of the signing "
-"certificate's validity period.  Use a later start time for this KDM."
-msgstr ""
+msgid "The KDM start period is before (or close to) the start of the signing certificate's validity period.  Use a later start time for this KDM."
+msgstr "KDM 시작일이 서명 인증서의 유효 기간 시작일보다 빠르거나 가깝습니다. KDM 시작 시간을 늦춰 설정하세요."
 
 #: src/tools/dcpomatic.cc:1003
 msgid "The certificate chain for signing is invalid"
-msgstr ""
+msgstr "서명용 인증서 체인이 잘못되었습니다"
 
 #: src/tools/dcpomatic.cc:1975
 #, c-format
 msgid ""
 "The certificate chain that %s uses for decrypting KDMs is inconsistent and\n"
-"cannot be used.  %s cannot start unless you re-create it.  Do you want to re-"
-"create\n"
-"the certificate chain for decrypting KDMs?  You may want to say \"No\" here "
-"and back up your\n"
+"cannot be used.  %s cannot start unless you re-create it.  Do you want to re-create\n"
+"the certificate chain for decrypting KDMs?  You may want to say \"No\" here and back up your\n"
 "configuration before continuing."
 msgstr ""
+"%s이(가) KDM 해독에 사용하는 인증서 체인이 일관적이지 않아 사용할 수 없습니다. \n"
+"다시 생성하지 않으면 %s을(를) 시작할 수 없습니다. \n"
+"KDM 해독용 인증서 체인을 다시 생성하시겠습니까? \n"
+"진행하기 전에 '아니요'를 누르고 설정을 백업하는 것을 권장합니다."
 
 #: src/tools/dcpomatic.cc:1926
 #, c-format
 msgid ""
-"The certificate chain that %s uses for signing DCPs and KDMs contains a "
-"small error\n"
-"which will prevent DCPs from being validated correctly on some systems.  Do "
-"you want to re-create\n"
+"The certificate chain that %s uses for signing DCPs and KDMs contains a small error\n"
+"which will prevent DCPs from being validated correctly on some systems.  Do you want to re-create\n"
 "the certificate chain for signing DCPs and KDMs?"
 msgstr ""
+"%s이(가) DCP 및 KDM 서명에 사용하는 인증서 체인에 작은 오류가 있어 일부 시스템에서 DCP 검증에 실패할 수 있습니다. \n"
+"서명용 인증서 체인을 다시 생성하시겠습니까?"
 
 #: src/tools/dcpomatic.cc:1994
 #, c-format
 msgid ""
-"The certificate chain that %s uses for signing DCPs and KDMs contains a "
-"small error\n"
-"which will prevent DCPs from being validated correctly on some systems.  "
-"This error was caused\n"
-"by a bug in %s which has now been fixed. Do you want to re-create the "
-"certificate chain\n"
+"The certificate chain that %s uses for signing DCPs and KDMs contains a small error\n"
+"which will prevent DCPs from being validated correctly on some systems.  This error was caused\n"
+"by a bug in %s which has now been fixed. Do you want to re-create the certificate chain\n"
 "for signing DCPs and KDMs?"
 msgstr ""
+"%s이(가) 서명에 사용하는 인증서 체인에 작은 오류가 있습니다. \n"
+"이는 이전 버전 %s의 버그 때문이었으며 현재는 수정되었습니다. \n"
+"서명용 인증서 체인을 다시 생성하시겠습니까?"
 
 #: src/tools/dcpomatic.cc:1943
 #, c-format
 msgid ""
-"The certificate chain that %s uses for signing DCPs and KDMs has a validity "
-"period\n"
-"that is too long.  This will cause problems playing back DCPs on some "
-"systems.\n"
+"The certificate chain that %s uses for signing DCPs and KDMs has a validity period\n"
+"that is too long.  This will cause problems playing back DCPs on some systems.\n"
 "Do you want to re-create the certificate chain for signing DCPs and KDMs?"
 msgstr ""
+"%s이(가) 서명에 사용하는 인증서 체인의 유효 기간이 너무 깁니다. \n"
+"일부 시스템에서 재생 문제가 발생할 수 있습니다. \n"
+"인증서 체인을 다시 생성하시겠습니까?"
 
 #: src/tools/dcpomatic.cc:1957
 #, c-format
 msgid ""
-"The certificate chain that %s uses for signing DCPs and KDMs is inconsistent "
-"and\n"
-"cannot be used.  %s cannot start unless you re-create it.  Do you want to re-"
-"create\n"
+"The certificate chain that %s uses for signing DCPs and KDMs is inconsistent and\n"
+"cannot be used.  %s cannot start unless you re-create it.  Do you want to re-create\n"
 "the certificate chain for signing DCPs and KDMs?"
 msgstr ""
+"%s가 서명할 때 사용하는  인증서 체인이 일관적이지 않아 사용할 수 없습니다. \n"
+"%s는 다시 생성하지 않으면 프로그램을 시작할 수 없습니다. \n"
+"DCP와 KDM 서명용 인증서 체인을 다시 생성하시겠습니까?"
 
 #: src/tools/dcpomatic_combiner.cc:167
-msgid ""
-"The directory {} already exists and is not empty.  Are you sure you want to "
-"use it?"
-msgstr ""
+msgid "The directory {} already exists and is not empty.  Are you sure you want to use it?"
+msgstr "디렉토리 {}는 이미 존재하며 비어 있지 않습니다. 그대로 사용하시겠습니까?"
 
 #: src/tools/dcpomatic_disk.cc:299
 msgid "The disk you selected is no longer available.  Please choose another."
-msgstr ""
+msgstr "선택한 디스크를 더 이상 사용할 수 없습니다. 다른 디스크를 선택하세요."
 
 #: src/tools/dcpomatic_disk.cc:378
 #, c-format
@@ -1085,111 +1052,104 @@ msgid ""
 "The drive %s could not be unmounted.\n"
 "Close any application that is using it, then try again. (%s)"
 msgstr ""
+"드라이브 %s을(를) 마운트 해제할 수 없습니다. \n"
+"해당 드라이브를 사용 중인 애플리케이션을 종료한 후 다시 시도하세요. (%s)"
 
 #: src/tools/dcpomatic_disk.cc:543 src/tools/dcpomatic_player.cc:1517
-msgid ""
-"The existing configuration failed to load.  Default values will be used "
-"instead.  These may take a short time to create."
-msgstr ""
+msgid "The existing configuration failed to load.  Default values will be used instead.  These may take a short time to create."
+msgstr "기존 설정을 불러오지 못했습니다. 대신 기본값을 사용합니다. 생성하는 데 시간이 조금 걸릴 수 있습니다."
 
 #: src/tools/dcpomatic.cc:1539 src/tools/dcpomatic_player.cc:1112
 #, c-format
 msgid "There are no new versions of %s available."
-msgstr ""
+msgstr "사용 가능한 %s의 새 버전이 없습니다."
 
-#: src/tools/dcpomatic_batch.cc:278 src/tools/dcpomatic.cc:1180
-#: src/tools/dcpomatic_disk.cc:274
+#: src/tools/dcpomatic_batch.cc:278 src/tools/dcpomatic.cc:1180 src/tools/dcpomatic_disk.cc:274
 msgid "There are unfinished jobs; are you sure you want to quit?"
-msgstr ""
+msgstr "완료되지 않은 작업이 있습니다; 정말 종료하시겠습니까?"
 
 #: src/tools/dcpomatic.cc:483
-msgid ""
-"This film was created with an old version of DVD-o-matic and may not load "
-"correctly in this version.  Please check the film's settings carefully."
-msgstr ""
+msgid "This film was created with an old version of DVD-o-matic and may not load correctly in this version.  Please check the film's settings carefully."
+msgstr "이 필름은 구버전 DVD-o-matic으로 생성되어 현재 버전에서 제대로 불러오지 못할 수 있습니다. 필름 설정을 주의 깊게 확인하세요."
 
 #: src/tools/dcpomatic_player.cc:458
 #, c-format
 msgid ""
-"This looks like a %s project folder, which cannot be loaded into the "
-"player.  Choose the DCP folder inside the %s project folder if that's what "
-"you want to play."
-msgstr ""
+"This looks like a %s project folder, which cannot be loaded into the player.  Choose the DCP folder inside the %s project folder if that's what you want "
+"to play."
+msgstr "이것은 %s 프로젝트 폴더이므로 플레이어에서 직접 열 수 없습니다. 재생하려면 %s 프로젝트 폴더 내부의 DCP 폴더를 선택하세요."
 
 #: src/tools/dcpomatic_verifier.cc:183
-msgid ""
-"Tick to check details of the picture asset, such as frame sizes and JPEG2000 "
-"bitstream validity.  These checks are quite time-consuming."
-msgstr ""
+msgid "Tick to check details of the picture asset, such as frame sizes and JPEG2000 bitstream validity.  These checks are quite time-consuming."
+msgstr "체크하면 프레임 크기 및 JPEG2000 비트스트림 유효성 등 그림 에셋의 세부 사항을 확인합니다. 이 작업은 시간이 꽤 걸립니다."
 
 #: src/tools/dcpomatic_player.cc:712
 msgid "Timing..."
-msgstr ""
+msgstr "타이밍..."
 
 #: src/tools/dcpomatic_disk.cc:119
 msgid "Tools"
-msgstr ""
+msgstr "도구"
 
 #: src/tools/dcpomatic.cc:588
 #, c-format
 msgid "Try removing the %s characters from your folder name."
-msgstr ""
+msgstr "폴더 이름에서 %s 문자를 제거해 보세요."
 
 #: src/tools/dcpomatic_playlist.cc:340
 msgid "Type"
-msgstr ""
+msgstr "유형"
 
-#: src/tools/dcpomatic_batch.cc:279 src/tools/dcpomatic.cc:1181
-#: src/tools/dcpomatic_disk.cc:275
+#: src/tools/dcpomatic_batch.cc:279 src/tools/dcpomatic.cc:1181 src/tools/dcpomatic_disk.cc:275
 msgid "Unfinished jobs"
-msgstr ""
+msgstr "완료되지 않은 작업"
 
 #: src/tools/dcpomatic_disk.cc:118
 msgid "Uninstall..."
-msgstr ""
+msgstr "제거..."
 
 #: src/tools/dcpomatic_player.cc:860
 #, c-format
 msgid "Unrecognised file extension %s (use .jpg, .jpeg or .png)"
-msgstr ""
+msgstr "인식할 수 없는 파일 확장자 %s (.jpg, .jpeg 또는 .png를 사용하세요)"
 
 #: src/tools/dcpomatic_playlist.cc:347
+#, fuzzy
 msgid "Up"
-msgstr ""
+msgstr "위로"
 
 #: src/tools/dcpomatic_verifier.cc:194
 msgid "Verify"
-msgstr ""
+msgstr "검증"
 
 #: src/tools/dcpomatic_player.cc:1041
 msgid "Verify DCP"
-msgstr ""
+msgstr "DCP 검증"
 
 #: src/tools/dcpomatic_player.cc:708
 msgid "Verify DCP..."
-msgstr ""
+msgstr "DCP 검증..."
 
 #: src/tools/dcpomatic_verifier.cc:180
 msgid "Verify picture asset details"
-msgstr ""
+msgstr "그림 에셋 세부 사항 검증"
 
 #: src/tools/dcpomatic.cc:1430
 msgid "Version File (VF)..."
-msgstr ""
+msgstr "버전 파일 (VF)..."
 
 #: src/tools/dcpomatic.cc:1427
 msgid "Video waveform..."
-msgstr ""
+msgstr "비디오 웨이브폼..."
 
 #: src/tools/dcpomatic_verifier.cc:187
 msgid "Write logs to DCP folders"
-msgstr ""
+msgstr "DCP 폴더에 로그 쓰기"
 
 #: src/tools/dcpomatic_kdm.cc:795
 msgid ""
-"You are about to remove a DKDM.  This will make it impossible to decrypt the "
-"DCP that the DKDM was made for, and it cannot be undone.  Are you sure?"
-msgstr ""
+"You are about to remove a DKDM.  This will make it impossible to decrypt the DCP that the DKDM was made for, and it cannot be undone.  Are you sure?"
+msgstr "DKDM을 제거하려고 합니다. 그러면 해당 DKDM으로 만든 DCP를 해독할 수 없게 되며, 이 작업은 되돌릴 수 없습니다. 정말 제거하시겠습니까?"
 
 #: src/tools/dcpomatic.cc:988
 #, c-format
@@ -1198,39 +1158,40 @@ msgid ""
 "\n"
 "<tt>%s</tt>\n"
 "\n"
-"It is <span weight=\"bold\" size=\"larger\">VITALLY IMPORTANT</span> that "
-"you <span weight=\"bold\" size=\"larger\">BACK UP THIS FILE</span> since if "
-"it is lost your DKDMs (and the DCPs they protect) will become useless."
+"It is <span weight=\"bold\" size=\"larger\">VITALLY IMPORTANT</span> that you <span weight=\"bold\" size=\"larger\">BACK UP THIS FILE</span> since if it "
+"is lost your DKDMs (and the DCPs they protect) will become useless."
 msgstr ""
+"귀하는 <tt>%s</tt>에 보관된 개인 키로 암호화된 DKDM을 생성 중입니다.\n"
+"\n"
+"이 파일을 분실하면 생성한 DKDM(및 보호되는 DCP)을 사용할 수 없게 되므로, 이 파일을 <span weight=\"bold\" size=\"larger\">반드시 백업</span>하는 것이 매"
+"우 중요합니다."
 
 #: src/tools/dcpomatic.cc:851
 msgid ""
-"You are making an encrypted DCP.  It will not be possible to make KDMs for "
-"this DCP unless you have copies of the <tt>metadata.xml</tt> file within the "
+"You are making an encrypted DCP.  It will not be possible to make KDMs for this DCP unless you have copies of the <tt>metadata.xml</tt> file within the "
 "film and the metadata files within the DCP.\n"
 "\n"
-"You should ensure that these files are <span weight=\"bold\" "
-"size=\"larger\">BACKED UP</span> if you want to make KDMs for this film."
+"You should ensure that these files are <span weight=\"bold\" size=\"larger\">BACKED UP</span> if you want to make KDMs for this film."
 msgstr ""
+"암호화된 DCP를 생성 중입니다. 필름 내의 <tt>metadata.xml</tt> 파일과 DCP 내의 메타데이터 파일 사본이 없으면 이 DCP용 KDM을 만들 수 없습니다.\n"
+"\n"
+"이 필름에 대한 KDM을 만들려면 해당 파일들을 <span weight=\"bold\" size=\"larger\">반드시 백업</span>해 두어야 합니다."
 
 #: src/tools/dcpomatic.cc:1725
 #, c-format
 msgid ""
-"You are running the 32-bit version of %s on a 64-bit version of Windows.  "
-"This will limit the memory available to %s and may cause errors.  You are "
+"You are running the 32-bit version of %s on a 64-bit version of Windows.  This will limit the memory available to %s and may cause errors.  You are "
 "strongly advised to install the 64-bit version of %s."
 msgstr ""
+"64비트 윈도우에서 32비트 버전 %s을(를) 실행 중입니다. 이는 가용한 메모리를 %s로 제한하여 오류를 일으킬 수 있습니다. 64비트 버전 %s을(를) 설치할 것을 강력"
+"히 권장합니다."
 
 #: src/tools/dcpomatic_disk.cc:394
-msgid ""
-"You did not correctly confirm that you read the warning that was just "
-"shown.  Please try again."
-msgstr ""
+msgid "You did not correctly confirm that you read the warning that was just shown.  Please try again."
+msgstr "방금 표시된 경고 내용을 읽었음을 올바르게 확인하지 않았습니다. 다시 시도하세요."
 
-#: src/tools/dcpomatic_batch.cc:343 src/tools/dcpomatic.cc:612
+#: src/tools/dcpomatic_batch.cc:343 src/tools/dcpomatic.cc:612 
 #: src/tools/dcpomatic_editor.cc:449 src/tools/dcpomatic_player.cc:749
 #: src/tools/dcpomatic_player.cc:780
-msgid ""
-"You did not select a folder.  Make sure that you select a folder before "
-"clicking Open."
-msgstr ""
+msgid "You did not select a folder.  Make sure that you select a folder before clicking Open."
+msgstr "폴더를 선택하지 않았습니다. [열기]를 누르기 전에 폴더를 선택했는지 확인하세요."
