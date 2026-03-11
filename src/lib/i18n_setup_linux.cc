@@ -41,7 +41,7 @@ dcpomatic::setup_i18n(string forced_language)
 	forced_language += ".UTF8";
 
 	if (!forced_language.empty()) {
-		/* Override our environment forced_languageuage.  Note that the caller must not
+		/* Override our environment forced_language.  Note that the caller must not
 		   free the string passed into putenv().
 		*/
 		string s = fmt::format("LANGUAGE={}", forced_language);
