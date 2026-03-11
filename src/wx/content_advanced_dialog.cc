@@ -125,9 +125,8 @@ ContentAdvancedDialog::ContentAdvancedDialog (wxWindow* parent, shared_ptr<Conte
 	video_frame_rate_label->Enable (!single_frame_image_content);
 	_video_frame_rate->Enable (!single_frame_image_content);
 
-	auto vfr = _content->video_frame_rate ();
-	if (vfr) {
-		_video_frame_rate->SetValue (std_to_wx(locale_convert<string>(*vfr)));
+	if (auto const vfr = _content->video_frame_rate()) {
+		_video_frame_rate->SetValue(std_to_wx(locale_convert<string>(*vfr)));
 	}
 
 	_burnt_subtitle->SetValue (_content->video && static_cast<bool>(_content->video->burnt_subtitle_language()));
