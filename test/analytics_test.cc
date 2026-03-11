@@ -53,7 +53,7 @@ BOOST_AUTO_TEST_CASE(many_successful_encodes_test)
 	BOOST_CHECK_EQUAL(last_title, "Congratulations!");
 	BOOST_CHECK_EQUAL(last_body,
 		"<h2>You have made 20 DCPs with DCP-o-matic!</h2>"
-		"<img width=\"20%%\" src=\"memory:me.jpg\" align=\"center\">"
+		"<img width=\"150\" height=\"193\" src=\"memory:me.jpg\" align=\"center\">"
 		"<font size=\"+1\">"
                 "<p>Hello. I'm Carl and I'm the "
 		"developer of DCP-o-matic. I work on it in my spare time (with the help "
