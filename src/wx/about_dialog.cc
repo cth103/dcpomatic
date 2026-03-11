@@ -144,6 +144,7 @@ AboutDialog::AboutDialog(wxWindow* parent)
 		translated_by.Add(char_to_wx("Carsten Kurz"));
 		translated_by.Add(char_to_wx("Roman Kuznetsov"));
 		translated_by.Add(char_to_wx("David Lankes"));
+		translated_by.Add(char_to_wx("Sean Y. Leigh"));
 		translated_by.Add(char_to_wx("Lilian Lefranc"));
 		// Doesn't want to be credited
 		// translated_by.Add(char_to_wx("Kahn Li"));
