@@ -757,7 +757,7 @@ Player::pass()
 	switch (which) {
 	case CONTENT:
 	{
-		LOG_DEBUG_PLAYER("PLY: Calling pass() on {}", earliest_content->content->path(0).string());
+		LOG_DEBUG_PLAYER("PLY: Calling pass() on {} @ {}", earliest_content->content->path(0).string(), to_string(*earliest_time));
 		earliest_content->done = earliest_content->decoder->pass();
 		auto dcp = dynamic_pointer_cast<DCPContent>(earliest_content->content);
 		if (dcp && !_play_referenced) {
