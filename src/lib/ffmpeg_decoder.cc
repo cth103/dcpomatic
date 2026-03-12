@@ -246,7 +246,7 @@ FFmpegDecoder::pass ()
 		decode_and_process_audio_packet (packet);
 	} else {
 		DCPOMATIC_ASSERT(static_cast<int>(_dropped_time.size()) > si);
-		_dropped_time[si] = dcpomatic::ContentTime::from_seconds(packet->pts * av_q2d(_format_context->streams[si]->time_base) + _pts_offset.seconds());
+		_dropped_time[si] = dcpomatic::ContentTime::from_seconds(packet->dts * av_q2d(_format_context->streams[si]->time_base) + _pts_offset.seconds());
 	}
 
 	if (_have_current_subtitle && _current_subtitle_to && position() > *_current_subtitle_to) {
