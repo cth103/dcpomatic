@@ -554,7 +554,7 @@ Playlist::active_frame_rate_change(DCPTime t, int dcp_video_frame_rate) const
 {
 	auto cont = content();
 	for (ContentList::const_reverse_iterator i = cont.rbegin(); i != cont.rend(); ++i) {
-		if (!(*i)->video) {
+		if (!(*i)->video || !(*i)->video->use()) {
 			continue;
 		}
 
