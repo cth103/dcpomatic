@@ -169,7 +169,7 @@ ContentMenu::popup(weak_ptr<Film> film, ContentList c, TimelineContentViewList v
 	_advanced->Enable(_content.size() == 1);
 	_re_examine->Enable(!_content.empty());
 	_verify->Enable(dcp_count == 1);
-	_auto_crop->Enable(_content.size() == 1);
+	_auto_crop->Enable(_content.size() == 1 && _content[0]->video && _content[0]->video->use());
 	_copy_settings->Enable(_content.size() == 1);
 
 	if (_content.size() == 1) {
