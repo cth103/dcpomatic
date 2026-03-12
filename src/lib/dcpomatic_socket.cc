@@ -43,16 +43,16 @@ Socket::Socket (int timeout)
 	, _socket(_io_context)
 	, _timeout (timeout)
 {
-	_deadline.expires_at (boost::posix_time::pos_infin);
-	check ();
+	_deadline.expires_at(std::chrono::time_point<std::chrono::system_clock>::max());
+	check();
 }
 
 void
 Socket::check ()
 {
-	if (_deadline.expires_at() <= boost::asio::deadline_timer::traits_type::now ()) {
-		_socket.close ();
-		_deadline.expires_at (boost::posix_time::pos_infin);
+	if (_deadline.expires_at() <= std::chrono::system_clock::now()) {
+		_socket.close();
+		_deadline.expires_at(std::chrono::time_point<std::chrono::system_clock>::max());
 	}
 
 	_deadline.async_wait (boost::bind (&Socket::check, this));
@@ -321,7 +321,7 @@ Socket::set_send_buffer_size (int size)
 void
 Socket::set_deadline_from_now(int seconds)
 {
-	_deadline.expires_from_now(boost::posix_time::seconds(seconds));
+	_deadline.expires_from_now(std::chrono::seconds(seconds));
 }
 
 void

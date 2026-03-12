@@ -22,7 +22,7 @@
 #include "digester.h"
 #include "io_context.h"
 #include <boost/asio.hpp>
-#include <boost/asio/deadline_timer.hpp>
+#include <boost/asio/system_timer.hpp>
 #include <boost/scoped_ptr.hpp>
 
 
@@ -102,7 +102,7 @@ private:
 #endif
 
 	dcpomatic::io_context _io_context;
-	boost::asio::deadline_timer _deadline;
+	boost::asio::system_timer _deadline;
 	boost::asio::ip::tcp::socket _socket;
 	int _timeout;
 	boost::scoped_ptr<Digester> _read_digester;
