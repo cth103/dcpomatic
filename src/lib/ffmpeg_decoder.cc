@@ -231,6 +231,8 @@ FFmpegDecoder::pass ()
 
 		av_packet_free (&packet);
 		return flush() == FlushResult::DONE;
+	} else if (r == AVERROR_INVALIDDATA) {
+		LOG_DEBUG_PLAYER("DEC: av_read_frame gave INVALIDDATA but we carry on");
 	}
 
 	int const si = packet->stream_index;
