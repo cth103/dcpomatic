@@ -19,22 +19,30 @@
 */
 
 
-#include "table_dialog.h"
 #include "lib/user_property.h"
 #include <list>
 #include <map>
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
+#include <wx/wx.h>
+LIBDCP_ENABLE_WARNINGS
 
 
 class Content;
 class Film;
 class UserProperty;
+class wxFlexGridSizer;
+class wxScrolledWindow;
 
 
-class ContentPropertiesDialog : public TableDialog
+class ContentPropertiesDialog : public wxDialog
 {
 public:
 	ContentPropertiesDialog(wxWindow* parent, std::shared_ptr<const Film> film, std::shared_ptr<Content> content);
 
 private:
 	void maybe_add_group(std::map<UserProperty::Category, std::list<UserProperty>> const & groups, UserProperty::Category category);
+
+	wxFlexGridSizer* _table;
+	wxScrolledWindow* _scroll;
 };

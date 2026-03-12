@@ -39,8 +39,19 @@ using boost::optional;
 
 
 ContentPropertiesDialog::ContentPropertiesDialog(wxWindow* parent, shared_ptr<const Film> film, shared_ptr<Content> content)
-	: TableDialog(parent, _("Content Properties"), 2, 1, false)
+	: wxDialog(parent, wxID_ANY, _("Content Properties"), wxDefaultPosition, wxSize(640, 600), wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
 {
+	_scroll = new wxScrolledWindow(this);
+	_scroll->SetMinSize(wxSize(740, 600));
+	_scroll->EnableScrolling(false, true);
+	_scroll->SetScrollRate(0, 32);
+
+	_table = new wxFlexGridSizer(2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_X_GAP);
+	_table->AddGrowableCol(1, 1);
+	auto sizer = new wxBoxSizer(wxVERTICAL);
+	sizer->Add(_table, 1, wxEXPAND);
+	_scroll->SetSizer(sizer);
+
 	map<UserProperty::Category, list<UserProperty>> grouped;
 	for (auto i: content->user_properties(film)) {
 		if (grouped.find(i.category) == grouped.end()) {
@@ -55,10 +66,12 @@ ContentPropertiesDialog::ContentPropertiesDialog(wxWindow* parent, shared_ptr<co
 	maybe_add_group(grouped, UserProperty::LENGTH);
 
 	/* Nasty hack to stop the bottom property being cut off on Windows / OS X */
-	add(wxString(), false);
-	add(wxString(), false);
+	_table->Add(new wxStaticText(_scroll, wxID_ANY, wxT("")), 0, 0);
+	_table->Add(new wxStaticText(_scroll, wxID_ANY, wxT("")), 0, 0);
 
-	layout();
+	auto overall_sizer = new wxBoxSizer(wxVERTICAL);
+	overall_sizer->Add(_scroll, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
+	SetSizerAndFit(overall_sizer);
 }
 
 
@@ -86,15 +99,15 @@ ContentPropertiesDialog::maybe_add_group(map<UserProperty::Category, list<UserPr
 		break;
 	}
 
-	auto m = new StaticText(this, category_name);
+	auto m = new StaticText(_scroll, category_name);
 	wxFont font(*wxNORMAL_FONT);
 	font.SetWeight(wxFONTWEIGHT_BOLD);
 	m->SetFont(font);
 
-	add_spacer();
-	add_spacer();
-	add(m, false);
-	add_spacer();
+	_table->AddSpacer(0);
+	_table->AddSpacer(0);
+	_table->Add(m, 1);
+	_table->AddSpacer(0);
 
 	vector<string> sub_headings;
 	for (auto j: i->second) {
@@ -109,16 +122,16 @@ ContentPropertiesDialog::maybe_add_group(map<UserProperty::Category, list<UserPr
 
 	auto add_sub_heading = [&](optional<string> sub_heading) {
 		if (sub_heading) {
-			auto heading = add_label_to_sizer(_table, this, std_to_wx(*sub_heading), true, 0, wxALIGN_TOP);
+			auto heading = add_label_to_sizer(_table, _scroll, std_to_wx(*sub_heading), true, 0, wxALIGN_TOP);
 			wxFont font(*wxNORMAL_FONT);
 			font.SetStyle(wxFONTSTYLE_ITALIC);
 			heading->SetFont(font);
-			add_spacer();
+			_table->AddSpacer(0);
 		}
 		for (auto j: i->second) {
 			if (j.sub_heading == sub_heading) {
-				add_label_to_sizer(_table, this, std_to_wx(j.key), true, 0, wxALIGN_TOP);
-				add(new StaticText(this, std_to_wx(j.value + " " + j.unit)));
+				add_label_to_sizer(_table, _scroll, std_to_wx(j.key), true, 0, wxALIGN_TOP);
+				_table->Add(new StaticText(_scroll, std_to_wx(j.value + " " + j.unit)), 1);
 			}
 		}
 	};
