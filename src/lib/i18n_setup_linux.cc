@@ -52,6 +52,9 @@ dcpomatic::setup_i18n(string forced_language)
 	}
 
 	setlocale(LC_ALL, "");
+	if (auto num = getenv("LC_NUMERIC")) {
+		setlocale(LC_NUMERIC, num);
+	}
 	textdomain("libdcpomatic2");
 
 	bindtextdomain("libdcpomatic2", mo_path().string().c_str());
