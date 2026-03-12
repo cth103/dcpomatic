@@ -38,7 +38,7 @@ class LanguageTagWidget;
 class ContentAdvancedDialog : public wxDialog
 {
 public:
-	ContentAdvancedDialog (wxWindow* parent, std::shared_ptr<Content> content);
+	ContentAdvancedDialog(wxWindow* parent, std::shared_ptr<Content> content);
 
 	bool ignore_video() const;
 
@@ -50,13 +50,13 @@ public:
 	boost::optional<dcp::LanguageTag> burnt_subtitle_language() const;
 
 private:
-	void edit_filters ();
+	void edit_filters();
 	void filters_changed(std::vector<Filter> const& filters);
-	void setup_filters ();
-	void set_video_frame_rate ();
-	void video_frame_rate_changed ();
-	void setup_sensitivity ();
-	void burnt_subtitle_changed ();
+	void setup_filters();
+	void set_video_frame_rate();
+	void video_frame_rate_changed();
+	void setup_sensitivity();
+	void burnt_subtitle_changed();
 
 	std::shared_ptr<Content> _content;
 	bool _filters_allowed = false;

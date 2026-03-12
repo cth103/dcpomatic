@@ -29,19 +29,19 @@ LIBDCP_ENABLE_WARNINGS
 class TableDialog : public wxDialog
 {
 public:
-	TableDialog (wxWindow* parent, wxString title, int columns, int growable, bool cancel);
+	TableDialog(wxWindow* parent, wxString title, int columns, int growable, bool cancel);
 
 protected:
 	template<class T>
-	T* add (T* w, int proportion = 1, int flag = wxEXPAND) {
-		_table->Add (w, proportion, flag);
+	T* add(T* w, int proportion = 1, int flag = wxEXPAND) {
+		_table->Add(w, proportion, flag);
 		return w;
 	}
 
-	wxStaticText* add (wxString text, bool label, int flags = wxALIGN_CENTER_VERTICAL | wxLEFT | wxRIGHT);
-	void add_spacer ();
+	wxStaticText* add(wxString text, bool label, int flags = wxALIGN_CENTER_VERTICAL | wxLEFT | wxRIGHT);
+	void add_spacer();
 
-	void layout ();
+	void layout();
 
 	wxFlexGridSizer* _table;
 

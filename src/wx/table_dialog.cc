@@ -24,42 +24,41 @@
 #include "wx_util.h"
 
 
-TableDialog::TableDialog (wxWindow* parent, wxString title, int columns, int growable, bool cancel)
-	: wxDialog (parent, wxID_ANY, title)
+TableDialog::TableDialog(wxWindow* parent, wxString title, int columns, int growable, bool cancel)
+	: wxDialog(parent, wxID_ANY, title)
 {
-	_overall_sizer = new wxBoxSizer (wxVERTICAL);
-	SetSizer (_overall_sizer);
+	_overall_sizer = new wxBoxSizer(wxVERTICAL);
+	SetSizer(_overall_sizer);
 
-	_table = new wxFlexGridSizer (columns, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
-	_table->AddGrowableCol (growable, 1);
+	_table = new wxFlexGridSizer(columns, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+	_table->AddGrowableCol(growable, 1);
 
-	_overall_sizer->Add (_table, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
+	_overall_sizer->Add(_table, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 
 	long int flags = wxOK;
 	if (cancel) {
 		flags |= wxCANCEL;
 	}
 
-	auto buttons = CreateSeparatedButtonSizer (flags);
-	if (buttons) {
-		_overall_sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
+	if (auto buttons = CreateSeparatedButtonSizer(flags)) {
+		_overall_sizer->Add(buttons, wxSizerFlags().Expand().DoubleBorder());
 	}
 }
 
 
 void
-TableDialog::layout ()
+TableDialog::layout()
 {
-	_overall_sizer->Layout ();
-	_overall_sizer->SetSizeHints (this);
+	_overall_sizer->Layout();
+	_overall_sizer->SetSizeHints(this);
 }
 
 
 wxStaticText *
 #ifdef DCPOMATIC_OSX
-TableDialog::add (wxString text, bool label, int flags)
+TableDialog::add(wxString text, bool label, int flags)
 #else
-TableDialog::add (wxString text, bool, int flags)
+TableDialog::add(wxString text, bool, int flags)
 #endif
 {
 #ifdef DCPOMATIC_OSX
@@ -69,14 +68,14 @@ TableDialog::add (wxString text, bool, int flags)
 	}
 #endif
 	auto m = new StaticText(this, {});
-	m->SetLabelMarkup (text);
-	_table->Add (m, 0, flags, 6);
+	m->SetLabelMarkup(text);
+	_table->Add(m, 0, flags, 6);
 	return m;
 }
 
 
 void
-TableDialog::add_spacer ()
+TableDialog::add_spacer()
 {
-	_table->AddSpacer (0);
+	_table->AddSpacer(0);
 }
