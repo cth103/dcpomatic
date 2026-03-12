@@ -127,6 +127,7 @@ ContentAdvancedDialog::ContentAdvancedDialog (wxWindow* parent, shared_ptr<Conte
 
 	if (auto const vfr = _content->video_frame_rate()) {
 		_video_frame_rate->SetValue(std_to_wx(locale_convert<string>(*vfr)));
+		_video_frame_rate_value = *vfr;
 	}
 
 	_burnt_subtitle->SetValue (_content->video && static_cast<bool>(_content->video->burnt_subtitle_language()));
@@ -194,11 +195,7 @@ ContentAdvancedDialog::filters_changed(vector<Filter> const& filters)
 optional<double>
 ContentAdvancedDialog::video_frame_rate() const
 {
-	if (_video_frame_rate->GetValue().IsEmpty()) {
-		return {};
-	}
-
-	return locale_convert<double>(wx_to_std(_video_frame_rate->GetValue()));
+	return _video_frame_rate_value;
 }
 
 
@@ -206,6 +203,12 @@ void
 ContentAdvancedDialog::set_video_frame_rate ()
 {
 	_set_video_frame_rate->Enable (false);
+	auto const value = _video_frame_rate->GetValue();
+	if (!value.IsEmpty()) {
+		_video_frame_rate_value = locale_convert<double>(wx_to_std(_video_frame_rate->GetValue()));
+	} else {
+		_video_frame_rate_value = boost::none;
+	}
 }
 
 

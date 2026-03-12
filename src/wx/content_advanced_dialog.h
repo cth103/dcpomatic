@@ -69,5 +69,7 @@ private:
 	CheckBox* _burnt_subtitle;
 	LanguageTagWidget* _burnt_subtitle_language;
 	CheckBox* _ignore_video;
+
+	boost::optional<double> _video_frame_rate_value;
 };
 
