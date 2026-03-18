@@ -19,9 +19,12 @@
 */
 
 
+#include <dcp/warnings.h>
 #include <wx/wx.h>
 #include <boost/optional.hpp>
+LIBDCP_DISABLE_WARNINGS
 #include <boost/signals2.hpp>
+LIBDCP_ENABLE_WARNINGS
 
 
 class CheckBox;

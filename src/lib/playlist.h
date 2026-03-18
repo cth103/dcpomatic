@@ -28,8 +28,11 @@
 #include "frame_rate_change.h"
 #include "path_behaviour.h"
 #include "types.h"
+#include <dcp/warnings.h>
 #include <libcxml/cxml.h>
+LIBDCP_DISABLE_WARNINGS
 #include <boost/signals2.hpp>
+LIBDCP_ENABLE_WARNINGS
 #include <boost/thread.hpp>
 #include <list>
 

@@ -278,18 +278,18 @@ Socket::check_read_digest ()
 	DCPOMATIC_ASSERT (_read_digester);
 	int const size = _read_digester->size ();
 
-	uint8_t ref[size];
-	_read_digester->get (ref);
+	std::vector<uint8_t> ref(size);
+	_read_digester->get(ref.data());
 
 	/* Make sure _read_digester is gone before we call read() so that the digest
 	 * isn't itself digested.
 	 */
 	_read_digester.reset ();
 
-	uint8_t actual[size];
-	read (actual, size);
+	std::vector<uint8_t> actual(size);
+	read(actual.data(), size);
 
-	return memcmp(ref, actual, size) == 0;
+	return ref == actual;
 }
 
 
@@ -299,15 +299,15 @@ Socket::finish_write_digest ()
 	DCPOMATIC_ASSERT (_write_digester);
 	int const size = _write_digester->size();
 
-	uint8_t buffer[size];
-	_write_digester->get (buffer);
+	std::vector<uint8_t> buffer(size);
+	_write_digester->get(buffer.data());
 
 	/* Make sure _write_digester is gone before we call write() so that the digest
 	 * isn't itself digested.
 	 */
 	_write_digester.reset ();
 
-	write (buffer, size);
+	write(buffer.data(), size);
 }
 
 

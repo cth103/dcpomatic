@@ -162,8 +162,7 @@ VideoWaveformPlot::create_waveform ()
 		   strip is the number of samples in image with the corresponding group of
 		   values.
 		*/
-		int strip[waveform_height];
-		memset (strip, 0, waveform_height * sizeof(int));
+		std::vector<int> strip(waveform_height);
 
 		int* ip = _image->data (_component) + x;
 		for (int y = 0; y < image_size.height; ++y) {

@@ -34,8 +34,8 @@
 #include <dcp/types.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/wx.h>
-LIBDCP_ENABLE_WARNINGS
 #include <boost/signals2.hpp>
+LIBDCP_ENABLE_WARNINGS
 #include <boost/thread.hpp>
 
 

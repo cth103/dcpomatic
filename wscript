@@ -624,6 +624,7 @@ def configure(conf):
     			    int main() { boost::signals2::signal<void (int)> x; }\n
 			    """,
                        msg='Checking for boost signals2 library',
+                       cxxflags='-Wno-unused-parameter',
                        uselib_store='BOOST_SIGNALS2')
 
         conf.check_cxx(fragment="""

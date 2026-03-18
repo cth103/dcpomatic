@@ -286,7 +286,7 @@ Image::crop_scale_window(
 		round_height_for_subsampling((out_size.height - inter_size.height) / 2, out_desc)
 		);
 
-	uint8_t* scale_out_data[out->planes()];
+	std::vector<uint8_t*> scale_out_data(out->planes());
 	for (int c = 0; c < out->planes(); ++c) {
 		int const x = lrintf(out->bytes_per_pixel(c) * corner.x);
 		scale_out_data[c] = out->data()[c] + x + out->stride()[c] * (corner.y / out->vertical_factor(c));
@@ -296,7 +296,7 @@ Image::crop_scale_window(
 		scale_context,
 		scale_in_data.data(), stride(),
 		0, cropped_size.height,
-		scale_out_data, out->stride()
+		scale_out_data.data(), out->stride()
 		);
 
 	sws_freeContext(scale_context);
