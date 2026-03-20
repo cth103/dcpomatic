@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-02-15 21:03+0100\n"
-"PO-Revision-Date: 2026-03-01 19:04+0900\n"
+"PO-Revision-Date: 2026-03-19 21:09+0900\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ja_JP\n"
@@ -120,7 +120,7 @@ msgstr "&設定\tCtrl-,"
 #: src/tools/dcpomatic_kdm.cc:328 src/tools/dcpomatic_player.cc:681
 #: src/tools/dcpomatic_playlist.cc:618
 msgid "&Preferences...\tCtrl-P"
-msgstr "&設定\tCtrl-P"
+msgstr "&環境設定\tCtrl-P"
 
 #: src/tools/dcpomatic_batch.cc:92 src/tools/dcpomatic.cc:1384
 #: src/tools/dcpomatic_editor.cc:435 src/tools/dcpomatic_kdm.cc:326
@@ -289,7 +289,8 @@ msgstr "注釈テキスト"
 msgid ""
 "Are you sure you want to restore preferences to their defaults?  This cannot "
 "be undone."
-msgstr "設定をデフォルトに戻してもよろしいですか? 元に戻すことはできません。"
+msgstr ""
+"環境設定をデフォルトに戻してもよろしいですか? 元に戻すことはできません。"
 
 #: src/tools/dcpomatic_player.cc:709
 msgid "Audio graph..."
@@ -354,9 +355,8 @@ msgid "Combining DCPs"
 msgstr "DCPを結合"
 
 #: src/tools/dcpomatic_editor.cc:219
-#, fuzzy
 msgid "Content title text"
-msgstr "コンテンツのタイトルテキスト"
+msgstr "コンテンツタイトルのテキスト"
 
 #: src/tools/dcpomatic_disk.cc:166
 msgid "Copy DCPs"
@@ -482,6 +482,7 @@ msgstr ""
 "ない可能性があります。"
 
 #: src/tools/dcpomatic.cc:799
+#, fuzzy
 msgid "Could not remove existing preferences file"
 msgstr "既存の設定ファイルを削除できませんでした"
 
@@ -651,11 +652,11 @@ msgid "Duplicate..."
 msgstr "プロジェクトを複製"
 
 #: src/tools/dcpomatic_editor.cc:95
+#, fuzzy
 msgid "Duration"
 msgstr "プロジェクトを複製"
 
 #: src/tools/dcpomatic_editor.cc:155
-#, fuzzy
 msgid "Edit reel"
 msgstr "リールの編集"
 
@@ -682,7 +683,7 @@ msgstr "DCP一覧の検討"
 
 #: src/tools/dcpomatic.cc:1446
 msgid "Export preferences..."
-msgstr "設定をエクスポート"
+msgstr "環境設定をエクスポート"
 
 #: src/tools/dcpomatic.cc:1418
 msgid "Export subtitles...\tShift-Ctrl-E"
@@ -734,7 +735,7 @@ msgstr "ヒント"
 
 #: src/tools/dcpomatic.cc:1447
 msgid "Import preferences..."
-msgstr "設定をインポート"
+msgstr "環境設定をインポート"
 
 #: src/tools/dcpomatic_combiner.cc:105
 msgid "Input DCP"
@@ -930,7 +931,7 @@ msgstr "問題を報告する"
 
 #: src/tools/dcpomatic.cc:778 src/tools/dcpomatic.cc:1444
 msgid "Restore default preferences"
-msgstr "デフォルトの設定を復元する"
+msgstr "環境設定をデフォルトに戻す"
 
 #: src/tools/dcpomatic_player.cc:699
 msgid "Right"
@@ -1080,8 +1081,8 @@ msgid ""
 "or re-create your signing certificates in the %s preferences window."
 msgstr ""
 "KDMの終了期間が、署名証明書の有効期限の終了日以降（または終了日近く）になって"
-"います。このKDMの終了時間を早めるか、%sの設定ウィンドウで署名証明書を再作成し"
-"てください。"
+"います。このKDMの終了時間を早めるか、%sの環境設定ウィンドウで署名証明書を再作"
+"成してください。"
 
 #: src/tools/dcpomatic_kdm.cc:499
 msgid ""

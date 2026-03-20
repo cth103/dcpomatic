@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-02-15 21:03+0100\n"
-"PO-Revision-Date: 2026-02-24 18:59+0900\n"
+"PO-Revision-Date: 2026-03-19 19:41+0900\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ja_JP\n"
@@ -287,75 +287,70 @@ msgstr "字幕解析中"
 #, fuzzy
 msgid ""
 "At least one marker comes after the end of the project and will be ignored."
-msgstr ""
-"プロジェクトの終了後に少なくとも 1 つのマーカーが出現しますが、無視されます。"
+msgstr "最低1つのマーカーがプロジェクトの終了後に出現しますが、無視されます。"
 
 #: src/lib/hints.cc:523
-#, fuzzy
 msgid "At least one of your closed caption files is larger than "
-msgstr ""
-"少なくとも1つの「クローズドキャプション」ファイルが次のサイズより大きいです"
+msgstr "最低1つの「クローズドキャプション」ファイルが次のサイズより大きいです"
 
 #: src/lib/hints.cc:516
 #, fuzzy
 msgid "At least one of your closed caption files' XML part is larger than "
 msgstr ""
-"「クローズドキャプション」ファイルのXML部分の少なくとも1つが次のサイズより大"
-"きいです"
+"最低１つの「クローズドキャプション」ファイルのXML部分が次のサイズより大きいで"
+"す"
 
 #: src/lib/hints.cc:531
 msgid "At least one of your subtitle files is larger than "
-msgstr ""
+msgstr "最低1つの字幕はサイズが大きいです"
 
 #: src/lib/hints.cc:495
 msgid ""
 "At least one of your subtitle lines has more than 52 characters.  It is "
 "recommended to make each line 52 characters at most in length."
 msgstr ""
-"字幕の行のうち少なくとも1行が52文字を超えています。各行の長さは52文字以下にす"
-"ることをお勧めします。"
+"最低1つの字幕は1行が52文字を超えています。各行の長さは52文字以下にすることを"
+"お勧めします。"
 
 #: src/lib/hints.cc:497
 msgid ""
 "At least one of your subtitle lines has more than 79 characters.  You should "
 "make each line 79 characters at most in length."
 msgstr ""
-"字幕の行のうち少なくとも1行が79文字を超えています。各行の長さを79文字以下にし"
-"てください。"
+"最低1つの字幕は1行が79文字を超えています。各行の長さを79文字以下にしてくださ"
+"い。"
 
 #: src/lib/hints.cc:664
 msgid ""
 "At least one of your subtitles has more than 3 lines.  It is advisable to "
 "use no more than 3 lines."
-msgstr ""
-"字幕の少なくとも1つが3行を超えています。3行以内に収めることをお勧めします。"
+msgstr "最低1つの字幕は3行を超えています。3行以内に収めることをお勧めします。"
 
 #: src/lib/hints.cc:631
 msgid ""
 "At least one of your subtitles lasts less than 15 frames.  It is advisable "
 "to make each subtitle at least 15 frames long."
 msgstr ""
-"字幕のうち少なくとも1つは15フレーム未満です。各字幕は少なくとも15フレーム以上"
-"にすることをお勧めします。"
+"最低1つの字幕は15フレーム未満です。各字幕は最低15フレーム以上にすることをお勧"
+"めします。"
 
 #: src/lib/hints.cc:636
 msgid ""
 "At least one of your subtitles starts less than 2 frames after the previous "
 "one.  It is advisable to make the gap between subtitles at least 2 frames."
 msgstr ""
-"少なくとも1つの字幕は、前の字幕から2フレーム以内に始まります。字幕の間隔は2フ"
-"レーム以上あけることをお勧めします。"
+"最低1つの字幕は少なくとも前の字幕から2フレーム以内に始まります。字幕の間隔を2"
+"フレーム以上あけることをお勧めします。"
 
 #: src/lib/hints.cc:707
-#, fuzzy
 msgid ""
 "At least one piece of subtitle content has no specified language.  It is "
 "advisable to set the language for each piece of subtitle content in the "
 "\"Content→Timed text\" or \"Content→Open subtitles\" tab."
 msgstr ""
-"字幕コンテンツのうち少なくとも1つに言語が指定されていません。It is advisable "
-"to set the language for each piece of subtitle content in the "
-"\"Content→Timed text\" or \"Content→Open subtitles\" tab."
+"最低1つの字幕コンテンツに言語が指定されていません。 「コンテンツ→タイムドテキ"
+"スト」または「コンテンツ→Open subtitles」タブで、字幕コンテンツごとに言語を設"
+"定することをお勧めします。"
 
 #: src/lib/audio_content.cc:264
 msgid "Audio will be resampled from {}Hz to {}Hz"
@@ -415,7 +410,6 @@ msgid "BT709"
 msgstr "BT709"
 
 #: src/lib/ffmpeg_content.cc:677
-#, fuzzy
 msgid "Bits per pixel"
 msgstr "ピクセルあたりのビット数"
 
@@ -469,8 +463,8 @@ msgid ""
 "Check the server settings in the TMS tab of preferences, or un-tick \"Upload "
 "DCP to TMS after creation\" if you do not want to upload your DCP."
 msgstr ""
-"設定の TMS タブでサーバー設定を確認するか、DCP をアップロードしない場合は「作"
-"成後、DCPをTMSにアップロードする」のチェックを外します。"
+"環境設定の「TMS」タブでサーバー設定を確認するか、DCP をアップロードしない場合"
+"は「作成後、DCPをTMSにアップロードする」のチェックを外します。"
 
 #: src/lib/transcode_job.cc:106
 msgid "Check their new settings, then try again."
@@ -491,8 +485,9 @@ msgid "Chroma-derived constant luminance"
 msgstr "彩度から算出した一定輝度"
 
 #: src/lib/ffmpeg_content.cc:656
+#, fuzzy
 msgid "Chroma-derived non-constant luminance"
-msgstr ""
+msgstr "色度由来の非定常輝度"
 
 #: src/lib/dcp_content_type.cc:64
 msgid "Clip"
@@ -528,7 +523,7 @@ msgstr "カラー範囲"
 
 #: src/lib/ffmpeg_content.cc:641
 msgid "Colour transfer characteristic"
-msgstr ""
+msgstr "色伝達特性"
 
 #: src/lib/ffmpeg_content.cc:674
 msgid "Colourspace"
@@ -545,8 +540,9 @@ msgid "Computing digests"
 msgstr "ダイジェストの計算"
 
 #: src/lib/analytics.cc:56
+#, fuzzy
 msgid "Congratulations!"
-msgstr ""
+msgstr "おめでとう！"
 
 #: src/lib/frame_rate_change.cc:88
 msgid "Content and DCP have the same rate.\n"
@@ -555,7 +551,7 @@ msgstr ""
 
 #: src/lib/audio_content.cc:310
 msgid "Content bit depth"
-msgstr ""
+msgstr "コンテンツビット深度"
 
 #: src/lib/audio_content.cc:307
 msgid "Content sample rate"
@@ -585,7 +581,7 @@ msgstr ""
 
 #: src/lib/text_content.cc:257
 msgid "Content to be joined must have the same 'burn subtitles' setting."
-msgstr ""
+msgstr "結合するコンテンツには、同じ「字幕の焼き込み」設定が必要です。"
 
 #: src/lib/text_content.cc:253
 #, fuzzy
@@ -602,7 +598,7 @@ msgstr ""
 
 #: src/lib/video_content.cc:235
 msgid "Content to be joined must have the same burnt subtitle language."
-msgstr ""
+msgstr "結合するコンテンツには、同じ焼き付け字幕言語が必要です。"
 
 #: src/lib/video_content.cc:227
 msgid "Content to be joined must have the same colour conversion."
@@ -689,11 +685,11 @@ msgstr "コンテンツ動画＝: {}x{}"
 
 #: src/lib/upload_job.cc:65
 msgid "Copy DCP to TMS"
-msgstr ""
+msgstr "DCPをTMSにコピー"
 
 #: src/lib/copy_to_drive_job.cc:119
 msgid "Copying DCP"
-msgstr ""
+msgstr "DCPのコピー"
 
 #: src/lib/copy_to_drive_job.cc:61
 msgid "Copying DCPs to {}"
@@ -701,7 +697,7 @@ msgstr ""
 
 #: src/lib/reel_writer.cc:194
 msgid "Copying existing asset"
-msgstr ""
+msgstr "既存のassetをコピーする"
 
 #: src/lib/copy_to_drive_job.cc:58
 msgid ""
@@ -748,7 +744,7 @@ msgstr "ダウンロードしたZIPファイルを開けませんでした ({}:{
 
 #: src/lib/config.cc:1168
 msgid "Could not open file for writing"
-msgstr ""
+msgstr "書き込み用のファイルを開けませんでした"
 
 #: src/lib/ffmpeg_file_encoder.cc:282
 msgid "Could not open output file {} ({})"
@@ -776,11 +772,11 @@ msgstr ""
 
 #: src/lib/util.cc:600
 msgid "D-BOX primary"
-msgstr ""
+msgstr "D-BOXプライマリ"
 
 #: src/lib/util.cc:601
 msgid "D-BOX secondary"
-msgstr ""
+msgstr "D-BOX セカンダリ"
 
 #: src/lib/audio_processor.cc:144 src/lib/util.cc:631
 msgid "DBP"
@@ -981,7 +977,7 @@ msgstr "字幕とクローズドキャプションの検査"
 
 #: src/lib/subtitle_film_encoder.cc:106
 msgid "Extracting"
-msgstr ""
+msgstr "抽出"
 
 #: src/lib/ffmpeg_content.cc:648
 msgid "FCC"
@@ -1056,19 +1052,19 @@ msgstr "フルフレーム"
 
 #: src/lib/audio_content.cc:324
 msgid "Full length in audio samples at DCP rate"
-msgstr ""
+msgstr "DCPレートでの音声サンプル全長"
 
 #: src/lib/audio_content.cc:315
 msgid "Full length in audio samples at content rate"
-msgstr ""
+msgstr "コンテンツレートでの音声サンプル全長"
 
 #: src/lib/audio_content.cc:337
 msgid "Full length in video frames at DCP rate"
-msgstr ""
+msgstr "DCPレートでの動画フレーム全長"
 
 #: src/lib/audio_content.cc:333
 msgid "Full length in video frames at content rate"
-msgstr ""
+msgstr "コンテンツレートでの動画フレーム全長"
 
 #: src/lib/j2k_encoder.cc:280
 msgid ""
@@ -1149,6 +1145,8 @@ msgid ""
 "It is advisable to put your first subtitle at least 4 seconds after the "
 "start of the DCP to make sure it is seen."
 msgstr ""
+"最初の字幕が確実に表示されるようにするには、DCPの開始から最短4秒後以降に配置"
+"することをお勧めします。"
 
 #: src/lib/job.cc:169 src/lib/job.cc:204 src/lib/job.cc:295 src/lib/job.cc:305
 msgid "It is not known what caused this error.  {}"
@@ -1298,7 +1296,7 @@ msgstr "DCP に CPL が見つかりません。"
 
 #: src/lib/kdm_with_metadata.cc:217
 msgid "No from address configured in the KDM Email tab of preferences"
-msgstr "KDMの設定のメールタブで送信元アドレスが設定されていません"
+msgstr "環境設定の「KDM Email」タブで送信元アドレスが設定されていません"
 
 #: src/lib/kdm_with_metadata.cc:213 src/lib/send_notification_email_job.cc:69
 msgid "No outgoing mail server configured in the Email tab of preferences"
@@ -1344,7 +1342,7 @@ msgstr ""
 
 #: src/lib/text_type.cc:79
 msgid "Open subtitles"
-msgstr "字幕を開く"
+msgstr "字幕"
 
 #: src/lib/transcode_job.cc:113
 msgid ""
@@ -1358,7 +1356,7 @@ msgstr "向き"
 
 #: src/lib/job.cc:226
 msgid "Out of memory"
-msgstr ""
+msgstr "メモリ不足"
 
 #: src/lib/filter.cc:106
 msgid "Overcomplete wavelet denoiser"
@@ -1399,7 +1397,7 @@ msgstr "動画フレームレートの準備"
 
 #: src/lib/exceptions.cc:106
 msgid "Programming error at {}:{} {}"
-msgstr ""
+msgstr "プログラミングエラー（{}:{} {}）"
 
 #: src/lib/dcp_content_type.cc:65
 msgid "Promo"
@@ -1505,7 +1503,7 @@ msgstr ""
 
 #: src/lib/ffmpeg_content.cc:635
 msgid "SMPTE ST 2084 for 10, 12, 14 and 16 bit systems"
-msgstr ""
+msgstr "SMPTE ST 2084（10/12/14/16ビットシステム向け）"
 
 #: src/lib/ffmpeg_content.cc:660
 msgid "SMPTE ST 2128, IPT-C2"
@@ -1567,7 +1565,8 @@ msgstr "一部の音声は {}Hz に再サンプリングされます"
 
 #: src/lib/transcode_job.cc:118
 msgid "Some files have been changed since they were added to the project."
-msgstr "一部のファイルはプロジェクトに追加されてから変更されています。"
+msgstr ""
+"一部のファイルはこのプロジェクトに追加された後に内容が変更されています。"
 
 #: src/lib/transcode_job.cc:105
 msgid ""
@@ -1576,7 +1575,7 @@ msgid ""
 "These files will now be re-examined, so you may need to check their settings "
 "before trying again."
 msgstr ""
-"一部のファイルはプロジェクトに追加されてから変更されています。\n"
+"一部のファイルはこのプロジェクトに追加された後に内容が変更されています。\n"
 "\n"
 "これらのファイルは再検査されますので、再試行する前に設定を確認する必要がある"
 "可能性があります。"
@@ -1587,7 +1586,7 @@ msgid ""
 "\n"
 "These files will now be re-examined, so you may need to check their settings."
 msgstr ""
-"一部のファイルはプロジェクトに追加されてから変更されています。\n"
+"一部のファイルはこのプロジェクトに追加された後に内容が変更されています。\n"
 "\n"
 "これらのファイルは再検査されるため、設定を確認する必要がある場合があります。"
 
@@ -1603,7 +1602,7 @@ msgstr ""
 msgid ""
 "Some of your closed captions span more than {} lines, so they will be "
 "truncated."
-msgstr ""
+msgstr "字幕の中には{}行を超えるものがある為、途中が途切れて表示されます。"
 
 #: src/lib/hints.cc:727
 msgid ""
@@ -1627,24 +1626,23 @@ msgstr "コンテンツの一部が欠落しています"
 
 #: src/lib/make_dcp.cc:73
 msgid "Some of your content needs a KDM"
-msgstr ""
+msgstr "コンテンツの一部にはKDMが必要です"
 
 #: src/lib/make_dcp.cc:76
 msgid "Some of your content needs an OV"
-msgstr ""
+msgstr "コンテンツの一部にはOVが必要です"
 
 #: src/lib/hints.cc:781
-#, fuzzy
 msgid ""
 "Some of your video content contains an alpha channel, and {} cannot be "
 "certain how to process it.  Check that your video looks correct in the "
 "preview, and if not try enabling or disabling the 'premultiply' video filter "
 "in the content Advanced Settings dialogue box."
 msgstr ""
-"動画コンテンツの一部にアルファチャンネルが含まれており、{} ではその処理方法を"
-"判断できません。プレビューで動画が正しく表示されているかご確認ください。正し"
-"く表示されない場合は、コンテンツの詳細設定ダイアログボックスで「プリマルチプ"
-"ライ」ビデオフィルターを有効または無効にしてみてください。"
+"動画コンテンツの一部にアルファチャンネルが含まれています。{} ではその処理方法"
+"を判断できません。プレビューで動画が正しく表示されているかご確認ください。正"
+"しく表示されない場合、コンテンツの「詳細設定」内の動画フィルター"
+"「premultiply」を有効もしくは無効にしてみてください。"
 
 #: src/lib/cover_sheet.cc:93
 msgid "Stereo"
@@ -1709,7 +1707,7 @@ msgid ""
 "Preferences."
 msgstr ""
 "{} が DCP および KDM の署名に使用する証明書チェーンに小さなエラーが含まれてお"
-"り、一部のシステムでは DCP が正しく検証されない可能性があります。「設定」の"
+"り、一部のシステムでは DCP が正しく検証されない可能性があります。環境設定の"
 "「秘密鍵」ページで「証明書と秘密鍵を再作成する」ボタンをクリックして、署名証"
 "明書チェーンを再作成することをお勧めします。"
 
@@ -1732,12 +1730,17 @@ msgid ""
 "Please set it to 2D.  You can still make a 3D DCP from this content by "
 "ticking the 3D option in the DCP video tab."
 msgstr ""
+"コンテンツファイル{}は3Dに設定されていますが、3D映像が含まれていないようで"
+"す。2Dに設定してください。DCPタブ内の動画タブで「3D」にチェックを入れること"
+"で、このコンテンツから3D DCPを作成することは可能です。"
 
 #: src/lib/job.cc:121
 msgid ""
 "The drive that the film is stored on is low in disc space.  Free some more "
 "space and try again."
 msgstr ""
+"映画が保存されているドライブのディスク容量が不足しています。空き容量を確保し"
+"てからもう一度お試しください。"
 
 #: src/lib/playlist.cc:244
 msgid "The file {} has been moved {} milliseconds earlier."
@@ -1756,18 +1759,26 @@ msgid "The file {} has been trimmed by {} milliseconds more."
 msgstr ""
 
 #: src/lib/hints.cc:267
+#, fuzzy
 msgid ""
 "The vast majority of cinemas in Europe, Australasia and North America expect "
 "DCPs encoded with JPEG2000 rather than MPEG2.  Make sure that your cinema "
 "really wants an old-style MPEG2 DCP."
 msgstr ""
+"ヨーロッパ、オーストララシア、北米の映画館の大多数は、MPEG2ではなくJPEG2000で"
+"エンコードされたDCPを想定しています。ご利用予定の映画館が本当に旧式のMPEG2 "
+"DCPを必要としているかどうかを必ずご確認ください。"
 
 #: src/lib/release_notes.cc:87
+#, fuzzy
 msgid ""
 "The vertical offset control for some subtitles now works in the opposite "
 "direction to how it was before.   You should check any subtitles in your "
 "project to make sure that they are placed where you want them."
 msgstr ""
+"一部の字幕における垂直方向のオフセット調整機能が、以前とは逆方向に動作するよ"
+"うになりました。プロジェクト内の字幕が意図した位置に配置されているか、必ず確"
+"認してください。"
 
 #: src/lib/hints.cc:248
 msgid ""
@@ -1784,7 +1795,7 @@ msgstr ""
 
 #: src/lib/dcp_content.cc:760
 msgid "There is no video in this DCP"
-msgstr ""
+msgstr "このDCPには動画が含まれていません"
 
 #: src/lib/job.cc:226
 msgid ""
@@ -1792,6 +1803,8 @@ msgid ""
 "operating system try reducing the number of encoding threads in the General "
 "tab of Preferences."
 msgstr ""
+"メモリが不足しています。32ビットオペレーティングシステムを使用している場合、"
+"環境設定の「一般」タブでエンコードスレッドの数を減らしてみてください。"
 
 #: src/lib/util.cc:987
 msgid "This KDM was made for {} but not for its leaf certificate."
@@ -1799,7 +1812,7 @@ msgstr ""
 
 #: src/lib/util.cc:985
 msgid "This KDM was not made for {}'s decryption certificate."
-msgstr ""
+msgstr "このKDMは{}の復号証明書のために作成されたものではありません。"
 
 #: src/lib/job.cc:141
 msgid ""
@@ -1808,6 +1821,9 @@ msgid ""
 "'number of threads {} should use' in the General tab of Preferences and try "
 "again."
 msgstr ""
+"このエラーは32ビット版の{}を使用しており、エンコードスレッドを使いすぎている"
+"ことが原因でと思われます。環境設定の「一般」タブで「{}が使用するスレッド数」"
+"を減らして、もう一度お試しください。"
 
 #: src/lib/job.cc:155
 msgid ""
@@ -1840,7 +1856,7 @@ msgstr "木曜日"
 
 #: src/lib/text_type.cc:77
 msgid "Timed text"
-msgstr ""
+msgstr "タイムドテキスト"
 
 #: src/lib/job.cc:274
 msgid "Too many open files"
@@ -1872,7 +1888,7 @@ msgstr "予想外のZIPファイルの内容"
 
 #: src/lib/image_proxy.cc:53
 msgid "Unexpected image type received by server"
-msgstr ""
+msgstr "サーバーが予期しない画像タイプを受信しました"
 
 #: src/lib/cover_sheet.cc:137 src/lib/cross_common.cc:103
 #: src/lib/dcp_text_track.cc:53
@@ -1897,7 +1913,7 @@ msgstr ""
 #: src/lib/ffmpeg_content.cc:621 src/lib/ffmpeg_content.cc:622
 #: src/lib/ffmpeg_content.cc:646 src/lib/ffmpeg_content.cc:647
 msgid "Unspecified"
-msgstr ""
+msgstr "未指定"
 
 #: src/lib/colour_conversion.cc:247
 msgid "Untitled"
@@ -1937,7 +1953,7 @@ msgstr ""
 
 #: src/lib/util.cc:595
 msgid "Visually impaired"
-msgstr ""
+msgstr "視覚障害者"
 
 #: src/lib/upload_job.cc:50
 msgid "Waiting"
@@ -1949,7 +1965,7 @@ msgstr ""
 
 #: src/lib/job.cc:595
 msgid "Wednesday"
-msgstr ""
+msgstr "水曜日"
 
 #: src/lib/ffmpeg_content.cc:652
 msgid "YCOCG"
@@ -2002,34 +2018,48 @@ msgid ""
 "result in poor-quality audio.  If you continue, you should listen to the "
 "resulting DCP in a cinema to make sure that it sounds good."
 msgstr ""
+"あなたは{}chのステレオから5.1chへのアップミキサーを使用しています。これは実験"
+"的な機能であり音質が低下する可能性があります。続行する場合、生成されたDCPを映"
+"画館で試聴して音質が良好であることを確認してください。"
 
 #: src/lib/film.cc:1792
+#, fuzzy
 msgid ""
 "You have more than one piece of Atmos content, and they do not have the same "
 "frame rate.  You must remove some Atmos content."
 msgstr ""
+"Atmosコンテンツが複数存在し、それらのフレームレートが異なっています。Atmosコ"
+"ンテンツの一部を削除する必要があります。"
 
 #: src/lib/hints.cc:612
+#, fuzzy
 msgid ""
 "You have overlapping closed captions, which are not allowed in Interop "
 "DCPs.  Change your DCP standard to SMPTE."
 msgstr ""
+"字幕が重複していますが、これは相互運用可能なDCPでは許可されていません。DCP規"
+"格をSMPTEに変更してください。"
 
 #: src/lib/hints.cc:290
 msgid ""
 "You have specified a font file which is larger than 640kB.  This is very "
 "likely to cause problems on playback."
 msgstr ""
+"640KBを超えるフォントファイルが指定されました。再生時に問題が発生する可能性が"
+"高くなります。"
 
 #: src/lib/hints.cc:306
+#, fuzzy
 msgid ""
 "You have {} files that look like they are VOB files from DVD. You should "
 "join them to ensure smooth joins between the files."
 msgstr ""
+"You have {} files that look like they are VOB files from DVD. You should "
+"join them to ensure smooth joins between the files."
 
 #: src/lib/make_dcp.cc:52
 msgid "You must add some content to the DCP before creating it"
-msgstr ""
+msgstr "DCPを作成する前にコンテンツを追加する必要があります"
 
 #: src/lib/hints.cc:110
 msgid ""
@@ -2048,9 +2078,9 @@ msgid ""
 "distributors to raise QC errors when they check your DCP.  To avoid this, "
 "set the DCP audio channels to 8 or 16."
 msgstr ""
-"あなたのDCP音声チャンネルは{}chで、8chや16chではありません。これによりDCP"
-"チェック時に一部の配給会社がQCエラーを報告する可能性があります。これを回避す"
-"るには、DCPの音声チャンネルを8または16に設定してください。"
+"DCPの音声チャンネルは{}chです（8chや16chではありません）。これにより一部の配"
+"給会社がDCPチェック時に品質エラーを報告する可能性があります。これを回避するに"
+"は、DCPの音声チャンネルを8chまたは16chに設定してください。"
 
 #: src/lib/hints.cc:167
 msgid ""
@@ -2129,7 +2159,7 @@ msgstr ""
 
 #: src/lib/ffmpeg.cc:118
 msgid "could not find stream information"
-msgstr ""
+msgstr "ストリーム情報が見つかりませんでした"
 
 #: src/lib/reel_writer.cc:408
 msgid "could not move atmos asset into the DCP ({})"
@@ -2153,7 +2183,7 @@ msgstr ""
 
 #: src/lib/exceptions.cc:57
 msgid "could not read from file {} ({})"
-msgstr ""
+msgstr "ファイル {} ({}) から読み取れませんでした"
 
 #: src/lib/exceptions.cc:64
 msgid "could not write to file {} ({})"
@@ -2177,7 +2207,7 @@ msgstr ""
 
 #: src/lib/content.cc:467 src/lib/content.cc:476
 msgid "frames per second"
-msgstr ""
+msgstr "フレーム/秒"
 
 #. TRANSLATORS: h here is an abbreviation for hours
 #: src/lib/util.cc:211
@@ -2348,16 +2378,22 @@ msgstr ""
 "認し、正しいことを確認してください。"
 
 #: src/lib/film.cc:1795
+#, fuzzy
 msgid ""
 "{} had to change your settings so that the film's frame rate is the same as "
 "that of your Atmos content."
 msgstr ""
+"{} は、映画のフレームレートが Atmos コンテンツのフレームレートと同じになるよ"
+"うに設定を変更する必要がありました。"
 
 #: src/lib/film.cc:1842
+#, fuzzy
 msgid ""
 "{} had to remove one of your custom reel boundaries as it no longer lies "
 "within the film."
 msgstr ""
+"{} は、カスタム リール境界の 1 つがフィルム内に収まらなくなったため、削除する"
+"必要がありました。"
 
 #: src/lib/film.cc:1840
 #, fuzzy
