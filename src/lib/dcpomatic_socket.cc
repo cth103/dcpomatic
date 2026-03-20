@@ -50,7 +50,7 @@ Socket::Socket (int timeout)
 void
 Socket::check ()
 {
-	if (_deadline.expires_at() <= std::chrono::system_clock::now()) {
+	if (_deadline.expiry() <= std::chrono::system_clock::now()) {
 		_socket.close();
 		_deadline.expires_at(std::chrono::time_point<std::chrono::system_clock>::max());
 	}
@@ -321,7 +321,7 @@ Socket::set_send_buffer_size (int size)
 void
 Socket::set_deadline_from_now(int seconds)
 {
-	_deadline.expires_from_now(std::chrono::seconds(seconds));
+	_deadline.expires_after(std::chrono::seconds(seconds));
 }
 
 void
