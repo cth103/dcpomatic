@@ -82,6 +82,7 @@ GeneralPage::add_language_controls(wxGridBagSizer* table, int& r)
 	languages.push_back(make_pair("Español", "es_ES"));
 	languages.push_back(make_pair("فارسی", "fa_IR"));
 	languages.push_back(make_pair("Français", "fr_FR"));
+	languages.push_back(make_pair("Ελληνικά", "el_GR"));
 	languages.push_back(make_pair("Italiano", "it_IT"));
 	languages.push_back(make_pair("日本語", "ja_JP"));
 	languages.push_back(make_pair("한국어", "ko_KR"));
