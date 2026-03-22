@@ -193,29 +193,29 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 					dcp::Time(note.frame().get(), note.frame_rate().get(), note.frame_rate().get()).as_string(dcp::Standard::SMPTE)
 					));
 		}
-		if (note.note()) {
-			message.Replace(char_to_wx("%n"), std_to_wx(note.note().get()));
+		if (auto const n = note.note()) {
+			message.Replace(char_to_wx("%n"), std_to_wx(*n));
 		}
-		if (note.file()) {
-			message.Replace(char_to_wx("%f"), std_to_wx(note.file()->filename().string()));
+		if (auto const f = note.file()) {
+			message.Replace(char_to_wx("%f"), std_to_wx(f->filename().string()));
 		}
-		if (note.line()) {
-			message.Replace(char_to_wx("%l"), std_to_wx(fmt::to_string(note.line().get())));
+		if (auto const l = note.line()) {
+			message.Replace(char_to_wx("%l"), std_to_wx(fmt::to_string(*l)));
 		}
-		if (note.component()) {
-			message.Replace(char_to_wx("%component"), std_to_wx(fmt::to_string(note.component().get())));
+		if (auto const component = note.component()) {
+			message.Replace(char_to_wx("%component"), std_to_wx(fmt::to_string(*component)));
 		}
-		if (note.size()) {
-			message.Replace(char_to_wx("%size"), std_to_wx(fmt::to_string(note.size().get())));
+		if (auto const size = note.size()) {
+			message.Replace(char_to_wx("%size"), std_to_wx(fmt::to_string(*size)));
 		}
-		if (note.id()) {
-			message.Replace(char_to_wx("%id"), std_to_wx(note.id().get()));
+		if (auto const id = note.id()) {
+			message.Replace(char_to_wx("%id"), std_to_wx(*id));
 		}
-		if (note.other_id()) {
-			message.Replace(char_to_wx("%other_id"), std_to_wx(note.other_id().get()));
+		if (auto const other_id = note.other_id()) {
+			message.Replace(char_to_wx("%other_id"), std_to_wx(*other_id));
 		}
-		if (note.cpl_id()) {
-			message.Replace(char_to_wx("%cpl"), std_to_wx(note.cpl_id().get()));
+		if (auto const cpl = note.cpl_id()) {
+			message.Replace(char_to_wx("%cpl"), std_to_wx(*cpl));
 		}
 
 		return message;
