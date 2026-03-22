@@ -3766,8 +3766,8 @@ msgstr "عنوان فیلم (\"%s \") به این زبان است"
 
 #: src/wx/verify_dcp_result_panel.cc:268
 #, c-format
-msgid "The picture in a reel has a frame rate of %n, which is not valid."
-msgstr "این تصویردر یک حلقه نرخ فریم آن %n است که معتبر نیست."
+msgid "The picture in a reel has a frame rate of %frame_rate, which is not valid."
+msgstr "این تصویردر یک حلقه نرخ فریم آن %frame_rate است که معتبر نیست."
 
 #: src/wx/verify_dcp_result_panel.cc:595
 #, c-format
@@ -3785,8 +3785,8 @@ msgstr "فایل صدای %f دارای عمق بیت نامعتبر %n است."
 
 #: src/wx/verify_dcp_result_panel.cc:396
 #, c-format
-msgid "The sound asset %f has an invalid frame rate of %n."
-msgstr "فایل صدای %f دارای نرخ فریم نامعتبر %n است."
+msgid "The sound asset %f has an invalid frame rate of %frame_rate."
+msgstr "فایل صدای %f دارای نرخ فریم نامعتبر %frame_rate است."
 
 #: src/wx/dcp_panel.cc:142
 msgid ""
@@ -3831,19 +3831,19 @@ msgstr ""
 #: src/wx/verify_dcp_result_panel.cc:345
 #, c-format
 msgid ""
-"The video asset %f uses the frame rate %n which is invalid for 3D video."
-msgstr "فایل ویدیوی %f  نرخ فریم %n  دارد که برای تصویر سه بعدی درست نیست."
+"The video asset %f uses the frame rate %frame_rate which is invalid for 3D video."
+msgstr "فایل ویدیوی %f  نرخ فریم %frame_rate  دارد که برای تصویر سه بعدی درست نیست."
 
 #: src/wx/verify_dcp_result_panel.cc:342
 #, c-format
 msgid ""
-"The video asset %f uses the frame rate %n which is invalid for 4K video."
-msgstr "فایل ویدیوی %f  نرخ فریم %n  دارد که برای ویدیوی 4k درست نیست."
+"The video asset %f uses the frame rate %frame_rate which is invalid for 4K video."
+msgstr "فایل ویدیوی %f  نرخ فریم %frame_rate  دارد که برای ویدیوی 4k درست نیست."
 
 #: src/wx/verify_dcp_result_panel.cc:339
 #, c-format
-msgid "The video asset %f uses the invalid frame rate %n."
-msgstr "فایل ویدیوی %f از نرخ فریم نادرست %n  استفاده میکند."
+msgid "The video asset %f uses the invalid frame rate %frame_rate."
+msgstr "فایل ویدیوی %f از نرخ فریم نادرست %frame_rate  استفاده میکند."
 
 #: src/wx/verify_dcp_result_panel.cc:336
 #, c-format

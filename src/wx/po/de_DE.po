@@ -3903,7 +3903,7 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:268
 #, fuzzy, c-format
-msgid "The picture in a reel has a frame rate of %n, which is not valid."
+msgid "The picture in a reel has a frame rate of %frame_rate, which is not valid."
 msgstr "Eine Videodatei enthält eine unzulässige Bildrate!"
 
 #: src/wx/verify_dcp_result_panel.cc:595
@@ -3920,7 +3920,7 @@ msgstr "Eine Videodatei enthält eine unzulässige Bildrate!"
 
 #: src/wx/verify_dcp_result_panel.cc:396
 #, fuzzy, c-format
-msgid "The sound asset %f has an invalid frame rate of %n."
+msgid "The sound asset %f has an invalid frame rate of %frame_rate."
 msgstr "Eine Videodatei enthält eine unzulässige Bildrate!"
 
 #: src/wx/dcp_panel.cc:142
@@ -3965,18 +3965,18 @@ msgstr ""
 #: src/wx/verify_dcp_result_panel.cc:345
 #, c-format
 msgid ""
-"The video asset %f uses the frame rate %n which is invalid for 3D video."
+"The video asset %f uses the frame rate %frame_rate which is invalid for 3D video."
 msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:342
 #, c-format
 msgid ""
-"The video asset %f uses the frame rate %n which is invalid for 4K video."
+"The video asset %f uses the frame rate %frame_rate which is invalid for 4K video."
 msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:339
 #, fuzzy, c-format
-msgid "The video asset %f uses the invalid frame rate %n."
+msgid "The video asset %f uses the invalid frame rate %frame_rate."
 msgstr "Eine Videodatei enthält eine unzulässige Bildrate!"
 
 #: src/wx/verify_dcp_result_panel.cc:336

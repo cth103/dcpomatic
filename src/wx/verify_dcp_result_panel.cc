@@ -190,7 +190,7 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 			message.Replace(
 				char_to_wx("%timecode"),
 				std_to_wx(
-					dcp::Time(note.frame().get(), note.frame_rate().get(), note.frame_rate().get()).as_string(dcp::Standard::SMPTE)
+					dcp::Time(note.frame().get(), note.frame_rate()->as_float(), note.frame_rate()->numerator).as_string(dcp::Standard::SMPTE)
 					));
 		}
 		if (auto const n = note.note()) {
@@ -220,7 +220,13 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 		if (auto const cpl = note.cpl_id()) {
 			message.Replace(char_to_wx("%cpl"), std_to_wx(*cpl));
 		}
-
+		if (auto const frame_rate = note.frame_rate()) {
+			if (frame_rate->denominator == 1) {
+				message.Replace(char_to_wx("%frame_rate"), std_to_wx(fmt::to_string(frame_rate->numerator)));
+			} else {
+				message.Replace(char_to_wx("%frame_rate"), std_to_wx(fmt::to_string(frame_rate->as_float())));
+			}
+		}
 		return message;
 	};
 
@@ -268,7 +274,7 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 			add(i.second, _("The hash (%reference_hash) of the CPL %cpl in the PKL does not agree with the CPL file (%calculated_hash).  This probably means that the CPL file is corrupt."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_PICTURE_FRAME_RATE:
-			add(i.second, _("The picture in a reel has a frame rate of %n, which is not valid."));
+			add(i.second, _("The picture in a reel has a frame rate of %frame_rate, which is not valid."));
 			break;
 		case dcp::VerificationNote::Code::INCORRECT_PICTURE_HASH:
 			add(i.second, _("The hash (%calculated_hash) of the picture asset %f does not agree with the PKL file (%reference_hash).  This probably means that the asset file is corrupt."));
@@ -339,13 +345,13 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 			add(i.second, _("The video asset %f uses the invalid image size %n."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_PICTURE_FRAME_RATE_FOR_2K:
-			add(i.second, _("The video asset %f uses the invalid frame rate %n."));
+			add(i.second, _("The video asset %f uses the invalid frame rate %frame_rate."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_PICTURE_FRAME_RATE_FOR_4K:
-			add(i.second, _("The video asset %f uses the frame rate %n which is invalid for 4K video."));
+			add(i.second, _("The video asset %f uses the frame rate %frame_rate which is invalid for 4K video."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_PICTURE_ASSET_RESOLUTION_FOR_3D:
-			add(i.second, _("The video asset %f uses the frame rate %n which is invalid for 3D video."));
+			add(i.second, _("The video asset is 4K which is not allowed for 3D video."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_CLOSED_CAPTION_XML_SIZE_IN_BYTES:
 			add(i.second, _("The XML in the closed caption asset %f takes up %n bytes which is over the 256KB limit."));
@@ -396,7 +402,7 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 			add(i.second, _("There are more than 32 characters in at least one closed caption line."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_SOUND_FRAME_RATE:
-			add(i.second, _("The sound asset %f has an invalid frame rate of %n."));
+			add(i.second, _("The sound asset %f has an invalid frame rate of %frame_rate."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_SOUND_BIT_DEPTH:
 			add(i.second, _("The sound asset %f has an invalid bit depth of %n."));

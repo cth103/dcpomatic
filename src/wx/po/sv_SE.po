@@ -3845,8 +3845,8 @@ msgstr "Språket för filmens titel (\"%s\")"
 
 #: src/wx/verify_dcp_result_panel.cc:268
 #, c-format
-msgid "The picture in a reel has a frame rate of %n, which is not valid."
-msgstr "Bildspåret i en akt har en bildhastighet %n, vilket inte är giltigt."
+msgid "The picture in a reel has a frame rate of %frame_rate, which is not valid."
+msgstr "Bildspåret i en akt har en bildhastighet %frame_rate, vilket inte är giltigt."
 
 #: src/wx/verify_dcp_result_panel.cc:595
 #, c-format
@@ -3864,8 +3864,8 @@ msgstr "Ljudspåret %f har ogiltlig bildhastighet %n."
 
 #: src/wx/verify_dcp_result_panel.cc:396
 #, c-format
-msgid "The sound asset %f has an invalid frame rate of %n."
-msgstr "Ljudspåret %f har ogiltlig bildhastighet %n."
+msgid "The sound asset %f has an invalid frame rate of %frame_rate."
+msgstr "Ljudspåret %f har ogiltlig bildhastighet %frame_rate."
 
 #: src/wx/dcp_panel.cc:142
 msgid ""
@@ -3908,23 +3908,23 @@ msgstr ""
 #: src/wx/verify_dcp_result_panel.cc:345
 #, c-format
 msgid ""
-"The video asset %f uses the frame rate %n which is invalid for 3D video."
+"The video asset %f uses the frame rate %frame_rate which is invalid for 3D video."
 msgstr ""
-"Videotillgången %f använder bildhastigheten %n vilket inte är korrekt för 3D-"
+"Videotillgången %f använder bildhastigheten %frame_rate vilket inte är korrekt för 3D-"
 "video."
 
 #: src/wx/verify_dcp_result_panel.cc:342
 #, c-format
 msgid ""
-"The video asset %f uses the frame rate %n which is invalid for 4K video."
+"The video asset %f uses the frame rate %frame_rate which is invalid for 4K video."
 msgstr ""
-"Videotillgången %f använder bildhastigheten %n vilket inte är korrekt för 4K-"
+"Videotillgången %f använder bildhastigheten %frame_rate vilket inte är korrekt för 4K-"
 "video."
 
 #: src/wx/verify_dcp_result_panel.cc:339
 #, c-format
-msgid "The video asset %f uses the invalid frame rate %n."
-msgstr "Bildspåret %f använder en ogiltig bildhastighet %n."
+msgid "The video asset %f uses the invalid frame rate %frame_rate."
+msgstr "Bildspåret %f använder en ogiltig bildhastighet %frame_rate."
 
 #: src/wx/verify_dcp_result_panel.cc:336
 #, c-format

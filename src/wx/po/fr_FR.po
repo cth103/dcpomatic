@@ -3806,9 +3806,9 @@ msgstr "La langue dans laquelle le titre du film (\"%s\") est écrit"
 
 #: src/wx/verify_dcp_result_panel.cc:268
 #, c-format
-msgid "The picture in a reel has a frame rate of %n, which is not valid."
+msgid "The picture in a reel has a frame rate of %frame_rate, which is not valid."
 msgstr ""
-"L'image dans une bobine a une fréquence d'images de %n, ce qui n'est pas "
+"L'image dans une bobine a une fréquence d'images de %frame_rate, ce qui n'est pas "
 "valide."
 
 #: src/wx/verify_dcp_result_panel.cc:595
@@ -3827,8 +3827,8 @@ msgstr "La ressource sonore %f a nombre de bits par échantillon %n invalide."
 
 #: src/wx/verify_dcp_result_panel.cc:396
 #, c-format
-msgid "The sound asset %f has an invalid frame rate of %n."
-msgstr "La ressource sonore %f a une fréquence d'image invalide de %n."
+msgid "The sound asset %f has an invalid frame rate of %frame_rate."
+msgstr "La ressource sonore %f a une fréquence d'image invalide de %frame_rate."
 
 #: src/wx/dcp_panel.cc:142
 msgid ""
@@ -3874,23 +3874,23 @@ msgstr ""
 #: src/wx/verify_dcp_result_panel.cc:345
 #, c-format
 msgid ""
-"The video asset %f uses the frame rate %n which is invalid for 3D video."
+"The video asset %f uses the frame rate %frame_rate which is invalid for 3D video."
 msgstr ""
-"La ressource vidéo %f utilise la fréquence d'images %n qui n'est pas valide "
+"La ressource vidéo %f utilise la fréquence d'images %frame_rate qui n'est pas valide "
 "pour la vidéo 3D."
 
 #: src/wx/verify_dcp_result_panel.cc:342
 #, c-format
 msgid ""
-"The video asset %f uses the frame rate %n which is invalid for 4K video."
+"The video asset %f uses the frame rate %frame_rate which is invalid for 4K video."
 msgstr ""
-"La ressource vidéo %f utilise la fréquence d'images %n qui n'est pas valide "
+"La ressource vidéo %f utilise la fréquence d'images %frame_rate qui n'est pas valide "
 "pour la vidéo 4K."
 
 #: src/wx/verify_dcp_result_panel.cc:339
 #, c-format
-msgid "The video asset %f uses the invalid frame rate %n."
-msgstr "La ressource vidéo %f utilise la fréquence d'images invalide %n."
+msgid "The video asset %f uses the invalid frame rate %frame_rate."
+msgstr "La ressource vidéo %f utilise la fréquence d'images invalide %frame_rate."
 
 #: src/wx/verify_dcp_result_panel.cc:336
 #, c-format

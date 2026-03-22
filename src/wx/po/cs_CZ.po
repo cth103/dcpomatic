@@ -3753,8 +3753,8 @@ msgstr "Jazyk, ve které je název filmu (%s)"
 
 #: src/wx/verify_dcp_result_panel.cc:268
 #, c-format
-msgid "The picture in a reel has a frame rate of %n, which is not valid."
-msgstr "Obraz na reelu má neplatnou snímkovou frekvenci %n, což není platné."
+msgid "The picture in a reel has a frame rate of %frame_rate, which is not valid."
+msgstr "Obraz na reelu má neplatnou snímkovou frekvenci %frame_rate, což není platné."
 
 #: src/wx/verify_dcp_result_panel.cc:595
 #, c-format
@@ -3772,8 +3772,8 @@ msgstr "Zvukový prostředek %f má neplatnou bitovou hloubku %n."
 
 #: src/wx/verify_dcp_result_panel.cc:396
 #, c-format
-msgid "The sound asset %f has an invalid frame rate of %n."
-msgstr "Zvukový datový zdroj %f má neplatnou snímkovací frekvenci %n."
+msgid "The sound asset %f has an invalid frame rate of %frame_rate."
+msgstr "Zvukový datový zdroj %f má neplatnou snímkovací frekvenci %frame_rate."
 
 #: src/wx/dcp_panel.cc:142
 msgid ""
@@ -3818,23 +3818,23 @@ msgstr ""
 #: src/wx/verify_dcp_result_panel.cc:345
 #, c-format
 msgid ""
-"The video asset %f uses the frame rate %n which is invalid for 3D video."
+"The video asset %f uses the frame rate %frame_rate which is invalid for 3D video."
 msgstr ""
-"Datový zdroj videa %f používá snímkovou frekvenci %n, která je pro 3D video "
+"Datový zdroj videa %f používá snímkovou frekvenci %frame_rate, která je pro 3D video "
 "neplatná."
 
 #: src/wx/verify_dcp_result_panel.cc:342
 #, c-format
 msgid ""
-"The video asset %f uses the frame rate %n which is invalid for 4K video."
+"The video asset %f uses the frame rate %frame_rate which is invalid for 4K video."
 msgstr ""
-"Datový zdroj videa %f používá snímkovou frekvenci %n, která je neplatná pro "
+"Datový zdroj videa %f používá snímkovou frekvenci %frame_rate, která je neplatná pro "
 "4K video."
 
 #: src/wx/verify_dcp_result_panel.cc:339
 #, c-format
-msgid "The video asset %f uses the invalid frame rate %n."
-msgstr "Datový zdroj videa %f používá neplatnou snímkovou frekvenci %n."
+msgid "The video asset %f uses the invalid frame rate %frame_rate."
+msgstr "Datový zdroj videa %f používá neplatnou snímkovou frekvenci %frame_rate."
 
 #: src/wx/verify_dcp_result_panel.cc:336
 #, c-format

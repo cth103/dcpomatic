@@ -3791,8 +3791,8 @@ msgstr "Jezik, v katerem je naslov filma (»%s«)"
 
 #: src/wx/verify_dcp_result_panel.cc:268
 #, c-format
-msgid "The picture in a reel has a frame rate of %n, which is not valid."
-msgstr "Slika v kolutu ima hitrost sličic %n, ki ni veljavna."
+msgid "The picture in a reel has a frame rate of %frame_rate, which is not valid."
+msgstr "Slika v kolutu ima hitrost sličic %frame_rate, ki ni veljavna."
 
 #: src/wx/verify_dcp_result_panel.cc:595
 #, c-format
@@ -3810,8 +3810,8 @@ msgstr "Zvočno sredstvo %f nima veveljavne hitrosti sličic %n."
 
 #: src/wx/verify_dcp_result_panel.cc:396
 #, c-format
-msgid "The sound asset %f has an invalid frame rate of %n."
-msgstr "Zvočno sredstvo %f nima veveljavne hitrosti sličic %n."
+msgid "The sound asset %f has an invalid frame rate of %frame_rate."
+msgstr "Zvočno sredstvo %f nima veveljavne hitrosti sličic %frame_rate."
 
 #: src/wx/dcp_panel.cc:142
 #, fuzzy
@@ -3859,21 +3859,21 @@ msgstr ""
 #: src/wx/verify_dcp_result_panel.cc:345
 #, c-format
 msgid ""
-"The video asset %f uses the frame rate %n which is invalid for 3D video."
+"The video asset %f uses the frame rate %frame_rate which is invalid for 3D video."
 msgstr ""
-"Sredstvo videa %f uporablja hitrost sličic %n, ki ni veljavna za 3D-video."
+"Sredstvo videa %f uporablja hitrost sličic %frame_rate, ki ni veljavna za 3D-video."
 
 #: src/wx/verify_dcp_result_panel.cc:342
 #, c-format
 msgid ""
-"The video asset %f uses the frame rate %n which is invalid for 4K video."
+"The video asset %f uses the frame rate %frame_rate which is invalid for 4K video."
 msgstr ""
-"Sredstvo videa %f uporablja hitrost sličic %n, ki ni veljavna za 4K-video."
+"Sredstvo videa %f uporablja hitrost sličic %frame_rate, ki ni veljavna za 4K-video."
 
 #: src/wx/verify_dcp_result_panel.cc:339
 #, c-format
-msgid "The video asset %f uses the invalid frame rate %n."
-msgstr "Sredstvo videa %f uporablja neveljavno hitrost sličic %n."
+msgid "The video asset %f uses the invalid frame rate %frame_rate."
+msgstr "Sredstvo videa %f uporablja neveljavno hitrost sličic %frame_rate."
 
 #: src/wx/verify_dcp_result_panel.cc:336
 #, c-format
