@@ -355,10 +355,10 @@ msgstr "Podnaslov traja dlje, kot je dolg kolut, na katerem se nahaja."
 #: src/wx/verify_dcp_result_panel.cc:659
 #, c-format
 msgid ""
-"A subtitle or closed caption refers to a font with ID %id that does not have "
+"A subtitle or closed caption refers to a font with ID %load_font_id that does not have "
 "a corresponding <LoadFont> node."
 msgstr ""
-"Podnaslov ali zaprti napis se slicuje na pisavo z ID %id, ki nima ustreznega "
+"Podnaslov ali zaprti napis se slicuje na pisavo z ID %load_font_id, ki nima ustreznega "
 "vozlišča <LoadFont>."
 
 #: src/wx/sound_preferences_page.cc:199
@@ -3442,7 +3442,7 @@ msgstr "Čas »do« mora slediti času »od«."
 #: src/wx/verify_dcp_result_panel.cc:668
 #, fuzzy, c-format
 msgid "The <LabelText> in a <ContentVersion> in CPL %cpl is empty"
-msgstr "<LabelText> v <ContentVersion> v CPL %id je prazen"
+msgstr "<LabelText> v <ContentVersion> v CPL %cpl je prazen"
 
 #: src/wx/verify_dcp_result_panel.cc:625
 msgid ""
@@ -3618,9 +3618,9 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:662
 #, c-format
-msgid "The SMPTE subtitle asset %id has <Text> nodes but no <LoadFont> node"
+msgid "The SMPTE subtitle asset %asset_id has <Text> nodes but no <LoadFont> node"
 msgstr ""
-"Sredstvo podnaslovov SMPTE %id ima vozlišča <Text>, nima pa vozlišča "
+"Sredstvo podnaslovov SMPTE %asset_id ima vozlišča <Text>, nima pa vozlišča "
 "<LoadFont> "
 
 #: src/wx/verify_dcp_result_panel.cc:296
@@ -3677,8 +3677,8 @@ msgstr "Sredstvo %n nima kontrolne vsote <Hash> v CPL."
 
 #: src/wx/verify_dcp_result_panel.cc:665
 #, c-format
-msgid "The asset with ID %id in the asset map actually has an id of %other_id"
-msgstr "Sredstvo z ID %id v mapi sredstev ima dejansko ID %other_id"
+msgid "The asset with ID %asset_id in the asset map actually has an id of %other_asset_id"
+msgstr "Sredstvo z ID %asset_id v mapi sredstev ima dejansko ID %other_asset_id"
 
 #: src/wx/verify_dcp_result_panel.cc:423
 #, c-format

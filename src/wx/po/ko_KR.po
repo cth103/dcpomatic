@@ -359,10 +359,10 @@ msgstr "자막이 해당 릴보다 더 오래 지속됩니다."
 #: src/wx/verify_dcp_result_panel.cc:659
 #, c-format
 msgid ""
-"A subtitle or closed caption refers to a font with ID %id that does not have "
+"A subtitle or closed caption refers to a font with ID %load_font_id that does not have "
 "a corresponding <LoadFont> node."
 msgstr ""
-"자막 또는 캡션이 해당 <LoadFont> 노드가 없는 ID %id인 폰트를 참조하고 있습니"
+"자막 또는 캡션이 해당 <LoadFont> 노드가 없는 ID %load_font_id인 폰트를 참조하고 있습니"
 "다."
 
 #: src/wx/sound_preferences_page.cc:199
@@ -3615,8 +3615,8 @@ msgstr "타임드 텍스트 MXF의 리소스 ID가 포함된 XML의 ID와 일치
 
 #: src/wx/verify_dcp_result_panel.cc:662
 #, c-format
-msgid "The SMPTE subtitle asset %id has <Text> nodes but no <LoadFont> node"
-msgstr "SMPTE 자막 에셋 %id에 <Text> 노드는 있지만 <LoadFont> 노드가 없습니다."
+msgid "The SMPTE subtitle asset %asset_id has <Text> nodes but no <LoadFont> node"
+msgstr "SMPTE 자막 에셋 %asset_id에 <Text> 노드는 있지만 <LoadFont> 노드가 없습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:296
 #, c-format
@@ -3669,8 +3669,8 @@ msgstr "에셋 %n에 대한 <Hash>가 CPL에 없습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:665
 #, c-format
-msgid "The asset with ID %id in the asset map actually has an id of %other_id"
-msgstr "에셋 맵의 ID %id인 에셋이 실제로는 %other_id라는 ID를 가지고 있습니다."
+msgid "The asset with ID %asset_id in the asset map actually has an id of %other_asset_id"
+msgstr "에셋 맵의 ID %asset_id인 에셋이 실제로는 %other_asset_id라는 ID를 가지고 있습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:423
 #, c-format

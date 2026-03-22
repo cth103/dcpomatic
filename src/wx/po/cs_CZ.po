@@ -356,10 +356,10 @@ msgstr "Titulky jsou delší, než je reel."
 #: src/wx/verify_dcp_result_panel.cc:659
 #, c-format
 msgid ""
-"A subtitle or closed caption refers to a font with ID %id that does not have "
+"A subtitle or closed caption refers to a font with ID %load_font_id that does not have "
 "a corresponding <LoadFont> node."
 msgstr ""
-"Titulky nebo skryté titulky odkazují na písmo s ID %id, které nemá "
+"Titulky nebo skryté titulky odkazují na písmo s ID %load_font_id, které nemá "
 "odpovídající node <LoadFont>."
 
 #: src/wx/sound_preferences_page.cc:199
@@ -3582,8 +3582,8 @@ msgstr "ID prostředku v časované textové mxf neodpovídá ID obsaženého XM
 
 #: src/wx/verify_dcp_result_panel.cc:662
 #, c-format
-msgid "The SMPTE subtitle asset %id has <Text> nodes but no <LoadFont> node"
-msgstr "Titulky SMPTE %id má uzly <Text>, ale žádný uzel <LoadFont>"
+msgid "The SMPTE subtitle asset %asset_id has <Text> nodes but no <LoadFont> node"
+msgstr "Titulky SMPTE %asset_id má uzly <Text>, ale žádný uzel <LoadFont>"
 
 #: src/wx/verify_dcp_result_panel.cc:296
 #, c-format
@@ -3640,8 +3640,8 @@ msgstr "Datový zdroj %n nemá <Hash> v CPL."
 
 #: src/wx/verify_dcp_result_panel.cc:665
 #, c-format
-msgid "The asset with ID %id in the asset map actually has an id of %other_id"
-msgstr "Dílo s ID %id v mapě aktiv má ve skutečnosti id %other_id"
+msgid "The asset with ID %asset_id in the asset map actually has an id of %other_asset_id"
+msgstr "Dílo s ID %asset_id v mapě aktiv má ve skutečnosti id %other_asset_id"
 
 #: src/wx/verify_dcp_result_panel.cc:423
 #, c-format

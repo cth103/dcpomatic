@@ -364,10 +364,10 @@ msgstr ""
 #: src/wx/verify_dcp_result_panel.cc:659
 #, c-format
 msgid ""
-"A subtitle or closed caption refers to a font with ID %id that does not have "
+"A subtitle or closed caption refers to a font with ID %load_font_id that does not have "
 "a corresponding <LoadFont> node."
 msgstr ""
-"Un sous-titre (codé) fait référence à une police d'ID %id qui n'a pas de "
+"Un sous-titre (codé) fait référence à une police d'ID %load_font_id qui n'a pas de "
 "nœud <LoadFont> correspondant."
 
 #: src/wx/sound_preferences_page.cc:199
@@ -3625,9 +3625,9 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:662
 #, c-format
-msgid "The SMPTE subtitle asset %id has <Text> nodes but no <LoadFont> node"
+msgid "The SMPTE subtitle asset %asset_id has <Text> nodes but no <LoadFont> node"
 msgstr ""
-"Le sous-titre SMPTE %id contient des nœuds <Text>, mais pas de nœud "
+"Le sous-titre SMPTE %asset_id contient des nœuds <Text>, mais pas de nœud "
 "<LoadFont>"
 
 #: src/wx/verify_dcp_result_panel.cc:296
@@ -3688,9 +3688,9 @@ msgstr "La ressource %n n'a pas de <Hash> dans la CPL."
 
 #: src/wx/verify_dcp_result_panel.cc:665
 #, c-format
-msgid "The asset with ID %id in the asset map actually has an id of %other_id"
+msgid "The asset with ID %asset_id in the asset map actually has an id of %other_asset_id"
 msgstr ""
-"La ressource dont l'ID est %id dans l'ASSETMAP a en fait un ID de %other_id"
+"La ressource dont l'ID est %asset_id dans l'ASSETMAP a en fait un ID de %other_asset_id"
 
 #: src/wx/verify_dcp_result_panel.cc:423
 #, c-format

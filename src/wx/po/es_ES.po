@@ -354,7 +354,7 @@ msgstr ""
 #: src/wx/verify_dcp_result_panel.cc:659
 #, c-format
 msgid ""
-"A subtitle or closed caption refers to a font with ID %id that does not have "
+"A subtitle or closed caption refers to a font with ID %load_font_id that does not have "
 "a corresponding <LoadFont> node."
 msgstr ""
 
@@ -3657,7 +3657,7 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:662
 #, c-format
-msgid "The SMPTE subtitle asset %id has <Text> nodes but no <LoadFont> node"
+msgid "The SMPTE subtitle asset %asset_id has <Text> nodes but no <LoadFont> node"
 msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:296
@@ -3711,7 +3711,7 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:665
 #, c-format
-msgid "The asset with ID %id in the asset map actually has an id of %other_id"
+msgid "The asset with ID %asset_id in the asset map actually has an id of %other_asset_id"
 msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:423

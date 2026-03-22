@@ -208,11 +208,14 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 		if (auto const size = note.size()) {
 			message.Replace(char_to_wx("%size"), std_to_wx(fmt::to_string(*size)));
 		}
-		if (auto const id = note.id()) {
-			message.Replace(char_to_wx("%id"), std_to_wx(*id));
+		if (auto const load_font_id = note.load_font_id()) {
+			message.Replace(char_to_wx("%load_font_id"), std_to_wx(*load_font_id));
 		}
-		if (auto const other_id = note.other_id()) {
-			message.Replace(char_to_wx("%other_id"), std_to_wx(*other_id));
+		if (auto const asset_id = note.asset_id()) {
+			message.Replace(char_to_wx("%asset_id"), std_to_wx(*asset_id));
+		}
+		if (auto const other_asset_id = note.other_asset_id()) {
+			message.Replace(char_to_wx("%other_asset_id"), std_to_wx(*other_asset_id));
 		}
 		if (auto const cpl = note.cpl_id()) {
 			message.Replace(char_to_wx("%cpl"), std_to_wx(*cpl));
@@ -656,13 +659,13 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 			add(i.second, _("The XML in the subtitle asset %n has more than one namespace declaration."));
 			break;
 		case dcp::VerificationNote::Code::MISSING_LOAD_FONT_FOR_FONT:
-			add(i.second, _("A subtitle or closed caption refers to a font with ID %id that does not have a corresponding <LoadFont> node."));
+			add(i.second, _("A subtitle or closed caption refers to a font with ID %load_font_id that does not have a corresponding <LoadFont> node."));
 			break;
 		case dcp::VerificationNote::Code::MISSING_LOAD_FONT:
-			add(i.second, _("The SMPTE subtitle asset %id has <Text> nodes but no <LoadFont> node"));
+			add(i.second, _("The SMPTE subtitle asset %asset_id has <Text> nodes but no <LoadFont> node"));
 			break;
 		case dcp::VerificationNote::Code::MISMATCHED_ASSET_MAP_ID:
-			add(i.second, _("The asset with ID %id in the asset map actually has an id of %other_id"));
+			add(i.second, _("The asset with ID %asset_id in the asset map actually has an id of %other_asset_id"));
 			break;
 		case dcp::VerificationNote::Code::EMPTY_CONTENT_VERSION_LABEL_TEXT:
 			add(i.second, _("The <LabelText> in a <ContentVersion> in CPL %cpl is empty"));

@@ -357,10 +357,10 @@ msgstr "یک زیرنویس طولانی تر از حلقه فیلمش است."
 #: src/wx/verify_dcp_result_panel.cc:659
 #, c-format
 msgid ""
-"A subtitle or closed caption refers to a font with ID %id that does not have "
+"A subtitle or closed caption refers to a font with ID %load_font_id that does not have "
 "a corresponding <LoadFont> node."
 msgstr ""
-"یک زیرنویس به فونتی با شناسه%i اشاره دارد که یک گره متناظر <LoadFont>ندارد."
+"یک زیرنویس به فونتی با شناسه%load_font_id اشاره دارد که یک گره متناظر <LoadFont>ندارد."
 
 #: src/wx/sound_preferences_page.cc:199
 msgid "ALSA"
@@ -3598,9 +3598,9 @@ msgstr "شناسه منبع در متن زمان‌بندی‌شده MXF با ش
 
 #: src/wx/verify_dcp_result_panel.cc:662
 #, c-format
-msgid "The SMPTE subtitle asset %id has <Text> nodes but no <LoadFont> node"
+msgid "The SMPTE subtitle asset %asset_id has <Text> nodes but no <LoadFont> node"
 msgstr ""
-"فایل زیرنویس اس ام پی تی ای %i یک گره <Text> دارد اما گره <LoadFont> ندارد"
+"فایل زیرنویس اس ام پی تی ای %asset_id یک گره <Text> دارد اما گره <LoadFont> ندارد"
 
 #: src/wx/verify_dcp_result_panel.cc:296
 #, c-format
@@ -3656,8 +3656,8 @@ msgstr "فایل %n در سی پی ال فاقد <Hash> است."
 
 #: src/wx/verify_dcp_result_panel.cc:665
 #, c-format
-msgid "The asset with ID %id in the asset map actually has an id of %other_id"
-msgstr "فایل با شناسه %id در ASSETMAP در واقع شناسه %other_id دارد"
+msgid "The asset with ID %asset_id in the asset map actually has an id of %other_asset_id"
+msgstr "فایل با شناسه %asset_id در ASSETMAP در واقع شناسه %other_asset_id دارد"
 
 #: src/wx/verify_dcp_result_panel.cc:423
 #, c-format

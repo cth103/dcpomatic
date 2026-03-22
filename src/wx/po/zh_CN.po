@@ -365,10 +365,10 @@ msgstr "字幕的持续时间比卷轴长。"
 #: src/wx/verify_dcp_result_panel.cc:659
 #, c-format
 msgid ""
-"A subtitle or closed caption refers to a font with ID %id that does not have "
+"A subtitle or closed caption refers to a font with ID %load_font_id that does not have "
 "a corresponding <LoadFont> node."
 msgstr ""
-"字幕或隐藏字幕指的是 ID 为 %id 的字体，该字体没有相应的 <LoadFont> 节点。"
+"字幕或隐藏字幕指的是 ID 为 %load_font_id 的字体，该字体没有相应的 <LoadFont> 节点。"
 
 #: src/wx/sound_preferences_page.cc:199
 msgid "ALSA"
@@ -3538,8 +3538,8 @@ msgstr "时间文本 MXF 中的资源 ID 与所包含的 XML 的 ID 不匹配。
 
 #: src/wx/verify_dcp_result_panel.cc:662
 #, c-format
-msgid "The SMPTE subtitle asset %id has <Text> nodes but no <LoadFont> node"
-msgstr "SMPTE 字幕资产 %id 有 <Text> 节点，但缺少 <LoadFont> 节点"
+msgid "The SMPTE subtitle asset %asset_id has <Text> nodes but no <LoadFont> node"
+msgstr "SMPTE 字幕资产 %asset_id 有 <Text> 节点，但缺少 <LoadFont> 节点"
 
 #: src/wx/verify_dcp_result_panel.cc:296
 #, c-format
@@ -3592,8 +3592,8 @@ msgstr "此资产 %n 在CPL中没有<Hash>。"
 
 #: src/wx/verify_dcp_result_panel.cc:665
 #, c-format
-msgid "The asset with ID %id in the asset map actually has an id of %other_id"
-msgstr "资产映射中 ID 为 %id 的资产实际上具有 ID %other_id"
+msgid "The asset with ID %asset_id in the asset map actually has an id of %other_asset_id"
+msgstr "资产映射中 ID 为 %asset_id 的资产实际上具有 ID %other_asset_id"
 
 #: src/wx/verify_dcp_result_panel.cc:423
 #, c-format
