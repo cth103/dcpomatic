@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-15 21:03+0100\n"
+"POT-Creation-Date: 2026-02-14 23:48+0100\n"
 "PO-Revision-Date: 2026-03-19 21:09+0900\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -435,11 +435,12 @@ msgid "Could not load a DCP from %s"
 msgstr "%s から DCP を読み込めませんでした"
 
 #: src/tools/dcpomatic_batch.cc:495
+#, c++-format
 msgid "Could not load film {}"
 msgstr "プロジェクトを読み込めませんでした  {}"
 
 #: src/tools/dcpomatic.cc:1751
-#, fuzzy
+#, fuzzy, c++-format
 msgid "Could not load film {} ({})"
 msgstr "プロジェクトを読み込めませんでした  {}({})"
 
@@ -1171,7 +1172,7 @@ msgstr ""
 "DCP および KDM の署名に使用する証明書チェーンを再作成しますか？"
 
 #: src/tools/dcpomatic_combiner.cc:167
-#, fuzzy
+#, fuzzy, c++-format
 msgid ""
 "The directory {} already exists and is not empty.  Are you sure you want to "
 "use it?"
