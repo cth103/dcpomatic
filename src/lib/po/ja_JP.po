@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-22 22:52+0100\n"
-"PO-Revision-Date: 2026-03-19 19:41+0900\n"
+"POT-Creation-Date: 2026-02-15 21:03+0100\n"
+"PO-Revision-Date: 2026-03-23 22:33+0900\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ja_JP\n"
@@ -28,7 +28,6 @@ msgstr ""
 "コンテンツのフレームレート %.4f\n"
 
 #: src/lib/video_content.cc:477
-#, c++-format
 msgid ""
 "\n"
 "Cropped to {}x{}"
@@ -46,7 +45,6 @@ msgstr ""
 "画面アスペクト比＝ %.2f:1"
 
 #: src/lib/video_content.cc:501
-#, c++-format
 msgid ""
 "\n"
 "Padded with black to fit container {} ({}x{})"
@@ -55,7 +53,6 @@ msgstr ""
 "画角に合う黒地入りアクセクト比＝ {} ({}x{})"
 
 #: src/lib/video_content.cc:491
-#, c++-format
 msgid ""
 "\n"
 "Scaled to {}x{}"
@@ -71,11 +68,10 @@ msgstr " (%.2f:1)"
 #. TRANSLATORS: the {} in this string will be filled in with a day of the week
 #. to say what day a job will finish.
 #: src/lib/job.cc:628
-#, c++-format
 msgid " on {}"
 msgstr ""
 
-#: src/lib/config.cc:1270
+#: src/lib/config.cc:1266
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -99,7 +95,7 @@ msgstr ""
 "長さ: $LENGTH\n"
 "サイズ: $SIZE\n"
 
-#: src/lib/config.cc:1248
+#: src/lib/config.cc:1244
 msgid "$JOB_NAME: $JOB_STATUS"
 msgstr "$処理名: $処理状況"
 
@@ -148,11 +144,11 @@ msgstr "1.85 (Flat)"
 msgid "1.90 (Full frame)"
 msgstr "1.90 (Full frame)"
 
-#: src/lib/util.cc:622
+#: src/lib/util.cc:628
 msgid "10"
 msgstr "10"
 
-#: src/lib/util.cc:628
+#: src/lib/util.cc:634
 msgid "16"
 msgstr "16"
 
@@ -182,29 +178,27 @@ msgid ""
 "know that you will play this DCP back on a capable projector, it is "
 "advisable to set the DCP to be 2K in the \"DCP→Video\" tab."
 msgstr ""
-"4K 3Dに対応しているプロジェクターはごく限られています。このDCPを4K 3D対応プロ"
-"ジェクターで再生する予定がない場合は、「DCP→動画」タブでDCPを2Kに設定すること"
-"をお勧めします。"
+"4K 3Dに対応しているプロジェクターは限られています。このDCPを4K 3D対応プロジェ"
+"クターで再生する予定がない場合は「DCP→動画」タブでDCPを2Kに設定することをお勧"
+"めします。"
 
-#: src/lib/util.cc:621
+#: src/lib/util.cc:627
 msgid "9"
 msgstr "9"
 
 #. TRANSLATORS: fps here is an abbreviation for frames per second
 #: src/lib/transcode_job.cc:184
-#, c++-format
 msgid "; {} fps"
 msgstr "; {} fps"
 
 #: src/lib/job.cc:633
-#, c++-format
 msgid "; {} remaining; finishing at {}{}"
 msgstr ""
 
 #: src/lib/analytics.cc:58
-#, fuzzy, c++-format
+#, c-format
 msgid ""
-"<h2>You have made {} DCPs with {}!</h2><img width=\"150\" height=\"193\" "
+"<h2>You have made {} DCPs with {}!</h2><img width=\"20%%\" "
 "src=\"memory:me.jpg\" align=\"center\"><font size=\"+1\"><p>Hello. I'm Carl "
 "and I'm the developer of {}. I work on it in my spare time (with the help of "
 "a volunteer team of testers and translators) and I release it as free "
@@ -239,7 +233,6 @@ msgstr ""
 "画像の目に見える影響が出る可能性は低いと思います。"
 
 #: src/lib/text_content.cc:230
-#, c++-format
 msgid ""
 "A subtitle or closed caption file in this project is marked with the "
 "language '{}', which {} does not recognise.  The file's language has been "
@@ -279,7 +272,6 @@ msgstr ""
 "ペクト比をコンテンツと同じ比率に設定することをお勧めします。"
 
 #: src/lib/job.cc:115
-#, c++-format
 msgid "An error occurred whilst handling the file {}."
 msgstr "ファイル {} の処理中にエラーが発生しました。"
 
@@ -361,12 +353,10 @@ msgstr ""
 "定することをお勧めします。"
 
 #: src/lib/audio_content.cc:264
-#, c++-format
 msgid "Audio will be resampled from {}Hz to {}Hz"
 msgstr "音声は {}Hz から {}Hz に再サンプリングされます"
 
 #: src/lib/audio_content.cc:266
-#, c++-format
 msgid "Audio will be resampled to {}Hz"
 msgstr "オーディオは {}Hz に再サンプリングされます"
 
@@ -427,20 +417,19 @@ msgstr "ピクセルあたりのビット数"
 msgid "Bob Weaver Deinterlacing Filter"
 msgstr ""
 
-#: src/lib/util.cc:623
+#: src/lib/util.cc:629
 msgid "BsL"
 msgstr "BsL"
 
-#: src/lib/util.cc:624
+#: src/lib/util.cc:630
 msgid "BsR"
 msgstr "BsR"
 
-#: src/lib/util.cc:615
+#: src/lib/util.cc:621
 msgid "C"
 msgstr "C"
 
 #: src/lib/exceptions.cc:196
-#, c++-format
 msgid "CPL {} not found"
 msgstr "CPL {} が見つかりません"
 
@@ -453,15 +442,15 @@ msgid "Cannot contain slashes"
 msgstr "スラッシュを含めることはできません"
 
 #: src/lib/exceptions.cc:78
-#, fuzzy, c++-format
+#, fuzzy
 msgid "Cannot handle pixel format {} during {}"
 msgstr "{} 中にピクセル形式 {} を処理できません"
 
-#: src/lib/film.cc:1940
+#: src/lib/film.cc:1938
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr "このプロジェクトは暗号化されていない為、KDM を作成できません。"
 
-#: src/lib/util.cc:584
+#: src/lib/util.cc:590
 msgid "Centre"
 msgstr "Centre"
 
@@ -479,7 +468,7 @@ msgstr ""
 
 #: src/lib/transcode_job.cc:106
 msgid "Check their new settings, then try again."
-msgstr "新しい設定を確認し、もう一度お試しください。"
+msgstr "新しい設定を確認してからもう一度お試しください。"
 
 #: src/lib/check_content_job.cc:56
 msgid "Checking content"
@@ -545,7 +534,7 @@ msgstr "カラースペース"
 msgid "Combine DCPs"
 msgstr "DCPを結合"
 
-#: src/lib/writer.cc:525
+#: src/lib/writer.cc:522
 #, fuzzy
 msgid "Computing digests"
 msgstr "ダイジェストの計算"
@@ -585,10 +574,14 @@ msgstr ""
 msgid ""
 "Content to be joined must both be main subtitle languages or both additional."
 msgstr ""
+"結合するコンテンツは両方ともメイン字幕言語であるか追加字幕言語である必要があ"
+"ります。"
 
 #: src/lib/video_content.cc:203
 msgid "Content to be joined must have all its video used or not used."
 msgstr ""
+"結合するコンテンツは使用・未使用に関わらず全ての動画が含まれている必要があり"
+"ます。"
 
 #: src/lib/text_content.cc:257
 msgid "Content to be joined must have the same 'burn subtitles' setting."
@@ -597,15 +590,15 @@ msgstr "結合するコンテンツには、同じ「字幕の焼き込み」設
 #: src/lib/text_content.cc:253
 #, fuzzy
 msgid "Content to be joined must have the same 'use subtitles' setting."
-msgstr "結合するコンテンツには、同じ「字幕を使用する」設定が必要です。"
+msgstr "結合するコンテンツは同じ「字幕を使用する」設定が必要です。"
 
 #: src/lib/audio_content.cc:105
 msgid "Content to be joined must have the same audio delay."
-msgstr ""
+msgstr "結合するコンテンツは同じ音声遅延を持つ必要があります。"
 
 #: src/lib/audio_content.cc:101
 msgid "Content to be joined must have the same audio gain."
-msgstr ""
+msgstr "結合するコンテンツは同じオーディオゲインである必要があります。"
 
 #: src/lib/video_content.cc:235
 msgid "Content to be joined must have the same burnt subtitle language."
@@ -613,85 +606,86 @@ msgstr "結合するコンテンツには、同じ焼き付け字幕言語が必
 
 #: src/lib/video_content.cc:227
 msgid "Content to be joined must have the same colour conversion."
-msgstr ""
+msgstr "結合するコンテンツは同じ色変換になっている必要があります。"
 
 #: src/lib/video_content.cc:215
 msgid "Content to be joined must have the same crop."
-msgstr ""
+msgstr "結合するコンテンツは同じトリミングである必要があります。"
 
 #: src/lib/video_content.cc:219
-#, fuzzy
 msgid "Content to be joined must have the same custom ratio setting."
-msgstr "結合するコンテンツには同じカスタム比率設定が必要です。"
+msgstr "結合するコンテンツは同じカスタム比率設定を持つ必要があります。"
 
 #: src/lib/video_content.cc:223
-#, fuzzy
 msgid "Content to be joined must have the same custom size setting."
-msgstr "結合するコンテンツには同じカスタム サイズ設定が必要です。"
+msgstr "結合するコンテンツは同じカスタムサイズ設定である必要があります。"
 
 #: src/lib/video_content.cc:231
 msgid "Content to be joined must have the same fades."
-msgstr ""
+msgstr "参加するコンテンツは同じフェード効果を持つ必要があります。"
 
 #: src/lib/text_content.cc:285
 msgid "Content to be joined must have the same outline width."
-msgstr ""
+msgstr "結合するコンテンツは同じアウトライン幅を持つ必要があります。"
 
 #: src/lib/video_content.cc:207
 msgid "Content to be joined must have the same picture size."
-msgstr ""
+msgstr "結合するコンテンツは同じ画像サイズである必要があります。"
 
 #: src/lib/text_content.cc:261
 msgid "Content to be joined must have the same subtitle X offset."
-msgstr ""
+msgstr "結合するコンテンツは同じ字幕オフセット（X）を持つ必要があります。"
 
 #: src/lib/text_content.cc:269
 msgid "Content to be joined must have the same subtitle X scale."
-msgstr ""
+msgstr "結合するコンテンツは同じ字幕スケール（X）である必要があります。"
 
 #: src/lib/text_content.cc:265
 msgid "Content to be joined must have the same subtitle Y offset."
-msgstr ""
+msgstr "結合するコンテンツは同じ字幕オフセット（Y）を持つ必要があります。"
 
 #: src/lib/text_content.cc:273
 msgid "Content to be joined must have the same subtitle Y scale."
-msgstr ""
+msgstr "結合するコンテンツは同じ字幕スケール（Y）である必要があります。"
 
 #: src/lib/text_content.cc:281
 msgid "Content to be joined must have the same subtitle fades."
 msgstr ""
+"結合するコンテンツは同じ字幕フェードイン・フェードアウト効果を持つ必要があり"
+"ます。"
 
 #: src/lib/text_content.cc:277
-#, fuzzy
 msgid "Content to be joined must have the same subtitle line spacing."
-msgstr "結合するコンテンツには同じカスタム サイズ設定が必要です。"
+msgstr "結合するコンテンツは字幕の行間隔が同じである必要があります。"
 
 #: src/lib/content.cc:116 src/lib/content.cc:120
 msgid "Content to be joined must have the same video frame rate"
-msgstr ""
+msgstr "結合するコンテンツは同じビデオフレームレートである必要があります"
 
 #: src/lib/video_content.cc:211
 msgid "Content to be joined must have the same video frame type."
-msgstr ""
+msgstr "結合するコンテンツは同じビデオフレームタイプである必要があります。"
 
 #: src/lib/text_content.cc:294
+#, fuzzy
 msgid "Content to be joined must use the same DCP track."
-msgstr ""
+msgstr "結合するコンテンツは、同じDCPトラックを使用する必要があります。"
 
 #: src/lib/text_content.cc:290 src/lib/text_content.cc:310
+#, fuzzy
 msgid "Content to be joined must use the same fonts."
-msgstr ""
+msgstr "結合するコンテンツは同じフォントを使用する必要があります。"
 
 #: src/lib/ffmpeg_content.cc:173
+#, fuzzy
 msgid "Content to be joined must use the same subtitle stream."
-msgstr ""
+msgstr "結合するコンテンツは同じ字幕ストリームを使用する必要があります。"
 
 #: src/lib/text_content.cc:298
 msgid "Content to be joined must use the same text language."
-msgstr ""
+msgstr "結合するコンテンツは同じ言語文字を使用する必要があります。"
 
 #: src/lib/video_content.cc:453
-#, c++-format
 msgid "Content video is {}x{}"
 msgstr "コンテンツ動画＝: {}x{}"
 
@@ -704,108 +698,99 @@ msgid "Copying DCP"
 msgstr "DCPのコピー"
 
 #: src/lib/copy_to_drive_job.cc:61
-#, c++-format
 msgid "Copying DCPs to {}"
-msgstr ""
+msgstr "DCPを{}にコピーしています"
 
 #: src/lib/reel_writer.cc:194
 msgid "Copying existing asset"
 msgstr "既存のassetをコピーする"
 
 #: src/lib/copy_to_drive_job.cc:58
-#, c++-format
 msgid ""
 "Copying {}\n"
 "to {}"
 msgstr "{} を {} へコピーしています"
 
 #: src/lib/scp_uploader.cc:56
-#, c++-format
 msgid "Could not connect to server {} ({})"
 msgstr "サーバー {} ({}) に接続できませんでした"
 
 #: src/lib/scp_uploader.cc:105
-#, fuzzy, c++-format
+#, fuzzy
 msgid "Could not create remote directory {} ({})"
 msgstr "リモート ディレクトリ {} ({}) を作成できませんでした"
 
 #: src/lib/image_examiner.cc:64
-#, fuzzy, c++-format
+#, fuzzy
 msgid "Could not decode JPEG2000 file {} ({})"
 msgstr "JPEG2000 ファイル {} ({}) をデコードできませんでした"
 
 #: src/lib/ffmpeg_image_proxy.cc:163
-#, fuzzy, c++-format
+#, fuzzy
 msgid "Could not decode image ({})"
 msgstr "画像をデコードできませんでした ({})"
 
 #: src/lib/unzipper.cc:77
-#, c++-format
 msgid "Could not find file {} in ZIP file"
-msgstr "ZIPファイル内にファイル{}が見つかりませんでした"
+msgstr "ZIPファイル内にファイル「 {} 」が見つかりませんでした"
 
 #: src/lib/encode_server_finder.cc:197
-#, c++-format
 msgid ""
 "Could not listen for remote encode servers.  Perhaps another instance of {} "
 "is running."
 msgstr ""
+"リモートエンコードサーバーからの受信に失敗しました。別のインスタンス "
+"（ {} ） が実行されている可能性があります。"
 
 #: src/lib/internet.cc:166 src/lib/internet.cc:171
 msgid "Could not open downloaded ZIP file"
 msgstr "ダウンロードしたZIPファイルを開けませんでした"
 
 #: src/lib/internet.cc:178
-#, c++-format
 msgid "Could not open downloaded ZIP file ({}:{}: {})"
 msgstr "ダウンロードしたZIPファイルを開けませんでした ({}:{}: {})"
 
-#: src/lib/config.cc:1172
+#: src/lib/config.cc:1168
 msgid "Could not open file for writing"
 msgstr "書き込み用のファイルを開けませんでした"
 
 #: src/lib/ffmpeg_file_encoder.cc:282
-#, c++-format
 msgid "Could not open output file {} ({})"
-msgstr ""
+msgstr "出力ファイル{}を開けませんでした（{}）"
 
 #: src/lib/job.cc:179 src/lib/job.cc:194
-#, c++-format
 msgid "Could not open {}"
-msgstr ""
+msgstr "{} を開けませんでした"
 
 #: src/lib/curl_uploader.cc:101 src/lib/scp_uploader.cc:121
-#, c++-format
 msgid "Could not open {} to send"
-msgstr ""
+msgstr "{} を開き送信できませんでした"
 
 #: src/lib/dcp_subtitle.cc:59
-#, c++-format
 msgid "Could not read subtitles ({} / {})"
 msgstr "字幕を読み取れませんでした（{} / {}）"
 
 #: src/lib/curl_uploader.cc:58
 msgid "Could not start transfer"
-msgstr ""
+msgstr "転送を開始できませんでした"
 
 #: src/lib/curl_uploader.cc:109 src/lib/scp_uploader.cc:137
-#, c++-format
 msgid "Could not write to remote file ({})"
-msgstr ""
+msgstr "リモートファイルへの書き込みができませんでした ({})"
 
-#: src/lib/util.cc:594
+#: src/lib/util.cc:600
 msgid "D-BOX primary"
 msgstr "D-BOXプライマリ"
 
-#: src/lib/util.cc:595
+#: src/lib/util.cc:601
 msgid "D-BOX secondary"
 msgstr "D-BOX セカンダリ"
 
-#: src/lib/audio_processor.cc:144 src/lib/util.cc:625
+#: src/lib/audio_processor.cc:144 src/lib/util.cc:631
 msgid "DBP"
 msgstr "DBP"
 
-#: src/lib/audio_processor.cc:145 src/lib/util.cc:626
+#: src/lib/audio_processor.cc:145 src/lib/util.cc:632
 msgid "DBS"
 msgstr "DBS"
 
@@ -817,14 +802,13 @@ msgstr "DCI Flat"
 msgid "DCI Scope"
 msgstr "DCI Scope"
 
-#: src/lib/film.cc:2048
+#: src/lib/film.cc:2046
 msgid "DCP"
 msgstr "DCP"
 
-#: src/lib/film.cc:2045
-#, c++-format
+#: src/lib/film.cc:2043
 msgid "DCP (via {})"
-msgstr ""
+msgstr "DCP （{}経由）"
 
 #: src/lib/dcp_subtitle_content.cc:139
 msgid "DCP XML subtitles"
@@ -845,7 +829,7 @@ msgstr ""
 msgid "DCP will use every other frame of the content.\n"
 msgstr "DCP はコンテンツのフレームを 1 つおきに使用します。\n"
 
-#: src/lib/film.cc:1857
+#: src/lib/film.cc:1855
 msgid ""
 "DCP-o-matic had to set your container to 1920x1080 as it's the only one that "
 "can be used with MPEG2 encoding."
@@ -853,7 +837,7 @@ msgstr ""
 "DCP-o-matic では MPEG2 エンコーディングに使用できるのは 1920x1080 のみです。"
 "その為アスペクト比と解像度を 1920x1080 に変更しましした。"
 
-#: src/lib/film.cc:1861
+#: src/lib/film.cc:1859
 #, fuzzy
 msgid ""
 "DCP-o-matic had to set your film to 2D as 3D is not yet supported with MPEG2 "
@@ -862,7 +846,7 @@ msgstr ""
 "DCP-o-matic では、MPEG2 エンコーディングではまだ 3D がサポートされていないた"
 "め、プロジェクトを 2D に設定する必要がありました。"
 
-#: src/lib/film.cc:1865
+#: src/lib/film.cc:1863
 msgid ""
 "DCP-o-matic set your container to DCI Flat as it was previously 1920x1080 "
 "and that is not a standard ratio with JPEG2000 encoding."
@@ -880,8 +864,7 @@ msgstr "Datasat AP20 or AP25"
 msgid "De-interlacing"
 msgstr "インターレース解除"
 
-#: src/lib/config.cc:1233
-#, c++-format
+#: src/lib/config.cc:1229
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -908,12 +891,10 @@ msgstr ""
 "{}"
 
 #: src/lib/exceptions.cc:178
-#, c++-format
 msgid "Disk full when writing {}"
 msgstr "書込みディスクが一杯です {}"
 
 #: src/lib/job.cc:268
-#, c++-format
 msgid "Disk full while writing {}"
 msgstr "書込み中のディスクが一杯です {}"
 
@@ -922,7 +903,6 @@ msgid "Dolby CP650 or CP750"
 msgstr "Dolby CP650 or CP750"
 
 #: src/lib/internet.cc:124
-#, c++-format
 msgid "Download failed ({} error {})"
 msgstr "ダウンロードに失敗しました ({} エラー {})"
 
@@ -938,7 +918,7 @@ msgid "Each content frame will be doubled in the DCP.\n"
 msgstr "各コンテンツ フレームは DCP で 2 倍になります。\n"
 
 #: src/lib/frame_rate_change.cc:95
-#, fuzzy, c++-format
+#, fuzzy
 msgid "Each content frame will be repeated {} more times in the DCP.\n"
 msgstr "各コンテンツ フレームは DCP 内で {} 回以上繰り返されます。\n"
 
@@ -947,7 +927,6 @@ msgid "Email KDMs"
 msgstr "KDMをメール"
 
 #: src/lib/send_kdm_email_job.cc:96
-#, c++-format
 msgid "Email KDMs for {}"
 msgstr "{}にKDMを送信"
 
@@ -960,7 +939,6 @@ msgid "Email problem report"
 msgstr "問題レポートをEmailで報告"
 
 #: src/lib/send_problem_report_job.cc:71
-#, c++-format
 msgid "Email problem report for {}"
 msgstr "{} の問題レポートをメールで送信"
 
@@ -974,12 +952,11 @@ msgid "Episode"
 msgstr "エピソード・物語（EPS）"
 
 #: src/lib/exceptions.cc:85
-#, c++-format
+#, fuzzy
 msgid "Error in subtitle file: saw {} while expecting {}"
-msgstr ""
+msgstr "字幕ファイルエラー：saw {} while expecting {}"
 
 #: src/lib/job.cc:655
-#, c++-format
 msgid "Error: {}"
 msgstr "エラー: {}"
 
@@ -1020,7 +997,7 @@ msgid "FCP XML subtitles"
 msgstr "FCP XML字幕"
 
 #: src/lib/scp_uploader.cc:68
-#, fuzzy, c++-format
+#, fuzzy
 msgid "Failed to authenticate with server ({})"
 msgstr "サーバーとの認証に失敗しました（{}）"
 
@@ -1046,7 +1023,7 @@ msgstr "ファイル名"
 
 #: src/lib/transcode_job.cc:106 src/lib/transcode_job.cc:112
 msgid "Files have changed since they were added to the project."
-msgstr ""
+msgstr "ファイルはプロジェクトに追加されてから変更されています。"
 
 #: src/lib/ffmpeg_content.cc:598
 msgid "Film"
@@ -1074,7 +1051,6 @@ msgid "Full"
 msgstr ""
 
 #: src/lib/ffmpeg_content.cc:562
-#, c++-format
 msgid "Full (0-{})"
 msgstr ""
 
@@ -1121,11 +1097,11 @@ msgstr "Gamma 28 (BT470BG)"
 msgid "Gradient debander"
 msgstr ""
 
-#: src/lib/audio_processor.cc:142 src/lib/util.cc:619
+#: src/lib/audio_processor.cc:142 src/lib/util.cc:625
 msgid "HI"
 msgstr "HI"
 
-#: src/lib/util.cc:588
+#: src/lib/util.cc:594
 msgid "Hearing impaired"
 msgstr "聴覚障害（HI）"
 
@@ -1161,7 +1137,7 @@ msgstr ""
 
 #: src/lib/hints.cc:195
 msgid "If you do use 25fps you should change your DCP standard to SMPTE."
-msgstr ""
+msgstr "25fpsを使用する場合、DCP規格をSMPTEに変更する必要があります。"
 
 #: src/lib/hints.cc:258
 msgid ""
@@ -1182,15 +1158,14 @@ msgstr ""
 "することをお勧めします。"
 
 #: src/lib/job.cc:169 src/lib/job.cc:204 src/lib/job.cc:295 src/lib/job.cc:305
-#, c++-format
 msgid "It is not known what caused this error.  {}"
-msgstr ""
+msgstr "このエラーの原因は不明です。{}"
 
 #: src/lib/ffmpeg_content.cc:612
 msgid "JEDEC P22"
 msgstr "JEDEC P22"
 
-#: src/lib/config.cc:422 src/lib/config.cc:1230
+#: src/lib/config.cc:421 src/lib/config.cc:1226
 msgid "KDM delivery: $CPL_NAME"
 msgstr "KDM配信: $CPL_NAME"
 
@@ -1200,23 +1175,23 @@ msgid "Kernel deinterlacer"
 msgstr "カーネルデインターレース"
 
 #. TRANSLATORS: L here is an abbreviation for "left", to indicate the left-eye part of a 3D export
-#: src/lib/ffmpeg_film_encoder.cc:265 src/lib/util.cc:613
+#: src/lib/ffmpeg_film_encoder.cc:265 src/lib/util.cc:619
 msgid "L"
 msgstr "L"
 
-#: src/lib/mid_side_decoder.cc:106 src/lib/util.cc:582
+#: src/lib/mid_side_decoder.cc:106 src/lib/util.cc:588
 msgid "Left"
 msgstr "Left"
 
-#: src/lib/util.cc:590
+#: src/lib/util.cc:596
 msgid "Left centre"
 msgstr "Left centre"
 
-#: src/lib/util.cc:592
+#: src/lib/util.cc:598
 msgid "Left rear surround"
 msgstr "Left rear surround"
 
-#: src/lib/util.cc:586
+#: src/lib/util.cc:592
 msgid "Left surround"
 msgstr "Left surround"
 
@@ -1224,11 +1199,11 @@ msgstr "Left surround"
 msgid "Length"
 msgstr "長さ"
 
-#: src/lib/util.cc:616
+#: src/lib/util.cc:622
 msgid "Lfe"
 msgstr "Lfe"
 
-#: src/lib/util.cc:585
+#: src/lib/util.cc:591
 msgid "Lfe (sub)"
 msgstr "Lfe (sub)"
 
@@ -1238,7 +1213,7 @@ msgid "Limited"
 msgstr "限定"
 
 #: src/lib/ffmpeg_content.cc:555
-#, fuzzy, c++-format
+#, fuzzy
 msgid "Limited / video ({}-{})"
 msgstr "限定 / ビデオ ({}-{})"
 
@@ -1260,7 +1235,7 @@ msgstr "対数(316:1 range)"
 msgid "Lost communication between main and writer processes"
 msgstr "メインプロセスとライタープロセス間の通信が失われました"
 
-#: src/lib/util.cc:617
+#: src/lib/util.cc:623
 msgid "Ls"
 msgstr "Ls"
 
@@ -1299,7 +1274,6 @@ msgid "Mismatched video sizes in DCP"
 msgstr "DCP のビデオ サイズの不一致"
 
 #: src/lib/exceptions.cc:71
-#, c++-format
 msgid "Missing required setting {}"
 msgstr "必要な設定 {} がありません"
 
@@ -1335,7 +1309,7 @@ msgstr "環境設定の「KDM Email」タブで送信元アドレスが設定さ
 
 #: src/lib/kdm_with_metadata.cc:213 src/lib/send_notification_email_job.cc:69
 msgid "No outgoing mail server configured in the Email tab of preferences"
-msgstr ""
+msgstr "環境設定の「Email」で送信メールサーバーが設定されていません"
 
 #: src/lib/image_content.cc:131
 msgid "No valid image files were found in the folder."
@@ -1355,12 +1329,10 @@ msgid "OK"
 msgstr "OK"
 
 #: src/lib/job.cc:652
-#, c++-format
 msgid "OK (ran for {} from {} to {})"
 msgstr ""
 
 #: src/lib/job.cc:650
-#, c++-format
 msgid "OK (ran for {})"
 msgstr ""
 
@@ -1375,17 +1347,18 @@ msgstr "結合される最後のコンテンツ部分のみに、終了トリム
 
 #: src/lib/text_type.cc:81
 msgid "Open captions"
-msgstr ""
+msgstr "キャプションを開く"
 
 #: src/lib/text_type.cc:79
 msgid "Open subtitles"
-msgstr "字幕"
+msgstr "字幕を開く"
 
 #: src/lib/transcode_job.cc:113
-#, c++-format
 msgid ""
 "Open the project in {}, check the settings, then save it before trying again."
 msgstr ""
+"{}でプロジェクトを開いてください。その後設定の確認を行い保存してから再度実行"
+"してください。"
 
 #: src/lib/filter.cc:92 src/lib/filter.cc:93 src/lib/filter.cc:94
 #: src/lib/filter.cc:95
@@ -1397,8 +1370,9 @@ msgid "Out of memory"
 msgstr "メモリ不足"
 
 #: src/lib/filter.cc:106
+#, fuzzy
 msgid "Overcomplete wavelet denoiser"
-msgstr ""
+msgstr "Overcomplete  ウェーブレットノイズ除去器"
 
 #: src/lib/colour_conversion.cc:293
 msgid "P3 D60 (~6000K)"
@@ -1412,8 +1386,7 @@ msgstr "P3 D65 (~6500K)"
 msgid "P3 DCI (~6300K)"
 msgstr "P3 DCI (~6300K)"
 
-#: src/lib/util.cc:1131
-#, c++-format
+#: src/lib/util.cc:1137
 msgid ""
 "Please report this problem by using Help -> Report a problem or via email to "
 "{}"
@@ -1427,7 +1400,7 @@ msgstr "ポリシー（POL）"
 
 #: src/lib/filter.cc:107
 msgid "Premultiply alpha channel"
-msgstr ""
+msgstr "Premultiply alpha channel"
 
 #: src/lib/content.cc:474
 #, fuzzy
@@ -1435,7 +1408,6 @@ msgid "Prepared for video frame rate"
 msgstr "動画フレームレートの準備"
 
 #: src/lib/exceptions.cc:106
-#, c++-format
 msgid "Programming error at {}:{} {}"
 msgstr "プログラミングエラー（{}:{} {}）"
 
@@ -1448,7 +1420,7 @@ msgid "Public Service Announcement"
 msgstr "公共広告（PSA）"
 
 #. TRANSLATORS: R here is an abbreviation for "right", to indicate the right-eye part of a 3D export
-#: src/lib/ffmpeg_film_encoder.cc:270 src/lib/util.cc:614
+#: src/lib/ffmpeg_film_encoder.cc:270 src/lib/util.cc:620
 msgid "R"
 msgstr "R"
 
@@ -1482,19 +1454,19 @@ msgstr "Rec. 601"
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
-#: src/lib/mid_side_decoder.cc:107 src/lib/util.cc:583
+#: src/lib/mid_side_decoder.cc:107 src/lib/util.cc:589
 msgid "Right"
 msgstr "Right"
 
-#: src/lib/util.cc:591
+#: src/lib/util.cc:597
 msgid "Right centre"
 msgstr "Right centre"
 
-#: src/lib/util.cc:593
+#: src/lib/util.cc:599
 msgid "Right rear surround"
 msgstr "Right rear surround"
 
-#: src/lib/util.cc:587
+#: src/lib/util.cc:593
 msgid "Right surround"
 msgstr "Right surround"
 
@@ -1506,7 +1478,7 @@ msgstr "反時計回りに90度回転"
 msgid "Rotate 90 degrees clockwise"
 msgstr "時計回りに90度回転"
 
-#: src/lib/util.cc:618
+#: src/lib/util.cc:624
 msgid "Rs"
 msgstr "Rs"
 
@@ -1566,13 +1538,11 @@ msgid "SMPTE ST 432-1 D65 (2010)"
 msgstr "SMPTE ST 432-1 D65 (2010)"
 
 #: src/lib/scp_uploader.cc:46
-#, c++-format
 msgid "SSH error [{}]"
 msgstr "SSH エラー [{}]"
 
 #: src/lib/scp_uploader.cc:62 src/lib/scp_uploader.cc:75
 #: src/lib/scp_uploader.cc:82
-#, c++-format
 msgid "SSH error [{}] ({})"
 msgstr "SSH エラー [{}] ({})"
 
@@ -1592,7 +1562,7 @@ msgstr "メールを送信する"
 msgid "Short"
 msgstr "短編（SHR）"
 
-#: src/lib/audio_processor.cc:146 src/lib/util.cc:627
+#: src/lib/audio_processor.cc:146 src/lib/util.cc:633
 #, fuzzy
 msgid "Sign"
 msgstr "サイン"
@@ -1602,7 +1572,6 @@ msgid "Size"
 msgstr "サイズ"
 
 #: src/lib/audio_content.cc:259
-#, c++-format
 msgid "Some audio will be resampled to {}Hz"
 msgstr "一部の音声は {}Hz に再サンプリングされます"
 
@@ -1642,7 +1611,6 @@ msgstr ""
 "要になる場合があります。"
 
 #: src/lib/hints.cc:605
-#, c++-format
 msgid ""
 "Some of your closed captions span more than {} lines, so they will be "
 "truncated."
@@ -1654,6 +1622,9 @@ msgid ""
 "is advisable to set the audio language in the \"DCP\" tab unless your audio "
 "has no spoken parts."
 msgstr ""
+"コンテンツの一部に音声が含まれていますが音声言語が設定されていません。音声に"
+"ナレーションが含まれていない場合を除き「DCP」タブで音声言語を設定することをお"
+"勧めします。"
 
 #: src/lib/hints.cc:798
 msgid ""
@@ -1663,6 +1634,11 @@ msgid ""
 "in doubt, set everything (picture, sound and text) to be either encrypted or "
 "not."
 msgstr ""
+"コンテンツの一部のみが暗号化されている、もしくは暗号化されていません。Netflix"
+"などの配信プラットフォームでは映像・音声が暗号化されている場合を含め字幕の暗"
+"号化を禁止している場合もありますが、映像・音声・字幕の全てを暗号化するかしな"
+"いかのどちらかに設定してください。迷った場合は映像・音声・字幕の全てを暗号化"
+"するかしないかのどちらかへ設定してください。"
 
 #: src/lib/make_dcp.cc:69
 msgid "Some of your content is missing"
@@ -1677,7 +1653,6 @@ msgid "Some of your content needs an OV"
 msgstr "コンテンツの一部にはOVが必要です"
 
 #: src/lib/hints.cc:781
-#, c++-format
 msgid ""
 "Some of your video content contains an alpha channel, and {} cannot be "
 "certain how to process it.  Check that your video looks correct in the "
@@ -1699,11 +1674,11 @@ msgstr "スレテオカード・立体写真（STR）"
 
 #: src/lib/upmixer_a.cc:51
 msgid "Stereo to 5.1 up-mixer A"
-msgstr ""
+msgstr "ステレオから5.1ch アップミキサーA"
 
 #: src/lib/upmixer_b.cc:47
 msgid "Stereo to 5.1 up-mixer B"
-msgstr ""
+msgstr "ステレオから5.1ch アップミキサーB"
 
 #: src/lib/job.cc:589
 msgid "Sunday"
@@ -1733,19 +1708,17 @@ msgstr "テキスト字幕"
 
 #: src/lib/make_dcp.cc:56
 msgid "The DCP is empty, perhaps because all the content has zero length."
-msgstr ""
+msgstr "DCPの中身が空です。コンテンツ全ての長さが0の為と思われます。"
 
 #: src/lib/exceptions.cc:92
 msgid "The certificate chain for signing is invalid"
 msgstr "署名用の証明書チェーンが無効です"
 
 #: src/lib/exceptions.cc:99
-#, c++-format
 msgid "The certificate chain for signing is invalid ({})"
 msgstr "署名用の証明書チェーンが無効です ({})"
 
 #: src/lib/hints.cc:744
-#, c++-format
 msgid ""
 "The certificate chain that {} uses for signing DCPs and KDMs contains a "
 "small error which will prevent DCPs from being validated correctly on some "
@@ -1759,7 +1732,6 @@ msgstr ""
 "明書チェーンを再作成することをお勧めします。"
 
 #: src/lib/hints.cc:752
-#, c++-format
 msgid ""
 "The certificate chain that {} uses for signing DCPs and KDMs has a validity "
 "period that is too long.  This will cause problems playing back DCPs on some "
@@ -1773,7 +1745,6 @@ msgstr ""
 "名証明書チェーンを再作成することをお勧めします。"
 
 #: src/lib/video_decoder.cc:69
-#, c++-format
 msgid ""
 "The content file {} is set as 3D but does not appear to contain 3D images.  "
 "Please set it to 2D.  You can still make a 3D DCP from this content by "
@@ -1792,24 +1763,20 @@ msgstr ""
 "てからもう一度お試しください。"
 
 #: src/lib/playlist.cc:244
-#, c++-format
 msgid "The file {} has been moved {} milliseconds earlier."
-msgstr ""
+msgstr "{}は{}ms前に移動されました。"
 
 #: src/lib/playlist.cc:239
-#, c++-format
 msgid "The file {} has been moved {} milliseconds later."
-msgstr ""
+msgstr "{}は{}ms後に移動されました。"
 
 #: src/lib/playlist.cc:264
-#, c++-format
 msgid "The file {} has been trimmed by {} milliseconds less."
-msgstr ""
+msgstr "{}は{}ms短縮されました。"
 
 #: src/lib/playlist.cc:259
-#, c++-format
 msgid "The file {} has been trimmed by {} milliseconds more."
-msgstr ""
+msgstr "{}はさらにに{}ms短縮されました。"
 
 #: src/lib/hints.cc:267
 #, fuzzy
@@ -1859,18 +1826,17 @@ msgstr ""
 "メモリが不足しています。32ビットオペレーティングシステムを使用している場合、"
 "環境設定の「一般」タブでエンコードスレッドの数を減らしてみてください。"
 
-#: src/lib/util.cc:981
-#, c++-format
+#: src/lib/util.cc:987
 msgid "This KDM was made for {} but not for its leaf certificate."
 msgstr ""
+"このKDMは{}のために作成されたものです。リーフ証明書のために作成されたものでは"
+"ありません。"
 
-#: src/lib/util.cc:979
-#, c++-format
+#: src/lib/util.cc:985
 msgid "This KDM was not made for {}'s decryption certificate."
-msgstr "このKDMは{}の復号証明書のために作成されたものではありません。"
+msgstr "このKDMは{}の復号のために作成された証明書ではありません。"
 
 #: src/lib/job.cc:141
-#, c++-format
 msgid ""
 "This error has probably occurred because you are running the 32-bit version "
 "of {} and trying to use too many encoding threads.  Please reduce the "
@@ -1882,32 +1848,38 @@ msgstr ""
 "を減らして、もう一度お試しください。"
 
 #: src/lib/job.cc:155
-#, c++-format
 msgid ""
 "This error has probably occurred because you are running the 32-bit version "
 "of {}.  Please re-install {} with the 64-bit installer and try again."
 msgstr ""
+"このエラーは32ビット版の{}を使用していることが原因と思われます。64ビット版イ"
+"ンストーラを使用して{}を再インストールしてから再度お試しください。"
 
 #: src/lib/exceptions.cc:113
 msgid ""
 "This file is a KDM.  KDMs should be added to DCP content by right-clicking "
 "the content and choosing \"Add KDM\"."
 msgstr ""
+"このファイルはKDMです。KDMをDCPコンテンツに追加するにはコンテンツを右クリック"
+"して「KDMを追加」を選択してください。"
 
 #: src/lib/film.cc:556
-#, c++-format
 msgid ""
 "This film was created with a newer version of {}, and it cannot be loaded "
 "into this version.  Sorry!"
 msgstr ""
+"この動画は{}の新しいバージョンで作成された為、このバージョンでは読み込むこと"
+"ができません。"
 
 #: src/lib/film.cc:537
-#, c++-format
 msgid ""
 "This film was created with an older version of {}, and unfortunately it "
 "cannot be loaded into this version.  You will need to create a new Film, re-"
 "add your content and set it up again.  Sorry!"
 msgstr ""
+"このプロジェクトは旧バージョンの{}で作成された為、このバージョンでは読み込む"
+"ことができません。新しいプロジェクトを作成しコンテンツを追加して再度設定する"
+"必要があります。"
 
 #: src/lib/job.cc:597
 msgid "Thursday"
@@ -1918,17 +1890,17 @@ msgid "Timed text"
 msgstr "タイムドテキスト"
 
 #: src/lib/job.cc:274
+#, fuzzy
 msgid "Too many open files"
-msgstr ""
+msgstr "開いているファイルが多すぎます"
 
 #: src/lib/dcp_content_type.cc:56
 msgid "Trailer"
 msgstr "予告（TLR）"
 
 #: src/lib/transcode_job.cc:74
-#, c++-format
 msgid "Transcoding {}"
-msgstr ""
+msgstr "トランスコーディング {}"
 
 #: src/lib/dcp_content_type.cc:58
 msgid "Transitional"
@@ -1959,14 +1931,14 @@ msgstr "不明"
 msgid "Unknown error"
 msgstr "不明なエラー"
 
-#: src/lib/ffmpeg_decoder.cc:384
-#, c++-format
+#: src/lib/ffmpeg_decoder.cc:377
 msgid "Unrecognised audio sample format ({})"
-msgstr ""
+msgstr "認識されていない音声サンプル形式 （{}）"
 
 #: src/lib/filter.cc:102
+#, fuzzy
 msgid "Unsharp mask and Gaussian blur"
-msgstr ""
+msgstr "アンシャープマスクとガウスぼかし"
 
 #: src/lib/ffmpeg_content.cc:548 src/lib/ffmpeg_content.cc:572
 #: src/lib/ffmpeg_content.cc:590 src/lib/ffmpeg_content.cc:592
@@ -1980,7 +1952,7 @@ msgstr "未指定"
 msgid "Untitled"
 msgstr "未使用"
 
-#: src/lib/util.cc:596 src/lib/util.cc:597
+#: src/lib/util.cc:602 src/lib/util.cc:603
 msgid "Unused"
 msgstr "未使用"
 
@@ -1992,7 +1964,7 @@ msgstr "Upmix L"
 msgid "Upmix R"
 msgstr "Upmix R"
 
-#: src/lib/audio_processor.cc:143 src/lib/util.cc:620
+#: src/lib/audio_processor.cc:143 src/lib/util.cc:626
 msgid "VI"
 msgstr "VI"
 
@@ -2009,11 +1981,10 @@ msgid "Vertical flip"
 msgstr "垂直反転"
 
 #: src/lib/fcpxml.cc:69
-#, c++-format
 msgid "Video refers to missing asset {}"
 msgstr ""
 
-#: src/lib/util.cc:589
+#: src/lib/util.cc:595
 msgid "Visually impaired"
 msgstr "視覚障害者"
 
@@ -2022,8 +1993,9 @@ msgid "Waiting"
 msgstr "しばらくお待ちください"
 
 #: src/lib/filter.cc:100
+#, fuzzy
 msgid "Weave filter"
-msgstr ""
+msgstr "ウィーブフィルター"
 
 #: src/lib/job.cc:595
 msgid "Wednesday"
@@ -2046,20 +2018,24 @@ msgid "Yet Another Deinterlacing Filter"
 msgstr ""
 
 #: src/lib/hints.cc:208
-#, c++-format
 msgid ""
 "You are set up for a DCP at a frame rate of {} fps.  This frame rate is not "
 "supported by all projectors.  It is advisable to change the DCP frame rate "
 "to {} fps."
 msgstr ""
+"DCPのフレームレート設定は{}fpsになっています。このフレームレートはすべてのプ"
+"ロジェクターで対応している訳ではりません。DCPのフレームレートを{} fpsに変更す"
+"ることをお勧めします。"
 
 #: src/lib/hints.cc:192
-#, c++-format
 msgid ""
 "You are set up for a DCP at a frame rate of {} fps.  This frame rate is not "
 "supported by all projectors.  You may want to consider changing your frame "
 "rate to {} fps."
 msgstr ""
+"DCPのフレームレート設定は{}fpsになっています。このフレームレートはすべてのプ"
+"ロジェクターで対応している訳ではりません。DCPのフレームレートを{} fpsに変更す"
+"ることをお勧めします。"
 
 #: src/lib/hints.cc:202
 msgid ""
@@ -2075,9 +2051,10 @@ msgid ""
 "You are using 3D content but your DCP is set to 2D.  Set the DCP to 3D if "
 "you want to play it back on a 3D system (e.g. Real-D, MasterImage etc.)"
 msgstr ""
+"3Dコンテンツを使用していますがDCP設定が2Dになっています。RealD・MasterImageな"
+"どの3Dシステムで再生する場合はDCP設定を3Dに設定してください。"
 
 #: src/lib/hints.cc:125
-#, c++-format
 msgid ""
 "You are using {}'s stereo-to-5.1 upmixer.  This is experimental and may "
 "result in poor-quality audio.  If you continue, you should listen to the "
@@ -2087,7 +2064,7 @@ msgstr ""
 "的な機能であり音質が低下する可能性があります。続行する場合、生成されたDCPを映"
 "画館で試聴して音質が良好であることを確認してください。"
 
-#: src/lib/film.cc:1794
+#: src/lib/film.cc:1792
 #, fuzzy
 msgid ""
 "You have more than one piece of Atmos content, and they do not have the same "
@@ -2114,7 +2091,7 @@ msgstr ""
 "高くなります。"
 
 #: src/lib/hints.cc:306
-#, fuzzy, c++-format
+#, fuzzy
 msgid ""
 "You have {} files that look like they are VOB files from DVD. You should "
 "join them to ensure smooth joins between the files."
@@ -2127,7 +2104,6 @@ msgid "You must add some content to the DCP before creating it"
 msgstr "DCPを作成する前にコンテンツを追加する必要があります"
 
 #: src/lib/hints.cc:110
-#, c++-format
 msgid ""
 "Your DCP has fewer than 6 audio channels.  This may cause problems on some "
 "projectors.  You may want to set the DCP to have 6 channels.  It does not "
@@ -2139,7 +2115,6 @@ msgstr ""
 "音声チャンネル数は6未満でも問題ありませんが{}は余分な部分を無音で埋めます。"
 
 #: src/lib/hints.cc:770
-#, c++-format
 msgid ""
 "Your DCP has {} audio channels, rather than 8 or 16.  This may cause some "
 "distributors to raise QC errors when they check your DCP.  To avoid this, "
@@ -2159,7 +2134,6 @@ msgstr ""
 "てください。"
 
 #: src/lib/hints.cc:356
-#, c++-format
 msgid ""
 "Your audio level is very high (on {}).  You should reduce the gain of your "
 "audio content."
@@ -2198,7 +2172,7 @@ msgstr ""
 #. TRANSLATORS: _reel{} here is to be added to an export filename to indicate
 #. which reel it is.  Preserve the {}; it will be replaced with the reel number.
 #: src/lib/ffmpeg_film_encoder.cc:151
-#, fuzzy, c++-format
+#, fuzzy
 msgid "_reel{}"
 msgstr "_リール{}"
 
@@ -2222,7 +2196,6 @@ msgid "content type"
 msgstr "コンテンツ種類"
 
 #: src/lib/uploader.cc:79
-#, c++-format
 msgid "copying {}"
 msgstr ""
 
@@ -2231,57 +2204,47 @@ msgid "could not find stream information"
 msgstr "ストリーム情報が見つかりませんでした"
 
 #: src/lib/reel_writer.cc:408
-#, c++-format
+#, fuzzy
 msgid "could not move atmos asset into the DCP ({})"
-msgstr ""
+msgstr "atmosアセットをDCPに移動できませんでした （{}）"
 
 #: src/lib/reel_writer.cc:391
-#, c++-format
 msgid "could not move audio asset into the DCP ({})"
-msgstr ""
+msgstr "音声AssetをDCPに移動できませんでした（{}）"
 
 #: src/lib/exceptions.cc:38
-#, c++-format
 msgid "could not open file {} for read ({})"
-msgstr ""
+msgstr "{} を読込み用に開けませんでした （{}）"
 
 #: src/lib/exceptions.cc:37
-#, c++-format
 msgid "could not open file {} for read/write ({})"
-msgstr ""
+msgstr "{} を読書き用に開けませんでした （{}）"
 
 #: src/lib/exceptions.cc:38
-#, c++-format
 msgid "could not open file {} for write ({})"
-msgstr ""
+msgstr "{} を書込み用に開けませんでした （{}）"
 
 #: src/lib/exceptions.cc:57
-#, c++-format
 msgid "could not read from file {} ({})"
 msgstr "ファイル {} ({}) から読み取れませんでした"
 
 #: src/lib/exceptions.cc:64
-#, c++-format
 msgid "could not write to file {} ({})"
-msgstr ""
+msgstr "{} への書き込みができませんでした （{}）"
 
 #: src/lib/dcpomatic_socket.cc:108
-#, c++-format
 msgid "error during async_connect ({})"
 msgstr ""
 
 #: src/lib/dcpomatic_socket.cc:78
-#, c++-format
 msgid "error during async_connect: ({})"
 msgstr ""
 
 #: src/lib/dcpomatic_socket.cc:200
-#, c++-format
 msgid "error during async_read ({})"
 msgstr ""
 
 #: src/lib/dcpomatic_socket.cc:159
-#, c++-format
 msgid "error during async_write ({})"
 msgstr ""
 
@@ -2296,21 +2259,25 @@ msgstr "h"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:717
+#, fuzzy
 msgid "it has a different frame rate to the film."
-msgstr ""
+msgstr "filmとはフレームレートが異なります。"
 
 #: src/lib/dcp_content.cc:799
-#, c++-format
 msgid ""
 "it has a different number of audio channels than the project; set the "
 "project to have {} channels."
 msgstr ""
+"プロジェクトとは異なる数の音声チャンネルが設定されています。プロジェクトの"
+"チャンネル数を{}に設定してください。"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:835
 msgid ""
 "it has a start trim so its subtitles or closed captions must be re-written."
 msgstr ""
+"冒頭部分がカットされている為、字幕またはクローズドキャプションを書き直す必要"
+"があります。"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:770
@@ -2359,7 +2326,7 @@ msgstr ""
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:775
 msgid "its video frame size differs from the film's."
-msgstr ""
+msgstr "その動画フレームサイズは動画本体のサイズと異なります。"
 
 #. TRANSLATORS: m here is an abbreviation for minutes
 #: src/lib/util.cc:220
@@ -2415,37 +2382,33 @@ msgid "video frames"
 msgstr "動画フレーム"
 
 #: src/lib/cross_common.cc:106
-#, c++-format
 msgid "{} ({} GB) [{}]"
 msgstr "{} ({} GB) [{}]"
 
 #: src/lib/atmos_mxf_content.cc:95
-#, c++-format
 msgid "{} [Atmos]"
 msgstr "{} [Atmos]"
 
 #: src/lib/dcp_content.cc:381
-#, c++-format
 msgid "{} [DCP]"
 msgstr "{} [DCP]"
 
 #: src/lib/ffmpeg_content.cc:345
-#, fuzzy, c++-format
+#, fuzzy
 msgid "{} [audio]"
 msgstr "{} [音声]"
 
 #: src/lib/ffmpeg_content.cc:341
-#, fuzzy, c++-format
+#, fuzzy
 msgid "{} [movie]"
 msgstr "{} [ムービー]"
 
 #: src/lib/ffmpeg_content.cc:343 src/lib/video_mxf_content.cc:105
-#, fuzzy, c++-format
+#, fuzzy
 msgid "{} [video]"
 msgstr "{} [ビデオ]"
 
 #: src/lib/job.cc:180 src/lib/job.cc:195
-#, c++-format
 msgid ""
 "{} could not open the file {} ({}).  Perhaps it does not exist or is in an "
 "unexpected format."
@@ -2453,8 +2416,8 @@ msgstr ""
 "{} はファイル {} ({}) を開けませんでした。ファイルが存在しないか、予期しない"
 "形式の可能性があります。"
 
-#: src/lib/film.cc:1831
-#, fuzzy, c++-format
+#: src/lib/film.cc:1829
+#, fuzzy
 msgid ""
 "{} had to change your settings for referring to DCPs as OV.  Please review "
 "those settings to make sure they are what you want."
@@ -2462,8 +2425,8 @@ msgstr ""
 "{} は DCP を OV として参照するために設定を変更する必要がありました。設定を確"
 "認し、正しいことを確認してください。"
 
-#: src/lib/film.cc:1797
-#, fuzzy, c++-format
+#: src/lib/film.cc:1795
+#, fuzzy
 msgid ""
 "{} had to change your settings so that the film's frame rate is the same as "
 "that of your Atmos content."
@@ -2471,8 +2434,8 @@ msgstr ""
 "{} は、映画のフレームレートが Atmos コンテンツのフレームレートと同じになるよ"
 "うに設定を変更する必要がありました。"
 
-#: src/lib/film.cc:1844
-#, fuzzy, c++-format
+#: src/lib/film.cc:1842
+#, fuzzy
 msgid ""
 "{} had to remove one of your custom reel boundaries as it no longer lies "
 "within the film."
@@ -2480,8 +2443,8 @@ msgstr ""
 "{} は、カスタム リール境界の 1 つがフィルム内に収まらなくなったため、削除する"
 "必要がありました。"
 
-#: src/lib/film.cc:1842
-#, fuzzy, c++-format
+#: src/lib/film.cc:1840
+#, fuzzy
 msgid ""
 "{} had to remove some of your custom reel boundaries as they no longer lie "
 "within the film."
@@ -2490,16 +2453,14 @@ msgstr ""
 "それらを削除する必要がありました。"
 
 #: src/lib/ffmpeg_content.cc:114
-#, fuzzy, c++-format
+#, fuzzy
 msgid "{} no longer supports the `{}' filter, so it has been turned off."
 msgstr "{} は `{}' フィルターをサポートしなくなったため、オフになりました。"
 
-#: src/lib/config.cc:432 src/lib/config.cc:1245
-#, c++-format
+#: src/lib/config.cc:431 src/lib/config.cc:1241
 msgid "{} notification"
 msgstr "{} 通知"
 
 #: src/lib/transcode_job.cc:181
-#, c++-format
 msgid "{}; {}/{} frames"
 msgstr "{}; {}/{} フレーム"

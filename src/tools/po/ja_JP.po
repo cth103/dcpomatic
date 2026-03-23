@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-14 23:48+0100\n"
-"PO-Revision-Date: 2026-03-19 21:09+0900\n"
+"POT-Creation-Date: 2026-02-15 21:03+0100\n"
+"PO-Revision-Date: 2026-03-23 22:51+0900\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ja_JP\n"
@@ -19,14 +19,14 @@ msgstr ""
 "X-Generator: Poedit 3.8\n"
 
 #: src/tools/dcpomatic_kdm.cc:491
-#, fuzzy, c-format
+#, c-format
 msgid "%d KDM written to %s"
-msgstr "%d KDM が %s に書き込まれました"
+msgstr "%dつのKDMを %s に書込みしました"
 
 #: src/tools/dcpomatic_kdm.cc:491
-#, fuzzy, c-format
+#, c-format
 msgid "%d KDMs written to %s"
-msgstr "%d KDM が %s に書き込まれました"
+msgstr "%dつのKDMを %s に書込みしました"
 
 #: src/tools/dcpomatic_combiner.cc:177
 #, fuzzy, c-format
@@ -435,12 +435,11 @@ msgid "Could not load a DCP from %s"
 msgstr "%s から DCP を読み込めませんでした"
 
 #: src/tools/dcpomatic_batch.cc:495
-#, c++-format
 msgid "Could not load film {}"
 msgstr "プロジェクトを読み込めませんでした  {}"
 
 #: src/tools/dcpomatic.cc:1751
-#, fuzzy, c++-format
+#, fuzzy
 msgid "Could not load film {} ({})"
 msgstr "プロジェクトを読み込めませんでした  {}({})"
 
@@ -1056,8 +1055,8 @@ msgid ""
 "The DCP for this film will take up about %.1f GB, and the disk that you are "
 "using only has %.1f GB available.  Do you want to continue anyway?"
 msgstr ""
-"この映画のDCPは約%.1f GBを占有しますが現在使用しているディスクの空き容量"
-"は%.1f GBしかありません。続行しますか？"
+"このプロジェクトのDCPは約%.1f GBを占有しますが現在使用しているディスクの空き"
+"容量は%.1f GBしかありません。続行しますか？"
 
 #: src/tools/dcpomatic_batch.cc:248
 #, c-format
@@ -1066,9 +1065,9 @@ msgid ""
 "%.1f GB.  The disks that you are using only have %.1f GB available.  Do you "
 "want to add this film to the queue anyway?"
 msgstr ""
-"この映画と既にキューに入っている映画のDCPは約%.1f GBを消費します。現在使用し"
-"ているディスクの空き容量は%.1f GBしかありません。それでもこの映画をキューに追"
-"加しますか？"
+"このプロジェクトと既にキューに入っているプロジェクトのDCPは約%.1f GBを消費し"
+"ます。現在使用しているディスクの空き容量は%.1f GBしかありません。それでもこの"
+"映画をキューに追加しますか？"
 
 #: src/tools/dcpomatic_player.cc:378
 msgid "The KDM does not allow playback of this content at this time."
@@ -1172,7 +1171,7 @@ msgstr ""
 "DCP および KDM の署名に使用する証明書チェーンを再作成しますか？"
 
 #: src/tools/dcpomatic_combiner.cc:167
-#, fuzzy, c++-format
+#, fuzzy
 msgid ""
 "The directory {} already exists and is not empty.  Are you sure you want to "
 "use it?"
@@ -1216,8 +1215,9 @@ msgid ""
 "This film was created with an old version of DVD-o-matic and may not load "
 "correctly in this version.  Please check the film's settings carefully."
 msgstr ""
-"この映画は古いバージョンのDCD-o-maticで作成されたため、現在のバージョンでは正"
-"しく読み込まれない可能性があります。プロジェクトの設定をよくご確認ください。"
+"このプロジェクトは古いバージョンのDCD-o-maticで作成されたため、現在のバージョ"
+"ンでは正しく読み込まれない可能性があります。プロジェクトの設定をよくご確認く"
+"ださい。"
 
 #: src/tools/dcpomatic_player.cc:458
 #, fuzzy, c-format
@@ -1326,13 +1326,15 @@ msgid ""
 "you <span weight=\"bold\" size=\"larger\">BACK UP THIS FILE</span> since if "
 "it is lost your DKDMs (and the DCPs they protect) will become useless."
 msgstr ""
-"作成中のDKDMは、\n"
+"作成中しようとしているDKDMは次の場所に保管されている秘密鍵で暗号化されていま"
+"す。\n"
 "\n"
-"<tt>%s</tt> に保管されている秘密鍵で暗号化されています。\n"
+"<tt>%s</tt> \n"
 "\n"
-"このファイルを紛失すると、DKDM（およびそれによって保護されているDCP）が使用で"
-"きなくなるため、<span weight=\"bold\" size=\"larger\">このファイルのバック"
-"アップ</span>は<span weight=\"bold\" size=\"larger\">極めて重要</span>です。"
+"このファイルを紛失するとDKDM（およびそれによって保護されているDCP）が使用でき"
+"なくなります。\n"
+"<span weight=\"bold\" size=\"larger\">このファイルのバックアップ</span>は"
+"<span weight=\"bold\" size=\"larger\">極めて重要</span>です。"
 
 #: src/tools/dcpomatic.cc:853
 msgid ""
@@ -1343,12 +1345,12 @@ msgid ""
 "You should ensure that these files are <span weight=\"bold\" "
 "size=\"larger\">BACKED UP</span> if you want to make KDMs for this film."
 msgstr ""
-"暗号化されたDCPを作成しています。映画内の<tt>metadata.xml</tt>ファイルとDCP内"
-"のメタデータファイルのコピーがなければ、このDCPのKDMを作成することはできませ"
-"ん。\n"
+"暗号化されたDCPを作成しようとしています。プロジェクト内の<tt>metadata.xml</"
+"tt>ファイルとDCP内のメタデータファイルのコピーがなければ、のDCPのKDMを作成す"
+"ることはできません。\n"
 "\n"
-"この映画のKDMを作成する場合は、これらのファイルを<span weight=\"bold\" "
-"size=\"larger\">バックアップ</span>しておく必要があります。"
+"このプロジェクトのKDMを作成する場合は、これらのファイルを<span "
+"weight=\"bold\" size=\"larger\">バックアップ</span>しておく必要があります。"
 
 #: src/tools/dcpomatic.cc:1733
 #, c-format
