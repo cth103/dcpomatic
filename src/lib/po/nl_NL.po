@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-03-22 22:52+0100\n"
-"PO-Revision-Date: 2026-01-05 22:35+0100\n"
+"PO-Revision-Date: 2026-03-23 13:14+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -202,7 +202,7 @@ msgid "; {} remaining; finishing at {}{}"
 msgstr "; {} resterend; klaar om {}{}"
 
 #: src/lib/analytics.cc:58
-#, fuzzy, c++-format
+#, c++-format
 msgid ""
 "<h2>You have made {} DCPs with {}!</h2><img width=\"150\" height=\"193\" "
 "src=\"memory:me.jpg\" align=\"center\"><font size=\"+1\"><p>Hello. I'm Carl "
@@ -211,12 +211,12 @@ msgid ""
 "software.<p>If you find {} useful, please consider a donation to the "
 "project. Financial support will help me to spend more time developing {} and "
 "making it better!<p><ul><li><a href=\"https://dcpomatic.com/donate_amount?"
-"amount=40\">Go to Paypal to donate €40</a><li><a href=\"https://"
-"dcpomatic.com/donate_amount?amount=20\">Go to Paypal to donate €20</a><li><a "
+"amount=40\">Go to Paypal to donate €40</a><li><a href=\"https://dcpomatic."
+"com/donate_amount?amount=20\">Go to Paypal to donate €20</a><li><a "
 "href=\"https://dcpomatic.com/donate_amount?amount=10\">Go to Paypal to "
 "donate €10</a></ul><p>Thank you!</font>"
 msgstr ""
-"<h2>U heeft {} DCP's gemaakt met {}!</h2><img width=\"20%%\" "
+"<h2>U heeft {} DCP's gemaakt met {}!</h2><img width=\"150\" height=\"193\" "
 "src=\"memory:me.jpg\" align=\"center\"><font size=\"+1\"><p>Hallo.  Ik ben "
 "Carl en ik ben de ontwikkelaar van {}.  Ik werk eraan in mijn vrije tijd "
 "(met de hulp van een vrijwilligersteam van testers en vertalers) en ik geef "
@@ -1910,9 +1910,9 @@ msgid ""
 "again."
 msgstr ""
 "Deze fout is waarschijnlijk opgetreden omdat u de 32-bits versie van {} "
-"gebruikt en probeert te veel encoderings-threads te gebruiken.  Verminder "
-"a.u.b. het 'Aantal threads dat {} moet gebruiken' in het \"Algemeen\"-"
-"tabblad bij Voorkeuren en probeer het opnieuw."
+"gebruikt en probeert te veel encoderings-threads te gebruiken.  Verminder a."
+"u.b. het 'Aantal threads dat {} moet gebruiken' in het \"Algemeen\"-tabblad "
+"bij Voorkeuren en probeer het opnieuw."
 
 #: src/lib/job.cc:155
 #, c++-format
@@ -2367,7 +2367,7 @@ msgstr ""
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:770
 msgid "it is 2K and the film is 4K."
-msgstr "hij is 2K en de film is 4k."
+msgstr "hij is 2K en de film is 4K."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:767
@@ -2428,13 +2428,12 @@ msgstr "naam"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:829
-#, fuzzy
 msgid ""
 "one of its closed caption reels has a non-zero entry point so it must be re-"
 "written."
 msgstr ""
-"één van zijn closed captions heeft een entry point dat niet nul is, dus die "
-"moet opnieuw geschreven worden."
+"één van zijn closed caption reels heeft een entry point dat niet nul is, dus "
+"die moet opnieuw geschreven worden."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:823
