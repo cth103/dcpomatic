@@ -1587,10 +1587,10 @@ msgstr "Vsaj ena sličica video vsebine %f je blizu omejitve 250 MBit/s."
 #, c-format
 msgid ""
 "Frame %frame has an image component that is too large (component %component "
-"is %size bytes in size)."
+"is %size_in_bytes bytes in size)."
 msgstr ""
 "Okvir %frame ima slikovno komponento, ki je prevelika (komponenta %component "
-"je velika %size bajtov)."
+"je velika %size_in_bytes bajtov)."
 
 #: src/wx/dcp_panel.cc:868
 msgid "Frame Rate"

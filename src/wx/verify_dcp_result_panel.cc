@@ -205,8 +205,8 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 		if (auto const component = note.component()) {
 			message.Replace(char_to_wx("%component"), std_to_wx(fmt::to_string(*component)));
 		}
-		if (auto const size = note.size()) {
-			message.Replace(char_to_wx("%size"), std_to_wx(fmt::to_string(*size)));
+		if (auto const size_in_bytes = note.size_in_bytes()) {
+			message.Replace(char_to_wx("%size_in_bytes"), std_to_wx(fmt::to_string(*size_in_bytes)));
 		}
 		if (auto const load_font_id = note.load_font_id()) {
 			message.Replace(char_to_wx("%load_font_id"), std_to_wx(*load_font_id));
@@ -657,7 +657,7 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 		case dcp::VerificationNote::Code::INVALID_JPEG2000_TILE_PART_SIZE:
 			add(
 				i.second,
-				_("Frame %frame has an image component that is too large (component %component is %size bytes in size)."),
+				_("Frame %frame has an image component that is too large (component %component is %size_in_bytes bytes in size)."),
 				_("More frames (not listed) have image components that are too large.")
 			);
 			break;

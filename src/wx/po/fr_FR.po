@@ -1587,10 +1587,10 @@ msgstr ""
 #, c-format
 msgid ""
 "Frame %frame has an image component that is too large (component %component "
-"is %size bytes in size)."
+"is %size_in_bytes bytes in size)."
 msgstr ""
 "L'image %frame a une composante d'image trop grande (la composante "
-"%component a une taille de %size bytes)."
+"%component a une taille de %size_in_bytes bytes)."
 
 #: src/wx/dcp_panel.cc:868
 msgid "Frame Rate"

@@ -1577,7 +1577,7 @@ msgstr ""
 #, c-format
 msgid ""
 "Frame %frame has an image component that is too large (component %component "
-"is %size bytes in size)."
+"is %size_in_bytes bytes in size)."
 msgstr "اجزا تصویری فریم %f بسیار بزرگ است(اندازه جز%c برابر %s بایت است)."
 
 #: src/wx/dcp_panel.cc:868
