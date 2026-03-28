@@ -3702,12 +3702,12 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:305
 #, c-format
-msgid "The XML in %f is malformed (%n)."
-msgstr "Plik XML w %f zawiera błędy (%n)."
+msgid "The XML in %f is malformed (%error)."
+msgstr "Plik XML w %f zawiera błędy (%error)."
 
 #: src/wx/verify_dcp_result_panel.cc:303
-msgid "The XML in %f is malformed on line %l (%n)."
-msgstr "Plik XML w %f zawiera błędy w linii %l (%n)."
+msgid "The XML in %f is malformed on line %l (%error)."
+msgstr "Plik XML w %f zawiera błędy w linii %l (%error)."
 
 #: src/wx/verify_dcp_result_panel.cc:357
 #, c-format

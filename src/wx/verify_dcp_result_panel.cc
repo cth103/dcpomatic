@@ -303,9 +303,9 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 		case dcp::VerificationNote::Code::INVALID_XML:
 			for (auto const& note: i.second) {
 				if (note.line()) {
-					add({ note }, _("The XML in %f is malformed on line %l (%n)."));
+					add({ note }, _("The XML in %f is malformed on line %l (%error)."));
 				} else {
-					add({ note }, _("The XML in %f is malformed (%n)."));
+					add({ note }, _("The XML in %f is malformed (%error)."));
 				}
 			}
 			break;

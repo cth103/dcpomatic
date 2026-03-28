@@ -3629,12 +3629,12 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:305
 #, c-format
-msgid "The XML in %f is malformed (%n)."
-msgstr "%f의 XML 형식이 잘못되었습니다 (%n)."
+msgid "The XML in %f is malformed (%error)."
+msgstr "%f의 XML 형식이 잘못되었습니다 (%error)."
 
 #: src/wx/verify_dcp_result_panel.cc:303
-msgid "The XML in %f is malformed on line %l (%n)."
-msgstr "%f의 XML 형식이 %l번째 줄에서 잘못되었습니다 (%n)."
+msgid "The XML in %f is malformed on line %l (%error)."
+msgstr "%f의 XML 형식이 %l번째 줄에서 잘못되었습니다 (%error)."
 
 #: src/wx/verify_dcp_result_panel.cc:357
 #, c-format

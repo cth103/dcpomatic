@@ -3608,12 +3608,12 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:296
 #, c-format
-msgid "The XML in %f is malformed (%n)."
-msgstr "%f の XML は不正な形式です （%n）。"
+msgid "The XML in %f is malformed (%error)."
+msgstr "%f の XML は不正な形式です （%error）。"
 
 #: src/wx/verify_dcp_result_panel.cc:294
-msgid "The XML in %f is malformed on line %l (%n)."
-msgstr "XML %f の %l 行目は不正な形式です（%n）。"
+msgid "The XML in %f is malformed on line %l (%error)."
+msgstr "XML %f の %l 行目は不正な形式です（%error）。"
 
 #: src/wx/verify_dcp_result_panel.cc:348
 #, c-format

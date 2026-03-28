@@ -3658,11 +3658,11 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:305
 #, c-format
-msgid "The XML in %f is malformed (%n)."
+msgid "The XML in %f is malformed (%error)."
 msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:303
-msgid "The XML in %f is malformed on line %l (%n)."
+msgid "The XML in %f is malformed on line %l (%error)."
 msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:357

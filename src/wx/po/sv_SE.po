@@ -3688,12 +3688,12 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:305
 #, c-format
-msgid "The XML in %f is malformed (%n)."
-msgstr "XML-koden i %f är felaktig (%n)."
+msgid "The XML in %f is malformed (%error)."
+msgstr "XML-koden i %f är felaktig (%error)."
 
 #: src/wx/verify_dcp_result_panel.cc:303
-msgid "The XML in %f is malformed on line %l (%n)."
-msgstr "XML-koden i %f är felaktig på rad %l (%n)"
+msgid "The XML in %f is malformed on line %l (%error)."
+msgstr "XML-koden i %f är felaktig på rad %l (%error)"
 
 #: src/wx/verify_dcp_result_panel.cc:357
 #, c-format

@@ -3602,12 +3602,12 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:305
 #, c-format
-msgid "The XML in %f is malformed (%n)."
-msgstr "De XML in %f is onjuist (%n)."
+msgid "The XML in %f is malformed (%error)."
+msgstr "De XML in %f is onjuist (%error)."
 
 #: src/wx/verify_dcp_result_panel.cc:303
-msgid "The XML in %f is malformed on line %l (%n)."
-msgstr "De XML in %f is onjuist op regel %l (%n)."
+msgid "The XML in %f is malformed on line %l (%error)."
+msgstr "De XML in %f is onjuist op regel %l (%error)."
 
 #: src/wx/verify_dcp_result_panel.cc:357
 #, c-format

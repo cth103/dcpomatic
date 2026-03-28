@@ -3612,12 +3612,12 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:305
 #, c-format
-msgid "The XML in %f is malformed (%n)."
-msgstr "فایل XML در %f نادرست است (%n)."
+msgid "The XML in %f is malformed (%error)."
+msgstr "فایل XML در %f نادرست است (%error)."
 
 #: src/wx/verify_dcp_result_panel.cc:303
-msgid "The XML in %f is malformed on line %l (%n)."
-msgstr "کدهای XML در %f نادرست هستند در خط (%n)%i."
+msgid "The XML in %f is malformed on line %l (%error)."
+msgstr "کدهای XML در %f نادرست هستند در خط (%error)%i."
 
 #: src/wx/verify_dcp_result_panel.cc:357
 #, c-format
