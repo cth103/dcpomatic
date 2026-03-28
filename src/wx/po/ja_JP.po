@@ -3648,9 +3648,9 @@ msgstr "データ%nの有効期間が1秒未満であるため、無効です。
 #: src/wx/verify_dcp_result_panel.cc:304
 #, c-format
 msgid ""
-"The asset %n has an intrinsic duration of less than 1 second, which is "
+"The asset %asset_id has an intrinsic duration of less than 1 second, which is "
 "invalid."
-msgstr "データ%nの固有持続時間は1秒未満であり、これは無効です。"
+msgstr "データ%asset_idの固有持続時間は1秒未満であり、これは無効です。"
 
 #: src/wx/verify_dcp_result_panel.cc:429
 #, c-format

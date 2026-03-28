@@ -3667,9 +3667,9 @@ msgstr "에셋 %n의 재생 시간이 1초 미만이며, 이는 유효하지 않
 #: src/wx/verify_dcp_result_panel.cc:313
 #, c-format
 msgid ""
-"The asset %n has an intrinsic duration of less than 1 second, which is "
+"The asset %asset_id has an intrinsic duration of less than 1 second, which is "
 "invalid."
-msgstr "에셋 %n의 고유 재생 시간이 1초 미만이며, 이는 유효하지 않습니다."
+msgstr "에셋 %asset_id의 고유 재생 시간이 1초 미만이며, 이는 유효하지 않습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:438
 #, c-format

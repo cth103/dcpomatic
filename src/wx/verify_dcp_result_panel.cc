@@ -313,7 +313,7 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 			add(i.second, _("No ASSETMAP or ASSETMAP.xml file was found."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_INTRINSIC_DURATION:
-			add(i.second, _("The asset %n has an intrinsic duration of less than 1 second, which is invalid."));
+			add(i.second, _("The asset %asset_id has an intrinsic duration of less than 1 second, which is invalid."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_DURATION:
 			add(i.second, _("The asset %n has a duration of less than 1 second, which is invalid."));

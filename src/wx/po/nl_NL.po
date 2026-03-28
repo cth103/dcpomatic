@@ -3644,10 +3644,10 @@ msgstr ""
 #: src/wx/verify_dcp_result_panel.cc:313
 #, c-format
 msgid ""
-"The asset %n has an intrinsic duration of less than 1 second, which is "
+"The asset %asset_id has an intrinsic duration of less than 1 second, which is "
 "invalid."
 msgstr ""
-"De asset %n heeft een intrinsic duration van minder dan 1 seconde, wat "
+"De asset %asset_id heeft een intrinsic duration van minder dan 1 seconde, wat "
 "ongeldig is."
 
 #: src/wx/verify_dcp_result_panel.cc:438
