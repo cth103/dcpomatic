@@ -1017,8 +1017,8 @@ msgstr "Kan content niet afspelen"
 
 #: src/wx/verify_dcp_result_panel.cc:271
 #, c-format
-msgid "Could not read DCP (%n)"
-msgstr "Kan DCP niet lezen (%n)"
+msgid "Could not read DCP (%error)"
+msgstr "Kan DCP niet lezen (%error)"
 
 #: src/wx/gl_video_view.cc:131
 #, c-format

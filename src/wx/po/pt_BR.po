@@ -1040,7 +1040,7 @@ msgstr "Não foi possível carregar o KDM."
 
 #: src/wx/verify_dcp_result_panel.cc:271
 #, fuzzy, c-format
-msgid "Could not read DCP (%n)"
+msgid "Could not read DCP (%error)"
 msgstr "Não foi possível carregar o KDM."
 
 #: src/wx/gl_video_view.cc:131

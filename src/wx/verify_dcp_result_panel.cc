@@ -227,6 +227,9 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 				message.Replace(char_to_wx("%frame_rate"), std_to_wx(fmt::to_string(frame_rate->as_float())));
 			}
 		}
+		if (auto const error = note.error()) {
+			message.Replace(char_to_wx("%error"), std_to_wx(*error));
+		}
 		return message;
 	};
 
@@ -268,7 +271,7 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 	for (auto const& i: notes_by_code) {
 		switch (i.first) {
 		case dcp::VerificationNote::Code::FAILED_READ:
-			add(i.second, _("Could not read DCP (%n)"));
+			add(i.second, _("Could not read DCP (%error)"));
 			break;
 		case dcp::VerificationNote::Code::MISMATCHED_CPL_HASHES:
 			add(i.second, _("The hash (%reference_hash) of the CPL %cpl in the PKL does not agree with the CPL file (%calculated_hash).  This probably means that the CPL file is corrupt."));

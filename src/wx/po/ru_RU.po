@@ -1010,8 +1010,8 @@ msgstr "Не удалось воспроизвести содержимое"
 
 #: src/wx/verify_dcp_result_panel.cc:271
 #, c-format
-msgid "Could not read DCP (%n)"
-msgstr "Не удалось прочитать DCP (%n)"
+msgid "Could not read DCP (%error)"
+msgstr "Не удалось прочитать DCP (%error)"
 
 #: src/wx/gl_video_view.cc:131
 #, c-format

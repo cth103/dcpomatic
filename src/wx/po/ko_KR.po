@@ -1022,8 +1022,8 @@ msgstr "콘텐츠를 재생할 수 없습니다"
 
 #: src/wx/verify_dcp_result_panel.cc:271
 #, c-format
-msgid "Could not read DCP (%n)"
-msgstr "DCP를 읽을 수 없습니다 (%n)"
+msgid "Could not read DCP (%error)"
+msgstr "DCP를 읽을 수 없습니다 (%error)"
 
 #: src/wx/gl_video_view.cc:131
 #, c-format

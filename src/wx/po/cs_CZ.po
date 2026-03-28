@@ -1007,8 +1007,8 @@ msgstr "Obsah nelze přehrát"
 
 #: src/wx/verify_dcp_result_panel.cc:271
 #, c-format
-msgid "Could not read DCP (%n)"
-msgstr "Nelze načíst DCP (%n)"
+msgid "Could not read DCP (%error)"
+msgstr "Nelze načíst DCP (%error)"
 
 #: src/wx/gl_video_view.cc:131
 #, c-format

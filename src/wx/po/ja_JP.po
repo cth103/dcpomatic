@@ -1028,8 +1028,8 @@ msgstr "コンテンツを再生できませんでした"
 
 #: src/wx/verify_dcp_result_panel.cc:262
 #, c-format
-msgid "Could not read DCP (%n)"
-msgstr "DCPファイルを読み取れませんでした（%n）"
+msgid "Could not read DCP (%error)"
+msgstr "DCPファイルを読み取れませんでした（%error）"
 
 #: src/wx/gl_video_view.cc:131
 #, c-format

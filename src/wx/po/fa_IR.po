@@ -1008,8 +1008,8 @@ msgstr "محتوا پلی نشد"
 
 #: src/wx/verify_dcp_result_panel.cc:271
 #, c-format
-msgid "Could not read DCP (%n)"
-msgstr "نمیتوان دی سی پی (%n) را خواند"
+msgid "Could not read DCP (%error)"
+msgstr "نمیتوان دی سی پی (%error) را خواند"
 
 #: src/wx/gl_video_view.cc:131
 #, c-format

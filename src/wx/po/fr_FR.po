@@ -1018,8 +1018,8 @@ msgstr "Impossible de lire le contenu"
 
 #: src/wx/verify_dcp_result_panel.cc:271
 #, c-format
-msgid "Could not read DCP (%n)"
-msgstr "Impossible de lire le DCP (%n)"
+msgid "Could not read DCP (%error)"
+msgstr "Impossible de lire le DCP (%error)"
 
 #: src/wx/gl_video_view.cc:131
 #, c-format
