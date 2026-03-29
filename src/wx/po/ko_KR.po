@@ -3872,8 +3872,8 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:345
 #, c-format
-msgid "The video asset %f uses the invalid image size %n."
-msgstr "영상 에셋 %f에 유효하지 않은 이미지 크기 %n이(가) 사용되었습니다."
+msgid "The video asset %f uses the invalid image size %size_in_pixels."
+msgstr "영상 에셋 %f에 유효하지 않은 이미지 크기 %size_in_pixels이(가) 사용되었습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:354
 #, fuzzy

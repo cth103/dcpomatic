@@ -3884,8 +3884,8 @@ msgstr "Видеоресурс %f имеет некорректную часто
 
 #: src/wx/verify_dcp_result_panel.cc:345
 #, c-format
-msgid "The video asset %f uses the invalid image size %n."
-msgstr "Видеоресурс %f имеет некорректный размер изображения %n."
+msgid "The video asset %f uses the invalid image size %size_in_pixels."
+msgstr "Видеоресурс %f имеет некорректный размер изображения %size_in_pixels."
 
 #: src/wx/verify_dcp_result_panel.cc:354
 #, fuzzy

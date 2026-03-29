@@ -3944,8 +3944,8 @@ msgstr "Materiał wideo %f ma nieprawidłową liczbę klatek/s: %frame_rate."
 
 #: src/wx/verify_dcp_result_panel.cc:345
 #, c-format
-msgid "The video asset %f uses the invalid image size %n."
-msgstr "Materiał wideo %f ma nieprawidłową rozdzielczość: %n."
+msgid "The video asset %f uses the invalid image size %size_in_pixels."
+msgstr "Materiał wideo %f ma nieprawidłową rozdzielczość: %size_in_pixels."
 
 #: src/wx/verify_dcp_result_panel.cc:354
 #, fuzzy

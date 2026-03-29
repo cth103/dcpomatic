@@ -230,6 +230,9 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 		if (auto const error = note.error()) {
 			message.Replace(char_to_wx("%error"), std_to_wx(*error));
 		}
+		if (auto const size_in_pixels = note.size_in_pixels()) {
+			message.Replace(char_to_wx("%size_in_pixels"), wxString::Format(char_to_wx("%dx%d"), size_in_pixels->width, size_in_pixels->height));
+		}
 		return message;
 	};
 
@@ -345,7 +348,7 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 			add(i.second, _("The invalid language tag %language is used."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_PICTURE_SIZE_IN_PIXELS:
-			add(i.second, _("The video asset %f uses the invalid image size %n."));
+			add(i.second, _("The video asset %f uses the invalid image size %size_in_pixels."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_PICTURE_FRAME_RATE_FOR_2K:
 			add(i.second, _("The video asset %f uses the invalid frame rate %frame_rate."));

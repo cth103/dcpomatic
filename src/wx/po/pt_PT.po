@@ -3898,7 +3898,7 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:345
 #, c-format
-msgid "The video asset %f uses the invalid image size %n."
+msgid "The video asset %f uses the invalid image size %size_in_pixels."
 msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:354

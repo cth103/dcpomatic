@@ -3854,8 +3854,8 @@ msgstr "فایل ویدیوی %f از نرخ فریم نادرست %frame_rate  
 
 #: src/wx/verify_dcp_result_panel.cc:345
 #, c-format
-msgid "The video asset %f uses the invalid image size %n."
-msgstr "فایل ویدیوی %f از اندازه تصویرنادرست %n  استفاده میکند."
+msgid "The video asset %f uses the invalid image size %size_in_pixels."
+msgstr "فایل ویدیوی %f از اندازه تصویرنادرست %size_in_pixels  استفاده میکند."
 
 #: src/wx/verify_dcp_result_panel.cc:354
 #, fuzzy

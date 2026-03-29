@@ -3857,8 +3857,8 @@ msgstr "De video asset %f heeft een ongeldige frame rate van %frame_rate."
 
 #: src/wx/verify_dcp_result_panel.cc:345
 #, c-format
-msgid "The video asset %f uses the invalid image size %n."
-msgstr "De video asset %f gebruikt de ongeldige beeldgrootte %n."
+msgid "The video asset %f uses the invalid image size %size_in_pixels."
+msgstr "De video asset %f gebruikt de ongeldige beeldgrootte %size_in_pixels."
 
 #: src/wx/verify_dcp_result_panel.cc:354
 msgid "The video asset is 4K which is not allowed for 3D video."
