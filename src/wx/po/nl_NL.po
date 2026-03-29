@@ -3612,10 +3612,10 @@ msgstr "De XML in %f is onjuist op regel %l (%error)."
 #: src/wx/verify_dcp_result_panel.cc:357
 #, c-format
 msgid ""
-"The XML in the closed caption asset %f takes up %n bytes which is over the "
+"The XML in the closed caption asset %f takes up %size_in_bytes bytes which is over the "
 "256KB limit."
 msgstr ""
-"De XML in de closed caption asset %f neemt %n bytes in beslag, wat de limiet "
+"De XML in de closed caption asset %f neemt %size_in_bytes bytes in beslag, wat de limiet "
 "van 256 KB overschrijdt."
 
 #: src/wx/verify_dcp_result_panel.cc:665

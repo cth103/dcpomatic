@@ -3618,10 +3618,10 @@ msgstr "XML %f の %l 行目は不正な形式です（%error）。"
 #: src/wx/verify_dcp_result_panel.cc:348
 #, c-format
 msgid ""
-"The XML in the closed caption asset %f takes up %n bytes which is over the "
+"The XML in the closed caption asset %f takes up %size_in_bytes bytes which is over the "
 "256KB limit."
 msgstr ""
-"クローズド キャプション アセット %f 内の XML は %n バイトを占めており、256 "
+"クローズド キャプション アセット %f 内の XML は %size_in_bytes バイトを占めており、256 "
 "KB の制限を超えています。"
 
 #: src/wx/verify_dcp_result_panel.cc:656

@@ -360,7 +360,7 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 			add(i.second, _("The video asset is 4K which is not allowed for 3D video."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_CLOSED_CAPTION_XML_SIZE_IN_BYTES:
-			add(i.second, _("The XML in the closed caption asset %f takes up %n bytes which is over the 256KB limit."));
+			add(i.second, _("The XML in the closed caption asset %f takes up %size_in_bytes bytes which is over the 256KB limit."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_TIMED_TEXT_SIZE_IN_BYTES:
 			add(i.second, _("The timed text asset %f takes up %n bytes which is over the 115MB limit."));

@@ -3712,10 +3712,10 @@ msgstr "Plik XML w %f zawiera błędy w linii %l (%error)."
 #: src/wx/verify_dcp_result_panel.cc:357
 #, c-format
 msgid ""
-"The XML in the closed caption asset %f takes up %n bytes which is over the "
+"The XML in the closed caption asset %f takes up %size_in_bytes bytes which is over the "
 "256KB limit."
 msgstr ""
-"Plik XML z napisami kodowanymi %f zawiera %n bajtów i przekracza limit 256KB."
+"Plik XML z napisami kodowanymi %f zawiera %size_in_bytes bajtów i przekracza limit 256KB."
 
 #: src/wx/verify_dcp_result_panel.cc:665
 #, c-format

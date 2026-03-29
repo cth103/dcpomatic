@@ -3622,10 +3622,10 @@ msgstr "کدهای XML در %f نادرست هستند در خط (%error)%i."
 #: src/wx/verify_dcp_result_panel.cc:357
 #, c-format
 msgid ""
-"The XML in the closed caption asset %f takes up %n bytes which is over the "
+"The XML in the closed caption asset %f takes up %size_in_bytes bytes which is over the "
 "256KB limit."
 msgstr ""
-"حجم فایل XML زیرنویس %f بیش از %n بایت است که خارج از حد مجاز 256 کیلو بایت "
+"حجم فایل XML زیرنویس %f بیش از %size_in_bytes بایت است که خارج از حد مجاز 256 کیلو بایت "
 "است."
 
 #: src/wx/verify_dcp_result_panel.cc:665

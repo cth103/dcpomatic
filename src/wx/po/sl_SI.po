@@ -3641,10 +3641,10 @@ msgstr "XML v %f je nepravilno oblikovan v vrstici %l (%error)."
 #: src/wx/verify_dcp_result_panel.cc:357
 #, c-format
 msgid ""
-"The XML in the closed caption asset %f takes up %n bytes which is over the "
+"The XML in the closed caption asset %f takes up %size_in_bytes bytes which is over the "
 "256KB limit."
 msgstr ""
-"XML v sredstvu zaprtih napisov %f zavzema %n bajtov, kar je nad mejo 256 KB."
+"XML v sredstvu zaprtih napisov %f zavzema %size_in_bytes bajtov, kar je nad mejo 256 KB."
 
 #: src/wx/verify_dcp_result_panel.cc:665
 #, c-format

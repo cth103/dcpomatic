@@ -3698,10 +3698,10 @@ msgstr "XML-koden i %f är felaktig på rad %l (%error)"
 #: src/wx/verify_dcp_result_panel.cc:357
 #, c-format
 msgid ""
-"The XML in the closed caption asset %f takes up %n bytes which is over the "
+"The XML in the closed caption asset %f takes up %size_in_bytes bytes which is over the "
 "256KB limit."
 msgstr ""
-"XML:en i undertexttillgången %f tar %n byte vilket är mer än gränsen på "
+"XML:en i undertexttillgången %f tar %size_in_bytes byte vilket är mer än gränsen på "
 "256KB."
 
 #: src/wx/verify_dcp_result_panel.cc:665

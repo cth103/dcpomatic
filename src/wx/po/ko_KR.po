@@ -3639,9 +3639,9 @@ msgstr "%f의 XML 형식이 %l번째 줄에서 잘못되었습니다 (%error)."
 #: src/wx/verify_dcp_result_panel.cc:357
 #, c-format
 msgid ""
-"The XML in the closed caption asset %f takes up %n bytes which is over the "
+"The XML in the closed caption asset %f takes up %size_in_bytes bytes which is over the "
 "256KB limit."
-msgstr "캡션 에셋 %f의 XML 용량이 %n 바이트로, 제한치인 256KB를 초과했습니다."
+msgstr "캡션 에셋 %f의 XML 용량이 %size_in_bytes 바이트로, 제한치인 256KB를 초과했습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:665
 #, c-format

@@ -3560,9 +3560,9 @@ msgstr "%f 中的XML在第 %l 行格式不正确(%error)。"
 #: src/wx/verify_dcp_result_panel.cc:357
 #, c-format
 msgid ""
-"The XML in the closed caption asset %f takes up %n bytes which is over the "
+"The XML in the closed caption asset %f takes up %size_in_bytes bytes which is over the "
 "256KB limit."
-msgstr "隐藏式字幕资产 %f 中的XML占用了 %n 字节，超过了256KB的限制。"
+msgstr "隐藏式字幕资产 %f 中的XML占用了 %size_in_bytes 字节，超过了256KB的限制。"
 
 #: src/wx/verify_dcp_result_panel.cc:665
 #, c-format
