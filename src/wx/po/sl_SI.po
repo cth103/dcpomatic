@@ -3522,8 +3522,8 @@ msgstr "DCP ima FFOC %time namesto 1."
 
 #: src/wx/verify_dcp_result_panel.cc:456
 #, c-format
-msgid "The DCP has a LFOC of %n instead of the reel duration minus one."
-msgstr "DCP ima LFOC %n namesto trajanja koluta manj 1."
+msgid "The DCP has a LFOC of %time instead of the reel duration minus one."
+msgstr "DCP ima LFOC %time namesto trajanja koluta manj 1."
 
 #: src/wx/verify_dcp_result_panel.cc:423
 msgid ""

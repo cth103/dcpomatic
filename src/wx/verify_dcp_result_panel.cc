@@ -462,7 +462,7 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 			add(i.second, _("The DCP has a FFOC of %time instead of 1."));
 			break;
 		case dcp::VerificationNote::Code::INCORRECT_LFOC:
-			add(i.second, _("The DCP has a LFOC of %n instead of the reel duration minus one."));
+			add(i.second, _("The DCP has a LFOC of %time instead of the reel duration minus one."));
 			break;
 		case dcp::VerificationNote::Code::MISSING_CPL_METADATA:
 			add(i.second, _("The CPL %cpl has no CPL metadata tag."));

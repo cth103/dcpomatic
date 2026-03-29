@@ -3563,7 +3563,7 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:456
 #, c-format
-msgid "The DCP has a LFOC of %n instead of the reel duration minus one."
+msgid "The DCP has a LFOC of %time instead of the reel duration minus one."
 msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:423

@@ -3453,8 +3453,8 @@ msgstr "DCP的FFOC为%time，而不是1。"
 
 #: src/wx/verify_dcp_result_panel.cc:456
 #, c-format
-msgid "The DCP has a LFOC of %n instead of the reel duration minus one."
-msgstr "DCP的LFOC为%n，而不是卷轴持续时间减1。"
+msgid "The DCP has a LFOC of %time instead of the reel duration minus one."
+msgstr "DCP的LFOC为%time，而不是卷轴持续时间减1。"
 
 #: src/wx/verify_dcp_result_panel.cc:423
 msgid ""

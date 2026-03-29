@@ -3529,9 +3529,9 @@ msgstr "DCP имеет маркер FFOC, равный %time вместо 1."
 
 #: src/wx/verify_dcp_result_panel.cc:456
 #, c-format
-msgid "The DCP has a LFOC of %n instead of the reel duration minus one."
+msgid "The DCP has a LFOC of %time instead of the reel duration minus one."
 msgstr ""
-"DCP имеет маркер LFOC, равный %n вместо \"продолжительность части фильма "
+"DCP имеет маркер LFOC, равный %time вместо \"продолжительность части фильма "
 "минус 1\"."
 
 #: src/wx/verify_dcp_result_panel.cc:423

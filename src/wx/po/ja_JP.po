@@ -3495,8 +3495,8 @@ msgstr "DCPのFFOCは1ではなく%timeです。"
 
 #: src/wx/verify_dcp_result_panel.cc:447
 #, c-format
-msgid "The DCP has a LFOC of %n instead of the reel duration minus one."
-msgstr "DCPのLFOCは、リールの長さから1を引いた値ではなく%nとなっています。"
+msgid "The DCP has a LFOC of %time instead of the reel duration minus one."
+msgstr "DCPのLFOCは、リールの長さから1を引いた値ではなく%timeとなっています。"
 
 #: src/wx/verify_dcp_result_panel.cc:414
 msgid ""

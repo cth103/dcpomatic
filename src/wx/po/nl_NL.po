@@ -3486,9 +3486,9 @@ msgstr "De DCP heeft een FFOC (first frame of content) van %time in plaats van 1
 
 #: src/wx/verify_dcp_result_panel.cc:456
 #, c-format
-msgid "The DCP has a LFOC of %n instead of the reel duration minus one."
+msgid "The DCP has a LFOC of %time instead of the reel duration minus one."
 msgstr ""
-"De DCP heeft een LFOC (last frame of content) van %n in plaats van de reel "
+"De DCP heeft een LFOC (last frame of content) van %time in plaats van de reel "
 "duration min één."
 
 #: src/wx/verify_dcp_result_panel.cc:423

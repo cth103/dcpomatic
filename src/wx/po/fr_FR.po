@@ -3520,8 +3520,8 @@ msgstr "Le DCP a un FFOC de %time au lieu de 1."
 
 #: src/wx/verify_dcp_result_panel.cc:456
 #, c-format
-msgid "The DCP has a LFOC of %n instead of the reel duration minus one."
-msgstr "Le DCP a un LFOC de %n au lieu de la durée de la bobine moins un."
+msgid "The DCP has a LFOC of %time instead of the reel duration minus one."
+msgstr "Le DCP a un LFOC de %time au lieu de la durée de la bobine moins un."
 
 #: src/wx/verify_dcp_result_panel.cc:423
 msgid ""

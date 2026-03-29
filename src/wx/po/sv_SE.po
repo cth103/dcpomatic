@@ -3577,8 +3577,8 @@ msgstr "DCP:n har en FFOC av %time istället för 1."
 
 #: src/wx/verify_dcp_result_panel.cc:456
 #, c-format
-msgid "The DCP has a LFOC of %n instead of the reel duration minus one."
-msgstr "DCP:n har en LFOC av %n istället för rullens längd minus ett."
+msgid "The DCP has a LFOC of %time instead of the reel duration minus one."
+msgstr "DCP:n har en LFOC av %time istället för rullens längd minus ett."
 
 #: src/wx/verify_dcp_result_panel.cc:423
 msgid ""
