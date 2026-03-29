@@ -3867,7 +3867,7 @@ msgstr ""
 #: src/wx/verify_dcp_result_panel.cc:360
 #, c-format
 msgid ""
-"The timed text asset %f takes up %n bytes which is over the 115MB limit."
+"The timed text asset %f takes up %size_in_bytes bytes which is over the 115MB limit."
 msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:351

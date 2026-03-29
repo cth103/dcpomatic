@@ -363,7 +363,7 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 			add(i.second, _("The XML in the closed caption asset %f takes up %size_in_bytes bytes which is over the 256KB limit."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_TIMED_TEXT_SIZE_IN_BYTES:
-			add(i.second, _("The timed text asset %f takes up %n bytes which is over the 115MB limit."));
+			add(i.second, _("The timed text asset %f takes up %size_in_bytes bytes which is over the 115MB limit."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_TIMED_TEXT_FONT_SIZE_IN_BYTES:
 			add(i.second, _("The fonts in the timed text asset %f take up %n bytes which is over the 10MB limit."));

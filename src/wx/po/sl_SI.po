@@ -3861,9 +3861,9 @@ msgstr "Sredstvo podnaslovov %n nima oznake vstopne točke <EntryPoint>."
 #: src/wx/verify_dcp_result_panel.cc:360
 #, c-format
 msgid ""
-"The timed text asset %f takes up %n bytes which is over the 115MB limit."
+"The timed text asset %f takes up %size_in_bytes bytes which is over the 115MB limit."
 msgstr ""
-"Sredstvo časovno opredeljenega besedila %f zavzema %n bajtov, kar presega "
+"Sredstvo časovno opredeljenega besedila %f zavzema %size_in_bytes bajtov, kar presega "
 "omejitev 115 MB."
 
 #: src/wx/verify_dcp_result_panel.cc:351

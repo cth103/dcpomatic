@@ -3866,8 +3866,8 @@ msgstr "Ресурс субтитров %n не содержит тег <EntryPo
 #: src/wx/verify_dcp_result_panel.cc:360
 #, c-format
 msgid ""
-"The timed text asset %f takes up %n bytes which is over the 115MB limit."
-msgstr "Ресурс субтитров %f занимает %n байт, что превышает лимит в 115 МБ."
+"The timed text asset %f takes up %size_in_bytes bytes which is over the 115MB limit."
+msgstr "Ресурс субтитров %f занимает %size_in_bytes байт, что превышает лимит в 115 МБ."
 
 #: src/wx/verify_dcp_result_panel.cc:351
 #, c-format

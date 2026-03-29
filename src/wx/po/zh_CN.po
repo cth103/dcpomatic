@@ -3752,8 +3752,8 @@ msgstr "字幕资产 %n 没有<EntryPoint>标记。"
 #: src/wx/verify_dcp_result_panel.cc:360
 #, c-format
 msgid ""
-"The timed text asset %f takes up %n bytes which is over the 115MB limit."
-msgstr "字幕文本资产 %f 占用了%n字节，超出了115MB的限制。"
+"The timed text asset %f takes up %size_in_bytes bytes which is over the 115MB limit."
+msgstr "字幕文本资产 %f 占用了%size_in_bytes字节，超出了115MB的限制。"
 
 #: src/wx/verify_dcp_result_panel.cc:351
 #, c-format

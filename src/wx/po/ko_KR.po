@@ -3851,9 +3851,9 @@ msgstr "자막 에셋 %n에 <EntryPoint> 태그가 없습니다."
 #: src/wx/verify_dcp_result_panel.cc:360
 #, c-format
 msgid ""
-"The timed text asset %f takes up %n bytes which is over the 115MB limit."
+"The timed text asset %f takes up %size_in_bytes bytes which is over the 115MB limit."
 msgstr ""
-"타임드 텍스트 에셋 %f의 용량이 %n 바이트로, 제한치인 115MB를 초과했습니다."
+"타임드 텍스트 에셋 %f의 용량이 %size_in_bytes 바이트로, 제한치인 115MB를 초과했습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:351
 #, c-format

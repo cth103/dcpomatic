@@ -3836,9 +3836,9 @@ msgstr "De subtitle asset %n heeft geen <EntryPoint> tag."
 #: src/wx/verify_dcp_result_panel.cc:360
 #, c-format
 msgid ""
-"The timed text asset %f takes up %n bytes which is over the 115MB limit."
+"The timed text asset %f takes up %size_in_bytes bytes which is over the 115MB limit."
 msgstr ""
-"De timed text asset %f neemt %n bytes in beslag, wat de limiet van 115 MB "
+"De timed text asset %f neemt %size_in_bytes bytes in beslag, wat de limiet van 115 MB "
 "overschrijdt."
 
 #: src/wx/verify_dcp_result_panel.cc:351

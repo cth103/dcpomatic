@@ -3925,8 +3925,8 @@ msgstr "Plik z napisami %n nie ma znacznika <EntryPoint>."
 #: src/wx/verify_dcp_result_panel.cc:360
 #, c-format
 msgid ""
-"The timed text asset %f takes up %n bytes which is over the 115MB limit."
-msgstr "Plik z napisami %f zajmuje %n bajtów, co przekracza limit 115MB."
+"The timed text asset %f takes up %size_in_bytes bytes which is over the 115MB limit."
+msgstr "Plik z napisami %f zajmuje %size_in_bytes bajtów, co przekracza limit 115MB."
 
 #: src/wx/verify_dcp_result_panel.cc:351
 #, c-format

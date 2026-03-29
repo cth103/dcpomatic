@@ -3835,9 +3835,9 @@ msgstr "فایل زیرنویس %n برچسب  <EntryPoint> ندارد."
 #: src/wx/verify_dcp_result_panel.cc:360
 #, c-format
 msgid ""
-"The timed text asset %f takes up %n bytes which is over the 115MB limit."
+"The timed text asset %f takes up %size_in_bytes bytes which is over the 115MB limit."
 msgstr ""
-"فایل زیرنویس %f بیش از %n بایت حجم دارد که بیش از حجم مجاز 115 مگابایت است."
+"فایل زیرنویس %f بیش از %size_in_bytes بایت حجم دارد که بیش از حجم مجاز 115 مگابایت است."
 
 #: src/wx/verify_dcp_result_panel.cc:351
 #, c-format
