@@ -3554,10 +3554,10 @@ msgstr "PKL %f má neplatný jmenný prostor %n"
 #: src/wx/verify_dcp_result_panel.cc:477
 #, c-format
 msgid ""
-"The PKL %n has an <AnnotationText> which does not match its CPL's "
+"The PKL %pkl has an <AnnotationText> which does not match its CPL's "
 "<ContentTitleText>."
 msgstr ""
-"PKL %n má <AnnotationText> který neodpovídá jeho CPL <ContentTitleText>."
+"PKL %pkl má <AnnotationText> který neodpovídá jeho CPL <ContentTitleText>."
 
 #: src/wx/verify_dcp_result_panel.cc:474
 #, c-format

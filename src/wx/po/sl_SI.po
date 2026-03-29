@@ -3588,10 +3588,10 @@ msgstr "Zvočno sredstvo %f nima veveljavne hitrosti sličic %n."
 #: src/wx/verify_dcp_result_panel.cc:477
 #, c-format
 msgid ""
-"The PKL %n has an <AnnotationText> which does not match its CPL's "
+"The PKL %pkl has an <AnnotationText> which does not match its CPL's "
 "<ContentTitleText>."
 msgstr ""
-"PKL %n ima <AnnotationText>, ki se ne ujema s CPL-jevim <ContentTitleText>."
+"PKL %pkl ima <AnnotationText>, ki se ne ujema s CPL-jevim <ContentTitleText>."
 
 #: src/wx/verify_dcp_result_panel.cc:474
 #, c-format

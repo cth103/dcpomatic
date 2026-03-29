@@ -3512,9 +3512,9 @@ msgstr "声音资产 %f 的帧率 %n 非法"
 #: src/wx/verify_dcp_result_panel.cc:477
 #, c-format
 msgid ""
-"The PKL %n has an <AnnotationText> which does not match its CPL's "
+"The PKL %pkl has an <AnnotationText> which does not match its CPL's "
 "<ContentTitleText>."
-msgstr "PKL%n具有与其CPL的 <ContentTitleText> 不匹配的 <AnnotationText> 。"
+msgstr "PKL%pkl具有与其CPL的 <ContentTitleText> 不匹配的 <AnnotationText> 。"
 
 #: src/wx/verify_dcp_result_panel.cc:474
 #, c-format

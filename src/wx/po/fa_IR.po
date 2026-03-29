@@ -3570,10 +3570,10 @@ msgstr "این فایل %f دارای فضای نام نامعتبر است %n"
 #: src/wx/verify_dcp_result_panel.cc:477
 #, c-format
 msgid ""
-"The PKL %n has an <AnnotationText> which does not match its CPL's "
+"The PKL %pkl has an <AnnotationText> which does not match its CPL's "
 "<ContentTitleText>."
 msgstr ""
-"فهرست پکیج (PKL) بنام: %n دارای یک <AnnotationText> است که با "
+"فهرست پکیج (PKL) بنام: %pkl دارای یک <AnnotationText> است که با "
 "<ContentTitleText> موجود در ترکیب پلی لیست (CPL) مطابقت ندارد."
 
 #: src/wx/verify_dcp_result_panel.cc:474

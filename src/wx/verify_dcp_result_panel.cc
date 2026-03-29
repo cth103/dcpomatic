@@ -486,7 +486,7 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 			add(i.second, _("The PKL %pkl has encrypted content but is not signed."));
 			break;
 		case dcp::VerificationNote::Code::MISMATCHED_PKL_ANNOTATION_TEXT_WITH_CPL:
-			add(i.second, _("The PKL %n has an <AnnotationText> which does not match its CPL's <ContentTitleText>."));
+			add(i.second, _("The PKL %pkl has an <AnnotationText> which does not match its CPL's <ContentTitleText>."));
 			break;
 		case dcp::VerificationNote::Code::PARTIALLY_ENCRYPTED:
 			add(i.second, _("The DCP has encrypted content, but not all its assets are encrypted."));

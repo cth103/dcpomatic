@@ -3660,10 +3660,10 @@ msgstr "Plik z dźwiękiem %f posiada nieprawidłową liczbę klatek: %n."
 #: src/wx/verify_dcp_result_panel.cc:477
 #, c-format
 msgid ""
-"The PKL %n has an <AnnotationText> which does not match its CPL's "
+"The PKL %pkl has an <AnnotationText> which does not match its CPL's "
 "<ContentTitleText>."
 msgstr ""
-"Plik PKL %n zawiera znacznik <AnnotationText>, który nie odpowiada wartości "
+"Plik PKL %pkl zawiera znacznik <AnnotationText>, który nie odpowiada wartości "
 "znacznika <ContentTitleText> w pliku CPL."
 
 #: src/wx/verify_dcp_result_panel.cc:474

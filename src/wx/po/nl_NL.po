@@ -3558,10 +3558,10 @@ msgstr "De PKL %f heeft een ongeldige namespace %n"
 #: src/wx/verify_dcp_result_panel.cc:477
 #, c-format
 msgid ""
-"The PKL %n has an <AnnotationText> which does not match its CPL's "
+"The PKL %pkl has an <AnnotationText> which does not match its CPL's "
 "<ContentTitleText>."
 msgstr ""
-"De PKL %n heeft een <AnnotationText> die niet overeenkomt met de "
+"De PKL %pkl heeft een <AnnotationText> die niet overeenkomt met de "
 "<ContentTitleText> van zijn CPL."
 
 #: src/wx/verify_dcp_result_panel.cc:474
