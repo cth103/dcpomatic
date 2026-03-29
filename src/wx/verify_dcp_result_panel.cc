@@ -474,7 +474,7 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 			add(i.second, _("The CPL %cpl has no CPL extension metadata tag."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_EXTENSION_METADATA:
-			add(i.second, _("The CPL %f has an invalid CPL extension metadata tag (%n)"));
+			add(i.second, _("The CPL %f has an invalid CPL extension metadata tag (%error)"));
 			break;
 		case dcp::VerificationNote::Code::UNSIGNED_CPL_WITH_ENCRYPTED_CONTENT:
 			add(i.second, _("The CPL %cpl has encrypted content but is not signed."));

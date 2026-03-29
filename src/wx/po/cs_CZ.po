@@ -3477,8 +3477,8 @@ msgstr "CPL %cpl nemá značku s číslem verze metadat CPL."
 
 #: src/wx/verify_dcp_result_panel.cc:468
 #, c-format
-msgid "The CPL %f has an invalid CPL extension metadata tag (%n)"
-msgstr "CPL %f má neplatnou značku metadat rozšíření CPL (%n)"
+msgid "The CPL %f has an invalid CPL extension metadata tag (%error)"
+msgstr "CPL %f má neplatnou značku metadat rozšíření CPL (%error)"
 
 #: src/wx/verify_dcp_result_panel.cc:453
 #, c-format

@@ -3519,8 +3519,8 @@ msgstr "CPL %cpl не содержит тег версии метаданных 
 
 #: src/wx/verify_dcp_result_panel.cc:468
 #, c-format
-msgid "The CPL %f has an invalid CPL extension metadata tag (%n)"
-msgstr "CPL %f содержит некорректный тег \"CPL extension metadata\" (%n)"
+msgid "The CPL %f has an invalid CPL extension metadata tag (%error)"
+msgstr "CPL %f содержит некорректный тег \"CPL extension metadata\" (%error)"
 
 #: src/wx/verify_dcp_result_panel.cc:453
 #, c-format

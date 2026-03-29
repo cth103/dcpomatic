@@ -3443,8 +3443,8 @@ msgstr "CPL %cpl 没有CPL元数据版本号标记。"
 
 #: src/wx/verify_dcp_result_panel.cc:468
 #, c-format
-msgid "The CPL %f has an invalid CPL extension metadata tag (%n)"
-msgstr "CPL %f具有无效的CPL扩展元数据标记(%n)"
+msgid "The CPL %f has an invalid CPL extension metadata tag (%error)"
+msgstr "CPL %f具有无效的CPL扩展元数据标记(%error)"
 
 #: src/wx/verify_dcp_result_panel.cc:453
 #, c-format

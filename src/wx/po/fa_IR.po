@@ -3488,9 +3488,9 @@ msgstr "فایل سی پی ال %c برچسب شماره نسخه متادیتا
 
 #: src/wx/verify_dcp_result_panel.cc:468
 #, c-format
-msgid "The CPL %f has an invalid CPL extension metadata tag (%n)"
+msgid "The CPL %f has an invalid CPL extension metadata tag (%error)"
 msgstr ""
-"فایل سی پی ال %f دارای یک برچسب متادیتای پسوند سی پی ال نامعتبر است (%n)"
+"فایل سی پی ال %f دارای یک برچسب متادیتای پسوند سی پی ال نامعتبر است (%error)"
 
 #: src/wx/verify_dcp_result_panel.cc:453
 #, c-format
