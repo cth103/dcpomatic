@@ -3942,10 +3942,10 @@ msgstr "이 CPL에는 암호화된 에셋이 포함되어 있지 않습니다."
 #: src/wx/verify_dcp_result_panel.cc:333
 #, c-format
 msgid ""
-"This DCP refers to at the asset %n in another DCP (and perhaps others), so "
+"This DCP refers to at the asset %asset_id in another DCP (and perhaps others), so "
 "it is a \"version file\" (VF)"
 msgstr ""
-"이 DCP는 다른 DCP(또는 그 외)의 에셋 %n을 참조하므로 \"버전 파일\"(VF)입니다"
+"이 DCP는 다른 DCP(또는 그 외)의 에셋 %asset_id을 참조하므로 \"버전 파일\"(VF)입니다"
 
 #: src/wx/verify_dcp_result_panel.cc:339
 msgid "This DCP uses the Interop standard, but it should be made with SMPTE."

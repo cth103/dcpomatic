@@ -3953,10 +3953,10 @@ msgstr "Данный CPL не содержит зашифрованных дан
 #: src/wx/verify_dcp_result_panel.cc:333
 #, c-format
 msgid ""
-"This DCP refers to at the asset %n in another DCP (and perhaps others), so "
+"This DCP refers to at the asset %asset_id in another DCP (and perhaps others), so "
 "it is a \"version file\" (VF)"
 msgstr ""
-"DCP ссылается на ресурс %n в другом (других) DCP, поэтому это \"файл "
+"DCP ссылается на ресурс %asset_id в другом (других) DCP, поэтому это \"файл "
 "вариантов\" (VF)"
 
 #: src/wx/verify_dcp_result_panel.cc:339

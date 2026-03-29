@@ -3923,10 +3923,10 @@ msgstr "این سی پی ال محتوای رمزگذاری شده ندارد."
 #: src/wx/verify_dcp_result_panel.cc:333
 #, c-format
 msgid ""
-"This DCP refers to at the asset %n in another DCP (and perhaps others), so "
+"This DCP refers to at the asset %asset_id in another DCP (and perhaps others), so "
 "it is a \"version file\" (VF)"
 msgstr ""
-"این دی سی پی در  ASSETMAPفایل %n به دی سی پی دیگری اشاره دارد، بنابر این یک "
+"این دی سی پی در  ASSETMAPفایل %asset_id به دی سی پی دیگری اشاره دارد، بنابر این یک "
 "\"نسخه فایل\"(VF) است"
 
 #: src/wx/verify_dcp_result_panel.cc:339

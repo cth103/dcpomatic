@@ -3924,10 +3924,10 @@ msgstr "Deze CPL bevat geen versleutelde assets."
 #: src/wx/verify_dcp_result_panel.cc:333
 #, c-format
 msgid ""
-"This DCP refers to at the asset %n in another DCP (and perhaps others), so "
+"This DCP refers to at the asset %asset_id in another DCP (and perhaps others), so "
 "it is a \"version file\" (VF)"
 msgstr ""
-"Deze DCP refereert aan de asset %n in een andere DCP (en misschien andere), "
+"Deze DCP refereert aan de asset %asset_id in een andere DCP (en misschien andere), "
 "dus het is een \"Version File\" (VF)"
 
 #: src/wx/verify_dcp_result_panel.cc:339

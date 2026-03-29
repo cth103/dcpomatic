@@ -3835,10 +3835,10 @@ msgstr "该CPL没有包含加密内容。"
 #: src/wx/verify_dcp_result_panel.cc:333
 #, c-format
 msgid ""
-"This DCP refers to at the asset %n in another DCP (and perhaps others), so "
+"This DCP refers to at the asset %asset_id in another DCP (and perhaps others), so "
 "it is a \"version file\" (VF)"
 msgstr ""
-"此DCP引用了另一个DCP（可能还有其他DCP）中的资产 %n，因此它是一个“版本文件”"
+"此DCP引用了另一个DCP（可能还有其他DCP）中的资产 %asset_id，因此它是一个“版本文件”"
 "（VF）"
 
 #: src/wx/verify_dcp_result_panel.cc:339

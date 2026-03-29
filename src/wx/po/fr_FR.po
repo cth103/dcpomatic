@@ -3970,10 +3970,10 @@ msgstr "Cette CPL ne contient aucun contenu crypté."
 #: src/wx/verify_dcp_result_panel.cc:333
 #, c-format
 msgid ""
-"This DCP refers to at the asset %n in another DCP (and perhaps others), so "
+"This DCP refers to at the asset %asset_id in another DCP (and perhaps others), so "
 "it is a \"version file\" (VF)"
 msgstr ""
-"Ce DCP fait référence à la ressource %n dans un autre DCP (et peut-être "
+"Ce DCP fait référence à la ressource %asset_id dans un autre DCP (et peut-être "
 "d'autres), il s'agit donc d'un \"fichier de version\" (VF)."
 
 #: src/wx/verify_dcp_result_panel.cc:339

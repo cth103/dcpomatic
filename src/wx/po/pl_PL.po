@@ -4014,10 +4014,10 @@ msgstr "Plik CPL nie zawiera zaszyfrowanych materiałów."
 #: src/wx/verify_dcp_result_panel.cc:333
 #, c-format
 msgid ""
-"This DCP refers to at the asset %n in another DCP (and perhaps others), so "
+"This DCP refers to at the asset %asset_id in another DCP (and perhaps others), so "
 "it is a \"version file\" (VF)"
 msgstr ""
-"To DCP odnosi się do materiału %n z innej paczki DCP (albo wielu paczek), "
+"To DCP odnosi się do materiału %asset_id z innej paczki DCP (albo wielu paczek), "
 "dlatego powinno być oznaczone jako \"version file\" (VF)"
 
 #: src/wx/verify_dcp_result_panel.cc:339

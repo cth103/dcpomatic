@@ -3912,10 +3912,10 @@ msgstr "Tato licence CPL neobsahuje žádná zašifrovaná aktiva."
 #: src/wx/verify_dcp_result_panel.cc:333
 #, c-format
 msgid ""
-"This DCP refers to at the asset %n in another DCP (and perhaps others), so "
+"This DCP refers to at the asset %asset_id in another DCP (and perhaps others), so "
 "it is a \"version file\" (VF)"
 msgstr ""
-"Tento DCP odkazuje na datový zdroj %n v jiném DCP (a možná i v jiných), "
+"Tento DCP odkazuje na datový zdroj %asset_id v jiném DCP (a možná i v jiných), "
 "takže se jedná o „soubor verze“ (VF)"
 
 #: src/wx/verify_dcp_result_panel.cc:339

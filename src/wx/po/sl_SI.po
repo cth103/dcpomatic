@@ -3952,10 +3952,10 @@ msgstr "Ta CPL ne vsebuje šifriranih sredstev."
 #: src/wx/verify_dcp_result_panel.cc:333
 #, c-format
 msgid ""
-"This DCP refers to at the asset %n in another DCP (and perhaps others), so "
+"This DCP refers to at the asset %asset_id in another DCP (and perhaps others), so "
 "it is a \"version file\" (VF)"
 msgstr ""
-"Ta DCP se sklicuje na sredstvo %n v drugem DCP-ju (in morda drugih), tako da "
+"Ta DCP se sklicuje na sredstvo %asset_id v drugem DCP-ju (in morda drugih), tako da "
 "je »različica datoteke« (VF)"
 
 #: src/wx/verify_dcp_result_panel.cc:339

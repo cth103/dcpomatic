@@ -4052,10 +4052,10 @@ msgstr "Die Mediendaten ('Assets') dieser CPL sind nicht verschlüsselt!"
 #: src/wx/verify_dcp_result_panel.cc:333
 #, c-format
 msgid ""
-"This DCP refers to at the asset %n in another DCP (and perhaps others), so "
+"This DCP refers to at the asset %asset_id in another DCP (and perhaps others), so "
 "it is a \"version file\" (VF)"
 msgstr ""
-"Dieses DCP bezieht sich auf eine Mediendatei ('asset) %n eines anderen DCP "
+"Dieses DCP bezieht sich auf eine Mediendatei ('asset) %asset_id eines anderen DCP "
 "(und vielleicht weiterer DCPs), damit ist es eine Versionsdatei (VF)."
 
 #: src/wx/verify_dcp_result_panel.cc:339

@@ -3917,10 +3917,10 @@ msgstr "このCPLには暗号化されたデータが含まれていません。
 #: src/wx/verify_dcp_result_panel.cc:324
 #, c-format
 msgid ""
-"This DCP refers to at the asset %n in another DCP (and perhaps others), so "
+"This DCP refers to at the asset %asset_id in another DCP (and perhaps others), so "
 "it is a \"version file\" (VF)"
 msgstr ""
-"これはバージョンファイル（VF)です。別のDCP（またはその他）のデータ%nを参照し"
+"これはバージョンファイル（VF)です。別のDCP（またはその他）のデータ%asset_idを参照し"
 "ます。"
 
 #: src/wx/verify_dcp_result_panel.cc:330

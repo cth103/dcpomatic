@@ -4003,10 +4003,10 @@ msgstr "Den här CPL:en innehåller inga krypterade komponenter."
 #: src/wx/verify_dcp_result_panel.cc:333
 #, c-format
 msgid ""
-"This DCP refers to at the asset %n in another DCP (and perhaps others), so "
+"This DCP refers to at the asset %asset_id in another DCP (and perhaps others), so "
 "it is a \"version file\" (VF)"
 msgstr ""
-"Den här DCP:n refererar till komponenten %n i en annan DCP (och möjligen "
+"Den här DCP:n refererar till komponenten %asset_id i en annan DCP (och möjligen "
 "andra), så den är en \"versionfil\" (VF)"
 
 #: src/wx/verify_dcp_result_panel.cc:339
