@@ -3596,8 +3596,8 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:474
 #, c-format
-msgid "The PKL %n has encrypted content but is not signed."
-msgstr "PKL %n에 암호화된 콘텐츠가 포함되어 있지만 서명되지 않았습니다."
+msgid "The PKL %pkl has encrypted content but is not signed."
+msgstr "PKL %pkl에 암호화된 콘텐츠가 포함되어 있지만 서명되지 않았습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:637
 #, c-format

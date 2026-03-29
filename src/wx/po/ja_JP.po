@@ -3574,8 +3574,8 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:465
 #, c-format
-msgid "The PKL %n has encrypted content but is not signed."
-msgstr "PKL %n は暗号化されたコンテンツを含みますが署名がされていません。"
+msgid "The PKL %pkl has encrypted content but is not signed."
+msgstr "PKL %pkl は暗号化されたコンテンツを含みますが署名がされていません。"
 
 #: src/wx/verify_dcp_result_panel.cc:628
 #, c-format

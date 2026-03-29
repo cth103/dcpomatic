@@ -3518,8 +3518,8 @@ msgstr "PKL%n具有与其CPL的 <ContentTitleText> 不匹配的 <AnnotationText>
 
 #: src/wx/verify_dcp_result_panel.cc:474
 #, c-format
-msgid "The PKL %n has encrypted content but is not signed."
-msgstr "PKL %n包含已加密内容，但未签名。"
+msgid "The PKL %pkl has encrypted content but is not signed."
+msgstr "PKL %pkl包含已加密内容，但未签名。"
 
 #: src/wx/verify_dcp_result_panel.cc:637
 #, c-format

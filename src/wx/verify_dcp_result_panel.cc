@@ -220,6 +220,9 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 		if (auto const cpl = note.cpl_id()) {
 			message.Replace(char_to_wx("%cpl"), std_to_wx(*cpl));
 		}
+		if (auto const pkl = note.pkl_id()) {
+			message.Replace(char_to_wx("%pkl"), std_to_wx(*pkl));
+		}
 		if (auto const frame_rate = note.frame_rate()) {
 			if (frame_rate->denominator == 1) {
 				message.Replace(char_to_wx("%frame_rate"), std_to_wx(fmt::to_string(frame_rate->numerator)));
@@ -480,7 +483,7 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 			add(i.second, _("The CPL %cpl has encrypted content but is not signed."));
 			break;
 		case dcp::VerificationNote::Code::UNSIGNED_PKL_WITH_ENCRYPTED_CONTENT:
-			add(i.second, _("The PKL %n has encrypted content but is not signed."));
+			add(i.second, _("The PKL %pkl has encrypted content but is not signed."));
 			break;
 		case dcp::VerificationNote::Code::MISMATCHED_PKL_ANNOTATION_TEXT_WITH_CPL:
 			add(i.second, _("The PKL %n has an <AnnotationText> which does not match its CPL's <ContentTitleText>."));

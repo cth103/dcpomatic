@@ -3668,8 +3668,8 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:474
 #, c-format
-msgid "The PKL %n has encrypted content but is not signed."
-msgstr "Plik PKL %n posiada zaszyfrowaną zawartość, ale nie jest podpisany."
+msgid "The PKL %pkl has encrypted content but is not signed."
+msgstr "Plik PKL %pkl posiada zaszyfrowaną zawartość, ale nie jest podpisany."
 
 #: src/wx/verify_dcp_result_panel.cc:637
 #, fuzzy, c-format

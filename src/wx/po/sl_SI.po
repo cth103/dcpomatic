@@ -3595,8 +3595,8 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:474
 #, c-format
-msgid "The PKL %n has encrypted content but is not signed."
-msgstr "PKL %n ima šifrirano vsebino, vendar ni podpisan."
+msgid "The PKL %pkl has encrypted content but is not signed."
+msgstr "PKL %pkl ima šifrirano vsebino, vendar ni podpisan."
 
 #: src/wx/verify_dcp_result_panel.cc:637
 #, c-format

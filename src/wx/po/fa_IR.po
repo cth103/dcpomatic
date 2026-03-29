@@ -3578,8 +3578,8 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:474
 #, c-format
-msgid "The PKL %n has encrypted content but is not signed."
-msgstr "فهرست پکیج(PKL) بنام: %n دارای محتوای رمزگذاری شده است اما امضا ندارد."
+msgid "The PKL %pkl has encrypted content but is not signed."
+msgstr "فهرست پکیج(PKL) بنام: %pkl دارای محتوای رمزگذاری شده است اما امضا ندارد."
 
 #: src/wx/verify_dcp_result_panel.cc:637
 #, c-format
