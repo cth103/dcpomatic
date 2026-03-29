@@ -350,8 +350,8 @@ msgstr "发现新版本的%s可用。"
 
 #: src/wx/verify_dcp_result_panel.cc:485
 #, c-format
-msgid "A picture frame has an invalid JPEG2000 codestream (%n)."
-msgstr "图片帧包含无效的JPEG2000码流（%n）"
+msgid "A picture frame has an invalid JPEG2000 codestream (%error)."
+msgstr "图片帧包含无效的JPEG2000码流（%error）"
 
 #: src/wx/hints_dialog.cc:183
 #, c-format

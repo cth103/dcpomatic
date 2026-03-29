@@ -340,7 +340,7 @@ msgstr "En ny version af DCP-o-matic er tilgængelig."
 
 #: src/wx/verify_dcp_result_panel.cc:485
 #, fuzzy, c-format
-msgid "A picture frame has an invalid JPEG2000 codestream (%n)."
+msgid "A picture frame has an invalid JPEG2000 codestream (%error)."
 msgstr "Filmen i en spole har en ugyldig billedhastighed"
 
 #: src/wx/hints_dialog.cc:183

@@ -346,8 +346,8 @@ msgstr "Det finns en nyare version av DCP-o-matic."
 
 #: src/wx/verify_dcp_result_panel.cc:485
 #, fuzzy, c-format
-msgid "A picture frame has an invalid JPEG2000 codestream (%n)."
-msgstr "En bild har en trasig JPEG2000-ström (%n)"
+msgid "A picture frame has an invalid JPEG2000 codestream (%error)."
+msgstr "En bild har en trasig JPEG2000-ström (%error)"
 
 #: src/wx/hints_dialog.cc:183
 #, c-format

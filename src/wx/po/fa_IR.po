@@ -342,8 +342,8 @@ msgstr "یک نسخه جدید از %s در دسترس است."
 
 #: src/wx/verify_dcp_result_panel.cc:485
 #, c-format
-msgid "A picture frame has an invalid JPEG2000 codestream (%n)."
-msgstr "یک فریم تصویر دارای یک رشته کد نامعتبر JPEG2000 است (%n)."
+msgid "A picture frame has an invalid JPEG2000 codestream (%error)."
+msgstr "یک فریم تصویر دارای یک رشته کد نامعتبر JPEG2000 است (%error)."
 
 #: src/wx/hints_dialog.cc:183
 #, c-format

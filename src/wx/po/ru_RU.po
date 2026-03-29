@@ -340,8 +340,8 @@ msgstr "Доступна новая версия %s."
 
 #: src/wx/verify_dcp_result_panel.cc:485
 #, c-format
-msgid "A picture frame has an invalid JPEG2000 codestream (%n)."
-msgstr "Кадр изображения содержит некорректный поток кода JPEG2000 (%n)"
+msgid "A picture frame has an invalid JPEG2000 codestream (%error)."
+msgstr "Кадр изображения содержит некорректный поток кода JPEG2000 (%error)"
 
 #: src/wx/hints_dialog.cc:183
 #, c-format

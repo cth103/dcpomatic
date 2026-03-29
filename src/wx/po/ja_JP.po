@@ -347,8 +347,8 @@ msgstr "%s の新しいバージョンが利用可能です。"
 
 #: src/wx/verify_dcp_result_panel.cc:476
 #, fuzzy, c-format
-msgid "A picture frame has an invalid JPEG2000 codestream (%n)."
-msgstr "画像フレームに無効な JPEG2000 コードストリーム (%n) があります。"
+msgid "A picture frame has an invalid JPEG2000 codestream (%error)."
+msgstr "画像フレームに無効な JPEG2000 コードストリーム (%error) があります。"
 
 #: src/wx/hints_dialog.cc:183
 #, fuzzy, c-format

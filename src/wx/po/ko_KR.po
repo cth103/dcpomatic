@@ -344,8 +344,8 @@ msgstr "%s의 새 버전이 있습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:485
 #, c-format
-msgid "A picture frame has an invalid JPEG2000 codestream (%n)."
-msgstr "영상 프레임에 유효하지 않은 JPEG2000 코드스트림(%n)이 있습니다."
+msgid "A picture frame has an invalid JPEG2000 codestream (%error)."
+msgstr "영상 프레임에 유효하지 않은 JPEG2000 코드스트림(%error)이 있습니다."
 
 #: src/wx/hints_dialog.cc:183
 #, c-format

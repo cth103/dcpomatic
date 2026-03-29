@@ -344,8 +344,8 @@ msgstr "Er is een nieuwe versie van %s beschikbaar."
 
 #: src/wx/verify_dcp_result_panel.cc:485
 #, c-format
-msgid "A picture frame has an invalid JPEG2000 codestream (%n)."
-msgstr "Een picture frame heeft een ongeldige JPEG2000 codestream (%n)."
+msgid "A picture frame has an invalid JPEG2000 codestream (%error)."
+msgstr "Een picture frame heeft een ongeldige JPEG2000 codestream (%error)."
 
 #: src/wx/hints_dialog.cc:183
 #, c-format

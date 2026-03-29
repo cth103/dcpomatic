@@ -494,7 +494,7 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 		case dcp::VerificationNote::Code::INVALID_JPEG2000_CODESTREAM:
 			add(
 				i.second,
-				_("A picture frame has an invalid JPEG2000 codestream (%n)."),
+				_("A picture frame has an invalid JPEG2000 codestream (%error)."),
 				_("More picture frames (not listed) have invalid JPEG2000 codestreams.")
 			);
 			break;
