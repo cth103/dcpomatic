@@ -282,8 +282,8 @@ msgstr "Sličica 2K JPEG2000 ima %n oznak POC namesto 0."
 
 #: src/wx/verify_dcp_result_panel.cc:492
 #, c-format
-msgid "A 2K JPEG2000 frame has %n guard bits instead of 1."
-msgstr "Sličica 2K JPEG2000 ima %n varovalnih bitov namesto 1."
+msgid "A 2K JPEG2000 frame has %guard_bits guard bits instead of 1."
+msgstr "Sličica 2K JPEG2000 ima %guard_bits varovalnih bitov namesto 1."
 
 #: src/wx/verify_dcp_result_panel.cc:562
 #, c-format
@@ -302,8 +302,8 @@ msgstr "Sličica 4K JPEG2000 ima %n oznak POC namesto 1."
 
 #: src/wx/verify_dcp_result_panel.cc:499
 #, c-format
-msgid "A 4K JPEG2000 frame has %n guard bits instead of 2."
-msgstr "Sličica 4K JPEG2000 ima %n varovalnih bitov namesto 2."
+msgid "A 4K JPEG2000 frame has %guard_bits guard bits instead of 2."
+msgstr "Sličica 4K JPEG2000 ima %guard_bits varovalnih bitov namesto 2."
 
 #: src/wx/verify_dcp_result_panel.cc:548
 #, fuzzy

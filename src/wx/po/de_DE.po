@@ -288,8 +288,8 @@ msgstr "A 2K JPEG2000 Frame hat %n POC-Marker anstelle von 0 POC-Markern."
 
 #: src/wx/verify_dcp_result_panel.cc:492
 #, c-format
-msgid "A 2K JPEG2000 frame has %n guard bits instead of 1."
-msgstr "A 2K JPEG2000 Frame hat %n Guard Bits anstelle von einem Guard Bit."
+msgid "A 2K JPEG2000 frame has %guard_bits guard bits instead of 1."
+msgstr "A 2K JPEG2000 Frame hat %guard_bits Guard Bits anstelle von einem Guard Bit."
 
 #: src/wx/verify_dcp_result_panel.cc:562
 #, c-format
@@ -309,8 +309,8 @@ msgstr "A 2K JPEG2000 Frame hat %n POC-Marker anstelle von 1 POC-Marker."
 
 #: src/wx/verify_dcp_result_panel.cc:499
 #, c-format
-msgid "A 4K JPEG2000 frame has %n guard bits instead of 2."
-msgstr "A 2K JPEG2000 Frame hat %n Guard Bits anstelle von zwei Guard Bits."
+msgid "A 4K JPEG2000 frame has %guard_bits guard bits instead of 2."
+msgstr "A 2K JPEG2000 Frame hat %guard_bits Guard Bits anstelle von zwei Guard Bits."
 
 #: src/wx/verify_dcp_result_panel.cc:548
 #, fuzzy

@@ -286,8 +286,8 @@ msgstr "En 2K JPEG2000-bild innehåller %n POC-markeing(ar) istället för 0."
 # Svengelska
 #: src/wx/verify_dcp_result_panel.cc:492
 #, c-format
-msgid "A 2K JPEG2000 frame has %n guard bits instead of 1."
-msgstr "En 2K JPEG2000-bild innehåller %n guard bits istället för 1."
+msgid "A 2K JPEG2000 frame has %guard_bits guard bits instead of 1."
+msgstr "En 2K JPEG2000-bild innehåller %guard_bits guard bits istället för 1."
 
 #: src/wx/verify_dcp_result_panel.cc:562
 #, c-format
@@ -306,8 +306,8 @@ msgstr "En 4K JPEG2000-bild innehåller %n POC-markeing(ar) istället för 1."
 
 #: src/wx/verify_dcp_result_panel.cc:499
 #, c-format
-msgid "A 4K JPEG2000 frame has %n guard bits instead of 2."
-msgstr "En 4K JPEG2000-bild innehåller %n guard bits istället för 2."
+msgid "A 4K JPEG2000 frame has %guard_bits guard bits instead of 2."
+msgstr "En 4K JPEG2000-bild innehåller %guard_bits guard bits istället för 2."
 
 #: src/wx/verify_dcp_result_panel.cc:548
 #, fuzzy

@@ -286,9 +286,9 @@ msgstr "Klatka obrazu 2K JPEG2000 zawiera %n znacznik(ów) POC zamiast 0."
 
 #: src/wx/verify_dcp_result_panel.cc:492
 #, c-format
-msgid "A 2K JPEG2000 frame has %n guard bits instead of 1."
+msgid "A 2K JPEG2000 frame has %guard_bits guard bits instead of 1."
 msgstr ""
-"Klatka obrazu 2K JPEG2000 zawiera %n bitów ochronnych (guard bits) zamiast 1."
+"Klatka obrazu 2K JPEG2000 zawiera %guard_bits bitów ochronnych (guard bits) zamiast 1."
 
 # Shouldn't be here 4K JPEG2000 frame?
 #: src/wx/verify_dcp_result_panel.cc:562
@@ -310,9 +310,9 @@ msgstr "Klatka obrazu 4K JPEG2000 zawiera %n znacznik(ów) POC zamiast 1."
 
 #: src/wx/verify_dcp_result_panel.cc:499
 #, c-format
-msgid "A 4K JPEG2000 frame has %n guard bits instead of 2."
+msgid "A 4K JPEG2000 frame has %guard_bits guard bits instead of 2."
 msgstr ""
-"Klatka obrazu 4K JPEG2000 zawiera %n bitów ochronnych (guard bits) zamiast 2."
+"Klatka obrazu 4K JPEG2000 zawiera %guard_bits bitów ochronnych (guard bits) zamiast 2."
 
 #: src/wx/verify_dcp_result_panel.cc:548
 #, fuzzy

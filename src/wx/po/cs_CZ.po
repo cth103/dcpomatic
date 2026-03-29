@@ -284,8 +284,8 @@ msgstr "Rámeček 2K JPEG2000 má %n POP místo 0 značek."
 
 #: src/wx/verify_dcp_result_panel.cc:492
 #, c-format
-msgid "A 2K JPEG2000 frame has %n guard bits instead of 1."
-msgstr "Rámeček 2K JPEG2000 má %n ochranných bitů místo 1."
+msgid "A 2K JPEG2000 frame has %guard_bits guard bits instead of 1."
+msgstr "Rámeček 2K JPEG2000 má %guard_bits ochranných bitů místo 1."
 
 #: src/wx/verify_dcp_result_panel.cc:562
 #, c-format
@@ -304,8 +304,8 @@ msgstr "Rámeček 4K JPEG2000 má %n POC značek místo 1."
 
 #: src/wx/verify_dcp_result_panel.cc:499
 #, c-format
-msgid "A 4K JPEG2000 frame has %n guard bits instead of 2."
-msgstr "Rámeček 4K JPEG2000 má %n ochranných bitů místo 2."
+msgid "A 4K JPEG2000 frame has %guard_bits guard bits instead of 2."
+msgstr "Rámeček 4K JPEG2000 má %guard_bits ochranných bitů místo 2."
 
 #: src/wx/verify_dcp_result_panel.cc:548
 msgid "A JPEG2000 frame contains a POC marker in an invalid location."

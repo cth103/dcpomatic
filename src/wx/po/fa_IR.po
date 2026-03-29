@@ -285,8 +285,8 @@ msgstr "یک فریم  2k JPEG2000 به جای 0 شامل %n نشانه(های)P
 
 #: src/wx/verify_dcp_result_panel.cc:492
 #, c-format
-msgid "A 2K JPEG2000 frame has %n guard bits instead of 1."
-msgstr "یک فریم  2k JPEG2000 به جای 1 بیت شامل %n بیت محافظ است."
+msgid "A 2K JPEG2000 frame has %guard_bits guard bits instead of 1."
+msgstr "یک فریم  2k JPEG2000 به جای 1 بیت شامل %guard_bits بیت محافظ است."
 
 #: src/wx/verify_dcp_result_panel.cc:562
 #, c-format
@@ -305,8 +305,8 @@ msgstr "یک فریم  4k JPEG2000 به جای 1 شامل %n نشانه(های)P
 
 #: src/wx/verify_dcp_result_panel.cc:499
 #, c-format
-msgid "A 4K JPEG2000 frame has %n guard bits instead of 2."
-msgstr "یک فریم  4k JPEG2000 به جای2 بیت شامل %n بیت محافظ است."
+msgid "A 4K JPEG2000 frame has %guard_bits guard bits instead of 2."
+msgstr "یک فریم  4k JPEG2000 به جای2 بیت شامل %guard_bits بیت محافظ است."
 
 #: src/wx/verify_dcp_result_panel.cc:548
 msgid "A JPEG2000 frame contains a POC marker in an invalid location."

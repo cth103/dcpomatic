@@ -285,8 +285,8 @@ msgstr "2K JPEG2000 프레임에 0개 대신 %n개의 POC 마커가 있습니다
 
 #: src/wx/verify_dcp_result_panel.cc:492
 #, c-format
-msgid "A 2K JPEG2000 frame has %n guard bits instead of 1."
-msgstr "2K JPEG2000 프레임에 1개 대신 %n개의 가드 비트가 있습니다."
+msgid "A 2K JPEG2000 frame has %guard_bits guard bits instead of 1."
+msgstr "2K JPEG2000 프레임에 1개 대신 %guard_bits개의 가드 비트가 있습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:562
 #, c-format
@@ -307,8 +307,8 @@ msgstr "4K JPEG2000 프레임에 1개 대신 %n개의 POC 마커가 있습니다
 
 #: src/wx/verify_dcp_result_panel.cc:499
 #, c-format
-msgid "A 4K JPEG2000 frame has %n guard bits instead of 2."
-msgstr "4K JPEG2000 프레임에 2개 대신 %n개의 가드 비트가 있습니다."
+msgid "A 4K JPEG2000 frame has %guard_bits guard bits instead of 2."
+msgstr "4K JPEG2000 프레임에 2개 대신 %guard_bits개의 가드 비트가 있습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:548
 msgid "A JPEG2000 frame contains a POC marker in an invalid location."

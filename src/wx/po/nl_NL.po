@@ -284,8 +284,8 @@ msgstr "Een 2K JPEG2000-frame heeft %n POC marker(s) in plaats van 0."
 
 #: src/wx/verify_dcp_result_panel.cc:492
 #, c-format
-msgid "A 2K JPEG2000 frame has %n guard bits instead of 1."
-msgstr "Een 2K JPEG2000-frame heeft %n guard bits in plaats van 1."
+msgid "A 2K JPEG2000 frame has %guard_bits guard bits instead of 1."
+msgstr "Een 2K JPEG2000-frame heeft %guard_bits guard bits in plaats van 1."
 
 #: src/wx/verify_dcp_result_panel.cc:562
 #, c-format
@@ -305,8 +305,8 @@ msgstr "Een 4K JPEG2000-frame heeft %n POC marker(s) in plaats van 1."
 
 #: src/wx/verify_dcp_result_panel.cc:499
 #, c-format
-msgid "A 4K JPEG2000 frame has %n guard bits instead of 2."
-msgstr "Een 4K JPEG2000-frame heeft %n guard bits in plaats van 2."
+msgid "A 4K JPEG2000 frame has %guard_bits guard bits instead of 2."
+msgstr "Een 4K JPEG2000-frame heeft %guard_bits guard bits in plaats van 2."
 
 #: src/wx/verify_dcp_result_panel.cc:548
 msgid "A JPEG2000 frame contains a POC marker in an invalid location."

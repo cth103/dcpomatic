@@ -282,8 +282,8 @@ msgstr "Кадр 2K JPEG2000 содержит %n маркера(ов) POC вме
 
 #: src/wx/verify_dcp_result_panel.cc:492
 #, c-format
-msgid "A 2K JPEG2000 frame has %n guard bits instead of 1."
-msgstr "Кадр 2K JPEG2000 содержит %n защитных разряда(ов) вместо 1."
+msgid "A 2K JPEG2000 frame has %guard_bits guard bits instead of 1."
+msgstr "Кадр 2K JPEG2000 содержит %guard_bits защитных разряда(ов) вместо 1."
 
 #: src/wx/verify_dcp_result_panel.cc:562
 #, c-format
@@ -303,8 +303,8 @@ msgstr "Кадр 4K JPEG2000 содержит %n маркера(ов) POC вме
 
 #: src/wx/verify_dcp_result_panel.cc:499
 #, c-format
-msgid "A 4K JPEG2000 frame has %n guard bits instead of 2."
-msgstr "Кадр 4K JPEG2000 содержит %n защитных разряда(ов) вместо 2."
+msgid "A 4K JPEG2000 frame has %guard_bits guard bits instead of 2."
+msgstr "Кадр 4K JPEG2000 содержит %guard_bits защитных разряда(ов) вместо 2."
 
 #: src/wx/verify_dcp_result_panel.cc:548
 msgid "A JPEG2000 frame contains a POC marker in an invalid location."
