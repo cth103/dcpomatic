@@ -3819,10 +3819,10 @@ msgstr ""
 #: src/wx/verify_dcp_result_panel.cc:363
 #, c-format
 msgid ""
-"The fonts in the timed text asset %f take up %n bytes which is over the 10MB "
+"The fonts in the timed text asset %f take up %size_in_bytes bytes which is over the 10MB "
 "limit."
 msgstr ""
-"Czcionki w materiale %f z napisami kodowanymi zabierają %n bajtów, co "
+"Czcionki w materiale %f z napisami kodowanymi zabierają %size_in_bytes bajtów, co "
 "przekracza limit 10MB."
 
 #: src/wx/verify_dcp_result_panel.cc:280

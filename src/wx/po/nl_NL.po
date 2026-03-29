@@ -3727,10 +3727,10 @@ msgstr ""
 #: src/wx/verify_dcp_result_panel.cc:363
 #, c-format
 msgid ""
-"The fonts in the timed text asset %f take up %n bytes which is over the 10MB "
+"The fonts in the timed text asset %f take up %size_in_bytes bytes which is over the 10MB "
 "limit."
 msgstr ""
-"De fonts in de timed text asset %f nemen %n bytes in beslag, wat de limiet "
+"De fonts in de timed text asset %f nemen %size_in_bytes bytes in beslag, wat de limiet "
 "van 10 MB overschrijdt."
 
 #: src/wx/verify_dcp_result_panel.cc:280

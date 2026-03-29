@@ -3752,10 +3752,10 @@ msgstr ""
 #: src/wx/verify_dcp_result_panel.cc:363
 #, c-format
 msgid ""
-"The fonts in the timed text asset %f take up %n bytes which is over the 10MB "
+"The fonts in the timed text asset %f take up %size_in_bytes bytes which is over the 10MB "
 "limit."
 msgstr ""
-"Pisave v sredstvu časovno opredeljenega besedila %f zaseda %n bajtov, kar "
+"Pisave v sredstvu časovno opredeljenega besedila %f zaseda %size_in_bytes bajtov, kar "
 "presega omejitev 10 MB."
 
 #: src/wx/verify_dcp_result_panel.cc:280

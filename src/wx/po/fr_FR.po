@@ -3767,10 +3767,10 @@ msgstr ""
 #: src/wx/verify_dcp_result_panel.cc:363
 #, c-format
 msgid ""
-"The fonts in the timed text asset %f take up %n bytes which is over the 10MB "
+"The fonts in the timed text asset %f take up %size_in_bytes bytes which is over the 10MB "
 "limit."
 msgstr ""
-"Les polices de la ressource de texte minuté %f occupent %n octets, ce qui "
+"Les polices de la ressource de texte minuté %f occupent %size_in_bytes octets, ce qui "
 "dépasse la limite de 10MB."
 
 #: src/wx/verify_dcp_result_panel.cc:280

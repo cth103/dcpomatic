@@ -3761,10 +3761,10 @@ msgstr ""
 #: src/wx/verify_dcp_result_panel.cc:363
 #, c-format
 msgid ""
-"The fonts in the timed text asset %f take up %n bytes which is over the 10MB "
+"The fonts in the timed text asset %f take up %size_in_bytes bytes which is over the 10MB "
 "limit."
 msgstr ""
-"Шрифты в ресурсе субтитров %f занимают %n байт, что превышает лимит в 10 МБ."
+"Шрифты в ресурсе субтитров %f занимают %size_in_bytes байт, что превышает лимит в 10 МБ."
 
 #: src/wx/verify_dcp_result_panel.cc:280
 msgid ""

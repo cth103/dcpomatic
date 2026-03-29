@@ -3747,10 +3747,10 @@ msgstr ""
 #: src/wx/verify_dcp_result_panel.cc:363
 #, c-format
 msgid ""
-"The fonts in the timed text asset %f take up %n bytes which is over the 10MB "
+"The fonts in the timed text asset %f take up %size_in_bytes bytes which is over the 10MB "
 "limit."
 msgstr ""
-"타임드 텍스트 에셋 %f의 폰트 용량이 %n 바이트로, 제한치인 10MB를 초과했습니"
+"타임드 텍스트 에셋 %f의 폰트 용량이 %size_in_bytes 바이트로, 제한치인 10MB를 초과했습니"
 "다."
 
 #: src/wx/verify_dcp_result_panel.cc:280

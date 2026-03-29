@@ -3726,10 +3726,10 @@ msgstr ""
 #: src/wx/verify_dcp_result_panel.cc:354
 #, c-format
 msgid ""
-"The fonts in the timed text asset %f take up %n bytes which is over the 10MB "
+"The fonts in the timed text asset %f take up %size_in_bytes bytes which is over the 10MB "
 "limit."
 msgstr ""
-"タイムドテキストデータ%fに含まれるフォントは%nバイトを消費しており、10MBの制"
+"タイムドテキストデータ%fに含まれるフォントは%size_in_bytesバイトを消費しており、10MBの制"
 "限を超えています。"
 
 #: src/wx/verify_dcp_result_panel.cc:271

@@ -3730,10 +3730,10 @@ msgstr ""
 #: src/wx/verify_dcp_result_panel.cc:363
 #, c-format
 msgid ""
-"The fonts in the timed text asset %f take up %n bytes which is over the 10MB "
+"The fonts in the timed text asset %f take up %size_in_bytes bytes which is over the 10MB "
 "limit."
 msgstr ""
-"فونتهای فایل زیرنویس %f بیش از %n بایت هستند که بیش از حجم مجاز 10 مگابایت "
+"فونتهای فایل زیرنویس %f بیش از %size_in_bytes بایت هستند که بیش از حجم مجاز 10 مگابایت "
 "است."
 
 #: src/wx/verify_dcp_result_panel.cc:280
