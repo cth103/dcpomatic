@@ -3524,8 +3524,8 @@ msgstr "CPL %f содержит некорректный тег \"CPL extension 
 
 #: src/wx/verify_dcp_result_panel.cc:453
 #, c-format
-msgid "The DCP has a FFOC of %n instead of 1."
-msgstr "DCP имеет маркер FFOC, равный %n вместо 1."
+msgid "The DCP has a FFOC of %time instead of 1."
+msgstr "DCP имеет маркер FFOC, равный %time вместо 1."
 
 #: src/wx/verify_dcp_result_panel.cc:456
 #, c-format

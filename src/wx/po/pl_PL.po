@@ -3582,9 +3582,9 @@ msgstr "Plik CPL %f ma nieprawidłowy tag rozszerzenia metadanych CPL (%n)"
 
 #: src/wx/verify_dcp_result_panel.cc:453
 #, c-format
-msgid "The DCP has a FFOC of %n instead of 1."
+msgid "The DCP has a FFOC of %time instead of 1."
 msgstr ""
-"DCP ma %n znaczników pierwszej klatki materiału (FFOC) zamiast jednego."
+"DCP ma %time znaczników pierwszej klatki materiału (FFOC) zamiast jednego."
 
 #: src/wx/verify_dcp_result_panel.cc:456
 #, c-format

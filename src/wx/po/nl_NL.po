@@ -3481,8 +3481,8 @@ msgstr "De CPL %f heeft een ongeldige CPL extension metadata tag (%n)"
 
 #: src/wx/verify_dcp_result_panel.cc:453
 #, c-format
-msgid "The DCP has a FFOC of %n instead of 1."
-msgstr "De DCP heeft een FFOC (first frame of content) van %n in plaats van 1."
+msgid "The DCP has a FFOC of %time instead of 1."
+msgstr "De DCP heeft een FFOC (first frame of content) van %time in plaats van 1."
 
 #: src/wx/verify_dcp_result_panel.cc:456
 #, c-format

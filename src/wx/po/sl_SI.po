@@ -3517,8 +3517,8 @@ msgstr "CPL %f ima neveljavno oznako metapodatkov CPL razširitve (%n)"
 
 #: src/wx/verify_dcp_result_panel.cc:453
 #, c-format
-msgid "The DCP has a FFOC of %n instead of 1."
-msgstr "DCP ima FFOC %n namesto 1."
+msgid "The DCP has a FFOC of %time instead of 1."
+msgstr "DCP ima FFOC %time namesto 1."
 
 #: src/wx/verify_dcp_result_panel.cc:456
 #, c-format

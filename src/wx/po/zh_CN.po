@@ -3448,8 +3448,8 @@ msgstr "CPL %f具有无效的CPL扩展元数据标记(%n)"
 
 #: src/wx/verify_dcp_result_panel.cc:453
 #, c-format
-msgid "The DCP has a FFOC of %n instead of 1."
-msgstr "DCP的FFOC为%n，而不是1。"
+msgid "The DCP has a FFOC of %time instead of 1."
+msgstr "DCP的FFOC为%time，而不是1。"
 
 #: src/wx/verify_dcp_result_panel.cc:456
 #, c-format

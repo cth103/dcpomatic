@@ -3515,8 +3515,8 @@ msgstr "La CPL %f a une balise de métadonnées d'extension CPL invalide (%n)"
 
 #: src/wx/verify_dcp_result_panel.cc:453
 #, c-format
-msgid "The DCP has a FFOC of %n instead of 1."
-msgstr "Le DCP a un FFOC de %n au lieu de 1."
+msgid "The DCP has a FFOC of %time instead of 1."
+msgstr "Le DCP a un FFOC de %time au lieu de 1."
 
 #: src/wx/verify_dcp_result_panel.cc:456
 #, c-format

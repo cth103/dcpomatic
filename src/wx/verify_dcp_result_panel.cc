@@ -233,6 +233,9 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 		if (auto const size_in_pixels = note.size_in_pixels()) {
 			message.Replace(char_to_wx("%size_in_pixels"), wxString::Format(char_to_wx("%dx%d"), size_in_pixels->width, size_in_pixels->height));
 		}
+		if (auto const time = note.time()) {
+			message.Replace(char_to_wx("%time"), std_to_wx(time->as_string(dcp::Standard::SMPTE)));
+		}
 		return message;
 	};
 
@@ -456,7 +459,7 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 			add(i.second, _("The DCP has no LFOC (last frame of content) marker."));
 			break;
 		case dcp::VerificationNote::Code::INCORRECT_FFOC:
-			add(i.second, _("The DCP has a FFOC of %n instead of 1."));
+			add(i.second, _("The DCP has a FFOC of %time instead of 1."));
 			break;
 		case dcp::VerificationNote::Code::INCORRECT_LFOC:
 			add(i.second, _("The DCP has a LFOC of %n instead of the reel duration minus one."));

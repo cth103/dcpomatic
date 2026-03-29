@@ -3572,8 +3572,8 @@ msgstr "CPL:en %f har en felaktig CPL-utöknings metadata tagg (%n)"
 
 #: src/wx/verify_dcp_result_panel.cc:453
 #, c-format
-msgid "The DCP has a FFOC of %n instead of 1."
-msgstr "DCP:n har en FFOC av %n istället för 1."
+msgid "The DCP has a FFOC of %time instead of 1."
+msgstr "DCP:n har en FFOC av %time istället för 1."
 
 #: src/wx/verify_dcp_result_panel.cc:456
 #, c-format

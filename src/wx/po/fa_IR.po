@@ -3494,8 +3494,8 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:453
 #, c-format
-msgid "The DCP has a FFOC of %n instead of 1."
-msgstr "دی سی پی به جای 1 عدد دارای %n عدد فریم اول محتوا است(FFOC)."
+msgid "The DCP has a FFOC of %time instead of 1."
+msgstr "دی سی پی به جای 1 عدد دارای %time عدد فریم اول محتوا است(FFOC)."
 
 #: src/wx/verify_dcp_result_panel.cc:456
 #, c-format

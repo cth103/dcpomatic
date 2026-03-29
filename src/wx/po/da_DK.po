@@ -3544,7 +3544,7 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:453
 #, c-format
-msgid "The DCP has a FFOC of %n instead of 1."
+msgid "The DCP has a FFOC of %time instead of 1."
 msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:456
