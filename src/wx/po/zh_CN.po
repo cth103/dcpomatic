@@ -3685,8 +3685,8 @@ msgstr "PKL中CPL哈希值与CPL文件的哈希值不一致。可能CPL文件已
 
 #: src/wx/verify_dcp_result_panel.cc:342
 #, c-format
-msgid "The invalid language tag %n is used."
-msgstr "使用了无效的语言标记%n。"
+msgid "The invalid language tag %language is used."
+msgstr "使用了无效的语言标记%language。"
 
 #: src/wx/smpte_metadata_dialog.cc:63
 #, c-format

@@ -3765,8 +3765,8 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:342
 #, c-format
-msgid "The invalid language tag %n is used."
-msgstr "De ongeldige language tag %n wordt gebruikt."
+msgid "The invalid language tag %language is used."
+msgstr "De ongeldige language tag %language wordt gebruikt."
 
 #: src/wx/smpte_metadata_dialog.cc:63
 #, c-format

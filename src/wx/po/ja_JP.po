@@ -3762,8 +3762,8 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:333
 #, c-format
-msgid "The invalid language tag %n is used."
-msgstr "無効な言語タグ %n が使用されています。"
+msgid "The invalid language tag %language is used."
+msgstr "無効な言語タグ %language が使用されています。"
 
 #: src/wx/smpte_metadata_dialog.cc:63
 #, c-format

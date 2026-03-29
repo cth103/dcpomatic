@@ -3901,7 +3901,7 @@ msgstr "Die Prüfsumme für die CPL in der PKL entspricht nicht der CPL Datei!"
 
 #: src/wx/verify_dcp_result_panel.cc:342
 #, c-format
-msgid "The invalid language tag %n is used."
+msgid "The invalid language tag %language is used."
 msgstr ""
 
 #: src/wx/smpte_metadata_dialog.cc:63

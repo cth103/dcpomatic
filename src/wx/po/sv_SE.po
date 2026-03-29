@@ -3843,8 +3843,8 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:342
 #, c-format
-msgid "The invalid language tag %n is used."
-msgstr "Den felaktiga språktaggen %n används."
+msgid "The invalid language tag %language is used."
+msgstr "Den felaktiga språktaggen %language används."
 
 #: src/wx/smpte_metadata_dialog.cc:63
 #, c-format

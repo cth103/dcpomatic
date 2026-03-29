@@ -342,7 +342,7 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 			add(i.second, _("This DCP uses the Interop standard, but it should be made with SMPTE."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_LANGUAGE:
-			add(i.second, _("The invalid language tag %n is used."));
+			add(i.second, _("The invalid language tag %language is used."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_PICTURE_SIZE_IN_PIXELS:
 			add(i.second, _("The video asset %f uses the invalid image size %n."));
