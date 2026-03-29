@@ -3642,8 +3642,8 @@ msgstr "データ%fが見つかりません。"
 
 #: src/wx/verify_dcp_result_panel.cc:307
 #, c-format
-msgid "The asset %n has a duration of less than 1 second, which is invalid."
-msgstr "データ%nの有効期間が1秒未満であるため、無効です。"
+msgid "The asset %asset_id has a duration of less than 1 second, which is invalid."
+msgstr "データ%asset_idの有効期間が1秒未満であるため、無効です。"
 
 #: src/wx/verify_dcp_result_panel.cc:304
 #, c-format

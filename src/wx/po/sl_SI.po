@@ -3665,8 +3665,8 @@ msgstr "Manjka sredstvo %f."
 
 #: src/wx/verify_dcp_result_panel.cc:316
 #, c-format
-msgid "The asset %n has a duration of less than 1 second, which is invalid."
-msgstr "Sredstvo %n ima trajanje manj kot 1 sekundo, kar je neveljavno."
+msgid "The asset %asset_id has a duration of less than 1 second, which is invalid."
+msgstr "Sredstvo %asset_id ima trajanje manj kot 1 sekundo, kar je neveljavno."
 
 #: src/wx/verify_dcp_result_panel.cc:313
 #, c-format

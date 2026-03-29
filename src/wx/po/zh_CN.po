@@ -3582,8 +3582,8 @@ msgstr "丢失资产 %f。"
 
 #: src/wx/verify_dcp_result_panel.cc:316
 #, c-format
-msgid "The asset %n has a duration of less than 1 second, which is invalid."
-msgstr "此资产 %n 的持续时间少于1秒，这是无效的。"
+msgid "The asset %asset_id has a duration of less than 1 second, which is invalid."
+msgstr "此资产 %asset_id 的持续时间少于1秒，这是无效的。"
 
 #: src/wx/verify_dcp_result_panel.cc:313
 #, c-format

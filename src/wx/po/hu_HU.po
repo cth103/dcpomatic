@@ -3520,7 +3520,7 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:316
 #, c-format
-msgid "The asset %n has a duration of less than 1 second, which is invalid."
+msgid "The asset %asset_id has a duration of less than 1 second, which is invalid."
 msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:313

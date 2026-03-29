@@ -3661,8 +3661,8 @@ msgstr "에셋 %f이(가) 누락되었습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:316
 #, c-format
-msgid "The asset %n has a duration of less than 1 second, which is invalid."
-msgstr "에셋 %n의 재생 시간이 1초 미만이며, 이는 유효하지 않습니다."
+msgid "The asset %asset_id has a duration of less than 1 second, which is invalid."
+msgstr "에셋 %asset_id의 재생 시간이 1초 미만이며, 이는 유효하지 않습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:313
 #, c-format

@@ -3647,8 +3647,8 @@ msgstr "فایل %f موجود نیست."
 
 #: src/wx/verify_dcp_result_panel.cc:316
 #, c-format
-msgid "The asset %n has a duration of less than 1 second, which is invalid."
-msgstr "مدت فایل %n کمتر از یک ثانیه است که معتبر نیست."
+msgid "The asset %asset_id has a duration of less than 1 second, which is invalid."
+msgstr "مدت فایل %asset_id کمتر از یک ثانیه است که معتبر نیست."
 
 #: src/wx/verify_dcp_result_panel.cc:313
 #, c-format
