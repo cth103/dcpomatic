@@ -441,7 +441,7 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 			add(i.second, _("Closed caption asset %asset_id has a non-zero <EntryPoint>."));
 			break;
 		case dcp::VerificationNote::Code::MISSING_HASH:
-			add(i.second, _("The asset %n has no <Hash> in the CPL."));
+			add(i.second, _("The asset %asset_id has no <Hash> in the CPL."));
 			break;
 		case dcp::VerificationNote::Code::MISSING_FFEC_IN_FEATURE:
 			add(i.second, _("The DCP is a feature but has no FFEC (first frame of end credits) marker."));

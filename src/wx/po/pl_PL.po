@@ -3749,8 +3749,8 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:438
 #, c-format
-msgid "The asset %n has no <Hash> in the CPL."
-msgstr "Zawartość %n nie ma znacznika <Hash> w pliku CPL."
+msgid "The asset %asset_id has no <Hash> in the CPL."
+msgstr "Zawartość %asset_id nie ma znacznika <Hash> w pliku CPL."
 
 #: src/wx/verify_dcp_result_panel.cc:674
 #, c-format

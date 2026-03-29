@@ -3641,8 +3641,8 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:438
 #, c-format
-msgid "The asset %n has no <Hash> in the CPL."
-msgstr "Datový zdroj %n nemá <Hash> v CPL."
+msgid "The asset %asset_id has no <Hash> in the CPL."
+msgstr "Datový zdroj %asset_id nemá <Hash> v CPL."
 
 #: src/wx/verify_dcp_result_panel.cc:674
 #, c-format

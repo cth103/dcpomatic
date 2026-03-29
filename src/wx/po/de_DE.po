@@ -3802,7 +3802,7 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:438
 #, c-format
-msgid "The asset %n has no <Hash> in the CPL."
+msgid "The asset %asset_id has no <Hash> in the CPL."
 msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:674

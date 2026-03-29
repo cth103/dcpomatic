@@ -3652,8 +3652,8 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:438
 #, c-format
-msgid "The asset %n has no <Hash> in the CPL."
-msgstr "De asset %n heeft geen <Hash> in de CPL."
+msgid "The asset %asset_id has no <Hash> in the CPL."
+msgstr "De asset %asset_id heeft geen <Hash> in de CPL."
 
 #: src/wx/verify_dcp_result_panel.cc:674
 #, c-format
