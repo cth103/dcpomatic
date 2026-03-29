@@ -842,7 +842,7 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:435
 #, c-format
-msgid "Closed caption asset %n has a non-zero <EntryPoint>."
+msgid "Closed caption asset %asset_id has a non-zero <EntryPoint>."
 msgstr ""
 
 #: src/wx/closed_captions_dialog.cc:49 src/wx/dcp_referencing_dialog.cc:115
@@ -3233,7 +3233,7 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:429
 #, c-format
-msgid "Subtitle asset %n has a non-zero <EntryPoint>."
+msgid "Subtitle asset %asset_id has a non-zero <EntryPoint>."
 msgstr ""
 
 #: src/wx/export_subtitles_dialog.cc:105
@@ -3544,7 +3544,7 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:432
 #, c-format
-msgid "The closed caption asset %n has no <EntryPoint> tag."
+msgid "The closed caption asset %asset_id has no <EntryPoint> tag."
 msgstr ""
 
 #: src/wx/film_name_location_dialog.cc:146
@@ -3678,7 +3678,7 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:426
 #, c-format
-msgid "The subtitle asset %n has no <EntryPoint> tag."
+msgid "The subtitle asset %asset_id has no <EntryPoint> tag."
 msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:360

@@ -871,8 +871,8 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:435
 #, c-format
-msgid "Closed caption asset %n has a non-zero <EntryPoint>."
-msgstr "Closed caption asset %n heeft een <EntryPoint> dat niet nul is."
+msgid "Closed caption asset %asset_id has a non-zero <EntryPoint>."
+msgstr "Closed caption asset %asset_id heeft een <EntryPoint> dat niet nul is."
 
 #: src/wx/closed_captions_dialog.cc:49 src/wx/dcp_referencing_dialog.cc:115
 msgid "Closed captions"
@@ -3321,8 +3321,8 @@ msgstr "Ondertitel-uiterlijk"
 
 #: src/wx/verify_dcp_result_panel.cc:429
 #, c-format
-msgid "Subtitle asset %n has a non-zero <EntryPoint>."
-msgstr "Subtitle asset %n heeft een <EntryPoint> dat niet nul is."
+msgid "Subtitle asset %asset_id has a non-zero <EntryPoint>."
+msgstr "Subtitle asset %asset_id heeft een <EntryPoint> dat niet nul is."
 
 #: src/wx/export_subtitles_dialog.cc:105
 msgid "Subtitle files (.mxf)|*.mxf"
@@ -3666,8 +3666,8 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:432
 #, c-format
-msgid "The closed caption asset %n has no <EntryPoint> tag."
-msgstr "De closed caption asset %n heeft geen <EntryPoint> tag."
+msgid "The closed caption asset %asset_id has no <EntryPoint> tag."
+msgstr "De closed caption asset %asset_id heeft geen <EntryPoint> tag."
 
 #: src/wx/film_name_location_dialog.cc:146
 #, c-format
@@ -3830,8 +3830,8 @@ msgstr "De subtitle asset %n bevat geen ondertitels."
 
 #: src/wx/verify_dcp_result_panel.cc:426
 #, c-format
-msgid "The subtitle asset %n has no <EntryPoint> tag."
-msgstr "De subtitle asset %n heeft geen <EntryPoint> tag."
+msgid "The subtitle asset %asset_id has no <EntryPoint> tag."
+msgstr "De subtitle asset %asset_id heeft geen <EntryPoint> tag."
 
 #: src/wx/verify_dcp_result_panel.cc:360
 #, c-format

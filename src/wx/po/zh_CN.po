@@ -866,8 +866,8 @@ msgstr "单击该按钮可将所有选定的内容为相同的值。"
 
 #: src/wx/verify_dcp_result_panel.cc:435
 #, c-format
-msgid "Closed caption asset %n has a non-zero <EntryPoint>."
-msgstr "隐藏式字幕资源 %n 具有非零 <EntryPoint>。"
+msgid "Closed caption asset %asset_id has a non-zero <EntryPoint>."
+msgstr "隐藏式字幕资源 %asset_id 具有非零 <EntryPoint>。"
 
 #: src/wx/closed_captions_dialog.cc:49 src/wx/dcp_referencing_dialog.cc:115
 msgid "Closed captions"
@@ -3293,8 +3293,8 @@ msgstr "字幕外观"
 
 #: src/wx/verify_dcp_result_panel.cc:429
 #, c-format
-msgid "Subtitle asset %n has a non-zero <EntryPoint>."
-msgstr "字幕文件 %n有非零 <EntryPoint>。"
+msgid "Subtitle asset %asset_id has a non-zero <EntryPoint>."
+msgstr "字幕文件 %asset_id有非零 <EntryPoint>。"
 
 #: src/wx/export_subtitles_dialog.cc:105
 msgid "Subtitle files (.mxf)|*.mxf"
@@ -3606,8 +3606,8 @@ msgstr "资产映射中 ID 为 %asset_id 的资产实际上具有 ID %other_asse
 
 #: src/wx/verify_dcp_result_panel.cc:432
 #, c-format
-msgid "The closed caption asset %n has no <EntryPoint> tag."
-msgstr "隐藏式字幕资产 %n 没有 <EntryPoint> 标记。"
+msgid "The closed caption asset %asset_id has no <EntryPoint> tag."
+msgstr "隐藏式字幕资产 %asset_id 没有 <EntryPoint> 标记。"
 
 #: src/wx/film_name_location_dialog.cc:146
 #, c-format
@@ -3746,8 +3746,8 @@ msgstr "字幕资源 %n 不包含字幕。"
 
 #: src/wx/verify_dcp_result_panel.cc:426
 #, c-format
-msgid "The subtitle asset %n has no <EntryPoint> tag."
-msgstr "字幕资产 %n 没有<EntryPoint>标记。"
+msgid "The subtitle asset %asset_id has no <EntryPoint> tag."
+msgstr "字幕资产 %asset_id 没有<EntryPoint>标记。"
 
 #: src/wx/verify_dcp_result_panel.cc:360
 #, c-format

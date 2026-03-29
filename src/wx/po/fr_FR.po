@@ -873,8 +873,8 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:435
 #, c-format
-msgid "Closed caption asset %n has a non-zero <EntryPoint>."
-msgstr "La ressource de sous-titres codés %n a un <EntryPoint> non nul."
+msgid "Closed caption asset %asset_id has a non-zero <EntryPoint>."
+msgstr "La ressource de sous-titres codés %asset_id a un <EntryPoint> non nul."
 
 #: src/wx/closed_captions_dialog.cc:49 src/wx/dcp_referencing_dialog.cc:115
 msgid "Closed captions"
@@ -3356,8 +3356,8 @@ msgstr "Apparence de sous-titre"
 
 #: src/wx/verify_dcp_result_panel.cc:429
 #, c-format
-msgid "Subtitle asset %n has a non-zero <EntryPoint>."
-msgstr "La ressource de sous-titres %n a un <EntryPoint> non nul."
+msgid "Subtitle asset %asset_id has a non-zero <EntryPoint>."
+msgstr "La ressource de sous-titres %asset_id a un <EntryPoint> non nul."
 
 #: src/wx/export_subtitles_dialog.cc:105
 msgid "Subtitle files (.mxf)|*.mxf"
@@ -3703,8 +3703,8 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:432
 #, c-format
-msgid "The closed caption asset %n has no <EntryPoint> tag."
-msgstr "La ressource de sous-titres codés %n n'a pas de balise <EntryPoint>."
+msgid "The closed caption asset %asset_id has no <EntryPoint> tag."
+msgstr "La ressource de sous-titres codés %asset_id n'a pas de balise <EntryPoint>."
 
 #: src/wx/film_name_location_dialog.cc:146
 #, c-format
@@ -3871,8 +3871,8 @@ msgstr "La ressource de sous-titres %n ne contient pas de sous-titres."
 
 #: src/wx/verify_dcp_result_panel.cc:426
 #, c-format
-msgid "The subtitle asset %n has no <EntryPoint> tag."
-msgstr "La ressource de sous-titre %n n'a pas de balise <EntryPoint>."
+msgid "The subtitle asset %asset_id has no <EntryPoint> tag."
+msgstr "La ressource de sous-titre %asset_id n'a pas de balise <EntryPoint>."
 
 #: src/wx/verify_dcp_result_panel.cc:360
 #, c-format

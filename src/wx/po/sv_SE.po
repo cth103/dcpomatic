@@ -886,8 +886,8 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:435
 #, c-format
-msgid "Closed caption asset %n has a non-zero <EntryPoint>."
-msgstr "Undertexten %n har en icke-tom <EntryPoint>."
+msgid "Closed caption asset %asset_id has a non-zero <EntryPoint>."
+msgstr "Undertexten %asset_id har en icke-tom <EntryPoint>."
 
 #: src/wx/closed_captions_dialog.cc:49 src/wx/dcp_referencing_dialog.cc:115
 msgid "Closed captions"
@@ -3408,8 +3408,8 @@ msgstr "Undertext-utseende"
 
 #: src/wx/verify_dcp_result_panel.cc:429
 #, c-format
-msgid "Subtitle asset %n has a non-zero <EntryPoint>."
-msgstr "Undertexttillgången %n har en icke-tom <EntryPoint>."
+msgid "Subtitle asset %asset_id has a non-zero <EntryPoint>."
+msgstr "Undertexttillgången %asset_id har en icke-tom <EntryPoint>."
 
 #: src/wx/export_subtitles_dialog.cc:105
 msgid "Subtitle files (.mxf)|*.mxf"
@@ -3748,8 +3748,8 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:432
 #, c-format
-msgid "The closed caption asset %n has no <EntryPoint> tag."
-msgstr "Undertexttillgången %n har ingen <EntryPoint> tagg."
+msgid "The closed caption asset %asset_id has no <EntryPoint> tag."
+msgstr "Undertexttillgången %asset_id har ingen <EntryPoint> tagg."
 
 #: src/wx/film_name_location_dialog.cc:146
 #, fuzzy, c-format
@@ -3905,8 +3905,8 @@ msgstr "Undertexttillgången %f innehåller inte någon <StartTime> tagg."
 
 #: src/wx/verify_dcp_result_panel.cc:426
 #, c-format
-msgid "The subtitle asset %n has no <EntryPoint> tag."
-msgstr "Undertexttillgången %n har ingen <EntryPoint> tagg."
+msgid "The subtitle asset %asset_id has no <EntryPoint> tag."
+msgstr "Undertexttillgången %asset_id har ingen <EntryPoint> tagg."
 
 #: src/wx/verify_dcp_result_panel.cc:360
 #, c-format

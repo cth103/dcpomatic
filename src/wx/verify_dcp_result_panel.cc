@@ -429,16 +429,16 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 			add(i.second, _("The DCP has closed captions but not every reel has the same number of closed caption assets."));
 			break;
 		case dcp::VerificationNote::Code::MISSING_SUBTITLE_ENTRY_POINT:
-			add(i.second, _("The subtitle asset %n has no <EntryPoint> tag."));
+			add(i.second, _("The subtitle asset %asset_id has no <EntryPoint> tag."));
 			break;
 		case dcp::VerificationNote::Code::INCORRECT_SUBTITLE_ENTRY_POINT:
-			add(i.second, _("Subtitle asset %n has a non-zero <EntryPoint>."));
+			add(i.second, _("Subtitle asset %asset_id has a non-zero <EntryPoint>."));
 			break;
 		case dcp::VerificationNote::Code::MISSING_CLOSED_CAPTION_ENTRY_POINT:
-			add(i.second, _("The closed caption asset %n has no <EntryPoint> tag."));
+			add(i.second, _("The closed caption asset %asset_id has no <EntryPoint> tag."));
 			break;
 		case dcp::VerificationNote::Code::INCORRECT_CLOSED_CAPTION_ENTRY_POINT:
-			add(i.second, _("Closed caption asset %n has a non-zero <EntryPoint>."));
+			add(i.second, _("Closed caption asset %asset_id has a non-zero <EntryPoint>."));
 			break;
 		case dcp::VerificationNote::Code::MISSING_HASH:
 			add(i.second, _("The asset %n has no <Hash> in the CPL."));
