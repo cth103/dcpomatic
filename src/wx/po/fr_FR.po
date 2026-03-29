@@ -324,13 +324,13 @@ msgstr "Une image JPEG2000 contient un marqueur POC invalide (%n)."
 
 #: src/wx/verify_dcp_result_panel.cc:520
 #, c-format
-msgid "A JPEG2000 frame has a code-block height of %n instead of 32."
-msgstr "Une image JPEG2000 a une hauteur de bloc de code de %n au lieu de 32."
+msgid "A JPEG2000 frame has a code-block height of %code_block_height instead of 32."
+msgstr "Une image JPEG2000 a une hauteur de bloc de code de %code_block_height au lieu de 32."
 
 #: src/wx/verify_dcp_result_panel.cc:513
 #, c-format
-msgid "A JPEG2000 frame has a code-block width of %n instead of 32."
-msgstr "Une image JPEG2000 a une largeur de bloc de code de %n au lieu de 32."
+msgid "A JPEG2000 frame has a code-block width of %code_block_width instead of 32."
+msgstr "Une image JPEG2000 a une largeur de bloc de code de %code_block_width au lieu de 32."
 
 #: src/wx/verify_dcp_result_panel.cc:583
 msgid "A JPEG2000 frame has no TLM marker."

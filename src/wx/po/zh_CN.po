@@ -327,13 +327,13 @@ msgstr "JPEG2000帧包含无效的POC标记 (%n)。"
 
 #: src/wx/verify_dcp_result_panel.cc:520
 #, c-format
-msgid "A JPEG2000 frame has a code-block height of %n instead of 32."
-msgstr "JPEG2000帧的代码块高度为 %n ，而不是32。"
+msgid "A JPEG2000 frame has a code-block height of %code_block_height instead of 32."
+msgstr "JPEG2000帧的代码块高度为 %code_block_height ，而不是32。"
 
 #: src/wx/verify_dcp_result_panel.cc:513
 #, c-format
-msgid "A JPEG2000 frame has a code-block width of %n instead of 32."
-msgstr "JPEG2000帧的代码块宽度为 %n ，而不是32。"
+msgid "A JPEG2000 frame has a code-block width of %code_block_width instead of 32."
+msgstr "JPEG2000帧的代码块宽度为 %code_block_width ，而不是32。"
 
 #: src/wx/verify_dcp_result_panel.cc:583
 msgid "A JPEG2000 frame has no TLM marker."

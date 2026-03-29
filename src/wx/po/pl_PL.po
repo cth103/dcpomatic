@@ -326,15 +326,15 @@ msgstr "Klatka obrazu JPEG2000 zawiera nieprawidłowy znacznik POC (%n)."
 
 #: src/wx/verify_dcp_result_panel.cc:520
 #, c-format
-msgid "A JPEG2000 frame has a code-block height of %n instead of 32."
+msgid "A JPEG2000 frame has a code-block height of %code_block_height instead of 32."
 msgstr ""
-"Wysokość bloku w klatce obrazu JPEG2000 wynosi %n zamiast wymaganych 32."
+"Wysokość bloku w klatce obrazu JPEG2000 wynosi %code_block_height zamiast wymaganych 32."
 
 #: src/wx/verify_dcp_result_panel.cc:513
 #, c-format
-msgid "A JPEG2000 frame has a code-block width of %n instead of 32."
+msgid "A JPEG2000 frame has a code-block width of %code_block_width instead of 32."
 msgstr ""
-"Szerokość bloku w klatce obrazu JPEG2000 wynosi %n zamiast wymaganych 32."
+"Szerokość bloku w klatce obrazu JPEG2000 wynosi %code_block_width zamiast wymaganych 32."
 
 #: src/wx/verify_dcp_result_panel.cc:583
 msgid "A JPEG2000 frame has no TLM marker."

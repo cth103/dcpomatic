@@ -322,13 +322,13 @@ msgstr "En JPEG2000-bild innehåller en felaktig POC-markering (%n)."
 # Svengelska
 #: src/wx/verify_dcp_result_panel.cc:520
 #, c-format
-msgid "A JPEG2000 frame has a code-block height of %n instead of 32."
-msgstr "En JPEG2000-bild innehåller en kodblockshöjd på %n istället för 32."
+msgid "A JPEG2000 frame has a code-block height of %code_block_height instead of 32."
+msgstr "En JPEG2000-bild innehåller en kodblockshöjd på %code_block_height istället för 32."
 
 #: src/wx/verify_dcp_result_panel.cc:513
 #, c-format
-msgid "A JPEG2000 frame has a code-block width of %n instead of 32."
-msgstr "En JPEG2000-bild innehåller en kodblocksbredd på %n istället för 32."
+msgid "A JPEG2000 frame has a code-block width of %code_block_width instead of 32."
+msgstr "En JPEG2000-bild innehåller en kodblocksbredd på %code_block_width istället för 32."
 
 #: src/wx/verify_dcp_result_panel.cc:583
 msgid "A JPEG2000 frame has no TLM marker."

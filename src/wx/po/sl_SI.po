@@ -317,13 +317,13 @@ msgstr "Sličica JPEG2000 vsebuje neveljavno oznako POC (%n)."
 
 #: src/wx/verify_dcp_result_panel.cc:520
 #, c-format
-msgid "A JPEG2000 frame has a code-block height of %n instead of 32."
-msgstr "Sličica JPEG2000 ima višino kodnega bloka %n namesto 32."
+msgid "A JPEG2000 frame has a code-block height of %code_block_height instead of 32."
+msgstr "Sličica JPEG2000 ima višino kodnega bloka %code_block_height namesto 32."
 
 #: src/wx/verify_dcp_result_panel.cc:513
 #, c-format
-msgid "A JPEG2000 frame has a code-block width of %n instead of 32."
-msgstr "Sličica JPEG2000 ima širino kodnega bloka %n namesto 32."
+msgid "A JPEG2000 frame has a code-block width of %code_block_width instead of 32."
+msgstr "Sličica JPEG2000 ima širino kodnega bloka %code_block_width namesto 32."
 
 #: src/wx/verify_dcp_result_panel.cc:583
 msgid "A JPEG2000 frame has no TLM marker."

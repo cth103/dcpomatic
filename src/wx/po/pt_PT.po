@@ -315,12 +315,12 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:520
 #, c-format
-msgid "A JPEG2000 frame has a code-block height of %n instead of 32."
+msgid "A JPEG2000 frame has a code-block height of %code_block_height instead of 32."
 msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:513
 #, c-format
-msgid "A JPEG2000 frame has a code-block width of %n instead of 32."
+msgid "A JPEG2000 frame has a code-block width of %code_block_width instead of 32."
 msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:583

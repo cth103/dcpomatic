@@ -319,13 +319,13 @@ msgstr "یک فریم JPEG2000 شامل نشانه POC نادرستی است(%n)
 
 #: src/wx/verify_dcp_result_panel.cc:520
 #, c-format
-msgid "A JPEG2000 frame has a code-block height of %n instead of 32."
-msgstr "یک فریم JPEG2000 به جای 32 یک بلوک-کد با ارتفاع %n دارد."
+msgid "A JPEG2000 frame has a code-block height of %code_block_height instead of 32."
+msgstr "یک فریم JPEG2000 به جای 32 یک بلوک-کد با ارتفاع %code_block_height دارد."
 
 #: src/wx/verify_dcp_result_panel.cc:513
 #, c-format
-msgid "A JPEG2000 frame has a code-block width of %n instead of 32."
-msgstr "یک فریم JPEG2000 به جای 32 یک بلوک-کد با عرض %n دارد."
+msgid "A JPEG2000 frame has a code-block width of %code_block_width instead of 32."
+msgstr "یک فریم JPEG2000 به جای 32 یک بلوک-کد با عرض %code_block_width دارد."
 
 #: src/wx/verify_dcp_result_panel.cc:583
 msgid "A JPEG2000 frame has no TLM marker."

@@ -522,14 +522,14 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 		case dcp::VerificationNote::Code::INVALID_JPEG2000_CODE_BLOCK_WIDTH:
 			add(
 				i.second,
-				_("A JPEG2000 frame has a code-block width of %n instead of 32."),
+				_("A JPEG2000 frame has a code-block width of %code_block_width instead of 32."),
 				_("More JPEG2000 frames (not listed) have an invalid code-block width.")
 			);
 			break;
 		case dcp::VerificationNote::Code::INVALID_JPEG2000_CODE_BLOCK_HEIGHT:
 			add(
 				i.second,
-				_("A JPEG2000 frame has a code-block height of %n instead of 32."),
+				_("A JPEG2000 frame has a code-block height of %code_block_height instead of 32."),
 				_("More JPEG2000 frames (not listed) have an invalid code-block height.")
 			);
 			break;
