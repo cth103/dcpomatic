@@ -3777,8 +3777,8 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:408
 #, c-format
-msgid "The sound asset %f has an invalid bit depth of %n."
-msgstr "Zvukový prostředek %f má neplatnou bitovou hloubku %n."
+msgid "The sound asset %f has an invalid bit depth of %bit_depth."
+msgstr "Zvukový prostředek %f má neplatnou bitovou hloubku %bit_depth."
 
 #: src/wx/verify_dcp_result_panel.cc:405
 #, c-format

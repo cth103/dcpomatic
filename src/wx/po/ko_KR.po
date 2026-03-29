@@ -3807,8 +3807,8 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:408
 #, c-format
-msgid "The sound asset %f has an invalid bit depth of %n."
-msgstr "사운드 에셋 %f의 비트 심도 %n은(는) 유효하지 않습니다."
+msgid "The sound asset %f has an invalid bit depth of %bit_depth."
+msgstr "사운드 에셋 %f의 비트 심도 %bit_depth은(는) 유효하지 않습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:405
 #, c-format

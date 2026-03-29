@@ -3786,8 +3786,8 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:399
 #, c-format
-msgid "The sound asset %f has an invalid bit depth of %n."
-msgstr "音声データ%fのビット深度%nは無効です。"
+msgid "The sound asset %f has an invalid bit depth of %bit_depth."
+msgstr "音声データ%fのビット深度%bit_depthは無効です。"
 
 #: src/wx/verify_dcp_result_panel.cc:396
 #, c-format

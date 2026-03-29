@@ -3869,8 +3869,8 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:408
 #, fuzzy, c-format
-msgid "The sound asset %f has an invalid bit depth of %n."
-msgstr "Ljudspåret %f har ogiltlig bildhastighet %n."
+msgid "The sound asset %f has an invalid bit depth of %bit_depth."
+msgstr "Ljudspåret %f har ogiltlig bildhastighet %bit_depth."
 
 #: src/wx/verify_dcp_result_panel.cc:405
 #, c-format

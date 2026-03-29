@@ -3792,8 +3792,8 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:408
 #, c-format
-msgid "The sound asset %f has an invalid bit depth of %n."
-msgstr "De sound asset %f heeft een ongeldige bit depth van %n."
+msgid "The sound asset %f has an invalid bit depth of %bit_depth."
+msgstr "De sound asset %f heeft een ongeldige bit depth van %bit_depth."
 
 #: src/wx/verify_dcp_result_panel.cc:405
 #, c-format

@@ -3924,7 +3924,7 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:408
 #, fuzzy, c-format
-msgid "The sound asset %f has an invalid bit depth of %n."
+msgid "The sound asset %f has an invalid bit depth of %bit_depth."
 msgstr "Eine Videodatei enthält eine unzulässige Bildrate!"
 
 #: src/wx/verify_dcp_result_panel.cc:405

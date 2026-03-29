@@ -3708,8 +3708,8 @@ msgstr "某些字幕文本的分卷持续时间 (%s) 与其MXF的容器持续时
 
 #: src/wx/verify_dcp_result_panel.cc:408
 #, c-format
-msgid "The sound asset %f has an invalid bit depth of %n."
-msgstr "声音资产 %f 的位深度 %n 无效。"
+msgid "The sound asset %f has an invalid bit depth of %bit_depth."
+msgstr "声音资产 %f 的位深度 %bit_depth 无效。"
 
 #: src/wx/verify_dcp_result_panel.cc:405
 #, c-format
