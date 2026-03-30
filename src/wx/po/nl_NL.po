@@ -273,9 +273,9 @@ msgstr "Een 2K JPEG2000-frame bevat %n tile parts in plaats van 3."
 
 #: src/wx/verify_dcp_result_panel.cc:569
 #, c-format
-msgid "A 2K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %n"
+msgid "A 2K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %capabilities"
 msgstr ""
-"Een 2K JPEG2000-frame bevat een ongeldige Rsiz (capabilities) waarde van %n"
+"Een 2K JPEG2000-frame bevat een ongeldige Rsiz (capabilities) waarde van %capabilities"
 
 #: src/wx/verify_dcp_result_panel.cc:527
 #, c-format
@@ -294,9 +294,9 @@ msgstr "Een 4K JPEG2000-frame bevat %n tile parts in plaats van 6."
 
 #: src/wx/verify_dcp_result_panel.cc:576
 #, c-format
-msgid "A 4K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %n"
+msgid "A 4K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %capabilities"
 msgstr ""
-"Een 4K JPEG2000-frame bevat een ongeldige Rsiz (capabilities) waarde van %n"
+"Een 4K JPEG2000-frame bevat een ongeldige Rsiz (capabilities) waarde van %capabilities"
 
 #: src/wx/verify_dcp_result_panel.cc:534
 #, c-format

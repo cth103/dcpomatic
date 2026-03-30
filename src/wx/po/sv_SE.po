@@ -275,8 +275,8 @@ msgstr "En 2K JPEG2000-bild innehåller %n bildsegment istället för 3."
 
 #: src/wx/verify_dcp_result_panel.cc:569
 #, fuzzy, c-format
-msgid "A 2K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %n"
-msgstr "En JPEG2000-bild innehåller en felaktig POC-markering (%n)."
+msgid "A 2K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %capabilities"
+msgstr "En JPEG2000-bild innehåller en felaktig POC-markering (%capabilities)."
 
 #: src/wx/verify_dcp_result_panel.cc:527
 #, c-format
@@ -296,8 +296,8 @@ msgstr "En 4K JPEG2000-bild innehåller %n bildsegment istället för 6."
 
 #: src/wx/verify_dcp_result_panel.cc:576
 #, fuzzy, c-format
-msgid "A 4K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %n"
-msgstr "En JPEG2000-bild innehåller en felaktig POC-markering (%n)."
+msgid "A 4K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %capabilities"
+msgstr "En JPEG2000-bild innehåller en felaktig POC-markering (%capabilities)."
 
 #: src/wx/verify_dcp_result_panel.cc:534
 #, c-format

@@ -274,8 +274,8 @@ msgstr "Rámeček 2K JPEG2000 obsahuje %n dílů dlaždic místo 3."
 
 #: src/wx/verify_dcp_result_panel.cc:569
 #, c-format
-msgid "A 2K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %n"
-msgstr "Snímek 2K JPEG2000 obsahuje neplatnou hodnotu Rsiz (capabilities) %n"
+msgid "A 2K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %capabilities"
+msgstr "Snímek 2K JPEG2000 obsahuje neplatnou hodnotu Rsiz (capabilities) %capabilities"
 
 #: src/wx/verify_dcp_result_panel.cc:527
 #, c-format
@@ -294,8 +294,8 @@ msgstr "Rámeček 4K JPEG2000 obsahuje %n dílků dlaždic místo 6."
 
 #: src/wx/verify_dcp_result_panel.cc:576
 #, c-format
-msgid "A 4K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %n"
-msgstr "Rámec 4K JPEG2000 obsahuje neplatnou hodnotu Rsiz (capabilities) %n"
+msgid "A 4K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %capabilities"
+msgstr "Rámec 4K JPEG2000 obsahuje neplatnou hodnotu Rsiz (capabilities) %capabilities"
 
 #: src/wx/verify_dcp_result_panel.cc:534
 #, c-format

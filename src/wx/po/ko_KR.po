@@ -273,9 +273,9 @@ msgstr "2K JPEG2000 프레임이 3개 대신 %n개의 타일 파트를 포함하
 
 #: src/wx/verify_dcp_result_panel.cc:569
 #, c-format
-msgid "A 2K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %n"
+msgid "A 2K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %capabilities"
 msgstr ""
-"2K JPEG2000 프레임에 유효하지 않은 Rsiz(capabilities) 값 %n이(가) 포함되어 있"
+"2K JPEG2000 프레임에 유효하지 않은 Rsiz(capabilities) 값 %capabilities이(가) 포함되어 있"
 "습니다"
 
 #: src/wx/verify_dcp_result_panel.cc:527
@@ -295,9 +295,9 @@ msgstr "4K JPEG2000 프레임이 6개 대신 %n개의 타일 파트를 포함하
 
 #: src/wx/verify_dcp_result_panel.cc:576
 #, c-format
-msgid "A 4K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %n"
+msgid "A 4K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %capabilities"
 msgstr ""
-"4K JPEG2000 프레임에 유효하지 않은 Rsiz(capabilities) 값 %n이(가) 포함되어 있"
+"4K JPEG2000 프레임에 유효하지 않은 Rsiz(capabilities) 값 %capabilities이(가) 포함되어 있"
 "습니다"
 
 #: src/wx/verify_dcp_result_panel.cc:534

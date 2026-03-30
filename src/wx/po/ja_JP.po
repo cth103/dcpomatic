@@ -277,8 +277,8 @@ msgstr "2K JPEG2000 フレームには、3 個ではなく %n 個のタイル部
 
 #: src/wx/verify_dcp_result_panel.cc:560
 #, fuzzy, c-format
-msgid "A 2K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %n"
-msgstr "2K JPEG2000フレームに無効なRsiz（機能）値%nが含まれています"
+msgid "A 2K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %capabilities"
+msgstr "2K JPEG2000フレームに無効なRsiz（機能）値%capabilitiesが含まれています"
 
 #: src/wx/verify_dcp_result_panel.cc:518
 #, fuzzy, c-format
@@ -297,8 +297,8 @@ msgstr "4K JPEG2000 フレームには、6 個ではなく %n 個のタイル部
 
 #: src/wx/verify_dcp_result_panel.cc:567
 #, fuzzy, c-format
-msgid "A 4K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %n"
-msgstr "4K JPEG2000フレームに無効なRsiz（機能）値%nが含まれています"
+msgid "A 4K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %capabilities"
+msgstr "4K JPEG2000フレームに無効なRsiz（機能）値%capabilitiesが含まれています"
 
 #: src/wx/verify_dcp_result_panel.cc:525
 #, fuzzy, c-format

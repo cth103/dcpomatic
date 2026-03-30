@@ -278,8 +278,8 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:569
 #, fuzzy, c-format
-msgid "A 2K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %n"
-msgstr "A JPEG2000 Frame enthält einen ungültigen POC-Marker (%n)."
+msgid "A 2K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %capabilities"
+msgstr "A JPEG2000 Frame enthält einen ungültigen POC-Marker (%capabilities)."
 
 #: src/wx/verify_dcp_result_panel.cc:527
 #, c-format
@@ -299,8 +299,8 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:576
 #, fuzzy, c-format
-msgid "A 4K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %n"
-msgstr "A JPEG2000 Frame enthält einen ungültigen POC-Marker (%n)."
+msgid "A 4K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %capabilities"
+msgstr "A JPEG2000 Frame enthält einen ungültigen POC-Marker (%capabilities)."
 
 #: src/wx/verify_dcp_result_panel.cc:534
 #, c-format

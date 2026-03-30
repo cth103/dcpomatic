@@ -276,9 +276,9 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:569
 #, c-format
-msgid "A 2K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %n"
+msgid "A 2K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %capabilities"
 msgstr ""
-"Une image JPEG2000 2K contient une valeur Rsiz (capacités) invalide de %n"
+"Une image JPEG2000 2K contient une valeur Rsiz (capacités) invalide de %capabilities"
 
 #: src/wx/verify_dcp_result_panel.cc:527
 #, c-format
@@ -298,9 +298,9 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:576
 #, c-format
-msgid "A 4K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %n"
+msgid "A 4K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %capabilities"
 msgstr ""
-"Une image JPEG2000 4K contient une valeur Rsiz (capacités) invalide de %n"
+"Une image JPEG2000 4K contient une valeur Rsiz (capacités) invalide de %capabilities"
 
 #: src/wx/verify_dcp_result_panel.cc:534
 #, c-format

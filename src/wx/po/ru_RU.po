@@ -271,9 +271,9 @@ msgstr "Кадр 2K JPEG2000 содержит %n части(ей) тайла в�
 
 #: src/wx/verify_dcp_result_panel.cc:569
 #, c-format
-msgid "A 2K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %n"
+msgid "A 2K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %capabilities"
 msgstr ""
-"Кадр 2K JPEG2000 содержит недопустимое значение Rsiz (возможности), равное %n"
+"Кадр 2K JPEG2000 содержит недопустимое значение Rsiz (возможности), равное %capabilities"
 
 #: src/wx/verify_dcp_result_panel.cc:527
 #, c-format
@@ -292,9 +292,9 @@ msgstr "Кадр 4K JPEG2000 содержит %n части(ей) тайла в�
 
 #: src/wx/verify_dcp_result_panel.cc:576
 #, c-format
-msgid "A 4K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %n"
+msgid "A 4K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %capabilities"
 msgstr ""
-"Кадр 4K JPEG2000 содержит недопустимое значение Rsiz (возможности), равное %n"
+"Кадр 4K JPEG2000 содержит недопустимое значение Rsiz (возможности), равное %capabilities"
 
 #: src/wx/verify_dcp_result_panel.cc:534
 #, c-format

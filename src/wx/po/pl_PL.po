@@ -276,8 +276,8 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:569
 #, fuzzy, c-format
-msgid "A 2K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %n"
-msgstr "Klatka obrazu JPEG2000 zawiera nieprawidłowy znacznik POC (%n)."
+msgid "A 2K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %capabilities"
+msgstr "Klatka obrazu JPEG2000 zawiera nieprawidłowy znacznik POC (%capabilities)."
 
 #: src/wx/verify_dcp_result_panel.cc:527
 #, c-format
@@ -300,8 +300,8 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:576
 #, fuzzy, c-format
-msgid "A 4K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %n"
-msgstr "Klatka obrazu JPEG2000 zawiera nieprawidłowy znacznik POC (%n)."
+msgid "A 4K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %capabilities"
+msgstr "Klatka obrazu JPEG2000 zawiera nieprawidłowy znacznik POC (%capabilities)."
 
 #: src/wx/verify_dcp_result_panel.cc:534
 #, c-format
