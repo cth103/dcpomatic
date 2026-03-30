@@ -3659,8 +3659,8 @@ msgstr "PKL:en %pkl har krypterat innehåll men är inte signerat."
 
 #: src/wx/verify_dcp_result_panel.cc:637
 #, fuzzy, c-format
-msgid "The PKL %n has more than one asset with the same ID."
-msgstr "PKL:en %n har krypterat innehåll men är inte signerat."
+msgid "The PKL %pkl_id has more than one asset with the same ID."
+msgstr "PKL:en %pkl_id har krypterat innehåll men är inte signerat."
 
 #: src/wx/verify_dcp_result_panel.cc:283
 #, c-format

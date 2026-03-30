@@ -3523,8 +3523,8 @@ msgstr "PKL %pkl包含已加密内容，但未签名。"
 
 #: src/wx/verify_dcp_result_panel.cc:637
 #, c-format
-msgid "The PKL %n has more than one asset with the same ID."
-msgstr "PKL %n 包含一个以上的资产具有相同的ID。"
+msgid "The PKL %pkl_id has more than one asset with the same ID."
+msgstr "PKL %pkl_id 包含一个以上的资产具有相同的ID。"
 
 #: src/wx/verify_dcp_result_panel.cc:283
 #, c-format

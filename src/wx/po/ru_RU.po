@@ -3610,8 +3610,8 @@ msgstr "PKL %pkl не подписан, но содержит зашифрова
 
 #: src/wx/verify_dcp_result_panel.cc:637
 #, c-format
-msgid "The PKL %n has more than one asset with the same ID."
-msgstr "В PKL %n содержится более одного ресурса с одинаковым идентификатором."
+msgid "The PKL %pkl_id has more than one asset with the same ID."
+msgstr "В PKL %pkl_id содержится более одного ресурса с одинаковым идентификатором."
 
 #: src/wx/verify_dcp_result_panel.cc:283
 #, c-format

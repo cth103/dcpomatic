@@ -3579,8 +3579,8 @@ msgstr "PKL %pkl は暗号化されたコンテンツを含みますが署名が
 
 #: src/wx/verify_dcp_result_panel.cc:628
 #, c-format
-msgid "The PKL %n has more than one asset with the same ID."
-msgstr "PKL %n には、同じ ID を持つデータが複数存在します。"
+msgid "The PKL %pkl_id has more than one asset with the same ID."
+msgstr "PKL %pkl_id には、同じ ID を持つデータが複数存在します。"
 
 #: src/wx/verify_dcp_result_panel.cc:274
 #, c-format

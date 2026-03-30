@@ -633,7 +633,7 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 			add(i.second, _("The <MainPictureActiveArea> is either not a multiple of 2, or is bigger than an asset."));
 			break;
 		case dcp::VerificationNote::Code::DUPLICATE_ASSET_ID_IN_PKL:
-			add(i.second, _("The PKL %n has more than one asset with the same ID."));
+			add(i.second, _("The PKL %pkl_id has more than one asset with the same ID."));
 			break;
 		case dcp::VerificationNote::Code::DUPLICATE_ASSET_ID_IN_ASSETMAP:
 			add(i.second, _("The ASSETMAP %n has more than one asset with the same ID."));

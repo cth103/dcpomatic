@@ -3583,8 +3583,8 @@ msgstr "فهرست پکیج(PKL) بنام: %pkl دارای محتوای رمزگ
 
 #: src/wx/verify_dcp_result_panel.cc:637
 #, c-format
-msgid "The PKL %n has more than one asset with the same ID."
-msgstr "فهرست پکیج (PKL) بنام: %n دارای بیش از یک محتوا با شناسه مشابه است."
+msgid "The PKL %pkl_id has more than one asset with the same ID."
+msgstr "فهرست پکیج (PKL) بنام: %pkl_id دارای بیش از یک محتوا با شناسه مشابه است."
 
 #: src/wx/verify_dcp_result_panel.cc:283
 #, c-format

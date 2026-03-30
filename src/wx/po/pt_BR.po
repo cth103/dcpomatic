@@ -3644,7 +3644,7 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:637
 #, c-format
-msgid "The PKL %n has more than one asset with the same ID."
+msgid "The PKL %pkl_id has more than one asset with the same ID."
 msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:283

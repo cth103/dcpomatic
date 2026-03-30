@@ -3571,8 +3571,8 @@ msgstr "De PKL %pkl heeft versleutelde content, maar is niet ondertekend."
 
 #: src/wx/verify_dcp_result_panel.cc:637
 #, c-format
-msgid "The PKL %n has more than one asset with the same ID."
-msgstr "De PKL %n heeft meer dan één asset met dezelfde ID."
+msgid "The PKL %pkl_id has more than one asset with the same ID."
+msgstr "De PKL %pkl_id heeft meer dan één asset met dezelfde ID."
 
 #: src/wx/verify_dcp_result_panel.cc:283
 #, c-format

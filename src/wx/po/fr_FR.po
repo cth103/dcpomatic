@@ -3604,8 +3604,8 @@ msgstr "La PKL %pkl a un contenu crypté mais n'est pas signée."
 
 #: src/wx/verify_dcp_result_panel.cc:637
 #, c-format
-msgid "The PKL %n has more than one asset with the same ID."
-msgstr "La PKL %n a un contenu crypté mais n'est pas signée."
+msgid "The PKL %pkl_id has more than one asset with the same ID."
+msgstr "La PKL %pkl_id a un contenu crypté mais n'est pas signée."
 
 #: src/wx/verify_dcp_result_panel.cc:283
 #, c-format

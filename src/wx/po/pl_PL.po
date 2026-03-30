@@ -3673,8 +3673,8 @@ msgstr "Plik PKL %pkl posiada zaszyfrowaną zawartość, ale nie jest podpisany.
 
 #: src/wx/verify_dcp_result_panel.cc:637
 #, fuzzy, c-format
-msgid "The PKL %n has more than one asset with the same ID."
-msgstr "Plik PKL %n posiada zaszyfrowaną zawartość, ale nie jest podpisany."
+msgid "The PKL %pkl_id has more than one asset with the same ID."
+msgstr "Plik PKL %pkl_id posiada zaszyfrowaną zawartość, ale nie jest podpisany."
 
 #: src/wx/verify_dcp_result_panel.cc:283
 #, c-format

@@ -3600,8 +3600,8 @@ msgstr "PKL %pkl ima šifrirano vsebino, vendar ni podpisan."
 
 #: src/wx/verify_dcp_result_panel.cc:637
 #, c-format
-msgid "The PKL %n has more than one asset with the same ID."
-msgstr "PKL %n ima več kot eno sredstvo z istim ID."
+msgid "The PKL %pkl_id has more than one asset with the same ID."
+msgstr "PKL %pkl_id ima več kot eno sredstvo z istim ID."
 
 #: src/wx/verify_dcp_result_panel.cc:283
 #, c-format
