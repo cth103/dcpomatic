@@ -3702,9 +3702,9 @@ msgstr "分卷包含的图像内容帧速率 %frame_rate 非法。"
 #: src/wx/verify_dcp_result_panel.cc:604
 #, c-format
 msgid ""
-"The reel duration (%s) of some timed text is not the same as the "
-"ContainerDuration (%s) of its MXF."
-msgstr "某些字幕文本的分卷持续时间 (%s) 与其MXF的容器持续时间 (%s) 不同。"
+"The reel duration (%other_duration) of some timed text is not the same as the "
+"ContainerDuration (%duration) of its MXF."
+msgstr "某些字幕文本的分卷持续时间 (%other_duration) 与其MXF的容器持续时间 (%duration) 不同。"
 
 #: src/wx/verify_dcp_result_panel.cc:408
 #, c-format

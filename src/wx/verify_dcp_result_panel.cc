@@ -606,21 +606,8 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 			add(i.second, _("The Asset ID in a timed text MXF is the same as the Resource ID or that of the contained XML."));
 			break;
 		case dcp::VerificationNote::Code::MISMATCHED_TIMED_TEXT_DURATION:
-		{
-			for (auto const& note: i.second) {
-				vector<string> parts;
-				boost::split(parts, note.note().get(), boost::is_any_of(" "));
-				add(
-					{ note },
-					wxString::Format(
-						_("The reel duration (%s) of some timed text is not the same as the ContainerDuration (%s) of its MXF."),
-						std_to_wx(parts[0]),
-						std_to_wx(parts[1])
-						)
-				   );
-			}
+			add(i.second, _("The reel duration (%other_duration) of some timed text is not the same as the ContainerDuration (%duration) of its MXF."));
 			break;
-		}
 		case dcp::VerificationNote::Code::MISSED_CHECK_OF_ENCRYPTED:
 			add(i.second, _("Part of the DCP could not be checked because no KDM was available."));
 			break;

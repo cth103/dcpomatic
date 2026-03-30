@@ -3784,11 +3784,11 @@ msgstr ""
 #: src/wx/verify_dcp_result_panel.cc:604
 #, c-format
 msgid ""
-"The reel duration (%s) of some timed text is not the same as the "
-"ContainerDuration (%s) of its MXF."
+"The reel duration (%other_duration) of some timed text is not the same as the "
+"ContainerDuration (%duration) of its MXF."
 msgstr ""
-"De reel duration (%s) van sommige timed text is niet hetzelfde als de "
-"ContainerDuration (%s) van zijn MXF."
+"De reel duration (%other_duration) van sommige timed text is niet hetzelfde als de "
+"ContainerDuration (%duration) van zijn MXF."
 
 #: src/wx/verify_dcp_result_panel.cc:408
 #, c-format

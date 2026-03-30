@@ -3875,11 +3875,11 @@ msgstr ""
 #: src/wx/verify_dcp_result_panel.cc:604
 #, c-format
 msgid ""
-"The reel duration (%s) of some timed text is not the same as the "
-"ContainerDuration (%s) of its MXF."
+"The reel duration (%other_duration) of some timed text is not the same as the "
+"ContainerDuration (%duration) of its MXF."
 msgstr ""
-"Długość rolki (%s) zawarta w niektórych napisach jest inna od długości "
-"materiału (%s) pliku MXF."
+"Długość rolki (%other_duration) zawarta w niektórych napisach jest inna od długości "
+"materiału (%duration) pliku MXF."
 
 #: src/wx/verify_dcp_result_panel.cc:408
 #, fuzzy, c-format

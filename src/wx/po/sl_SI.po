@@ -3807,11 +3807,11 @@ msgstr "Slika v kolutu ima hitrost sličic %frame_rate, ki ni veljavna."
 #: src/wx/verify_dcp_result_panel.cc:604
 #, c-format
 msgid ""
-"The reel duration (%s) of some timed text is not the same as the "
-"ContainerDuration (%s) of its MXF."
+"The reel duration (%other_duration) of some timed text is not the same as the "
+"ContainerDuration (%duration) of its MXF."
 msgstr ""
-"Trajanje koluta (%s) nekega časovno opredeljenega besedila ni enako trajanju "
-"vsebnika (%s) njegovega MXF."
+"Trajanje koluta (%other_duration) nekega časovno opredeljenega besedila ni enako trajanju "
+"vsebnika (%duration) njegovega MXF."
 
 #: src/wx/verify_dcp_result_panel.cc:408
 #, fuzzy, c-format

@@ -3778,11 +3778,11 @@ msgstr "リール内の画像フレームレートは%nですが無効です。"
 #: src/wx/verify_dcp_result_panel.cc:595
 #, c-format
 msgid ""
-"The reel duration (%s) of some timed text is not the same as the "
-"ContainerDuration (%s) of its MXF."
+"The reel duration (%other_duration) of some timed text is not the same as the "
+"ContainerDuration (%duration) of its MXF."
 msgstr ""
-"一部のタイムドテキストのリール再生時間（%s）は、そのMXFファイルのコンテナ再生"
-"時間（%s）とは異なります。"
+"一部のタイムドテキストのリール再生時間（%other_duration）は、そのMXFファイルのコンテナ再生"
+"時間（%duration）とは異なります。"
 
 #: src/wx/verify_dcp_result_panel.cc:399
 #, c-format

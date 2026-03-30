@@ -3918,8 +3918,8 @@ msgstr "Eine Videodatei enthält eine unzulässige Bildrate!"
 #: src/wx/verify_dcp_result_panel.cc:604
 #, c-format
 msgid ""
-"The reel duration (%s) of some timed text is not the same as the "
-"ContainerDuration (%s) of its MXF."
+"The reel duration (%other_duration) of some timed text is not the same as the "
+"ContainerDuration (%duration) of its MXF."
 msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:408

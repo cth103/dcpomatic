@@ -3769,11 +3769,11 @@ msgstr ""
 #: src/wx/verify_dcp_result_panel.cc:604
 #, c-format
 msgid ""
-"The reel duration (%s) of some timed text is not the same as the "
-"ContainerDuration (%s) of its MXF."
+"The reel duration (%other_duration) of some timed text is not the same as the "
+"ContainerDuration (%duration) of its MXF."
 msgstr ""
-"Doba trvání reelu (%s) určitého časovaného textu není stejná jako doba "
-"trvání kontejneru (%s) mxf."
+"Doba trvání reelu (%other_duration) určitého časovaného textu není stejná jako doba "
+"trvání kontejneru (%duration) mxf."
 
 #: src/wx/verify_dcp_result_panel.cc:408
 #, c-format
