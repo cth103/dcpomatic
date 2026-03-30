@@ -283,8 +283,8 @@ msgstr "A JPEG2000 Frame enthält einen ungültigen POC-Marker (%n)."
 
 #: src/wx/verify_dcp_result_panel.cc:527
 #, c-format
-msgid "A 2K JPEG2000 frame has %n POC marker(s) instead of 0."
-msgstr "A 2K JPEG2000 Frame hat %n POC-Marker anstelle von 0 POC-Markern."
+msgid "A 2K JPEG2000 frame has %poc_markers POC marker(s) instead of 0."
+msgstr "A 2K JPEG2000 Frame hat %poc_markers POC-Marker anstelle von 0 POC-Markern."
 
 #: src/wx/verify_dcp_result_panel.cc:492
 #, c-format
@@ -304,8 +304,8 @@ msgstr "A JPEG2000 Frame enthält einen ungültigen POC-Marker (%n)."
 
 #: src/wx/verify_dcp_result_panel.cc:534
 #, c-format
-msgid "A 4K JPEG2000 frame has %n POC marker(s) instead of 1."
-msgstr "A 2K JPEG2000 Frame hat %n POC-Marker anstelle von 1 POC-Marker."
+msgid "A 4K JPEG2000 frame has %poc_markers POC marker(s) instead of 1."
+msgstr "A 2K JPEG2000 Frame hat %poc_markers POC-Marker anstelle von 1 POC-Marker."
 
 #: src/wx/verify_dcp_result_panel.cc:499
 #, c-format

@@ -281,8 +281,8 @@ msgstr "Klatka obrazu JPEG2000 zawiera nieprawidłowy znacznik POC (%n)."
 
 #: src/wx/verify_dcp_result_panel.cc:527
 #, c-format
-msgid "A 2K JPEG2000 frame has %n POC marker(s) instead of 0."
-msgstr "Klatka obrazu 2K JPEG2000 zawiera %n znacznik(ów) POC zamiast 0."
+msgid "A 2K JPEG2000 frame has %poc_markers POC marker(s) instead of 0."
+msgstr "Klatka obrazu 2K JPEG2000 zawiera %poc_markers znacznik(ów) POC zamiast 0."
 
 #: src/wx/verify_dcp_result_panel.cc:492
 #, c-format
@@ -305,8 +305,8 @@ msgstr "Klatka obrazu JPEG2000 zawiera nieprawidłowy znacznik POC (%n)."
 
 #: src/wx/verify_dcp_result_panel.cc:534
 #, c-format
-msgid "A 4K JPEG2000 frame has %n POC marker(s) instead of 1."
-msgstr "Klatka obrazu 4K JPEG2000 zawiera %n znacznik(ów) POC zamiast 1."
+msgid "A 4K JPEG2000 frame has %poc_markers POC marker(s) instead of 1."
+msgstr "Klatka obrazu 4K JPEG2000 zawiera %poc_markers znacznik(ów) POC zamiast 1."
 
 #: src/wx/verify_dcp_result_panel.cc:499
 #, c-format

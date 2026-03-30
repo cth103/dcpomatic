@@ -280,8 +280,8 @@ msgstr "یک فریم JPEG2000 شامل نشانه POC نادرستی است(%n)
 
 #: src/wx/verify_dcp_result_panel.cc:527
 #, c-format
-msgid "A 2K JPEG2000 frame has %n POC marker(s) instead of 0."
-msgstr "یک فریم  2k JPEG2000 به جای 0 شامل %n نشانه(های)POC است."
+msgid "A 2K JPEG2000 frame has %poc_markers POC marker(s) instead of 0."
+msgstr "یک فریم  2k JPEG2000 به جای 0 شامل %poc_markers نشانه(های)POC است."
 
 #: src/wx/verify_dcp_result_panel.cc:492
 #, c-format
@@ -300,8 +300,8 @@ msgstr "یک فریم JPEG2000 شامل نشانه POC نادرستی است(%n)
 
 #: src/wx/verify_dcp_result_panel.cc:534
 #, c-format
-msgid "A 4K JPEG2000 frame has %n POC marker(s) instead of 1."
-msgstr "یک فریم  4k JPEG2000 به جای 1 شامل %n نشانه(های)POC است."
+msgid "A 4K JPEG2000 frame has %poc_markers POC marker(s) instead of 1."
+msgstr "یک فریم  4k JPEG2000 به جای 1 شامل %poc_markers نشانه(های)POC است."
 
 #: src/wx/verify_dcp_result_panel.cc:499
 #, c-format

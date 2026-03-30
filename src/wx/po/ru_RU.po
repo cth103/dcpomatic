@@ -277,8 +277,8 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:527
 #, c-format
-msgid "A 2K JPEG2000 frame has %n POC marker(s) instead of 0."
-msgstr "Кадр 2K JPEG2000 содержит %n маркера(ов) POC вместо 0."
+msgid "A 2K JPEG2000 frame has %poc_markers POC marker(s) instead of 0."
+msgstr "Кадр 2K JPEG2000 содержит %poc_markers маркера(ов) POC вместо 0."
 
 #: src/wx/verify_dcp_result_panel.cc:492
 #, c-format
@@ -298,8 +298,8 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:534
 #, c-format
-msgid "A 4K JPEG2000 frame has %n POC marker(s) instead of 1."
-msgstr "Кадр 4K JPEG2000 содержит %n маркера(ов) POC вместо 1."
+msgid "A 4K JPEG2000 frame has %poc_markers POC marker(s) instead of 1."
+msgstr "Кадр 4K JPEG2000 содержит %poc_markers маркера(ов) POC вместо 1."
 
 #: src/wx/verify_dcp_result_panel.cc:499
 #, c-format

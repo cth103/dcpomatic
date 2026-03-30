@@ -277,8 +277,8 @@ msgstr "Sličica JPEG2000 vsebuje neveljavno oznako POC (%n)."
 
 #: src/wx/verify_dcp_result_panel.cc:527
 #, c-format
-msgid "A 2K JPEG2000 frame has %n POC marker(s) instead of 0."
-msgstr "Sličica 2K JPEG2000 ima %n oznak POC namesto 0."
+msgid "A 2K JPEG2000 frame has %poc_markers POC marker(s) instead of 0."
+msgstr "Sličica 2K JPEG2000 ima %poc_markers oznak POC namesto 0."
 
 #: src/wx/verify_dcp_result_panel.cc:492
 #, c-format
@@ -297,8 +297,8 @@ msgstr "Sličica JPEG2000 vsebuje neveljavno oznako POC (%n)."
 
 #: src/wx/verify_dcp_result_panel.cc:534
 #, c-format
-msgid "A 4K JPEG2000 frame has %n POC marker(s) instead of 1."
-msgstr "Sličica 4K JPEG2000 ima %n oznak POC namesto 1."
+msgid "A 4K JPEG2000 frame has %poc_markers POC marker(s) instead of 1."
+msgstr "Sličica 4K JPEG2000 ima %poc_markers oznak POC namesto 1."
 
 #: src/wx/verify_dcp_result_panel.cc:499
 #, c-format

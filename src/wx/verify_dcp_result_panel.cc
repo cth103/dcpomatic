@@ -536,14 +536,14 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 		case dcp::VerificationNote::Code::INCORRECT_JPEG2000_POC_MARKER_COUNT_FOR_2K:
 			add(
 				i.second,
-				_("A 2K JPEG2000 frame has %n POC marker(s) instead of 0."),
+				_("A 2K JPEG2000 frame has %poc_markers POC marker(s) instead of 0."),
 				_("More 2K JPEG2000 frames (not listed) have too many POC markers.")
 			);
 			break;
 		case dcp::VerificationNote::Code::INCORRECT_JPEG2000_POC_MARKER_COUNT_FOR_4K:
 			add(
 				i.second,
-				_("A 4K JPEG2000 frame has %n POC marker(s) instead of 1."),
+				_("A 4K JPEG2000 frame has %poc_markers POC marker(s) instead of 1."),
 				_("More 4K JPEG2000 frames (not listed) have too many POC markers.")
 			);
 			break;

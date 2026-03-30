@@ -279,8 +279,8 @@ msgstr "Snímek 2K JPEG2000 obsahuje neplatnou hodnotu Rsiz (capabilities) %n"
 
 #: src/wx/verify_dcp_result_panel.cc:527
 #, c-format
-msgid "A 2K JPEG2000 frame has %n POC marker(s) instead of 0."
-msgstr "Rámeček 2K JPEG2000 má %n POP místo 0 značek."
+msgid "A 2K JPEG2000 frame has %poc_markers POC marker(s) instead of 0."
+msgstr "Rámeček 2K JPEG2000 má %poc_markers POP místo 0 značek."
 
 #: src/wx/verify_dcp_result_panel.cc:492
 #, c-format
@@ -299,8 +299,8 @@ msgstr "Rámec 4K JPEG2000 obsahuje neplatnou hodnotu Rsiz (capabilities) %n"
 
 #: src/wx/verify_dcp_result_panel.cc:534
 #, c-format
-msgid "A 4K JPEG2000 frame has %n POC marker(s) instead of 1."
-msgstr "Rámeček 4K JPEG2000 má %n POC značek místo 1."
+msgid "A 4K JPEG2000 frame has %poc_markers POC marker(s) instead of 1."
+msgstr "Rámeček 4K JPEG2000 má %poc_markers POC značek místo 1."
 
 #: src/wx/verify_dcp_result_panel.cc:499
 #, c-format

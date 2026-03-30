@@ -288,8 +288,8 @@ msgstr "一个 2K JPEG2000 帧包含无效的 Rsiz（承载力）值 %n"
 
 #: src/wx/verify_dcp_result_panel.cc:527
 #, c-format
-msgid "A 2K JPEG2000 frame has %n POC marker(s) instead of 0."
-msgstr "2K JPEG2000帧具有 %n POC标记而不是0。"
+msgid "A 2K JPEG2000 frame has %poc_markers POC marker(s) instead of 0."
+msgstr "2K JPEG2000帧具有 %poc_markers POC标记而不是0。"
 
 #: src/wx/verify_dcp_result_panel.cc:492
 #, c-format
@@ -308,8 +308,8 @@ msgstr "一个 2K JPEG2000 帧包含无效的 Rsiz（承载力）值 %n"
 
 #: src/wx/verify_dcp_result_panel.cc:534
 #, c-format
-msgid "A 4K JPEG2000 frame has %n POC marker(s) instead of 1."
-msgstr "4K JPEG2000帧具有 %n POC标记而不是1。"
+msgid "A 4K JPEG2000 frame has %poc_markers POC marker(s) instead of 1."
+msgstr "4K JPEG2000帧具有 %poc_markers POC标记而不是1。"
 
 #: src/wx/verify_dcp_result_panel.cc:499
 #, c-format
