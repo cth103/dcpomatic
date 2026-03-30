@@ -578,8 +578,8 @@ msgstr "Une ressource a un chemin vide dans ASSETMAP."
 
 #: src/wx/verify_dcp_result_panel.cc:631
 #, c-format
-msgid "An invalid <ContentKind> %n has been used."
-msgstr "Un <ContentKind> %n invalide a été utilisé."
+msgid "An invalid <ContentKind> %content_kind has been used."
+msgstr "Un <ContentKind> %content_kind invalide a été utilisé."
 
 #: src/wx/dkdm_output_panel.cc:204 src/wx/kdm_output_panel.cc:321
 msgid "An unknown exception occurred."

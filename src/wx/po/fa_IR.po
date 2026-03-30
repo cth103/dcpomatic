@@ -570,8 +570,8 @@ msgstr "یکی از محتواها دارای یک مسیر خالی در فای
 
 #: src/wx/verify_dcp_result_panel.cc:631
 #, c-format
-msgid "An invalid <ContentKind> %n has been used."
-msgstr "یک ContentKind> %n>  نا معتبر استفاده شده است."
+msgid "An invalid <ContentKind> %content_kind has been used."
+msgstr "یک ContentKind> %content_kind>  نا معتبر استفاده شده است."
 
 #: src/wx/dkdm_output_panel.cc:204 src/wx/kdm_output_panel.cc:321
 msgid "An unknown exception occurred."

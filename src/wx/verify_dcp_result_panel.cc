@@ -627,7 +627,7 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 			add(i.second, _("There is a <Duration> tag inside a <MainMarkers>."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_CONTENT_KIND:
-			add(i.second, _("An invalid <ContentKind> %n has been used."));
+			add(i.second, _("An invalid <ContentKind> %content_kind has been used."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_MAIN_PICTURE_ACTIVE_AREA:
 			add(i.second, _("The <MainPictureActiveArea> is either not a multiple of 2, or is bigger than an asset."));

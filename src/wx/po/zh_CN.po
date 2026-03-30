@@ -575,8 +575,8 @@ msgstr "有资产在 ASSETMAP 中具有空路径。"
 
 #: src/wx/verify_dcp_result_panel.cc:631
 #, c-format
-msgid "An invalid <ContentKind> %n has been used."
-msgstr "一个无效的 <ContentKind> %n 被使用。"
+msgid "An invalid <ContentKind> %content_kind has been used."
+msgstr "一个无效的 <ContentKind> %content_kind 被使用。"
 
 #: src/wx/dkdm_output_panel.cc:204 src/wx/kdm_output_panel.cc:321
 msgid "An unknown exception occurred."

@@ -578,7 +578,7 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:631
 #, c-format
-msgid "An invalid <ContentKind> %n has been used."
+msgid "An invalid <ContentKind> %content_kind has been used."
 msgstr ""
 
 #: src/wx/dkdm_output_panel.cc:204 src/wx/kdm_output_panel.cc:321
