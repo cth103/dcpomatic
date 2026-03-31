@@ -244,7 +244,7 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:652
 #, c-format
-msgid "<MainSoundConfiguration> is invalid (%n)"
+msgid "<MainSoundConfiguration> is invalid (%error)"
 msgstr ""
 
 #: src/wx/subtitle_appearance_dialog.cc:118

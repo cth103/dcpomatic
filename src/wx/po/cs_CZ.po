@@ -244,8 +244,8 @@ msgstr "<IssueDate> má neplatnou hodnotu %issue_date"
 
 #: src/wx/verify_dcp_result_panel.cc:652
 #, c-format
-msgid "<MainSoundConfiguration> is invalid (%n)"
-msgstr "<MainSoundConfiguration> ie neplatný (%n)"
+msgid "<MainSoundConfiguration> is invalid (%error)"
+msgstr "<MainSoundConfiguration> ie neplatný (%error)"
 
 #: src/wx/subtitle_appearance_dialog.cc:118
 msgid "<b>New colour</b>"

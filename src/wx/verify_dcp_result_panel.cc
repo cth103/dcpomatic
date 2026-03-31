@@ -648,7 +648,7 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 			add(i.second, _("Sound assets do not all have the same channel count."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_MAIN_SOUND_CONFIGURATION:
-			add(i.second, _("<MainSoundConfiguration> is invalid (%n)"));
+			add(i.second, _("<MainSoundConfiguration> is invalid (%error)"));
 			break;
 		case dcp::VerificationNote::Code::MISSING_FONT:
 			add(i.second, _("The font file for font ID \"%n\" was not found, or was not referred to in the ASSETMAP."));

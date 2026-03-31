@@ -243,8 +243,8 @@ msgstr "<IssueDate>에 유효하지 않은 값 %issue_date이(가) 있습니다"
 
 #: src/wx/verify_dcp_result_panel.cc:652
 #, c-format
-msgid "<MainSoundConfiguration> is invalid (%n)"
-msgstr "<MainSoundConfiguration>이 유효하지 않습니다 (%n)"
+msgid "<MainSoundConfiguration> is invalid (%error)"
+msgstr "<MainSoundConfiguration>이 유효하지 않습니다 (%error)"
 
 #: src/wx/subtitle_appearance_dialog.cc:118
 msgid "<b>New colour</b>"

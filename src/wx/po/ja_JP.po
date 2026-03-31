@@ -246,8 +246,8 @@ msgstr "<IssueDate> 無効な値があります %issue_date"
 
 #: src/wx/verify_dcp_result_panel.cc:643
 #, fuzzy, c-format
-msgid "<MainSoundConfiguration> is invalid (%n)"
-msgstr "<MainSoundConfiguration> 無効です (%n)"
+msgid "<MainSoundConfiguration> is invalid (%error)"
+msgstr "<MainSoundConfiguration> 無効です (%error)"
 
 #: src/wx/subtitle_appearance_dialog.cc:118
 #, fuzzy
