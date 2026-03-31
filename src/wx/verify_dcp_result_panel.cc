@@ -193,9 +193,6 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 					dcp::Time(note.frame().get(), note.frame_rate()->as_float(), note.frame_rate()->numerator).as_string(dcp::Standard::SMPTE)
 					));
 		}
-		if (auto const n = note.note()) {
-			message.Replace(char_to_wx("%n"), std_to_wx(*n));
-		}
 		if (auto const f = note.file()) {
 			message.Replace(char_to_wx("%f"), std_to_wx(f->filename().string()));
 		}
