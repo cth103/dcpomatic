@@ -636,7 +636,7 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 			add(i.second, _("The PKL %pkl_id has more than one asset with the same ID."));
 			break;
 		case dcp::VerificationNote::Code::DUPLICATE_ASSET_ID_IN_ASSETMAP:
-			add(i.second, _("The ASSETMAP %n has more than one asset with the same ID."));
+			add(i.second, _("The ASSETMAP %asset_map_id has more than one asset with the same ID."));
 			break;
 		case dcp::VerificationNote::Code::MISSING_SUBTITLE:
 			add(i.second, _("The subtitle asset %n contains no subtitles."));

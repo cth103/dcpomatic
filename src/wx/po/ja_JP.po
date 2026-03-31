@@ -3427,8 +3427,8 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:631
 #, c-format
-msgid "The ASSETMAP %n has more than one asset with the same ID."
-msgstr "ASSETMAP %n には、同じ ID を持つデータが複数存在します。"
+msgid "The ASSETMAP %asset_map_id has more than one asset with the same ID."
+msgstr "ASSETMAP %asset_map_id には、同じ ID を持つデータが複数存在します。"
 
 #: src/wx/verify_dcp_result_panel.cc:585
 #, fuzzy

@@ -3390,8 +3390,8 @@ msgstr "<MainPictureActiveArea>不是2的倍数，或者大于资产。"
 
 #: src/wx/verify_dcp_result_panel.cc:640
 #, c-format
-msgid "The ASSETMAP %n has more than one asset with the same ID."
-msgstr "ASSETMAP %n 中有一个以上的资产具有相同的ID。"
+msgid "The ASSETMAP %asset_map_id has more than one asset with the same ID."
+msgstr "ASSETMAP %asset_map_id 中有一个以上的资产具有相同的ID。"
 
 #: src/wx/verify_dcp_result_panel.cc:594
 msgid ""

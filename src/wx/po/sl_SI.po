@@ -3457,8 +3457,8 @@ msgstr "<MainPictureActiveArea> ni večkratnik 2 ali pa je večji od sredstva."
 
 #: src/wx/verify_dcp_result_panel.cc:640
 #, c-format
-msgid "The ASSETMAP %n has more than one asset with the same ID."
-msgstr "ASSETMAP %n ima več kot eno sredstvo z istim ID-jem."
+msgid "The ASSETMAP %asset_map_id has more than one asset with the same ID."
+msgstr "ASSETMAP %asset_map_id ima več kot eno sredstvo z istim ID-jem."
 
 #: src/wx/verify_dcp_result_panel.cc:594
 msgid ""

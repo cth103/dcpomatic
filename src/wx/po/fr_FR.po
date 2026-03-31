@@ -3455,8 +3455,8 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:640
 #, c-format
-msgid "The ASSETMAP %n has more than one asset with the same ID."
-msgstr "L'ASSETMAP %n a plusieurs ressources avec un même ID."
+msgid "The ASSETMAP %asset_map_id has more than one asset with the same ID."
+msgstr "L'ASSETMAP %asset_map_id a plusieurs ressources avec un même ID."
 
 #: src/wx/verify_dcp_result_panel.cc:594
 msgid ""

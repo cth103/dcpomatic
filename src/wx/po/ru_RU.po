@@ -3461,9 +3461,9 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:640
 #, c-format
-msgid "The ASSETMAP %n has more than one asset with the same ID."
+msgid "The ASSETMAP %asset_map_id has more than one asset with the same ID."
 msgstr ""
-"В ASSETMAP %n содержится более одного ресурса с одинаковым идентификатором."
+"В ASSETMAP %asset_map_id содержится более одного ресурса с одинаковым идентификатором."
 
 #: src/wx/verify_dcp_result_panel.cc:594
 msgid ""
