@@ -3758,10 +3758,10 @@ msgstr ""
 #: src/wx/verify_dcp_result_panel.cc:655
 #, c-format
 msgid ""
-"The font file for font ID \"%n\" was not found, or was not referred to in "
+"The font file for font ID \"%load_font_id\" was not found, or was not referred to in "
 "the ASSETMAP."
 msgstr ""
-"Le fichier police pour l'ID \"%n\" est introuvable, ou n'a pas été renseigné "
+"Le fichier police pour l'ID \"%load_font_id\" est introuvable, ou n'a pas été renseigné "
 "dans l'ASSETMAP."
 
 #: src/wx/verify_dcp_result_panel.cc:363

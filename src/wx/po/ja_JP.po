@@ -3717,10 +3717,10 @@ msgstr ""
 #: src/wx/verify_dcp_result_panel.cc:646
 #, c-format
 msgid ""
-"The font file for font ID \"%n\" was not found, or was not referred to in "
+"The font file for font ID \"%load_font_id\" was not found, or was not referred to in "
 "the ASSETMAP."
 msgstr ""
-"フォント ID \"%n\" のフォント ファイルが見つからないか、ASSETMAP で参照されて"
+"フォント ID \"%load_font_id\" のフォント ファイルが見つからないか、ASSETMAP で参照されて"
 "いません。"
 
 #: src/wx/verify_dcp_result_panel.cc:354

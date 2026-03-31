@@ -651,7 +651,7 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 			add(i.second, _("<MainSoundConfiguration> is invalid (%error)"));
 			break;
 		case dcp::VerificationNote::Code::MISSING_FONT:
-			add(i.second, _("The font file for font ID \"%n\" was not found, or was not referred to in the ASSETMAP."));
+			add(i.second, _("The font file for font ID \"%load_font_id\" was not found, or was not referred to in the ASSETMAP."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_JPEG2000_TILE_PART_SIZE:
 			add(

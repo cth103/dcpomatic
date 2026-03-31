@@ -3738,10 +3738,10 @@ msgstr "첫 번째 자막 또는 캡션이 첫 번째 릴의 시작 후 4초 이
 #: src/wx/verify_dcp_result_panel.cc:655
 #, c-format
 msgid ""
-"The font file for font ID \"%n\" was not found, or was not referred to in "
+"The font file for font ID \"%load_font_id\" was not found, or was not referred to in "
 "the ASSETMAP."
 msgstr ""
-"폰트 ID \\\"%n\\\"에 대한 폰트 파일을 찾을 수 없거나 ASSETMAP에서 참조되지 않"
+"폰트 ID \\\"%load_font_id\\\"에 대한 폰트 파일을 찾을 수 없거나 ASSETMAP에서 참조되지 않"
 "았습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:363

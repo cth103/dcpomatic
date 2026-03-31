@@ -3743,10 +3743,10 @@ msgstr ""
 #: src/wx/verify_dcp_result_panel.cc:655
 #, c-format
 msgid ""
-"The font file for font ID \"%n\" was not found, or was not referred to in "
+"The font file for font ID \"%load_font_id\" was not found, or was not referred to in "
 "the ASSETMAP."
 msgstr ""
-"Datoteka pisave za pisavo z ID »%n« ni mogoče najti ali pa se nanjo ne "
+"Datoteka pisave za pisavo z ID »%load_font_id« ni mogoče najti ali pa se nanjo ne "
 "sklicuje ASSETMAP."
 
 #: src/wx/verify_dcp_result_panel.cc:363

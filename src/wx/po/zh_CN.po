@@ -3651,9 +3651,9 @@ msgstr "第一个字幕或隐藏式字幕出现在第一卷4秒之前。"
 #: src/wx/verify_dcp_result_panel.cc:655
 #, c-format
 msgid ""
-"The font file for font ID \"%n\" was not found, or was not referred to in "
+"The font file for font ID \"%load_font_id\" was not found, or was not referred to in "
 "the ASSETMAP."
-msgstr "字体文件 ID “%n” 未找到，或未在 ASSETMAP 中引用。"
+msgstr "字体文件 ID “%load_font_id” 未找到，或未在 ASSETMAP 中引用。"
 
 #: src/wx/verify_dcp_result_panel.cc:363
 #, c-format
