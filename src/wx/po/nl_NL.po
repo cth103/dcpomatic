@@ -3825,8 +3825,8 @@ msgstr "De subtitle asset %f heeft een <StartTime> die niet nul is."
 
 #: src/wx/verify_dcp_result_panel.cc:643
 #, c-format
-msgid "The subtitle asset %n contains no subtitles."
-msgstr "De subtitle asset %n bevat geen ondertitels."
+msgid "The subtitle asset %asset_id contains no subtitles."
+msgstr "De subtitle asset %asset_id bevat geen ondertitels."
 
 #: src/wx/verify_dcp_result_panel.cc:426
 #, c-format

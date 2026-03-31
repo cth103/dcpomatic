@@ -3914,7 +3914,7 @@ msgstr "Plik z napisami %f zawiera znacznik <StartTime> z niezerową wartością
 
 #: src/wx/verify_dcp_result_panel.cc:643
 #, fuzzy, c-format
-msgid "The subtitle asset %n contains no subtitles."
+msgid "The subtitle asset %asset_id contains no subtitles."
 msgstr "Plik z napisami %f nie zawiera znacznika <StartTime>."
 
 #: src/wx/verify_dcp_result_panel.cc:426

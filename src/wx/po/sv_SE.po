@@ -3900,7 +3900,7 @@ msgstr "Undertexttillgången %f har en <StartTime> som inte är noll."
 
 #: src/wx/verify_dcp_result_panel.cc:643
 #, fuzzy, c-format
-msgid "The subtitle asset %n contains no subtitles."
+msgid "The subtitle asset %asset_id contains no subtitles."
 msgstr "Undertexttillgången %f innehåller inte någon <StartTime> tagg."
 
 #: src/wx/verify_dcp_result_panel.cc:426

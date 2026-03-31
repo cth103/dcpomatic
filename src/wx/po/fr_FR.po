@@ -3866,8 +3866,8 @@ msgstr "La ressource de sous-titres %f a un <StartTime> qui n'est pas zéro."
 
 #: src/wx/verify_dcp_result_panel.cc:643
 #, c-format
-msgid "The subtitle asset %n contains no subtitles."
-msgstr "La ressource de sous-titres %n ne contient pas de sous-titres."
+msgid "The subtitle asset %asset_id contains no subtitles."
+msgstr "La ressource de sous-titres %asset_id ne contient pas de sous-titres."
 
 #: src/wx/verify_dcp_result_panel.cc:426
 #, c-format

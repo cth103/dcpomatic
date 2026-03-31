@@ -3810,8 +3810,8 @@ msgstr "Datový zdroj titulku %f má <StartTime> který není nulový."
 
 #: src/wx/verify_dcp_result_panel.cc:643
 #, c-format
-msgid "The subtitle asset %n contains no subtitles."
-msgstr "Asset titulků %n neobsahuje žádné titulky."
+msgid "The subtitle asset %asset_id contains no subtitles."
+msgstr "Asset titulků %asset_id neobsahuje žádné titulky."
 
 #: src/wx/verify_dcp_result_panel.cc:426
 #, c-format

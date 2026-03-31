@@ -639,7 +639,7 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 			add(i.second, _("The ASSETMAP %asset_map_id has more than one asset with the same ID."));
 			break;
 		case dcp::VerificationNote::Code::MISSING_SUBTITLE:
-			add(i.second, _("The subtitle asset %n contains no subtitles."));
+			add(i.second, _("The subtitle asset %asset_id contains no subtitles."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_SUBTITLE_ISSUE_DATE:
 			add(i.second, _("<IssueDate> has an invalid value %n"));

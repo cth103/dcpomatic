@@ -3819,8 +3819,8 @@ msgstr "字幕データ%fの<StartTime>はゼロではありません。"
 
 #: src/wx/verify_dcp_result_panel.cc:634
 #, c-format
-msgid "The subtitle asset %n contains no subtitles."
-msgstr "字幕データ%nには字幕が含まれていません。"
+msgid "The subtitle asset %asset_id contains no subtitles."
+msgstr "字幕データ%asset_idには字幕が含まれていません。"
 
 #: src/wx/verify_dcp_result_panel.cc:417
 #, c-format

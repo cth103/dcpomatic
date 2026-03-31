@@ -3840,8 +3840,8 @@ msgstr "자막 에셋 %f의 <StartTime>이 0이 아닙니다."
 
 #: src/wx/verify_dcp_result_panel.cc:643
 #, c-format
-msgid "The subtitle asset %n contains no subtitles."
-msgstr "자막 에셋 %n에 자막이 없습니다."
+msgid "The subtitle asset %asset_id contains no subtitles."
+msgstr "자막 에셋 %asset_id에 자막이 없습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:426
 #, c-format

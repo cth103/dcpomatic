@@ -3741,8 +3741,8 @@ msgstr "字幕资产 %f 的<StartTime>不是零。"
 
 #: src/wx/verify_dcp_result_panel.cc:643
 #, c-format
-msgid "The subtitle asset %n contains no subtitles."
-msgstr "字幕资源 %n 不包含字幕。"
+msgid "The subtitle asset %asset_id contains no subtitles."
+msgstr "字幕资源 %asset_id 不包含字幕。"
 
 #: src/wx/verify_dcp_result_panel.cc:426
 #, c-format

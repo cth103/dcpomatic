@@ -3850,8 +3850,8 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:643
 #, c-format
-msgid "The subtitle asset %n contains no subtitles."
-msgstr "Sredstvo podnaslovov %n ne vsebuje podnaslovov."
+msgid "The subtitle asset %asset_id contains no subtitles."
+msgstr "Sredstvo podnaslovov %asset_id ne vsebuje podnaslovov."
 
 #: src/wx/verify_dcp_result_panel.cc:426
 #, c-format
