@@ -3453,8 +3453,8 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:680
 #, c-format
-msgid "The CPL %cpl has an invalid namespace %n"
-msgstr "این سی پی ال %c دارای یک فضای نام نامعتبر است %n"
+msgid "The CPL %cpl has an invalid namespace %xml_namespace"
+msgstr "این سی پی ال %c دارای یک فضای نام نامعتبر است %xml_namespace"
 
 #: src/wx/verify_dcp_result_panel.cc:471
 #, c-format
@@ -3564,8 +3564,8 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:699
 #, c-format
-msgid "The PKL %f has an invalid namespace %n"
-msgstr "این فایل %f دارای فضای نام نامعتبر است %n"
+msgid "The PKL %f has an invalid namespace %xml_namespace"
+msgstr "این فایل %f دارای فضای نام نامعتبر است %xml_namespace"
 
 #: src/wx/verify_dcp_result_panel.cc:477
 #, c-format

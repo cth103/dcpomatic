@@ -3449,7 +3449,7 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:671
 #, c-format
-msgid "The CPL %cpl has an invalid namespace %n"
+msgid "The CPL %cpl has an invalid namespace %xml_namespace"
 msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:462
@@ -3560,7 +3560,7 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:690
 #, c-format
-msgid "The PKL %f has an invalid namespace %n"
+msgid "The PKL %f has an invalid namespace %xml_namespace"
 msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:468

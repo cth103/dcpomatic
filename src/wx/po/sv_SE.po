@@ -3532,8 +3532,8 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:680
 #, fuzzy, c-format
-msgid "The CPL %cpl has an invalid namespace %n"
-msgstr "Ljudspåret %f har ogiltlig bildhastighet %n."
+msgid "The CPL %cpl has an invalid namespace %xml_namespace"
+msgstr "Ljudspåret %f har ogiltlig bildhastighet %xml_namespace."
 
 #: src/wx/verify_dcp_result_panel.cc:471
 #, fuzzy, c-format
@@ -3640,8 +3640,8 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:699
 #, fuzzy, c-format
-msgid "The PKL %f has an invalid namespace %n"
-msgstr "Ljudspåret %f har ogiltlig bildhastighet %n."
+msgid "The PKL %f has an invalid namespace %xml_namespace"
+msgstr "Ljudspåret %f har ogiltlig bildhastighet %xml_namespace."
 
 #: src/wx/verify_dcp_result_panel.cc:477
 #, c-format

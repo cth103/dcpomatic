@@ -3542,8 +3542,8 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:680
 #, fuzzy, c-format
-msgid "The CPL %cpl has an invalid namespace %n"
-msgstr "Plik z dźwiękiem %f posiada nieprawidłową liczbę klatek: %n."
+msgid "The CPL %cpl has an invalid namespace %xml_namespace"
+msgstr "Plik z dźwiękiem %f posiada nieprawidłową liczbę klatek: %xml_namespace."
 
 #: src/wx/verify_dcp_result_panel.cc:471
 #, fuzzy, c-format
@@ -3654,8 +3654,8 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:699
 #, fuzzy, c-format
-msgid "The PKL %f has an invalid namespace %n"
-msgstr "Plik z dźwiękiem %f posiada nieprawidłową liczbę klatek: %n."
+msgid "The PKL %f has an invalid namespace %xml_namespace"
+msgstr "Plik z dźwiękiem %f posiada nieprawidłową liczbę klatek: %xml_namespace."
 
 #: src/wx/verify_dcp_result_panel.cc:477
 #, c-format

@@ -3610,7 +3610,7 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:680
 #, fuzzy, c-format
-msgid "The CPL %cpl has an invalid namespace %n"
+msgid "The CPL %cpl has an invalid namespace %xml_namespace"
 msgstr "Eine Videodatei enthält eine unzulässige Bildrate!"
 
 #: src/wx/verify_dcp_result_panel.cc:471
@@ -3708,7 +3708,7 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:699
 #, fuzzy, c-format
-msgid "The PKL %f has an invalid namespace %n"
+msgid "The PKL %f has an invalid namespace %xml_namespace"
 msgstr "Eine Videodatei enthält eine unzulässige Bildrate!"
 
 #: src/wx/verify_dcp_result_panel.cc:477

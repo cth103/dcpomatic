@@ -3480,8 +3480,8 @@ msgstr "CPL %cpl의 <AnnotationText>가 <ContentTitleText>와 다릅니다."
 
 #: src/wx/verify_dcp_result_panel.cc:680
 #, c-format
-msgid "The CPL %cpl has an invalid namespace %n"
-msgstr "CPL %cpl에 유효하지 않은 네임스페이스 %n이(가) 있습니다"
+msgid "The CPL %cpl has an invalid namespace %xml_namespace"
+msgstr "CPL %cpl에 유효하지 않은 네임스페이스 %xml_namespace이(가) 있습니다"
 
 #: src/wx/verify_dcp_result_panel.cc:471
 #, c-format
@@ -3582,8 +3582,8 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:699
 #, c-format
-msgid "The PKL %f has an invalid namespace %n"
-msgstr "PKL %f에 유효하지 않은 네임스페이스 %n이(가) 있습니다."
+msgid "The PKL %f has an invalid namespace %xml_namespace"
+msgstr "PKL %f에 유효하지 않은 네임스페이스 %xml_namespace이(가) 있습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:477
 #, c-format

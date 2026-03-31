@@ -3442,8 +3442,8 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:680
 #, c-format
-msgid "The CPL %cpl has an invalid namespace %n"
-msgstr "CPL %cpl má neplatný prostor názvů %n"
+msgid "The CPL %cpl has an invalid namespace %xml_namespace"
+msgstr "CPL %cpl má neplatný prostor názvů %xml_namespace"
 
 #: src/wx/verify_dcp_result_panel.cc:471
 #, c-format
@@ -3548,8 +3548,8 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:699
 #, c-format
-msgid "The PKL %f has an invalid namespace %n"
-msgstr "PKL %f má neplatný jmenný prostor %n"
+msgid "The PKL %f has an invalid namespace %xml_namespace"
+msgstr "PKL %f má neplatný jmenný prostor %xml_namespace"
 
 #: src/wx/verify_dcp_result_panel.cc:477
 #, c-format

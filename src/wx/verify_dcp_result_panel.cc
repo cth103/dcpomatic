@@ -676,7 +676,7 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 			add(i.second, _("The <LabelText> in a <ContentVersion> in CPL %cpl is empty"));
 			break;
 		case dcp::VerificationNote::Code::INVALID_CPL_NAMESPACE:
-			add(i.second, _("The CPL %cpl has an invalid namespace %n"));
+			add(i.second, _("The CPL %cpl has an invalid namespace %xml_namespace"));
 			break;
 		case dcp::VerificationNote::Code::MISSING_CPL_CONTENT_VERSION:
 			add(i.second, _("The CPL %cpl has no <ContentVersion> tag"));
@@ -695,7 +695,7 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 			/* These are all "OK" messages which we don't report here */
 			break;
 		case dcp::VerificationNote::Code::INVALID_PKL_NAMESPACE:
-			add(i.second, _("The PKL %f has an invalid namespace %n"));
+			add(i.second, _("The PKL %f has an invalid namespace %xml_namespace"));
 			break;
 		}
 	}

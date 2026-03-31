@@ -3475,8 +3475,8 @@ msgstr "La CPL %cpl a un <AnnotationText> différent du <ContentTitleText>."
 
 #: src/wx/verify_dcp_result_panel.cc:680
 #, c-format
-msgid "The CPL %cpl has an invalid namespace %n"
-msgstr "La CPL %cpl a un namespace %n invalide"
+msgid "The CPL %cpl has an invalid namespace %xml_namespace"
+msgstr "La CPL %cpl a un namespace %xml_namespace invalide"
 
 #: src/wx/verify_dcp_result_panel.cc:471
 #, c-format
@@ -3585,8 +3585,8 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:699
 #, c-format
-msgid "The PKL %f has an invalid namespace %n"
-msgstr "La PKL %f a un namespace %n invalide"
+msgid "The PKL %f has an invalid namespace %xml_namespace"
+msgstr "La PKL %f a un namespace %xml_namespace invalide"
 
 #: src/wx/verify_dcp_result_panel.cc:477
 #, c-format
