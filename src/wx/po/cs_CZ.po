@@ -3612,8 +3612,8 @@ msgstr ""
 #: src/wx/verify_dcp_result_panel.cc:665
 #, c-format
 msgid ""
-"The XML in the subtitle asset %n has more than one namespace declaration."
-msgstr "XML v aktivu titulků %n má více než jednu deklaraci jmenného prostoru."
+"The XML in the subtitle asset %asset_id has more than one namespace declaration."
+msgstr "XML v aktivu titulků %asset_id má více než jednu deklaraci jmenného prostoru."
 
 #: src/wx/verify_dcp_result_panel.cc:336
 #, c-format

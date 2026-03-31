@@ -3631,8 +3631,8 @@ msgstr ""
 #: src/wx/verify_dcp_result_panel.cc:665
 #, c-format
 msgid ""
-"The XML in the subtitle asset %n has more than one namespace declaration."
-msgstr "این XML فایل زیرنویس %n بیش از یک اعلان فضای نام دارد."
+"The XML in the subtitle asset %asset_id has more than one namespace declaration."
+msgstr "این XML فایل زیرنویس %asset_id بیش از یک اعلان فضای نام دارد."
 
 #: src/wx/verify_dcp_result_panel.cc:336
 #, c-format

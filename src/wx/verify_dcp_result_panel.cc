@@ -661,7 +661,7 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 			);
 			break;
 		case dcp::VerificationNote::Code::INCORRECT_SUBTITLE_NAMESPACE_COUNT:
-			add(i.second, _("The XML in the subtitle asset %n has more than one namespace declaration."));
+			add(i.second, _("The XML in the subtitle asset %asset_id has more than one namespace declaration."));
 			break;
 		case dcp::VerificationNote::Code::MISSING_LOAD_FONT_FOR_FONT:
 			add(i.second, _("A subtitle or closed caption refers to a font with ID %load_font_id that does not have a corresponding <LoadFont> node."));

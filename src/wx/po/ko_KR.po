@@ -3646,8 +3646,8 @@ msgstr "캡션 에셋 %f의 XML 용량이 %size_in_bytes 바이트로, 제한치
 #: src/wx/verify_dcp_result_panel.cc:665
 #, c-format
 msgid ""
-"The XML in the subtitle asset %n has more than one namespace declaration."
-msgstr "자막 에셋 %n의 XML에 둘 이상의 네임스페이스 선언이 있습니다."
+"The XML in the subtitle asset %asset_id has more than one namespace declaration."
+msgstr "자막 에셋 %asset_id의 XML에 둘 이상의 네임스페이스 선언이 있습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:336
 #, c-format

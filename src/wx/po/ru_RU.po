@@ -3659,8 +3659,8 @@ msgstr ""
 #: src/wx/verify_dcp_result_panel.cc:665
 #, c-format
 msgid ""
-"The XML in the subtitle asset %n has more than one namespace declaration."
-msgstr "XML в субтитре %n содержит более одного объявления пространства имен."
+"The XML in the subtitle asset %asset_id has more than one namespace declaration."
+msgstr "XML в субтитре %asset_id содержит более одного объявления пространства имен."
 
 #: src/wx/verify_dcp_result_panel.cc:336
 #, c-format

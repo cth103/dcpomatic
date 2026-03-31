@@ -3621,9 +3621,9 @@ msgstr ""
 #: src/wx/verify_dcp_result_panel.cc:665
 #, c-format
 msgid ""
-"The XML in the subtitle asset %n has more than one namespace declaration."
+"The XML in the subtitle asset %asset_id has more than one namespace declaration."
 msgstr ""
-"De XML in de subtitle asset %n heeft meer dan één namespace declaratie."
+"De XML in de subtitle asset %asset_id heeft meer dan één namespace declaratie."
 
 #: src/wx/verify_dcp_result_panel.cc:336
 #, c-format
