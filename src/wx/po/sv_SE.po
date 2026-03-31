@@ -270,8 +270,8 @@ msgstr "A"
 
 #: src/wx/verify_dcp_result_panel.cc:555
 #, c-format
-msgid "A 2K JPEG2000 frame contains %n tile parts instead of 3."
-msgstr "En 2K JPEG2000-bild innehåller %n bildsegment istället för 3."
+msgid "A 2K JPEG2000 frame contains %tile_parts tile parts instead of 3."
+msgstr "En 2K JPEG2000-bild innehåller %tile_parts bildsegment istället för 3."
 
 #: src/wx/verify_dcp_result_panel.cc:569
 #, fuzzy, c-format
@@ -291,8 +291,8 @@ msgstr "En 2K JPEG2000-bild innehåller %guard_bits guard bits istället för 1.
 
 #: src/wx/verify_dcp_result_panel.cc:562
 #, c-format
-msgid "A 4K JPEG2000 frame contains %n tile parts instead of 6."
-msgstr "En 4K JPEG2000-bild innehåller %n bildsegment istället för 6."
+msgid "A 4K JPEG2000 frame contains %tile_parts tile parts instead of 6."
+msgstr "En 4K JPEG2000-bild innehåller %tile_parts bildsegment istället för 6."
 
 #: src/wx/verify_dcp_result_panel.cc:576
 #, fuzzy, c-format

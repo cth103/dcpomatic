@@ -269,8 +269,8 @@ msgstr "A"
 
 #: src/wx/verify_dcp_result_panel.cc:555
 #, c-format
-msgid "A 2K JPEG2000 frame contains %n tile parts instead of 3."
-msgstr "Rámeček 2K JPEG2000 obsahuje %n dílů dlaždic místo 3."
+msgid "A 2K JPEG2000 frame contains %tile_parts tile parts instead of 3."
+msgstr "Rámeček 2K JPEG2000 obsahuje %tile_parts dílů dlaždic místo 3."
 
 #: src/wx/verify_dcp_result_panel.cc:569
 #, c-format
@@ -289,8 +289,8 @@ msgstr "Rámeček 2K JPEG2000 má %guard_bits ochranných bitů místo 1."
 
 #: src/wx/verify_dcp_result_panel.cc:562
 #, c-format
-msgid "A 4K JPEG2000 frame contains %n tile parts instead of 6."
-msgstr "Rámeček 4K JPEG2000 obsahuje %n dílků dlaždic místo 6."
+msgid "A 4K JPEG2000 frame contains %tile_parts tile parts instead of 6."
+msgstr "Rámeček 4K JPEG2000 obsahuje %tile_parts dílků dlaždic místo 6."
 
 #: src/wx/verify_dcp_result_panel.cc:576
 #, c-format

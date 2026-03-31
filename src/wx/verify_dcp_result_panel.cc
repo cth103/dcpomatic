@@ -564,14 +564,14 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 		case dcp::VerificationNote::Code::INVALID_JPEG2000_TILE_PARTS_FOR_2K:
 			add(
 				i.second,
-				_("A 2K JPEG2000 frame contains %n tile parts instead of 3."),
+				_("A 2K JPEG2000 frame contains %tile_parts tile parts instead of 3."),
 				_("More 2K JPEG2000 frames (not listed) contain the wrong number of tile parts.")
 			);
 			break;
 		case dcp::VerificationNote::Code::INVALID_JPEG2000_TILE_PARTS_FOR_4K:
 			add(
 				i.second,
-				_("A 4K JPEG2000 frame contains %n tile parts instead of 6."),
+				_("A 4K JPEG2000 frame contains %tile_parts tile parts instead of 6."),
 				_("More JPEG2000 frames (not listed) contain the wrong number of tile parts.")
 			);
 			break;

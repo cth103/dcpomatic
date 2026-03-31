@@ -267,8 +267,8 @@ msgstr "A"
 
 #: src/wx/verify_dcp_result_panel.cc:555
 #, c-format
-msgid "A 2K JPEG2000 frame contains %n tile parts instead of 3."
-msgstr "Sličica 2K JPEG2000 vsebuje %n delov tlakovcev namesto 3."
+msgid "A 2K JPEG2000 frame contains %tile_parts tile parts instead of 3."
+msgstr "Sličica 2K JPEG2000 vsebuje %tile_parts delov tlakovcev namesto 3."
 
 #: src/wx/verify_dcp_result_panel.cc:569
 #, fuzzy, c-format
@@ -287,8 +287,8 @@ msgstr "Sličica 2K JPEG2000 ima %guard_bits varovalnih bitov namesto 1."
 
 #: src/wx/verify_dcp_result_panel.cc:562
 #, c-format
-msgid "A 4K JPEG2000 frame contains %n tile parts instead of 6."
-msgstr "Sličica 4K JPEG2000 vsebuje %n delov tlakovcev namesto 6."
+msgid "A 4K JPEG2000 frame contains %tile_parts tile parts instead of 6."
+msgstr "Sličica 4K JPEG2000 vsebuje %tile_parts delov tlakovcev namesto 6."
 
 #: src/wx/verify_dcp_result_panel.cc:576
 #, fuzzy, c-format

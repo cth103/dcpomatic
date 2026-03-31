@@ -266,8 +266,8 @@ msgstr "A"
 
 #: src/wx/verify_dcp_result_panel.cc:555
 #, c-format
-msgid "A 2K JPEG2000 frame contains %n tile parts instead of 3."
-msgstr "Кадр 2K JPEG2000 содержит %n части(ей) тайла вместо 3."
+msgid "A 2K JPEG2000 frame contains %tile_parts tile parts instead of 3."
+msgstr "Кадр 2K JPEG2000 содержит %tile_parts части(ей) тайла вместо 3."
 
 #: src/wx/verify_dcp_result_panel.cc:569
 #, c-format
@@ -287,8 +287,8 @@ msgstr "Кадр 2K JPEG2000 содержит %guard_bits защитных ра�
 
 #: src/wx/verify_dcp_result_panel.cc:562
 #, c-format
-msgid "A 4K JPEG2000 frame contains %n tile parts instead of 6."
-msgstr "Кадр 4K JPEG2000 содержит %n части(ей) тайла вместо 6."
+msgid "A 4K JPEG2000 frame contains %tile_parts tile parts instead of 6."
+msgstr "Кадр 4K JPEG2000 содержит %tile_parts части(ей) тайла вместо 6."
 
 #: src/wx/verify_dcp_result_panel.cc:576
 #, c-format

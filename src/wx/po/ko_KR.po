@@ -268,8 +268,8 @@ msgstr "A"
 
 #: src/wx/verify_dcp_result_panel.cc:555
 #, c-format
-msgid "A 2K JPEG2000 frame contains %n tile parts instead of 3."
-msgstr "2K JPEG2000 프레임이 3개 대신 %n개의 타일 파트를 포함하고 있습니다."
+msgid "A 2K JPEG2000 frame contains %tile_parts tile parts instead of 3."
+msgstr "2K JPEG2000 프레임이 3개 대신 %tile_parts개의 타일 파트를 포함하고 있습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:569
 #, c-format
@@ -290,8 +290,8 @@ msgstr "2K JPEG2000 프레임에 1개 대신 %guard_bits개의 가드 비트가 
 
 #: src/wx/verify_dcp_result_panel.cc:562
 #, c-format
-msgid "A 4K JPEG2000 frame contains %n tile parts instead of 6."
-msgstr "4K JPEG2000 프레임이 6개 대신 %n개의 타일 파트를 포함하고 있습니다."
+msgid "A 4K JPEG2000 frame contains %tile_parts tile parts instead of 6."
+msgstr "4K JPEG2000 프레임이 6개 대신 %tile_parts개의 타일 파트를 포함하고 있습니다."
 
 #: src/wx/verify_dcp_result_panel.cc:576
 #, c-format

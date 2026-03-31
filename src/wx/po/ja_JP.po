@@ -272,8 +272,8 @@ msgstr "A"
 
 #: src/wx/verify_dcp_result_panel.cc:546
 #, fuzzy, c-format
-msgid "A 2K JPEG2000 frame contains %n tile parts instead of 3."
-msgstr "2K JPEG2000 フレームには、3 個ではなく %n 個のタイル部分が含まれます。"
+msgid "A 2K JPEG2000 frame contains %tile_parts tile parts instead of 3."
+msgstr "2K JPEG2000 フレームには、3 個ではなく %tile_parts 個のタイル部分が含まれます。"
 
 #: src/wx/verify_dcp_result_panel.cc:560
 #, fuzzy, c-format
@@ -292,8 +292,8 @@ msgstr "2K JPEG2000 フレームには、1 ではなく %guard_bits のガード
 
 #: src/wx/verify_dcp_result_panel.cc:553
 #, fuzzy, c-format
-msgid "A 4K JPEG2000 frame contains %n tile parts instead of 6."
-msgstr "4K JPEG2000 フレームには、6 個ではなく %n 個のタイル部分が含まれます。"
+msgid "A 4K JPEG2000 frame contains %tile_parts tile parts instead of 6."
+msgstr "4K JPEG2000 フレームには、6 個ではなく %tile_parts 個のタイル部分が含まれます。"
 
 #: src/wx/verify_dcp_result_panel.cc:567
 #, fuzzy, c-format

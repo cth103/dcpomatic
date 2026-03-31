@@ -269,9 +269,9 @@ msgstr "A"
 
 #: src/wx/verify_dcp_result_panel.cc:555
 #, c-format
-msgid "A 2K JPEG2000 frame contains %n tile parts instead of 3."
+msgid "A 2K JPEG2000 frame contains %tile_parts tile parts instead of 3."
 msgstr ""
-"Klatka obrazu 2K JPEG2000 zawiera %n informacji o kolorze zamiast wymaganych "
+"Klatka obrazu 2K JPEG2000 zawiera %tile_parts informacji o kolorze zamiast wymaganych "
 "3."
 
 #: src/wx/verify_dcp_result_panel.cc:569
@@ -293,9 +293,9 @@ msgstr ""
 # Shouldn't be here 4K JPEG2000 frame?
 #: src/wx/verify_dcp_result_panel.cc:562
 #, c-format
-msgid "A 4K JPEG2000 frame contains %n tile parts instead of 6."
+msgid "A 4K JPEG2000 frame contains %tile_parts tile parts instead of 6."
 msgstr ""
-"Klatka obrazu 4K JPEG2000 zawiera %n informacji o kolorze zamiast wymaganych "
+"Klatka obrazu 4K JPEG2000 zawiera %tile_parts informacji o kolorze zamiast wymaganych "
 "6."
 
 #: src/wx/verify_dcp_result_panel.cc:576

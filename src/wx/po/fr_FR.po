@@ -270,9 +270,9 @@ msgstr "A"
 
 #: src/wx/verify_dcp_result_panel.cc:555
 #, c-format
-msgid "A 2K JPEG2000 frame contains %n tile parts instead of 3."
+msgid "A 2K JPEG2000 frame contains %tile_parts tile parts instead of 3."
 msgstr ""
-"Une image JPEG2000 2K contient %n parties de tuile (tile parts) au lieu de 3."
+"Une image JPEG2000 2K contient %tile_parts parties de tuile (tile parts) au lieu de 3."
 
 #: src/wx/verify_dcp_result_panel.cc:569
 #, c-format
@@ -292,9 +292,9 @@ msgstr "Une image JPEG2000 2K a %guard_bits bits de garde au lieu de 1."
 
 #: src/wx/verify_dcp_result_panel.cc:562
 #, c-format
-msgid "A 4K JPEG2000 frame contains %n tile parts instead of 6."
+msgid "A 4K JPEG2000 frame contains %tile_parts tile parts instead of 6."
 msgstr ""
-"Une image JPEG2000 2K contient %n parties de tuile (tile parts) au lieu de 6."
+"Une image JPEG2000 2K contient %tile_parts parties de tuile (tile parts) au lieu de 6."
 
 #: src/wx/verify_dcp_result_panel.cc:576
 #, c-format
