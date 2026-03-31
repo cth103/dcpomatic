@@ -239,8 +239,8 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:646
 #, c-format
-msgid "<IssueDate> has an invalid value %n"
-msgstr "<IssueDate> má neplatnou hodnotu %n"
+msgid "<IssueDate> has an invalid value %issue_date"
+msgstr "<IssueDate> má neplatnou hodnotu %issue_date"
 
 #: src/wx/verify_dcp_result_panel.cc:652
 #, c-format

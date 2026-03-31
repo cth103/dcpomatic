@@ -642,7 +642,7 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 			add(i.second, _("The subtitle asset %asset_id contains no subtitles."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_SUBTITLE_ISSUE_DATE:
-			add(i.second, _("<IssueDate> has an invalid value %n"));
+			add(i.second, _("<IssueDate> has an invalid value %issue_date"));
 			break;
 		case dcp::VerificationNote::Code::MISMATCHED_SOUND_CHANNEL_COUNTS:
 			add(i.second, _("Sound assets do not all have the same channel count."));

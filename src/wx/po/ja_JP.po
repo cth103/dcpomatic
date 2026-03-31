@@ -241,8 +241,8 @@ msgstr ":1"
 
 #: src/wx/verify_dcp_result_panel.cc:637
 #, fuzzy, c-format
-msgid "<IssueDate> has an invalid value %n"
-msgstr "<IssueDate> 無効な値があります %n"
+msgid "<IssueDate> has an invalid value %issue_date"
+msgstr "<IssueDate> 無効な値があります %issue_date"
 
 #: src/wx/verify_dcp_result_panel.cc:643
 #, fuzzy, c-format

@@ -239,8 +239,8 @@ msgstr ":1"
 
 #: src/wx/verify_dcp_result_panel.cc:646
 #, c-format
-msgid "<IssueDate> has an invalid value %n"
-msgstr "<IssueDate> a une valeur %n invalide"
+msgid "<IssueDate> has an invalid value %issue_date"
+msgstr "<IssueDate> a une valeur %issue_date invalide"
 
 #: src/wx/verify_dcp_result_panel.cc:652
 #, c-format

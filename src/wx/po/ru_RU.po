@@ -236,8 +236,8 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:646
 #, c-format
-msgid "<IssueDate> has an invalid value %n"
-msgstr "<IssueDate> имеет недопустимое значение %n"
+msgid "<IssueDate> has an invalid value %issue_date"
+msgstr "<IssueDate> имеет недопустимое значение %issue_date"
 
 #: src/wx/verify_dcp_result_panel.cc:652
 #, c-format
