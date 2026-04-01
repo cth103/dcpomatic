@@ -237,13 +237,13 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:646
 #, c-format
-msgid "<IssueDate> has an invalid value %n"
-msgstr "<IssueDate> ima neveljavno vrednost %n"
+msgid "<IssueDate> has an invalid value %issue_date"
+msgstr "<IssueDate> ima neveljavno vrednost %issue_date"
 
 #: src/wx/verify_dcp_result_panel.cc:652
 #, fuzzy, c-format
-msgid "<MainSoundConfiguration> is invalid (%n)"
-msgstr "<MainSoundConfiguration> opisuje nepravilno število kanalov (%n)"
+msgid "<MainSoundConfiguration> is invalid (%error)"
+msgstr "<MainSoundConfiguration> opisuje nepravilno število kanalov (%error)"
 
 #: src/wx/subtitle_appearance_dialog.cc:118
 msgid "<b>New colour</b>"
@@ -267,43 +267,43 @@ msgstr "A"
 
 #: src/wx/verify_dcp_result_panel.cc:555
 #, c-format
-msgid "A 2K JPEG2000 frame contains %n tile parts instead of 3."
-msgstr "Sličica 2K JPEG2000 vsebuje %n delov tlakovcev namesto 3."
+msgid "A 2K JPEG2000 frame contains %tile_parts tile parts instead of 3."
+msgstr "Sličica 2K JPEG2000 vsebuje %tile_parts delov tlakovcev namesto 3."
 
 #: src/wx/verify_dcp_result_panel.cc:569
 #, fuzzy, c-format
-msgid "A 2K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %n"
-msgstr "Sličica JPEG2000 vsebuje neveljavno oznako POC (%n)."
+msgid "A 2K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %capabilities"
+msgstr "Sličica JPEG2000 vsebuje neveljavno oznako POC (%capabilities)."
 
 #: src/wx/verify_dcp_result_panel.cc:527
 #, c-format
-msgid "A 2K JPEG2000 frame has %n POC marker(s) instead of 0."
-msgstr "Sličica 2K JPEG2000 ima %n oznak POC namesto 0."
+msgid "A 2K JPEG2000 frame has %poc_markers POC marker(s) instead of 0."
+msgstr "Sličica 2K JPEG2000 ima %poc_markers oznak POC namesto 0."
 
 #: src/wx/verify_dcp_result_panel.cc:492
 #, c-format
-msgid "A 2K JPEG2000 frame has %n guard bits instead of 1."
-msgstr "Sličica 2K JPEG2000 ima %n varovalnih bitov namesto 1."
+msgid "A 2K JPEG2000 frame has %guard_bits guard bits instead of 1."
+msgstr "Sličica 2K JPEG2000 ima %guard_bits varovalnih bitov namesto 1."
 
 #: src/wx/verify_dcp_result_panel.cc:562
 #, c-format
-msgid "A 4K JPEG2000 frame contains %n tile parts instead of 6."
-msgstr "Sličica 4K JPEG2000 vsebuje %n delov tlakovcev namesto 6."
+msgid "A 4K JPEG2000 frame contains %tile_parts tile parts instead of 6."
+msgstr "Sličica 4K JPEG2000 vsebuje %tile_parts delov tlakovcev namesto 6."
 
 #: src/wx/verify_dcp_result_panel.cc:576
 #, fuzzy, c-format
-msgid "A 4K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %n"
-msgstr "Sličica JPEG2000 vsebuje neveljavno oznako POC (%n)."
+msgid "A 4K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %capabilities"
+msgstr "Sličica JPEG2000 vsebuje neveljavno oznako POC (%capabilities)."
 
 #: src/wx/verify_dcp_result_panel.cc:534
 #, c-format
-msgid "A 4K JPEG2000 frame has %n POC marker(s) instead of 1."
-msgstr "Sličica 4K JPEG2000 ima %n oznak POC namesto 1."
+msgid "A 4K JPEG2000 frame has %poc_markers POC marker(s) instead of 1."
+msgstr "Sličica 4K JPEG2000 ima %poc_markers oznak POC namesto 1."
 
 #: src/wx/verify_dcp_result_panel.cc:499
 #, c-format
-msgid "A 4K JPEG2000 frame has %n guard bits instead of 2."
-msgstr "Sličica 4K JPEG2000 ima %n varovalnih bitov namesto 2."
+msgid "A 4K JPEG2000 frame has %guard_bits guard bits instead of 2."
+msgstr "Sličica 4K JPEG2000 ima %guard_bits varovalnih bitov namesto 2."
 
 #: src/wx/verify_dcp_result_panel.cc:548
 #, fuzzy
@@ -317,13 +317,13 @@ msgstr "Sličica JPEG2000 vsebuje neveljavno oznako POC (%n)."
 
 #: src/wx/verify_dcp_result_panel.cc:520
 #, c-format
-msgid "A JPEG2000 frame has a code-block height of %n instead of 32."
-msgstr "Sličica JPEG2000 ima višino kodnega bloka %n namesto 32."
+msgid "A JPEG2000 frame has a code-block height of %code_block_height instead of 32."
+msgstr "Sličica JPEG2000 ima višino kodnega bloka %code_block_height namesto 32."
 
 #: src/wx/verify_dcp_result_panel.cc:513
 #, c-format
-msgid "A JPEG2000 frame has a code-block width of %n instead of 32."
-msgstr "Sličica JPEG2000 ima širino kodnega bloka %n namesto 32."
+msgid "A JPEG2000 frame has a code-block width of %code_block_width instead of 32."
+msgstr "Sličica JPEG2000 ima širino kodnega bloka %code_block_width namesto 32."
 
 #: src/wx/verify_dcp_result_panel.cc:583
 msgid "A JPEG2000 frame has no TLM marker."
@@ -340,8 +340,8 @@ msgstr "Na voljo je nova različica programa DCP-o-matic."
 
 #: src/wx/verify_dcp_result_panel.cc:485
 #, fuzzy, c-format
-msgid "A picture frame has an invalid JPEG2000 codestream (%n)."
-msgstr "Sličica ima neveljaven kodni tok JPEG2000 (%n)"
+msgid "A picture frame has an invalid JPEG2000 codestream (%error)."
+msgstr "Sličica ima neveljaven kodni tok JPEG2000 (%error)"
 
 #: src/wx/hints_dialog.cc:183
 #, c-format
@@ -573,8 +573,8 @@ msgstr "Sredstvo ima prazno pot v ASSETMAP."
 
 #: src/wx/verify_dcp_result_panel.cc:631
 #, c-format
-msgid "An invalid <ContentKind> %n has been used."
-msgstr "Uporabljen je bil neveljaven <ContentKind> %n."
+msgid "An invalid <ContentKind> %content_kind has been used."
+msgstr "Uporabljen je bil neveljaven <ContentKind> %content_kind."
 
 #: src/wx/dkdm_output_panel.cc:204 src/wx/kdm_output_panel.cc:321
 msgid "An unknown exception occurred."
@@ -871,9 +871,9 @@ msgstr "Kliknite gumb, da nastavite vse izbrane vsebine na isto vrednost."
 
 #: src/wx/verify_dcp_result_panel.cc:435
 #, c-format
-msgid "Closed caption asset %n has a non-zero <EntryPoint>."
+msgid "Closed caption asset %asset_id has a non-zero <EntryPoint>."
 msgstr ""
-"Sredstvo zaprtega napisa z %n ima ne-ničelno vstopno točko <EntryPoint>."
+"Sredstvo zaprtega napisa z %asset_id ima ne-ničelno vstopno točko <EntryPoint>."
 
 #: src/wx/closed_captions_dialog.cc:49 src/wx/dcp_referencing_dialog.cc:115
 msgid "Closed captions"
@@ -1019,7 +1019,7 @@ msgstr "Vsebine ni mogoče predvajati"
 
 #: src/wx/verify_dcp_result_panel.cc:271
 #, fuzzy, c-format
-msgid "Could not read DCP (%n)"
+msgid "Could not read DCP (%error)"
 msgstr "Ni bilo mogoče prebrati DCP: %s"
 
 #: src/wx/gl_video_view.cc:131
@@ -1587,10 +1587,10 @@ msgstr "Vsaj ena sličica video vsebine %f je blizu omejitve 250 MBit/s."
 #, c-format
 msgid ""
 "Frame %frame has an image component that is too large (component %component "
-"is %size bytes in size)."
+"is %size_in_bytes bytes in size)."
 msgstr ""
 "Okvir %frame ima slikovno komponento, ki je prevelika (komponenta %component "
-"je velika %size bajtov)."
+"je velika %size_in_bytes bajtov)."
 
 #: src/wx/dcp_panel.cc:868
 msgid "Frame Rate"
@@ -3358,8 +3358,8 @@ msgstr "Videz podnaslovov"
 
 #: src/wx/verify_dcp_result_panel.cc:429
 #, c-format
-msgid "Subtitle asset %n has a non-zero <EntryPoint>."
-msgstr "Enota podnaslova %n ima ne-ničelno točko vstopa <EntryPoint>."
+msgid "Subtitle asset %asset_id has a non-zero <EntryPoint>."
+msgstr "Enota podnaslova %asset_id ima ne-ničelno točko vstopa <EntryPoint>."
 
 #: src/wx/export_subtitles_dialog.cc:105
 msgid "Subtitle files (.mxf)|*.mxf"
@@ -3457,8 +3457,8 @@ msgstr "<MainPictureActiveArea> ni večkratnik 2 ali pa je večji od sredstva."
 
 #: src/wx/verify_dcp_result_panel.cc:640
 #, c-format
-msgid "The ASSETMAP %n has more than one asset with the same ID."
-msgstr "ASSETMAP %n ima več kot eno sredstvo z istim ID-jem."
+msgid "The ASSETMAP %asset_map_id has more than one asset with the same ID."
+msgstr "ASSETMAP %asset_map_id ima več kot eno sredstvo z istim ID-jem."
 
 #: src/wx/verify_dcp_result_panel.cc:594
 msgid ""
@@ -3477,8 +3477,8 @@ msgstr "CPL %n ima <AnnotationText>, ki ni enak kot njegov <ContentTitleText>."
 
 #: src/wx/verify_dcp_result_panel.cc:680
 #, fuzzy, c-format
-msgid "The CPL %cpl has an invalid namespace %n"
-msgstr "Zvočno sredstvo %f nima veveljavne hitrosti sličic %n."
+msgid "The CPL %cpl has an invalid namespace %xml_namespace"
+msgstr "Zvočno sredstvo %f nima veveljavne hitrosti sličic %xml_namespace."
 
 #: src/wx/verify_dcp_result_panel.cc:471
 #, fuzzy, c-format
@@ -3512,18 +3512,18 @@ msgstr "CPL %n nima oznake številke različice metapodatkov CPL."
 
 #: src/wx/verify_dcp_result_panel.cc:468
 #, c-format
-msgid "The CPL %f has an invalid CPL extension metadata tag (%n)"
-msgstr "CPL %f ima neveljavno oznako metapodatkov CPL razširitve (%n)"
+msgid "The CPL %f has an invalid CPL extension metadata tag (%error)"
+msgstr "CPL %f ima neveljavno oznako metapodatkov CPL razširitve (%error)"
 
 #: src/wx/verify_dcp_result_panel.cc:453
 #, c-format
-msgid "The DCP has a FFOC of %n instead of 1."
-msgstr "DCP ima FFOC %n namesto 1."
+msgid "The DCP has a FFOC of %time instead of 1."
+msgstr "DCP ima FFOC %time namesto 1."
 
 #: src/wx/verify_dcp_result_panel.cc:456
 #, c-format
-msgid "The DCP has a LFOC of %n instead of the reel duration minus one."
-msgstr "DCP ima LFOC %n namesto trajanja koluta manj 1."
+msgid "The DCP has a LFOC of %time instead of the reel duration minus one."
+msgstr "DCP ima LFOC %time namesto trajanja koluta manj 1."
 
 #: src/wx/verify_dcp_result_panel.cc:423
 msgid ""
@@ -3582,26 +3582,26 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:699
 #, fuzzy, c-format
-msgid "The PKL %f has an invalid namespace %n"
-msgstr "Zvočno sredstvo %f nima veveljavne hitrosti sličic %n."
+msgid "The PKL %f has an invalid namespace %xml_namespace"
+msgstr "Zvočno sredstvo %f nima veveljavne hitrosti sličic %xml_namespace."
 
 #: src/wx/verify_dcp_result_panel.cc:477
 #, c-format
 msgid ""
-"The PKL %n has an <AnnotationText> which does not match its CPL's "
+"The PKL %pkl has an <AnnotationText> which does not match its CPL's "
 "<ContentTitleText>."
 msgstr ""
-"PKL %n ima <AnnotationText>, ki se ne ujema s CPL-jevim <ContentTitleText>."
+"PKL %pkl ima <AnnotationText>, ki se ne ujema s CPL-jevim <ContentTitleText>."
 
 #: src/wx/verify_dcp_result_panel.cc:474
 #, c-format
-msgid "The PKL %n has encrypted content but is not signed."
-msgstr "PKL %n ima šifrirano vsebino, vendar ni podpisan."
+msgid "The PKL %pkl has encrypted content but is not signed."
+msgstr "PKL %pkl ima šifrirano vsebino, vendar ni podpisan."
 
 #: src/wx/verify_dcp_result_panel.cc:637
 #, c-format
-msgid "The PKL %n has more than one asset with the same ID."
-msgstr "PKL %n ima več kot eno sredstvo z istim ID."
+msgid "The PKL %pkl_id has more than one asset with the same ID."
+msgstr "PKL %pkl_id ima več kot eno sredstvo z istim ID."
 
 #: src/wx/verify_dcp_result_panel.cc:283
 #, c-format
@@ -3631,27 +3631,27 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:305
 #, c-format
-msgid "The XML in %f is malformed (%n)."
-msgstr "XML v %f je nepravilno oblikovan (%n)."
+msgid "The XML in %f is malformed (%error)."
+msgstr "XML v %f je nepravilno oblikovan (%error)."
 
 #: src/wx/verify_dcp_result_panel.cc:303
-msgid "The XML in %f is malformed on line %l (%n)."
-msgstr "XML v %f je nepravilno oblikovan v vrstici %l (%n)."
+msgid "The XML in %f is malformed on line %l (%error)."
+msgstr "XML v %f je nepravilno oblikovan v vrstici %l (%error)."
 
 #: src/wx/verify_dcp_result_panel.cc:357
 #, c-format
 msgid ""
-"The XML in the closed caption asset %f takes up %n bytes which is over the "
+"The XML in the closed caption asset %f takes up %size_in_bytes bytes which is over the "
 "256KB limit."
 msgstr ""
-"XML v sredstvu zaprtih napisov %f zavzema %n bajtov, kar je nad mejo 256 KB."
+"XML v sredstvu zaprtih napisov %f zavzema %size_in_bytes bajtov, kar je nad mejo 256 KB."
 
 #: src/wx/verify_dcp_result_panel.cc:665
 #, c-format
 msgid ""
-"The XML in the subtitle asset %n has more than one namespace declaration."
+"The XML in the subtitle asset %asset_id has more than one namespace declaration."
 msgstr ""
-"XML v sredstvu podnaslova %n ima več kot eno deklaracijo imenskega prostora."
+"XML v sredstvu podnaslova %asset_id ima več kot eno deklaracijo imenskega prostora."
 
 #: src/wx/verify_dcp_result_panel.cc:336
 #, c-format
@@ -3665,21 +3665,21 @@ msgstr "Manjka sredstvo %f."
 
 #: src/wx/verify_dcp_result_panel.cc:316
 #, c-format
-msgid "The asset %n has a duration of less than 1 second, which is invalid."
-msgstr "Sredstvo %n ima trajanje manj kot 1 sekundo, kar je neveljavno."
+msgid "The asset %asset_id has a duration of less than 1 second, which is invalid."
+msgstr "Sredstvo %asset_id ima trajanje manj kot 1 sekundo, kar je neveljavno."
 
 #: src/wx/verify_dcp_result_panel.cc:313
 #, c-format
 msgid ""
-"The asset %n has an intrinsic duration of less than 1 second, which is "
+"The asset %asset_id has an intrinsic duration of less than 1 second, which is "
 "invalid."
 msgstr ""
-"Sredstvo %n ima imanentno trajanje manj kot 1 sekundo, kar je neveljavno."
+"Sredstvo %asset_id ima imanentno trajanje manj kot 1 sekundo, kar je neveljavno."
 
 #: src/wx/verify_dcp_result_panel.cc:438
 #, c-format
-msgid "The asset %n has no <Hash> in the CPL."
-msgstr "Sredstvo %n nima kontrolne vsote <Hash> v CPL."
+msgid "The asset %asset_id has no <Hash> in the CPL."
+msgstr "Sredstvo %asset_id nima kontrolne vsote <Hash> v CPL."
 
 #: src/wx/verify_dcp_result_panel.cc:674
 #, c-format
@@ -3691,8 +3691,8 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:432
 #, c-format
-msgid "The closed caption asset %n has no <EntryPoint> tag."
-msgstr "Sredstvo zaprtega napisa %n nima oznake vstopne točke <EntryPoint>."
+msgid "The closed caption asset %asset_id has no <EntryPoint> tag."
+msgstr "Sredstvo zaprtega napisa %asset_id nima oznake vstopne točke <EntryPoint>."
 
 #: src/wx/film_name_location_dialog.cc:146
 #, fuzzy, c-format
@@ -3743,19 +3743,19 @@ msgstr ""
 #: src/wx/verify_dcp_result_panel.cc:655
 #, c-format
 msgid ""
-"The font file for font ID \"%n\" was not found, or was not referred to in "
+"The font file for font ID \"%load_font_id\" was not found, or was not referred to in "
 "the ASSETMAP."
 msgstr ""
-"Datoteka pisave za pisavo z ID »%n« ni mogoče najti ali pa se nanjo ne "
+"Datoteka pisave za pisavo z ID »%load_font_id« ni mogoče najti ali pa se nanjo ne "
 "sklicuje ASSETMAP."
 
 #: src/wx/verify_dcp_result_panel.cc:363
 #, c-format
 msgid ""
-"The fonts in the timed text asset %f take up %n bytes which is over the 10MB "
+"The fonts in the timed text asset %f take up %size_in_bytes bytes which is over the 10MB "
 "limit."
 msgstr ""
-"Pisave v sredstvu časovno opredeljenega besedila %f zaseda %n bajtov, kar "
+"Pisave v sredstvu časovno opredeljenega besedila %f zaseda %size_in_bytes bajtov, kar "
 "presega omejitev 10 MB."
 
 #: src/wx/verify_dcp_result_panel.cc:280
@@ -3790,8 +3790,8 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:342
 #, c-format
-msgid "The invalid language tag %n is used."
-msgstr "Uporabljena je neveljavna jezikovna oznaka %n."
+msgid "The invalid language tag %language is used."
+msgstr "Uporabljena je neveljavna jezikovna oznaka %language."
 
 #: src/wx/smpte_metadata_dialog.cc:63
 #, c-format
@@ -3807,16 +3807,16 @@ msgstr "Slika v kolutu ima hitrost sličic %frame_rate, ki ni veljavna."
 #: src/wx/verify_dcp_result_panel.cc:604
 #, c-format
 msgid ""
-"The reel duration (%s) of some timed text is not the same as the "
-"ContainerDuration (%s) of its MXF."
+"The reel duration (%other_duration) of some timed text is not the same as the "
+"ContainerDuration (%duration) of its MXF."
 msgstr ""
-"Trajanje koluta (%s) nekega časovno opredeljenega besedila ni enako trajanju "
-"vsebnika (%s) njegovega MXF."
+"Trajanje koluta (%other_duration) nekega časovno opredeljenega besedila ni enako trajanju "
+"vsebnika (%duration) njegovega MXF."
 
 #: src/wx/verify_dcp_result_panel.cc:408
 #, fuzzy, c-format
-msgid "The sound asset %f has an invalid bit depth of %n."
-msgstr "Zvočno sredstvo %f nima veveljavne hitrosti sličic %n."
+msgid "The sound asset %f has an invalid bit depth of %bit_depth."
+msgstr "Zvočno sredstvo %f nima veveljavne hitrosti sličic %bit_depth."
 
 #: src/wx/verify_dcp_result_panel.cc:405
 #, c-format
@@ -3850,20 +3850,20 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:643
 #, c-format
-msgid "The subtitle asset %n contains no subtitles."
-msgstr "Sredstvo podnaslovov %n ne vsebuje podnaslovov."
+msgid "The subtitle asset %asset_id contains no subtitles."
+msgstr "Sredstvo podnaslovov %asset_id ne vsebuje podnaslovov."
 
 #: src/wx/verify_dcp_result_panel.cc:426
 #, c-format
-msgid "The subtitle asset %n has no <EntryPoint> tag."
-msgstr "Sredstvo podnaslovov %n nima oznake vstopne točke <EntryPoint>."
+msgid "The subtitle asset %asset_id has no <EntryPoint> tag."
+msgstr "Sredstvo podnaslovov %asset_id nima oznake vstopne točke <EntryPoint>."
 
 #: src/wx/verify_dcp_result_panel.cc:360
 #, c-format
 msgid ""
-"The timed text asset %f takes up %n bytes which is over the 115MB limit."
+"The timed text asset %f takes up %size_in_bytes bytes which is over the 115MB limit."
 msgstr ""
-"Sredstvo časovno opredeljenega besedila %f zavzema %n bajtov, kar presega "
+"Sredstvo časovno opredeljenega besedila %f zavzema %size_in_bytes bajtov, kar presega "
 "omejitev 115 MB."
 
 #: src/wx/verify_dcp_result_panel.cc:351
@@ -3882,8 +3882,8 @@ msgstr "Sredstvo videa %f uporablja neveljavno hitrost sličic %frame_rate."
 
 #: src/wx/verify_dcp_result_panel.cc:345
 #, c-format
-msgid "The video asset %f uses the invalid image size %n."
-msgstr "Sredstvo videa %f uporablja neveljavno velikost slike %n."
+msgid "The video asset %f uses the invalid image size %size_in_pixels."
+msgstr "Sredstvo videa %f uporablja neveljavno velikost slike %size_in_pixels."
 
 #: src/wx/verify_dcp_result_panel.cc:354
 #, fuzzy
@@ -3952,10 +3952,10 @@ msgstr "Ta CPL ne vsebuje šifriranih sredstev."
 #: src/wx/verify_dcp_result_panel.cc:333
 #, c-format
 msgid ""
-"This DCP refers to at the asset %n in another DCP (and perhaps others), so "
+"This DCP refers to at the asset %asset_id in another DCP (and perhaps others), so "
 "it is a \"version file\" (VF)"
 msgstr ""
-"Ta DCP se sklicuje na sredstvo %n v drugem DCP-ju (in morda drugih), tako da "
+"Ta DCP se sklicuje na sredstvo %asset_id v drugem DCP-ju (in morda drugih), tako da "
 "je »različica datoteke« (VF)"
 
 #: src/wx/verify_dcp_result_panel.cc:339

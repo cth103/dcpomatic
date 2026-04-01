@@ -193,9 +193,6 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 					dcp::Time(note.frame().get(), note.frame_rate()->as_float(), note.frame_rate()->numerator).as_string(dcp::Standard::SMPTE)
 					));
 		}
-		if (auto const n = note.note()) {
-			message.Replace(char_to_wx("%n"), std_to_wx(*n));
-		}
 		if (auto const f = note.file()) {
 			message.Replace(char_to_wx("%f"), std_to_wx(f->filename().string()));
 		}
@@ -205,8 +202,8 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 		if (auto const component = note.component()) {
 			message.Replace(char_to_wx("%component"), std_to_wx(fmt::to_string(*component)));
 		}
-		if (auto const size = note.size()) {
-			message.Replace(char_to_wx("%size"), std_to_wx(fmt::to_string(*size)));
+		if (auto const size_in_bytes = note.size_in_bytes()) {
+			message.Replace(char_to_wx("%size_in_bytes"), std_to_wx(fmt::to_string(*size_in_bytes)));
 		}
 		if (auto const load_font_id = note.load_font_id()) {
 			message.Replace(char_to_wx("%load_font_id"), std_to_wx(*load_font_id));
@@ -220,12 +217,24 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 		if (auto const cpl = note.cpl_id()) {
 			message.Replace(char_to_wx("%cpl"), std_to_wx(*cpl));
 		}
+		if (auto const pkl = note.pkl_id()) {
+			message.Replace(char_to_wx("%pkl"), std_to_wx(*pkl));
+		}
 		if (auto const frame_rate = note.frame_rate()) {
 			if (frame_rate->denominator == 1) {
 				message.Replace(char_to_wx("%frame_rate"), std_to_wx(fmt::to_string(frame_rate->numerator)));
 			} else {
 				message.Replace(char_to_wx("%frame_rate"), std_to_wx(fmt::to_string(frame_rate->as_float())));
 			}
+		}
+		if (auto const error = note.error()) {
+			message.Replace(char_to_wx("%error"), std_to_wx(*error));
+		}
+		if (auto const size_in_pixels = note.size_in_pixels()) {
+			message.Replace(char_to_wx("%size_in_pixels"), wxString::Format(char_to_wx("%dx%d"), size_in_pixels->width, size_in_pixels->height));
+		}
+		if (auto const time = note.time()) {
+			message.Replace(char_to_wx("%time"), std_to_wx(time->as_string(dcp::Standard::SMPTE)));
 		}
 		return message;
 	};
@@ -268,7 +277,7 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 	for (auto const& i: notes_by_code) {
 		switch (i.first) {
 		case dcp::VerificationNote::Code::FAILED_READ:
-			add(i.second, _("Could not read DCP (%n)"));
+			add(i.second, _("Could not read DCP (%error)"));
 			break;
 		case dcp::VerificationNote::Code::MISMATCHED_CPL_HASHES:
 			add(i.second, _("The hash (%reference_hash) of the CPL %cpl in the PKL does not agree with the CPL file (%calculated_hash).  This probably means that the CPL file is corrupt."));
@@ -300,9 +309,9 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 		case dcp::VerificationNote::Code::INVALID_XML:
 			for (auto const& note: i.second) {
 				if (note.line()) {
-					add({ note }, _("The XML in %f is malformed on line %l (%n)."));
+					add({ note }, _("The XML in %f is malformed on line %l (%error)."));
 				} else {
-					add({ note }, _("The XML in %f is malformed (%n)."));
+					add({ note }, _("The XML in %f is malformed (%error)."));
 				}
 			}
 			break;
@@ -310,10 +319,10 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 			add(i.second, _("No ASSETMAP or ASSETMAP.xml file was found."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_INTRINSIC_DURATION:
-			add(i.second, _("The asset %n has an intrinsic duration of less than 1 second, which is invalid."));
+			add(i.second, _("The asset %asset_id has an intrinsic duration of less than 1 second, which is invalid."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_DURATION:
-			add(i.second, _("The asset %n has a duration of less than 1 second, which is invalid."));
+			add(i.second, _("The asset %asset_id has a duration of less than 1 second, which is invalid."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_PICTURE_FRAME_SIZE_IN_BYTES:
 			add(
@@ -330,7 +339,7 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 			);
 			break;
 		case dcp::VerificationNote::Code::EXTERNAL_ASSET:
-			add(i.second, _("This DCP refers to at the asset %n in another DCP (and perhaps others), so it is a \"version file\" (VF)"));
+			add(i.second, _("This DCP refers to at the asset %asset_id in another DCP (and perhaps others), so it is a \"version file\" (VF)"));
 			break;
 		case dcp::VerificationNote::Code::THREED_ASSET_MARKED_AS_TWOD:
 			add(i.second, _("The asset %f is 3D but its MXF is marked as 2D."));
@@ -339,10 +348,10 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 			add(i.second, _("This DCP uses the Interop standard, but it should be made with SMPTE."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_LANGUAGE:
-			add(i.second, _("The invalid language tag %n is used."));
+			add(i.second, _("The invalid language tag %language is used."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_PICTURE_SIZE_IN_PIXELS:
-			add(i.second, _("The video asset %f uses the invalid image size %n."));
+			add(i.second, _("The video asset %f uses the invalid image size %size_in_pixels."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_PICTURE_FRAME_RATE_FOR_2K:
 			add(i.second, _("The video asset %f uses the invalid frame rate %frame_rate."));
@@ -354,13 +363,13 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 			add(i.second, _("The video asset is 4K which is not allowed for 3D video."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_CLOSED_CAPTION_XML_SIZE_IN_BYTES:
-			add(i.second, _("The XML in the closed caption asset %f takes up %n bytes which is over the 256KB limit."));
+			add(i.second, _("The XML in the closed caption asset %f takes up %size_in_bytes bytes which is over the 256KB limit."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_TIMED_TEXT_SIZE_IN_BYTES:
-			add(i.second, _("The timed text asset %f takes up %n bytes which is over the 115MB limit."));
+			add(i.second, _("The timed text asset %f takes up %size_in_bytes bytes which is over the 115MB limit."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_TIMED_TEXT_FONT_SIZE_IN_BYTES:
-			add(i.second, _("The fonts in the timed text asset %f take up %n bytes which is over the 10MB limit."));
+			add(i.second, _("The fonts in the timed text asset %f take up %size_in_bytes bytes which is over the 10MB limit."));
 			break;
 		case dcp::VerificationNote::Code::MISSING_SUBTITLE_LANGUAGE:
 			add(i.second, _("The subtitle asset %f contains no <Language> tag."));
@@ -423,19 +432,19 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 			add(i.second, _("The DCP has closed captions but not every reel has the same number of closed caption assets."));
 			break;
 		case dcp::VerificationNote::Code::MISSING_SUBTITLE_ENTRY_POINT:
-			add(i.second, _("The subtitle asset %n has no <EntryPoint> tag."));
+			add(i.second, _("The subtitle asset %asset_id has no <EntryPoint> tag."));
 			break;
 		case dcp::VerificationNote::Code::INCORRECT_SUBTITLE_ENTRY_POINT:
-			add(i.second, _("Subtitle asset %n has a non-zero <EntryPoint>."));
+			add(i.second, _("Subtitle asset %asset_id has a non-zero <EntryPoint>."));
 			break;
 		case dcp::VerificationNote::Code::MISSING_CLOSED_CAPTION_ENTRY_POINT:
-			add(i.second, _("The closed caption asset %n has no <EntryPoint> tag."));
+			add(i.second, _("The closed caption asset %asset_id has no <EntryPoint> tag."));
 			break;
 		case dcp::VerificationNote::Code::INCORRECT_CLOSED_CAPTION_ENTRY_POINT:
-			add(i.second, _("Closed caption asset %n has a non-zero <EntryPoint>."));
+			add(i.second, _("Closed caption asset %asset_id has a non-zero <EntryPoint>."));
 			break;
 		case dcp::VerificationNote::Code::MISSING_HASH:
-			add(i.second, _("The asset %n has no <Hash> in the CPL."));
+			add(i.second, _("The asset %asset_id has no <Hash> in the CPL."));
 			break;
 		case dcp::VerificationNote::Code::MISSING_FFEC_IN_FEATURE:
 			add(i.second, _("The DCP is a feature but has no FFEC (first frame of end credits) marker."));
@@ -450,10 +459,10 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 			add(i.second, _("The DCP has no LFOC (last frame of content) marker."));
 			break;
 		case dcp::VerificationNote::Code::INCORRECT_FFOC:
-			add(i.second, _("The DCP has a FFOC of %n instead of 1."));
+			add(i.second, _("The DCP has a FFOC of %time instead of 1."));
 			break;
 		case dcp::VerificationNote::Code::INCORRECT_LFOC:
-			add(i.second, _("The DCP has a LFOC of %n instead of the reel duration minus one."));
+			add(i.second, _("The DCP has a LFOC of %time instead of the reel duration minus one."));
 			break;
 		case dcp::VerificationNote::Code::MISSING_CPL_METADATA:
 			add(i.second, _("The CPL %cpl has no CPL metadata tag."));
@@ -465,16 +474,16 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 			add(i.second, _("The CPL %cpl has no CPL extension metadata tag."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_EXTENSION_METADATA:
-			add(i.second, _("The CPL %f has an invalid CPL extension metadata tag (%n)"));
+			add(i.second, _("The CPL %f has an invalid CPL extension metadata tag (%error)"));
 			break;
 		case dcp::VerificationNote::Code::UNSIGNED_CPL_WITH_ENCRYPTED_CONTENT:
 			add(i.second, _("The CPL %cpl has encrypted content but is not signed."));
 			break;
 		case dcp::VerificationNote::Code::UNSIGNED_PKL_WITH_ENCRYPTED_CONTENT:
-			add(i.second, _("The PKL %n has encrypted content but is not signed."));
+			add(i.second, _("The PKL %pkl has encrypted content but is not signed."));
 			break;
 		case dcp::VerificationNote::Code::MISMATCHED_PKL_ANNOTATION_TEXT_WITH_CPL:
-			add(i.second, _("The PKL %n has an <AnnotationText> which does not match its CPL's <ContentTitleText>."));
+			add(i.second, _("The PKL %pkl has an <AnnotationText> which does not match its CPL's <ContentTitleText>."));
 			break;
 		case dcp::VerificationNote::Code::PARTIALLY_ENCRYPTED:
 			add(i.second, _("The DCP has encrypted content, but not all its assets are encrypted."));
@@ -482,21 +491,21 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 		case dcp::VerificationNote::Code::INVALID_JPEG2000_CODESTREAM:
 			add(
 				i.second,
-				_("A picture frame has an invalid JPEG2000 codestream (%n)."),
+				_("A picture frame has an invalid JPEG2000 codestream (%error)."),
 				_("More picture frames (not listed) have invalid JPEG2000 codestreams.")
 			);
 			break;
 		case dcp::VerificationNote::Code::INVALID_JPEG2000_GUARD_BITS_FOR_2K:
 			add(
 				i.second,
-				_("A 2K JPEG2000 frame has %n guard bits instead of 1."),
+				_("A 2K JPEG2000 frame has %guard_bits guard bits instead of 1."),
 				_("More 2K JPEG2000 frames (not listed) have an invalid number of guard bits.")
 			);
 			break;
 		case dcp::VerificationNote::Code::INVALID_JPEG2000_GUARD_BITS_FOR_4K:
 			add(
 				i.second,
-				_("A 4K JPEG2000 frame has %n guard bits instead of 2."),
+				_("A 4K JPEG2000 frame has %guard_bits guard bits instead of 2."),
 				_("More 4K JPEG2000 frames (not listed) have an invalid number of guard bits.")
 			);
 			break;
@@ -510,28 +519,28 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 		case dcp::VerificationNote::Code::INVALID_JPEG2000_CODE_BLOCK_WIDTH:
 			add(
 				i.second,
-				_("A JPEG2000 frame has a code-block width of %n instead of 32."),
+				_("A JPEG2000 frame has a code-block width of %code_block_width instead of 32."),
 				_("More JPEG2000 frames (not listed) have an invalid code-block width.")
 			);
 			break;
 		case dcp::VerificationNote::Code::INVALID_JPEG2000_CODE_BLOCK_HEIGHT:
 			add(
 				i.second,
-				_("A JPEG2000 frame has a code-block height of %n instead of 32."),
+				_("A JPEG2000 frame has a code-block height of %code_block_height instead of 32."),
 				_("More JPEG2000 frames (not listed) have an invalid code-block height.")
 			);
 			break;
 		case dcp::VerificationNote::Code::INCORRECT_JPEG2000_POC_MARKER_COUNT_FOR_2K:
 			add(
 				i.second,
-				_("A 2K JPEG2000 frame has %n POC marker(s) instead of 0."),
+				_("A 2K JPEG2000 frame has %poc_markers POC marker(s) instead of 0."),
 				_("More 2K JPEG2000 frames (not listed) have too many POC markers.")
 			);
 			break;
 		case dcp::VerificationNote::Code::INCORRECT_JPEG2000_POC_MARKER_COUNT_FOR_4K:
 			add(
 				i.second,
-				_("A 4K JPEG2000 frame has %n POC marker(s) instead of 1."),
+				_("A 4K JPEG2000 frame has %poc_markers POC marker(s) instead of 1."),
 				_("More 4K JPEG2000 frames (not listed) have too many POC markers.")
 			);
 			break;
@@ -552,28 +561,28 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 		case dcp::VerificationNote::Code::INVALID_JPEG2000_TILE_PARTS_FOR_2K:
 			add(
 				i.second,
-				_("A 2K JPEG2000 frame contains %n tile parts instead of 3."),
+				_("A 2K JPEG2000 frame contains %tile_parts tile parts instead of 3."),
 				_("More 2K JPEG2000 frames (not listed) contain the wrong number of tile parts.")
 			);
 			break;
 		case dcp::VerificationNote::Code::INVALID_JPEG2000_TILE_PARTS_FOR_4K:
 			add(
 				i.second,
-				_("A 4K JPEG2000 frame contains %n tile parts instead of 6."),
+				_("A 4K JPEG2000 frame contains %tile_parts tile parts instead of 6."),
 				_("More JPEG2000 frames (not listed) contain the wrong number of tile parts.")
 			);
 			break;
 		case dcp::VerificationNote::Code::INVALID_JPEG2000_RSIZ_FOR_2K:
 			add(
 				i.second,
-				_("A 2K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %n"),
+				_("A 2K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %capabilities"),
 				_("More JPEG2000 frames (not listed) contain invalid Rsiz values.")
 			);
 			break;
 		case dcp::VerificationNote::Code::INVALID_JPEG2000_RSIZ_FOR_4K:
 			add(
 				i.second,
-				_("A 4K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %n"),
+				_("A 4K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %capabilities"),
 				_("More JPEG2000 frames (not listed) contain invalid Rsiz values.")
 			);
 			break;
@@ -594,21 +603,8 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 			add(i.second, _("The Asset ID in a timed text MXF is the same as the Resource ID or that of the contained XML."));
 			break;
 		case dcp::VerificationNote::Code::MISMATCHED_TIMED_TEXT_DURATION:
-		{
-			for (auto const& note: i.second) {
-				vector<string> parts;
-				boost::split(parts, note.note().get(), boost::is_any_of(" "));
-				add(
-					{ note },
-					wxString::Format(
-						_("The reel duration (%s) of some timed text is not the same as the ContainerDuration (%s) of its MXF."),
-						std_to_wx(parts[0]),
-						std_to_wx(parts[1])
-						)
-				   );
-			}
+			add(i.second, _("The reel duration (%other_duration) of some timed text is not the same as the ContainerDuration (%duration) of its MXF."));
 			break;
-		}
 		case dcp::VerificationNote::Code::MISSED_CHECK_OF_ENCRYPTED:
 			add(i.second, _("Part of the DCP could not be checked because no KDM was available."));
 			break;
@@ -628,41 +624,41 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 			add(i.second, _("There is a <Duration> tag inside a <MainMarkers>."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_CONTENT_KIND:
-			add(i.second, _("An invalid <ContentKind> %n has been used."));
+			add(i.second, _("An invalid <ContentKind> %content_kind has been used."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_MAIN_PICTURE_ACTIVE_AREA:
 			add(i.second, _("The <MainPictureActiveArea> is either not a multiple of 2, or is bigger than an asset."));
 			break;
 		case dcp::VerificationNote::Code::DUPLICATE_ASSET_ID_IN_PKL:
-			add(i.second, _("The PKL %n has more than one asset with the same ID."));
+			add(i.second, _("The PKL %pkl_id has more than one asset with the same ID."));
 			break;
 		case dcp::VerificationNote::Code::DUPLICATE_ASSET_ID_IN_ASSETMAP:
-			add(i.second, _("The ASSETMAP %n has more than one asset with the same ID."));
+			add(i.second, _("The ASSETMAP %asset_map_id has more than one asset with the same ID."));
 			break;
 		case dcp::VerificationNote::Code::MISSING_SUBTITLE:
-			add(i.second, _("The subtitle asset %n contains no subtitles."));
+			add(i.second, _("The subtitle asset %asset_id contains no subtitles."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_SUBTITLE_ISSUE_DATE:
-			add(i.second, _("<IssueDate> has an invalid value %n"));
+			add(i.second, _("<IssueDate> has an invalid value %issue_date"));
 			break;
 		case dcp::VerificationNote::Code::MISMATCHED_SOUND_CHANNEL_COUNTS:
 			add(i.second, _("Sound assets do not all have the same channel count."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_MAIN_SOUND_CONFIGURATION:
-			add(i.second, _("<MainSoundConfiguration> is invalid (%n)"));
+			add(i.second, _("<MainSoundConfiguration> is invalid (%error)"));
 			break;
 		case dcp::VerificationNote::Code::MISSING_FONT:
-			add(i.second, _("The font file for font ID \"%n\" was not found, or was not referred to in the ASSETMAP."));
+			add(i.second, _("The font file for font ID \"%load_font_id\" was not found, or was not referred to in the ASSETMAP."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_JPEG2000_TILE_PART_SIZE:
 			add(
 				i.second,
-				_("Frame %frame has an image component that is too large (component %component is %size bytes in size)."),
+				_("Frame %frame has an image component that is too large (component %component is %size_in_bytes bytes in size)."),
 				_("More frames (not listed) have image components that are too large.")
 			);
 			break;
 		case dcp::VerificationNote::Code::INCORRECT_SUBTITLE_NAMESPACE_COUNT:
-			add(i.second, _("The XML in the subtitle asset %n has more than one namespace declaration."));
+			add(i.second, _("The XML in the subtitle asset %asset_id has more than one namespace declaration."));
 			break;
 		case dcp::VerificationNote::Code::MISSING_LOAD_FONT_FOR_FONT:
 			add(i.second, _("A subtitle or closed caption refers to a font with ID %load_font_id that does not have a corresponding <LoadFont> node."));
@@ -677,7 +673,7 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 			add(i.second, _("The <LabelText> in a <ContentVersion> in CPL %cpl is empty"));
 			break;
 		case dcp::VerificationNote::Code::INVALID_CPL_NAMESPACE:
-			add(i.second, _("The CPL %cpl has an invalid namespace %n"));
+			add(i.second, _("The CPL %cpl has an invalid namespace %xml_namespace"));
 			break;
 		case dcp::VerificationNote::Code::MISSING_CPL_CONTENT_VERSION:
 			add(i.second, _("The CPL %cpl has no <ContentVersion> tag"));
@@ -696,7 +692,7 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 			/* These are all "OK" messages which we don't report here */
 			break;
 		case dcp::VerificationNote::Code::INVALID_PKL_NAMESPACE:
-			add(i.second, _("The PKL %f has an invalid namespace %n"));
+			add(i.second, _("The PKL %f has an invalid namespace %xml_namespace"));
 			break;
 		}
 	}

@@ -239,12 +239,12 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:646
 #, c-format
-msgid "<IssueDate> has an invalid value %n"
+msgid "<IssueDate> has an invalid value %issue_date"
 msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:652
 #, c-format
-msgid "<MainSoundConfiguration> is invalid (%n)"
+msgid "<MainSoundConfiguration> is invalid (%error)"
 msgstr ""
 
 #: src/wx/subtitle_appearance_dialog.cc:118
@@ -269,50 +269,50 @@ msgstr "A"
 
 #: src/wx/verify_dcp_result_panel.cc:555
 #, c-format
-msgid "A 2K JPEG2000 frame contains %n tile parts instead of 3."
+msgid "A 2K JPEG2000 frame contains %tile_parts tile parts instead of 3."
 msgstr ""
-"Klatka obrazu 2K JPEG2000 zawiera %n informacji o kolorze zamiast wymaganych "
+"Klatka obrazu 2K JPEG2000 zawiera %tile_parts informacji o kolorze zamiast wymaganych "
 "3."
 
 #: src/wx/verify_dcp_result_panel.cc:569
 #, fuzzy, c-format
-msgid "A 2K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %n"
-msgstr "Klatka obrazu JPEG2000 zawiera nieprawidłowy znacznik POC (%n)."
+msgid "A 2K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %capabilities"
+msgstr "Klatka obrazu JPEG2000 zawiera nieprawidłowy znacznik POC (%capabilities)."
 
 #: src/wx/verify_dcp_result_panel.cc:527
 #, c-format
-msgid "A 2K JPEG2000 frame has %n POC marker(s) instead of 0."
-msgstr "Klatka obrazu 2K JPEG2000 zawiera %n znacznik(ów) POC zamiast 0."
+msgid "A 2K JPEG2000 frame has %poc_markers POC marker(s) instead of 0."
+msgstr "Klatka obrazu 2K JPEG2000 zawiera %poc_markers znacznik(ów) POC zamiast 0."
 
 #: src/wx/verify_dcp_result_panel.cc:492
 #, c-format
-msgid "A 2K JPEG2000 frame has %n guard bits instead of 1."
+msgid "A 2K JPEG2000 frame has %guard_bits guard bits instead of 1."
 msgstr ""
-"Klatka obrazu 2K JPEG2000 zawiera %n bitów ochronnych (guard bits) zamiast 1."
+"Klatka obrazu 2K JPEG2000 zawiera %guard_bits bitów ochronnych (guard bits) zamiast 1."
 
 # Shouldn't be here 4K JPEG2000 frame?
 #: src/wx/verify_dcp_result_panel.cc:562
 #, c-format
-msgid "A 4K JPEG2000 frame contains %n tile parts instead of 6."
+msgid "A 4K JPEG2000 frame contains %tile_parts tile parts instead of 6."
 msgstr ""
-"Klatka obrazu 4K JPEG2000 zawiera %n informacji o kolorze zamiast wymaganych "
+"Klatka obrazu 4K JPEG2000 zawiera %tile_parts informacji o kolorze zamiast wymaganych "
 "6."
 
 #: src/wx/verify_dcp_result_panel.cc:576
 #, fuzzy, c-format
-msgid "A 4K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %n"
-msgstr "Klatka obrazu JPEG2000 zawiera nieprawidłowy znacznik POC (%n)."
+msgid "A 4K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %capabilities"
+msgstr "Klatka obrazu JPEG2000 zawiera nieprawidłowy znacznik POC (%capabilities)."
 
 #: src/wx/verify_dcp_result_panel.cc:534
 #, c-format
-msgid "A 4K JPEG2000 frame has %n POC marker(s) instead of 1."
-msgstr "Klatka obrazu 4K JPEG2000 zawiera %n znacznik(ów) POC zamiast 1."
+msgid "A 4K JPEG2000 frame has %poc_markers POC marker(s) instead of 1."
+msgstr "Klatka obrazu 4K JPEG2000 zawiera %poc_markers znacznik(ów) POC zamiast 1."
 
 #: src/wx/verify_dcp_result_panel.cc:499
 #, c-format
-msgid "A 4K JPEG2000 frame has %n guard bits instead of 2."
+msgid "A 4K JPEG2000 frame has %guard_bits guard bits instead of 2."
 msgstr ""
-"Klatka obrazu 4K JPEG2000 zawiera %n bitów ochronnych (guard bits) zamiast 2."
+"Klatka obrazu 4K JPEG2000 zawiera %guard_bits bitów ochronnych (guard bits) zamiast 2."
 
 #: src/wx/verify_dcp_result_panel.cc:548
 #, fuzzy
@@ -326,15 +326,15 @@ msgstr "Klatka obrazu JPEG2000 zawiera nieprawidłowy znacznik POC (%n)."
 
 #: src/wx/verify_dcp_result_panel.cc:520
 #, c-format
-msgid "A JPEG2000 frame has a code-block height of %n instead of 32."
+msgid "A JPEG2000 frame has a code-block height of %code_block_height instead of 32."
 msgstr ""
-"Wysokość bloku w klatce obrazu JPEG2000 wynosi %n zamiast wymaganych 32."
+"Wysokość bloku w klatce obrazu JPEG2000 wynosi %code_block_height zamiast wymaganych 32."
 
 #: src/wx/verify_dcp_result_panel.cc:513
 #, c-format
-msgid "A JPEG2000 frame has a code-block width of %n instead of 32."
+msgid "A JPEG2000 frame has a code-block width of %code_block_width instead of 32."
 msgstr ""
-"Szerokość bloku w klatce obrazu JPEG2000 wynosi %n zamiast wymaganych 32."
+"Szerokość bloku w klatce obrazu JPEG2000 wynosi %code_block_width zamiast wymaganych 32."
 
 #: src/wx/verify_dcp_result_panel.cc:583
 msgid "A JPEG2000 frame has no TLM marker."
@@ -353,8 +353,8 @@ msgstr "Nowa wersja DCP-o-matic jest dostępna."
 
 #: src/wx/verify_dcp_result_panel.cc:485
 #, fuzzy, c-format
-msgid "A picture frame has an invalid JPEG2000 codestream (%n)."
-msgstr "Klatka obrazu ma nieprawidłowy strumień kodowy JPEG2000 (%n)"
+msgid "A picture frame has an invalid JPEG2000 codestream (%error)."
+msgstr "Klatka obrazu ma nieprawidłowy strumień kodowy JPEG2000 (%error)"
 
 #: src/wx/hints_dialog.cc:183
 #, c-format
@@ -584,7 +584,7 @@ msgstr "Materiał ma pustą ścieżkę w pliku ASSETMAP."
 
 #: src/wx/verify_dcp_result_panel.cc:631
 #, c-format
-msgid "An invalid <ContentKind> %n has been used."
+msgid "An invalid <ContentKind> %content_kind has been used."
 msgstr ""
 
 #: src/wx/dkdm_output_panel.cc:204 src/wx/kdm_output_panel.cc:321
@@ -892,8 +892,8 @@ msgstr "Kliknij, by ustawić zaznaczone pliki do tej samej wartości."
 
 #: src/wx/verify_dcp_result_panel.cc:435
 #, c-format
-msgid "Closed caption asset %n has a non-zero <EntryPoint>."
-msgstr "Plik z napisami %n zawiera niezerowy <EntryPoint>."
+msgid "Closed caption asset %asset_id has a non-zero <EntryPoint>."
+msgstr "Plik z napisami %asset_id zawiera niezerowy <EntryPoint>."
 
 #: src/wx/closed_captions_dialog.cc:49 src/wx/dcp_referencing_dialog.cc:115
 msgid "Closed captions"
@@ -1040,7 +1040,7 @@ msgstr "Nie udało się załadować KDM"
 
 #: src/wx/verify_dcp_result_panel.cc:271
 #, fuzzy, c-format
-msgid "Could not read DCP (%n)"
+msgid "Could not read DCP (%error)"
 msgstr "Nie udało się odczytać DCP: %s"
 
 #: src/wx/gl_video_view.cc:131
@@ -1622,7 +1622,7 @@ msgstr ""
 #, c-format
 msgid ""
 "Frame %frame has an image component that is too large (component %component "
-"is %size bytes in size)."
+"is %size_in_bytes bytes in size)."
 msgstr ""
 
 #: src/wx/dcp_panel.cc:868
@@ -3418,8 +3418,8 @@ msgstr "Wygląd napisów"
 
 #: src/wx/verify_dcp_result_panel.cc:429
 #, c-format
-msgid "Subtitle asset %n has a non-zero <EntryPoint>."
-msgstr "Plik z napisami %n posiada niezerowy znacznik <EntryPoint>."
+msgid "Subtitle asset %asset_id has a non-zero <EntryPoint>."
+msgstr "Plik z napisami %asset_id posiada niezerowy znacznik <EntryPoint>."
 
 #: src/wx/export_subtitles_dialog.cc:105
 msgid "Subtitle files (.mxf)|*.mxf"
@@ -3520,7 +3520,7 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:640
 #, c-format
-msgid "The ASSETMAP %n has more than one asset with the same ID."
+msgid "The ASSETMAP %asset_map_id has more than one asset with the same ID."
 msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:594
@@ -3542,8 +3542,8 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:680
 #, fuzzy, c-format
-msgid "The CPL %cpl has an invalid namespace %n"
-msgstr "Plik z dźwiękiem %f posiada nieprawidłową liczbę klatek: %n."
+msgid "The CPL %cpl has an invalid namespace %xml_namespace"
+msgstr "Plik z dźwiękiem %f posiada nieprawidłową liczbę klatek: %xml_namespace."
 
 #: src/wx/verify_dcp_result_panel.cc:471
 #, fuzzy, c-format
@@ -3577,20 +3577,20 @@ msgstr "Plik CPL %n nie ma tagu numeru wersji metadanych CPL."
 
 #: src/wx/verify_dcp_result_panel.cc:468
 #, c-format
-msgid "The CPL %f has an invalid CPL extension metadata tag (%n)"
-msgstr "Plik CPL %f ma nieprawidłowy tag rozszerzenia metadanych CPL (%n)"
+msgid "The CPL %f has an invalid CPL extension metadata tag (%error)"
+msgstr "Plik CPL %f ma nieprawidłowy tag rozszerzenia metadanych CPL (%error)"
 
 #: src/wx/verify_dcp_result_panel.cc:453
 #, c-format
-msgid "The DCP has a FFOC of %n instead of 1."
+msgid "The DCP has a FFOC of %time instead of 1."
 msgstr ""
-"DCP ma %n znaczników pierwszej klatki materiału (FFOC) zamiast jednego."
+"DCP ma %time znaczników pierwszej klatki materiału (FFOC) zamiast jednego."
 
 #: src/wx/verify_dcp_result_panel.cc:456
 #, c-format
-msgid "The DCP has a LFOC of %n instead of the reel duration minus one."
+msgid "The DCP has a LFOC of %time instead of the reel duration minus one."
 msgstr ""
-"DCP ma %n znaczników ostatniej klatki materiału (LFOC) zamiast długości "
+"DCP ma %time znaczników ostatniej klatki materiału (LFOC) zamiast długości "
 "rolki minus jeden."
 
 #: src/wx/verify_dcp_result_panel.cc:423
@@ -3654,27 +3654,27 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:699
 #, fuzzy, c-format
-msgid "The PKL %f has an invalid namespace %n"
-msgstr "Plik z dźwiękiem %f posiada nieprawidłową liczbę klatek: %n."
+msgid "The PKL %f has an invalid namespace %xml_namespace"
+msgstr "Plik z dźwiękiem %f posiada nieprawidłową liczbę klatek: %xml_namespace."
 
 #: src/wx/verify_dcp_result_panel.cc:477
 #, c-format
 msgid ""
-"The PKL %n has an <AnnotationText> which does not match its CPL's "
+"The PKL %pkl has an <AnnotationText> which does not match its CPL's "
 "<ContentTitleText>."
 msgstr ""
-"Plik PKL %n zawiera znacznik <AnnotationText>, który nie odpowiada wartości "
+"Plik PKL %pkl zawiera znacznik <AnnotationText>, który nie odpowiada wartości "
 "znacznika <ContentTitleText> w pliku CPL."
 
 #: src/wx/verify_dcp_result_panel.cc:474
 #, c-format
-msgid "The PKL %n has encrypted content but is not signed."
-msgstr "Plik PKL %n posiada zaszyfrowaną zawartość, ale nie jest podpisany."
+msgid "The PKL %pkl has encrypted content but is not signed."
+msgstr "Plik PKL %pkl posiada zaszyfrowaną zawartość, ale nie jest podpisany."
 
 #: src/wx/verify_dcp_result_panel.cc:637
 #, fuzzy, c-format
-msgid "The PKL %n has more than one asset with the same ID."
-msgstr "Plik PKL %n posiada zaszyfrowaną zawartość, ale nie jest podpisany."
+msgid "The PKL %pkl_id has more than one asset with the same ID."
+msgstr "Plik PKL %pkl_id posiada zaszyfrowaną zawartość, ale nie jest podpisany."
 
 #: src/wx/verify_dcp_result_panel.cc:283
 #, c-format
@@ -3702,25 +3702,25 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:305
 #, c-format
-msgid "The XML in %f is malformed (%n)."
-msgstr "Plik XML w %f zawiera błędy (%n)."
+msgid "The XML in %f is malformed (%error)."
+msgstr "Plik XML w %f zawiera błędy (%error)."
 
 #: src/wx/verify_dcp_result_panel.cc:303
-msgid "The XML in %f is malformed on line %l (%n)."
-msgstr "Plik XML w %f zawiera błędy w linii %l (%n)."
+msgid "The XML in %f is malformed on line %l (%error)."
+msgstr "Plik XML w %f zawiera błędy w linii %l (%error)."
 
 #: src/wx/verify_dcp_result_panel.cc:357
 #, c-format
 msgid ""
-"The XML in the closed caption asset %f takes up %n bytes which is over the "
+"The XML in the closed caption asset %f takes up %size_in_bytes bytes which is over the "
 "256KB limit."
 msgstr ""
-"Plik XML z napisami kodowanymi %f zawiera %n bajtów i przekracza limit 256KB."
+"Plik XML z napisami kodowanymi %f zawiera %size_in_bytes bajtów i przekracza limit 256KB."
 
 #: src/wx/verify_dcp_result_panel.cc:665
 #, c-format
 msgid ""
-"The XML in the subtitle asset %n has more than one namespace declaration."
+"The XML in the subtitle asset %asset_id has more than one namespace declaration."
 msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:336
@@ -3735,22 +3735,22 @@ msgstr "Nie mogę znaleźć zawartości %f."
 
 #: src/wx/verify_dcp_result_panel.cc:316
 #, c-format
-msgid "The asset %n has a duration of less than 1 second, which is invalid."
-msgstr "Zawartość %n trwa krócej niż 1 sekunda, co jest nieprawidłowe."
+msgid "The asset %asset_id has a duration of less than 1 second, which is invalid."
+msgstr "Zawartość %asset_id trwa krócej niż 1 sekunda, co jest nieprawidłowe."
 
 #: src/wx/verify_dcp_result_panel.cc:313
 #, c-format
 msgid ""
-"The asset %n has an intrinsic duration of less than 1 second, which is "
+"The asset %asset_id has an intrinsic duration of less than 1 second, which is "
 "invalid."
 msgstr ""
-"Rzeczywista długość materiału %n jest krótsza od 1 sekundy, co jest "
+"Rzeczywista długość materiału %asset_id jest krótsza od 1 sekundy, co jest "
 "nieprawidłowe."
 
 #: src/wx/verify_dcp_result_panel.cc:438
 #, c-format
-msgid "The asset %n has no <Hash> in the CPL."
-msgstr "Zawartość %n nie ma znacznika <Hash> w pliku CPL."
+msgid "The asset %asset_id has no <Hash> in the CPL."
+msgstr "Zawartość %asset_id nie ma znacznika <Hash> w pliku CPL."
 
 #: src/wx/verify_dcp_result_panel.cc:674
 #, c-format
@@ -3761,8 +3761,8 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:432
 #, c-format
-msgid "The closed caption asset %n has no <EntryPoint> tag."
-msgstr "Materiał z napisami kodowanymi %n nie ma znacznika <EntryPoint>."
+msgid "The closed caption asset %asset_id has no <EntryPoint> tag."
+msgstr "Materiał z napisami kodowanymi %asset_id nie ma znacznika <EntryPoint>."
 
 #: src/wx/film_name_location_dialog.cc:146
 #, fuzzy, c-format
@@ -3812,17 +3812,17 @@ msgstr ""
 #: src/wx/verify_dcp_result_panel.cc:655
 #, c-format
 msgid ""
-"The font file for font ID \"%n\" was not found, or was not referred to in "
+"The font file for font ID \"%load_font_id\" was not found, or was not referred to in "
 "the ASSETMAP."
 msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:363
 #, c-format
 msgid ""
-"The fonts in the timed text asset %f take up %n bytes which is over the 10MB "
+"The fonts in the timed text asset %f take up %size_in_bytes bytes which is over the 10MB "
 "limit."
 msgstr ""
-"Czcionki w materiale %f z napisami kodowanymi zabierają %n bajtów, co "
+"Czcionki w materiale %f z napisami kodowanymi zabierają %size_in_bytes bajtów, co "
 "przekracza limit 10MB."
 
 #: src/wx/verify_dcp_result_panel.cc:280
@@ -3857,8 +3857,8 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:342
 #, c-format
-msgid "The invalid language tag %n is used."
-msgstr "Użyto nieprawidłowego oznaczenia języka %n."
+msgid "The invalid language tag %language is used."
+msgstr "Użyto nieprawidłowego oznaczenia języka %language."
 
 #: src/wx/smpte_metadata_dialog.cc:63
 #, c-format
@@ -3875,16 +3875,16 @@ msgstr ""
 #: src/wx/verify_dcp_result_panel.cc:604
 #, c-format
 msgid ""
-"The reel duration (%s) of some timed text is not the same as the "
-"ContainerDuration (%s) of its MXF."
+"The reel duration (%other_duration) of some timed text is not the same as the "
+"ContainerDuration (%duration) of its MXF."
 msgstr ""
-"Długość rolki (%s) zawarta w niektórych napisach jest inna od długości "
-"materiału (%s) pliku MXF."
+"Długość rolki (%other_duration) zawarta w niektórych napisach jest inna od długości "
+"materiału (%duration) pliku MXF."
 
 #: src/wx/verify_dcp_result_panel.cc:408
 #, fuzzy, c-format
-msgid "The sound asset %f has an invalid bit depth of %n."
-msgstr "Plik z dźwiękiem %f posiada nieprawidłową liczbę klatek: %n."
+msgid "The sound asset %f has an invalid bit depth of %bit_depth."
+msgstr "Plik z dźwiękiem %f posiada nieprawidłową liczbę klatek: %bit_depth."
 
 #: src/wx/verify_dcp_result_panel.cc:405
 #, c-format
@@ -3914,19 +3914,19 @@ msgstr "Plik z napisami %f zawiera znacznik <StartTime> z niezerową wartością
 
 #: src/wx/verify_dcp_result_panel.cc:643
 #, fuzzy, c-format
-msgid "The subtitle asset %n contains no subtitles."
+msgid "The subtitle asset %asset_id contains no subtitles."
 msgstr "Plik z napisami %f nie zawiera znacznika <StartTime>."
 
 #: src/wx/verify_dcp_result_panel.cc:426
 #, c-format
-msgid "The subtitle asset %n has no <EntryPoint> tag."
-msgstr "Plik z napisami %n nie ma znacznika <EntryPoint>."
+msgid "The subtitle asset %asset_id has no <EntryPoint> tag."
+msgstr "Plik z napisami %asset_id nie ma znacznika <EntryPoint>."
 
 #: src/wx/verify_dcp_result_panel.cc:360
 #, c-format
 msgid ""
-"The timed text asset %f takes up %n bytes which is over the 115MB limit."
-msgstr "Plik z napisami %f zajmuje %n bajtów, co przekracza limit 115MB."
+"The timed text asset %f takes up %size_in_bytes bytes which is over the 115MB limit."
+msgstr "Plik z napisami %f zajmuje %size_in_bytes bajtów, co przekracza limit 115MB."
 
 #: src/wx/verify_dcp_result_panel.cc:351
 #, c-format
@@ -3944,8 +3944,8 @@ msgstr "Materiał wideo %f ma nieprawidłową liczbę klatek/s: %frame_rate."
 
 #: src/wx/verify_dcp_result_panel.cc:345
 #, c-format
-msgid "The video asset %f uses the invalid image size %n."
-msgstr "Materiał wideo %f ma nieprawidłową rozdzielczość: %n."
+msgid "The video asset %f uses the invalid image size %size_in_pixels."
+msgstr "Materiał wideo %f ma nieprawidłową rozdzielczość: %size_in_pixels."
 
 #: src/wx/verify_dcp_result_panel.cc:354
 #, fuzzy
@@ -4014,10 +4014,10 @@ msgstr "Plik CPL nie zawiera zaszyfrowanych materiałów."
 #: src/wx/verify_dcp_result_panel.cc:333
 #, c-format
 msgid ""
-"This DCP refers to at the asset %n in another DCP (and perhaps others), so "
+"This DCP refers to at the asset %asset_id in another DCP (and perhaps others), so "
 "it is a \"version file\" (VF)"
 msgstr ""
-"To DCP odnosi się do materiału %n z innej paczki DCP (albo wielu paczek), "
+"To DCP odnosi się do materiału %asset_id z innej paczki DCP (albo wielu paczek), "
 "dlatego powinno być oznaczone jako \"version file\" (VF)"
 
 #: src/wx/verify_dcp_result_panel.cc:339
