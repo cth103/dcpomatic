@@ -26,8 +26,19 @@
 
 
 #include "lib/colour_conversion.h"
+#include "lib/content.h"
+#include "lib/content_factory.h"
 #include "lib/film.h"
+#include "lib/video_content.h"
+#include "test.h"
+#include <dcp/cpl.h>
+#include <dcp/dcp.h>
 #include <dcp/gamma_transfer_function.h>
+#include <dcp/j2k_transcode.h>
+#include <dcp/mono_j2k_picture_asset.h>
+#include <dcp/openjpeg_image.h>
+#include <dcp/reel.h>
+#include <dcp/reel_picture_asset.h>
 #include <libxml++/libxml++.h>
 #include <boost/test/unit_test.hpp>
 #include <iostream>
@@ -120,3 +131,62 @@ BOOST_AUTO_TEST_CASE (colour_conversion_test4)
 		BOOST_CHECK (ColourConversion::from_xml(in, Film::current_state_version).get() == i.conversion);
 	}
 }
+
+
+static void check(std::shared_ptr<const dcp::OpenJPEGImage> image, int px, int py, int cx, int cy, int cz)
+{
+	BOOST_CHECK_EQUAL(image->data(0)[px + py * image->size().width], cx);
+	BOOST_CHECK_EQUAL(image->data(1)[px + py * image->size().width], cy);
+	BOOST_CHECK_EQUAL(image->data(2)[px + py * image->size().width], cz);
+}
+
+
+BOOST_AUTO_TEST_CASE(end_to_end_rgb_black_test)
+{
+	auto pattern = content_factory(TestPaths::private_data() / "BlackCal_Levels_4k.png");
+	auto film = new_test_film("end_to_end_rgb_black_test", pattern);
+	make_and_verify_dcp(film);
+
+	dcp::DCP dcp(film->dir(film->dcp_name()));
+	dcp.read();
+	BOOST_REQUIRE_EQUAL(dcp.cpls().size(), 1U);
+	auto cpl = dcp.cpls()[0];
+	BOOST_REQUIRE_EQUAL(cpl->reels().size(), 1U);
+	auto reel = cpl->reels()[0];
+	auto picture = std::dynamic_pointer_cast<dcp::MonoJ2KPictureAsset>(reel->main_picture()->j2k_asset());
+	BOOST_REQUIRE(picture);
+
+	auto reader = picture->start_read();
+	auto frame = reader->get_frame(0);
+	auto image = dcp::decompress_j2k(*frame.get(), 0);
+
+	/* Border is black.  Make sure we move past the pillarboxing */
+	check(image, 158, 2, 0, 0, 0);
+}
+
+
+BOOST_AUTO_TEST_CASE(end_to_end_rgb_white_test)
+{
+	auto pattern = content_factory(TestPaths::private_data() / "WhiteCal_Levels_4k.png");
+	auto film = new_test_film("end_to_end_rgb_white_test", pattern);
+	make_and_verify_dcp(film);
+
+	dcp::DCP dcp(film->dir(film->dcp_name()));
+	dcp.read();
+	BOOST_REQUIRE_EQUAL(dcp.cpls().size(), 1U);
+	auto cpl = dcp.cpls()[0];
+	BOOST_REQUIRE_EQUAL(cpl->reels().size(), 1U);
+	auto reel = cpl->reels()[0];
+	auto picture = std::dynamic_pointer_cast<dcp::MonoJ2KPictureAsset>(reel->main_picture()->j2k_asset());
+	BOOST_REQUIRE(picture);
+
+	auto reader = picture->start_read();
+	auto frame = reader->get_frame(0);
+	auto image = dcp::decompress_j2k(*frame.get(), 0);
+
+	/* Border is white.  Make sure we move past the pillarboxing.
+	 * These XYZ values are from the ISDCF framing chart.
+	 */
+	check(image, 158, 2, 3883, 3960, 4092);
+}
+
