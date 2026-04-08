@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-02-15 21:03+0100\n"
-"PO-Revision-Date: 2026-03-23 22:33+0900\n"
+"PO-Revision-Date: 2026-04-07 19:21+0900\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ja_JP\n"
@@ -33,7 +33,7 @@ msgid ""
 "Cropped to {}x{}"
 msgstr ""
 "\n"
-"トリミング： {}x{}"
+"切り抜きサイズ： {}x{}"
 
 #: src/lib/video_content.cc:467
 #, c-format
@@ -193,7 +193,7 @@ msgstr "; {} fps"
 
 #: src/lib/job.cc:633
 msgid "; {} remaining; finishing at {}{}"
-msgstr ""
+msgstr "; 残り時間 {} ; 終了予定 {}{}"
 
 #: src/lib/analytics.cc:58
 #, c-format
@@ -210,17 +210,17 @@ msgid ""
 "href=\"https://dcpomatic.com/donate_amount?amount=10\">Go to Paypal to "
 "donate €10</a></ul><p>Thank you!</font>"
 msgstr ""
-"<h2>{} を使用して {} 個の DCP を作成しました!</h2><img width=\"20%%\" "
-"src=\"memory:me.jpg\" align=\"center\"><font size=\"+1\"><p>こんにちは。私は "
-"Carl、{} の開発者です。私は空き時間に（テスターと翻訳者のボランティア チーム"
-"の協力を得て）{} の開発に取り組んでおり、フリー ソフトウェアとしてリリースし"
-"ています。<p>{} が役に立つと思われる場合は、プロジェクトへの寄付をご検討くだ"
-"さい。資金援助をしていただけると、{} の開発と改善にさらに時間を費やすことがで"
-"きます。<p><ul><li><a href=\"https://dcpomatic.com/donate_amount?"
-"amount=40\">Paypal で €40 を寄付</a><li><a href=\"https://dcpomatic.com/"
-"donate_amount?amount=20\">Paypal で €20 を寄付</a><li><a href=\"https://"
-"dcpomatic.com/donate_amount?amount=10\">Paypal で €10 を寄付</a></ul><p>あり"
-"がとうございます。</font>"
+"<h2>{}を使用して{}個のDCPを作成しました!</h2><img width=\"20%%\" "
+"src=\"memory:me.jpg\" align=\"center\"><font size=\"+1\"><p>こんにちは。私は"
+"Carl、{}の開発者です。私は空き時間に（テスターと翻訳者のボランティア チームの"
+"協力を得て）{}の開発に取り組んでおり、フリー ソフトウェアとしてリリースしてい"
+"ます。<p>{}が役に立つと思われる場合はプロジェクトへの寄付をご検討ください。資"
+"金援助をしていただけると、{}の開発と改善にさらに時間を費やすことができます。"
+"<p><ul><li><a href=\"https://dcpomatic.com/donate_amount?amount=40\">Paypalで"
+"€40 を寄付</a><li><a href=\"https://dcpomatic.com/donate_amount?"
+"amount=20\">Paypal で €20 を寄付</a><li><a href=\"https://dcpomatic.com/"
+"donate_amount?amount=10\">Paypal で €10 を寄付</a></ul><p>ありがとうございま"
+"す。</font>"
 
 #: src/lib/hints.cc:176
 msgid ""
@@ -530,9 +530,8 @@ msgid "Colourspace"
 msgstr "カラースペース"
 
 #: src/lib/combine_dcp_job.cc:48
-#, fuzzy
 msgid "Combine DCPs"
-msgstr "DCPを結合"
+msgstr "複数のDCPを結合"
 
 #: src/lib/writer.cc:522
 #, fuzzy
@@ -563,12 +562,16 @@ msgid "Content to be joined must all have or not have audio"
 msgstr "結合するコンテンツはすべて音声付きまたは音声なしである必要があります"
 
 #: src/lib/ffmpeg_content.cc:152
+#, fuzzy
 msgid "Content to be joined must all have or not have subtitles or captions"
 msgstr ""
+"参加するコンテンツは字幕またはキャプションがすべて付いているか、付いていない"
+"かのいずれかである必要があります。"
 
 #: src/lib/ffmpeg_content.cc:146
+#, fuzzy
 msgid "Content to be joined must all have or not have video"
-msgstr ""
+msgstr "参加するコンテンツはすべて動画を含むか含まないかのいずれかである。"
 
 #: src/lib/text_content.cc:302
 msgid ""
@@ -610,7 +613,8 @@ msgstr "結合するコンテンツは同じ色変換になっている必要が
 
 #: src/lib/video_content.cc:215
 msgid "Content to be joined must have the same crop."
-msgstr "結合するコンテンツは同じトリミングである必要があります。"
+msgstr ""
+"結合するコンテンツは同じ切り抜き（クロップ）サイズである必要があります。"
 
 #: src/lib/video_content.cc:219
 msgid "Content to be joined must have the same custom ratio setting."
@@ -943,9 +947,8 @@ msgid "Email problem report for {}"
 msgstr "{} の問題レポートをメールで送信"
 
 #: src/lib/dcp_film_encoder.cc:120 src/lib/ffmpeg_film_encoder.cc:134
-#, fuzzy
 msgid "Encoding"
-msgstr "エンコード済"
+msgstr "エンコード進捗"
 
 #: src/lib/dcp_content_type.cc:67
 msgid "Episode"
@@ -1779,15 +1782,14 @@ msgid "The file {} has been trimmed by {} milliseconds more."
 msgstr "{}はさらにに{}ms短縮されました。"
 
 #: src/lib/hints.cc:267
-#, fuzzy
 msgid ""
 "The vast majority of cinemas in Europe, Australasia and North America expect "
 "DCPs encoded with JPEG2000 rather than MPEG2.  Make sure that your cinema "
 "really wants an old-style MPEG2 DCP."
 msgstr ""
-"ヨーロッパ、オーストララシア、北米の映画館の大多数は、MPEG2ではなくJPEG2000で"
-"エンコードされたDCPを想定しています。ご利用予定の映画館が本当に旧式のMPEG2 "
-"DCPを必要としているかどうかを必ずご確認ください。"
+"ヨーロッパ・オーストララシア・北米の映画館の大多数はMPEG2ではなくJPEG2000でエ"
+"ンコードされたDCPを想定しています。ご利用予定の映画館が本当に旧式のMPEG2 DCP"
+"を必要としているかどうかを必ずご確認ください。"
 
 #: src/lib/release_notes.cc:87
 #, fuzzy
@@ -2074,13 +2076,12 @@ msgstr ""
 "ンテンツの一部を削除する必要があります。"
 
 #: src/lib/hints.cc:612
-#, fuzzy
 msgid ""
 "You have overlapping closed captions, which are not allowed in Interop "
 "DCPs.  Change your DCP standard to SMPTE."
 msgstr ""
-"字幕が重複していますが、これは相互運用可能なDCPでは許可されていません。DCP規"
-"格をSMPTEに変更してください。"
+"字幕が重複していますが、これはInterop DCPでは許可されていません。DCP規格を"
+"SMPTEに変更してください。"
 
 #: src/lib/hints.cc:290
 msgid ""
@@ -2417,13 +2418,12 @@ msgstr ""
 "形式の可能性があります。"
 
 #: src/lib/film.cc:1829
-#, fuzzy
 msgid ""
 "{} had to change your settings for referring to DCPs as OV.  Please review "
 "those settings to make sure they are what you want."
 msgstr ""
-"{} は DCP を OV として参照するために設定を変更する必要がありました。設定を確"
-"認し、正しいことを確認してください。"
+"{}はDCPをOVとして参照するために設定を変更する必要がありました。設定を確認し、"
+"正しいことを確認してください。"
 
 #: src/lib/film.cc:1795
 #, fuzzy

@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-02-15 21:03+0100\n"
-"PO-Revision-Date: 2026-03-23 22:51+0900\n"
+"PO-Revision-Date: 2026-04-07 19:25+0900\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ja_JP\n"
@@ -534,9 +534,8 @@ msgid "Creator"
 msgstr "作成者"
 
 #: src/tools/dcpomatic_playlist.cc:342
-#, fuzzy
 msgid "Crop"
-msgstr "作物"
+msgstr "切り抜き"
 
 #: src/tools/dcpomatic_disk.cc:139 src/tools/dcpomatic_verifier.cc:172
 msgid "DCP"
@@ -547,7 +546,6 @@ msgid "DCP-o-matic Encode Server"
 msgstr "DCP-o-matic Encode Server"
 
 #: src/tools/dcpomatic_disk.cc:135 src/tools/dcpomatic_verifier.cc:146
-#, fuzzy
 msgid "DCPs"
 msgstr "DCP一覧"
 
@@ -610,9 +608,9 @@ msgstr ""
 "示されましたか? その場合は「はい」をクリックしてもう一度お試しください。"
 
 #: src/tools/dcpomatic.cc:863
-#, fuzzy, c-format
+#, c-format
 msgid "Do you want to overwrite the existing DCP %s?"
-msgstr "既存の DCP %s を上書きしますか?"
+msgstr "既存のDCPを上書きしますか？ %s"
 
 #: src/tools/dcpomatic.cc:167
 msgid "Don't close"
@@ -816,14 +814,13 @@ msgstr "プロジェクトを新規作成"
 
 #: src/tools/dcpomatic_playlist.cc:257
 msgid "New Playlist"
-msgstr "プレイリストを新規作成"
+msgstr "新しいプレイリスト"
 
 #: src/tools/dcpomatic.cc:1360
 msgid "New...\tCtrl-N"
 msgstr "新規作成\tCtrl-N"
 
 #: src/tools/dcpomatic_disk.cc:93
-#, fuzzy
 msgid ""
 "No ASSETMAP or ASSETMAP.xml found in this folder.  Please choose a DCP "
 "folder."
@@ -1234,8 +1231,8 @@ msgid ""
 "Tick to check details of the picture asset, such as frame sizes and JPEG2000 "
 "bitstream validity.  These checks are quite time-consuming."
 msgstr ""
-"フレームサイズやJPEG2000ビットストリームの有効性など、画像アセットの詳細を確"
-"認するにはチェックを入れてください。これらのチェックにはかなり時間がかかりま"
+"フレームサイズやJPEG2000ビットストリームの有効性など、画像データの詳細を確認"
+"するにはチェックを入れてください。これらのチェックにはかなり時間がかかりま"
 "す。"
 
 #: src/tools/dcpomatic_player.cc:712
@@ -1291,9 +1288,8 @@ msgid "Verify DCP..."
 msgstr "DCPを検証"
 
 #: src/tools/dcpomatic_verifier.cc:187
-#, fuzzy
 msgid "Verify picture asset details"
-msgstr "画像アセットの詳細を確認する"
+msgstr "画像データの詳細を確認する"
 
 #: src/tools/dcpomatic.cc:1437
 msgid "Version File (VF)..."
