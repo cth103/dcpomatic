@@ -49,142 +49,142 @@ using std::vector;
 using namespace dcpomatic;
 
 
-BOOST_AUTO_TEST_CASE (audio_analysis_serialisation_test)
+BOOST_AUTO_TEST_CASE(audio_analysis_serialisation_test)
 {
 	int const channels = 3;
 	int const points = 4096;
 
 	auto random_float = []() {
-		return (float (rand ()) / RAND_MAX) * 2 - 1;
+		return (float(rand()) / RAND_MAX) * 2 - 1;
 	};
 
-	AudioAnalysis a (3);
+	AudioAnalysis a(3);
 	for (int i = 0; i < channels; ++i) {
 		for (int j = 0; j < points; ++j) {
 			AudioPoint p;
-			p[AudioPoint::PEAK] = random_float ();
-			p[AudioPoint::RMS] = random_float ();
-			a.add_point (i, p);
+			p[AudioPoint::PEAK] = random_float();
+			p[AudioPoint::RMS] = random_float();
+			a.add_point(i, p);
 		}
 	}
 
 	vector<AudioAnalysis::PeakTime> peak;
 	for (int i = 0; i < channels; ++i) {
-		peak.push_back (AudioAnalysis::PeakTime(random_float(), DCPTime(rand())));
+		peak.push_back(AudioAnalysis::PeakTime(random_float(), DCPTime(rand())));
 	}
-	a.set_sample_peak (peak);
+	a.set_sample_peak(peak);
 
-	a.set_samples_per_point (100);
-	a.set_sample_rate (48000);
-	a.write ("build/test/audio_analysis_serialisation_test");
+	a.set_samples_per_point(100);
+	a.set_sample_rate(48000);
+	a.write("build/test/audio_analysis_serialisation_test");
 
-	AudioAnalysis b ("build/test/audio_analysis_serialisation_test");
+	AudioAnalysis b("build/test/audio_analysis_serialisation_test");
 	for (int i = 0; i < channels; ++i) {
-		BOOST_CHECK_EQUAL (b.points(i), points);
+		BOOST_CHECK_EQUAL(b.points(i), points);
 		for (int j = 0; j < points; ++j) {
-			AudioPoint p = a.get_point (i, j);
-			AudioPoint q = b.get_point (i, j);
-			BOOST_CHECK_CLOSE (p[AudioPoint::PEAK], q[AudioPoint::PEAK], 1);
-			BOOST_CHECK_CLOSE (p[AudioPoint::RMS],  q[AudioPoint::RMS], 1);
+			AudioPoint p = a.get_point(i, j);
+			AudioPoint q = b.get_point(i, j);
+			BOOST_CHECK_CLOSE(p[AudioPoint::PEAK], q[AudioPoint::PEAK], 1);
+			BOOST_CHECK_CLOSE(p[AudioPoint::RMS],  q[AudioPoint::RMS], 1);
 		}
 	}
 
-	BOOST_REQUIRE_EQUAL (b.sample_peak().size(), 3U);
+	BOOST_REQUIRE_EQUAL(b.sample_peak().size(), 3U);
 	for (int i = 0; i < channels; ++i) {
-		BOOST_CHECK_CLOSE (b.sample_peak()[i].peak, peak[i].peak, 1);
-		BOOST_CHECK_EQUAL (b.sample_peak()[i].time.get(), peak[i].time.get());
+		BOOST_CHECK_CLOSE(b.sample_peak()[i].peak, peak[i].peak, 1);
+		BOOST_CHECK_EQUAL(b.sample_peak()[i].time.get(), peak[i].time.get());
 	}
 
-	BOOST_CHECK_EQUAL (a.samples_per_point(), 100);
-	BOOST_CHECK_EQUAL (a.sample_rate(), 48000);
+	BOOST_CHECK_EQUAL(a.samples_per_point(), 100);
+	BOOST_CHECK_EQUAL(a.sample_rate(), 48000);
 }
 
 
-BOOST_AUTO_TEST_CASE (audio_analysis_test)
+BOOST_AUTO_TEST_CASE(audio_analysis_test)
 {
 	auto c = make_shared<FFmpegContent>(TestPaths::private_data() / "betty_L.wav");
 	auto film = new_test_film("audio_analysis_test", { c });
 
 	auto job = make_shared<AnalyseAudioJob>(film, film->playlist(), false);
-	JobManager::instance()->add (job);
-	BOOST_REQUIRE (!wait_for_jobs());
+	JobManager::instance()->add(job);
+	BOOST_REQUIRE(!wait_for_jobs());
 }
 
 
 /** Check that audio analysis works (i.e. runs without error) with a -ve delay */
-BOOST_AUTO_TEST_CASE (audio_analysis_negative_delay_test)
+BOOST_AUTO_TEST_CASE(audio_analysis_negative_delay_test)
 {
 	auto c = make_shared<FFmpegContent>(TestPaths::private_data() / "boon_telly.mkv");
 	auto film = new_test_film("audio_analysis_negative_delay_test", { c });
-	c->audio->set_delay (-250);
+	c->audio->set_delay(-250);
 
 	auto job = make_shared<AnalyseAudioJob>(film, film->playlist(), false);
-	JobManager::instance()->add (job);
-	BOOST_REQUIRE (!wait_for_jobs());
+	JobManager::instance()->add(job);
+	BOOST_REQUIRE(!wait_for_jobs());
 }
 
 
 /** Check audio analysis that is incorrect in 2e98263 */
-BOOST_AUTO_TEST_CASE (audio_analysis_test2)
+BOOST_AUTO_TEST_CASE(audio_analysis_test2)
 {
 	auto c = make_shared<FFmpegContent>(TestPaths::private_data() / "3d_thx_broadway_2010_lossless.m2ts");
 	auto film = new_test_film("audio_analysis_test2", { c });
 
 	auto job = make_shared<AnalyseAudioJob>(film, film->playlist(), false);
-	JobManager::instance()->add (job);
-	BOOST_REQUIRE (!wait_for_jobs());
+	JobManager::instance()->add(job);
+	BOOST_REQUIRE(!wait_for_jobs());
 }
 
 
 /* Test a case which was reported to throw an exception; analysing
  * a 12-channel DCP's audio.
  */
-BOOST_AUTO_TEST_CASE (audio_analysis_test3)
+BOOST_AUTO_TEST_CASE(audio_analysis_test3)
 {
 	auto content = make_shared<FFmpegContent>("test/data/white.wav");
 	auto film = new_test_film("analyse_audio_test", { content });
-	film->set_audio_channels (12);
+	film->set_audio_channels(12);
 
 	boost::signals2::connection connection;
 	bool done = false;
 	JobManager::instance()->analyse_audio(film, film->playlist(), false, connection, [&done](Job::Result) { done = true; });
-	BOOST_REQUIRE (!wait_for_jobs());
-	BOOST_CHECK (done);
+	BOOST_REQUIRE(!wait_for_jobs());
+	BOOST_CHECK(done);
 }
 
 
 /** Run an audio analysis that triggered an exception in the audio decoder at one point */
-BOOST_AUTO_TEST_CASE (analyse_audio_test4)
+BOOST_AUTO_TEST_CASE(analyse_audio_test4)
 {
 	auto content = content_factory(TestPaths::private_data() / "20 The Wedding Convoy Song.m4a")[0];
 	auto film = new_test_film("analyse_audio_test", { content });
 
 	auto playlist = make_shared<Playlist>();
-	playlist->add (film, content);
+	playlist->add(film, content);
 	boost::signals2::connection c;
 	JobManager::instance()->analyse_audio(film, playlist, false, c, [](Job::Result) {});
-	BOOST_CHECK (!wait_for_jobs ());
+	BOOST_CHECK(!wait_for_jobs());
 }
 
 
-BOOST_AUTO_TEST_CASE (analyse_audio_leqm_test)
+BOOST_AUTO_TEST_CASE(analyse_audio_leqm_test)
 {
 	auto film = new_test_film("analyse_audio_leqm_test");
-	film->set_audio_channels (2);
+	film->set_audio_channels(2);
 	auto content = content_factory(TestPaths::private_data() / "betty_stereo_48k.wav")[0];
 	film->examine_and_add_content({content});
-	BOOST_REQUIRE (!wait_for_jobs());
+	BOOST_REQUIRE(!wait_for_jobs());
 
 	auto playlist = make_shared<Playlist>();
-	playlist->add (film, content);
+	playlist->add(film, content);
 	boost::signals2::connection c;
 	JobManager::instance()->analyse_audio(film, playlist, false, c, [](Job::Result) {});
-	BOOST_CHECK (!wait_for_jobs());
+	BOOST_CHECK(!wait_for_jobs());
 
 	AudioAnalysis analysis(film->audio_analysis_path(playlist));
 
 	/* The CLI tool of leqm_nrt gives this value for betty_stereo_48k.wav */
-	BOOST_CHECK_CLOSE (analysis.leqm().get_value_or(0), 88.276, 0.001);
+	BOOST_CHECK_CLOSE(analysis.leqm().get_value_or(0), 88.276, 0.001);
 }
 
 
