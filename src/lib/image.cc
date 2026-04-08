@@ -1573,17 +1573,18 @@ Image::fade(float f)
 	case AV_PIX_FMT_RGB48LE:
 		/* 16-bit little-endian */
 		for (int c = 0; c < 3; ++c) {
-			int const stride_pixels = stride()[c] / 2;
-			int const line_size_pixels = line_size()[c] / 2;
+			/* Number of R, G, B values */
+			int const stride_values = stride()[c] / 2;
+			int const line_size_values = line_size()[c] / 2;
 			uint16_t* p = reinterpret_cast<uint16_t*>(data()[c]);
 			int const lines = sample_size(c).height;
 			for (int y = 0; y < lines; ++y) {
 				uint16_t* q = p;
-				for (int x = 0; x < line_size_pixels; ++x) {
-					*q = int(float(*q) * f);
+				for (int x = 0; x < line_size_values; ++x) {
+					*q = int(*q * f);
 					++q;
 				}
-				p += stride_pixels;
+				p += stride_values;
 			}
 		}
 		break;
