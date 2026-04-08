@@ -31,9 +31,9 @@ using std::string;
 using std::list;
 
 
-BOOST_AUTO_TEST_CASE (image_content_fade_test)
+BOOST_AUTO_TEST_CASE(image_content_fade_in_test)
 {
-	auto film = new_test_film("image_content_fade_test");
+	auto film = new_test_film("image_content_fade_in_test");
 	auto content = content_factory("test/data/flat_red.png")[0];
 	film->examine_and_add_content({content});
 	BOOST_REQUIRE (!wait_for_jobs());
@@ -45,5 +45,5 @@ BOOST_AUTO_TEST_CASE (image_content_fade_test)
 	 * differences in sound between the DCP and the reference to avoid test
 	 * failures for unrelated reasons.
 	 */
-	check_dcp("test/data/image_content_fade_test", film->dir(film->dcp_name()), true);
+	check_dcp("test/data/image_content_fade_in_test", film->dir(film->dcp_name()), true);
 }
