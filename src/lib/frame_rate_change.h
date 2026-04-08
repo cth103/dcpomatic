@@ -43,8 +43,8 @@ public:
 	    to get the effective rate after any skip or repeat has happened.
 	*/
 	double factor() const {
-		if (_skip) {
-			return 0.5;
+		if (_skip > 0) {
+			return 1.0 / (_skip + 1);
 		}
 
 		return _repeat;
@@ -52,7 +52,7 @@ public:
 
 	std::string description() const;
 
-	bool skip() const {
+	int skip() const {
 		return _skip;
 	}
 
@@ -80,8 +80,10 @@ private:
 	double _source = 24;
 	int _dcp = 24;
 
-	/** true to skip every other frame */
-	bool _skip = false;
+	/** Frames to skip between each one to use, e.g.
+	 *  0 to skip no frames, 1 to skip every other one, 2 to skip 2 out of 3, etc.
+	 */
+	int _skip = 0;
 	/** number of times to use each frame (e.g. 1 is normal, 2 means repeat each frame once, and so on) */
 	int _repeat = 1;
 	/** true if this DCP will run its video faster or slower than the source

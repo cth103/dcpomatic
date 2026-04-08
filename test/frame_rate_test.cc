@@ -59,7 +59,7 @@ BOOST_AUTO_TEST_CASE(best_dcp_frame_rate_test_single)
 	int best = film->best_video_frame_rate();
 	auto frc = FrameRateChange(60, best);
 	BOOST_CHECK_EQUAL(best, 30);
-	BOOST_CHECK_EQUAL(frc.skip(), true);
+	BOOST_CHECK_EQUAL(frc.skip(), 1);
 	BOOST_CHECK_EQUAL(frc.repeat(), 1);
 	BOOST_CHECK_EQUAL(frc.change_speed(), false);
 	BOOST_CHECK_CLOSE(frc.speed_up(), 1, 0.1);
@@ -68,7 +68,7 @@ BOOST_AUTO_TEST_CASE(best_dcp_frame_rate_test_single)
 	best = film->best_video_frame_rate();
 	frc = FrameRateChange(50, best);
 	BOOST_CHECK_EQUAL(best, 25);
-	BOOST_CHECK_EQUAL(frc.skip(), true);
+	BOOST_CHECK_EQUAL(frc.skip(), 1);
 	BOOST_CHECK_EQUAL(frc.repeat(), 1);
 	BOOST_CHECK_EQUAL(frc.change_speed(), false);
 	BOOST_CHECK_CLOSE(frc.speed_up(), 1, 0.1);
@@ -77,7 +77,7 @@ BOOST_AUTO_TEST_CASE(best_dcp_frame_rate_test_single)
 	best = film->best_video_frame_rate();
 	frc = FrameRateChange(48, best);
 	BOOST_CHECK_EQUAL(best, 24);
-	BOOST_CHECK_EQUAL(frc.skip(), true);
+	BOOST_CHECK_EQUAL(frc.skip(), 1);
 	BOOST_CHECK_EQUAL(frc.repeat(), 1);
 	BOOST_CHECK_EQUAL(frc.change_speed(), false);
 	BOOST_CHECK_CLOSE(frc.speed_up(), 1, 0.1);
@@ -86,7 +86,7 @@ BOOST_AUTO_TEST_CASE(best_dcp_frame_rate_test_single)
 	best = film->best_video_frame_rate();
 	frc = FrameRateChange(30, best);
 	BOOST_CHECK_EQUAL(best, 30);
-	BOOST_CHECK_EQUAL(frc.skip(), false);
+	BOOST_CHECK_EQUAL(frc.skip(), 0);
 	BOOST_CHECK_EQUAL(frc.repeat(), 1);
 	BOOST_CHECK_EQUAL(frc.change_speed(), false);
 	BOOST_CHECK_CLOSE(frc.speed_up(), 1, 0.1);
@@ -95,7 +95,7 @@ BOOST_AUTO_TEST_CASE(best_dcp_frame_rate_test_single)
 	best = film->best_video_frame_rate();
 	frc = FrameRateChange(29.97, best);
 	BOOST_CHECK_EQUAL(best, 30);
-	BOOST_CHECK_EQUAL(frc.skip(), false);
+	BOOST_CHECK_EQUAL(frc.skip(), 0);
 	BOOST_CHECK_EQUAL(frc.repeat(), 1);
 	BOOST_CHECK_EQUAL(frc.change_speed(), true);
 	BOOST_CHECK_CLOSE(frc.speed_up(), 30 / 29.97, 0.1);
@@ -104,7 +104,7 @@ BOOST_AUTO_TEST_CASE(best_dcp_frame_rate_test_single)
 	best = film->best_video_frame_rate();
 	frc = FrameRateChange(25, best);
 	BOOST_CHECK_EQUAL(best, 25);
-	BOOST_CHECK_EQUAL(frc.skip(), false);
+	BOOST_CHECK_EQUAL(frc.skip(), 0);
 	BOOST_CHECK_EQUAL(frc.repeat(), 1);
 	BOOST_CHECK_EQUAL(frc.change_speed(), false);
 	BOOST_CHECK_CLOSE(frc.speed_up(), 1, 0.1);
@@ -113,7 +113,7 @@ BOOST_AUTO_TEST_CASE(best_dcp_frame_rate_test_single)
 	best = film->best_video_frame_rate();
 	frc = FrameRateChange(24, best);
 	BOOST_CHECK_EQUAL(best, 24);
-	BOOST_CHECK_EQUAL(frc.skip(), false);
+	BOOST_CHECK_EQUAL(frc.skip(), 0);
 	BOOST_CHECK_EQUAL(frc.repeat(), 1);
 	BOOST_CHECK_EQUAL(frc.change_speed(), false);
 	BOOST_CHECK_CLOSE(frc.speed_up(), 1, 0.1);
@@ -122,7 +122,7 @@ BOOST_AUTO_TEST_CASE(best_dcp_frame_rate_test_single)
 	best = film->best_video_frame_rate();
 	frc = FrameRateChange(14.5, best);
 	BOOST_CHECK_EQUAL(best, 30);
-	BOOST_CHECK_EQUAL(frc.skip(), false);
+	BOOST_CHECK_EQUAL(frc.skip(), 0);
 	BOOST_CHECK_EQUAL(frc.repeat(), 2);
 	BOOST_CHECK_EQUAL(frc.change_speed(), true);
 	BOOST_CHECK_CLOSE(frc.speed_up(), 15 / 14.5, 0.1);
@@ -131,7 +131,7 @@ BOOST_AUTO_TEST_CASE(best_dcp_frame_rate_test_single)
 	best = film->best_video_frame_rate();
 	frc = FrameRateChange(12.6, best);
 	BOOST_CHECK_EQUAL(best, 25);
-	BOOST_CHECK_EQUAL(frc.skip(), false);
+	BOOST_CHECK_EQUAL(frc.skip(), 0);
 	BOOST_CHECK_EQUAL(frc.repeat(), 2);
 	BOOST_CHECK_EQUAL(frc.change_speed(), true);
 	BOOST_CHECK_CLOSE(frc.speed_up(), 25 / 25.2, 0.1);
@@ -140,7 +140,7 @@ BOOST_AUTO_TEST_CASE(best_dcp_frame_rate_test_single)
 	best = film->best_video_frame_rate();
 	frc = FrameRateChange(12.4, best);
 	BOOST_CHECK_EQUAL(best, 25);
-	BOOST_CHECK_EQUAL(frc.skip(), false);
+	BOOST_CHECK_EQUAL(frc.skip(), 0);
 	BOOST_CHECK_EQUAL(frc.repeat(), 2);
 	BOOST_CHECK_EQUAL(frc.change_speed(), true);
 	BOOST_CHECK_CLOSE(frc.speed_up(), 25 / 24.8, 0.1);
@@ -149,8 +149,17 @@ BOOST_AUTO_TEST_CASE(best_dcp_frame_rate_test_single)
 	best = film->best_video_frame_rate();
 	frc = FrameRateChange(12, best);
 	BOOST_CHECK_EQUAL(best, 24);
-	BOOST_CHECK_EQUAL(frc.skip(), false);
+	BOOST_CHECK_EQUAL(frc.skip(), 0);
 	BOOST_CHECK_EQUAL(frc.repeat(), 2);
+	BOOST_CHECK_EQUAL(frc.change_speed(), false);
+	BOOST_CHECK_CLOSE(frc.speed_up(), 1, 0.1);
+
+	content->_video_frame_rate = 120;
+	best = film->best_video_frame_rate();
+	frc = FrameRateChange(120, best);
+	BOOST_CHECK_EQUAL(best, 30);
+	BOOST_CHECK_EQUAL(frc.skip(), 3);
+	BOOST_CHECK_EQUAL(frc.repeat(), 1);
 	BOOST_CHECK_EQUAL(frc.change_speed(), false);
 	BOOST_CHECK_CLOSE(frc.speed_up(), 1, 0.1);
 
@@ -167,7 +176,7 @@ BOOST_AUTO_TEST_CASE(best_dcp_frame_rate_test_single)
 	best = film->playlist()->best_video_frame_rate();
 	frc = FrameRateChange(60, best);
 	BOOST_CHECK_EQUAL(best, 60);
-	BOOST_CHECK_EQUAL(frc.skip(), false);
+	BOOST_CHECK_EQUAL(frc.skip(), 0);
 	BOOST_CHECK_EQUAL(frc.repeat(), 1);
 	BOOST_CHECK_EQUAL(frc.change_speed(), false);
 	BOOST_CHECK_CLOSE(frc.speed_up(), 1, 0.1);
@@ -176,7 +185,7 @@ BOOST_AUTO_TEST_CASE(best_dcp_frame_rate_test_single)
 	best = film->playlist()->best_video_frame_rate();
 	frc = FrameRateChange(50, best);
 	BOOST_CHECK_EQUAL(best, 50);
-	BOOST_CHECK_EQUAL(frc.skip(), false);
+	BOOST_CHECK_EQUAL(frc.skip(), 0);
 	BOOST_CHECK_EQUAL(frc.repeat(), 1);
 	BOOST_CHECK_EQUAL(frc.change_speed(), false);
 	BOOST_CHECK_CLOSE(frc.speed_up(), 1, 0.1);
@@ -185,7 +194,7 @@ BOOST_AUTO_TEST_CASE(best_dcp_frame_rate_test_single)
 	best = film->playlist()->best_video_frame_rate();
 	frc = FrameRateChange(48, best);
 	BOOST_CHECK_EQUAL(best, 48);
-	BOOST_CHECK_EQUAL(frc.skip(), false);
+	BOOST_CHECK_EQUAL(frc.skip(), 0);
 	BOOST_CHECK_EQUAL(frc.repeat(), 1);
 	BOOST_CHECK_EQUAL(frc.change_speed(), false);
 	BOOST_CHECK_CLOSE(frc.speed_up(), 1, 0.1);
@@ -193,7 +202,7 @@ BOOST_AUTO_TEST_CASE(best_dcp_frame_rate_test_single)
 	/* Check some out-there conversions (not the best) */
 
 	frc = FrameRateChange(14.99, 24);
-	BOOST_CHECK_EQUAL(frc.skip(), false);
+	BOOST_CHECK_EQUAL(frc.skip(), 0);
 	BOOST_CHECK_EQUAL(frc.repeat(), 2);
 	BOOST_CHECK_EQUAL(frc.change_speed(), true);
 	BOOST_CHECK_CLOSE(frc.speed_up(), 24 / (2 * 14.99), 0.1);
@@ -208,7 +217,7 @@ BOOST_AUTO_TEST_CASE(best_dcp_frame_rate_test_single)
 	best = film->best_video_frame_rate();
 	frc = FrameRateChange(25, best);
 	BOOST_CHECK_EQUAL(best, 24);
-	BOOST_CHECK_EQUAL(frc.skip(), false);
+	BOOST_CHECK_EQUAL(frc.skip(), 0);
 	BOOST_CHECK_EQUAL(frc.repeat(), 1);
 	BOOST_CHECK_EQUAL(frc.change_speed(), true);
 	BOOST_CHECK_CLOSE(frc.speed_up(), 24.0 / 25, 0.1);

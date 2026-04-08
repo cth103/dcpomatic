@@ -315,3 +315,14 @@ BOOST_AUTO_TEST_CASE(hints_mpeg2)
 		"encoded with JPEG2000 rather than MPEG2.  Make sure that your cinema really wants an old-style MPEG2 DCP."
 		);
 }
+
+
+BOOST_AUTO_TEST_CASE(hints_120fps)
+{
+	auto content = content_factory("test/data/numbered_120.mp4");
+	auto film = new_test_film("hints_120fps", content);
+	auto hints = get_hints(film);
+	for (auto hint: hints) {
+		BOOST_CHECK(hint.find("There is a large difference between the frame rate of your DCP and that of some of your content.") == std::string::npos);
+	}
+}

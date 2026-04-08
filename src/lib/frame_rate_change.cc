@@ -46,7 +46,7 @@ FrameRateChange::FrameRateChange(double source, int dcp)
 		/* The difference between source and DCP frame rate will be lower
 		   (i.e. better) if we skip.
 		*/
-		_skip = true;
+		_skip = round(source / dcp) - 1;
 	} else if (fabs(_source * 2 - _dcp) < fabs(_source - _dcp)) {
 		/* The difference between source and DCP frame rate would be better
 		   if we repeated each frame once; it may be better still if we
@@ -84,11 +84,13 @@ FrameRateChange::description() const
 {
 	string description;
 
-	if (!_skip && _repeat == 1 && !_change_speed) {
+	if (_skip == 0 && _repeat == 1 && !_change_speed) {
 		description = _("Content and DCP have the same rate.\n");
 	} else {
-		if (_skip) {
+		if (_skip == 1) {
 			description = _("DCP will use every other frame of the content.\n");
+		} else if (_skip >= 2) {
+			description = fmt::format(_("DCP will contain 1 out of every {} frames of the content.\n"), _skip + 1);
 		} else if (_repeat == 2) {
 			description = _("Each content frame will be doubled in the DCP.\n");
 		} else if (_repeat > 2) {
