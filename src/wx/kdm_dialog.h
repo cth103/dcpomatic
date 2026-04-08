@@ -44,12 +44,12 @@ class ScreensPanel;
 class KDMDialog : public wxDialog
 {
 public:
-	KDMDialog (wxWindow *, std::shared_ptr<const Film> film);
+	KDMDialog(wxWindow *, std::shared_ptr<const Film> film);
 
 private:
-	void setup_sensitivity ();
-	void make_clicked ();
-	bool confirm_overwrite (boost::filesystem::path path);
+	void setup_sensitivity();
+	void make_clicked();
+	bool confirm_overwrite(boost::filesystem::path path);
 	void cpl_changed();
 	void screens_changed();
 
