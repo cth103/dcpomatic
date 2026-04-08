@@ -31,13 +31,13 @@ using std::shared_ptr;
 using std::string;
 
 
-FrameRateChange::FrameRateChange ()
+FrameRateChange::FrameRateChange()
 {
 
 }
 
 
-FrameRateChange::FrameRateChange (double source_, int dcp_)
+FrameRateChange::FrameRateChange(double source_, int dcp_)
 {
 	source = source_;
 	dcp = dcp_;
@@ -52,35 +52,35 @@ FrameRateChange::FrameRateChange (double source_, int dcp_)
 		   if we repeated each frame once; it may be better still if we
 		   repeated more than once.  Work out the required repeat.
 		*/
-		repeat = round (dcp / source);
+		repeat = round(dcp / source);
 	}
 
 	speed_up = dcp / (source * factor());
 
 	auto about_equal = [](double a, double b) {
-		return (fabs (a - b) < VIDEO_FRAME_RATE_EPSILON);
+		return fabs(a - b) < VIDEO_FRAME_RATE_EPSILON;
 	};
 
-	change_speed = !about_equal (speed_up, 1.0);
+	change_speed = !about_equal(speed_up, 1.0);
 }
 
 
-FrameRateChange::FrameRateChange (shared_ptr<const Film> film, shared_ptr<const Content> content)
-	: FrameRateChange (content->active_video_frame_rate(film), film->video_frame_rate())
+FrameRateChange::FrameRateChange(shared_ptr<const Film> film, shared_ptr<const Content> content)
+	: FrameRateChange(content->active_video_frame_rate(film), film->video_frame_rate())
 {
 
 }
 
 
-FrameRateChange::FrameRateChange (shared_ptr<const Film> film, Content const * content)
-	: FrameRateChange (content->active_video_frame_rate(film), film->video_frame_rate())
+FrameRateChange::FrameRateChange(shared_ptr<const Film> film, Content const * content)
+	: FrameRateChange(content->active_video_frame_rate(film), film->video_frame_rate())
 {
 
 }
 
 
 string
-FrameRateChange::description () const
+FrameRateChange::description() const
 {
 	string description;
 
@@ -98,7 +98,7 @@ FrameRateChange::description () const
 		if (change_speed) {
 			double const pc = dcp * 100 / (source * factor());
 			char buffer[256];
-			snprintf (buffer, sizeof(buffer), _("DCP will run at %.1f%% of the content speed.\n"), pc);
+			snprintf(buffer, sizeof(buffer), _("DCP will run at %.1f%% of the content speed.\n"), pc);
 			description += buffer;
 		}
 	}

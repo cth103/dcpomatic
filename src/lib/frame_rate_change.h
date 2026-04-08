@@ -34,15 +34,15 @@ class Content;
 class FrameRateChange
 {
 public:
-	FrameRateChange ();
-	FrameRateChange (double, int);
-	FrameRateChange (std::shared_ptr<const Film> film, std::shared_ptr<const Content> content);
-	FrameRateChange (std::shared_ptr<const Film> film, Content const * content);
+	FrameRateChange();
+	FrameRateChange(double, int);
+	FrameRateChange(std::shared_ptr<const Film> film, std::shared_ptr<const Content> content);
+	FrameRateChange(std::shared_ptr<const Film> film, Content const * content);
 
 	/** @return factor by which to multiply a source frame rate
 	    to get the effective rate after any skip or repeat has happened.
 	*/
-	double factor () const {
+	double factor() const {
 		if (skip) {
 			return 0.5;
 		}
@@ -73,7 +73,7 @@ public:
 	 */
 	double speed_up = 1.0;
 
-	std::string description () const;
+	std::string description() const;
 };
 
 
