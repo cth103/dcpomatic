@@ -4168,7 +4168,7 @@ sets.
 <itemizedlist>
 <listitem>Start a new DCP-o-matic film.</listitem>
 <listitem>Click <guilabel>Add DCP...</guilabel> and specify your existing DCP's folder.</listitem>
-<listitem>Go to the <guilabel>DCP</guilabel> tab and choose <guilabel>Split by video content</guilabel> for <guilabel>Reel type</guilabel>.</listitem>
+<listitem>Go to the <guilabel>DCP</guilabel> tab, click <guilabel>Reels...</guilabel> and choose <guilabel>Split by video content</guilabel> for <guilabel>Reel mode</guilabel>.</listitem>
 <listitem>Open the <guilabel>Version File (VF) setup</guilabel> dialogue box using the <guilabel>Version File (VF)...</guilabel> option in the <guilabel>Tools</guilabel> menu.</listitem>
 <listitem>Tick the <guilabel>Video</guilabel> and <guilabel>Audio</guilabel> checkboxes next to your existing DCP's name.</listitem>
 <listitem>Add your subtitles to the film in whatever format you have.</listitem>
@@ -4250,7 +4250,8 @@ The full details of OV and VF files are discussed in <xref linkend="sec-overlay"
 <listitem>Create a new DCP-o-matic project for the VF.</listitem>
 <listitem>Use <guilabel>Add folder...</guilabel> to add your OV DCP to the project.</listitem>
 <listitem>Open the <guilabel>Version File (VF) setup</guilabel> dialogue box using the <guilabel>Version File (VF)...</guilabel> option in the <guilabel>Tools</guilabel> menu.</listitem>
-<listitem>Tick the <guilabel>Video</guilabel> checkbox next to your existing DCP's name (you may need to select <guilabel>By video content</guilabel> for <guilabel>Reel type</guilabel> in the <guilabel>DCP</guilabel> tab).</listitem>
+<listitem>Tick the <guilabel>Video</guilabel> checkbox next to your existing DCP's name (you may need to click <guilabel>Reels...</guilabel> in the <guilabel>DCP</guilabel> tab and then
+select <guilabel>By video content</guilabel> for <guilabel>Reel mode</guilabel>).</listitem>
 <listitem>Check also the <guilabel>Audio</guilabel> checkbox if your OV has audio.</listitem>
 <listitem>Add your language-specific audio and/or subtitles and Make DCP.</listitem>
 </itemizedlist>
