@@ -730,12 +730,12 @@ Playlist::speed_up_range(int dcp_video_frame_rate) const
 		}
 		if (i->video_frame_rate()) {
 			FrameRateChange const frc(i->video_frame_rate().get(), dcp_video_frame_rate);
-			range.first = min(range.first, frc.speed_up);
-			range.second = max(range.second, frc.speed_up);
+			range.first = min(range.first, frc.speed_up());
+			range.second = max(range.second, frc.speed_up());
 		} else {
 			FrameRateChange const frc(dcp_video_frame_rate, dcp_video_frame_rate);
-			range.first = min(range.first, frc.speed_up);
-			range.second = max(range.second, frc.speed_up);
+			range.first = min(range.first, frc.speed_up());
+			range.second = max(range.second, frc.speed_up());
 		}
 	}
 

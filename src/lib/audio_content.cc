@@ -212,8 +212,8 @@ AudioContent::resampled_frame_rate(shared_ptr<const Film> film) const
 	   look different in the DCP compared to the source (slower or faster).
 	*/
 
-	if (frc.change_speed) {
-		t /= frc.speed_up;
+	if (frc.change_speed()) {
+		t /= frc.speed_up();
 	}
 
 	return lrint(t);
@@ -330,11 +330,11 @@ AudioContent::add_properties(shared_ptr<const Film> film, list<UserProperty>& p)
 	}
 
 	p.push_back(
-		UserProperty(UserProperty::LENGTH, _("Full length in video frames at content rate"), c.frames_round(frc.source))
+		UserProperty(UserProperty::LENGTH, _("Full length in video frames at content rate"), c.frames_round(frc.source()))
 		);
 
 	p.push_back(UserProperty(UserProperty::AUDIO, _("DCP sample rate"), resampled_frame_rate(film), _("Hz")));
-	p.push_back(UserProperty(UserProperty::LENGTH, _("Full length in video frames at DCP rate"), c.frames_round(frc.dcp)));
+	p.push_back(UserProperty(UserProperty::LENGTH, _("Full length in video frames at DCP rate"), c.frames_round(frc.dcp())));
 }
 
 

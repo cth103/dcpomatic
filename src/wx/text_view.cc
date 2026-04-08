@@ -142,7 +142,7 @@ TextView::data_start (ContentStringText cts)
 		wxListItem list_item;
 		list_item.SetId (_subs);
 		_list->InsertItem (list_item);
-		_list->SetItem (_subs, 0, std_to_wx (cts.from().timecode (_frc->source)));
+		_list->SetItem (_subs, 0, std_to_wx (cts.from().timecode (_frc->source())));
 		_list->SetItem (_subs, 2, std_to_wx (i.text ()));
 		_start_times.push_back (cts.from ());
 		++_subs;
@@ -160,7 +160,7 @@ TextView::data_stop (ContentTime time)
 	}
 
 	for (int i = _subs - *_last_count; i < _subs; ++i) {
-		_list->SetItem (i, 1, std_to_wx (time.timecode (_frc->source)));
+		_list->SetItem (i, 1, std_to_wx (time.timecode (_frc->source())));
 	}
 }
 
@@ -176,5 +176,5 @@ TextView::subtitle_selected (wxListEvent& ev)
 	auto lc = _content.lock ();
 	DCPOMATIC_ASSERT (lc);
 	/* Add on a frame here to work around any rounding errors and make sure we land in the subtitle */
-	_film_viewer.seek(lc, _start_times[ev.GetIndex()] + ContentTime::from_frames(1, _frc->source), true);
+	_film_viewer.seek(lc, _start_times[ev.GetIndex()] + ContentTime::from_frames(1, _frc->source()), true);
 }

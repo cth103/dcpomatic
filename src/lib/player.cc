@@ -542,7 +542,7 @@ Player::dcp_to_content_video(shared_ptr<const Piece> piece, DCPTime t) const
 
 	   Instead we convert the DCPTime using the DCP video rate then account for any skip/repeat.
 	*/
-	return s.frames_floor(piece->frc.dcp) / piece->frc.factor();
+	return s.frames_floor(piece->frc.dcp()) / piece->frc.factor();
 }
 
 
@@ -550,7 +550,7 @@ DCPTime
 Player::content_video_to_dcp(shared_ptr<const Piece> piece, Frame f) const
 {
 	/* See comment in dcp_to_content_video */
-	auto const d = DCPTime::from_frames(f * piece->frc.factor(), piece->frc.dcp) - DCPTime(piece->content->trim_start(), piece->frc);
+	auto const d = DCPTime::from_frames(f * piece->frc.factor(), piece->frc.dcp()) - DCPTime(piece->content->trim_start(), piece->frc);
 	return d + piece->content->position();
 }
 

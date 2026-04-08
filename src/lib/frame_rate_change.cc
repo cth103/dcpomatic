@@ -37,31 +37,31 @@ FrameRateChange::FrameRateChange()
 }
 
 
-FrameRateChange::FrameRateChange(double source_, int dcp_)
+FrameRateChange::FrameRateChange(double source, int dcp)
 {
-	source = source_;
-	dcp = dcp_;
+	_source = source;
+	_dcp = dcp;
 
-	if (fabs(source / 2.0 - dcp) < fabs(source - dcp)) {
+	if (fabs(_source / 2.0 - _dcp) < fabs(_source - _dcp)) {
 		/* The difference between source and DCP frame rate will be lower
 		   (i.e. better) if we skip.
 		*/
-		skip = true;
-	} else if (fabs(source * 2 - dcp) < fabs(source - dcp)) {
+		_skip = true;
+	} else if (fabs(_source * 2 - _dcp) < fabs(_source - _dcp)) {
 		/* The difference between source and DCP frame rate would be better
 		   if we repeated each frame once; it may be better still if we
 		   repeated more than once.  Work out the required repeat.
 		*/
-		repeat = round(dcp / source);
+		_repeat = round(_dcp / _source);
 	}
 
-	speed_up = dcp / (source * factor());
+	_speed_up = _dcp / (_source * factor());
 
 	auto about_equal = [](double a, double b) {
 		return fabs(a - b) < VIDEO_FRAME_RATE_EPSILON;
 	};
 
-	change_speed = !about_equal(speed_up, 1.0);
+	_change_speed = !about_equal(_speed_up, 1.0);
 }
 
 
@@ -84,19 +84,19 @@ FrameRateChange::description() const
 {
 	string description;
 
-	if (!skip && repeat == 1 && !change_speed) {
+	if (!_skip && _repeat == 1 && !_change_speed) {
 		description = _("Content and DCP have the same rate.\n");
 	} else {
-		if (skip) {
+		if (_skip) {
 			description = _("DCP will use every other frame of the content.\n");
-		} else if (repeat == 2) {
+		} else if (_repeat == 2) {
 			description = _("Each content frame will be doubled in the DCP.\n");
-		} else if (repeat > 2) {
-			description = fmt::format(_("Each content frame will be repeated {} more times in the DCP.\n"), repeat - 1);
+		} else if (_repeat > 2) {
+			description = fmt::format(_("Each content frame will be repeated {} more times in the DCP.\n"), _repeat - 1);
 		}
 
-		if (change_speed) {
-			double const pc = dcp * 100 / (source * factor());
+		if (_change_speed) {
+			double const pc = _dcp * 100 / (_source * factor());
 			char buffer[256];
 			snprintf(buffer, sizeof(buffer), _("DCP will run at %.1f%% of the content speed.\n"), pc);
 			description += buffer;

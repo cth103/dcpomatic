@@ -227,7 +227,7 @@ Hints::check_speed_up()
 	optional<double> lowest_speed_up;
 	optional<double> highest_speed_up;
 	for (auto i: film()->content()) {
-		double spu = film()->active_frame_rate_change(i->position()).speed_up;
+		double spu = film()->active_frame_rate_change(i->position()).speed_up();
 		if (!lowest_speed_up || spu < *lowest_speed_up) {
 			lowest_speed_up = spu;
 		}

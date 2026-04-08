@@ -27,8 +27,8 @@
 #include <string>
 
 
-class Film;
 class Content;
+class Film;
 
 
 class FrameRateChange
@@ -43,20 +43,47 @@ public:
 	    to get the effective rate after any skip or repeat has happened.
 	*/
 	double factor() const {
-		if (skip) {
+		if (_skip) {
 			return 0.5;
 		}
 
-		return repeat;
+		return _repeat;
 	}
 
-	double source = 24;
-	int dcp = 24;
+	std::string description() const;
+
+	bool skip() const {
+		return _skip;
+	}
+
+	int repeat() const {
+		return _repeat;
+	}
+
+	double speed_up() const {
+		return _speed_up;
+	}
+
+	bool change_speed() const {
+		return _change_speed;
+	}
+
+	double source() const {
+		return _source;
+	}
+
+	int dcp() const {
+		return _dcp;
+	}
+
+private:
+	double _source = 24;
+	int _dcp = 24;
 
 	/** true to skip every other frame */
-	bool skip = false;
+	bool _skip = false;
 	/** number of times to use each frame (e.g. 1 is normal, 2 means repeat each frame once, and so on) */
-	int repeat = 1;
+	int _repeat = 1;
 	/** true if this DCP will run its video faster or slower than the source
 	 *  without taking into account `repeat' nor `skip'.
 	 *  (e.g. change_speed will be true if
@@ -66,14 +93,12 @@ public:
 	 *	    source is 15.00fps, DCP is 30fps
 	 *	    source is 12.50fps, DCP is 25fps)
 	 */
-	bool change_speed = false;
+	bool _change_speed = false;
 
 	/** Amount by which the video is being sped-up in the DCP; e.g. for a
 	 *  24fps source in a 25fps DCP this would be 25/24.
 	 */
-	double speed_up = 1.0;
-
-	std::string description() const;
+	double _speed_up = 1.0;
 };
 
 

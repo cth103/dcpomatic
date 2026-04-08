@@ -421,7 +421,7 @@ FFmpegContent::full_length(shared_ptr<const Film> film) const
 	if (audio) {
 		DCPTime longest;
 		for (auto i: audio->streams()) {
-			longest = max(longest, DCPTime::from_frames(llrint(i->length() / frc.speed_up), i->frame_rate()));
+			longest = max(longest, DCPTime::from_frames(llrint(i->length() / frc.speed_up()), i->frame_rate()));
 		}
 		return longest;
 	}

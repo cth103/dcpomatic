@@ -431,7 +431,7 @@ Content::active_video_frame_rate(shared_ptr<const Film> film) const
 	   prepared for any concurrent video content or perhaps
 	   just the DCP rate.
 	*/
-	return film->active_frame_rate_change(position()).source;
+	return film->active_frame_rate_change(position()).source();
 }
 
 

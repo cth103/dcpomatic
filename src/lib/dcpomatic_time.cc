@@ -48,7 +48,7 @@ dcpomatic::operator<=(HMSF const& a, HMSF const& b)
 
 template <>
 Time<ContentTimeDifferentiator, DCPTimeDifferentiator>::Time (DCPTime d, FrameRateChange f)
-	: _t (llrint(d.get() * f.speed_up))
+	: _t (llrint(d.get() * f.speed_up()))
 {
 
 }
@@ -56,7 +56,7 @@ Time<ContentTimeDifferentiator, DCPTimeDifferentiator>::Time (DCPTime d, FrameRa
 
 template <>
 Time<DCPTimeDifferentiator, ContentTimeDifferentiator>::Time (ContentTime d, FrameRateChange f)
-	: _t (llrint(d.get() / f.speed_up))
+	: _t (llrint(d.get() / f.speed_up()))
 {
 
 }
