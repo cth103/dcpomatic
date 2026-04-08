@@ -49,22 +49,22 @@ class AudioDialog : public wxDialog
 public:
 	AudioDialog(wxWindow* parent, std::shared_ptr<Film> film, std::shared_ptr<Content> content = std::shared_ptr<Content>());
 
-	bool Show (bool show = true) override;
+	bool Show(bool show = true) override;
 
-	void set_cursor (boost::optional<dcpomatic::DCPTime> time, boost::optional<float> db);
+	void set_cursor(boost::optional<dcpomatic::DCPTime> time, boost::optional<float> db);
 
 	boost::signals2::signal<void (dcpomatic::DCPTime)> Seek;
 
 private:
 	void film_change(ChangeType, FilmProperty);
-	void content_change (ChangeType, int);
-	void channel_clicked (wxCommandEvent &);
-	void type_clicked (wxCommandEvent &);
-	void smoothing_changed ();
-	void try_to_load_analysis ();
-	void analysis_finished ();
-	void setup_statistics ();
-	void show_or_hide_channel_checkboxes ();
+	void content_change(ChangeType, int);
+	void channel_clicked(wxCommandEvent &);
+	void type_clicked(wxCommandEvent &);
+	void smoothing_changed();
+	void try_to_load_analysis();
+	void analysis_finished();
+	void setup_statistics();
+	void show_or_hide_channel_checkboxes();
 
 	std::shared_ptr<AudioAnalysis> _analysis;
 	std::weak_ptr<Film> _film;
