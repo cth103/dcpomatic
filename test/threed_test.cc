@@ -54,54 +54,54 @@ using std::shared_ptr;
 
 
 /** Basic sanity check of THREE_D_LEFT_RIGHT */
-BOOST_AUTO_TEST_CASE (threed_test1)
+BOOST_AUTO_TEST_CASE(threed_test1)
 {
 	auto c = make_shared<FFmpegContent>("test/data/test.mp4");
 	auto film = new_test_film("threed_test1", { c });
 
-	c->video->set_frame_type (VideoFrameType::THREE_D_LEFT_RIGHT);
+	c->video->set_frame_type(VideoFrameType::THREE_D_LEFT_RIGHT);
 
-	film->set_container (Ratio::from_id ("185"));
-	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
-	film->set_three_d (true);
-	make_and_verify_dcp (film);
+	film->set_container(Ratio::from_id("185"));
+	film->set_dcp_content_type(DCPContentType::from_isdcf_name("TST"));
+	film->set_three_d(true);
+	make_and_verify_dcp(film);
 }
 
 
 /** Basic sanity check of THREE_D_ALTERNATE; at the moment this is just to make sure
  *  that such a transcode completes without error.
  */
-BOOST_AUTO_TEST_CASE (threed_test2)
+BOOST_AUTO_TEST_CASE(threed_test2)
 {
 	auto c = make_shared<FFmpegContent>("test/data/test.mp4");
 	auto film = new_test_film("threed_test2", { c });
-	c->video->set_frame_type (VideoFrameType::THREE_D_ALTERNATE);
+	c->video->set_frame_type(VideoFrameType::THREE_D_ALTERNATE);
 
-	film->set_three_d (true);
-	make_and_verify_dcp (film);
+	film->set_three_d(true);
+	make_and_verify_dcp(film);
 }
 
 
 /** Basic sanity check of THREE_D_LEFT and THREE_D_RIGHT; at the moment this is just to make sure
  *  that such a transcode completes without error.
  */
-BOOST_AUTO_TEST_CASE (threed_test3)
+BOOST_AUTO_TEST_CASE(threed_test3)
 {
 	auto film = new_test_film("threed_test3");
 	auto L = make_shared<FFmpegContent>("test/data/test.mp4");
 	auto R = make_shared<FFmpegContent>("test/data/test.mp4");
 	film->examine_and_add_content({L, R});
-	BOOST_REQUIRE (!wait_for_jobs());
+	BOOST_REQUIRE(!wait_for_jobs());
 
-	L->video->set_frame_type (VideoFrameType::THREE_D_LEFT);
-	R->video->set_frame_type (VideoFrameType::THREE_D_RIGHT);
+	L->video->set_frame_type(VideoFrameType::THREE_D_LEFT);
+	R->video->set_frame_type(VideoFrameType::THREE_D_RIGHT);
 
-	film->set_three_d (true);
-	make_and_verify_dcp (film);
+	film->set_three_d(true);
+	make_and_verify_dcp(film);
 }
 
 
-BOOST_AUTO_TEST_CASE (threed_test4)
+BOOST_AUTO_TEST_CASE(threed_test4)
 {
 	ConfigRestorer cr;
 
@@ -109,18 +109,18 @@ BOOST_AUTO_TEST_CASE (threed_test4)
 	auto L = make_shared<FFmpegContent>(TestPaths::private_data() / "LEFT_TEST_DCP3D4K.mov");
 	auto R = make_shared<FFmpegContent>(TestPaths::private_data() / "RIGHT_TEST_DCP3D4K.mov");
 	film->examine_and_add_content({L, R});
-	BOOST_REQUIRE (!wait_for_jobs());
+	BOOST_REQUIRE(!wait_for_jobs());
 
-	L->video->set_frame_type (VideoFrameType::THREE_D_LEFT);
-	R->video->set_frame_type (VideoFrameType::THREE_D_RIGHT);
+	L->video->set_frame_type(VideoFrameType::THREE_D_LEFT);
+	R->video->set_frame_type(VideoFrameType::THREE_D_RIGHT);
 	/* There doesn't seem much point in encoding the whole input, especially as we're only
 	 * checking for errors during the encode and not the result.  Also decoding these files
 	 * (4K HQ Prores) is very slow.
 	 */
-	L->set_trim_end (dcpomatic::ContentTime::from_seconds(22));
-	R->set_trim_end (dcpomatic::ContentTime::from_seconds(22));
+	L->set_trim_end(dcpomatic::ContentTime::from_seconds(22));
+	R->set_trim_end(dcpomatic::ContentTime::from_seconds(22));
 
-	film->set_three_d (true);
+	film->set_three_d(true);
 	make_and_verify_dcp(
 		film,
 		{dcp::VerificationNote::Code::INVALID_PICTURE_ASSET_RESOLUTION_FOR_3D},
@@ -131,47 +131,47 @@ BOOST_AUTO_TEST_CASE (threed_test4)
 }
 
 
-BOOST_AUTO_TEST_CASE (threed_test5)
+BOOST_AUTO_TEST_CASE(threed_test5)
 {
 	auto film = new_test_film("threed_test5");
 	auto L = make_shared<FFmpegContent>(TestPaths::private_data() / "boon_telly.mkv");
 	auto R = make_shared<FFmpegContent>(TestPaths::private_data() / "boon_telly.mkv");
 	film->examine_and_add_content({L, R});
-	BOOST_REQUIRE (!wait_for_jobs());
+	BOOST_REQUIRE(!wait_for_jobs());
 
-	L->video->set_frame_type (VideoFrameType::THREE_D_LEFT);
-	R->video->set_frame_type (VideoFrameType::THREE_D_RIGHT);
+	L->video->set_frame_type(VideoFrameType::THREE_D_LEFT);
+	R->video->set_frame_type(VideoFrameType::THREE_D_RIGHT);
 	/* There doesn't seem much point in encoding the whole input, especially as we're only
 	 * checking for errors during the encode and not the result.
 	 */
-	L->set_trim_end (dcpomatic::ContentTime::from_seconds(3 * 60 + 20));
-	R->set_trim_end (dcpomatic::ContentTime::from_seconds(3 * 60 + 20));
+	L->set_trim_end(dcpomatic::ContentTime::from_seconds(3 * 60 + 20));
+	R->set_trim_end(dcpomatic::ContentTime::from_seconds(3 * 60 + 20));
 
-	film->set_three_d (true);
-	make_and_verify_dcp (film, {dcp::VerificationNote::Code::INVALID_PICTURE_FRAME_RATE_FOR_2K});
+	film->set_three_d(true);
+	make_and_verify_dcp(film, {dcp::VerificationNote::Code::INVALID_PICTURE_FRAME_RATE_FOR_2K});
 }
 
 
-BOOST_AUTO_TEST_CASE (threed_test6)
+BOOST_AUTO_TEST_CASE(threed_test6)
 {
 	auto film = new_test_film("threed_test6");
 	auto L = make_shared<FFmpegContent>("test/data/3dL.mp4");
 	auto R = make_shared<FFmpegContent>("test/data/3dR.mp4");
 	film->examine_and_add_content({L, R});
 	film->set_audio_channels(16);
-	BOOST_REQUIRE (!wait_for_jobs());
+	BOOST_REQUIRE(!wait_for_jobs());
 
-	L->video->set_frame_type (VideoFrameType::THREE_D_LEFT);
-	R->video->set_frame_type (VideoFrameType::THREE_D_RIGHT);
+	L->video->set_frame_type(VideoFrameType::THREE_D_LEFT);
+	R->video->set_frame_type(VideoFrameType::THREE_D_RIGHT);
 
-	film->set_three_d (true);
-	make_and_verify_dcp (film);
-	check_dcp ("test/data/threed_test6", film->dir(film->dcp_name()));
+	film->set_three_d(true);
+	make_and_verify_dcp(film);
+	check_dcp("test/data/threed_test6", film->dir(film->dcp_name()));
 }
 
 
 /** Check 2D content set as being 3D; this should give an informative error */
-BOOST_AUTO_TEST_CASE (threed_test7)
+BOOST_AUTO_TEST_CASE(threed_test7)
 {
 	using boost::filesystem::path;
 
@@ -179,87 +179,87 @@ BOOST_AUTO_TEST_CASE (threed_test7)
 	path const content_path = "test/data/flat_red.png";
 	auto c = content_factory(content_path)[0];
 	film->examine_and_add_content({c});
-	BOOST_REQUIRE (!wait_for_jobs());
+	BOOST_REQUIRE(!wait_for_jobs());
 
-	c->video->set_frame_type (VideoFrameType::THREE_D);
-	c->video->set_length (24);
+	c->video->set_frame_type(VideoFrameType::THREE_D);
+	c->video->set_length(24);
 
-	film->set_three_d (true);
-	make_dcp (film, TranscodeJob::ChangedBehaviour::IGNORE);
-	film->write_metadata ();
+	film->set_three_d(true);
+	make_dcp(film, TranscodeJob::ChangedBehaviour::IGNORE);
+	film->write_metadata();
 
-	auto jm = JobManager::instance ();
-	while (jm->work_to_do ()) {
+	auto jm = JobManager::instance();
+	while (jm->work_to_do()) {
 		while (signal_manager->ui_idle()) {}
-		dcpomatic_sleep_seconds (1);
+		dcpomatic_sleep_seconds(1);
 	}
 
-	while (signal_manager->ui_idle ()) {}
+	while (signal_manager->ui_idle()) {}
 
-	BOOST_REQUIRE (jm->errors());
+	BOOST_REQUIRE(jm->errors());
 	shared_ptr<Job> failed;
 	for (auto i: jm->_jobs) {
 		if (i->finished_in_error()) {
-			BOOST_REQUIRE (!failed);
+			BOOST_REQUIRE(!failed);
 			failed = i;
 		}
 	}
-	BOOST_REQUIRE (failed);
-	BOOST_CHECK_EQUAL (failed->error_summary(), fmt::format("The content file {} is set as 3D but does not appear to contain 3D images.  Please set it to 2D.  You can still make a 3D DCP from this content by ticking the 3D option in the DCP video tab.", boost::filesystem::canonical(content_path).string()));
+	BOOST_REQUIRE(failed);
+	BOOST_CHECK_EQUAL(failed->error_summary(), fmt::format("The content file {} is set as 3D but does not appear to contain 3D images.  Please set it to 2D.  You can still make a 3D DCP from this content by ticking the 3D option in the DCP video tab.", boost::filesystem::canonical(content_path).string()));
 
-	while (signal_manager->ui_idle ()) {}
+	while (signal_manager->ui_idle()) {}
 
-	JobManager::drop ();
+	JobManager::drop();
 }
 
 
 /** Trigger a -114 error by trying to make a 3D DCP out of two files with slightly
  *  different lengths.
  */
-BOOST_AUTO_TEST_CASE (threed_test_separate_files_slightly_different_lengths)
+BOOST_AUTO_TEST_CASE(threed_test_separate_files_slightly_different_lengths)
 {
 	auto film = new_test_film("threed_test3");
 	auto L = make_shared<FFmpegContent>("test/data/test.mp4");
 	auto R = make_shared<FFmpegContent>("test/data/test.mp4");
 	film->examine_and_add_content({L, R});
-	BOOST_REQUIRE (!wait_for_jobs());
+	BOOST_REQUIRE(!wait_for_jobs());
 
-	L->video->set_frame_type (VideoFrameType::THREE_D_LEFT);
-	R->video->set_frame_type (VideoFrameType::THREE_D_RIGHT);
-	R->set_trim_end (dcpomatic::ContentTime::from_frames(1, 24));
+	L->video->set_frame_type(VideoFrameType::THREE_D_LEFT);
+	R->video->set_frame_type(VideoFrameType::THREE_D_RIGHT);
+	R->set_trim_end(dcpomatic::ContentTime::from_frames(1, 24));
 
-	film->set_three_d (true);
-	make_and_verify_dcp (film);
+	film->set_three_d(true);
+	make_and_verify_dcp(film);
 }
 
 
 /** Trigger a -114 error by trying to make a 3D DCP out of two files with very
  *  different lengths.
  */
-BOOST_AUTO_TEST_CASE (threed_test_separate_files_very_different_lengths)
+BOOST_AUTO_TEST_CASE(threed_test_separate_files_very_different_lengths)
 {
 	auto film = new_test_film("threed_test3");
 	auto L = make_shared<FFmpegContent>("test/data/test.mp4");
 	auto R = make_shared<FFmpegContent>("test/data/test.mp4");
 	film->examine_and_add_content({L, R});
-	BOOST_REQUIRE (!wait_for_jobs());
+	BOOST_REQUIRE(!wait_for_jobs());
 
-	L->video->set_frame_type (VideoFrameType::THREE_D_LEFT);
-	R->video->set_frame_type (VideoFrameType::THREE_D_RIGHT);
-	R->set_trim_end (dcpomatic::ContentTime::from_seconds(1.5));
+	L->video->set_frame_type(VideoFrameType::THREE_D_LEFT);
+	R->video->set_frame_type(VideoFrameType::THREE_D_RIGHT);
+	R->set_trim_end(dcpomatic::ContentTime::from_seconds(1.5));
 
-	film->set_three_d (true);
-	make_and_verify_dcp (film);
+	film->set_three_d(true);
+	make_and_verify_dcp(film);
 }
 
 
-BOOST_AUTO_TEST_CASE (threed_test_butler_overfill)
+BOOST_AUTO_TEST_CASE(threed_test_butler_overfill)
 {
 	auto film = new_test_film("threed_test_butler_overfill");
 	auto A = make_shared<FFmpegContent>(TestPaths::private_data() / "arrietty_JP-EN.mkv");
 	auto B = make_shared<FFmpegContent>(TestPaths::private_data() / "arrietty_JP-EN.mkv");
 	film->examine_and_add_content({A, B});
-	BOOST_REQUIRE (!wait_for_jobs());
+	BOOST_REQUIRE(!wait_for_jobs());
 
 	Player player(film, Image::Alignment::COMPACT, false);
 	int const audio_channels = 2;
@@ -279,7 +279,7 @@ BOOST_AUTO_TEST_CASE (threed_test_butler_overfill)
 		butler->get_video(Butler::Behaviour::BLOCKING, &error);
 		butler->get_audio(Butler::Behaviour::BLOCKING, audio.data(), audio_frames);
 	}
-	BOOST_REQUIRE (error.code == Butler::Error::Code::NONE);
+	BOOST_REQUIRE(error.code == Butler::Error::Code::NONE);
 }
 
 
