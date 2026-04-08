@@ -34,16 +34,16 @@ namespace dcp {
 class J2KImageProxy : public ImageProxy
 {
 public:
-	J2KImageProxy (boost::filesystem::path path, dcp::Size, AVPixelFormat pixel_format);
+	J2KImageProxy(boost::filesystem::path path, dcp::Size, AVPixelFormat pixel_format);
 
-	J2KImageProxy (
+	J2KImageProxy(
 		std::shared_ptr<const dcp::MonoJ2KPictureFrame> frame,
 		dcp::Size,
 		AVPixelFormat pixel_format,
 		boost::optional<int> forced_reduction
 		);
 
-	J2KImageProxy (
+	J2KImageProxy(
 		std::shared_ptr<const dcp::StereoJ2KPictureFrame> frame,
 		dcp::Size,
 		dcp::Eye,
@@ -51,35 +51,35 @@ public:
 		boost::optional<int> forced_reduction
 		);
 
-	J2KImageProxy (std::shared_ptr<cxml::Node> xml, std::shared_ptr<Socket> socket);
+	J2KImageProxy(std::shared_ptr<cxml::Node> xml, std::shared_ptr<Socket> socket);
 
 	/* For tests */
-	J2KImageProxy (dcp::ArrayData data, dcp::Size size, AVPixelFormat pixel_format);
+	J2KImageProxy(dcp::ArrayData data, dcp::Size size, AVPixelFormat pixel_format);
 
-	Result image (
+	Result image(
 		Image::Alignment alignment,
-		boost::optional<dcp::Size> size = boost::optional<dcp::Size> ()
+		boost::optional<dcp::Size> size = boost::optional<dcp::Size>()
 		) const override;
 
 	void add_metadata(xmlpp::Element*) const override;
-	void write_to_socket (std::shared_ptr<Socket> override) const override;
+	void write_to_socket(std::shared_ptr<Socket> override) const override;
 	/** @return true if our image is definitely the same as another, false if it is probably not */
-	bool same (std::shared_ptr<const ImageProxy>) const override;
-	int prepare (Image::Alignment alignment, boost::optional<dcp::Size> = boost::optional<dcp::Size>()) const override;
+	bool same(std::shared_ptr<const ImageProxy>) const override;
+	int prepare(Image::Alignment alignment, boost::optional<dcp::Size> = boost::optional<dcp::Size>()) const override;
 
-	std::shared_ptr<const dcp::Data> j2k () const {
+	std::shared_ptr<const dcp::Data> j2k() const {
 		return _data;
 	}
 
-	dcp::Size size () const {
+	dcp::Size size() const {
 		return _size;
 	}
 
-	boost::optional<dcp::Eye> eye () const {
+	boost::optional<dcp::Eye> eye() const {
 		return _eye;
 	}
 
-	size_t memory_used () const override;
+	size_t memory_used() const override;
 
 private:
 	std::shared_ptr<const dcp::Data> _data;

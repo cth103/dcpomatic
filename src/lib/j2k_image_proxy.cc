@@ -51,57 +51,57 @@ using dcp::ArrayData;
 
 
 /** Construct a J2KImageProxy from a JPEG2000 file */
-J2KImageProxy::J2KImageProxy (boost::filesystem::path path, dcp::Size size, AVPixelFormat pixel_format)
-	: _data (new dcp::ArrayData(path))
-	, _size (size)
-	, _pixel_format (pixel_format)
-	, _error (false)
+J2KImageProxy::J2KImageProxy(boost::filesystem::path path, dcp::Size size, AVPixelFormat pixel_format)
+	: _data(new dcp::ArrayData(path))
+	, _size(size)
+	, _pixel_format(pixel_format)
+	, _error(false)
 {
 	/* ::image assumes 16bpp */
-	DCPOMATIC_ASSERT (_pixel_format == AV_PIX_FMT_RGB48 || _pixel_format == AV_PIX_FMT_XYZ12LE);
+	DCPOMATIC_ASSERT(_pixel_format == AV_PIX_FMT_RGB48 || _pixel_format == AV_PIX_FMT_XYZ12LE);
 }
 
 
-J2KImageProxy::J2KImageProxy (
+J2KImageProxy::J2KImageProxy(
 	shared_ptr<const dcp::MonoJ2KPictureFrame> frame,
 	dcp::Size size,
 	AVPixelFormat pixel_format,
 	optional<int> forced_reduction
 	)
-	: _data (frame)
-	, _size (size)
-	, _pixel_format (pixel_format)
-	, _forced_reduction (forced_reduction)
-	, _error (false)
+	: _data(frame)
+	, _size(size)
+	, _pixel_format(pixel_format)
+	, _forced_reduction(forced_reduction)
+	, _error(false)
 {
 	/* ::image assumes 16bpp */
-	DCPOMATIC_ASSERT (_pixel_format == AV_PIX_FMT_RGB48 || _pixel_format == AV_PIX_FMT_XYZ12LE);
+	DCPOMATIC_ASSERT(_pixel_format == AV_PIX_FMT_RGB48 || _pixel_format == AV_PIX_FMT_XYZ12LE);
 }
 
 
-J2KImageProxy::J2KImageProxy (
+J2KImageProxy::J2KImageProxy(
 	shared_ptr<const dcp::StereoJ2KPictureFrame> frame,
 	dcp::Size size,
 	dcp::Eye eye,
 	AVPixelFormat pixel_format,
 	optional<int> forced_reduction
 	)
-	: _data (eye == dcp::Eye::LEFT ? frame->left() : frame->right())
-	, _size (size)
-	, _eye (eye)
-	, _pixel_format (pixel_format)
-	, _forced_reduction (forced_reduction)
-	, _error (false)
+	: _data(eye == dcp::Eye::LEFT ? frame->left() : frame->right())
+	, _size(size)
+	, _eye(eye)
+	, _pixel_format(pixel_format)
+	, _forced_reduction(forced_reduction)
+	, _error(false)
 {
 	/* ::image assumes 16bpp */
-	DCPOMATIC_ASSERT (_pixel_format == AV_PIX_FMT_RGB48 || _pixel_format == AV_PIX_FMT_XYZ12LE);
+	DCPOMATIC_ASSERT(_pixel_format == AV_PIX_FMT_RGB48 || _pixel_format == AV_PIX_FMT_XYZ12LE);
 }
 
 
-J2KImageProxy::J2KImageProxy (shared_ptr<cxml::Node> xml, shared_ptr<Socket> socket)
-	: _error (false)
+J2KImageProxy::J2KImageProxy(shared_ptr<cxml::Node> xml, shared_ptr<Socket> socket)
+	: _error(false)
 {
-	_size = dcp::Size (xml->number_child<int>("Width"), xml->number_child<int>("Height"));
+	_size = dcp::Size(xml->number_child<int>("Width"), xml->number_child<int>("Height"));
 	if (xml->optional_number_child<int>("Eye")) {
 		_eye = static_cast<dcp::Eye>(xml->number_child<int>("Eye"));
 	}
@@ -111,18 +111,18 @@ J2KImageProxy::J2KImageProxy (shared_ptr<cxml::Node> xml, shared_ptr<Socket> soc
 	   encode servers).  So we can put anything in here.  It's a bit of a hack.
 	*/
 	_pixel_format = AV_PIX_FMT_XYZ12LE;
-	socket->read (data->data(), data->size());
+	socket->read(data->data(), data->size());
 	_data = data;
 }
 
 
 int
-J2KImageProxy::prepare (Image::Alignment alignment, optional<dcp::Size> target_size) const
+J2KImageProxy::prepare(Image::Alignment alignment, optional<dcp::Size> target_size) const
 {
-	boost::mutex::scoped_lock lm (_mutex);
+	boost::mutex::scoped_lock lm(_mutex);
 
 	if (_image && target_size == _target_size) {
-		DCPOMATIC_ASSERT (_reduce);
+		DCPOMATIC_ASSERT(_reduce);
 		return *_reduce;
 	}
 
@@ -136,15 +136,15 @@ J2KImageProxy::prepare (Image::Alignment alignment, optional<dcp::Size> target_s
 		}
 
 		--reduce;
-		reduce = max (0, reduce);
+		reduce = max(0, reduce);
 	}
 
 	try {
 		/* XXX: should check that potentially trashing _data here doesn't matter */
-		auto decompressed = dcp::decompress_j2k (const_cast<uint8_t*>(_data->data()), _data->size(), reduce);
+		auto decompressed = dcp::decompress_j2k(const_cast<uint8_t*>(_data->data()), _data->size(), reduce);
 		_image = make_shared<Image>(_pixel_format, decompressed->size(), alignment);
 
-		int const shift = 16 - decompressed->precision (0);
+		int const shift = 16 - decompressed->precision(0);
 
 		/* Copy data in whatever format (sRGB or XYZ) into our Image; I'm assuming
 		   the data is 12-bit either way.
@@ -153,9 +153,9 @@ J2KImageProxy::prepare (Image::Alignment alignment, optional<dcp::Size> target_s
 		int const width = decompressed->size().width;
 
 		int p = 0;
-		int* decomp_0 = decompressed->data (0);
-		int* decomp_1 = decompressed->data (1);
-		int* decomp_2 = decompressed->data (2);
+		int* decomp_0 = decompressed->data(0);
+		int* decomp_1 = decompressed->data(1);
+		int* decomp_2 = decompressed->data(2);
 		for (int y = 0; y < decompressed->size().height; ++y) {
 			auto q = reinterpret_cast<uint16_t *>(_image->data()[0] + y * _image->stride()[0]);
 			for (int x = 0; x < width; ++x) {
@@ -167,7 +167,7 @@ J2KImageProxy::prepare (Image::Alignment alignment, optional<dcp::Size> target_s
 		}
 	} catch (dcp::J2KDecompressionError& e) {
 		_image = make_shared<Image>(_pixel_format, _size, alignment);
-		_image->make_black ();
+		_image->make_black();
 		_error = true;
 	}
 
@@ -179,14 +179,14 @@ J2KImageProxy::prepare (Image::Alignment alignment, optional<dcp::Size> target_s
 
 
 ImageProxy::Result
-J2KImageProxy::image (Image::Alignment alignment, optional<dcp::Size> target_size) const
+J2KImageProxy::image(Image::Alignment alignment, optional<dcp::Size> target_size) const
 {
-	int const r = prepare (alignment, target_size);
+	int const r = prepare(alignment, target_size);
 
 	/* I think this is safe without a lock on mutex.  _image is guaranteed to be
 	   set up when prepare() has happened.
 	*/
-	return Result (_image, r, _error);
+	return Result(_image, r, _error);
 }
 
 
@@ -204,14 +204,14 @@ J2KImageProxy::add_metadata(xmlpp::Element* element) const
 
 
 void
-J2KImageProxy::write_to_socket (shared_ptr<Socket> socket) const
+J2KImageProxy::write_to_socket(shared_ptr<Socket> socket) const
 {
-	socket->write (_data->data(), _data->size());
+	socket->write(_data->data(), _data->size());
 }
 
 
 bool
-J2KImageProxy::same (shared_ptr<const ImageProxy> other) const
+J2KImageProxy::same(shared_ptr<const ImageProxy> other) const
 {
 	auto jp = dynamic_pointer_cast<const J2KImageProxy>(other);
 	if (!jp) {
@@ -222,19 +222,19 @@ J2KImageProxy::same (shared_ptr<const ImageProxy> other) const
 }
 
 
-J2KImageProxy::J2KImageProxy (ArrayData data, dcp::Size size, AVPixelFormat pixel_format)
-	: _data (new ArrayData(data))
-	, _size (size)
-	, _pixel_format (pixel_format)
-	, _error (false)
+J2KImageProxy::J2KImageProxy(ArrayData data, dcp::Size size, AVPixelFormat pixel_format)
+	: _data(new ArrayData(data))
+	, _size(size)
+	, _pixel_format(pixel_format)
+	, _error(false)
 {
 	/* ::image assumes 16bpp */
-	DCPOMATIC_ASSERT (_pixel_format == AV_PIX_FMT_RGB48 || _pixel_format == AV_PIX_FMT_XYZ12LE);
+	DCPOMATIC_ASSERT(_pixel_format == AV_PIX_FMT_RGB48 || _pixel_format == AV_PIX_FMT_XYZ12LE);
 }
 
 
 size_t
-J2KImageProxy::memory_used () const
+J2KImageProxy::memory_used() const
 {
 	size_t m = _data->size();
 	if (_image) {
