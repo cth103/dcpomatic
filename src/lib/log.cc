@@ -40,30 +40,30 @@ using std::shared_ptr;
 using std::string;
 
 
-Log::Log ()
+Log::Log()
 {
 
 }
 
 
 void
-Log::log (shared_ptr<const LogEntry> e)
+Log::log(shared_ptr<const LogEntry> e)
 {
-	boost::mutex::scoped_lock lm (_mutex);
+	boost::mutex::scoped_lock lm(_mutex);
 
 	if ((_types & e->type()) == 0) {
 		return;
 	}
 
-	do_log (e);
+	do_log(e);
 }
 
 
 /** @param n String to log */
 void
-Log::log (string message, int type)
+Log::log(string message, int type)
 {
-	boost::mutex::scoped_lock lm (_mutex);
+	boost::mutex::scoped_lock lm(_mutex);
 
 	if ((_types & type) == 0) {
 		return;
@@ -71,30 +71,30 @@ Log::log (string message, int type)
 
 	auto e = make_shared<StringLogEntry>(type, message);
 
-	do_log (e);
+	do_log(e);
 }
 
 
 void
-Log::dcp_log (dcp::NoteType type, string m)
+Log::dcp_log(dcp::NoteType type, string m)
 {
 	switch (type) {
 	case dcp::NoteType::PROGRESS:
-		do_log (make_shared<StringLogEntry>(LogEntry::TYPE_GENERAL, m));
+		do_log(make_shared<StringLogEntry>(LogEntry::TYPE_GENERAL, m));
 		break;
 	case dcp::NoteType::ERROR:
-		do_log (make_shared<StringLogEntry>(LogEntry::TYPE_ERROR, m));
+		do_log(make_shared<StringLogEntry>(LogEntry::TYPE_ERROR, m));
 		break;
 	case dcp::NoteType::NOTE:
-		do_log (make_shared<StringLogEntry>(LogEntry::TYPE_WARNING, m));
+		do_log(make_shared<StringLogEntry>(LogEntry::TYPE_WARNING, m));
 		break;
 	}
 }
 
 
 void
-Log::set_types (int t)
+Log::set_types(int t)
 {
-	boost::mutex::scoped_lock lm (_mutex);
+	boost::mutex::scoped_lock lm(_mutex);
 	_types = t;
 }

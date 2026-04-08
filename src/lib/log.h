@@ -45,25 +45,25 @@ LIBDCP_ENABLE_WARNINGS
 class Log
 {
 public:
-	Log ();
-	virtual ~Log () {}
+	Log();
+	virtual ~Log() {}
 
-	Log (Log const&) = delete;
-	Log& operator= (Log const&) = delete;
+	Log(Log const&) = delete;
+	Log& operator=(Log const&) = delete;
 
-	void log (std::shared_ptr<const LogEntry> entry);
-	void log (std::string message, int type);
-	void dcp_log (dcp::NoteType type, std::string message);
+	void log(std::shared_ptr<const LogEntry> entry);
+	void log(std::string message, int type);
+	void dcp_log(dcp::NoteType type, std::string message);
 
-	void set_types (int types);
-	int types () const {
+	void set_types(int types);
+	int types() const {
 		return _types;
 	}
 
 	/** @param amount Approximate number of bytes to return; the returned value
 	 *  may be shorter or longer than this.
 	 */
-	virtual std::string head_and_tail (int amount = 1024) const {
+	virtual std::string head_and_tail(int amount = 1024) const {
 		(void) amount;
 		return "";
 	}
@@ -74,7 +74,7 @@ protected:
 	mutable boost::mutex _mutex;
 
 private:
-	virtual void do_log (std::shared_ptr<const LogEntry> entry) = 0;
+	virtual void do_log(std::shared_ptr<const LogEntry> entry) = 0;
 
 	/** bit-field of log types which should be put into the log (others are ignored) */
 	int _types = 0;
