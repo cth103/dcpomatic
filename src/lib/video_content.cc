@@ -435,8 +435,10 @@ VideoContent::fade(shared_ptr<const Film> film, ContentTime time) const
 	auto const fade_out_time = ContentTime::from_frames(fade_out(), vfr);
 	auto const end = ContentTime::from_frames(length(), vfr) - _parent->trim_end();
 	auto const time_after_end_fade_start = time - (end - fade_out_time);
+	/* The first frame of the fade (at time 0) must have some fade */
+	auto const fade_amount = time_after_end_fade_start + ContentTime::from_frames(1, vfr);
 	if (time_after_end_fade_start > ContentTime()) {
-		return std::max(0.0, 1 - static_cast<double>(time_after_end_fade_start.get()) / fade_out_time.get());
+		return std::max(0.0, 1 - static_cast<double>(fade_amount.get()) / fade_out_time.get());
 	}
 
 	return {};

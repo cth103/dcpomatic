@@ -24,9 +24,17 @@
 #include "lib/film.h"
 #include "lib/video_content.h"
 #include "test.h"
+#include <dcp/cpl.h>
+#include <dcp/dcp.h>
+#include <dcp/mono_j2k_picture_asset.h>
+#include <dcp/mono_j2k_picture_asset_reader.h>
+#include <dcp/openjpeg_image.h>
+#include <dcp/reel.h>
+#include <dcp/reel_picture_asset.h>
 #include <boost/test/unit_test.hpp>
 
 
+using std::dynamic_pointer_cast;
 using std::string;
 using std::list;
 
@@ -46,4 +54,30 @@ BOOST_AUTO_TEST_CASE(image_content_fade_in_test)
 	 * failures for unrelated reasons.
 	 */
 	check_dcp("test/data/image_content_fade_in_test", film->dir(film->dcp_name()), true);
+}
+
+
+BOOST_AUTO_TEST_CASE(image_content_fade_out_test)
+{
+	auto content = content_factory("test/data/flat_red.png")[0];
+	auto film = new_test_film("image_content_fade_out_test", {content});
+	content->video->set_fade_out(12);
+	make_and_verify_dcp(film);
+
+	dcp::DCP dcp(film->dir(film->dcp_name()));
+	dcp.read();
+	auto picture = dynamic_pointer_cast<dcp::MonoJ2KPictureAsset>(dcp.cpls()[0]->reels()[0]->main_picture()->asset());
+	auto reader = picture->start_read();
+	auto frame = reader->get_frame(239)->xyz_image();
+
+	auto const width = frame->size().width;
+	auto const height = frame->size().height;
+
+	for (int y = 0; y < height; ++y) {
+		for (int x = 0; x < width; ++x) {
+			for (int c = 0; c < 2; ++c) {
+				BOOST_REQUIRE(frame->data(c)[y * width + x] <= 4);
+			}
+		}
+	}
 }
