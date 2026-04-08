@@ -26,20 +26,20 @@
 class ImageContent : public Content
 {
 public:
-	ImageContent (boost::filesystem::path);
-	ImageContent (cxml::ConstNodePtr, boost::optional<boost::filesystem::path> film_directory, int);
+	ImageContent(boost::filesystem::path);
+	ImageContent(cxml::ConstNodePtr, boost::optional<boost::filesystem::path> film_directory, int);
 
-	std::shared_ptr<ImageContent> shared_from_this () {
-		return std::dynamic_pointer_cast<ImageContent> (Content::shared_from_this ());
+	std::shared_ptr<ImageContent> shared_from_this() {
+		return std::dynamic_pointer_cast<ImageContent>(Content::shared_from_this());
 	};
 
-	std::shared_ptr<const ImageContent> shared_from_this () const {
-		return std::dynamic_pointer_cast<const ImageContent> (Content::shared_from_this ());
+	std::shared_ptr<const ImageContent> shared_from_this() const {
+		return std::dynamic_pointer_cast<const ImageContent>(Content::shared_from_this());
 	};
 
 	void examine(std::shared_ptr<const Film> film, std::shared_ptr<Job>, bool tolerant) override;
-	std::string summary () const override;
-	std::string technical_summary () const override;
+	std::string summary() const override;
+	std::string technical_summary() const override;
 
 	void as_xml(
 		xmlpp::Element* element,
@@ -48,17 +48,17 @@ public:
 		boost::optional<boost::filesystem::path> film_directory
 		) const override;
 
-	dcpomatic::DCPTime full_length (std::shared_ptr<const Film> film) const override;
-	dcpomatic::DCPTime approximate_length () const override;
+	dcpomatic::DCPTime full_length(std::shared_ptr<const Film> film) const override;
+	dcpomatic::DCPTime approximate_length() const override;
 
-	std::string identifier () const override;
+	std::string identifier() const override;
 
-	void set_default_colour_conversion ();
+	void set_default_colour_conversion();
 
-	bool still () const;
+	bool still() const;
 
 private:
-	void add_properties (std::shared_ptr<const Film> film, std::list<UserProperty>& p) const override;
+	void add_properties(std::shared_ptr<const Film> film, std::list<UserProperty>& p) const override;
 
 	boost::optional<boost::filesystem::path> _path_to_scan;
 };

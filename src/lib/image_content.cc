@@ -46,33 +46,33 @@ using boost::optional;
 using namespace dcpomatic;
 
 
-ImageContent::ImageContent (boost::filesystem::path p)
+ImageContent::ImageContent(boost::filesystem::path p)
 {
 	video = make_shared<VideoContent>(this);
 
 	if (dcp::filesystem::is_regular_file(p) && valid_image_file(p)) {
-		add_path (p);
+		add_path(p);
 	} else {
 		_path_to_scan = p;
 	}
 
-	set_default_colour_conversion ();
+	set_default_colour_conversion();
 }
 
 
 ImageContent::ImageContent(cxml::ConstNodePtr node, boost::optional<boost::filesystem::path> film_directory, int version)
 	: Content(node, film_directory)
 {
-	video = VideoContent::from_xml (this, node, version, VideoRange::FULL);
+	video = VideoContent::from_xml(this, node, version, VideoRange::FULL);
 }
 
 
 string
-ImageContent::summary () const
+ImageContent::summary() const
 {
-	string s = path_summary () + " ";
+	string s = path_summary() + " ";
 	/* Get the string() here so that the name does not have quotes around it */
-	if (still ()) {
+	if (still()) {
 		s += _("[still]");
 	} else {
 		s += _("[moving images]");
@@ -83,12 +83,12 @@ ImageContent::summary () const
 
 
 string
-ImageContent::technical_summary () const
+ImageContent::technical_summary() const
 {
 	string s = Content::technical_summary() + " - "
 		+ video->technical_summary() + " - ";
 
-	if (still ()) {
+	if (still()) {
 		s += _("still");
 	} else {
 		s += _("moving");
@@ -114,92 +114,92 @@ void
 ImageContent::examine(shared_ptr<const Film> film, shared_ptr<Job> job, bool tolerant)
 {
 	if (_path_to_scan) {
-		job->sub (_("Scanning image files"));
+		job->sub(_("Scanning image files"));
 		vector<boost::filesystem::path> paths;
 		int n = 0;
 		for (auto i: dcp::filesystem::directory_iterator(*_path_to_scan)) {
 			if (dcp::filesystem::is_regular_file(i.path()) && valid_image_file(i.path())) {
-				paths.push_back (i.path());
+				paths.push_back(i.path());
 			}
 			++n;
 			if ((n % 1000) == 0) {
-				job->set_progress_unknown ();
+				job->set_progress_unknown();
 			}
 		}
 
 		if (paths.empty()) {
-			throw FileError (_("No valid image files were found in the folder."), *_path_to_scan);
+			throw FileError(_("No valid image files were found in the folder."), *_path_to_scan);
 		}
 
-		sort (paths.begin(), paths.end(), ImageFilenameSorter());
-		set_paths (paths);
+		sort(paths.begin(), paths.end(), ImageFilenameSorter());
+		set_paths(paths);
 	}
 
 	Content::examine(film, job, tolerant);
 
 	auto examiner = make_shared<ImageExaminer>(film, shared_from_this(), job);
 	video->take_from_examiner(film, examiner);
-	set_default_colour_conversion ();
+	set_default_colour_conversion();
 }
 
 
 DCPTime
-ImageContent::full_length (shared_ptr<const Film> film) const
+ImageContent::full_length(shared_ptr<const Film> film) const
 {
-	FrameRateChange const frc (film, shared_from_this());
-	return DCPTime::from_frames (llrint(video->length_after_3d_combine() * frc.factor()), film->video_frame_rate());
+	FrameRateChange const frc(film, shared_from_this());
+	return DCPTime::from_frames(llrint(video->length_after_3d_combine() * frc.factor()), film->video_frame_rate());
 }
 
 
 DCPTime
-ImageContent::approximate_length () const
+ImageContent::approximate_length() const
 {
-	return DCPTime::from_frames (video->length_after_3d_combine(), 24);
+	return DCPTime::from_frames(video->length_after_3d_combine(), 24);
 }
 
 
 string
-ImageContent::identifier () const
+ImageContent::identifier() const
 {
 	char buffer[256];
-	snprintf (buffer, sizeof(buffer), "%s_%s_%" PRId64, Content::identifier().c_str(), video->identifier().c_str(), video->length());
+	snprintf(buffer, sizeof(buffer), "%s_%s_%" PRId64, Content::identifier().c_str(), video->identifier().c_str(), video->length());
 	return buffer;
 }
 
 
 bool
-ImageContent::still () const
+ImageContent::still() const
 {
 	return number_of_paths() == 1;
 }
 
 
 void
-ImageContent::set_default_colour_conversion ()
+ImageContent::set_default_colour_conversion()
 {
 	for (auto i: paths()) {
 		if (valid_j2k_file (i)) {
 			/* We default to no colour conversion if we have JPEG2000 files */
-			video->unset_colour_conversion ();
+			video->unset_colour_conversion();
 			return;
 		}
 	}
 
-	bool const s = still ();
+	bool const s = still();
 
-	boost::mutex::scoped_lock lm (_mutex);
+	boost::mutex::scoped_lock lm(_mutex);
 
 	if (s) {
-		video->set_colour_conversion (PresetColourConversion::from_id ("srgb").conversion);
+		video->set_colour_conversion(PresetColourConversion::from_id("srgb").conversion);
 	} else {
-		video->set_colour_conversion (PresetColourConversion::from_id ("rec709").conversion);
+		video->set_colour_conversion(PresetColourConversion::from_id("rec709").conversion);
 	}
 }
 
 
 void
-ImageContent::add_properties (shared_ptr<const Film> film, list<UserProperty>& p) const
+ImageContent::add_properties(shared_ptr<const Film> film, list<UserProperty>& p) const
 {
-	Content::add_properties (film, p);
-	video->add_properties (p);
+	Content::add_properties(film, p);
+	video->add_properties(p);
 }
