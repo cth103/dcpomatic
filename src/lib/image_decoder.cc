@@ -43,16 +43,16 @@ using dcp::Size;
 using namespace dcpomatic;
 
 
-ImageDecoder::ImageDecoder (shared_ptr<const Film> film, shared_ptr<const ImageContent> c)
-	: Decoder (film)
-	, _image_content (c)
+ImageDecoder::ImageDecoder(shared_ptr<const Film> film, shared_ptr<const ImageContent> c)
+	: Decoder(film)
+	, _image_content(c)
 {
 	video = make_shared<VideoDecoder>(this, c);
 }
 
 
 bool
-ImageDecoder::pass ()
+ImageDecoder::pass()
 {
 	if (_frame_video_position >= _image_content->video->length()) {
 		return true;
@@ -60,8 +60,8 @@ ImageDecoder::pass ()
 
 	if (!_image_content->still() || !_image) {
 		/* Either we need an image or we are using moving images, so load one */
-		auto path = _image_content->path (_image_content->still() ? 0 : _frame_video_position);
-		if (valid_j2k_file (path)) {
+		auto path = _image_content->path(_image_content->still() ? 0 : _frame_video_position);
+		if (valid_j2k_file(path)) {
 			AVPixelFormat pf;
 			if (_image_content->video->colour_conversion()) {
 				/* We have a specified colour conversion: assume the image is RGB */
@@ -88,8 +88,8 @@ ImageDecoder::pass ()
 
 
 void
-ImageDecoder::seek (ContentTime time, bool accurate)
+ImageDecoder::seek(ContentTime time, bool accurate)
 {
-	Decoder::seek (time, accurate);
-	_frame_video_position = time.frames_round (_image_content->active_video_frame_rate(film()));
+	Decoder::seek(time, accurate);
+	_frame_video_position = time.frames_round(_image_content->active_video_frame_rate(film()));
 }

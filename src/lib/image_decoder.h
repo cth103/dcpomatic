@@ -31,14 +31,14 @@ class ImageProxy;
 class ImageDecoder : public Decoder
 {
 public:
-	ImageDecoder (std::shared_ptr<const Film> film, std::shared_ptr<const ImageContent> c);
+	ImageDecoder(std::shared_ptr<const Film> film, std::shared_ptr<const ImageContent> c);
 
-	std::shared_ptr<const ImageContent> content () {
+	std::shared_ptr<const ImageContent> content() {
 		return _image_content;
 	}
 
-	bool pass () override;
-	void seek (dcpomatic::ContentTime, bool) override;
+	bool pass() override;
+	void seek(dcpomatic::ContentTime, bool) override;
 
 private:
 
