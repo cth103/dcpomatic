@@ -44,16 +44,16 @@ using std::sort;
 using boost::optional;
 
 
-ImageExaminer::ImageExaminer (shared_ptr<const Film> film, shared_ptr<const ImageContent> content, shared_ptr<Job>)
-	: _film (film)
-	, _image_content (content)
+ImageExaminer::ImageExaminer(shared_ptr<const Film> film, shared_ptr<const ImageContent> content, shared_ptr<Job>)
+	: _film(film)
+	, _image_content(content)
 {
 	auto path = content->path(0);
-	if (valid_j2k_file (path)) {
+	if (valid_j2k_file(path)) {
 		auto size = dcp::filesystem::file_size(path);
 		dcp::File f(path, "rb");
 		if (!f) {
-			throw FileError ("Could not open file for reading", path);
+			throw FileError("Could not open file for reading", path);
 		}
 		std::vector<uint8_t> buffer(size);
 		f.checked_read(buffer.data(), size);
@@ -70,23 +70,23 @@ ImageExaminer::ImageExaminer (shared_ptr<const Film> film, shared_ptr<const Imag
 		_has_alpha = image.image->has_alpha();
 	}
 
-	if (content->still ()) {
-		_video_length = Config::instance()->default_still_length() * video_frame_rate().get_value_or (film->video_frame_rate ());
+	if (content->still()) {
+		_video_length = Config::instance()->default_still_length() * video_frame_rate().get_value_or(film->video_frame_rate());
 	} else {
-		_video_length = _image_content->number_of_paths ();
+		_video_length = _image_content->number_of_paths();
 	}
 }
 
 
 optional<dcp::Size>
-ImageExaminer::video_size () const
+ImageExaminer::video_size() const
 {
 	return _video_size;
 }
 
 
 optional<double>
-ImageExaminer::video_frame_rate () const
+ImageExaminer::video_frame_rate() const
 {
 	if (_image_content->video_frame_rate()) {
 		/* The content already knows what frame rate it should be */
@@ -99,7 +99,7 @@ ImageExaminer::video_frame_rate () const
 
 
 bool
-ImageExaminer::yuv () const
+ImageExaminer::yuv() const
 {
 	/* We never convert ImageSource from YUV to RGB (though maybe sometimes we should)
 	   so it makes sense to just say they are never YUV so the option of a conversion
