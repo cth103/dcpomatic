@@ -40,30 +40,30 @@ class TextContent;
 class ActiveText
 {
 public:
-	ActiveText () {}
+	ActiveText() {}
 
-	ActiveText (ActiveText const&) = delete;
-	ActiveText& operator= (ActiveText const&) = delete;
+	ActiveText(ActiveText const&) = delete;
+	ActiveText& operator=(ActiveText const&) = delete;
 
 	ActiveText(ActiveText&& other);
 	ActiveText& operator=(ActiveText&& other);
 
-	std::list<PlayerText> get_burnt (dcpomatic::DCPTimePeriod period, bool always_burn_captions) const;
-	void clear_before (dcpomatic::DCPTime time);
-	void clear ();
-	void add_from (std::weak_ptr<const TextContent> content, PlayerText ps, dcpomatic::DCPTime from);
-	std::pair<PlayerText, dcpomatic::DCPTime> add_to (std::weak_ptr<const TextContent> content, dcpomatic::DCPTime to);
-	bool have (std::weak_ptr<const TextContent> content) const;
+	std::list<PlayerText> get_burnt(dcpomatic::DCPTimePeriod period, bool always_burn_captions) const;
+	void clear_before(dcpomatic::DCPTime time);
+	void clear();
+	void add_from(std::weak_ptr<const TextContent> content, PlayerText ps, dcpomatic::DCPTime from);
+	std::pair<PlayerText, dcpomatic::DCPTime> add_to(std::weak_ptr<const TextContent> content, dcpomatic::DCPTime to);
+	bool have(std::weak_ptr<const TextContent> content) const;
 
 private:
 	class Period
 	{
 	public:
-		Period () {}
+		Period() {}
 
-		Period (PlayerText s, dcpomatic::DCPTime f)
-			: subs (s)
-			, from (f)
+		Period(PlayerText s, dcpomatic::DCPTime f)
+			: subs(s)
+			, from(f)
 		{}
 
 		PlayerText subs;

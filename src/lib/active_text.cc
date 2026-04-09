@@ -54,15 +54,15 @@ ActiveText::operator=(ActiveText&& other)
  *  @param always_burn_captions Always burn captions even if their content is not set to burn.
  */
 list<PlayerText>
-ActiveText::get_burnt (DCPTimePeriod period, bool always_burn_captions) const
+ActiveText::get_burnt(DCPTimePeriod period, bool always_burn_captions) const
 {
-	boost::mutex::scoped_lock lm (_mutex);
+	boost::mutex::scoped_lock lm(_mutex);
 
 	list<PlayerText> ps;
 
 	for (auto const& i: _data) {
 
-		auto caption = i.first.lock ();
+		auto caption = i.first.lock();
 		if (!caption) {
 			continue;
 		}
@@ -73,10 +73,10 @@ ActiveText::get_burnt (DCPTimePeriod period, bool always_burn_captions) const
 		}
 
 		for (auto j: i.second) {
-			DCPTimePeriod test (j.from, j.to.get_value_or(DCPTime::max()));
-			auto overlap = period.overlap (test);
+			DCPTimePeriod test(j.from, j.to.get_value_or(DCPTime::max()));
+			auto overlap = period.overlap(test);
 			if (overlap && overlap->duration() > DCPTime(period.duration().get() / 2)) {
-				ps.push_back (j.subs);
+				ps.push_back(j.subs);
 			}
 		}
 	}
@@ -89,19 +89,19 @@ ActiveText::get_burnt (DCPTimePeriod period, bool always_burn_captions) const
  *  @param time Time to remove before.
  */
 void
-ActiveText::clear_before (DCPTime time)
+ActiveText::clear_before(DCPTime time)
 {
-	boost::mutex::scoped_lock lm (_mutex);
+	boost::mutex::scoped_lock lm(_mutex);
 
 	Map updated;
 	for (auto const& i: _data) {
 		list<Period> as;
 		for (auto j: i.second) {
 			if (!j.to || j.to.get() >= time) {
-				as.push_back (j);
+				as.push_back(j);
 			}
 		}
-		if (!as.empty ()) {
+		if (!as.empty()) {
 			updated[i.first] = as;
 		}
 	}
@@ -115,14 +115,14 @@ ActiveText::clear_before (DCPTime time)
  *  @param from From time for these subtitles.
  */
 void
-ActiveText::add_from (weak_ptr<const TextContent> content, PlayerText ps, DCPTime from)
+ActiveText::add_from(weak_ptr<const TextContent> content, PlayerText ps, DCPTime from)
 {
-	boost::mutex::scoped_lock lm (_mutex);
+	boost::mutex::scoped_lock lm(_mutex);
 
 	if (_data.find(content) == _data.end()) {
 		_data[content] = list<Period>();
 	}
-	_data[content].push_back (Period (ps, from));
+	_data[content].push_back(Period(ps, from));
 }
 
 
@@ -132,19 +132,19 @@ ActiveText::add_from (weak_ptr<const TextContent> content, PlayerText ps, DCPTim
  *  @return Return the corresponding subtitles and their from time.
  */
 pair<PlayerText, DCPTime>
-ActiveText::add_to (weak_ptr<const TextContent> content, DCPTime to)
+ActiveText::add_to(weak_ptr<const TextContent> content, DCPTime to)
 {
-	boost::mutex::scoped_lock lm (_mutex);
+	boost::mutex::scoped_lock lm(_mutex);
 
-	DCPOMATIC_ASSERT (_data.find(content) != _data.end());
+	DCPOMATIC_ASSERT(_data.find(content) != _data.end());
 
 	_data[content].back().to = to;
 
 	for (auto& i: _data[content].back().subs.string) {
-		i.set_out (dcp::Time(to.seconds(), 1000));
+		i.set_out(dcp::Time(to.seconds(), 1000));
 	}
 
-	return make_pair (_data[content].back().subs, _data[content].back().from);
+	return make_pair(_data[content].back().subs, _data[content].back().from);
 }
 
 
@@ -152,9 +152,9 @@ ActiveText::add_to (weak_ptr<const TextContent> content, DCPTime to)
  *  @return true if we have any active subtitles from this content.
  */
 bool
-ActiveText::have (weak_ptr<const TextContent> content) const
+ActiveText::have(weak_ptr<const TextContent> content) const
 {
-	boost::mutex::scoped_lock lm (_mutex);
+	boost::mutex::scoped_lock lm(_mutex);
 
 	auto i = _data.find(content);
 	if (i == _data.end()) {
@@ -166,8 +166,8 @@ ActiveText::have (weak_ptr<const TextContent> content) const
 
 
 void
-ActiveText::clear ()
+ActiveText::clear()
 {
-	boost::mutex::scoped_lock lm (_mutex);
-	_data.clear ();
+	boost::mutex::scoped_lock lm(_mutex);
+	_data.clear();
 }
