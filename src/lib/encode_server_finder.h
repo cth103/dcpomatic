@@ -47,28 +47,28 @@ class Socket;
 class EncodeServerFinder : public Signaller, public ExceptionStore
 {
 public:
-	static EncodeServerFinder* instance ();
-	static void drop ();
+	static EncodeServerFinder* instance();
+	static void drop();
 
-	std::list<EncodeServerDescription> servers () const;
+	std::list<EncodeServerDescription> servers() const;
 
 	/** Emitted whenever the list of servers changes */
 	boost::signals2::signal<void ()> ServersListChanged;
 
 private:
-	EncodeServerFinder ();
-	~EncodeServerFinder ();
+	EncodeServerFinder();
+	~EncodeServerFinder();
 
-	void start ();
-	void stop ();
+	void start();
+	void stop();
 
-	void search_thread ();
-	void listen_thread ();
+	void search_thread();
+	void listen_thread();
 
-	void start_accept ();
-	void handle_accept (boost::system::error_code ec);
+	void start_accept();
+	void handle_accept(boost::system::error_code ec);
 
-	void config_changed (Config::Property what);
+	void config_changed(Config::Property what);
 
 	/** Thread to periodically issue broadcasts and requests to find encoding servers */
 	boost::thread _search_thread;
