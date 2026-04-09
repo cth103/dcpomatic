@@ -37,42 +37,42 @@ using std::vector;
 
 
 /** Construct a FileGroup with no files */
-FileGroup::FileGroup ()
+FileGroup::FileGroup()
 {
 
 }
 
 
 /** Construct a FileGroup with a single file */
-FileGroup::FileGroup (boost::filesystem::path p)
+FileGroup::FileGroup(boost::filesystem::path p)
 {
-	_paths.push_back (p);
-	ensure_open_path (0);
-	seek (0, SEEK_SET);
+	_paths.push_back(p);
+	ensure_open_path(0);
+	seek(0, SEEK_SET);
 }
 
 
 /** Construct a FileGroup with multiple files */
-FileGroup::FileGroup (vector<boost::filesystem::path> const & p)
-	: _paths (p)
+FileGroup::FileGroup(vector<boost::filesystem::path> const & p)
+	: _paths(p)
 {
-	ensure_open_path (0);
-	seek (0, SEEK_SET);
+	ensure_open_path(0);
+	seek(0, SEEK_SET);
 }
 
 
 void
-FileGroup::set_paths (vector<boost::filesystem::path> const & p)
+FileGroup::set_paths(vector<boost::filesystem::path> const & p)
 {
 	_paths = p;
-	ensure_open_path (0);
-	seek (0, SEEK_SET);
+	ensure_open_path(0);
+	seek(0, SEEK_SET);
 }
 
 
 /** Ensure that the given path index in the content is the _current_file */
 void
-FileGroup::ensure_open_path (size_t p) const
+FileGroup::ensure_open_path(size_t p) const
 {
 	if (_current_file && _current_path == p) {
 		/* Already open */
@@ -95,7 +95,7 @@ FileGroup::ensure_open_path (size_t p) const
 
 
 int64_t
-FileGroup::seek (int64_t pos, int whence) const
+FileGroup::seek(int64_t pos, int whence) const
 {
 	switch (whence) {
 	case SEEK_SET:
@@ -122,10 +122,10 @@ FileGroup::seek (int64_t pos, int whence) const
 	}
 
 	if (i < _paths.size()) {
-		ensure_open_path (i);
+		ensure_open_path(i);
 		_current_file->seek(sub_pos, SEEK_SET);
 	} else {
-		ensure_open_path (_paths.size() - 1);
+		ensure_open_path(_paths.size() - 1);
 		_current_file->seek(_current_size, SEEK_SET);
 	}
 
@@ -138,9 +138,9 @@ FileGroup::seek (int64_t pos, int whence) const
  *  @param amount Number of bytes to read.
  */
 FileGroup::Result
-FileGroup::read (uint8_t* buffer, int amount) const
+FileGroup::read(uint8_t* buffer, int amount) const
 {
-	DCPOMATIC_ASSERT (_current_file);
+	DCPOMATIC_ASSERT(_current_file);
 
 	int read = 0;
 	while (true) {
@@ -148,7 +148,7 @@ FileGroup::read (uint8_t* buffer, int amount) const
 		bool eof = false;
 		size_t to_read = amount - read;
 
-		DCPOMATIC_ASSERT (_current_file);
+		DCPOMATIC_ASSERT(_current_file);
 
 		auto const current_position = _current_file->tell();
 		if (current_position == -1) {
@@ -168,7 +168,7 @@ FileGroup::read (uint8_t* buffer, int amount) const
 		}
 
 		if (_current_file->error()) {
-			throw FileError (fmt::format("fread error {}", errno), _paths[_current_path]);
+			throw FileError(fmt::format("fread error {}", errno), _paths[_current_path]);
 		}
 
 		if (eof) {
@@ -176,7 +176,7 @@ FileGroup::read (uint8_t* buffer, int amount) const
 			if ((_current_path + 1) >= _paths.size()) {
 				return { read, true };
 			}
-			ensure_open_path (_current_path + 1);
+			ensure_open_path(_current_path + 1);
 		}
 	}
 
@@ -186,7 +186,7 @@ FileGroup::read (uint8_t* buffer, int amount) const
 
 /** @return Combined length of all the files */
 int64_t
-FileGroup::length () const
+FileGroup::length() const
 {
 	int64_t len = 0;
 	for (size_t i = 0; i < _paths.size(); ++i) {

@@ -40,14 +40,14 @@
 class FileGroup
 {
 public:
-	FileGroup ();
-	explicit FileGroup (boost::filesystem::path);
-	explicit FileGroup (std::vector<boost::filesystem::path> const &);
+	FileGroup();
+	explicit FileGroup(boost::filesystem::path);
+	explicit FileGroup(std::vector<boost::filesystem::path> const &);
 
-	FileGroup (FileGroup const&) = delete;
-	FileGroup& operator= (FileGroup const&) = delete;
+	FileGroup(FileGroup const&) = delete;
+	FileGroup& operator=(FileGroup const&) = delete;
 
-	void set_paths (std::vector<boost::filesystem::path> const &);
+	void set_paths(std::vector<boost::filesystem::path> const &);
 
 	struct Result {
 		Result(int bytes_read_, bool eof_)
@@ -59,12 +59,12 @@ public:
 		bool eof = false;
 	};
 
-	int64_t seek (int64_t, int) const;
-	Result read (uint8_t*, int) const;
-	int64_t length () const;
+	int64_t seek(int64_t, int) const;
+	Result read(uint8_t*, int) const;
+	int64_t length() const;
 
 private:
-	void ensure_open_path (size_t) const;
+	void ensure_open_path(size_t) const;
 
 	std::vector<boost::filesystem::path> _paths;
 	/** Index of path that we are currently reading from */
