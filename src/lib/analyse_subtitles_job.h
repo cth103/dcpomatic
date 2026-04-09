@@ -31,14 +31,14 @@ class Content;
 class AnalyseSubtitlesJob : public Job
 {
 public:
-	AnalyseSubtitlesJob (std::shared_ptr<const Film> film, std::shared_ptr<Content> content);
+	AnalyseSubtitlesJob(std::shared_ptr<const Film> film, std::shared_ptr<Content> content);
 	~AnalyseSubtitlesJob();
 
-	std::string name () const override;
-	std::string json_name () const override;
-	void run () override;
+	std::string name() const override;
+	std::string json_name() const override;
+	void run() override;
 
-	boost::filesystem::path path () const {
+	boost::filesystem::path path() const {
 		return _path;
 	}
 
