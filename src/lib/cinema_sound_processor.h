@@ -43,28 +43,28 @@
 class CinemaSoundProcessor
 {
 public:
-	CinemaSoundProcessor (std::string i, std::string n, float knee, float below, float above);
-	virtual ~CinemaSoundProcessor () {}
+	CinemaSoundProcessor(std::string i, std::string n, float knee, float below, float above);
+	virtual ~CinemaSoundProcessor() {}
 
-	CinemaSoundProcessor (CinemaSoundProcessor const&) = delete;
+	CinemaSoundProcessor(CinemaSoundProcessor const&) = delete;
 	CinemaSoundProcessor& operator=(CinemaSoundProcessor const&) = delete;
 
-	float db_for_fader_change (float from, float to) const;
+	float db_for_fader_change(float from, float to) const;
 
 	/** @return id for our use */
-	std::string id () const {
+	std::string id() const {
 		return _id;
 	}
 
 	/** @return user-visible name for this sound processor */
-	std::string name () const {
+	std::string name() const {
 		return _name;
 	}
 
-	static std::vector<CinemaSoundProcessor const *> all ();
-	static void setup_cinema_sound_processors ();
-	static CinemaSoundProcessor const * from_id (std::string id);
-	static CinemaSoundProcessor const * from_index (int);
+	static std::vector<CinemaSoundProcessor const *> all();
+	static void setup_cinema_sound_processors();
+	static CinemaSoundProcessor const * from_id(std::string id);
+	static CinemaSoundProcessor const * from_index(int);
 
 private:
 	/** id for our use */

@@ -42,12 +42,12 @@ vector<unique_ptr<const CinemaSoundProcessor>> CinemaSoundProcessor::_cinema_sou
 /** @param i Our id.
  *  @param n User-visible name.
  */
-CinemaSoundProcessor::CinemaSoundProcessor (string i, string n, float knee, float below, float above)
-	: _id (i)
-	, _name (n)
-	, _knee (knee)
-	, _below (below)
-	, _above (above)
+CinemaSoundProcessor::CinemaSoundProcessor(string i, string n, float knee, float below, float above)
+	: _id(i)
+	, _name(n)
+	, _knee(knee)
+	, _below(below)
+	, _above(above)
 {
 
 }
@@ -55,11 +55,11 @@ CinemaSoundProcessor::CinemaSoundProcessor (string i, string n, float knee, floa
 
 /** @return All available sound processors */
 vector<CinemaSoundProcessor const *>
-CinemaSoundProcessor::all ()
+CinemaSoundProcessor::all()
 {
 	vector<CinemaSoundProcessor const *> raw;
 	for (auto& processor: _cinema_sound_processors) {
-		raw.push_back (processor.get());
+		raw.push_back(processor.get());
 	}
 	return raw;
 }
@@ -69,11 +69,11 @@ CinemaSoundProcessor::all ()
  *  methods are used.
  */
 void
-CinemaSoundProcessor::setup_cinema_sound_processors ()
+CinemaSoundProcessor::setup_cinema_sound_processors()
 {
-	_cinema_sound_processors.push_back (unique_ptr<CinemaSoundProcessor>(new DolbyCP750));
-	_cinema_sound_processors.push_back (unique_ptr<CinemaSoundProcessor>(new USL));
-	_cinema_sound_processors.push_back (unique_ptr<CinemaSoundProcessor>(new DatasatAP2x));
+	_cinema_sound_processors.push_back(unique_ptr<CinemaSoundProcessor>(new DolbyCP750));
+	_cinema_sound_processors.push_back(unique_ptr<CinemaSoundProcessor>(new USL));
+	_cinema_sound_processors.push_back(unique_ptr<CinemaSoundProcessor>(new DatasatAP2x));
 }
 
 
@@ -81,14 +81,14 @@ CinemaSoundProcessor::setup_cinema_sound_processors ()
  *  @return Corresponding sound processor, or 0.
  */
 CinemaSoundProcessor const *
-CinemaSoundProcessor::from_id (string id)
+CinemaSoundProcessor::from_id(string id)
 {
-	auto i = _cinema_sound_processors.begin ();
+	auto i = _cinema_sound_processors.begin();
 	while (i != _cinema_sound_processors.end() && (*i)->id() != id) {
 		++i;
 	}
 
-	if (i == _cinema_sound_processors.end ()) {
+	if (i == _cinema_sound_processors.end()) {
 		return nullptr;
 	}
 
@@ -100,36 +100,36 @@ CinemaSoundProcessor::from_id (string id)
  *  @return Corresponding sound processor.
  */
 CinemaSoundProcessor const *
-CinemaSoundProcessor::from_index (int i)
+CinemaSoundProcessor::from_index(int i)
 {
-	DCPOMATIC_ASSERT (i >= 0 && i < int(_cinema_sound_processors.size()));
+	DCPOMATIC_ASSERT(i >= 0 && i < int(_cinema_sound_processors.size()));
 	return _cinema_sound_processors[i].get();
 }
 
 
 float
-CinemaSoundProcessor::db_for_fader_change (float from, float to) const
+CinemaSoundProcessor::db_for_fader_change(float from, float to) const
 {
 	float db = 0;
 
 	if (from < to) {
 		if (from <= _knee) {
-			float const t = min (to, _knee);
+			float const t = min(to, _knee);
 			db += (t - from) * _below;
 		}
 
 		if (to > 4) {
-			float const t = max (from, _knee);
+			float const t = max(from, _knee);
 			db += (to - t) * _above;
 		}
 	} else {
 		if (from >= _knee) {
-			float const t = max (to, _knee);
+			float const t = max(to, _knee);
 			db -= (from - t) * _above;
 		}
 
 		if (to < _knee) {
-			float const t = min (from, _knee);
+			float const t = min(from, _knee);
 			db -= (t - to) * _below;
 		}
 	}
