@@ -36,9 +36,9 @@ using boost::optional;
 #define NANOMSG_URL "ipc:///tmp/dcpomatic.ipc"
 
 
-Nanomsg::Nanomsg (bool server)
+Nanomsg::Nanomsg(bool server)
 {
-	_socket = nn_socket (AF_SP, NN_PAIR);
+	_socket = nn_socket(AF_SP, NN_PAIR);
 	if (_socket < 0) {
 		throw runtime_error("Could not set up nanomsg socket");
 	}
@@ -54,21 +54,21 @@ Nanomsg::Nanomsg (bool server)
 }
 
 
-Nanomsg::~Nanomsg ()
+Nanomsg::~Nanomsg()
 {
-	nn_shutdown (_socket, _endpoint);
-	nn_close (_socket);
+	nn_shutdown(_socket, _endpoint);
+	nn_close(_socket);
 }
 
 
 bool
-Nanomsg::send (string s, int timeout)
+Nanomsg::send(string s, int timeout)
 {
 	if (timeout != 0) {
-		nn_setsockopt (_socket, NN_SOL_SOCKET, NN_SNDTIMEO, &timeout, sizeof(int));
+		nn_setsockopt(_socket, NN_SOL_SOCKET, NN_SNDTIMEO, &timeout, sizeof(int));
 	}
 
-	int const r = nn_send (_socket, s.c_str(), s.length(), timeout ? 0 : NN_DONTWAIT);
+	int const r = nn_send(_socket, s.c_str(), s.length(), timeout ? 0 : NN_DONTWAIT);
 	if (r < 0) {
 		if (errno == ETIMEDOUT || errno == EAGAIN) {
 			return false;
@@ -83,7 +83,7 @@ Nanomsg::send (string s, int timeout)
 
 
 optional<string>
-Nanomsg::get_from_pending ()
+Nanomsg::get_from_pending()
 {
 	if (_pending.empty()) {
 		return {};
@@ -96,10 +96,10 @@ Nanomsg::get_from_pending ()
 
 
 void
-Nanomsg::recv_and_parse (int flags)
+Nanomsg::recv_and_parse(int flags)
 {
 	char* buf = 0;
-	int const received = nn_recv (_socket, &buf, NN_MSG, flags);
+	int const received = nn_recv(_socket, &buf, NN_MSG, flags);
 	if (received < 0)
 	{
 		if (errno == ETIMEDOUT || errno == EAGAIN) {
@@ -107,36 +107,35 @@ Nanomsg::recv_and_parse (int flags)
 		}
 
 		LOG_DISK("nn_recv failed");
-		throw CommunicationFailedError ();
+		throw CommunicationFailedError();
 	}
 
 	char* p = buf;
 	for (int i = 0; i < received; ++i) {
 		if (*p == '\n') {
-			_pending.push_front (_current);
+			_pending.push_front(_current);
 			_current = "";
 		} else {
 			_current += *p;
 		}
 		++p;
 	}
-	nn_freemsg (buf);
+	nn_freemsg(buf);
 }
 
 
 optional<string>
-Nanomsg::receive (int timeout)
+Nanomsg::receive(int timeout)
 {
 	if (timeout != 0) {
-		nn_setsockopt (_socket, NN_SOL_SOCKET, NN_RCVTIMEO, &timeout, sizeof(int));
+		nn_setsockopt(_socket, NN_SOL_SOCKET, NN_RCVTIMEO, &timeout, sizeof(int));
 	}
 
-	auto l = get_from_pending ();
-	if (l) {
+	if (auto l = get_from_pending()) {
 		return *l;
 	}
 
-	recv_and_parse (timeout ? 0 : NN_DONTWAIT);
+	recv_and_parse(timeout ? 0 : NN_DONTWAIT);
 
-	return get_from_pending ();
+	return get_from_pending();
 }

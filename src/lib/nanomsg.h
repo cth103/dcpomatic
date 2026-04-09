@@ -27,27 +27,27 @@
 class Nanomsg
 {
 public:
-	explicit Nanomsg (bool server);
-	~Nanomsg ();
+	explicit Nanomsg(bool server);
+	~Nanomsg();
 
-	Nanomsg (Nanomsg const&) = delete;
-	Nanomsg& operator= (Nanomsg const&) = delete;
+	Nanomsg(Nanomsg const&) = delete;
+	Nanomsg& operator=(Nanomsg const&) = delete;
 
 	/** Try to send a message, waiting for some timeout before giving up.
 	 *  @param timeout Timeout in milliseconds, or -1 for infinite timeout.
 	 *  @return true if the send happened, false if there was a timeout.
 	 */
-	bool send (std::string s, int timeout);
+	bool send(std::string s, int timeout);
 
 	/** Try to receive a message, waiting for some timeout before giving up.
 	 *  @param timeout Timeout in milliseconds, or -1 for infinite timeout.
 	 *  @return Empty if the timeout was reached, otherwise the received string.
 	 */
-	boost::optional<std::string> receive (int timeout);
+	boost::optional<std::string> receive(int timeout);
 
 private:
-	boost::optional<std::string> get_from_pending ();
-	void recv_and_parse (int flags);
+	boost::optional<std::string> get_from_pending();
+	void recv_and_parse(int flags);
 
 	int _socket;
 	int _endpoint;
