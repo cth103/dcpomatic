@@ -47,25 +47,25 @@ class Log;
 class FFmpeg
 {
 public:
-	explicit FFmpeg (std::shared_ptr<const FFmpegContent>);
-	virtual ~FFmpeg ();
+	explicit FFmpeg(std::shared_ptr<const FFmpegContent>);
+	virtual ~FFmpeg();
 
-	std::shared_ptr<const FFmpegContent> ffmpeg_content () const {
+	std::shared_ptr<const FFmpegContent> ffmpeg_content() const {
 		return _ffmpeg_content;
 	}
 
-	int avio_read (uint8_t *, int);
-	int64_t avio_seek (int64_t, int);
+	int avio_read(uint8_t *, int);
+	int64_t avio_seek(int64_t, int);
 
 protected:
-	AVCodecContext* video_codec_context () const;
-	AVCodecContext* subtitle_codec_context () const;
-	dcpomatic::ContentTime pts_offset (
+	AVCodecContext* video_codec_context() const;
+	AVCodecContext* subtitle_codec_context() const;
+	dcpomatic::ContentTime pts_offset(
 		std::vector<std::shared_ptr<FFmpegAudioStream>> audio_streams, boost::optional<dcpomatic::ContentTime> first_video, double video_frame_rate
 		) const;
 	void setup_decoder(int stream_index);
 
-	static FFmpegSubtitlePeriod subtitle_period (AVPacket const* packet, AVStream const* stream, AVSubtitle const & sub);
+	static FFmpegSubtitlePeriod subtitle_period(AVPacket const* packet, AVStream const* stream, AVSubtitle const & sub);
 
 	std::shared_ptr<const FFmpegContent> _ffmpeg_content;
 
@@ -82,7 +82,7 @@ protected:
 	/** Index of video stream within AVFormatContext */
 	boost::optional<int> _video_stream;
 
-	AVFrame* audio_frame (std::shared_ptr<const FFmpegAudioStream> stream);
+	AVFrame* audio_frame(std::shared_ptr<const FFmpegAudioStream> stream);
 
 	/* It would appear (though not completely verified) that one must have
 	   a mutex around calls to avcodec_open* and avcodec_close... and here
@@ -91,8 +91,8 @@ protected:
 	static boost::mutex _mutex;
 
 private:
-	void setup_general ();
-	void setup_decoders ();
+	void setup_general();
+	void setup_decoders();
 
 	/** AVFrames used for decoding audio streams; accessed with audio_frame() */
 	std::map<std::shared_ptr<const FFmpegAudioStream>, AVFrame*> _audio_frame;

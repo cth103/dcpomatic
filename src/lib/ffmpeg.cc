@@ -54,68 +54,68 @@ using namespace dcpomatic;
 boost::mutex FFmpeg::_mutex;
 
 
-FFmpeg::FFmpeg (std::shared_ptr<const FFmpegContent> c)
-	: _ffmpeg_content (c)
+FFmpeg::FFmpeg(std::shared_ptr<const FFmpegContent> c)
+	: _ffmpeg_content(c)
 {
-	setup_general ();
-	setup_decoders ();
+	setup_general();
+	setup_decoders();
 }
 
 
-FFmpeg::~FFmpeg ()
+FFmpeg::~FFmpeg()
 {
-	boost::mutex::scoped_lock lm (_mutex);
+	boost::mutex::scoped_lock lm(_mutex);
 
 	for (auto& i: _codec_context) {
-		avcodec_free_context (&i);
+		avcodec_free_context(&i);
 	}
 
-	av_frame_free (&_video_frame);
+	av_frame_free(&_video_frame);
 	for (auto& audio_frame: _audio_frame) {
-		av_frame_free (&audio_frame.second);
+		av_frame_free(&audio_frame.second);
 	}
 
-	avformat_close_input (&_format_context);
+	avformat_close_input(&_format_context);
 }
 
 
 static int
-avio_read_wrapper (void* data, uint8_t* buffer, int amount)
+avio_read_wrapper(void* data, uint8_t* buffer, int amount)
 {
-	return reinterpret_cast<FFmpeg*>(data)->avio_read (buffer, amount);
+	return reinterpret_cast<FFmpeg*>(data)->avio_read(buffer, amount);
 }
 
 
 static int64_t
-avio_seek_wrapper (void* data, int64_t offset, int whence)
+avio_seek_wrapper(void* data, int64_t offset, int whence)
 {
-	return reinterpret_cast<FFmpeg*>(data)->avio_seek (offset, whence);
+	return reinterpret_cast<FFmpeg*>(data)->avio_seek(offset, whence);
 }
 
 
 void
-FFmpeg::setup_general ()
+FFmpeg::setup_general()
 {
-	_file_group.set_paths (_ffmpeg_content->paths ());
-	_avio_buffer = static_cast<uint8_t*> (wrapped_av_malloc(_avio_buffer_size));
-	_avio_context = avio_alloc_context (_avio_buffer, _avio_buffer_size, 0, this, avio_read_wrapper, 0, avio_seek_wrapper);
+	_file_group.set_paths(_ffmpeg_content->paths());
+	_avio_buffer = static_cast<uint8_t*>(wrapped_av_malloc(_avio_buffer_size));
+	_avio_context = avio_alloc_context(_avio_buffer, _avio_buffer_size, 0, this, avio_read_wrapper, 0, avio_seek_wrapper);
 	if (!_avio_context) {
-		throw std::bad_alloc ();
+		throw std::bad_alloc();
 	}
-	_format_context = avformat_alloc_context ();
+	_format_context = avformat_alloc_context();
 	if (!_format_context) {
-		throw std::bad_alloc ();
+		throw std::bad_alloc();
 	}
 	_format_context->pb = _avio_context;
 
 	AVDictionary* options = nullptr;
-	int e = avformat_open_input (&_format_context, 0, 0, &options);
+	int e = avformat_open_input(&_format_context, 0, 0, &options);
 	if (e < 0) {
-		throw OpenFileError (_ffmpeg_content->path(0).string(), e, OpenFileError::READ);
+		throw OpenFileError(_ffmpeg_content->path(0).string(), e, OpenFileError::READ);
 	}
 
-	if (avformat_find_stream_info (_format_context, 0) < 0) {
-		throw DecodeError (_("could not find stream information"));
+	if (avformat_find_stream_info(_format_context, 0) < 0) {
+		throw DecodeError(_("could not find stream information"));
 	}
 
 	/* Find video stream */
@@ -147,15 +147,15 @@ FFmpeg::setup_general ()
 		_video_stream = video_stream_undefined_frame_rate.get();
 	}
 
-	_video_frame = av_frame_alloc ();
+	_video_frame = av_frame_alloc();
 	if (_video_frame == nullptr) {
-		throw std::bad_alloc ();
+		throw std::bad_alloc();
 	}
 }
 
 
 void
-FFmpeg::setup_decoders ()
+FFmpeg::setup_decoders()
 {
 	for (uint32_t i = 0; i < _format_context->nb_streams; ++i) {
 		setup_decoder(i);
@@ -166,7 +166,7 @@ FFmpeg::setup_decoders ()
 void
 FFmpeg::setup_decoder(int stream_index)
 {
-	boost::mutex::scoped_lock lm (_mutex);
+	boost::mutex::scoped_lock lm(_mutex);
 
 	if (stream_index >= static_cast<int>(_codec_context.size())) {
 		_codec_context.resize(stream_index + 1);
@@ -211,7 +211,7 @@ FFmpeg::setup_decoder(int stream_index)
 
 
 AVCodecContext *
-FFmpeg::video_codec_context () const
+FFmpeg::video_codec_context() const
 {
 	if (!_video_stream) {
 		return nullptr;
@@ -222,7 +222,7 @@ FFmpeg::video_codec_context () const
 
 
 AVCodecContext *
-FFmpeg::subtitle_codec_context () const
+FFmpeg::subtitle_codec_context() const
 {
 	auto str = _ffmpeg_content->subtitle_stream();
 	if (!str) {
@@ -234,7 +234,7 @@ FFmpeg::subtitle_codec_context () const
 
 
 int
-FFmpeg::avio_read (uint8_t* buffer, int const amount)
+FFmpeg::avio_read(uint8_t* buffer, int const amount)
 {
 	auto result = _file_group.read(buffer, amount);
 	if (result.eof && result.bytes_read == 0) {
@@ -245,20 +245,20 @@ FFmpeg::avio_read (uint8_t* buffer, int const amount)
 
 
 int64_t
-FFmpeg::avio_seek (int64_t const pos, int whence)
+FFmpeg::avio_seek(int64_t const pos, int whence)
 {
 	if (whence == AVSEEK_SIZE) {
-		return _file_group.length ();
+		return _file_group.length();
 	}
 
-	return _file_group.seek (pos, whence);
+	return _file_group.seek(pos, whence);
 }
 
 
 FFmpegSubtitlePeriod
-FFmpeg::subtitle_period (AVPacket const* packet, AVStream const* stream, AVSubtitle const & sub)
+FFmpeg::subtitle_period(AVPacket const* packet, AVStream const* stream, AVSubtitle const & sub)
 {
-	auto const packet_time = ContentTime::from_seconds (packet->pts * av_q2d(stream->time_base));
+	auto const packet_time = ContentTime::from_seconds(packet->pts * av_q2d(stream->time_base));
 	auto const start = packet_time + ContentTime::from_seconds(sub.start_display_time / 1e3);
 
 	if (sub.end_display_time == 0 || sub.end_display_time == static_cast<uint32_t>(-1)) {
@@ -270,7 +270,7 @@ FFmpeg::subtitle_period (AVPacket const* packet, AVStream const* stream, AVSubti
 		}
 	}
 
-	return FFmpegSubtitlePeriod (start, packet_time + ContentTime::from_seconds(sub.end_display_time / 1e3));
+	return FFmpegSubtitlePeriod(start, packet_time + ContentTime::from_seconds(sub.end_display_time / 1e3));
 }
 
 
@@ -280,7 +280,7 @@ FFmpeg::subtitle_period (AVPacket const* packet, AVStream const* stream, AVSubti
  *  in FFmpeg.
  */
 ContentTime
-FFmpeg::pts_offset (vector<shared_ptr<FFmpegAudioStream>> audio_streams, optional<ContentTime> first_video, double video_frame_rate) const
+FFmpeg::pts_offset(vector<shared_ptr<FFmpegAudioStream>> audio_streams, optional<ContentTime> first_video, double video_frame_rate) const
 {
 	/* Audio and video frame PTS values may not start with 0.  We want
 	   to fiddle them so that:
@@ -298,15 +298,15 @@ FFmpeg::pts_offset (vector<shared_ptr<FFmpegAudioStream>> audio_streams, optiona
 
 	/* First, make one of them start at 0 */
 
-	auto po = ContentTime::min ();
+	auto po = ContentTime::min();
 
 	if (first_video) {
-		po = - first_video.get ();
+		po = - first_video.get();
 	}
 
 	for (auto i: audio_streams) {
 		if (i->first_audio) {
-			po = max (po, - i->first_audio.get ());
+			po = max(po, - i->first_audio.get());
 		}
 	}
 
@@ -316,14 +316,14 @@ FFmpeg::pts_offset (vector<shared_ptr<FFmpegAudioStream>> audio_streams, optiona
 	   I don't think we ever want to do that, as it seems things at -ve PTS are not meant
 	   to be seen (use for alignment bars etc.); see mantis #418.
 	*/
-	if (po > ContentTime ()) {
-		po = ContentTime ();
+	if (po > ContentTime()) {
+		po = ContentTime();
 	}
 
 	/* Now adjust so that the video pts starts on a frame */
 	if (first_video) {
 		auto const fvc = first_video.get() + po;
-		po += fvc.ceil (video_frame_rate) - fvc;
+		po += fvc.ceil(video_frame_rate) - fvc;
 	}
 
 	return po;
@@ -331,14 +331,14 @@ FFmpeg::pts_offset (vector<shared_ptr<FFmpegAudioStream>> audio_streams, optiona
 
 
 AVFrame *
-FFmpeg::audio_frame (shared_ptr<const FFmpegAudioStream> stream)
+FFmpeg::audio_frame(shared_ptr<const FFmpegAudioStream> stream)
 {
 	auto iter = _audio_frame.find(stream);
 	if (iter != _audio_frame.end()) {
 		return iter->second;
 	}
 
-	auto frame = av_frame_alloc ();
+	auto frame = av_frame_alloc();
 	if (frame == nullptr) {
 		throw std::bad_alloc();
 	}
