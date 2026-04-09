@@ -43,9 +43,9 @@ public:
 	class Subtag
 	{
 	public:
-		Subtag (dcp::LanguageTag::SubtagType type_, boost::optional<dcp::LanguageTag::SubtagData> subtag_)
-			: type (type_)
-			, subtag (subtag_)
+		Subtag(dcp::LanguageTag::SubtagType type_, boost::optional<dcp::LanguageTag::SubtagData> subtag_)
+			: type(type_)
+			, subtag(subtag_)
 		{}
 
 		dcp::LanguageTag::SubtagType type;
@@ -53,20 +53,20 @@ public:
 		std::string last_search;
 	};
 
-	FullLanguageTagDialog (wxWindow* parent, dcp::LanguageTag tag = dcp::LanguageTag("en"));
+	FullLanguageTagDialog(wxWindow* parent, dcp::LanguageTag tag = dcp::LanguageTag("en"));
 
-	dcp::LanguageTag get () const;
-	void set (dcp::LanguageTag tag);
+	dcp::LanguageTag get() const;
+	void set(dcp::LanguageTag tag);
 
 private:
 
-	std::string subtag_type_name (dcp::LanguageTag::SubtagType type);
-	void search_changed (std::string search);
-	void add_to_current_tag (dcp::LanguageTag::SubtagType type, boost::optional<dcp::LanguageTag::SubtagData> subtag);
-	void remove_from_current_tag ();
-	void current_tag_selection_changed ();
-	void chosen_subtag_changed (boost::optional<dcp::LanguageTag::SubtagData> selection);
-	void setup_sensitivity ();
+	std::string subtag_type_name(dcp::LanguageTag::SubtagType type);
+	void search_changed(std::string search);
+	void add_to_current_tag(dcp::LanguageTag::SubtagType type, boost::optional<dcp::LanguageTag::SubtagData> subtag);
+	void remove_from_current_tag();
+	void current_tag_selection_changed();
+	void chosen_subtag_changed(boost::optional<dcp::LanguageTag::SubtagData> selection);
+	void setup_sensitivity();
 
 	std::vector<Subtag> _current_tag_subtags;
 	wxListCtrl* _current_tag_list;
