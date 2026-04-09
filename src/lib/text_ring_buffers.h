@@ -33,13 +33,13 @@
 class TextRingBuffers
 {
 public:
-	void put (PlayerText text, DCPTextTrack track, dcpomatic::DCPTimePeriod period);
+	void put(PlayerText text, DCPTextTrack track, dcpomatic::DCPTimePeriod period);
 
 	struct Data {
-		Data (PlayerText text_, DCPTextTrack track_, dcpomatic::DCPTimePeriod period_)
-			: text (text_)
-			, track (track_)
-			, period (period_)
+		Data(PlayerText text_, DCPTextTrack track_, dcpomatic::DCPTimePeriod period_)
+			: text(text_)
+			, track(track_)
+			, period(period_)
 		{}
 
 		PlayerText text;
@@ -47,8 +47,8 @@ public:
 		dcpomatic::DCPTimePeriod period;
 	};
 
-	boost::optional<Data> get ();
-	void clear ();
+	boost::optional<Data> get();
+	void clear();
 
 private:
 	boost::mutex _mutex;

@@ -28,17 +28,17 @@ using namespace dcpomatic;
 
 
 void
-TextRingBuffers::put (PlayerText text, DCPTextTrack track, DCPTimePeriod period)
+TextRingBuffers::put(PlayerText text, DCPTextTrack track, DCPTimePeriod period)
 {
-	boost::mutex::scoped_lock lm (_mutex);
-	_data.push_back (Data(text, track, period));
+	boost::mutex::scoped_lock lm(_mutex);
+	_data.push_back(Data(text, track, period));
 }
 
 
 optional<TextRingBuffers::Data>
-TextRingBuffers::get ()
+TextRingBuffers::get()
 {
-	boost::mutex::scoped_lock lm (_mutex);
+	boost::mutex::scoped_lock lm(_mutex);
 	if (_data.empty()) {
 		return {};
 	}
@@ -50,7 +50,7 @@ TextRingBuffers::get ()
 
 
 void
-TextRingBuffers::clear ()
+TextRingBuffers::clear()
 {
-	_data.clear ();
+	_data.clear();
 }
