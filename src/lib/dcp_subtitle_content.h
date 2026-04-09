@@ -24,12 +24,12 @@
 class DCPSubtitleContent : public DCPSubtitle, public Content
 {
 public:
-	DCPSubtitleContent (boost::filesystem::path);
-	DCPSubtitleContent (cxml::ConstNodePtr, boost::optional<boost::filesystem::path> film_directory, int);
+	DCPSubtitleContent(boost::filesystem::path);
+	DCPSubtitleContent(cxml::ConstNodePtr, boost::optional<boost::filesystem::path> film_directory, int);
 
-	void examine (std::shared_ptr<const Film> film, std::shared_ptr<Job>, bool tolerant) override;
-	std::string summary () const override;
-	std::string technical_summary () const override;
+	void examine(std::shared_ptr<const Film> film, std::shared_ptr<Job>, bool tolerant) override;
+	std::string summary() const override;
+	std::string technical_summary() const override;
 
 	void as_xml(
 		xmlpp::Element* element,
@@ -38,8 +38,8 @@ public:
 		boost::optional<boost::filesystem::path> film_directory
 		) const override;
 
-	dcpomatic::DCPTime full_length (std::shared_ptr<const Film> film) const override;
-	dcpomatic::DCPTime approximate_length () const override;
+	dcpomatic::DCPTime full_length(std::shared_ptr<const Film> film) const override;
+	dcpomatic::DCPTime approximate_length() const override;
 
 private:
 	void add_fonts(std::shared_ptr<TextContent> content, std::shared_ptr<dcp::TextAsset> subtitle_asset);

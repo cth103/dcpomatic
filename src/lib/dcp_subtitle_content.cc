@@ -42,18 +42,18 @@ using boost::optional;
 using namespace dcpomatic;
 
 
-DCPSubtitleContent::DCPSubtitleContent (boost::filesystem::path path)
-	: Content (path)
+DCPSubtitleContent::DCPSubtitleContent(boost::filesystem::path path)
+	: Content(path)
 {
-	text.push_back (make_shared<TextContent>(this, TextType::OPEN_SUBTITLE, TextType::OPEN_SUBTITLE));
+	text.push_back(make_shared<TextContent>(this, TextType::OPEN_SUBTITLE, TextType::OPEN_SUBTITLE));
 }
 
 DCPSubtitleContent::DCPSubtitleContent(cxml::ConstNodePtr node, boost::optional<boost::filesystem::path> film_directory, int version)
-	: Content (node, film_directory)
-	, _length (node->number_child<ContentTime::Type> ("Length"))
+	: Content(node, film_directory)
+	, _length(node->number_child<ContentTime::Type>("Length"))
 {
 	list<string> notes;
-	text = TextContent::from_xml (this, node, version, notes);
+	text = TextContent::from_xml(this, node, version, notes);
 }
 
 void
@@ -69,10 +69,10 @@ DCPSubtitleContent::examine(shared_ptr<const Film> film, shared_ptr<Job> job, bo
 		set_video_frame_rate(film, smpte->edit_rate().numerator);
 	}
 
-	boost::mutex::scoped_lock lm (_mutex);
+	boost::mutex::scoped_lock lm(_mutex);
 
 	/* Default to turning these subtitles on */
-	only_text()->set_use (true);
+	only_text()->set_use(true);
 
 	_length = ContentTime::from_seconds(subtitle_asset->latest_text_out().as_seconds());
 
@@ -115,26 +115,26 @@ DCPSubtitleContent::add_fonts(shared_ptr<TextContent> content, shared_ptr<dcp::T
 
 
 DCPTime
-DCPSubtitleContent::full_length (shared_ptr<const Film> film) const
+DCPSubtitleContent::full_length(shared_ptr<const Film> film) const
 {
-	FrameRateChange const frc (film, shared_from_this());
-	return DCPTime (_length, frc);
+	FrameRateChange const frc(film, shared_from_this());
+	return DCPTime(_length, frc);
 }
 
 DCPTime
-DCPSubtitleContent::approximate_length () const
+DCPSubtitleContent::approximate_length() const
 {
-	return DCPTime (_length, FrameRateChange());
+	return DCPTime(_length, FrameRateChange());
 }
 
 string
-DCPSubtitleContent::summary () const
+DCPSubtitleContent::summary() const
 {
 	return path_summary() + " " + _("[subtitles]");
 }
 
 string
-DCPSubtitleContent::technical_summary () const
+DCPSubtitleContent::technical_summary() const
 {
 	return Content::technical_summary() + " - " + _("DCP XML subtitles");
 }
