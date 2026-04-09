@@ -41,8 +41,8 @@ using boost::optional;
 using namespace dcpomatic;
 
 
-VideoMXFContent::VideoMXFContent (boost::filesystem::path path)
-	: Content (path)
+VideoMXFContent::VideoMXFContent(boost::filesystem::path path)
+	: Content(path)
 {
 
 }
@@ -51,12 +51,12 @@ VideoMXFContent::VideoMXFContent (boost::filesystem::path path)
 VideoMXFContent::VideoMXFContent(cxml::ConstNodePtr node, boost::optional<boost::filesystem::path> film_directory, int version)
 	: Content(node, film_directory)
 {
-	video = VideoContent::from_xml (this, node, version, VideoRange::FULL);
+	video = VideoContent::from_xml(this, node, version, VideoRange::FULL);
 }
 
 
 bool
-VideoMXFContent::valid_mxf (boost::filesystem::path path)
+VideoMXFContent::valid_mxf(boost::filesystem::path path)
 {
 	Kumu::DefaultLogSink().UnsetFilterFlag(Kumu::LOG_ALLOW_ALL);
 
@@ -71,7 +71,7 @@ VideoMXFContent::valid_mxf (boost::filesystem::path path)
 
 	try {
 		Kumu::DefaultLogSink().SetFilterFlag(0);
-		dcp::StereoJ2KPictureAsset sp (path);
+		dcp::StereoJ2KPictureAsset sp(path);
 		return true;
 	} catch (dcp::MXFFileError& e) {
 
@@ -88,33 +88,33 @@ VideoMXFContent::valid_mxf (boost::filesystem::path path)
 void
 VideoMXFContent::examine(shared_ptr<const Film> film, shared_ptr<Job> job, bool tolerant)
 {
-	job->set_progress_unknown ();
+	job->set_progress_unknown();
 
 	Content::examine(film, job, tolerant);
 
-	video.reset (new VideoContent (this));
+	video.reset(new VideoContent(this));
 	auto examiner = make_shared<VideoMXFExaminer>(shared_from_this());
 	video->take_from_examiner(film, examiner);
-	video->unset_colour_conversion ();
+	video->unset_colour_conversion();
 }
 
 
 string
-VideoMXFContent::summary () const
+VideoMXFContent::summary() const
 {
 	return fmt::format(_("{} [video]"), path_summary());
 }
 
 
 string
-VideoMXFContent::technical_summary () const
+VideoMXFContent::technical_summary() const
 {
 	return Content::technical_summary() + " - " + video->technical_summary();
 }
 
 
 string
-VideoMXFContent::identifier () const
+VideoMXFContent::identifier() const
 {
 	return Content::identifier() + "_" + video->identifier();
 }
@@ -130,23 +130,23 @@ VideoMXFContent::as_xml(xmlpp::Element* element, bool with_paths, PathBehaviour 
 
 
 DCPTime
-VideoMXFContent::full_length (shared_ptr<const Film> film) const
+VideoMXFContent::full_length(shared_ptr<const Film> film) const
 {
-	FrameRateChange const frc (film, shared_from_this());
-	return DCPTime::from_frames (llrint(video->length_after_3d_combine() * frc.factor()), film->video_frame_rate());
+	FrameRateChange const frc(film, shared_from_this());
+	return DCPTime::from_frames(llrint(video->length_after_3d_combine() * frc.factor()), film->video_frame_rate());
 }
 
 
 DCPTime
-VideoMXFContent::approximate_length () const
+VideoMXFContent::approximate_length() const
 {
-	return DCPTime::from_frames (video->length_after_3d_combine(), 24);
+	return DCPTime::from_frames(video->length_after_3d_combine(), 24);
 }
 
 
 void
-VideoMXFContent::add_properties (shared_ptr<const Film> film, list<UserProperty>& p) const
+VideoMXFContent::add_properties(shared_ptr<const Film> film, list<UserProperty>& p) const
 {
-	Content::add_properties (film, p);
-	video->add_properties (p);
+	Content::add_properties(film, p);
+	video->add_properties(p);
 }

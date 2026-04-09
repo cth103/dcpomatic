@@ -25,21 +25,21 @@
 class VideoMXFContent : public Content
 {
 public:
-	VideoMXFContent (boost::filesystem::path path);
-	VideoMXFContent (cxml::ConstNodePtr node, boost::optional<boost::filesystem::path> film_directory, int version);
+	VideoMXFContent(boost::filesystem::path path);
+	VideoMXFContent(cxml::ConstNodePtr node, boost::optional<boost::filesystem::path> film_directory, int version);
 
-	std::shared_ptr<VideoMXFContent> shared_from_this () {
+	std::shared_ptr<VideoMXFContent> shared_from_this() {
 		return std::dynamic_pointer_cast<VideoMXFContent>(Content::shared_from_this());
 	}
 
-	std::shared_ptr<const VideoMXFContent> shared_from_this () const {
+	std::shared_ptr<const VideoMXFContent> shared_from_this() const {
 		return std::dynamic_pointer_cast<const VideoMXFContent>(Content::shared_from_this());
 	}
 
 	void examine(std::shared_ptr<const Film> film, std::shared_ptr<Job> job, bool tolerant) override;
-	std::string summary () const override;
-	std::string technical_summary () const override;
-	std::string identifier () const override;
+	std::string summary() const override;
+	std::string technical_summary() const override;
+	std::string identifier() const override;
 
 	void as_xml(
 		xmlpp::Element* element,
@@ -48,9 +48,9 @@ public:
 		boost::optional<boost::filesystem::path> film_directory
 		) const override;
 
-	dcpomatic::DCPTime full_length (std::shared_ptr<const Film> film) const override;
-	dcpomatic::DCPTime approximate_length () const override;
-	void add_properties (std::shared_ptr<const Film> film, std::list<UserProperty>& p) const override;
+	dcpomatic::DCPTime full_length(std::shared_ptr<const Film> film) const override;
+	dcpomatic::DCPTime approximate_length() const override;
+	void add_properties(std::shared_ptr<const Film> film, std::list<UserProperty>& p) const override;
 
-	static bool valid_mxf (boost::filesystem::path path);
+	static bool valid_mxf(boost::filesystem::path path);
 };
