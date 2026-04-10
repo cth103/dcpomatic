@@ -145,7 +145,19 @@ public:
 		auto dcp_sizer = new wxBoxSizer(wxHORIZONTAL);
 		add_label_to_sizer(dcp_sizer, _overall_panel, _("DCPs"), true, 0, wxALIGN_CENTER_VERTICAL);
 
-		auto add = [this](wxWindow* parent) {
+		auto load_dcps = [this](vector<boost::filesystem::path> const& dcps) {
+			wxProgressDialog progress(variant::wx::dcpomatic(), _("Examining DCPs"));
+			vector<DCPPath> dcp_paths;
+			for (auto path: dcps) {
+				for (auto const& dcp: dcp::find_potential_dcps(path)) {
+					progress.Pulse();
+					dcp_paths.push_back(DCPPath(dcp, _kdms));
+				}
+			}
+			return dcp_paths;
+		};
+
+		auto add = [this, &load_dcps](wxWindow* parent) {
 #if wxCHECK_VERSION(3, 1, 4)
 			DirDialog dialog(parent, _("Select DCP(s)"), wxDD_MULTIPLE, "AddVerifierInputPath");
 #else
@@ -153,15 +165,7 @@ public:
 #endif
 
 			if (dialog.show()) {
-				wxProgressDialog progress(variant::wx::dcpomatic(), _("Examining DCPs"));
-				vector<DCPPath> paths;
-				for (auto path: dialog.paths()) {
-					for (auto const& dcp: dcp::find_potential_dcps(path)) {
-						progress.Pulse();
-						paths.push_back(DCPPath(dcp, _kdms));
-					}
-				}
-				return paths;
+				return load_dcps(dialog.paths());
 			} else {
 				return std::vector<DCPPath>{};
 			}
