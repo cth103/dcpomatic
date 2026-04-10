@@ -36,15 +36,15 @@ LIBDCP_ENABLE_WARNINGS
 class EditableListColumn
 {
 public:
-	EditableListColumn (wxString name_)
-		: name (name_)
-		, growable (false)
+	EditableListColumn(wxString name_)
+		: name(name_)
+		, growable(false)
 	{}
 
-	EditableListColumn (wxString name_, boost::optional<int> width_, bool growable_)
-		: name (name_)
-		, width (width_)
-		, growable (growable_)
+	EditableListColumn(wxString name_, boost::optional<int> width_, bool growable_)
+		: name(name_)
+		, width(width_)
+		, growable(growable_)
 	{}
 
 	wxString name;
@@ -77,7 +77,7 @@ template<class T>
 class EditableList : public wxPanel
 {
 public:
-	EditableList (
+	EditableList(
 		wxWindow* parent,
 		std::vector<EditableListColumn> columns,
 		std::function<std::vector<T> ()> get,
@@ -89,17 +89,17 @@ public:
 		int buttons,
 		boost::optional<wxString> custom_button = {}
 		)
-		: wxPanel (parent)
-		, _get (get)
-		, _set (set)
+		: wxPanel(parent)
+		, _get(get)
+		, _set(set)
 		, _add(add)
 		, _edit(edit)
-		, _columns (columns)
-		, _column (column)
-		, _default_width (200)
+		, _columns(columns)
+		, _column(column)
+		, _default_width(200)
 	{
-		_sizer = new wxBoxSizer (wxHORIZONTAL);
-		SetSizer (_sizer);
+		_sizer = new wxBoxSizer(wxHORIZONTAL);
+		SetSizer(_sizer);
 
 		long style = wxLC_REPORT | wxLC_SINGLE_SEL;
 		if (title == EditableListTitle::INVISIBLE) {
@@ -108,18 +108,18 @@ public:
 
 		int total_width = 0;
 		for (auto i: _columns) {
-			total_width += i.width.get_value_or (_default_width);
+			total_width += i.width.get_value_or(_default_width);
 		}
 
 #ifdef __WXGTK3__
 		/* With the GTK3 backend wxListCtrls are hard to pick out from the background of the
 		 * window, so put a border in to help.
 		 */
-		auto border = new wxPanel (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL | wxBORDER_THEME);
+		auto border = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL | wxBORDER_THEME);
 		_list = new wxListCtrl(border, wxID_ANY, wxDefaultPosition, wxSize(total_width, -1), style);
-		auto border_sizer = new wxBoxSizer (wxHORIZONTAL);
-		border_sizer->Add (_list, 1, wxALL | wxEXPAND, 2);
-		border->SetSizer (border_sizer);
+		auto border_sizer = new wxBoxSizer(wxHORIZONTAL);
+		border_sizer->Add(_list, 1, wxALL | wxEXPAND, 2);
+		border->SetSizer(border_sizer);
 #else
 		_list = new wxListCtrl(this, wxID_ANY, wxDefaultPosition, wxSize(total_width, -1), style);
 #endif
@@ -127,20 +127,20 @@ public:
 		int j = 0;
 		for (auto i: _columns) {
 			wxListItem ip;
-			ip.SetId (j);
-			ip.SetText (i.name);
-			_list->InsertColumn (j, ip);
+			ip.SetId(j);
+			ip.SetText(i.name);
+			_list->InsertColumn(j, ip);
 			++j;
 		}
 
 #ifdef __WXGTK3__
-		_sizer->Add (border, 1, wxEXPAND);
+		_sizer->Add(border, 1, wxEXPAND);
 #else
-		_sizer->Add (_list, 1, wxEXPAND);
+		_sizer->Add(_list, 1, wxEXPAND);
 #endif
 
 		{
-			auto s = new wxBoxSizer (wxVERTICAL);
+			auto s = new wxBoxSizer(wxVERTICAL);
 			if (buttons & EditableListButton::NEW) {
 				_add_button = new Button(this, _("Add..."));
 				s->Add(_add_button, 1, wxEXPAND | wxTOP | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
@@ -157,7 +157,7 @@ public:
 				_remove_button = new Button(this, _("Remove"));
 				s->Add(_remove_button, 1, wxEXPAND | wxTOP | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
 			}
-			_sizer->Add (s, 0, wxLEFT, DCPOMATIC_SIZER_X_GAP);
+			_sizer->Add(s, 0, wxLEFT, DCPOMATIC_SIZER_X_GAP);
 		}
 
 		if (_add_button) {
@@ -170,43 +170,43 @@ public:
 			_remove_button->Bind(wxEVT_COMMAND_BUTTON_CLICKED, boost::bind(&EditableList::remove_clicked, this));
 		}
 
-		_list->Bind (wxEVT_COMMAND_LIST_ITEM_SELECTED, boost::bind (&EditableList::selection_changed, this));
-		_list->Bind (wxEVT_COMMAND_LIST_ITEM_DESELECTED, boost::bind (&EditableList::selection_changed, this));
+		_list->Bind(wxEVT_COMMAND_LIST_ITEM_SELECTED, boost::bind(&EditableList::selection_changed, this));
+		_list->Bind(wxEVT_COMMAND_LIST_ITEM_DESELECTED, boost::bind(&EditableList::selection_changed, this));
 #if BOOST_VERSION >= 106100
-		_list->Bind (wxEVT_SIZE, boost::bind (&EditableList::resized, this, boost::placeholders::_1));
+		_list->Bind(wxEVT_SIZE, boost::bind(&EditableList::resized, this, boost::placeholders::_1));
 #else
-		_list->Bind (wxEVT_SIZE, boost::bind (&EditableList::resized, this, _1));
+		_list->Bind(wxEVT_SIZE, boost::bind(&EditableList::resized, this, _1));
 #endif
 
-		refresh ();
-		selection_changed ();
+		refresh();
+		selection_changed();
 	}
 
-	void refresh ()
+	void refresh()
 	{
-		_list->DeleteAllItems ();
+		_list->DeleteAllItems();
 
-		auto current = _get ();
+		auto current = _get();
 		for (auto const& i: current) {
-			add_to_control (i);
+			add_to_control(i);
 		}
 	}
 
-	boost::optional<T> selection () const
+	boost::optional<T> selection() const
 	{
-		int item = _list->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+		int item = _list->GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
 		if (item == -1) {
 			return {};
 		}
 
-		auto all = _get ();
-		DCPOMATIC_ASSERT (item >= 0 && item < int (all.size ()));
+		auto all = _get();
+		DCPOMATIC_ASSERT(item >= 0 && item < int(all.size()));
 		return all[item];
 	}
 
-	void layout ()
+	void layout()
 	{
-		_sizer->Layout ();
+		_sizer->Layout();
 	}
 
 	Button* custom_button()
@@ -244,21 +244,21 @@ public:
 
 private:
 
-	void add_to_control (T item)
+	void add_to_control(T item)
 	{
 		wxListItem list_item;
-		int const n = _list->GetItemCount ();
-		list_item.SetId (n);
-		_list->InsertItem (list_item);
+		int const n = _list->GetItemCount();
+		list_item.SetId(n);
+		_list->InsertItem(list_item);
 
 		for (size_t i = 0; i < _columns.size(); ++i) {
-			_list->SetItem (n, i, std_to_wx (_column (item, i)));
+			_list->SetItem(n, i, std_to_wx(_column(item, i)));
 		}
 	}
 
-	void selection_changed ()
+	void selection_changed()
 	{
-		int const i = _list->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+		int const i = _list->GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
 		if (_edit_button) {
 			_edit_button->Enable(i >= 0);
 		}
@@ -266,10 +266,10 @@ private:
 			_remove_button->Enable(i >= 0);
 		}
 
-		SelectionChanged ();
+		SelectionChanged();
 	}
 
-	void add_clicked ()
+	void add_clicked()
 	{
 		auto all = _get();
 		for (auto item: _add(this)) {
@@ -279,41 +279,41 @@ private:
 		_set(all);
 	}
 
-	void edit_clicked ()
+	void edit_clicked()
 	{
-		int item = _list->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+		int item = _list->GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
 		if (item == -1) {
 			return;
 		}
 
-		std::vector<T> all = _get ();
-		DCPOMATIC_ASSERT (item >= 0 && item < int (all.size ()));
+		std::vector<T> all = _get();
+		DCPOMATIC_ASSERT(item >= 0 && item < int(all.size()));
 
 		_edit(this, all[item]);
 
 		for (size_t i = 0; i < _columns.size(); ++i) {
-			_list->SetItem (item, i, std_to_wx (_column (all[item], i)));
+			_list->SetItem(item, i, std_to_wx(_column(all[item], i)));
 		}
 
-		_set (all);
+		_set(all);
 	}
 
-	void remove_clicked ()
+	void remove_clicked()
 	{
-		int i = _list->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+		int i = _list->GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
 		if (i == -1) {
 			return;
 		}
 
-		_list->DeleteItem (i);
-		auto all = _get ();
-		all.erase (all.begin() + i);
-		_set (all);
+		_list->DeleteItem(i);
+		auto all = _get();
+		all.erase(all.begin() + i);
+		_set(all);
 
-		selection_changed ();
+		selection_changed();
 	}
 
-	void resized (wxSizeEvent& ev)
+	void resized(wxSizeEvent& ev)
 	{
 		int const w = _list->GetSize().GetWidth() - 2;
 
@@ -321,9 +321,9 @@ private:
 		int growable = 0;
 		int j = 0;
 		for (auto i: _columns) {
-			fixed_width += i.width.get_value_or (_default_width);
+			fixed_width += i.width.get_value_or(_default_width);
 			if (!i.growable) {
-				_list->SetColumnWidth (j, i.width.get_value_or(_default_width));
+				_list->SetColumnWidth(j, i.width.get_value_or(_default_width));
 			} else {
 				++growable;
 			}
@@ -333,12 +333,12 @@ private:
 		j = 0;
 		for (auto i: _columns) {
 			if (i.growable) {
-				_list->SetColumnWidth (j, i.width.get_value_or(_default_width) + (w - fixed_width) / growable);
+				_list->SetColumnWidth(j, i.width.get_value_or(_default_width) + (w - fixed_width) / growable);
 			}
 			++j;
 		}
 
-		ev.Skip ();
+		ev.Skip();
 	}
 
 	std::function <std::vector<T> ()> _get;
