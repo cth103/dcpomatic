@@ -33,6 +33,7 @@
 #include "wx/file_dialog.h"
 #include "wx/i18n_setup.h"
 #include "wx/id.h"
+#include "wx/wx_signal_manager.h"
 #include "wx/verify_dcp_progress_panel.h"
 #include "wx/verify_dcp_result_panel.h"
 #include "wx/wx_util.h"
@@ -44,11 +45,13 @@
 #include "lib/verify_dcp_job.h"
 #include "lib/util.h"
 #include "lib/variant.h"
+#include "lib/version.h"
 #include <dcp/dcp.h>
 #include <dcp/search.h>
 #include <dcp/text_formatter.h>
 #include <dcp/verify_report.h>
 LIBDCP_DISABLE_WARNINGS
+#include <wx/cmdline.h>
 #include <wx/evtloop.h>
 #include <wx/progdlg.h>
 #include <wx/wx.h>
@@ -123,7 +126,7 @@ private:
 class DOMFrame : public wxFrame
 {
 public:
-	explicit DOMFrame(wxString const& title)
+	explicit DOMFrame(wxString const& title, bool start, vector<boost::filesystem::path> const& dcps_to_load)
 		: wxFrame(nullptr, -1, title)
 		/* Use a panel as the only child of the Frame so that we avoid
 		   the dark-grey background on Windows.
@@ -226,6 +229,12 @@ public:
 					_kdms.push_back(dcp::DecryptedKDM(dkdm, *private_key));
 				} catch (...) {}
 			}
+		}
+
+		set_dcp_paths(load_dcps(dcps_to_load));
+		_dcps->refresh();
+		if (start) {
+			signal_manager->when_idle(boost::bind(&DOMFrame::verify_clicked, this));
 		}
 	}
 
@@ -385,6 +394,14 @@ private:
 };
 
 
+static const wxCmdLineEntryDesc command_line_description[] = {
+	{ wxCMD_LINE_SWITCH, "s", "start", "start verifying specified DCP(s)", wxCMD_LINE_VAL_NONE, wxCMD_LINE_PARAM_OPTIONAL },
+	{ wxCMD_LINE_SWITCH, "v", "version", "show version", wxCMD_LINE_VAL_NONE, wxCMD_LINE_PARAM_OPTIONAL },
+	{ wxCMD_LINE_PARAM, 0, 0, "DCP to verify", wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
+	{ wxCMD_LINE_NONE, "", "", "", wxCmdLineParamType (0), 0 }
+};
+
+
 /** @class App
  *  @brief The magic App class for wxWidgets.
  */
@@ -437,7 +454,10 @@ private:
 			*/
 			Config::drop();
 
-			_frame = new DOMFrame(variant::wx::dcpomatic_verifier());
+			signal_manager = new wxSignalManager(this);
+			Bind(wxEVT_IDLE, boost::bind(&App::idle, this, _1));
+
+			_frame = new DOMFrame(variant::wx::dcpomatic_verifier(), _start, _dcps_to_load);
 			SetTopWindow(_frame);
 			_frame->Maximize();
 			_frame->Show();
@@ -501,7 +521,36 @@ private:
 		report_exception();
 	}
 
+	void OnInitCmdLine(wxCmdLineParser& parser) override
+	{
+		parser.SetDesc(command_line_description);
+		parser.SetSwitchChars(char_to_wx("-"));
+	}
+
+	bool OnCmdLineParsed(wxCmdLineParser& parser) override
+	{
+		if (parser.Found(char_to_wx("version"))) {
+			std::cout << "dcpomatic version " << dcpomatic_version << " " << dcpomatic_git_commit << "\n";
+			exit(EXIT_SUCCESS);
+		}
+
+		_start = parser.Found(char_to_wx("start"));
+		for (auto i = 0UL; i < parser.GetParamCount(); ++i) {
+			_dcps_to_load.push_back(wx_to_std(parser.GetParam(0)));
+		}
+
+		return true;
+	}
+
+	void idle(wxIdleEvent& ev)
+	{
+		signal_manager->ui_idle();
+		ev.Skip();
+	}
+
 	DOMFrame* _frame = nullptr;
+	bool _start = false;
+	std::vector<boost::filesystem::path> _dcps_to_load;
 };
 
 
