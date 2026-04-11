@@ -536,7 +536,12 @@ private:
 
 		_start = parser.Found(char_to_wx("start"));
 		for (auto i = 0UL; i < parser.GetParamCount(); ++i) {
-			_dcps_to_load.push_back(wx_to_std(parser.GetParam(0)));
+			auto const path = boost::filesystem::path(wx_to_std(parser.GetParam(0)));
+			if (path.filename_is_dot()) {
+				_dcps_to_load.push_back(path.parent_path());
+			} else {
+				_dcps_to_load.push_back(path);
+			}
 		}
 
 		return true;
