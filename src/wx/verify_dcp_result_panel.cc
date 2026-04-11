@@ -230,6 +230,12 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 		if (auto const error = note.error()) {
 			message.Replace(char_to_wx("%error"), std_to_wx(*error));
 		}
+		if (auto const bit_depth = note.bit_depth()) {
+			message.Replace(char_to_wx("%bit_depth"), std_to_wx(fmt::to_string(*bit_depth)));
+		}
+		if (auto const issue_date = note.issue_date()) {
+			message.Replace(char_to_wx("%issue_date"), std_to_wx(*issue_date));
+		}
 		if (auto const size_in_pixels = note.size_in_pixels()) {
 			message.Replace(char_to_wx("%size_in_pixels"), wxString::Format(char_to_wx("%dx%d"), size_in_pixels->width, size_in_pixels->height));
 		}
