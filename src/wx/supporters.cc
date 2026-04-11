@@ -526,6 +526,7 @@ supported_by.Add (wxT ("Reeju George"));
 supported_by.Add (wxT ("Rob George"));
 supported_by.Add (wxT ("Ian Gibbins"));
 supported_by.Add (wxT ("John Gigrich"));
+supported_by.Add (wxT ("Weldon Gillian"));
 supported_by.Add (wxT ("Barry J. Gillis"));
 supported_by.Add (wxT ("Victor Gimenez"));
 supported_by.Add (wxT ("Sebastian Hernandis Giner"));
