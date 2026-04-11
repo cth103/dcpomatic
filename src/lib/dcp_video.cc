@@ -135,16 +135,32 @@ DCPVideo::get_size() const
 void
 DCPVideo::convert_to_xyz(uint16_t* dst) const
 {
-	DCPOMATIC_ASSERT(_frame->colour_conversion());
+	auto conversion = [](AVPixelFormat fmt) {
+		return fmt == AV_PIX_FMT_XYZ12LE ? AV_PIX_FMT_XYZ12LE : AV_PIX_FMT_RGB48LE;
+	};
 
-	auto image = _frame->image(force(AV_PIX_FMT_RGB48LE), VideoRange::FULL, false);
-	dcp::rgb_to_xyz(
-		image->data()[0],
-		dst,
-		image->size(),
-		image->stride()[0],
-		_frame->colour_conversion().get()
-		);
+	auto image = _frame->image(conversion, VideoRange::FULL, false);
+
+	if (_frame->colour_conversion()) {
+		dcp::rgb_to_xyz(
+			image->data()[0],
+			dst,
+			image->size(),
+			image->stride()[0],
+			_frame->colour_conversion().get()
+			);
+	} else {
+		auto const size = image->size();
+		auto const row_bytes = static_cast<size_t>(size.width) * 3 * sizeof(uint16_t);
+		auto src = image->data()[0];
+		auto const src_stride = image->stride()[0];
+		auto out = reinterpret_cast<uint8_t*>(dst);
+		for (int y = 0; y < size.height; ++y) {
+			memcpy(out, src, row_bytes);
+			src += src_stride;
+			out += row_bytes;
+		}
+	}
 }
 
 
