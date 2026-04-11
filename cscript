@@ -18,7 +18,7 @@
 #    along with DCP-o-matic.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-# This file is read by the tool "cdist" (git://git.carlh.net/git/cdist.git)
+# This file is read by the tool "cdist" (https://git.carlh.net/git/cdist.git)
 # which is used to build distribution packages and run tests.  It relies on
 # quite a bit of other stuff (e.g. some docker images and qemu VMs) so is
 # unlikely to be so useful for most people.
