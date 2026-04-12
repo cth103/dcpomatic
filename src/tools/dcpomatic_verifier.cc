@@ -160,7 +160,7 @@ public:
 			return dcp_paths;
 		};
 
-		auto add = [this, &load_dcps](wxWindow* parent) {
+		auto add = [&load_dcps](wxWindow* parent) {
 #if wxCHECK_VERSION(3, 1, 4)
 			DirDialog dialog(parent, _("Select DCP(s)"), wxDD_MULTIPLE, "AddVerifierInputPath");
 #else
