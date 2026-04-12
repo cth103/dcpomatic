@@ -1491,6 +1491,7 @@ supported_by.Add (wxT ("Tilman Vatteroth"));
 supported_by.Add (wxT ("Jos Vecht"));
 supported_by.Add (wxT ("Christian Vennefrohne"));
 supported_by.Add (wxT ("Jaap Verseput"));
+supported_by.Add (wxT ("Dan Viafore"));
 supported_by.Add (wxT ("Videoworld"));
 supported_by.Add (wxT ("Robert Vidić"));
 supported_by.Add (wxT ("Burg Kino Vienna"));
