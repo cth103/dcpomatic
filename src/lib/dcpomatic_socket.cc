@@ -50,7 +50,11 @@ Socket::Socket (int timeout)
 void
 Socket::check ()
 {
+#if BOOST_VERSION >= 108700
 	if (_deadline.expiry() <= std::chrono::system_clock::now()) {
+#else
+	if (_deadline.expires_at() <= std::chrono::system_clock::now()) {
+#endif
 		_socket.close();
 		_deadline.expires_at(std::chrono::time_point<std::chrono::system_clock>::max());
 	}
@@ -321,7 +325,11 @@ Socket::set_send_buffer_size (int size)
 void
 Socket::set_deadline_from_now(int seconds)
 {
+#if BOOST_VERSION >= 108700
 	_deadline.expires_after(std::chrono::seconds(seconds));
+#else
+	_deadline.expires_from_now(std::chrono::seconds(seconds));
+#endif
 }
 
 void
