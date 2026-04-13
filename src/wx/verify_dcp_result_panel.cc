@@ -345,7 +345,7 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 			);
 			break;
 		case dcp::VerificationNote::Code::EXTERNAL_ASSET:
-			add(i.second, _("This DCP refers to at the asset %asset_id in another DCP (and perhaps others), so it is a \"version file\" (VF)"));
+			add(i.second, _("This DCP refers to the asset %asset_id in another DCP (and perhaps others), so it is a \"version file\" (VF)"));
 			break;
 		case dcp::VerificationNote::Code::THREED_ASSET_MARKED_AS_TWOD:
 			add(i.second, _("The asset %f is 3D but its MXF is marked as 2D."));
