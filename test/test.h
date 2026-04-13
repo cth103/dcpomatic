@@ -69,6 +69,7 @@ extern bool mxf_atmos_files_same (boost::filesystem::path ref, boost::filesystem
 extern void check_xml(boost::filesystem::path, boost::filesystem::path, std::list<Glib::ustring>);
 extern void check_ffmpeg(boost::filesystem::path, boost::filesystem::path, float audio_tolerance);
 extern void check_image(boost::filesystem::path ref, boost::filesystem::path check, double threshold = 4);
+extern bool check_image_and_report(boost::filesystem::path ref, boost::filesystem::path check, double threshold = 4);
 extern boost::filesystem::path test_film_dir (std::string);
 extern void write_image (std::shared_ptr<const Image> image, boost::filesystem::path file);
 boost::filesystem::path dcp_file (std::shared_ptr<const Film> film, std::string prefix);

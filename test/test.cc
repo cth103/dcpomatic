@@ -473,6 +473,13 @@ check_image (boost::filesystem::path ref, boost::filesystem::path check, double 
 }
 
 
+bool
+check_image_and_report(boost::filesystem::path ref, boost::filesystem::path check, double threshold)
+{
+	return rms_error(ref, check) < threshold;
+}
+
+
 void
 check_file (boost::filesystem::path ref, boost::filesystem::path check)
 {
