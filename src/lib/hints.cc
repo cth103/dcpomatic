@@ -44,16 +44,19 @@
 #include <fmt/format.h>
 #include <boost/algorithm/string.hpp>
 #include <iostream>
+#include <numeric>
 
 #include "i18n.h"
 
 
 using std::cout;
 using std::make_shared;
+using std::map;
 using std::max;
 using std::shared_ptr;
 using std::string;
 using std::weak_ptr;
+using std::vector;
 using boost::optional;
 using namespace dcpomatic;
 #if BOOST_VERSION >= 106100
@@ -584,24 +587,42 @@ Hints::text(PlayerText text, TextType type, optional<DCPTextTrack> track, DCPTim
 void
 Hints::closed_caption(PlayerText text, DCPTimePeriod period)
 {
-	int lines = text.string.size();
-	for (auto i: text.string) {
-		if (utf8_strlen(i.text()) > MAX_CLOSED_CAPTION_LENGTH) {
-			++lines;
-			if (!_long_ccap) {
-				_long_ccap = true;
-				hint(
-					fmt::format(
-						"At least one of your closed caption lines has more than {} characters.  "
-						"It is advisable to make each line {} characters at most in length.",
-						MAX_CLOSED_CAPTION_LENGTH,
-						MAX_CLOSED_CAPTION_LENGTH)
-				     );
+	map<float, vector<StringText>> lines;
+	for (auto const& line: text.string) {
+		bool added = false;
+		for (auto& existing: lines) {
+			if (std::abs(existing.first - line.v_position()) < dcp::ALIGN_EPSILON) {
+				existing.second.push_back(line);
+				added = true;
 			}
+		}
+		if (!added) {
+			lines[line.v_position()] = { line };
 		}
 	}
 
-	if (!_too_many_ccap_lines && lines > MAX_CLOSED_CAPTION_LINES) {
+	for (auto const& line: lines) {
+		int const length = std::accumulate(
+			line.second.begin(),
+			line.second.end(),
+			0,
+			[](int acc, StringText const& text) {
+				return acc + utf8_strlen(text.text());
+			});
+
+		if (length > MAX_CLOSED_CAPTION_LENGTH && !_long_ccap) {
+			_long_ccap = true;
+			hint(
+				fmt::format(
+					"At least one of your closed caption lines has more than {} characters.  "
+					"It is advisable to make each line {} characters at most in length.",
+					MAX_CLOSED_CAPTION_LENGTH,
+					MAX_CLOSED_CAPTION_LENGTH)
+			     );
+		}
+	}
+
+	if (!_too_many_ccap_lines && lines.size() > MAX_CLOSED_CAPTION_LINES) {
 		hint(fmt::format(_("Some of your closed captions span more than {} lines, so they will be truncated."), MAX_CLOSED_CAPTION_LINES));
 		_too_many_ccap_lines = true;
 	}

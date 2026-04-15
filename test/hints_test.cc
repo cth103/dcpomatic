@@ -326,3 +326,32 @@ BOOST_AUTO_TEST_CASE(hints_120fps)
 		BOOST_CHECK(hint.find("There is a large difference between the frame rate of your DCP and that of some of your content.") == std::string::npos);
 	}
 }
+
+
+BOOST_AUTO_TEST_CASE(hints_ccap_not_too_many_lines_xml)
+{
+	auto content = content_factory(TestPaths::private_data() / "ccap_not_too_many_lines.xml")[0];
+	auto film = new_test_film("hints_ccap_not_too_many_lines", { content });
+	content->text[0]->set_type(TextType::CLOSED_CAPTION);
+	auto hints = get_hints(film);
+
+	BOOST_CHECK(
+		std::none_of(hints.begin(), hints.end(), [](string const& hint) {
+			return hint.find("Some of your closed captions span more than 3 lines") != std::string::npos;
+		})
+	);
+}
+
+
+BOOST_AUTO_TEST_CASE(hints_ccap_too_many_lines_xml)
+{
+	auto content = content_factory(TestPaths::private_data() / "ccap_too_many_lines.xml")[0];
+	auto film = new_test_film("hints_ccap_too_many_lines", { content });
+	content->text[0]->set_type(TextType::CLOSED_CAPTION);
+	auto hints = get_hints(film);
+	BOOST_CHECK(
+		std::any_of(hints.begin(), hints.end(), [](string const& hint) {
+			return hint.find("Some of your closed captions span more than 3 lines") != std::string::npos;
+		})
+	);
+}
