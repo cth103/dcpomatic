@@ -46,7 +46,7 @@ using namespace dcpomatic;
 DCPSubtitleContent::DCPSubtitleContent(boost::filesystem::path path)
 	: Content(path)
 {
-	text.push_back(make_shared<TextContent>(this, TextType::OPEN_SUBTITLE, TextType::OPEN_SUBTITLE));
+	text = vector<shared_ptr<TextContent>>{make_shared<TextContent>(this, TextType::OPEN_SUBTITLE, TextType::OPEN_SUBTITLE)};
 }
 
 DCPSubtitleContent::DCPSubtitleContent(cxml::ConstNodePtr node, boost::optional<boost::filesystem::path> film_directory, int version)
