@@ -38,6 +38,7 @@ using std::list;
 using std::make_shared;
 using std::shared_ptr;
 using std::string;
+using std::vector;
 using boost::optional;
 using namespace dcpomatic;
 
@@ -70,6 +71,8 @@ DCPSubtitleContent::examine(shared_ptr<const Film> film, shared_ptr<Job> job, bo
 	}
 
 	boost::mutex::scoped_lock lm(_mutex);
+
+	text = vector<shared_ptr<TextContent>>{make_shared<TextContent>(this, TextType::OPEN_SUBTITLE, TextType::OPEN_SUBTITLE)};
 
 	/* Default to turning these subtitles on */
 	only_text()->set_use(true);
