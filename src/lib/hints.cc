@@ -607,7 +607,7 @@ Hints::closed_caption(PlayerText text, DCPTimePeriod period)
 			line.second.end(),
 			0,
 			[](int acc, StringText const& text) {
-				return acc + utf8_strlen(text.text());
+				return acc + dcp::utf8_strlen(text.text());
 			});
 
 		if (length > MAX_CLOSED_CAPTION_LENGTH && !_long_ccap) {

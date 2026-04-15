@@ -110,14 +110,6 @@ BOOST_AUTO_TEST_CASE(tidy_for_filename_test)
 }
 
 
-BOOST_AUTO_TEST_CASE(utf8_strlen_test)
-{
-	BOOST_CHECK_EQUAL(utf8_strlen("hello world"), 11U);
-	BOOST_CHECK_EQUAL(utf8_strlen("hëllo world"), 11U);
-	BOOST_CHECK_EQUAL(utf8_strlen("hëłlo wørld"), 11U);
-}
-
-
 BOOST_AUTO_TEST_CASE(careful_string_filter_test)
 {
 	BOOST_CHECK_EQUAL("hello_world", careful_string_filter("hello_world"));

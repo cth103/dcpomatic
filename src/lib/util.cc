@@ -842,26 +842,6 @@ remap(shared_ptr<const AudioBuffers> input, int output_channels, AudioMapping ma
 }
 
 
-size_t
-utf8_strlen(string s)
-{
-	size_t const len = s.length();
-	int N = 0;
-	for (size_t i = 0; i < len; ++i) {
-		unsigned char c = s[i];
-		if ((c & 0xe0) == 0xc0) {
-			++i;
-		} else if ((c & 0xf0) == 0xe0) {
-			i += 2;
-		} else if ((c & 0xf8) == 0xf0) {
-			i += 3;
-		}
-		++N;
-	}
-	return N;
-}
-
-
 /** @param size Size of picture that the subtitle will be overlaid onto */
 void
 emit_subtitle_image(ContentTimePeriod period, dcp::TextImage sub, dcp::Size size, shared_ptr<TextDecoder> decoder)
