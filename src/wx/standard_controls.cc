@@ -38,6 +38,7 @@ StandardControls::StandardControls(wxWindow* parent, FilmViewer& viewer, bool ed
 {
 	_button_sizer->Add (_play_button, 0, wxALL | wxALIGN_CENTER_VERTICAL, 2);
 	_play_button->Bind (wxEVT_TOGGLEBUTTON, boost::bind(&StandardControls::play_clicked, this));
+	setup_sensitivity();
 }
 
 
