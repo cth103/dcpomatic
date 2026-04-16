@@ -322,6 +322,22 @@ BOOST_AUTO_TEST_CASE (create_cli_test)
 	BOOST_CHECK(film->content()[0]->video->fade_in() == 24);
 	BOOST_CHECK(film->content()[0]->video->fade_out() == 0);
 	BOOST_CHECK(collected_error.empty());
+
+	/* Extract a 1.85 frame from a 320x240 source */
+	cc = run("dcpomatic2_create --container-ratio 185 --fill-crop test/data/red_24.mp4");
+	BOOST_CHECK(!cc.error);
+	film = cc.make_film(error);
+	BOOST_REQUIRE_EQUAL(film->content().size(), 1U);
+	BOOST_REQUIRE(film->content()[0]->video);
+	BOOST_CHECK(film->content()[0]->video->requested_crop() == Crop(0, 0, 33, 33));
+
+	/* Extract a 1.85 frame from a 2048x858 source */
+	cc = run("dcpomatic2_create --container-ratio 185 --fill-crop test/data/scope_dcp");
+	BOOST_CHECK(!cc.error);
+	film = cc.make_film(error);
+	BOOST_REQUIRE_EQUAL(film->content().size(), 1U);
+	BOOST_REQUIRE(film->content()[0]->video);
+	BOOST_CHECK(film->content()[0]->video->requested_crop() == Crop(230, 230, 0, 0));
 }
 
 

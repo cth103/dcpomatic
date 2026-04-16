@@ -42,6 +42,7 @@ public:
 		boost::filesystem::path path;
 		VideoFrameType frame_type = VideoFrameType::TWO_D;
 		bool auto_crop = false;
+		bool fill_crop = false;
 		boost::optional<std::string> colour_conversion;
 		boost::optional<dcp::Channel> channel;
 		boost::optional<float> gain;

@@ -85,6 +85,8 @@ help()
 		"      --left-eye                next piece of content is for the left eye\n"
 		"      --right-eye               next piece of content is for the right eye\n"
 		"      --auto-crop               next piece of content should be auto-cropped\n"
+		"      --fill-crop               next piece of content should be cropped to fit the container\n"
+		"                                (e.g. to crop the letterboxing from a scope-in-flat image)\n"
 		"      --colourspace             next piece of content is in the given colourspace: " + colour_conversions + "\n"
 		"      --colorspace              same as --colourspace\n"
 		"      --channel <channel>       next piece of content should be mapped to audio channel L, R, C, Lfe, Ls, Rs, BsL, BsR, HI, VI\n"
@@ -184,6 +186,7 @@ CreateCLI::CreateCLI(int argc, char* argv[])
 	optional<string> next_colour_conversion;
 	auto next_frame_type = VideoFrameType::TWO_D;
 	auto next_auto_crop = false;
+	auto next_fill_crop = false;
 	optional<dcp::Channel> channel;
 	optional<float> gain;
 	optional<float> fade_in;
@@ -224,6 +227,9 @@ CreateCLI::CreateCLI(int argc, char* argv[])
 			claimed = true;
 		} else if (a == "--auto-crop") {
 			next_auto_crop = true;
+			claimed = true;
+		} else if (a == "--fill-crop") {
+			next_fill_crop = true;
 			claimed = true;
 		} else if (a == "--twok") {
 			_twok = true;
@@ -331,6 +337,7 @@ CreateCLI::CreateCLI(int argc, char* argv[])
 				c.path = a;
 				c.frame_type = next_frame_type;
 				c.auto_crop = next_auto_crop;
+				c.fill_crop = next_fill_crop;
 				c.colour_conversion = next_colour_conversion;
 				c.channel = channel;
 				c.gain = gain;
@@ -341,6 +348,7 @@ CreateCLI::CreateCLI(int argc, char* argv[])
 				content.push_back(c);
 				next_frame_type = VideoFrameType::TWO_D;
 				next_auto_crop = false;
+				next_fill_crop = false;
 				next_colour_conversion = {};
 				channel = {};
 				gain = {};
@@ -543,6 +551,30 @@ CreateCLI::make_film(function<void (string)> error) const
 							)
 						)
 					);
+
+					error(fmt::format(
+						"Cropped {} to {} left, {} right, {} top and {} bottom",
+						film_content->path(0).string(),
+						crop.left,
+						crop.right,
+						crop.top,
+						crop.bottom
+					));
+
+					video->set_crop(crop);
+				}
+				if (cli_content.fill_crop && video->size()) {
+					auto const source_ratio = video->size()->ratio();
+					Crop crop;
+					if (source_ratio < film->container().ratio()) {
+						/* Part to extract is wider than the source */
+						auto const height = video->size()->width / film->container().ratio();
+						crop.top = crop.bottom = (video->size()->height - height) / 2;
+					} else {
+						/* Container is wider than the source */
+						auto const width = video->size()->height * film->container().ratio();
+						crop.left = crop.right = (video->size()->width - width) / 2;
+					}
 
 					error(fmt::format(
 						"Cropped {} to {} left, {} right, {} top and {} bottom",
