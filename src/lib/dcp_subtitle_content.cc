@@ -47,6 +47,8 @@ DCPSubtitleContent::DCPSubtitleContent(boost::filesystem::path path)
 	: Content(path)
 {
 	text = vector<shared_ptr<TextContent>>{make_shared<TextContent>(this, TextType::OPEN_SUBTITLE, TextType::OPEN_SUBTITLE)};
+	/* Default to turning these subtitles on */
+	only_text()->set_use(true);
 }
 
 DCPSubtitleContent::DCPSubtitleContent(cxml::ConstNodePtr node, boost::optional<boost::filesystem::path> film_directory, int version)
@@ -70,14 +72,10 @@ DCPSubtitleContent::examine(shared_ptr<const Film> film, shared_ptr<Job> job, bo
 
 	boost::mutex::scoped_lock lm(_mutex);
 
-	text = vector<shared_ptr<TextContent>>{make_shared<TextContent>(this, TextType::OPEN_SUBTITLE, TextType::OPEN_SUBTITLE)};
-
-	/* Default to turning these subtitles on */
-	only_text()->set_use(true);
-
 	_length = ContentTime::from_seconds(subtitle_asset->latest_text_out().as_seconds());
 
 	subtitle_asset->fix_empty_font_ids();
+	only_text()->clear_fonts();
 	add_fonts(only_text(), subtitle_asset);
 }
 
