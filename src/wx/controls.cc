@@ -279,7 +279,7 @@ Controls::update_position_label()
 {
 	if (!_film) {
 		checked_set(_frame_number, char_to_wx("0"));
-		checked_set(_timecode, char_to_wx("0:0:0.0"));
+		checked_set(_timecode, char_to_wx("0:0:0:0"));
 		return;
 	}
 
