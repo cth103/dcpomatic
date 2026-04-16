@@ -64,8 +64,7 @@ DCPSubtitleContent::examine(shared_ptr<const Film> film, shared_ptr<Job> job, bo
 
 	auto subtitle_asset = load(path(0));
 
-	auto smpte = dynamic_pointer_cast<dcp::SMPTETextAsset>(subtitle_asset);
-	if (smpte) {
+	if (auto smpte = dynamic_pointer_cast<dcp::SMPTETextAsset>(subtitle_asset)) {
 		set_video_frame_rate(film, smpte->edit_rate().numerator);
 	}
 
