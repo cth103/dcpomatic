@@ -65,9 +65,9 @@ using namespace dcpomatic;
 
 wxStaticText *
 #ifdef __WXOSX__
-create_label (wxWindow* p, wxString t, bool left)
+create_label(wxWindow* p, wxString t, bool left)
 #else
-create_label (wxWindow* p, wxString t, bool)
+create_label(wxWindow* p, wxString t, bool)
 #endif
 {
 #ifdef __WXOSX__
@@ -75,14 +75,14 @@ create_label (wxWindow* p, wxString t, bool)
 		t += char_to_wx(":");
 	}
 #endif
-	return new StaticText (p, t);
+	return new StaticText(p, t);
 }
 
 
 #ifdef __WXOSX__
 static
 void
-setup_osx_flags (wxSizer* s, bool left, int& flags)
+setup_osx_flags(wxSizer* s, bool left, int& flags)
 {
 	if (left) {
 		auto box = dynamic_cast<wxBoxSizer*>(s);
@@ -103,28 +103,28 @@ setup_osx_flags (wxSizer* s, bool left, int& flags)
  *  @param prop Proportion to pass when calling Add() on the wxSizer.
  */
 wxStaticText *
-add_label_to_sizer (wxSizer* s, wxWindow* p, wxString t, bool left, int prop, int flags)
+add_label_to_sizer(wxSizer* s, wxWindow* p, wxString t, bool left, int prop, int flags)
 {
 #ifdef __WXOSX__
-	setup_osx_flags (s, left, flags);
+	setup_osx_flags(s, left, flags);
 #endif
-	auto m = create_label (p, t, left);
-	s->Add (m, prop, flags, DCPOMATIC_SIZER_GAP);
+	auto m = create_label(p, t, left);
+	s->Add(m, prop, flags, DCPOMATIC_SIZER_GAP);
 	return m;
 }
 
 
 wxStaticText *
 #ifdef __WXOSX__
-add_label_to_sizer (wxSizer* s, wxStaticText* t, bool left, int prop, int flags)
+add_label_to_sizer(wxSizer* s, wxStaticText* t, bool left, int prop, int flags)
 #else
-add_label_to_sizer (wxSizer* s, wxStaticText* t, bool, int prop, int flags)
+add_label_to_sizer(wxSizer* s, wxStaticText* t, bool, int prop, int flags)
 #endif
 {
 #ifdef __WXOSX__
-	setup_osx_flags (s, left, flags);
+	setup_osx_flags(s, left, flags);
 #endif
-	s->Add (t, prop, flags, DCPOMATIC_SIZER_GAP);
+	s->Add(t, prop, flags, DCPOMATIC_SIZER_GAP);
 	return t;
 }
 
@@ -134,9 +134,9 @@ add_label_to_sizer(wxGridBagSizer* s, wxWindow* p, wxString t, bool left, wxGBPo
 {
 	int flags = wxALIGN_CENTER_VERTICAL | wxLEFT;
 #ifdef __WXOSX__
-	setup_osx_flags (s, left, flags);
+	setup_osx_flags(s, left, flags);
 #endif
-	auto m = create_label (p, t, left);
+	auto m = create_label(p, t, left);
 	s->Add(m, pos, span, flags, indent ? DCPOMATIC_SIZER_X_GAP : 0);
 	return m;
 }
@@ -144,16 +144,16 @@ add_label_to_sizer(wxGridBagSizer* s, wxWindow* p, wxString t, bool left, wxGBPo
 
 wxStaticText *
 #ifdef __WXOSX__
-add_label_to_sizer (wxGridBagSizer* s, wxStaticText* t, bool left, wxGBPosition pos, wxGBSpan span)
+add_label_to_sizer(wxGridBagSizer* s, wxStaticText* t, bool left, wxGBPosition pos, wxGBSpan span)
 #else
-add_label_to_sizer (wxGridBagSizer* s, wxStaticText* t, bool, wxGBPosition pos, wxGBSpan span)
+add_label_to_sizer(wxGridBagSizer* s, wxStaticText* t, bool, wxGBPosition pos, wxGBSpan span)
 #endif
 {
 	int flags = wxALIGN_CENTER_VERTICAL | wxLEFT | wxRIGHT;
 #ifdef __WXOSX__
-	setup_osx_flags (s, left, flags);
+	setup_osx_flags(s, left, flags);
 #endif
-	s->Add (t, pos, span, flags);
+	s->Add(t, pos, span, flags);
 	return t;
 }
 
@@ -164,12 +164,12 @@ add_label_to_sizer (wxGridBagSizer* s, wxStaticText* t, bool, wxGBPosition pos, 
  *  @param e Extended message.
  */
 void
-error_dialog (wxWindow* parent, wxString m, optional<wxString> e)
+error_dialog(wxWindow* parent, wxString m, optional<wxString> e)
 {
 	wxMessageDialog dialog(parent, m, variant::wx::dcpomatic(), wxOK | wxICON_ERROR);
 	if (e) {
 		wxString em = *e;
-		em[0] = wxToupper (em[0]);
+		em[0] = wxToupper(em[0]);
 		dialog.SetExtendedMessage(em);
 	}
 	dialog.ShowModal();
@@ -181,7 +181,7 @@ error_dialog (wxWindow* parent, wxString m, optional<wxString> e)
  *  @param m Message.
  */
 void
-message_dialog (wxWindow* parent, wxString m)
+message_dialog(wxWindow* parent, wxString m)
 {
 	wxMessageDialog dialog(parent, m, variant::wx::dcpomatic(), wxOK | wxICON_INFORMATION);
 	dialog.ShowModal();
@@ -190,7 +190,7 @@ message_dialog (wxWindow* parent, wxString m)
 
 /** @return true if the user answered "yes" */
 bool
-confirm_dialog (wxWindow* parent, wxString m)
+confirm_dialog(wxWindow* parent, wxString m)
 {
 	wxMessageDialog dialog(parent, m, variant::wx::dcpomatic(), wxYES_NO | wxICON_QUESTION);
 	return dialog.ShowModal() == wxID_YES;
@@ -201,9 +201,9 @@ confirm_dialog (wxWindow* parent, wxString m)
  *  @return Corresponding STL string.
  */
 string
-wx_to_std (wxString s)
+wx_to_std(wxString s)
 {
-	return string (s.ToUTF8());
+	return string(s.ToUTF8());
 }
 
 
@@ -211,9 +211,9 @@ wx_to_std (wxString s)
  *  @return Corresponding wxWidgets string.
  */
 wxString
-std_to_wx (string s)
+std_to_wx(string s)
 {
-	return wxString (s.c_str(), wxConvUTF8);
+	return wxString(s.c_str(), wxConvUTF8);
 }
 
 
@@ -225,14 +225,14 @@ char_to_wx(char const* s)
 
 
 string
-string_client_data (wxClientData* o)
+string_client_data(wxClientData* o)
 {
-	return wx_to_std (dynamic_cast<wxStringClientData*>(o)->GetData());
+	return wx_to_std(dynamic_cast<wxStringClientData*>(o)->GetData());
 }
 
 
 void
-checked_set (FilePickerCtrl* widget, boost::filesystem::path value)
+checked_set(FilePickerCtrl* widget, boost::filesystem::path value)
 {
 	if (widget->path() != value) {
 		if (value.empty()) {
@@ -247,60 +247,60 @@ checked_set (FilePickerCtrl* widget, boost::filesystem::path value)
 
 
 void
-checked_set (wxDirPickerCtrl* widget, boost::filesystem::path value)
+checked_set(wxDirPickerCtrl* widget, boost::filesystem::path value)
 {
-	if (widget->GetPath() != std_to_wx (value.string())) {
+	if (widget->GetPath() != std_to_wx(value.string())) {
 		if (value.empty()) {
 			/* Hack to make wxWidgets clear the control when we are passed
 			   an empty value.
 			*/
 			value = " ";
 		}
-		widget->SetPath (std_to_wx (value.string()));
+		widget->SetPath(std_to_wx(value.string()));
 	}
 }
 
 
 void
-checked_set (wxSpinCtrl* widget, int value)
+checked_set(wxSpinCtrl* widget, int value)
 {
 	if (widget->GetValue() != value) {
-		widget->SetValue (value);
+		widget->SetValue(value);
 	}
 }
 
 
 void
-checked_set (wxSpinCtrlDouble* widget, double value)
+checked_set(wxSpinCtrlDouble* widget, double value)
 {
 	/* XXX: completely arbitrary epsilon */
-	if (fabs (widget->GetValue() - value) > 1e-16) {
-		widget->SetValue (value);
+	if (fabs(widget->GetValue() - value) > 1e-16) {
+		widget->SetValue(value);
 	}
 }
 
 
 void
-checked_set (wxChoice* widget, int value)
+checked_set(wxChoice* widget, int value)
 {
 	if (widget->GetSelection() != value) {
-		widget->SetSelection (value);
+		widget->SetSelection(value);
 	}
 }
 
 
 void
-checked_set (wxChoice* widget, string value)
+checked_set(wxChoice* widget, string value)
 {
 	wxClientData* o = nullptr;
 	if (widget->GetSelection() != -1) {
-		o = widget->GetClientObject (widget->GetSelection ());
+		o = widget->GetClientObject(widget->GetSelection());
 	}
 
 	if (!o || string_client_data(o) != value) {
 		for (unsigned int i = 0; i < widget->GetCount(); ++i) {
-			if (string_client_data (widget->GetClientObject (i)) == value) {
-				widget->SetSelection (i);
+			if (string_client_data(widget->GetClientObject(i)) == value) {
+				widget->SetSelection(i);
 			}
 		}
 	}
@@ -308,11 +308,11 @@ checked_set (wxChoice* widget, string value)
 
 
 void
-checked_set (wxChoice* widget, vector<pair<string, string>> items)
+checked_set(wxChoice* widget, vector<pair<string, string>> items)
 {
        vector<pair<string, string>> current;
        for (unsigned int i = 0; i < widget->GetCount(); ++i) {
-               current.push_back (
+               current.push_back(
                        make_pair(
                                wx_to_std(widget->GetString(i)),
                                widget->GetClientData() ? string_client_data(widget->GetClientObject(i)) : ""
@@ -324,24 +324,24 @@ checked_set (wxChoice* widget, vector<pair<string, string>> items)
                return;
        }
 
-       widget->Clear ();
+       widget->Clear();
        for (auto i: items) {
-               widget->Append (std_to_wx(i.first), new wxStringClientData(std_to_wx(i.second)));
+               widget->Append(std_to_wx(i.first), new wxStringClientData(std_to_wx(i.second)));
        }
 }
 
 
 void
-checked_set (wxTextCtrl* widget, string value)
+checked_set(wxTextCtrl* widget, string value)
 {
-	if (widget->GetValue() != std_to_wx (value)) {
-		widget->ChangeValue (std_to_wx (value));
+	if (widget->GetValue() != std_to_wx(value)) {
+		widget->ChangeValue(std_to_wx(value));
 	}
 }
 
 
 void
-checked_set (PasswordEntry* entry, string value)
+checked_set(PasswordEntry* entry, string value)
 {
 	if (entry->get() != value) {
 		entry->set(value);
@@ -350,46 +350,46 @@ checked_set (PasswordEntry* entry, string value)
 
 
 void
-checked_set (wxTextCtrl* widget, wxString value)
+checked_set(wxTextCtrl* widget, wxString value)
 {
 	if (widget->GetValue() != value) {
-		widget->ChangeValue (value);
+		widget->ChangeValue(value);
 	}
 }
 
 
 void
-checked_set (wxStaticText* widget, string value)
+checked_set(wxStaticText* widget, string value)
 {
-	if (widget->GetLabel() != std_to_wx (value)) {
-		widget->SetLabel (std_to_wx (value));
+	if (widget->GetLabel() != std_to_wx(value)) {
+		widget->SetLabel(std_to_wx(value));
 	}
 }
 
 
 void
-checked_set (wxStaticText* widget, wxString value)
+checked_set(wxStaticText* widget, wxString value)
 {
 	if (widget->GetLabel() != value) {
-		widget->SetLabel (value);
+		widget->SetLabel(value);
 	}
 }
 
 
 void
-checked_set (wxCheckBox* widget, bool value)
+checked_set(wxCheckBox* widget, bool value)
 {
 	if (widget->GetValue() != value) {
-		widget->SetValue (value);
+		widget->SetValue(value);
 	}
 }
 
 
 void
-checked_set (wxRadioButton* widget, bool value)
+checked_set(wxRadioButton* widget, bool value)
 {
 	if (widget->GetValue() != value) {
-		widget->SetValue (value);
+		widget->SetValue(value);
 	}
 }
 
@@ -422,23 +422,23 @@ checked_set(RegionSubtagWidget* widget, optional<dcp::LanguageTag::RegionSubtag>
 
 
 int
-wx_get (wxSpinCtrl* w)
+wx_get(wxSpinCtrl* w)
 {
-	return w->GetValue ();
+	return w->GetValue();
 }
 
 
 int
-wx_get (wxChoice* w)
+wx_get(wxChoice* w)
 {
-	return w->GetSelection ();
+	return w->GetSelection();
 }
 
 
 double
-wx_get (wxSpinCtrlDouble* w)
+wx_get(wxSpinCtrlDouble* w)
 {
-	return w->GetValue ();
+	return w->GetValue();
 }
 
 
@@ -454,7 +454,7 @@ context_translation(char const* s)
 		/* No translation; strip the context */
 		int c = t.Find(char_to_wx("|"));
 		if (c != wxNOT_FOUND) {
-			t = t.Mid (c + 1);
+			t = t.Mid(c + 1);
 		}
 	}
 
@@ -463,46 +463,46 @@ context_translation(char const* s)
 
 
 wxString
-time_to_timecode (DCPTime t, double fps)
+time_to_timecode(DCPTime t, double fps)
 {
-	auto w = t.seconds ();
+	auto w = t.seconds();
 	int const h = (w / 3600);
 	w -= h * 3600;
 	int const m = (w / 60);
 	w -= m * 60;
-	int const s = floor (w);
+	int const s = floor(w);
 	w -= s;
-	int const f = lrint (w * fps);
+	int const f = lrint(w * fps);
 	return wxString::Format(char_to_wx("%02d:%02d:%02d.%02d"), h, m, s, f);
 }
 
 
 void
-setup_audio_channels_choice (wxChoice* choice, int minimum)
+setup_audio_channels_choice(wxChoice* choice, int minimum)
 {
 	vector<pair<string, string>> items;
 	for (int i = minimum; i <= 16; i += 2) {
 		if (i == 2) {
-			items.push_back (make_pair(wx_to_std(_("2 - stereo")), locale_convert<string>(i)));
+			items.push_back(make_pair(wx_to_std(_("2 - stereo")), locale_convert<string>(i)));
 		} else if (i == 4) {
-			items.push_back (make_pair(wx_to_std(_("4 - L/C/R/Lfe")), locale_convert<string>(i)));
+			items.push_back(make_pair(wx_to_std(_("4 - L/C/R/Lfe")), locale_convert<string>(i)));
 		} else if (i == 6) {
-			items.push_back (make_pair(wx_to_std(_("6 - 5.1")), locale_convert<string>(i)));
+			items.push_back(make_pair(wx_to_std(_("6 - 5.1")), locale_convert<string>(i)));
 		} else if (i == 8) {
-			items.push_back (make_pair(wx_to_std(_("8 - 5.1/HI/VI")), locale_convert<string>(i)));
+			items.push_back(make_pair(wx_to_std(_("8 - 5.1/HI/VI")), locale_convert<string>(i)));
 		} else if (i == 12) {
-			items.push_back (make_pair(wx_to_std(_("12 - 7.1/HI/VI")), locale_convert<string>(i)));
+			items.push_back(make_pair(wx_to_std(_("12 - 7.1/HI/VI")), locale_convert<string>(i)));
 		} else {
-			items.push_back (make_pair(locale_convert<string> (i), locale_convert<string>(i)));
+			items.push_back(make_pair(locale_convert<string>(i), locale_convert<string>(i)));
 		}
 	}
 
-	checked_set (choice, items);
+	checked_set(choice, items);
 }
 
 
 wxSplashScreen*
-maybe_show_splash ()
+maybe_show_splash()
 {
 	wxSplashScreen* splash = nullptr;
 
@@ -523,7 +523,7 @@ maybe_show_splash ()
 #else
 			splash = new wxSplashScreen(bitmap, wxSPLASH_CENTRE_ON_SCREEN | wxSPLASH_NO_TIMEOUT, 0, nullptr, -1);
 #endif
-			wxYield ();
+			wxYield();
 		}
 	} catch (boost::filesystem::filesystem_error& e) {
 		/* Maybe we couldn't find the splash image; never mind */
@@ -534,19 +534,19 @@ maybe_show_splash ()
 
 
 double
-calculate_mark_interval (double mark_interval)
+calculate_mark_interval(double mark_interval)
 {
 	if (mark_interval > 5) {
-		mark_interval -= lrint (mark_interval) % 5;
+		mark_interval -= lrint(mark_interval) % 5;
 	}
 	if (mark_interval > 10) {
-		mark_interval -= lrint (mark_interval) % 10;
+		mark_interval -= lrint(mark_interval) % 10;
 	}
 	if (mark_interval > 60) {
-		mark_interval -= lrint (mark_interval) % 60;
+		mark_interval -= lrint(mark_interval) % 60;
 	}
 	if (mark_interval > 3600) {
-		mark_interval -= lrint (mark_interval) % 3600;
+		mark_interval -= lrint(mark_interval) % 3600;
 	}
 
 	if (mark_interval < 1) {
@@ -559,16 +559,16 @@ calculate_mark_interval (double mark_interval)
 
 /** @return false if the task was cancelled */
 bool
-display_progress (wxString title, wxString task)
+display_progress(wxString title, wxString task)
 {
-	auto jm = JobManager::instance ();
+	auto jm = JobManager::instance();
 
-	wxProgressDialog progress (title, task, 100, 0, wxPD_CAN_ABORT);
+	wxProgressDialog progress(title, task, 100, 0, wxPD_CAN_ABORT);
 
 	bool ok = true;
 
 	while (jm->work_to_do()) {
-		dcpomatic_sleep_seconds (1);
+		dcpomatic_sleep_seconds(1);
 		if (!progress.Pulse()) {
 			/* user pressed cancel */
 			for (auto i: jm->get()) {
@@ -584,7 +584,7 @@ display_progress (wxString title, wxString task)
 
 
 int
-get_offsets (vector<Offset>& offsets)
+get_offsets(vector<Offset>& offsets)
 {
 	offsets.push_back({_("UTC-11"),  dcp::UTCOffset(-11,   0)});
 	offsets.push_back({_("UTC-10"),  dcp::UTCOffset(-10,   0)});
@@ -623,13 +623,13 @@ get_offsets (vector<Offset>& offsets)
 
 
 wxString
-bitmap_path (string name)
+bitmap_path(string name)
 {
 	boost::filesystem::path base;
 
 #ifdef DCPOMATIC_DEBUG
 	/* Hack to allow Linux and OS X to find icons when running from the source tree */
-	char* path = getenv ("DCPOMATIC_GRAPHICS");
+	char* path = getenv("DCPOMATIC_GRAPHICS");
 	if (path) {
 		base = path;
 	} else {
@@ -644,7 +644,7 @@ bitmap_path (string name)
 #endif
 
 	auto p = base / name;
-	return std_to_wx (p.string());
+	return std_to_wx(p.string());
 }
 
 
@@ -656,18 +656,18 @@ icon_path(string name)
 
 
 wxSize
-small_button_size (wxWindow* parent, wxString text)
+small_button_size(wxWindow* parent, wxString text)
 {
-	wxClientDC dc (parent);
-	auto size = dc.GetTextExtent (text);
-	size.SetHeight (-1);
-	size.IncBy (32, 0);
+	wxClientDC dc(parent);
+	auto size = dc.GetTextExtent(text);
+	size.SetHeight(-1);
+	size.IncBy(32, 0);
 	return size;
 }
 
 
 bool
-gui_is_dark ()
+gui_is_dark()
 {
 #ifdef DCPOMATIC_WINDOWS
 	/* Dark mode doesn't really work at all on Windows at the moment, so just don't use it */
@@ -684,13 +684,13 @@ gui_is_dark ()
 
 #if wxCHECK_VERSION(3,1,0)
 double
-dpi_scale_factor (wxWindow* window)
+dpi_scale_factor(wxWindow* window)
 {
 	return window->GetDPIScaleFactor();
 }
 #else
 double
-dpi_scale_factor (wxWindow*)
+dpi_scale_factor(wxWindow*)
 {
 	return 1;
 }
@@ -699,7 +699,7 @@ dpi_scale_factor (wxWindow*)
 
 
 int
-search_ctrl_height ()
+search_ctrl_height()
 {
 #ifdef __WXGTK3__
 	return 30;

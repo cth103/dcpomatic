@@ -94,34 +94,34 @@ class PasswordEntry;
 #define S_(x) context_translation(x)
 
 
-extern void error_dialog (wxWindow *, wxString, boost::optional<wxString> e = boost::optional<wxString>());
-extern void message_dialog (wxWindow *, wxString);
-extern bool confirm_dialog (wxWindow *, wxString);
-extern wxStaticText* create_label (wxWindow* p, wxString t, bool left);
-extern wxStaticText* add_label_to_sizer (wxSizer *, wxWindow *, wxString, bool left, int prop = 0, int flags = wxLEFT | wxRIGHT);
-extern wxStaticText* add_label_to_sizer (wxSizer *, wxStaticText *, bool left, int prop = 0, int flags = wxLEFT | wxRIGHT);
+extern void error_dialog(wxWindow *, wxString, boost::optional<wxString> e = boost::optional<wxString>());
+extern void message_dialog(wxWindow *, wxString);
+extern bool confirm_dialog(wxWindow *, wxString);
+extern wxStaticText* create_label(wxWindow* p, wxString t, bool left);
+extern wxStaticText* add_label_to_sizer(wxSizer *, wxWindow *, wxString, bool left, int prop = 0, int flags = wxLEFT | wxRIGHT);
+extern wxStaticText* add_label_to_sizer(wxSizer *, wxStaticText *, bool left, int prop = 0, int flags = wxLEFT | wxRIGHT);
 extern wxStaticText* add_label_to_sizer(wxGridBagSizer *, wxWindow *, wxString, bool, wxGBPosition, wxGBSpan span = wxDefaultSpan, bool indent = false);
-extern wxStaticText* add_label_to_sizer (wxGridBagSizer *, wxStaticText *, bool, wxGBPosition, wxGBSpan span = wxDefaultSpan);
-extern std::string wx_to_std (wxString);
-extern wxString std_to_wx (std::string);
+extern wxStaticText* add_label_to_sizer(wxGridBagSizer *, wxStaticText *, bool, wxGBPosition, wxGBSpan span = wxDefaultSpan);
+extern std::string wx_to_std(wxString);
+extern wxString std_to_wx(std::string);
 
 /** Convert UTF8-encoded char array to wxString */
 extern wxString char_to_wx(char const* s);
 
 extern wxString context_translation(char const* s);
-extern std::string string_client_data (wxClientData* o);
-extern wxString time_to_timecode (dcpomatic::DCPTime t, double fps);
-extern void setup_audio_channels_choice (wxChoice* choice, int minimum);
+extern std::string string_client_data(wxClientData* o);
+extern wxString time_to_timecode(dcpomatic::DCPTime t, double fps);
+extern void setup_audio_channels_choice(wxChoice* choice, int minimum);
 extern wxSplashScreen* maybe_show_splash();
-extern double calculate_mark_interval (double start);
-extern bool display_progress (wxString title, wxString task);
-extern bool report_errors_from_last_job (wxWindow* parent);
-extern wxString bitmap_path (std::string name);
+extern double calculate_mark_interval(double start);
+extern bool display_progress(wxString title, wxString task);
+extern bool report_errors_from_last_job(wxWindow* parent);
+extern wxString bitmap_path(std::string name);
 extern wxString icon_path(std::string name);
-extern wxSize small_button_size (wxWindow* parent, wxString text);
-extern bool gui_is_dark ();
-extern double dpi_scale_factor (wxWindow* window);
-extern int search_ctrl_height ();
+extern wxSize small_button_size(wxWindow* parent, wxString text);
+extern bool gui_is_dark();
+extern double dpi_scale_factor(wxWindow* window);
+extern int search_ctrl_height();
 extern void report_config_load_failure(wxWindow* parent, Config::LoadFailure what);
 extern bool layout_for_short_screen(wxWindow* reference);
 
@@ -137,7 +137,7 @@ struct Offset
 	dcp::UTCOffset offset;
 };
 
-extern int get_offsets (std::vector<Offset>& offsets);
+extern int get_offsets(std::vector<Offset>& offsets);
 
 namespace dcpomatic {
 namespace wx {
@@ -149,27 +149,27 @@ namespace wx {
 }
 
 
-extern void checked_set (FilePickerCtrl* widget, boost::filesystem::path value);
-extern void checked_set (wxDirPickerCtrl* widget, boost::filesystem::path value);
-extern void checked_set (wxSpinCtrl* widget, int value);
-extern void checked_set (wxSpinCtrlDouble* widget, double value);
-extern void checked_set (wxChoice* widget, int value);
-extern void checked_set (wxChoice* widget, std::string value);
-extern void checked_set (wxChoice* widget, std::vector<std::pair<std::string, std::string> > items);
-extern void checked_set (wxTextCtrl* widget, std::string value);
-extern void checked_set (wxTextCtrl* widget, wxString value);
-extern void checked_set (PasswordEntry* widget, std::string value);
-extern void checked_set (wxCheckBox* widget, bool value);
-extern void checked_set (wxRadioButton* widget, bool value);
-extern void checked_set (wxStaticText* widget, std::string value);
-extern void checked_set (wxStaticText* widget, wxString value);
+extern void checked_set(FilePickerCtrl* widget, boost::filesystem::path value);
+extern void checked_set(wxDirPickerCtrl* widget, boost::filesystem::path value);
+extern void checked_set(wxSpinCtrl* widget, int value);
+extern void checked_set(wxSpinCtrlDouble* widget, double value);
+extern void checked_set(wxChoice* widget, int value);
+extern void checked_set(wxChoice* widget, std::string value);
+extern void checked_set(wxChoice* widget, std::vector<std::pair<std::string, std::string> > items);
+extern void checked_set(wxTextCtrl* widget, std::string value);
+extern void checked_set(wxTextCtrl* widget, wxString value);
+extern void checked_set(PasswordEntry* widget, std::string value);
+extern void checked_set(wxCheckBox* widget, bool value);
+extern void checked_set(wxRadioButton* widget, bool value);
+extern void checked_set(wxStaticText* widget, std::string value);
+extern void checked_set(wxStaticText* widget, wxString value);
 extern void checked_set(LanguageTagWidget* widget, dcp::LanguageTag value);
 extern void checked_set(LanguageTagWidget* widget, boost::optional<dcp::LanguageTag> value);
 extern void checked_set(RegionSubtagWidget* widget, boost::optional<dcp::LanguageTag::RegionSubtag> value);
 
-extern int wx_get (wxChoice* widget);
-extern int wx_get (wxSpinCtrl* widget);
-extern double wx_get (wxSpinCtrlDouble* widget);
+extern int wx_get(wxChoice* widget);
+extern int wx_get(wxSpinCtrl* widget);
+extern double wx_get(wxSpinCtrlDouble* widget);
 
 #ifdef DCPOMATIC_WINDOWS
 #define DCPOMATIC_USE_OWN_PICKER
