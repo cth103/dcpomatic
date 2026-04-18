@@ -27,6 +27,7 @@
 #include "bitmap_text.h"
 #include "decoder.h"
 #include "ffmpeg.h"
+#include "packet_queue.h"
 #include "video_filter_graph_set.h"
 extern "C" {
 #include <libavcodec/avcodec.h>
@@ -39,6 +40,7 @@ class AudioBuffers;
 class FFmpegAudioStream;
 class Image;
 class Log;
+class PacketQueue;
 class VideoFilterGraph;
 struct ffmpeg_pts_offset_test;
 
@@ -64,6 +66,7 @@ private:
 	};
 
 	FlushResult flush();
+	bool process_from_packet_queue(bool flushing);
 
 	AVSampleFormat audio_sample_format(std::shared_ptr<FFmpegAudioStream> stream) const;
 	int bytes_per_audio_sample(std::shared_ptr<FFmpegAudioStream> stream) const;
@@ -97,12 +100,14 @@ private:
 	std::map<std::shared_ptr<FFmpegAudioStream>, boost::optional<dcpomatic::ContentTime>> _next_time;
 
 	enum class FlushState {
+		PACKET_QUEUE,
 		CODECS,
 		AUDIO_DECODER,
 		FILL,
 	};
 
-	FlushState _flush_state = FlushState::CODECS;
+	FlushState _flush_state = FlushState::PACKET_QUEUE;
 
 	std::vector<boost::optional<dcpomatic::ContentTime>> _dropped_time;
+	std::unique_ptr<PacketQueue> _packet_queue;
 };

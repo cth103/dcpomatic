@@ -170,6 +170,8 @@ sources = """
           mpeg2_encoder.cc
           named_channel.cc
           overlaps.cc
+          packet_queue.cc
+          passthrough_packet_queue.cc
           pixel_quanta.cc
           player.cc
           player_video.cc
@@ -208,6 +210,7 @@ sources = """
           string_text_file_decoder.cc
           subtitle_analysis.cc
           subtitle_film_encoder.cc
+          subtitle_sync_packet_queue.cc
           territory_type.cc
           text_ring_buffers.cc
           text_type.cc

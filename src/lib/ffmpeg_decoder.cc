@@ -38,7 +38,9 @@
 #include "frame_interval_checker.h"
 #include "image.h"
 #include "log.h"
+#include "passthrough_packet_queue.h"
 #include "raw_image_proxy.h"
+#include "subtitle_sync_packet_queue.h"
 #include "text_content.h"
 #include "text_decoder.h"
 #include "util.h"
@@ -104,6 +106,12 @@ FFmpegDecoder::FFmpegDecoder(shared_ptr<const Film> film, shared_ptr<const FFmpe
 	}
 
 	_dropped_time.resize(_format_context->nb_streams);
+
+	if (video && !text.empty()) {
+		_packet_queue.reset(new SubtitleSyncPacketQueue());
+	} else {
+		_packet_queue.reset(new PassthroughPacketQueue());
+	}
 }
 
 
@@ -113,6 +121,12 @@ FFmpegDecoder::flush()
 	LOG_DEBUG_PLAYER("DEC: Flush FFmpeg decoder: current state {}", static_cast<int>(_flush_state));
 
 	switch (_flush_state) {
+	case FlushState::PACKET_QUEUE:
+		if (!process_from_packet_queue(true)) {
+			LOG_DEBUG_PLAYER("DEC: Finished flushing packets");
+			_flush_state = FlushState::CODECS;
+		}
+		break;
 	case FlushState::CODECS:
 		if (flush_codecs() == FlushResult::DONE) {
 			LOG_DEBUG_PLAYER("DEC: Finished flushing codecs");
@@ -209,6 +223,41 @@ FFmpegDecoder::flush_fill()
 
 
 bool
+FFmpegDecoder::process_from_packet_queue(bool flushing)
+{
+	auto process = _packet_queue->get(flushing);
+	if (!process) {
+		return false;
+	}
+
+	auto packet = boost::get<AVPacket*>(&process->first);
+
+	switch (process->second) {
+	case PacketQueue::Type::VIDEO:
+		decode_and_process_video_packet(*packet);
+		break;
+	case PacketQueue::Type::SUBTITLE:
+		decode_and_process_subtitle_packet(*packet);
+		break;
+	case PacketQueue::Type::AUDIO:
+		decode_and_process_audio_packet(*packet);
+		break;
+	case PacketQueue::Type::DROP:
+	{
+		auto info = boost::get<PacketQueue::PacketInfo>(process->first);
+		DCPOMATIC_ASSERT(static_cast<int>(_dropped_time.size()) > info.stream_index);
+		_dropped_time[info.stream_index] = dcpomatic::ContentTime::from_seconds(info.dts * av_q2d(_format_context->streams[info.stream_index]->time_base) + _pts_offset.seconds());
+		break;
+	}
+	}
+
+	av_packet_free(packet);
+
+	return true;
+}
+
+
+bool
 FFmpegDecoder::pass()
 {
 	auto packet = av_packet_alloc();
@@ -238,15 +287,21 @@ FFmpegDecoder::pass()
 	int const si = packet->stream_index;
 	auto fc = _ffmpeg_content;
 
+	optional<PacketQueue::Type> type;
+
 	if (_video_stream && si == _video_stream.get() && video && !video->ignore()) {
-		decode_and_process_video_packet(packet);
+		type = PacketQueue::Type::VIDEO;
 	} else if (fc->subtitle_stream() && fc->subtitle_stream()->uses_index(_format_context, si) && !only_text()->ignore()) {
-		decode_and_process_subtitle_packet(packet);
+		type = PacketQueue::Type::SUBTITLE;
 	} else if (audio) {
-		decode_and_process_audio_packet(packet);
+		type = PacketQueue::Type::AUDIO;
 	} else {
-		DCPOMATIC_ASSERT(static_cast<int>(_dropped_time.size()) > si);
-		_dropped_time[si] = dcpomatic::ContentTime::from_seconds(packet->dts * av_q2d(_format_context->streams[si]->time_base) + _pts_offset.seconds());
+		type = PacketQueue::Type::DROP;
+	}
+
+	if (type) {
+		_packet_queue->add(packet, *type);
+		process_from_packet_queue(false);
 	}
 
 	if (_have_current_subtitle && _current_subtitle_to && position() > *_current_subtitle_to) {
@@ -254,7 +309,6 @@ FFmpegDecoder::pass()
 		_have_current_subtitle = false;
 	}
 
-	av_packet_free(&packet);
 	return false;
 }
 
@@ -407,7 +461,8 @@ FFmpegDecoder::seek(ContentTime time, bool accurate)
 {
 	Decoder::seek(time, accurate);
 
-	_flush_state = FlushState::CODECS;
+	_flush_state = FlushState::PACKET_QUEUE;
+	_packet_queue->clear();
 
 	/* If we are doing an `accurate' seek, we need to use pre-roll, as
 	   we don't really know what the seek will give us.

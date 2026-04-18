@@ -141,6 +141,7 @@ def build(bld):
                  open_caption_test.cc
                  optimise_stills_test.cc
                  overlap_video_test.cc
+                 packet_queue_test.cc
                  pixel_formats_test.cc
                  player_test.cc
                  playlist_test.cc
