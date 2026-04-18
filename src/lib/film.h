@@ -19,7 +19,7 @@
 */
 
 
-/** @file  src/film.h
+/** @file  src/lib/film.h
  *  @brief A representation of some audio and video content, and details of
  *  how they should be presented in a DCP.
  */
