@@ -370,14 +370,6 @@ Hints::check_loudness()
 }
 
 
-static
-bool
-subtitle_mxf_too_big(shared_ptr<dcp::TextAsset> asset)
-{
-	return asset && asset->file() && dcp::filesystem::file_size(*asset->file()) >= (MAX_TEXT_MXF_SIZE - SIZE_SLACK);
-}
-
-
 void
 Hints::check_out_of_range_markers()
 {
@@ -500,10 +492,6 @@ try
 		hint(_("At least one of your subtitle lines has more than 79 characters.  You should make each line 79 characters at most in length."));
 	}
 
-	bool ccap_xml_too_big = false;
-	bool ccap_mxf_too_big = false;
-	bool subs_mxf_too_big = false;
-
 	auto dcp_dir = film->dir("hints") / dcpomatic::get_process_id();
 	dcp::filesystem::remove_all(dcp_dir);
 
@@ -512,30 +500,38 @@ try
 	dcp::DCP dcp(dcp_dir);
 	dcp.read();
 	DCPOMATIC_ASSERT(dcp.cpls().size() == 1);
+	optional<size_t> largest_ccap_xml;
+	optional<size_t> largest_ccap_mxf;
+	optional<size_t> largest_sub_mxf;
 	for (auto reel: dcp.cpls()[0]->reels()) {
 		for (auto ccap: reel->closed_captions()) {
-			if (ccap->asset() && ccap->asset()->xml_as_string().length() > static_cast<size_t>(MAX_CLOSED_CAPTION_XML_SIZE - SIZE_SLACK) && !ccap_xml_too_big) {
-				hint(_(
-						"At least one of your closed caption files' XML part is larger than " MAX_CLOSED_CAPTION_XML_SIZE_TEXT
-						".  You should divide the DCP into shorter reels."
-				       ));
-				ccap_xml_too_big = true;
-			}
-			if (subtitle_mxf_too_big(ccap->asset()) && !ccap_mxf_too_big) {
-				hint(_(
-						"At least one of your closed caption files is larger than " MAX_TEXT_MXF_SIZE_TEXT
-						" in total.  You should divide the DCP into shorter reels."
-				       ));
-				ccap_mxf_too_big = true;
+			largest_ccap_xml = std::max(ccap->asset()->xml_as_string().length(), largest_ccap_xml.get_value_or(0));
+			if (ccap->asset() && ccap->asset()->file()) {
+				largest_ccap_mxf = std::max(dcp::filesystem::file_size(*ccap->asset()->file()), largest_ccap_mxf.get_value_or(0));
 			}
 		}
-		if (reel->main_subtitle() && subtitle_mxf_too_big(reel->main_subtitle()->asset()) && !subs_mxf_too_big) {
-			hint(_(
-					"At least one of your subtitle files is larger than " MAX_TEXT_MXF_SIZE_TEXT " in total.  "
-					"You should divide the DCP into shorter reels."
-			       ));
-			subs_mxf_too_big = true;
+		if (reel->main_subtitle() && reel->main_subtitle()->asset() && reel->main_subtitle()->asset()->file()) {
+			largest_sub_mxf = std::max(dcp::filesystem::file_size(*reel->main_subtitle()->asset()->file()), largest_sub_mxf.get_value_or(0));
 		}
+	}
+
+	if (largest_ccap_xml && *largest_ccap_xml > static_cast<size_t>(MAX_CLOSED_CAPTION_XML_SIZE - SIZE_SLACK)) {
+		hint(fmt::format(_(
+			"At least one of your closed caption files' XML part is larger than " MAX_CLOSED_CAPTION_XML_SIZE_TEXT
+			".  The largest XML part is {}KB.  You should divide the DCP into shorter reels."
+			), *largest_ccap_xml / 1000));
+	}
+	if (largest_ccap_mxf && *largest_ccap_mxf >= (MAX_TEXT_MXF_SIZE - SIZE_SLACK)) {
+		hint(fmt::format(_(
+			"At least one of your closed caption files is larger than " MAX_TEXT_MXF_SIZE_TEXT
+			" in total.  The largest file is {}MB.  You should divide the DCP into shorter reels."
+			), *largest_ccap_mxf / 1000000));
+	}
+	if (largest_sub_mxf && *largest_sub_mxf >= (MAX_TEXT_MXF_SIZE - SIZE_SLACK)) {
+		hint(fmt::format(_(
+			"At least one of your subtitle files is larger than " MAX_TEXT_MXF_SIZE_TEXT " in total.  "
+			"The largest file is {}MB.  You should divide the DCP into shorter reels."
+		       ), *largest_sub_mxf / 1000000));
 	}
 	dcp::filesystem::remove_all(dcp_dir);
 

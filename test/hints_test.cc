@@ -211,7 +211,7 @@ BOOST_AUTO_TEST_CASE (hint_subtitle_mxf_too_big)
 	BOOST_CHECK_EQUAL (
 		hints[0],
 		"At least one of your subtitle files is larger than " MAX_TEXT_MXF_SIZE_TEXT " in total.  "
-		"You should divide the DCP into shorter reels."
+		"The largest file is 134MB.  You should divide the DCP into shorter reels."
 		);
 }
 
@@ -245,7 +245,7 @@ BOOST_AUTO_TEST_CASE (hint_closed_caption_xml_too_big)
 	BOOST_CHECK_EQUAL (
 		hints[0],
 		"At least one of your closed caption files' XML part is larger than " MAX_CLOSED_CAPTION_XML_SIZE_TEXT ".  "
-		"You should divide the DCP into shorter reels."
+		"The largest XML part is 482KB.  You should divide the DCP into shorter reels."
 		);
 }
 
