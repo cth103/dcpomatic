@@ -1,10 +1,9 @@
 SDK=$1
 if [[ "$SDK" == 11 ]]; then
 	isysroot="-isysroot $HOME/SDK/MacOS11.0.sdk"
-	base=$HOME/workspace
 	export MACOSX_DEPLOYMENT_TARGET=10.10
 else
-	base=/usr/local
+	base=$HOME/src/dcpomatic
 fi
 
 arch=$(uname -m)
