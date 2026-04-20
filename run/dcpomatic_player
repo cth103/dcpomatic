@@ -10,7 +10,7 @@ else
     env=x86_64/10.10
 fi
 
-export DYLD_LIBRARY_PATH=/Users/cah/osx-environment/$env/lib:/usr/local/lib
+export DYLD_LIBRARY_PATH=/Users/cah/osx-environment/$env/lib:$HOME/src/dcpomatic/lib:/usr/local/lib
 
 # Allow running from a tree built using cdist
 export LD_LIBRARY_PATH=$DIR/../../../lib:$DIR/../../../lib64:$LD_LIBRARY_PATH
