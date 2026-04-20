@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-22 22:52+0100\n"
+"POT-Creation-Date: 2026-04-19 23:03+0200\n"
 "PO-Revision-Date: 2026-03-06 17:22+0900\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 3.8\n"
 
-#: src/lib/video_content.cc:513
+#: src/lib/video_content.cc:515
 #, c-format
 msgid ""
 "\n"
@@ -27,7 +27,7 @@ msgstr ""
 "\n"
 "콘텐츠 프레임 레이트 %.4f\n"
 
-#: src/lib/video_content.cc:477
+#: src/lib/video_content.cc:479
 #, c++-format
 msgid ""
 "\n"
@@ -36,7 +36,7 @@ msgstr ""
 "\n"
 "{}x{}로 크롭됨"
 
-#: src/lib/video_content.cc:467
+#: src/lib/video_content.cc:469
 #, c-format
 msgid ""
 "\n"
@@ -45,7 +45,7 @@ msgstr ""
 "\n"
 "디스플레이 화면 비율 %.2f:1"
 
-#: src/lib/video_content.cc:501
+#: src/lib/video_content.cc:503
 #, c++-format
 msgid ""
 "\n"
@@ -54,7 +54,7 @@ msgstr ""
 "\n"
 "컨테이너 {} ({}x{})에 맞게 블랙 패딩 추가됨"
 
-#: src/lib/video_content.cc:491
+#: src/lib/video_content.cc:493
 #, c++-format
 msgid ""
 "\n"
@@ -63,7 +63,7 @@ msgstr ""
 "\n"
 "{}x{}로 스케일 조정됨"
 
-#: src/lib/video_content.cc:495 src/lib/video_content.cc:506
+#: src/lib/video_content.cc:497 src/lib/video_content.cc:508
 #, c-format
 msgid " (%.2f:1)"
 msgstr " (%.2f:1)"
@@ -103,7 +103,7 @@ msgstr ""
 msgid "$JOB_NAME: $JOB_STATUS"
 msgstr "$JOB_NAME: $JOB_STATUS"
 
-#: src/lib/video_content.cc:462
+#: src/lib/video_content.cc:464
 #, c-format
 msgid ", pixel aspect ratio %.2f:1"
 msgstr ", 픽셀 화면 비율 %.2f:1"
@@ -176,7 +176,7 @@ msgstr "2.39 (스코프)"
 msgid "3D denoiser"
 msgstr "3D 노이즈 제거기"
 
-#: src/lib/hints.cc:219
+#: src/lib/hints.cc:222
 msgid ""
 "4K 3D is only supported by a very limited number of projectors.  Unless you "
 "know that you will play this DCP back on a capable projector, it is "
@@ -227,7 +227,7 @@ msgstr ""
 "amount=20\">Paypal로 20€ 기부하기</a><li><a href=\"https://dcpomatic.com/"
 "donate_amount?amount=10\">Paypal로 10€ 기부하기</a></ul><p>감사합니다!</font>"
 
-#: src/lib/hints.cc:176
+#: src/lib/hints.cc:179
 msgid ""
 "A few projectors have problems playing back very high bit-rate DCPs.  It is "
 "a good idea to drop the video bit rate down to about 200Mbit/s; this is "
@@ -255,7 +255,7 @@ msgstr "ARIB STD-B67 ('하이브리드 로그-감마')"
 msgid "Advertisement"
 msgstr "광고"
 
-#: src/lib/hints.cc:153
+#: src/lib/hints.cc:156
 msgid ""
 "All of your content is in Scope (2.39:1) but your DCP's container is Flat "
 "(1.85:1).  This will letter-box your content inside a Flat (1.85:1) frame.  "
@@ -266,7 +266,7 @@ msgstr ""
 "되어 있습니다. 이 경우 플랫 프레임 내에 레터박스가 생기게 됩니다. \"DCP\" 탭"
 "에서 컨테이너를 스코프(2.39:1)로 설정하는 것이 좋을 수 있습니다."
 
-#: src/lib/hints.cc:157
+#: src/lib/hints.cc:160
 msgid ""
 "All of your content narrower than 1.90:1 but your DCP's container is Scope "
 "(2.39:1).  This will pillar-box your content.  You may prefer to set your "
@@ -289,24 +289,24 @@ msgstr "오디오 분석"
 msgid "Analysing subtitles"
 msgstr "자막 분석"
 
-#: src/lib/hints.cc:384
+#: src/lib/hints.cc:379
 msgid ""
 "At least one marker comes after the end of the project and will be ignored."
 msgstr "최소 하나의 마커가 프로젝트 종료 지점 이후에 위치하여 무시됩니다."
 
-#: src/lib/hints.cc:523
+#: src/lib/hints.cc:526
 msgid "At least one of your closed caption files is larger than "
 msgstr "폐쇄 자막 파일 중 적어도 하나가 다음보다 큽니다: "
 
-#: src/lib/hints.cc:516
+#: src/lib/hints.cc:520
 msgid "At least one of your closed caption files' XML part is larger than "
 msgstr "폐쇄 자막 파일의 XML 부분 중 적어도 하나가 다음보다 큽니다: "
 
-#: src/lib/hints.cc:531
+#: src/lib/hints.cc:532
 msgid "At least one of your subtitle files is larger than "
 msgstr "자막 파일 중 적어도 하나가 다음보다 큽니다: "
 
-#: src/lib/hints.cc:495
+#: src/lib/hints.cc:490
 #, fuzzy
 msgid ""
 "At least one of your subtitle lines has more than 52 characters.  It is "
@@ -315,7 +315,7 @@ msgstr ""
 "자막 중 한 줄에 52자 이상이 포함되어 있습니다. 각 줄을 최대 52자 이내로 구성"
 "하는 것을 권장합니다."
 
-#: src/lib/hints.cc:497
+#: src/lib/hints.cc:492
 #, fuzzy
 msgid ""
 "At least one of your subtitle lines has more than 79 characters.  You should "
@@ -324,7 +324,7 @@ msgstr ""
 "자막 중 한 줄에 79자 이상이 포함되어 있습니다. 각 줄을 최대 79자 이내로 구성"
 "해야 합니다."
 
-#: src/lib/hints.cc:664
+#: src/lib/hints.cc:681
 msgid ""
 "At least one of your subtitles has more than 3 lines.  It is advisable to "
 "use no more than 3 lines."
@@ -332,7 +332,7 @@ msgstr ""
 "자막 중 3줄을 초과하는 것이 있습니다. 자막은 3줄 이내로 유지하는 것이 좋습니"
 "다."
 
-#: src/lib/hints.cc:631
+#: src/lib/hints.cc:648
 msgid ""
 "At least one of your subtitles lasts less than 15 frames.  It is advisable "
 "to make each subtitle at least 15 frames long."
@@ -340,7 +340,7 @@ msgstr ""
 "하나 이상의 자막이 15프레임보다 짧게 표시됩니다. 각 자막은 최소 15프레임 이"
 "상 유지되도록 설정하는 것이 좋습니다."
 
-#: src/lib/hints.cc:636
+#: src/lib/hints.cc:653
 msgid ""
 "At least one of your subtitles starts less than 2 frames after the previous "
 "one.  It is advisable to make the gap between subtitles at least 2 frames."
@@ -348,7 +348,7 @@ msgstr ""
 "하나 이상의 자막이 이전 자막 종료 후 2프레임 미만 간격으로 시작됩니다. 자막 "
 "사이의 간격은 최소 2프레임 이상으로 설정하는 것이 좋습니다."
 
-#: src/lib/hints.cc:707
+#: src/lib/hints.cc:724
 #, fuzzy
 msgid ""
 "At least one piece of subtitle content has no specified language.  It is "
@@ -679,7 +679,7 @@ msgstr "결합할 콘텐츠는 동일한 자막 스트림을 사용해야 합니
 msgid "Content to be joined must use the same text language."
 msgstr "결합할 콘텐츠는 동일한 텍스트 언어를 사용해야 합니다."
 
-#: src/lib/video_content.cc:453
+#: src/lib/video_content.cc:455
 #, c++-format
 msgid "Content video is {}x{}"
 msgstr "콘텐츠 비디오는 {}x{}입니다"
@@ -823,7 +823,7 @@ msgstr "DCP"
 msgid "DCP (via {})"
 msgstr "DCP ({} 경유)"
 
-#: src/lib/dcp_subtitle_content.cc:139
+#: src/lib/dcp_subtitle_content.cc:138
 msgid "DCP XML subtitles"
 msgstr "DCP XML 자막"
 
@@ -831,7 +831,12 @@ msgstr "DCP XML 자막"
 msgid "DCP sample rate"
 msgstr "DCP 샘플 레이트"
 
-#: src/lib/frame_rate_change.cc:101
+#: src/lib/frame_rate_change.cc:93
+#, fuzzy, c++-format
+msgid "DCP will contain 1 out of every {} frames of the content.\n"
+msgstr "DCP에서 콘텐츠의 매 두 번째 프레임을 사용합니다.\n"
+
+#: src/lib/frame_rate_change.cc:103
 #, c-format
 msgid "DCP will run at %.1f%% of the content speed.\n"
 msgstr "DCP가 콘텐츠 속도의 %.1f%%로 재생됩니다.\n"
@@ -926,11 +931,11 @@ msgstr "다운로드 실패 ({} 오류 {})"
 msgid "EC"
 msgstr "EC"
 
-#: src/lib/frame_rate_change.cc:93
+#: src/lib/frame_rate_change.cc:95
 msgid "Each content frame will be doubled in the DCP.\n"
 msgstr "DCP에서 각 콘텐츠 프레임이 두 번씩 반복됩니다.\n"
 
-#: src/lib/frame_rate_change.cc:95
+#: src/lib/frame_rate_change.cc:97
 #, c++-format
 msgid "Each content frame will be repeated {} more times in the DCP.\n"
 msgstr "DCP에서 각 콘텐츠 프레임이 {}번 더 반복됩니다.\n"
@@ -979,11 +984,11 @@ msgstr "오류: {}"
 msgid "Event"
 msgstr "이벤트"
 
-#: src/lib/hints.cc:415
+#: src/lib/hints.cc:410
 msgid "Examining audio"
 msgstr "오디오 분석"
 
-#: src/lib/hints.cc:417
+#: src/lib/hints.cc:412
 msgid "Examining audio, subtitles and closed captions"
 msgstr "오디오, 자막 및 폐쇄형 자막 분석"
 
@@ -995,7 +1000,7 @@ msgstr "콘텐츠 분석"
 msgid "Examining subtitles"
 msgstr "자막 분석"
 
-#: src/lib/hints.cc:413
+#: src/lib/hints.cc:408
 msgid "Examining subtitles and closed captions"
 msgstr "자막 및 폐쇄형 자막 분석"
 
@@ -1148,11 +1153,11 @@ msgstr "IEC61966-2-4"
 msgid "IN"
 msgstr "IN"
 
-#: src/lib/hints.cc:195
+#: src/lib/hints.cc:198
 msgid "If you do use 25fps you should change your DCP standard to SMPTE."
 msgstr "25fps를 사용하는 경우 DCP 표준을 SMPTE로 변경해야 합니다."
 
-#: src/lib/hints.cc:258
+#: src/lib/hints.cc:261
 msgid ""
 "In general it is now advisable to make SMPTE DCPs unless you have a "
 "particular reason to use Interop.  It is advisable to set your DCP to use "
@@ -1161,7 +1166,7 @@ msgstr ""
 "특별한 이유가 없다면 Interop 대신 SMPTE DCP를 제작하는 것이 권장됩니다.  "
 "\"DCP\" 탭에서 표준을 SMPTE로 설정하십시오."
 
-#: src/lib/hints.cc:624
+#: src/lib/hints.cc:641
 msgid ""
 "It is advisable to put your first subtitle at least 4 seconds after the "
 "start of the DCP to make sure it is seen."
@@ -1207,7 +1212,7 @@ msgstr "좌측 후방 서라운드"
 msgid "Left surround"
 msgstr "좌측 서라운드"
 
-#: src/lib/video_content.cc:526
+#: src/lib/video_content.cc:528
 msgid "Length"
 msgstr "길이"
 
@@ -1390,7 +1395,7 @@ msgstr "P3 D65 (~6500K)"
 msgid "P3 DCI (~6300K)"
 msgstr "P3 DCI (~6300K)"
 
-#: src/lib/util.cc:1131
+#: src/lib/util.cc:1111
 #, c++-format
 msgid ""
 "Please report this problem by using Help -> Report a problem or via email to "
@@ -1508,7 +1513,7 @@ msgstr "SMPTE 2085, Y'D'zD'x"
 msgid "SMPTE 240M"
 msgstr "SMPTE 240M"
 
-#: src/lib/hints.cc:689
+#: src/lib/hints.cc:706
 msgid ""
 "SMPTE DCPs with the type FTR (feature) should have markers for the first "
 "frame of end credits (FFEC) and the first frame of moving credits (FFMC).  "
@@ -1575,7 +1580,7 @@ msgstr "단편 (Short)"
 msgid "Sign"
 msgstr "사인"
 
-#: src/lib/video_content.cc:528
+#: src/lib/video_content.cc:530
 msgid "Size"
 msgstr "크기"
 
@@ -1618,14 +1623,14 @@ msgstr ""
 "DCP-o-matic의 버그 수정으로 인해 일부 파일을 다시 분석해야 합니다. 파일 설정"
 "을 확인해 보십시오."
 
-#: src/lib/hints.cc:605
+#: src/lib/hints.cc:622
 #, c++-format
 msgid ""
 "Some of your closed captions span more than {} lines, so they will be "
 "truncated."
 msgstr "폐쇄형 자막 중 일부가 {}줄을 초과하여 끝부분이 잘릴 수 있습니다."
 
-#: src/lib/hints.cc:727
+#: src/lib/hints.cc:744
 msgid ""
 "Some of your content has audio but you have not set the audio language.  It "
 "is advisable to set the audio language in the \"DCP\" tab unless your audio "
@@ -1634,7 +1639,7 @@ msgstr ""
 "오디오가 포함된 콘텐츠가 있으나 오디오 언어가 설정되지 않았습니다. 대사가 없"
 "는 경우가 아니라면 \"DCP\" 탭에서 오디오 언어를 설정하는 것이 좋습니다."
 
-#: src/lib/hints.cc:798
+#: src/lib/hints.cc:815
 msgid ""
 "Some of your content is encrypted, and some not.  Though some distributors "
 "(e.g. Netflix) require subtitles not to be encrypted (even if picture and "
@@ -1659,7 +1664,7 @@ msgstr "일부 콘텐츠에 KDM이 필요합니다"
 msgid "Some of your content needs an OV"
 msgstr "일부 콘텐츠에 OV가 필요합니다"
 
-#: src/lib/hints.cc:781
+#: src/lib/hints.cc:798
 #, c++-format
 msgid ""
 "Some of your video content contains an alpha channel, and {} cannot be "
@@ -1727,7 +1732,7 @@ msgstr "서명용 인증서 체인이 유효하지 않습니다"
 msgid "The certificate chain for signing is invalid ({})"
 msgstr "서명용 인증서 체인이 유효하지 않습니다 ({})"
 
-#: src/lib/hints.cc:744
+#: src/lib/hints.cc:761
 #, c++-format
 msgid ""
 "The certificate chain that {} uses for signing DCPs and KDMs contains a "
@@ -1741,7 +1746,7 @@ msgstr ""
 "서 및 키 다시 만들기...\" 버튼을 클릭하여 인증서 체인을 재생성하는 것을 권장"
 "합니다."
 
-#: src/lib/hints.cc:752
+#: src/lib/hints.cc:769
 #, c++-format
 msgid ""
 "The certificate chain that {} uses for signing DCPs and KDMs has a validity "
@@ -1794,7 +1799,7 @@ msgstr "파일 {}의 트리밍이 {}밀리초만큼 줄었습니다."
 msgid "The file {} has been trimmed by {} milliseconds more."
 msgstr "파일 {}의 트리밍이 {}밀리초만큼 늘었습니다."
 
-#: src/lib/hints.cc:267
+#: src/lib/hints.cc:270
 msgid ""
 "The vast majority of cinemas in Europe, Australasia and North America expect "
 "DCPs encoded with JPEG2000 rather than MPEG2.  Make sure that your cinema "
@@ -1812,7 +1817,7 @@ msgstr ""
 "일부 자막의 수직 오프셋 조절 방식이 이전과 반대 방향으로 변경되었습니다.  프"
 "로젝트 내의 자막 위치가 의도한 대로 배치되었는지 확인해 주십시오."
 
-#: src/lib/hints.cc:248
+#: src/lib/hints.cc:251
 msgid ""
 "There is a large difference between the frame rate of your DCP and that of "
 "some of your content.  This will cause your audio to play back at a much "
@@ -1837,14 +1842,14 @@ msgstr ""
 "메모리가 부족합니다.  32비트 운영체제를 사용 중이라면 환경 설정의 '일반' 탭에"
 "서 인코딩 스레드 수를 줄여 보십시오."
 
-#: src/lib/util.cc:981
+#: src/lib/util.cc:961
 #, c++-format
 msgid "This KDM was made for {} but not for its leaf certificate."
 msgstr ""
 "이 KDM은 {}를 위해 제작되었으나 해당 단말 인증서(leaf certificate)를 위한 것"
 "이 아닙니다."
 
-#: src/lib/util.cc:979
+#: src/lib/util.cc:959
 #, c++-format
 msgid "This KDM was not made for {}'s decryption certificate."
 msgstr "이 KDM은 {}의 복호화 인증서를 위해 제작되지 않았습니다."
@@ -2034,7 +2039,7 @@ msgstr "YCgCo-R, 홀수 가산"
 msgid "Yet Another Deinterlacing Filter"
 msgstr "또 다른 디인터레이싱 필터 (YADIF)"
 
-#: src/lib/hints.cc:208
+#: src/lib/hints.cc:211
 #, c++-format
 msgid ""
 "You are set up for a DCP at a frame rate of {} fps.  This frame rate is not "
@@ -2044,7 +2049,7 @@ msgstr ""
 "DCP 프레임 레이트가 {} fps로 설정되어 있습니다. 이 레이트는 일부 프로젝터에"
 "서 지원되지 않을 수 있습니다. {} fps로 변경하는 것을 권장합니다."
 
-#: src/lib/hints.cc:192
+#: src/lib/hints.cc:195
 #, c++-format
 msgid ""
 "You are set up for a DCP at a frame rate of {} fps.  This frame rate is not "
@@ -2054,7 +2059,7 @@ msgstr ""
 "DCP 프레임 레이트가 {} fps로 설정되어 있습니다. 이 레이트는 일부 프로젝터에"
 "서 지원되지 않을 수 있으므로, {} fps로 변경하는 것을 고려해 보십시오."
 
-#: src/lib/hints.cc:202
+#: src/lib/hints.cc:205
 msgid ""
 "You are set up for a DCP frame rate of 30fps, which is not supported by all "
 "projectors.  Be aware that you may have compatibility problems."
@@ -2062,7 +2067,7 @@ msgstr ""
 "DCP 프레임 레이트가 30fps로 설정되어 있습니다. 이는 일부 프로젝터에서 지원되"
 "지 않으므로 호환성 문제가 발생할 수 있음에 유의하십시오."
 
-#: src/lib/hints.cc:322
+#: src/lib/hints.cc:325
 msgid ""
 "You are using 3D content but your DCP is set to 2D.  Set the DCP to 3D if "
 "you want to play it back on a 3D system (e.g. Real-D, MasterImage etc.)"
@@ -2070,7 +2075,7 @@ msgstr ""
 "3D 콘텐츠를 사용 중이지만 DCP가 2D로 설정되어 있습니다. 3D 시스템(Real-D, "
 "MasterImage 등)에서 상영하려면 DCP를 3D로 설정하십시오."
 
-#: src/lib/hints.cc:125
+#: src/lib/hints.cc:128
 #, c++-format
 msgid ""
 "You are using {}'s stereo-to-5.1 upmixer.  This is experimental and may "
@@ -2089,7 +2094,7 @@ msgstr ""
 "프레임 레이트가 다른 여러 개의 Atmos 콘텐츠가 포함되어 있습니다.  일부 Atmos "
 "콘텐츠를 제거해야 합니다."
 
-#: src/lib/hints.cc:612
+#: src/lib/hints.cc:629
 msgid ""
 "You have overlapping closed captions, which are not allowed in Interop "
 "DCPs.  Change your DCP standard to SMPTE."
@@ -2097,7 +2102,7 @@ msgstr ""
 "폐쇄형 자막이 겹쳐 있습니다. 이는 Interop DCP에서 허용되지 않으므로 DCP 표준"
 "을 SMPTE로 변경하십시오."
 
-#: src/lib/hints.cc:290
+#: src/lib/hints.cc:293
 msgid ""
 "You have specified a font file which is larger than 640kB.  This is very "
 "likely to cause problems on playback."
@@ -2105,7 +2110,7 @@ msgstr ""
 "지정한 폰트 파일이 640kB를 초과합니다. 재생 시 문제가 발생할 가능성이 매우 높"
 "습니다."
 
-#: src/lib/hints.cc:306
+#: src/lib/hints.cc:309
 #, c++-format
 msgid ""
 "You have {} files that look like they are VOB files from DVD. You should "
@@ -2118,7 +2123,7 @@ msgstr ""
 msgid "You must add some content to the DCP before creating it"
 msgstr "DCP를 제작하기 전에 콘텐츠를 추가해야 합니다"
 
-#: src/lib/hints.cc:110
+#: src/lib/hints.cc:113
 #, c++-format
 msgid ""
 "Your DCP has fewer than 6 audio channels.  This may cause problems on some "
@@ -2130,7 +2135,7 @@ msgstr ""
 "채널로 설정하는 것이 좋습니다.  콘텐츠 채널이 적더라도 {}에서 나머지를 무음으"
 "로 채웁니다."
 
-#: src/lib/hints.cc:770
+#: src/lib/hints.cc:787
 #, c++-format
 msgid ""
 "Your DCP has {} audio channels, rather than 8 or 16.  This may cause some "
@@ -2140,7 +2145,7 @@ msgstr ""
 "DCP 오디오 채널이 8 또는 16이 아닌 {}개입니다. 배급사 검수시 오류로 처리될 "
 "수 있으니 오디오 채널을 8 또는 16으로 설정하십시오."
 
-#: src/lib/hints.cc:167
+#: src/lib/hints.cc:170
 msgid ""
 "Your DCP uses an unusual container ratio.  This may cause problems on some "
 "projectors.  If possible, use Flat or Scope for the DCP container ratio."
@@ -2148,7 +2153,7 @@ msgstr ""
 "DCP가 비표준 컨테이너 비율을 사용하고 있습니다.  일부 프로젝터에서 문제가 발"
 "생할 수 있으므로 가급적 플랫(Flat) 또는 스코프(Scope)를 사용하십시오."
 
-#: src/lib/hints.cc:356
+#: src/lib/hints.cc:359
 #, c++-format
 msgid ""
 "Your audio level is very high (on {}).  You should reduce the gain of your "
@@ -2178,7 +2183,7 @@ msgstr "[동영상]"
 msgid "[still]"
 msgstr "[정지 영상]"
 
-#: src/lib/dcp_subtitle_content.cc:133 src/lib/fcpxml_content.cc:86
+#: src/lib/dcp_subtitle_content.cc:132 src/lib/fcpxml_content.cc:86
 #: src/lib/string_text_file_content.cc:111
 msgid "[subtitles]"
 msgstr "[자막]"
@@ -2194,7 +2199,7 @@ msgstr "_릴{}"
 msgid "bits"
 msgstr "비트"
 
-#: src/lib/dcpomatic_socket.cc:82 src/lib/dcpomatic_socket.cc:112
+#: src/lib/dcpomatic_socket.cc:86 src/lib/dcpomatic_socket.cc:116
 msgid "connect timed out"
 msgstr "연결 시간 초과"
 
@@ -2250,22 +2255,22 @@ msgstr "파일 {}에서 읽을 수 없습니다 ({})"
 msgid "could not write to file {} ({})"
 msgstr "파일 {}에 쓸 수 없습니다 ({})"
 
-#: src/lib/dcpomatic_socket.cc:108
+#: src/lib/dcpomatic_socket.cc:112
 #, c++-format
 msgid "error during async_connect ({})"
 msgstr "비동기 연결 중 오류 발생 ({})"
 
-#: src/lib/dcpomatic_socket.cc:78
+#: src/lib/dcpomatic_socket.cc:82
 #, c++-format
 msgid "error during async_connect: ({})"
 msgstr "비동기 연결 중 오류 발생: ({})"
 
-#: src/lib/dcpomatic_socket.cc:200
+#: src/lib/dcpomatic_socket.cc:204
 #, c++-format
 msgid "error during async_read ({})"
 msgstr "비동기 읽기 중 오류 발생 ({})"
 
-#: src/lib/dcpomatic_socket.cc:159
+#: src/lib/dcpomatic_socket.cc:163
 #, c++-format
 msgid "error during async_write ({})"
 msgstr "비동기 쓰기 중 오류 발생 ({})"
@@ -2394,7 +2399,7 @@ msgstr "스틸"
 msgid "unknown"
 msgstr "알 수 없음"
 
-#: src/lib/video_content.cc:526
+#: src/lib/video_content.cc:528
 msgid "video frames"
 msgstr "비디오 프레임"
 

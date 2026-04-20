@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-14 23:48+0100\n"
+"POT-Creation-Date: 2026-04-12 11:50+0200\n"
 "PO-Revision-Date: 2026-03-23 13:10+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
@@ -79,21 +79,21 @@ msgstr "&Wijzig"
 
 #: src/tools/dcpomatic_batch.cc:90 src/tools/dcpomatic.cc:1382
 #: src/tools/dcpomatic_editor.cc:433 src/tools/dcpomatic_player.cc:672
-#: src/tools/dcpomatic_playlist.cc:609 src/tools/dcpomatic_verifier.cc:247
+#: src/tools/dcpomatic_playlist.cc:609 src/tools/dcpomatic_verifier.cc:260
 msgid "&Exit"
 msgstr "&Stop"
 
 #: src/tools/dcpomatic_batch.cc:108 src/tools/dcpomatic.cc:1460
 #: src/tools/dcpomatic_editor.cc:445 src/tools/dcpomatic_kdm.cc:346
 #: src/tools/dcpomatic_player.cc:725 src/tools/dcpomatic_playlist.cc:623
-#: src/tools/dcpomatic_verifier.cc:252
+#: src/tools/dcpomatic_verifier.cc:265
 msgid "&File"
 msgstr "&Bestand"
 
 #: src/tools/dcpomatic_batch.cc:113 src/tools/dcpomatic.cc:1465
 #: src/tools/dcpomatic_editor.cc:446 src/tools/dcpomatic_kdm.cc:349
 #: src/tools/dcpomatic_player.cc:732 src/tools/dcpomatic_playlist.cc:612
-#: src/tools/dcpomatic_playlist.cc:626 src/tools/dcpomatic_verifier.cc:256
+#: src/tools/dcpomatic_playlist.cc:626 src/tools/dcpomatic_verifier.cc:269
 msgid "&Help"
 msgstr "&Help"
 
@@ -125,7 +125,7 @@ msgstr "&Voorkeuren...\tCtrl-P"
 #: src/tools/dcpomatic_batch.cc:92 src/tools/dcpomatic.cc:1384
 #: src/tools/dcpomatic_editor.cc:435 src/tools/dcpomatic_kdm.cc:326
 #: src/tools/dcpomatic_player.cc:674 src/tools/dcpomatic_playlist.cc:615
-#: src/tools/dcpomatic_verifier.cc:251
+#: src/tools/dcpomatic_verifier.cc:264
 msgid "&Quit"
 msgstr "&Stop"
 
@@ -150,11 +150,11 @@ msgstr "&Tools"
 msgid "&View"
 msgstr "&Toon"
 
-#: src/tools/dcpomatic_verifier.cc:104
+#: src/tools/dcpomatic_verifier.cc:107
 msgid "(encrypted, have KDM)"
 msgstr "(versleuteld, met KDM)"
 
-#: src/tools/dcpomatic_verifier.cc:106
+#: src/tools/dcpomatic_verifier.cc:109
 msgid "(encrypted, no KDM)"
 msgstr "(versleuteld, zonder KDM)"
 
@@ -169,13 +169,13 @@ msgstr "<b>Afspeellijsten</b>"
 #: src/tools/dcpomatic_batch.cc:106 src/tools/dcpomatic.cc:1453
 #: src/tools/dcpomatic_editor.cc:442 src/tools/dcpomatic_kdm.cc:339
 #: src/tools/dcpomatic_player.cc:719 src/tools/dcpomatic_playlist.cc:621
-#: src/tools/dcpomatic_verifier.cc:254
+#: src/tools/dcpomatic_verifier.cc:267
 msgid "About"
 msgstr "Over"
 
 #: src/tools/dcpomatic.cc:1451 src/tools/dcpomatic_editor.cc:440
 #: src/tools/dcpomatic_kdm.cc:337 src/tools/dcpomatic_player.cc:717
-#: src/tools/dcpomatic_playlist.cc:610 src/tools/dcpomatic_verifier.cc:248
+#: src/tools/dcpomatic_playlist.cc:610 src/tools/dcpomatic_verifier.cc:261
 #, c-format
 msgid "About %s"
 msgstr "Over %s"
@@ -188,7 +188,7 @@ msgstr "Voeg toe"
 msgid "Add &KDM..."
 msgstr "Voeg &KDM toe..."
 
-#: src/tools/dcpomatic_verifier.cc:180
+#: src/tools/dcpomatic_verifier.cc:187
 msgid "Add KDM..."
 msgstr "Voeg KDM toe..."
 
@@ -227,7 +227,7 @@ msgstr ""
 #: src/tools/dcpomatic.cc:1840 src/tools/dcpomatic_combiner.cc:303
 #: src/tools/dcpomatic_disk.cc:565 src/tools/dcpomatic_editor.cc:602
 #: src/tools/dcpomatic_kdm.cc:959 src/tools/dcpomatic_player.cc:1474
-#: src/tools/dcpomatic_playlist.cc:730 src/tools/dcpomatic_verifier.cc:457
+#: src/tools/dcpomatic_playlist.cc:730 src/tools/dcpomatic_verifier.cc:481
 #, c-format
 msgid ""
 "An exception occurred: %s (%s)\n"
@@ -238,7 +238,7 @@ msgstr ""
 "\n"
 "%s"
 
-#: src/tools/dcpomatic.cc:1850 src/tools/dcpomatic_verifier.cc:467
+#: src/tools/dcpomatic.cc:1850 src/tools/dcpomatic_verifier.cc:491
 #, c-format
 msgid ""
 "An exception occurred: %s (%s) (%s)\n"
@@ -250,7 +250,7 @@ msgstr ""
 "%s"
 
 #: src/tools/dcpomatic.cc:1861 src/tools/dcpomatic_disk.cc:575
-#: src/tools/dcpomatic_kdm.cc:969 src/tools/dcpomatic_verifier.cc:478
+#: src/tools/dcpomatic_kdm.cc:969 src/tools/dcpomatic_verifier.cc:502
 #, c-format
 msgid ""
 "An exception occurred: %s.\n"
@@ -274,7 +274,7 @@ msgstr "Er is een onbekende uitzondering opgetreden."
 #: src/tools/dcpomatic_disk.cc:581 src/tools/dcpomatic_editor.cc:618
 #: src/tools/dcpomatic_kdm.cc:975 src/tools/dcpomatic_kdm.cc:984
 #: src/tools/dcpomatic_player.cc:1490 src/tools/dcpomatic_playlist.cc:746
-#: src/tools/dcpomatic_playlist.cc:755 src/tools/dcpomatic_verifier.cc:484
+#: src/tools/dcpomatic_playlist.cc:755 src/tools/dcpomatic_verifier.cc:508
 #, c-format
 msgid "An unknown exception occurred. %s"
 msgstr "Er is een onbekende uitzondering opgetreden. %s"
@@ -315,7 +315,7 @@ msgstr "De inhoud van de CPL is niet versleuteld."
 msgid "CPL: %s"
 msgstr "CPL: %s"
 
-#: src/tools/dcpomatic_verifier.cc:199
+#: src/tools/dcpomatic_verifier.cc:206
 msgid "Cancel"
 msgstr "Annuleer"
 
@@ -323,7 +323,7 @@ msgstr "Annuleer"
 msgid "Check for updates"
 msgstr "Controleer op updates"
 
-#: src/tools/dcpomatic_verifier.cc:362
+#: src/tools/dcpomatic_verifier.cc:375
 msgid "Checking KDM"
 msgstr "Controleren KDM"
 
@@ -368,7 +368,7 @@ msgstr "Kopieer instellingen\tCtrl-C"
 msgid "Could not create folder to store film."
 msgstr "Kan map voor bewaren film niet aanmaken."
 
-#: src/tools/dcpomatic_kdm.cc:652 src/tools/dcpomatic_verifier.cc:354
+#: src/tools/dcpomatic_kdm.cc:652 src/tools/dcpomatic_verifier.cc:367
 msgid ""
 "Could not decrypt the DKDM.  Perhaps it was not created with the correct "
 "certificate."
@@ -422,7 +422,7 @@ msgstr ""
 "\n"
 "%s."
 
-#: src/tools/dcpomatic_player.cc:829 src/tools/dcpomatic_verifier.cc:357
+#: src/tools/dcpomatic_player.cc:829 src/tools/dcpomatic_verifier.cc:370
 msgid "Could not load KDM."
 msgstr "Kan KDM niet laden."
 
@@ -470,7 +470,7 @@ msgstr ""
 "Kan het bestand niet als een KDM lezen.  Het is veel te groot.  Zorg ervoor "
 "dat u een DKDM (XML) bestand laadt."
 
-#: src/tools/dcpomatic_kdm.cc:645 src/tools/dcpomatic_verifier.cc:347
+#: src/tools/dcpomatic_kdm.cc:645 src/tools/dcpomatic_verifier.cc:360
 msgid ""
 "Could not read file as a KDM.  Perhaps it is badly formatted, or not a KDM "
 "at all."
@@ -506,8 +506,8 @@ msgstr ""
 msgid ""
 "Could not start the player.  You may need to download it from dcpomatic.com."
 msgstr ""
-"Kan de Player niet starten.  Mogelijk moet u hem downloaden van dcpomatic."
-"com."
+"Kan de Player niet starten.  Mogelijk moet u hem downloaden van "
+"dcpomatic.com."
 
 #: src/tools/dcpomatic_batch.cc:365 src/tools/dcpomatic.cc:1477
 #: src/tools/dcpomatic_player.cc:1128 src/tools/dcpomatic_playlist.cc:639
@@ -535,7 +535,7 @@ msgstr "Creator"
 msgid "Crop"
 msgstr "Bijsnijding"
 
-#: src/tools/dcpomatic_disk.cc:139 src/tools/dcpomatic_verifier.cc:172
+#: src/tools/dcpomatic_disk.cc:139 src/tools/dcpomatic_verifier.cc:179
 msgid "DCP"
 msgstr "DCP"
 
@@ -543,7 +543,7 @@ msgstr "DCP"
 msgid "DCP-o-matic Encode Server"
 msgstr "DCP-o-matic Encode Server"
 
-#: src/tools/dcpomatic_disk.cc:135 src/tools/dcpomatic_verifier.cc:146
+#: src/tools/dcpomatic_disk.cc:135 src/tools/dcpomatic_verifier.cc:149
 msgid "DCPs"
 msgstr "DCP's"
 
@@ -583,8 +583,8 @@ msgid ""
 "Did you install the %s Disk Writer.pkg from the .dmg?  Please check and try "
 "again."
 msgstr ""
-"Heeft u de %s Disk Writer.pkg geïnstalleerd vanuit de .dmg?  Controleer a.u."
-"b. en probeer het opnieuw."
+"Heeft u de %s Disk Writer.pkg geïnstalleerd vanuit de .dmg?  Controleer "
+"a.u.b. en probeer het opnieuw."
 
 #: src/tools/dcpomatic_disk.cc:190
 msgid "Disk Writer"
@@ -668,7 +668,7 @@ msgstr "Versleuteld"
 msgid "Entry point"
 msgstr "Entry point"
 
-#: src/tools/dcpomatic_verifier.cc:156
+#: src/tools/dcpomatic_verifier.cc:152
 msgid "Examining DCPs"
 msgstr "Onderzoeken DCP's"
 
@@ -976,7 +976,7 @@ msgstr "Selecteer DCP om te openen"
 msgid "Select DCP to open as OV"
 msgstr "Selecteer DCP om te openen als OV"
 
-#: src/tools/dcpomatic_verifier.cc:150 src/tools/dcpomatic_verifier.cc:152
+#: src/tools/dcpomatic_verifier.cc:165 src/tools/dcpomatic_verifier.cc:167
 msgid "Select DCP(s)"
 msgstr "Selecteer DCP('s)"
 
@@ -988,7 +988,7 @@ msgstr "Selecteer DKDM-bestand"
 msgid "Select DKDM file"
 msgstr "Selecteer DKDM-bestand"
 
-#: src/tools/dcpomatic_player.cc:810 src/tools/dcpomatic_verifier.cc:335
+#: src/tools/dcpomatic_player.cc:810 src/tools/dcpomatic_verifier.cc:348
 msgid "Select KDM"
 msgstr "Selecteer KDM"
 
@@ -1224,7 +1224,7 @@ msgstr ""
 "Dit ziet eruit als een %s projectmap, die niet in de player kan worden "
 "geladen.  Kies de DCP-map in de %s projectmap als u die wilt afspelen."
 
-#: src/tools/dcpomatic_verifier.cc:190
+#: src/tools/dcpomatic_verifier.cc:197
 msgid ""
 "Tick to check details of the picture asset, such as frame sizes and JPEG2000 "
 "bitstream validity.  These checks are quite time-consuming."
@@ -1272,7 +1272,7 @@ msgstr "Omhoog"
 msgid "User manual..."
 msgstr "Gebruikershandleiding..."
 
-#: src/tools/dcpomatic_verifier.cc:201
+#: src/tools/dcpomatic_verifier.cc:208
 msgid "Verify"
 msgstr "Controleer"
 
@@ -1284,7 +1284,7 @@ msgstr "Controleer DCP"
 msgid "Verify DCP..."
 msgstr "Controleer DCP..."
 
-#: src/tools/dcpomatic_verifier.cc:187
+#: src/tools/dcpomatic_verifier.cc:194
 msgid "Verify picture asset details"
 msgstr "Controleer picture asset details"
 
@@ -1296,7 +1296,7 @@ msgstr "Version File (VF)..."
 msgid "Video waveform..."
 msgstr "Video-golfvorm..."
 
-#: src/tools/dcpomatic_verifier.cc:194
+#: src/tools/dcpomatic_verifier.cc:201
 msgid "Write logs to DCP folders"
 msgstr "Schrijf logs naar DCP-mappen"
 

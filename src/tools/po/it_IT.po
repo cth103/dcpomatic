@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-14 23:48+0100\n"
+"POT-Creation-Date: 2026-04-12 11:50+0200\n"
 "PO-Revision-Date: 2018-09-30 16:31+0200\n"
 "Last-Translator: William Fanelli <william.f@impronte.com>\n"
 "Language-Team: \n"
@@ -78,21 +78,21 @@ msgstr "&Modifica"
 
 #: src/tools/dcpomatic_batch.cc:90 src/tools/dcpomatic.cc:1382
 #: src/tools/dcpomatic_editor.cc:433 src/tools/dcpomatic_player.cc:672
-#: src/tools/dcpomatic_playlist.cc:609 src/tools/dcpomatic_verifier.cc:247
+#: src/tools/dcpomatic_playlist.cc:609 src/tools/dcpomatic_verifier.cc:260
 msgid "&Exit"
 msgstr "&Esci"
 
 #: src/tools/dcpomatic_batch.cc:108 src/tools/dcpomatic.cc:1460
 #: src/tools/dcpomatic_editor.cc:445 src/tools/dcpomatic_kdm.cc:346
 #: src/tools/dcpomatic_player.cc:725 src/tools/dcpomatic_playlist.cc:623
-#: src/tools/dcpomatic_verifier.cc:252
+#: src/tools/dcpomatic_verifier.cc:265
 msgid "&File"
 msgstr "&File"
 
 #: src/tools/dcpomatic_batch.cc:113 src/tools/dcpomatic.cc:1465
 #: src/tools/dcpomatic_editor.cc:446 src/tools/dcpomatic_kdm.cc:349
 #: src/tools/dcpomatic_player.cc:732 src/tools/dcpomatic_playlist.cc:612
-#: src/tools/dcpomatic_playlist.cc:626 src/tools/dcpomatic_verifier.cc:256
+#: src/tools/dcpomatic_playlist.cc:626 src/tools/dcpomatic_verifier.cc:269
 msgid "&Help"
 msgstr "&Aiuto"
 
@@ -125,7 +125,7 @@ msgstr "&Preferenze...\tCtrl-P"
 #: src/tools/dcpomatic_batch.cc:92 src/tools/dcpomatic.cc:1384
 #: src/tools/dcpomatic_editor.cc:435 src/tools/dcpomatic_kdm.cc:326
 #: src/tools/dcpomatic_player.cc:674 src/tools/dcpomatic_playlist.cc:615
-#: src/tools/dcpomatic_verifier.cc:251
+#: src/tools/dcpomatic_verifier.cc:264
 msgid "&Quit"
 msgstr "&Esci"
 
@@ -151,11 +151,11 @@ msgstr "&Strumenti"
 msgid "&View"
 msgstr "&Visualizza"
 
-#: src/tools/dcpomatic_verifier.cc:104
+#: src/tools/dcpomatic_verifier.cc:107
 msgid "(encrypted, have KDM)"
 msgstr ""
 
-#: src/tools/dcpomatic_verifier.cc:106
+#: src/tools/dcpomatic_verifier.cc:109
 msgid "(encrypted, no KDM)"
 msgstr ""
 
@@ -170,13 +170,13 @@ msgstr ""
 #: src/tools/dcpomatic_batch.cc:106 src/tools/dcpomatic.cc:1453
 #: src/tools/dcpomatic_editor.cc:442 src/tools/dcpomatic_kdm.cc:339
 #: src/tools/dcpomatic_player.cc:719 src/tools/dcpomatic_playlist.cc:621
-#: src/tools/dcpomatic_verifier.cc:254
+#: src/tools/dcpomatic_verifier.cc:267
 msgid "About"
 msgstr "Informazioni"
 
 #: src/tools/dcpomatic.cc:1451 src/tools/dcpomatic_editor.cc:440
 #: src/tools/dcpomatic_kdm.cc:337 src/tools/dcpomatic_player.cc:717
-#: src/tools/dcpomatic_playlist.cc:610 src/tools/dcpomatic_verifier.cc:248
+#: src/tools/dcpomatic_playlist.cc:610 src/tools/dcpomatic_verifier.cc:261
 #, fuzzy, c-format
 msgid "About %s"
 msgstr "Informazioni"
@@ -191,7 +191,7 @@ msgstr "Aggiungi..."
 msgid "Add &KDM..."
 msgstr "&Aggiungi KDM..."
 
-#: src/tools/dcpomatic_verifier.cc:180
+#: src/tools/dcpomatic_verifier.cc:187
 #, fuzzy
 msgid "Add KDM..."
 msgstr "&Aggiungi KDM..."
@@ -232,7 +232,7 @@ msgstr ""
 #: src/tools/dcpomatic.cc:1840 src/tools/dcpomatic_combiner.cc:303
 #: src/tools/dcpomatic_disk.cc:565 src/tools/dcpomatic_editor.cc:602
 #: src/tools/dcpomatic_kdm.cc:959 src/tools/dcpomatic_player.cc:1474
-#: src/tools/dcpomatic_playlist.cc:730 src/tools/dcpomatic_verifier.cc:457
+#: src/tools/dcpomatic_playlist.cc:730 src/tools/dcpomatic_verifier.cc:481
 #, fuzzy, c-format
 msgid ""
 "An exception occurred: %s (%s)\n"
@@ -242,7 +242,7 @@ msgstr ""
 "Si è verificata un'eccezione: %s (%s)\n"
 "\n"
 
-#: src/tools/dcpomatic.cc:1850 src/tools/dcpomatic_verifier.cc:467
+#: src/tools/dcpomatic.cc:1850 src/tools/dcpomatic_verifier.cc:491
 #, fuzzy, c-format
 msgid ""
 "An exception occurred: %s (%s) (%s)\n"
@@ -253,7 +253,7 @@ msgstr ""
 "\n"
 
 #: src/tools/dcpomatic.cc:1861 src/tools/dcpomatic_disk.cc:575
-#: src/tools/dcpomatic_kdm.cc:969 src/tools/dcpomatic_verifier.cc:478
+#: src/tools/dcpomatic_kdm.cc:969 src/tools/dcpomatic_verifier.cc:502
 #, fuzzy, c-format
 msgid ""
 "An exception occurred: %s.\n"
@@ -276,7 +276,7 @@ msgstr "Si è verificata un'eccezione sconosciuta."
 #: src/tools/dcpomatic_disk.cc:581 src/tools/dcpomatic_editor.cc:618
 #: src/tools/dcpomatic_kdm.cc:975 src/tools/dcpomatic_kdm.cc:984
 #: src/tools/dcpomatic_player.cc:1490 src/tools/dcpomatic_playlist.cc:746
-#: src/tools/dcpomatic_playlist.cc:755 src/tools/dcpomatic_verifier.cc:484
+#: src/tools/dcpomatic_playlist.cc:755 src/tools/dcpomatic_verifier.cc:508
 #, fuzzy, c-format
 msgid "An unknown exception occurred. %s"
 msgstr "Si è verificata un'eccezione sconosciuta."
@@ -317,7 +317,7 @@ msgstr "Il contenuto CPL non è criptato."
 msgid "CPL: %s"
 msgstr ""
 
-#: src/tools/dcpomatic_verifier.cc:199
+#: src/tools/dcpomatic_verifier.cc:206
 msgid "Cancel"
 msgstr ""
 
@@ -325,7 +325,7 @@ msgstr ""
 msgid "Check for updates"
 msgstr "Controlla aggiornamenti"
 
-#: src/tools/dcpomatic_verifier.cc:362
+#: src/tools/dcpomatic_verifier.cc:375
 msgid "Checking KDM"
 msgstr ""
 
@@ -371,7 +371,7 @@ msgstr "Copia preferenze\tCtrl-C"
 msgid "Could not create folder to store film."
 msgstr "Impossibile creare la cartella per archiviare il film"
 
-#: src/tools/dcpomatic_kdm.cc:652 src/tools/dcpomatic_verifier.cc:354
+#: src/tools/dcpomatic_kdm.cc:652 src/tools/dcpomatic_verifier.cc:367
 msgid ""
 "Could not decrypt the DKDM.  Perhaps it was not created with the correct "
 "certificate."
@@ -421,7 +421,7 @@ msgid ""
 "%s."
 msgstr "Impossibile caricare DCP {}."
 
-#: src/tools/dcpomatic_player.cc:829 src/tools/dcpomatic_verifier.cc:357
+#: src/tools/dcpomatic_player.cc:829 src/tools/dcpomatic_verifier.cc:370
 msgid "Could not load KDM."
 msgstr "Impossibile caricare KDM."
 
@@ -470,7 +470,7 @@ msgstr ""
 "Impossibile leggere il file come KDM. Forse è formattato male, o non è una "
 "KDM."
 
-#: src/tools/dcpomatic_kdm.cc:645 src/tools/dcpomatic_verifier.cc:347
+#: src/tools/dcpomatic_kdm.cc:645 src/tools/dcpomatic_verifier.cc:360
 msgid ""
 "Could not read file as a KDM.  Perhaps it is badly formatted, or not a KDM "
 "at all."
@@ -535,7 +535,7 @@ msgstr ""
 msgid "Crop"
 msgstr ""
 
-#: src/tools/dcpomatic_disk.cc:139 src/tools/dcpomatic_verifier.cc:172
+#: src/tools/dcpomatic_disk.cc:139 src/tools/dcpomatic_verifier.cc:179
 #, fuzzy
 msgid "DCP"
 msgstr "CPL"
@@ -544,7 +544,7 @@ msgstr "CPL"
 msgid "DCP-o-matic Encode Server"
 msgstr "DCP-o-MATIC Server per la Codifica"
 
-#: src/tools/dcpomatic_disk.cc:135 src/tools/dcpomatic_verifier.cc:146
+#: src/tools/dcpomatic_disk.cc:135 src/tools/dcpomatic_verifier.cc:149
 msgid "DCPs"
 msgstr ""
 
@@ -666,7 +666,7 @@ msgstr ""
 msgid "Entry point"
 msgstr ""
 
-#: src/tools/dcpomatic_verifier.cc:156
+#: src/tools/dcpomatic_verifier.cc:152
 msgid "Examining DCPs"
 msgstr ""
 
@@ -977,7 +977,7 @@ msgstr "Seleziona il DCP da aprire"
 msgid "Select DCP to open as OV"
 msgstr "Seleziona il DCP da aprire come OV"
 
-#: src/tools/dcpomatic_verifier.cc:150 src/tools/dcpomatic_verifier.cc:152
+#: src/tools/dcpomatic_verifier.cc:165 src/tools/dcpomatic_verifier.cc:167
 #, fuzzy
 msgid "Select DCP(s)"
 msgstr "Seleziona KDM"
@@ -991,7 +991,7 @@ msgstr "Seleziona il file DKDM"
 msgid "Select DKDM file"
 msgstr "Seleziona il file DKDM"
 
-#: src/tools/dcpomatic_player.cc:810 src/tools/dcpomatic_verifier.cc:335
+#: src/tools/dcpomatic_player.cc:810 src/tools/dcpomatic_verifier.cc:348
 msgid "Select KDM"
 msgstr "Seleziona KDM"
 
@@ -1184,7 +1184,7 @@ msgid ""
 "you want to play."
 msgstr ""
 
-#: src/tools/dcpomatic_verifier.cc:190
+#: src/tools/dcpomatic_verifier.cc:197
 msgid ""
 "Tick to check details of the picture asset, such as frame sizes and JPEG2000 "
 "bitstream validity.  These checks are quite time-consuming."
@@ -1231,7 +1231,7 @@ msgstr ""
 msgid "User manual..."
 msgstr ""
 
-#: src/tools/dcpomatic_verifier.cc:201
+#: src/tools/dcpomatic_verifier.cc:208
 #, fuzzy
 msgid "Verify"
 msgstr "Verifica DCP"
@@ -1246,7 +1246,7 @@ msgstr "Verifica DCP"
 msgid "Verify DCP..."
 msgstr "Verifica DCP"
 
-#: src/tools/dcpomatic_verifier.cc:187
+#: src/tools/dcpomatic_verifier.cc:194
 msgid "Verify picture asset details"
 msgstr ""
 
@@ -1258,7 +1258,7 @@ msgstr ""
 msgid "Video waveform..."
 msgstr "Forma d'onda video..."
 
-#: src/tools/dcpomatic_verifier.cc:194
+#: src/tools/dcpomatic_verifier.cc:201
 msgid "Write logs to DCP folders"
 msgstr ""
 

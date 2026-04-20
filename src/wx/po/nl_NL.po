@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-23 01:11+0100\n"
+"POT-Creation-Date: 2026-04-16 18:27+0200\n"
 "PO-Revision-Date: 2026-03-23 13:16+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
@@ -236,12 +236,12 @@ msgstr "96kHz"
 msgid ":1"
 msgstr ":1"
 
-#: src/wx/verify_dcp_result_panel.cc:646
+#: src/wx/verify_dcp_result_panel.cc:648
 #, c-format
 msgid "<IssueDate> has an invalid value %issue_date"
 msgstr "<IssueDate> heeft een ongeldige waarde %issue_date"
 
-#: src/wx/verify_dcp_result_panel.cc:652
+#: src/wx/verify_dcp_result_panel.cc:654
 #, c-format
 msgid "<MainSoundConfiguration> is invalid (%error)"
 msgstr "<MainSoundConfiguration> is ongeldig (%error)"
@@ -266,74 +266,86 @@ msgstr ""
 msgid "A"
 msgstr "A"
 
-#: src/wx/verify_dcp_result_panel.cc:555
+#: src/wx/verify_dcp_result_panel.cc:570
 #, c-format
 msgid "A 2K JPEG2000 frame contains %tile_parts tile parts instead of 3."
 msgstr "Een 2K JPEG2000-frame bevat %tile_parts tile parts in plaats van 3."
 
-#: src/wx/verify_dcp_result_panel.cc:569
+#: src/wx/verify_dcp_result_panel.cc:584
 #, c-format
-msgid "A 2K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %capabilities"
+msgid ""
+"A 2K JPEG2000 frame contains an invalid Rsiz (capabilities) value of "
+"%capabilities"
 msgstr ""
-"Een 2K JPEG2000-frame bevat een ongeldige Rsiz (capabilities) waarde van %capabilities"
+"Een 2K JPEG2000-frame bevat een ongeldige Rsiz (capabilities) waarde van "
+"%capabilities"
 
-#: src/wx/verify_dcp_result_panel.cc:527
-#, c-format
-msgid "A 2K JPEG2000 frame has %poc_markers POC marker(s) instead of 0."
-msgstr "Een 2K JPEG2000-frame heeft %poc_markers POC marker(s) in plaats van 0."
-
-#: src/wx/verify_dcp_result_panel.cc:492
+#: src/wx/verify_dcp_result_panel.cc:507
 #, c-format
 msgid "A 2K JPEG2000 frame has %guard_bits guard bits instead of 1."
 msgstr "Een 2K JPEG2000-frame heeft %guard_bits guard bits in plaats van 1."
 
-#: src/wx/verify_dcp_result_panel.cc:562
+#: src/wx/verify_dcp_result_panel.cc:542
+#, c-format
+msgid "A 2K JPEG2000 frame has %poc_markers POC marker(s) instead of 0."
+msgstr ""
+"Een 2K JPEG2000-frame heeft %poc_markers POC marker(s) in plaats van 0."
+
+#: src/wx/verify_dcp_result_panel.cc:577
 #, c-format
 msgid "A 4K JPEG2000 frame contains %tile_parts tile parts instead of 6."
 msgstr "Een 4K JPEG2000-frame bevat %tile_parts tile parts in plaats van 6."
 
-#: src/wx/verify_dcp_result_panel.cc:576
+#: src/wx/verify_dcp_result_panel.cc:591
 #, c-format
-msgid "A 4K JPEG2000 frame contains an invalid Rsiz (capabilities) value of %capabilities"
+msgid ""
+"A 4K JPEG2000 frame contains an invalid Rsiz (capabilities) value of "
+"%capabilities"
 msgstr ""
-"Een 4K JPEG2000-frame bevat een ongeldige Rsiz (capabilities) waarde van %capabilities"
+"Een 4K JPEG2000-frame bevat een ongeldige Rsiz (capabilities) waarde van "
+"%capabilities"
 
-#: src/wx/verify_dcp_result_panel.cc:534
-#, c-format
-msgid "A 4K JPEG2000 frame has %poc_markers POC marker(s) instead of 1."
-msgstr "Een 4K JPEG2000-frame heeft %poc_markers POC marker(s) in plaats van 1."
-
-#: src/wx/verify_dcp_result_panel.cc:499
+#: src/wx/verify_dcp_result_panel.cc:514
 #, c-format
 msgid "A 4K JPEG2000 frame has %guard_bits guard bits instead of 2."
 msgstr "Een 4K JPEG2000-frame heeft %guard_bits guard bits in plaats van 2."
 
-#: src/wx/verify_dcp_result_panel.cc:548
+#: src/wx/verify_dcp_result_panel.cc:549
+#, c-format
+msgid "A 4K JPEG2000 frame has %poc_markers POC marker(s) instead of 1."
+msgstr ""
+"Een 4K JPEG2000-frame heeft %poc_markers POC marker(s) in plaats van 1."
+
+#: src/wx/verify_dcp_result_panel.cc:563
 msgid "A JPEG2000 frame contains a POC marker in an invalid location."
 msgstr "Een JPEG2000-frame bevat een POC marker op een ongeldige locatie."
 
-#: src/wx/verify_dcp_result_panel.cc:541
+#: src/wx/verify_dcp_result_panel.cc:556
 #, c-format
 msgid "A JPEG2000 frame contains an invalid POC marker (%n)."
 msgstr "Een JPEG2000-frame bevat een ongeldige POC marker (%n)."
 
-#: src/wx/verify_dcp_result_panel.cc:520
+#: src/wx/verify_dcp_result_panel.cc:535
 #, c-format
-msgid "A JPEG2000 frame has a code-block height of %code_block_height instead of 32."
+msgid ""
+"A JPEG2000 frame has a code-block height of %code_block_height instead of 32."
 msgstr ""
-"Een JPEG2000-frame heeft een code-block hoogte van %code_block_height in plaats van 32."
+"Een JPEG2000-frame heeft een code-block hoogte van %code_block_height in "
+"plaats van 32."
 
-#: src/wx/verify_dcp_result_panel.cc:513
+#: src/wx/verify_dcp_result_panel.cc:528
 #, c-format
-msgid "A JPEG2000 frame has a code-block width of %code_block_width instead of 32."
+msgid ""
+"A JPEG2000 frame has a code-block width of %code_block_width instead of 32."
 msgstr ""
-"Een JPEG2000-frame heeft een code-block breedte van %code_block_width in plaats van 32."
+"Een JPEG2000-frame heeft een code-block breedte van %code_block_width in "
+"plaats van 32."
 
-#: src/wx/verify_dcp_result_panel.cc:583
+#: src/wx/verify_dcp_result_panel.cc:598
 msgid "A JPEG2000 frame has no TLM marker."
 msgstr "Een JPEG2000-frame heeft geen TLM marker."
 
-#: src/wx/verify_dcp_result_panel.cc:506
+#: src/wx/verify_dcp_result_panel.cc:521
 msgid "A JPEG2000 tile size does not match the image size."
 msgstr "Een JPEG2000 tile-grootte komt niet overeen met de beeldgrootte."
 
@@ -342,7 +354,7 @@ msgstr "Een JPEG2000 tile-grootte komt niet overeen met de beeldgrootte."
 msgid "A new version of %s is available."
 msgstr "Er is een nieuwe versie van %s beschikbaar."
 
-#: src/wx/verify_dcp_result_panel.cc:485
+#: src/wx/verify_dcp_result_panel.cc:500
 #, c-format
 msgid "A picture frame has an invalid JPEG2000 codestream (%error)."
 msgstr "Een picture frame heeft een ongeldige JPEG2000 codestream (%error)."
@@ -352,11 +364,11 @@ msgstr "Een picture frame heeft een ongeldige JPEG2000 codestream (%error)."
 msgid "A problem occurred when looking for hints (%s)"
 msgstr "Er is een probleem opgetreden tijdens het zoeken naar hints (%s)"
 
-#: src/wx/verify_dcp_result_panel.cc:588
+#: src/wx/verify_dcp_result_panel.cc:603
 msgid "A subtitle lasts longer than the reel it is in."
 msgstr "Een ondertitel duurt langer dan de reel waarin hij zit."
 
-#: src/wx/verify_dcp_result_panel.cc:668
+#: src/wx/verify_dcp_result_panel.cc:670
 #, c-format
 msgid ""
 "A subtitle or closed caption refers to a font with ID %load_font_id that "
@@ -566,11 +578,11 @@ msgstr "Alpha   0"
 msgid "Also supported by"
 msgstr "Ook ondersteund door"
 
-#: src/wx/verify_dcp_result_panel.cc:292
+#: src/wx/verify_dcp_result_panel.cc:307
 msgid "An asset has an empty path in the ASSETMAP."
 msgstr "Een asset heeft een leeg pad in de ASSETMAP."
 
-#: src/wx/verify_dcp_result_panel.cc:631
+#: src/wx/verify_dcp_result_panel.cc:633
 #, c-format
 msgid "An invalid <ContentKind> %content_kind has been used."
 msgstr "Er is een ongeldige <ContentKind> %content_kind gebruikt."
@@ -619,28 +631,28 @@ msgstr ""
 "Weet u zeker dat u e-mails naar de volgende adressen wilt verzenden?\n"
 "\n"
 
-#: src/wx/verify_dcp_result_panel.cc:616
+#: src/wx/verify_dcp_result_panel.cc:618
 msgid "At least one <Text> node in a subtitle or closed caption is empty."
 msgstr ""
 "Ten minste één <Text> node in een ondertitel of closed caption is leeg."
 
-#: src/wx/verify_dcp_result_panel.cc:417
+#: src/wx/verify_dcp_result_panel.cc:432
 msgid ""
 "At least one asset in a reel does not have the same duration as the others."
 msgstr ""
 "Ten minste één asset in een reel heeft niet dezelfde duration als de andere."
 
-#: src/wx/verify_dcp_result_panel.cc:387
+#: src/wx/verify_dcp_result_panel.cc:402
 msgid "At least one pair of subtitles is separated by less than 2 frames."
 msgstr ""
 "Ten minste één paar ondertitels wordt gescheiden door minder dan 2 frames."
 
-#: src/wx/verify_dcp_result_panel.cc:381
+#: src/wx/verify_dcp_result_panel.cc:396
 msgid "At least one subtitle has zero or negative duration."
 msgstr ""
 "Ten minste één ondertitel heeft een duur van nul of een negatieve duur."
 
-#: src/wx/verify_dcp_result_panel.cc:384
+#: src/wx/verify_dcp_result_panel.cc:399
 msgid "At least one subtitle lasts less than 15 frames."
 msgstr "Ten minste één ondertitel duurt minder dan 15 frames."
 
@@ -869,7 +881,7 @@ msgstr ""
 "Klik op de knop om alle geselecteerde content op dezelfde waarde in te "
 "stellen."
 
-#: src/wx/verify_dcp_result_panel.cc:435
+#: src/wx/verify_dcp_result_panel.cc:450
 #, c-format
 msgid "Closed caption asset %asset_id has a non-zero <EntryPoint>."
 msgstr "Closed caption asset %asset_id heeft een <EntryPoint> dat niet nul is."
@@ -1015,7 +1027,7 @@ msgstr "Kan certificaat niet laden (%s)"
 msgid "Could not play content"
 msgstr "Kan content niet afspelen"
 
-#: src/wx/verify_dcp_result_panel.cc:271
+#: src/wx/verify_dcp_result_panel.cc:286
 #, c-format
 msgid "Could not read DCP (%error)"
 msgstr "Kan DCP niet lezen (%error)"
@@ -1552,7 +1564,7 @@ msgstr "Markeer video forensisch"
 msgid "Format"
 msgstr "Formaat"
 
-#: src/wx/verify_dcp_result_panel.cc:328
+#: src/wx/verify_dcp_result_panel.cc:343
 #, c-format
 msgid ""
 "Frame %frame (timecode %timecode) in asset %f has an instantaneous bit rate "
@@ -1561,7 +1573,7 @@ msgstr ""
 "Frame %frame (tijdcode %timecode) in asset %f heeft een momentane bit rate "
 "die dicht bij de limiet van 250 Mbit/s zit."
 
-#: src/wx/verify_dcp_result_panel.cc:321
+#: src/wx/verify_dcp_result_panel.cc:336
 #, c-format
 msgid ""
 "Frame %frame (timecode %timecode) in asset %f has an instantaneous bit rate "
@@ -1570,7 +1582,7 @@ msgstr ""
 "Frame %frame (tijdcode %timecode) in asset %f heeft een momentane bit rate "
 "die boven de limiet van 250 Mbit/s zit."
 
-#: src/wx/verify_dcp_result_panel.cc:660
+#: src/wx/verify_dcp_result_panel.cc:662
 #, c-format
 msgid ""
 "Frame %frame has an image component that is too large (component %component "
@@ -2182,73 +2194,73 @@ msgstr "Metadata..."
 msgid "Mix audio down to stereo"
 msgstr "Mix audio down naar stereo"
 
-#: src/wx/verify_dcp_result_panel.cc:556
+#: src/wx/verify_dcp_result_panel.cc:571
 msgid ""
 "More 2K JPEG2000 frames (not listed) contain the wrong number of tile parts."
 msgstr ""
 "Meer 2K JPEG2000-frames (niet vermeld) hebben een verkeerd aantal tile parts."
 
-#: src/wx/verify_dcp_result_panel.cc:493
+#: src/wx/verify_dcp_result_panel.cc:508
 msgid ""
 "More 2K JPEG2000 frames (not listed) have an invalid number of guard bits."
 msgstr ""
 "Meer 2K JPEG2000-frames (niet vermeld) hebben een ongeldig aantal guard bits."
 
-#: src/wx/verify_dcp_result_panel.cc:528
+#: src/wx/verify_dcp_result_panel.cc:543
 msgid "More 2K JPEG2000 frames (not listed) have too many POC markers."
 msgstr "Meer 2K JPEG2000-frames (niet vermeld) hebben te veel POC markers."
 
-#: src/wx/verify_dcp_result_panel.cc:500
+#: src/wx/verify_dcp_result_panel.cc:515
 msgid ""
 "More 4K JPEG2000 frames (not listed) have an invalid number of guard bits."
 msgstr ""
 "Meer 4K JPEG2000-frames (niet vermeld) hebben een ongeldig aantal guard bits."
 
-#: src/wx/verify_dcp_result_panel.cc:535
+#: src/wx/verify_dcp_result_panel.cc:550
 msgid "More 4K JPEG2000 frames (not listed) have too many POC markers."
 msgstr "Meer 4K JPEG2000-frames (niet vermeld) hebben te veel POC markers."
 
-#: src/wx/verify_dcp_result_panel.cc:549
+#: src/wx/verify_dcp_result_panel.cc:564
 msgid ""
 "More JPEG2000 frames (not listed) contain POC markers in invalid locations."
 msgstr ""
 "Meer JPEG2000-frames (niet vermeld) hebben POC markers op ongeldige locaties."
 
-#: src/wx/verify_dcp_result_panel.cc:542
+#: src/wx/verify_dcp_result_panel.cc:557
 msgid "More JPEG2000 frames (not listed) contain invalid POC markers."
 msgstr "Meer JPEG2000-frames (niet vermeld) hebben ongeldige POC markers."
 
-#: src/wx/verify_dcp_result_panel.cc:570 src/wx/verify_dcp_result_panel.cc:577
+#: src/wx/verify_dcp_result_panel.cc:585 src/wx/verify_dcp_result_panel.cc:592
 msgid "More JPEG2000 frames (not listed) contain invalid Rsiz values."
 msgstr "Meer JPEG2000-frames (niet vermeld) hebben ongeldige Rsiz waarden."
 
-#: src/wx/verify_dcp_result_panel.cc:563
+#: src/wx/verify_dcp_result_panel.cc:578
 msgid ""
 "More JPEG2000 frames (not listed) contain the wrong number of tile parts."
 msgstr ""
 "Meer JPEG2000-frames (niet vermeld) hebben een verkeerd aantal tile parts."
 
-#: src/wx/verify_dcp_result_panel.cc:521
+#: src/wx/verify_dcp_result_panel.cc:536
 msgid "More JPEG2000 frames (not listed) have an invalid code-block height."
 msgstr ""
 "Meer JPEG2000-frames (niet vermeld) hebben een ongeldige code-block hoogte."
 
-#: src/wx/verify_dcp_result_panel.cc:514
+#: src/wx/verify_dcp_result_panel.cc:529
 msgid "More JPEG2000 frames (not listed) have an invalid code-block width."
 msgstr ""
 "Meer JPEG2000-frames (niet vermeld) hebben een ongeldige code-block breedte."
 
-#: src/wx/verify_dcp_result_panel.cc:584
+#: src/wx/verify_dcp_result_panel.cc:599
 msgid "More JPEG2000 frames (not listed) have no TLM marker."
 msgstr "Meer JPEG2000-frames (niet vermeld) hebben geen TLM marker."
 
-#: src/wx/verify_dcp_result_panel.cc:507
+#: src/wx/verify_dcp_result_panel.cc:522
 msgid "More JPEG2000 tile sizes (not listed) do not match the image size."
 msgstr ""
 "Meer JPEG2000 tile-groottes (niet vermeld) komen niet overeen met de "
 "beeldgrootte."
 
-#: src/wx/verify_dcp_result_panel.cc:329
+#: src/wx/verify_dcp_result_panel.cc:344
 msgid ""
 "More frames (not listed) have an instantaneous bit rate that is close to the "
 "limit of 250Mbit/s."
@@ -2256,7 +2268,7 @@ msgstr ""
 "Meer frames (niet vermeld) hebben een momentane bit rate die dicht bij de "
 "limiet van 250 Mbit/s zit."
 
-#: src/wx/verify_dcp_result_panel.cc:322
+#: src/wx/verify_dcp_result_panel.cc:337
 msgid ""
 "More frames (not listed) have an instantaneous bit rate that is over the "
 "limit of 250Mbit/s."
@@ -2264,11 +2276,11 @@ msgstr ""
 "Meer frames (niet vermeld) hebben een momentane bit rate die boven de limiet "
 "van 250 Mbit/s zit."
 
-#: src/wx/verify_dcp_result_panel.cc:661
+#: src/wx/verify_dcp_result_panel.cc:663
 msgid "More frames (not listed) have image components that are too large."
 msgstr "Meer frames (niet vermeld) hebben te grote beeldcomponenten."
 
-#: src/wx/verify_dcp_result_panel.cc:486
+#: src/wx/verify_dcp_result_panel.cc:501
 msgid "More picture frames (not listed) have invalid JPEG2000 codestreams."
 msgstr "Meer picture frames hebben ongeldige JPEG2000 codestreams."
 
@@ -2356,7 +2368,7 @@ msgstr "Volgende"
 msgid "No"
 msgstr "Nee"
 
-#: src/wx/verify_dcp_result_panel.cc:310
+#: src/wx/verify_dcp_result_panel.cc:325
 msgid "No ASSETMAP or ASSETMAP.xml file was found."
 msgstr "Er is geen ASSETMAP of ASSETMAP.xml bestand gevonden."
 
@@ -2364,7 +2376,7 @@ msgstr "Er is geen ASSETMAP of ASSETMAP.xml bestand gevonden."
 msgid "No DCP loaded."
 msgstr "Geen DCP geladen."
 
-#: src/wx/verify_dcp_result_panel.cc:709
+#: src/wx/verify_dcp_result_panel.cc:711
 msgid "No SMPTE Bv2.1 errors found."
 msgstr "Geen SMPTE Bv2.1-fouten gevonden."
 
@@ -2378,11 +2390,11 @@ msgstr ""
 msgid "No content found in this folder."
 msgstr "Geen content gevonden in deze map."
 
-#: src/wx/verify_dcp_result_panel.cc:705
+#: src/wx/verify_dcp_result_panel.cc:707
 msgid "No errors found."
 msgstr "Geen fouten gevonden."
 
-#: src/wx/verify_dcp_result_panel.cc:713
+#: src/wx/verify_dcp_result_panel.cc:715
 msgid "No warnings found."
 msgstr "Geen waarschuwingen gevonden."
 
@@ -2396,7 +2408,7 @@ msgstr "Niet-standaard"
 msgid "None"
 msgstr "Geen"
 
-#: src/wx/verify_dcp_result_panel.cc:369
+#: src/wx/verify_dcp_result_panel.cc:384
 msgid "Not all subtitle assets specify the same <Language> tag."
 msgstr "Niet alle subtitle assets specificeren dezelfde <Language> tag."
 
@@ -2526,13 +2538,13 @@ msgstr "Overschrijf gedetecteerde video frame rate"
 msgid "Overwrite this file with current configuration"
 msgstr "Overschrijf dit bestand met huidige configuratie"
 
-#: src/wx/verify_dcp_result_panel.cc:613
+#: src/wx/verify_dcp_result_panel.cc:615
 msgid "Part of the DCP could not be checked because no KDM was available."
 msgstr ""
 "Een deel van de DCP kon niet worden gecontroleerd omdat er geen KDM "
 "beschikbaar was."
 
-#: src/wx/verify_dcp_result_panel.cc:298
+#: src/wx/verify_dcp_result_panel.cc:313
 msgid ""
 "Parts of the DCP are written according to the Interop standard and parts "
 "according to SMPTE."
@@ -3046,7 +3058,7 @@ msgstr "Selecteer debug-logbestand"
 msgid "Select output file"
 msgstr "Selecteer output-bestand"
 
-#: src/wx/full_language_tag_dialog.cc:222
+#: src/wx/full_language_tag_dialog.cc:221
 msgid "Select..."
 msgstr "Selecteer..."
 
@@ -3216,7 +3228,7 @@ msgstr ""
 "Sommige KDM's zouden geldigheidsduren hebben die buiten de certificaatduren "
 "van de ontvanger vallen.  Wat wilt u doen?"
 
-#: src/wx/verify_dcp_result_panel.cc:619
+#: src/wx/verify_dcp_result_panel.cc:621
 msgid ""
 "Some closed <Text> or <Image> nodes have different vertical alignments "
 "within a <Subtitle>."
@@ -3224,7 +3236,7 @@ msgstr ""
 "Sommige closed <Text> of <Image> nodes hebben verschillende verticale "
 "uitlijningen binnen een <Subtitle>."
 
-#: src/wx/verify_dcp_result_panel.cc:622
+#: src/wx/verify_dcp_result_panel.cc:624
 msgid ""
 "Some closed captions are not listed in the order of their vertical position."
 msgstr ""
@@ -3234,7 +3246,7 @@ msgstr ""
 msgid "Sound"
 msgstr "Audio"
 
-#: src/wx/verify_dcp_result_panel.cc:649
+#: src/wx/verify_dcp_result_panel.cc:651
 msgid "Sound assets do not all have the same channel count."
 msgstr "Sound assets hebben niet allemaal hetzelfde aantal kanalen."
 
@@ -3319,7 +3331,7 @@ msgstr "Abonnees"
 msgid "Subtitle appearance"
 msgstr "Ondertitel-uiterlijk"
 
-#: src/wx/verify_dcp_result_panel.cc:429
+#: src/wx/verify_dcp_result_panel.cc:444
 #, c-format
 msgid "Subtitle asset %asset_id has a non-zero <EntryPoint>."
 msgstr "Subtitle asset %asset_id heeft een <EntryPoint> dat niet nul is."
@@ -3405,24 +3417,24 @@ msgstr "Getest door"
 msgid "The 'until' time must be after the 'from' time."
 msgstr "De 'tot'-tijd moet na de 'van'-tijd zijn."
 
-#: src/wx/verify_dcp_result_panel.cc:677
+#: src/wx/verify_dcp_result_panel.cc:679
 #, c-format
 msgid "The <LabelText> in a <ContentVersion> in CPL %cpl is empty"
 msgstr "De <LabelText> in een <ContentVersion> in CPL %cpl is leeg"
 
-#: src/wx/verify_dcp_result_panel.cc:634
+#: src/wx/verify_dcp_result_panel.cc:636
 msgid ""
 "The <MainPictureActiveArea> is either not a multiple of 2, or is bigger than "
 "an asset."
 msgstr ""
 "De <MainPictureActiveArea> is geen veelvoud van 2 of is groter dan een asset."
 
-#: src/wx/verify_dcp_result_panel.cc:640
+#: src/wx/verify_dcp_result_panel.cc:642
 #, c-format
 msgid "The ASSETMAP %asset_map_id has more than one asset with the same ID."
 msgstr "De ASSETMAP %asset_map_id heeft meer dan één asset met dezelfde ID."
 
-#: src/wx/verify_dcp_result_panel.cc:594
+#: src/wx/verify_dcp_result_panel.cc:609
 msgid ""
 "The Asset ID in a timed text MXF is the same as the Resource ID or that of "
 "the contained XML."
@@ -3430,7 +3442,7 @@ msgstr ""
 "De Asset ID in een timed text MXF is hetzelfde als de Resource ID of die van "
 "de ingesloten XML."
 
-#: src/wx/verify_dcp_result_panel.cc:414
+#: src/wx/verify_dcp_result_panel.cc:429
 #, c-format
 msgid ""
 "The CPL %cpl has an <AnnotationText> which is not the same as its "
@@ -3439,59 +3451,60 @@ msgstr ""
 "De CPL %cpl heeft een <AnnotationText> die niet hetzelfde is als zijn "
 "<ContentTitleText>."
 
-#: src/wx/verify_dcp_result_panel.cc:680
+#: src/wx/verify_dcp_result_panel.cc:682
 #, c-format
 msgid "The CPL %cpl has an invalid namespace %xml_namespace"
 msgstr "De CPL %cpl heeft een ongeldige namespace %xml_namespace"
 
-#: src/wx/verify_dcp_result_panel.cc:471
+#: src/wx/verify_dcp_result_panel.cc:486
 #, c-format
 msgid "The CPL %cpl has encrypted content but is not signed."
 msgstr "De CPL %cpl heeft versleutelde content maar is niet ondertekend."
 
-#: src/wx/verify_dcp_result_panel.cc:411
+#: src/wx/verify_dcp_result_panel.cc:426
 #, c-format
 msgid "The CPL %cpl has no <AnnotationText> tag."
 msgstr "De CPL %cpl heeft geen <AnnotationText> tag."
 
-#: src/wx/verify_dcp_result_panel.cc:683
+#: src/wx/verify_dcp_result_panel.cc:685
 #, c-format
 msgid "The CPL %cpl has no <ContentVersion> tag"
 msgstr "De CPL %cpl heeft geen <ContentVersion> tag"
 
-#: src/wx/verify_dcp_result_panel.cc:465
+#: src/wx/verify_dcp_result_panel.cc:480
 #, c-format
 msgid "The CPL %cpl has no CPL extension metadata tag."
 msgstr "De CPL %cpl heeft geen CPL extension metadata tag."
 
-#: src/wx/verify_dcp_result_panel.cc:459
+#: src/wx/verify_dcp_result_panel.cc:474
 #, c-format
 msgid "The CPL %cpl has no CPL metadata tag."
 msgstr "De CPL %cpl heeft geen CPL metadata tag."
 
-#: src/wx/verify_dcp_result_panel.cc:462
+#: src/wx/verify_dcp_result_panel.cc:477
 #, c-format
 msgid "The CPL %cpl has no CPL metadata version number tag."
 msgstr "De CPL %cpl heeft geen CPL metadata version number tag."
 
-#: src/wx/verify_dcp_result_panel.cc:468
+#: src/wx/verify_dcp_result_panel.cc:483
 #, c-format
 msgid "The CPL %f has an invalid CPL extension metadata tag (%error)"
 msgstr "De CPL %f heeft een ongeldige CPL extension metadata tag (%error)"
 
-#: src/wx/verify_dcp_result_panel.cc:453
+#: src/wx/verify_dcp_result_panel.cc:468
 #, c-format
 msgid "The DCP has a FFOC of %time instead of 1."
-msgstr "De DCP heeft een FFOC (first frame of content) van %time in plaats van 1."
+msgstr ""
+"De DCP heeft een FFOC (first frame of content) van %time in plaats van 1."
 
-#: src/wx/verify_dcp_result_panel.cc:456
+#: src/wx/verify_dcp_result_panel.cc:471
 #, c-format
 msgid "The DCP has a LFOC of %time instead of the reel duration minus one."
 msgstr ""
-"De DCP heeft een LFOC (last frame of content) van %time in plaats van de reel "
-"duration min één."
+"De DCP heeft een LFOC (last frame of content) van %time in plaats van de "
+"reel duration min één."
 
-#: src/wx/verify_dcp_result_panel.cc:423
+#: src/wx/verify_dcp_result_panel.cc:438
 msgid ""
 "The DCP has closed captions but not every reel has the same number of closed "
 "caption assets."
@@ -3499,32 +3512,32 @@ msgstr ""
 "De DCP heeft closed captions, maar niet elke reel heeft hetzelfde aantal "
 "closed caption assets."
 
-#: src/wx/verify_dcp_result_panel.cc:480
+#: src/wx/verify_dcp_result_panel.cc:495
 msgid "The DCP has encrypted content, but not all its assets are encrypted."
 msgstr ""
 "De DCP heeft versleutelde content, maar niet al zijn assets zijn versleuteld."
 
-#: src/wx/verify_dcp_result_panel.cc:447
+#: src/wx/verify_dcp_result_panel.cc:462
 msgid "The DCP has no FFOC (first frame of content) marker."
 msgstr "De DCP heeft geen FFOC (first frame of content) marker."
 
-#: src/wx/verify_dcp_result_panel.cc:450
+#: src/wx/verify_dcp_result_panel.cc:465
 msgid "The DCP has no LFOC (last frame of content) marker."
 msgstr "De DCP heeft geen LFOC (last frame of content) marker."
 
-#: src/wx/verify_dcp_result_panel.cc:420
+#: src/wx/verify_dcp_result_panel.cc:435
 msgid "The DCP has subtitles but at least one reel has no subtitle asset."
 msgstr ""
 "De DCP heeft ondertitels, maar ten minste één reel heeft geen subtitle asset."
 
-#: src/wx/verify_dcp_result_panel.cc:441
+#: src/wx/verify_dcp_result_panel.cc:456
 msgid ""
 "The DCP is a feature but has no FFEC (first frame of end credits) marker."
 msgstr ""
 "De DCP is een feature maar heeft geen FFEC (first frame of end credits) "
 "marker."
 
-#: src/wx/verify_dcp_result_panel.cc:444
+#: src/wx/verify_dcp_result_panel.cc:459
 msgid ""
 "The DCP is a feature but has no FFMC (first frame of moving credits) marker."
 msgstr ""
@@ -3550,12 +3563,12 @@ msgstr ""
 "De KDM-starttijd is voor (of nabij) het begin van de geldigheidsduur van het "
 "ondertekenings-certificaat.  Gebruik een latere starttijd voor deze KDM."
 
-#: src/wx/verify_dcp_result_panel.cc:699
+#: src/wx/verify_dcp_result_panel.cc:701
 #, c-format
 msgid "The PKL %f has an invalid namespace %xml_namespace"
 msgstr "De PKL %f heeft een ongeldige namespace %xml_namespace"
 
-#: src/wx/verify_dcp_result_panel.cc:477
+#: src/wx/verify_dcp_result_panel.cc:492
 #, c-format
 msgid ""
 "The PKL %pkl has an <AnnotationText> which does not match its CPL's "
@@ -3564,27 +3577,27 @@ msgstr ""
 "De PKL %pkl heeft een <AnnotationText> die niet overeenkomt met de "
 "<ContentTitleText> van zijn CPL."
 
-#: src/wx/verify_dcp_result_panel.cc:474
+#: src/wx/verify_dcp_result_panel.cc:489
 #, c-format
 msgid "The PKL %pkl has encrypted content but is not signed."
 msgstr "De PKL %pkl heeft versleutelde content, maar is niet ondertekend."
 
-#: src/wx/verify_dcp_result_panel.cc:637
+#: src/wx/verify_dcp_result_panel.cc:639
 #, c-format
 msgid "The PKL %pkl_id has more than one asset with the same ID."
 msgstr "De PKL %pkl_id heeft meer dan één asset met dezelfde ID."
 
-#: src/wx/verify_dcp_result_panel.cc:283
+#: src/wx/verify_dcp_result_panel.cc:298
 #, c-format
 msgid "The PKL and CPL hashes disagree for picture asset %f."
 msgstr "De PKL-hash en CPL-hash van picture asset %f komen niet overeen."
 
-#: src/wx/verify_dcp_result_panel.cc:289
+#: src/wx/verify_dcp_result_panel.cc:304
 #, c-format
 msgid "The PKL and CPL hashes disagree for sound asset %f."
 msgstr "De PKL-hash en CPL-hash van sound asset %f komen niet overeen."
 
-#: src/wx/verify_dcp_result_panel.cc:591
+#: src/wx/verify_dcp_result_panel.cc:606
 msgid ""
 "The Resource ID in a timed text MXF did not match the ID of the contained "
 "XML."
@@ -3592,7 +3605,7 @@ msgstr ""
 "De Resource ID in een timed text MXF is niet hetzelfde als de ID van de "
 "ingesloten XML."
 
-#: src/wx/verify_dcp_result_panel.cc:671
+#: src/wx/verify_dcp_result_panel.cc:673
 #, c-format
 msgid ""
 "The SMPTE subtitle asset %asset_id has <Text> nodes but no <LoadFont> node"
@@ -3600,62 +3613,66 @@ msgstr ""
 "De SMPTE subtitle asset %asset_id heeft <Text> nodes maar geen <LoadFont> "
 "node"
 
-#: src/wx/verify_dcp_result_panel.cc:305
+#: src/wx/verify_dcp_result_panel.cc:320
 #, c-format
 msgid "The XML in %f is malformed (%error)."
 msgstr "De XML in %f is onjuist (%error)."
 
-#: src/wx/verify_dcp_result_panel.cc:303
+#: src/wx/verify_dcp_result_panel.cc:318
 msgid "The XML in %f is malformed on line %l (%error)."
 msgstr "De XML in %f is onjuist op regel %l (%error)."
 
-#: src/wx/verify_dcp_result_panel.cc:357
+#: src/wx/verify_dcp_result_panel.cc:372
 #, c-format
 msgid ""
-"The XML in the closed caption asset %f takes up %size_in_bytes bytes which is over the "
-"256KB limit."
+"The XML in the closed caption asset %f takes up %size_in_bytes bytes which "
+"is over the 256KB limit."
 msgstr ""
-"De XML in de closed caption asset %f neemt %size_in_bytes bytes in beslag, wat de limiet "
-"van 256 KB overschrijdt."
+"De XML in de closed caption asset %f neemt %size_in_bytes bytes in beslag, "
+"wat de limiet van 256 KB overschrijdt."
 
-#: src/wx/verify_dcp_result_panel.cc:665
+#: src/wx/verify_dcp_result_panel.cc:667
 #, c-format
 msgid ""
-"The XML in the subtitle asset %asset_id has more than one namespace declaration."
+"The XML in the subtitle asset %asset_id has more than one namespace "
+"declaration."
 msgstr ""
-"De XML in de subtitle asset %asset_id heeft meer dan één namespace declaratie."
+"De XML in de subtitle asset %asset_id heeft meer dan één namespace "
+"declaratie."
 
-#: src/wx/verify_dcp_result_panel.cc:336
-#, c-format
-msgid "The asset %f is 3D but its MXF is marked as 2D."
-msgstr "De asset %f is 3D, maar zijn MXF is gemarkeerd als 2D."
-
-#: src/wx/verify_dcp_result_panel.cc:295
-#, c-format
-msgid "The asset %f is missing."
-msgstr "De asset %f ontbreekt."
-
-#: src/wx/verify_dcp_result_panel.cc:316
-#, c-format
-msgid "The asset %asset_id has a duration of less than 1 second, which is invalid."
-msgstr ""
-"De asset %asset_id heeft een duration van minder dan 1 seconde, wat ongeldig is."
-
-#: src/wx/verify_dcp_result_panel.cc:313
+#: src/wx/verify_dcp_result_panel.cc:331
 #, c-format
 msgid ""
-"The asset %asset_id has an intrinsic duration of less than 1 second, which is "
-"invalid."
+"The asset %asset_id has a duration of less than 1 second, which is invalid."
 msgstr ""
-"De asset %asset_id heeft een intrinsic duration van minder dan 1 seconde, wat "
-"ongeldig is."
+"De asset %asset_id heeft een duration van minder dan 1 seconde, wat ongeldig "
+"is."
 
-#: src/wx/verify_dcp_result_panel.cc:438
+#: src/wx/verify_dcp_result_panel.cc:328
+#, c-format
+msgid ""
+"The asset %asset_id has an intrinsic duration of less than 1 second, which "
+"is invalid."
+msgstr ""
+"De asset %asset_id heeft een intrinsic duration van minder dan 1 seconde, "
+"wat ongeldig is."
+
+#: src/wx/verify_dcp_result_panel.cc:453
 #, c-format
 msgid "The asset %asset_id has no <Hash> in the CPL."
 msgstr "De asset %asset_id heeft geen <Hash> in de CPL."
 
-#: src/wx/verify_dcp_result_panel.cc:674
+#: src/wx/verify_dcp_result_panel.cc:351
+#, c-format
+msgid "The asset %f is 3D but its MXF is marked as 2D."
+msgstr "De asset %f is 3D, maar zijn MXF is gemarkeerd als 2D."
+
+#: src/wx/verify_dcp_result_panel.cc:310
+#, c-format
+msgid "The asset %f is missing."
+msgstr "De asset %f ontbreekt."
+
+#: src/wx/verify_dcp_result_panel.cc:676
 #, c-format
 msgid ""
 "The asset with ID %asset_id in the asset map actually has an id of "
@@ -3664,7 +3681,7 @@ msgstr ""
 "De asset met ID %asset_id in de asset map heeft in werkelijkheid een ID "
 "%other_asset_id"
 
-#: src/wx/verify_dcp_result_panel.cc:432
+#: src/wx/verify_dcp_result_panel.cc:447
 #, c-format
 msgid "The closed caption asset %asset_id has no <EntryPoint> tag."
 msgstr "De closed caption asset %asset_id heeft geen <EntryPoint> tag."
@@ -3708,32 +3725,32 @@ msgstr ""
 "Het bestand %s bestaat al.  Wilt u het als uw nieuwe configuratie gebruiken "
 "of wilt u het met uw huidige configuratie overschrijven?"
 
-#: src/wx/verify_dcp_result_panel.cc:378
+#: src/wx/verify_dcp_result_panel.cc:393
 msgid ""
 "The first subtitle or closed caption happens before 4s into the first reel."
 msgstr ""
 "De eerste ondertitel of closed caption vindt plaats vóór 4 seconden in de "
 "eerste reel."
 
-#: src/wx/verify_dcp_result_panel.cc:655
+#: src/wx/verify_dcp_result_panel.cc:657
 #, c-format
 msgid ""
-"The font file for font ID \"%load_font_id\" was not found, or was not referred to in "
-"the ASSETMAP."
+"The font file for font ID \"%load_font_id\" was not found, or was not "
+"referred to in the ASSETMAP."
 msgstr ""
-"Het font-bestand voor font ID \"%load_font_id\" is niet gevonden of er wordt niet aan "
-"gerefereerd in de ASSETMAP."
+"Het font-bestand voor font ID \"%load_font_id\" is niet gevonden of er wordt "
+"niet aan gerefereerd in de ASSETMAP."
 
-#: src/wx/verify_dcp_result_panel.cc:363
+#: src/wx/verify_dcp_result_panel.cc:378
 #, c-format
 msgid ""
-"The fonts in the timed text asset %f take up %size_in_bytes bytes which is over the 10MB "
-"limit."
+"The fonts in the timed text asset %f take up %size_in_bytes bytes which is "
+"over the 10MB limit."
 msgstr ""
-"De fonts in de timed text asset %f nemen %size_in_bytes bytes in beslag, wat de limiet "
-"van 10 MB overschrijdt."
+"De fonts in de timed text asset %f nemen %size_in_bytes bytes in beslag, wat "
+"de limiet van 10 MB overschrijdt."
 
-#: src/wx/verify_dcp_result_panel.cc:280
+#: src/wx/verify_dcp_result_panel.cc:295
 msgid ""
 "The hash (%calculated_hash) of the picture asset %f does not agree with the "
 "PKL file (%reference_hash).  This probably means that the asset file is "
@@ -3743,7 +3760,7 @@ msgstr ""
 "in het PKL-bestand (%reference_hash).  Dit betekent waarschijnlijk dat het "
 "asset-bestand beschadigd is."
 
-#: src/wx/verify_dcp_result_panel.cc:286
+#: src/wx/verify_dcp_result_panel.cc:301
 msgid ""
 "The hash (%calculated_hash) of the sound asset %f does not agree with the "
 "PKL file (%reference_hash).  This probably means that the asset file is "
@@ -3753,7 +3770,7 @@ msgstr ""
 "in het PKL-bestand (%reference_hash).  Dit betekent waarschijnlijk dat het "
 "asset-bestand beschadigd is."
 
-#: src/wx/verify_dcp_result_panel.cc:274
+#: src/wx/verify_dcp_result_panel.cc:289
 msgid ""
 "The hash (%reference_hash) of the CPL %cpl in the PKL does not agree with "
 "the CPL file (%calculated_hash).  This probably means that the CPL file is "
@@ -3763,8 +3780,7 @@ msgstr ""
 "die van het CPL-bestand (%calculated_hash).  Dit betekent waarschijnlijk dat "
 "het CPL-bestand beschadigd is."
 
-#: src/wx/verify_dcp_result_panel.cc:342
-#, c-format
+#: src/wx/verify_dcp_result_panel.cc:357
 msgid "The invalid language tag %language is used."
 msgstr "De ongeldige language tag %language wordt gebruikt."
 
@@ -3773,7 +3789,7 @@ msgstr "De ongeldige language tag %language wordt gebruikt."
 msgid "The language that the film's title (\"%s\") is in"
 msgstr "De taal van de filmtitel (\"%s\")"
 
-#: src/wx/verify_dcp_result_panel.cc:277
+#: src/wx/verify_dcp_result_panel.cc:292
 #, c-format
 msgid ""
 "The picture in a reel has a frame rate of %frame_rate, which is not valid."
@@ -3781,21 +3797,21 @@ msgstr ""
 "De video in een reel heeft een frame rate van %frame_rate, wat niet geldig "
 "is."
 
-#: src/wx/verify_dcp_result_panel.cc:604
+#: src/wx/verify_dcp_result_panel.cc:612
 #, c-format
 msgid ""
-"The reel duration (%other_duration) of some timed text is not the same as the "
-"ContainerDuration (%duration) of its MXF."
+"The reel duration (%other_duration) of some timed text is not the same as "
+"the ContainerDuration (%duration) of its MXF."
 msgstr ""
-"De reel duration (%other_duration) van sommige timed text is niet hetzelfde als de "
-"ContainerDuration (%duration) van zijn MXF."
+"De reel duration (%other_duration) van sommige timed text is niet hetzelfde "
+"als de ContainerDuration (%duration) van zijn MXF."
 
-#: src/wx/verify_dcp_result_panel.cc:408
-#, c-format
-msgid "The sound asset %f has an invalid bit depth of %bit_depth."
+#: src/wx/verify_dcp_result_panel.cc:423
+#, fuzzy, c-format
+msgid "The sound asset %f has an invalid bit depth of %n."
 msgstr "De sound asset %f heeft een ongeldige bit depth van %bit_depth."
 
-#: src/wx/verify_dcp_result_panel.cc:405
+#: src/wx/verify_dcp_result_panel.cc:420
 #, c-format
 msgid "The sound asset %f has an invalid frame rate of %frame_rate."
 msgstr "De sound asset %f heeft een ongeldige frame rate van %frame_rate."
@@ -3808,40 +3824,41 @@ msgstr ""
 "Welke standaard de DCP moet gebruiken.  Interop is ouder en SMPTE is de "
 "nieuwere (huidige) standaard.  Kies bij twijfel voor 'SMPTE'."
 
-#: src/wx/verify_dcp_result_panel.cc:366
-#, c-format
-msgid "The subtitle asset %f contains no <Language> tag."
-msgstr "De subtitle asset %f bevat geen <Language> tag."
-
-#: src/wx/verify_dcp_result_panel.cc:372
-#, c-format
-msgid "The subtitle asset %f contains no <StartTime> tag."
-msgstr "De subtitle asset %f bevat geen <StartTime> tag."
-
-#: src/wx/verify_dcp_result_panel.cc:375
-#, c-format
-msgid "The subtitle asset %f has a <StartTime> which is not zero."
-msgstr "De subtitle asset %f heeft een <StartTime> die niet nul is."
-
-#: src/wx/verify_dcp_result_panel.cc:643
+#: src/wx/verify_dcp_result_panel.cc:645
 #, c-format
 msgid "The subtitle asset %asset_id contains no subtitles."
 msgstr "De subtitle asset %asset_id bevat geen ondertitels."
 
-#: src/wx/verify_dcp_result_panel.cc:426
+#: src/wx/verify_dcp_result_panel.cc:441
 #, c-format
 msgid "The subtitle asset %asset_id has no <EntryPoint> tag."
 msgstr "De subtitle asset %asset_id heeft geen <EntryPoint> tag."
 
-#: src/wx/verify_dcp_result_panel.cc:360
+#: src/wx/verify_dcp_result_panel.cc:381
+#, c-format
+msgid "The subtitle asset %f contains no <Language> tag."
+msgstr "De subtitle asset %f bevat geen <Language> tag."
+
+#: src/wx/verify_dcp_result_panel.cc:387
+#, c-format
+msgid "The subtitle asset %f contains no <StartTime> tag."
+msgstr "De subtitle asset %f bevat geen <StartTime> tag."
+
+#: src/wx/verify_dcp_result_panel.cc:390
+#, c-format
+msgid "The subtitle asset %f has a <StartTime> which is not zero."
+msgstr "De subtitle asset %f heeft een <StartTime> die niet nul is."
+
+#: src/wx/verify_dcp_result_panel.cc:375
 #, c-format
 msgid ""
-"The timed text asset %f takes up %size_in_bytes bytes which is over the 115MB limit."
+"The timed text asset %f takes up %size_in_bytes bytes which is over the "
+"115MB limit."
 msgstr ""
-"De timed text asset %f neemt %size_in_bytes bytes in beslag, wat de limiet van 115 MB "
-"overschrijdt."
+"De timed text asset %f neemt %size_in_bytes bytes in beslag, wat de limiet "
+"van 115 MB overschrijdt."
 
-#: src/wx/verify_dcp_result_panel.cc:351
+#: src/wx/verify_dcp_result_panel.cc:366
 #, c-format
 msgid ""
 "The video asset %f uses the frame rate %frame_rate which is invalid for 4K "
@@ -3850,37 +3867,37 @@ msgstr ""
 "De video asset %f gebruikt de frame rate %frame_rate, wat ongeldig is voor "
 "4K video."
 
-#: src/wx/verify_dcp_result_panel.cc:348
+#: src/wx/verify_dcp_result_panel.cc:363
 #, c-format
 msgid "The video asset %f uses the invalid frame rate %frame_rate."
 msgstr "De video asset %f heeft een ongeldige frame rate van %frame_rate."
 
-#: src/wx/verify_dcp_result_panel.cc:345
+#: src/wx/verify_dcp_result_panel.cc:360
 #, c-format
 msgid "The video asset %f uses the invalid image size %size_in_pixels."
 msgstr "De video asset %f gebruikt de ongeldige beeldgrootte %size_in_pixels."
 
-#: src/wx/verify_dcp_result_panel.cc:354
+#: src/wx/verify_dcp_result_panel.cc:369
 msgid "The video asset is 4K which is not allowed for 3D video."
 msgstr "De video asset is 4K, wat ongeldig is voor 3D-video."
 
-#: src/wx/verify_dcp_result_panel.cc:399
+#: src/wx/verify_dcp_result_panel.cc:414
 msgid "There are more than 3 closed caption lines in at least one place."
 msgstr "Er zijn meer dan drie closed caption regels op ten minste één plaats."
 
-#: src/wx/verify_dcp_result_panel.cc:390
+#: src/wx/verify_dcp_result_panel.cc:405
 msgid "There are more than 3 subtitle lines in at least one place."
 msgstr "Er zijn meer dan drie ondertitel-regels op ten minste één plaats."
 
-#: src/wx/verify_dcp_result_panel.cc:402
+#: src/wx/verify_dcp_result_panel.cc:417
 msgid "There are more than 32 characters in at least one closed caption line."
 msgstr "Er zitten meer dan 32 tekens in ten minste één closed caption regel."
 
-#: src/wx/verify_dcp_result_panel.cc:393
+#: src/wx/verify_dcp_result_panel.cc:408
 msgid "There are more than 52 characters in at least one subtitle line."
 msgstr "Er zitten meer dan 52 tekens in ten minste één ondertitel-regel."
 
-#: src/wx/verify_dcp_result_panel.cc:396
+#: src/wx/verify_dcp_result_panel.cc:411
 msgid "There are more than 79 characters in at least one subtitle line."
 msgstr "Er zitten meer dan 79 tekens in ten minste één ondertitel-regel."
 
@@ -3892,11 +3909,11 @@ msgstr "Er zijn nog geen hints: projectcontrole is bezig."
 msgid "There are no hints: everything looks good!"
 msgstr "Er zijn geen hints, alles ziet er goed uit!"
 
-#: src/wx/verify_dcp_result_panel.cc:628
+#: src/wx/verify_dcp_result_panel.cc:630
 msgid "There is a <Duration> tag inside a <MainMarkers>."
 msgstr "Er staat een <Duration> tag binnen een <MainMarkers>."
 
-#: src/wx/verify_dcp_result_panel.cc:625
+#: src/wx/verify_dcp_result_panel.cc:627
 msgid "There is a <EntryPoint> tag inside a <MainMarkers>."
 msgstr "Er staat een <EntryPoint> tag binnen een <MainMarkers>."
 
@@ -3921,16 +3938,16 @@ msgstr ""
 msgid "This CPL contains no encrypted assets."
 msgstr "Deze CPL bevat geen versleutelde assets."
 
-#: src/wx/verify_dcp_result_panel.cc:333
-#, c-format
+#: src/wx/verify_dcp_result_panel.cc:348
+#, fuzzy, c-format
 msgid ""
-"This DCP refers to at the asset %asset_id in another DCP (and perhaps others), so "
-"it is a \"version file\" (VF)"
+"This DCP refers to the asset %asset_id in another DCP (and perhaps others), "
+"so it is a \"version file\" (VF)"
 msgstr ""
-"Deze DCP refereert aan de asset %asset_id in een andere DCP (en misschien andere), "
-"dus het is een \"Version File\" (VF)"
+"Deze DCP refereert aan de asset %asset_id in een andere DCP (en misschien "
+"andere), dus het is een \"Version File\" (VF)"
 
-#: src/wx/verify_dcp_result_panel.cc:339
+#: src/wx/verify_dcp_result_panel.cc:354
 msgid "This DCP uses the Interop standard, but it should be made with SMPTE."
 msgstr ""
 "Deze DCP gebruikt de Interop-standaard, maar moet met SMPTE worden gemaakt."
@@ -4336,7 +4353,7 @@ msgstr "Geldig tot"
 msgid "Vendor"
 msgstr "Vendor"
 
-#: src/wx/verify_dcp_result_panel.cc:723
+#: src/wx/verify_dcp_result_panel.cc:725
 msgid "Verification report"
 msgstr "Verificatierapport"
 

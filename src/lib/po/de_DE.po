@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-22 22:52+0100\n"
+"POT-Creation-Date: 2026-04-19 23:03+0200\n"
 "PO-Revision-Date: 2021-08-20 20:44+0200\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
@@ -18,7 +18,7 @@ msgstr ""
 "X-Generator: Poedit 3.0\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/lib/video_content.cc:513
+#: src/lib/video_content.cc:515
 #, c-format
 msgid ""
 "\n"
@@ -27,7 +27,7 @@ msgstr ""
 "\n"
 "Bildrate %.4f fps\n"
 
-#: src/lib/video_content.cc:477
+#: src/lib/video_content.cc:479
 #, c++-format
 msgid ""
 "\n"
@@ -36,7 +36,7 @@ msgstr ""
 "\n"
 "Beschnitten zu {}x{}"
 
-#: src/lib/video_content.cc:467
+#: src/lib/video_content.cc:469
 #, c-format
 msgid ""
 "\n"
@@ -45,7 +45,7 @@ msgstr ""
 "\n"
 "Anzeigeseitenverhältnis (DAR) %.2f:1"
 
-#: src/lib/video_content.cc:501
+#: src/lib/video_content.cc:503
 #, c++-format
 msgid ""
 "\n"
@@ -54,7 +54,7 @@ msgstr ""
 "\n"
 "Mit Schwarz gefüllt auf Containerformat {} ({}x{})"
 
-#: src/lib/video_content.cc:491
+#: src/lib/video_content.cc:493
 #, c++-format
 msgid ""
 "\n"
@@ -63,7 +63,7 @@ msgstr ""
 "\n"
 "Skaliert auf {}x{}"
 
-#: src/lib/video_content.cc:495 src/lib/video_content.cc:506
+#: src/lib/video_content.cc:497 src/lib/video_content.cc:508
 #, c-format
 msgid " (%.2f:1)"
 msgstr " (%.2f:1)"
@@ -104,7 +104,7 @@ msgstr ""
 msgid "$JOB_NAME: $JOB_STATUS"
 msgstr "$JOB_NAME: $JOB_STATUS"
 
-#: src/lib/video_content.cc:462
+#: src/lib/video_content.cc:464
 #, c-format
 msgid ", pixel aspect ratio %.2f:1"
 msgstr ", Pixelseitenverhältnis %.2f:1"
@@ -178,7 +178,7 @@ msgstr "2.39:1 (DCI Scope)"
 msgid "3D denoiser"
 msgstr "3D Rauschunterdrückung"
 
-#: src/lib/hints.cc:219
+#: src/lib/hints.cc:222
 msgid ""
 "4K 3D is only supported by a very limited number of projectors.  Unless you "
 "know that you will play this DCP back on a capable projector, it is "
@@ -232,7 +232,7 @@ msgstr ""
 "href=\"https://dcpomatic.com/donate_amount?amount=10\">Spende über Paypal "
 "£10</a></ul><p>Dankeschön!</font>"
 
-#: src/lib/hints.cc:176
+#: src/lib/hints.cc:179
 #, fuzzy
 msgid ""
 "A few projectors have problems playing back very high bit-rate DCPs.  It is "
@@ -260,7 +260,7 @@ msgstr "ARIB STD-B67 ('Hybrid log-gamma')"
 msgid "Advertisement"
 msgstr "Werbung - ADV"
 
-#: src/lib/hints.cc:153
+#: src/lib/hints.cc:156
 msgid ""
 "All of your content is in Scope (2.39:1) but your DCP's container is Flat "
 "(1.85:1).  This will letter-box your content inside a Flat (1.85:1) frame.  "
@@ -274,7 +274,7 @@ msgstr ""
 "Containertyp auf Scope (2.39:1) einstellen. Für Scope-Trailer ist diese "
 "'letter-boxed' Darstellung in einem Flat-Vorprogramm jedoch übliche Praxis."
 
-#: src/lib/hints.cc:157
+#: src/lib/hints.cc:160
 #, fuzzy
 msgid ""
 "All of your content narrower than 1.90:1 but your DCP's container is Scope "
@@ -300,28 +300,28 @@ msgstr "Audio wird analysiert"
 msgid "Analysing subtitles"
 msgstr "Untertitel analysieren"
 
-#: src/lib/hints.cc:384
+#: src/lib/hints.cc:379
 msgid ""
 "At least one marker comes after the end of the project and will be ignored."
 msgstr ""
 "Mindestens ein Marker ist hinter dem Ende des Projekts platziert und wird "
 "daher ignoriert."
 
-#: src/lib/hints.cc:523
+#: src/lib/hints.cc:526
 msgid "At least one of your closed caption files is larger than "
 msgstr "Mindestens eine Ihrer Closed Captions (CCAP) ist grösser als "
 
-#: src/lib/hints.cc:516
+#: src/lib/hints.cc:520
 msgid "At least one of your closed caption files' XML part is larger than "
 msgstr ""
 "Mindestens eine Ihrer Closed Captions (CCAP) -Dateien (XML-Format) ist "
 "grösser als "
 
-#: src/lib/hints.cc:531
+#: src/lib/hints.cc:532
 msgid "At least one of your subtitle files is larger than "
 msgstr "Mindestens eine Ihrer Untertiteldateien ist grösser als "
 
-#: src/lib/hints.cc:495
+#: src/lib/hints.cc:490
 msgid ""
 "At least one of your subtitle lines has more than 52 characters.  It is "
 "recommended to make each line 52 characters at most in length."
@@ -330,7 +330,7 @@ msgstr ""
 "empfohlen, jede Untertitelzeile auf eine Länge von maximal 52 Zeichen zu "
 "beschränken."
 
-#: src/lib/hints.cc:497
+#: src/lib/hints.cc:492
 msgid ""
 "At least one of your subtitle lines has more than 79 characters.  You should "
 "make each line 79 characters at most in length."
@@ -338,7 +338,7 @@ msgstr ""
 "Mindestens eine Ihrer Untertitel-Zeilen hat mehr als 79 Zeichen. Sie sollten "
 "jede Untertitelzeile auf eine Länge von maximal 79 Zeichen begrenzen."
 
-#: src/lib/hints.cc:664
+#: src/lib/hints.cc:681
 msgid ""
 "At least one of your subtitles has more than 3 lines.  It is advisable to "
 "use no more than 3 lines."
@@ -346,7 +346,7 @@ msgstr ""
 "Mindesteins einer Ihrer Untertitel hat mehr als drei Zeilen. Es ist ratsam, "
 "nicht mehr als drei Zeilen für einen Untertitel zu nutzen."
 
-#: src/lib/hints.cc:631
+#: src/lib/hints.cc:648
 msgid ""
 "At least one of your subtitles lasts less than 15 frames.  It is advisable "
 "to make each subtitle at least 15 frames long."
@@ -354,7 +354,7 @@ msgstr ""
 "Mindestens einer Ihrer Untertitel dauert weniger als 15 Frames. Es ist "
 "ratsam, jeden Untertitel eine Länge von mindestens 15 Frames zuzuordnen."
 
-#: src/lib/hints.cc:636
+#: src/lib/hints.cc:653
 msgid ""
 "At least one of your subtitles starts less than 2 frames after the previous "
 "one.  It is advisable to make the gap between subtitles at least 2 frames."
@@ -363,7 +363,7 @@ msgstr ""
 "vorherigen Untertitel. Es ist ratsam, die Lücke zwischen Untertiteln auf "
 "mindestens 2 Frames zu vergrössern."
 
-#: src/lib/hints.cc:707
+#: src/lib/hints.cc:724
 #, fuzzy
 msgid ""
 "At least one piece of subtitle content has no specified language.  It is "
@@ -727,7 +727,7 @@ msgstr ""
 "Zu verbindende Inhalte müssen die gleichen Zeichensätze für Untertitel "
 "verwenden."
 
-#: src/lib/video_content.cc:453
+#: src/lib/video_content.cc:455
 #, c++-format
 msgid "Content video is {}x{}"
 msgstr "Inhalt Video ist {}x{}"
@@ -868,7 +868,7 @@ msgstr "DBP"
 msgid "DCP (via {})"
 msgstr ""
 
-#: src/lib/dcp_subtitle_content.cc:139
+#: src/lib/dcp_subtitle_content.cc:138
 msgid "DCP XML subtitles"
 msgstr "DCP XML Untertitel"
 
@@ -876,7 +876,12 @@ msgstr "DCP XML Untertitel"
 msgid "DCP sample rate"
 msgstr "Audio Abtastrate (angepasst für DCP/48KHz)"
 
-#: src/lib/frame_rate_change.cc:101
+#: src/lib/frame_rate_change.cc:93
+#, fuzzy, c++-format
+msgid "DCP will contain 1 out of every {} frames of the content.\n"
+msgstr "DCP verwendet nur jedes zweite Bild des Quelle.\n"
+
+#: src/lib/frame_rate_change.cc:103
 #, c-format
 msgid "DCP will run at %.1f%% of the content speed.\n"
 msgstr "DCP läuft mit %.1f%% der Originalgeschwindigkeit der Quelle.\n"
@@ -967,11 +972,11 @@ msgstr "Herunterladen fehlgeschlagen ({} Fehler {})"
 msgid "EC"
 msgstr "C"
 
-#: src/lib/frame_rate_change.cc:93
+#: src/lib/frame_rate_change.cc:95
 msgid "Each content frame will be doubled in the DCP.\n"
 msgstr "Jedes Bild der Quelle wird im DCP verdoppelt.\n"
 
-#: src/lib/frame_rate_change.cc:95
+#: src/lib/frame_rate_change.cc:97
 #, c++-format
 msgid "Each content frame will be repeated {} more times in the DCP.\n"
 msgstr "Jedes Bild der Quelle wird {} mal im DCP wiederholt.\n"
@@ -1020,12 +1025,12 @@ msgstr "Fehler: ({})"
 msgid "Event"
 msgstr ""
 
-#: src/lib/hints.cc:415
+#: src/lib/hints.cc:410
 #, fuzzy
 msgid "Examining audio"
 msgstr "Analysiere Untertitel"
 
-#: src/lib/hints.cc:417
+#: src/lib/hints.cc:412
 #, fuzzy
 msgid "Examining audio, subtitles and closed captions"
 msgstr "Untersuche Closed Captions (CCAP)"
@@ -1038,7 +1043,7 @@ msgstr "Inhalt wird überprüft"
 msgid "Examining subtitles"
 msgstr "Analysiere Untertitel"
 
-#: src/lib/hints.cc:413
+#: src/lib/hints.cc:408
 #, fuzzy
 msgid "Examining subtitles and closed captions"
 msgstr "Untersuche Closed Captions (CCAP)"
@@ -1194,13 +1199,13 @@ msgstr "IEC61966-2-4"
 msgid "IN"
 msgstr ""
 
-#: src/lib/hints.cc:195
+#: src/lib/hints.cc:198
 msgid "If you do use 25fps you should change your DCP standard to SMPTE."
 msgstr ""
 "Sofern Sie eine Bildrate von 25fps verwenden, sollten Sie den DCP Standard "
 "für dieses Projekt auf 'SMPTE' setzen!"
 
-#: src/lib/hints.cc:258
+#: src/lib/hints.cc:261
 #, fuzzy
 msgid ""
 "In general it is now advisable to make SMPTE DCPs unless you have a "
@@ -1212,7 +1217,7 @@ msgstr ""
 "den SMPTE-Standard für das DCP zu setzen. Nutzen Sie dazu den \"DCP\" "
 "Tabreiter."
 
-#: src/lib/hints.cc:624
+#: src/lib/hints.cc:641
 msgid ""
 "It is advisable to put your first subtitle at least 4 seconds after the "
 "start of the DCP to make sure it is seen."
@@ -1259,7 +1264,7 @@ msgstr "Surround hinten links"
 msgid "Left surround"
 msgstr "Surround links"
 
-#: src/lib/video_content.cc:526
+#: src/lib/video_content.cc:528
 msgid "Length"
 msgstr "Länge"
 
@@ -1457,7 +1462,7 @@ msgstr ""
 msgid "P3 DCI (~6300K)"
 msgstr ""
 
-#: src/lib/util.cc:1131
+#: src/lib/util.cc:1111
 #, fuzzy, c++-format
 msgid ""
 "Please report this problem by using Help -> Report a problem or via email to "
@@ -1576,7 +1581,7 @@ msgstr "SMPTE 2085, Y'D'zD'x"
 msgid "SMPTE 240M"
 msgstr "SMPTE 240M"
 
-#: src/lib/hints.cc:689
+#: src/lib/hints.cc:706
 msgid ""
 "SMPTE DCPs with the type FTR (feature) should have markers for the first "
 "frame of end credits (FFEC) and the first frame of moving credits (FFMC).  "
@@ -1647,7 +1652,7 @@ msgstr "Kurzfilm - SHR"
 msgid "Sign"
 msgstr "Signatur"
 
-#: src/lib/video_content.cc:528
+#: src/lib/video_content.cc:530
 msgid "Size"
 msgstr "Größe"
 
@@ -1704,7 +1709,7 @@ msgstr ""
 "Diese Inhalte werden nun neu untersucht, ggfs. müssen Sie bei Änderungen "
 "deren typspezifische Einstellungen überprüfen!"
 
-#: src/lib/hints.cc:605
+#: src/lib/hints.cc:622
 #, c++-format
 msgid ""
 "Some of your closed captions span more than {} lines, so they will be "
@@ -1713,7 +1718,7 @@ msgstr ""
 "Einige ihrer Closed Captions (CCAP) sind länger als {} Zeile(n). Sie werden "
 "abgeschnitten."
 
-#: src/lib/hints.cc:727
+#: src/lib/hints.cc:744
 msgid ""
 "Some of your content has audio but you have not set the audio language.  It "
 "is advisable to set the audio language in the \"DCP\" tab unless your audio "
@@ -1723,7 +1728,7 @@ msgstr ""
 "festgelegt. Es ist ratsam, die Audio-Sprache im \"DCP\" Tabreiter zu setzen, "
 "außer Ihre Audiospuren haben keine gesprochenen Teile."
 
-#: src/lib/hints.cc:798
+#: src/lib/hints.cc:815
 msgid ""
 "Some of your content is encrypted, and some not.  Though some distributors "
 "(e.g. Netflix) require subtitles not to be encrypted (even if picture and "
@@ -1745,7 +1750,7 @@ msgstr "Teile ihrer Quellinhalte (DCP) benötigen eine KDM"
 msgid "Some of your content needs an OV"
 msgstr "Teile ihrer Quellinhalte (DCP) benötigen eine OV-CPL"
 
-#: src/lib/hints.cc:781
+#: src/lib/hints.cc:798
 #, c++-format
 msgid ""
 "Some of your video content contains an alpha channel, and {} cannot be "
@@ -1812,7 +1817,7 @@ msgstr "Die Zertifikatskette für die Signatur ist ungültig"
 msgid "The certificate chain for signing is invalid ({})"
 msgstr "Die Zertifikatskette für Signaturen ist ungültig ({})"
 
-#: src/lib/hints.cc:744
+#: src/lib/hints.cc:761
 #, c++-format
 msgid ""
 "The certificate chain that {} uses for signing DCPs and KDMs contains a "
@@ -1822,7 +1827,7 @@ msgid ""
 "Preferences."
 msgstr ""
 
-#: src/lib/hints.cc:752
+#: src/lib/hints.cc:769
 #, c++-format
 msgid ""
 "The certificate chain that {} uses for signing DCPs and KDMs has a validity "
@@ -1872,7 +1877,7 @@ msgstr "Die Spur {} wurde um {} Millisekunden gekürzt."
 msgid "The file {} has been trimmed by {} milliseconds more."
 msgstr "Die Spur {} wurde um {} Millisekunden verlängert."
 
-#: src/lib/hints.cc:267
+#: src/lib/hints.cc:270
 msgid ""
 "The vast majority of cinemas in Europe, Australasia and North America expect "
 "DCPs encoded with JPEG2000 rather than MPEG2.  Make sure that your cinema "
@@ -1886,7 +1891,7 @@ msgid ""
 "project to make sure that they are placed where you want them."
 msgstr ""
 
-#: src/lib/hints.cc:248
+#: src/lib/hints.cc:251
 #, fuzzy
 msgid ""
 "There is a large difference between the frame rate of your DCP and that of "
@@ -1916,14 +1921,14 @@ msgstr ""
 "32-Bit-Betriebssystem ausführen, versuchen Sie, die Anzahl der Rechen-"
 "Threads in den Voreinstellungen n zu reduzieren."
 
-#: src/lib/util.cc:981
+#: src/lib/util.cc:961
 #, fuzzy, c++-format
 msgid "This KDM was made for {} but not for its leaf certificate."
 msgstr ""
 "KDM ist zwar für DCP-o-matic ausgestellt, jedoch nicht für das Leaf-"
 "Zertifikat dieser Installation."
 
-#: src/lib/util.cc:979
+#: src/lib/util.cc:959
 #, fuzzy, c++-format
 msgid "This KDM was not made for {}'s decryption certificate."
 msgstr ""
@@ -2123,7 +2128,7 @@ msgstr ""
 msgid "Yet Another Deinterlacing Filter"
 msgstr "Und ein weiterer De-Interlacer ('YADIF')"
 
-#: src/lib/hints.cc:208
+#: src/lib/hints.cc:211
 #, fuzzy, c++-format
 msgid ""
 "You are set up for a DCP at a frame rate of {} fps.  This frame rate is not "
@@ -2135,7 +2140,7 @@ msgstr ""
 "abweichend von 24fps oder 48fps(3D) nicht leichtfertig! Ändern Sie die "
 "Bildrate gegebenenfalls in {} fps."
 
-#: src/lib/hints.cc:192
+#: src/lib/hints.cc:195
 #, c++-format
 msgid ""
 "You are set up for a DCP at a frame rate of {} fps.  This frame rate is not "
@@ -2147,7 +2152,7 @@ msgstr ""
 "abweichend von 24fps oder 48fps(3D) nicht leichtfertig! Ändern Sie die "
 "Bildrate gegebenenfalls in {} fps!"
 
-#: src/lib/hints.cc:202
+#: src/lib/hints.cc:205
 msgid ""
 "You are set up for a DCP frame rate of 30fps, which is not supported by all "
 "projectors.  Be aware that you may have compatibility problems."
@@ -2156,7 +2161,7 @@ msgstr ""
 "nicht von allen Projektionssystemen unterstützt! Wählen Sie Bildraten "
 "abweichend von 24fps oder 48fps(3D) nicht leichtfertig!"
 
-#: src/lib/hints.cc:322
+#: src/lib/hints.cc:325
 msgid ""
 "You are using 3D content but your DCP is set to 2D.  Set the DCP to 3D if "
 "you want to play it back on a 3D system (e.g. Real-D, MasterImage etc.)"
@@ -2165,7 +2170,7 @@ msgstr ""
 "ihre Inhalte in 3D wiedergeben wollen, wählen Sie unter dem DCP-Reiter "
 "'Bild' '3D DCP' aus. Andernfalls wird ein 2D-DCP erzeugt."
 
-#: src/lib/hints.cc:125
+#: src/lib/hints.cc:128
 #, fuzzy, c++-format
 msgid ""
 "You are using {}'s stereo-to-5.1 upmixer.  This is experimental and may "
@@ -2187,7 +2192,7 @@ msgstr ""
 "unterschiedliche Frame-Raten. Entfernen Sie die Inhalte, welche die "
 "unpassenden Frame-Raten haben."
 
-#: src/lib/hints.cc:612
+#: src/lib/hints.cc:629
 msgid ""
 "You have overlapping closed captions, which are not allowed in Interop "
 "DCPs.  Change your DCP standard to SMPTE."
@@ -2196,7 +2201,7 @@ msgstr ""
 "nicht zulässig! Bitte entfernen Sie die Überlappung oder ändern Sie den DCP "
 "Wrapping Typ auf 'SMPTE'."
 
-#: src/lib/hints.cc:290
+#: src/lib/hints.cc:293
 msgid ""
 "You have specified a font file which is larger than 640kB.  This is very "
 "likely to cause problems on playback."
@@ -2207,7 +2212,7 @@ msgstr ""
 "speziellen Zeichensatz angewiesen sind, googlen Sie nach 'TI Font "
 "Compressor' und verwenden Sie ggfs. dieses Tool zur Behebung des Problems."
 
-#: src/lib/hints.cc:306
+#: src/lib/hints.cc:309
 #, c++-format
 msgid ""
 "You have {} files that look like they are VOB files from DVD. You should "
@@ -2221,7 +2226,7 @@ msgstr ""
 msgid "You must add some content to the DCP before creating it"
 msgstr "Sie müssen erst Inhalte hinzufügen bevor Sie ein DCP erstellen können!"
 
-#: src/lib/hints.cc:110
+#: src/lib/hints.cc:113
 #, fuzzy, c++-format
 msgid ""
 "Your DCP has fewer than 6 audio channels.  This may cause problems on some "
@@ -2235,7 +2240,7 @@ msgstr ""
 "Audiokanäle haben, werden die nicht genutzten Audiokanäle automatisch mit "
 "Stille aufgefüllt."
 
-#: src/lib/hints.cc:770
+#: src/lib/hints.cc:787
 #, c++-format
 msgid ""
 "Your DCP has {} audio channels, rather than 8 or 16.  This may cause some "
@@ -2243,7 +2248,7 @@ msgid ""
 "set the DCP audio channels to 8 or 16."
 msgstr ""
 
-#: src/lib/hints.cc:167
+#: src/lib/hints.cc:170
 msgid ""
 "Your DCP uses an unusual container ratio.  This may cause problems on some "
 "projectors.  If possible, use Flat or Scope for the DCP container ratio."
@@ -2252,7 +2257,7 @@ msgstr ""
 "Projektionssystemen Probleme verursachen. Bitte verwenden Sie wann immer "
 "möglich Flat oder Scope Container."
 
-#: src/lib/hints.cc:356
+#: src/lib/hints.cc:359
 #, c++-format
 msgid ""
 "Your audio level is very high (on {}).  You should reduce the gain of your "
@@ -2288,7 +2293,7 @@ msgstr "[Bewegte Bilder]"
 msgid "[still]"
 msgstr "[Standbild]"
 
-#: src/lib/dcp_subtitle_content.cc:133 src/lib/fcpxml_content.cc:86
+#: src/lib/dcp_subtitle_content.cc:132 src/lib/fcpxml_content.cc:86
 #: src/lib/string_text_file_content.cc:111
 msgid "[subtitles]"
 msgstr "[Untertitel]"
@@ -2304,7 +2309,7 @@ msgstr "_reel{}"
 msgid "bits"
 msgstr ""
 
-#: src/lib/dcpomatic_socket.cc:82 src/lib/dcpomatic_socket.cc:112
+#: src/lib/dcpomatic_socket.cc:86 src/lib/dcpomatic_socket.cc:116
 msgid "connect timed out"
 msgstr "Zeit für Verbindungsaufbau abgelaufen"
 
@@ -2360,22 +2365,22 @@ msgstr "Datei {} konnte nicht gelesen werden ({})"
 msgid "could not write to file {} ({})"
 msgstr "Datei {} konnte nicht geschrieben werden ({})"
 
-#: src/lib/dcpomatic_socket.cc:108
+#: src/lib/dcpomatic_socket.cc:112
 #, c++-format
 msgid "error during async_connect ({})"
 msgstr "error during async_connect ({})"
 
-#: src/lib/dcpomatic_socket.cc:78
+#: src/lib/dcpomatic_socket.cc:82
 #, fuzzy, c++-format
 msgid "error during async_connect: ({})"
 msgstr "error during async_connect ({})"
 
-#: src/lib/dcpomatic_socket.cc:200
+#: src/lib/dcpomatic_socket.cc:204
 #, c++-format
 msgid "error during async_read ({})"
 msgstr "error during async_read ({})"
 
-#: src/lib/dcpomatic_socket.cc:159
+#: src/lib/dcpomatic_socket.cc:163
 #, c++-format
 msgid "error during async_write ({})"
 msgstr "error during async_write ({})"
@@ -2527,7 +2532,7 @@ msgstr "Standbild"
 msgid "unknown"
 msgstr "unbekannt"
 
-#: src/lib/video_content.cc:526
+#: src/lib/video_content.cc:528
 msgid "video frames"
 msgstr "Video Bilder"
 

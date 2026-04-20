@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LIBDCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-22 22:52+0100\n"
+"POT-Creation-Date: 2026-04-19 23:03+0200\n"
 "PO-Revision-Date: 2025-10-05 13:31+0800\n"
 "Last-Translator: Dian Li <xslidian@gmail.com>\n"
 "Language-Team: Chinese Simplified (Rov8 branch)\n"
@@ -24,7 +24,7 @@ msgstr ""
 "X-Generator: Poedit 3.7\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
-#: src/lib/video_content.cc:513
+#: src/lib/video_content.cc:515
 #, c-format
 msgid ""
 "\n"
@@ -33,7 +33,7 @@ msgstr ""
 "\n"
 "源视频帧率 %.4f\n"
 
-#: src/lib/video_content.cc:477
+#: src/lib/video_content.cc:479
 #, c++-format
 msgid ""
 "\n"
@@ -42,7 +42,7 @@ msgstr ""
 "\n"
 "裁剪为 {}x{}"
 
-#: src/lib/video_content.cc:467
+#: src/lib/video_content.cc:469
 #, c-format
 msgid ""
 "\n"
@@ -51,7 +51,7 @@ msgstr ""
 "\n"
 "显示宽高比 %.2f:1"
 
-#: src/lib/video_content.cc:501
+#: src/lib/video_content.cc:503
 #, c++-format
 msgid ""
 "\n"
@@ -60,7 +60,7 @@ msgstr ""
 "\n"
 "填充为黑色，以适应打包宽高比 {} ({}x{})"
 
-#: src/lib/video_content.cc:491
+#: src/lib/video_content.cc:493
 #, c++-format
 msgid ""
 "\n"
@@ -69,7 +69,7 @@ msgstr ""
 "\n"
 "缩放到 {}x{}"
 
-#: src/lib/video_content.cc:495 src/lib/video_content.cc:506
+#: src/lib/video_content.cc:497 src/lib/video_content.cc:508
 #, c-format
 msgid " (%.2f:1)"
 msgstr " (%.2f:1)"
@@ -109,7 +109,7 @@ msgstr ""
 msgid "$JOB_NAME: $JOB_STATUS"
 msgstr "$任务名称: $JOB_STATUS"
 
-#: src/lib/video_content.cc:462
+#: src/lib/video_content.cc:464
 #, c-format
 msgid ", pixel aspect ratio %.2f:1"
 msgstr ", 像素宽高比 %.2f:1"
@@ -182,7 +182,7 @@ msgstr "2.39 (宽幅)"
 msgid "3D denoiser"
 msgstr "3D 降噪"
 
-#: src/lib/hints.cc:219
+#: src/lib/hints.cc:222
 msgid ""
 "4K 3D is only supported by a very limited number of projectors.  Unless you "
 "know that you will play this DCP back on a capable projector, it is "
@@ -231,7 +231,7 @@ msgstr ""
 "href=\"https://dcpomatic.com/donate_amount?amount=10\">去Paypal捐款10欧元</"
 "a></ul><p>谢谢您！</font>"
 
-#: src/lib/hints.cc:176
+#: src/lib/hints.cc:179
 msgid ""
 "A few projectors have problems playing back very high bit-rate DCPs.  It is "
 "a good idea to drop the video bit rate down to about 200Mbit/s; this is "
@@ -258,7 +258,7 @@ msgstr "ARIB STD-B67 (“HLG” HDR)"
 msgid "Advertisement"
 msgstr "广告片"
 
-#: src/lib/hints.cc:153
+#: src/lib/hints.cc:156
 msgid ""
 "All of your content is in Scope (2.39:1) but your DCP's container is Flat "
 "(1.85:1).  This will letter-box your content inside a Flat (1.85:1) frame.  "
@@ -268,7 +268,7 @@ msgstr ""
 "您添加的媒体画面宽高比为2.39:1，但是DCP容器设置为1.85:1的模式。这将会使您的画"
 "面在放映时存在上下黑边。建议把DCP容器设置为2.39:1的模式。"
 
-#: src/lib/hints.cc:157
+#: src/lib/hints.cc:160
 msgid ""
 "All of your content narrower than 1.90:1 but your DCP's container is Scope "
 "(2.39:1).  This will pillar-box your content.  You may prefer to set your "
@@ -290,55 +290,55 @@ msgstr "分析音频中"
 msgid "Analysing subtitles"
 msgstr "分析字幕中"
 
-#: src/lib/hints.cc:384
+#: src/lib/hints.cc:379
 msgid ""
 "At least one marker comes after the end of the project and will be ignored."
 msgstr "至少有一个标记出现在项目结束后，将被忽略。"
 
-#: src/lib/hints.cc:523
+#: src/lib/hints.cc:526
 msgid "At least one of your closed caption files is larger than "
 msgstr "至少有一个隐藏字幕文件过大了 "
 
-#: src/lib/hints.cc:516
+#: src/lib/hints.cc:520
 msgid "At least one of your closed caption files' XML part is larger than "
 msgstr "至少有一个隐藏式字幕文件的XML部分过大了 "
 
-#: src/lib/hints.cc:531
+#: src/lib/hints.cc:532
 msgid "At least one of your subtitle files is larger than "
 msgstr "至少有一个字幕文件过大了 "
 
-#: src/lib/hints.cc:495
+#: src/lib/hints.cc:490
 msgid ""
 "At least one of your subtitle lines has more than 52 characters.  It is "
 "recommended to make each line 52 characters at most in length."
 msgstr "至少有一行字幕超过52个字符，  建议每行最多52个字符。"
 
-#: src/lib/hints.cc:497
+#: src/lib/hints.cc:492
 msgid ""
 "At least one of your subtitle lines has more than 79 characters.  You should "
 "make each line 79 characters at most in length."
 msgstr "至少有一行字幕超过79个字符，  你应该让每行最多79个字符。"
 
-#: src/lib/hints.cc:664
+#: src/lib/hints.cc:681
 msgid ""
 "At least one of your subtitles has more than 3 lines.  It is advisable to "
 "use no more than 3 lines."
 msgstr "您的字幕中至少有一个超过3行，  建议使用不超过3行。"
 
-#: src/lib/hints.cc:631
+#: src/lib/hints.cc:648
 msgid ""
 "At least one of your subtitles lasts less than 15 frames.  It is advisable "
 "to make each subtitle at least 15 frames long."
 msgstr "您的字幕中至少有一个持续时间少于15帧，  建议每个字幕至少15帧长。"
 
-#: src/lib/hints.cc:636
+#: src/lib/hints.cc:653
 msgid ""
 "At least one of your subtitles starts less than 2 frames after the previous "
 "one.  It is advisable to make the gap between subtitles at least 2 frames."
 msgstr ""
 "至少有一个字幕在前一个字幕后不到2帧开始，  建议字幕之间的间隔至少为2帧。"
 
-#: src/lib/hints.cc:707
+#: src/lib/hints.cc:724
 msgid ""
 "At least one piece of subtitle content has no specified language.  It is "
 "advisable to set the language for each piece of subtitle content in the "
@@ -663,7 +663,7 @@ msgstr "添加的内容字幕流必须相同。"
 msgid "Content to be joined must use the same text language."
 msgstr "添加的内容必须有相同的文字语言。"
 
-#: src/lib/video_content.cc:453
+#: src/lib/video_content.cc:455
 #, c++-format
 msgid "Content video is {}x{}"
 msgstr "源视频分辨率是 {}x{}"
@@ -802,7 +802,7 @@ msgstr "DCP"
 msgid "DCP (via {})"
 msgstr "DCP (via {})"
 
-#: src/lib/dcp_subtitle_content.cc:139
+#: src/lib/dcp_subtitle_content.cc:138
 msgid "DCP XML subtitles"
 msgstr "DCP XML字幕"
 
@@ -810,7 +810,12 @@ msgstr "DCP XML字幕"
 msgid "DCP sample rate"
 msgstr "DCP 采样率"
 
-#: src/lib/frame_rate_change.cc:101
+#: src/lib/frame_rate_change.cc:93
+#, fuzzy, c++-format
+msgid "DCP will contain 1 out of every {} frames of the content.\n"
+msgstr "将使用隔帧打包DCP。\n"
+
+#: src/lib/frame_rate_change.cc:103
 #, c-format
 msgid "DCP will run at %.1f%% of the content speed.\n"
 msgstr "DCP队列将在速度 %.1f%% 下运行。\n"
@@ -903,11 +908,11 @@ msgstr "下载失败 ({} error {})"
 msgid "EC"
 msgstr "中置"
 
-#: src/lib/frame_rate_change.cc:93
+#: src/lib/frame_rate_change.cc:95
 msgid "Each content frame will be doubled in the DCP.\n"
 msgstr "该DCP中每一帧将复制为两帧。\n"
 
-#: src/lib/frame_rate_change.cc:95
+#: src/lib/frame_rate_change.cc:97
 #, c++-format
 msgid "Each content frame will be repeated {} more times in the DCP.\n"
 msgstr "每个内容帧将在DCP中重复{}次。\n"
@@ -956,11 +961,11 @@ msgstr "错误: ({})"
 msgid "Event"
 msgstr "事件"
 
-#: src/lib/hints.cc:415
+#: src/lib/hints.cc:410
 msgid "Examining audio"
 msgstr "正在检查音频"
 
-#: src/lib/hints.cc:417
+#: src/lib/hints.cc:412
 msgid "Examining audio, subtitles and closed captions"
 msgstr "检查音频、字幕和隐藏式字幕中"
 
@@ -972,7 +977,7 @@ msgstr "分析内容中"
 msgid "Examining subtitles"
 msgstr "定位字幕中"
 
-#: src/lib/hints.cc:413
+#: src/lib/hints.cc:408
 msgid "Examining subtitles and closed captions"
 msgstr "检查字幕和隐藏式字幕中"
 
@@ -1125,11 +1130,11 @@ msgstr "IEC61966-2-4"
 msgid "IN"
 msgstr ""
 
-#: src/lib/hints.cc:195
+#: src/lib/hints.cc:198
 msgid "If you do use 25fps you should change your DCP standard to SMPTE."
 msgstr "如果您选择使用25fps，那就必须把DCP标准选线设置为SMPTE。"
 
-#: src/lib/hints.cc:258
+#: src/lib/hints.cc:261
 msgid ""
 "In general it is now advisable to make SMPTE DCPs unless you have a "
 "particular reason to use Interop.  It is advisable to set your DCP to use "
@@ -1138,7 +1143,7 @@ msgstr ""
 "一般来说，现在建议制作SMPTE DCP，除非您有特殊的理由使用Interop。建议在“DCP”选"
 "项卡中将DCP设置为使用SMPTE标准。"
 
-#: src/lib/hints.cc:624
+#: src/lib/hints.cc:641
 msgid ""
 "It is advisable to put your first subtitle at least 4 seconds after the "
 "start of the DCP to make sure it is seen."
@@ -1182,7 +1187,7 @@ msgstr "左后环绕"
 msgid "Left surround"
 msgstr "左环绕"
 
-#: src/lib/video_content.cc:526
+#: src/lib/video_content.cc:528
 msgid "Length"
 msgstr "长度"
 
@@ -1367,7 +1372,7 @@ msgstr ""
 msgid "P3 DCI (~6300K)"
 msgstr ""
 
-#: src/lib/util.cc:1131
+#: src/lib/util.cc:1111
 #, c++-format
 msgid ""
 "Please report this problem by using Help -> Report a problem or via email to "
@@ -1484,7 +1489,7 @@ msgstr "SMPTE 2085, Y'D'zD'x"
 msgid "SMPTE 240M"
 msgstr "SMPTE 240M"
 
-#: src/lib/hints.cc:689
+#: src/lib/hints.cc:706
 msgid ""
 "SMPTE DCPs with the type FTR (feature) should have markers for the first "
 "frame of end credits (FFEC) and the first frame of moving credits (FFMC).  "
@@ -1549,7 +1554,7 @@ msgstr "短片"
 msgid "Sign"
 msgstr "签名"
 
-#: src/lib/video_content.cc:528
+#: src/lib/video_content.cc:530
 msgid "Size"
 msgstr "大小"
 
@@ -1593,14 +1598,14 @@ msgstr ""
 "\n"
 "这些文件现在将被重新检查，因此您可能需要检查它们的设置。"
 
-#: src/lib/hints.cc:605
+#: src/lib/hints.cc:622
 #, c++-format
 msgid ""
 "Some of your closed captions span more than {} lines, so they will be "
 "truncated."
 msgstr "您的某些隐藏字幕跨度超过{}行，因此它将被截断，可能显示不完整。"
 
-#: src/lib/hints.cc:727
+#: src/lib/hints.cc:744
 msgid ""
 "Some of your content has audio but you have not set the audio language.  It "
 "is advisable to set the audio language in the \"DCP\" tab unless your audio "
@@ -1609,7 +1614,7 @@ msgstr ""
 "您的某些内容有音频，但您尚未设置音频语言。建议在“DCP”选项卡设置音频语言，除非"
 "您的音频没有说话部分。"
 
-#: src/lib/hints.cc:798
+#: src/lib/hints.cc:815
 msgid ""
 "Some of your content is encrypted, and some not.  Though some distributors "
 "(e.g. Netflix) require subtitles not to be encrypted (even if picture and "
@@ -1630,7 +1635,7 @@ msgstr "一些内容需要KDM密钥"
 msgid "Some of your content needs an OV"
 msgstr "一些内容需要OV"
 
-#: src/lib/hints.cc:781
+#: src/lib/hints.cc:798
 #, c++-format
 msgid ""
 "Some of your video content contains an alpha channel, and {} cannot be "
@@ -1698,7 +1703,7 @@ msgstr "证书签名无效"
 msgid "The certificate chain for signing is invalid ({})"
 msgstr "证书签名无效({})"
 
-#: src/lib/hints.cc:744
+#: src/lib/hints.cc:761
 #, c++-format
 msgid ""
 "The certificate chain that {} uses for signing DCPs and KDMs contains a "
@@ -1711,7 +1716,7 @@ msgstr ""
 "议通过单击“首选项”的“密钥”页面中的“重新制作证书和密钥…”按钮来重新创建签名证书"
 "链。"
 
-#: src/lib/hints.cc:752
+#: src/lib/hints.cc:769
 #, c++-format
 msgid ""
 "The certificate chain that {} uses for signing DCPs and KDMs has a validity "
@@ -1760,7 +1765,7 @@ msgstr "文件 {} 被缩短了 {} 毫秒。"
 msgid "The file {} has been trimmed by {} milliseconds more."
 msgstr "文件 {} 被延长了 {} 毫秒。"
 
-#: src/lib/hints.cc:267
+#: src/lib/hints.cc:270
 msgid ""
 "The vast majority of cinemas in Europe, Australasia and North America expect "
 "DCPs encoded with JPEG2000 rather than MPEG2.  Make sure that your cinema "
@@ -1778,7 +1783,7 @@ msgstr ""
 "现在版本中的字幕的垂直偏移控制与以前版本中的方向相反。您应该检查项目中的所有"
 "字幕，以确保它们放置在您想要的位置。"
 
-#: src/lib/hints.cc:248
+#: src/lib/hints.cc:251
 msgid ""
 "There is a large difference between the frame rate of your DCP and that of "
 "some of your content.  This will cause your audio to play back at a much "
@@ -1801,12 +1806,12 @@ msgid ""
 "tab of Preferences."
 msgstr "内存不足，如您是32位系统，请重新设置运行线程数量来达到稳定运行。"
 
-#: src/lib/util.cc:981
+#: src/lib/util.cc:961
 #, c++-format
 msgid "This KDM was made for {} but not for its leaf certificate."
 msgstr "KDM是为 {}生成，但不是为它的叶子证书生成。"
 
-#: src/lib/util.cc:979
+#: src/lib/util.cc:959
 #, c++-format
 msgid "This KDM was not made for {}'s decryption certificate."
 msgstr "KDM不是为 {} 解密证书而生成。"
@@ -1992,7 +1997,7 @@ msgstr ""
 msgid "Yet Another Deinterlacing Filter"
 msgstr "反隔行扫描滤镜"
 
-#: src/lib/hints.cc:208
+#: src/lib/hints.cc:211
 #, c++-format
 msgid ""
 "You are set up for a DCP at a frame rate of {} fps.  This frame rate is not "
@@ -2002,7 +2007,7 @@ msgstr ""
 "您设置DCP的帧率为 {} fps的DCP。并非所有放映设备都支持此帧率。建议您将DCP帧率"
 "更改为 {} fps。"
 
-#: src/lib/hints.cc:192
+#: src/lib/hints.cc:195
 #, c++-format
 msgid ""
 "You are set up for a DCP at a frame rate of {} fps.  This frame rate is not "
@@ -2012,13 +2017,13 @@ msgstr ""
 "您设置的帧率为{} fps的DCP。并非所有放映设备都支持此帧率。建议您将帧率更改为 "
 "{} fps。"
 
-#: src/lib/hints.cc:202
+#: src/lib/hints.cc:205
 msgid ""
 "You are set up for a DCP frame rate of 30fps, which is not supported by all "
 "projectors.  Be aware that you may have compatibility problems."
 msgstr "您设置的DCP帧速率为30fps，这不是所有放映设备都支持 ，请注意兼容问题。"
 
-#: src/lib/hints.cc:322
+#: src/lib/hints.cc:325
 msgid ""
 "You are using 3D content but your DCP is set to 2D.  Set the DCP to 3D if "
 "you want to play it back on a 3D system (e.g. Real-D, MasterImage etc.)"
@@ -2026,7 +2031,7 @@ msgstr ""
 "您添加的内容是3D内容，但您的DCP包设置为2D模式，如果您想在3D放映系统（如Real-"
 "D, MasterImage等）上播放，请设置到3D模式。"
 
-#: src/lib/hints.cc:125
+#: src/lib/hints.cc:128
 #, c++-format
 msgid ""
 "You are using {}'s stereo-to-5.1 upmixer.  This is experimental and may "
@@ -2042,7 +2047,7 @@ msgid ""
 "frame rate.  You must remove some Atmos content."
 msgstr "您有多个全景声内容片段，而它们的帧率不同。您必须删除一些全景声内容。"
 
-#: src/lib/hints.cc:612
+#: src/lib/hints.cc:629
 msgid ""
 "You have overlapping closed captions, which are not allowed in Interop "
 "DCPs.  Change your DCP standard to SMPTE."
@@ -2050,7 +2055,7 @@ msgstr ""
 "您有重叠的隐藏式字幕，这在 Interop DCP中是不允许的。请您的DCP标准更改为"
 "SMPTE。"
 
-#: src/lib/hints.cc:290
+#: src/lib/hints.cc:293
 msgid ""
 "You have specified a font file which is larger than 640kB.  This is very "
 "likely to cause problems on playback."
@@ -2058,7 +2063,7 @@ msgstr ""
 "您添加的字体文件超过了640KB，部分服务器不支持超过640KB大小的字体，可能在播放"
 "时出现问题。"
 
-#: src/lib/hints.cc:306
+#: src/lib/hints.cc:309
 #, c++-format
 msgid ""
 "You have {} files that look like they are VOB files from DVD. You should "
@@ -2071,7 +2076,7 @@ msgstr ""
 msgid "You must add some content to the DCP before creating it"
 msgstr "在创建 DCP 之前，必须向其中添加一些内容"
 
-#: src/lib/hints.cc:110
+#: src/lib/hints.cc:113
 #, c++-format
 msgid ""
 "Your DCP has fewer than 6 audio channels.  This may cause problems on some "
@@ -2082,7 +2087,7 @@ msgstr ""
 "您的DCP的音轨少于6个，某些放映设备可能不支持。但是如果您的内容没有这么多的音"
 "轨，您可以设置成6个音轨， {} 将用空白音轨补齐。"
 
-#: src/lib/hints.cc:770
+#: src/lib/hints.cc:787
 #, c++-format
 msgid ""
 "Your DCP has {} audio channels, rather than 8 or 16.  This may cause some "
@@ -2092,7 +2097,7 @@ msgstr ""
 "您的DCP具有 {} 个音频通道，而不是8或16个通道。这可能导致一些发行商在检查您的 "
 "DCP 时出现 QC 报错。为防止这种情况，建议设置8或16个DCP音频通道。"
 
-#: src/lib/hints.cc:167
+#: src/lib/hints.cc:170
 msgid ""
 "Your DCP uses an unusual container ratio.  This may cause problems on some "
 "projectors.  If possible, use Flat or Scope for the DCP container ratio."
@@ -2100,7 +2105,7 @@ msgstr ""
 "您的DCP使用了不常见的画幅比例，可能导致部分电影放映机无法正常播放，建议改成"
 "Flat (1.77/1.78/1.85) 或者Scope (2.35/2.39) 比例。"
 
-#: src/lib/hints.cc:356
+#: src/lib/hints.cc:359
 #, c++-format
 msgid ""
 "Your audio level is very high (on {}).  You should reduce the gain of your "
@@ -2126,7 +2131,7 @@ msgstr "[动态图像]"
 msgid "[still]"
 msgstr "[静态图像]"
 
-#: src/lib/dcp_subtitle_content.cc:133 src/lib/fcpxml_content.cc:86
+#: src/lib/dcp_subtitle_content.cc:132 src/lib/fcpxml_content.cc:86
 #: src/lib/string_text_file_content.cc:111
 msgid "[subtitles]"
 msgstr "[字幕]"
@@ -2142,7 +2147,7 @@ msgstr "_卷号{}"
 msgid "bits"
 msgstr "位"
 
-#: src/lib/dcpomatic_socket.cc:82 src/lib/dcpomatic_socket.cc:112
+#: src/lib/dcpomatic_socket.cc:86 src/lib/dcpomatic_socket.cc:116
 msgid "connect timed out"
 msgstr "连接超时"
 
@@ -2198,22 +2203,22 @@ msgstr "无法从文件 {} 中读取({})"
 msgid "could not write to file {} ({})"
 msgstr "不能写入文件 {} ({})"
 
-#: src/lib/dcpomatic_socket.cc:108
+#: src/lib/dcpomatic_socket.cc:112
 #, c++-format
 msgid "error during async_connect ({})"
 msgstr "在async连接时出现错误 ({})"
 
-#: src/lib/dcpomatic_socket.cc:78
+#: src/lib/dcpomatic_socket.cc:82
 #, c++-format
 msgid "error during async_connect: ({})"
 msgstr "在async连接时出现错误：({})"
 
-#: src/lib/dcpomatic_socket.cc:200
+#: src/lib/dcpomatic_socket.cc:204
 #, c++-format
 msgid "error during async_read ({})"
 msgstr "在async读取时出现错误 ({})"
 
-#: src/lib/dcpomatic_socket.cc:159
+#: src/lib/dcpomatic_socket.cc:163
 #, c++-format
 msgid "error during async_write ({})"
 msgstr "在async写入时出现错误 ({})"
@@ -2338,7 +2343,7 @@ msgstr "静止图像"
 msgid "unknown"
 msgstr "未知"
 
-#: src/lib/video_content.cc:526
+#: src/lib/video_content.cc:528
 msgid "video frames"
 msgstr "视频帧"
 

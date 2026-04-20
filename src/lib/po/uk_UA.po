@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-22 22:52+0100\n"
+"POT-Creation-Date: 2026-04-19 23:03+0200\n"
 "PO-Revision-Date: 2018-08-20 19:32+0300\n"
 "Last-Translator: Igor Voytovich <i.voyt@dualvfilms.com>\n"
 "Language-Team: Українська\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: src/lib/video_content.cc:513
+#: src/lib/video_content.cc:515
 #, c-format
 msgid ""
 "\n"
@@ -24,7 +24,7 @@ msgstr ""
 "\n"
 "Частота кадрів контенту %.4f\n"
 
-#: src/lib/video_content.cc:477
+#: src/lib/video_content.cc:479
 #, c++-format
 msgid ""
 "\n"
@@ -33,7 +33,7 @@ msgstr ""
 "\n"
 "Розмір при кадруванні: {}x{}"
 
-#: src/lib/video_content.cc:467
+#: src/lib/video_content.cc:469
 #, c-format
 msgid ""
 "\n"
@@ -42,7 +42,7 @@ msgstr ""
 "\n"
 "Співвідношення сторін контенту %.2f:1"
 
-#: src/lib/video_content.cc:501
+#: src/lib/video_content.cc:503
 #, c++-format
 msgid ""
 "\n"
@@ -51,7 +51,7 @@ msgstr ""
 "\n"
 "Заповнено чорним для підгонки контейнера {} ({}x{})"
 
-#: src/lib/video_content.cc:491
+#: src/lib/video_content.cc:493
 #, c++-format
 msgid ""
 "\n"
@@ -60,7 +60,7 @@ msgstr ""
 "\n"
 "Розмір при масштабуванні: {}x{}"
 
-#: src/lib/video_content.cc:495 src/lib/video_content.cc:506
+#: src/lib/video_content.cc:497 src/lib/video_content.cc:508
 #, c-format
 msgid " (%.2f:1)"
 msgstr " (%.2f:1)"
@@ -100,7 +100,7 @@ msgstr ""
 msgid "$JOB_NAME: $JOB_STATUS"
 msgstr "$JOB_NAME: $JOB_STATUS"
 
-#: src/lib/video_content.cc:462
+#: src/lib/video_content.cc:464
 #, c-format
 msgid ", pixel aspect ratio %.2f:1"
 msgstr ", співвідношення сторін пікселей %.2f:1"
@@ -174,7 +174,7 @@ msgstr "2.39 (Scope)"
 msgid "3D denoiser"
 msgstr "Придушення шуму 3D"
 
-#: src/lib/hints.cc:219
+#: src/lib/hints.cc:222
 msgid ""
 "4K 3D is only supported by a very limited number of projectors.  Unless you "
 "know that you will play this DCP back on a capable projector, it is "
@@ -212,7 +212,7 @@ msgid ""
 "donate €10</a></ul><p>Thank you!</font>"
 msgstr ""
 
-#: src/lib/hints.cc:176
+#: src/lib/hints.cc:179
 #, fuzzy
 msgid ""
 "A few projectors have problems playing back very high bit-rate DCPs.  It is "
@@ -239,7 +239,7 @@ msgstr "ARIB STD-B67 ('Hybrid log-gamma')"
 msgid "Advertisement"
 msgstr "ADV (Реклама)"
 
-#: src/lib/hints.cc:153
+#: src/lib/hints.cc:156
 msgid ""
 "All of your content is in Scope (2.39:1) but your DCP's container is Flat "
 "(1.85:1).  This will letter-box your content inside a Flat (1.85:1) frame.  "
@@ -250,7 +250,7 @@ msgstr ""
 "означає, що у кадрі зверху та знизу вашого контенту будуть чорні області. Ви "
 "можете змінити формат кадра вашого DCP на SCOPE (2.39:1) на вкладці \"DCP\"."
 
-#: src/lib/hints.cc:157
+#: src/lib/hints.cc:160
 #, fuzzy
 msgid ""
 "All of your content narrower than 1.90:1 but your DCP's container is Scope "
@@ -277,54 +277,54 @@ msgstr "Аналіз аудіо"
 msgid "Analysing subtitles"
 msgstr "Пошук субтитрів"
 
-#: src/lib/hints.cc:384
+#: src/lib/hints.cc:379
 msgid ""
 "At least one marker comes after the end of the project and will be ignored."
 msgstr ""
 
-#: src/lib/hints.cc:523
+#: src/lib/hints.cc:526
 msgid "At least one of your closed caption files is larger than "
 msgstr ""
 
-#: src/lib/hints.cc:516
+#: src/lib/hints.cc:520
 msgid "At least one of your closed caption files' XML part is larger than "
 msgstr ""
 
-#: src/lib/hints.cc:531
+#: src/lib/hints.cc:532
 msgid "At least one of your subtitle files is larger than "
 msgstr ""
 
-#: src/lib/hints.cc:495
+#: src/lib/hints.cc:490
 msgid ""
 "At least one of your subtitle lines has more than 52 characters.  It is "
 "recommended to make each line 52 characters at most in length."
 msgstr ""
 
-#: src/lib/hints.cc:497
+#: src/lib/hints.cc:492
 msgid ""
 "At least one of your subtitle lines has more than 79 characters.  You should "
 "make each line 79 characters at most in length."
 msgstr ""
 
-#: src/lib/hints.cc:664
+#: src/lib/hints.cc:681
 msgid ""
 "At least one of your subtitles has more than 3 lines.  It is advisable to "
 "use no more than 3 lines."
 msgstr ""
 
-#: src/lib/hints.cc:631
+#: src/lib/hints.cc:648
 msgid ""
 "At least one of your subtitles lasts less than 15 frames.  It is advisable "
 "to make each subtitle at least 15 frames long."
 msgstr ""
 
-#: src/lib/hints.cc:636
+#: src/lib/hints.cc:653
 msgid ""
 "At least one of your subtitles starts less than 2 frames after the previous "
 "one.  It is advisable to make the gap between subtitles at least 2 frames."
 msgstr ""
 
-#: src/lib/hints.cc:707
+#: src/lib/hints.cc:724
 msgid ""
 "At least one piece of subtitle content has no specified language.  It is "
 "advisable to set the language for each piece of subtitle content in the "
@@ -674,7 +674,7 @@ msgstr "Для приєднання контенту необхідно вико
 msgid "Content to be joined must use the same text language."
 msgstr "Для приєднання контенту має бути такий самий шрифт."
 
-#: src/lib/video_content.cc:453
+#: src/lib/video_content.cc:455
 #, c++-format
 msgid "Content video is {}x{}"
 msgstr "Розмір контенту: {}x{}"
@@ -816,7 +816,7 @@ msgstr "DBP"
 msgid "DCP (via {})"
 msgstr ""
 
-#: src/lib/dcp_subtitle_content.cc:139
+#: src/lib/dcp_subtitle_content.cc:138
 msgid "DCP XML subtitles"
 msgstr "DCP XML субтитри"
 
@@ -824,7 +824,12 @@ msgstr "DCP XML субтитри"
 msgid "DCP sample rate"
 msgstr "Частота кадрів DCP"
 
-#: src/lib/frame_rate_change.cc:101
+#: src/lib/frame_rate_change.cc:93
+#, fuzzy, c++-format
+msgid "DCP will contain 1 out of every {} frames of the content.\n"
+msgstr "DCP буде використовувати кажний другий кадр контенту.\n"
+
+#: src/lib/frame_rate_change.cc:103
 #, c-format
 msgid "DCP will run at %.1f%% of the content speed.\n"
 msgstr "DCP буде програватися на %.1f%% від швидкості контенту.\n"
@@ -914,11 +919,11 @@ msgstr "Помилка завантаження ({}/{} помилка {})"
 msgid "EC"
 msgstr "C"
 
-#: src/lib/frame_rate_change.cc:93
+#: src/lib/frame_rate_change.cc:95
 msgid "Each content frame will be doubled in the DCP.\n"
 msgstr "Кожний кадр контенту буде задвоено у DCP-пакеті.\n"
 
-#: src/lib/frame_rate_change.cc:95
+#: src/lib/frame_rate_change.cc:97
 #, c++-format
 msgid "Each content frame will be repeated {} more times in the DCP.\n"
 msgstr "Кожний кадр контенту буде повторений {} раз у DCP-пакеті.\n"
@@ -967,12 +972,12 @@ msgstr "Помилка: ({})"
 msgid "Event"
 msgstr ""
 
-#: src/lib/hints.cc:415
+#: src/lib/hints.cc:410
 #, fuzzy
 msgid "Examining audio"
 msgstr "Пошук субтитрів"
 
-#: src/lib/hints.cc:417
+#: src/lib/hints.cc:412
 msgid "Examining audio, subtitles and closed captions"
 msgstr ""
 
@@ -986,7 +991,7 @@ msgstr "Перевірка контенту"
 msgid "Examining subtitles"
 msgstr "Пошук субтитрів"
 
-#: src/lib/hints.cc:413
+#: src/lib/hints.cc:408
 #, fuzzy
 msgid "Examining subtitles and closed captions"
 msgstr "Пошук субтитрів"
@@ -1144,18 +1149,18 @@ msgstr "IEC61966-2-4"
 msgid "IN"
 msgstr ""
 
-#: src/lib/hints.cc:195
+#: src/lib/hints.cc:198
 msgid "If you do use 25fps you should change your DCP standard to SMPTE."
 msgstr ""
 
-#: src/lib/hints.cc:258
+#: src/lib/hints.cc:261
 msgid ""
 "In general it is now advisable to make SMPTE DCPs unless you have a "
 "particular reason to use Interop.  It is advisable to set your DCP to use "
 "the SMPTE standard in the \"DCP\" tab."
 msgstr ""
 
-#: src/lib/hints.cc:624
+#: src/lib/hints.cc:641
 msgid ""
 "It is advisable to put your first subtitle at least 4 seconds after the "
 "start of the DCP to make sure it is seen."
@@ -1199,7 +1204,7 @@ msgstr "Лівий тиловий surround"
 msgid "Left surround"
 msgstr "Лівий surround"
 
-#: src/lib/video_content.cc:526
+#: src/lib/video_content.cc:528
 msgid "Length"
 msgstr "Тривалість"
 
@@ -1388,7 +1393,7 @@ msgstr ""
 msgid "P3 DCI (~6300K)"
 msgstr ""
 
-#: src/lib/util.cc:1131
+#: src/lib/util.cc:1111
 #, c++-format
 msgid ""
 "Please report this problem by using Help -> Report a problem or via email to "
@@ -1505,7 +1510,7 @@ msgstr "SMPTE 2085, Y'D'zD'x"
 msgid "SMPTE 240M"
 msgstr "SMPTE 240M"
 
-#: src/lib/hints.cc:689
+#: src/lib/hints.cc:706
 msgid ""
 "SMPTE DCPs with the type FTR (feature) should have markers for the first "
 "frame of end credits (FFEC) and the first frame of moving credits (FFMC).  "
@@ -1568,7 +1573,7 @@ msgstr "SHR (Короткометражний фільм)"
 msgid "Sign"
 msgstr ""
 
-#: src/lib/video_content.cc:528
+#: src/lib/video_content.cc:530
 msgid "Size"
 msgstr "Розмір"
 
@@ -1602,21 +1607,21 @@ msgid ""
 "need to check their settings."
 msgstr ""
 
-#: src/lib/hints.cc:605
+#: src/lib/hints.cc:622
 #, c++-format
 msgid ""
 "Some of your closed captions span more than {} lines, so they will be "
 "truncated."
 msgstr ""
 
-#: src/lib/hints.cc:727
+#: src/lib/hints.cc:744
 msgid ""
 "Some of your content has audio but you have not set the audio language.  It "
 "is advisable to set the audio language in the \"DCP\" tab unless your audio "
 "has no spoken parts."
 msgstr ""
 
-#: src/lib/hints.cc:798
+#: src/lib/hints.cc:815
 msgid ""
 "Some of your content is encrypted, and some not.  Though some distributors "
 "(e.g. Netflix) require subtitles not to be encrypted (even if picture and "
@@ -1638,7 +1643,7 @@ msgstr "Частина вашого контенту потребує KDM"
 msgid "Some of your content needs an OV"
 msgstr "Часть вашего контента требует OV"
 
-#: src/lib/hints.cc:781
+#: src/lib/hints.cc:798
 #, c++-format
 msgid ""
 "Some of your video content contains an alpha channel, and {} cannot be "
@@ -1704,7 +1709,7 @@ msgstr "Ланцюг сертифікатів для підпису невірн
 msgid "The certificate chain for signing is invalid ({})"
 msgstr "Ланцюг сертифікатів для підпису невірний ({})"
 
-#: src/lib/hints.cc:744
+#: src/lib/hints.cc:761
 #, c++-format
 msgid ""
 "The certificate chain that {} uses for signing DCPs and KDMs contains a "
@@ -1714,7 +1719,7 @@ msgid ""
 "Preferences."
 msgstr ""
 
-#: src/lib/hints.cc:752
+#: src/lib/hints.cc:769
 #, c++-format
 msgid ""
 "The certificate chain that {} uses for signing DCPs and KDMs has a validity "
@@ -1760,7 +1765,7 @@ msgstr "Файл {} був обрізаний на {} мілісекунд ме�
 msgid "The file {} has been trimmed by {} milliseconds more."
 msgstr "Файл {} був обрізаний на {} мілісекунд більше."
 
-#: src/lib/hints.cc:267
+#: src/lib/hints.cc:270
 msgid ""
 "The vast majority of cinemas in Europe, Australasia and North America expect "
 "DCPs encoded with JPEG2000 rather than MPEG2.  Make sure that your cinema "
@@ -1774,7 +1779,7 @@ msgid ""
 "project to make sure that they are placed where you want them."
 msgstr ""
 
-#: src/lib/hints.cc:248
+#: src/lib/hints.cc:251
 #, fuzzy
 msgid ""
 "There is a large difference between the frame rate of your DCP and that of "
@@ -1803,12 +1808,12 @@ msgstr ""
 "спробуйте зменшити кількість потоків кодування у \"Налаштуваннях\" у вкладці "
 "\"Основні\"."
 
-#: src/lib/util.cc:981
+#: src/lib/util.cc:961
 #, c++-format
 msgid "This KDM was made for {} but not for its leaf certificate."
 msgstr ""
 
-#: src/lib/util.cc:979
+#: src/lib/util.cc:959
 #, c++-format
 msgid "This KDM was not made for {}'s decryption certificate."
 msgstr ""
@@ -1998,7 +2003,7 @@ msgstr ""
 msgid "Yet Another Deinterlacing Filter"
 msgstr "Ще один фільтр деінтерлейсинга"
 
-#: src/lib/hints.cc:208
+#: src/lib/hints.cc:211
 #, fuzzy, c++-format
 msgid ""
 "You are set up for a DCP at a frame rate of {} fps.  This frame rate is not "
@@ -2008,7 +2013,7 @@ msgstr ""
 "Ви обрали для Interop DCP частоту кадрів, яка офіційно не підтримується. "
 "Радимо змінити частоту кадрів вашого DCP або замість цього зробити SMPTE DCP."
 
-#: src/lib/hints.cc:192
+#: src/lib/hints.cc:195
 #, fuzzy, c++-format
 msgid ""
 "You are set up for a DCP at a frame rate of {} fps.  This frame rate is not "
@@ -2018,7 +2023,7 @@ msgstr ""
 "Ви обрали для Interop DCP частоту кадрів, яка офіційно не підтримується. "
 "Радимо змінити частоту кадрів вашого DCP або замість цього зробити SMPTE DCP."
 
-#: src/lib/hints.cc:202
+#: src/lib/hints.cc:205
 #, fuzzy
 msgid ""
 "You are set up for a DCP frame rate of 30fps, which is not supported by all "
@@ -2027,7 +2032,7 @@ msgstr ""
 "Ви обрали для Interop DCP частоту кадрів, яка офіційно не підтримується. "
 "Радимо змінити частоту кадрів вашого DCP або замість цього зробити SMPTE DCP."
 
-#: src/lib/hints.cc:322
+#: src/lib/hints.cc:325
 msgid ""
 "You are using 3D content but your DCP is set to 2D.  Set the DCP to 3D if "
 "you want to play it back on a 3D system (e.g. Real-D, MasterImage etc.)"
@@ -2036,7 +2041,7 @@ msgstr ""
 "3D, якщо хочете відтворити його на 3D-системі (напр. Real-D, MasterImage і "
 "т.п.)"
 
-#: src/lib/hints.cc:125
+#: src/lib/hints.cc:128
 #, fuzzy, c++-format
 msgid ""
 "You are using {}'s stereo-to-5.1 upmixer.  This is experimental and may "
@@ -2054,13 +2059,13 @@ msgid ""
 "frame rate.  You must remove some Atmos content."
 msgstr ""
 
-#: src/lib/hints.cc:612
+#: src/lib/hints.cc:629
 msgid ""
 "You have overlapping closed captions, which are not allowed in Interop "
 "DCPs.  Change your DCP standard to SMPTE."
 msgstr ""
 
-#: src/lib/hints.cc:290
+#: src/lib/hints.cc:293
 msgid ""
 "You have specified a font file which is larger than 640kB.  This is very "
 "likely to cause problems on playback."
@@ -2068,7 +2073,7 @@ msgstr ""
 "Вы вибрали шрифт, розмір якого більше 640 кБ. Висока вірогідність, що це "
 "викликає проблеми при відтворенні."
 
-#: src/lib/hints.cc:306
+#: src/lib/hints.cc:309
 #, c++-format
 msgid ""
 "You have {} files that look like they are VOB files from DVD. You should "
@@ -2081,7 +2086,7 @@ msgstr ""
 msgid "You must add some content to the DCP before creating it"
 msgstr "Вам необхідно додати контент в DCP перед його створенням"
 
-#: src/lib/hints.cc:110
+#: src/lib/hints.cc:113
 #, c++-format
 msgid ""
 "Your DCP has fewer than 6 audio channels.  This may cause problems on some "
@@ -2090,7 +2095,7 @@ msgid ""
 "silence."
 msgstr ""
 
-#: src/lib/hints.cc:770
+#: src/lib/hints.cc:787
 #, c++-format
 msgid ""
 "Your DCP has {} audio channels, rather than 8 or 16.  This may cause some "
@@ -2098,7 +2103,7 @@ msgid ""
 "set the DCP audio channels to 8 or 16."
 msgstr ""
 
-#: src/lib/hints.cc:167
+#: src/lib/hints.cc:170
 #, fuzzy
 msgid ""
 "Your DCP uses an unusual container ratio.  This may cause problems on some "
@@ -2108,7 +2113,7 @@ msgstr ""
 "призвести к проблемам на деяких проекторах. Якщо можливо, використовуйте "
 "співвідношення сторін Flat або Scope для DCP"
 
-#: src/lib/hints.cc:356
+#: src/lib/hints.cc:359
 #, c++-format
 msgid ""
 "Your audio level is very high (on {}).  You should reduce the gain of your "
@@ -2140,7 +2145,7 @@ msgstr "[послідовність]"
 msgid "[still]"
 msgstr "[статичний]"
 
-#: src/lib/dcp_subtitle_content.cc:133 src/lib/fcpxml_content.cc:86
+#: src/lib/dcp_subtitle_content.cc:132 src/lib/fcpxml_content.cc:86
 #: src/lib/string_text_file_content.cc:111
 msgid "[subtitles]"
 msgstr "[субтитри]"
@@ -2156,7 +2161,7 @@ msgstr ""
 msgid "bits"
 msgstr ""
 
-#: src/lib/dcpomatic_socket.cc:82 src/lib/dcpomatic_socket.cc:112
+#: src/lib/dcpomatic_socket.cc:86 src/lib/dcpomatic_socket.cc:116
 msgid "connect timed out"
 msgstr "таймаут з'єднання"
 
@@ -2212,22 +2217,22 @@ msgstr "не вдалося прочитати з файла {} ({})"
 msgid "could not write to file {} ({})"
 msgstr "не вдалося записати в файл {} ({})"
 
-#: src/lib/dcpomatic_socket.cc:108
+#: src/lib/dcpomatic_socket.cc:112
 #, c++-format
 msgid "error during async_connect ({})"
 msgstr "помилка під час async_connect ({})"
 
-#: src/lib/dcpomatic_socket.cc:78
+#: src/lib/dcpomatic_socket.cc:82
 #, fuzzy, c++-format
 msgid "error during async_connect: ({})"
 msgstr "помилка під час async_connect ({})"
 
-#: src/lib/dcpomatic_socket.cc:200
+#: src/lib/dcpomatic_socket.cc:204
 #, c++-format
 msgid "error during async_read ({})"
 msgstr "помилка під час async_read ({})"
 
-#: src/lib/dcpomatic_socket.cc:159
+#: src/lib/dcpomatic_socket.cc:163
 #, c++-format
 msgid "error during async_write ({})"
 msgstr "помилка під час async_write ({})"
@@ -2358,7 +2363,7 @@ msgstr "статичний"
 msgid "unknown"
 msgstr "невідомо"
 
-#: src/lib/video_content.cc:526
+#: src/lib/video_content.cc:528
 msgid "video frames"
 msgstr "відеокадри"
 

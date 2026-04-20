@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-14 23:48+0100\n"
+"POT-Creation-Date: 2026-04-12 11:50+0200\n"
 "PO-Revision-Date: 2025-06-08 19:54+0300\n"
 "Last-Translator: Mikhail Epshteyn <virus-2006@yandex.ru>\n"
 "Language-Team: Russian\n"
@@ -77,21 +77,21 @@ msgstr "&Правка"
 
 #: src/tools/dcpomatic_batch.cc:90 src/tools/dcpomatic.cc:1382
 #: src/tools/dcpomatic_editor.cc:433 src/tools/dcpomatic_player.cc:672
-#: src/tools/dcpomatic_playlist.cc:609 src/tools/dcpomatic_verifier.cc:247
+#: src/tools/dcpomatic_playlist.cc:609 src/tools/dcpomatic_verifier.cc:260
 msgid "&Exit"
 msgstr "&Выход"
 
 #: src/tools/dcpomatic_batch.cc:108 src/tools/dcpomatic.cc:1460
 #: src/tools/dcpomatic_editor.cc:445 src/tools/dcpomatic_kdm.cc:346
 #: src/tools/dcpomatic_player.cc:725 src/tools/dcpomatic_playlist.cc:623
-#: src/tools/dcpomatic_verifier.cc:252
+#: src/tools/dcpomatic_verifier.cc:265
 msgid "&File"
 msgstr "&Файл"
 
 #: src/tools/dcpomatic_batch.cc:113 src/tools/dcpomatic.cc:1465
 #: src/tools/dcpomatic_editor.cc:446 src/tools/dcpomatic_kdm.cc:349
 #: src/tools/dcpomatic_player.cc:732 src/tools/dcpomatic_playlist.cc:612
-#: src/tools/dcpomatic_playlist.cc:626 src/tools/dcpomatic_verifier.cc:256
+#: src/tools/dcpomatic_playlist.cc:626 src/tools/dcpomatic_verifier.cc:269
 msgid "&Help"
 msgstr "&Помощь"
 
@@ -123,7 +123,7 @@ msgstr "&Настройки...\tCtrl-P"
 #: src/tools/dcpomatic_batch.cc:92 src/tools/dcpomatic.cc:1384
 #: src/tools/dcpomatic_editor.cc:435 src/tools/dcpomatic_kdm.cc:326
 #: src/tools/dcpomatic_player.cc:674 src/tools/dcpomatic_playlist.cc:615
-#: src/tools/dcpomatic_verifier.cc:251
+#: src/tools/dcpomatic_verifier.cc:264
 msgid "&Quit"
 msgstr "&Выход"
 
@@ -148,11 +148,11 @@ msgstr "&Инструменты"
 msgid "&View"
 msgstr "&Вид"
 
-#: src/tools/dcpomatic_verifier.cc:104
+#: src/tools/dcpomatic_verifier.cc:107
 msgid "(encrypted, have KDM)"
 msgstr ""
 
-#: src/tools/dcpomatic_verifier.cc:106
+#: src/tools/dcpomatic_verifier.cc:109
 msgid "(encrypted, no KDM)"
 msgstr ""
 
@@ -167,13 +167,13 @@ msgstr "<b>Плейлисты</b>"
 #: src/tools/dcpomatic_batch.cc:106 src/tools/dcpomatic.cc:1453
 #: src/tools/dcpomatic_editor.cc:442 src/tools/dcpomatic_kdm.cc:339
 #: src/tools/dcpomatic_player.cc:719 src/tools/dcpomatic_playlist.cc:621
-#: src/tools/dcpomatic_verifier.cc:254
+#: src/tools/dcpomatic_verifier.cc:267
 msgid "About"
 msgstr "О программе"
 
 #: src/tools/dcpomatic.cc:1451 src/tools/dcpomatic_editor.cc:440
 #: src/tools/dcpomatic_kdm.cc:337 src/tools/dcpomatic_player.cc:717
-#: src/tools/dcpomatic_playlist.cc:610 src/tools/dcpomatic_verifier.cc:248
+#: src/tools/dcpomatic_playlist.cc:610 src/tools/dcpomatic_verifier.cc:261
 #, c-format
 msgid "About %s"
 msgstr "О программе %s"
@@ -186,7 +186,7 @@ msgstr "Добавить"
 msgid "Add &KDM..."
 msgstr "Добавить &KDM…"
 
-#: src/tools/dcpomatic_verifier.cc:180
+#: src/tools/dcpomatic_verifier.cc:187
 #, fuzzy
 msgid "Add KDM..."
 msgstr "Добавить &KDM…"
@@ -226,7 +226,7 @@ msgstr ""
 #: src/tools/dcpomatic.cc:1840 src/tools/dcpomatic_combiner.cc:303
 #: src/tools/dcpomatic_disk.cc:565 src/tools/dcpomatic_editor.cc:602
 #: src/tools/dcpomatic_kdm.cc:959 src/tools/dcpomatic_player.cc:1474
-#: src/tools/dcpomatic_playlist.cc:730 src/tools/dcpomatic_verifier.cc:457
+#: src/tools/dcpomatic_playlist.cc:730 src/tools/dcpomatic_verifier.cc:481
 #, c-format
 msgid ""
 "An exception occurred: %s (%s)\n"
@@ -237,7 +237,7 @@ msgstr ""
 "\n"
 "%s"
 
-#: src/tools/dcpomatic.cc:1850 src/tools/dcpomatic_verifier.cc:467
+#: src/tools/dcpomatic.cc:1850 src/tools/dcpomatic_verifier.cc:491
 #, c-format
 msgid ""
 "An exception occurred: %s (%s) (%s)\n"
@@ -249,7 +249,7 @@ msgstr ""
 "%s"
 
 #: src/tools/dcpomatic.cc:1861 src/tools/dcpomatic_disk.cc:575
-#: src/tools/dcpomatic_kdm.cc:969 src/tools/dcpomatic_verifier.cc:478
+#: src/tools/dcpomatic_kdm.cc:969 src/tools/dcpomatic_verifier.cc:502
 #, c-format
 msgid ""
 "An exception occurred: %s.\n"
@@ -273,7 +273,7 @@ msgstr "Произошла неизвестная ошибка."
 #: src/tools/dcpomatic_disk.cc:581 src/tools/dcpomatic_editor.cc:618
 #: src/tools/dcpomatic_kdm.cc:975 src/tools/dcpomatic_kdm.cc:984
 #: src/tools/dcpomatic_player.cc:1490 src/tools/dcpomatic_playlist.cc:746
-#: src/tools/dcpomatic_playlist.cc:755 src/tools/dcpomatic_verifier.cc:484
+#: src/tools/dcpomatic_playlist.cc:755 src/tools/dcpomatic_verifier.cc:508
 #, c-format
 msgid "An unknown exception occurred. %s"
 msgstr "Произошла неизвестная ошибка. %s"
@@ -313,7 +313,7 @@ msgstr "Содержимое CPL-файла не зашифровано."
 msgid "CPL: %s"
 msgstr "CPL: %s"
 
-#: src/tools/dcpomatic_verifier.cc:199
+#: src/tools/dcpomatic_verifier.cc:206
 msgid "Cancel"
 msgstr ""
 
@@ -321,7 +321,7 @@ msgstr ""
 msgid "Check for updates"
 msgstr "Проверить обновления"
 
-#: src/tools/dcpomatic_verifier.cc:362
+#: src/tools/dcpomatic_verifier.cc:375
 msgid "Checking KDM"
 msgstr ""
 
@@ -366,7 +366,7 @@ msgstr "Копировать настройки\tCtrl-C"
 msgid "Could not create folder to store film."
 msgstr "Не удалось создать папку для хранения проекта."
 
-#: src/tools/dcpomatic_kdm.cc:652 src/tools/dcpomatic_verifier.cc:354
+#: src/tools/dcpomatic_kdm.cc:652 src/tools/dcpomatic_verifier.cc:367
 msgid ""
 "Could not decrypt the DKDM.  Perhaps it was not created with the correct "
 "certificate."
@@ -420,7 +420,7 @@ msgstr ""
 "\n"
 "%s."
 
-#: src/tools/dcpomatic_player.cc:829 src/tools/dcpomatic_verifier.cc:357
+#: src/tools/dcpomatic_player.cc:829 src/tools/dcpomatic_verifier.cc:370
 msgid "Could not load KDM."
 msgstr "Не удалось загрузить KDM."
 
@@ -468,7 +468,7 @@ msgstr ""
 "Не удалось прочитать файл как KDM. Убедитесь, что вы загружаете DKDM (XML) "
 "файл."
 
-#: src/tools/dcpomatic_kdm.cc:645 src/tools/dcpomatic_verifier.cc:347
+#: src/tools/dcpomatic_kdm.cc:645 src/tools/dcpomatic_verifier.cc:360
 msgid ""
 "Could not read file as a KDM.  Perhaps it is badly formatted, or not a KDM "
 "at all."
@@ -533,7 +533,7 @@ msgstr "Создатель"
 msgid "Crop"
 msgstr ""
 
-#: src/tools/dcpomatic_disk.cc:139 src/tools/dcpomatic_verifier.cc:172
+#: src/tools/dcpomatic_disk.cc:139 src/tools/dcpomatic_verifier.cc:179
 msgid "DCP"
 msgstr "DCP"
 
@@ -541,7 +541,7 @@ msgstr "DCP"
 msgid "DCP-o-matic Encode Server"
 msgstr "DCP-o-matic Encode Server"
 
-#: src/tools/dcpomatic_disk.cc:135 src/tools/dcpomatic_verifier.cc:146
+#: src/tools/dcpomatic_disk.cc:135 src/tools/dcpomatic_verifier.cc:149
 msgid "DCPs"
 msgstr "DCPs"
 
@@ -667,7 +667,7 @@ msgstr "Зашифрован"
 msgid "Entry point"
 msgstr "Начальная точка"
 
-#: src/tools/dcpomatic_verifier.cc:156
+#: src/tools/dcpomatic_verifier.cc:152
 #, fuzzy
 msgid "Examining DCPs"
 msgstr "Объединение DCPs"
@@ -976,7 +976,7 @@ msgstr "Выберите DCP для открытия"
 msgid "Select DCP to open as OV"
 msgstr "Выберите DCP для открытия как OV"
 
-#: src/tools/dcpomatic_verifier.cc:150 src/tools/dcpomatic_verifier.cc:152
+#: src/tools/dcpomatic_verifier.cc:165 src/tools/dcpomatic_verifier.cc:167
 #, fuzzy
 msgid "Select DCP(s)"
 msgstr "Выберите KDM-файл"
@@ -989,7 +989,7 @@ msgstr "Выберите DKDM-файл"
 msgid "Select DKDM file"
 msgstr "Выберите DKDM-файл"
 
-#: src/tools/dcpomatic_player.cc:810 src/tools/dcpomatic_verifier.cc:335
+#: src/tools/dcpomatic_player.cc:810 src/tools/dcpomatic_verifier.cc:348
 msgid "Select KDM"
 msgstr "Выберите KDM-файл"
 
@@ -1217,7 +1217,7 @@ msgstr ""
 "Возможно выбрана папка с проектом %s. Она не может быть загружена в плеер. "
 "Выберите DCP в подпапке с проектом %s, если хотите открыть её в плеере."
 
-#: src/tools/dcpomatic_verifier.cc:190
+#: src/tools/dcpomatic_verifier.cc:197
 msgid ""
 "Tick to check details of the picture asset, such as frame sizes and JPEG2000 "
 "bitstream validity.  These checks are quite time-consuming."
@@ -1263,7 +1263,7 @@ msgstr "Вверх"
 msgid "User manual..."
 msgstr ""
 
-#: src/tools/dcpomatic_verifier.cc:201
+#: src/tools/dcpomatic_verifier.cc:208
 #, fuzzy
 msgid "Verify"
 msgstr "Проверить DCP"
@@ -1276,7 +1276,7 @@ msgstr "Проверить DCP"
 msgid "Verify DCP..."
 msgstr "Проверить DCP..."
 
-#: src/tools/dcpomatic_verifier.cc:187
+#: src/tools/dcpomatic_verifier.cc:194
 msgid "Verify picture asset details"
 msgstr ""
 
@@ -1288,7 +1288,7 @@ msgstr "Дополнительный пакет (VF)"
 msgid "Video waveform..."
 msgstr "Волновая диаграмма видео…"
 
-#: src/tools/dcpomatic_verifier.cc:194
+#: src/tools/dcpomatic_verifier.cc:201
 #, fuzzy
 msgid "Write logs to DCP folders"
 msgstr "Выбрать папку с DCP"
