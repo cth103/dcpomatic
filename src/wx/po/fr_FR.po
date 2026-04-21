@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-16 18:27+0200\n"
+"POT-Creation-Date: 2026-04-21 17:39+0200\n"
 "PO-Revision-Date: 2025-09-28 15:33+0200\n"
 "Last-Translator: Dan Cohen <thedan.cohen@protonmail.com>\n"
 "Language-Team: \n"
@@ -3850,7 +3850,7 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:423
 #, fuzzy, c-format
-msgid "The sound asset %f has an invalid bit depth of %n."
+msgid "The sound asset %f has an invalid bit depth of %bit_depth."
 msgstr ""
 "La ressource sonore %f a nombre de bits par échantillon %bit_depth invalide."
 

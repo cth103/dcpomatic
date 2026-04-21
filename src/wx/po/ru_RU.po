@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-16 18:27+0200\n"
+"POT-Creation-Date: 2026-04-21 17:39+0200\n"
 "PO-Revision-Date: 2025-06-08 21:02+0300\n"
 "Last-Translator: Mikhail Epshteyn <virus-2006@yandex.ru>\n"
 "Language-Team: Russian\n"
@@ -3836,7 +3836,7 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:423
 #, fuzzy, c-format
-msgid "The sound asset %f has an invalid bit depth of %n."
+msgid "The sound asset %f has an invalid bit depth of %bit_depth."
 msgstr "Звуковой ресурс %f имеет некорректную битовую глубину %bit_depth."
 
 #: src/wx/verify_dcp_result_panel.cc:420

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-16 18:27+0200\n"
+"POT-Creation-Date: 2026-04-21 17:39+0200\n"
 "PO-Revision-Date: 2026-04-01 21:46+0900\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -3808,8 +3808,8 @@ msgstr ""
 "時間（%s）とは異なります。"
 
 #: src/wx/verify_dcp_result_panel.cc:423
-#, c-format
-msgid "The sound asset %f has an invalid bit depth of %n."
+#, fuzzy, c-format
+msgid "The sound asset %f has an invalid bit depth of %bit_depth."
 msgstr "音声データ%fのビット深度%nは無効です。"
 
 #: src/wx/verify_dcp_result_panel.cc:420

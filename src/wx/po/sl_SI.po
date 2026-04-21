@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-16 18:27+0200\n"
+"POT-Creation-Date: 2026-04-21 17:39+0200\n"
 "PO-Revision-Date: 2024-02-10 16:17+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: \n"
@@ -3829,7 +3829,7 @@ msgstr ""
 
 #: src/wx/verify_dcp_result_panel.cc:423
 #, fuzzy, c-format
-msgid "The sound asset %f has an invalid bit depth of %n."
+msgid "The sound asset %f has an invalid bit depth of %bit_depth."
 msgstr "Zvočno sredstvo %f nima veveljavne hitrosti sličic %bit_depth."
 
 #: src/wx/verify_dcp_result_panel.cc:420
