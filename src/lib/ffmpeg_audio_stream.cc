@@ -42,8 +42,7 @@ FFmpegAudioStream::FFmpegAudioStream (cxml::ConstNodePtr node, int version)
 		node->optional_number_child<int>("BitDepth")
 		)
 {
-	optional<ContentTime::Type> const f = node->optional_number_child<ContentTime::Type>("FirstAudio");
-	if (f) {
+	if (auto f = node->optional_number_child<ContentTime::Type>("FirstAudio")) {
 		first_audio = ContentTime(f.get());
 	}
 	codec_name = node->optional_string_child("CodecName");
