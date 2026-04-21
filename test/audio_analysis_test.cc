@@ -40,6 +40,7 @@
 #include "lib/playlist.h"
 #include "lib/ratio.h"
 #include "test.h"
+#include <dcp/scope_guard.h>
 #include <boost/test/unit_test.hpp>
 #include <numeric>
 
@@ -315,3 +316,38 @@ BOOST_AUTO_TEST_CASE(ebur128_test)
 }
 #endif
 
+
+static bool saw_ffmpeg_error = false;
+
+static
+void
+test_log_callback(void*, int level, const char*, va_list)
+{
+	if (level <= AV_LOG_WARNING) {
+		saw_ffmpeg_error = true;
+	}
+}
+
+
+/* The file in this test has the audio stream as index 0, video as 1,
+ * with both streams having the same ID.  This triggered a bug where
+ * on analysis (with video disabled) the video packets would be fed
+ * to the audio decoder, causing chaos manifesting as many audio decoder
+ * errors.
+ */
+BOOST_AUTO_TEST_CASE(analysis_stream_confusion_test)
+{
+	auto sound = content_factory(TestPaths::private_data() / "ge.mkv")[0];
+	auto film = new_test_film("analysis_stream_confusion_test", { sound });
+
+	av_log_set_callback(test_log_callback);
+	dcp::ScopeGuard sg = []() {
+		capture_ffmpeg_logs();
+	};
+
+	auto job = make_shared<AnalyseAudioJob>(film, film->playlist(), true);
+	JobManager::instance()->add(job);
+	BOOST_REQUIRE(!wait_for_jobs());
+
+	BOOST_CHECK(!saw_ffmpeg_error);
+}

@@ -221,7 +221,7 @@ FFmpegExaminer::check_for_duplicate_ids()
 	std::set<int> stream_ids;
 
 	if (_video_stream) {
-		stream_ids.insert(*_video_stream);
+		stream_ids.insert(_format_context->streams[*_video_stream]->id);
 	}
 
 	for (auto stream: _audio_streams) {
