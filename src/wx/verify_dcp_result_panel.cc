@@ -420,7 +420,7 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 			add(i.second, _("The sound asset %f has an invalid frame rate of %frame_rate."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_SOUND_BIT_DEPTH:
-			add(i.second, _("The sound asset %f has an invalid bit depth of %n."));
+			add(i.second, _("The sound asset %f has an invalid bit depth of %bit_depth."));
 			break;
 		case dcp::VerificationNote::Code::MISSING_CPL_ANNOTATION_TEXT:
 			add(i.second, _("The CPL %cpl has no <AnnotationText> tag."));
