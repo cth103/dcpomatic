@@ -73,17 +73,17 @@ using dcp::Size;
 using namespace dcpomatic;
 
 
-FFmpegDecoder::FFmpegDecoder (shared_ptr<const Film> film, shared_ptr<const FFmpegContent> c, bool fast)
-	: FFmpeg (c)
-	, Decoder (film)
+FFmpegDecoder::FFmpegDecoder(shared_ptr<const Film> film, shared_ptr<const FFmpegContent> c, bool fast)
+	: FFmpeg(c)
+	, Decoder(film)
 	, _filter_graphs(c->filters(), dcp::Fraction(lrint(_ffmpeg_content->video_frame_rate().get_value_or(24) * 1000), 1000))
 {
 	if (c->video && c->video->use()) {
 		video = make_shared<VideoDecoder>(this, c);
-		_pts_offset = pts_offset (c->ffmpeg_audio_streams(), c->first_video(), c->active_video_frame_rate(film));
+		_pts_offset = pts_offset(c->ffmpeg_audio_streams(), c->first_video(), c->active_video_frame_rate(film));
 		/* It doesn't matter what size or pixel format this is, it just needs to be black */
-		_black_image = make_shared<Image>(AV_PIX_FMT_RGB24, dcp::Size (128, 128), Image::Alignment::PADDED);
-		_black_image->make_black ();
+		_black_image = make_shared<Image>(AV_PIX_FMT_RGB24, dcp::Size(128, 128), Image::Alignment::PADDED);
+		_black_image->make_black();
 	} else {
 		_pts_offset = {};
 	}
@@ -93,7 +93,7 @@ FFmpegDecoder::FFmpegDecoder (shared_ptr<const Film> film, shared_ptr<const FFmp
 	}
 
 	if (c->only_text()) {
-		text.push_back (make_shared<TextDecoder>(this, c->only_text()));
+		text.push_back(make_shared<TextDecoder>(this, c->only_text()));
 		/* XXX: we should be calling maybe_set_position() on this TextDecoder, but we can't easily find
 		 * the time of the first subtitle at this point.
 		 */
@@ -108,7 +108,7 @@ FFmpegDecoder::FFmpegDecoder (shared_ptr<const Film> film, shared_ptr<const FFmp
 
 
 FFmpegDecoder::FlushResult
-FFmpegDecoder::flush ()
+FFmpegDecoder::flush()
 {
 	LOG_DEBUG_PLAYER("DEC: Flush FFmpeg decoder: current state {}", static_cast<int>(_flush_state));
 
@@ -151,14 +151,14 @@ FFmpegDecoder::flush_codecs()
 
 	for (auto i: ffmpeg_content()->ffmpeg_audio_streams()) {
 		auto context = _codec_context[i->index(_format_context)];
-		int r = avcodec_send_packet (context, nullptr);
+		int r = avcodec_send_packet(context, nullptr);
 		if (r < 0 && r != AVERROR_EOF) {
 			/* EOF can happen if we've already sent a flush packet */
-			throw DecodeError (N_("avcodec_send_packet"), N_("FFmpegDecoder::flush"), r);
+			throw DecodeError(N_("avcodec_send_packet"), N_("FFmpegDecoder::flush"), r);
 		}
-		r = avcodec_receive_frame (context, audio_frame(i));
+		r = avcodec_receive_frame(context, audio_frame(i));
 		if (r >= 0) {
-			process_audio_frame (i);
+			process_audio_frame(i);
 			did_something = true;
 		}
 	}
@@ -175,8 +175,8 @@ FFmpegDecoder::flush_fill()
 	bool did_something = false;
 
 	auto const frc = film()->active_frame_rate_change(_ffmpeg_content->position());
-	ContentTime full_length (_ffmpeg_content->full_length(film()), frc);
-	full_length = full_length.ceil (frc.source());
+	ContentTime full_length(_ffmpeg_content->full_length(film()), frc);
+	full_length = full_length.ceil(frc.source());
 	if (video && !video->ignore()) {
 		double const vfr = _ffmpeg_content->video_frame_rate().get();
 		auto const v = video->position(film()).get_value_or(ContentTime()) + ContentTime::from_frames(1, vfr);
@@ -187,7 +187,7 @@ FFmpegDecoder::flush_fill()
 	}
 
 	if (audio && !audio->ignore()) {
-		for (auto i: _ffmpeg_content->ffmpeg_audio_streams ()) {
+		for (auto i: _ffmpeg_content->ffmpeg_audio_streams()) {
 			auto const a = audio->stream_position(film(), i);
 			/* Unfortunately if a is 0 that really means that we don't know the stream position since
 			   there has been no data on it since the last seek.  In this case we'll just do nothing
@@ -195,10 +195,10 @@ FFmpegDecoder::flush_fill()
 			*/
 			if (a > ContentTime() && a < full_length) {
 				LOG_DEBUG_PLAYER("DEC: Flush inserts silence at {}", to_string(a));
-				auto to_do = min (full_length - a, ContentTime::from_seconds (0.1));
-				auto silence = make_shared<AudioBuffers>(i->channels(), to_do.frames_ceil (i->frame_rate()));
-				silence->make_silent ();
-				audio->emit (film(), i, silence, a, true);
+				auto to_do = min(full_length - a, ContentTime::from_seconds(0.1));
+				auto silence = make_shared<AudioBuffers>(i->channels(), to_do.frames_ceil(i->frame_rate()));
+				silence->make_silent();
+				audio->emit(film(), i, silence, a, true);
 				did_something = true;
 			}
 		}
@@ -209,12 +209,12 @@ FFmpegDecoder::flush_fill()
 
 
 bool
-FFmpegDecoder::pass ()
+FFmpegDecoder::pass()
 {
 	auto packet = av_packet_alloc();
-	DCPOMATIC_ASSERT (packet);
+	DCPOMATIC_ASSERT(packet);
 
-	int r = av_read_frame (_format_context, packet);
+	int r = av_read_frame(_format_context, packet);
 
 	/* AVERROR_INVALIDDATA can apparently be returned sometimes even when av_read_frame
 	   has pretty-much succeeded (and hence generated data which should be processed).
@@ -225,11 +225,11 @@ FFmpegDecoder::pass ()
 		if (r != AVERROR_EOF) {
 			/* Maybe we should fail here, but for now we'll just finish off instead */
 			char buf[256];
-			av_strerror (r, buf, sizeof(buf));
-			LOG_ERROR (N_("error on av_read_frame ({}) ({})"), &buf[0], r);
+			av_strerror(r, buf, sizeof(buf));
+			LOG_ERROR(N_("error on av_read_frame ({}) ({})"), &buf[0], r);
 		}
 
-		av_packet_free (&packet);
+		av_packet_free(&packet);
 		return flush() == FlushResult::DONE;
 	} else if (r == AVERROR_INVALIDDATA) {
 		LOG_DEBUG_PLAYER("DEC: av_read_frame gave INVALIDDATA but we carry on");
@@ -239,11 +239,11 @@ FFmpegDecoder::pass ()
 	auto fc = _ffmpeg_content;
 
 	if (_video_stream && si == _video_stream.get() && video && !video->ignore()) {
-		decode_and_process_video_packet (packet);
+		decode_and_process_video_packet(packet);
 	} else if (fc->subtitle_stream() && fc->subtitle_stream()->uses_index(_format_context, si) && !only_text()->ignore()) {
-		decode_and_process_subtitle_packet (packet);
+		decode_and_process_subtitle_packet(packet);
 	} else if (audio) {
-		decode_and_process_audio_packet (packet);
+		decode_and_process_audio_packet(packet);
 	} else {
 		DCPOMATIC_ASSERT(static_cast<int>(_dropped_time.size()) > si);
 		_dropped_time[si] = dcpomatic::ContentTime::from_seconds(packet->dts * av_q2d(_format_context->streams[si]->time_base) + _pts_offset.seconds());
@@ -254,7 +254,7 @@ FFmpegDecoder::pass ()
 		_have_current_subtitle = false;
 	}
 
-	av_packet_free (&packet);
+	av_packet_free(&packet);
 	return false;
 }
 
@@ -283,7 +283,7 @@ deinterleave_audio(AVFrame* frame)
 	switch (format) {
 	case AV_SAMPLE_FMT_U8:
 	{
-		auto p = reinterpret_cast<uint8_t *> (frame->data[0]);
+		auto p = reinterpret_cast<uint8_t *>(frame->data[0]);
 		int sample = 0;
 		int channel = 0;
 		for (int i = 0; i < total_samples; ++i) {
@@ -300,7 +300,7 @@ deinterleave_audio(AVFrame* frame)
 
 	case AV_SAMPLE_FMT_S16:
 	{
-		auto p = reinterpret_cast<int16_t *> (frame->data[0]);
+		auto p = reinterpret_cast<int16_t *>(frame->data[0]);
 		int sample = 0;
 		int channel = 0;
 		for (int i = 0; i < total_samples; ++i) {
@@ -317,7 +317,7 @@ deinterleave_audio(AVFrame* frame)
 
 	case AV_SAMPLE_FMT_S16P:
 	{
-		auto p = reinterpret_cast<int16_t **> (frame->data);
+		auto p = reinterpret_cast<int16_t **>(frame->data);
 		for (int i = 0; i < channels; ++i) {
 			for (int j = 0; j < frames; ++j) {
 				data[i][j] = static_cast<float>(p[i][j]) / (1 << 15);
@@ -328,7 +328,7 @@ deinterleave_audio(AVFrame* frame)
 
 	case AV_SAMPLE_FMT_S32:
 	{
-		auto p = reinterpret_cast<int32_t *> (frame->data[0]);
+		auto p = reinterpret_cast<int32_t *>(frame->data[0]);
 		int sample = 0;
 		int channel = 0;
 		for (int i = 0; i < total_samples; ++i) {
@@ -345,7 +345,7 @@ deinterleave_audio(AVFrame* frame)
 
 	case AV_SAMPLE_FMT_S32P:
 	{
-		auto p = reinterpret_cast<int32_t **> (frame->data);
+		auto p = reinterpret_cast<int32_t **>(frame->data);
 		for (int i = 0; i < channels; ++i) {
 			for (int j = 0; j < frames; ++j) {
 				data[i][j] = static_cast<float>(p[i][j]) / 2147483648;
@@ -356,7 +356,7 @@ deinterleave_audio(AVFrame* frame)
 
 	case AV_SAMPLE_FMT_FLT:
 	{
-		auto p = reinterpret_cast<float*> (frame->data[0]);
+		auto p = reinterpret_cast<float*>(frame->data[0]);
 		int sample = 0;
 		int channel = 0;
 		for (int i = 0; i < total_samples; ++i) {
@@ -373,15 +373,15 @@ deinterleave_audio(AVFrame* frame)
 
 	case AV_SAMPLE_FMT_FLTP:
 	{
-		auto p = reinterpret_cast<float**> (frame->data);
+		auto p = reinterpret_cast<float**>(frame->data);
 		for (int i = 0; i < channels; ++i) {
-			memcpy (data[i], p[i], frames * sizeof(float));
+			memcpy(data[i], p[i], frames * sizeof(float));
 		}
 	}
 	break;
 
 	default:
-		throw DecodeError (fmt::format(_("Unrecognised audio sample format ({})"), static_cast<int>(format)));
+		throw DecodeError(fmt::format(_("Unrecognised audio sample format ({})"), static_cast<int>(format)));
 	}
 
 	return audio;
@@ -389,23 +389,23 @@ deinterleave_audio(AVFrame* frame)
 
 
 AVSampleFormat
-FFmpegDecoder::audio_sample_format (shared_ptr<FFmpegAudioStream> stream) const
+FFmpegDecoder::audio_sample_format(shared_ptr<FFmpegAudioStream> stream) const
 {
 	return static_cast<AVSampleFormat>(stream->stream(_format_context)->codecpar->format);
 }
 
 
 int
-FFmpegDecoder::bytes_per_audio_sample (shared_ptr<FFmpegAudioStream> stream) const
+FFmpegDecoder::bytes_per_audio_sample(shared_ptr<FFmpegAudioStream> stream) const
 {
-	return av_get_bytes_per_sample (audio_sample_format (stream));
+	return av_get_bytes_per_sample(audio_sample_format(stream));
 }
 
 
 void
-FFmpegDecoder::seek (ContentTime time, bool accurate)
+FFmpegDecoder::seek(ContentTime time, bool accurate)
 {
-	Decoder::seek (time, accurate);
+	Decoder::seek(time, accurate);
 
 	_flush_state = FlushState::CODECS;
 
@@ -413,7 +413,7 @@ FFmpegDecoder::seek (ContentTime time, bool accurate)
 	   we don't really know what the seek will give us.
 	*/
 
-	auto pre_roll = accurate ? ContentTime::from_seconds (2) : ContentTime (0);
+	auto pre_roll = accurate ? ContentTime::from_seconds(2) : ContentTime(0);
 	time -= pre_roll;
 
 	/* XXX: it seems debatable whether PTS should be used here...
@@ -431,18 +431,18 @@ FFmpegDecoder::seek (ContentTime time, bool accurate)
 		stream = streams[0]->index(_format_context);
 	}
 
-	DCPOMATIC_ASSERT (stream);
+	DCPOMATIC_ASSERT(stream);
 
 	auto u = time - _pts_offset;
-	if (u < ContentTime ()) {
-		u = ContentTime ();
+	if (u < ContentTime()) {
+		u = ContentTime();
 	}
 
 	auto seek = [&](int flag) {
 		return av_seek_frame(
 			_format_context,
 			stream.get(),
-			u.seconds() / av_q2d (_format_context->streams[stream.get()]->time_base),
+			u.seconds() / av_q2d(_format_context->streams[stream.get()]->time_base),
 			flag
 			);
 	};
@@ -456,16 +456,16 @@ FFmpegDecoder::seek (ContentTime time, bool accurate)
 	*/
 	_filter_graphs.clear();
 
-	if (video_codec_context ()) {
-		avcodec_flush_buffers (video_codec_context());
+	if (video_codec_context()) {
+		avcodec_flush_buffers(video_codec_context());
 	}
 
 	for (auto i: ffmpeg_content()->ffmpeg_audio_streams()) {
-		avcodec_flush_buffers (_codec_context[i->index(_format_context)]);
+		avcodec_flush_buffers(_codec_context[i->index(_format_context)]);
 	}
 
-	if (subtitle_codec_context ()) {
-		avcodec_flush_buffers (subtitle_codec_context ());
+	if (subtitle_codec_context()) {
+		avcodec_flush_buffers(subtitle_codec_context());
 	}
 
 	_have_current_subtitle = false;
@@ -481,7 +481,7 @@ FFmpegDecoder::seek (ContentTime time, bool accurate)
 
 
 shared_ptr<FFmpegAudioStream>
-FFmpegDecoder::audio_stream_from_index (int index) const
+FFmpegDecoder::audio_stream_from_index(int index) const
 {
 	/* XXX: inefficient */
 	auto streams = ffmpeg_content()->ffmpeg_audio_streams();
@@ -490,7 +490,7 @@ FFmpegDecoder::audio_stream_from_index (int index) const
 		++stream;
 	}
 
-	if (stream == streams.end ()) {
+	if (stream == streams.end()) {
 		return {};
 	}
 
@@ -499,9 +499,9 @@ FFmpegDecoder::audio_stream_from_index (int index) const
 
 
 void
-FFmpegDecoder::process_audio_frame (shared_ptr<FFmpegAudioStream> stream)
+FFmpegDecoder::process_audio_frame(shared_ptr<FFmpegAudioStream> stream)
 {
-	auto frame = audio_frame (stream);
+	auto frame = audio_frame(stream);
 	auto data = deinterleave_audio(frame);
 
 	auto const time_base = stream->stream(_format_context)->time_base;
@@ -516,7 +516,7 @@ FFmpegDecoder::process_audio_frame (shared_ptr<FFmpegAudioStream> stream)
 			ct = *_next_time[stream];
 		}
 	} else {
-		ct = ContentTime::from_seconds (
+		ct = ContentTime::from_seconds(
 			frame->best_effort_timestamp *
 			av_q2d(time_base))
 			+ _pts_offset;
@@ -534,14 +534,14 @@ FFmpegDecoder::process_audio_frame (shared_ptr<FFmpegAudioStream> stream)
 
 	if (ct < ContentTime()) {
 		/* Discard audio data that comes before time 0 */
-		auto const remove = min (int64_t(data->frames()), (-ct).frames_ceil(double(stream->frame_rate())));
-		data->move (data->frames() - remove, remove, 0);
-		data->set_frames (data->frames() - remove);
-		ct += ContentTime::from_frames (remove, stream->frame_rate());
+		auto const remove = min(int64_t(data->frames()), (-ct).frames_ceil(double(stream->frame_rate())));
+		data->move(data->frames() - remove, remove, 0);
+		data->set_frames(data->frames() - remove);
+		ct += ContentTime::from_frames(remove, stream->frame_rate());
 	}
 
 	if (ct < ContentTime()) {
-		LOG_WARNING (
+		LOG_WARNING(
 			"Crazy timestamp {} for {} samples in stream {} (ts={} tb={}, off={})",
 			to_string(ct),
 			data->frames(),
@@ -554,29 +554,29 @@ FFmpegDecoder::process_audio_frame (shared_ptr<FFmpegAudioStream> stream)
 
 	/* Give this data provided there is some, and its time is sane */
 	if (ct >= ContentTime() && data->frames() > 0) {
-		audio->emit (film(), stream, data, ct);
+		audio->emit(film(), stream, data, ct);
 	}
 }
 
 
 void
-FFmpegDecoder::decode_and_process_audio_packet (AVPacket* packet)
+FFmpegDecoder::decode_and_process_audio_packet(AVPacket* packet)
 {
-	auto stream = audio_stream_from_index (packet->stream_index);
+	auto stream = audio_stream_from_index(packet->stream_index);
 	if (!stream) {
 		return;
 	}
 
 	auto context = _codec_context[stream->index(_format_context)];
-	auto frame = audio_frame (stream);
+	auto frame = audio_frame(stream);
 
 	LOG_DEBUG_PLAYER("DEC: Send audio packet on stream {}", stream->index(_format_context));
-	int r = avcodec_send_packet (context, packet);
+	int r = avcodec_send_packet(context, packet);
 	if (r < 0) {
 		LOG_WARNING("avcodec_send_packet returned {} for an audio packet", r);
 	}
 	while (r >= 0) {
-		r = avcodec_receive_frame (context, frame);
+		r = avcodec_receive_frame(context, frame);
 		if (r == AVERROR(EAGAIN)) {
 			/* More input is required */
 			LOG_DEBUG_PLAYER("DEC: EAGAIN after trying to receive audio frame");
@@ -587,22 +587,22 @@ FFmpegDecoder::decode_and_process_audio_packet (AVPacket* packet)
 		 * data to decode even if an error occurred.  #352 may be related (though this was
 		 * when we were using an old version of the FFmpeg API).
 		 */
-		process_audio_frame (stream);
+		process_audio_frame(stream);
 	}
 }
 
 
 bool
-FFmpegDecoder::decode_and_process_video_packet (AVPacket* packet)
+FFmpegDecoder::decode_and_process_video_packet(AVPacket* packet)
 {
-	DCPOMATIC_ASSERT (_video_stream);
+	DCPOMATIC_ASSERT(_video_stream);
 
 	auto context = video_codec_context();
 
 	bool pending = false;
 	do {
 		LOG_DEBUG_PLAYER("DEC: Send video packet");
-		int r = avcodec_send_packet (context, packet);
+		int r = avcodec_send_packet(context, packet);
 		if (r < 0) {
 			LOG_WARNING("avcodec_send_packet returned {} for a video packet", r);
 		}
@@ -611,17 +611,17 @@ FFmpegDecoder::decode_and_process_video_packet (AVPacket* packet)
 		pending = r == AVERROR(EAGAIN);
 
 		while (true) {
-			r = avcodec_receive_frame (context, _video_frame);
+			r = avcodec_receive_frame(context, _video_frame);
 			if (r == AVERROR(EAGAIN) || r == AVERROR_EOF || (r < 0 && !packet)) {
 				/* More input is required, no more frames are coming, or we are flushing and there was
 				 * some error which we just want to ignore.
 				 */
 				return false;
 			} else if (r < 0) {
-				throw DecodeError (N_("avcodec_receive_frame"), N_("FFmpeg::decode_and_process_video_packet"), r);
+				throw DecodeError(N_("avcodec_receive_frame"), N_("FFmpeg::decode_and_process_video_packet"), r);
 			}
 
-			process_video_frame ();
+			process_video_frame();
 		}
 	} while (pending);
 
@@ -630,10 +630,10 @@ FFmpegDecoder::decode_and_process_video_packet (AVPacket* packet)
 
 
 void
-FFmpegDecoder::process_video_frame ()
+FFmpegDecoder::process_video_frame()
 {
 	auto graph = _filter_graphs.get(dcp::Size(_video_frame->width, _video_frame->height), static_cast<AVPixelFormat>(_video_frame->format));
-	auto images = graph->process (_video_frame);
+	auto images = graph->process(_video_frame);
 
 	for (auto const& i: images) {
 
@@ -643,20 +643,20 @@ FFmpegDecoder::process_video_frame ()
 			double const pts = i.second * av_q2d(_format_context->streams[_video_stream.get()]->time_base) + _pts_offset.seconds();
 
 			LOG_DEBUG_PLAYER("DEC: Process video with timestamp {}", to_string(ContentTime::from_seconds(pts)))
-			video->emit (
+			video->emit(
 				film(),
 				make_shared<RawImageProxy>(image),
 				ContentTime::from_seconds(pts)
 				);
 		} else {
-			LOG_WARNING ("Dropping frame without PTS");
+			LOG_WARNING("Dropping frame without PTS");
 		}
 	}
 }
 
 
 void
-FFmpegDecoder::decode_and_process_subtitle_packet (AVPacket* packet)
+FFmpegDecoder::decode_and_process_subtitle_packet(AVPacket* packet)
 {
 	auto context = subtitle_codec_context();
 	if (!context) {
@@ -669,21 +669,21 @@ FFmpegDecoder::decode_and_process_subtitle_packet (AVPacket* packet)
 		return;
 	}
 
-	auto sub_period = subtitle_period (packet, ffmpeg_content()->subtitle_stream()->stream(_format_context), sub);
+	auto sub_period = subtitle_period(packet, ffmpeg_content()->subtitle_stream()->stream(_format_context), sub);
 
 	/* Stop any current subtitle, either at the time it was supposed to stop, or now if now is sooner */
 	if (_have_current_subtitle) {
 		if (_current_subtitle_to) {
-			only_text()->emit_stop (min(*_current_subtitle_to, sub_period.from + _pts_offset));
+			only_text()->emit_stop(min(*_current_subtitle_to, sub_period.from + _pts_offset));
 		} else {
-			only_text()->emit_stop (sub_period.from + _pts_offset);
+			only_text()->emit_stop(sub_period.from + _pts_offset);
 		}
 		_have_current_subtitle = false;
 	}
 
 	if (sub.num_rects <= 0) {
 		/* Nothing new in this subtitle */
-		avsubtitle_free (&sub);
+		avsubtitle_free(&sub);
 		return;
 	}
 
@@ -713,7 +713,7 @@ FFmpegDecoder::decode_and_process_subtitle_packet (AVPacket* packet)
 			cout << "XXX: SUBTITLE_TEXT " << rect->text << "\n";
 			break;
 		case SUBTITLE_ASS:
-			process_ass_subtitle (rect->ass, from);
+			process_ass_subtitle(rect->ass, from);
 			break;
 		}
 	}
@@ -722,17 +722,17 @@ FFmpegDecoder::decode_and_process_subtitle_packet (AVPacket* packet)
 		only_text()->emit_bitmap_start(bitmap_text);
 	}
 
-	avsubtitle_free (&sub);
+	avsubtitle_free(&sub);
 }
 
 
 BitmapText
-FFmpegDecoder::process_bitmap_subtitle (AVSubtitleRect const * rect)
+FFmpegDecoder::process_bitmap_subtitle(AVSubtitleRect const * rect)
 {
 	/* Note BGRA is expressed little-endian, so the first byte in the word is B, second
 	   G, third R, fourth A.
 	*/
-	auto image = make_shared<Image>(AV_PIX_FMT_BGRA, dcp::Size (rect->w, rect->h), Image::Alignment::PADDED);
+	auto image = make_shared<Image>(AV_PIX_FMT_BGRA, dcp::Size(rect->w, rect->h), Image::Alignment::PADDED);
 
 #ifdef DCPOMATIC_HAVE_AVSUBTITLERECT_PICT
 	/* Start of the first line in the subtitle */
@@ -753,11 +753,11 @@ FFmpegDecoder::process_bitmap_subtitle (AVSubtitleRect const * rect)
 	   chosen by the user; created a `mapped' palette from those settings.
 	*/
 	auto colour_map = ffmpeg_content()->subtitle_stream()->colours();
-	vector<RGBA> mapped_palette (rect->nb_colors);
+	vector<RGBA> mapped_palette(rect->nb_colors);
 	for (int i = 0; i < rect->nb_colors; ++i) {
-		RGBA c (palette[2], palette[1], palette[0], palette[3]);
-		auto j = colour_map.find (c);
-		if (j != colour_map.end ()) {
+		RGBA c(palette[2], palette[1], palette[0], palette[3]);
+		auto j = colour_map.find(c);
+		if (j != colour_map.end()) {
 			mapped_palette[i] = j->second;
 		} else {
 			/* This colour was not found in the FFmpegSubtitleStream's colour map; probably because
@@ -815,7 +815,7 @@ FFmpegDecoder::process_bitmap_subtitle (AVSubtitleRect const * rect)
 	DCPOMATIC_ASSERT(target_width > 0);
 	DCPOMATIC_ASSERT(target_height > 0);
 
-	dcpomatic::Rect<double> const scaled_rect (
+	dcpomatic::Rect<double> const scaled_rect(
 		static_cast<double>(rect->x + x_offset) / target_width,
 		static_cast<double>(rect->y + y_offset) / target_height,
 		static_cast<double>(rect->w) / target_width,
@@ -827,7 +827,7 @@ FFmpegDecoder::process_bitmap_subtitle (AVSubtitleRect const * rect)
 
 
 void
-FFmpegDecoder::process_ass_subtitle (string ass, ContentTime from)
+FFmpegDecoder::process_ass_subtitle(string ass, ContentTime from)
 {
 	/* We have no styles and no Format: line, so I'm assuming that FFmpeg
 	   produces a single format of Dialogue: lines...
@@ -843,7 +843,7 @@ FFmpegDecoder::process_ass_subtitle (string ass, ContentTime from)
 		}
 	}
 
-	if (text.empty ()) {
+	if (text.empty()) {
 		return;
 	}
 
@@ -854,7 +854,7 @@ FFmpegDecoder::process_ass_subtitle (string ass, ContentTime from)
 	auto const raw = sub::SSAReader::parse_line({}, text, context);
 
 	for (auto const& i: sub::collect<vector<sub::Subtitle>>(raw)) {
-		only_text()->emit_plain_start (from, i);
+		only_text()->emit_plain_start(from, i);
 	}
 }
 

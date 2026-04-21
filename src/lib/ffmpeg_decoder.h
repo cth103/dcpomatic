@@ -49,10 +49,10 @@ struct ffmpeg_pts_offset_test;
 class FFmpegDecoder : public FFmpeg, public Decoder
 {
 public:
-	FFmpegDecoder (std::shared_ptr<const Film> film, std::shared_ptr<const FFmpegContent>, bool fast);
+	FFmpegDecoder(std::shared_ptr<const Film> film, std::shared_ptr<const FFmpegContent>, bool fast);
 
-	bool pass () override;
-	void seek (dcpomatic::ContentTime time, bool) override;
+	bool pass() override;
+	void seek(dcpomatic::ContentTime time, bool) override;
 	dcpomatic::ContentTime position() const override;
 
 private:
@@ -65,22 +65,22 @@ private:
 
 	FlushResult flush();
 
-	AVSampleFormat audio_sample_format (std::shared_ptr<FFmpegAudioStream> stream) const;
-	int bytes_per_audio_sample (std::shared_ptr<FFmpegAudioStream> stream) const;
+	AVSampleFormat audio_sample_format(std::shared_ptr<FFmpegAudioStream> stream) const;
+	int bytes_per_audio_sample(std::shared_ptr<FFmpegAudioStream> stream) const;
 
-	std::shared_ptr<FFmpegAudioStream> audio_stream_from_index (int index) const;
-	void process_audio_frame (std::shared_ptr<FFmpegAudioStream> stream);
+	std::shared_ptr<FFmpegAudioStream> audio_stream_from_index(int index) const;
+	void process_audio_frame(std::shared_ptr<FFmpegAudioStream> stream);
 
-	void process_video_frame ();
+	void process_video_frame();
 
-	bool decode_and_process_video_packet (AVPacket* packet);
-	void decode_and_process_audio_packet (AVPacket* packet);
-	void decode_and_process_subtitle_packet (AVPacket* packet);
+	bool decode_and_process_video_packet(AVPacket* packet);
+	void decode_and_process_audio_packet(AVPacket* packet);
+	void decode_and_process_subtitle_packet(AVPacket* packet);
 
-	BitmapText process_bitmap_subtitle (AVSubtitleRect const * rect);
-	void process_ass_subtitle (std::string ass, dcpomatic::ContentTime from);
+	BitmapText process_bitmap_subtitle(AVSubtitleRect const * rect);
+	void process_ass_subtitle(std::string ass, dcpomatic::ContentTime from);
 
-	void maybe_add_subtitle ();
+	void maybe_add_subtitle();
 
 	FlushResult flush_codecs();
 	FlushResult flush_fill();
