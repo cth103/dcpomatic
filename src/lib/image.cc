@@ -1219,6 +1219,17 @@ Image::bytes_per_pixel(int component) const
 	}
 #endif
 
+	if (
+		_pixel_format == AV_PIX_FMT_0RGB ||
+		_pixel_format == AV_PIX_FMT_RGB0 ||
+		_pixel_format == AV_PIX_FMT_0BGR ||
+		_pixel_format == AV_PIX_FMT_BGR0) {
+		/* Each pixel has an empty byte which we need to account for when allocating,
+		 * otherwise we'll corrupt the image.
+		 */
+		bpp[3] = bpp[0];
+	}
+
 	if ((d->flags & AV_PIX_FMT_FLAG_PLANAR) == 0) {
 		/* Not planar; sum them up */
 		return bpp[0] + bpp[1] + bpp[2] + bpp[3];

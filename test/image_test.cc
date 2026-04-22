@@ -759,3 +759,15 @@ BOOST_AUTO_TEST_CASE(over_crop_test)
 	check_image("test/data/" + filename, "build/test/" + filename);
 }
 
+
+BOOST_AUTO_TEST_CASE(rgb0_image_test)
+{
+	auto proxy = make_shared<FFmpegImageProxy>(TestPaths::private_data() / "rgb0.tif");
+	write_image(
+		proxy->image(Image::Alignment::PADDED).image->convert_pixel_format(
+			dcp::YUVToRGB::REC709, AV_PIX_FMT_RGB24, Image::Alignment::COMPACT, false
+		), "build/test/rgb0.png"
+	);
+	check_image(TestPaths::private_data() / "rgb0.png", "build/test/rgb0.png");
+}
+
