@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-21 17:39+0200\n"
-"PO-Revision-Date: 2025-09-28 15:33+0200\n"
+"PO-Revision-Date: 2026-04-22 00:09+0200\n"
 "Last-Translator: Dan Cohen <thedan.cohen@protonmail.com>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.7\n"
+"X-Generator: Poedit 3.9\n"
 
 #: src/wx/player_information.cc:111
 #, c-format
@@ -98,9 +98,9 @@ msgstr ""
 "film."
 
 #: src/wx/audio_dialog.cc:175
-#, fuzzy, c-format
+#, c-format
 msgid "%s audio"
-msgstr "Audio %s - %s"
+msgstr "Audio %s"
 
 #: src/wx/audio_dialog.cc:171 src/wx/audio_dialog.cc:173
 #, c-format
@@ -113,12 +113,11 @@ msgid "%s test email"
 msgstr "e-mail de test %s"
 
 #: src/wx/about_dialog.cc:95
-#, fuzzy
 msgid ""
 "(C) 2012-2026 Carl Hetherington, Terrence Meiczinger\n"
 "Aaron Boxer"
 msgstr ""
-"(C) 2012-2025 Carl Hetherington, Terrence Meiczinger\n"
+"(C) 2012-2026 Carl Hetherington, Terrence Meiczinger\n"
 "Aaron Boxer"
 
 #: src/wx/full_config_dialog.cc:1227 src/wx/player_config_dialog.cc:131
@@ -570,9 +569,8 @@ msgid "Allow mapping to all audio channels"
 msgstr "Autoriser le mappage à tous les canaux audio"
 
 #: src/wx/full_config_dialog.cc:1079
-#, fuzzy
 msgid "Allow use of MPEG2 Interop"
-msgstr "Activer l'utilisation de la norme SMPTE Bv2.0"
+msgstr "Autoriser l’utilisation du MPEG2 Interop"
 
 #: src/wx/full_config_dialog.cc:1077
 msgid "Allow use of SMPTE Bv2.0"
@@ -839,9 +837,8 @@ msgid "Check for updates on startup"
 msgstr "Rechercher les mises à jour au démarrage"
 
 #: src/wx/content_menu.cc:116
-#, fuzzy
 msgid "Choose CPL"
-msgstr "Choisir une CPL..."
+msgstr "Choisir une CPL"
 
 #: src/wx/content_panel.cc:677
 msgid "Choose a DCP folder"
@@ -1053,9 +1050,10 @@ msgid "Could not read certificate file."
 msgstr "Impossible de lire le fichier de certificat."
 
 #: src/wx/certificate_chain_editor.cc:195
-#, fuzzy
 msgid "Could not read certificate file.  Make sure it is in PEM format."
-msgstr "Impossible de lire le fichier de certificat."
+msgstr ""
+"Impossible de lire le fichier de certificat.  Assurez-vous qu’il soit au "
+"format PEM."
 
 #: src/wx/qube_certificate_panel.cc:55
 msgid "Could not read certificates from Qube server."
@@ -1157,9 +1155,8 @@ msgid "Debug: audio analysis"
 msgstr "Débogage : analyse audio"
 
 #: src/wx/full_config_dialog.cc:1322
-#, fuzzy
 msgid "Debug: butler"
-msgstr "Débogage : lecteur"
+msgstr "Débogage: lecteur"
 
 #: src/wx/full_config_dialog.cc:1314 src/wx/kdm_config_dialog.cc:142
 msgid "Debug: email sending"
@@ -1378,33 +1375,28 @@ msgid "Encoding Servers"
 msgstr "Serveurs d'encodage"
 
 #: src/wx/encryption_settings_dialog.cc:33
-#, fuzzy
 msgid "Encrypt picture"
-msgstr "Crypté"
+msgstr "Chiffrer l’image"
 
 #: src/wx/encryption_settings_dialog.cc:34
-#, fuzzy
 msgid "Encrypt sound"
-msgstr "Crypté"
+msgstr "Chiffrer le son"
 
 #: src/wx/encryption_settings_dialog.cc:35
-#, fuzzy
 msgid "Encrypt text"
-msgstr "Crypté"
+msgstr "Chiffrer le texte"
 
 #: src/wx/dcp_panel.cc:106 src/wx/spl_entry_dialog.cc:51
 msgid "Encrypted"
-msgstr "Crypté"
+msgstr "Chiffré"
 
 #: src/wx/encryption_settings_dialog.cc:31
-#, fuzzy
 msgid "Encryption settings"
-msgstr "Exporter tous les paramètres de décryptage de KDM..."
+msgstr "Paramètres de chiffrement"
 
 #: src/wx/dcp_panel.cc:107
-#, fuzzy
 msgid "Encryption settings..."
-msgstr "Exporter tous les paramètres de décryptage de KDM..."
+msgstr "Paramètres de chiffrement…"
 
 #: src/wx/text_view.cc:68
 msgid "End"
@@ -1527,29 +1519,24 @@ msgid "Finding the colours in these subtitles..."
 msgstr "Trouver les couleurs dans ces sous-titres..."
 
 #: src/wx/markers.cc:39
-#, fuzzy
 msgid "First frame of end credits (FFEC)"
-msgstr "Première image du générique de fin"
+msgstr "Première image du générique de fin (FFEC)"
 
 #: src/wx/markers.cc:37
-#, fuzzy
 msgid "First frame of intermission (FFOI)"
-msgstr "Première image de l'entracte"
+msgstr "Première image de l'entracte (FFOI)"
 
 #: src/wx/markers.cc:41
-#, fuzzy
 msgid "First frame of moving credits (FFMC)"
-msgstr "Première image du générique en mouvement"
+msgstr "Première image du générique en mouvement (FFMC)"
 
 #: src/wx/markers.cc:33
-#, fuzzy
 msgid "First frame of ratings band (FFOB)"
-msgstr "Première image du carton de classification"
+msgstr "Première image du carton de classification (FFOB)"
 
 #: src/wx/markers.cc:35
-#, fuzzy
 msgid "First frame of title credits (FFTC)"
-msgstr "Première image du générique de titre"
+msgstr "Première image du générique de titre (FFTC)"
 
 #: src/wx/short_kdm_output_panel.cc:115 src/wx/tall_kdm_output_panel.cc:84
 msgid "Folder / ZIP name format"
@@ -1986,29 +1973,24 @@ msgid "Language used for any sign language video track"
 msgstr "Langue utilisée pour toute piste vidéo en langue des signes"
 
 #: src/wx/markers.cc:40
-#, fuzzy
 msgid "Last frame of end credits (LFEC)"
-msgstr "Dernière image du générique de fin"
+msgstr "Dernière image du générique de fin (LFEC)"
 
 #: src/wx/markers.cc:38
-#, fuzzy
 msgid "Last frame of intermission (LFOI)"
-msgstr "Dernière image de l'entracte"
+msgstr "Dernière image de l'entracte (LFOI)"
 
 #: src/wx/markers.cc:42
-#, fuzzy
 msgid "Last frame of moving credits (LFMC)"
-msgstr "Dernière image du générique en mouvement"
+msgstr "Dernière image du générique en mouvement (LFMC)"
 
 #: src/wx/markers.cc:34
-#, fuzzy
 msgid "Last frame of ratings band (LFOB)"
-msgstr "Dernière image du carton de classification"
+msgstr "Dernière image du carton de classification (LFOB)"
 
 #: src/wx/markers.cc:36
-#, fuzzy
 msgid "Last frame of title credits (LFTC)"
-msgstr "Dernière image du générique de titre"
+msgstr "Dernière image du générique de titre (LFTC)"
 
 #: src/wx/content_panel.cc:292
 msgid "Later"
@@ -2125,9 +2107,8 @@ msgid "MPEG2 Interop"
 msgstr "Interop MPEG2"
 
 #: src/wx/export_subtitles_dialog.cc:48
-#, fuzzy
 msgid "MXF (SMPTE)"
-msgstr "SMPTE"
+msgstr "MXF (SMPTE)"
 
 #. TRANSLATORS: Main and Additional here are a choice for whether a set of subtitles is in the "main" language of the
 #. film or an "additional" language.
@@ -3849,10 +3830,11 @@ msgstr ""
 "que la ContainerDuration (%duration) de son MXF."
 
 #: src/wx/verify_dcp_result_panel.cc:423
-#, fuzzy, c-format
+#, c-format
 msgid "The sound asset %f has an invalid bit depth of %bit_depth."
 msgstr ""
-"La ressource sonore %f a nombre de bits par échantillon %bit_depth invalide."
+"La ressource sonore %f a nombre de bits par échantillon invalide de "
+"%bit_depth."
 
 #: src/wx/verify_dcp_result_panel.cc:420
 #, c-format
@@ -3924,11 +3906,9 @@ msgstr ""
 "La ressource vidéo %f utilise la taille d'image invalide %size_in_pixels."
 
 #: src/wx/verify_dcp_result_panel.cc:369
-#, fuzzy
 msgid "The video asset is 4K which is not allowed for 3D video."
 msgstr ""
-"La ressource vidéo %f utilise la fréquence d'images %frame_rate qui n'est "
-"pas valide pour la vidéo 3D."
+"La ressource vidéo est en 4K ce qui n’est pas autorisé pour les vidéos 3D."
 
 #: src/wx/verify_dcp_result_panel.cc:414
 msgid "There are more than 3 closed caption lines in at least one place."
@@ -3989,13 +3969,13 @@ msgid "This CPL contains no encrypted assets."
 msgstr "Cette CPL ne contient aucun contenu crypté."
 
 #: src/wx/verify_dcp_result_panel.cc:348
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "This DCP refers to the asset %asset_id in another DCP (and perhaps others), "
 "so it is a \"version file\" (VF)"
 msgstr ""
 "Ce DCP fait référence à la ressource %asset_id dans un autre DCP (et peut-"
-"être d'autres), il s'agit donc d'un \"fichier de version\" (VF)."
+"être d'autres), il s'agit donc d'un \"fichier de version\" (VF)"
 
 #: src/wx/verify_dcp_result_panel.cc:354
 msgid "This DCP uses the Interop standard, but it should be made with SMPTE."
@@ -4417,18 +4397,16 @@ msgid "Verify"
 msgstr "Vérifier"
 
 #: src/wx/content_menu.cc:425
-#, fuzzy
 msgid "Verify DCP"
-msgstr "Vérifier"
+msgstr "Vérifier le DCP"
 
 #: src/wx/verify_dcp_dialog.cc:94
 msgid "Verify picture asset details"
 msgstr "Vérifier les caractéristiques des ressources vidéo"
 
 #: src/wx/content_menu.cc:107
-#, fuzzy
 msgid "Verify..."
-msgstr "Vérifier"
+msgstr "Vérifier…"
 
 #: src/wx/smpte_metadata_dialog.cc:109 src/wx/system_information_dialog.cc:67
 msgid "Version"
@@ -4545,9 +4523,8 @@ msgid "X"
 msgstr "X"
 
 #: src/wx/export_subtitles_dialog.cc:47
-#, fuzzy
 msgid "XML (Interop)"
-msgstr "Interop"
+msgstr "XML (Interpol)"
 
 #: src/wx/text_panel.cc:93
 msgid "Y"

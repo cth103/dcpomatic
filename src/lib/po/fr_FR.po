@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-19 23:03+0200\n"
-"PO-Revision-Date: 2025-09-28 14:37+0200\n"
+"PO-Revision-Date: 2026-04-22 00:09+0200\n"
 "Last-Translator: Dan Cohen <thedan.cohen@protonmail.com>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.7\n"
+"X-Generator: Poedit 3.9\n"
 
 #: src/lib/video_content.cc:515
 #, c-format
@@ -202,7 +202,7 @@ msgid "; {} remaining; finishing at {}{}"
 msgstr "; {} restant ; fin prévue à {}{}"
 
 #: src/lib/analytics.cc:58
-#, fuzzy, c++-format
+#, c++-format
 msgid ""
 "<h2>You have made {} DCPs with {}!</h2><img width=\"150\" height=\"193\" "
 "src=\"memory:me.jpg\" align=\"center\"><font size=\"+1\"><p>Hello. I'm Carl "
@@ -220,9 +220,9 @@ msgstr ""
 "src=\"memory:me.jpg\" align=\"center\"><p>Bonjour. Je m'appelle Carl et je "
 "suis le développeur de {}. Je travaille sur ce logiciel pendant mon temps "
 "libre (avec l'aide d'une équipe bénévole de testeurs et de traducteurs) et "
-"je le publie en tant que logiciel libre.<p>Si vous trouvez {} utile, merci "
-"de penser à faire un don au projet. Une aide financière m'aidera à passer "
-"plus de temps sur {} et à l'améliorer !<p><ul><li><a href=\"https://"
+"je le publie en tant que logiciel libre.<p>Si vous trouvez {} utile, "
+"n’hésitez pas à faire un don au projet. Une aide financière m'aidera à "
+"passer plus de temps sur {} et à l'améliorer !<p><ul><li><a href=\"https://"
 "dcpomatic.com/donate_amount?amount=40\">Aller sur Paypal pour faire un don "
 "de 40€</a><li><a href=\"https://dcpomatic.com/donate_amount?"
 "amount=20\">Aller sur Paypal pour faire un don de 20€</a><li><a "
@@ -444,7 +444,7 @@ msgstr "C"
 #: src/lib/exceptions.cc:196
 #, c++-format
 msgid "CPL {} not found"
-msgstr ""
+msgstr "CPL {} non trouvé"
 
 #: src/lib/job.cc:657
 msgid "Cancelled"
@@ -476,6 +476,9 @@ msgid ""
 "Check the server settings in the TMS tab of preferences, or un-tick \"Upload "
 "DCP to TMS after creation\" if you do not want to upload your DCP."
 msgstr ""
+"Vérifiez les paramètres du serveurs dans l’onglet des préférences TMS, ou "
+"décochez «Téléverser le DCP vers TMS après la création» si vous ne voulez "
+"pas téléverser votre DCP."
 
 #: src/lib/transcode_job.cc:106
 msgid "Check their new settings, then try again."
@@ -706,9 +709,8 @@ msgid "Copying DCPs to {}"
 msgstr "Copie des DCPs vers {}"
 
 #: src/lib/reel_writer.cc:194
-#, fuzzy
 msgid "Copying existing asset"
-msgstr "Vérification des données d'image existantes"
+msgstr "Copie des ressources existantes"
 
 #: src/lib/copy_to_drive_job.cc:58
 #, c++-format
@@ -837,9 +839,9 @@ msgid "DCP sample rate"
 msgstr "Fréquence d'échantillonnage du DCP"
 
 #: src/lib/frame_rate_change.cc:93
-#, fuzzy, c++-format
+#, c++-format
 msgid "DCP will contain 1 out of every {} frames of the content.\n"
-msgstr "Le DCP utilisera une image sur deux du contenu.\n"
+msgstr "Le DCP utilisera une image sur {} du contenu.\n"
 
 #: src/lib/frame_rate_change.cc:103
 #, c-format
@@ -932,9 +934,8 @@ msgstr "Échec du téléchargement (erreur {} {})"
 #. TRANSLATORS: this is an abbreviation for "end credits", shown next to the pair of markers
 #. "FFEC" and "LFEC" ({First, Last} Frame of End Credits)
 #: src/lib/layout_markers.cc:145
-#, fuzzy
 msgid "EC"
-msgstr "C"
+msgstr "EC"
 
 #: src/lib/frame_rate_change.cc:95
 msgid "Each content frame will be doubled in the DCP.\n"
@@ -1159,7 +1160,7 @@ msgstr "IEC61966-2-4"
 #. "FFOI" and "LFOI" ({First, Last} Frame of Intermission)
 #: src/lib/layout_markers.cc:142
 msgid "IN"
-msgstr ""
+msgstr "IN"
 
 #: src/lib/hints.cc:198
 msgid "If you do use 25fps you should change your DCP standard to SMPTE."
@@ -1269,9 +1270,8 @@ msgstr "Ls"
 #. TRANSLATORS: this is an abbreviation for "moving credits", shown next to the pair of markers
 #. "FFMC" and "LFMC" ({First, Last} Frame of Moving Credits)
 #: src/lib/layout_markers.cc:148
-#, fuzzy
 msgid "MC"
-msgstr "C"
+msgstr "MC"
 
 #: src/lib/mid_side_decoder.cc:39
 msgid "Mid-side decoder"
@@ -1317,12 +1317,11 @@ msgstr "Désentrelaceur à compensation de mouvement"
 
 #: src/lib/dcp_content.cc:212
 msgid "No ASSETMAP or ASSETMAP.xml file found: is this a DCP?"
-msgstr ""
+msgstr "Aucun fichier ASSETMAP ou ASSETMAP.xml trouvé: est-ce un DCP?"
 
 #: src/lib/dcp_examiner.cc:115
-#, fuzzy
 msgid "No CPLs found in DCP"
-msgstr "Aucune CPL trouvée dans le DCP."
+msgstr "Aucune CPL trouvée dans le DCP"
 
 #: src/lib/dcp_decoder.cc:114
 msgid "No CPLs found in DCP."
@@ -1408,15 +1407,15 @@ msgstr "Réduction de bruit par ondelettes"
 
 #: src/lib/colour_conversion.cc:293
 msgid "P3 D60 (~6000K)"
-msgstr ""
+msgstr "P3 D60 (~6000K)"
 
 #: src/lib/colour_conversion.cc:292
 msgid "P3 D65 (~6500K)"
-msgstr ""
+msgstr "P3 D65 (~6500K)"
 
 #: src/lib/colour_conversion.cc:291
 msgid "P3 DCI (~6300K)"
-msgstr ""
+msgstr "P3 DCI (~6300K)"
 
 #: src/lib/util.cc:1111
 #, c++-format
@@ -1460,9 +1459,8 @@ msgstr "D"
 #. TRANSLATORS: this is an abbreviation for "ratings band", shown next to the pair of markers
 #. "FFOB" and "LFOB" ({First, Last} Frame of Band)
 #: src/lib/layout_markers.cc:136
-#, fuzzy
 msgid "RB"
-msgstr "D"
+msgstr "RB"
 
 #: src/lib/ffmpeg_content.cc:644
 msgid "RGB / sRGB (IEC61966-2-1)"
@@ -1553,9 +1551,8 @@ msgid "SMPTE ST 2084 for 10, 12, 14 and 16 bit systems"
 msgstr "SMPTE ST 2084 pour systèmes 10, 12, 14 et 16 bits"
 
 #: src/lib/ffmpeg_content.cc:660
-#, fuzzy
 msgid "SMPTE ST 2128, IPT-C2"
-msgstr "SMPTE ST 428-1"
+msgstr "SMPTE ST 2128, IPT-C2"
 
 #: src/lib/ffmpeg_content.cc:636
 msgid "SMPTE ST 428-1"
@@ -1642,15 +1639,12 @@ msgstr ""
 "vérifier leurs paramètres."
 
 #: src/lib/check_content_job.cc:94
-#, fuzzy
 msgid ""
 "Some files must be re-examined due to a bug fix in DCP-o-matic.  You may "
 "need to check their settings."
 msgstr ""
-"Certains fichiers ont été modifiés depuis qu'ils ont été ajoutés au projet.\n"
-"\n"
-"Ces fichiers seront maintenant réexaminés, vous devrez donc peut-être "
-"vérifier leurs paramètres."
+"Certains fichiers doivent être re-examinés suite à la résolution d’un bug "
+"dans DCP-o-matic.  Vous devez vérifier leurs paramètres."
 
 #: src/lib/hints.cc:622
 #, c++-format
@@ -1679,6 +1673,11 @@ msgid ""
 "in doubt, set everything (picture, sound and text) to be either encrypted or "
 "not."
 msgstr ""
+"Une partie de votre contenu est chiffré, mais l’autre non.  Même si certains "
+"distributeurs (ex : Netflix) demandent des sous-titres non chiffrés (même si "
+"le son et l’image le sont), d’autres pointeront des erreurs avec le DCP fait "
+"depuis ce projet.  Dans le doute, chiffrez tout ou rien (image, son et "
+"texte)."
 
 #: src/lib/make_dcp.cc:69
 msgid "Some of your content is missing"
@@ -1728,9 +1727,8 @@ msgstr "Dimanche"
 #. TRANSLATORS: this is an abbreviation for "title credits", shown next to the pair of markers
 #. "FFTC" and "LFTC" ({First, Last} Frame of Title Credits)
 #: src/lib/layout_markers.cc:139
-#, fuzzy
 msgid "TC"
-msgstr "C"
+msgstr "TC"
 
 #: src/lib/dcp_content_type.cc:60
 msgid "Teaser"
@@ -2070,11 +2068,11 @@ msgstr "YCOCG"
 
 #: src/lib/ffmpeg_content.cc:661
 msgid "YCgCo-R, even addition"
-msgstr ""
+msgstr "YCg-Co-R, ajout pair"
 
 #: src/lib/ffmpeg_content.cc:662
 msgid "YCgCo-R, odd addition"
-msgstr ""
+msgstr "YCg-Co-R, ajout impair"
 
 #: src/lib/filter.cc:98
 msgid "Yet Another Deinterlacing Filter"
@@ -2421,7 +2419,6 @@ msgstr "nom"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:829
-#, fuzzy
 msgid ""
 "one of its closed caption reels has a non-zero entry point so it must be re-"
 "written."

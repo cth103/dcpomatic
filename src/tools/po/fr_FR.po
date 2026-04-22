@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-12 11:50+0200\n"
-"PO-Revision-Date: 2025-09-28 14:20+0200\n"
+"PO-Revision-Date: 2026-04-22 00:09+0200\n"
 "Last-Translator: Dan Cohen <thedan.cohen@protonmail.com>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.7\n"
+"X-Generator: Poedit 3.9\n"
 
 #: src/tools/dcpomatic_kdm.cc:491
 #, c-format
@@ -151,11 +151,11 @@ msgstr "&Affichage"
 
 #: src/tools/dcpomatic_verifier.cc:107
 msgid "(encrypted, have KDM)"
-msgstr ""
+msgstr "(chiffré, avec KDM)"
 
 #: src/tools/dcpomatic_verifier.cc:109
 msgid "(encrypted, no KDM)"
-msgstr ""
+msgstr "(chiffré, sans KDM)"
 
 #: src/tools/dcpomatic_playlist.cc:324
 msgid "<b>Playlist:</b>"
@@ -188,9 +188,8 @@ msgid "Add &KDM..."
 msgstr "Ajouter un &KDM..."
 
 #: src/tools/dcpomatic_verifier.cc:187
-#, fuzzy
 msgid "Add KDM..."
-msgstr "Ajouter un &KDM..."
+msgstr "Ajouter un KDM..."
 
 #: src/tools/dcpomatic_playlist.cc:80
 msgid "Add content"
@@ -294,7 +293,7 @@ msgstr ""
 
 #: src/tools/dcpomatic_player.cc:709
 msgid "Audio graph..."
-msgstr ""
+msgstr "Graphique audio…"
 
 #: src/tools/dcpomatic.cc:878
 #, c-format
@@ -325,7 +324,7 @@ msgstr "Rechercher des mises à jour"
 
 #: src/tools/dcpomatic_verifier.cc:375
 msgid "Checking KDM"
-msgstr ""
+msgstr "Vérification du KDM"
 
 #: src/tools/dcpomatic_combiner.cc:68 src/tools/dcpomatic_disk.cc:84
 msgid "Choose a DCP folder"
@@ -671,18 +670,16 @@ msgid "Entry point"
 msgstr "Point d'entrée"
 
 #: src/tools/dcpomatic_verifier.cc:152
-#, fuzzy
 msgid "Examining DCPs"
-msgstr "DCPs en cours de combinaison"
+msgstr "DCPs en cours d’analyse"
 
 #: src/tools/dcpomatic.cc:1446
 msgid "Export preferences..."
 msgstr "Exporter les préférences..."
 
 #: src/tools/dcpomatic.cc:1418
-#, fuzzy
 msgid "Export subtitles...\tShift-Ctrl-E"
-msgstr "Exporter les sous-titres..."
+msgstr "Exporter les sous-titres...\tShift-Ctrl-E"
 
 #: src/tools/dcpomatic.cc:1417
 msgid "Export video file...\tCtrl-E"
@@ -982,9 +979,8 @@ msgid "Select DCP to open as OV"
 msgstr "Sélectionner le DCP à ouvrir en tant qu'OV"
 
 #: src/tools/dcpomatic_verifier.cc:165 src/tools/dcpomatic_verifier.cc:167
-#, fuzzy
 msgid "Select DCP(s)"
-msgstr "Sélectionner le KDM"
+msgstr "Sélectionner le DCP"
 
 #: src/tools/dcpomatic_kdm.cc:821
 msgid "Select DKDM File"
@@ -1276,7 +1272,7 @@ msgstr "Haut"
 
 #: src/tools/dcpomatic.cc:1455
 msgid "User manual..."
-msgstr ""
+msgstr "Manuel utilisateur…"
 
 #: src/tools/dcpomatic_verifier.cc:208
 msgid "Verify"
