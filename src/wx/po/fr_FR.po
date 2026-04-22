@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-21 17:39+0200\n"
-"PO-Revision-Date: 2026-04-22 00:09+0200\n"
+"PO-Revision-Date: 2026-04-22 09:15+0200\n"
 "Last-Translator: Dan Cohen <thedan.cohen@protonmail.com>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -4524,7 +4524,7 @@ msgstr "X"
 
 #: src/wx/export_subtitles_dialog.cc:47
 msgid "XML (Interop)"
-msgstr "XML (Interpol)"
+msgstr "XML (Interop)"
 
 #: src/wx/text_panel.cc:93
 msgid "Y"
