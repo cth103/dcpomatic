@@ -507,11 +507,11 @@ try
 		for (auto ccap: reel->closed_captions()) {
 			largest_ccap_xml = std::max(ccap->asset()->xml_as_string().length(), largest_ccap_xml.get_value_or(0));
 			if (ccap->asset() && ccap->asset()->file()) {
-				largest_ccap_mxf = std::max(dcp::filesystem::file_size(*ccap->asset()->file()), largest_ccap_mxf.get_value_or(0));
+				largest_ccap_mxf = std::max(dcp::filesystem::file_size(*ccap->asset()->file()), static_cast<uintmax_t>(largest_ccap_mxf.get_value_or(0)));
 			}
 		}
 		if (reel->main_subtitle() && reel->main_subtitle()->asset() && reel->main_subtitle()->asset()->file()) {
-			largest_sub_mxf = std::max(dcp::filesystem::file_size(*reel->main_subtitle()->asset()->file()), largest_sub_mxf.get_value_or(0));
+			largest_sub_mxf = std::max(dcp::filesystem::file_size(*reel->main_subtitle()->asset()->file()), static_cast<uintmax_t>(largest_sub_mxf.get_value_or(0)));
 		}
 	}
 
