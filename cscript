@@ -583,7 +583,7 @@ def configure_options(target, options, for_package=False):
 
     if target.platform == 'linux' and (
         (target.distro == 'ubuntu' and target.version == "24.04") or
-        (target.distro == 'fedora' and target.version == "42")
+        (target.distro == 'fedora' and target.version in ("42", "43"))
     ):
         opt += ' --enable-grok'
 
