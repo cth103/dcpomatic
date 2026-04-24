@@ -28,6 +28,7 @@
 
 using std::dynamic_pointer_cast;
 using std::shared_ptr;
+using std::string;
 using boost::optional;
 
 
@@ -71,5 +72,33 @@ dcpomatic::film::is_vf(shared_ptr<const Film> film)
 	}
 
 	return false;
+}
+
+
+string
+dcpomatic::film::reuse_behaviour_to_string(Film::ReuseBehaviour behaviour)
+{
+	switch (behaviour) {
+	case Film::ReuseBehaviour::RE_ENCODE:
+		return "re-encode";
+	case Film::ReuseBehaviour::RE_WRAP:
+		return "re-wrap";
+	}
+
+	DCPOMATIC_ASSERT(false);
+	return "";
+}
+
+
+Film::ReuseBehaviour
+dcpomatic::film::reuse_behaviour_from_string(string const& behaviour)
+{
+	if (behaviour == "re-encode") {
+		return Film::ReuseBehaviour::RE_ENCODE;
+	} else if (behaviour == "re-wrap") {
+		return Film::ReuseBehaviour::RE_WRAP;
+	}
+
+	DCPOMATIC_ASSERT(false);
 }
 
