@@ -56,8 +56,6 @@
 LIBDCP_DISABLE_WARNINGS
 #include <boost/signals2.hpp>
 LIBDCP_ENABLE_WARNINGS
-#include <boost/thread.hpp>
-#include <boost/thread/mutex.hpp>
 #include <inttypes.h>
 #include <string>
 #include <vector>
@@ -302,8 +300,13 @@ public:
 		return _context_id;
 	}
 
-	bool reencode_j2k() const {
-		return _reencode_j2k;
+	enum class ReuseBehaviour {
+		RE_ENCODE, ///< decode and re-encode J2K data, then put in a MXF
+		RE_WRAP,   ///< keep the old J2K data but re-wrap it in a new MXF
+	};
+
+	ReuseBehaviour reuse_behaviour() const {
+		return _reuse_behaviour;
 	}
 
 	typedef std::map<dcp::Marker, dcpomatic::DCPTime> Markers;
@@ -420,7 +423,7 @@ public:
 	void set_reel_type(ReelType);
 	void set_reel_length(int64_t);
 	void set_custom_reel_boundaries(std::vector<dcpomatic::DCPTime> boundaries);
-	void set_reencode_j2k(bool);
+	void set_reuse_behaviour(ReuseBehaviour behaviour);
 	void set_marker(dcp::Marker type, dcpomatic::DCPTime time);
 	void unset_marker(dcp::Marker type);
 	void clear_markers();
@@ -560,7 +563,7 @@ private:
 	int64_t _reel_length;
 	/** Reel boundaries (excluding those at the start and end, sorted in ascending order) if _reel_type == CUSTOM */
 	std::vector<dcpomatic::DCPTime> _custom_reel_boundaries;
-	bool _reencode_j2k;
+	ReuseBehaviour _reuse_behaviour;
 	/** true if the user has ever explicitly set the video frame rate of this film */
 	bool _user_explicit_video_frame_rate;
 	bool _user_explicit_container;

@@ -146,8 +146,10 @@ static constexpr char info_dir[] = "info";
  * VideoContent scale expressed just as "guess" or "custom"
  * 38 -> 39
  * Fade{In,Out} -> VideoFade{In,Out}
+ * 39 -> 40
+ * ReencodeJ2K -> ReuseBehaviour
  */
-int const Film::current_state_version = 39;
+int const Film::current_state_version = 40;
 
 
 /** Construct a Film object in a given directory.
@@ -183,7 +185,7 @@ Film::Film(optional<boost::filesystem::path> dir)
 	, _audio_processor(0)
 	, _reel_type(ReelType::SINGLE)
 	, _reel_length(2000000000)
-	, _reencode_j2k(false)
+	, _reuse_behaviour(ReuseBehaviour::RE_WRAP)
 	, _user_explicit_video_frame_rate(false)
 	, _user_explicit_container(false)
 	, _user_explicit_resolution(false)
@@ -278,8 +280,12 @@ Film::video_identifier() const
 		s += "_3D";
 	}
 
-	if (_reencode_j2k) {
+	switch (_reuse_behaviour) {
+	case ReuseBehaviour::RE_ENCODE:
 		s += "_R";
+		break;
+	case ReuseBehaviour::RE_WRAP:
+		break;
 	}
 
 	return s;
@@ -436,7 +442,7 @@ Film::metadata(bool with_content_paths) const
 	for (auto boundary: _custom_reel_boundaries) {
 		cxml::add_text_child(root, "CustomReelBoundary", fmt::to_string(boundary.get()));
 	}
-	cxml::add_text_child(root, "ReencodeJ2K", _reencode_j2k ? "1" : "0");
+	cxml::add_text_child(root, "ReuseBehaviour", dcpomatic::film::reuse_behaviour_to_string(_reuse_behaviour));
 	cxml::add_text_child(root, "UserExplicitVideoFrameRate", _user_explicit_video_frame_rate ? "1" : "0");
 	for (auto const& marker: _markers) {
 		auto m = cxml::add_child(root, "Marker");
@@ -650,7 +656,12 @@ Film::read_metadata(optional<boost::filesystem::path> path)
 	for (auto boundary: f.node_children("CustomReelBoundary")) {
 		_custom_reel_boundaries.push_back(DCPTime(raw_convert<int64_t>(boundary->content())));
 	}
-	_reencode_j2k = f.optional_bool_child("ReencodeJ2K").get_value_or(false);
+	if (auto behaviour = f.optional_string_child("ReuseBehaviour")) {
+		_reuse_behaviour = dcpomatic::film::reuse_behaviour_from_string(*behaviour);
+	}
+	if (f.optional_bool_child("ReencodeJ2K").get_value_or(false)) {
+		_reuse_behaviour = ReuseBehaviour::RE_ENCODE;
+	}
 	_user_explicit_video_frame_rate = f.optional_bool_child("UserExplicitVideoFrameRate").get_value_or(false);
 
 	for (auto i: f.node_children("Marker")) {
@@ -1346,10 +1357,10 @@ Film::set_custom_reel_boundaries(vector<DCPTime> boundaries)
 
 
 void
-Film::set_reencode_j2k(bool r)
+Film::set_reuse_behaviour(ReuseBehaviour behaviour)
 {
-	FilmChangeSignaller ch(this, FilmProperty::REENCODE_J2K);
-	_reencode_j2k = r;
+	FilmChangeSignaller ch(this, FilmProperty::REUSE_BEHAVIOUR);
+	_reuse_behaviour = behaviour;
 }
 
 void

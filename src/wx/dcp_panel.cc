@@ -485,8 +485,8 @@ DCPPanel::film_changed(FilmProperty p)
 		checked_set(_three_d, _film->three_d());
 		setup_dcp_name();
 		break;
-	case FilmProperty::REENCODE_J2K:
-		checked_set(_reencode_j2k, _film->reencode_j2k());
+	case FilmProperty::REUSE_BEHAVIOUR:
+		checked_set(_reencode_j2k, _film->reuse_behaviour() == Film::ReuseBehaviour::RE_ENCODE);
 		break;
 	case FilmProperty::INTEROP:
 		update_standards();
@@ -681,7 +681,7 @@ DCPPanel::set_film(shared_ptr<Film> film)
 	film_changed(FilmProperty::AUDIO_PROCESSOR);
 	film_changed(FilmProperty::REEL_TYPE);
 	film_changed(FilmProperty::REEL_LENGTH);
-	film_changed(FilmProperty::REENCODE_J2K);
+	film_changed(FilmProperty::REUSE_BEHAVIOUR);
 	film_changed(FilmProperty::AUDIO_LANGUAGE);
 	film_changed(FilmProperty::AUDIO_FRAME_RATE);
 	film_changed(FilmProperty::LIMIT_TO_SMPTE_BV20);
@@ -804,7 +804,7 @@ DCPPanel::reencode_j2k_changed()
 		return;
 	}
 
-	_film->set_reencode_j2k(_reencode_j2k->GetValue());
+	_film->set_reuse_behaviour(_reencode_j2k->GetValue() ? Film::ReuseBehaviour::RE_ENCODE : Film::ReuseBehaviour::RE_WRAP);
 }
 
 
