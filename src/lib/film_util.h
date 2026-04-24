@@ -35,6 +35,9 @@ bool channel_is_mapped(std::shared_ptr<const Film> film, dcp::Channel channel);
 boost::optional<boost::filesystem::path> add_files_override_path(std::shared_ptr<const Film> film);
 bool is_vf(std::shared_ptr<const Film> film);
 
+std::string reuse_behaviour_to_string(Film::ReuseBehaviour behaviour);
+Film::ReuseBehaviour reuse_behaviour_from_string(std::string const& behaviour);
+
 
 }
 }
