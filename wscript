@@ -668,6 +668,7 @@ def configure(conf):
                            """,
                        msg='Checking for boost::asio::io_context',
                        define_name='DCPOMATIC_HAVE_BOOST_ASIO_IO_CONTEXT',
+                       lib='ws2_32' if conf.env.TARGET_WINDOWS_64 or conf.env.TARGET_WINDOWS_32 else '',
                        mandatory=False)
 
         conf.check_cxx(fragment="""
