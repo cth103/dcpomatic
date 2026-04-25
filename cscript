@@ -506,7 +506,7 @@ def build_with_cpp17(target):
 
 
 def dependencies(target, options):
-    deps = [('libdcp', '1b8d3a2c2f8877e2c2df71be48b03a1d0062936f', {'c++17': build_with_cpp17(target)})]
+    deps = [('libdcp', 'c65352a1a7b77dc2665c176b0631c9576a431aaa', {'c++17': build_with_cpp17(target)})]
     deps.append(('libsub', 'v1.6.59'))
     deps.append(('leqm-nrt', 'd75d0af984d9c14bfefca8f1bdbc215c3bf3a388'))
     if target.platform != 'linux' or target.distro != 'arch':
@@ -519,7 +519,7 @@ def dependencies(target, options):
     if can_build_disk(target):
         deps.append(('lwext4', '5755f8f25aadf18ec49e0350b6daaab3a648b9d7'))
     if build_tests(target):
-        deps.append(('ffcmp', '11d2e6cafce8c041f034b99d2912c2275b523e47'))
+        deps.append(('ffcmp', '42c22683ee4c29b2cba7797d5d5c2367317f3f0d'))
 
     return deps
 
