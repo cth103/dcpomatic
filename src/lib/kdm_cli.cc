@@ -718,6 +718,11 @@ try
 		valid_to = valid_from.get() + duration_from_string(*duration_string);
 	}
 
+	if (!trusted_devices.empty() && (formulation != dcp::Formulation::MULTIPLE_MODIFIED_TRANSITIONAL_1 && formulation != dcp::Formulation::DCI_SPECIFIC)) {
+		out("You have given one or more trusted devices but the KDM formulation you specified will not write them to the KDM.  "
+		    "Consider using --formulation multiple-modified-transitional-1");
+	}
+
 	if (verbose) {
 		out(fmt::format("Making KDMs valid from {} to {}", boost::posix_time::to_simple_string(valid_from.get()), boost::posix_time::to_simple_string(valid_to.get())));
 	}

@@ -364,3 +364,29 @@ BOOST_AUTO_TEST_CASE(kdm_cli_add_dkdm)
 	BOOST_CHECK_EQUAL(dkdm->dkdm().as_xml(), dcp::file_to_string("test/data/dkdm.xml"));
 }
 
+
+BOOST_AUTO_TEST_CASE(kdm_cli_formulation_warning)
+{
+	vector<string> args = {
+		"kdm_cli",
+		"--valid-from", "now",
+		"--valid-duration", "2 weeks",
+		"--trusted-device-chain", "test/data/decryption_chain",
+		"--projector-certificate", "test/data/cert.pem",
+		"-S", "my great screen",
+		"-o", "build/test",
+		"test/data/dkdm.xml"
+	};
+
+	boost::filesystem::path const kdm_filename = "build/test/KDM_Test_FTR-1_F-133_XX-XX_MOS_2K_20220109_SMPTE_OV__my_great_screen.xml";
+	boost::system::error_code ec;
+	boost::filesystem::remove(kdm_filename, ec);
+
+	vector<string> output;
+	auto error = run(args, output);
+	BOOST_CHECK(!error);
+	BOOST_REQUIRE_EQUAL(output.size(), 1U);
+	BOOST_CHECK(output[0].find("the KDM formulation you specified will not write them to the KDM") != std::string::npos);
+
+	BOOST_CHECK(boost::filesystem::exists(kdm_filename));
+}
