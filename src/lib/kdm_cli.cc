@@ -96,6 +96,7 @@ help(std::function<void (string)> out)
 	out("  -S, --screen <name>                      screen name (when using -C) or screen name (to filter screens when using -c)");
 	out("  -C, --projector-certificate <file>       file containing projector certificate");
 	out("  -T, --trusted-device-certificate <file>  file containing a trusted device's certificate");
+	out("      --trusted-device-chain <file>        file containing a trusted device's chain; the leaf certificate will be used");
 	out("      --decryption-key <file>              file containing the private key which can decrypt the given DKDM");
 	out(variant::insert_dcpomatic("                                           ({}'s configured private key will be used otherwise)"));
 	out("      --cinemas-file <file>                use the given file as a list of cinemas instead of the current configuration");
@@ -525,12 +526,13 @@ try
 			{ "screen", required_argument, 0, 'S' },
 			{ "projector-certificate", required_argument, 0, 'C' },
 			{ "trusted-device-certificate", required_argument, 0, 'T' },
+			{ "trusted-device-chain", required_argument, 0, 'H' },
 			{ "decryption-key", required_argument, 0, 'G' },
 			{ "cinemas-file", required_argument, 0, 'E' },
 			{ 0, 0, 0, 0 }
 		};
 
-		int c = getopt_long(argc, argv, "ho:K:Z:f:t:d:F:pae::zvc:S:C:T:E:G", long_options, &option_index);
+		int c = getopt_long(argc, argv, "ho:K:Z:f:t:d:F:pae::zvc:S:C:T:E:G:H", long_options, &option_index);
 
 		if (c == -1) {
 			break;
@@ -603,6 +605,12 @@ try
 		case 'T':
 			trusted_devices.push_back(TrustedDevice(dcp::Certificate(dcp::file_to_string(optarg))));
 			break;
+		case 'H':
+		{
+			auto chain = dcp::CertificateChain(dcp::file_to_string(optarg));
+			trusted_devices.push_back(TrustedDevice(chain.leaf()));
+			break;
+		}
 		case 'G':
 			decryption_key = optarg;
 			break;

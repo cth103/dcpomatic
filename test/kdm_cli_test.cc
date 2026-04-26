@@ -390,3 +390,35 @@ BOOST_AUTO_TEST_CASE(kdm_cli_formulation_warning)
 
 	BOOST_CHECK(boost::filesystem::exists(kdm_filename));
 }
+
+
+BOOST_AUTO_TEST_CASE(kdm_cli_trusted_device_chain)
+{
+	vector<string> args = {
+		"kdm_cli",
+		"--valid-from", "now",
+		"--valid-duration", "2 weeks",
+		"--trusted-device-chain", "test/data/decryption_chain",
+		"--projector-certificate", "test/data/cert.pem",
+		"-S", "my great screen",
+		"-o", "build/test",
+		"-F", "multiple-modified-transitional-1",
+		"test/data/dkdm.xml"
+	};
+
+	boost::filesystem::path const kdm_filename = "build/test/KDM_Test_FTR-1_F-133_XX-XX_MOS_2K_20220109_SMPTE_OV__my_great_screen.xml";
+	boost::system::error_code ec;
+	boost::filesystem::remove(kdm_filename, ec);
+
+	vector<string> output;
+	auto error = run(args, output);
+	BOOST_CHECK(!error);
+	BOOST_CHECK(output.empty());
+
+	BOOST_CHECK(boost::filesystem::exists(kdm_filename));
+
+	dcp::EncryptedKDM kdm(dcp::file_to_string(kdm_filename));
+	BOOST_REQUIRE_EQUAL(kdm.trusted_devices().size(), 1U);
+	BOOST_CHECK_EQUAL(kdm.trusted_devices()[0], "KTEVkrCuEsqjXQSPy/H/lpVC9ys=");
+}
+
