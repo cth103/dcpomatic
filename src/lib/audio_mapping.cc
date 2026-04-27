@@ -50,6 +50,9 @@ using boost::optional;
 using dcp::raw_convert;
 
 
+auto constexpr minus_96_db = 0.000015849;
+
+
 /** Create an empty AudioMapping.
  *  @param input_channels Number of input channels.
  *  @param output_channels Number of output channels.
@@ -262,8 +265,6 @@ AudioMapping::digest() const
 list<int>
 AudioMapping::mapped_output_channels() const
 {
-	static float const minus_96_db = 0.000015849;
-
 	list<int> mapped;
 
 	for (auto const& i: _gain) {
