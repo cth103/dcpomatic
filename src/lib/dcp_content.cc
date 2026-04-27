@@ -31,13 +31,16 @@
 #include "overlaps.h"
 #include "text_content.h"
 #include "video_content.h"
+#include <dcp/cpl.h>
 #include <dcp/dcp.h>
 #include <dcp/raw_convert.h>
 #include <dcp/exceptions.h>
 #include <dcp/reel_picture_asset.h>
+#include <dcp/reel_sound_asset.h>
 #include <dcp/reel_text_asset.h>
 #include <dcp/reel.h>
 #include <dcp/scope_guard.h>
+#include <dcp/search.h>
 #include <dcp/types.h>
 #include <libxml++/libxml++.h>
 #include <fmt/format.h>
@@ -996,5 +999,47 @@ DCPContent::text_has_bitmaps(TextType type) const
 	default:
 		return false;
 	}
+}
+
+
+vector<DCPAsset>
+DCPContent::assets(shared_ptr<const Film> film) const
+{
+	auto cpls = dcp::find_and_resolve_cpls(directories(), true);
+	auto cpl = std::find_if(cpls.begin(), cpls.end(), [this](shared_ptr<const dcp::CPL> cpl) {
+		return cpl->id() == *_cpl;
+	});
+
+	if (cpl == cpls.end()) {
+		return {};
+	}
+
+	vector<DCPAsset> assets;
+	auto cpl_reels = (*cpl)->reels();
+	auto reel_periods = reels(film);
+
+	auto cpl_reels_iter = cpl_reels.begin();
+	auto reel_periods_iter = reel_periods.begin();
+
+	while (cpl_reels_iter != cpl_reels.end() && reel_periods_iter != reel_periods.end()) {
+		for (auto reel_asset: (*cpl_reels_iter)->file_assets()) {
+			if (reel_asset->asset_ref().resolved()) {
+				if (auto file = reel_asset->asset_ref()->file()) {
+					if (dynamic_pointer_cast<dcp::ReelPictureAsset>(reel_asset)) {
+						assets.push_back({DCPAsset::Type::VIDEO, *file, *reel_periods_iter});
+					} else if (dynamic_pointer_cast<dcp::ReelSoundAsset>(reel_asset)) {
+						assets.push_back({DCPAsset::Type::AUDIO, *file, *reel_periods_iter});
+					} else if (dynamic_pointer_cast<dcp::ReelTextAsset>(reel_asset)) {
+						assets.push_back({DCPAsset::Type::TEXT, *file, *reel_periods_iter});
+					}
+				}
+			}
+		}
+
+		++cpl_reels_iter;
+		++reel_periods_iter;
+	}
+
+	return assets;
 }
 

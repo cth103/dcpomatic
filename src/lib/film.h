@@ -30,6 +30,7 @@
 
 
 #include "change_signaller.h"
+#include "dcp_content.h"
 #include "dcp_text_track.h"
 #include "dcpomatic_time.h"
 #include "enum_indexed_vector.h"
@@ -303,6 +304,7 @@ public:
 	enum class ReuseBehaviour {
 		RE_ENCODE, ///< decode and re-encode J2K data, then put in a MXF
 		RE_WRAP,   ///< keep the old J2K data but re-wrap it in a new MXF
+		COPY,      ///< copy assets where possible, otherwise re-wrap
 	};
 
 	ReuseBehaviour reuse_behaviour() const {
@@ -459,6 +461,8 @@ public:
 	std::vector<RememberedAsset> read_remembered_assets() const;
 	void write_remembered_assets(std::vector<RememberedAsset> const& assets) const;
 	std::string video_identifier() const;
+
+	std::vector<DCPAsset> reusable_dcp_assets() const;
 
 	boost::filesystem::path info_file(dcpomatic::DCPTimePeriod p) const;
 
