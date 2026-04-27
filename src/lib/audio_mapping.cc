@@ -51,6 +51,7 @@ using dcp::raw_convert;
 
 
 auto constexpr minus_96_db = 0.000015849;
+auto constexpr minus_0point1_db = 0.988553095;
 
 
 /** Create an empty AudioMapping.
@@ -304,5 +305,25 @@ AudioMapping::take_from(AudioMapping const& other)
 			set(i, o, other.get(i, o));
 		}
 	}
+}
+
+
+bool
+AudioMapping::mapped_one_to_one() const
+{
+	for (auto i = 0U; i < _gain.size(); ++i) {
+		if (_gain[i].size() <= i) {
+			return false;
+		}
+		for (auto j = 0U; j < _gain[i].size(); ++j) {
+			if (i == j && _gain[i][j] < minus_0point1_db) {
+				return false;
+			} else if (i != j && _gain[i][j] > minus_96_db) {
+				return false;
+			}
+		}
+	}
+
+	return true;
 }
 
