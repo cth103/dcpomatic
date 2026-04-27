@@ -81,6 +81,11 @@ public:
 
 	void take_from(AudioMapping const& other);
 
+	/** @return true if every input channel is mapped to the corresponding
+	 *  output channel, and no other (i.e. 1->1, 2->2 etc.)
+	 */
+	bool mapped_one_to_one() const;
+
 private:
 	void setup(int input_channels, int output_channels);
 
