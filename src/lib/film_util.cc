@@ -83,6 +83,8 @@ dcpomatic::film::reuse_behaviour_to_string(Film::ReuseBehaviour behaviour)
 		return "re-encode";
 	case Film::ReuseBehaviour::RE_WRAP:
 		return "re-wrap";
+	case Film::ReuseBehaviour::COPY:
+		return "copy";
 	}
 
 	DCPOMATIC_ASSERT(false);
@@ -97,6 +99,8 @@ dcpomatic::film::reuse_behaviour_from_string(string const& behaviour)
 		return Film::ReuseBehaviour::RE_ENCODE;
 	} else if (behaviour == "re-wrap") {
 		return Film::ReuseBehaviour::RE_WRAP;
+	} else if (behaviour == "copy") {
+		return Film::ReuseBehaviour::COPY;
 	}
 
 	DCPOMATIC_ASSERT(false);

@@ -285,6 +285,7 @@ Film::video_identifier() const
 		s += "_R";
 		break;
 	case ReuseBehaviour::RE_WRAP:
+	case ReuseBehaviour::COPY:
 		break;
 	}
 
@@ -2733,5 +2734,93 @@ Film::possible_reel_types() const
 	}
 
 	return { ReelType::SINGLE, ReelType::BY_VIDEO_CONTENT, ReelType::BY_LENGTH, ReelType::CUSTOM };
+}
+
+
+vector<DCPAsset>
+Film::reusable_dcp_assets() const
+{
+	if (_reuse_behaviour != ReuseBehaviour::COPY) {
+		return {};
+	}
+
+	auto const film_reels = reels();
+	vector<DCPAsset> reusable;
+
+	auto overlapping_content = [this](dcpomatic::DCPTimePeriod period) {
+		vector<shared_ptr<const Content>> overlaps;
+		auto const film_content = content();
+		std::copy_if(
+			film_content.begin(),
+			film_content.end(),
+			std::back_inserter(overlaps),
+			[this, period](shared_ptr<const Content> c) {
+				return static_cast<bool>(c->period(shared_from_this()).overlap(period));
+			});
+		return overlaps;
+	};
+
+	auto video_is_reusable = [](shared_ptr<const DCPContent> dcp, vector<shared_ptr<const Content>> const& overlaps) {
+		/* Check that none of the texts in any of the overlaps are burnt-in */
+		return std::none_of(overlaps.begin(), overlaps.end(), [dcp](shared_ptr<const Content> c) {
+			return c != dcp && std::any_of(c->text.begin(), c->text.end(), [](shared_ptr<const TextContent> tc) {
+				return tc->use() && tc->burn();
+			});
+		});
+	};
+
+	auto audio_is_reusable = [this](shared_ptr<const DCPContent> dcp, vector<shared_ptr<const Content>> const& overlaps) {
+		if (dcp->audio->mapping().input_channels() != audio_channels()) {
+			return false;
+		}
+		if (!dcp->audio->mapping().mapped_one_to_one()) {
+			return false;
+		}
+		return std::none_of(overlaps.begin(), overlaps.end(), [dcp](shared_ptr<const Content> c) {
+			return c != dcp && c->audio && c->audio->mapping().mapped_output_channels().size() > 0;
+		});
+	};
+
+	auto text_is_reusable = [](shared_ptr<const DCPContent> dcp, vector<shared_ptr<const Content>> const& overlaps) {
+		return std::none_of(overlaps.begin(), overlaps.end(), [dcp](shared_ptr<const Content> c) {
+			return c != dcp && std::any_of(c->text.begin(), c->text.end(), [](shared_ptr<const TextContent> tc) {
+				return tc->use() && !tc->burn();
+			});
+		});
+	};
+
+	for (auto i: content()) {
+		if (auto dcp = dynamic_pointer_cast<DCPContent>(i)) {
+			if ((dcp->standard() == dcp::Standard::INTEROP) != interop()) {
+				continue;
+			}
+			for (auto asset: dcp->assets(shared_from_this())) {
+				if (std::find(film_reels.begin(), film_reels.end(), asset.period()) == film_reels.end()) {
+					/* The asset's period does not match any reel in the DCP we will make */
+					continue;
+				}
+				auto overlaps = overlapping_content(asset.period());
+				switch (asset.type()) {
+				case DCPAsset::Type::VIDEO:
+					if (video_is_reusable(dcp, overlaps)) {
+						reusable.push_back(asset);
+					}
+					break;
+				case DCPAsset::Type::AUDIO:
+					if (audio_is_reusable(dcp, overlaps)) {
+						reusable.push_back(asset);
+					}
+					break;
+				case DCPAsset::Type::TEXT:
+					if (text_is_reusable(dcp, overlaps)) {
+						reusable.push_back(asset);
+					}
+					break;
+				}
+			}
+		}
+	}
+
+	return reusable;
 }
 

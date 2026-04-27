@@ -29,6 +29,7 @@
 
 
 #include "content.h"
+#include "dcp_asset.h"
 #include "enum_indexed_vector.h"
 #include "resolution.h"
 #include "video_encoding.h"
@@ -254,6 +255,8 @@ public:
 	bool text_has_bitmaps(TextType type) const;
 
 	std::list<dcpomatic::DCPTimePeriod> reels(std::shared_ptr<const Film> film) const;
+
+	std::vector<DCPAsset> assets(std::shared_ptr<const Film> film) const;
 
 private:
 	friend struct reels_test5;
