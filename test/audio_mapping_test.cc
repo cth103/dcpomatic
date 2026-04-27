@@ -148,3 +148,30 @@ BOOST_AUTO_TEST_CASE(audio_mapping_take_from_smaller)
 	BOOST_CHECK_CLOSE(A.get(0, 2), 1, 0.01);
 	BOOST_CHECK_CLOSE(A.get(1, 2), 9, 0.01);
 }
+
+
+BOOST_AUTO_TEST_CASE(audio_mapping_test_mapped_one_to_one)
+{
+	AudioMapping A(6, 6);
+	A.make_default(nullptr);
+	BOOST_CHECK(A.mapped_one_to_one());
+
+	AudioMapping B(6, 4);
+	B.make_default(nullptr);
+	BOOST_CHECK(!B.mapped_one_to_one());
+
+	AudioMapping C(6, 10);
+	C.make_default(nullptr);
+	BOOST_CHECK(C.mapped_one_to_one());
+
+	AudioMapping D(6, 10);
+	D.make_default(nullptr);
+	D.set(1, 2, 0.5);
+	BOOST_CHECK(!D.mapped_one_to_one());
+
+	AudioMapping E(4, 4);
+	E.make_default(nullptr);
+	E.set(2, 2, 0.5);
+	BOOST_CHECK(!E.mapped_one_to_one());
+}
+
