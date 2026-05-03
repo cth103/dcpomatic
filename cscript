@@ -520,7 +520,7 @@ def dependencies(target, options):
     if can_build_disk(target):
         deps.append(('lwext4', '5755f8f25aadf18ec49e0350b6daaab3a648b9d7'))
     if build_tests(target):
-        deps.append(('ffcmp', '42c22683ee4c29b2cba7797d5d5c2367317f3f0d'))
+        deps.append(('ffcmp', 'cf2eb86fe4fa47349a68dc004ea98207ea2ed356'))
 
     return deps
 
