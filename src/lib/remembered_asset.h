@@ -37,6 +37,7 @@ class RememberedAsset
 public:
 	explicit RememberedAsset(cxml::ConstNodePtr node);
 
+	/** @param filename filename (without whole path) of the asset */
 	RememberedAsset(boost::filesystem::path filename, dcpomatic::DCPTimePeriod period, std::string identifier)
 		: _filename(filename)
 		, _period(period)
