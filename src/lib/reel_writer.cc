@@ -124,8 +124,8 @@ ReelWriter::ReelWriter(
 	auto const standard = film()->interop() ? dcp::Standard::INTEROP : dcp::Standard::SMPTE;
 
 	auto remembered_assets = film()->read_remembered_assets();
-	DCPOMATIC_ASSERT(film()->directory());
 
+	DCPOMATIC_ASSERT(film()->directory());
 	auto existing_asset_filename = find_asset(remembered_assets, *film()->directory(), period, film()->video_identifier());
 	if (existing_asset_filename) {
 		_first_nonexistent_frame = check_existing_picture_asset(*existing_asset_filename);
