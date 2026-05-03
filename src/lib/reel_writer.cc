@@ -130,6 +130,7 @@ ReelWriter::ReelWriter(
 	if (existing_asset_filename) {
 		_first_nonexistent_frame = check_existing_picture_asset(*existing_asset_filename);
 	}
+	boost::filesystem::path new_asset_filename;
 
 	if (_first_nonexistent_frame < period.duration().frames_round(film()->video_frame_rate())) {
 		/* No existing asset, or an incomplete one */
@@ -162,13 +163,11 @@ ReelWriter::ReelWriter(
 			picture_asset = _mpeg2_picture_asset;
 		}
 
-		auto new_asset_filename = _output_dir / video_asset_filename(picture_asset, _reel_index, _reel_count, _content_summary);
+		new_asset_filename = _output_dir / video_asset_filename(picture_asset, _reel_index, _reel_count, _content_summary);
 		if (_first_nonexistent_frame > 0) {
 			LOG_GENERAL("Re-using partial asset {}: has frames up to {}", existing_asset_filename->string(), _first_nonexistent_frame);
 			dcp::filesystem::rename(*existing_asset_filename, new_asset_filename);
 		}
-		remembered_assets.push_back(RememberedAsset(new_asset_filename.filename(), period, film()->video_identifier()));
-		film()->write_remembered_assets(remembered_assets);
 		picture_asset->set_file(new_asset_filename);
 
 		dcp::Behaviour const behaviour = _first_nonexistent_frame > 0 ? dcp::Behaviour::OVERWRITE_EXISTING : dcp::Behaviour::MAKE_NEW;
@@ -182,7 +181,7 @@ ReelWriter::ReelWriter(
 		LOG_GENERAL("Re-using complete asset {}", existing_asset_filename->string());
 		/* We already have a complete picture asset that we can just re-use */
 		/* XXX: what about if the encryption key changes? */
-		auto new_asset_filename = _output_dir / existing_asset_filename->filename();
+		new_asset_filename = _output_dir / existing_asset_filename->filename();
 		if (new_asset_filename != *existing_asset_filename) {
 			if (job) {
 				job->sub(_("Copying existing asset"));
@@ -190,9 +189,7 @@ ReelWriter::ReelWriter(
 			} else {
 				dcp::filesystem::copy(*existing_asset_filename, new_asset_filename);
 			}
-			remembered_assets.push_back(RememberedAsset(new_asset_filename.filename(), period, film()->video_identifier()));
 		}
-		film()->write_remembered_assets(remembered_assets);
 
 		if (film()->video_encoding() == VideoEncoding::JPEG2000) {
 			if (film()->three_d()) {
@@ -203,6 +200,11 @@ ReelWriter::ReelWriter(
 		} else {
 			_mpeg2_picture_asset = make_shared<dcp::MonoMPEG2PictureAsset>(new_asset_filename);
 		}
+	}
+
+	if (new_asset_filename != *existing_asset_filename) {
+		remembered_assets.push_back(RememberedAsset(new_asset_filename.filename(), period, film()->video_identifier()));
+		film()->write_remembered_assets(remembered_assets);
 	}
 
 	if (film()->audio_channels()) {
