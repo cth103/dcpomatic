@@ -248,9 +248,7 @@ ReelWriter::ReelWriter(
 Frame
 ReelWriter::check_existing_picture_asset(boost::filesystem::path asset)
 {
-	auto job = _job.lock();
-
-	if (job) {
+	if (auto job = _job.lock()) {
 		job->sub(_("Checking existing image data"));
 	}
 
