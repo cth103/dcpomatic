@@ -190,7 +190,7 @@ ReelWriter::ReelWriter(
 			} else {
 				dcp::filesystem::copy(*existing_asset_filename, new_asset_filename);
 			}
-			remembered_assets.push_back(RememberedAsset(new_asset_filename, period, film()->video_identifier()));
+			remembered_assets.push_back(RememberedAsset(new_asset_filename.filename(), period, film()->video_identifier()));
 		}
 		film()->write_remembered_assets(remembered_assets);
 
