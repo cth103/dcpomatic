@@ -203,9 +203,8 @@ public:
 		JobManager::instance()->ActiveJobsChanged.connect(boost::bind(&DOMFrame::setup_sensitivity, this));
 
 #ifdef DCPOMATIC_WINDOWS
-		/* We must use ::shell here, it seems, to avoid error code 740 (related to privilege escalation) */
 		LOG_DISK("Starting writer process {}", disk_writer_path().string());
-		_writer = new boost::process::child(disk_writer_path(), boost::process::shell, boost::process::windows::hide);
+		_writer = new boost::process::v2::process(_context, disk_writer_path(), {}, boost::process::windows::show_window_hide);
 #endif
 
 #ifdef DCPOMATIC_LINUX
