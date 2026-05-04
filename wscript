@@ -647,6 +647,7 @@ def configure(conf):
                            """,
                        msg='Checking for boost::asio::ip::basic_resolver_results',
                        define_name='DCPOMATIC_HAVE_BOOST_ASIO_IP_BASIC_RESOLVER_RESULTS',
+                       lib='ws2_32' if conf.env.TARGET_WINDOWS_64 or conf.env.TARGET_WINDOWS_32 else '',
                        mandatory=False)
                     
 
