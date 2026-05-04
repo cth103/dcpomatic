@@ -208,6 +208,8 @@ def configure(conf):
         conf.env.append_value('CXXFLAGS', '-Wcast-align')
         conf.env.append_value('CXXFLAGS', '-DUNICODE=1')
         conf.env.append_value('CXXFLAGS', '-D_UNICODE=1')
+        # The v2.19.x boost needs this
+        conf.env.append_value('CXXFLAGS', '-D_WIN32_WINNT=0x0602')
         wxrc = os.popen('wx-config --rescomp').read().split()[1:]
         conf.env.append_value('WINRCFLAGS', wxrc)
         if conf.options.enable_debug:
