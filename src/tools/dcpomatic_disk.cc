@@ -50,7 +50,7 @@ LIBDCP_DISABLE_WARNINGS
 #include <boost/process.hpp>
 LIBDCP_ENABLE_WARNINGS
 #ifdef DCPOMATIC_WINDOWS
-#include <boost/process/windows.hpp>
+#include <boost/process/windows/show_window.hpp>
 #endif
 #ifdef DCPOMATIC_OSX
 #include <notify.h>
