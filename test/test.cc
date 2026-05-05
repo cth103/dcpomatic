@@ -156,6 +156,9 @@ struct TestConfig
 	TestConfig ()
 	{
 		running_tests = true;
+#ifdef DCPOMATIC_WINDOWS
+		program_name = "build/test/unit-tests.exe";
+#endif
 		State::override_path = "build/test/state";
 		boost::filesystem::remove_all (*State::override_path);
 
