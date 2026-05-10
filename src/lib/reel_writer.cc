@@ -121,42 +121,11 @@ ReelWriter::reuse_existing_asset(boost::filesystem::path existing_asset_filename
 }
 
 
-
-/** @param job Related job, or 0.
- *  @param text_only true to enable a special mode where the writer will expect only subtitles and closed captions to be written
- *  (no picture nor sound) and not give errors in that case.  This is used by the hints system to check the potential sizes of
- *  subtitle / closed caption files.
- */
-ReelWriter::ReelWriter(
-	weak_ptr<const Film> weak_film, DCPTimePeriod period, shared_ptr<Job> job, int reel_index, int reel_count, bool text_only, boost::filesystem::path output_dir
-	)
-	: WeakConstFilm(weak_film)
-	, _output_dir(std::move(output_dir))
-	, _period(period)
-	, _reel_index(reel_index)
-	, _reel_count(reel_count)
-	, _content_summary(film()->content_summary(period))
-	, _job(job)
-	, _text_only(text_only)
-	, _info_file(film()->info_file(period), dcp::filesystem::exists(film()->info_file(period)) ? "r+b" : "wb")
-	, _font_metrics(film()->frame_size().height)
+void
+ReelWriter::setup_video(vector<DCPAsset> const& reusable_assets, shared_ptr<Job> job, dcpomatic::DCPTimePeriod period, dcp::Standard standard)
 {
-	if (!_info_file) {
-		auto const info_file_path = film()->info_file(period);
-		throw OpenFileError(info_file_path, _info_file.open_error(), dcp::filesystem::exists(info_file_path) ? OpenFileError::READ_WRITE : OpenFileError::WRITE);
-	}
-
-	_default_font = dcp::ArrayData(default_font_file());
-
-	if (text_only) {
-		return;
-	}
-
-	auto const standard = film()->interop() ? dcp::Standard::INTEROP : dcp::Standard::SMPTE;
-
-	auto reusable_assets = film()->reusable_assets();
-	auto reusable_iter = std::find_if(reusable_assets.begin(), reusable_assets.end(), [period](DCPContent::Asset const& asset) {
-		return asset.period() == period && asset.type() == DCPContent::Asset::Type::VIDEO;
+	auto reusable_iter = std::find_if(reusable_assets.begin(), reusable_assets.end(), [period](DCPAsset const& asset) {
+		return asset.period() == period && asset.type() == DCPAsset::Type::VIDEO;
 	});
 
 	if (reusable_iter != reusable_assets.end()) {
@@ -223,6 +192,44 @@ ReelWriter::ReelWriter(
 			}
 		}
 	}
+}
+
+
+
+/** @param job Related job, or 0.
+ *  @param text_only true to enable a special mode where the writer will expect only subtitles and closed captions to be written
+ *  (no picture nor sound) and not give errors in that case.  This is used by the hints system to check the potential sizes of
+ *  subtitle / closed caption files.
+ */
+ReelWriter::ReelWriter(
+	weak_ptr<const Film> weak_film, DCPTimePeriod period, shared_ptr<Job> job, int reel_index, int reel_count, bool text_only, boost::filesystem::path output_dir
+	)
+	: WeakConstFilm(weak_film)
+	, _output_dir(std::move(output_dir))
+	, _period(period)
+	, _reel_index(reel_index)
+	, _reel_count(reel_count)
+	, _content_summary(film()->content_summary(period))
+	, _job(job)
+	, _text_only(text_only)
+	, _info_file(film()->info_file(period), dcp::filesystem::exists(film()->info_file(period)) ? "r+b" : "wb")
+	, _font_metrics(film()->frame_size().height)
+{
+	if (!_info_file) {
+		auto const info_file_path = film()->info_file(period);
+		throw OpenFileError(info_file_path, _info_file.open_error(), dcp::filesystem::exists(info_file_path) ? OpenFileError::READ_WRITE : OpenFileError::WRITE);
+	}
+
+	_default_font = dcp::ArrayData(default_font_file());
+
+	if (text_only) {
+		return;
+	}
+
+	auto const standard = film()->interop() ? dcp::Standard::INTEROP : dcp::Standard::SMPTE;
+
+	auto reusable_assets = film()->reusable_dcp_assets();
+	setup_video(reusable_assets, job, period, standard);
 
 	if (film()->audio_channels()) {
 		auto lang = film()->audio_language();
