@@ -91,6 +91,37 @@ mxf_metadata()
 }
 
 
+boost::filesystem::path
+ReelWriter::reuse_existing_asset(boost::filesystem::path existing_asset_filename, shared_ptr<Job> job)
+{
+	LOG_GENERAL("Re-using complete asset {}", existing_asset_filename.string());
+	/* We already have a complete picture asset that we can just re-use */
+	/* XXX: what about if the encryption key changes? */
+	auto new_asset_filename = _output_dir / existing_asset_filename.filename();
+	if (new_asset_filename != existing_asset_filename) {
+		if (job) {
+			job->sub(_("Copying existing asset"));
+			copy_in_bits(existing_asset_filename, new_asset_filename, boost::bind(&Job::set_progress, job.get(), _1, false));
+		} else {
+			dcp::filesystem::copy(existing_asset_filename, new_asset_filename);
+		}
+	}
+
+	if (film()->video_encoding() == VideoEncoding::JPEG2000) {
+		if (film()->three_d()) {
+			_j2k_picture_asset = make_shared<dcp::StereoJ2KPictureAsset>(new_asset_filename);
+		} else {
+			_j2k_picture_asset = make_shared<dcp::MonoJ2KPictureAsset>(new_asset_filename);
+		}
+	} else {
+		_mpeg2_picture_asset = make_shared<dcp::MonoMPEG2PictureAsset>(new_asset_filename);
+	}
+
+	return new_asset_filename;
+}
+
+
+
 /** @param job Related job, or 0.
  *  @param text_only true to enable a special mode where the writer will expect only subtitles and closed captions to be written
  *  (no picture nor sound) and not give errors in that case.  This is used by the hints system to check the potential sizes of
@@ -130,7 +161,6 @@ ReelWriter::ReelWriter(
 	if (existing_asset_filename) {
 		_first_nonexistent_frame = check_existing_picture_asset(*existing_asset_filename);
 	}
-	boost::filesystem::path new_asset_filename;
 
 	if (_first_nonexistent_frame < period.duration().frames_round(film()->video_frame_rate())) {
 		/* No existing asset, or an incomplete one */
@@ -163,7 +193,7 @@ ReelWriter::ReelWriter(
 			picture_asset = _mpeg2_picture_asset;
 		}
 
-		new_asset_filename = _output_dir / video_asset_filename(picture_asset, _reel_index, _reel_count, _content_summary);
+		auto new_asset_filename = _output_dir / video_asset_filename(picture_asset, _reel_index, _reel_count, _content_summary);
 		if (_first_nonexistent_frame > 0) {
 			LOG_GENERAL("Re-using partial asset {}: has frames up to {}", existing_asset_filename->string(), _first_nonexistent_frame);
 			dcp::filesystem::rename(*existing_asset_filename, new_asset_filename);
@@ -178,33 +208,11 @@ ReelWriter::ReelWriter(
 		}
 	} else {
 		DCPOMATIC_ASSERT(existing_asset_filename);
-		LOG_GENERAL("Re-using complete asset {}", existing_asset_filename->string());
-		/* We already have a complete picture asset that we can just re-use */
-		/* XXX: what about if the encryption key changes? */
-		new_asset_filename = _output_dir / existing_asset_filename->filename();
+		auto new_asset_filename = reuse_existing_asset(*existing_asset_filename, job);
 		if (new_asset_filename != *existing_asset_filename) {
-			if (job) {
-				job->sub(_("Copying existing asset"));
-				copy_in_bits(*existing_asset_filename, new_asset_filename, boost::bind(&Job::set_progress, job.get(), _1, false));
-			} else {
-				dcp::filesystem::copy(*existing_asset_filename, new_asset_filename);
-			}
+			remembered_assets.push_back(RememberedAsset(new_asset_filename.filename(), period, film()->video_identifier()));
+			film()->write_remembered_assets(remembered_assets);
 		}
-
-		if (film()->video_encoding() == VideoEncoding::JPEG2000) {
-			if (film()->three_d()) {
-				_j2k_picture_asset = make_shared<dcp::StereoJ2KPictureAsset>(new_asset_filename);
-			} else {
-				_j2k_picture_asset = make_shared<dcp::MonoJ2KPictureAsset>(new_asset_filename);
-			}
-		} else {
-			_mpeg2_picture_asset = make_shared<dcp::MonoMPEG2PictureAsset>(new_asset_filename);
-		}
-	}
-
-	if (new_asset_filename != *existing_asset_filename) {
-		remembered_assets.push_back(RememberedAsset(new_asset_filename.filename(), period, film()->video_identifier()));
-		film()->write_remembered_assets(remembered_assets);
 	}
 
 	if (film()->audio_channels()) {
