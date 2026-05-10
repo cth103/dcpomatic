@@ -154,64 +154,73 @@ ReelWriter::ReelWriter(
 
 	auto const standard = film()->interop() ? dcp::Standard::INTEROP : dcp::Standard::SMPTE;
 
-	auto remembered_assets = film()->read_remembered_assets();
+	auto reusable_assets = film()->reusable_assets();
+	auto reusable_iter = std::find_if(reusable_assets.begin(), reusable_assets.end(), [period](DCPContent::Asset const& asset) {
+		return asset.period() == period && asset.type() == DCPContent::Asset::Type::VIDEO;
+	});
 
-	DCPOMATIC_ASSERT(film()->directory());
-	auto existing_asset_filename = find_asset(remembered_assets, *film()->directory(), period, film()->video_identifier());
-	if (existing_asset_filename) {
-		_first_nonexistent_frame = check_existing_picture_asset(*existing_asset_filename);
-	}
-
-	if (_first_nonexistent_frame < period.duration().frames_round(film()->video_frame_rate())) {
-		/* No existing asset, or an incomplete one */
-
-		auto const rate = dcp::Fraction(film()->video_frame_rate(), 1);
-
-		auto setup = [this](shared_ptr<dcp::PictureAsset> asset) {
-			asset->set_size(film()->frame_size());
-			asset->set_metadata(mxf_metadata());
-
-			if (film()->encrypt_picture()) {
-				asset->set_key(film()->key());
-				asset->set_context_id(film()->context_id());
-			}
-		};
-
-		shared_ptr<dcp::PictureAsset> picture_asset;
-
-		if (film()->video_encoding() == VideoEncoding::JPEG2000) {
-			if (film()->three_d()) {
-				_j2k_picture_asset = std::make_shared<dcp::StereoJ2KPictureAsset>(rate, standard);
-			} else {
-				_j2k_picture_asset = std::make_shared<dcp::MonoJ2KPictureAsset>(rate, standard);
-			}
-			setup(_j2k_picture_asset);
-			picture_asset = _j2k_picture_asset;
-		} else {
-			_mpeg2_picture_asset = std::make_shared<dcp::MonoMPEG2PictureAsset>(rate);
-			setup(_mpeg2_picture_asset);
-			picture_asset = _mpeg2_picture_asset;
-		}
-
-		auto new_asset_filename = _output_dir / video_asset_filename(picture_asset, _reel_index, _reel_count, _content_summary);
-		if (_first_nonexistent_frame > 0) {
-			LOG_GENERAL("Re-using partial asset {}: has frames up to {}", existing_asset_filename->string(), _first_nonexistent_frame);
-			dcp::filesystem::rename(*existing_asset_filename, new_asset_filename);
-		}
-		picture_asset->set_file(new_asset_filename);
-
-		dcp::Behaviour const behaviour = _first_nonexistent_frame > 0 ? dcp::Behaviour::OVERWRITE_EXISTING : dcp::Behaviour::MAKE_NEW;
-		if (_j2k_picture_asset) {
-			_j2k_picture_asset_writer = _j2k_picture_asset->start_write(new_asset_filename, behaviour);
-		} else {
-			_mpeg2_picture_asset_writer = _mpeg2_picture_asset->start_write(new_asset_filename, behaviour);
-		}
+	if (reusable_iter != reusable_assets.end()) {
+		reuse_existing_asset(reusable_iter->file(), job);
 	} else {
-		DCPOMATIC_ASSERT(existing_asset_filename);
-		auto new_asset_filename = reuse_existing_asset(*existing_asset_filename, job);
-		if (new_asset_filename != *existing_asset_filename) {
-			remembered_assets.push_back(RememberedAsset(new_asset_filename.filename(), period, film()->video_identifier()));
-			film()->write_remembered_assets(remembered_assets);
+		auto remembered_assets = film()->read_remembered_assets();
+
+		DCPOMATIC_ASSERT(film()->directory());
+		auto existing_asset_filename = find_asset(remembered_assets, *film()->directory(), period, film()->video_identifier());
+		if (existing_asset_filename) {
+			_first_nonexistent_frame = check_existing_picture_asset(*existing_asset_filename);
+		}
+
+		if (_first_nonexistent_frame < period.duration().frames_round(film()->video_frame_rate())) {
+			/* No existing asset, or an incomplete one */
+
+			auto const rate = dcp::Fraction(film()->video_frame_rate(), 1);
+
+			auto setup = [this](shared_ptr<dcp::PictureAsset> asset) {
+				asset->set_size(film()->frame_size());
+				asset->set_metadata(mxf_metadata());
+
+				if (film()->encrypt_picture()) {
+					asset->set_key(film()->key());
+					asset->set_context_id(film()->context_id());
+				}
+			};
+
+			shared_ptr<dcp::PictureAsset> picture_asset;
+
+			if (film()->video_encoding() == VideoEncoding::JPEG2000) {
+				if (film()->three_d()) {
+					_j2k_picture_asset = std::make_shared<dcp::StereoJ2KPictureAsset>(rate, standard);
+				} else {
+					_j2k_picture_asset = std::make_shared<dcp::MonoJ2KPictureAsset>(rate, standard);
+				}
+				setup(_j2k_picture_asset);
+				picture_asset = _j2k_picture_asset;
+			} else {
+				_mpeg2_picture_asset = std::make_shared<dcp::MonoMPEG2PictureAsset>(rate);
+				setup(_mpeg2_picture_asset);
+				picture_asset = _mpeg2_picture_asset;
+			}
+
+			auto new_asset_filename = _output_dir / video_asset_filename(picture_asset, _reel_index, _reel_count, _content_summary);
+			if (_first_nonexistent_frame > 0) {
+				LOG_GENERAL("Re-using partial asset {}: has frames up to {}", existing_asset_filename->string(), _first_nonexistent_frame);
+				dcp::filesystem::rename(*existing_asset_filename, new_asset_filename);
+			}
+			picture_asset->set_file(new_asset_filename);
+
+			dcp::Behaviour const behaviour = _first_nonexistent_frame > 0 ? dcp::Behaviour::OVERWRITE_EXISTING : dcp::Behaviour::MAKE_NEW;
+			if (_j2k_picture_asset) {
+				_j2k_picture_asset_writer = _j2k_picture_asset->start_write(new_asset_filename, behaviour);
+			} else {
+				_mpeg2_picture_asset_writer = _mpeg2_picture_asset->start_write(new_asset_filename, behaviour);
+			}
+		} else {
+			DCPOMATIC_ASSERT(existing_asset_filename);
+			auto new_asset_filename = reuse_existing_asset(*existing_asset_filename, job);
+			if (new_asset_filename != *existing_asset_filename) {
+				remembered_assets.push_back(RememberedAsset(new_asset_filename.filename(), period, film()->video_identifier()));
+				film()->write_remembered_assets(remembered_assets);
+			}
 		}
 	}
 
