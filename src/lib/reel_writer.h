@@ -121,7 +121,7 @@ private:
 		) const;
 	void create_reel_markers(std::shared_ptr<dcp::Reel> reel) const;
 	float convert_vertical_position(StringText const& subtitle, dcp::SubtitleStandard to) const;
-	boost::filesystem::path reuse_existing_asset(boost::filesystem::path existing_asset_filename, std::shared_ptr<Job> job);
+	boost::filesystem::path reuse_existing_asset(DCPAsset const& existing_asset, std::shared_ptr<Job> job);
 	void setup_video(std::vector<DCPAsset> const& reusable_assets, std::shared_ptr<Job> job, dcpomatic::DCPTimePeriod period, dcp::Standard standard);
 	void setup_audio(dcp::Standard standard);
 
