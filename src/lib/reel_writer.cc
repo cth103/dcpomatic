@@ -107,14 +107,23 @@ ReelWriter::reuse_existing_asset(DCPAsset const& existing_asset, shared_ptr<Job>
 		}
 	}
 
-	if (film()->video_encoding() == VideoEncoding::JPEG2000) {
-		if (film()->three_d()) {
-			_j2k_picture_asset = make_shared<dcp::StereoJ2KPictureAsset>(new_asset_filename);
+	switch (existing_asset.type()) {
+	case DCPAsset::Type::VIDEO:
+		if (film()->video_encoding() == VideoEncoding::JPEG2000) {
+			if (film()->three_d()) {
+				_j2k_picture_asset = make_shared<dcp::StereoJ2KPictureAsset>(new_asset_filename);
+			} else {
+				_j2k_picture_asset = make_shared<dcp::MonoJ2KPictureAsset>(new_asset_filename);
+			}
 		} else {
-			_j2k_picture_asset = make_shared<dcp::MonoJ2KPictureAsset>(new_asset_filename);
+			_mpeg2_picture_asset = make_shared<dcp::MonoMPEG2PictureAsset>(new_asset_filename);
 		}
-	} else {
-		_mpeg2_picture_asset = make_shared<dcp::MonoMPEG2PictureAsset>(new_asset_filename);
+		break;
+	case DCPAsset::Type::AUDIO:
+		_sound_asset = make_shared<dcp::SoundAsset>(new_asset_filename);
+		break;
+	default:
+		break;
 	}
 
 	return new_asset_filename;
@@ -196,45 +205,53 @@ ReelWriter::setup_video(vector<DCPAsset> const& reusable_assets, shared_ptr<Job>
 
 
 void
-ReelWriter::setup_audio(dcp::Standard standard)
+ReelWriter::setup_audio(vector<DCPAsset> const& reusable_assets, shared_ptr<Job> job, dcpomatic::DCPTimePeriod period, dcp::Standard standard)
 {
 	if (!film()->audio_channels()) {
 		return;
 	}
 
-	auto lang = film()->audio_language();
-	_sound_asset = make_shared<dcp::SoundAsset>(
-		dcp::Fraction(film()->video_frame_rate(), 1),
-		film()->audio_frame_rate(),
-		film()->audio_channels(),
-		lang ? *lang : dcp::LanguageTag("en-US"),
-		standard
-		);
+	auto reusable_iter = std::find_if(reusable_assets.begin(), reusable_assets.end(), [period](DCPAsset const& asset) {
+		return asset.period() == period && asset.type() == DCPAsset::Type::AUDIO;
+	});
 
-	_sound_asset->set_metadata(mxf_metadata());
+	if (reusable_iter != reusable_assets.end()) {
+		reuse_existing_asset(*reusable_iter, job);
+	} else {
+		auto lang = film()->audio_language();
+		_sound_asset = make_shared<dcp::SoundAsset>(
+			dcp::Fraction(film()->video_frame_rate(), 1),
+			film()->audio_frame_rate(),
+			film()->audio_channels(),
+			lang ? *lang : dcp::LanguageTag("en-US"),
+			standard
+			);
 
-	if (film()->encrypt_sound()) {
-		_sound_asset->set_key(film()->key());
-	}
+		_sound_asset->set_metadata(mxf_metadata());
 
-	DCPOMATIC_ASSERT(film()->directory());
-
-	std::vector<dcp::Channel> extra_active_channels;
-	for (auto channel: std::vector<dcp::Channel>{dcp::Channel::HI, dcp::Channel::VI, dcp::Channel::BSL, dcp::Channel::BSR}) {
-		if (dcpomatic::film::channel_is_mapped(film(), channel)) {
-			extra_active_channels.push_back(channel);
+		if (film()->encrypt_sound()) {
+			_sound_asset->set_key(film()->key());
 		}
-	}
 
-	/* Write the sound asset into the film directory so that we leave the creation
-	   of the DCP directory until the last minute.
-	*/
-	_sound_asset_writer = _sound_asset->start_write(
-		film()->directory().get() / audio_asset_filename(_sound_asset, _reel_index, _reel_count, _content_summary),
-		extra_active_channels,
-		film()->contains_atmos_content() ? dcp::SoundAsset::AtmosSync::ENABLED : dcp::SoundAsset::AtmosSync::DISABLED,
-		film()->limit_to_smpte_bv20() ? dcp::SoundAsset::MCASubDescriptors::DISABLED : dcp::SoundAsset::MCASubDescriptors::ENABLED
-		);
+		DCPOMATIC_ASSERT(film()->directory());
+
+		std::vector<dcp::Channel> extra_active_channels;
+		for (auto channel: std::vector<dcp::Channel>{dcp::Channel::HI, dcp::Channel::VI, dcp::Channel::BSL, dcp::Channel::BSR}) {
+			if (dcpomatic::film::channel_is_mapped(film(), channel)) {
+				extra_active_channels.push_back(channel);
+			}
+		}
+
+		/* Write the sound asset into the film directory so that we leave the creation
+		   of the DCP directory until the last minute.
+		*/
+		_sound_asset_writer = _sound_asset->start_write(
+			film()->directory().get() / audio_asset_filename(_sound_asset, _reel_index, _reel_count, _content_summary),
+			extra_active_channels,
+			film()->contains_atmos_content() ? dcp::SoundAsset::AtmosSync::ENABLED : dcp::SoundAsset::AtmosSync::DISABLED,
+			film()->limit_to_smpte_bv20() ? dcp::SoundAsset::MCASubDescriptors::DISABLED : dcp::SoundAsset::MCASubDescriptors::ENABLED
+			);
+	}
 }
 
 
@@ -272,7 +289,7 @@ ReelWriter::ReelWriter(
 
 	auto reusable_assets = film()->reusable_dcp_assets();
 	setup_video(reusable_assets, job, period, standard);
-	setup_audio(standard);
+	setup_audio(reusable_assets, job, period, standard);
 }
 
 
@@ -404,7 +421,7 @@ ReelWriter::finish(boost::filesystem::path output_dcp)
 	}
 
 	/* Move the audio asset into the DCP */
-	if (_sound_asset) {
+	if (_sound_asset_writer && _sound_asset) {
 		boost::filesystem::path audio_to = output_dcp;
 		auto const aaf = audio_asset_filename(_sound_asset, _reel_index, _reel_count, _content_summary);
 		audio_to /= aaf;
