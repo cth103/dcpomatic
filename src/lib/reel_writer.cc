@@ -92,18 +92,18 @@ mxf_metadata()
 
 
 boost::filesystem::path
-ReelWriter::reuse_existing_asset(boost::filesystem::path existing_asset_filename, shared_ptr<Job> job)
+ReelWriter::reuse_existing_asset(DCPAsset const& existing_asset, shared_ptr<Job> job)
 {
-	LOG_GENERAL("Re-using complete asset {}", existing_asset_filename.string());
+	LOG_GENERAL("Re-using complete asset {}", existing_asset.file().string());
 	/* We already have a complete picture asset that we can just re-use */
 	/* XXX: what about if the encryption key changes? */
-	auto new_asset_filename = _output_dir / existing_asset_filename.filename();
-	if (new_asset_filename != existing_asset_filename) {
+	auto new_asset_filename = _output_dir / existing_asset.file().filename();
+	if (new_asset_filename != existing_asset.file()) {
 		if (job) {
 			job->sub(_("Copying existing asset"));
-			copy_in_bits(existing_asset_filename, new_asset_filename, boost::bind(&Job::set_progress, job.get(), _1, false));
+			copy_in_bits(existing_asset.file(), new_asset_filename, boost::bind(&Job::set_progress, job.get(), _1, false));
 		} else {
-			dcp::filesystem::copy(existing_asset_filename, new_asset_filename);
+			dcp::filesystem::copy(existing_asset.file(), new_asset_filename);
 		}
 	}
 
@@ -129,7 +129,7 @@ ReelWriter::setup_video(vector<DCPAsset> const& reusable_assets, shared_ptr<Job>
 	});
 
 	if (reusable_iter != reusable_assets.end()) {
-		reuse_existing_asset(reusable_iter->file(), job);
+		reuse_existing_asset(*reusable_iter, job);
 	} else {
 		auto remembered_assets = film()->read_remembered_assets();
 
@@ -185,7 +185,7 @@ ReelWriter::setup_video(vector<DCPAsset> const& reusable_assets, shared_ptr<Job>
 			}
 		} else {
 			DCPOMATIC_ASSERT(existing_asset_filename);
-			auto new_asset_filename = reuse_existing_asset(*existing_asset_filename, job);
+			auto new_asset_filename = reuse_existing_asset(DCPAsset(DCPAsset::Type::VIDEO, *existing_asset_filename, period), job);
 			if (new_asset_filename != *existing_asset_filename) {
 				remembered_assets.push_back(RememberedAsset(new_asset_filename.filename(), period, film()->video_identifier()));
 				film()->write_remembered_assets(remembered_assets);
