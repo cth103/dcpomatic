@@ -134,6 +134,7 @@ def build(bld):
                  kdm_util_test.cc
                  layout_markers_test.cc
                  low_bitrate_test.cc
+                 make_dcp_with_reused_assets_test.cc
                  markers_test.cc
                  map_cli_test.cc
                  mca_subdescriptors_test.cc
