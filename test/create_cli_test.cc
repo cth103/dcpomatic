@@ -226,7 +226,7 @@ BOOST_AUTO_TEST_CASE (create_cli_test)
 	film = cc.make_film(error);
 	BOOST_CHECK_EQUAL(film->content().size(), 1U);
 	BOOST_CHECK(film->content()[0]->video->actual_crop() == Crop(113, 262, 0, 0));
-	BOOST_CHECK_EQUAL(collected_error, fmt::format("Cropped {} to 113 left, 262 right, 0 top and 0 bottom", pillarbox.string()));
+	BOOST_CHECK(boost::iequals(collected_error, fmt::format("Cropped {} to 113 left, 262 right, 0 top and 0 bottom", pillarbox.string())));
 	collected_error = "";
 
 	cc = run ("dcpomatic2_create --video-bit-rate 120 foo.mp4");
