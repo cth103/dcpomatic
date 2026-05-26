@@ -116,7 +116,7 @@ WriteUninstaller "$INSTDIR\\Uninstall.exe"
 File "%static_deps%/bin/libintl-8.dll"
 """, file=f)
 
-    for lib in ['chrono', 'filesystem', 'system', 'thread', 'date_time', 'locale', 'regex']:
+    for lib in ['chrono', 'filesystem', 'thread', 'date_time', 'locale', 'regex']:
         print('File "%%static_deps%%/bin/libboost_%s-mt-x%d.dll"' % (lib, bits), file=f)
 
     if bits == 32:
