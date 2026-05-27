@@ -50,12 +50,9 @@ for v in ['16.04', '18.04', '20.04']:
 for v in ['22.04']:
     deb_build_depends[v] = copy.deepcopy(deb_build_depends_base)
     deb_build_depends[v].extend(['libssh-dev', 'python3.10'])
-for v in ['24.04', '24.10']:
+for v in ['24.04']:
     deb_build_depends[v] = copy.deepcopy(deb_build_depends_base)
     deb_build_depends[v].extend(['libssh-dev', 'python3.12'])
-for v in ['25.04', '25.10']:
-    deb_build_depends[v] = copy.deepcopy(deb_build_depends_base)
-    deb_build_depends[v].extend(['libssh-dev', 'python3.13'])
 for v in ['26.04']:
     deb_build_depends[v] = copy.deepcopy(deb_build_depends_base)
     deb_build_depends[v].extend(['libssh-dev', 'python3.14'])
