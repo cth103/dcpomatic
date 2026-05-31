@@ -22,11 +22,14 @@
 #include "content_video.h"
 #include "dcpomatic_assert.h"
 #include "dcpomatic_log.h"
+#include "image.h"
+#include "raw_image_proxy.h"
 #include "shuffler.h"
 #include <string>
 
 
 using std::make_pair;
+using std::make_shared;
 using std::string;
 using std::weak_ptr;
 using boost::optional;
@@ -97,6 +100,16 @@ Shuffler::video(weak_ptr<Piece> weak_piece, ContentVideo video)
 
 		if (_store.size() > _max_size) {
 			LOG_WARNING("Shuffler is full after receiving frame at {}; 3D sync may be incorrect.", to_string(video.time));
+		}
+
+		if (_last && _store.front().second.eyes == _last->eyes) {
+			/* Things are starting to go wrong, but we need to fill in missing eyes otherwise if we
+			 * have only LEFTs the player will never think we have managed to make a frame of video.
+			 */
+			auto black = make_shared<Image>(AV_PIX_FMT_RGB24, dcp::Size(256, 256), Image::Alignment::PADDED);
+			black->make_black();
+			ContentVideo insert(make_shared<RawImageProxy>(black), _last->time, _last->eyes == Eyes::LEFT ? Eyes::RIGHT : Eyes::LEFT, _last->part);
+			Video(_store.front().first, insert);
 		}
 
 		LOG_DEBUG_THREE_D("Shuffler emits time={} eyes={} store={}", to_string(_store.front().second.time), static_cast<int>(_store.front().second.eyes), _store.size());

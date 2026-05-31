@@ -166,9 +166,10 @@ BOOST_AUTO_TEST_CASE(shuffler_test5)
 	BOOST_CHECK(pending_cv.empty());
 
 	/* If enough lefts come the shuffler should conclude that there's no rights and start
-	   giving out the lefts.
+	   giving out the lefts with a faked right.
 	*/
 	push(s, s._max_size + 1, Eyes::LEFT);
+	check(0, Eyes::RIGHT, __LINE__);
 	check(1, Eyes::LEFT, __LINE__);
 }
 

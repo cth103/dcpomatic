@@ -346,3 +346,31 @@ BOOST_AUTO_TEST_CASE(threed_test_when_padding_needed)
 
 	make_and_verify_dcp(film);
 }
+
+
+BOOST_AUTO_TEST_CASE(threed_test_butler_not_filling_with_left_only)
+{
+	auto A = make_shared<FFmpegContent>(TestPaths::private_data() / "arrietty_JP-EN.mkv");
+	auto film = new_test_film("threed_test_butler_overfill", { A });
+	film->set_three_d(true);
+	A->video->set_frame_type(VideoFrameType::THREE_D_LEFT);
+
+	Player player(film, Image::Alignment::COMPACT, false);
+	int const audio_channels = 2;
+	auto butler = std::make_shared<Butler>(
+		film, player, AudioMapping(), audio_channels, AV_PIX_FMT_RGB24, VideoRange::FULL, Image::Alignment::PADDED, true, false, Butler::Audio::ENABLED
+		);
+
+	int const audio_frames = 1920;
+	std::vector<float> audio(audio_frames * audio_channels);
+
+	butler->seek(dcpomatic::DCPTime(), true);
+	Butler::Error error;
+	for (auto i = 0; i < 960; ++i) {
+		butler->get_video(Butler::Behaviour::BLOCKING, &error);
+		butler->get_audio(Butler::Behaviour::BLOCKING, audio.data(), audio_frames);
+	}
+	BOOST_REQUIRE(error.code == Butler::Error::Code::NONE);
+}
+
+
