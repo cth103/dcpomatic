@@ -284,8 +284,11 @@ DCPContent::examine(shared_ptr<Job> job, bool tolerant)
 	}
 
 	if (examiner->has_audio()) {
-		boost::mutex::scoped_lock lm(_mutex);
-		audio = make_shared<AudioContent>(this);
+		{
+			boost::mutex::scoped_lock lm(_mutex);
+			audio = make_shared<AudioContent>(this);
+		}
+
 		audio->set_stream(
 			make_shared<AudioStream>(examiner->audio_frame_rate(), examiner->audio_length(), examiner->audio_channels(), 24)
 		);
