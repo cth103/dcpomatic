@@ -111,6 +111,8 @@ private:
 	bool _very_long_subtitle = false;
 	boost::optional<dcpomatic::DCPTimePeriod> _last_subtitle;
 
+	bool _too_many_smpte_image_subtitles = false;
+
 	std::atomic<bool> _stop;
 
 	bool _disable_audio_analysis = false;

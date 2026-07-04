@@ -446,6 +446,10 @@ Hints::scan_content(shared_ptr<const Film> film)
 		_analyser.get().write(film->audio_analysis_path(film->playlist()));
 		check_loudness();
 	}
+
+	if (_too_many_smpte_image_subtitles) {
+		hint(_("At least one reel contains too may image (PNG) subtitles, and making a DCP will fail.  You need to split the DCP into more reels."));
+	}
 }
 
 
@@ -565,7 +569,11 @@ Hints::audio(shared_ptr<AudioBuffers> audio, DCPTime time)
 void
 Hints::text(PlayerText text, TextType type, optional<DCPTextTrack> track, DCPTimePeriod period)
 {
-	_writer->write(text, type, track, period);
+	try {
+		_writer->write(text, type, track, period);
+	} catch (dcp::SMPTETextAssetFullError&) {
+		_too_many_smpte_image_subtitles = true;
+	}
 
 	switch (type) {
 	case TextType::CLOSED_CAPTION:

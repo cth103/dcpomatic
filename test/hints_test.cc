@@ -355,3 +355,18 @@ BOOST_AUTO_TEST_CASE(hints_ccap_too_many_lines_xml)
 		})
 	);
 }
+
+
+BOOST_AUTO_TEST_CASE(hints_many_png_subs)
+{
+	auto content = content_factory(TestPaths::private_data() / "twi.mkv")[0];
+	auto film = new_test_film("hints_many_png_sub", { content });
+	content->text[0]->set_use(true);
+	content->text[0]->set_type(TextType::OPEN_SUBTITLE);
+	auto hints = get_hints(film);
+	BOOST_CHECK(
+		std::any_of(hints.begin(), hints.end(), [](string const& hint) {
+			return hint.find("At least one reel contains too may image (PNG) subtitles") != std::string::npos;
+		})
+	);
+}
