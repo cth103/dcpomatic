@@ -288,6 +288,19 @@ Job::run_wrapper()
 		set_progress(1);
 		set_state(FINISHED_ERROR);
 
+	} catch (dcp::SMPTETextAssetFullError&) {
+
+		set_error(
+			_("A bitmap (PNG) subtitle or font could not be written as its asset became full.  Split the project up into more reels, "
+			  "or set the subtitles to be 'burnt in', and try again."
+			),
+			_("SMPTE text assets have a limit of 4096 'resources', which include PNG subtitles and fonts. "
+			  "The limit is less likely to be hit if you use more reels."
+			));
+
+		set_progress(1);
+		set_state(FINISHED_ERROR);
+
 	} catch (std::exception& e) {
 
 		set_error(
