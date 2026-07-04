@@ -21,17 +21,13 @@
 
 #include "audio_buffers.h"
 #include "config.h"
-#include "constants.h"
-#include "cross.h"
 #include "dcpomatic_log.h"
 #include "digester.h"
 #include "film.h"
 #include "film_util.h"
 #include "frame_info.h"
-#include "image.h"
 #include "image_png.h"
 #include "job.h"
-#include "log.h"
 #include "reel_writer.h"
 #include "remembered_asset.h"
 #include <dcp/atmos_asset.h>
@@ -61,10 +57,8 @@
 
 
 using std::dynamic_pointer_cast;
-using std::exception;
 using std::list;
 using std::make_shared;
-using std::map;
 using std::set;
 using std::shared_ptr;
 using std::string;
