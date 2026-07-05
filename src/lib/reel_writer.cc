@@ -465,13 +465,14 @@ maybe_add_text(
 
 	} else {
 		/* We don't have a subtitle asset of our own; hopefully we have one to reference */
-		for (auto j: refs) {
-			auto k = dynamic_pointer_cast<Result>(j.asset);
-			if (k && j.period == period) {
-				reel_asset = k;
-				/* If we have a hash for this asset in the CPL, assume that it is correct */
-				if (k->hash()) {
-					k->asset_ref()->set_hash(k->hash().get());
+		for (auto ref: refs) {
+			if (auto text = dynamic_pointer_cast<Result>(ref.asset)) {
+				if (ref.period == period) {
+					reel_asset = text;
+					/* If we have a hash for this asset in the CPL, assume that it is correct */
+					if (text->hash()) {
+						text->asset_ref()->set_hash(text->hash().get());
+					}
 				}
 			}
 		}
@@ -510,13 +511,12 @@ ReelWriter::create_reel_picture(shared_ptr<dcp::Reel> reel, list<ReferencedReelA
 	} else {
 		LOG_GENERAL("no picture asset of our own; look through {}", refs.size());
 		/* We don't have a picture asset of our own; hopefully we have one to reference */
-		for (auto j: refs) {
-			auto k = dynamic_pointer_cast<dcp::ReelPictureAsset>(j.asset);
-			if (k) {
-				LOG_GENERAL("candidate picture asset period is {}-{}", j.period.from.get(), j.period.to.get());
-			}
-			if (k && j.period == _period) {
-				reel_asset = k;
+		for (auto ref: refs) {
+			if (auto picture = dynamic_pointer_cast<dcp::ReelPictureAsset>(ref.asset)) {
+				LOG_GENERAL("candidate picture asset period is {}-{}", ref.period.from.get(), ref.period.to.get());
+				if (ref.period == _period) {
+					reel_asset = picture;
+				}
 			}
 		}
 	}
@@ -552,16 +552,15 @@ ReelWriter::create_reel_sound(shared_ptr<dcp::Reel> reel, list<ReferencedReelAss
 	} else {
 		LOG_GENERAL("no sound asset of our own; look through {}", refs.size());
 		/* We don't have a sound asset of our own; hopefully we have one to reference */
-		for (auto j: refs) {
-			auto k = dynamic_pointer_cast<dcp::ReelSoundAsset>(j.asset);
-			if (k) {
-				LOG_GENERAL("candidate sound asset period is {}-{}", j.period.from.get(), j.period.to.get());
-			}
-			if (k && j.period == _period) {
-				reel_asset = k;
-				/* If we have a hash for this asset in the CPL, assume that it is correct */
-				if (k->hash()) {
-					k->asset_ref()->set_hash(k->hash().get());
+		for (auto ref: refs) {
+			if (auto sound = dynamic_pointer_cast<dcp::ReelSoundAsset>(ref.asset)) {
+				LOG_GENERAL("candidate sound asset period is {}-{}", ref.period.from.get(), ref.period.to.get());
+				if (ref.period == _period) {
+					reel_asset = sound;
+					/* If we have a hash for this asset in the CPL, assume that it is correct */
+					if (sound->hash()) {
+						sound->asset_ref()->set_hash(sound->hash().get());
+					}
 				}
 			}
 		}
