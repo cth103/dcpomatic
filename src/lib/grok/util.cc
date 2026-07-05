@@ -64,28 +64,28 @@ get_gpu_names()
 	namespace bp = boost::process::v2;
 
 	try {
-    boost::asio::io_context context;
-    boost::asio::readable_pipe out{context};
-    bp::process child(context, binary, {}, bp::process_stdio{{}, out, {}});
+		boost::asio::io_context context;
+		boost::asio::readable_pipe out{context};
+		bp::process child(context, binary, {}, bp::process_stdio{{}, out, {}});
 
-    string output;
-    boost::system::error_code ec;
-    while (child.running()) {
-      string block;
-      boost::asio::read(out, boost::asio::dynamic_buffer(block), ec);
-      output += block;
-      if (ec && ec == boost::asio::error::eof) {
-        break;
-      }
-    }
+		string output;
+		boost::system::error_code ec;
+		while (child.running()) {
+			string block;
+			boost::asio::read(out, boost::asio::dynamic_buffer(block), ec);
+			output += block;
+			if (ec && ec == boost::asio::error::eof) {
+				break;
+			}
+		}
 
-    vector<string> lines;
-    boost::algorithm::split(lines, output, boost::is_any_of("\n"));
-    return lines;
-  } catch (std::exception& e) {
+		vector<string> lines;
+		boost::algorithm::split(lines, output, boost::is_any_of("\n"));
+		return lines;
+	} catch (std::exception& e) {
 		LOG_ERROR("Could not fetch GPU names: {}", e.what());
 		return {};
-  }
+	}
 #endif
 }
 
