@@ -89,12 +89,12 @@ BOOST_AUTO_TEST_CASE (torture_test1)
 
 	auto cpls = dcp.cpls ();
 	BOOST_REQUIRE_EQUAL (cpls.size(), 1U);
-	auto reels = cpls.front()->reels ();
+	auto reels = cpls[0]->reels ();
 	BOOST_REQUIRE_EQUAL (reels.size(), 1U);
 
 	/* Check sound */
 
-	auto reel_sound = reels.front()->main_sound();
+	auto reel_sound = reels[0]->main_sound();
 	BOOST_REQUIRE (reel_sound);
 	auto sound = reel_sound->asset();
 	BOOST_REQUIRE (sound);
@@ -224,7 +224,7 @@ BOOST_AUTO_TEST_CASE (torture_test1)
 
 	/* Check picture */
 
-	auto reel_picture = reels.front()->main_picture();
+	auto reel_picture = reels[0]->main_picture();
 	BOOST_REQUIRE (reel_picture);
 	auto picture = dynamic_pointer_cast<dcp::MonoJ2KPictureAsset>(reel_picture->asset());
 	BOOST_REQUIRE (picture);
@@ -299,10 +299,10 @@ BOOST_AUTO_TEST_CASE (torture_test1)
 
 BOOST_AUTO_TEST_CASE(multi_reel_interop_ccap_test)
 {
-	auto pic1 = content_factory("test/data/flat_red.png").front();
-	auto ccap1 = content_factory("test/data/15s.srt").front();
-	auto pic2 = content_factory("test/data/flat_red.png").front();
-	auto ccap2 = content_factory("test/data/15s.srt").front();
+	auto pic1 = content_factory("test/data/flat_red.png")[0];
+	auto ccap1 = content_factory("test/data/15s.srt")[0];
+	auto pic2 = content_factory("test/data/flat_red.png")[0];
+	auto ccap2 = content_factory("test/data/15s.srt")[0];
 	auto film1 = new_test_film("multi_reel_interop_ccap_test1", { pic1, ccap1, pic2, ccap2 });
 	film1->set_interop(true);
 	film1->set_reel_type(ReelType::BY_VIDEO_CONTENT);
