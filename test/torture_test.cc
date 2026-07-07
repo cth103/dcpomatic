@@ -321,3 +321,51 @@ BOOST_AUTO_TEST_CASE(multi_reel_interop_ccap_test)
 	make_and_verify_dcp(film2, { dcp::VerificationNote::Code::INVALID_STANDARD, dcp::VerificationNote::Code::INVALID_SUBTITLE_SPACING });
 }
 
+
+/* Check whether we can take a single-reel OV and use its picture asset twice in a
+ * 2-reel VF.  This might be useful if you want to make a multi-reel PNG subtitle VF
+ * to get around the limit on PNG subtitles per reel.
+ */
+BOOST_AUTO_TEST_CASE(multi_reel_vf_from_single_reel_ov)
+{
+	auto ov_pic = content_factory("test/data/flat_red.png")[0];
+	/* 1 minute long OV */
+	auto ov = new_test_film("multi_reel_vf_from_single_reel_ov_ov", { ov_pic });
+	ov_pic->video->set_length(60 * 24);
+	make_and_verify_dcp(ov);
+
+	/* Make a VF of it with 2 reels, each 30s long */
+	auto ov_dcp = std::make_shared<DCPContent>(ov->dir(ov->dcp_name()));
+	auto vf = new_test_film("multi_reel_vf_from_single_reel_ov_vf", { ov_dcp });
+	ov_dcp->set_reference_video(true);
+	ov_dcp->set_reference_audio(true);
+	vf->set_reel_type(ReelType::CUSTOM);
+	vf->set_custom_reel_boundaries({dcpomatic::DCPTime::from_seconds(30)});
+	make_and_verify_dcp(vf, { dcp::VerificationNote::Code::EXTERNAL_ASSET }, false);
+
+	dcp::DCP check_ov(ov->dir(ov->dcp_name()));
+	check_ov.read();
+	BOOST_REQUIRE_EQUAL(check_ov.cpls().size(), 1U);
+	BOOST_REQUIRE_EQUAL(check_ov.cpls()[0]->reels().size(), 1U);
+	auto const ov_reels = check_ov.cpls()[0]->reels();
+
+	dcp::DCP check_vf(vf->dir(vf->dcp_name()));
+	check_vf.read();
+	BOOST_REQUIRE_EQUAL(check_vf.cpls().size(), 1U);
+	BOOST_REQUIRE_EQUAL(check_vf.cpls()[0]->reels().size(), 2U);
+	auto const vf_reels = check_vf.cpls()[0]->reels();
+
+	BOOST_CHECK_EQUAL(vf_reels[0]->main_picture()->id(), ov_reels[0]->main_picture()->id());
+	BOOST_CHECK_EQUAL(vf_reels[1]->main_picture()->id(), ov_reels[0]->main_picture()->id());
+	BOOST_CHECK_EQUAL(vf_reels[0]->main_picture()->entry_point().get_value_or(0), 0);
+	BOOST_CHECK_EQUAL(vf_reels[0]->main_picture()->duration().get_value_or(0), 720);
+	BOOST_CHECK_EQUAL(vf_reels[1]->main_picture()->entry_point().get_value_or(0), 720);
+	BOOST_CHECK_EQUAL(vf_reels[1]->main_picture()->duration().get_value_or(0), 720);
+
+	BOOST_CHECK_EQUAL(vf_reels[0]->main_sound()->id(), ov_reels[0]->main_sound()->id());
+	BOOST_CHECK_EQUAL(vf_reels[1]->main_sound()->id(), ov_reels[0]->main_sound()->id());
+	BOOST_CHECK_EQUAL(vf_reels[0]->main_sound()->entry_point().get_value_or(0), 0);
+	BOOST_CHECK_EQUAL(vf_reels[0]->main_sound()->duration().get_value_or(0), 720);
+	BOOST_CHECK_EQUAL(vf_reels[1]->main_sound()->entry_point().get_value_or(0), 720);
+	BOOST_CHECK_EQUAL(vf_reels[1]->main_sound()->duration().get_value_or(0), 720);
+}

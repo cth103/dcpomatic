@@ -467,8 +467,13 @@ maybe_add_text(
 		/* We don't have a subtitle asset of our own; hopefully we have one to reference */
 		for (auto ref: refs) {
 			if (auto text = dynamic_pointer_cast<Result>(ref.asset)) {
-				if (ref.period == period) {
-					reel_asset = text;
+				if (ref.period.contains(period)) {
+					auto const vfr = film->video_frame_rate();
+					reel_asset = text->clone();
+					reel_asset->set_entry_point(
+						reel_asset->entry_point().get_value_or(0) + dcpomatic::DCPTime(period.from - ref.period.from).frames_round(vfr)
+					);
+					reel_asset->set_duration(period.duration().frames_round(vfr));
 					/* If we have a hash for this asset in the CPL, assume that it is correct */
 					if (text->hash()) {
 						text->asset_ref()->set_hash(text->hash().get());
@@ -514,8 +519,13 @@ ReelWriter::create_reel_picture(shared_ptr<dcp::Reel> reel, list<ReferencedReelA
 		for (auto ref: refs) {
 			if (auto picture = dynamic_pointer_cast<dcp::ReelPictureAsset>(ref.asset)) {
 				LOG_GENERAL("candidate picture asset period is {}-{}", ref.period.from.get(), ref.period.to.get());
-				if (ref.period == _period) {
-					reel_asset = picture;
+				if (ref.period.contains(_period)) {
+					auto const vfr = film()->video_frame_rate();
+					reel_asset = picture->clone();
+					reel_asset->set_entry_point(
+						reel_asset->entry_point().get_value_or(0) + dcpomatic::DCPTime(_period.from - ref.period.from).frames_round(vfr)
+					);
+					reel_asset->set_duration(_period.duration().frames_round(vfr));
 				}
 			}
 		}
@@ -555,8 +565,13 @@ ReelWriter::create_reel_sound(shared_ptr<dcp::Reel> reel, list<ReferencedReelAss
 		for (auto ref: refs) {
 			if (auto sound = dynamic_pointer_cast<dcp::ReelSoundAsset>(ref.asset)) {
 				LOG_GENERAL("candidate sound asset period is {}-{}", ref.period.from.get(), ref.period.to.get());
-				if (ref.period == _period) {
-					reel_asset = sound;
+				if (ref.period.contains(_period)) {
+					auto const vfr = film()->video_frame_rate();
+					reel_asset = sound->clone();
+					reel_asset->set_entry_point(
+						reel_asset->entry_point().get_value_or(0) + dcpomatic::DCPTime(_period.from - ref.period.from).frames_round(vfr)
+					);
+					reel_asset->set_duration(_period.duration().frames_round(vfr));
 					/* If we have a hash for this asset in the CPL, assume that it is correct */
 					if (sound->hash()) {
 						sound->asset_ref()->set_hash(sound->hash().get());
