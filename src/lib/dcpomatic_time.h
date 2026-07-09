@@ -331,6 +331,10 @@ public:
 		return (from <= other && other < to);
 	}
 
+	bool contains(TimePeriod<T> const& other) const {
+		return from <= other.from && to >= other.to;
+	}
+
 	bool operator<(TimePeriod<T> const & o) const {
 		if (from != o.from) {
 			return from < o.from;
