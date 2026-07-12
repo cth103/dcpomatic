@@ -601,7 +601,7 @@ BOOST_AUTO_TEST_CASE (repeated_dcp_into_reels)
 	 * trimmed to a quarter of the original, i.e.
 	 * /----------------------|----------------------|----------------------|----------------------\
 	 * | 1st quarter of film1 | 2nd quarter of film1 | 3rd quarter of film1 | 4th quarter of film1 |
-	 * \----------------------|----------------------|----------------------|_---------------------/
+	 * \----------------------|----------------------|----------------------|----------------------/
 	 */
 
 	shared_ptr<DCPContent> original_dcp[4] = {
