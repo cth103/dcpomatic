@@ -47,29 +47,29 @@ struct Comparator
 
 
 void
-Shuffler::video (weak_ptr<Piece> weak_piece, ContentVideo video)
+Shuffler::video(weak_ptr<Piece> weak_piece, ContentVideo video)
 {
 	LOG_DEBUG_THREE_D("Shuffler::video time={} eyes={} part={}", to_string(video.time), static_cast<int>(video.eyes), static_cast<int>(video.part));
 
 	if (video.eyes != Eyes::LEFT && video.eyes != Eyes::RIGHT) {
 		/* Pass through anything that we don't care about */
-		Video (weak_piece, video);
+		Video(weak_piece, video);
 		return;
 	}
 
-	auto piece = weak_piece.lock ();
-	DCPOMATIC_ASSERT (piece);
+	auto piece = weak_piece.lock();
+	DCPOMATIC_ASSERT(piece);
 
 	if (!_last && video.eyes == Eyes::LEFT) {
-		LOG_DEBUG_THREE_D ("Shuffler first after clear");
+		LOG_DEBUG_THREE_D("Shuffler first after clear");
 		/* We haven't seen anything since the last clear() and we have some eyes-left so assume everything is OK */
-		Video (weak_piece, video);
+		Video(weak_piece, video);
 		_last = video;
 		return;
 	}
 
-	_store.push_back (make_pair (weak_piece, video));
-	_store.sort (Comparator());
+	_store.push_back(make_pair(weak_piece, video));
+	_store.sort(Comparator());
 
 	while (true) {
 
@@ -100,26 +100,26 @@ Shuffler::video (weak_ptr<Piece> weak_piece, ContentVideo video)
 		}
 
 		LOG_DEBUG_THREE_D("Shuffler emits time={} eyes={} store={}", to_string(_store.front().second.time), static_cast<int>(_store.front().second.eyes), _store.size());
-		Video (_store.front().first, _store.front().second);
+		Video(_store.front().first, _store.front().second);
 		_last = _store.front().second;
-		_store.pop_front ();
+		_store.pop_front();
 	}
 }
 
 
 void
-Shuffler::clear ()
+Shuffler::clear()
 {
-	LOG_DEBUG_THREE_D ("Shuffler::clear");
-	_store.clear ();
+	LOG_DEBUG_THREE_D("Shuffler::clear");
+	_store.clear();
 	_last = optional<ContentVideo>();
 }
 
 
 void
-Shuffler::flush ()
+Shuffler::flush()
 {
 	for (auto i: _store) {
-		Video (i.first, i.second);
+		Video(i.first, i.second);
 	}
 }

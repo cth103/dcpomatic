@@ -35,9 +35,9 @@ class Piece;
 class Shuffler
 {
 public:
-	void clear ();
-	void flush ();
-	void video (std::weak_ptr<Piece>, ContentVideo video);
+	void clear();
+	void flush();
+	void video(std::weak_ptr<Piece>, ContentVideo video);
 
 	boost::signals2::signal<void (std::weak_ptr<Piece>, ContentVideo)> Video;
 
