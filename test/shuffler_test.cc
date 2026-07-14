@@ -29,7 +29,6 @@ using std::list;
 using std::make_shared;
 using std::shared_ptr;
 using std::weak_ptr;
-using boost::optional;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif

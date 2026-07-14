@@ -24,11 +24,9 @@
 #include "dcpomatic_assert.h"
 #include "dcpomatic_log.h"
 #include <string>
-#include <iostream>
 
 
 using std::make_pair;
-using std::shared_ptr;
 using std::string;
 using std::weak_ptr;
 using boost::optional;
