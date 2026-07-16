@@ -1032,12 +1032,15 @@ Player::emit_video_until(DCPTime time)
 			(left.second - next) < age_threshold(left) &&
 			(right.second - next) < age_threshold(right)
 		   ) {
+			/* New-enough left + right */
 			frame(left.first, next);
 			frame(right.first, next);
 		} else if (both.first && (both.second - next) < age_threshold(both)) {
+			/* New enough both */
 			frame(both.first, next);
 			LOG_DEBUG_PLAYER("PLY: Content {} selected for DCP {} (age {})", to_string(both.second), to_string(next), to_string(both.second - next));
 		} else {
+			/* Give up and emit all black */
 			auto film = _film.lock();
 			if (film && film->three_d()) {
 				frame(black_player_video_frame(Eyes::LEFT), next);
