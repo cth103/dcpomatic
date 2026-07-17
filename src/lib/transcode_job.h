@@ -35,6 +35,7 @@
 #undef IGNORE
 
 
+class Film;
 class FilmEncoder;
 
 struct frames_not_lost_when_threads_disappear;
