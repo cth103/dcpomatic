@@ -22,7 +22,7 @@
 #include "cross.h"
 #include "dcpomatic_log.h"
 #include "dcpomatic_socket.h"
-#include "http_server.h"
+#include "player_http_server.h"
 #include "show_playlist.h"
 #include "show_playlist_content_store.h"
 #include "show_playlist_list.h"
@@ -43,7 +43,7 @@ using std::vector;
 using boost::optional;
 
 
-HTTPServer::HTTPServer(int port, int timeout)
+PlayerHTTPServer::PlayerHTTPServer(int port, int timeout)
 	: Server(port, timeout)
 {
 
@@ -52,7 +52,7 @@ HTTPServer::HTTPServer(int port, int timeout)
 
 
 void
-HTTPServer::substitute(string& page) const
+PlayerHTTPServer::substitute(string& page) const
 {
 	boost::algorithm::replace_all(page, "TITLE", variant::dcpomatic_player());
 	boost::algorithm::replace_all(page, "SIDEBAR", dcp::file_to_string(resources_path() / "web" / "sidebar.html"));
@@ -60,7 +60,7 @@ HTTPServer::substitute(string& page) const
 
 
 Response
-HTTPServer::get_request(string const& url)
+PlayerHTTPServer::get_request(string const& url)
 {
 	if (url == "/") {
 		auto page = dcp::file_to_string(resources_path() / "web" / "index.html");
@@ -162,7 +162,7 @@ HTTPServer::get_request(string const& url)
 
 
 Response
-HTTPServer::post_request(string const& url, string const& body)
+PlayerHTTPServer::post_request(string const& url, string const& body)
 {
 	if (url == "/api/v1/play") {
 		emit(boost::bind(boost::ref(Play)));
@@ -231,7 +231,7 @@ HTTPServer::post_request(string const& url, string const& body)
 
 
 Response
-HTTPServer::delete_request(string const& url)
+PlayerHTTPServer::delete_request(string const& url)
 {
 	if (boost::algorithm::starts_with(url, "/api/v1/playlist/")) {
 		vector<string> parts;
@@ -253,7 +253,7 @@ HTTPServer::delete_request(string const& url)
 
 
 Response
-HTTPServer::request(vector<string> const& request, string const& body)
+PlayerHTTPServer::request(vector<string> const& request, string const& body)
 {
 	vector<string> parts;
 	boost::split(parts, request[0], boost::is_any_of(" "));
@@ -284,7 +284,7 @@ HTTPServer::request(vector<string> const& request, string const& body)
 
 
 void
-HTTPServer::handle(shared_ptr<Socket> socket)
+PlayerHTTPServer::handle(shared_ptr<Socket> socket)
 {
 	class Reader
 	{
