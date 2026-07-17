@@ -23,6 +23,7 @@
 #include "film.h"
 #include "job_manager.h"
 #include <fmt/format.h>
+#include <nlohmann/json.hpp>
 
 
 using std::cout;
@@ -48,35 +49,28 @@ EncoderHTTPServer::get_request(string const& url)
 	cout << "request: " << url << "\n";
 
 	if (url == "/api/v1/status") {
-		string json;
+		nlohmann::json json;
 		auto jobs = JobManager::instance()->get();
 
-		json += "{ \"jobs\": [";
+		json["jobs"] = nlohmann::json::array();
+
 		for (auto i = jobs.cbegin(); i != jobs.cend(); ++i) {
-			json += "{ ";
-
+			nlohmann::json job;
 			if (auto transcode = dynamic_pointer_cast<const TranscodeJob>(*i)) {
-				json += "\"dcp\": \"" + transcode->film()->dcp_name() + "\", ";
+				job["dcp"] = transcode->film()->dcp_name();
 			}
-
-			json += "\"name\": \"" + (*i)->json_name() + "\", ";
+			job["name"] = (*i)->json_name();
 			if ((*i)->progress()) {
-				json += "\"progress\": " + fmt::to_string((*i)->progress().get()) + ", ";
+				job["progress"] = fmt::to_string((*i)->progress().get());
 			} else {
-				json += "\"progress\": unknown, ";
+				job["progress"] = "unknown";
 			}
-			json += "\"status\": \"" + (*i)->json_status() + "\"";
-			json += " }";
+			job["status"] = (*i)->json_status();
 
-			auto j = i;
-			++j;
-			if (j != jobs.end()) {
-				json += ", ";
-			}
+			json["jobs"].push_back(job);
 		}
-		json += "] }";
-		cout << "reply: " << json << "\n";
-		return Response(200, json, Response::Type::JSON);
+		cout << "reply: " << json.dump() << "\n";
+		return Response(200, json.dump(), Response::Type::JSON);
 	}
 
 	return Response::ERROR_404;
