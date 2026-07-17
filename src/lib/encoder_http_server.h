@@ -18,23 +18,15 @@
 
 */
 
-#include <boost/asio.hpp>
 
-class EncoderHTTPServer
+#include "http_server.h"
+
+
+class EncoderHTTPServer : public HTTPServer
 {
 public:
-	explicit EncoderHTTPServer(int port);
+	explicit EncoderHTTPServer(int port, int timeout = 30);
 
 private:
-	enum State {
-		AWAITING_G,
-		AWAITING_E,
-		AWAITING_T,
-		AWAITING_SPACE,
-		READING_URL,
-	};
-
-	void run(int port);
-	void handle(std::shared_ptr<boost::asio::ip::tcp::socket> socket);
-	void request(std::string url, std::shared_ptr<boost::asio::ip::tcp::socket> socket);
+	Response get_request(std::string const& url) override;
 };

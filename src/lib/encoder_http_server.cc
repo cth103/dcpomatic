@@ -23,10 +23,6 @@
 #include "film.h"
 #include "job_manager.h"
 #include <fmt/format.h>
-#include <boost/asio.hpp>
-#include <boost/bind/bind.hpp>
-#include <boost/thread.hpp>
-#include <iostream>
 
 
 using std::cout;
@@ -36,157 +32,65 @@ using std::map;
 using std::shared_ptr;
 using std::string;
 using boost::asio::ip::tcp;
-using boost::thread;
 
 
-#define MAX_LENGTH 512
-
-
-EncoderHTTPServer::EncoderHTTPServer(int port)
-{
-#ifdef DCPOMATIC_LINUX
-	auto t = new thread(boost::bind(&EncoderHTTPServer::run, this, port));
-	pthread_setname_np(t->native_handle(), "json-server");
-#else
-	new thread(boost::bind(&EncoderHTTPServer::run, this, port));
-#endif
-}
-
-
-void
-EncoderHTTPServer::run(int port)
-try
-{
-	dcpomatic::io_context io_context;
-	tcp::acceptor a(io_context, tcp::endpoint(tcp::v4(), port));
-	while (true) {
-		try {
-			auto s = make_shared<tcp::socket>(io_context);
-			a.accept(*s);
-			handle(s);
-		}
-		catch (...) {
-
-		}
-	}
-}
-catch (...)
+EncoderHTTPServer::EncoderHTTPServer(int port, int timeout)
+	: HTTPServer(port, timeout)
 {
 
 }
 
 
-void
-EncoderHTTPServer::handle(shared_ptr<tcp::socket> socket)
-{
-	string url;
-	State state = AWAITING_G;
-
-	while (true) {
-		char data[MAX_LENGTH];
-		boost::system::error_code error;
-		size_t len = socket->read_some(boost::asio::buffer(data), error);
-		if (error) {
-			cout << "error.\n";
-			break;
-		}
-
-		auto p = data;
-		auto e = data + len;
-		while (p != e) {
-
-			auto old_state = state;
-			switch (state) {
-			case AWAITING_G:
-				if (*p == 'G') {
-					state = AWAITING_E;
-				}
-				break;
-			case AWAITING_E:
-				if (*p == 'E') {
-					state = AWAITING_T;
-				}
-				break;
-			case AWAITING_T:
-				if (*p == 'T') {
-					state = AWAITING_SPACE;
-				}
-				break;
-			case AWAITING_SPACE:
-				if (*p == ' ') {
-					state = READING_URL;
-				}
-				break;
-			case READING_URL:
-				if (*p == ' ') {
-					request(url, socket);
-					state = AWAITING_G;
-					url = "";
-				} else {
-					url += *p;
-				}
-				break;
-			}
-
-			if (state == old_state && state != READING_URL) {
-				state = AWAITING_G;
-			}
-
-			++p;
-		}
-	}
-}
-
-
+static
 map<string, string>
 split_get_request(string url)
 {
-	enum {
-		AWAITING_QUESTION_MARK,
-		KEY,
-		VALUE
-	} state = AWAITING_QUESTION_MARK;
+       enum {
+               AWAITING_QUESTION_MARK,
+               KEY,
+               VALUE
+       } state = AWAITING_QUESTION_MARK;
 
-	map<string, string> r;
-	string k;
-	string v;
-	for (size_t i = 0; i < url.length(); ++i) {
-		switch (state) {
-		case AWAITING_QUESTION_MARK:
-			if (url[i] == '?') {
-				state = KEY;
-			}
-			break;
-		case KEY:
-			if (url[i] == '=') {
-				v.clear();
-				state = VALUE;
-			} else {
-				k += url[i];
-			}
-			break;
-		case VALUE:
-			if (url[i] == '&') {
-				r.insert(make_pair(k, v));
-				k.clear();
-				state = KEY;
-			} else {
-				v += url[i];
-			}
-			break;
-		}
-	}
+       map<string, string> r;
+       string k;
+       string v;
+       for (size_t i = 0; i < url.length(); ++i) {
+               switch (state) {
+               case AWAITING_QUESTION_MARK:
+                       if (url[i] == '?') {
+                               state = KEY;
+                       }
+                       break;
+               case KEY:
+                       if (url[i] == '=') {
+                               v.clear();
+                               state = VALUE;
+                       } else {
+                               k += url[i];
+                       }
+                       break;
+               case VALUE:
+                       if (url[i] == '&') {
+                               r.insert(make_pair(k, v));
+                               k.clear();
+                               state = KEY;
+                       } else {
+                               v += url[i];
+                       }
+                       break;
+               }
+       }
 
-	if (state == VALUE) {
-		r.insert(make_pair(k, v));
-	}
+       if (state == VALUE) {
+               r.insert(make_pair(k, v));
+       }
 
-	return r;
+       return r;
 }
 
 
-void
-EncoderHTTPServer::request(string url, shared_ptr<tcp::socket> socket)
+Response
+EncoderHTTPServer::get_request(string const& url)
 {
 	cout << "request: " << url << "\n";
 
@@ -231,11 +135,6 @@ EncoderHTTPServer::request(string url, shared_ptr<tcp::socket> socket)
 		json += "] }";
 	}
 
-	string reply = "HTTP/1.1 200 OK\r\n"
-		"Content-Length: " + fmt::to_string(json.length()) + "\r\n"
-		"Content-Type: application/json\r\n"
-		"\r\n"
-		+ json + "\r\n";
 	cout << "reply: " << json << "\n";
-	boost::asio::write(*socket, boost::asio::buffer(reply.c_str(), reply.length()));
+	return Response(200, json, Response::Type::JSON);
 }
