@@ -501,6 +501,9 @@ encode_cli(int argc, char* argv[], function<void (string)> out, function<void ()
 	}
 
 	if (optind >= argc) {
+		if (keep_going) {
+			sleep_forever();
+		}
 		help(out);
 		return {};
 	}
