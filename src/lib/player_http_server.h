@@ -28,10 +28,10 @@ LIBDCP_DISABLE_WARNINGS
 LIBDCP_ENABLE_WARNINGS
 
 
-class HTTPServer : public Server, public Signaller
+class PlayerHTTPServer : public Server, public Signaller
 {
 public:
-	explicit HTTPServer(int port, int timeout = 30);
+	explicit PlayerHTTPServer(int port, int timeout = 30);
 
 	boost::signals2::signal<void ()> Play;
 	boost::signals2::signal<void ()> Stop;
