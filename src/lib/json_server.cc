@@ -20,10 +20,8 @@
 
 
 #include "film.h"
-#include "job.h"
 #include "job_manager.h"
 #include "json_server.h"
-#include "transcode_job.h"
 #include <fmt/format.h>
 #include <boost/asio.hpp>
 #include <boost/bind/bind.hpp>
@@ -32,8 +30,6 @@
 
 
 using std::cout;
-using std::dynamic_pointer_cast;
-using std::list;
 using std::make_shared;
 using std::map;
 using std::shared_ptr;
@@ -45,19 +41,19 @@ using boost::thread;
 #define MAX_LENGTH 512
 
 
-JSONServer::JSONServer (int port)
+JSONServer::JSONServer(int port)
 {
 #ifdef DCPOMATIC_LINUX
-	auto t = new thread (boost::bind (&JSONServer::run, this, port));
-	pthread_setname_np (t->native_handle(), "json-server");
+	auto t = new thread(boost::bind(&JSONServer::run, this, port));
+	pthread_setname_np(t->native_handle(), "json-server");
 #else
-	new thread (boost::bind (&JSONServer::run, this, port));
+	new thread(boost::bind(&JSONServer::run, this, port));
 #endif
 }
 
 
 void
-JSONServer::run (int port)
+JSONServer::run(int port)
 try
 {
 	dcpomatic::io_context io_context;
@@ -65,8 +61,8 @@ try
 	while (true) {
 		try {
 			auto s = make_shared<tcp::socket>(io_context);
-			a.accept (*s);
-			handle (s);
+			a.accept(*s);
+			handle(s);
 		}
 		catch (...) {
 
@@ -80,7 +76,7 @@ catch (...)
 
 
 void
-JSONServer::handle (shared_ptr<tcp::socket> socket)
+JSONServer::handle(shared_ptr<tcp::socket> socket)
 {
 	string url;
 	State state = AWAITING_G;
@@ -88,7 +84,7 @@ JSONServer::handle (shared_ptr<tcp::socket> socket)
 	while (true) {
 		char data[MAX_LENGTH];
 		boost::system::error_code error;
-		size_t len = socket->read_some (boost::asio::buffer (data), error);
+		size_t len = socket->read_some(boost::asio::buffer(data), error);
 		if (error) {
 			cout << "error.\n";
 			break;
@@ -122,7 +118,7 @@ JSONServer::handle (shared_ptr<tcp::socket> socket)
 				break;
 			case READING_URL:
 				if (*p == ' ') {
-					request (url, socket);
+					request(url, socket);
 					state = AWAITING_G;
 					url = "";
 				} else {
@@ -171,7 +167,7 @@ split_get_request(string url)
 		case VALUE:
 			if (url[i] == '&') {
 				r.insert(make_pair(k, v));
-				k.clear ();
+				k.clear();
 				state = KEY;
 			} else {
 				v += url[i];
@@ -181,7 +177,7 @@ split_get_request(string url)
 	}
 
 	if (state == VALUE) {
-		r.insert (make_pair (k, v));
+		r.insert(make_pair(k, v));
 	}
 
 	return r;
@@ -189,17 +185,17 @@ split_get_request(string url)
 
 
 void
-JSONServer::request (string url, shared_ptr<tcp::socket> socket)
+JSONServer::request(string url, shared_ptr<tcp::socket> socket)
 {
 	cout << "request: " << url << "\n";
 
-	auto r = split_get_request (url);
+	auto r = split_get_request(url);
 	for (auto const& i: r) {
 		cout << i.first << " => " << i.second << "\n";
 	}
 
 	string action;
-	if (r.find ("action") != r.end ()) {
+	if (r.find("action") != r.end()) {
 		action = r["action"];
 	}
 
@@ -227,7 +223,7 @@ JSONServer::request (string url, shared_ptr<tcp::socket> socket)
 
 			auto j = i;
 			++j;
-			if (j != jobs.end ()) {
+			if (j != jobs.end()) {
 				json += ", ";
 			}
 		}
@@ -240,5 +236,5 @@ JSONServer::request (string url, shared_ptr<tcp::socket> socket)
 		"\r\n"
 		+ json + "\r\n";
 	cout << "reply: " << json << "\n";
-	boost::asio::write (*socket, boost::asio::buffer(reply.c_str(), reply.length()));
+	boost::asio::write(*socket, boost::asio::buffer(reply.c_str(), reply.length()));
 }

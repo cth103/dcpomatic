@@ -23,7 +23,7 @@
 class JSONServer
 {
 public:
-	explicit JSONServer (int port);
+	explicit JSONServer(int port);
 
 private:
 	enum State {
@@ -34,7 +34,7 @@ private:
 		READING_URL,
 	};
 
-	void run (int port);
-	void handle (std::shared_ptr<boost::asio::ip::tcp::socket> socket);
-	void request (std::string url, std::shared_ptr<boost::asio::ip::tcp::socket> socket);
+	void run(int port);
+	void handle(std::shared_ptr<boost::asio::ip::tcp::socket> socket);
+	void request(std::string url, std::shared_ptr<boost::asio::ip::tcp::socket> socket);
 };
