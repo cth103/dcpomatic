@@ -20,10 +20,10 @@
 
 #include <boost/asio.hpp>
 
-class JSONServer
+class EncoderHTTPServer
 {
 public:
-	explicit JSONServer(int port);
+	explicit EncoderHTTPServer(int port);
 
 private:
 	enum State {
