@@ -36,16 +36,16 @@ class ImageProxy;
 class ContentVideo
 {
 public:
-	ContentVideo ()
-		: eyes (Eyes::LEFT)
-		, part (Part::WHOLE)
+	ContentVideo()
+		: eyes(Eyes::LEFT)
+		, part(Part::WHOLE)
 	{}
 
-	ContentVideo (std::shared_ptr<const ImageProxy> i, dcpomatic::ContentTime t, Eyes e, Part p)
-		: image (i)
-		, time (t)
-		, eyes (e)
-		, part (p)
+	ContentVideo(std::shared_ptr<const ImageProxy> i, dcpomatic::ContentTime t, Eyes e, Part p)
+		: image(i)
+		, time(t)
+		, eyes(e)
+		, part(p)
 	{}
 
 	std::shared_ptr<const ImageProxy> image;
