@@ -31,6 +31,7 @@ using std::make_shared;
 using std::map;
 using std::shared_ptr;
 using std::string;
+using std::vector;
 using boost::asio::ip::tcp;
 
 
@@ -41,72 +42,13 @@ EncoderHTTPServer::EncoderHTTPServer(int port, int timeout)
 }
 
 
-static
-map<string, string>
-split_get_request(string url)
-{
-       enum {
-               AWAITING_QUESTION_MARK,
-               KEY,
-               VALUE
-       } state = AWAITING_QUESTION_MARK;
-
-       map<string, string> r;
-       string k;
-       string v;
-       for (size_t i = 0; i < url.length(); ++i) {
-               switch (state) {
-               case AWAITING_QUESTION_MARK:
-                       if (url[i] == '?') {
-                               state = KEY;
-                       }
-                       break;
-               case KEY:
-                       if (url[i] == '=') {
-                               v.clear();
-                               state = VALUE;
-                       } else {
-                               k += url[i];
-                       }
-                       break;
-               case VALUE:
-                       if (url[i] == '&') {
-                               r.insert(make_pair(k, v));
-                               k.clear();
-                               state = KEY;
-                       } else {
-                               v += url[i];
-                       }
-                       break;
-               }
-       }
-
-       if (state == VALUE) {
-               r.insert(make_pair(k, v));
-       }
-
-       return r;
-}
-
-
 Response
 EncoderHTTPServer::get_request(string const& url)
 {
 	cout << "request: " << url << "\n";
 
-	auto r = split_get_request(url);
-	for (auto const& i: r) {
-		cout << i.first << " => " << i.second << "\n";
-	}
-
-	string action;
-	if (r.find("action") != r.end()) {
-		action = r["action"];
-	}
-
-	string json;
-	if (action == "status") {
-
+	if (url == "/api/v1/status") {
+		string json;
 		auto jobs = JobManager::instance()->get();
 
 		json += "{ \"jobs\": [";
@@ -133,8 +75,9 @@ EncoderHTTPServer::get_request(string const& url)
 			}
 		}
 		json += "] }";
+		cout << "reply: " << json << "\n";
+		return Response(200, json, Response::Type::JSON);
 	}
 
-	cout << "reply: " << json << "\n";
-	return Response(200, json, Response::Type::JSON);
+	return Response::ERROR_404;
 }
