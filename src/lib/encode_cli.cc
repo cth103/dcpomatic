@@ -26,6 +26,7 @@
 #include "cross.h"
 #include "dcpomatic_log.h"
 #include "encode_server_finder.h"
+#include "encoder_http_server.h"
 #include "ffmpeg_film_encoder.h"
 #include "film.h"
 #include "filter.h"
@@ -35,7 +36,6 @@
 #endif
 #include "hints.h"
 #include "job_manager.h"
-#include "json_server.h"
 #include "log.h"
 #include "make_dcp.h"
 #include "ratio.h"
@@ -527,7 +527,7 @@ encode_cli(int argc, char* argv[], function<void (string)> out, function<void ()
 	}
 
 	if (json_port) {
-		new JSONServer(json_port.get());
+		new EncoderHTTPServer(json_port.get());
 	}
 
 	if (threads) {
