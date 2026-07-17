@@ -187,6 +187,7 @@ sources = """
           remote_j2k_encoder_thread.cc
           resampler.cc
           resolution.cc
+          response.cc
           rgba.cc
           rng.cc
           scoped_temporary.cc
