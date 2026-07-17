@@ -20,15 +20,15 @@
 
 
 #include "dcpomatic_time.h"
+#include "http_server.h"
 #include "response.h"
-#include "server.h"
 #include "signaller.h"
 LIBDCP_DISABLE_WARNINGS
 #include <boost/signals2.hpp>
 LIBDCP_ENABLE_WARNINGS
 
 
-class PlayerHTTPServer : public Server, public Signaller
+class PlayerHTTPServer : public HTTPServer, public Signaller
 {
 public:
 	explicit PlayerHTTPServer(int port, int timeout = 30);
@@ -58,12 +58,10 @@ public:
 	}
 
 private:
-	void handle(std::shared_ptr<Socket> socket) override;
 	void substitute(std::string& page) const;
-	Response request(std::vector<std::string> const& request, std::string const& body);
-	Response get_request(std::string const& url);
-	Response post_request(std::string const& url, std::string const& body);
-	Response delete_request(std::string const& url);
+	Response get_request(std::string const& url) override;
+	Response post_request(std::string const& url, std::string const& body) override;
+	Response delete_request(std::string const& url) override;
 
 	boost::mutex _mutex;
 	bool _playing = false;
