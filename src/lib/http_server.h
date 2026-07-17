@@ -20,43 +20,12 @@
 
 
 #include "dcpomatic_time.h"
+#include "response.h"
 #include "server.h"
 #include "signaller.h"
 LIBDCP_DISABLE_WARNINGS
 #include <boost/signals2.hpp>
 LIBDCP_ENABLE_WARNINGS
-
-
-class Response
-{
-public:
-	enum class Type {
-		HTML,
-		JSON,
-		CSS,
-		PNG
-	};
-
-	Response(int code);
-	Response(int code, std::string payload, Type type = Type::HTML);
-
-	void add_header(std::string key, std::string value);
-	void set_type(Type type) {
-		_type = type;
-	}
-
-	void send(std::shared_ptr<Socket> socket);
-
-	static Response ERROR_404;
-	static Response ERROR_500;
-
-private:
-	int _code;
-
-	Type _type = Type::HTML;
-	std::string _payload;
-	std::vector<std::pair<std::string, std::string>> _headers;
-};
 
 
 class HTTPServer : public Server, public Signaller
