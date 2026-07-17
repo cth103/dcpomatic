@@ -1211,11 +1211,11 @@ PlayerFrame::setup_http_server()
 	auto config = Config::instance();
 	try {
 		if (config->enable_player_http_server()) {
-			_http_server.reset(new HTTPServer(config->player_http_server_port()));
+			_http_server.reset(new PlayerHTTPServer(config->player_http_server_port()));
 			_http_server->Play.connect(boost::bind(&FilmViewer::start, &_viewer));
 			_http_server->Stop.connect(boost::bind(&FilmViewer::stop, &_viewer));
 			_http_server->LoadPlaylist.connect(boost::bind(&PlayerFrame::load_pair_playlist, this, _1));
-			_http_server_thread = boost::thread(boost::bind(&HTTPServer::run, _http_server.get()));
+			_http_server_thread = boost::thread(boost::bind(&PlayerHTTPServer::run, _http_server.get()));
 		}
 	} catch (std::exception& e) {
 		LOG_DEBUG_PLAYER("Failed to start player HTTP server ({})", e.what());

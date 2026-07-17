@@ -133,7 +133,6 @@ sources = """
           frame_rate_change.cc
           guess_crop.cc
           hints.cc
-          http_server.cc
           id.cc
           internet.cc
           image.cc
@@ -174,6 +173,7 @@ sources = """
           passthrough_packet_queue.cc
           pixel_quanta.cc
           player.cc
+          player_http_server.cc
           player_video.cc
           playlist.cc
           position_image.cc
