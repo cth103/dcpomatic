@@ -19,9 +19,9 @@
 */
 
 
+#include "encoder_http_server.h"
 #include "film.h"
 #include "job_manager.h"
-#include "json_server.h"
 #include <fmt/format.h>
 #include <boost/asio.hpp>
 #include <boost/bind/bind.hpp>
@@ -42,19 +42,19 @@ using boost::thread;
 #define MAX_LENGTH 512
 
 
-JSONServer::JSONServer(int port)
+EncoderHTTPServer::EncoderHTTPServer(int port)
 {
 #ifdef DCPOMATIC_LINUX
-	auto t = new thread(boost::bind(&JSONServer::run, this, port));
+	auto t = new thread(boost::bind(&EncoderHTTPServer::run, this, port));
 	pthread_setname_np(t->native_handle(), "json-server");
 #else
-	new thread(boost::bind(&JSONServer::run, this, port));
+	new thread(boost::bind(&EncoderHTTPServer::run, this, port));
 #endif
 }
 
 
 void
-JSONServer::run(int port)
+EncoderHTTPServer::run(int port)
 try
 {
 	dcpomatic::io_context io_context;
@@ -77,7 +77,7 @@ catch (...)
 
 
 void
-JSONServer::handle(shared_ptr<tcp::socket> socket)
+EncoderHTTPServer::handle(shared_ptr<tcp::socket> socket)
 {
 	string url;
 	State state = AWAITING_G;
@@ -186,7 +186,7 @@ split_get_request(string url)
 
 
 void
-JSONServer::request(string url, shared_ptr<tcp::socket> socket)
+EncoderHTTPServer::request(string url, shared_ptr<tcp::socket> socket)
 {
 	cout << "request: " << url << "\n";
 
