@@ -95,6 +95,7 @@ sources = """
           encode_server.cc
           encode_server_finder.cc
           encoded_log_entry.cc
+          encoder_http_server.cc
           environment_info.cc
           event_history.cc
           examine_content_job.cc
@@ -153,7 +154,6 @@ sources = """
           j2k_encoder.cc
           j2k_encoder_thread.cc
           j2k_sync_encoder_thread.cc
-          json_server.cc
           kdm_cli.cc
           kdm_recipient.cc
           kdm_with_metadata.cc
