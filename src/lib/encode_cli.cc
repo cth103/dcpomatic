@@ -500,6 +500,11 @@ encode_cli(int argc, char* argv[], function<void (string)> out, function<void ()
 		return {};
 	}
 
+	if (json_port) {
+		auto server = new EncoderHTTPServer(json_port.get());
+		boost::thread(boost::bind(&EncoderHTTPServer::run, server));
+	}
+
 	if (optind >= argc) {
 		if (keep_going) {
 			sleep_forever();
@@ -524,10 +529,6 @@ encode_cli(int argc, char* argv[], function<void (string)> out, function<void ()
 
 	if (no_remote || export_format) {
 		EncodeServerFinder::drop();
-	}
-
-	if (json_port) {
-		new EncoderHTTPServer(json_port.get());
 	}
 
 	if (threads) {
