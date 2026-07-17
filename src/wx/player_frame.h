@@ -25,7 +25,7 @@
 #include "system_information_dialog.h"
 #include "wx_ptr.h"
 #include "lib/config.h"
-#include "lib/http_server.h"
+#include "lib/player_http_server.h"
 #include "lib/show_playlist_entry.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
@@ -169,7 +169,7 @@ private:
 	/** KDMs that have been loaded, so that we can pass them to the verifier */
 	std::vector<boost::filesystem::path> _kdms;
 	boost::thread _http_server_thread;
-	std::unique_ptr<HTTPServer> _http_server;
+	std::unique_ptr<PlayerHTTPServer> _http_server;
 	struct timeval _last_http_server_update = { 0, 0 };
 	wx_ptr<AudioDialog> _audio_dialog;
 	bool _auto_play;
