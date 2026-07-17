@@ -271,6 +271,16 @@ show_jobs_on_console(function<void (string)> out, function<void ()> flush, bool 
 }
 
 
+static
+void
+sleep_forever()
+{
+	while (true) {
+		dcpomatic_sleep_seconds(3600);
+	}
+}
+
+
 optional<string>
 encode_cli(int argc, char* argv[], function<void (string)> out, function<void ()> flush)
 {
@@ -625,9 +635,7 @@ encode_cli(int argc, char* argv[], function<void (string)> out, function<void ()
 	bool const error = show_jobs_on_console(out, flush, progress);
 
 	if (keep_going) {
-		while (true) {
-			dcpomatic_sleep_seconds(3600);
-		}
+		sleep_forever();
 	}
 
 	/* This is just to stop valgrind reporting leaks due to JobManager
