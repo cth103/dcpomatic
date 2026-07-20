@@ -31,13 +31,9 @@
 #include <dcp/raw_convert.h>
 #include <nlohmann/json.hpp>
 #include <boost/algorithm/string.hpp>
-#include <stdexcept>
 
 
-using std::make_pair;
 using std::pair;
-using std::runtime_error;
-using std::shared_ptr;
 using std::string;
 using std::vector;
 using boost::optional;
