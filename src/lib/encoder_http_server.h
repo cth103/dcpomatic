@@ -29,4 +29,5 @@ public:
 
 private:
 	Response get_request(std::string const& url) override;
+	Response post_request(std::string const& url, std::string const& body) override;
 };
