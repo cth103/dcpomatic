@@ -80,21 +80,21 @@ PlayerHTTPServer::get_request(string const& url)
 			json["position"] = seconds_to_hms(_position.seconds());
 			json["dcp_name"] = _dcp_name;
 		}
-		return Response(200, json.dump(), Response::Type::JSON);
+		return Response(200, json);
 	} else if (url == "/api/v1/playlists") {
 		ShowPlaylistList list;
 		nlohmann::json json;
 		for (auto spl: list.show_playlists()) {
 			json.push_back(spl.second.as_json());
 		}
-		return Response(200, json.dump(), Response::Type::JSON);
+		return Response(200, json);
 	} else if (url == "/api/v1/current-playlist") {
 		nlohmann::json json;
 		boost::mutex::scoped_lock lm(_mutex);
 		for (auto entry: _current_playlist) {
 			json.push_back(entry);
 		}
-		return Response(200, json.dump(), Response::Type::JSON);
+		return Response(200, json);
 	} else if (boost::algorithm::starts_with(url, "/api/v1/content/")) {
 		vector<string> parts;
 		boost::algorithm::split(parts, url, boost::is_any_of("/"));
@@ -107,7 +107,7 @@ PlayerHTTPServer::get_request(string const& url)
 		}
 		/* XXX: converting to JSON this way feels a bit grotty */
 		auto json = ShowPlaylistEntry(content, {}).as_json();
-		return Response(200, json.dump(), Response::Type::JSON);
+		return Response(200, json);
 	} else if (boost::algorithm::starts_with(url, "/api/v1/playlist/")) {
 		vector<string> parts;
 		boost::algorithm::split(parts, url, boost::is_any_of("/"));
@@ -129,14 +129,14 @@ PlayerHTTPServer::get_request(string const& url)
 		for (auto entry: list.entries(parts[4])) {
 			json["content"].push_back(entry.as_json());
 		}
-		return Response(200, json.dump(), Response::Type::JSON);
+		return Response(200, json);
 	} else if (url == "/api/v1/content") {
 		nlohmann::json json;
 		for (auto i: ShowPlaylistContentStore::instance()->all()) {
 			/* XXX: converting to JSON this way feels a bit grotty */
 			json.push_back(ShowPlaylistEntry(i, {}).as_json());
 		}
-		return Response(200, json.dump(), Response::Type::JSON);
+		return Response(200, json);
 	} else if (boost::algorithm::starts_with(url, "/api/v1/content/")) {
 		vector<string> parts;
 		boost::algorithm::split(parts, url, boost::is_any_of("/"));
@@ -149,7 +149,7 @@ PlayerHTTPServer::get_request(string const& url)
 		}
 		/* XXX: converting to JSON this way feels a bit grotty */
 		auto json = ShowPlaylistEntry(content, {}).as_json();
-		return Response(200, json.dump(), Response::Type::JSON);
+		return Response(200, json);
 	} else {
 		LOG_HTTP("404 {}", url);
 		return Response::ERROR_404;
