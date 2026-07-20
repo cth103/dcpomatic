@@ -65,7 +65,7 @@ EncoderHTTPServer::get_request(string const& url)
 			json["jobs"].push_back(job);
 		}
 		cout << "reply: " << json.dump() << "\n";
-		return Response(200, json.dump(), Response::Type::JSON);
+		return Response(200, json);
 	}
 
 	return Response::ERROR_404;
