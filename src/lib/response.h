@@ -23,6 +23,7 @@
 #define DCPOMATIC_RESPONSE_H
 
 
+#include <nlohmann/json.hpp>
 #include <memory>
 #include <string>
 #include <vector>
@@ -43,6 +44,7 @@ public:
 
 	Response(int code);
 	Response(int code, std::string payload, Type type = Type::HTML);
+	Response(int code, nlohmann::json const& payload);
 
 	void add_header(std::string key, std::string value);
 	void set_type(Type type) {
