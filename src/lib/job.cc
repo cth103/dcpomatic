@@ -41,7 +41,6 @@
 
 
 using std::function;
-using std::shared_ptr;
 using std::string;
 using boost::optional;
 using namespace dcpomatic;
