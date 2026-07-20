@@ -51,6 +51,7 @@ EncoderHTTPServer::get_request(string const& url)
 
 		for (auto i = jobs.cbegin(); i != jobs.cend(); ++i) {
 			nlohmann::json job;
+			job["number"] = (*i)->number();
 			if (auto transcode = dynamic_pointer_cast<const TranscodeJob>(*i)) {
 				job["dcp"] = transcode->film()->dcp_name();
 			}
