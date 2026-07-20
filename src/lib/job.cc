@@ -38,15 +38,11 @@
 #include <boost/filesystem.hpp>
 #include <boost/thread.hpp>
 #include <time.h>
-#include <iostream>
 
 #include "i18n.h"
 
 
-using std::cout;
 using std::function;
-using std::list;
-using std::shared_ptr;
 using std::string;
 using boost::optional;
 using namespace dcpomatic;
