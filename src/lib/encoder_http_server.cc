@@ -43,7 +43,7 @@ EncoderHTTPServer::get_request(string const& url)
 {
 	cout << "request: " << url << "\n";
 
-	if (url == "/api/v1/status") {
+	if (url == "/api/v1/jobs") {
 		nlohmann::json json;
 		auto jobs = JobManager::instance()->get();
 
