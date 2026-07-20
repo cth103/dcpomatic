@@ -23,6 +23,7 @@
 #include "dcpomatic_socket.h"
 #include "http_server.h"
 #include <dcp/raw_convert.h>
+#include <nlohmann/json.hpp>
 #include <boost/algorithm/string.hpp>
 
 
@@ -48,6 +49,7 @@ HTTPServer::request(vector<string> const& request, string const& body)
 		return Response::ERROR_404;
 	}
 
+	nlohmann::json reply;
 	try {
 		if (parts[0] == "GET") {
 			LOG_HTTP("GET {}", parts[1]);
@@ -58,15 +60,19 @@ HTTPServer::request(vector<string> const& request, string const& body)
 		} else if (parts[0] == "DELETE") {
 			LOG_HTTP("DELETE {}", parts[1]);
 			return delete_request(parts[1]);
+		} else {
+			LOG_HTTP("Unknown request type {}", parts[0]);
+			reply["error"] = fmt::format("Unknown request type {}", parts[0]);
 		}
 	} catch (std::exception& e) {
 		LOG_ERROR("Error while handling HTTP request: {}", e.what());
+		reply["error"] = e.what();
 	} catch (...) {
 		LOG_ERROR("Unknown exception while handling HTTP request");
+		reply["error"] = "Unknown exception";
 	}
 
-	LOG_HTTP("500 {}", parts[0]);
-	return Response::ERROR_500;
+	return Response(500, reply);
 }
 
 
