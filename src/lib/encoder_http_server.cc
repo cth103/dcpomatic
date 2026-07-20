@@ -22,8 +22,10 @@
 #include "encoder_http_server.h"
 #include "film.h"
 #include "job_manager.h"
+#include "make_dcp.h"
 #include <fmt/format.h>
 #include <nlohmann/json.hpp>
+#include <memory>
 
 
 using std::cout;
@@ -71,3 +73,31 @@ EncoderHTTPServer::get_request(string const& url)
 
 	return Response::ERROR_404;
 }
+
+
+Response
+EncoderHTTPServer::post_request(string const& url, string const& body)
+{
+	if (url == "/api/v1/jobs/add") {
+		auto details = nlohmann::json::parse(body);
+		nlohmann::json reply;
+		if (!details.contains("film")) {
+			reply["error"] = "no film specified";
+			return Response(400, reply);
+		}
+		try {
+			auto film = std::make_shared<Film>(boost::filesystem::path(details["film"]));
+			film->read_metadata();
+			auto job = make_dcp(film, TranscodeJob::ChangedBehaviour::IGNORE);
+			nlohmann::json reply;
+			reply["number"] = job->number();
+			return Response(200, reply);
+		} catch (std::exception& e) {
+			reply["error"] = e.what();
+			return Response(400, reply);
+		}
+	}
+
+	return Response::ERROR_404;
+}
+
