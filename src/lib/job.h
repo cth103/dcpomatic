@@ -104,6 +104,8 @@ public:
 
 	void set_rate_limit_progress(bool rate_limit);
 
+	uint64_t number() const;
+
 	boost::signals2::signal<void()> Progress;
 	/** Emitted from the UI thread when the job is finished */
 	boost::signals2::signal<void (Result)> Finished;
@@ -171,6 +173,9 @@ private:
 	    this could be a general _state_change if it made more sense.
 	*/
 	boost::condition_variable _pause_changed;
+
+	uint64_t _number;
+	static std::atomic<uint64_t> _next_number;
 };
 
 #endif

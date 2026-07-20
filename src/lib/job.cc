@@ -52,11 +52,15 @@ using boost::optional;
 using namespace dcpomatic;
 
 
+std::atomic<uint64_t> Job::_next_number(0);
+
+
 Job::Job()
 	: _state(NEW)
 	, _sub_start_time(0)
 	, _progress(0)
 	, _rate_limit_progress(true)
+	, _number(_next_number++)
 {
 
 }
@@ -798,5 +802,12 @@ void
 Job::set_rate_limit_progress(bool rate_limit)
 {
 	_rate_limit_progress = rate_limit;
+}
+
+
+uint64_t
+Job::number() const
+{
+	return _number;
 }
 
