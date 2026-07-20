@@ -51,7 +51,9 @@ public:
 
 	void send(std::shared_ptr<Socket> socket);
 
+	/* Not found */
 	static Response ERROR_404;
+	/* Internal server error */
 	static Response ERROR_500;
 
 private:
