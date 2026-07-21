@@ -30,22 +30,19 @@
 
 
 #include "lib/audio_content.h"
-#include "lib/dcp_content_type.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/film.h"
-#include "lib/ratio.h"
 #include "test.h"
 #include <dcp/cpl.h>
+#include <dcp/dcp.h>
 #include <dcp/reel.h>
 #include <dcp/reel_sound_asset.h>
 #include <dcp/sound_asset.h>
 #include <dcp/sound_asset_reader.h>
 #include <dcp/sound_frame.h>
 #include <boost/test/unit_test.hpp>
-#include <iostream>
 
 
-using std::cout;
 using std::make_shared;
 using std::string;
 using boost::lexical_cast;
