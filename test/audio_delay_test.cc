@@ -65,7 +65,7 @@ void test_audio_delay(int delay_in_ms)
 	dcp::DCP check(path.string());
 	check.read();
 
-	auto sound_asset = check.cpls().front()->reels().front()->main_sound();
+	auto sound_asset = check.cpls()[0]->reels()[0]->main_sound();
 	BOOST_CHECK(sound_asset);
 
 	/* Sample index in the DCP */
