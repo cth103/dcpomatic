@@ -19,7 +19,6 @@
 */
 
 
-#include "lib/cross.h"
 #include "lib/ext.h"
 #include "lib/io_context.h"
 #include "test.h"
@@ -32,7 +31,6 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <fcntl.h>
-#include <iostream>
 #include <future>
 #include <regex>
 
