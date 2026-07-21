@@ -27,13 +27,14 @@
 #include "filter_graph.h"
 #include "filter.h"
 #include "exceptions.h"
-#include "image.h"
+#include <dcp/types.h>
 extern "C" {
 #include <libavfilter/buffersrc.h>
 #include <libavfilter/buffersink.h>
 #include <libavformat/avio.h>
 }
 #include <iostream>
+#include <memory>
 
 #include "i18n.h"
 
