@@ -32,14 +32,14 @@ LIBDCP_ENABLE_WARNINGS
 static int constexpr width = 300;
 
 
-TryUnmountDialog::TryUnmountDialog (wxWindow* parent, wxString description)
+TryUnmountDialog::TryUnmountDialog(wxWindow* parent, wxString description)
 	: wxDialog(parent, wxID_ANY, variant::wx::dcpomatic_disk_writer())
 {
-	auto sizer = new wxBoxSizer (wxVERTICAL);
-	auto text = new StaticText (this, wxEmptyString, wxDefaultPosition, wxSize(width, -1));
-	sizer->Add (text, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
+	auto sizer = new wxBoxSizer(wxVERTICAL);
+	auto text = new StaticText(this, wxEmptyString, wxDefaultPosition, wxSize(width, -1));
+	sizer->Add(text, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 
-	text->SetLabelMarkup (
+	text->SetLabelMarkup(
 		wxString::Format(
 			_("The drive <b>%s</b> is mounted.\n\nIt must be unmounted before %s can write to it.\n\nShould DCP-o-matic try to unmount it now?"),
 			description, variant::wx::dcpomatic()
@@ -47,13 +47,13 @@ TryUnmountDialog::TryUnmountDialog (wxWindow* parent, wxString description)
 		);
 	text->Wrap(width);
 
-	auto buttons = CreateSeparatedButtonSizer (wxOK | wxCANCEL);
+	auto buttons = CreateSeparatedButtonSizer(wxOK | wxCANCEL);
 	if (buttons) {
 		sizer->Add(buttons, wxSizerFlags().Expand().DoubleBorder());
 	}
 
-	SetSizer (sizer);
-	sizer->Layout ();
-	sizer->SetSizeHints (this);
+	SetSizer(sizer);
+	sizer->Layout();
+	sizer->SetSizeHints(this);
 }
 

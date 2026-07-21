@@ -37,21 +37,21 @@ LIBDCP_ENABLE_WARNINGS
 class TimecodeBase : public wxPanel
 {
 public:
-	TimecodeBase (wxWindow *, bool set_button);
+	TimecodeBase(wxWindow *, bool set_button);
 
-	void clear ();
+	void clear();
 
-	void set_editable (bool);
-	void set_focus ();
+	void set_editable(bool);
+	void set_focus();
 
 	boost::signals2::signal<void ()> Changed;
 
-	static wxSize size (wxWindow* parent);
+	static wxSize size(wxWindow* parent);
 
 protected:
 	void changed(wxCommandEvent& ev);
 	void paste(wxClipboardTextEvent& ev);
-	void set_clicked ();
+	void set_clicked();
 	virtual bool valid() const = 0;
 
 	wxSizer* _sizer;
@@ -73,27 +73,27 @@ template <class T>
 class Timecode : public TimecodeBase
 {
 public:
-	Timecode (wxWindow* parent, bool set_button = true)
-		: TimecodeBase (parent, set_button)
+	Timecode(wxWindow* parent, bool set_button = true)
+		: TimecodeBase(parent, set_button)
 	{
 
 	}
 
-	void set (T t, float fps)
+	void set(T t, float fps)
 	{
-		auto const hmsf = t.split (fps);
+		auto const hmsf = t.split(fps);
 
 		checked_set(_hours, fmt::to_string(hmsf.h));
 		checked_set(_minutes, fmt::to_string(hmsf.m));
 		checked_set(_seconds, fmt::to_string(hmsf.s));
 		checked_set(_frames, fmt::to_string(hmsf.f));
 
-		checked_set (_fixed, t.timecode (fps));
+		checked_set(_fixed, t.timecode(fps));
 	}
 
-	void set_hint (T t, float fps)
+	void set_hint(T t, float fps)
 	{
-		auto hmsf = t.split (fps);
+		auto hmsf = t.split(fps);
 
 		_hours->SetHint(std_to_wx(fmt::to_string(hmsf.h)));
 		_minutes->SetHint(std_to_wx(fmt::to_string(hmsf.m)));
@@ -106,10 +106,10 @@ public:
 		_maximum = std::move(maximum);
 	}
 
-	dcpomatic::HMSF get () const
+	dcpomatic::HMSF get() const
 	{
 		auto value_or_hint = [](wxTextCtrl const * t) {
-			auto s = wx_to_std (t->GetValue().IsEmpty() ? t->GetHint() : t->GetValue());
+			auto s = wx_to_std(t->GetValue().IsEmpty() ? t->GetHint() : t->GetValue());
 			if (s.empty()) {
 				return 0;
 			}
@@ -122,7 +122,7 @@ public:
 			value_or_hint(_frames) };
 	}
 
-	T get (float fps) const
+	T get(float fps) const
 	{
 		return T(get(), fps);
 	}

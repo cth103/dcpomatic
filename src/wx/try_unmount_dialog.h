@@ -28,5 +28,5 @@ LIBDCP_ENABLE_WARNINGS
 class TryUnmountDialog : public wxDialog
 {
 public:
-	TryUnmountDialog (wxWindow* parent, wxString description);
+	TryUnmountDialog(wxWindow* parent, wxString description);
 };

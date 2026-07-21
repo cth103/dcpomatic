@@ -40,7 +40,7 @@ class Film;
 class TextView : public wxDialog
 {
 public:
-	TextView (
+	TextView(
 		wxWindow *,
 		std::shared_ptr<Film>,
 		std::shared_ptr<Content> content,
@@ -52,9 +52,9 @@ public:
 	void show();
 
 private:
-	void data_start (ContentStringText cts);
-	void data_stop (dcpomatic::ContentTime time);
-	void subtitle_selected (wxListEvent &);
+	void data_start(ContentStringText cts);
+	void data_stop(dcpomatic::ContentTime time);
+	void subtitle_selected(wxListEvent &);
 	void moved(wxMoveEvent& ev);
 	void list_sized(wxSizeEvent& ev);
 

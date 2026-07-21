@@ -35,7 +35,7 @@ using std::make_shared;
 
 
 shared_ptr<dcp::TextAsset>
-DCPSubtitle::load (boost::filesystem::path file) const
+DCPSubtitle::load(boost::filesystem::path file) const
 {
 	shared_ptr<dcp::TextAsset> sc;
 	string interop_error;
@@ -44,7 +44,7 @@ DCPSubtitle::load (boost::filesystem::path file) const
 	try {
 		sc = make_shared<dcp::InteropTextAsset>(file);
 	} catch (exception& e) {
-		interop_error = e.what ();
+		interop_error = e.what();
 	}
 
 	if (!sc) {

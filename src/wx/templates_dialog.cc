@@ -37,89 +37,89 @@ using namespace boost::placeholders;
 #endif
 
 
-TemplatesDialog::TemplatesDialog (wxWindow* parent)
-	: wxDialog (parent, wxID_ANY, _("Templates"))
+TemplatesDialog::TemplatesDialog(wxWindow* parent)
+	: wxDialog(parent, wxID_ANY, _("Templates"))
 {
-	_sizer = new wxBoxSizer (wxVERTICAL);
-	SetSizer (_sizer);
+	_sizer = new wxBoxSizer(wxVERTICAL);
+	SetSizer(_sizer);
 
-	auto hs = new wxBoxSizer (wxHORIZONTAL);
+	auto hs = new wxBoxSizer(wxHORIZONTAL);
 	_list = new wxListCtrl(this, wxID_ANY, wxDefaultPosition, wxSize(400, 300), wxLC_REPORT | wxLC_SINGLE_SEL);
 
 	wxListItem ip;
-	ip.SetId (0);
-	ip.SetText (_("Template"));
-	ip.SetWidth (200);
-	_list->InsertColumn (0, ip);
+	ip.SetId(0);
+	ip.SetText(_("Template"));
+	ip.SetWidth(200);
+	_list->InsertColumn(0, ip);
 
-	hs->Add (_list, 1, wxEXPAND, DCPOMATIC_SIZER_GAP);
+	hs->Add(_list, 1, wxEXPAND, DCPOMATIC_SIZER_GAP);
 
 	{
-		auto s = new wxBoxSizer (wxVERTICAL);
-		_rename = new Button (this, _("Rename..."));
+		auto s = new wxBoxSizer(wxVERTICAL);
+		_rename = new Button(this, _("Rename..."));
 		s->Add(_rename, 0, wxTOP | wxBOTTOM | wxEXPAND, 2);
-		_remove = new Button (this, _("Remove"));
+		_remove = new Button(this, _("Remove"));
 		s->Add(_remove, 0, wxTOP | wxBOTTOM | wxEXPAND, 2);
-		hs->Add (s, 0, wxLEFT, DCPOMATIC_SIZER_X_GAP);
+		hs->Add(s, 0, wxLEFT, DCPOMATIC_SIZER_X_GAP);
 	}
 
-	_sizer->Add (hs, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
+	_sizer->Add(hs, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 
-	auto buttons = CreateSeparatedButtonSizer (wxCLOSE);
+	auto buttons = CreateSeparatedButtonSizer(wxCLOSE);
 	if (buttons) {
-		_sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
+		_sizer->Add(buttons, wxSizerFlags().Expand().DoubleBorder());
 	}
 
-	_rename->Bind (wxEVT_BUTTON, bind(&TemplatesDialog::rename_clicked, this));
-	_remove->Bind (wxEVT_BUTTON, bind(&TemplatesDialog::remove_clicked, this));
+	_rename->Bind(wxEVT_BUTTON, bind(&TemplatesDialog::rename_clicked, this));
+	_remove->Bind(wxEVT_BUTTON, bind(&TemplatesDialog::remove_clicked, this));
 
-	_list->Bind (wxEVT_LIST_ITEM_SELECTED, bind(&TemplatesDialog::selection_changed, this));
-	_list->Bind (wxEVT_LIST_ITEM_DESELECTED, bind(&TemplatesDialog::selection_changed, this));
-	_list->Bind (wxEVT_SIZE, bind(&TemplatesDialog::resized, this, _1));
-	_config_connection = Config::instance()->Changed.connect (bind(&TemplatesDialog::refresh, this));
+	_list->Bind(wxEVT_LIST_ITEM_SELECTED, bind(&TemplatesDialog::selection_changed, this));
+	_list->Bind(wxEVT_LIST_ITEM_DESELECTED, bind(&TemplatesDialog::selection_changed, this));
+	_list->Bind(wxEVT_SIZE, bind(&TemplatesDialog::resized, this, _1));
+	_config_connection = Config::instance()->Changed.connect(bind(&TemplatesDialog::refresh, this));
 
 	Fit();
 
-	refresh ();
-	selection_changed ();
+	refresh();
+	selection_changed();
 }
 
 
 void
-TemplatesDialog::refresh ()
+TemplatesDialog::refresh()
 {
-	_list->DeleteAllItems ();
+	_list->DeleteAllItems();
 
 	for (auto i: Config::instance()->templates()) {
 		wxListItem list_item;
-		int const n = _list->GetItemCount ();
-		list_item.SetId (n);
-		_list->InsertItem (list_item);
-		_list->SetItem (n, 0, std_to_wx (i));
+		int const n = _list->GetItemCount();
+		list_item.SetId(n);
+		_list->InsertItem(list_item);
+		_list->SetItem(n, 0, std_to_wx(i));
 	}
 }
 
 
 void
-TemplatesDialog::layout ()
+TemplatesDialog::layout()
 {
-	_sizer->Layout ();
+	_sizer->Layout();
 }
 
 
 void
-TemplatesDialog::selection_changed ()
+TemplatesDialog::selection_changed()
 {
-	int const i = _list->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
-	_rename->Enable (i >= 0);
-	_remove->Enable (i >= 0);
+	int const i = _list->GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+	_rename->Enable(i >= 0);
+	_remove->Enable(i >= 0);
 }
 
 
 void
-TemplatesDialog::rename_clicked ()
+TemplatesDialog::rename_clicked()
 {
-	int item = _list->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+	int item = _list->GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
 	if (item == -1) {
 		return;
 	}
@@ -128,7 +128,7 @@ TemplatesDialog::rename_clicked ()
 	li.m_itemId = item;
 	li.m_col = 0;
 	li.m_mask = wxLIST_MASK_TEXT;
-	_list->GetItem (li);
+	_list->GetItem(li);
 
 	RenameTemplateDialog dialog(this);
 	dialog.set(li.m_text);
@@ -140,15 +140,15 @@ TemplatesDialog::rename_clicked ()
 		Config::instance()->rename_template(wx_to_std(li.m_text), wx_to_std(dialog.get()));
 		_list->SetItem(item, 0, dialog.get());
 	} else {
-		error_dialog (this, _("Template names must not be empty."));
+		error_dialog(this, _("Template names must not be empty."));
 	}
 }
 
 
 void
-TemplatesDialog::remove_clicked ()
+TemplatesDialog::remove_clicked()
 {
-	int i = _list->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+	int i = _list->GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
 	if (i == -1) {
 		return;
 	}
@@ -157,18 +157,18 @@ TemplatesDialog::remove_clicked ()
 	li.m_itemId = i;
 	li.m_col = 0;
 	li.m_mask = wxLIST_MASK_TEXT;
-	_list->GetItem (li);
+	_list->GetItem(li);
 
-	Config::instance()->delete_template (wx_to_std(li.m_text));
-	_list->DeleteItem (i);
+	Config::instance()->delete_template(wx_to_std(li.m_text));
+	_list->DeleteItem(i);
 
-	selection_changed ();
+	selection_changed();
 }
 
 
 void
-TemplatesDialog::resized (wxSizeEvent& ev)
+TemplatesDialog::resized(wxSizeEvent& ev)
 {
-	_list->SetColumnWidth (0, GetSize().GetWidth());
-	ev.Skip ();
+	_list->SetColumnWidth(0, GetSize().GetWidth());
+	ev.Skip();
 }

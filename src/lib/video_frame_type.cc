@@ -45,10 +45,10 @@ video_frame_type_to_string(VideoFrameType t)
 	case VideoFrameType::THREE_D_RIGHT:
 		return "3d-right";
 	default:
-		DCPOMATIC_ASSERT (false);
+		DCPOMATIC_ASSERT(false);
 	}
 
-	DCPOMATIC_ASSERT (false);
+	DCPOMATIC_ASSERT(false);
 }
 
 VideoFrameType

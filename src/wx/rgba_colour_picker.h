@@ -30,10 +30,10 @@ class wxSlider;
 class RGBAColourPicker : public wxPanel
 {
 public:
-	RGBAColourPicker (wxWindow* parent, RGBA colour);
+	RGBAColourPicker(wxWindow* parent, RGBA colour);
 
-	RGBA colour () const;
-	void set (RGBA colour);
+	RGBA colour() const;
+	void set(RGBA colour);
 
 private:
 	wxColourPickerCtrl* _picker;

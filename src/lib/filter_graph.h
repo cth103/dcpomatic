@@ -52,19 +52,19 @@ class FilterGraph
 {
 public:
 	FilterGraph() = default;
-	virtual ~FilterGraph ();
+	virtual ~FilterGraph();
 
-	FilterGraph (FilterGraph const&) = delete;
-	FilterGraph& operator== (FilterGraph const&) = delete;
+	FilterGraph(FilterGraph const&) = delete;
+	FilterGraph& operator==(FilterGraph const&) = delete;
 
 	void setup(std::vector<Filter> const&);
-	AVFilterContext* get (std::string name);
+	AVFilterContext* get(std::string name);
 
 protected:
-	virtual std::string src_parameters () const = 0;
-	virtual std::string src_name () const = 0;
-	virtual void set_parameters (AVFilterContext* context) const = 0;
-	virtual std::string sink_name () const = 0;
+	virtual std::string src_parameters() const = 0;
+	virtual std::string src_name() const = 0;
+	virtual void set_parameters(AVFilterContext* context) const = 0;
+	virtual std::string sink_name() const = 0;
 
 	AVFilterGraph* _graph = nullptr;
 	/** true if this graph has no filters in, so it just copies stuff straight through */

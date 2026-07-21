@@ -26,32 +26,32 @@ LIBDCP_DISABLE_WARNINGS
 #include <wx/clrpicker.h>
 LIBDCP_ENABLE_WARNINGS
 
-RGBAColourPicker::RGBAColourPicker (wxWindow* parent, RGBA colour)
-	: wxPanel (parent, wxID_ANY)
+RGBAColourPicker::RGBAColourPicker(wxWindow* parent, RGBA colour)
+	: wxPanel(parent, wxID_ANY)
 {
-	wxBoxSizer* sizer = new wxBoxSizer (wxHORIZONTAL);
+	wxBoxSizer* sizer = new wxBoxSizer(wxHORIZONTAL);
 
-	_picker = new wxColourPickerCtrl (this, wxID_ANY);
-	_picker->SetColour (wxColour (colour.r, colour.g, colour.b));
-	sizer->Add (_picker, 1, wxEXPAND | wxALL, DCPOMATIC_SIZER_X_GAP);
-	sizer->Add (new StaticText (this, _("Alpha   0")), 0, wxALIGN_CENTRE_VERTICAL);
-	_alpha = new wxSlider (this, wxID_ANY, colour.a, 0, 255);
-	sizer->Add (_alpha, 1, wxEXPAND | wxALL, DCPOMATIC_SIZER_X_GAP);
-	sizer->Add (new StaticText (this, _("255")), 0, wxALIGN_CENTRE_VERTICAL);
+	_picker = new wxColourPickerCtrl(this, wxID_ANY);
+	_picker->SetColour(wxColour(colour.r, colour.g, colour.b));
+	sizer->Add(_picker, 1, wxEXPAND | wxALL, DCPOMATIC_SIZER_X_GAP);
+	sizer->Add(new StaticText(this, _("Alpha   0")), 0, wxALIGN_CENTRE_VERTICAL);
+	_alpha = new wxSlider(this, wxID_ANY, colour.a, 0, 255);
+	sizer->Add(_alpha, 1, wxEXPAND | wxALL, DCPOMATIC_SIZER_X_GAP);
+	sizer->Add(new StaticText(this, _("255")), 0, wxALIGN_CENTRE_VERTICAL);
 
-	SetSizer (sizer);
+	SetSizer(sizer);
 }
 
 RGBA
-RGBAColourPicker::colour () const
+RGBAColourPicker::colour() const
 {
-	wxColour const c = _picker->GetColour ();
-	return RGBA (c.Red(), c.Green(), c.Blue(), _alpha->GetValue());
+	wxColour const c = _picker->GetColour();
+	return RGBA(c.Red(), c.Green(), c.Blue(), _alpha->GetValue());
 }
 
 void
-RGBAColourPicker::set (RGBA colour)
+RGBAColourPicker::set(RGBA colour)
 {
-	_picker->SetColour (wxColour (colour.r, colour.g, colour.b));
-	_alpha->SetValue (colour.a);
+	_picker->SetColour(wxColour(colour.r, colour.g, colour.b));
+	_alpha->SetValue(colour.a);
 }

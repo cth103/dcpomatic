@@ -33,26 +33,26 @@ using namespace boost::placeholders;
 #endif
 
 
-TimecodeBase::TimecodeBase (wxWindow* parent, bool set_button)
-	: wxPanel (parent)
-	, _set_button (0)
+TimecodeBase::TimecodeBase(wxWindow* parent, bool set_button)
+	: wxPanel(parent)
+	, _set_button(0)
 {
-	auto const s = TimecodeBase::size (parent);
+	auto const s = TimecodeBase::size(parent);
 
-	wxTextValidator validator (wxFILTER_INCLUDE_CHAR_LIST);
+	wxTextValidator validator(wxFILTER_INCLUDE_CHAR_LIST);
 	wxArrayString list;
 
 	auto n = char_to_wx("0123456789");
 	for (size_t i = 0; i < n.Length(); ++i) {
-		list.Add (n[i]);
+		list.Add(n[i]);
 	}
 
-	validator.SetIncludes (list);
+	validator.SetIncludes(list);
 
-	_sizer = new wxBoxSizer (wxHORIZONTAL);
+	_sizer = new wxBoxSizer(wxHORIZONTAL);
 
-	_editable = new wxPanel (this);
-	auto editable_sizer = new wxBoxSizer (wxHORIZONTAL);
+	_editable = new wxPanel(this);
+	auto editable_sizer = new wxBoxSizer(wxHORIZONTAL);
 	_controls.push_back(_hours = new wxTextCtrl(_editable, wxID_ANY, {}, wxDefaultPosition, s, 0, validator));
 	_controls.push_back(_minutes = new wxTextCtrl(_editable, wxID_ANY, {}, wxDefaultPosition, s, 0, validator));
 	_controls.push_back(_seconds = new wxTextCtrl(_editable, wxID_ANY, {}, wxDefaultPosition, s, 0, validator));
@@ -71,10 +71,10 @@ TimecodeBase::TimecodeBase (wxWindow* parent, bool set_button)
 	}
 
 	if (set_button) {
-		_set_button = new Button (_editable, _("Set"), wxDefaultPosition, small_button_size(parent, _("Set")));
+		_set_button = new Button(_editable, _("Set"), wxDefaultPosition, small_button_size(parent, _("Set")));
 		editable_sizer->Add(_set_button, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL, 8);
 	}
-	_editable->SetSizerAndFit (editable_sizer);
+	_editable->SetSizerAndFit(editable_sizer);
 	_sizer->Add(_editable, 1, wxALIGN_CENTER_VERTICAL);
 
 	_fixed = add_label_to_sizer(_sizer, this, char_to_wx("42"), false, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL);
@@ -84,23 +84,23 @@ TimecodeBase::TimecodeBase (wxWindow* parent, bool set_button)
 		control->Bind(wxEVT_TEXT_PASTE, boost::bind(&TimecodeBase::paste, this, _1));
 	}
 	if (_set_button) {
-		_set_button->Bind (wxEVT_BUTTON, boost::bind (&TimecodeBase::set_clicked, this));
-		_set_button->Enable (false);
+		_set_button->Bind(wxEVT_BUTTON, boost::bind(&TimecodeBase::set_clicked, this));
+		_set_button->Enable(false);
 	}
 
-	set_editable (true);
+	set_editable(true);
 
-	SetSizerAndFit (_sizer);
+	SetSizerAndFit(_sizer);
 }
 
 void
-TimecodeBase::set_focus ()
+TimecodeBase::set_focus()
 {
-	_hours->SetFocus ();
+	_hours->SetFocus();
 }
 
 void
-TimecodeBase::clear ()
+TimecodeBase::clear()
 {
 	for (auto control: _controls) {
 		checked_set(control, wxString{});
@@ -166,11 +166,11 @@ TimecodeBase::paste(wxClipboardTextEvent& ev)
 
 
 void
-TimecodeBase::set_clicked ()
+TimecodeBase::set_clicked()
 {
-	Changed ();
+	Changed();
 	if (_set_button) {
-		_set_button->Enable (false);
+		_set_button->Enable(false);
 	}
 
 	_ignore_changed = true;
@@ -183,22 +183,22 @@ TimecodeBase::set_clicked ()
 }
 
 void
-TimecodeBase::set_editable (bool e)
+TimecodeBase::set_editable(bool e)
 {
-	_editable->Show (e);
-	_fixed->Show (!e);
-	_sizer->Layout ();
+	_editable->Show(e);
+	_fixed->Show(!e);
+	_sizer->Layout();
 }
 
 wxSize
-TimecodeBase::size (wxWindow* parent)
+TimecodeBase::size(wxWindow* parent)
 {
-	wxClientDC dc (parent);
+	wxClientDC dc(parent);
 #ifdef DCPOMATIC_OSX
 	auto size = dc.GetTextExtent(char_to_wx("999"));
 #else
 	auto size = dc.GetTextExtent(char_to_wx("99999"));
 #endif
-	size.SetHeight (-1);
+	size.SetHeight(-1);
 	return size;
 }

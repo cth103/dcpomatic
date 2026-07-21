@@ -30,16 +30,16 @@ LIBDCP_ENABLE_WARNINGS
 class TemplatesDialog : public wxDialog
 {
 public:
-	explicit TemplatesDialog (wxWindow* parent);
+	explicit TemplatesDialog(wxWindow* parent);
 
-	void refresh ();
-	void layout ();
+	void refresh();
+	void layout();
 
 private:
-	void selection_changed ();
-	void rename_clicked ();
-	void remove_clicked ();
-	void resized (wxSizeEvent& ev);
+	void selection_changed();
+	void rename_clicked();
+	void remove_clicked();
+	void resized(wxSizeEvent& ev);
 
 	wxButton* _rename;
 	wxButton* _remove;
