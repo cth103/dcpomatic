@@ -28,12 +28,12 @@ namespace dcpomatic {
 
 /** @param periods Set of periods in ascending order of from time */
 template <class T>
-std::list<TimePeriod<T>> coalesce (std::list<TimePeriod<T>> periods)
+std::list<TimePeriod<T>> coalesce(std::list<TimePeriod<T>> periods)
 {
 	bool did_something;
 	std::list<TimePeriod<T>> coalesced;
 	do {
-		coalesced.clear ();
+		coalesced.clear();
 		did_something = false;
 		for (auto i = periods.begin(); i != periods.end(); ++i) {
 			auto j = i;
@@ -43,7 +43,7 @@ std::list<TimePeriod<T>> coalesce (std::list<TimePeriod<T>> periods)
 				did_something = true;
 				++i;
 			} else {
-				coalesced.push_back (*i);
+				coalesced.push_back(*i);
 			}
 		}
 		periods = coalesced;
