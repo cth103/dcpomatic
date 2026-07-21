@@ -43,19 +43,19 @@ using std::vector;
 #ifdef DCPOMATIC_BOOST_PROCESS_V1
 
 vector<string>
-ext2_ls (vector<string> arguments)
+ext2_ls(vector<string> arguments)
 {
 	using namespace boost::process;
 
 	dcpomatic::io_context ios;
 	future<string> data;
-	child ch (search_path("e2ls"), arguments, std_in.close(), std_out > data, ios);
+	child ch(search_path("e2ls"), arguments, std_in.close(), std_out > data, ios);
 	ios.run();
 
 	auto output = data.get();
-	boost::trim (output);
+	boost::trim(output);
 	vector<string> parts;
-	boost::split (parts, output, boost::is_any_of("\t "), boost::token_compress_on);
+	boost::split(parts, output, boost::is_any_of("\t "), boost::token_compress_on);
 	return parts;
 }
 
@@ -103,11 +103,11 @@ static
 void
 make_empty_file(boost::filesystem::path file, off_t size)
 {
-       auto fd = open (file.string().c_str(), O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
-       BOOST_REQUIRE (fd != -1);
-       auto const r = posix_fallocate (fd, 0, size);
-       BOOST_REQUIRE_EQUAL (r, 0);
-       close (fd);
+       auto fd = open(file.string().c_str(), O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
+       BOOST_REQUIRE(fd != -1);
+       auto const r = posix_fallocate(fd, 0, size);
+       BOOST_REQUIRE_EQUAL(r, 0);
+       close(fd);
 }
 
 
@@ -117,7 +117,7 @@ make_empty_file(boost::filesystem::path file, off_t size)
  *  - the file and directory have reasonable timestamps
  *  - the file can be copied back off the disk
  */
-BOOST_AUTO_TEST_CASE (disk_writer_test1)
+BOOST_AUTO_TEST_CASE(disk_writer_test1)
 {
 	using namespace boost::filesystem;
 #ifdef DCPOMATIC_BOOST_PROCESS_V1
@@ -141,19 +141,19 @@ BOOST_AUTO_TEST_CASE (disk_writer_test1)
 	make_random_file(partition, 256 * 1024 * 1024);
 
 	path dcp = "build/test/disk_writer_test1";
-	create_directory (dcp);
+	create_directory(dcp);
 	/* Some arbitrary file size here */
-	make_random_file (dcp / "foo", 1024 * 1024 * 32 - 6128);
+	make_random_file(dcp / "foo", 1024 * 1024 * 32 - 6128);
 
-	dcpomatic::write ({dcp}, disk.string(), partition.string(), nullptr);
+	dcpomatic::write({dcp}, disk.string(), partition.string(), nullptr);
 
-	BOOST_CHECK_EQUAL (system("/sbin/e2fsck -fn build/test/disk_writer_test1.partition"), 0);
+	BOOST_CHECK_EQUAL(system("/sbin/e2fsck -fn build/test/disk_writer_test1.partition"), 0);
 
 	{
 		dcpomatic::io_context ios;
 #ifdef DCPOMATIC_BOOST_PROCESS_V1
 		future<string> data;
-		child ch ("/sbin/tune2fs", args({"-l", partition.string()}), std_in.close(), std_out > data, ios);
+		child ch("/sbin/tune2fs", args({"-l", partition.string()}), std_in.close(), std_out > data, ios);
 		ios.run();
 		string output = data.get();
 #else
@@ -164,37 +164,37 @@ BOOST_AUTO_TEST_CASE (disk_writer_test1)
 
 		std::smatch matches;
 		std::regex reg("Inode size:\\s*(.*)");
-		BOOST_REQUIRE (std::regex_search(output, matches, reg));
-		BOOST_REQUIRE (matches.size() == 2);
-		BOOST_CHECK_EQUAL (matches[1].str(), "128");
+		BOOST_REQUIRE(std::regex_search(output, matches, reg));
+		BOOST_REQUIRE(matches.size() == 2);
+		BOOST_CHECK_EQUAL(matches[1].str(), "128");
 	}
 
-	BOOST_CHECK (ext2_ls({partition.string()}) == vector<string>({"disk_writer_test1", "lost+found"}));
+	BOOST_CHECK(ext2_ls({partition.string()}) == vector<string>({"disk_writer_test1", "lost+found"}));
 
 	string const unset_date = "1-Jan-1970";
 
 	/* Check timestamp of the directory has been set */
 	auto details = ext2_ls({"-l", partition.string()});
-	BOOST_REQUIRE (details.size() >= 6);
-	BOOST_CHECK (details[5] != unset_date);
+	BOOST_REQUIRE(details.size() >= 6);
+	BOOST_CHECK(details[5] != unset_date);
 
 	auto const dir = partition.string() + ":disk_writer_test1";
-	BOOST_CHECK (ext2_ls({dir}) == vector<string>({"foo"}));
+	BOOST_CHECK(ext2_ls({dir}) == vector<string>({"foo"}));
 
 	/* Check timestamp of foo */
 	details = ext2_ls({"-l", dir});
-	BOOST_REQUIRE (details.size() >= 6);
-	BOOST_CHECK (details[5] != unset_date);
+	BOOST_REQUIRE(details.size() >= 6);
+	BOOST_CHECK(details[5] != unset_date);
 
 	int const r = system(fmt::format("e2cp {}:disk_writer_test1/foo build/test/disk_writer_test1_foo_back", partition.string()).c_str());
 	BOOST_CHECK_EQUAL(r, 0);
-	check_file ("build/test/disk_writer_test1/foo", "build/test/disk_writer_test1_foo_back");
+	check_file("build/test/disk_writer_test1/foo", "build/test/disk_writer_test1_foo_back");
 
 	cl.run();
 }
 
 
-BOOST_AUTO_TEST_CASE (disk_writer_test2)
+BOOST_AUTO_TEST_CASE(disk_writer_test2)
 {
 	using namespace boost::filesystem;
 	using namespace boost::process;
@@ -237,7 +237,7 @@ BOOST_AUTO_TEST_CASE (disk_writer_test2)
 
 
 
-BOOST_AUTO_TEST_CASE (disk_writer_test3)
+BOOST_AUTO_TEST_CASE(disk_writer_test3)
 {
 	using namespace boost::filesystem;
 	using namespace boost::process;
