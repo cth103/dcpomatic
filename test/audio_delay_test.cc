@@ -52,24 +52,24 @@ using boost::lexical_cast;
 
 
 static
-void test_audio_delay (int delay_in_ms)
+void test_audio_delay(int delay_in_ms)
 {
-	string const film_name = "audio_delay_test_" + lexical_cast<string> (delay_in_ms);
+	string const film_name = "audio_delay_test_" + lexical_cast<string>(delay_in_ms);
 	auto content = make_shared<FFmpegContent>("test/data/staircase.wav");
 	auto film = new_test_film(film_name, { content });
 
-	content->audio->set_delay (delay_in_ms);
+	content->audio->set_delay(delay_in_ms);
 
-	make_and_verify_dcp (film, { dcp::VerificationNote::Code::MISSING_CPL_METADATA });
+	make_and_verify_dcp(film, { dcp::VerificationNote::Code::MISSING_CPL_METADATA });
 
 	boost::filesystem::path path = "build/test";
 	path /= film_name;
-	path /= film->dcp_name ();
-	dcp::DCP check (path.string ());
-	check.read ();
+	path /= film->dcp_name();
+	dcp::DCP check(path.string());
+	check.read();
 
-	auto sound_asset = check.cpls().front()->reels().front()->main_sound ();
-	BOOST_CHECK (sound_asset);
+	auto sound_asset = check.cpls().front()->reels().front()->main_sound();
+	BOOST_CHECK(sound_asset);
 
 	/* Sample index in the DCP */
 	int n = 0;
@@ -79,8 +79,8 @@ void test_audio_delay (int delay_in_ms)
 	int const delay_in_frames = delay_in_ms * 48000 / 1000;
 
 	while (n < sound_asset->asset()->intrinsic_duration()) {
-		auto sound_frame = sound_asset->asset()->start_read()->get_frame (frame++);
-		uint8_t const * d = sound_frame->data ();
+		auto sound_frame = sound_asset->asset()->start_read()->get_frame(frame++);
+		uint8_t const * d = sound_frame->data();
 
 		for (int i = 0; i < sound_frame->size(); i += (3 * sound_asset->asset()->channels())) {
 
@@ -92,7 +92,7 @@ void test_audio_delay (int delay_in_ms)
 				delayed = 0;
 			}
 
-			BOOST_REQUIRE_EQUAL (sample, delayed);
+			BOOST_REQUIRE_EQUAL(sample, delayed);
 			++n;
 		}
 	}
@@ -100,9 +100,9 @@ void test_audio_delay (int delay_in_ms)
 
 
 /* Test audio delay when specified in a piece of audio content */
-BOOST_AUTO_TEST_CASE (audio_delay_test)
+BOOST_AUTO_TEST_CASE(audio_delay_test)
 {
-	test_audio_delay (0);
-	test_audio_delay (42);
-	test_audio_delay (-66);
+	test_audio_delay(0);
+	test_audio_delay(42);
+	test_audio_delay(-66);
 }
