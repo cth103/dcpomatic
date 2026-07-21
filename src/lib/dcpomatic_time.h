@@ -34,9 +34,7 @@
 #include <stdint.h>
 #include <cmath>
 #include <cstdio>
-#include <iomanip>
 #include <list>
-#include <ostream>
 
 
 struct dcpomatic_time_ceil_test;
