@@ -242,14 +242,14 @@ BOOST_AUTO_TEST_CASE(disk_writer_test3)
 	using namespace boost::filesystem;
 	using namespace boost::process;
 
-	remove_all("build/test/disk_writer_test3.disk");
-	remove_all("build/test/disk_writer_test3.partition");
+	path const disk = "build/test/disk_writer_test3.disk";
+	path const partition = "build/test/disk_writer_test3.partition";
+
+	remove_all(disk);
+	remove_all(partition);
 	remove_all("build/test/disk_writer_test3");
 
 	Cleanup cl;
-
-	path const disk = "build/test/disk_writer_test3.disk";
-	path const partition = "build/test/disk_writer_test3.partition";
 
 	cl.add(disk);
 	cl.add(partition);
