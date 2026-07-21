@@ -70,53 +70,53 @@ static shared_ptr<AudioBuffers> accumulated;
 
 
 static void
-accumulate (shared_ptr<AudioBuffers> audio, DCPTime)
+accumulate(shared_ptr<AudioBuffers> audio, DCPTime)
 {
-	BOOST_REQUIRE (accumulated);
-	accumulated->append (audio);
+	BOOST_REQUIRE(accumulated);
+	accumulated->append(audio);
 }
 
 
 /** Check that the Player correctly generates silence when used with a silent FFmpegContent */
-BOOST_AUTO_TEST_CASE (player_silence_padding_test)
+BOOST_AUTO_TEST_CASE(player_silence_padding_test)
 {
 	auto c = std::make_shared<FFmpegContent>("test/data/test.mp4");
 	auto film = new_test_film("player_silence_padding_test", { c });
-	film->set_audio_channels (6);
+	film->set_audio_channels(6);
 
 	accumulated = std::make_shared<AudioBuffers>(film->audio_channels(), 0);
 
 	Player player(film, Image::Alignment::COMPACT, false);
 	player.Audio.connect(bind(&accumulate, _1, _2));
 	while (!player.pass()) {}
-	BOOST_REQUIRE (accumulated->frames() >= 48000);
-	BOOST_CHECK_EQUAL (accumulated->channels(), film->audio_channels ());
+	BOOST_REQUIRE(accumulated->frames() >= 48000);
+	BOOST_CHECK_EQUAL(accumulated->channels(), film->audio_channels());
 
 	for (int i = 0; i < 48000; ++i) {
 		for (int c = 0; c < accumulated->channels(); ++c) {
-			BOOST_CHECK_EQUAL (accumulated->data()[c][i], 0);
+			BOOST_CHECK_EQUAL(accumulated->data()[c][i], 0);
 		}
 	}
 }
 
 
 /* Test insertion of black frames between separate bits of video content */
-BOOST_AUTO_TEST_CASE (player_black_fill_test)
+BOOST_AUTO_TEST_CASE(player_black_fill_test)
 {
 	auto contentA = std::make_shared<ImageContent>("test/data/simple_testcard_640x480.png");
 	auto contentB = std::make_shared<ImageContent>("test/data/simple_testcard_640x480.png");
 	auto film = new_test_film("black_fill_test", { contentA, contentB });
 	film->set_dcp_content_type(DCPContentType::from_isdcf_name("FTR"));
-	film->set_sequence (false);
+	film->set_sequence(false);
 
-	contentA->video->set_length (3);
-	contentA->set_position (film, DCPTime::from_frames(2, film->video_frame_rate()));
-	contentA->video->set_custom_ratio (1.85);
-	contentB->video->set_length (1);
-	contentB->set_position (film, DCPTime::from_frames(7, film->video_frame_rate()));
-	contentB->video->set_custom_ratio (1.85);
+	contentA->video->set_length(3);
+	contentA->set_position(film, DCPTime::from_frames(2, film->video_frame_rate()));
+	contentA->video->set_custom_ratio(1.85);
+	contentB->video->set_length(1);
+	contentB->set_position(film, DCPTime::from_frames(7, film->video_frame_rate()));
+	contentB->video->set_custom_ratio(1.85);
 
-	make_and_verify_dcp (
+	make_and_verify_dcp(
 		film,
 		{
 			dcp::VerificationNote::Code::MISSING_FFMC_IN_FEATURE,
@@ -143,18 +143,18 @@ BOOST_AUTO_TEST_CASE (player_black_fill_test)
 
 
 /** Check behaviour with an awkward playlist whose data does not end on a video frame start */
-BOOST_AUTO_TEST_CASE (player_subframe_test)
+BOOST_AUTO_TEST_CASE(player_subframe_test)
 {
 	auto A = content_factory("test/data/flat_red.png")[0];
 	auto B = content_factory("test/data/awkward_length.wav")[0];
 	auto film = new_test_film("reels_test7", { A, B });
-	film->set_video_frame_rate (24);
-	A->video->set_length (3 * 24);
+	film->set_video_frame_rate(24);
+	A->video->set_length(3 * 24);
 
-	BOOST_CHECK (A->full_length(film) == DCPTime::from_frames(3 * 24, 24));
-	BOOST_CHECK (B->full_length(film) == DCPTime(289920));
+	BOOST_CHECK(A->full_length(film) == DCPTime::from_frames(3 * 24, 24));
+	BOOST_CHECK(B->full_length(film) == DCPTime(289920));
 	/* Length should be rounded up from B's length to the next video frame */
-	BOOST_CHECK (film->length() == DCPTime::from_frames(3 * 24 + 1, 24));
+	BOOST_CHECK(film->length() == DCPTime::from_frames(3 * 24 + 1, 24));
 
 	Player player(film, Image::Alignment::COMPACT, false);
 	player.setup_pieces();
@@ -170,32 +170,32 @@ static Frame audio_frames;
 
 
 static void
-video (shared_ptr<PlayerVideo>, DCPTime)
+video(shared_ptr<PlayerVideo>, DCPTime)
 {
 	++video_frames;
 }
 
 static void
-audio (shared_ptr<AudioBuffers> audio, DCPTime)
+audio(shared_ptr<AudioBuffers> audio, DCPTime)
 {
 	audio_frames += audio->frames();
 }
 
 
 /** Check with a video-only file that the video and audio emissions happen more-or-less together */
-BOOST_AUTO_TEST_CASE (player_interleave_test)
+BOOST_AUTO_TEST_CASE(player_interleave_test)
 {
 	auto c = std::make_shared<FFmpegContent>("test/data/test.mp4");
 	auto s = std::make_shared<StringTextFileContent>("test/data/subrip.srt");
 	auto film = new_test_film("ffmpeg_transcoder_basic_test_subs", { c, s });
-	film->set_audio_channels (6);
+	film->set_audio_channels(6);
 
 	Player player(film, Image::Alignment::COMPACT, false);
 	player.Video.connect(bind(&video, _1, _2));
 	player.Audio.connect(bind(&audio, _1, _2));
 	video_frames = audio_frames = 0;
 	while (!player.pass()) {
-		BOOST_CHECK (abs(video_frames - (audio_frames / 2000)) <= 8);
+		BOOST_CHECK(abs(video_frames - (audio_frames / 2000)) <= 8);
 	}
 }
 
@@ -205,13 +205,13 @@ BOOST_AUTO_TEST_CASE (player_interleave_test)
  *  caused by the subtitle starting just after the start of the video frame and hence
  *  being faded out.
  */
-BOOST_AUTO_TEST_CASE (player_seek_test)
+BOOST_AUTO_TEST_CASE(player_seek_test)
 {
 	auto film = std::make_shared<Film>(optional<boost::filesystem::path>());
 	auto dcp = std::make_shared<DCPContent>(TestPaths::private_data() / "awkward_subs");
 	film->examine_and_add_content({dcp}, true);
-	BOOST_REQUIRE (!wait_for_jobs ());
-	dcp->only_text()->set_use (true);
+	BOOST_REQUIRE(!wait_for_jobs());
+	dcp->only_text()->set_use(true);
 
 	Player player(film, Image::Alignment::COMPACT, false);
 	player.set_fast();
@@ -223,8 +223,8 @@ BOOST_AUTO_TEST_CASE (player_seek_test)
 		);
 
 	for (int i = 0; i < 10; ++i) {
-		auto t = DCPTime::from_frames (i, 24);
-		butler->seek (t, true);
+		auto t = DCPTime::from_frames(i, 24);
+		butler->seek(t, true);
 		auto video = butler->get_video(Butler::Behaviour::BLOCKING, 0);
 		BOOST_CHECK_EQUAL(video.second.get(), t.get());
 		write_image(video.first->image(force(AV_PIX_FMT_RGB24), VideoRange::FULL, true), fmt::format("build/test/player_seek_test_{}.png", i));
@@ -238,13 +238,13 @@ BOOST_AUTO_TEST_CASE (player_seek_test)
 
 
 /** Test some more seeks towards the start of a DCP with awkward subtitles */
-BOOST_AUTO_TEST_CASE (player_seek_test2)
+BOOST_AUTO_TEST_CASE(player_seek_test2)
 {
 	auto film = std::make_shared<Film>(optional<boost::filesystem::path>());
 	auto dcp = std::make_shared<DCPContent>(TestPaths::private_data() / "awkward_subs2");
 	film->examine_and_add_content({dcp}, true);
-	BOOST_REQUIRE (!wait_for_jobs ());
-	dcp->only_text()->set_use (true);
+	BOOST_REQUIRE(!wait_for_jobs());
+	dcp->only_text()->set_use(true);
 
 	Player player(film, Image::Alignment::COMPACT, false);
 	player.set_fast();
@@ -258,8 +258,8 @@ BOOST_AUTO_TEST_CASE (player_seek_test2)
 	butler->seek(DCPTime::from_seconds(5), true);
 
 	for (int i = 0; i < 10; ++i) {
-		auto t = DCPTime::from_seconds(5) + DCPTime::from_frames (i, 24);
-		butler->seek (t, true);
+		auto t = DCPTime::from_seconds(5) + DCPTime::from_frames(i, 24);
+		butler->seek(t, true);
 		auto video = butler->get_video(Butler::Behaviour::BLOCKING, 0);
 		BOOST_CHECK_EQUAL(video.second.get(), t.get());
 		write_image(
@@ -271,21 +271,21 @@ BOOST_AUTO_TEST_CASE (player_seek_test2)
 
 
 /** Test a bug when trimmed content follows other content */
-BOOST_AUTO_TEST_CASE (player_trim_test)
+BOOST_AUTO_TEST_CASE(player_trim_test)
 {
        auto film = new_test_film("player_trim_test");
        auto A = content_factory("test/data/flat_red.png")[0];
        film->examine_and_add_content({A});
-       BOOST_REQUIRE (!wait_for_jobs ());
-       A->video->set_length (10 * 24);
+       BOOST_REQUIRE(!wait_for_jobs());
+       A->video->set_length(10 * 24);
        auto B = content_factory("test/data/flat_red.png")[0];
        film->examine_and_add_content({B});
-       BOOST_REQUIRE (!wait_for_jobs ());
-       B->video->set_length (10 * 24);
-       B->set_position (film, DCPTime::from_seconds(10));
+       BOOST_REQUIRE(!wait_for_jobs());
+       B->video->set_length(10 * 24);
+       B->set_position(film, DCPTime::from_seconds(10));
        B->set_trim_start(film, ContentTime::from_seconds(2));
 
-       make_and_verify_dcp (film);
+       make_and_verify_dcp(film);
 }
 
 
@@ -298,48 +298,48 @@ struct Sub {
 
 
 static void
-store (list<Sub>* out, PlayerText text, TextType type, optional<DCPTextTrack> track, DCPTimePeriod period)
+store(list<Sub>* out, PlayerText text, TextType type, optional<DCPTextTrack> track, DCPTimePeriod period)
 {
 	Sub s;
 	s.text = text;
 	s.type = type;
 	s.track = track;
 	s.period = period;
-	out->push_back (s);
+	out->push_back(s);
 }
 
 
 /** Test ignoring both video and audio */
-BOOST_AUTO_TEST_CASE (player_ignore_video_and_audio_test)
+BOOST_AUTO_TEST_CASE(player_ignore_video_and_audio_test)
 {
 	auto film = new_test_film("player_ignore_video_and_audio_test");
 	auto ff = content_factory(TestPaths::private_data() / "boon_telly.mkv")[0];
 	film->examine_and_add_content({ff});
 	auto text = content_factory("test/data/subrip.srt")[0];
 	film->examine_and_add_content({text});
-	BOOST_REQUIRE (!wait_for_jobs());
-	text->only_text()->set_type (TextType::CLOSED_CAPTION);
-	text->only_text()->set_use (true);
+	BOOST_REQUIRE(!wait_for_jobs());
+	text->only_text()->set_type(TextType::CLOSED_CAPTION);
+	text->only_text()->set_use(true);
 
 	Player player(film, Image::Alignment::COMPACT, false);
 	player.set_ignore_video();
 	player.set_ignore_audio();
 
 	list<Sub> out;
-	player.Text.connect(bind (&store, &out, _1, _2, _3, _4));
+	player.Text.connect(bind(&store, &out, _1, _2, _3, _4));
 	while (!player.pass()) {}
 
-	BOOST_CHECK_EQUAL (out.size(), 6U);
+	BOOST_CHECK_EQUAL(out.size(), 6U);
 }
 
 
 /** Trigger a crash due to the assertion failure in Player::emit_audio */
-BOOST_AUTO_TEST_CASE (player_trim_crash)
+BOOST_AUTO_TEST_CASE(player_trim_crash)
 {
 	auto film = new_test_film("player_trim_crash");
 	auto boon = content_factory(TestPaths::private_data() / "boon_telly.mkv")[0];
 	film->examine_and_add_content({boon});
-	BOOST_REQUIRE (!wait_for_jobs());
+	BOOST_REQUIRE(!wait_for_jobs());
 
 	Player player(film, Image::Alignment::COMPACT, false);
 	player.set_fast();
@@ -348,92 +348,92 @@ BOOST_AUTO_TEST_CASE (player_trim_crash)
 		);
 
 	/* Wait for the butler to fill */
-	dcpomatic_sleep_seconds (5);
+	dcpomatic_sleep_seconds(5);
 
 	boon->set_trim_start(film, ContentTime::from_seconds(5));
 
-	butler->seek (DCPTime(), true);
+	butler->seek(DCPTime(), true);
 
 	/* Wait for the butler to refill */
-	dcpomatic_sleep_seconds (5);
+	dcpomatic_sleep_seconds(5);
 
-	butler->rethrow ();
+	butler->rethrow();
 }
 
 
 /** Test a crash when the gap between the last audio and the start of a silent period is more than 1 sample */
-BOOST_AUTO_TEST_CASE (player_silence_crash)
+BOOST_AUTO_TEST_CASE(player_silence_crash)
 {
 	Cleanup cl;
 
 	auto sine = content_factory("test/data/impulse_train.wav")[0];
 	auto film = new_test_film("player_silence_crash", { sine }, &cl);
 	sine->set_video_frame_rate(film, 23.976);
-	make_and_verify_dcp (film, {dcp::VerificationNote::Code::MISSING_CPL_METADATA});
+	make_and_verify_dcp(film, {dcp::VerificationNote::Code::MISSING_CPL_METADATA});
 
 	cl.run();
 }
 
 
 /** Test a crash when processing a 3D DCP */
-BOOST_AUTO_TEST_CASE (player_3d_test_1)
+BOOST_AUTO_TEST_CASE(player_3d_test_1)
 {
 	auto film = new_test_film("player_3d_test_1a");
 	auto left = content_factory("test/data/flat_red.png")[0];
 	film->examine_and_add_content({left});
 	auto right = content_factory("test/data/flat_blue.png")[0];
 	film->examine_and_add_content({right});
-	BOOST_REQUIRE (!wait_for_jobs());
+	BOOST_REQUIRE(!wait_for_jobs());
 
-	left->video->set_frame_type (VideoFrameType::THREE_D_LEFT);
-	left->set_position (film, DCPTime());
-	right->video->set_frame_type (VideoFrameType::THREE_D_RIGHT);
-	right->set_position (film, DCPTime());
-	film->set_three_d (true);
+	left->video->set_frame_type(VideoFrameType::THREE_D_LEFT);
+	left->set_position(film, DCPTime());
+	right->video->set_frame_type(VideoFrameType::THREE_D_RIGHT);
+	right->set_position(film, DCPTime());
+	film->set_three_d(true);
 
-	make_and_verify_dcp (film);
+	make_and_verify_dcp(film);
 
 	auto dcp = std::make_shared<DCPContent>(film->dir(film->dcp_name()));
 	auto film2 = new_test_film("player_3d_test_1b", {dcp});
 
-	film2->set_three_d (true);
-	make_and_verify_dcp (film2);
+	film2->set_three_d(true);
+	make_and_verify_dcp(film2);
 }
 
 
 /** Test a crash when processing a 3D DCP as content in a 2D project */
-BOOST_AUTO_TEST_CASE (player_3d_test_2)
+BOOST_AUTO_TEST_CASE(player_3d_test_2)
 {
 	auto left = content_factory("test/data/flat_red.png")[0];
 	auto right = content_factory("test/data/flat_blue.png")[0];
 	auto film = new_test_film("player_3d_test_2a", {left, right});
 
-	left->video->set_frame_type (VideoFrameType::THREE_D_LEFT);
-	left->set_position (film, DCPTime());
-	right->video->set_frame_type (VideoFrameType::THREE_D_RIGHT);
-	right->set_position (film, DCPTime());
-	film->set_three_d (true);
+	left->video->set_frame_type(VideoFrameType::THREE_D_LEFT);
+	left->set_position(film, DCPTime());
+	right->video->set_frame_type(VideoFrameType::THREE_D_RIGHT);
+	right->set_position(film, DCPTime());
+	film->set_three_d(true);
 
-	make_and_verify_dcp (film);
+	make_and_verify_dcp(film);
 
 	auto dcp = std::make_shared<DCPContent>(film->dir(film->dcp_name()));
 	auto film2 = new_test_film("player_3d_test_2b", {dcp});
 
-	make_and_verify_dcp (film2);
+	make_and_verify_dcp(film2);
 }
 
 
 /** Test a crash when there is video-only content at the end of the DCP and a frame-rate conversion is happening;
  *  #1691.
  */
-BOOST_AUTO_TEST_CASE (player_silence_at_end_crash)
+BOOST_AUTO_TEST_CASE(player_silence_at_end_crash)
 {
 	/* 25fps DCP with some audio */
 	auto content1 = content_factory("test/data/flat_red.png")[0];
 	auto film1 = new_test_film("player_silence_at_end_crash_1", {content1});
-	content1->video->set_length (25);
-	film1->set_video_frame_rate (25);
-	make_and_verify_dcp (film1);
+	content1->video->set_length(25);
+	film1->set_video_frame_rate(25);
+	make_and_verify_dcp(film1);
 
 	/* Make another project importing this DCP */
 	auto content2 = std::make_shared<DCPContent>(film1->dir(film1->dcp_name()));
@@ -447,18 +447,18 @@ BOOST_AUTO_TEST_CASE (player_silence_at_end_crash)
 		}
 	}
 
-	BOOST_REQUIRE (video);
+	BOOST_REQUIRE(video);
 	auto content3 = content_factory(*video)[0];
 	film2->examine_and_add_content({content3});
-	BOOST_REQUIRE (!wait_for_jobs());
-	content3->set_position (film2, DCPTime::from_seconds(1.5));
-	film2->set_video_frame_rate (24);
-	make_and_verify_dcp (film2);
+	BOOST_REQUIRE(!wait_for_jobs());
+	content3->set_position(film2, DCPTime::from_seconds(1.5));
+	film2->set_video_frame_rate(24);
+	make_and_verify_dcp(film2);
 }
 
 
 /** #2257 */
-BOOST_AUTO_TEST_CASE (encrypted_dcp_with_no_kdm_gives_no_butler_error)
+BOOST_AUTO_TEST_CASE(encrypted_dcp_with_no_kdm_gives_no_butler_error)
 {
 	auto content = content_factory("test/data/flat_red.png")[0];
 	auto film = new_test_film("encrypted_dcp_with_no_kdm_gives_no_butler_error", { content });
@@ -467,7 +467,7 @@ BOOST_AUTO_TEST_CASE (encrypted_dcp_with_no_kdm_gives_no_butler_error)
 	film->set_encrypt_picture(true);
 	film->set_encrypt_sound(true);
 	film->set_encrypt_text(true);
-	make_and_verify_dcp (
+	make_and_verify_dcp(
 		film,
 		{
 			dcp::VerificationNote::Code::MISSING_CPL_METADATA,
@@ -489,7 +489,7 @@ BOOST_AUTO_TEST_CASE (encrypted_dcp_with_no_kdm_gives_no_butler_error)
 }
 
 
-BOOST_AUTO_TEST_CASE (interleaved_subtitle_are_emitted_correctly)
+BOOST_AUTO_TEST_CASE(interleaved_subtitle_are_emitted_correctly)
 {
 	boost::filesystem::path paths[2] = {
 		"build/test/interleaved_subtitle_are_emitted_correctly1.srt",
