@@ -25,6 +25,7 @@
 #include "font_config.h"
 #include "util.h"
 #include <dcp/filesystem.h>
+#include <ttf/collection.h>
 #include <ttf/font.h>
 #include <ttf/name_table.h>
 #include <fontconfig/fontconfig.h>
@@ -71,12 +72,38 @@ FontConfig::make_font_available(shared_ptr<dcpomatic::Font> font)
 	}
 
 	optional<ttf::Font> ttf_font;
-	if (font->file()) {
-		ttf_font = ttf::Font(*font->file());
-	} else if (font->data()) {
-		ttf_font = ttf::Font(font->data()->data(), font->data()->size());
-	} else {
-		ttf_font = ttf::Font(default_font_file());
+
+	try {
+		if (font->file()) {
+			try {
+				ttf_font = ttf::Font(*font->file());
+			} catch (ttf::InvalidScalerType const&) {
+				/* Perhaps this is actually a TTC */
+				auto collection = ttf::Collection(*font->file());
+				LOG_GENERAL("TTC found instead of TTF: contains {} fonts", collection.fonts().size());
+				if (collection.fonts().empty()) {
+					return boost::none;
+				}
+				ttf_font = collection.fonts()[0];
+			}
+		} else if (font->data()) {
+			try {
+				ttf_font = ttf::Font(font->data()->data(), font->data()->size());
+			} catch (ttf::InvalidScalerType const&) {
+				/* Perhaps this is actually a TTC */
+				auto collection = ttf::Collection(font->data()->data(), font->data()->size());
+				LOG_GENERAL("TTC found instead of TTF: contains {} fonts", collection.fonts().size());
+				if (collection.fonts().empty()) {
+					return boost::none;
+				}
+				ttf_font = collection.fonts()[0];
+			}
+		} else {
+			ttf_font = ttf::Font(default_font_file());
+		}
+	} catch (std::exception& e) {
+		LOG_ERROR("Failed to add font ({})", e.what());
+		return boost::none;
 	}
 
 	DCPOMATIC_ASSERT(ttf_font->name_table());
