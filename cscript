@@ -583,8 +583,7 @@ def configure_options(target, options, for_package=False):
         opt += ' --workaround-mutter'
 
     if target.platform == 'linux' and (
-        (target.distro == 'ubuntu' and target.version == "24.04") or
-        (target.distro == 'fedora' and target.version in ("42", "43"))
+        (target.distro == 'ubuntu' and target.version == "24.04") or target.distro == 'fedora'
     ):
         opt += ' --enable-grok'
 
