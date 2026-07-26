@@ -197,12 +197,10 @@ DCPContent::DCPContent(cxml::ConstNodePtr node, boost::optional<boost::filesyste
 void
 DCPContent::read_directory(boost::filesystem::path p)
 {
-	using namespace boost::filesystem;
-
 	bool have_assetmap = false;
 	bool have_metadata = false;
 
-	for (auto i: directory_iterator(p)) {
+	for (auto i: dcp::filesystem::directory_iterator(p)) {
 		if (i.path().filename() == "ASSETMAP" || i.path().filename() == "ASSETMAP.xml") {
 			have_assetmap = true;
 		} else if (i.path().filename() == "metadata.xml") {
@@ -224,11 +222,9 @@ DCPContent::read_directory(boost::filesystem::path p)
 void
 DCPContent::read_sub_directory(boost::filesystem::path p)
 {
-	using namespace boost::filesystem;
-
 	LOG_GENERAL("DCPContent::read_sub_directory reads {}", p.string());
 	try {
-		for (auto i: directory_iterator(p)) {
+		for (auto i: dcp::filesystem::directory_iterator(p)) {
 			if (is_regular_file(i.path())) {
 				LOG_GENERAL("Inside there's regular file {}", i.path().string());
 				add_path(i.path());
