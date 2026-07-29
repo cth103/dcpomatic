@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-30 20:55+0200\n"
+"POT-Creation-Date: 2026-07-29 23:39+0200\n"
 "PO-Revision-Date: 2026-06-05 20:48+0900\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -238,12 +238,12 @@ msgstr "96kHz"
 msgid ":1"
 msgstr ":1"
 
-#: src/wx/verify_dcp_result_panel.cc:648
+#: src/wx/verify_dcp_result_panel.cc:652
 #, fuzzy, c-format
 msgid "<IssueDate> has an invalid value %issue_date"
 msgstr "<IssueDate> 無効な値があります %n"
 
-#: src/wx/verify_dcp_result_panel.cc:654
+#: src/wx/verify_dcp_result_panel.cc:658
 #, fuzzy, c-format
 msgid "<MainSoundConfiguration> is invalid (%error)"
 msgstr "<MainSoundConfiguration> 無効です (%n)"
@@ -269,12 +269,14 @@ msgstr ""
 msgid "A"
 msgstr "A"
 
-#: src/wx/verify_dcp_result_panel.cc:570
+#. TRANSLATORS: tile parts here is a technical detail of the JPEG2000 standard,
+#. so you could leave it in English.  A tile here is a part of an image.
+#: src/wx/verify_dcp_result_panel.cc:572
 #, fuzzy, c-format
 msgid "A 2K JPEG2000 frame contains %tile_parts tile parts instead of 3."
 msgstr "2K JPEG2000 フレームには、3 個ではなく %n 個のタイル部分が含まれます。"
 
-#: src/wx/verify_dcp_result_panel.cc:584
+#: src/wx/verify_dcp_result_panel.cc:588
 #, fuzzy, c-format
 msgid ""
 "A 2K JPEG2000 frame contains an invalid Rsiz (capabilities) value of "
@@ -291,12 +293,14 @@ msgstr "2K JPEG2000 フレームには、1 ではなく %n のガード ビッ�
 msgid "A 2K JPEG2000 frame has %poc_markers POC marker(s) instead of 0."
 msgstr "2K JPEG2000 フレームには、0 ではなく %n 個の POC マーカーがあります。"
 
-#: src/wx/verify_dcp_result_panel.cc:577
+#. TRANSLATORS: tile parts here is a technical detail of the JPEG2000 standard,
+#. so you could leave it in English.  A tile here is a part of an image.
+#: src/wx/verify_dcp_result_panel.cc:581
 #, fuzzy, c-format
 msgid "A 4K JPEG2000 frame contains %tile_parts tile parts instead of 6."
 msgstr "4K JPEG2000 フレームには、6 個ではなく %n 個のタイル部分が含まれます。"
 
-#: src/wx/verify_dcp_result_panel.cc:591
+#: src/wx/verify_dcp_result_panel.cc:595
 #, fuzzy, c-format
 msgid ""
 "A 4K JPEG2000 frame contains an invalid Rsiz (capabilities) value of "
@@ -336,7 +340,7 @@ msgid ""
 "A JPEG2000 frame has a code-block width of %code_block_width instead of 32."
 msgstr "JPEG2000 フレームのコード ブロック幅は 32 ではなく %n です。"
 
-#: src/wx/verify_dcp_result_panel.cc:598
+#: src/wx/verify_dcp_result_panel.cc:602
 msgid "A JPEG2000 frame has no TLM marker."
 msgstr "JPEG2000フレームにTLMマーカーがありません。"
 
@@ -360,12 +364,12 @@ msgstr "画像フレームに無効な JPEG2000 コードストリーム (%n) �
 msgid "A problem occurred when looking for hints (%s)"
 msgstr "ヒントの検索中に問題が発生しました (%s)"
 
-#: src/wx/verify_dcp_result_panel.cc:603
+#: src/wx/verify_dcp_result_panel.cc:607
 #, fuzzy
 msgid "A subtitle lasts longer than the reel it is in."
 msgstr "字幕の長さは、字幕が含まれるリールの長さよりも長くなります。"
 
-#: src/wx/verify_dcp_result_panel.cc:670
+#: src/wx/verify_dcp_result_panel.cc:674
 #, fuzzy, c-format
 msgid ""
 "A subtitle or closed caption refers to a font with ID %load_font_id that "
@@ -539,8 +543,8 @@ msgstr "詳細設定"
 msgid "Advanced..."
 msgstr "詳細"
 
-#: src/wx/metadata_dialog.cc:217 src/wx/rating_dialog.cc:136
-#: src/wx/rating_dialog.cc:292
+#: src/wx/metadata_dialog.cc:217 src/wx/rating_dialog.cc:138
+#: src/wx/rating_dialog.cc:296
 msgid "Agency"
 msgstr "仲介機関"
 
@@ -585,7 +589,7 @@ msgstr "更なる支援者"
 msgid "An asset has an empty path in the ASSETMAP."
 msgstr "ASSETMAP内のデータのパスが空です。"
 
-#: src/wx/verify_dcp_result_panel.cc:633
+#: src/wx/verify_dcp_result_panel.cc:637
 #, fuzzy, c-format
 msgid "An invalid <ContentKind> %content_kind has been used."
 msgstr "無効な <ContentKind> %n が使用されました。"
@@ -636,7 +640,7 @@ msgstr ""
 "次のアドレスにメールを送信してもよろしいですか?\n"
 "\n"
 
-#: src/wx/verify_dcp_result_panel.cc:618
+#: src/wx/verify_dcp_result_panel.cc:622
 #, fuzzy
 msgid "At least one <Text> node in a subtitle or closed caption is empty."
 msgstr ""
@@ -957,11 +961,11 @@ msgid "Content directory"
 msgstr "コンテンツのディレクトリ"
 
 #: src/wx/content_version_dialog.cc:32 src/wx/content_version_dialog.cc:34
-#: src/wx/interop_metadata_dialog.cc:64
+#: src/wx/interop_metadata_dialog.cc:67
 msgid "Content version"
 msgstr "コンテンツのバージョン"
 
-#: src/wx/smpte_metadata_dialog.cc:104
+#: src/wx/smpte_metadata_dialog.cc:107
 msgid "Content versions"
 msgstr "コンテンツのバージョン"
 
@@ -1111,7 +1115,7 @@ msgstr "カーソル位置: %.1fdB at %s"
 msgid "Cursor: none"
 msgstr "カーソル位置: なし"
 
-#: src/wx/dcp_timeline.cc:271 src/wx/rating_dialog.cc:51
+#: src/wx/dcp_timeline.cc:271 src/wx/rating_dialog.cc:53
 #: src/wx/ratio_picker.cc:49
 msgid "Custom"
 msgstr "カスタム"
@@ -1263,7 +1267,7 @@ msgstr "詳細"
 msgid "Direct Sound"
 msgstr "直接音"
 
-#: src/wx/smpte_metadata_dialog.cc:94
+#: src/wx/smpte_metadata_dialog.cc:97
 msgid "Distributor"
 msgstr "配給者"
 
@@ -1510,7 +1514,7 @@ msgstr "設定をコピーするプロジェクト"
 msgid "Filters"
 msgstr ""
 
-#: src/wx/smpte_metadata_dialog.cc:139
+#: src/wx/smpte_metadata_dialog.cc:142
 msgid "Final"
 msgstr "最終"
 
@@ -1595,7 +1599,7 @@ msgstr ""
 "%f 内の %frame フレーム（タイムコード  %timecode ）の瞬間ビットレートは"
 "250Mbit/s の制限値を超えています。"
 
-#: src/wx/verify_dcp_result_panel.cc:662
+#: src/wx/verify_dcp_result_panel.cc:666
 #, c-format
 msgid ""
 "Frame %frame has an image component that is too large (component %component "
@@ -1636,7 +1640,7 @@ msgstr "テンプレート元"
 msgid "Full (JPEG, 0-255)"
 msgstr "Full (JPEG, 0-255)"
 
-#: src/wx/timing_panel.cc:108
+#: src/wx/timing_panel.cc:104
 msgid "Full length"
 msgstr "全長時間"
 
@@ -2205,7 +2209,7 @@ msgstr "付帯情報"
 msgid "Mix audio down to stereo"
 msgstr "音声をステレオへMIX"
 
-#: src/wx/verify_dcp_result_panel.cc:571
+#: src/wx/verify_dcp_result_panel.cc:573
 msgid ""
 "More 2K JPEG2000 frames (not listed) contain the wrong number of tile parts."
 msgstr ""
@@ -2250,11 +2254,11 @@ msgstr ""
 msgid "More JPEG2000 frames (not listed) contain invalid POC markers."
 msgstr "JPEG2000フレーム（記載なし）に無効なPOCマーカーが多数含まれています。"
 
-#: src/wx/verify_dcp_result_panel.cc:585 src/wx/verify_dcp_result_panel.cc:592
+#: src/wx/verify_dcp_result_panel.cc:589 src/wx/verify_dcp_result_panel.cc:596
 msgid "More JPEG2000 frames (not listed) contain invalid Rsiz values."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:578
+#: src/wx/verify_dcp_result_panel.cc:582
 msgid ""
 "More JPEG2000 frames (not listed) contain the wrong number of tile parts."
 msgstr ""
@@ -2267,7 +2271,7 @@ msgstr ""
 msgid "More JPEG2000 frames (not listed) have an invalid code-block width."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:599
+#: src/wx/verify_dcp_result_panel.cc:603
 msgid "More JPEG2000 frames (not listed) have no TLM marker."
 msgstr ""
 
@@ -2287,7 +2291,7 @@ msgid ""
 "limit of 250Mbit/s."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:663
+#: src/wx/verify_dcp_result_panel.cc:667
 msgid "More frames (not listed) have image components that are too large."
 msgstr ""
 
@@ -2316,7 +2320,7 @@ msgstr "選択したコンテンツを映画の冒頭に移動させる。"
 msgid "Move the selected piece of content later in the film."
 msgstr "選択したコンテンツを映画の後半に移動させる。"
 
-#: src/wx/timing_panel.cc:107
+#: src/wx/timing_panel.cc:103
 msgid "Move to start of reel"
 msgstr "リールの先頭へ移動"
 
@@ -2387,7 +2391,7 @@ msgstr "ASSETMAPファイルまたはASSETMAP.xmlファイルが見つかりま�
 msgid "No DCP loaded."
 msgstr "DCPが読み込まれていません。"
 
-#: src/wx/verify_dcp_result_panel.cc:711
+#: src/wx/verify_dcp_result_panel.cc:715
 msgid "No SMPTE Bv2.1 errors found."
 msgstr "SMPTE Bv2.1のエラーは見つかりませんでした。"
 
@@ -2400,11 +2404,11 @@ msgstr ""
 msgid "No content found in this folder."
 msgstr "このフォルダ内にコンテンツが見つかりません。"
 
-#: src/wx/verify_dcp_result_panel.cc:707
+#: src/wx/verify_dcp_result_panel.cc:711
 msgid "No errors found."
 msgstr "異常は見つかりませんでした。"
 
-#: src/wx/verify_dcp_result_panel.cc:715
+#: src/wx/verify_dcp_result_panel.cc:719
 msgid "No warnings found."
 msgstr "警告は見つかりませんでした。"
 
@@ -2480,13 +2484,13 @@ msgstr "映画のタイムラインを開く (Ctrl+T)。"
 msgid "OpenGL (faster)"
 msgstr "OpenGL (高速)"
 
-#: src/wx/system_information_dialog.cc:83
+#: src/wx/system_information_dialog.cc:81
 #, c-format
 msgid "OpenGL renderer not supported by this %s version"
 msgstr "OpenGL renderer はこの %s バージョンではサポートされていません"
 
-#: src/wx/system_information_dialog.cc:51
-#: src/wx/system_information_dialog.cc:82
+#: src/wx/system_information_dialog.cc:49
+#: src/wx/system_information_dialog.cc:80
 msgid "OpenGL version"
 msgstr "OpenGL version"
 
@@ -2547,7 +2551,7 @@ msgstr "検出された動画フレームレートを上書きする"
 msgid "Overwrite this file with current configuration"
 msgstr "このファイルへ現在の設定を上書き"
 
-#: src/wx/verify_dcp_result_panel.cc:615
+#: src/wx/verify_dcp_result_panel.cc:619
 msgid "Part of the DCP could not be checked because no KDM was available."
 msgstr "KDM が利用できないため、DCP の一部をチェックできませんでした。"
 
@@ -2622,7 +2626,7 @@ msgstr "Plain"
 msgid "Play"
 msgstr "再生"
 
-#: src/wx/timing_panel.cc:116
+#: src/wx/timing_panel.cc:112
 msgid "Play length"
 msgstr "再生時間"
 
@@ -2646,11 +2650,11 @@ msgstr "プレイリスト"
 msgid "Please wait; audio is being analysed..."
 msgstr "音声を分析中です。しばらくお待ちください。"
 
-#: src/wx/timing_panel.cc:105
+#: src/wx/timing_panel.cc:101
 msgid "Position"
 msgstr "位置"
 
-#: src/wx/metadata_dialog.cc:308 src/wx/smpte_metadata_dialog.cc:138
+#: src/wx/metadata_dialog.cc:308 src/wx/smpte_metadata_dialog.cc:141
 msgid "Pre-release"
 msgstr "先行公開（プレリリース）"
 
@@ -2703,12 +2707,17 @@ msgstr "RMS"
 msgid "Range"
 msgstr "レンジ"
 
-#: src/wx/rating_dialog.cc:43 src/wx/rating_dialog.cc:142
-#: src/wx/rating_dialog.cc:294
+#. TRANSLATORS: this refers to the project's ratings, (i.e. the legal/
+#. advisory limits on what age groups can watch the film).
+#: src/wx/rating_dialog.cc:45 src/wx/rating_dialog.cc:146
+#: src/wx/rating_dialog.cc:300
 msgid "Rating"
 msgstr "評価"
 
-#: src/wx/interop_metadata_dialog.cc:58 src/wx/smpte_metadata_dialog.cc:73
+#. TRANSLATORS: this is a button which opens a dialog box in which you can
+#. edit the project's ratings (i.e. the legal/advisory limits on what age
+#. groups can watch the film).
+#: src/wx/interop_metadata_dialog.cc:61 src/wx/smpte_metadata_dialog.cc:76
 msgid "Ratings"
 msgstr "評価"
 
@@ -2838,7 +2847,7 @@ msgstr "テンプレート名を変更"
 msgid "Rename..."
 msgstr "名前を変更..."
 
-#: src/wx/system_information_dialog.cc:66
+#: src/wx/system_information_dialog.cc:64
 msgid "Renderer"
 msgstr "レンダラー"
 
@@ -3149,10 +3158,6 @@ msgstr ""
 msgid "Set to"
 msgstr "設定する"
 
-#: src/wx/system_information_dialog.cc:68
-msgid "Shading language version"
-msgstr "シェーディング言語バージョン"
-
 #: src/wx/subtitle_appearance_dialog.cc:153
 msgid "Shadow"
 msgstr "シャドウ"
@@ -3235,13 +3240,13 @@ msgstr ""
 "KDMの中で証明書の有効期間が受信者の有効期間と異なるものがあります。What do "
 "you want to do?"
 
-#: src/wx/verify_dcp_result_panel.cc:621
+#: src/wx/verify_dcp_result_panel.cc:625
 msgid ""
 "Some closed <Text> or <Image> nodes have different vertical alignments "
 "within a <Subtitle>."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:624
+#: src/wx/verify_dcp_result_panel.cc:628
 msgid ""
 "Some closed captions are not listed in the order of their vertical position."
 msgstr ""
@@ -3251,7 +3256,7 @@ msgstr ""
 msgid "Sound"
 msgstr "サウンド"
 
-#: src/wx/verify_dcp_result_panel.cc:651
+#: src/wx/verify_dcp_result_panel.cc:655
 msgid "Sound assets do not all have the same channel count."
 msgstr "音声データは全て同じチャンネル数とは限りません。"
 
@@ -3284,7 +3289,7 @@ msgid "Stable version"
 msgstr "安定版"
 
 #: src/wx/dcp_panel.cc:113 src/wx/metadata_dialog.cc:78
-#: src/wx/rating_dialog.cc:50
+#: src/wx/rating_dialog.cc:52
 msgid "Standard"
 msgstr "規格"
 
@@ -3300,7 +3305,7 @@ msgstr "開始リール"
 msgid "Start player as"
 msgstr "プレイヤーの起動設定"
 
-#: src/wx/smpte_metadata_dialog.cc:90
+#: src/wx/smpte_metadata_dialog.cc:93
 msgid "Status"
 msgstr "ステータス"
 
@@ -3375,8 +3380,8 @@ msgstr "字幕: いいえ"
 msgid "Subtitles: yes"
 msgstr "字幕: はい"
 
-#: src/wx/system_information_dialog.cc:46
-#: src/wx/system_information_dialog.cc:80
+#: src/wx/system_information_dialog.cc:44
+#: src/wx/system_information_dialog.cc:78
 msgid "System information"
 msgstr "システムインフォメーション"
 
@@ -3400,7 +3405,7 @@ msgstr "テンプレート名は空にできません。"
 msgid "Templates"
 msgstr "テンプレート"
 
-#: src/wx/smpte_metadata_dialog.cc:137
+#: src/wx/smpte_metadata_dialog.cc:140
 msgid "Temporary"
 msgstr "テンポラリー"
 
@@ -3432,12 +3437,12 @@ msgstr "テスト実施者"
 msgid "The 'until' time must be after the 'from' time."
 msgstr "「終了」時間は「開始」時間より後である必要があります。"
 
-#: src/wx/verify_dcp_result_panel.cc:679
+#: src/wx/verify_dcp_result_panel.cc:683
 #, c-format
 msgid "The <LabelText> in a <ContentVersion> in CPL %cpl is empty"
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:636
+#: src/wx/verify_dcp_result_panel.cc:640
 #, fuzzy
 msgid ""
 "The <MainPictureActiveArea> is either not a multiple of 2, or is bigger than "
@@ -3445,12 +3450,12 @@ msgid ""
 msgstr ""
 "<MainPictureActiveArea> が 2 の倍数でないか、アセットよりも大きいです。"
 
-#: src/wx/verify_dcp_result_panel.cc:642
+#: src/wx/verify_dcp_result_panel.cc:646
 #, fuzzy, c-format
 msgid "The ASSETMAP %asset_map_id has more than one asset with the same ID."
 msgstr "ASSETMAP %n には、同じ ID を持つデータが複数存在します。"
 
-#: src/wx/verify_dcp_result_panel.cc:609
+#: src/wx/verify_dcp_result_panel.cc:613
 #, fuzzy
 msgid ""
 "The Asset ID in a timed text MXF is the same as the Resource ID or that of "
@@ -3467,7 +3472,7 @@ msgid ""
 msgstr ""
 "CPL %cpl には、<ContentTitleText> とは異なる <AnnotationText> があります。"
 
-#: src/wx/verify_dcp_result_panel.cc:682
+#: src/wx/verify_dcp_result_panel.cc:686
 #, fuzzy, c-format
 msgid "The CPL %cpl has an invalid namespace %xml_namespace"
 msgstr "CPL%cplには無効な名前空間%nが含まれています"
@@ -3483,7 +3488,7 @@ msgstr ""
 msgid "The CPL %cpl has no <AnnotationText> tag."
 msgstr "CPL %cpl には <AnnotationText> タグがありません。"
 
-#: src/wx/verify_dcp_result_panel.cc:685
+#: src/wx/verify_dcp_result_panel.cc:689
 #, c-format
 msgid "The CPL %cpl has no <ContentVersion> tag"
 msgstr "CPL %cpl には <ContentVersion> タグがありません"
@@ -3578,7 +3583,7 @@ msgstr ""
 "KDMの開始期間が、署名証明書の有効期間の開始前（または開始日に近い）になってい"
 "ます。このKDMにはより遅い開始時刻を使用してください。"
 
-#: src/wx/verify_dcp_result_panel.cc:701
+#: src/wx/verify_dcp_result_panel.cc:705
 #, fuzzy, c-format
 msgid "The PKL %f has an invalid namespace %xml_namespace"
 msgstr "PKL%fには無効な名前空間%nが含まれています"
@@ -3598,7 +3603,7 @@ msgid "The PKL %pkl has encrypted content but is not signed."
 msgstr ""
 "CPL %cpl には暗号化されたコンテンツが含まれていますが署名されていません。"
 
-#: src/wx/verify_dcp_result_panel.cc:639
+#: src/wx/verify_dcp_result_panel.cc:643
 #, fuzzy, c-format
 msgid "The PKL %pkl_id has more than one asset with the same ID."
 msgstr "PKL %n には、同じ ID を持つデータが複数存在します。"
@@ -3613,14 +3618,14 @@ msgstr "画像データ  %f のPKLとCPLのハッシュ値が一致しません�
 msgid "The PKL and CPL hashes disagree for sound asset %f."
 msgstr "音声データ  %f のPKLとCPLのハッシュ値が一致しません。"
 
-#: src/wx/verify_dcp_result_panel.cc:606
+#: src/wx/verify_dcp_result_panel.cc:610
 msgid ""
 "The Resource ID in a timed text MXF did not match the ID of the contained "
 "XML."
 msgstr ""
 "時間指定テキストMXF内のリソースIDが、含まれるXMLのIDと一致しませんでした。"
 
-#: src/wx/verify_dcp_result_panel.cc:673
+#: src/wx/verify_dcp_result_panel.cc:677
 #, fuzzy, c-format
 msgid ""
 "The SMPTE subtitle asset %asset_id has <Text> nodes but no <LoadFont> node"
@@ -3647,7 +3652,7 @@ msgstr ""
 "クローズド キャプション アセット %f 内の XML は %n バイトを占めており、256 "
 "KB の制限を超えています。"
 
-#: src/wx/verify_dcp_result_panel.cc:667
+#: src/wx/verify_dcp_result_panel.cc:671
 #, fuzzy, c-format
 msgid ""
 "The XML in the subtitle asset %asset_id has more than one namespace "
@@ -3682,7 +3687,7 @@ msgstr "ﾃﾞｰﾀ %f は3Dですが、MXFは2Dとしてマークされてい�
 msgid "The asset %f is missing."
 msgstr "データ%fが見つかりません。"
 
-#: src/wx/verify_dcp_result_panel.cc:676
+#: src/wx/verify_dcp_result_panel.cc:680
 #, fuzzy, c-format
 msgid ""
 "The asset with ID %asset_id in the asset map actually has an id of "
@@ -3741,7 +3746,7 @@ msgstr ""
 "最初の字幕またはクローズド キャプションは、最初のリールの 4 秒前に表示されま"
 "す。"
 
-#: src/wx/verify_dcp_result_panel.cc:657
+#: src/wx/verify_dcp_result_panel.cc:661
 #, fuzzy, c-format
 msgid ""
 "The font file for font ID \"%load_font_id\" was not found, or was not "
@@ -3803,7 +3808,7 @@ msgid ""
 "The picture in a reel has a frame rate of %frame_rate, which is not valid."
 msgstr "リール内の画像フレームレートは%nですが無効です。"
 
-#: src/wx/verify_dcp_result_panel.cc:612
+#: src/wx/verify_dcp_result_panel.cc:616
 #, fuzzy, c-format
 msgid ""
 "The reel duration (%other_duration) of some timed text is not the same as "
@@ -3830,7 +3835,7 @@ msgstr ""
 "The standard that the DCP should use。Interopは古い規格で、SMPTEは新しい現在"
 "の規格です。迷った場合は「SMPTE」を選択してください。"
 
-#: src/wx/verify_dcp_result_panel.cc:645
+#: src/wx/verify_dcp_result_panel.cc:649
 #, fuzzy, c-format
 msgid "The subtitle asset %asset_id contains no subtitles."
 msgstr "字幕データ%nには字幕が含まれていません。"
@@ -3914,11 +3919,11 @@ msgstr "ヒントはまだありません：プロジェクトチェック進行
 msgid "There are no hints: everything looks good!"
 msgstr "ヒントは一切ありません。すべて良好です！"
 
-#: src/wx/verify_dcp_result_panel.cc:630
+#: src/wx/verify_dcp_result_panel.cc:634
 msgid "There is a <Duration> tag inside a <MainMarkers>."
 msgstr "<MainMarkers>タグの中に<Duration>タグがあります。"
 
-#: src/wx/verify_dcp_result_panel.cc:627
+#: src/wx/verify_dcp_result_panel.cc:631
 msgid "There is a <EntryPoint> tag inside a <MainMarkers>."
 msgstr "<MainMarkers>タグの中に<EntryPoint>タグがあります。"
 
@@ -4093,7 +4098,7 @@ msgid "Timing"
 msgstr "タイミング"
 
 #. TRANSLATORS: translate the word "Timing" here; do not include the "Timing|" prefix
-#: src/wx/timing_panel.cc:68
+#: src/wx/timing_panel.cc:64
 msgid "Timing|Timing"
 msgstr "タイミング|タイミング"
 
@@ -4117,19 +4122,19 @@ msgstr "トラック"
 msgid "Translated by"
 msgstr "翻訳者"
 
-#: src/wx/timing_panel.cc:115
+#: src/wx/timing_panel.cc:111
 msgid "Trim from current position to end"
 msgstr "現在の位置から末尾までカット"
 
-#: src/wx/timing_panel.cc:113
+#: src/wx/timing_panel.cc:109
 msgid "Trim from end"
 msgstr "末尾からのカット位置"
 
-#: src/wx/timing_panel.cc:110
+#: src/wx/timing_panel.cc:106
 msgid "Trim from start"
 msgstr "先頭からのカット位置"
 
-#: src/wx/timing_panel.cc:112
+#: src/wx/timing_panel.cc:108
 msgid "Trim up to current position"
 msgstr "現在の位置までカット"
 
@@ -4338,11 +4343,11 @@ msgstr "有効期間|開始"
 msgid "Valid to"
 msgstr "有効期間|終了"
 
-#: src/wx/system_information_dialog.cc:65
+#: src/wx/system_information_dialog.cc:63
 msgid "Vendor"
 msgstr "ベンダー"
 
-#: src/wx/verify_dcp_result_panel.cc:725
+#: src/wx/verify_dcp_result_panel.cc:729
 msgid "Verification report"
 msgstr "検証レポート"
 
@@ -4362,7 +4367,7 @@ msgstr "画像データの詳細を検証する"
 msgid "Verify..."
 msgstr "検証"
 
-#: src/wx/smpte_metadata_dialog.cc:109 src/wx/system_information_dialog.cc:67
+#: src/wx/smpte_metadata_dialog.cc:112 src/wx/system_information_dialog.cc:65
 msgid "Version"
 msgstr "バージョン"
 
@@ -4370,7 +4375,7 @@ msgstr "バージョン"
 msgid "Version file (VF) setup"
 msgstr "バージョンファイル（VF）の設定"
 
-#: src/wx/smpte_metadata_dialog.cc:86
+#: src/wx/smpte_metadata_dialog.cc:89
 msgid "Version number"
 msgstr "バージョン番号"
 
@@ -4598,12 +4603,12 @@ msgstr "日"
 msgid "e.g. %s"
 msgstr "e.g. %s"
 
-#: src/wx/system_information_dialog.cc:71
+#: src/wx/system_information_dialog.cc:69
 msgid "enabled"
 msgstr "有効"
 
 #. TRANSLATORS: this is an abbreviation for "frames"
-#: src/wx/timing_panel.cc:92
+#: src/wx/timing_panel.cc:88
 msgid "f"
 msgstr "f"
 
@@ -4628,12 +4633,12 @@ msgid "full screen with separate advanced controls"
 msgstr "全画面 | 個別コントロール画面"
 
 #. TRANSLATORS: this is an abbreviation for "hours"
-#: src/wx/timing_panel.cc:86
+#: src/wx/timing_panel.cc:82
 msgid "h"
 msgstr "h"
 
 #. TRANSLATORS: this is an abbreviation for "minutes"
-#: src/wx/timing_panel.cc:88
+#: src/wx/timing_panel.cc:84
 msgid "m"
 msgstr "m"
 
@@ -4647,7 +4652,7 @@ msgstr "ヶ月"
 msgid "ms"
 msgstr "ms"
 
-#: src/wx/system_information_dialog.cc:71
+#: src/wx/system_information_dialog.cc:69
 msgid "not enabled"
 msgstr "有効ではない"
 
@@ -4684,7 +4689,7 @@ msgid "reel number"
 msgstr "リール番号"
 
 #. TRANSLATORS: this is an abbreviation for "seconds"
-#: src/wx/full_config_dialog.cc:256 src/wx/timing_panel.cc:90
+#: src/wx/full_config_dialog.cc:256 src/wx/timing_panel.cc:86
 msgid "s"
 msgstr "s"
 
@@ -4716,11 +4721,11 @@ msgstr "タイプ（j2c/pcm/sub）"
 msgid "type(cpl/pkl)"
 msgstr "種類(cpl/pkl)"
 
-#: src/wx/system_information_dialog.cc:61
+#: src/wx/system_information_dialog.cc:59
 msgid "unknown"
 msgstr "不明"
 
-#: src/wx/system_information_dialog.cc:52
+#: src/wx/system_information_dialog.cc:50
 #, c-format
 msgid "unknown (OpenGL not enabled in %s)"
 msgstr "不明 (%s では OpenGL が有効になっていません)"
@@ -4729,7 +4734,7 @@ msgstr "不明 (%s では OpenGL が有効になっていません)"
 msgid "until"
 msgstr "終了"
 
-#: src/wx/system_information_dialog.cc:70
+#: src/wx/system_information_dialog.cc:68
 msgid "vsync"
 msgstr "垂直同期"
 
@@ -4759,6 +4764,9 @@ msgstr "年"
 #: src/wx/drive_wipe_warning_dialog.cc:61
 msgid "yes"
 msgstr "はい"
+
+#~ msgid "Shading language version"
+#~ msgstr "シェーディング言語バージョン"
 
 #, c-format
 #~ msgid "The PKL %n has encrypted content but is not signed."

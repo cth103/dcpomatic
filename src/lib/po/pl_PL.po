@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-29 07:42+0200\n"
+"POT-Creation-Date: 2026-07-26 10:04+0200\n"
 "PO-Revision-Date: 2022-05-10 16:47+0200\n"
 "Last-Translator: Michał Tomaszewski <goku1933@gmail.com>\n"
 "Language-Team: Polish <http://translations.dcpomatic.com/projects/dcpomatic/"
@@ -72,7 +72,7 @@ msgstr " (%.2f:1)"
 
 #. TRANSLATORS: the {} in this string will be filled in with a day of the week
 #. to say what day a job will finish.
-#: src/lib/job.cc:628
+#: src/lib/job.cc:641
 #, c++-format
 msgid " on {}"
 msgstr " w {}"
@@ -199,7 +199,7 @@ msgstr ""
 msgid "; {} fps"
 msgstr "; {} kl/s"
 
-#: src/lib/job.cc:633
+#: src/lib/job.cc:646
 #, c++-format
 msgid "; {} remaining; finishing at {}{}"
 msgstr "; {} pozostało; koniec o {}{}"
@@ -231,6 +231,13 @@ msgstr ""
 "amount=20\">Przejdź do PayPal i wpłać 20 EUR</a><li><a href=\"https://"
 "dcpomatic.com/donate_mount?amount=10\">Przejdź do PayPal i wpłać 10 EUR</a></"
 "ul><p>Dziękuję!"
+
+#: src/lib/job.cc:294
+msgid ""
+"A bitmap (PNG) subtitle or font could not be written as its asset became "
+"full.  Split the project up into more reels, or set the subtitles to be "
+"'burnt in', and try again."
+msgstr ""
 
 #: src/lib/hints.cc:179
 #, fuzzy
@@ -305,20 +312,20 @@ msgstr ""
 "Znaczniki, które pojawiają się za czasem końcowym Projektu zostaną "
 "zignorowane."
 
-#: src/lib/hints.cc:526
+#: src/lib/hints.cc:530
 msgid "At least one of your closed caption files is larger than "
 msgstr "Co najmniej jeden z plików napisów kodowanych jest większy niż "
 
-#: src/lib/hints.cc:520
+#: src/lib/hints.cc:524
 msgid "At least one of your closed caption files' XML part is larger than "
 msgstr ""
 "Co najmniej jedna część pliku XML z napisami kodowanymi jest większa niż "
 
-#: src/lib/hints.cc:532
+#: src/lib/hints.cc:536
 msgid "At least one of your subtitle files is larger than "
 msgstr "Co najmniej jeden z plików z napisami jest większy niż "
 
-#: src/lib/hints.cc:490
+#: src/lib/hints.cc:494
 msgid ""
 "At least one of your subtitle lines has more than 52 characters.  It is "
 "recommended to make each line 52 characters at most in length."
@@ -326,7 +333,7 @@ msgstr ""
 "W napisach znajdują się linie, które mają powyżej 52 znaków.  Zaleca się, "
 "aby żadna z linii nie przekraczała 52 znaków."
 
-#: src/lib/hints.cc:492
+#: src/lib/hints.cc:496
 msgid ""
 "At least one of your subtitle lines has more than 79 characters.  You should "
 "make each line 79 characters at most in length."
@@ -334,7 +341,7 @@ msgstr ""
 "W napisach znajdują się linie, które mają powyżej 79 znaków.  Żadna linia "
 "nie powinna przekraczać 79 znaków."
 
-#: src/lib/hints.cc:681
+#: src/lib/hints.cc:689
 msgid ""
 "At least one of your subtitles has more than 3 lines.  It is advisable to "
 "use no more than 3 lines."
@@ -342,7 +349,7 @@ msgstr ""
 "W pliku znajdują się napisy, które mają ponad 3 linie.  Zaleca się użycie "
 "maksymalnie 3 linii."
 
-#: src/lib/hints.cc:648
+#: src/lib/hints.cc:656
 msgid ""
 "At least one of your subtitles lasts less than 15 frames.  It is advisable "
 "to make each subtitle at least 15 frames long."
@@ -351,7 +358,7 @@ msgstr ""
 "obrazu.  Zaleca się, aby każdy napis był widoczny co najmniej przez 15 "
 "klatek obrazu."
 
-#: src/lib/hints.cc:653
+#: src/lib/hints.cc:661
 msgid ""
 "At least one of your subtitles starts less than 2 frames after the previous "
 "one.  It is advisable to make the gap between subtitles at least 2 frames."
@@ -359,7 +366,7 @@ msgstr ""
 "Niektóre napisy w pliku mają odstęp czasowy poniżej 2 klatek obrazu.  Zaleca "
 "się, aby odstęp między napisami wynosił co najmniej 2 klatki obrazu."
 
-#: src/lib/hints.cc:724
+#: src/lib/hints.cc:732
 #, fuzzy
 msgid ""
 "At least one piece of subtitle content has no specified language.  It is "
@@ -370,6 +377,12 @@ msgstr ""
 "określonego języka.  Zaleca się określenie języka każdej części napisów albo "
 "napisów zamkniętych w menu „Zawartość→Tekst z kodami czasowymi”, "
 "„Zawartość→Plik z napisami” albo „Zawartość→Napisy kodowane”."
+
+#: src/lib/hints.cc:451
+msgid ""
+"At least one reel contains too may image (PNG) subtitles, and making a DCP "
+"will fail.  You need to split the DCP into more reels."
+msgstr ""
 
 #: src/lib/audio_content.cc:264
 #, c++-format
@@ -455,7 +468,7 @@ msgstr "C"
 msgid "CPL {} not found"
 msgstr ""
 
-#: src/lib/job.cc:657
+#: src/lib/job.cc:670
 msgid "Cancelled"
 msgstr "Anulowane"
 
@@ -495,7 +508,7 @@ msgstr "Sprawdź nowe ustawienia, a następnie spróbuj ponownie."
 msgid "Checking content"
 msgstr "Szukam zmian w materiale"
 
-#: src/lib/reel_writer.cc:258
+#: src/lib/reel_writer.cc:252
 msgid "Checking existing image data"
 msgstr "Sprawdzanie danych obrazu"
 
@@ -552,7 +565,7 @@ msgstr "Przestrzeń kolorów"
 msgid "Combine DCPs"
 msgstr "Połącz paczki DCP"
 
-#: src/lib/writer.cc:525
+#: src/lib/writer.cc:515
 msgid "Computing digests"
 msgstr "Obliczanie danych"
 
@@ -717,7 +730,7 @@ msgstr "Połącz paczki DCP"
 msgid "Copying DCPs to {}"
 msgstr "Kopiuj DCP do TMS"
 
-#: src/lib/reel_writer.cc:194
+#: src/lib/reel_writer.cc:188
 #, fuzzy
 msgid "Copying existing asset"
 msgstr "Sprawdzanie danych obrazu"
@@ -985,7 +998,7 @@ msgstr "Odcinek"
 msgid "Error in subtitle file: saw {} while expecting {}"
 msgstr "Błąd w pliku napisów: jest {}, powinno być {}"
 
-#: src/lib/job.cc:655
+#: src/lib/job.cc:668
 #, c++-format
 msgid "Error: {}"
 msgstr "Błąd: {}"
@@ -1075,7 +1088,7 @@ msgstr "Obliczanie danych"
 msgid "Frame rate"
 msgstr "Liczba kl/s"
 
-#: src/lib/job.cc:599
+#: src/lib/job.cc:612
 msgid "Friday"
 msgstr "Piątek"
 
@@ -1181,7 +1194,7 @@ msgstr ""
 "użycie standardu Interlop jest uzasadnione.  Zaleca się wybranie standardu "
 "SMPTE z zakładki „DCP” dla tego Projektu."
 
-#: src/lib/hints.cc:641
+#: src/lib/hints.cc:649
 msgid ""
 "It is advisable to put your first subtitle at least 4 seconds after the "
 "start of the DCP to make sure it is seen."
@@ -1189,7 +1202,7 @@ msgstr ""
 "Zaleca się, aby pierwszy napis pojawił się co najmniej 4 sekundy przed "
 "czasem początkowym paczki DCP, by ten był widoczny."
 
-#: src/lib/job.cc:169 src/lib/job.cc:204 src/lib/job.cc:295 src/lib/job.cc:305
+#: src/lib/job.cc:169 src/lib/job.cc:204 src/lib/job.cc:308 src/lib/job.cc:318
 #, fuzzy, c++-format
 msgid "It is not known what caused this error.  {}"
 msgstr "Wystąpił nieznany błąd."
@@ -1305,7 +1318,7 @@ msgstr "Nieprawidłowe rozmiary plików obrazu w DCP"
 msgid "Missing required setting {}"
 msgstr "Brakuje wymaganych ustawień {}"
 
-#: src/lib/job.cc:591
+#: src/lib/job.cc:604
 msgid "Monday"
 msgstr "Poniedziałek"
 
@@ -1353,16 +1366,16 @@ msgstr "Redukcja szumu"
 msgid "None"
 msgstr "Brak"
 
-#: src/lib/job.cc:647
+#: src/lib/job.cc:660
 msgid "OK"
 msgstr ""
 
-#: src/lib/job.cc:652
+#: src/lib/job.cc:665
 #, fuzzy, c++-format
 msgid "OK (ran for {} from {} to {})"
 msgstr "OK (czas trwania {})"
 
-#: src/lib/job.cc:650
+#: src/lib/job.cc:663
 #, c++-format
 msgid "OK (ran for {})"
 msgstr "OK (czas trwania {})"
@@ -1536,7 +1549,7 @@ msgstr "SMPTE 2085, Y'D'zD'x"
 msgid "SMPTE 240M"
 msgstr "SMPTE 240M"
 
-#: src/lib/hints.cc:706
+#: src/lib/hints.cc:714
 msgid ""
 "SMPTE DCPs with the type FTR (feature) should have markers for the first "
 "frame of end credits (FFEC) and the first frame of moving credits (FFMC).  "
@@ -1572,6 +1585,13 @@ msgstr "SMPTE ST 431-2 (2011)"
 msgid "SMPTE ST 432-1 D65 (2010)"
 msgstr "SMPTE ST 432-1 D65 (2010)"
 
+#: src/lib/job.cc:297
+msgid ""
+"SMPTE text assets have a limit of 4096 'resources', which include PNG "
+"subtitles and fonts. The limit is less likely to be hit if you use more "
+"reels."
+msgstr ""
+
 #: src/lib/scp_uploader.cc:46
 #, c++-format
 msgid "SSH error [{}]"
@@ -1583,7 +1603,7 @@ msgstr "Błąd SSH [{}]"
 msgid "SSH error [{}] ({})"
 msgstr "Błąd SSH [{}] ({})"
 
-#: src/lib/job.cc:601
+#: src/lib/job.cc:614
 msgid "Saturday"
 msgstr "Sobota"
 
@@ -1647,7 +1667,7 @@ msgstr ""
 "\n"
 "Pliki te zostaną ponownie zbadane, sprawdź ustawienia."
 
-#: src/lib/hints.cc:622
+#: src/lib/hints.cc:630
 #, c++-format
 msgid ""
 "Some of your closed captions span more than {} lines, so they will be "
@@ -1656,7 +1676,7 @@ msgstr ""
 "Niektóre z napisów dzielą się na więcej niż {} linii, dlatego zostaną "
 "przycięte."
 
-#: src/lib/hints.cc:744
+#: src/lib/hints.cc:752
 msgid ""
 "Some of your content has audio but you have not set the audio language.  It "
 "is advisable to set the audio language in the \"DCP\" tab unless your audio "
@@ -1666,7 +1686,7 @@ msgstr ""
 "języka.  Zaleca się, aby określić język dźwięku w zakładce „DCP”, chyba że "
 "materiał nie posiada dialogów."
 
-#: src/lib/hints.cc:815
+#: src/lib/hints.cc:823
 msgid ""
 "Some of your content is encrypted, and some not.  Though some distributors "
 "(e.g. Netflix) require subtitles not to be encrypted (even if picture and "
@@ -1688,7 +1708,7 @@ msgstr "Część twoich materiałów wymaga klucza KDM"
 msgid "Some of your content needs an OV"
 msgstr "Część twoich materiałów wymaga wersji OV paczki DCP"
 
-#: src/lib/hints.cc:798
+#: src/lib/hints.cc:806
 #, c++-format
 msgid ""
 "Some of your video content contains an alpha channel, and {} cannot be "
@@ -1714,7 +1734,7 @@ msgstr "Miksuj 2.0 do 5.1 wersja A"
 msgid "Stereo to 5.1 up-mixer B"
 msgstr "Miksuj 2.0 do 5.1 wersja B"
 
-#: src/lib/job.cc:589
+#: src/lib/job.cc:602
 msgid "Sunday"
 msgstr "Niedziela"
 
@@ -1756,7 +1776,7 @@ msgstr "Certyfikat jest nieprawidłowy"
 msgid "The certificate chain for signing is invalid ({})"
 msgstr "Certyfikat jest nieprawidłowy ({})"
 
-#: src/lib/hints.cc:761
+#: src/lib/hints.cc:769
 #, c++-format
 msgid ""
 "The certificate chain that {} uses for signing DCPs and KDMs contains a "
@@ -1766,7 +1786,7 @@ msgid ""
 "Preferences."
 msgstr ""
 
-#: src/lib/hints.cc:769
+#: src/lib/hints.cc:777
 #, c++-format
 msgid ""
 "The certificate chain that {} uses for signing DCPs and KDMs has a validity "
@@ -1922,7 +1942,7 @@ msgstr ""
 "być otwarty w tej wersji. Musisz stworzyć nowy Projekt i ponownie dodać "
 "materiały i ustawienia. Przepraszamy!"
 
-#: src/lib/job.cc:597
+#: src/lib/job.cc:610
 msgid "Thursday"
 msgstr "Czwartek"
 
@@ -1948,7 +1968,7 @@ msgstr "Transkodowanie {}"
 msgid "Transitional"
 msgstr "Przejście"
 
-#: src/lib/job.cc:593
+#: src/lib/job.cc:606
 msgid "Tuesday"
 msgstr "Wtorek"
 
@@ -1969,7 +1989,7 @@ msgstr "Serwer otrzymał nieobsługiwany typ obrazu"
 msgid "Unknown"
 msgstr "Nieznany"
 
-#: src/lib/job.cc:304
+#: src/lib/job.cc:317
 msgid "Unknown error"
 msgstr "Nieznany błąd"
 
@@ -2039,7 +2059,7 @@ msgstr "Czekam"
 msgid "Weave filter"
 msgstr "Filtr Telecine"
 
-#: src/lib/job.cc:595
+#: src/lib/job.cc:608
 msgid "Wednesday"
 msgstr "Środa"
 
@@ -2119,7 +2139,7 @@ msgstr ""
 "Co najmniej jeden z twoich materiałów zawiera dźwięk Atmos, a materiały mają "
 "różne wartości klatek/s.  Musisz usunąć materiał z dźwiękiem Atmos."
 
-#: src/lib/hints.cc:629
+#: src/lib/hints.cc:637
 msgid ""
 "You have overlapping closed captions, which are not allowed in Interop "
 "DCPs.  Change your DCP standard to SMPTE."
@@ -2161,7 +2181,7 @@ msgstr ""
 "kanałów dźwiękowych.  Dodane materiały mogą mieć mniej kanałów dźwiękowych, "
 "DCP-o-matic wypełni nieużywane kanały ciszą."
 
-#: src/lib/hints.cc:787
+#: src/lib/hints.cc:795
 #, c++-format
 msgid ""
 "Your DCP has {} audio channels, rather than 8 or 16.  This may cause some "
@@ -2247,12 +2267,12 @@ msgstr "kopiowanie {}"
 msgid "could not find stream information"
 msgstr "nie udało się znaleźć informacji o strumieniu"
 
-#: src/lib/reel_writer.cc:408
+#: src/lib/reel_writer.cc:402
 #, c++-format
 msgid "could not move atmos asset into the DCP ({})"
 msgstr "nie udało się przenieść materiałów Atmos do DCP ({})"
 
-#: src/lib/reel_writer.cc:391
+#: src/lib/reel_writer.cc:385
 #, c++-format
 msgid "could not move audio asset into the DCP ({})"
 msgstr "nie udało się przenieść dźwięku do DCP ({})"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-29 07:42+0200\n"
+"POT-Creation-Date: 2026-07-26 10:04+0200\n"
 "PO-Revision-Date: 2026-04-21 18:10+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
@@ -70,7 +70,7 @@ msgstr " (%.2f:1)"
 
 #. TRANSLATORS: the {} in this string will be filled in with a day of the week
 #. to say what day a job will finish.
-#: src/lib/job.cc:628
+#: src/lib/job.cc:641
 #, c++-format
 msgid " on {}"
 msgstr " op {}"
@@ -196,7 +196,7 @@ msgstr "9"
 msgid "; {} fps"
 msgstr "; {} fps"
 
-#: src/lib/job.cc:633
+#: src/lib/job.cc:646
 #, c++-format
 msgid "; {} remaining; finishing at {}{}"
 msgstr "; {} resterend; klaar om {}{}"
@@ -228,6 +228,13 @@ msgstr ""
 "donate_amount?amount=20\">Ga naar Paypal om €20 te doneren</a><li><a "
 "href=\"https://dcpomatic.com/donate_amount?amount=10\">Ga naar Paypal om €10 "
 "te doneren</a></ul><p>Dank u wel!</font>"
+
+#: src/lib/job.cc:294
+msgid ""
+"A bitmap (PNG) subtitle or font could not be written as its asset became "
+"full.  Split the project up into more reels, or set the subtitles to be "
+"'burnt in', and try again."
+msgstr ""
 
 #: src/lib/hints.cc:179
 msgid ""
@@ -300,20 +307,20 @@ msgid ""
 msgstr ""
 "Ten minste één marker komt na het einde van het project en wordt genegeerd."
 
-#: src/lib/hints.cc:526
+#: src/lib/hints.cc:530
 msgid "At least one of your closed caption files is larger than "
 msgstr "Ten minste één van uw closed caption bestanden is groter dan "
 
-#: src/lib/hints.cc:520
+#: src/lib/hints.cc:524
 msgid "At least one of your closed caption files' XML part is larger than "
 msgstr ""
 "Ten minste één XML-gedeelte van uw closed caption bestanden is groter dan "
 
-#: src/lib/hints.cc:532
+#: src/lib/hints.cc:536
 msgid "At least one of your subtitle files is larger than "
 msgstr "Ten minste één van uw ondertitelbestanden is groter dan "
 
-#: src/lib/hints.cc:490
+#: src/lib/hints.cc:494
 msgid ""
 "At least one of your subtitle lines has more than 52 characters.  It is "
 "recommended to make each line 52 characters at most in length."
@@ -321,7 +328,7 @@ msgstr ""
 "Ten minste één van uw ondertitel-regels heeft meer dan 52 tekens.  Het wordt "
 "aanbevolen om niet meer dan 52 tekens in een regel te gebruiken."
 
-#: src/lib/hints.cc:492
+#: src/lib/hints.cc:496
 msgid ""
 "At least one of your subtitle lines has more than 79 characters.  You should "
 "make each line 79 characters at most in length."
@@ -329,7 +336,7 @@ msgstr ""
 "Ten minste één van uw ondertitel-regels heeft meer dan 79 tekens.  U moet "
 "elke regel maximaal 79 tekens lang maken."
 
-#: src/lib/hints.cc:681
+#: src/lib/hints.cc:689
 msgid ""
 "At least one of your subtitles has more than 3 lines.  It is advisable to "
 "use no more than 3 lines."
@@ -337,7 +344,7 @@ msgstr ""
 "Ten minste één van uw ondertitels heeft meer dan 3 regels.  Het is "
 "verstandig om niet meer dan 3 regels te gebruiken."
 
-#: src/lib/hints.cc:648
+#: src/lib/hints.cc:656
 msgid ""
 "At least one of your subtitles lasts less than 15 frames.  It is advisable "
 "to make each subtitle at least 15 frames long."
@@ -345,7 +352,7 @@ msgstr ""
 "Ten minste één van uw ondertitels duurt minder dan 15 frames.  Het is "
 "verstandig om elke ondertitel minstens 15 frames lang te maken."
 
-#: src/lib/hints.cc:653
+#: src/lib/hints.cc:661
 msgid ""
 "At least one of your subtitles starts less than 2 frames after the previous "
 "one.  It is advisable to make the gap between subtitles at least 2 frames."
@@ -353,7 +360,7 @@ msgstr ""
 "Ten minste één van uw ondertitels begint minder dan 2 frames na de vorige.  "
 "Het is verstandig om minstens 2 frames tussen ondertitels te laten."
 
-#: src/lib/hints.cc:724
+#: src/lib/hints.cc:732
 msgid ""
 "At least one piece of subtitle content has no specified language.  It is "
 "advisable to set the language for each piece of subtitle content in the "
@@ -363,6 +370,12 @@ msgstr ""
 "taal.  Het is raadzaam om de taal voor elk stuk ondertitel content in te "
 "stellen in het \"Content/Timed text\"- of \"Content/Open ondertitels\"-"
 "tabblad."
+
+#: src/lib/hints.cc:451
+msgid ""
+"At least one reel contains too may image (PNG) subtitles, and making a DCP "
+"will fail.  You need to split the DCP into more reels."
+msgstr ""
 
 #: src/lib/audio_content.cc:264
 #, c++-format
@@ -448,7 +461,7 @@ msgstr "C"
 msgid "CPL {} not found"
 msgstr "CPL {} niet gevonden"
 
-#: src/lib/job.cc:657
+#: src/lib/job.cc:670
 msgid "Cancelled"
 msgstr "Geannuleerd"
 
@@ -490,7 +503,7 @@ msgstr "Controleer hun nieuwe instellingen en probeer het opnieuw."
 msgid "Checking content"
 msgstr "Controleren content"
 
-#: src/lib/reel_writer.cc:258
+#: src/lib/reel_writer.cc:252
 msgid "Checking existing image data"
 msgstr "Controleren bestaande beelddata"
 
@@ -546,7 +559,7 @@ msgstr "Kleurruimte"
 msgid "Combine DCPs"
 msgstr "Combineer DCP's"
 
-#: src/lib/writer.cc:525
+#: src/lib/writer.cc:515
 msgid "Computing digests"
 msgstr "Berekenen samenvattingen"
 
@@ -726,7 +739,7 @@ msgstr "Kopiëren DCP"
 msgid "Copying DCPs to {}"
 msgstr "Kopiëren DCP's naar {}"
 
-#: src/lib/reel_writer.cc:194
+#: src/lib/reel_writer.cc:188
 msgid "Copying existing asset"
 msgstr "Kopiëren bestaande asset"
 
@@ -999,7 +1012,7 @@ msgstr "Episode"
 msgid "Error in subtitle file: saw {} while expecting {}"
 msgstr "Fout in ondertitelbestand: {} gelezen terwijl {} verwacht werd"
 
-#: src/lib/job.cc:655
+#: src/lib/job.cc:668
 #, c++-format
 msgid "Error: {}"
 msgstr "Fout: {}"
@@ -1085,7 +1098,7 @@ msgstr "Formatteren schijf"
 msgid "Frame rate"
 msgstr "Frame rate"
 
-#: src/lib/job.cc:599
+#: src/lib/job.cc:612
 msgid "Friday"
 msgstr "vrijdag"
 
@@ -1194,7 +1207,7 @@ msgstr ""
 "bepaalde reden heeft om Interop te gebruiken.  U wordt geadviseerd om de DCP-"
 "standaard op SMPTE in te stellen in het \"DCP\"-tabblad."
 
-#: src/lib/hints.cc:641
+#: src/lib/hints.cc:649
 msgid ""
 "It is advisable to put your first subtitle at least 4 seconds after the "
 "start of the DCP to make sure it is seen."
@@ -1202,7 +1215,7 @@ msgstr ""
 "Het is raadzaam om uw eerste ondertitel minstens 4 seconden na het begin van "
 "de DCP te plaatsen om er zeker van te zijn dat deze wordt gezien."
 
-#: src/lib/job.cc:169 src/lib/job.cc:204 src/lib/job.cc:295 src/lib/job.cc:305
+#: src/lib/job.cc:169 src/lib/job.cc:204 src/lib/job.cc:308 src/lib/job.cc:318
 #, c++-format
 msgid "It is not known what caused this error.  {}"
 msgstr "Het is onbekend hoe deze fout is ontstaan.  {}"
@@ -1317,7 +1330,7 @@ msgstr "Ongelijke beeldgroottes in DCP"
 msgid "Missing required setting {}"
 msgstr "Ontbrekende verplichte instelling {}"
 
-#: src/lib/job.cc:591
+#: src/lib/job.cc:604
 msgid "Monday"
 msgstr "maandag"
 
@@ -1366,16 +1379,16 @@ msgstr "Ruisonderdrukking"
 msgid "None"
 msgstr "Geen"
 
-#: src/lib/job.cc:647
+#: src/lib/job.cc:660
 msgid "OK"
 msgstr "OK"
 
-#: src/lib/job.cc:652
+#: src/lib/job.cc:665
 #, c++-format
 msgid "OK (ran for {} from {} to {})"
 msgstr "OK ({} bezig, van {} tot {})"
 
-#: src/lib/job.cc:650
+#: src/lib/job.cc:663
 #, c++-format
 msgid "OK (ran for {})"
 msgstr "OK ({} bezig)"
@@ -1551,7 +1564,7 @@ msgstr "SMPTE 2085, Y'D'zD'x"
 msgid "SMPTE 240M"
 msgstr "SMPTE 240M"
 
-#: src/lib/hints.cc:706
+#: src/lib/hints.cc:714
 msgid ""
 "SMPTE DCPs with the type FTR (feature) should have markers for the first "
 "frame of end credits (FFEC) and the first frame of moving credits (FFMC).  "
@@ -1586,6 +1599,13 @@ msgstr "SMPTE ST 431-2 (2011)"
 msgid "SMPTE ST 432-1 D65 (2010)"
 msgstr "SMPTE ST 432-1 D65 (2010)"
 
+#: src/lib/job.cc:297
+msgid ""
+"SMPTE text assets have a limit of 4096 'resources', which include PNG "
+"subtitles and fonts. The limit is less likely to be hit if you use more "
+"reels."
+msgstr ""
+
 #: src/lib/scp_uploader.cc:46
 #, c++-format
 msgid "SSH error [{}]"
@@ -1597,7 +1617,7 @@ msgstr "SSH-fout [{}]"
 msgid "SSH error [{}] ({})"
 msgstr "SSH-fout [{}] ({})"
 
-#: src/lib/job.cc:601
+#: src/lib/job.cc:614
 msgid "Saturday"
 msgstr "zaterdag"
 
@@ -1662,7 +1682,7 @@ msgstr ""
 "Sommige bestanden moeten opnieuw worden onderzocht vanwege een bugfix in DCP-"
 "o-matic.  Het kan nodig zijn om hun instellingen te controleren."
 
-#: src/lib/hints.cc:622
+#: src/lib/hints.cc:630
 #, c++-format
 msgid ""
 "Some of your closed captions span more than {} lines, so they will be "
@@ -1671,7 +1691,7 @@ msgstr ""
 "Een deel van uw closed captions heeft meer dan {} regels, dus worden ze "
 "afgekapt."
 
-#: src/lib/hints.cc:744
+#: src/lib/hints.cc:752
 msgid ""
 "Some of your content has audio but you have not set the audio language.  It "
 "is advisable to set the audio language in the \"DCP\" tab unless your audio "
@@ -1681,7 +1701,7 @@ msgstr ""
 "ingesteld.  Het is raadzaam om de audio-taal in te stellen in het \"DCP\"-"
 "tabblad, tenzij uw audio geen gesproken delen heeft."
 
-#: src/lib/hints.cc:815
+#: src/lib/hints.cc:823
 msgid ""
 "Some of your content is encrypted, and some not.  Though some distributors "
 "(e.g. Netflix) require subtitles not to be encrypted (even if picture and "
@@ -1707,7 +1727,7 @@ msgstr "Een deel van uw content heeft een KDM nodig"
 msgid "Some of your content needs an OV"
 msgstr "Een deel van uw content heeft een OV nodig"
 
-#: src/lib/hints.cc:798
+#: src/lib/hints.cc:806
 #, c++-format
 msgid ""
 "Some of your video content contains an alpha channel, and {} cannot be "
@@ -1737,7 +1757,7 @@ msgstr "Stereo naar 5.1 up-mixer A"
 msgid "Stereo to 5.1 up-mixer B"
 msgstr "Stereo naar 5.1 up-mixer B"
 
-#: src/lib/job.cc:589
+#: src/lib/job.cc:602
 msgid "Sunday"
 msgstr "zondag"
 
@@ -1776,7 +1796,7 @@ msgstr "De certificaat-keten voor ondertekening is ongeldig"
 msgid "The certificate chain for signing is invalid ({})"
 msgstr "De certificaat-keten voor ondertekening is ongeldig ({})"
 
-#: src/lib/hints.cc:761
+#: src/lib/hints.cc:769
 #, c++-format
 msgid ""
 "The certificate chain that {} uses for signing DCPs and KDMs contains a "
@@ -1791,7 +1811,7 @@ msgstr ""
 "keten opnieuw aan te maken door op de knop \"Maak certificaten en sleutel "
 "opnieuw...\" in het \"Sleutels\"-tabblad bij Voorkeuren te klikken."
 
-#: src/lib/hints.cc:769
+#: src/lib/hints.cc:777
 #, c++-format
 msgid ""
 "The certificate chain that {} uses for signing DCPs and KDMs has a validity "
@@ -1957,7 +1977,7 @@ msgstr ""
 "versie geladen worden.  U moet een nieuwe film aanmaken en de content "
 "opnieuw toevoegen en configureren.  Sorry!"
 
-#: src/lib/job.cc:597
+#: src/lib/job.cc:610
 msgid "Thursday"
 msgstr "donderdag"
 
@@ -1982,7 +2002,7 @@ msgstr "Transcoderen {}"
 msgid "Transitional"
 msgstr "Transitional"
 
-#: src/lib/job.cc:593
+#: src/lib/job.cc:606
 msgid "Tuesday"
 msgstr "dinsdag"
 
@@ -2003,7 +2023,7 @@ msgstr "Onverwacht beeldtype ontvangen door server"
 msgid "Unknown"
 msgstr "Onbekend"
 
-#: src/lib/job.cc:304
+#: src/lib/job.cc:317
 msgid "Unknown error"
 msgstr "Onbekende fout"
 
@@ -2073,7 +2093,7 @@ msgstr "Wachten"
 msgid "Weave filter"
 msgstr "Weave-filter"
 
-#: src/lib/job.cc:595
+#: src/lib/job.cc:608
 msgid "Wednesday"
 msgstr "woensdag"
 
@@ -2152,7 +2172,7 @@ msgstr ""
 "U heeft meer dan één stuk Atmos-content en ze hebben niet dezelfde frame "
 "rate.  U moet een deel van de Atmos-content verwijderen."
 
-#: src/lib/hints.cc:629
+#: src/lib/hints.cc:637
 msgid ""
 "You have overlapping closed captions, which are not allowed in Interop "
 "DCPs.  Change your DCP standard to SMPTE."
@@ -2194,7 +2214,7 @@ msgstr ""
 "maakt niet uit of uw content minder kanalen heeft, {} vult de extra kanalen "
 "met stilte."
 
-#: src/lib/hints.cc:787
+#: src/lib/hints.cc:795
 #, c++-format
 msgid ""
 "Your DCP has {} audio channels, rather than 8 or 16.  This may cause some "
@@ -2283,12 +2303,12 @@ msgstr "kopiëren van {}"
 msgid "could not find stream information"
 msgstr "kan geen stream-informatie vinden"
 
-#: src/lib/reel_writer.cc:408
+#: src/lib/reel_writer.cc:402
 #, c++-format
 msgid "could not move atmos asset into the DCP ({})"
 msgstr "kan Atmos asset niet naar de DCP verplaatsen ({})"
 
-#: src/lib/reel_writer.cc:391
+#: src/lib/reel_writer.cc:385
 #, c++-format
 msgid "could not move audio asset into the DCP ({})"
 msgstr "kan audio asset niet naar de DCP verplaatsen ({})"

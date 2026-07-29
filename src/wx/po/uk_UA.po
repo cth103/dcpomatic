@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-30 20:55+0200\n"
+"POT-Creation-Date: 2026-07-29 23:39+0200\n"
 "PO-Revision-Date: 2018-08-20 20:35+0300\n"
 "Last-Translator: Igor Voytovich <i.voyt@dualvfilms.com>\n"
 "Language-Team: Ukrainian\n"
@@ -234,12 +234,12 @@ msgstr ""
 msgid ":1"
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:648
+#: src/wx/verify_dcp_result_panel.cc:652
 #, c-format
 msgid "<IssueDate> has an invalid value %issue_date"
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:654
+#: src/wx/verify_dcp_result_panel.cc:658
 #, c-format
 msgid "<MainSoundConfiguration> is invalid (%error)"
 msgstr ""
@@ -264,12 +264,14 @@ msgstr ""
 msgid "A"
 msgstr "A"
 
-#: src/wx/verify_dcp_result_panel.cc:570
+#. TRANSLATORS: tile parts here is a technical detail of the JPEG2000 standard,
+#. so you could leave it in English.  A tile here is a part of an image.
+#: src/wx/verify_dcp_result_panel.cc:572
 #, c-format
 msgid "A 2K JPEG2000 frame contains %tile_parts tile parts instead of 3."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:584
+#: src/wx/verify_dcp_result_panel.cc:588
 #, c-format
 msgid ""
 "A 2K JPEG2000 frame contains an invalid Rsiz (capabilities) value of "
@@ -286,12 +288,14 @@ msgstr ""
 msgid "A 2K JPEG2000 frame has %poc_markers POC marker(s) instead of 0."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:577
+#. TRANSLATORS: tile parts here is a technical detail of the JPEG2000 standard,
+#. so you could leave it in English.  A tile here is a part of an image.
+#: src/wx/verify_dcp_result_panel.cc:581
 #, c-format
 msgid "A 4K JPEG2000 frame contains %tile_parts tile parts instead of 6."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:591
+#: src/wx/verify_dcp_result_panel.cc:595
 #, c-format
 msgid ""
 "A 4K JPEG2000 frame contains an invalid Rsiz (capabilities) value of "
@@ -329,7 +333,7 @@ msgid ""
 "A JPEG2000 frame has a code-block width of %code_block_width instead of 32."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:598
+#: src/wx/verify_dcp_result_panel.cc:602
 msgid "A JPEG2000 frame has no TLM marker."
 msgstr ""
 
@@ -352,11 +356,11 @@ msgstr ""
 msgid "A problem occurred when looking for hints (%s)"
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:603
+#: src/wx/verify_dcp_result_panel.cc:607
 msgid "A subtitle lasts longer than the reel it is in."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:670
+#: src/wx/verify_dcp_result_panel.cc:674
 #, c-format
 msgid ""
 "A subtitle or closed caption refers to a font with ID %load_font_id that "
@@ -534,8 +538,8 @@ msgstr "Просунуті…"
 msgid "Advanced..."
 msgstr "Просунуті…"
 
-#: src/wx/metadata_dialog.cc:217 src/wx/rating_dialog.cc:136
-#: src/wx/rating_dialog.cc:292
+#: src/wx/metadata_dialog.cc:217 src/wx/rating_dialog.cc:138
+#: src/wx/rating_dialog.cc:296
 msgid "Agency"
 msgstr ""
 
@@ -582,7 +586,7 @@ msgstr "Фінансова підтримка"
 msgid "An asset has an empty path in the ASSETMAP."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:633
+#: src/wx/verify_dcp_result_panel.cc:637
 #, c-format
 msgid "An invalid <ContentKind> %content_kind has been used."
 msgstr ""
@@ -632,7 +636,7 @@ msgstr ""
 "Ви точно хочете відправити електронні листи на ці адреси?\n"
 "\n"
 
-#: src/wx/verify_dcp_result_panel.cc:618
+#: src/wx/verify_dcp_result_panel.cc:622
 msgid "At least one <Text> node in a subtitle or closed caption is empty."
 msgstr ""
 
@@ -960,11 +964,11 @@ msgid "Content directory"
 msgstr "Папка DCP"
 
 #: src/wx/content_version_dialog.cc:32 src/wx/content_version_dialog.cc:34
-#: src/wx/interop_metadata_dialog.cc:64
+#: src/wx/interop_metadata_dialog.cc:67
 msgid "Content version"
 msgstr "Версія контенту"
 
-#: src/wx/smpte_metadata_dialog.cc:104
+#: src/wx/smpte_metadata_dialog.cc:107
 #, fuzzy
 msgid "Content versions"
 msgstr "Версія контенту"
@@ -1125,7 +1129,7 @@ msgstr "Покажчик: %.1fдБ на %s"
 msgid "Cursor: none"
 msgstr "Покажчик: нічого"
 
-#: src/wx/dcp_timeline.cc:271 src/wx/rating_dialog.cc:51
+#: src/wx/dcp_timeline.cc:271 src/wx/rating_dialog.cc:53
 #: src/wx/ratio_picker.cc:49
 #, fuzzy
 msgid "Custom"
@@ -1290,7 +1294,7 @@ msgstr "Деталі..."
 msgid "Direct Sound"
 msgstr ""
 
-#: src/wx/smpte_metadata_dialog.cc:94
+#: src/wx/smpte_metadata_dialog.cc:97
 msgid "Distributor"
 msgstr ""
 
@@ -1545,7 +1549,7 @@ msgstr ""
 msgid "Filters"
 msgstr "Фільтри"
 
-#: src/wx/smpte_metadata_dialog.cc:139
+#: src/wx/smpte_metadata_dialog.cc:142
 msgid "Final"
 msgstr ""
 
@@ -1626,7 +1630,7 @@ msgid ""
 "that is over the limit of 250Mbit/s."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:662
+#: src/wx/verify_dcp_result_panel.cc:666
 #, c-format
 msgid ""
 "Frame %frame has an image component that is too large (component %component "
@@ -1669,7 +1673,7 @@ msgstr "З шаблону"
 msgid "Full (JPEG, 0-255)"
 msgstr ""
 
-#: src/wx/timing_panel.cc:108
+#: src/wx/timing_panel.cc:104
 msgid "Full length"
 msgstr "Повна тривалість"
 
@@ -2240,7 +2244,7 @@ msgstr ""
 msgid "Mix audio down to stereo"
 msgstr "Змікшувати аудіо у стерео"
 
-#: src/wx/verify_dcp_result_panel.cc:571
+#: src/wx/verify_dcp_result_panel.cc:573
 msgid ""
 "More 2K JPEG2000 frames (not listed) contain the wrong number of tile parts."
 msgstr ""
@@ -2272,11 +2276,11 @@ msgstr ""
 msgid "More JPEG2000 frames (not listed) contain invalid POC markers."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:585 src/wx/verify_dcp_result_panel.cc:592
+#: src/wx/verify_dcp_result_panel.cc:589 src/wx/verify_dcp_result_panel.cc:596
 msgid "More JPEG2000 frames (not listed) contain invalid Rsiz values."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:578
+#: src/wx/verify_dcp_result_panel.cc:582
 msgid ""
 "More JPEG2000 frames (not listed) contain the wrong number of tile parts."
 msgstr ""
@@ -2289,7 +2293,7 @@ msgstr ""
 msgid "More JPEG2000 frames (not listed) have an invalid code-block width."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:599
+#: src/wx/verify_dcp_result_panel.cc:603
 msgid "More JPEG2000 frames (not listed) have no TLM marker."
 msgstr ""
 
@@ -2309,7 +2313,7 @@ msgid ""
 "limit of 250Mbit/s."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:663
+#: src/wx/verify_dcp_result_panel.cc:667
 msgid "More frames (not listed) have image components that are too large."
 msgstr ""
 
@@ -2338,7 +2342,7 @@ msgstr "Перемістити обраний елемент контенту р
 msgid "Move the selected piece of content later in the film."
 msgstr "Перемістити обраний елемент контенту пізніше у проекті."
 
-#: src/wx/timing_panel.cc:107
+#: src/wx/timing_panel.cc:103
 msgid "Move to start of reel"
 msgstr "Перемістити до початку катушки"
 
@@ -2411,7 +2415,7 @@ msgstr ""
 msgid "No DCP loaded."
 msgstr "Жоден DCP не завантажений."
 
-#: src/wx/verify_dcp_result_panel.cc:711
+#: src/wx/verify_dcp_result_panel.cc:715
 msgid "No SMPTE Bv2.1 errors found."
 msgstr ""
 
@@ -2424,11 +2428,11 @@ msgstr "Аудіо не буде переміщено з каналу %d кон�
 msgid "No content found in this folder."
 msgstr "У даній папці не знайдено контент."
 
-#: src/wx/verify_dcp_result_panel.cc:707
+#: src/wx/verify_dcp_result_panel.cc:711
 msgid "No errors found."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:715
+#: src/wx/verify_dcp_result_panel.cc:719
 msgid "No warnings found."
 msgstr ""
 
@@ -2507,13 +2511,13 @@ msgstr "Відкрити таймлайн проекту."
 msgid "OpenGL (faster)"
 msgstr ""
 
-#: src/wx/system_information_dialog.cc:83
+#: src/wx/system_information_dialog.cc:81
 #, c-format
 msgid "OpenGL renderer not supported by this %s version"
 msgstr ""
 
-#: src/wx/system_information_dialog.cc:51
-#: src/wx/system_information_dialog.cc:82
+#: src/wx/system_information_dialog.cc:49
+#: src/wx/system_information_dialog.cc:80
 #, fuzzy
 msgid "OpenGL version"
 msgstr "Тимчасова версія"
@@ -2578,7 +2582,7 @@ msgstr "Частота кадрів відео"
 msgid "Overwrite this file with current configuration"
 msgstr "Перезаписати цей файл поточною конфігураціею"
 
-#: src/wx/verify_dcp_result_panel.cc:615
+#: src/wx/verify_dcp_result_panel.cc:619
 msgid "Part of the DCP could not be checked because no KDM was available."
 msgstr ""
 
@@ -2653,7 +2657,7 @@ msgstr ""
 msgid "Play"
 msgstr "Відтворення"
 
-#: src/wx/timing_panel.cc:116
+#: src/wx/timing_panel.cc:112
 msgid "Play length"
 msgstr "Тривалість відтворення"
 
@@ -2680,11 +2684,11 @@ msgstr "Відтворення"
 msgid "Please wait; audio is being analysed..."
 msgstr "Зачекайте будь ласка - аудіо аналізується..."
 
-#: src/wx/timing_panel.cc:105
+#: src/wx/timing_panel.cc:101
 msgid "Position"
 msgstr "Позиція"
 
-#: src/wx/metadata_dialog.cc:308 src/wx/smpte_metadata_dialog.cc:138
+#: src/wx/metadata_dialog.cc:308 src/wx/smpte_metadata_dialog.cc:141
 msgid "Pre-release"
 msgstr "Пре-реліз"
 
@@ -2739,13 +2743,18 @@ msgstr "Rated Maximum Sinusoidal"
 msgid "Range"
 msgstr ""
 
-#: src/wx/rating_dialog.cc:43 src/wx/rating_dialog.cc:142
-#: src/wx/rating_dialog.cc:294
+#. TRANSLATORS: this refers to the project's ratings, (i.e. the legal/
+#. advisory limits on what age groups can watch the film).
+#: src/wx/rating_dialog.cc:45 src/wx/rating_dialog.cc:146
+#: src/wx/rating_dialog.cc:300
 #, fuzzy
 msgid "Rating"
 msgstr "Попередження"
 
-#: src/wx/interop_metadata_dialog.cc:58 src/wx/smpte_metadata_dialog.cc:73
+#. TRANSLATORS: this is a button which opens a dialog box in which you can
+#. edit the project's ratings (i.e. the legal/advisory limits on what age
+#. groups can watch the film).
+#: src/wx/interop_metadata_dialog.cc:61 src/wx/smpte_metadata_dialog.cc:76
 #, fuzzy
 msgid "Ratings"
 msgstr "Попередження"
@@ -2883,7 +2892,7 @@ msgstr "Перейменувати шаблон"
 msgid "Rename..."
 msgstr "Перейменувати..."
 
-#: src/wx/system_information_dialog.cc:66
+#: src/wx/system_information_dialog.cc:64
 msgid "Renderer"
 msgstr ""
 
@@ -3210,11 +3219,6 @@ msgstr ""
 msgid "Set to"
 msgstr "Призначити"
 
-#: src/wx/system_information_dialog.cc:68
-#, fuzzy
-msgid "Shading language version"
-msgstr "Стабільна версія"
-
 #: src/wx/subtitle_appearance_dialog.cc:153
 msgid "Shadow"
 msgstr "Тінь"
@@ -3298,13 +3302,13 @@ msgid ""
 "certificate validity periods.  What do you want to do?"
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:621
+#: src/wx/verify_dcp_result_panel.cc:625
 msgid ""
 "Some closed <Text> or <Image> nodes have different vertical alignments "
 "within a <Subtitle>."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:624
+#: src/wx/verify_dcp_result_panel.cc:628
 msgid ""
 "Some closed captions are not listed in the order of their vertical position."
 msgstr ""
@@ -3313,7 +3317,7 @@ msgstr ""
 msgid "Sound"
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:651
+#: src/wx/verify_dcp_result_panel.cc:655
 msgid "Sound assets do not all have the same channel count."
 msgstr ""
 
@@ -3346,7 +3350,7 @@ msgid "Stable version"
 msgstr "Стабільна версія %s"
 
 #: src/wx/dcp_panel.cc:113 src/wx/metadata_dialog.cc:78
-#: src/wx/rating_dialog.cc:50
+#: src/wx/rating_dialog.cc:52
 msgid "Standard"
 msgstr "Стандарт"
 
@@ -3362,7 +3366,7 @@ msgstr "Початок катушки"
 msgid "Start player as"
 msgstr ""
 
-#: src/wx/smpte_metadata_dialog.cc:90
+#: src/wx/smpte_metadata_dialog.cc:93
 msgid "Status"
 msgstr ""
 
@@ -3444,8 +3448,8 @@ msgstr "Субтитри: ні"
 msgid "Subtitles: yes"
 msgstr "Субтитри: так"
 
-#: src/wx/system_information_dialog.cc:46
-#: src/wx/system_information_dialog.cc:80
+#: src/wx/system_information_dialog.cc:44
+#: src/wx/system_information_dialog.cc:78
 msgid "System information"
 msgstr ""
 
@@ -3469,7 +3473,7 @@ msgstr "Назва шаблону не може бути пустою."
 msgid "Templates"
 msgstr "Шаблони"
 
-#: src/wx/smpte_metadata_dialog.cc:137
+#: src/wx/smpte_metadata_dialog.cc:140
 msgid "Temporary"
 msgstr ""
 
@@ -3506,23 +3510,23 @@ msgstr "Тестування"
 msgid "The 'until' time must be after the 'from' time."
 msgstr "Час \"до\" має бути після часу \"від\"."
 
-#: src/wx/verify_dcp_result_panel.cc:679
+#: src/wx/verify_dcp_result_panel.cc:683
 #, c-format
 msgid "The <LabelText> in a <ContentVersion> in CPL %cpl is empty"
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:636
+#: src/wx/verify_dcp_result_panel.cc:640
 msgid ""
 "The <MainPictureActiveArea> is either not a multiple of 2, or is bigger than "
 "an asset."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:642
+#: src/wx/verify_dcp_result_panel.cc:646
 #, c-format
 msgid "The ASSETMAP %asset_map_id has more than one asset with the same ID."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:609
+#: src/wx/verify_dcp_result_panel.cc:613
 msgid ""
 "The Asset ID in a timed text MXF is the same as the Resource ID or that of "
 "the contained XML."
@@ -3535,7 +3539,7 @@ msgid ""
 "<ContentTitleText>."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:682
+#: src/wx/verify_dcp_result_panel.cc:686
 #, c-format
 msgid "The CPL %cpl has an invalid namespace %xml_namespace"
 msgstr ""
@@ -3550,7 +3554,7 @@ msgstr ""
 msgid "The CPL %cpl has no <AnnotationText> tag."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:685
+#: src/wx/verify_dcp_result_panel.cc:689
 #, c-format
 msgid "The CPL %cpl has no <ContentVersion> tag"
 msgstr ""
@@ -3631,7 +3635,7 @@ msgid ""
 "certificate's validity period.  Use a later start time for this KDM."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:701
+#: src/wx/verify_dcp_result_panel.cc:705
 #, c-format
 msgid "The PKL %f has an invalid namespace %xml_namespace"
 msgstr ""
@@ -3648,7 +3652,7 @@ msgstr ""
 msgid "The PKL %pkl has encrypted content but is not signed."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:639
+#: src/wx/verify_dcp_result_panel.cc:643
 #, c-format
 msgid "The PKL %pkl_id has more than one asset with the same ID."
 msgstr ""
@@ -3663,13 +3667,13 @@ msgstr ""
 msgid "The PKL and CPL hashes disagree for sound asset %f."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:606
+#: src/wx/verify_dcp_result_panel.cc:610
 msgid ""
 "The Resource ID in a timed text MXF did not match the ID of the contained "
 "XML."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:673
+#: src/wx/verify_dcp_result_panel.cc:677
 #, c-format
 msgid ""
 "The SMPTE subtitle asset %asset_id has <Text> nodes but no <LoadFont> node"
@@ -3691,7 +3695,7 @@ msgid ""
 "is over the 256KB limit."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:667
+#: src/wx/verify_dcp_result_panel.cc:671
 #, c-format
 msgid ""
 "The XML in the subtitle asset %asset_id has more than one namespace "
@@ -3726,7 +3730,7 @@ msgstr ""
 msgid "The asset %f is missing."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:676
+#: src/wx/verify_dcp_result_panel.cc:680
 #, c-format
 msgid ""
 "The asset with ID %asset_id in the asset map actually has an id of "
@@ -3775,7 +3779,7 @@ msgid ""
 "The first subtitle or closed caption happens before 4s into the first reel."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:657
+#: src/wx/verify_dcp_result_panel.cc:661
 #, c-format
 msgid ""
 "The font file for font ID \"%load_font_id\" was not found, or was not "
@@ -3825,7 +3829,7 @@ msgid ""
 "The picture in a reel has a frame rate of %frame_rate, which is not valid."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:612
+#: src/wx/verify_dcp_result_panel.cc:616
 #, c-format
 msgid ""
 "The reel duration (%other_duration) of some timed text is not the same as "
@@ -3848,7 +3852,7 @@ msgid ""
 "newer (current) standard.  If in doubt, choose 'SMPTE'"
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:645
+#: src/wx/verify_dcp_result_panel.cc:649
 #, c-format
 msgid "The subtitle asset %asset_id contains no subtitles."
 msgstr ""
@@ -3930,11 +3934,11 @@ msgstr "Немає підказок: схоже, що все добре!"
 msgid "There are no hints: everything looks good!"
 msgstr "Немає підказок: схоже, що все добре!"
 
-#: src/wx/verify_dcp_result_panel.cc:630
+#: src/wx/verify_dcp_result_panel.cc:634
 msgid "There is a <Duration> tag inside a <MainMarkers>."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:627
+#: src/wx/verify_dcp_result_panel.cc:631
 msgid "There is a <EntryPoint> tag inside a <MainMarkers>."
 msgstr ""
 
@@ -4097,7 +4101,7 @@ msgid "Timing"
 msgstr "Таймінг"
 
 #. TRANSLATORS: translate the word "Timing" here; do not include the "Timing|" prefix
-#: src/wx/timing_panel.cc:68
+#: src/wx/timing_panel.cc:64
 msgid "Timing|Timing"
 msgstr "Таймінг"
 
@@ -4122,20 +4126,20 @@ msgstr ""
 msgid "Translated by"
 msgstr "Переклад"
 
-#: src/wx/timing_panel.cc:115
+#: src/wx/timing_panel.cc:111
 #, fuzzy
 msgid "Trim from current position to end"
 msgstr "Обрізати з поточної позиції"
 
-#: src/wx/timing_panel.cc:113
+#: src/wx/timing_panel.cc:109
 msgid "Trim from end"
 msgstr "Обрізати з кінця"
 
-#: src/wx/timing_panel.cc:110
+#: src/wx/timing_panel.cc:106
 msgid "Trim from start"
 msgstr "Обрізати з початку"
 
-#: src/wx/timing_panel.cc:112
+#: src/wx/timing_panel.cc:108
 msgid "Trim up to current position"
 msgstr "Обрізати до поточної позиції"
 
@@ -4350,11 +4354,11 @@ msgstr ""
 msgid "Valid to"
 msgstr ""
 
-#: src/wx/system_information_dialog.cc:65
+#: src/wx/system_information_dialog.cc:63
 msgid "Vendor"
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:725
+#: src/wx/verify_dcp_result_panel.cc:729
 #, fuzzy
 msgid "Verification report"
 msgstr "Перевірка DCP"
@@ -4375,7 +4379,7 @@ msgstr ""
 msgid "Verify..."
 msgstr ""
 
-#: src/wx/smpte_metadata_dialog.cc:109 src/wx/system_information_dialog.cc:67
+#: src/wx/smpte_metadata_dialog.cc:112 src/wx/system_information_dialog.cc:65
 #, fuzzy
 msgid "Version"
 msgstr "Серійний номер"
@@ -4384,7 +4388,7 @@ msgstr "Серійний номер"
 msgid "Version file (VF) setup"
 msgstr ""
 
-#: src/wx/smpte_metadata_dialog.cc:86
+#: src/wx/smpte_metadata_dialog.cc:89
 #, fuzzy
 msgid "Version number"
 msgstr "Серійний номер"
@@ -4623,12 +4627,12 @@ msgstr ""
 msgid "e.g. %s"
 msgstr "напр. %s"
 
-#: src/wx/system_information_dialog.cc:71
+#: src/wx/system_information_dialog.cc:69
 msgid "enabled"
 msgstr ""
 
 #. TRANSLATORS: this is an abbreviation for "frames"
-#: src/wx/timing_panel.cc:92
+#: src/wx/timing_panel.cc:88
 msgid "f"
 msgstr "к"
 
@@ -4655,12 +4659,12 @@ msgid "full screen with separate advanced controls"
 msgstr ""
 
 #. TRANSLATORS: this is an abbreviation for "hours"
-#: src/wx/timing_panel.cc:86
+#: src/wx/timing_panel.cc:82
 msgid "h"
 msgstr "г"
 
 #. TRANSLATORS: this is an abbreviation for "minutes"
-#: src/wx/timing_panel.cc:88
+#: src/wx/timing_panel.cc:84
 msgid "m"
 msgstr "хв"
 
@@ -4674,7 +4678,7 @@ msgstr ""
 msgid "ms"
 msgstr "мс"
 
-#: src/wx/system_information_dialog.cc:71
+#: src/wx/system_information_dialog.cc:69
 msgid "not enabled"
 msgstr ""
 
@@ -4718,7 +4722,7 @@ msgid "reel number"
 msgstr "Серійний номер"
 
 #. TRANSLATORS: this is an abbreviation for "seconds"
-#: src/wx/full_config_dialog.cc:256 src/wx/timing_panel.cc:90
+#: src/wx/full_config_dialog.cc:256 src/wx/timing_panel.cc:86
 msgid "s"
 msgstr "с"
 
@@ -4751,12 +4755,12 @@ msgstr ""
 msgid "type(cpl/pkl)"
 msgstr ""
 
-#: src/wx/system_information_dialog.cc:61
+#: src/wx/system_information_dialog.cc:59
 #, fuzzy
 msgid "unknown"
 msgstr "Неизвестный"
 
-#: src/wx/system_information_dialog.cc:52
+#: src/wx/system_information_dialog.cc:50
 #, c-format
 msgid "unknown (OpenGL not enabled in %s)"
 msgstr ""
@@ -4765,7 +4769,7 @@ msgstr ""
 msgid "until"
 msgstr "до"
 
-#: src/wx/system_information_dialog.cc:70
+#: src/wx/system_information_dialog.cc:68
 msgid "vsync"
 msgstr ""
 
@@ -4795,6 +4799,10 @@ msgstr ""
 #: src/wx/drive_wipe_warning_dialog.cc:61
 msgid "yes"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Shading language version"
+#~ msgstr "Стабільна версія"
 
 #~ msgid ""
 #~ "Please enter an email address so that we can contact you with any queries "

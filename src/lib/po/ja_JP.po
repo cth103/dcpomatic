@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-29 07:42+0200\n"
+"POT-Creation-Date: 2026-07-26 10:04+0200\n"
 "PO-Revision-Date: 2026-06-05 20:21+0900\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -70,7 +70,7 @@ msgstr " (%.2f:1)"
 
 #. TRANSLATORS: the {} in this string will be filled in with a day of the week
 #. to say what day a job will finish.
-#: src/lib/job.cc:628
+#: src/lib/job.cc:641
 #, c++-format
 msgid " on {}"
 msgstr "{}"
@@ -196,7 +196,7 @@ msgstr "9"
 msgid "; {} fps"
 msgstr "; {} fps"
 
-#: src/lib/job.cc:633
+#: src/lib/job.cc:646
 #, c++-format
 msgid "; {} remaining; finishing at {}{}"
 msgstr "; 残り時間 {} ; 終了予定 {}{}"
@@ -227,6 +227,13 @@ msgstr ""
 "amount=20\">Paypal で €20 を寄付</a><li><a href=\"https://dcpomatic.com/"
 "donate_amount?amount=10\">Paypal で €10 を寄付</a></ul><p>ありがとうございま"
 "す。</font>"
+
+#: src/lib/job.cc:294
+msgid ""
+"A bitmap (PNG) subtitle or font could not be written as its asset became "
+"full.  Split the project up into more reels, or set the subtitles to be "
+"'burnt in', and try again."
+msgstr ""
 
 #: src/lib/hints.cc:179
 msgid ""
@@ -297,22 +304,22 @@ msgid ""
 "At least one marker comes after the end of the project and will be ignored."
 msgstr "最低1つのマーカーがプロジェクトの終了後に出現しますが、無視されます。"
 
-#: src/lib/hints.cc:526
+#: src/lib/hints.cc:530
 msgid "At least one of your closed caption files is larger than "
 msgstr "最低1つの「クローズドキャプション」ファイルが次のサイズより大きいです"
 
-#: src/lib/hints.cc:520
+#: src/lib/hints.cc:524
 #, fuzzy
 msgid "At least one of your closed caption files' XML part is larger than "
 msgstr ""
 "最低１つの「クローズドキャプション」ファイルのXML部分が次のサイズより大きいで"
 "す"
 
-#: src/lib/hints.cc:532
+#: src/lib/hints.cc:536
 msgid "At least one of your subtitle files is larger than "
 msgstr "最低1つの字幕はサイズが大きいです"
 
-#: src/lib/hints.cc:490
+#: src/lib/hints.cc:494
 msgid ""
 "At least one of your subtitle lines has more than 52 characters.  It is "
 "recommended to make each line 52 characters at most in length."
@@ -320,7 +327,7 @@ msgstr ""
 "最低1つの字幕は1行が52文字を超えています。各行の長さは52文字以下にすることを"
 "お勧めします。"
 
-#: src/lib/hints.cc:492
+#: src/lib/hints.cc:496
 msgid ""
 "At least one of your subtitle lines has more than 79 characters.  You should "
 "make each line 79 characters at most in length."
@@ -328,13 +335,13 @@ msgstr ""
 "最低1つの字幕は1行が79文字を超えています。各行の長さを79文字以下にしてくださ"
 "い。"
 
-#: src/lib/hints.cc:681
+#: src/lib/hints.cc:689
 msgid ""
 "At least one of your subtitles has more than 3 lines.  It is advisable to "
 "use no more than 3 lines."
 msgstr "最低1つの字幕は3行を超えています。3行以内に収めることをお勧めします。"
 
-#: src/lib/hints.cc:648
+#: src/lib/hints.cc:656
 msgid ""
 "At least one of your subtitles lasts less than 15 frames.  It is advisable "
 "to make each subtitle at least 15 frames long."
@@ -342,7 +349,7 @@ msgstr ""
 "最低1つの字幕は15フレーム未満です。各字幕は最低15フレーム以上にすることをお勧"
 "めします。"
 
-#: src/lib/hints.cc:653
+#: src/lib/hints.cc:661
 msgid ""
 "At least one of your subtitles starts less than 2 frames after the previous "
 "one.  It is advisable to make the gap between subtitles at least 2 frames."
@@ -350,7 +357,7 @@ msgstr ""
 "最低1つの字幕は少なくとも前の字幕から2フレーム以内に始まります。字幕の間隔を2"
 "フレーム以上あけることをお勧めします。"
 
-#: src/lib/hints.cc:724
+#: src/lib/hints.cc:732
 msgid ""
 "At least one piece of subtitle content has no specified language.  It is "
 "advisable to set the language for each piece of subtitle content in the "
@@ -359,6 +366,12 @@ msgstr ""
 "最低1つの字幕コンテンツに言語が指定されていません。 「コンテンツ→タイムドテキ"
 "スト」または「コンテンツ→Open subtitles」タブで、字幕コンテンツごとに言語を設"
 "定することをお勧めします。"
+
+#: src/lib/hints.cc:451
+msgid ""
+"At least one reel contains too may image (PNG) subtitles, and making a DCP "
+"will fail.  You need to split the DCP into more reels."
+msgstr ""
 
 #: src/lib/audio_content.cc:264
 #, c++-format
@@ -444,7 +457,7 @@ msgstr "C"
 msgid "CPL {} not found"
 msgstr "CPL {} が見つかりません"
 
-#: src/lib/job.cc:657
+#: src/lib/job.cc:670
 msgid "Cancelled"
 msgstr "キャンセル済"
 
@@ -485,7 +498,7 @@ msgstr "新しい設定を確認してからもう一度お試しください。
 msgid "Checking content"
 msgstr "コンテンツの検証"
 
-#: src/lib/reel_writer.cc:258
+#: src/lib/reel_writer.cc:252
 #, fuzzy
 msgid "Checking existing image data"
 msgstr "既存の画像データの確認"
@@ -544,7 +557,7 @@ msgstr "カラースペース"
 msgid "Combine DCPs"
 msgstr "複数のDCPを結合"
 
-#: src/lib/writer.cc:525
+#: src/lib/writer.cc:515
 msgid "Computing digests"
 msgstr "処理進捗"
 
@@ -717,7 +730,7 @@ msgstr "DCPのコピー"
 msgid "Copying DCPs to {}"
 msgstr "DCPを{}にコピーしています"
 
-#: src/lib/reel_writer.cc:194
+#: src/lib/reel_writer.cc:188
 msgid "Copying existing asset"
 msgstr "既存のassetをコピーする"
 
@@ -993,7 +1006,7 @@ msgstr "エピソード・物語（EPS）"
 msgid "Error in subtitle file: saw {} while expecting {}"
 msgstr "字幕ファイルエラー：saw {} while expecting {}"
 
-#: src/lib/job.cc:655
+#: src/lib/job.cc:668
 #, c++-format
 msgid "Error: {}"
 msgstr "エラー: {}"
@@ -1080,7 +1093,7 @@ msgstr "ドライブをフォーマット"
 msgid "Frame rate"
 msgstr "フレームレート"
 
-#: src/lib/job.cc:599
+#: src/lib/job.cc:612
 msgid "Friday"
 msgstr "金曜日"
 
@@ -1188,7 +1201,7 @@ msgstr ""
 "勧めします。「DCP」タブで、SMPTE規格を使用するようにDCPを設定することをお勧め"
 "します。"
 
-#: src/lib/hints.cc:641
+#: src/lib/hints.cc:649
 msgid ""
 "It is advisable to put your first subtitle at least 4 seconds after the "
 "start of the DCP to make sure it is seen."
@@ -1196,7 +1209,7 @@ msgstr ""
 "最初の字幕が確実に表示されるようにするには、DCPの開始から最短4秒後以降に配置"
 "することをお勧めします。"
 
-#: src/lib/job.cc:169 src/lib/job.cc:204 src/lib/job.cc:295 src/lib/job.cc:305
+#: src/lib/job.cc:169 src/lib/job.cc:204 src/lib/job.cc:308 src/lib/job.cc:318
 #, c++-format
 msgid "It is not known what caused this error.  {}"
 msgstr "このエラーの原因は不明です。{}"
@@ -1318,7 +1331,7 @@ msgstr "DCP のビデオ サイズの不一致"
 msgid "Missing required setting {}"
 msgstr "必要な設定 {} がありません"
 
-#: src/lib/job.cc:591
+#: src/lib/job.cc:604
 msgid "Monday"
 msgstr "月曜日"
 
@@ -1365,16 +1378,16 @@ msgstr "ノイズ除去"
 msgid "None"
 msgstr "なし"
 
-#: src/lib/job.cc:647
+#: src/lib/job.cc:660
 msgid "OK"
 msgstr "OK"
 
-#: src/lib/job.cc:652
+#: src/lib/job.cc:665
 #, c++-format
 msgid "OK (ran for {} from {} to {})"
 msgstr "OK ( 処理時間 {} 、 開始時刻 {} 、 終了時刻 {} )"
 
-#: src/lib/job.cc:650
+#: src/lib/job.cc:663
 #, c++-format
 msgid "OK (ran for {})"
 msgstr ""
@@ -1549,7 +1562,7 @@ msgstr "SMPTE 2085, Y'D'zD'x"
 msgid "SMPTE 240M"
 msgstr "SMPTE 240M"
 
-#: src/lib/hints.cc:706
+#: src/lib/hints.cc:714
 msgid ""
 "SMPTE DCPs with the type FTR (feature) should have markers for the first "
 "frame of end credits (FFEC) and the first frame of moving credits (FFMC).  "
@@ -1583,6 +1596,13 @@ msgstr "SMPTE ST 431-2 (2011)"
 msgid "SMPTE ST 432-1 D65 (2010)"
 msgstr "SMPTE ST 432-1 D65 (2010)"
 
+#: src/lib/job.cc:297
+msgid ""
+"SMPTE text assets have a limit of 4096 'resources', which include PNG "
+"subtitles and fonts. The limit is less likely to be hit if you use more "
+"reels."
+msgstr ""
+
 #: src/lib/scp_uploader.cc:46
 #, c++-format
 msgid "SSH error [{}]"
@@ -1594,7 +1614,7 @@ msgstr "SSH エラー [{}]"
 msgid "SSH error [{}] ({})"
 msgstr "SSH エラー [{}] ({})"
 
-#: src/lib/job.cc:601
+#: src/lib/job.cc:614
 msgid "Saturday"
 msgstr "土曜日"
 
@@ -1659,14 +1679,14 @@ msgstr ""
 "DCP-o-maticのバグ修正により、一部のファイルの再調査が必要です。設定の確認が必"
 "要になる場合があります。"
 
-#: src/lib/hints.cc:622
+#: src/lib/hints.cc:630
 #, c++-format
 msgid ""
 "Some of your closed captions span more than {} lines, so they will be "
 "truncated."
 msgstr "字幕の中には{}行を超えるものがある為、途中が途切れて表示されます。"
 
-#: src/lib/hints.cc:744
+#: src/lib/hints.cc:752
 msgid ""
 "Some of your content has audio but you have not set the audio language.  It "
 "is advisable to set the audio language in the \"DCP\" tab unless your audio "
@@ -1676,7 +1696,7 @@ msgstr ""
 "ナレーションが含まれていない場合を除き「DCP」タブで音声言語を設定することをお"
 "勧めします。"
 
-#: src/lib/hints.cc:815
+#: src/lib/hints.cc:823
 msgid ""
 "Some of your content is encrypted, and some not.  Though some distributors "
 "(e.g. Netflix) require subtitles not to be encrypted (even if picture and "
@@ -1702,7 +1722,7 @@ msgstr "コンテンツの一部にはKDMが必要です"
 msgid "Some of your content needs an OV"
 msgstr "コンテンツの一部にはOVが必要です"
 
-#: src/lib/hints.cc:798
+#: src/lib/hints.cc:806
 #, c++-format
 msgid ""
 "Some of your video content contains an alpha channel, and {} cannot be "
@@ -1731,7 +1751,7 @@ msgstr "ステレオから5.1ch アップミキサーA"
 msgid "Stereo to 5.1 up-mixer B"
 msgstr "ステレオから5.1ch アップミキサーB"
 
-#: src/lib/job.cc:589
+#: src/lib/job.cc:602
 msgid "Sunday"
 msgstr "日曜日"
 
@@ -1770,7 +1790,7 @@ msgstr "署名用の証明書チェーンが無効です"
 msgid "The certificate chain for signing is invalid ({})"
 msgstr "署名用の証明書チェーンが無効です ({})"
 
-#: src/lib/hints.cc:761
+#: src/lib/hints.cc:769
 #, c++-format
 msgid ""
 "The certificate chain that {} uses for signing DCPs and KDMs contains a "
@@ -1784,7 +1804,7 @@ msgstr ""
 "「秘密鍵」ページで「証明書と秘密鍵を再作成する」ボタンをクリックして、署名証"
 "明書チェーンを再作成することをお勧めします。"
 
-#: src/lib/hints.cc:769
+#: src/lib/hints.cc:777
 #, c++-format
 msgid ""
 "The certificate chain that {} uses for signing DCPs and KDMs has a validity "
@@ -1945,7 +1965,7 @@ msgstr ""
 "ことができません。新しいプロジェクトを作成しコンテンツを追加して再度設定する"
 "必要があります。"
 
-#: src/lib/job.cc:597
+#: src/lib/job.cc:610
 msgid "Thursday"
 msgstr "木曜日"
 
@@ -1971,7 +1991,7 @@ msgstr "トランスコーディング {}"
 msgid "Transitional"
 msgstr "トランジショナル（XSN）"
 
-#: src/lib/job.cc:593
+#: src/lib/job.cc:606
 msgid "Tuesday"
 msgstr "火曜日"
 
@@ -1992,7 +2012,7 @@ msgstr "サーバーが予期しない画像タイプを受信しました"
 msgid "Unknown"
 msgstr "不明"
 
-#: src/lib/job.cc:304
+#: src/lib/job.cc:317
 msgid "Unknown error"
 msgstr "不明なエラー"
 
@@ -2064,7 +2084,7 @@ msgstr "しばらくお待ちください"
 msgid "Weave filter"
 msgstr "ウィーブフィルター"
 
-#: src/lib/job.cc:595
+#: src/lib/job.cc:608
 msgid "Wednesday"
 msgstr "水曜日"
 
@@ -2143,7 +2163,7 @@ msgstr ""
 "Atmosコンテンツが複数存在し、それらのフレームレートが異なっています。Atmosコ"
 "ンテンツの一部を削除する必要があります。"
 
-#: src/lib/hints.cc:629
+#: src/lib/hints.cc:637
 msgid ""
 "You have overlapping closed captions, which are not allowed in Interop "
 "DCPs.  Change your DCP standard to SMPTE."
@@ -2184,7 +2204,7 @@ msgstr ""
 "があります。DCP音声を6チャンネルに設定することをおすすめします。コンテンツの"
 "音声チャンネル数は6未満でも問題ありませんが{}は余分な部分を無音で埋めます。"
 
-#: src/lib/hints.cc:787
+#: src/lib/hints.cc:795
 #, c++-format
 msgid ""
 "Your DCP has {} audio channels, rather than 8 or 16.  This may cause some "
@@ -2276,12 +2296,12 @@ msgstr ""
 msgid "could not find stream information"
 msgstr "ストリーム情報が見つかりませんでした"
 
-#: src/lib/reel_writer.cc:408
+#: src/lib/reel_writer.cc:402
 #, fuzzy, c++-format
 msgid "could not move atmos asset into the DCP ({})"
 msgstr "atmosアセットをDCPに移動できませんでした （{}）"
 
-#: src/lib/reel_writer.cc:391
+#: src/lib/reel_writer.cc:385
 #, c++-format
 msgid "could not move audio asset into the DCP ({})"
 msgstr "音声AssetをDCPに移動できませんでした（{}）"

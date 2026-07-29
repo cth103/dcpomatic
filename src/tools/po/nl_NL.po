@@ -506,8 +506,8 @@ msgstr ""
 msgid ""
 "Could not start the player.  You may need to download it from dcpomatic.com."
 msgstr ""
-"Kan de Player niet starten.  Mogelijk moet u hem downloaden van dcpomatic."
-"com."
+"Kan de Player niet starten.  Mogelijk moet u hem downloaden van "
+"dcpomatic.com."
 
 #: src/tools/dcpomatic_batch.cc:365 src/tools/dcpomatic.cc:1507
 #: src/tools/dcpomatic_player.cc:1133 src/tools/dcpomatic_playlist.cc:639
@@ -583,8 +583,8 @@ msgid ""
 "Did you install the %s Disk Writer.pkg from the .dmg?  Please check and try "
 "again."
 msgstr ""
-"Heeft u de %s Disk Writer.pkg geïnstalleerd vanuit de .dmg?  Controleer a.u."
-"b. en probeer het opnieuw."
+"Heeft u de %s Disk Writer.pkg geïnstalleerd vanuit de .dmg?  Controleer "
+"a.u.b. en probeer het opnieuw."
 
 #: src/tools/dcpomatic_disk.cc:190
 msgid "Disk Writer"

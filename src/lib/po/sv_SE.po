@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-29 07:42+0200\n"
+"POT-Creation-Date: 2026-07-26 10:04+0200\n"
 "PO-Revision-Date: 2021-12-28 14:46+0100\n"
 "Last-Translator: Mattias Mattsson <vitplister@gmail.com>\n"
 "Language-Team: \n"
@@ -69,7 +69,7 @@ msgstr " (%.2f:1)"
 
 #. TRANSLATORS: the {} in this string will be filled in with a day of the week
 #. to say what day a job will finish.
-#: src/lib/job.cc:628
+#: src/lib/job.cc:641
 #, c++-format
 msgid " on {}"
 msgstr " på {}"
@@ -196,7 +196,7 @@ msgstr ""
 msgid "; {} fps"
 msgstr "; {} fps"
 
-#: src/lib/job.cc:633
+#: src/lib/job.cc:646
 #, c++-format
 msgid "; {} remaining; finishing at {}{}"
 msgstr "; {} återstår; klar kl. {}{}"
@@ -227,6 +227,13 @@ msgstr ""
 "a><li><a href=\"https://dcpomatic.com/donate_amount?amount=20\">Ge 20 EUR "
 "via Paypal</a><li><a href=\"https://dcpomatic.com/donate_amount?"
 "amount=10\">Ge 10 EUR via Paypal</a></ul><p>Stort tack!"
+
+#: src/lib/job.cc:294
+msgid ""
+"A bitmap (PNG) subtitle or font could not be written as its asset became "
+"full.  Split the project up into more reels, or set the subtitles to be "
+"'burnt in', and try again."
+msgstr ""
 
 #: src/lib/hints.cc:179
 #, fuzzy
@@ -300,19 +307,19 @@ msgstr ""
 "Åtminstone en markering kommer efter slutet av projektet och kommer att "
 "ignoreras."
 
-#: src/lib/hints.cc:526
+#: src/lib/hints.cc:530
 msgid "At least one of your closed caption files is larger than "
 msgstr "Åtminstone en av dina undertextfiler är större än "
 
-#: src/lib/hints.cc:520
+#: src/lib/hints.cc:524
 msgid "At least one of your closed caption files' XML part is larger than "
 msgstr "Åtminstone en av dina undertextfilers XML-del är större än "
 
-#: src/lib/hints.cc:532
+#: src/lib/hints.cc:536
 msgid "At least one of your subtitle files is larger than "
 msgstr "Åtminstone en av dina undertextfiler är större än "
 
-#: src/lib/hints.cc:490
+#: src/lib/hints.cc:494
 msgid ""
 "At least one of your subtitle lines has more than 52 characters.  It is "
 "recommended to make each line 52 characters at most in length."
@@ -320,7 +327,7 @@ msgstr ""
 "Åtminstone en av dina rader i undertexten är längre än 52 bokstaver.  Det är "
 "lämpligt att se till att varje rad är max 52 bokstäver låg."
 
-#: src/lib/hints.cc:492
+#: src/lib/hints.cc:496
 msgid ""
 "At least one of your subtitle lines has more than 79 characters.  You should "
 "make each line 79 characters at most in length."
@@ -328,7 +335,7 @@ msgstr ""
 "Åtminstone en av dina rader i undertexten är längre än 79 bokstaver.  Det är "
 "lämpligt att se till att varje rad är max 79 bokstäver låg."
 
-#: src/lib/hints.cc:681
+#: src/lib/hints.cc:689
 msgid ""
 "At least one of your subtitles has more than 3 lines.  It is advisable to "
 "use no more than 3 lines."
@@ -336,7 +343,7 @@ msgstr ""
 "Åtminstone en av dina undertexter innehåller mer än 3 rader. Det är lämpligt "
 "att använda max 3 rader."
 
-#: src/lib/hints.cc:648
+#: src/lib/hints.cc:656
 msgid ""
 "At least one of your subtitles lasts less than 15 frames.  It is advisable "
 "to make each subtitle at least 15 frames long."
@@ -344,7 +351,7 @@ msgstr ""
 "Åtminstone en av dina undertexter är kortare än 15 bildrutor. Det är "
 "lämpligt att använda minst 15 bildrutor."
 
-#: src/lib/hints.cc:653
+#: src/lib/hints.cc:661
 msgid ""
 "At least one of your subtitles starts less than 2 frames after the previous "
 "one.  It is advisable to make the gap between subtitles at least 2 frames."
@@ -352,7 +359,7 @@ msgstr ""
 "Åtminstone en av dina undertexter börjar mindre än 2 bildrutor efter "
 "föregående undertext. Det är lämpligt att använda minst 2 bildrutor mellan."
 
-#: src/lib/hints.cc:724
+#: src/lib/hints.cc:732
 #, fuzzy
 msgid ""
 "At least one piece of subtitle content has no specified language.  It is "
@@ -362,6 +369,12 @@ msgstr ""
 "Åtminstone en undertext saknar specifierat språk.  Det är lämpligt att sätta "
 "språk för varje undertext i flikarna \"Innehåll→Tajmad text\", "
 "\"Innehåll→Öppna undertext\" eller \"Innehåll→Undertext\"."
+
+#: src/lib/hints.cc:451
+msgid ""
+"At least one reel contains too may image (PNG) subtitles, and making a DCP "
+"will fail.  You need to split the DCP into more reels."
+msgstr ""
 
 #: src/lib/audio_content.cc:264
 #, c++-format
@@ -448,7 +461,7 @@ msgstr "C"
 msgid "CPL {} not found"
 msgstr ""
 
-#: src/lib/job.cc:657
+#: src/lib/job.cc:670
 msgid "Cancelled"
 msgstr "Avbruten"
 
@@ -488,7 +501,7 @@ msgstr ""
 msgid "Checking content"
 msgstr "Kontrollerar om källmaterialet har ändrats"
 
-#: src/lib/reel_writer.cc:258
+#: src/lib/reel_writer.cc:252
 msgid "Checking existing image data"
 msgstr "Kontrollerar befintlig bilddata"
 
@@ -545,7 +558,7 @@ msgstr "Färgrymd"
 msgid "Combine DCPs"
 msgstr "Kombinera DCP:er"
 
-#: src/lib/writer.cc:525
+#: src/lib/writer.cc:515
 msgid "Computing digests"
 msgstr "Beräknar hashsummor"
 
@@ -725,7 +738,7 @@ msgstr "Kombinera DCP:er"
 msgid "Copying DCPs to {}"
 msgstr "Kopiera DCP till TMS"
 
-#: src/lib/reel_writer.cc:194
+#: src/lib/reel_writer.cc:188
 #, fuzzy
 msgid "Copying existing asset"
 msgstr "Kontrollerar befintlig bilddata"
@@ -995,7 +1008,7 @@ msgstr "Episode"
 msgid "Error in subtitle file: saw {} while expecting {}"
 msgstr "Fel i undertext-file: såg {} men vi förväntade oss {}"
 
-#: src/lib/job.cc:655
+#: src/lib/job.cc:668
 #, c++-format
 msgid "Error: {}"
 msgstr "Fel: {}"
@@ -1085,7 +1098,7 @@ msgstr "Beräknar hashsumma"
 msgid "Frame rate"
 msgstr "Bildhastighet"
 
-#: src/lib/job.cc:599
+#: src/lib/job.cc:612
 msgid "Friday"
 msgstr "Fredag"
 
@@ -1192,7 +1205,7 @@ msgstr ""
 "specifikt skäl till att använda Interop.  Du bör säkerställa att din DCP "
 "använder SMPTE under fliken \"DCP\"."
 
-#: src/lib/hints.cc:641
+#: src/lib/hints.cc:649
 msgid ""
 "It is advisable to put your first subtitle at least 4 seconds after the "
 "start of the DCP to make sure it is seen."
@@ -1200,7 +1213,7 @@ msgstr ""
 "Det är lämpligt att lägga din första undertext minst 2 sekunder efter "
 "starten på DCPn för att säkerställa att den syns."
 
-#: src/lib/job.cc:169 src/lib/job.cc:204 src/lib/job.cc:295 src/lib/job.cc:305
+#: src/lib/job.cc:169 src/lib/job.cc:204 src/lib/job.cc:308 src/lib/job.cc:318
 #, fuzzy, c++-format
 msgid "It is not known what caused this error.  {}"
 msgstr "Det är inte känt vad som orsakade detta fel."
@@ -1316,7 +1329,7 @@ msgstr "Bildstorleken är inte enhetlig genom hela DCP:n"
 msgid "Missing required setting {}"
 msgstr "Nödvändig inställning saknas: {}"
 
-#: src/lib/job.cc:591
+#: src/lib/job.cc:604
 msgid "Monday"
 msgstr "Måndag"
 
@@ -1364,16 +1377,16 @@ msgstr "Brusreducering"
 msgid "None"
 msgstr "Inget"
 
-#: src/lib/job.cc:647
+#: src/lib/job.cc:660
 msgid "OK"
 msgstr ""
 
-#: src/lib/job.cc:652
+#: src/lib/job.cc:665
 #, fuzzy, c++-format
 msgid "OK (ran for {} from {} to {})"
 msgstr "OK (tog {})"
 
-#: src/lib/job.cc:650
+#: src/lib/job.cc:663
 #, c++-format
 msgid "OK (ran for {})"
 msgstr "OK (tog {})"
@@ -1547,7 +1560,7 @@ msgstr "SMPTE 2085, Y'D'zD'x"
 msgid "SMPTE 240M"
 msgstr "SMPTE 240M"
 
-#: src/lib/hints.cc:706
+#: src/lib/hints.cc:714
 msgid ""
 "SMPTE DCPs with the type FTR (feature) should have markers for the first "
 "frame of end credits (FFEC) and the first frame of moving credits (FFMC).  "
@@ -1582,6 +1595,13 @@ msgstr "SMPTE ST 431-2 (2011)"
 msgid "SMPTE ST 432-1 D65 (2010)"
 msgstr "SMPTE ST 432-1 D65 (2010)"
 
+#: src/lib/job.cc:297
+msgid ""
+"SMPTE text assets have a limit of 4096 'resources', which include PNG "
+"subtitles and fonts. The limit is less likely to be hit if you use more "
+"reels."
+msgstr ""
+
 #: src/lib/scp_uploader.cc:46
 #, c++-format
 msgid "SSH error [{}]"
@@ -1593,7 +1613,7 @@ msgstr "SSH fel [{}]"
 msgid "SSH error [{}] ({})"
 msgstr "SSH fel [{}] ({})"
 
-#: src/lib/job.cc:601
+#: src/lib/job.cc:614
 msgid "Saturday"
 msgstr "Lördag"
 
@@ -1666,7 +1686,7 @@ msgstr ""
 "Dessa filer kommer nu att genomsökas på nytt, deras inställningar kan "
 "därefter behöva kontrolleras."
 
-#: src/lib/hints.cc:622
+#: src/lib/hints.cc:630
 #, c++-format
 msgid ""
 "Some of your closed captions span more than {} lines, so they will be "
@@ -1675,7 +1695,7 @@ msgstr ""
 "Några av dina dolda undertext-block har fler än {} rader. De överskjutande "
 "raderna kommer förmodligen klippas bort."
 
-#: src/lib/hints.cc:744
+#: src/lib/hints.cc:752
 msgid ""
 "Some of your content has audio but you have not set the audio language.  It "
 "is advisable to set the audio language in the \"DCP\" tab unless your audio "
@@ -1684,7 +1704,7 @@ msgstr ""
 "Innehållet har ljudspår, men inget språk är angivit. Det rekommenderas att "
 "sätta ljudspårets språk i \"DCP\"-fliken."
 
-#: src/lib/hints.cc:815
+#: src/lib/hints.cc:823
 msgid ""
 "Some of your content is encrypted, and some not.  Though some distributors "
 "(e.g. Netflix) require subtitles not to be encrypted (even if picture and "
@@ -1706,7 +1726,7 @@ msgstr "En del av ditt källmaterial behöver en KDM"
 msgid "Some of your content needs an OV"
 msgstr "En del av ditt källmaterial behöver en OV"
 
-#: src/lib/hints.cc:798
+#: src/lib/hints.cc:806
 #, c++-format
 msgid ""
 "Some of your video content contains an alpha channel, and {} cannot be "
@@ -1732,7 +1752,7 @@ msgstr "Stereo till 5.1 upp-mixare A"
 msgid "Stereo to 5.1 up-mixer B"
 msgstr "Stereo till 5.1 upp-mixare B"
 
-#: src/lib/job.cc:589
+#: src/lib/job.cc:602
 msgid "Sunday"
 msgstr "Söndag"
 
@@ -1772,7 +1792,7 @@ msgstr "Certifikatkedjan för att signera är ogiltig"
 msgid "The certificate chain for signing is invalid ({})"
 msgstr "Certifikatkedjan för att signera är ogiltig ({})"
 
-#: src/lib/hints.cc:761
+#: src/lib/hints.cc:769
 #, c++-format
 msgid ""
 "The certificate chain that {} uses for signing DCPs and KDMs contains a "
@@ -1782,7 +1802,7 @@ msgid ""
 "Preferences."
 msgstr ""
 
-#: src/lib/hints.cc:769
+#: src/lib/hints.cc:777
 #, c++-format
 msgid ""
 "The certificate chain that {} uses for signing DCPs and KDMs has a validity "
@@ -1933,7 +1953,7 @@ msgstr ""
 "inte öppnas i denna version.  Du måste skapa en ny film, lägga till ditt "
 "källmaterial och ange inställningar på nytt.  Förlåt!"
 
-#: src/lib/job.cc:597
+#: src/lib/job.cc:610
 msgid "Thursday"
 msgstr "Torsdag"
 
@@ -1959,7 +1979,7 @@ msgstr "Transkoderar {}"
 msgid "Transitional"
 msgstr "Transitional"
 
-#: src/lib/job.cc:593
+#: src/lib/job.cc:606
 msgid "Tuesday"
 msgstr "Tisdag"
 
@@ -1980,7 +2000,7 @@ msgstr "Oväntad bildtyp mottogs av server"
 msgid "Unknown"
 msgstr "Okänd"
 
-#: src/lib/job.cc:304
+#: src/lib/job.cc:317
 msgid "Unknown error"
 msgstr "Okänt fel"
 
@@ -2051,7 +2071,7 @@ msgstr "Väntar"
 msgid "Weave filter"
 msgstr "Weave-filter"
 
-#: src/lib/job.cc:595
+#: src/lib/job.cc:608
 msgid "Wednesday"
 msgstr "Onsdag"
 
@@ -2129,7 +2149,7 @@ msgstr ""
 "Du har mer än en Atmos-del i innehållet, och de har inte samma "
 "bildhastighet.  Du måste ta bort någon/några Atmos-delar."
 
-#: src/lib/hints.cc:629
+#: src/lib/hints.cc:637
 msgid ""
 "You have overlapping closed captions, which are not allowed in Interop "
 "DCPs.  Change your DCP standard to SMPTE."
@@ -2171,7 +2191,7 @@ msgstr ""
 "ditt innehåll har färre kanaler, DCP-o-matic fyller i de extra kanalerna med "
 "tystnad."
 
-#: src/lib/hints.cc:787
+#: src/lib/hints.cc:795
 #, c++-format
 msgid ""
 "Your DCP has {} audio channels, rather than 8 or 16.  This may cause some "
@@ -2255,12 +2275,12 @@ msgstr "kopierar {}"
 msgid "could not find stream information"
 msgstr "kunde inte hitta information om strömmen"
 
-#: src/lib/reel_writer.cc:408
+#: src/lib/reel_writer.cc:402
 #, c++-format
 msgid "could not move atmos asset into the DCP ({})"
 msgstr "kunde inte flytta in atmos innehållet till DCP:n ({})"
 
-#: src/lib/reel_writer.cc:391
+#: src/lib/reel_writer.cc:385
 #, c++-format
 msgid "could not move audio asset into the DCP ({})"
 msgstr "kunde inte flytta in ljud till DCP:n ({})"

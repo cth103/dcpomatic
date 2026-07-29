@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-29 07:42+0200\n"
+"POT-Creation-Date: 2026-07-26 10:04+0200\n"
 "PO-Revision-Date: 2026-06-18 02:36+0300\n"
 "Last-Translator: Mikhail Epshteyn <virus-2006@yandex.ru>\n"
 "Language-Team: Mikhail Epshteyn\n"
@@ -69,7 +69,7 @@ msgstr " (%.2f:1)"
 
 #. TRANSLATORS: the {} in this string will be filled in with a day of the week
 #. to say what day a job will finish.
-#: src/lib/job.cc:628
+#: src/lib/job.cc:641
 #, c++-format
 msgid " on {}"
 msgstr " на {}"
@@ -195,7 +195,7 @@ msgstr "9"
 msgid "; {} fps"
 msgstr "; {} кадр/сек"
 
-#: src/lib/job.cc:633
+#: src/lib/job.cc:646
 #, c++-format
 msgid "; {} remaining; finishing at {}{}"
 msgstr "; осталось {}; время завершения {}{}"
@@ -227,6 +227,13 @@ msgstr ""
 "в Paypal для пожертвования €20</a><li><a href=\"https://dcpomatic.com/"
 "donate_amount?amount=10\">Перейти в Paypal для пожертвования €10</a></"
 "ul><p>Благодарю вас!</font>"
+
+#: src/lib/job.cc:294
+msgid ""
+"A bitmap (PNG) subtitle or font could not be written as its asset became "
+"full.  Split the project up into more reels, or set the subtitles to be "
+"'burnt in', and try again."
+msgstr ""
 
 #: src/lib/hints.cc:179
 msgid ""
@@ -299,19 +306,19 @@ msgstr ""
 "Найдены маркеры, установленные после окончания проекта. Они будут "
 "проигнорированы."
 
-#: src/lib/hints.cc:526
+#: src/lib/hints.cc:530
 msgid "At least one of your closed caption files is larger than "
 msgstr "Найдены файлы с субтитрами CC, которые больше, чем  "
 
-#: src/lib/hints.cc:520
+#: src/lib/hints.cc:524
 msgid "At least one of your closed caption files' XML part is larger than "
 msgstr "Найдены файлы с субтитрами CC, XML-часть которых больше, чем  "
 
-#: src/lib/hints.cc:532
+#: src/lib/hints.cc:536
 msgid "At least one of your subtitle files is larger than "
 msgstr "Найдены файлы с субтитрами, которые больше, чем  "
 
-#: src/lib/hints.cc:490
+#: src/lib/hints.cc:494
 msgid ""
 "At least one of your subtitle lines has more than 52 characters.  It is "
 "recommended to make each line 52 characters at most in length."
@@ -319,7 +326,7 @@ msgstr ""
 "Найдена строка субтитров, которая длиннее 52 символов.  Рекомендуется "
 "ограничить длину всех строк до 52 символов."
 
-#: src/lib/hints.cc:492
+#: src/lib/hints.cc:496
 msgid ""
 "At least one of your subtitle lines has more than 79 characters.  You should "
 "make each line 79 characters at most in length."
@@ -327,7 +334,7 @@ msgstr ""
 "Найдена строка субтитров, которая длиннее 79 символов.  Вы должны ограничить "
 "длину всех строк до 79 символов."
 
-#: src/lib/hints.cc:681
+#: src/lib/hints.cc:689
 msgid ""
 "At least one of your subtitles has more than 3 lines.  It is advisable to "
 "use no more than 3 lines."
@@ -335,7 +342,7 @@ msgstr ""
 "Найдены субтитры из более трёх строк.  Рекомендуется использовать не более "
 "трёх строк."
 
-#: src/lib/hints.cc:648
+#: src/lib/hints.cc:656
 msgid ""
 "At least one of your subtitles lasts less than 15 frames.  It is advisable "
 "to make each subtitle at least 15 frames long."
@@ -343,7 +350,7 @@ msgstr ""
 "Найдены субтитры, продолжительность которых менее 15 кадров.  Рекомендуется "
 "задать продолжительность для всех субтитров как минимум 15 кадров."
 
-#: src/lib/hints.cc:653
+#: src/lib/hints.cc:661
 msgid ""
 "At least one of your subtitles starts less than 2 frames after the previous "
 "one.  It is advisable to make the gap between subtitles at least 2 frames."
@@ -352,7 +359,7 @@ msgstr ""
 "предыдущего.  Рекомендуется задать промежуток между субтитрами как минимум 2 "
 "кадра."
 
-#: src/lib/hints.cc:724
+#: src/lib/hints.cc:732
 msgid ""
 "At least one piece of subtitle content has no specified language.  It is "
 "advisable to set the language for each piece of subtitle content in the "
@@ -361,6 +368,12 @@ msgstr ""
 "Найдены субтитры, для которых не указан язык.  Рекомендуется задать язык для "
 "всех частей субтитров на вкладках \"Контент→Субтитры\" или "
 "\"Контент→Открытые субтитры\"."
+
+#: src/lib/hints.cc:451
+msgid ""
+"At least one reel contains too may image (PNG) subtitles, and making a DCP "
+"will fail.  You need to split the DCP into more reels."
+msgstr ""
 
 #: src/lib/audio_content.cc:264
 #, c++-format
@@ -446,7 +459,7 @@ msgstr "C"
 msgid "CPL {} not found"
 msgstr "CPL {} не найден"
 
-#: src/lib/job.cc:657
+#: src/lib/job.cc:670
 msgid "Cancelled"
 msgstr "Отменено"
 
@@ -487,7 +500,7 @@ msgstr "Проверьте их новые настройки и попробу�
 msgid "Checking content"
 msgstr "Проверка контента"
 
-#: src/lib/reel_writer.cc:258
+#: src/lib/reel_writer.cc:252
 msgid "Checking existing image data"
 msgstr "Проверка данных изображения"
 
@@ -543,7 +556,7 @@ msgstr "Цветовое пространство"
 msgid "Combine DCPs"
 msgstr "Объединить DCP"
 
-#: src/lib/writer.cc:525
+#: src/lib/writer.cc:515
 msgid "Computing digests"
 msgstr "Проверка целостности"
 
@@ -716,7 +729,7 @@ msgstr "Копирование DCP"
 msgid "Copying DCPs to {}"
 msgstr "Копировать DCP на {}"
 
-#: src/lib/reel_writer.cc:194
+#: src/lib/reel_writer.cc:188
 msgid "Copying existing asset"
 msgstr "Копирование существующего ресурса"
 
@@ -992,7 +1005,7 @@ msgstr "EPS (Эпизод)"
 msgid "Error in subtitle file: saw {} while expecting {}"
 msgstr "Ошибка в файле субтитров: найдено {}, хотя ожидалось {}"
 
-#: src/lib/job.cc:655
+#: src/lib/job.cc:668
 #, c++-format
 msgid "Error: {}"
 msgstr "Ошибка: ({})"
@@ -1078,7 +1091,7 @@ msgstr "Форматирование диска"
 msgid "Frame rate"
 msgstr "Частота кадров"
 
-#: src/lib/job.cc:599
+#: src/lib/job.cc:612
 msgid "Friday"
 msgstr "Пятница"
 
@@ -1187,7 +1200,7 @@ msgstr ""
 "причины для использования Interop.  Рекомендуется изменить стандарт DCP на "
 "SMPTE на вкладке \"DCP\"."
 
-#: src/lib/hints.cc:641
+#: src/lib/hints.cc:649
 msgid ""
 "It is advisable to put your first subtitle at least 4 seconds after the "
 "start of the DCP to make sure it is seen."
@@ -1195,7 +1208,7 @@ msgstr ""
 "Рекомендуется расположить первый субтитр после 4 секунд от начала, чтобы "
 "гарантировать его видимость."
 
-#: src/lib/job.cc:169 src/lib/job.cc:204 src/lib/job.cc:295 src/lib/job.cc:305
+#: src/lib/job.cc:169 src/lib/job.cc:204 src/lib/job.cc:308 src/lib/job.cc:318
 #, c++-format
 msgid "It is not known what caused this error.  {}"
 msgstr "Неизвестно, что вызвало эту ошибку. {}"
@@ -1310,7 +1323,7 @@ msgstr "Несоответствие размера видео в DCP"
 msgid "Missing required setting {}"
 msgstr "Отсутствует обязательный параметр {}"
 
-#: src/lib/job.cc:591
+#: src/lib/job.cc:604
 msgid "Monday"
 msgstr "Понедельник"
 
@@ -1355,16 +1368,16 @@ msgstr "Подавление шума"
 msgid "None"
 msgstr "Не задан"
 
-#: src/lib/job.cc:647
+#: src/lib/job.cc:660
 msgid "OK"
 msgstr "ОК"
 
-#: src/lib/job.cc:652
+#: src/lib/job.cc:665
 #, c++-format
 msgid "OK (ran for {} from {} to {})"
 msgstr "Готово! (выполнено за {} с {} до {})"
 
-#: src/lib/job.cc:650
+#: src/lib/job.cc:663
 #, c++-format
 msgid "OK (ran for {})"
 msgstr "Готово! (выполнено за {})"
@@ -1537,7 +1550,7 @@ msgstr "SMPTE 2085, Y'D'zD'x"
 msgid "SMPTE 240M"
 msgstr "SMPTE 240M"
 
-#: src/lib/hints.cc:706
+#: src/lib/hints.cc:714
 msgid ""
 "SMPTE DCPs with the type FTR (feature) should have markers for the first "
 "frame of end credits (FFEC) and the first frame of moving credits (FFMC).  "
@@ -1572,6 +1585,13 @@ msgstr "SMPTE ST 431-2 (2011)"
 msgid "SMPTE ST 432-1 D65 (2010)"
 msgstr "SMPTE ST 432-1 D65 (2010)"
 
+#: src/lib/job.cc:297
+msgid ""
+"SMPTE text assets have a limit of 4096 'resources', which include PNG "
+"subtitles and fonts. The limit is less likely to be hit if you use more "
+"reels."
+msgstr ""
+
 #: src/lib/scp_uploader.cc:46
 #, c++-format
 msgid "SSH error [{}]"
@@ -1583,7 +1603,7 @@ msgstr "Ошибка SSH [{}]"
 msgid "SSH error [{}] ({})"
 msgstr "Ошибка SSH [{}] ({})"
 
-#: src/lib/job.cc:601
+#: src/lib/job.cc:614
 msgid "Saturday"
 msgstr "Суббота"
 
@@ -1647,7 +1667,7 @@ msgstr ""
 "Некоторые файлы необходимо повторно проверить из-за исправления ошибки в DCP-"
 "o-matic.  Возможно, вам потребуется проверить их настройки."
 
-#: src/lib/hints.cc:622
+#: src/lib/hints.cc:630
 #, c++-format
 msgid ""
 "Some of your closed captions span more than {} lines, so they will be "
@@ -1656,7 +1676,7 @@ msgstr ""
 "Некоторые из ваших скрытых субтитров занимают более {} строк. Они будут "
 "обрезаны."
 
-#: src/lib/hints.cc:744
+#: src/lib/hints.cc:752
 msgid ""
 "Some of your content has audio but you have not set the audio language.  It "
 "is advisable to set the audio language in the \"DCP\" tab unless your audio "
@@ -1665,7 +1685,7 @@ msgstr ""
 "Часть вашего контента содержит аудио, у которого не задан язык.  Если ваше "
 "аудио содержит речь, то рекомендуется задать язык аудио на вкладке \"DCP\"."
 
-#: src/lib/hints.cc:815
+#: src/lib/hints.cc:823
 msgid ""
 "Some of your content is encrypted, and some not.  Though some distributors "
 "(e.g. Netflix) require subtitles not to be encrypted (even if picture and "
@@ -1692,7 +1712,7 @@ msgstr "Часть вашего контента требует KDM"
 msgid "Some of your content needs an OV"
 msgstr "Часть вашего контента требует OV"
 
-#: src/lib/hints.cc:798
+#: src/lib/hints.cc:806
 #, c++-format
 msgid ""
 "Some of your video content contains an alpha channel, and {} cannot be "
@@ -1721,7 +1741,7 @@ msgstr "Преобразователь Стерео->5.1 типа A"
 msgid "Stereo to 5.1 up-mixer B"
 msgstr "Преобразователь Стерео->5.1 типа B"
 
-#: src/lib/job.cc:589
+#: src/lib/job.cc:602
 msgid "Sunday"
 msgstr "Воскресенье"
 
@@ -1760,7 +1780,7 @@ msgstr "Цепочка сертификатов для подписи невер
 msgid "The certificate chain for signing is invalid ({})"
 msgstr "Цепочка сертификатов для подписи неверна ({})"
 
-#: src/lib/hints.cc:761
+#: src/lib/hints.cc:769
 #, c++-format
 msgid ""
 "The certificate chain that {} uses for signing DCPs and KDMs contains a "
@@ -1775,7 +1795,7 @@ msgstr ""
 "нажав кнопку \"Переделать сертификаты и ключи...\" на странице настроек "
 "\"Ключи\"."
 
-#: src/lib/hints.cc:769
+#: src/lib/hints.cc:777
 #, c++-format
 msgid ""
 "The certificate chain that {} uses for signing DCPs and KDMs has a validity "
@@ -1938,7 +1958,7 @@ msgstr ""
 "загружен этой версией. Вам необходимо создать новый проект, заново добавить "
 "контент и повторно настроить его. Извините!"
 
-#: src/lib/job.cc:597
+#: src/lib/job.cc:610
 msgid "Thursday"
 msgstr "Четверг"
 
@@ -1963,7 +1983,7 @@ msgstr "Транскодирование {}"
 msgid "Transitional"
 msgstr "XSN (Транзитный)"
 
-#: src/lib/job.cc:593
+#: src/lib/job.cc:606
 msgid "Tuesday"
 msgstr "Вторник"
 
@@ -1984,7 +2004,7 @@ msgstr "Сервером получен неожиданный тип изобр
 msgid "Unknown"
 msgstr "Неизвестно"
 
-#: src/lib/job.cc:304
+#: src/lib/job.cc:317
 msgid "Unknown error"
 msgstr "Неизвестная ошибка"
 
@@ -2054,7 +2074,7 @@ msgstr "Ожидание"
 msgid "Weave filter"
 msgstr "Фильтр Weave"
 
-#: src/lib/job.cc:595
+#: src/lib/job.cc:608
 msgid "Wednesday"
 msgstr "Среда"
 
@@ -2134,7 +2154,7 @@ msgstr ""
 "Обнаружено несколько частей контента Atmos с разной частотой кадров.  Вам "
 "нужно удалить часть контента Atmos."
 
-#: src/lib/hints.cc:629
+#: src/lib/hints.cc:637
 msgid ""
 "You have overlapping closed captions, which are not allowed in Interop "
 "DCPs.  Change your DCP standard to SMPTE."
@@ -2176,7 +2196,7 @@ msgstr ""
 "Даже если у вас меньше каналов, {} автоматически заполнит недостающие "
 "тишиной."
 
-#: src/lib/hints.cc:787
+#: src/lib/hints.cc:795
 #, c++-format
 msgid ""
 "Your DCP has {} audio channels, rather than 8 or 16.  This may cause some "
@@ -2266,12 +2286,12 @@ msgstr "копирование {}"
 msgid "could not find stream information"
 msgstr "не удалось найти информацию о потоке"
 
-#: src/lib/reel_writer.cc:408
+#: src/lib/reel_writer.cc:402
 #, c++-format
 msgid "could not move atmos asset into the DCP ({})"
 msgstr "не удалось переместить atmos в DCP-пакет ({})"
 
-#: src/lib/reel_writer.cc:391
+#: src/lib/reel_writer.cc:385
 #, c++-format
 msgid "could not move audio asset into the DCP ({})"
 msgstr "не удалось переместить аудио в DCP-пакет ({})"

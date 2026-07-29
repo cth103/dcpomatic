@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LIBDCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-29 07:42+0200\n"
+"POT-Creation-Date: 2026-07-26 10:04+0200\n"
 "PO-Revision-Date: 2026-05-17 10:45+0800\n"
 "Last-Translator: Dian Li <xslidian@gmail.com>\n"
 "Language-Team: Chinese Simplified (Hanyuan branch)\n"
@@ -76,7 +76,7 @@ msgstr " (%.2f:1)"
 
 #. TRANSLATORS: the {} in this string will be filled in with a day of the week
 #. to say what day a job will finish.
-#: src/lib/job.cc:628
+#: src/lib/job.cc:641
 #, c++-format
 msgid " on {}"
 msgstr " 于 {}"
@@ -201,7 +201,7 @@ msgstr "9"
 msgid "; {} fps"
 msgstr "; {} fps"
 
-#: src/lib/job.cc:633
+#: src/lib/job.cc:646
 #, c++-format
 msgid "; {} remaining; finishing at {}{}"
 msgstr "; 剩余 {} ; 完成于 {}{}"
@@ -230,6 +230,13 @@ msgstr ""
 "dcpomatic.com/donate_amount?amount=20\">去Paypal捐款20欧元</a><li><a "
 "href=\"https://dcpomatic.com/donate_amount?amount=10\">去Paypal捐款10欧元</"
 "a></ul><p>谢谢您！</font>"
+
+#: src/lib/job.cc:294
+msgid ""
+"A bitmap (PNG) subtitle or font could not be written as its asset became "
+"full.  Split the project up into more reels, or set the subtitles to be "
+"'burnt in', and try again."
+msgstr ""
 
 #: src/lib/hints.cc:179
 msgid ""
@@ -295,50 +302,50 @@ msgid ""
 "At least one marker comes after the end of the project and will be ignored."
 msgstr "至少有一个标记出现在项目结束后，将被忽略。"
 
-#: src/lib/hints.cc:526
+#: src/lib/hints.cc:530
 msgid "At least one of your closed caption files is larger than "
 msgstr "至少有一个隐藏字幕文件过大了 "
 
-#: src/lib/hints.cc:520
+#: src/lib/hints.cc:524
 msgid "At least one of your closed caption files' XML part is larger than "
 msgstr "至少有一个隐藏式字幕文件的XML部分过大了 "
 
-#: src/lib/hints.cc:532
+#: src/lib/hints.cc:536
 msgid "At least one of your subtitle files is larger than "
 msgstr "至少有一个字幕文件过大了 "
 
-#: src/lib/hints.cc:490
+#: src/lib/hints.cc:494
 msgid ""
 "At least one of your subtitle lines has more than 52 characters.  It is "
 "recommended to make each line 52 characters at most in length."
 msgstr "至少有一行字幕超过52个字符，  建议每行最多52个字符。"
 
-#: src/lib/hints.cc:492
+#: src/lib/hints.cc:496
 msgid ""
 "At least one of your subtitle lines has more than 79 characters.  You should "
 "make each line 79 characters at most in length."
 msgstr "至少有一行字幕超过79个字符，  你应该让每行最多79个字符。"
 
-#: src/lib/hints.cc:681
+#: src/lib/hints.cc:689
 msgid ""
 "At least one of your subtitles has more than 3 lines.  It is advisable to "
 "use no more than 3 lines."
 msgstr "您的字幕中至少有一个超过3行，  建议使用不超过3行。"
 
-#: src/lib/hints.cc:648
+#: src/lib/hints.cc:656
 msgid ""
 "At least one of your subtitles lasts less than 15 frames.  It is advisable "
 "to make each subtitle at least 15 frames long."
 msgstr "您的字幕中至少有一个持续时间少于15帧，  建议每个字幕至少15帧长。"
 
-#: src/lib/hints.cc:653
+#: src/lib/hints.cc:661
 msgid ""
 "At least one of your subtitles starts less than 2 frames after the previous "
 "one.  It is advisable to make the gap between subtitles at least 2 frames."
 msgstr ""
 "至少有一个字幕在前一个字幕后不到2帧开始，  建议字幕之间的间隔至少为2帧。"
 
-#: src/lib/hints.cc:724
+#: src/lib/hints.cc:732
 msgid ""
 "At least one piece of subtitle content has no specified language.  It is "
 "advisable to set the language for each piece of subtitle content in the "
@@ -346,6 +353,12 @@ msgid ""
 msgstr ""
 "至少有一个字幕内容没有指定的语言，  建议在“内容→时间轴”或“内容→打开字幕”选项"
 "卡中为每段字幕内容设置语言。"
+
+#: src/lib/hints.cc:451
+msgid ""
+"At least one reel contains too may image (PNG) subtitles, and making a DCP "
+"will fail.  You need to split the DCP into more reels."
+msgstr ""
 
 #: src/lib/audio_content.cc:264
 #, c++-format
@@ -431,7 +444,7 @@ msgstr "中置"
 msgid "CPL {} not found"
 msgstr "未找到CPL {}"
 
-#: src/lib/job.cc:657
+#: src/lib/job.cc:670
 msgid "Cancelled"
 msgstr "取消"
 
@@ -472,7 +485,7 @@ msgstr "检查其新设置后再试。"
 msgid "Checking content"
 msgstr "检查媒体内容中"
 
-#: src/lib/reel_writer.cc:258
+#: src/lib/reel_writer.cc:252
 msgid "Checking existing image data"
 msgstr "检查现有的图像数据"
 
@@ -528,7 +541,7 @@ msgstr "色彩空间"
 msgid "Combine DCPs"
 msgstr "合并 DCP"
 
-#: src/lib/writer.cc:525
+#: src/lib/writer.cc:515
 msgid "Computing digests"
 msgstr "计算Hash值中"
 
@@ -683,7 +696,7 @@ msgstr "正在复制DCP"
 msgid "Copying DCPs to {}"
 msgstr "复制DCP到 {}"
 
-#: src/lib/reel_writer.cc:194
+#: src/lib/reel_writer.cc:188
 msgid "Copying existing asset"
 msgstr "正在拷贝已经存在的资产"
 
@@ -952,7 +965,7 @@ msgstr "插曲"
 msgid "Error in subtitle file: saw {} while expecting {}"
 msgstr "字幕文件错误: 执行为 {} 实际要求为{}"
 
-#: src/lib/job.cc:655
+#: src/lib/job.cc:668
 #, c++-format
 msgid "Error: {}"
 msgstr "错误: ({})"
@@ -1038,7 +1051,7 @@ msgstr "格式化驱动器中"
 msgid "Frame rate"
 msgstr "帧率"
 
-#: src/lib/job.cc:599
+#: src/lib/job.cc:612
 msgid "Friday"
 msgstr "星期五"
 
@@ -1143,13 +1156,13 @@ msgstr ""
 "一般来说，现在建议制作SMPTE DCP，除非您有特殊的理由使用Interop。建议在“DCP”选"
 "项卡中将DCP设置为使用SMPTE标准。"
 
-#: src/lib/hints.cc:641
+#: src/lib/hints.cc:649
 msgid ""
 "It is advisable to put your first subtitle at least 4 seconds after the "
 "start of the DCP to make sure it is seen."
 msgstr "建议在DCP开始后至少4秒放置您的第一个字幕，以确保它能被看到。"
 
-#: src/lib/job.cc:169 src/lib/job.cc:204 src/lib/job.cc:295 src/lib/job.cc:305
+#: src/lib/job.cc:169 src/lib/job.cc:204 src/lib/job.cc:308 src/lib/job.cc:318
 #, c++-format
 msgid "It is not known what caused this error.  {}"
 msgstr "未知原因错误。{}"
@@ -1264,7 +1277,7 @@ msgstr "DCP中的视频分辨率不匹配"
 msgid "Missing required setting {}"
 msgstr "缺少必需的设置 {}"
 
-#: src/lib/job.cc:591
+#: src/lib/job.cc:604
 msgid "Monday"
 msgstr "星期一"
 
@@ -1309,16 +1322,16 @@ msgstr "降噪"
 msgid "None"
 msgstr "无"
 
-#: src/lib/job.cc:647
+#: src/lib/job.cc:660
 msgid "OK"
 msgstr "完成"
 
-#: src/lib/job.cc:652
+#: src/lib/job.cc:665
 #, c++-format
 msgid "OK (ran for {} from {} to {})"
 msgstr "完成 (运行用时 {}，预计从 {} 到 {})"
 
-#: src/lib/job.cc:650
+#: src/lib/job.cc:663
 #, c++-format
 msgid "OK (ran for {})"
 msgstr "完成 (运行用时 {})"
@@ -1486,7 +1499,7 @@ msgstr "SMPTE 2085, Y'D'zD'x"
 msgid "SMPTE 240M"
 msgstr "SMPTE 240M"
 
-#: src/lib/hints.cc:706
+#: src/lib/hints.cc:714
 msgid ""
 "SMPTE DCPs with the type FTR (feature) should have markers for the first "
 "frame of end credits (FFEC) and the first frame of moving credits (FFMC).  "
@@ -1519,6 +1532,13 @@ msgstr "SMPTE ST 431-2 (2011)"
 msgid "SMPTE ST 432-1 D65 (2010)"
 msgstr "SMPTE ST 432-1 D65 (2010)"
 
+#: src/lib/job.cc:297
+msgid ""
+"SMPTE text assets have a limit of 4096 'resources', which include PNG "
+"subtitles and fonts. The limit is less likely to be hit if you use more "
+"reels."
+msgstr ""
+
 #: src/lib/scp_uploader.cc:46
 #, c++-format
 msgid "SSH error [{}]"
@@ -1530,7 +1550,7 @@ msgstr "SSH 错误 [{}]"
 msgid "SSH error [{}] ({})"
 msgstr "SSH 错误 [{}] ({})"
 
-#: src/lib/job.cc:601
+#: src/lib/job.cc:614
 msgid "Saturday"
 msgstr "星期六"
 
@@ -1592,14 +1612,14 @@ msgstr ""
 "由于 DCP-o-matic 中的一个漏洞修复，某些文件必须重新检查。您可能需要检查它们的"
 "设置。"
 
-#: src/lib/hints.cc:622
+#: src/lib/hints.cc:630
 #, c++-format
 msgid ""
 "Some of your closed captions span more than {} lines, so they will be "
 "truncated."
 msgstr "您的某些隐藏字幕跨度超过{}行，因此它将被截断，可能显示不完整。"
 
-#: src/lib/hints.cc:744
+#: src/lib/hints.cc:752
 msgid ""
 "Some of your content has audio but you have not set the audio language.  It "
 "is advisable to set the audio language in the \"DCP\" tab unless your audio "
@@ -1608,7 +1628,7 @@ msgstr ""
 "您的某些内容有音频，但您尚未设置音频语言。建议在“DCP”选项卡设置音频语言，除非"
 "您的音频没有说话部分。"
 
-#: src/lib/hints.cc:815
+#: src/lib/hints.cc:823
 msgid ""
 "Some of your content is encrypted, and some not.  Though some distributors "
 "(e.g. Netflix) require subtitles not to be encrypted (even if picture and "
@@ -1632,7 +1652,7 @@ msgstr "一些内容需要KDM密钥"
 msgid "Some of your content needs an OV"
 msgstr "一些内容需要OV"
 
-#: src/lib/hints.cc:798
+#: src/lib/hints.cc:806
 #, c++-format
 msgid ""
 "Some of your video content contains an alpha channel, and {} cannot be "
@@ -1660,7 +1680,7 @@ msgstr "立体声到5.1，混音器A"
 msgid "Stereo to 5.1 up-mixer B"
 msgstr "立体声到5.1，混音器B"
 
-#: src/lib/job.cc:589
+#: src/lib/job.cc:602
 msgid "Sunday"
 msgstr "星期日"
 
@@ -1699,7 +1719,7 @@ msgstr "证书签名无效"
 msgid "The certificate chain for signing is invalid ({})"
 msgstr "证书签名无效({})"
 
-#: src/lib/hints.cc:761
+#: src/lib/hints.cc:769
 #, c++-format
 msgid ""
 "The certificate chain that {} uses for signing DCPs and KDMs contains a "
@@ -1712,7 +1732,7 @@ msgstr ""
 "议通过单击“首选项”的“密钥”页面中的“重新制作证书和密钥…”按钮来重新创建签名证书"
 "链。"
 
-#: src/lib/hints.cc:769
+#: src/lib/hints.cc:777
 #, c++-format
 msgid ""
 "The certificate chain that {} uses for signing DCPs and KDMs has a validity "
@@ -1857,7 +1877,7 @@ msgstr ""
 "这一工程文件是使用旧版本的 {} 创建的，很遗憾无法被这一版本的软件加载。您需要"
 "创建一个新的工程文件，重新添加内容并重新设置。抱歉！"
 
-#: src/lib/job.cc:597
+#: src/lib/job.cc:610
 msgid "Thursday"
 msgstr "星期四"
 
@@ -1882,7 +1902,7 @@ msgstr "转码中 {}"
 msgid "Transitional"
 msgstr "过渡片"
 
-#: src/lib/job.cc:593
+#: src/lib/job.cc:606
 msgid "Tuesday"
 msgstr "星期二"
 
@@ -1903,7 +1923,7 @@ msgstr "服务器接收到意外的图像类型"
 msgid "Unknown"
 msgstr "未知"
 
-#: src/lib/job.cc:304
+#: src/lib/job.cc:317
 msgid "Unknown error"
 msgstr "未知错误"
 
@@ -1973,7 +1993,7 @@ msgstr "请稍候"
 msgid "Weave filter"
 msgstr "Weave 滤镜"
 
-#: src/lib/job.cc:595
+#: src/lib/job.cc:608
 msgid "Wednesday"
 msgstr "星期三"
 
@@ -2043,7 +2063,7 @@ msgid ""
 "frame rate.  You must remove some Atmos content."
 msgstr "您有多个全景声内容片段，而它们的帧率不同。您必须删除一些全景声内容。"
 
-#: src/lib/hints.cc:629
+#: src/lib/hints.cc:637
 msgid ""
 "You have overlapping closed captions, which are not allowed in Interop "
 "DCPs.  Change your DCP standard to SMPTE."
@@ -2083,7 +2103,7 @@ msgstr ""
 "您的DCP的音轨少于6个，某些放映设备可能不支持。但是如果您的内容没有这么多的音"
 "轨，您可以设置成6个音轨， {} 将用空白音轨补齐。"
 
-#: src/lib/hints.cc:787
+#: src/lib/hints.cc:795
 #, c++-format
 msgid ""
 "Your DCP has {} audio channels, rather than 8 or 16.  This may cause some "
@@ -2164,12 +2184,12 @@ msgstr "复制 {} 中"
 msgid "could not find stream information"
 msgstr "找不到流信息"
 
-#: src/lib/reel_writer.cc:408
+#: src/lib/reel_writer.cc:402
 #, c++-format
 msgid "could not move atmos asset into the DCP ({})"
 msgstr "无法将 Atmos asset移动到 DCP ({})"
 
-#: src/lib/reel_writer.cc:391
+#: src/lib/reel_writer.cc:385
 #, c++-format
 msgid "could not move audio asset into the DCP ({})"
 msgstr "无法将音频asset移动到 DCP ({})"
