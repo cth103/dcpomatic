@@ -137,6 +137,31 @@ BOOST_AUTO_TEST_CASE(strip_left_to_right_test)
 }
 
 
+BOOST_AUTO_TEST_CASE(insert_right_to_left_test)
+{
+	dcp::TextString const ts = {
+		{}, false, false, false, dcp::Colour(255, 255, 255), 42, 1.0,
+		dcp::Time(0, 0, 0, 0, 24), dcp::Time(0, 0, 1, 0, 24),
+		0.5, dcp::HAlign::CENTER,
+		0.5, dcp::VAlign::CENTER,
+		0.0,
+		vector<dcp::Text::VariableZPosition>(),
+		dcp::Direction::RTL,
+		"Hello",
+		dcp::Effect::NONE, dcp::Colour(0, 0, 0),
+		{}, {},
+		0,
+		std::vector<dcp::Ruby>()
+	};
+
+	std::vector<StringText> const s = {
+		{ ts, 0, make_shared<dcpomatic::Font>("foo"), dcp::SubtitleStandard::SMPTE_2014 }
+	};
+
+	BOOST_CHECK_EQUAL(marked_up(s, 1024, 1, ""), "<span size=\"41705\" alpha=\"65535\" color=\"#FFFFFF\">\xe2\x80\x8fHello</span>");
+}
+
+
 BOOST_AUTO_TEST_CASE(render_text_with_newline_test)
 {
 	std::list<dcp::TextString> ss = {
