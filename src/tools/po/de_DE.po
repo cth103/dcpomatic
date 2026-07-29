@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-06-28 16:11+0200\n"
-"PO-Revision-Date: 2025-04-13 23:26+0200\n"
+"PO-Revision-Date: 2026-07-29 00:07+0200\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic <carl@dcpomatic.com>\n"
 "Language: de\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.6\n"
+"X-Generator: Poedit 3.9\n"
 
 #: src/tools/dcpomatic_kdm.cc:491
 #, c-format
@@ -189,9 +189,8 @@ msgid "Add &KDM..."
 msgstr "&KDM hinzufügen..."
 
 #: src/tools/dcpomatic_verifier.cc:175
-#, fuzzy
 msgid "Add KDM..."
-msgstr "&KDM hinzufügen..."
+msgstr "KDM hinzufügen..."
 
 #: src/tools/dcpomatic_playlist.cc:80
 msgid "Add content"
@@ -319,7 +318,7 @@ msgstr ""
 
 #: src/tools/dcpomatic_verifier.cc:194
 msgid "Cancel"
-msgstr ""
+msgstr "Abbrechen"
 
 #: src/tools/dcpomatic.cc:1471 src/tools/dcpomatic_player.cc:737
 msgid "Check for updates"
@@ -327,7 +326,7 @@ msgstr "Auf Updates prüfen"
 
 #: src/tools/dcpomatic_verifier.cc:363
 msgid "Checking KDM"
-msgstr ""
+msgstr "KDM prüfen"
 
 #: src/tools/dcpomatic_combiner.cc:68 src/tools/dcpomatic_disk.cc:84
 msgid "Choose a DCP folder"
@@ -336,11 +335,11 @@ msgstr "Einen DCP Ordner auswählen"
 #: src/tools/dcpomatic.cc:2001 src/tools/dcpomatic.cc:2020
 #, c-format
 msgid "Close %s"
-msgstr "Schließen %s"
+msgstr "Schliessen %s"
 
 #: src/tools/dcpomatic.cc:168
 msgid "Close without saving film"
-msgstr "Schließen ohne speichern"
+msgstr "Schliessen ohne speichern"
 
 #: src/tools/dcpomatic.cc:1463 src/tools/dcpomatic_player.cc:722
 msgid "Closed captions..."
@@ -535,7 +534,7 @@ msgstr "Creator"
 
 #: src/tools/dcpomatic_playlist.cc:342
 msgid "Crop"
-msgstr ""
+msgstr "Zuschneiden"
 
 #: src/tools/dcpomatic_disk.cc:139 src/tools/dcpomatic_verifier.cc:167
 msgid "DCP"
@@ -648,9 +647,8 @@ msgid "Duplicate..."
 msgstr "Projekt Duplizieren..."
 
 #: src/tools/dcpomatic.cc:657 src/tools/dcpomatic.cc:676
-#, fuzzy
 msgid "Duplicating film"
-msgstr "Projekt duplizieren"
+msgstr "Film duplizieren"
 
 #: src/tools/dcpomatic_editor.cc:95
 msgid "Duration"
@@ -661,9 +659,8 @@ msgid "Edit reel"
 msgstr "Reel bearbeiten"
 
 #: src/tools/dcpomatic_playlist.cc:351
-#, fuzzy
 msgid "Edit..."
-msgstr "&Bearbeiten"
+msgstr "Bearbeiten…"
 
 #: src/tools/dcpomatic_batch.cc:103 src/tools/dcpomatic.cc:1469
 msgid "Encoding servers..."
@@ -679,18 +676,16 @@ msgid "Entry point"
 msgstr "Startpunkt"
 
 #: src/tools/dcpomatic_verifier.cc:373
-#, fuzzy
 msgid "Examining DCPs"
-msgstr "DCP zusammenfügen"
+msgstr "DCPs untersuchen"
 
 #: src/tools/dcpomatic.cc:1476
 msgid "Export preferences..."
 msgstr "Voreinstellungen exportieren…"
 
 #: src/tools/dcpomatic.cc:1448
-#, fuzzy
 msgid "Export subtitles...\tShift-Ctrl-E"
-msgstr "Untertitel exportieren…"
+msgstr "Untertitel exportieren…\tShift-Ctrl-E"
 
 #: src/tools/dcpomatic.cc:1447
 msgid "Export video file...\tCtrl-E"
@@ -993,9 +988,8 @@ msgid "Select DCP to open as OV"
 msgstr "Ordner mit DCP OV auswählen"
 
 #: src/tools/dcpomatic_verifier.cc:153 src/tools/dcpomatic_verifier.cc:155
-#, fuzzy
 msgid "Select DCP(s)"
-msgstr "KDM auswählen"
+msgstr "DCP(s) auswählen"
 
 #: src/tools/dcpomatic_kdm.cc:821
 msgid "Select DKDM File"
@@ -1286,15 +1280,13 @@ msgstr ""
 
 # validieren is a term from Sony on their older Projectors, which I think fits well here
 #: src/tools/dcpomatic_verifier.cc:196
-#, fuzzy
 msgid "Verify"
-msgstr "DCP validieren…"
+msgstr "Überprüfen"
 
 # validieren is a term from Sony on their older Projectors, which I think fits well here
 #: src/tools/dcpomatic_player.cc:1046
-#, fuzzy
 msgid "Verify DCP"
-msgstr "DCP validieren…"
+msgstr "DCP überprüfen"
 
 # validieren is a term from Sony on their older Projectors, which I think fits well here
 #: src/tools/dcpomatic_player.cc:734
@@ -1314,9 +1306,8 @@ msgid "Video waveform..."
 msgstr "Waveform Monitor…"
 
 #: src/tools/dcpomatic_verifier.cc:189
-#, fuzzy
 msgid "Write logs to DCP folders"
-msgstr "Einen DCP Ordner auswählen"
+msgstr "Logs in DCP Ordner speichern"
 
 #: src/tools/dcpomatic_kdm.cc:795
 msgid ""
@@ -1409,6 +1400,8 @@ msgstr "Kein Ordner ausgewählt. Wählen Sie vor dem Öffnen einen Ordner aus."
 #: src/tools/dcpomatic.cc:1081
 msgid "Your project contains no open subtitles, so there is nothing to export."
 msgstr ""
+"Dein Projekt enthält keine offenen Untertitel, daher gibt es nichts zu "
+"exportieren."
 
 #: src/tools/dcpomatic.cc:1086
 msgid ""
