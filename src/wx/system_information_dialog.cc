@@ -63,7 +63,7 @@ SystemInformationDialog::SystemInformationDialog(wxWindow* parent, FilmViewer co
 		add_string(GL_VENDOR, _("Vendor"));
 		add_string(GL_RENDERER, _("Renderer"));
 		add_string(GL_VERSION, _("Version"));
-		add_string(GL_SHADING_LANGUAGE_VERSION, _("Shading language version"));
+		add_string(GL_SHADING_LANGUAGE_VERSION, char_to_wx("Shading language version"));
 
 		add(_("vsync"), true);
 		add(gl->vsync_enabled() ? _("enabled") : _("not enabled"), false);

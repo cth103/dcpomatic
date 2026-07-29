@@ -40,6 +40,8 @@ using namespace boost::placeholders;
 
 
 RatingDialog::RatingDialog (wxWindow* parent)
+	/// TRANSLATORS: this refers to the project's ratings, (i.e. the legal/
+	/// advisory limits on what age groups can watch the film).
 	: wxDialog (parent, wxID_ANY, _("Rating"))
 {
 	_notebook = new wxNotebook (this, wxID_ANY);
@@ -139,6 +141,8 @@ StandardRatingDialogPage::StandardRatingDialogPage (wxNotebook* notebook)
 	sizer->AddSpacer (0);
 	sizer->Add (_found_systems_view, 1, wxEXPAND | wxBOTTOM, DCPOMATIC_SIZER_Y_GAP);
 
+	/// TRANSLATORS: this refers to the project's ratings, (i.e. the legal/
+	/// advisory limits on what age groups can watch the film).
 	add_label_to_sizer (sizer, this, _("Rating"), true, 0, wxALIGN_CENTER_VERTICAL);
 	sizer->Add (_rating, 1, wxEXPAND);
 
@@ -291,6 +295,8 @@ CustomRatingDialogPage::CustomRatingDialogPage (wxNotebook* notebook)
 
 	add_label_to_sizer (sizer, this, _("Agency"), true, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL);
 	sizer->Add (_agency, 1, wxEXPAND);
+	/// TRANSLATORS: this refers to the project's ratings, (i.e. the legal/
+	/// advisory limits on what age groups can watch the film).
 	add_label_to_sizer (sizer, this, _("Rating"), true, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL);
 	sizer->Add (_rating, 1, wxEXPAND);
 

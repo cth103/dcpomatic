@@ -567,6 +567,8 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 		case dcp::VerificationNote::Code::INVALID_JPEG2000_TILE_PARTS_FOR_2K:
 			add(
 				i.second,
+				/// TRANSLATORS: tile parts here is a technical detail of the JPEG2000 standard,
+				/// so you could leave it in English.  A tile here is a part of an image.
 				_("A 2K JPEG2000 frame contains %tile_parts tile parts instead of 3."),
 				_("More 2K JPEG2000 frames (not listed) contain the wrong number of tile parts.")
 			);
@@ -574,6 +576,8 @@ VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
 		case dcp::VerificationNote::Code::INVALID_JPEG2000_TILE_PARTS_FOR_4K:
 			add(
 				i.second,
+				/// TRANSLATORS: tile parts here is a technical detail of the JPEG2000 standard,
+				/// so you could leave it in English.  A tile here is a part of an image.
 				_("A 4K JPEG2000 frame contains %tile_parts tile parts instead of 6."),
 				_("More JPEG2000 frames (not listed) contain the wrong number of tile parts.")
 			);

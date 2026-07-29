@@ -55,6 +55,9 @@ InteropMetadataDialog::setup_standard (wxPanel* panel, wxSizer* sizer)
 #ifdef __WXOSX__
 		flags |= wxALIGN_RIGHT;
 #endif
+		/// TRANSLATORS: this is a button which opens a dialog box in which you can
+		/// edit the project's ratings (i.e. the legal/advisory limits on what age
+		/// groups can watch the film).
 		auto m = create_label (panel, _("Ratings"), true);
 		sizer->Add (m, 0, flags, DCPOMATIC_SIZER_GAP);
 	}
