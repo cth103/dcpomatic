@@ -129,6 +129,14 @@ BOOST_AUTO_TEST_CASE (marked_up_test6)
 }
 
 
+BOOST_AUTO_TEST_CASE(strip_left_to_right_test)
+{
+	std::vector<StringText> s;
+	add(s, "\xe2\x80\x8eבשבילך ובשביל התינוק.\"", false, false, false);
+	BOOST_CHECK_EQUAL(marked_up(s, 1024, 1, ""), "<span size=\"41705\" alpha=\"65535\" color=\"#FFFFFF\">בשבילך ובשביל התינוק.\"</span>");
+}
+
+
 BOOST_AUTO_TEST_CASE(render_text_with_newline_test)
 {
 	std::list<dcp::TextString> ss = {
