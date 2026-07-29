@@ -41,43 +41,43 @@ using std::string;
 #if wxCHECK_VERSION(3, 1, 0)
 
 SystemInformationDialog::SystemInformationDialog(wxWindow* parent, FilmViewer const& viewer)
-	: TableDialog (parent, _("System information"), 2, 1, false)
+	: TableDialog(parent, _("System information"), 2, 1, false)
 {
 	auto gl = std::dynamic_pointer_cast<const GLVideoView>(viewer.video_view());
 
 	if (!gl) {
-		add (_("OpenGL version"), true);
+		add(_("OpenGL version"), true);
 		add(variant::wx::insert_dcpomatic(_("unknown (OpenGL not enabled in %s)")), false);
 	} else {
 		auto information = gl->information();
 		auto add_string = [this, &information](GLenum name, wxString label) {
-			add (label, true);
+			add(label, true);
 			auto i = information.find(name);
 			if (i != information.end()) {
-				add (std_to_wx(i->second), false);
+				add(std_to_wx(i->second), false);
 			} else {
-				add (_("unknown"), false);
+				add(_("unknown"), false);
 			}
 		};
 
-		add_string (GL_VENDOR, _("Vendor"));
-		add_string (GL_RENDERER, _("Renderer"));
-		add_string (GL_VERSION, _("Version"));
-		add_string (GL_SHADING_LANGUAGE_VERSION, _("Shading language version"));
+		add_string(GL_VENDOR, _("Vendor"));
+		add_string(GL_RENDERER, _("Renderer"));
+		add_string(GL_VERSION, _("Version"));
+		add_string(GL_SHADING_LANGUAGE_VERSION, _("Shading language version"));
 
-		add (_("vsync"), true);
-		add (gl->vsync_enabled() ? _("enabled") : _("not enabled"), false);
+		add(_("vsync"), true);
+		add(gl->vsync_enabled() ? _("enabled") : _("not enabled"), false);
 	}
 
-	layout ();
+	layout();
 }
 
 #else
 
 SystemInformationDialog::SystemInformationDialog(wxWindow* parent, FilmViewer const&)
-	: TableDialog (parent, _("System information"), 2, 1, false)
+	: TableDialog(parent, _("System information"), 2, 1, false)
 {
-	add (_("OpenGL version"), true);
+	add(_("OpenGL version"), true);
 	add(variant::wx::insert_dcpomatic(_("OpenGL renderer not supported by this %s version")), false);
 }
 
