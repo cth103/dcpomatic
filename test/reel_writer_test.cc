@@ -93,7 +93,7 @@ BOOST_AUTO_TEST_CASE (write_frame_info_test)
 }
 
 
-/** Check that the reel writer correctly re-uses a video asset changed if we remake
+/** Check that the reel writer correctly re-uses a video asset if we remake
  *  a DCP with no video changes.
  */
 BOOST_AUTO_TEST_CASE (reel_reuse_video_test)
