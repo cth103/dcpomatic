@@ -49,44 +49,44 @@ using std::make_shared;
 using std::vector;
 
 
-BOOST_AUTO_TEST_CASE (film_metadata_test)
+BOOST_AUTO_TEST_CASE(film_metadata_test)
 {
 	auto film = new_test_film("film_metadata_test");
-	auto dir = test_film_dir ("film_metadata_test");
+	auto dir = test_film_dir("film_metadata_test");
 
 	film->set_isdcf_date(boost::gregorian::from_undelimited_string("20130211"));
-	BOOST_CHECK (film->container() == Ratio::from_id ("185"));
-	BOOST_CHECK (film->dcp_content_type() == DCPContentType::from_isdcf_name("TST"));
+	BOOST_CHECK(film->container() == Ratio::from_id("185"));
+	BOOST_CHECK(film->dcp_content_type() == DCPContentType::from_isdcf_name("TST"));
 
-	film->set_name ("fred");
-	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("SHR"));
-	film->set_container (Ratio::from_id ("185"));
+	film->set_name("fred");
+	film->set_dcp_content_type(DCPContentType::from_isdcf_name("SHR"));
+	film->set_container(Ratio::from_id("185"));
 	film->set_video_bit_rate(VideoEncoding::JPEG2000, 200000000);
-	film->set_interop (false);
-	film->set_chain (string(""));
-	film->set_distributor (string(""));
-	film->set_facility (string(""));
-	film->set_release_territory (dcp::LanguageTag::RegionSubtag("US"));
+	film->set_interop(false);
+	film->set_chain(string(""));
+	film->set_distributor(string(""));
+	film->set_facility(string(""));
+	film->set_release_territory(dcp::LanguageTag::RegionSubtag("US"));
 	film->set_audio_channels(6);
-	film->write_metadata ();
+	film->write_metadata();
 
 	list<Glib::ustring> ignore = { "Key", "ContextID", "LastWrittenBy" };
-	check_xml ("test/data/metadata.xml.ref", dir.string() + "/metadata.xml", ignore);
+	check_xml("test/data/metadata.xml.ref", dir.string() + "/metadata.xml", ignore);
 
 	auto g = make_shared<Film>(dir);
-	g->read_metadata ();
+	g->read_metadata();
 
 	BOOST_CHECK_EQUAL(g->name(), "fred");
-	BOOST_CHECK_EQUAL(g->dcp_content_type(), DCPContentType::from_isdcf_name ("SHR"));
+	BOOST_CHECK_EQUAL(g->dcp_content_type(), DCPContentType::from_isdcf_name("SHR"));
 	BOOST_CHECK(g->container() == Ratio::from_id("185"));
 
-	g->write_metadata ();
-	check_xml ("test/data/metadata.xml.ref", dir.string() + "/metadata.xml", ignore);
+	g->write_metadata();
+	check_xml("test/data/metadata.xml.ref", dir.string() + "/metadata.xml", ignore);
 }
 
 
 /** Check a bug where <Content> tags with multiple <Text>s would fail to load */
-BOOST_AUTO_TEST_CASE (multiple_text_nodes_are_allowed)
+BOOST_AUTO_TEST_CASE(multiple_text_nodes_are_allowed)
 {
 	Cleanup cl;
 
@@ -94,7 +94,7 @@ BOOST_AUTO_TEST_CASE (multiple_text_nodes_are_allowed)
 	auto caps = content_factory("test/data/15s.srt")[0];
 	auto film = new_test_film("multiple_text_nodes_are_allowed1", { subs, caps }, &cl);
 	caps->only_text()->set_type(TextType::CLOSED_CAPTION);
-	make_and_verify_dcp (
+	make_and_verify_dcp(
 		film,
 		{
 			dcp::VerificationNote::Code::MISSING_CPL_METADATA,
@@ -104,7 +104,7 @@ BOOST_AUTO_TEST_CASE (multiple_text_nodes_are_allowed)
 
 	auto reload = make_shared<DCPContent>(film->dir(film->dcp_name()));
 	auto film2 = new_test_film("multiple_text_nodes_are_allowed2", { reload });
-	film2->write_metadata ();
+	film2->write_metadata();
 
 	auto test = make_shared<Film>(boost::filesystem::path("build/test/multiple_text_nodes_are_allowed2"));
 	test->read_metadata();
@@ -114,7 +114,7 @@ BOOST_AUTO_TEST_CASE (multiple_text_nodes_are_allowed)
 
 
 /** Read some metadata from v2.14.x that fails to open on 2.15.x */
-BOOST_AUTO_TEST_CASE (metadata_loads_from_2_14_x_1)
+BOOST_AUTO_TEST_CASE(metadata_loads_from_2_14_x_1)
 {
 	namespace fs = boost::filesystem;
 	auto dir = fs::path("build/test/metadata_loads_from_2_14_x_1");
@@ -122,12 +122,12 @@ BOOST_AUTO_TEST_CASE (metadata_loads_from_2_14_x_1)
 	auto film = make_shared<Film>(dir);
 	fs::copy_file("test/data/2.14.x.metadata.1.xml", dir / "metadata.xml");
 	auto notes = film->read_metadata(dir / "metadata.xml");
-	BOOST_REQUIRE_EQUAL (notes.size(), 0U);
+	BOOST_REQUIRE_EQUAL(notes.size(), 0U);
 }
 
 
 /** Read some more metadata from v2.14.x that fails to open on 2.15.x */
-BOOST_AUTO_TEST_CASE (metadata_loads_from_2_14_x_2)
+BOOST_AUTO_TEST_CASE(metadata_loads_from_2_14_x_2)
 {
 	namespace fs = boost::filesystem;
 	auto dir = fs::path("build/test/metadata_loads_from_2_14_x_2");
@@ -135,15 +135,15 @@ BOOST_AUTO_TEST_CASE (metadata_loads_from_2_14_x_2)
 	auto film = make_shared<Film>(dir);
 	fs::copy_file("test/data/2.14.x.metadata.2.xml", dir / "metadata.xml");
 	auto notes = film->read_metadata(dir / "metadata.xml");
-	BOOST_REQUIRE_EQUAL (notes.size(), 1U);
-	BOOST_REQUIRE_EQUAL (notes.front(),
+	BOOST_REQUIRE_EQUAL(notes.size(), 1U);
+	BOOST_REQUIRE_EQUAL(notes.front(),
 		       "A subtitle or closed caption file in this project is marked with the language 'eng', "
 		       "which DCP-o-matic does not recognise.  The file's language has been cleared."
 		       );
 }
 
 
-BOOST_AUTO_TEST_CASE (metadata_loads_from_2_14_x_3)
+BOOST_AUTO_TEST_CASE(metadata_loads_from_2_14_x_3)
 {
 	namespace fs = boost::filesystem;
 	auto dir = fs::path("build/test/metadata_loads_from_2_14_x_3");
@@ -152,27 +152,27 @@ BOOST_AUTO_TEST_CASE (metadata_loads_from_2_14_x_3)
 	fs::copy_file("test/data/2.14.x.metadata.3.xml", dir / "metadata.xml");
 	auto notes = film->read_metadata(dir / "metadata.xml");
 
-	BOOST_REQUIRE (film->release_territory());
-	BOOST_REQUIRE (film->release_territory()->subtag() == dcp::LanguageTag::RegionSubtag("de").subtag());
+	BOOST_REQUIRE(film->release_territory());
+	BOOST_REQUIRE(film->release_territory()->subtag() == dcp::LanguageTag::RegionSubtag("de").subtag());
 
-	BOOST_REQUIRE (film->audio_language());
-	BOOST_REQUIRE (*film->audio_language() == dcp::LanguageTag("sv-SE"));
+	BOOST_REQUIRE(film->audio_language());
+	BOOST_REQUIRE(*film->audio_language() == dcp::LanguageTag("sv-SE"));
 
-	BOOST_REQUIRE (film->content_versions() == vector<string>{"3"});
-	BOOST_REQUIRE (film->ratings() == vector<dcp::Rating>{ dcp::Rating("", "214rating") });
-	BOOST_REQUIRE_EQUAL (film->studio().get_value_or(""), "214studio");
-	BOOST_REQUIRE_EQUAL (film->facility().get_value_or(""), "214facility");
-	BOOST_REQUIRE_EQUAL (film->temp_version(), true);
-	BOOST_REQUIRE_EQUAL (film->pre_release(), true);
-	BOOST_REQUIRE_EQUAL (film->red_band(), true);
-	BOOST_REQUIRE_EQUAL (film->two_d_version_of_three_d(), true);
-	BOOST_REQUIRE_EQUAL (film->chain().get_value_or(""), "214chain");
-	BOOST_REQUIRE (film->luminance() == dcp::Luminance(14, dcp::Luminance::Unit::FOOT_LAMBERT));
+	BOOST_REQUIRE(film->content_versions() == vector<string>{"3"});
+	BOOST_REQUIRE(film->ratings() == vector<dcp::Rating>{ dcp::Rating("", "214rating") });
+	BOOST_REQUIRE_EQUAL(film->studio().get_value_or(""), "214studio");
+	BOOST_REQUIRE_EQUAL(film->facility().get_value_or(""), "214facility");
+	BOOST_REQUIRE_EQUAL(film->temp_version(), true);
+	BOOST_REQUIRE_EQUAL(film->pre_release(), true);
+	BOOST_REQUIRE_EQUAL(film->red_band(), true);
+	BOOST_REQUIRE_EQUAL(film->two_d_version_of_three_d(), true);
+	BOOST_REQUIRE_EQUAL(film->chain().get_value_or(""), "214chain");
+	BOOST_REQUIRE(film->luminance() == dcp::Luminance(14, dcp::Luminance::Unit::FOOT_LAMBERT));
 }
 
 
 /** Check that an empty <MasteredLuminance> tag results in the film's luminance being unset */
-BOOST_AUTO_TEST_CASE (metadata_loads_from_2_14_x_4)
+BOOST_AUTO_TEST_CASE(metadata_loads_from_2_14_x_4)
 {
 	namespace fs = boost::filesystem;
 	auto dir = fs::path("build/test/metadata_loads_from_2_14_x_4");
@@ -181,11 +181,11 @@ BOOST_AUTO_TEST_CASE (metadata_loads_from_2_14_x_4)
 	fs::copy_file("test/data/2.14.x.metadata.4.xml", dir / "metadata.xml");
 	auto notes = film->read_metadata(dir / "metadata.xml");
 
-	BOOST_REQUIRE (!film->luminance());
+	BOOST_REQUIRE(!film->luminance());
 }
 
 
-BOOST_AUTO_TEST_CASE (metadata_video_range_guessed_for_dcp)
+BOOST_AUTO_TEST_CASE(metadata_video_range_guessed_for_dcp)
 {
 	namespace fs = boost::filesystem;
 	auto film = make_shared<Film>(fs::path("test/data/214x_dcp"));
@@ -197,7 +197,7 @@ BOOST_AUTO_TEST_CASE (metadata_video_range_guessed_for_dcp)
 }
 
 
-BOOST_AUTO_TEST_CASE (metadata_video_range_guessed_for_mp4_with_unknown_range)
+BOOST_AUTO_TEST_CASE(metadata_video_range_guessed_for_mp4_with_unknown_range)
 {
 	namespace fs = boost::filesystem;
 	auto film = make_shared<Film>(fs::path("test/data/214x_mp4"));
@@ -209,7 +209,7 @@ BOOST_AUTO_TEST_CASE (metadata_video_range_guessed_for_mp4_with_unknown_range)
 }
 
 
-BOOST_AUTO_TEST_CASE (metadata_video_range_guessed_for_png)
+BOOST_AUTO_TEST_CASE(metadata_video_range_guessed_for_png)
 {
 	namespace fs = boost::filesystem;
 	auto film = make_shared<Film>(fs::path("test/data/214x_png"));
