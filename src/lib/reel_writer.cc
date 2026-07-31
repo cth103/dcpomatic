@@ -184,6 +184,8 @@ ReelWriter::setup_video(vector<DCPAsset> const& reusable_assets, shared_ptr<Job>
 				LOG_GENERAL("Re-using partial asset {}: has frames up to {}", existing_asset_filename->string(), _first_nonexistent_frame);
 				dcp::filesystem::rename(*existing_asset_filename, new_asset_filename);
 			}
+			remembered_assets.push_back(RememberedAsset(new_asset_filename.filename(), period, film()->video_identifier()));
+			film()->write_remembered_assets(remembered_assets);
 			picture_asset->set_file(new_asset_filename);
 
 			dcp::Behaviour const behaviour = _first_nonexistent_frame > 0 ? dcp::Behaviour::OVERWRITE_EXISTING : dcp::Behaviour::MAKE_NEW;
