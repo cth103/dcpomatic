@@ -86,7 +86,7 @@ EncoderHTTPServer::post_request(string const& url, string const& body)
 			return Response(400, reply);
 		}
 		try {
-			auto film = std::make_shared<Film>(details["film"].get<boost::filesystem::path>());
+			auto film = std::make_shared<Film>(boost::filesystem::path(details["film"].get<std::string>()));
 			film->read_metadata();
 			auto job = make_dcp(film, TranscodeJob::ChangedBehaviour::IGNORE);
 			nlohmann::json reply;
