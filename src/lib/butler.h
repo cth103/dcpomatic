@@ -133,6 +133,7 @@ private:
 	bool _stop_thread;
 
 	AudioMapping _audio_mapping;
+	/** number of audio channels to write to the output on get_audio() */
 	int _audio_channels;
 
 	bool _disable_audio;
