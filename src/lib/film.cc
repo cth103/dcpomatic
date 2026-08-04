@@ -2070,6 +2070,29 @@ Film::audio_analysis_finished()
 }
 
 
+vector<DCPTime>
+Film::required_reel_boundaries() const
+{
+	/* These splits must exist as we're referring to something from a DCP, and there's no
+	 * way to do that unless we use the DCP's reel starts.
+	 */
+	vector<DCPTime> required;
+	for (auto c: content()) {
+		if (auto dcp = dynamic_pointer_cast<DCPContent>(c)) {
+			if (dcp->reference_anything()) {
+				for (auto split: dcp->reel_split_points(shared_from_this())) {
+					if (split != DCPTime{}) {
+						required.push_back(split);
+					}
+				}
+			}
+		}
+	}
+	std::sort(required.begin(), required.end());
+	return required;
+}
+
+
 vector<DCPTimePeriod>
 Film::reels() const
 {

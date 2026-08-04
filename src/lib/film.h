@@ -169,6 +169,7 @@ public:
 	}
 
 	std::vector<dcpomatic::DCPTimePeriod> reels() const;
+	std::vector<dcpomatic::DCPTime> required_reel_boundaries() const;
 
 	/** @return List of channel indicies that are mapped to the DCP.  This takes the
 	 *  value of audio_channels() into account, so even if a channel above audio_channels()
