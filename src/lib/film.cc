@@ -2071,12 +2071,12 @@ Film::audio_analysis_finished()
 
 
 vector<DCPTimePeriod>
-Film::reels_for_type(ReelType type) const
+Film::reels() const
 {
 	vector<DCPTimePeriod> periods;
 	auto const len = length();
 
-	switch (type) {
+	switch (reel_type()) {
 	case ReelType::SINGLE:
 		periods.emplace_back(DCPTime(), len);
 		break;
@@ -2145,13 +2145,6 @@ Film::reels_for_type(ReelType type) const
 	}
 
 	return periods;
-}
-
-
-vector<DCPTimePeriod>
-Film::reels() const
-{
-	return reels_for_type(reel_type());
 }
 
 
