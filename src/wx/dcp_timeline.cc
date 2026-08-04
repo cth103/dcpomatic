@@ -325,7 +325,7 @@ DCPTimeline::setup_reel_settings()
 void
 DCPTimeline::reel_mode_changed()
 {
-	film()->set_reel_type(static_cast<ReelType>(*_reel_type->get()));
+	film()->set_reel_type(string_to_reel_type(_reel_type->get_data().get_value_or("single")));
 }
 
 
