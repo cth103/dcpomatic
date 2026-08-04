@@ -315,7 +315,6 @@ DCPTimeline::setup_reel_settings()
 	sizer->Add(_snap, wxGBPosition(r, 1));
 	++r;
 
-	_reel_type->set(static_cast<int>(film()->reel_type()));
 	_maximum_reel_size->SetValue(film()->reel_length() / 1000000000LL);
 
 	_reel_type->bind(&DCPTimeline::reel_mode_changed, this);
