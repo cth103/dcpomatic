@@ -65,7 +65,7 @@ enum {
 class ReelBoundary
 {
 public:
-	ReelBoundary(wxWindow* parent, wxGridBagSizer* sizer, int index, DCPTime maximum, int fps, DCPTimeline& timeline, bool editable)
+	ReelBoundary(wxWindow* parent, wxGridBagSizer* sizer, int index, DCPTime maximum, int fps, DCPTimeline& timeline)
 		: _label(new wxStaticText(parent, wxID_ANY, wxString::Format(_("Reel %d to reel %d"), index + 1, index + 2)))
 		, _timecode(new Timecode<DCPTime>(parent, true))
 		, _index(index)
@@ -76,7 +76,6 @@ public:
 		sizer->Add(_timecode, wxGBPosition(index, 1));
 
 		_timecode->set_maximum(maximum.split(fps));
-		_timecode->set_editable(editable);
 		_timecode->Changed.connect(boost::bind(&ReelBoundary::timecode_changed, this));
 	}
 
@@ -109,6 +108,17 @@ public:
 		return _view.time();
 	}
 
+	void set_editable(bool editable)
+	{
+		_editable = editable;
+		_timecode->set_editable(editable);
+		_view.set_active(editable);
+	}
+
+	bool editable() const {
+		return _editable;
+	}
+
 	int index() const {
 		return _index;
 	}
@@ -134,6 +144,7 @@ private:
 	int _index = 0;
 	DCPTimelineReelMarkerView _view;
 	int _fps;
+	bool _editable = false;
 };
 
 
@@ -223,6 +234,7 @@ DCPTimeline::film_changed(ChangeType type, FilmProperty property)
 	case FilmProperty::CONTENT_ORDER:
 		setup_pixels_per_second();
 		setup_reel_types();
+		setup_sensitivity();
 		Refresh();
 		break;
 	default:
@@ -245,6 +257,7 @@ DCPTimeline::film_content_changed(ChangeType type, int property)
 		property == DCPContentProperty::REFERENCE_AUDIO ||
 		property == DCPContentProperty::REFERENCE_TEXT) {
 		setup_reel_types();
+		setup_sensitivity();
 	}
 }
 
@@ -281,7 +294,7 @@ DCPTimeline::setup_reel_types()
 void
 DCPTimeline::setup_sensitivity()
 {
-	_snap->Enable(editable());
+	_snap->Enable(film()->reel_type() == ReelType::CUSTOM);
 	_maximum_reel_size->Enable(film()->reel_type() == ReelType::BY_LENGTH);
 	_add_reel_boundary->Enable(film()->reel_type() == ReelType::CUSTOM);
 }
@@ -359,7 +372,7 @@ DCPTimeline::setup_reel_boundaries()
 	auto const maximum = film()->length();
 	for (size_t i = _reel_boundaries.size(); i < boundaries; ++i) {
 		auto boundary = std::make_shared<ReelBoundary>(
-				_reel_detail, _reel_detail_sizer, i, maximum, film()->video_frame_rate(), *this, editable()
+				_reel_detail, _reel_detail_sizer, i, maximum, film()->video_frame_rate(), *this
 				);
 
 		boundary->Changed.connect(boost::bind(&DCPTimeline::set_reel_boundary, this, _1, _2));
@@ -368,10 +381,11 @@ DCPTimeline::setup_reel_boundaries()
 
 	_reel_boundaries.resize(boundaries);
 
-	auto const active = editable();
+	auto const required = film()->required_reel_boundaries();
+
 	for (size_t i = 0; i < boundaries; ++i) {
 		_reel_boundaries[i]->set_time(reels[i].to);
-		_reel_boundaries[i]->view().set_active(active);
+		_reel_boundaries[i]->set_editable(film()->reel_type() == ReelType::CUSTOM && std::find(required.begin(), required.end(), reels[i].to) == required.end());
 	}
 
 	_reel_detail_sizer->Layout();
@@ -551,22 +565,20 @@ DCPTimeline::position_to_reel_boundary(Position<int> position) const
 void
 DCPTimeline::left_down(wxMouseEvent& ev)
 {
-	if (!editable()) {
-		return;
-	}
+	_drag = boost::none;
 
 	if (auto boundary = event_to_reel_boundary(ev)) {
-		auto const snap_distance = DCPTime::from_seconds((_canvas->GetSize().GetWidth() / _pixels_per_second.get_value_or(1)) / SNAP_SUBDIVISION);
-		_drag = DCPTimeline::Drag(
-			boundary,
-			_reel_boundaries,
-			film(),
-			static_cast<int>(ev.GetX() - boundary->time().seconds() * _pixels_per_second.get_value_or(0)),
-			_snap->get(),
-			snap_distance
-			);
-	} else {
-		_drag = boost::none;
+		if (film()->reel_type() == ReelType::CUSTOM && boundary->editable()) {
+			auto const snap_distance = DCPTime::from_seconds((_canvas->GetSize().GetWidth() / _pixels_per_second.get_value_or(1)) / SNAP_SUBDIVISION);
+			_drag = DCPTimeline::Drag(
+				boundary,
+				_reel_boundaries,
+				film(),
+				static_cast<int>(ev.GetX() - boundary->time().seconds() * _pixels_per_second.get_value_or(0)),
+				_snap->get(),
+				snap_distance
+				);
+		}
 	}
 }
 
@@ -575,7 +587,13 @@ void
 DCPTimeline::right_down(wxMouseEvent& ev)
 {
 	_right_down_position = ev.GetPosition();
-	_remove_reel_boundary->Enable(film()->reel_type() == ReelType::CUSTOM && static_cast<bool>(event_to_reel_boundary(ev)));
+
+	_remove_reel_boundary->Enable(false);
+	if (auto boundary = event_to_reel_boundary(ev)) {
+		if (film()->reel_type() == ReelType::CUSTOM && boundary->editable()) {
+			_remove_reel_boundary->Enable(true);
+		}
+	}
 	_canvas->PopupMenu(_menu, _right_down_position);
 }
 
@@ -620,13 +638,6 @@ DCPTimeline::film() const
 	auto film = _film.lock();
 	DCPOMATIC_ASSERT(film);
 	return film;
-}
-
-
-bool
-DCPTimeline::editable() const
-{
-	return film()->reel_type() == ReelType::CUSTOM;
 }
 
 
