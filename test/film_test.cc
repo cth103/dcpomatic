@@ -69,7 +69,7 @@ BOOST_AUTO_TEST_CASE(film_possible_reel_types_test1)
 	 */
 	film->set_reel_type(ReelType::BY_VIDEO_CONTENT);
 	dcp->set_reference_video(true);
-	BOOST_CHECK_EQUAL(film->possible_reel_types().size(), 1U);
+	BOOST_CHECK_EQUAL(film->possible_reel_types().size(), 3U);
 }
 
 
@@ -83,7 +83,7 @@ BOOST_AUTO_TEST_CASE(film_possible_reel_types_test2)
 	BOOST_CHECK_EQUAL(film->possible_reel_types().size(), 4U);
 
 	dcp->set_reference_video(true);
-	BOOST_CHECK_EQUAL(film->possible_reel_types().size(), 2U);
+	BOOST_CHECK_EQUAL(film->possible_reel_types().size(), 4U);
 }
 
 

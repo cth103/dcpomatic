@@ -738,13 +738,11 @@ DCPContent::can_reference_anything(shared_ptr<const Film> film, string& why_not)
 		return false;
 	}
 
-	/* fr must contain reels().  It can also contain other reels, but it must at
-	   least contain reels().
-	*/
+	/* fr must contain the reel start points in reel_list */
 	for (auto i: reel_list) {
-		if (find(fr.begin(), fr.end(), i) == fr.end()) {
+		if (find_if(fr.begin(), fr.end(), [&i](DCPTimePeriod period) { return period.from == i.from; }) == fr.end()) {
 			/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
-			why_not = _("its reel lengths differ from those in the film; set the reel mode to 'split by video content'.");
+			why_not = _("its reel start points are not included in the film's list; set the reel mode to 'split by video content'.");
 			return false;
 		}
 	}
