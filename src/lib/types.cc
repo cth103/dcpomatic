@@ -18,28 +18,10 @@
 
 */
 
-#include "timer.h"
 #include "types.h"
 #include "dcpomatic_assert.h"
-#include <dcp/cpl.h>
-#include <dcp/dcp.h>
-#include <dcp/filesystem.h>
-#include <dcp/reel_asset.h>
-#include <dcp/reel_file_asset.h>
-#include <dcp/warnings.h>
-LIBDCP_DISABLE_WARNINGS
-#include <libxml++/libxml++.h>
-LIBDCP_ENABLE_WARNINGS
-#include <libcxml/cxml.h>
 
-#include "i18n.h"
-
-using std::max;
-using std::min;
 using std::string;
-using std::list;
-using std::shared_ptr;
-using std::vector;
 
 
 ReelType
