@@ -23,6 +23,7 @@
 #include "lib/dcp_content.h"
 #include "lib/film.h"
 #include "lib/job_manager.h"
+#include "lib/video_content.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
 
@@ -107,3 +108,59 @@ BOOST_AUTO_TEST_CASE(film_copy_remembered_assets_test)
 		check_file(path.path(), copy->dir("info") / path.path().filename());
 	}
 }
+
+
+BOOST_AUTO_TEST_CASE(film_reels_test)
+{
+	auto content = content_factory("test/data/flat_red.png")[0];
+	auto film_with_reels = new_test_film("film_reels_test1", { content });
+	content->video->set_length(3 * 60 * 24);
+	film_with_reels->set_video_bit_rate(VideoEncoding::JPEG2000, 200000000LL);
+	film_with_reels->set_reel_type(ReelType::BY_LENGTH);
+	film_with_reels->set_reel_length(2000000000LL);
+	make_and_verify_dcp(film_with_reels);
+
+	BOOST_REQUIRE_EQUAL(film_with_reels->reels().size(), 3U);
+	BOOST_CHECK(film_with_reels->reels()[0] == dcpomatic::DCPTimePeriod(dcpomatic::DCPTime(0), dcpomatic::DCPTime(7680000)));
+	BOOST_CHECK(film_with_reels->reels()[1] == dcpomatic::DCPTimePeriod(dcpomatic::DCPTime(7680000), dcpomatic::DCPTime(15360000)));
+	BOOST_CHECK(film_with_reels->reels()[2] == dcpomatic::DCPTimePeriod(dcpomatic::DCPTime(15360000), dcpomatic::DCPTime(17280000)));
+
+	auto dcp_with_reels = make_shared<DCPContent>(film_with_reels->dir(film_with_reels->dcp_name()));
+	auto test_film = new_test_film("film_reels_test2", { dcp_with_reels });
+	test_film->set_video_bit_rate(VideoEncoding::JPEG2000, 200000000LL);
+	test_film->set_reel_type(ReelType::BY_LENGTH);
+	test_film->set_reel_length(1500000000LL);
+
+	/* Suitable for the requested reel length, OV is not referred yet */
+	BOOST_REQUIRE_EQUAL(test_film->reels().size(), 3U);
+	BOOST_CHECK(test_film->reels()[0] == dcpomatic::DCPTimePeriod(dcpomatic::DCPTime(0), dcpomatic::DCPTime(5760000)));
+	BOOST_CHECK(test_film->reels()[1] == dcpomatic::DCPTimePeriod(dcpomatic::DCPTime(5760000), dcpomatic::DCPTime(11520000)));
+	BOOST_CHECK(test_film->reels()[2] == dcpomatic::DCPTimePeriod(dcpomatic::DCPTime(11520000), dcpomatic::DCPTime(17280000)));
+
+	dcp_with_reels->set_reference_video(true);
+
+	/* Now adds in the boundaries from the OV */
+	BOOST_REQUIRE_EQUAL(test_film->reels().size(), 5U);
+	// First reel is what we wanted
+	BOOST_CHECK(test_film->reels()[0] == dcpomatic::DCPTimePeriod(dcpomatic::DCPTime(0), dcpomatic::DCPTime(5760000)));
+	// Second has to end at 7680000 to get the OV's first boundary in
+	BOOST_CHECK(test_film->reels()[1] == dcpomatic::DCPTimePeriod(dcpomatic::DCPTime(5760000), dcpomatic::DCPTime(7680000)));
+	// Third can run for our desired length (768 + 576 = 1344)
+	BOOST_CHECK(test_film->reels()[2] == dcpomatic::DCPTimePeriod(dcpomatic::DCPTime(7680000), dcpomatic::DCPTime(13440000)));
+	// Fourth has to finish on the OV's second boundary
+	BOOST_CHECK(test_film->reels()[3] == dcpomatic::DCPTimePeriod(dcpomatic::DCPTime(13440000), dcpomatic::DCPTime(15360000)));
+	// Finish off
+	BOOST_CHECK(test_film->reels()[4] == dcpomatic::DCPTimePeriod(dcpomatic::DCPTime(15360000), dcpomatic::DCPTime(17280000)));
+
+	test_film->set_reel_type(ReelType::CUSTOM);
+	test_film->set_custom_reel_boundaries({dcpomatic::DCPTime(6000000), dcpomatic::DCPTime(16000000)});
+
+	/* Now adds in the custom boundaries */
+	BOOST_REQUIRE_EQUAL(test_film->reels().size(), 5U);
+	BOOST_CHECK(test_film->reels()[0] == dcpomatic::DCPTimePeriod(dcpomatic::DCPTime(0), dcpomatic::DCPTime(6000000)));
+	BOOST_CHECK(test_film->reels()[1] == dcpomatic::DCPTimePeriod(dcpomatic::DCPTime(6000000), dcpomatic::DCPTime(7680000)));
+	BOOST_CHECK(test_film->reels()[2] == dcpomatic::DCPTimePeriod(dcpomatic::DCPTime(7680000), dcpomatic::DCPTime(15360000)));
+	BOOST_CHECK(test_film->reels()[3] == dcpomatic::DCPTimePeriod(dcpomatic::DCPTime(15360000), dcpomatic::DCPTime(16000000)));
+	BOOST_CHECK(test_film->reels()[4] == dcpomatic::DCPTimePeriod(dcpomatic::DCPTime(16000000), dcpomatic::DCPTime(17280000)));
+}
+

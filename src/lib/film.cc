@@ -2099,6 +2099,8 @@ Film::reels() const
 	vector<DCPTimePeriod> periods;
 	auto const len = length();
 
+	auto const required = required_reel_boundaries();
+
 	switch (reel_type()) {
 	case ReelType::SINGLE:
 		periods.emplace_back(DCPTime(), len);
@@ -2142,12 +2144,25 @@ Film::reels() const
 	case ReelType::BY_LENGTH:
 	{
 		DCPTime current;
+		auto next_required = required.begin();
+
 		/* Integer-divide reel length by the size of one frame to give the number of frames per reel,
 		 * making sure we don't go less than 1s long.
 		 */
 		Frame const reel_in_frames = max(_reel_length / ((video_bit_rate(video_encoding()) / video_frame_rate()) / 8), static_cast<Frame>(video_frame_rate()));
 		while (current < len) {
+			/* Here's where we'd go in an ideal world */
 			DCPTime end = min(len, current + DCPTime::from_frames(reel_in_frames, video_frame_rate()));
+			if (next_required != required.end()) {
+				/* We have to put a boundary at *next_required, otherwise we'll miss it */
+				bool const must_use_required = *next_required < end;
+				/* The next required is a bit beyond our ideal place, so stretch it */
+				bool const stretch = DCPTime(*next_required - end).frames_round(video_frame_rate()) < reel_in_frames / 4;
+				if (must_use_required || stretch) {
+					end = *next_required;
+					++next_required;
+				}
+			}
 			periods.emplace_back(current, end);
 			current = end;
 		}
@@ -2155,8 +2170,25 @@ Film::reels() const
 	}
 	case ReelType::CUSTOM:
 	{
+		/* Merge _custom_reel_boundaries and the required boundaries */
 		DCPTimePeriod current;
-		for (auto boundary: _custom_reel_boundaries) {
+		auto i = _custom_reel_boundaries.begin();
+		auto j = required.begin();
+		while (i != _custom_reel_boundaries.end() || j != required.end()) {
+			DCPTime boundary;
+			if (i == _custom_reel_boundaries.end()) {
+				boundary = *j;
+				++j;
+			} else if (j == required.end()) {
+				boundary = *i;
+				++i;
+			} else if (*i < *j) {
+				boundary = *i;
+				++i;
+			} else {
+				boundary = *j;
+				++j;
+			}
 			current.to = boundary;
 			periods.push_back(current);
 			current.from = boundary;
