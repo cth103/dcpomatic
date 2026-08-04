@@ -2655,37 +2655,19 @@ Film::write_remembered_assets(vector<RememberedAsset> const& assets) const
 vector<ReelType>
 Film::possible_reel_types() const
 {
-	auto film_reels = reels_for_type(ReelType::SINGLE);
-
-	bool referring = false;
-	bool dcp_reel_not_present = false;
-
+	/* Disallow SINGLE if we are referring to anything with >1 reel.  We have to include all
+	 * the reel boundaries of things we refer to.
+	 */
 	for (auto c: content()) {
 		if (auto dcp = dynamic_pointer_cast<DCPContent>(c)) {
-			if (dcp->reference_anything()) {
-				referring = true;
-				try {
-					for (auto const& dcp_reel: dcp->reels(shared_from_this())) {
-						if (std::find(film_reels.begin(), film_reels.end(), dcp_reel) == film_reels.end()) {
-							dcp_reel_not_present = true;
-						}
-					}
-				} catch (dcp::ReadError &) {
-					/* We couldn't read the DCP; it's probably missing */
+			try {
+				if (dcp->reference_anything() && dcp->reels(shared_from_this()).size() > 1) {
+					return { ReelType::BY_VIDEO_CONTENT, ReelType::BY_LENGTH, ReelType::CUSTOM };
 				}
+			} catch (dcp::ReadError& e) {
+				/* We couldn't read the DCP; it's probably missing */
 			}
 		}
-	}
-
-	if (referring && !dcp_reel_not_present) {
-		/* We're referring to some DCP content but single-reel mode is possible.
-		 * We'll disallow BY_LENGTH and CUSTOM just for an easy life.
-		 */
-
-		return { ReelType::SINGLE, ReelType::BY_VIDEO_CONTENT };
-	} else if (referring && dcp_reel_not_present) {
-		/* We have to use by-video */
-		return { ReelType::BY_VIDEO_CONTENT };
 	}
 
 	return { ReelType::SINGLE, ReelType::BY_VIDEO_CONTENT, ReelType::BY_LENGTH, ReelType::CUSTOM };
