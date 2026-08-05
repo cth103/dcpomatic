@@ -448,7 +448,7 @@ private:
 
 	void file_open ()
 	{
-		DirDialog dialog(this, _("Select DCP to open"), wxDEFAULT_DIALOG_STYLE | wxDD_DIR_MUST_EXIST, "AddEditorInputPath");
+		DirDialog dialog(this, _("Select DCP to open"), wxDEFAULT_DIALOG_STYLE, "AddEditorInputPath");
 
 		bool r;
 		while (true) {

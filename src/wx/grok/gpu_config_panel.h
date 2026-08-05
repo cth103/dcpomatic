@@ -22,8 +22,13 @@
 #pragma once
 
 
-#include "lib/grok/util.h"
+#include "wx_util.h"
+#ifdef DCPOMATIC_USE_OWN_PICKER
+#include "dir_picker_ctrl.h"
+#else
 #include <wx/filepicker.h>
+#endif
+#include "lib/grok/util.h"
 
 
 class GpuList : public wxPanel
@@ -103,7 +108,11 @@ private:
 		_panel->GetSizer()->Add(table, 1, wxALL | wxEXPAND, _border);
 
 		add_label_to_sizer(table, _panel, _("Acceleration binary folder"), true, 0, wxLEFT | wxLEFT | wxALIGN_CENTRE_VERTICAL);
-		_binary_location = new wxDirPickerCtrl(_panel, wxDD_DIR_MUST_EXIST);
+#ifdef DCPOMATIC_USE_OWN_PICKER
+		_binary_location = new DirPickerCtrl(_panel);
+#else
+		_binary_location = new wxDirPickerCtrl(_panel, wxID_ANY, wxEmptyString, char_to_wx(wxDirSelectorPromptStr), wxDefaultPosition, wxDefaultSize, wxDIRP_DEFAULT_STYLE & ~wxDIRP_DIR_MUST_EXIST);
+#endif
 		table->Add(_binary_location, 1, wxEXPAND);
 
 		add_label_to_sizer(table, _panel, _("GPU selection"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
@@ -119,7 +128,11 @@ private:
 		table->Add(_licence->get_panel(), 1, wxEXPAND | wxALL);
 
 		_enable_gpu->bind(&GPUPage::enable_gpu_changed, this);
+#ifdef DCPOMATIC_USE_OWN_PICKER
+		_binary_location->Changed.connect(boost::bind(&GPUPage::binary_location_changed, this));
+#else
 		_binary_location->Bind(wxEVT_DIRPICKER_CHANGED, boost::bind (&GPUPage::binary_location_changed, this));
+#endif
 		_server->Bind(wxEVT_TEXT, boost::bind(&GPUPage::server_changed, this));
 		_licence->Changed.connect(boost::bind(&GPUPage::licence_changed, this));
 
@@ -187,7 +200,11 @@ private:
 	}
 
 	CheckBox* _enable_gpu = nullptr;
+#ifdef DCPOMATIC_USE_OWN_PICKER
+	DirPickerCtrl* _binary_location = nullptr;
+#else
 	wxDirPickerCtrl* _binary_location = nullptr;
+#endif
 	GpuList* _gpu_list_control = nullptr;
 	wxTextCtrl* _server = nullptr;
 	PasswordEntry* _licence = nullptr;
