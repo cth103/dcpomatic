@@ -248,14 +248,18 @@ send_emails(
 
 		auto emails = first->emails();
 		std::copy(extra_addresses.begin(), extra_addresses.end(), std::back_inserter(emails));
-		if (emails.empty()) {
+
+		vector<string> ok_emails;
+		std::copy_if(emails.begin(), emails.end(), std::back_inserter(ok_emails), [](string const& email) { return email_address_basically_ok(email); });
+
+		if (ok_emails.empty()) {
 			continue;
 		}
 
-		Email email(config->kdm_from(), { emails.front() }, subject, body);
+		Email email(config->kdm_from(), { ok_emails.front() }, subject, body);
 
 		/* Use CC for the second and subsequent email addresses, so we seem less spammy (#2310) */
-		for (auto cc = std::next(emails.begin()); cc != emails.end(); ++cc) {
+		for (auto cc = std::next(ok_emails.begin()); cc != ok_emails.end(); ++cc) {
 			email.add_cc(*cc);
 		}
 
