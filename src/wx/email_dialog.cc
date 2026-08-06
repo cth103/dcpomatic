@@ -21,6 +21,7 @@
 
 #include "email_dialog.h"
 #include "wx_util.h"
+#include "lib/util.h"
 
 
 using std::shared_ptr;
@@ -37,6 +38,17 @@ EmailDialog::EmailDialog(wxWindow* parent)
 	layout();
 
 	_email->SetFocus();
+	_email->Bind(wxEVT_TEXT, boost::bind(&EmailDialog::email_changed, this));
+	email_changed();
+}
+
+
+void
+EmailDialog::email_changed()
+{
+	if (auto ok = dynamic_cast<wxButton*>(FindWindowById(wxID_OK, this))) {
+		ok->Enable(email_address_basically_ok(wx_to_std(_email->GetValue())));
+	}
 }
 
 

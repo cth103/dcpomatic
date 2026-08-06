@@ -32,6 +32,8 @@ public:
 	std::vector<std::string> get() const;
 
 private:
+	void email_changed();
+
 	wxTextCtrl* _email;
 };
 
