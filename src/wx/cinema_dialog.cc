@@ -23,12 +23,10 @@
 #include "dcpomatic_choice.h"
 #include "wx_util.h"
 #include "lib/dcpomatic_assert.h"
-#include "lib/util.h"
 
 
 using std::back_inserter;
 using std::copy;
-using std::cout;
 using std::string;
 using std::vector;
 using boost::bind;

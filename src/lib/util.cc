@@ -38,14 +38,11 @@
 #include "exceptions.h"
 #include "ffmpeg_image_proxy.h"
 #include "filter.h"
-#include "font.h"
 #include "image.h"
-#include "job.h"
 #include "job_manager.h"
 #include "ratio.h"
 #include "rect.h"
 #include "render_text.h"
-#include "string_text.h"
 #include "text_decoder.h"
 #include "util.h"
 #include "variant.h"
@@ -105,10 +102,7 @@ LIBDCP_ENABLE_WARNINGS
 #include "i18n.h"
 
 
-using std::bad_alloc;
-using std::cout;
 using std::dynamic_pointer_cast;
-using std::endl;
 using std::istream;
 using std::list;
 using std::make_pair;
@@ -122,10 +116,8 @@ using std::shared_ptr;
 using std::string;
 using std::vector;
 using std::wstring;
-using boost::thread;
 using boost::optional;
 using dcp::Size;
-using dcp::raw_convert;
 using dcp::locale_convert;
 using namespace dcpomatic;
 
