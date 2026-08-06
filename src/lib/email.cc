@@ -241,7 +241,11 @@ Email::send(string server, int port, EmailProtocol protocol, string user, string
 
 	auto const r = curl_easy_perform(curl);
 	if (r != CURLE_OK) {
-		throw NetworkError(_("Failed to send email"), fmt::format("{} sending to {}:{}", curl_easy_strerror(r), server, port));
+		if (r == CURLE_SEND_ERROR && !_errors.empty()) {
+			throw NetworkError(_("Failed to send email"), _errors[0]);
+		} else {
+			throw NetworkError(_("Failed to send email"), fmt::format("{} sending to {}:{}", curl_easy_strerror(r), server, port));
+		}
 	}
 
 	curl_slist_free_all(recipients);
@@ -268,7 +272,13 @@ Email::debug(CURL *, curl_infotype type, char* data, size_t size)
 	if (type == CURLINFO_TEXT) {
 		_notes += string(data, size);
 	} else if (type == CURLINFO_HEADER_IN) {
-		_notes += "<- " + string(data, size);
+		auto str = string(data, size);
+		_notes += "<- " + str;
+		if (!str.empty() && str[0] == '5') {
+			boost::replace_all(str, "\r", "");
+			boost::replace_all(str, "\n", "");
+			_errors.push_back(str);
+		}
 	} else if (type == CURLINFO_HEADER_OUT) {
 		_notes += "-> " + string(data, size);
 	}

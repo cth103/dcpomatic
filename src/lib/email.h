@@ -73,4 +73,5 @@ private:
 	std::string _email;
 	size_t _offset;
 	std::string _notes;
+	std::vector<std::string> _errors;
 };
