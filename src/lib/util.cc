@@ -1165,3 +1165,14 @@ text_positions_close(float a, float b)
 	return std::abs(a - b) < 1e-4;
 }
 
+
+bool
+email_address_basically_ok(string address)
+{
+	if (address.find_first_of(" \t\r\n") != std::string::npos) {
+		return false;
+	}
+
+	return address.find_first_of("@") != std::string::npos;
+}
+

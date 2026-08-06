@@ -235,3 +235,13 @@ BOOST_AUTO_TEST_CASE(rfc_2822_date_test)
 	check_allowing_dst(363, "Wed, 30 Dec 1970 {:02d}:00:00 {}");
 }
 
+
+BOOST_AUTO_TEST_CASE(email_address_basically_ok_test)
+{
+	BOOST_CHECK(email_address_basically_ok("cth@carlh.net"));
+	BOOST_CHECK(!email_address_basically_ok(""));
+	BOOST_CHECK(!email_address_basically_ok(" cth@carlh.net"));
+	BOOST_CHECK(!email_address_basically_ok("  \t"));
+	BOOST_CHECK(!email_address_basically_ok("frobozz"));
+}
+
