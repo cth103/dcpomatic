@@ -19,7 +19,6 @@
 */
 
 
-#include "config.h"
 #include "dcpomatic_log.h"
 #include "email.h"
 #include "exceptions.h"
@@ -31,13 +30,9 @@
 #include "i18n.h"
 
 
-using std::cout;
 using std::min;
-using std::pair;
-using std::shared_ptr;
 using std::string;
 using std::vector;
-using dcp::ArrayData;
 
 
 Email::Email(string from, vector<string> to, string subject, string body)

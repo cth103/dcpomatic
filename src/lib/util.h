@@ -41,7 +41,6 @@
 #include <boost/filesystem.hpp>
 #include <boost/date_time/gregorian/gregorian.hpp>
 #include <string>
-#include <map>
 #include <vector>
 
 #undef check
