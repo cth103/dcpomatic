@@ -36,7 +36,7 @@ class Choice;
 class CinemaDialog : public wxDialog
 {
 public:
-	CinemaDialog (
+	CinemaDialog(
 		wxWindow *,
 		wxString,
 		std::string name = "",
@@ -45,13 +45,13 @@ public:
 		dcp::UTCOffset = {}
 		);
 
-	std::string name () const;
-	std::string notes () const;
-	std::vector<std::string> emails () const;
+	std::string name() const;
+	std::string notes() const;
+	std::vector<std::string> emails() const;
 	dcp::UTCOffset utc_offset() const;
 
 private:
-	void set_emails (std::vector<std::string>);
+	void set_emails(std::vector<std::string>);
 
 	wxTextCtrl* _name;
 	wxTextCtrl* _notes;
