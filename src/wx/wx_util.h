@@ -40,6 +40,7 @@ LIBDCP_ENABLE_WARNINGS
 #include <boost/thread.hpp>
 
 
+class DirPickerCtrl;
 class FilePickerCtrl;
 class LanguageTagWidget;
 class RegionSubtagWidget;
@@ -151,6 +152,7 @@ namespace wx {
 
 extern void checked_set(FilePickerCtrl* widget, boost::filesystem::path value);
 extern void checked_set(wxDirPickerCtrl* widget, boost::filesystem::path value);
+extern void checked_set(DirPickerCtrl* widget, boost::filesystem::path value);
 extern void checked_set(wxSpinCtrl* widget, int value);
 extern void checked_set(wxSpinCtrlDouble* widget, double value);
 extern void checked_set(wxChoice* widget, int value);
@@ -171,7 +173,14 @@ extern int wx_get(wxChoice* widget);
 extern int wx_get(wxSpinCtrl* widget);
 extern double wx_get(wxSpinCtrlDouble* widget);
 
-#ifdef DCPOMATIC_WINDOWS
+/* On GTK, wxDirPickerCtrl's native widget (GtkFileChooserButton) does not
+ * support GTK_FILE_CHOOSER_ACTION create-folder at all, so wx hard-codes
+ * wxDD_DIR_MUST_EXIST on its browse dialog regardless of the style passed
+ * to the picker (see wx/gtk/filepicker.h: wxDirButton::GetDialogStyle()).
+ * Use our own picker there too, as on Windows, to get a folder chooser
+ * that actually allows creating a new folder.
+ */
+#if defined(DCPOMATIC_WINDOWS) || defined(__WXGTK__)
 #define DCPOMATIC_USE_OWN_PICKER
 #endif
 
