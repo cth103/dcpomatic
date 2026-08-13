@@ -167,8 +167,8 @@ FileGroup::read(uint8_t* buffer, int amount) const
 			break;
 		}
 
-		if (_current_file->error()) {
-			throw FileError(fmt::format("fread error {}", errno), _paths[_current_path]);
+		if (auto error = _current_file->error()) {
+			throw FileError(fmt::format("fread error {}", error), _paths[_current_path]);
 		}
 
 		if (eof) {
