@@ -31,22 +31,18 @@
 #include "lib/film.h"
 #include "lib/job_manager.h"
 #include "lib/maths_util.h"
+#include "lib/util.h"
 #include <dcp/filesystem.h>
 #include <libxml++/libxml++.h>
 #include <boost/filesystem.hpp>
-#include <iostream>
 
 
-using std::cout;
 using std::list;
 using std::make_shared;
-using std::pair;
 using std::shared_ptr;
-using std::vector;
-using std::weak_ptr;
 using boost::bind;
 using boost::optional;
-using boost::const_pointer_cast;
+using std::const_pointer_cast;
 using std::dynamic_pointer_cast;
 using namespace dcpomatic;
 #if BOOST_VERSION >= 106100

@@ -19,8 +19,6 @@
 */
 
 
-#include "config.h"
-#include "cross.h"
 #include "exceptions.h"
 #include "ffmpeg_image_proxy.h"
 #include "film.h"
@@ -28,19 +26,16 @@
 #include "image_content.h"
 #include "image_examiner.h"
 #include "job.h"
+#include "util.h"
 #include <dcp/openjpeg_image.h>
 #include <dcp/exceptions.h>
 #include <dcp/filesystem.h>
 #include <dcp/j2k_transcode.h>
-#include <iostream>
 
 #include "i18n.h"
 
 
-using std::cout;
-using std::list;
 using std::shared_ptr;
-using std::sort;
 using boost::optional;
 
 

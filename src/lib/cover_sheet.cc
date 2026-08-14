@@ -23,6 +23,7 @@
 #include "cover_sheet.h"
 #include "dcp_content_type.h"
 #include "film.h"
+#include "util.h"
 #include <dcp/file.h>
 #include <dcp/filesystem.h>
 #include <dcp/locale_convert.h>

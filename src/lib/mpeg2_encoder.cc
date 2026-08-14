@@ -21,6 +21,7 @@
 
 #include "mpeg2_encoder.h"
 #include "writer.h"
+#include "util.h"
 #include <dcp/ffmpeg_image.h>
 extern "C" {
 #include <libavutil/pixfmt.h>

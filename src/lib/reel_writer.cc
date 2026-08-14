@@ -30,6 +30,7 @@
 #include "job.h"
 #include "reel_writer.h"
 #include "remembered_asset.h"
+#include "util.h"
 #include <dcp/atmos_asset.h>
 #include <dcp/atmos_asset_writer.h>
 #include <dcp/certificate_chain.h>
