@@ -739,6 +739,10 @@ DCPPanel::setup_sensitivity()
 
 	_reencode_j2k->Enable          (_generally_sensitive && _film);
 	_show_audio->Enable            (_generally_sensitive && _film);
+
+	if (_audio_sample_rate) {
+		_audio_sample_rate->Enable(_generally_sensitive && _film);
+	}
 }
 
 
