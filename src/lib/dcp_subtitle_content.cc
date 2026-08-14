@@ -24,6 +24,7 @@
 #include "font.h"
 #include "font_id_allocator.h"
 #include "text_content.h"
+#include "util.h"
 #include <dcp/interop_load_font_node.h>
 #include <dcp/interop_text_asset.h>
 #include <dcp/smpte_text_asset.h>
