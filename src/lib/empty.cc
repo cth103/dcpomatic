@@ -24,16 +24,13 @@
 #include "playlist.h"
 #include "content.h"
 #include "content_part.h"
-#include "dcp_content.h"
 #include "dcpomatic_time_coalesce.h"
 #include "piece.h"
-#include <iostream>
+#include "util.h"
 
 
-using std::cout;
 using std::list;
 using std::shared_ptr;
-using std::dynamic_pointer_cast;
 using std::function;
 using namespace dcpomatic;
 

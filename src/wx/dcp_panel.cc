@@ -41,8 +41,8 @@
 #include "lib/config.h"
 #include "lib/dcp_content.h"
 #include "lib/dcp_content_type.h"
-#include "lib/ffmpeg_content.h"
 #include "lib/film.h"
+#include "lib/film_util.h"
 #include "lib/ratio.h"
 #include "lib/text_content.h"
 #include "lib/util.h"
@@ -58,15 +58,9 @@ LIBDCP_ENABLE_WARNINGS
 #include <boost/lexical_cast.hpp>
 
 
-using std::list;
-using std::make_pair;
 using std::max;
-using std::pair;
 using std::shared_ptr;
 using std::string;
-using std::vector;
-using std::weak_ptr;
-using boost::lexical_cast;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif

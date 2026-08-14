@@ -24,6 +24,7 @@
  */
 
 
+#include "dcpomatic_choice.h"
 #include "file_picker_ctrl.h"
 #include "language_tag_widget.h"
 #include "password_entry.h"
@@ -58,7 +59,6 @@ LIBDCP_ENABLE_WARNINGS
 using std::string;
 using std::vector;
 using std::pair;
-using std::shared_ptr;
 using boost::optional;
 using dcp::locale_convert;
 using namespace dcpomatic;

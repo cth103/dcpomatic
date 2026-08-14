@@ -26,7 +26,6 @@
 
 #include "cinema.h"
 #include "cinema_list.h"
-#include "cross.h"
 #include "config.h"
 #include "dkdm_wrapper.h"
 #include "email.h"
@@ -34,6 +33,7 @@
 #include "film.h"
 #include "kdm_with_metadata.h"
 #include "screen.h"
+#include "util.h"
 #include "variant.h"
 #include <dcp/certificate.h>
 #include <dcp/decrypted_kdm.h>
@@ -46,8 +46,6 @@
 using std::dynamic_pointer_cast;
 using std::list;
 using std::make_shared;
-using std::pair;
-using std::runtime_error;
 using std::shared_ptr;
 using std::string;
 using std::vector;
