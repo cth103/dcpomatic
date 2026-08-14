@@ -480,7 +480,7 @@ DCPPanel::film_changed(FilmProperty p)
 		setup_dcp_name();
 		break;
 	case FilmProperty::REUSE_BEHAVIOUR:
-		checked_set(_reencode_j2k, _film->reuse_behaviour() == Film::ReuseBehaviour::RE_ENCODE);
+		checked_set_choice(_j2k_reuse, dcpomatic::film::reuse_behaviour_to_string(_film->reuse_behaviour()));
 		break;
 	case FilmProperty::INTEROP:
 		update_standards();
@@ -731,7 +731,7 @@ DCPPanel::setup_sensitivity()
 		_standard->size() > 1
 	);
 
-	_reencode_j2k->Enable          (_generally_sensitive && _film);
+	_j2k_reuse->Enable             (_generally_sensitive && _film);
 	_show_audio->Enable            (_generally_sensitive && _film);
 }
 
@@ -792,13 +792,13 @@ DCPPanel::three_d_changed()
 
 
 void
-DCPPanel::reencode_j2k_changed()
+DCPPanel::j2k_reuse_changed()
 {
 	if (!_film) {
 		return;
 	}
 
-	_film->set_reuse_behaviour(_reencode_j2k->GetValue() ? Film::ReuseBehaviour::RE_ENCODE : Film::ReuseBehaviour::RE_WRAP);
+	_film->set_reuse_behaviour(dcpomatic::film::reuse_behaviour_from_string(_j2k_reuse->get_data().get_value_or("re-encode")));
 }
 
 
@@ -870,7 +870,14 @@ DCPPanel::make_video_panel()
 	_video_bit_rate = new SpinCtrl(panel);
 	_mbits_label = create_label(panel, _("Mbit/s"), false);
 
-	_reencode_j2k = new CheckBox(panel, _("Re-encode JPEG2000 data from input"));
+	/// TRANSLATORS: Here the label and the choice together form a sentence, e.g.
+	/// "Reuse JPEG2000 data by re-encoding".  Hopefully that can be translated
+	/// reasonably - let met know if not.
+	_j2k_reuse_label = create_label(panel, _("Reuse JPEG2000 data by"), true);
+	_j2k_reuse = new Choice(panel);
+	_j2k_reuse->add_entry(_("re-encoding"), dcpomatic::film::reuse_behaviour_to_string(Film::ReuseBehaviour::RE_ENCODE));
+	_j2k_reuse->add_entry(_("re-wrapping"), dcpomatic::film::reuse_behaviour_to_string(Film::ReuseBehaviour::RE_WRAP));
+	_j2k_reuse->add_entry(_("copying"), dcpomatic::film::reuse_behaviour_to_string(Film::ReuseBehaviour::COPY));
 
 	_container->Bind	(wxEVT_CHOICE,	  boost::bind(&DCPPanel::container_changed, this));
 	_frame_rate_choice->Bind(wxEVT_CHOICE,	  boost::bind(&DCPPanel::frame_rate_choice_changed, this));
@@ -881,7 +888,7 @@ DCPPanel::make_video_panel()
 	_video_bit_rate->Bind	(wxEVT_TEXT,     boost::bind(&DCPPanel::video_bit_rate_changed, this));
 	_resolution->Bind       (wxEVT_CHOICE,   boost::bind(&DCPPanel::resolution_changed, this));
 	_three_d->bind(&DCPPanel::three_d_changed, this);
-	_reencode_j2k->bind(&DCPPanel::reencode_j2k_changed, this);
+	_j2k_reuse->bind(&DCPPanel::j2k_reuse_changed, this);
 
 	for (auto i: Config::instance()->allowed_dcp_frame_rates()) {
 		_frame_rate_choice->add_entry(boost::lexical_cast<string>(i));
@@ -932,7 +939,10 @@ DCPPanel::add_video_panel_to_grid()
 	add_label_to_sizer(s, _mbits_label, false, 0, wxLEFT | wxALIGN_CENTER_VERTICAL);
 	_video_grid->Add(s, wxGBPosition(r, 1), wxDefaultSpan);
 	++r;
-	_video_grid->Add(_reencode_j2k, wxGBPosition(r, 0), wxGBSpan(1, 3));
+
+	add_label_to_sizer(_video_grid, _j2k_reuse_label, true, wxGBPosition(r, 0));
+	_video_grid->Add(_j2k_reuse, wxGBPosition(r, 1), wxGBSpan(1, 2));
+	++r;
 }
 
 

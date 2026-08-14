@@ -87,10 +87,10 @@ private:
 	void markers_clicked();
 	void metadata_clicked();
 	void reels_clicked();
-	void reencode_j2k_changed();
 	void enable_audio_language_toggled();
 	void edit_audio_language_clicked();
 	void audio_sample_rate_changed();
+	void j2k_reuse_changed();
 
 	void setup_frame_rate_widget();
 	void setup_container();
@@ -148,7 +148,8 @@ private:
 	wxButton* _show_audio;
 	wxButton* _best_frame_rate;
 	CheckBox* _three_d;
-	CheckBox* _reencode_j2k;
+	wxStaticText* _j2k_reuse_label;
+	Choice* _j2k_reuse;
 	wxStaticText* _resolution_label;
 	Choice* _resolution;
 	wxStaticText* _standard_label;
