@@ -422,6 +422,15 @@ checked_set(RegionSubtagWidget* widget, optional<dcp::LanguageTag::RegionSubtag>
 }
 
 
+void
+checked_set_choice(Choice* widget, string data)
+{
+	if (widget->get_data() != data) {
+		widget->set_by_data(data);
+	}
+}
+
+
 int
 wx_get(wxSpinCtrl* w)
 {
