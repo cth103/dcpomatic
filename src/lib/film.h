@@ -42,11 +42,10 @@
 #include "resolution.h"
 #include "signaller.h"
 #include "territory_type.h"
-#include "transcode_job.h"
 #include "types.h"
-#include "util.h"
 #include "video_encoding.h"
 #include <dcp/cpl_summary.h>
+#include <dcp/decrypted_kdm.h>
 #include <dcp/encrypted_kdm.h>
 #include <dcp/file.h>
 #include <dcp/key.h>

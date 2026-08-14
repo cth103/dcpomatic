@@ -27,11 +27,10 @@
 #include "content_panel.h"
 #include "dcp_panel.h"
 #include "film_editor.h"
-#include "wx_util.h"
 #include "lib/content.h"
-#include "lib/dcp_content.h"
 #include "lib/film.h"
 #include "lib/job_manager.h"
+#include "lib/util.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/notebook.h>
@@ -39,10 +38,8 @@ LIBDCP_DISABLE_WARNINGS
 LIBDCP_ENABLE_WARNINGS
 
 
-using std::list;
 using std::shared_ptr;
 using std::string;
-using std::weak_ptr;
 using boost::optional;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
