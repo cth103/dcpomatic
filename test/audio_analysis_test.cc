@@ -32,17 +32,15 @@
 #include "lib/audio_content.h"
 #include "lib/content_factory.h"
 #include "lib/dcp_content.h"
-#include "lib/dcp_content_type.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/film.h"
 #include "lib/job_manager.h"
 #include "lib/playlist.h"
-#include "lib/ratio.h"
+#include "lib/util.h"
 #include "test.h"
 #include <dcp/scope_guard.h>
 #include <boost/test/unit_test.hpp>
-#include <numeric>
 
 
 using std::make_shared;

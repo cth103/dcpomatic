@@ -29,13 +29,12 @@
 #include "wx/wx_util.h"
 #include "wx/wx_variant.h"
 #include "lib/config.h"
-#include "lib/constants.h"
 #include "lib/cross.h"
-#include "lib/dcp_content.h"
 #include "lib/film.h"
 #include "lib/show_playlist.h"
 #include "lib/show_playlist_entry.h"
 #include "lib/show_playlist_list.h"
+#include "lib/util.h"
 #include <dcp/filesystem.h>
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
@@ -47,18 +46,13 @@ LIBDCP_DISABLE_WARNINGS
 LIBDCP_ENABLE_WARNINGS
 
 
-using std::cout;
 using std::exception;
 using std::make_pair;
 using std::make_shared;
-using std::map;
 using std::shared_ptr;
 using std::string;
-using std::vector;
-using std::weak_ptr;
 using boost::bind;
 using boost::optional;
-using std::dynamic_pointer_cast;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif

@@ -26,6 +26,7 @@
 #include "film.h"
 #include "job_manager.h"
 #include "upload_job.h"
+#include "util.h"
 #include <dcp/cpl.h>
 #include <dcp/search.h>
 

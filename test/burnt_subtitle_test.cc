@@ -34,6 +34,7 @@
 #include "lib/log_entry.h"
 #include "lib/ratio.h"
 #include "lib/text_content.h"
+#include "lib/transcode_job.h"
 #include "test.h"
 #include <dcp/dcp.h>
 #include <dcp/cpl.h>

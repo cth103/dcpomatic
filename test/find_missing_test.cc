@@ -24,6 +24,7 @@
 #include "lib/dcp_content.h"
 #include "lib/film.h"
 #include "lib/find_missing.h"
+#include "lib/util.h"
 #include "test.h"
 #include <boost/filesystem.hpp>
 #include <boost/test/unit_test.hpp>

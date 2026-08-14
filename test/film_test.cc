@@ -25,6 +25,7 @@
 #include "lib/job_manager.h"
 #include "lib/video_content.h"
 #include "test.h"
+#include <dcp/filesystem.h>
 #include <boost/test/unit_test.hpp>
 
 

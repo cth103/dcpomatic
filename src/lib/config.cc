@@ -28,9 +28,11 @@
 #include "film.h"
 #include "show_playlist_list.h"
 #include "unzipper.h"
+#include "util.h"
 #include "variant.h"
 #include "zipper.h"
 #include <dcp/certificate_chain.h>
+#include <dcp/filesystem.h>
 #include <dcp/name_format.h>
 #include <dcp/raw_convert.h>
 #include <libcxml/cxml.h>
@@ -41,7 +43,6 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/thread.hpp>
 #include <fstream>
-#include <iostream>
 
 #include "i18n.h"
 
