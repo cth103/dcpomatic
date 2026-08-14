@@ -40,6 +40,7 @@ LIBDCP_ENABLE_WARNINGS
 #include <boost/thread.hpp>
 
 
+class Choice;
 class FilePickerCtrl;
 class LanguageTagWidget;
 class RegionSubtagWidget;
@@ -167,6 +168,7 @@ extern void checked_set(wxStaticText* widget, wxString value);
 extern void checked_set(LanguageTagWidget* widget, dcp::LanguageTag value);
 extern void checked_set(LanguageTagWidget* widget, boost::optional<dcp::LanguageTag> value);
 extern void checked_set(RegionSubtagWidget* widget, boost::optional<dcp::LanguageTag::RegionSubtag> value);
+extern void checked_set_choice(Choice* widget, std::string data);
 
 extern int wx_get(wxChoice* widget);
 extern int wx_get(wxSpinCtrl* widget);
