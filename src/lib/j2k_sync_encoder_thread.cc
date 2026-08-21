@@ -63,6 +63,8 @@ try
 			boost::this_thread::disable_interruption dis;
 			frame_guard.cancel();
 			_encoder.write(encoded, frame.index(), frame.eyes());
+		} else {
+			boost::this_thread::interruption_point();
 		}
 	}
 } catch (boost::thread_interrupted& e) {
