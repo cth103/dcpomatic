@@ -559,6 +559,9 @@ ReelWriter::create_reel_sound(shared_ptr<dcp::Reel> reel, list<ReferencedReelAss
 	if (_sound_asset) {
 		/* We have made a sound asset of our own.  Put it into the reel */
 		reel_asset = make_shared<dcp::ReelSoundAsset>(_sound_asset, 0);
+		if (auto lang = film()->audio_language()) {
+			reel_asset->set_language(*lang);
+		}
 	} else {
 		LOG_GENERAL("no sound asset of our own; look through {}", refs.size());
 		/* We don't have a sound asset of our own; hopefully we have one to reference */

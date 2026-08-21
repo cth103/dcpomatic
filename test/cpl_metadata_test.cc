@@ -26,6 +26,8 @@
 #include "test.h"
 #include <dcp/cpl.h>
 #include <dcp/dcp.h>
+#include <dcp/reel.h>
+#include <dcp/reel_sound_asset.h>
 #include <boost/test/unit_test.hpp>
 
 
@@ -165,3 +167,24 @@ BOOST_AUTO_TEST_CASE(main_sound_configuration_test_71_mapped_but_51_dcp)
 
 	BOOST_CHECK_EQUAL(msc->as_string(), "51/L,R,C,LFE,Ls,Rs");
 }
+
+
+BOOST_AUTO_TEST_CASE(sound_asset_language_test)
+{
+	auto sound = content_factory("test/data/L.wav")[0];
+	auto film = new_test_film("sound_asset_language_test", { sound });
+	film->set_audio_language(dcp::LanguageTag("de-DE"));
+
+	make_and_verify_dcp(film, { dcp::VerificationNote::Code::MISSING_CPL_METADATA });
+
+	dcp::DCP dcp(film->dir(film->dcp_name()));
+	dcp.read();
+	BOOST_REQUIRE_EQUAL(dcp.cpls().size(), 1U);
+	auto cpl = dcp.cpls()[0];
+	BOOST_REQUIRE_EQUAL(cpl->reels().size(), 1U);
+	auto reel = cpl->reels()[0];
+	BOOST_REQUIRE(reel->main_sound());
+
+	BOOST_CHECK_EQUAL(reel->main_sound()->language().get_value_or(""), "de-DE");
+}
+
