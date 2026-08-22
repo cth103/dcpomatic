@@ -100,7 +100,7 @@ def write_installer(bits, dcpomatic_version, debug, disk, variant):
 !define MUI_COMPONENTSPAGE_NODESC
 !insertmacro MUI_PAGE_COMPONENTS
 
-Section "Common files (required)" SEC_COMMON
+Section "Common files (required)"
 SectionIn RO
     """, file=f)
 
@@ -421,7 +421,7 @@ File "%cdist_deps%/share/libdcp/ratings"
 SectionEnd
     """, file=f)
 
-    print('Section "%s" SEC_MASTER' % long_name_with_debug, file=f)
+    print('Section "%s"' % long_name_with_debug, file=f)
 
     print('SetOutPath "$INSTDIR\\bin"', file=f)
     print("SetShellVarContext all", file=f)
@@ -449,7 +449,7 @@ File "%binaries%/src/tools/dcpomatic2_disk_writer.exe.manifest"
 
     print("SectionEnd", file=f)
 
-    print('Section /o "%s desktop shortcuts" SEC_MASTER_DESKTOP' % long_name_with_debug, file=f)
+    print('Section /o "%s desktop shortcuts"' % long_name_with_debug, file=f)
     print('CreateShortCut "$DESKTOP\\%s.lnk" "$INSTDIR\\bin\\dcpomatic2%s" ""' % (long_name_with_debug, suffix), file=f)
     for s, l in tools:
         print('CreateShortCut "$DESKTOP\\%s.lnk" "$INSTDIR\\bin\\dcpomatic2_%s%s" ""' % (tool_name(variant, debug, l), s, suffix), file=f)
@@ -457,7 +457,7 @@ File "%binaries%/src/tools/dcpomatic2_disk_writer.exe.manifest"
     print("SectionEnd", file=f)
 
     print("""
-Section "Encode server" SEC_SERVER
+Section "Encode server"
 SetOutPath "$INSTDIR\\bin"
 CreateDirectory "$SMPROGRAMS\\DCP-o-matic 2"
 File "%binaries%/src/tools/dcpomatic2_server_cli.exe"
@@ -469,7 +469,7 @@ File "%binaries%/src/tools/dcpomatic2_server.exe"
 
     print("""
 SectionEnd
-Section /o "Encode server desktop shortcuts" SEC_SERVER_DESKTOP
+Section /o "Encode server desktop shortcuts"
 CreateShortCut "$DESKTOP\\DCP-o-matic 2 Encode Server.lnk" "$INSTDIR\\bin\\dcpomatic2_server.exe" ""
 SectionEnd
     """, file=f)
