@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-26 10:04+0200\n"
+"POT-Creation-Date: 2026-08-22 00:21+0200\n"
 "PO-Revision-Date: 2026-07-28 16:21+0330\n"
 "Last-Translator: Soleyman Rahmani Aghdam <Soleyman.rahmani@gmail.com>\n"
 "Language-Team: \n"
@@ -149,11 +149,11 @@ msgstr "1/85(تخت)"
 msgid "1.90 (Full frame)"
 msgstr "1/90(تمام فریم)"
 
-#: src/lib/util.cc:622
+#: src/lib/util.cc:614
 msgid "10"
 msgstr "10"
 
-#: src/lib/util.cc:628
+#: src/lib/util.cc:620
 msgid "16"
 msgstr "16"
 
@@ -187,7 +187,7 @@ msgstr ""
 "سی پی را از طریق \"دی سی پی ---> ویدیو\" روی 2k قرار دهید، مگر آنکه از نمایش "
 "دی سی پی 4K در پروژکتور مد نظر اطمینان داشته باشید."
 
-#: src/lib/util.cc:621
+#: src/lib/util.cc:613
 msgid "9"
 msgstr "9"
 
@@ -442,15 +442,15 @@ msgstr "تعداد بیتها بر پیکسل"
 msgid "Bob Weaver Deinterlacing Filter"
 msgstr "فیلتر ضداینترلیس باب ویور"
 
-#: src/lib/util.cc:623
+#: src/lib/util.cc:615
 msgid "BsL"
 msgstr "BsL"
 
-#: src/lib/util.cc:624
+#: src/lib/util.cc:616
 msgid "BsR"
 msgstr "BsR"
 
-#: src/lib/util.cc:615
+#: src/lib/util.cc:607
 msgid "C"
 msgstr "c"
 
@@ -476,7 +476,7 @@ msgstr "نمیتوان فرمت پیکسل {} را همزمان با {} کار �
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr "برای پروژه ای که رمزگذاری نشده است کلید ساخته نمیشود."
 
-#: src/lib/util.cc:584
+#: src/lib/util.cc:576
 msgid "Centre"
 msgstr "مرکز"
 
@@ -803,19 +803,19 @@ msgstr "نمی توان انتقال را شروع کرد"
 msgid "Could not write to remote file ({})"
 msgstr "نمیتوان در فایل راه دور نوشت({})"
 
-#: src/lib/util.cc:594
+#: src/lib/util.cc:586
 msgid "D-BOX primary"
 msgstr "دی-باکس اصلی"
 
-#: src/lib/util.cc:595
+#: src/lib/util.cc:587
 msgid "D-BOX secondary"
 msgstr "دی-باکس ثانویه"
 
-#: src/lib/audio_processor.cc:144 src/lib/util.cc:625
+#: src/lib/audio_processor.cc:144 src/lib/util.cc:617
 msgid "DBP"
 msgstr "دی بی پی"
 
-#: src/lib/audio_processor.cc:145 src/lib/util.cc:626
+#: src/lib/audio_processor.cc:145 src/lib/util.cc:618
 msgid "DBS"
 msgstr "دی بی اس"
 
@@ -1037,7 +1037,7 @@ msgstr "احراز هویت با سرور ناموفق({})"
 msgid "Failed to encode the DCP."
 msgstr "رمزگذاری دی سی پی ناموفق."
 
-#: src/lib/email.cc:249
+#: src/lib/email.cc:245 src/lib/email.cc:247
 msgid "Failed to send email"
 msgstr "ارسال ایمیل ناموفق"
 
@@ -1127,11 +1127,11 @@ msgstr "گاما28(BT470BG)"
 msgid "Gradient debander"
 msgstr "اصلاح نواربندی گرادیان"
 
-#: src/lib/audio_processor.cc:142 src/lib/util.cc:619
+#: src/lib/audio_processor.cc:142 src/lib/util.cc:611
 msgid "HI"
 msgstr "اختلال شنوایی"
 
-#: src/lib/util.cc:588
+#: src/lib/util.cc:580
 msgid "Hearing impaired"
 msgstr "اختلال شنوایی"
 
@@ -1207,23 +1207,23 @@ msgid "Kernel deinterlacer"
 msgstr "ضد اینترلیسر هسته"
 
 #. TRANSLATORS: L here is an abbreviation for "left", to indicate the left-eye part of a 3D export
-#: src/lib/ffmpeg_film_encoder.cc:265 src/lib/util.cc:613
+#: src/lib/ffmpeg_film_encoder.cc:265 src/lib/util.cc:605
 msgid "L"
 msgstr "چپ"
 
-#: src/lib/mid_side_decoder.cc:106 src/lib/util.cc:582
+#: src/lib/mid_side_decoder.cc:106 src/lib/util.cc:574
 msgid "Left"
 msgstr "چپ"
 
-#: src/lib/util.cc:590
+#: src/lib/util.cc:582
 msgid "Left centre"
 msgstr "مرکز- چپ"
 
-#: src/lib/util.cc:592
+#: src/lib/util.cc:584
 msgid "Left rear surround"
 msgstr "پشت سر- چپ سراوند"
 
-#: src/lib/util.cc:586
+#: src/lib/util.cc:578
 msgid "Left surround"
 msgstr "چپ سراوند"
 
@@ -1231,11 +1231,11 @@ msgstr "چپ سراوند"
 msgid "Length"
 msgstr "طول مدت"
 
-#: src/lib/util.cc:616
+#: src/lib/util.cc:608
 msgid "Lfe"
 msgstr "افکت فرکانس پایین"
 
-#: src/lib/util.cc:585
+#: src/lib/util.cc:577
 msgid "Lfe (sub)"
 msgstr "افکت فرکانس پایین (sub)"
 
@@ -1264,7 +1264,7 @@ msgstr "لگاریتمی(محدوده 316 به 1)"
 msgid "Lost communication between main and writer processes"
 msgstr "قطع ارتباط بین پردازش های اصلی و رایتر"
 
-#: src/lib/util.cc:617
+#: src/lib/util.cc:609
 msgid "Ls"
 msgstr "سراوند چپ"
 
@@ -1316,7 +1316,7 @@ msgstr "مونو"
 msgid "Motion compensating deinterlacer"
 msgstr "ضد اینترلیسر جبران کننده حرکت"
 
-#: src/lib/dcp_content.cc:215
+#: src/lib/dcp_content.cc:213
 msgid "No ASSETMAP or ASSETMAP.xml file found: is this a DCP?"
 msgstr "ASSETMAP یا فایل ASSETMAP.XML یافت نشد: آیا این یک دی سی پی است؟"
 
@@ -1416,7 +1416,7 @@ msgstr "P3 D65 (~6500K)"
 msgid "P3 DCI (~6300K)"
 msgstr "P3 DCI (~6300K)"
 
-#: src/lib/util.cc:1111
+#: src/lib/util.cc:1103
 #, c++-format
 msgid ""
 "Please report this problem by using Help -> Report a problem or via email to "
@@ -1451,7 +1451,7 @@ msgid "Public Service Announcement"
 msgstr "سرویس اعلان عمومی"
 
 #. TRANSLATORS: R here is an abbreviation for "right", to indicate the right-eye part of a 3D export
-#: src/lib/ffmpeg_film_encoder.cc:270 src/lib/util.cc:614
+#: src/lib/ffmpeg_film_encoder.cc:270 src/lib/util.cc:606
 msgid "R"
 msgstr "R"
 
@@ -1485,19 +1485,19 @@ msgstr "توصیه نامه 601"
 msgid "Rec. 709"
 msgstr "توصیه نامه 709"
 
-#: src/lib/mid_side_decoder.cc:107 src/lib/util.cc:583
+#: src/lib/mid_side_decoder.cc:107 src/lib/util.cc:575
 msgid "Right"
 msgstr "راست"
 
-#: src/lib/util.cc:591
+#: src/lib/util.cc:583
 msgid "Right centre"
 msgstr "مرکز- راست"
 
-#: src/lib/util.cc:593
+#: src/lib/util.cc:585
 msgid "Right rear surround"
 msgstr "پشت سر- سراوند راست"
 
-#: src/lib/util.cc:587
+#: src/lib/util.cc:579
 msgid "Right surround"
 msgstr "سراوند راست"
 
@@ -1509,7 +1509,7 @@ msgstr "چرخش 90 درجه خلاف عقربه ساعت"
 msgid "Rotate 90 degrees clockwise"
 msgstr "چرخش 90 درجه در جهت عقربه ساعت"
 
-#: src/lib/util.cc:618
+#: src/lib/util.cc:610
 msgid "Rs"
 msgstr "سراوند راست"
 
@@ -1602,7 +1602,7 @@ msgstr "در حال ارسال ایمیل"
 msgid "Short"
 msgstr "کوتاه"
 
-#: src/lib/audio_processor.cc:146 src/lib/util.cc:627
+#: src/lib/audio_processor.cc:146 src/lib/util.cc:619
 msgid "Sign"
 msgstr "امضاء"
 
@@ -1858,7 +1858,7 @@ msgstr ""
 "توصیه میشود نرخ فریم دی سی پی خود را هر چه نزدیکتر به محتوا انتخاب کنید، "
 "طوریکه سیستم نمایشی که قرار است آنرا نمایش دهد از آن پشتیبانی نماید."
 
-#: src/lib/dcp_content.cc:771
+#: src/lib/dcp_content.cc:765
 msgid "There is no video in this DCP"
 msgstr "در این دی سی پی ویدیو وجود ندارد"
 
@@ -1872,12 +1872,12 @@ msgstr ""
 "میکنید سعی کنید تعداد رشته های رمزگذاری را از طریق زبانه کلی در اولویتها "
 "کاهش دهید."
 
-#: src/lib/util.cc:961
+#: src/lib/util.cc:953
 #, c++-format
 msgid "This KDM was made for {} but not for its leaf certificate."
 msgstr "این کلید برای {} ساخته شده اما نه برای گواهی برگ آن."
 
-#: src/lib/util.cc:959
+#: src/lib/util.cc:951
 #, c++-format
 msgid "This KDM was not made for {}'s decryption certificate."
 msgstr "این کلید برای گواهی نامه {} ساخته نشده است."
@@ -2002,7 +2002,7 @@ msgstr "نامشخص"
 msgid "Untitled"
 msgstr "بدون عنوان"
 
-#: src/lib/util.cc:596 src/lib/util.cc:597
+#: src/lib/util.cc:588 src/lib/util.cc:589
 msgid "Unused"
 msgstr "استفاده نشده"
 
@@ -2014,7 +2014,7 @@ msgstr "Upmix L"
 msgid "Upmix R"
 msgstr "Upmix R"
 
-#: src/lib/audio_processor.cc:143 src/lib/util.cc:620
+#: src/lib/audio_processor.cc:143 src/lib/util.cc:612
 msgid "VI"
 msgstr "اختلال بینایی"
 
@@ -2035,7 +2035,7 @@ msgstr "برگردان عمودی"
 msgid "Video refers to missing asset {}"
 msgstr "ویدیو به محتوای یافت نشده اشاره دارد {}"
 
-#: src/lib/util.cc:589
+#: src/lib/util.cc:581
 msgid "Visually impaired"
 msgstr "دچار اختلال بصری است"
 
@@ -2310,16 +2310,16 @@ msgid "frames per second"
 msgstr "فریم بر ثانیه"
 
 #. TRANSLATORS: h here is an abbreviation for hours
-#: src/lib/util.cc:211
+#: src/lib/util.cc:203
 msgid "h"
 msgstr "ساعت"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:728
+#: src/lib/dcp_content.cc:724
 msgid "it has a different frame rate to the film."
 msgstr "نرخ فریم آن با فیلم یکسان نیست."
 
-#: src/lib/dcp_content.cc:810
+#: src/lib/dcp_content.cc:804
 #, c++-format
 msgid ""
 "it has a different number of audio channels than the project; set the "
@@ -2329,62 +2329,63 @@ msgstr ""
 "صدای پروژه را روی{} قرار دهید."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:846
+#: src/lib/dcp_content.cc:840
 msgid ""
 "it has a start trim so its subtitles or closed captions must be re-written."
 msgstr "نتقطه شروع اصلاح شده دارد بنابر این زیرنویس ها باید مجدد نوشته شوند."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:781
+#: src/lib/dcp_content.cc:775
 msgid "it is 2K and the film is 4K."
 msgstr "این 2k و فیلم 4k است."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:778
+#: src/lib/dcp_content.cc:772
 msgid "it is 4K and the film is 2K."
 msgstr "این 4k و فیلم 2k است."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:716
+#: src/lib/dcp_content.cc:712
 msgid "it is Interop and the film is set to SMPTE."
 msgstr "این استاندارد اینتروپ است ولی فیلم روی استاندارد اس ام پی تی ای است."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:720
+#: src/lib/dcp_content.cc:716
 msgid "it is SMPTE and the film is set to Interop."
 msgstr "این استاندارد اس ام پی تی ای است ولی فیلم روی استاندارد اینتروپ است."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:821
+#: src/lib/dcp_content.cc:815
 msgid "it overlaps other audio content."
 msgstr "با سایر محتوای صدا همپوشانی دارد."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:856
+#: src/lib/dcp_content.cc:850
 msgid "it overlaps other text content."
 msgstr "با سایر محتوای متنی همپوشانی دارد."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:796
+#: src/lib/dcp_content.cc:790
 msgid "it overlaps other video content."
 msgstr "با سایر محتوای ویدیو همپوشانی دارد."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:751
+#: src/lib/dcp_content.cc:745
+#, fuzzy
 msgid ""
-"its reel lengths differ from those in the film; set the reel mode to 'split "
-"by video content'."
+"its reel start points are not included in the film's list; set the reel mode "
+"to 'split by video content'."
 msgstr ""
 "مدت این حلقه با مدتی که در فیلم است فرق دارد; مد حلقه را در حالت \"تقسیم "
 "براساس محتوای ویدیو\" تنظیم کنید."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:786
+#: src/lib/dcp_content.cc:780
 msgid "its video frame size differs from the film's."
 msgstr "اندازه این فریم ویدیوبا اندازه فریم فیلم فرق دارد."
 
 #. TRANSLATORS: m here is an abbreviation for minutes
-#: src/lib/util.cc:220
+#: src/lib/util.cc:212
 msgid "m"
 msgstr "دقیقه"
 
@@ -2397,7 +2398,7 @@ msgid "name"
 msgstr "اسم"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:840
+#: src/lib/dcp_content.cc:834
 msgid ""
 "one of its closed caption reels has a non-zero entry point so it must be re-"
 "written."
@@ -2406,7 +2407,7 @@ msgstr ""
 "دوباره نوشته شود."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:834
+#: src/lib/dcp_content.cc:828
 msgid ""
 "one of its subtitle reels has a non-zero entry point so it must be re-"
 "written."
@@ -2415,7 +2416,7 @@ msgstr ""
 "نوشته شود."
 
 #. TRANSLATORS: s here is an abbreviation for seconds
-#: src/lib/util.cc:230
+#: src/lib/util.cc:222
 msgid "s"
 msgstr "ثانیه"
 
@@ -2445,7 +2446,7 @@ msgstr "{} ({} GB) [{}]"
 msgid "{} [Atmos]"
 msgstr "{} [دالبی اتمز]"
 
-#: src/lib/dcp_content.cc:389
+#: src/lib/dcp_content.cc:385
 #, c++-format
 msgid "{} [DCP]"
 msgstr "{} [دی سی پی]"

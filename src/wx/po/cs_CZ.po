@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-29 23:39+0200\n"
+"POT-Creation-Date: 2026-08-15 00:57+0200\n"
 "PO-Revision-Date: 2025-06-11 07:36+0200\n"
 "Last-Translator: Tomáš Begeni <begeni@razdva.cz>\n"
 "Language-Team: DCP-o-matic translators\n"
@@ -181,11 +181,11 @@ msgstr "2D"
 msgid "2D version of 3D DCP"
 msgstr "2D verze 3D DCP"
 
-#: src/wx/dcp_panel.cc:900
+#: src/wx/dcp_panel.cc:904
 msgid "2K"
 msgstr "2K"
 
-#: src/wx/dcp_panel.cc:873 src/wx/video_panel.cc:189
+#: src/wx/dcp_panel.cc:877 src/wx/video_panel.cc:189
 msgid "3D"
 msgstr "3D DCP"
 
@@ -213,11 +213,11 @@ msgstr "3D horní/dolní (Pod sebou)"
 msgid "4 - L/C/R/Lfe"
 msgstr "4 - L/C/R/Lfe"
 
-#: src/wx/dcp_panel.cc:1006
+#: src/wx/dcp_panel.cc:1010
 msgid "48kHz"
 msgstr "48kHz"
 
-#: src/wx/dcp_panel.cc:901
+#: src/wx/dcp_panel.cc:905
 msgid "4K"
 msgstr "4K"
 
@@ -229,7 +229,7 @@ msgstr "6 - 5.1"
 msgid "8 - 5.1/HI/VI"
 msgstr "8 - 5.1/HI/VI"
 
-#: src/wx/dcp_panel.cc:1007
+#: src/wx/dcp_panel.cc:1011
 msgid "96kHz"
 msgstr "96kHz"
 
@@ -466,7 +466,7 @@ msgstr "Přidání nebo přesunutí značky na aktuální pozici"
 msgid "Add recipient"
 msgstr "Přidat adresáta"
 
-#: src/wx/dcp_timeline.cc:173
+#: src/wx/dcp_timeline.cc:184
 msgid "Add reel boundary"
 msgstr "Přidání hranice reelu"
 
@@ -504,7 +504,7 @@ msgstr ""
 msgid "Additional"
 msgstr "Další"
 
-#: src/wx/cinema_dialog.cc:70 src/wx/extra_kdm_email_dialog.cc:47
+#: src/wx/cinema_dialog.cc:68 src/wx/extra_kdm_email_dialog.cc:47
 #: src/wx/full_config_dialog.cc:696 src/wx/kdm_email_preferences_page.cc:80
 #: src/wx/recipient_dialog.cc:84
 msgid "Address"
@@ -813,7 +813,7 @@ msgstr "Řetěz"
 msgid "Channel gain"
 msgstr "Síla kanálu"
 
-#: src/wx/audio_dialog.cc:110 src/wx/dcp_panel.cc:975
+#: src/wx/audio_dialog.cc:110 src/wx/dcp_panel.cc:979
 msgid "Channels"
 msgstr "Kanály"
 
@@ -921,7 +921,7 @@ msgstr "Časování"
 msgid "Confirm KDM email"
 msgstr "Potvrdit KDM email"
 
-#: src/wx/dcp_panel.cc:861
+#: src/wx/dcp_panel.cc:865
 msgid "Container"
 msgstr "Kontejner"
 
@@ -1098,7 +1098,7 @@ msgstr "Kurzor: %.1fdb v %s"
 msgid "Cursor: none"
 msgstr "Kurzor: žádný"
 
-#: src/wx/dcp_timeline.cc:271 src/wx/rating_dialog.cc:53
+#: src/wx/dcp_timeline.cc:284 src/wx/rating_dialog.cc:53
 #: src/wx/ratio_picker.cc:49
 msgid "Custom"
 msgstr "Vlastní"
@@ -1331,7 +1331,7 @@ msgid "Edit screen"
 msgstr "Upravit obraz"
 
 #: src/wx/audio_mapping_view.cc:90 src/wx/content_advanced_dialog.cc:75
-#: src/wx/dcp_panel.cc:990 src/wx/language_tag_widget.cc:51
+#: src/wx/dcp_panel.cc:994 src/wx/language_tag_widget.cc:51
 #: src/wx/recipients_panel.cc:71 src/wx/region_subtag_widget.cc:52
 #: src/wx/video_panel.cc:159 src/wx/video_panel.cc:170
 #: src/wx/editable_list.h:149
@@ -1350,11 +1350,11 @@ msgstr "Barva efektu"
 msgid "Email"
 msgstr "Email"
 
-#: src/wx/email_dialog.cc:32 src/wx/email_dialog.cc:34
+#: src/wx/email_dialog.cc:33 src/wx/email_dialog.cc:35
 msgid "Email address"
 msgstr "Emailová adresa"
 
-#: src/wx/cinema_dialog.cc:64 src/wx/recipient_dialog.cc:78
+#: src/wx/cinema_dialog.cc:62 src/wx/recipient_dialog.cc:78
 msgid "Email addresses for KDM delivery"
 msgstr "Emailová adresa pro odeslání KDM"
 
@@ -1595,7 +1595,7 @@ msgstr ""
 "Snímek %frame obsahuje komponentu obrázku, která je příliš velká (komponenta "
 "%component má velikost %size_in_bytes bytů)."
 
-#: src/wx/dcp_panel.cc:868
+#: src/wx/dcp_panel.cc:872
 msgid "Frame Rate"
 msgstr "Frekvence snímků (frame rate)"
 
@@ -1633,7 +1633,7 @@ msgstr "Full (JPEG, 0-255)"
 msgid "Full length"
 msgstr "Celá délka"
 
-#: src/wx/dcp_timeline.cc:309
+#: src/wx/dcp_timeline.cc:322
 msgid "GB"
 msgstr "GB"
 
@@ -1950,7 +1950,7 @@ msgstr "LEQ(m) %.2fdB"
 msgid "Label"
 msgstr "Označení"
 
-#: src/wx/dcp_panel.cc:988 src/wx/dcp_text_track_dialog.cc:35
+#: src/wx/dcp_panel.cc:992 src/wx/dcp_text_track_dialog.cc:35
 #: src/wx/text_panel.cc:166
 msgid "Language"
 msgstr "Jazyk"
@@ -2179,11 +2179,11 @@ msgstr "Maximální přenosová rychlost MPEG2"
 msgid "Maximum number of frames to store per thread"
 msgstr "Maximální počet snímků pro uložení na jeden podproces"
 
-#: src/wx/dcp_timeline.cc:303
+#: src/wx/dcp_timeline.cc:316
 msgid "Maximum reel size"
 msgstr "Maximální velikost reelu"
 
-#: src/wx/dcp_panel.cc:877 src/wx/full_config_dialog.cc:1050
+#: src/wx/dcp_panel.cc:881 src/wx/full_config_dialog.cc:1050
 #: src/wx/full_config_dialog.cc:1059
 msgid "Mbit/s"
 msgstr "Mbit/s"
@@ -2341,7 +2341,7 @@ msgstr "POTŘEBNÉ KDM: "
 msgid "NEEDS OV: "
 msgstr "POTŘEBNÉ OV: "
 
-#: src/wx/cinema_dialog.cc:49 src/wx/dcp_panel.cc:88
+#: src/wx/cinema_dialog.cc:47 src/wx/dcp_panel.cc:88
 #: src/wx/dcp_text_track_dialog.cc:33 src/wx/recipient_dialog.cc:68
 #: src/wx/screen_dialog.cc:141 src/wx/spl_entry_dialog.cc:41
 msgid "Name"
@@ -2411,7 +2411,7 @@ msgid "Non-standard"
 msgstr "Nestandardní"
 
 #: src/wx/content_advanced_dialog.cc:74 src/wx/content_advanced_dialog.cc:155
-#: src/wx/content_advanced_dialog.cc:163 src/wx/dcp_panel.cc:1093
+#: src/wx/content_advanced_dialog.cc:163 src/wx/dcp_panel.cc:1097
 #: src/wx/subtitle_appearance_dialog.cc:151
 msgid "None"
 msgstr "Žádný"
@@ -2428,7 +2428,7 @@ msgstr "Neplatí po"
 msgid "Not valid before"
 msgstr "Neplatí před"
 
-#: src/wx/cinema_dialog.cc:59 src/wx/recipient_dialog.cc:73
+#: src/wx/cinema_dialog.cc:57 src/wx/recipient_dialog.cc:73
 #: src/wx/screen_dialog.cc:146
 msgid "Notes"
 msgstr "Poznámky"
@@ -2656,7 +2656,7 @@ msgstr "Předběžné vydání"
 msgid "Previous"
 msgstr "Předchozí"
 
-#: src/wx/dcp_panel.cc:984
+#: src/wx/dcp_panel.cc:988
 msgid "Processor"
 msgstr "Procesor"
 
@@ -2715,7 +2715,7 @@ msgstr "Hodnocení"
 msgid "Ratings"
 msgstr "Varování"
 
-#: src/wx/dcp_panel.cc:879
+#: src/wx/dcp_panel.cc:883
 msgid "Re-encode JPEG2000 data from input"
 msgstr "Znovu zakódovat data JPEG2000 ze vstupu"
 
@@ -2773,7 +2773,7 @@ msgstr "Reel %d"
 msgid "Reel %d to reel %d"
 msgstr "Reel %d to reel %d"
 
-#: src/wx/dcp_timeline.cc:297
+#: src/wx/dcp_timeline.cc:310
 msgid "Reel mode"
 msgstr "Režim realu"
 
@@ -2825,7 +2825,7 @@ msgstr "Odstranit kino"
 msgid "Remove Screen"
 msgstr "Odstranit obraz"
 
-#: src/wx/dcp_timeline.cc:175
+#: src/wx/dcp_timeline.cc:186
 msgid "Remove reel boundary"
 msgstr "Odstranit hranice reelu"
 
@@ -2873,7 +2873,7 @@ msgstr "Obnovit předvolený předmět a text"
 msgid "Reset to default text"
 msgstr "Obnovit výchozí text"
 
-#: src/wx/dcp_panel.cc:865
+#: src/wx/dcp_panel.cc:869
 msgid "Resolution"
 msgstr "Rozlišení"
 
@@ -2947,7 +2947,7 @@ msgstr "Stejné umístění jako projekt"
 msgid "Sample peak is %.2fdB at %s on %s"
 msgstr "Nejvyšší vrchol (sample peak) je %.2fdB na %s na %s"
 
-#: src/wx/dcp_panel.cc:980
+#: src/wx/dcp_panel.cc:984
 msgid "Sample rate"
 msgstr "Vzorkovací frekvence"
 
@@ -3165,7 +3165,7 @@ msgstr "Ukázat"
 msgid "Show experimental audio processors"
 msgstr "Zobrazit experimentální zvukové procesory"
 
-#: src/wx/audio_panel.cc:75 src/wx/dcp_panel.cc:992
+#: src/wx/audio_panel.cc:75 src/wx/dcp_panel.cc:996
 msgid "Show graph of audio levels..."
 msgstr "Zobrazit graf zvukových hladin…"
 
@@ -3202,7 +3202,7 @@ msgstr "Vstupní gama"
 msgid "Simple gamma, linearised for small values"
 msgstr "Linearizovat vstupní gama křivku pro malé hodnoty"
 
-#: src/wx/dcp_timeline.cc:262
+#: src/wx/dcp_timeline.cc:275
 msgid "Single reel"
 msgstr "Jeden reel"
 
@@ -3223,7 +3223,7 @@ msgstr "Vyhlazování"
 msgid "Snap"
 msgstr "Přichytit k objektům"
 
-#: src/wx/dcp_timeline.cc:314
+#: src/wx/dcp_timeline.cc:327
 msgid "Snap when dragging"
 msgstr "Přichycení při přetahování"
 
@@ -3272,11 +3272,11 @@ msgstr ""
 msgid "Specific"
 msgstr "Specifický"
 
-#: src/wx/dcp_timeline.cc:268
+#: src/wx/dcp_timeline.cc:281
 msgid "Split by maximum reel size"
 msgstr "Rozdělení podle maximální velikosti reelu"
 
-#: src/wx/dcp_timeline.cc:265
+#: src/wx/dcp_timeline.cc:278
 msgid "Split by video content"
 msgstr "Rozdělení podle obsahu videa"
 
@@ -4161,7 +4161,7 @@ msgstr "Typ"
 msgid "UTC"
 msgstr "UTC"
 
-#: src/wx/cinema_dialog.cc:54
+#: src/wx/cinema_dialog.cc:52
 msgid "UTC offset (time zone)"
 msgstr "UTC posun (časové pásmo)"
 
@@ -4314,7 +4314,7 @@ msgstr "Použít název ISDCF ve výchozím nastavení"
 msgid "Use as"
 msgstr "Použít jako"
 
-#: src/wx/dcp_panel.cc:871
+#: src/wx/dcp_panel.cc:875
 msgid "Use best"
 msgstr "Použít nejlepší"
 
@@ -4395,7 +4395,7 @@ msgstr "Video (MPEG, 16-235)"
 msgid "Video Waveform"
 msgstr "Video Waveform"
 
-#: src/wx/dcp_panel.cc:875
+#: src/wx/dcp_panel.cc:879
 msgid ""
 "Video bit rate\n"
 "for newly-encoded data"

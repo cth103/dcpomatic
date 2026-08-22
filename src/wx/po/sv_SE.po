@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-29 23:39+0200\n"
+"POT-Creation-Date: 2026-08-15 00:57+0200\n"
 "PO-Revision-Date: 2021-12-28 14:46+0100\n"
 "Last-Translator: Mattias Mattsson <vitplister@gmail.com>\n"
 "Language-Team: \n"
@@ -181,11 +181,11 @@ msgstr "2D"
 msgid "2D version of 3D DCP"
 msgstr "2D-version av 3D-DCP"
 
-#: src/wx/dcp_panel.cc:900
+#: src/wx/dcp_panel.cc:904
 msgid "2K"
 msgstr "2K"
 
-#: src/wx/dcp_panel.cc:873 src/wx/video_panel.cc:189
+#: src/wx/dcp_panel.cc:877 src/wx/video_panel.cc:189
 msgid "3D"
 msgstr "3D"
 
@@ -213,11 +213,11 @@ msgstr "3D över/under"
 msgid "4 - L/C/R/Lfe"
 msgstr "4 - L/C/R/LFE"
 
-#: src/wx/dcp_panel.cc:1006
+#: src/wx/dcp_panel.cc:1010
 msgid "48kHz"
 msgstr ""
 
-#: src/wx/dcp_panel.cc:901
+#: src/wx/dcp_panel.cc:905
 msgid "4K"
 msgstr "4K"
 
@@ -229,7 +229,7 @@ msgstr "6 - 5.1"
 msgid "8 - 5.1/HI/VI"
 msgstr "8 - 5.1/HI/VI"
 
-#: src/wx/dcp_panel.cc:1007
+#: src/wx/dcp_panel.cc:1011
 msgid "96kHz"
 msgstr ""
 
@@ -472,7 +472,7 @@ msgstr "Trimma till nuvarande position från start"
 msgid "Add recipient"
 msgstr "Lägg till mottagare"
 
-#: src/wx/dcp_timeline.cc:173
+#: src/wx/dcp_timeline.cc:184
 msgid "Add reel boundary"
 msgstr ""
 
@@ -514,7 +514,7 @@ msgstr ""
 msgid "Additional"
 msgstr "Ytterligare"
 
-#: src/wx/cinema_dialog.cc:70 src/wx/extra_kdm_email_dialog.cc:47
+#: src/wx/cinema_dialog.cc:68 src/wx/extra_kdm_email_dialog.cc:47
 #: src/wx/full_config_dialog.cc:696 src/wx/kdm_email_preferences_page.cc:80
 #: src/wx/recipient_dialog.cc:84
 msgid "Address"
@@ -837,7 +837,7 @@ msgstr "Biografkedja"
 msgid "Channel gain"
 msgstr "Kanalförstärkning"
 
-#: src/wx/audio_dialog.cc:110 src/wx/dcp_panel.cc:975
+#: src/wx/audio_dialog.cc:110 src/wx/dcp_panel.cc:979
 msgid "Channels"
 msgstr "Kanaler"
 
@@ -949,7 +949,7 @@ msgstr "Timing"
 msgid "Confirm KDM email"
 msgstr "Bekräfta epostadress för KDM:er"
 
-#: src/wx/dcp_panel.cc:861
+#: src/wx/dcp_panel.cc:865
 msgid "Container"
 msgstr "Behållare"
 
@@ -1130,7 +1130,7 @@ msgstr "Markör: %.1f dB vid %s"
 msgid "Cursor: none"
 msgstr "Markör: inget"
 
-#: src/wx/dcp_timeline.cc:271 src/wx/rating_dialog.cc:53
+#: src/wx/dcp_timeline.cc:284 src/wx/rating_dialog.cc:53
 #: src/wx/ratio_picker.cc:49
 #, fuzzy
 msgid "Custom"
@@ -1372,7 +1372,7 @@ msgid "Edit screen"
 msgstr "Redigera salong"
 
 #: src/wx/audio_mapping_view.cc:90 src/wx/content_advanced_dialog.cc:75
-#: src/wx/dcp_panel.cc:990 src/wx/language_tag_widget.cc:51
+#: src/wx/dcp_panel.cc:994 src/wx/language_tag_widget.cc:51
 #: src/wx/recipients_panel.cc:71 src/wx/region_subtag_widget.cc:52
 #: src/wx/video_panel.cc:159 src/wx/video_panel.cc:170
 #: src/wx/editable_list.h:149
@@ -1391,11 +1391,11 @@ msgstr "Effektfärg"
 msgid "Email"
 msgstr "Epost"
 
-#: src/wx/email_dialog.cc:32 src/wx/email_dialog.cc:34
+#: src/wx/email_dialog.cc:33 src/wx/email_dialog.cc:35
 msgid "Email address"
 msgstr "Epostadress"
 
-#: src/wx/cinema_dialog.cc:64 src/wx/recipient_dialog.cc:78
+#: src/wx/cinema_dialog.cc:62 src/wx/recipient_dialog.cc:78
 msgid "Email addresses for KDM delivery"
 msgstr "Epostadresser för KDM-leverans"
 
@@ -1637,7 +1637,7 @@ msgid ""
 "is %size_in_bytes bytes in size)."
 msgstr ""
 
-#: src/wx/dcp_panel.cc:868
+#: src/wx/dcp_panel.cc:872
 msgid "Frame Rate"
 msgstr "Bildhastighet"
 
@@ -1675,7 +1675,7 @@ msgstr "Komplett (JPEG, 0-255)"
 msgid "Full length"
 msgstr "Ursprunglig speltid"
 
-#: src/wx/dcp_timeline.cc:309
+#: src/wx/dcp_timeline.cc:322
 msgid "GB"
 msgstr "GB"
 
@@ -1998,7 +1998,7 @@ msgstr "LEQ(m) %.2fdB"
 msgid "Label"
 msgstr "Åldersgräns"
 
-#: src/wx/dcp_panel.cc:988 src/wx/dcp_text_track_dialog.cc:35
+#: src/wx/dcp_panel.cc:992 src/wx/dcp_text_track_dialog.cc:35
 #: src/wx/text_panel.cc:166
 msgid "Language"
 msgstr "Språk"
@@ -2236,11 +2236,11 @@ msgstr "Maximal JPEG2000-bitrate"
 msgid "Maximum number of frames to store per thread"
 msgstr "Maximalt antal bildrutor att lagra per tråd"
 
-#: src/wx/dcp_timeline.cc:303
+#: src/wx/dcp_timeline.cc:316
 msgid "Maximum reel size"
 msgstr ""
 
-#: src/wx/dcp_panel.cc:877 src/wx/full_config_dialog.cc:1050
+#: src/wx/dcp_panel.cc:881 src/wx/full_config_dialog.cc:1050
 #: src/wx/full_config_dialog.cc:1059
 msgid "Mbit/s"
 msgstr "Mbit/s"
@@ -2405,7 +2405,7 @@ msgstr "BEHÖVER KDM: "
 msgid "NEEDS OV: "
 msgstr "BEHÖVER OV: "
 
-#: src/wx/cinema_dialog.cc:49 src/wx/dcp_panel.cc:88
+#: src/wx/cinema_dialog.cc:47 src/wx/dcp_panel.cc:88
 #: src/wx/dcp_text_track_dialog.cc:33 src/wx/recipient_dialog.cc:68
 #: src/wx/screen_dialog.cc:141 src/wx/spl_entry_dialog.cc:41
 msgid "Name"
@@ -2477,7 +2477,7 @@ msgid "Non-standard"
 msgstr "Standard"
 
 #: src/wx/content_advanced_dialog.cc:74 src/wx/content_advanced_dialog.cc:155
-#: src/wx/content_advanced_dialog.cc:163 src/wx/dcp_panel.cc:1093
+#: src/wx/content_advanced_dialog.cc:163 src/wx/dcp_panel.cc:1097
 #: src/wx/subtitle_appearance_dialog.cc:151
 msgid "None"
 msgstr "Ingen"
@@ -2494,7 +2494,7 @@ msgstr ""
 msgid "Not valid before"
 msgstr ""
 
-#: src/wx/cinema_dialog.cc:59 src/wx/recipient_dialog.cc:73
+#: src/wx/cinema_dialog.cc:57 src/wx/recipient_dialog.cc:73
 #: src/wx/screen_dialog.cc:146
 msgid "Notes"
 msgstr "Anteckningar"
@@ -2724,7 +2724,7 @@ msgstr "Pre-release"
 msgid "Previous"
 msgstr ""
 
-#: src/wx/dcp_panel.cc:984
+#: src/wx/dcp_panel.cc:988
 msgid "Processor"
 msgstr "Processor"
 
@@ -2784,7 +2784,7 @@ msgstr "Åldersgränser"
 msgid "Ratings"
 msgstr "Åldersgränser"
 
-#: src/wx/dcp_panel.cc:879
+#: src/wx/dcp_panel.cc:883
 msgid "Re-encode JPEG2000 data from input"
 msgstr "Koda källmaterial i JPEG200 på nytt"
 
@@ -2844,7 +2844,7 @@ msgstr "Akt %d"
 msgid "Reel %d to reel %d"
 msgstr ""
 
-#: src/wx/dcp_timeline.cc:297
+#: src/wx/dcp_timeline.cc:310
 #, fuzzy
 msgid "Reel mode"
 msgstr "Akt %d"
@@ -2899,7 +2899,7 @@ msgstr "Ta bort biograf"
 msgid "Remove Screen"
 msgstr "Ta bort salong"
 
-#: src/wx/dcp_timeline.cc:175
+#: src/wx/dcp_timeline.cc:186
 #, fuzzy
 msgid "Remove reel boundary"
 msgstr "Ta bort salong"
@@ -2949,7 +2949,7 @@ msgstr "Återställ till standardvärden för ämnesrad och meddelandetext"
 msgid "Reset to default text"
 msgstr "Återställ till standard-text"
 
-#: src/wx/dcp_panel.cc:865
+#: src/wx/dcp_panel.cc:869
 msgid "Resolution"
 msgstr "Upplösning"
 
@@ -3024,7 +3024,7 @@ msgstr ""
 msgid "Sample peak is %.2fdB at %s on %s"
 msgstr "Sampeltoppvärde är %.2f dB vid %s på kanal %s"
 
-#: src/wx/dcp_panel.cc:980
+#: src/wx/dcp_panel.cc:984
 #, fuzzy
 msgid "Sample rate"
 msgstr "Bildhastighet"
@@ -3251,7 +3251,7 @@ msgstr "Visa"
 msgid "Show experimental audio processors"
 msgstr "Visa experimentella ljudfilter"
 
-#: src/wx/audio_panel.cc:75 src/wx/dcp_panel.cc:992
+#: src/wx/audio_panel.cc:75 src/wx/dcp_panel.cc:996
 msgid "Show graph of audio levels..."
 msgstr "Visa graf av ljudnivåer..."
 
@@ -3288,7 +3288,7 @@ msgstr "Enkel gamma"
 msgid "Simple gamma, linearised for small values"
 msgstr "Enkel gamma, linjäriserad för små värden"
 
-#: src/wx/dcp_timeline.cc:262
+#: src/wx/dcp_timeline.cc:275
 msgid "Single reel"
 msgstr "Hela DCP:n i en akt"
 
@@ -3310,7 +3310,7 @@ msgstr "Utjämning"
 msgid "Snap"
 msgstr "Snap"
 
-#: src/wx/dcp_timeline.cc:314
+#: src/wx/dcp_timeline.cc:327
 msgid "Snap when dragging"
 msgstr ""
 
@@ -3355,11 +3355,11 @@ msgstr ""
 msgid "Specific"
 msgstr ""
 
-#: src/wx/dcp_timeline.cc:268
+#: src/wx/dcp_timeline.cc:281
 msgid "Split by maximum reel size"
 msgstr ""
 
-#: src/wx/dcp_timeline.cc:265
+#: src/wx/dcp_timeline.cc:278
 msgid "Split by video content"
 msgstr "Dela i akter baserat på källmaterial för bild"
 
@@ -4258,7 +4258,7 @@ msgstr "Typ"
 msgid "UTC"
 msgstr "UTC"
 
-#: src/wx/cinema_dialog.cc:54
+#: src/wx/cinema_dialog.cc:52
 msgid "UTC offset (time zone)"
 msgstr "UTC-offset (tidszon)"
 
@@ -4413,7 +4413,7 @@ msgstr "Använd DCNC-namn"
 msgid "Use as"
 msgstr "Använd som"
 
-#: src/wx/dcp_panel.cc:871
+#: src/wx/dcp_panel.cc:875
 msgid "Use best"
 msgstr "Använd bästa"
 
@@ -4493,7 +4493,7 @@ msgstr "Video (MPEG, 16-235)"
 msgid "Video Waveform"
 msgstr "Video-vågform"
 
-#: src/wx/dcp_panel.cc:875
+#: src/wx/dcp_panel.cc:879
 #, fuzzy
 msgid ""
 "Video bit rate\n"

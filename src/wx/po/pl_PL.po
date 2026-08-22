@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-29 23:39+0200\n"
+"POT-Creation-Date: 2026-08-15 00:57+0200\n"
 "PO-Revision-Date: 2022-05-10 18:14+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -181,11 +181,11 @@ msgstr "2D"
 msgid "2D version of 3D DCP"
 msgstr "Wersja 2D paczki 3D DCP"
 
-#: src/wx/dcp_panel.cc:900
+#: src/wx/dcp_panel.cc:904
 msgid "2K"
 msgstr "2K"
 
-#: src/wx/dcp_panel.cc:873 src/wx/video_panel.cc:189
+#: src/wx/dcp_panel.cc:877 src/wx/video_panel.cc:189
 msgid "3D"
 msgstr "3D"
 
@@ -213,11 +213,11 @@ msgstr "3D góra/dół"
 msgid "4 - L/C/R/Lfe"
 msgstr "4 - L/C/R/Lfe"
 
-#: src/wx/dcp_panel.cc:1006
+#: src/wx/dcp_panel.cc:1010
 msgid "48kHz"
 msgstr ""
 
-#: src/wx/dcp_panel.cc:901
+#: src/wx/dcp_panel.cc:905
 msgid "4K"
 msgstr "4K"
 
@@ -229,7 +229,7 @@ msgstr "6 - 5.1"
 msgid "8 - 5.1/HI/VI"
 msgstr "8 - 5.1/HI/VI"
 
-#: src/wx/dcp_panel.cc:1007
+#: src/wx/dcp_panel.cc:1011
 msgid "96kHz"
 msgstr ""
 
@@ -479,7 +479,7 @@ msgstr "Przytnij do obecnego miejsca"
 msgid "Add recipient"
 msgstr "Dodaj odbiorcę"
 
-#: src/wx/dcp_timeline.cc:173
+#: src/wx/dcp_timeline.cc:184
 msgid "Add reel boundary"
 msgstr ""
 
@@ -521,7 +521,7 @@ msgstr ""
 msgid "Additional"
 msgstr "Dodatkowe"
 
-#: src/wx/cinema_dialog.cc:70 src/wx/extra_kdm_email_dialog.cc:47
+#: src/wx/cinema_dialog.cc:68 src/wx/extra_kdm_email_dialog.cc:47
 #: src/wx/full_config_dialog.cc:696 src/wx/kdm_email_preferences_page.cc:80
 #: src/wx/recipient_dialog.cc:84
 msgid "Address"
@@ -846,7 +846,7 @@ msgstr "Łańcuch"
 msgid "Channel gain"
 msgstr "Wzmocnienie kanału"
 
-#: src/wx/audio_dialog.cc:110 src/wx/dcp_panel.cc:975
+#: src/wx/audio_dialog.cc:110 src/wx/dcp_panel.cc:979
 msgid "Channels"
 msgstr "Kanały"
 
@@ -956,7 +956,7 @@ msgstr "Konfiguracja|Czasy"
 msgid "Confirm KDM email"
 msgstr "Potwierdź wysłanie email dla KDM"
 
-#: src/wx/dcp_panel.cc:861
+#: src/wx/dcp_panel.cc:865
 msgid "Container"
 msgstr "Kontener"
 
@@ -1139,7 +1139,7 @@ msgstr "Kursor: %.1fdB w %s"
 msgid "Cursor: none"
 msgstr "Kursor: brak wartości"
 
-#: src/wx/dcp_timeline.cc:271 src/wx/rating_dialog.cc:53
+#: src/wx/dcp_timeline.cc:284 src/wx/rating_dialog.cc:53
 #: src/wx/ratio_picker.cc:49
 #, fuzzy
 msgid "Custom"
@@ -1381,7 +1381,7 @@ msgid "Edit screen"
 msgstr "Edytuj salę"
 
 #: src/wx/audio_mapping_view.cc:90 src/wx/content_advanced_dialog.cc:75
-#: src/wx/dcp_panel.cc:990 src/wx/language_tag_widget.cc:51
+#: src/wx/dcp_panel.cc:994 src/wx/language_tag_widget.cc:51
 #: src/wx/recipients_panel.cc:71 src/wx/region_subtag_widget.cc:52
 #: src/wx/video_panel.cc:159 src/wx/video_panel.cc:170
 #: src/wx/editable_list.h:149
@@ -1400,11 +1400,11 @@ msgstr "Efekt koloru"
 msgid "Email"
 msgstr "Email"
 
-#: src/wx/email_dialog.cc:32 src/wx/email_dialog.cc:34
+#: src/wx/email_dialog.cc:33 src/wx/email_dialog.cc:35
 msgid "Email address"
 msgstr "Adres email"
 
-#: src/wx/cinema_dialog.cc:64 src/wx/recipient_dialog.cc:78
+#: src/wx/cinema_dialog.cc:62 src/wx/recipient_dialog.cc:78
 msgid "Email addresses for KDM delivery"
 msgstr "Adresy email do przesłania kluczy KDM"
 
@@ -1643,7 +1643,7 @@ msgid ""
 "is %size_in_bytes bytes in size)."
 msgstr ""
 
-#: src/wx/dcp_panel.cc:868
+#: src/wx/dcp_panel.cc:872
 msgid "Frame Rate"
 msgstr "Klatki/sek"
 
@@ -1681,7 +1681,7 @@ msgstr "Pełny (JPEG, 0-255)"
 msgid "Full length"
 msgstr "Pełna długość"
 
-#: src/wx/dcp_timeline.cc:309
+#: src/wx/dcp_timeline.cc:322
 msgid "GB"
 msgstr "GB"
 
@@ -2003,7 +2003,7 @@ msgstr "LEQ(m) %.2fdB"
 msgid "Label"
 msgstr "Etykieta"
 
-#: src/wx/dcp_panel.cc:988 src/wx/dcp_text_track_dialog.cc:35
+#: src/wx/dcp_panel.cc:992 src/wx/dcp_text_track_dialog.cc:35
 #: src/wx/text_panel.cc:166
 msgid "Language"
 msgstr "Język"
@@ -2241,11 +2241,11 @@ msgstr "Maksymalna przepustowość JPEG2000"
 msgid "Maximum number of frames to store per thread"
 msgstr "Maksymalna liczba klatek do przechowania w wątku"
 
-#: src/wx/dcp_timeline.cc:303
+#: src/wx/dcp_timeline.cc:316
 msgid "Maximum reel size"
 msgstr ""
 
-#: src/wx/dcp_panel.cc:877 src/wx/full_config_dialog.cc:1050
+#: src/wx/dcp_panel.cc:881 src/wx/full_config_dialog.cc:1050
 #: src/wx/full_config_dialog.cc:1059
 msgid "Mbit/s"
 msgstr "Mbit/s"
@@ -2411,7 +2411,7 @@ msgstr "WYMAGA KDM: "
 msgid "NEEDS OV: "
 msgstr "WYMAGA OV: "
 
-#: src/wx/cinema_dialog.cc:49 src/wx/dcp_panel.cc:88
+#: src/wx/cinema_dialog.cc:47 src/wx/dcp_panel.cc:88
 #: src/wx/dcp_text_track_dialog.cc:33 src/wx/recipient_dialog.cc:68
 #: src/wx/screen_dialog.cc:141 src/wx/spl_entry_dialog.cc:41
 msgid "Name"
@@ -2484,7 +2484,7 @@ msgid "Non-standard"
 msgstr "Standard"
 
 #: src/wx/content_advanced_dialog.cc:74 src/wx/content_advanced_dialog.cc:155
-#: src/wx/content_advanced_dialog.cc:163 src/wx/dcp_panel.cc:1093
+#: src/wx/content_advanced_dialog.cc:163 src/wx/dcp_panel.cc:1097
 #: src/wx/subtitle_appearance_dialog.cc:151
 msgid "None"
 msgstr "Brak"
@@ -2501,7 +2501,7 @@ msgstr ""
 msgid "Not valid before"
 msgstr ""
 
-#: src/wx/cinema_dialog.cc:59 src/wx/recipient_dialog.cc:73
+#: src/wx/cinema_dialog.cc:57 src/wx/recipient_dialog.cc:73
 #: src/wx/screen_dialog.cc:146
 msgid "Notes"
 msgstr "Notatki"
@@ -2734,7 +2734,7 @@ msgstr "Wydanie przedpremierowe"
 msgid "Previous"
 msgstr ""
 
-#: src/wx/dcp_panel.cc:984
+#: src/wx/dcp_panel.cc:988
 msgid "Processor"
 msgstr "Mikser"
 
@@ -2794,7 +2794,7 @@ msgstr "Ograniczenia wiekowe"
 msgid "Ratings"
 msgstr "Ograniczenia wiekowe"
 
-#: src/wx/dcp_panel.cc:879
+#: src/wx/dcp_panel.cc:883
 msgid "Re-encode JPEG2000 data from input"
 msgstr "Przetwórz dane JPEG2000 ze źródła"
 
@@ -2854,7 +2854,7 @@ msgstr "Rolka %d"
 msgid "Reel %d to reel %d"
 msgstr ""
 
-#: src/wx/dcp_timeline.cc:297
+#: src/wx/dcp_timeline.cc:310
 #, fuzzy
 msgid "Reel mode"
 msgstr "Rolka %d"
@@ -2909,7 +2909,7 @@ msgstr "Usuń Kino"
 msgid "Remove Screen"
 msgstr "Usuń Salę"
 
-#: src/wx/dcp_timeline.cc:175
+#: src/wx/dcp_timeline.cc:186
 #, fuzzy
 msgid "Remove reel boundary"
 msgstr "Usuń Salę"
@@ -2959,7 +2959,7 @@ msgstr "Przywróć domyślny obiekt i tekst"
 msgid "Reset to default text"
 msgstr "Przywróć domyślny tekst"
 
-#: src/wx/dcp_panel.cc:865
+#: src/wx/dcp_panel.cc:869
 msgid "Resolution"
 msgstr "Rozdzielczość"
 
@@ -3034,7 +3034,7 @@ msgstr ""
 msgid "Sample peak is %.2fdB at %s on %s"
 msgstr "Peak wynosi %.2fdB w %s w %s"
 
-#: src/wx/dcp_panel.cc:980
+#: src/wx/dcp_panel.cc:984
 #, fuzzy
 msgid "Sample rate"
 msgstr "Częstotliwość próbkowania"
@@ -3261,7 +3261,7 @@ msgstr "Pokaż"
 msgid "Show experimental audio processors"
 msgstr "Pokaż eksperymentalne procesory dźwięku"
 
-#: src/wx/audio_panel.cc:75 src/wx/dcp_panel.cc:992
+#: src/wx/audio_panel.cc:75 src/wx/dcp_panel.cc:996
 msgid "Show graph of audio levels..."
 msgstr "Pokaż wykres ścieżki dźwiękowej..."
 
@@ -3298,7 +3298,7 @@ msgstr "Podstawowa gamma"
 msgid "Simple gamma, linearised for small values"
 msgstr "Podsdtawowa gamma, wyrównana dla niskich wartości"
 
-#: src/wx/dcp_timeline.cc:262
+#: src/wx/dcp_timeline.cc:275
 msgid "Single reel"
 msgstr "Pojedyncza rolka"
 
@@ -3320,7 +3320,7 @@ msgstr "Wygładzanie"
 msgid "Snap"
 msgstr "Przyciągnij"
 
-#: src/wx/dcp_timeline.cc:314
+#: src/wx/dcp_timeline.cc:327
 msgid "Snap when dragging"
 msgstr ""
 
@@ -3367,11 +3367,11 @@ msgstr ""
 msgid "Specific"
 msgstr ""
 
-#: src/wx/dcp_timeline.cc:268
+#: src/wx/dcp_timeline.cc:281
 msgid "Split by maximum reel size"
 msgstr ""
 
-#: src/wx/dcp_timeline.cc:265
+#: src/wx/dcp_timeline.cc:278
 msgid "Split by video content"
 msgstr "Podziel zgodnie z zawartością"
 
@@ -4273,7 +4273,7 @@ msgstr "Rodzaj"
 msgid "UTC"
 msgstr "UTC"
 
-#: src/wx/cinema_dialog.cc:54
+#: src/wx/cinema_dialog.cc:52
 msgid "UTC offset (time zone)"
 msgstr "Strefa czasowa (UTC)"
 
@@ -4428,7 +4428,7 @@ msgstr "Użyj nazwy ISDCF"
 msgid "Use as"
 msgstr "Użyj jako"
 
-#: src/wx/dcp_panel.cc:871
+#: src/wx/dcp_panel.cc:875
 msgid "Use best"
 msgstr "Użyj najlepszego"
 
@@ -4508,7 +4508,7 @@ msgstr "Wideo (MPEG, 16-235)"
 msgid "Video Waveform"
 msgstr "Analiza pliku video"
 
-#: src/wx/dcp_panel.cc:875
+#: src/wx/dcp_panel.cc:879
 #, fuzzy
 msgid ""
 "Video bit rate\n"

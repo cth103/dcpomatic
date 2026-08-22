@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-29 23:39+0200\n"
+"POT-Creation-Date: 2026-08-15 00:57+0200\n"
 "PO-Revision-Date: 2026-06-05 20:48+0900\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -182,11 +182,11 @@ msgstr "2D"
 msgid "2D version of 3D DCP"
 msgstr "3D DCPの2Dバージョン"
 
-#: src/wx/dcp_panel.cc:900
+#: src/wx/dcp_panel.cc:904
 msgid "2K"
 msgstr "2K"
 
-#: src/wx/dcp_panel.cc:873 src/wx/video_panel.cc:189
+#: src/wx/dcp_panel.cc:877 src/wx/video_panel.cc:189
 msgid "3D"
 msgstr "3D"
 
@@ -214,11 +214,11 @@ msgstr "3D 上/下"
 msgid "4 - L/C/R/Lfe"
 msgstr "4 - L/C/R/Lfe"
 
-#: src/wx/dcp_panel.cc:1006
+#: src/wx/dcp_panel.cc:1010
 msgid "48kHz"
 msgstr "48kHz"
 
-#: src/wx/dcp_panel.cc:901
+#: src/wx/dcp_panel.cc:905
 msgid "4K"
 msgstr "4K"
 
@@ -230,7 +230,7 @@ msgstr "6 - 5.1"
 msgid "8 - 5.1/HI/VI"
 msgstr "8 - 5.1/HI/VI"
 
-#: src/wx/dcp_panel.cc:1007
+#: src/wx/dcp_panel.cc:1011
 msgid "96kHz"
 msgstr "96kHz"
 
@@ -469,7 +469,7 @@ msgstr "現在の位置にマーカーを追加または移動する"
 msgid "Add recipient"
 msgstr "受信者を追加"
 
-#: src/wx/dcp_timeline.cc:173
+#: src/wx/dcp_timeline.cc:184
 msgid "Add reel boundary"
 msgstr "リール境界を追加"
 
@@ -510,7 +510,7 @@ msgstr ""
 msgid "Additional"
 msgstr "追加"
 
-#: src/wx/cinema_dialog.cc:70 src/wx/extra_kdm_email_dialog.cc:47
+#: src/wx/cinema_dialog.cc:68 src/wx/extra_kdm_email_dialog.cc:47
 #: src/wx/full_config_dialog.cc:696 src/wx/kdm_email_preferences_page.cc:80
 #: src/wx/recipient_dialog.cc:84
 msgid "Address"
@@ -830,7 +830,7 @@ msgstr "証明書チェーン"
 msgid "Channel gain"
 msgstr "チャンネルゲイン"
 
-#: src/wx/audio_dialog.cc:110 src/wx/dcp_panel.cc:975
+#: src/wx/audio_dialog.cc:110 src/wx/dcp_panel.cc:979
 msgid "Channels"
 msgstr "音声チャンネル"
 
@@ -939,7 +939,7 @@ msgstr "設定|タイミング"
 msgid "Confirm KDM email"
 msgstr ""
 
-#: src/wx/dcp_panel.cc:861
+#: src/wx/dcp_panel.cc:865
 msgid "Container"
 msgstr "アスペクト比"
 
@@ -1115,7 +1115,7 @@ msgstr "カーソル位置: %.1fdB at %s"
 msgid "Cursor: none"
 msgstr "カーソル位置: なし"
 
-#: src/wx/dcp_timeline.cc:271 src/wx/rating_dialog.cc:53
+#: src/wx/dcp_timeline.cc:284 src/wx/rating_dialog.cc:53
 #: src/wx/ratio_picker.cc:49
 msgid "Custom"
 msgstr "カスタム"
@@ -1352,7 +1352,7 @@ msgid "Edit screen"
 msgstr "スクリーンを編集"
 
 #: src/wx/audio_mapping_view.cc:90 src/wx/content_advanced_dialog.cc:75
-#: src/wx/dcp_panel.cc:990 src/wx/language_tag_widget.cc:51
+#: src/wx/dcp_panel.cc:994 src/wx/language_tag_widget.cc:51
 #: src/wx/recipients_panel.cc:71 src/wx/region_subtag_widget.cc:52
 #: src/wx/video_panel.cc:159 src/wx/video_panel.cc:170
 #: src/wx/editable_list.h:149
@@ -1371,11 +1371,11 @@ msgstr "縁取り色"
 msgid "Email"
 msgstr "Email"
 
-#: src/wx/email_dialog.cc:32 src/wx/email_dialog.cc:34
+#: src/wx/email_dialog.cc:33 src/wx/email_dialog.cc:35
 msgid "Email address"
 msgstr "Email アドレス"
 
-#: src/wx/cinema_dialog.cc:64 src/wx/recipient_dialog.cc:78
+#: src/wx/cinema_dialog.cc:62 src/wx/recipient_dialog.cc:78
 msgid "Email addresses for KDM delivery"
 msgstr "KDM配信用のメールアドレス"
 
@@ -1606,7 +1606,7 @@ msgid ""
 "is %size_in_bytes bytes in size)."
 msgstr ""
 
-#: src/wx/dcp_panel.cc:868
+#: src/wx/dcp_panel.cc:872
 msgid "Frame Rate"
 msgstr "フレームレート"
 
@@ -1644,7 +1644,7 @@ msgstr "Full (JPEG, 0-255)"
 msgid "Full length"
 msgstr "全長時間"
 
-#: src/wx/dcp_timeline.cc:309
+#: src/wx/dcp_timeline.cc:322
 msgid "GB"
 msgstr "GB"
 
@@ -1959,7 +1959,7 @@ msgstr "LEQ(m) %.2fdB"
 msgid "Label"
 msgstr "ラベル"
 
-#: src/wx/dcp_panel.cc:988 src/wx/dcp_text_track_dialog.cc:35
+#: src/wx/dcp_panel.cc:992 src/wx/dcp_text_track_dialog.cc:35
 #: src/wx/text_panel.cc:166
 msgid "Language"
 msgstr "言語"
@@ -2184,11 +2184,11 @@ msgstr "MPEG2の最大ビットレート"
 msgid "Maximum number of frames to store per thread"
 msgstr "スレッドあたりに保存可能なフレームの最大数"
 
-#: src/wx/dcp_timeline.cc:303
+#: src/wx/dcp_timeline.cc:316
 msgid "Maximum reel size"
 msgstr "リールの最大容量"
 
-#: src/wx/dcp_panel.cc:877 src/wx/full_config_dialog.cc:1050
+#: src/wx/dcp_panel.cc:881 src/wx/full_config_dialog.cc:1050
 #: src/wx/full_config_dialog.cc:1059
 msgid "Mbit/s"
 msgstr "Mbit/s"
@@ -2348,7 +2348,7 @@ msgstr "KDMが必要: "
 msgid "NEEDS OV: "
 msgstr "OVが必要: "
 
-#: src/wx/cinema_dialog.cc:49 src/wx/dcp_panel.cc:88
+#: src/wx/cinema_dialog.cc:47 src/wx/dcp_panel.cc:88
 #: src/wx/dcp_text_track_dialog.cc:33 src/wx/recipient_dialog.cc:68
 #: src/wx/screen_dialog.cc:141 src/wx/spl_entry_dialog.cc:41
 msgid "Name"
@@ -2417,7 +2417,7 @@ msgid "Non-standard"
 msgstr "カスタマイズ"
 
 #: src/wx/content_advanced_dialog.cc:74 src/wx/content_advanced_dialog.cc:155
-#: src/wx/content_advanced_dialog.cc:163 src/wx/dcp_panel.cc:1093
+#: src/wx/content_advanced_dialog.cc:163 src/wx/dcp_panel.cc:1097
 #: src/wx/subtitle_appearance_dialog.cc:151
 msgid "None"
 msgstr "なし"
@@ -2434,7 +2434,7 @@ msgstr "有効期間|終了"
 msgid "Not valid before"
 msgstr "有効期間|開始"
 
-#: src/wx/cinema_dialog.cc:59 src/wx/recipient_dialog.cc:73
+#: src/wx/cinema_dialog.cc:57 src/wx/recipient_dialog.cc:73
 #: src/wx/screen_dialog.cc:146
 msgid "Notes"
 msgstr "注記"
@@ -2662,7 +2662,7 @@ msgstr "先行公開（プレリリース）"
 msgid "Previous"
 msgstr ""
 
-#: src/wx/dcp_panel.cc:984
+#: src/wx/dcp_panel.cc:988
 msgid "Processor"
 msgstr "プロセッサー"
 
@@ -2721,7 +2721,7 @@ msgstr "評価"
 msgid "Ratings"
 msgstr "評価"
 
-#: src/wx/dcp_panel.cc:879
+#: src/wx/dcp_panel.cc:883
 msgid "Re-encode JPEG2000 data from input"
 msgstr "入力からJPEG2000データを再エンコード"
 
@@ -2779,7 +2779,7 @@ msgstr "リール %d"
 msgid "Reel %d to reel %d"
 msgstr ""
 
-#: src/wx/dcp_timeline.cc:297
+#: src/wx/dcp_timeline.cc:310
 msgid "Reel mode"
 msgstr "リールモード"
 
@@ -2831,7 +2831,7 @@ msgstr "映画館を削除"
 msgid "Remove Screen"
 msgstr "スクリーンを削除"
 
-#: src/wx/dcp_timeline.cc:175
+#: src/wx/dcp_timeline.cc:186
 msgid "Remove reel boundary"
 msgstr "リールの境界を削除"
 
@@ -2879,7 +2879,7 @@ msgstr "件名と本文をデフォルトにリセット"
 msgid "Reset to default text"
 msgstr "デフォルトのテキストにリセット"
 
-#: src/wx/dcp_panel.cc:865
+#: src/wx/dcp_panel.cc:869
 msgid "Resolution"
 msgstr "解像度"
 
@@ -2953,7 +2953,7 @@ msgstr "プロジェクトと同じ場所"
 msgid "Sample peak is %.2fdB at %s on %s"
 msgstr "サンプルピークは %.2fdB at %s on %schです"
 
-#: src/wx/dcp_panel.cc:980
+#: src/wx/dcp_panel.cc:984
 msgid "Sample rate"
 msgstr "サンプルレート"
 
@@ -3170,7 +3170,7 @@ msgstr "表示"
 msgid "Show experimental audio processors"
 msgstr "試験的なオーディオプロセッサを表示"
 
-#: src/wx/audio_panel.cc:75 src/wx/dcp_panel.cc:992
+#: src/wx/audio_panel.cc:75 src/wx/dcp_panel.cc:996
 msgid "Show graph of audio levels..."
 msgstr "音声レベルのグラフを表示..."
 
@@ -3207,7 +3207,7 @@ msgstr ""
 msgid "Simple gamma, linearised for small values"
 msgstr ""
 
-#: src/wx/dcp_timeline.cc:262
+#: src/wx/dcp_timeline.cc:275
 msgid "Single reel"
 msgstr "シングルリール"
 
@@ -3228,7 +3228,7 @@ msgstr "スムージング"
 msgid "Snap"
 msgstr "スナップ"
 
-#: src/wx/dcp_timeline.cc:314
+#: src/wx/dcp_timeline.cc:327
 msgid "Snap when dragging"
 msgstr "ドラッグ時にスナップ"
 
@@ -3276,11 +3276,11 @@ msgstr ""
 msgid "Specific"
 msgstr "特定"
 
-#: src/wx/dcp_timeline.cc:268
+#: src/wx/dcp_timeline.cc:281
 msgid "Split by maximum reel size"
 msgstr "リールの最大容量で分割"
 
-#: src/wx/dcp_timeline.cc:265
+#: src/wx/dcp_timeline.cc:278
 msgid "Split by video content"
 msgstr "動画コンテンツで分割"
 
@@ -4160,7 +4160,7 @@ msgstr "タイプ"
 msgid "UTC"
 msgstr "UTC"
 
-#: src/wx/cinema_dialog.cc:54
+#: src/wx/cinema_dialog.cc:52
 msgid "UTC offset (time zone)"
 msgstr "UTC オフセット (タイムゾーン)"
 
@@ -4314,7 +4314,7 @@ msgstr "デフォルトでISDCF名を使用する"
 msgid "Use as"
 msgstr ""
 
-#: src/wx/dcp_panel.cc:871
+#: src/wx/dcp_panel.cc:875
 msgid "Use best"
 msgstr "推奨を利用"
 
@@ -4393,7 +4393,7 @@ msgstr "Video (MPEG, 16-235)"
 msgid "Video Waveform"
 msgstr "動画波形"
 
-#: src/wx/dcp_panel.cc:875
+#: src/wx/dcp_panel.cc:879
 msgid ""
 "Video bit rate\n"
 "for newly-encoded data"

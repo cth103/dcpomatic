@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-29 23:39+0200\n"
+"POT-Creation-Date: 2026-08-15 00:57+0200\n"
 "PO-Revision-Date: 2026-03-10 20:52+0900\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -179,11 +179,11 @@ msgstr "2D"
 msgid "2D version of 3D DCP"
 msgstr "3D DCP의 2D 버전"
 
-#: src/wx/dcp_panel.cc:900
+#: src/wx/dcp_panel.cc:904
 msgid "2K"
 msgstr "2K"
 
-#: src/wx/dcp_panel.cc:873 src/wx/video_panel.cc:189
+#: src/wx/dcp_panel.cc:877 src/wx/video_panel.cc:189
 msgid "3D"
 msgstr "3D"
 
@@ -212,11 +212,11 @@ msgstr "3D 위/아래"
 msgid "4 - L/C/R/Lfe"
 msgstr "4 - L/C/R/Lfe"
 
-#: src/wx/dcp_panel.cc:1006
+#: src/wx/dcp_panel.cc:1010
 msgid "48kHz"
 msgstr "48kHz"
 
-#: src/wx/dcp_panel.cc:901
+#: src/wx/dcp_panel.cc:905
 msgid "4K"
 msgstr "4K"
 
@@ -228,7 +228,7 @@ msgstr "6 - 5.1"
 msgid "8 - 5.1/HI/VI"
 msgstr "8 - 5.1/HI/VI"
 
-#: src/wx/dcp_panel.cc:1007
+#: src/wx/dcp_panel.cc:1011
 msgid "96kHz"
 msgstr "96kHz"
 
@@ -468,7 +468,7 @@ msgstr "현재 위치에 마커를 추가하거나 이동"
 msgid "Add recipient"
 msgstr "수신자 추가"
 
-#: src/wx/dcp_timeline.cc:173
+#: src/wx/dcp_timeline.cc:184
 #, fuzzy
 msgid "Add reel boundary"
 msgstr "릴 경계 추가"
@@ -509,7 +509,7 @@ msgstr ""
 msgid "Additional"
 msgstr "추가사항"
 
-#: src/wx/cinema_dialog.cc:70 src/wx/extra_kdm_email_dialog.cc:47
+#: src/wx/cinema_dialog.cc:68 src/wx/extra_kdm_email_dialog.cc:47
 #: src/wx/full_config_dialog.cc:696 src/wx/kdm_email_preferences_page.cc:80
 #: src/wx/recipient_dialog.cc:84
 msgid "Address"
@@ -822,7 +822,7 @@ msgstr "체인"
 msgid "Channel gain"
 msgstr "채널 게인"
 
-#: src/wx/audio_dialog.cc:110 src/wx/dcp_panel.cc:975
+#: src/wx/audio_dialog.cc:110 src/wx/dcp_panel.cc:979
 #, fuzzy
 msgid "Channels"
 msgstr "채널"
@@ -933,7 +933,7 @@ msgstr "타이밍"
 msgid "Confirm KDM email"
 msgstr "KDM 이메일 확인"
 
-#: src/wx/dcp_panel.cc:861
+#: src/wx/dcp_panel.cc:865
 msgid "Container"
 msgstr "컨테이너"
 
@@ -1111,7 +1111,7 @@ msgstr "커서: %s에서 %.1fdB"
 msgid "Cursor: none"
 msgstr "커서: 없음"
 
-#: src/wx/dcp_timeline.cc:271 src/wx/rating_dialog.cc:53
+#: src/wx/dcp_timeline.cc:284 src/wx/rating_dialog.cc:53
 #: src/wx/ratio_picker.cc:49
 msgid "Custom"
 msgstr "사용자 정의"
@@ -1345,7 +1345,7 @@ msgid "Edit screen"
 msgstr "스크린 편집"
 
 #: src/wx/audio_mapping_view.cc:90 src/wx/content_advanced_dialog.cc:75
-#: src/wx/dcp_panel.cc:990 src/wx/language_tag_widget.cc:51
+#: src/wx/dcp_panel.cc:994 src/wx/language_tag_widget.cc:51
 #: src/wx/recipients_panel.cc:71 src/wx/region_subtag_widget.cc:52
 #: src/wx/video_panel.cc:159 src/wx/video_panel.cc:170
 #: src/wx/editable_list.h:149
@@ -1365,11 +1365,11 @@ msgstr "효과 색상"
 msgid "Email"
 msgstr "이메일"
 
-#: src/wx/email_dialog.cc:32 src/wx/email_dialog.cc:34
+#: src/wx/email_dialog.cc:33 src/wx/email_dialog.cc:35
 msgid "Email address"
 msgstr "이메일 주소"
 
-#: src/wx/cinema_dialog.cc:64 src/wx/recipient_dialog.cc:78
+#: src/wx/cinema_dialog.cc:62 src/wx/recipient_dialog.cc:78
 msgid "Email addresses for KDM delivery"
 msgstr "KDM 전송용 이메일 주소"
 
@@ -1602,7 +1602,7 @@ msgstr ""
 "프레임 %frame의 이미지 컴포넌트 크기가 너무 큽니다. (컴포넌트 %component의 크"
 "기가 %size_in_bytes 바이트임)"
 
-#: src/wx/dcp_panel.cc:868
+#: src/wx/dcp_panel.cc:872
 msgid "Frame Rate"
 msgstr "프레임 레이트"
 
@@ -1642,7 +1642,7 @@ msgstr "풀 (JPEG, 0-255)"
 msgid "Full length"
 msgstr "전체 길이"
 
-#: src/wx/dcp_timeline.cc:309
+#: src/wx/dcp_timeline.cc:322
 msgid "GB"
 msgstr "GB"
 
@@ -1956,7 +1956,7 @@ msgstr "LEQ(m) %.2fdB"
 msgid "Label"
 msgstr "라벨"
 
-#: src/wx/dcp_panel.cc:988 src/wx/dcp_text_track_dialog.cc:35
+#: src/wx/dcp_panel.cc:992 src/wx/dcp_text_track_dialog.cc:35
 #: src/wx/text_panel.cc:166
 msgid "Language"
 msgstr "언어"
@@ -2179,11 +2179,11 @@ msgstr "최대 MPEG2 비트레이트"
 msgid "Maximum number of frames to store per thread"
 msgstr "스레드당 저장할 최대 프레임 수"
 
-#: src/wx/dcp_timeline.cc:303
+#: src/wx/dcp_timeline.cc:316
 msgid "Maximum reel size"
 msgstr "최대 릴 크기"
 
-#: src/wx/dcp_panel.cc:877 src/wx/full_config_dialog.cc:1050
+#: src/wx/dcp_panel.cc:881 src/wx/full_config_dialog.cc:1050
 #: src/wx/full_config_dialog.cc:1059
 msgid "Mbit/s"
 msgstr "Mbit/s"
@@ -2375,7 +2375,7 @@ msgstr "KDM 필요: "
 msgid "NEEDS OV: "
 msgstr "OV 필요: "
 
-#: src/wx/cinema_dialog.cc:49 src/wx/dcp_panel.cc:88
+#: src/wx/cinema_dialog.cc:47 src/wx/dcp_panel.cc:88
 #: src/wx/dcp_text_track_dialog.cc:33 src/wx/recipient_dialog.cc:68
 #: src/wx/screen_dialog.cc:141 src/wx/spl_entry_dialog.cc:41
 msgid "Name"
@@ -2444,7 +2444,7 @@ msgid "Non-standard"
 msgstr "비표준"
 
 #: src/wx/content_advanced_dialog.cc:74 src/wx/content_advanced_dialog.cc:155
-#: src/wx/content_advanced_dialog.cc:163 src/wx/dcp_panel.cc:1093
+#: src/wx/content_advanced_dialog.cc:163 src/wx/dcp_panel.cc:1097
 #: src/wx/subtitle_appearance_dialog.cc:151
 msgid "None"
 msgstr "없음"
@@ -2461,7 +2461,7 @@ msgstr "만료 일시"
 msgid "Not valid before"
 msgstr "개시 일시"
 
-#: src/wx/cinema_dialog.cc:59 src/wx/recipient_dialog.cc:73
+#: src/wx/cinema_dialog.cc:57 src/wx/recipient_dialog.cc:73
 #: src/wx/screen_dialog.cc:146
 msgid "Notes"
 msgstr "참고"
@@ -2690,7 +2690,7 @@ msgstr "프리 릴리즈"
 msgid "Previous"
 msgstr "이전"
 
-#: src/wx/dcp_panel.cc:984
+#: src/wx/dcp_panel.cc:988
 msgid "Processor"
 msgstr "프로세서"
 
@@ -2751,7 +2751,7 @@ msgstr "등급"
 msgid "Ratings"
 msgstr "등급"
 
-#: src/wx/dcp_panel.cc:879
+#: src/wx/dcp_panel.cc:883
 msgid "Re-encode JPEG2000 data from input"
 msgstr "입력 데이터로부터 JPEG2000 다시 인코딩"
 
@@ -2809,7 +2809,7 @@ msgstr "릴 %d"
 msgid "Reel %d to reel %d"
 msgstr "릴 %d 에서 릴 %d"
 
-#: src/wx/dcp_timeline.cc:297
+#: src/wx/dcp_timeline.cc:310
 msgid "Reel mode"
 msgstr "릴 모드"
 
@@ -2861,7 +2861,7 @@ msgstr "영화관 제거"
 msgid "Remove Screen"
 msgstr "스크린 제거"
 
-#: src/wx/dcp_timeline.cc:175
+#: src/wx/dcp_timeline.cc:186
 msgid "Remove reel boundary"
 msgstr "릴 경계 제거"
 
@@ -2909,7 +2909,7 @@ msgstr "기본 제목 및 본문으로 초기화"
 msgid "Reset to default text"
 msgstr "기본 텍스트로 초기화"
 
-#: src/wx/dcp_panel.cc:865
+#: src/wx/dcp_panel.cc:869
 msgid "Resolution"
 msgstr "해상도"
 
@@ -2983,7 +2983,7 @@ msgstr "프로젝트와 같은 위치"
 msgid "Sample peak is %.2fdB at %s on %s"
 msgstr "샘플 피크는 %s %s에서 %.2fdB입니다"
 
-#: src/wx/dcp_panel.cc:980
+#: src/wx/dcp_panel.cc:984
 msgid "Sample rate"
 msgstr "샘플 레이트"
 
@@ -3200,7 +3200,7 @@ msgstr "표시"
 msgid "Show experimental audio processors"
 msgstr "실험적 오디오 프로세서 표시"
 
-#: src/wx/audio_panel.cc:75 src/wx/dcp_panel.cc:992
+#: src/wx/audio_panel.cc:75 src/wx/dcp_panel.cc:996
 msgid "Show graph of audio levels..."
 msgstr "오디오 레벨 그래프 표시…"
 
@@ -3237,7 +3237,7 @@ msgstr "단순 감마"
 msgid "Simple gamma, linearised for small values"
 msgstr "단순 감마, 낮은 값에 대해 선형화됨"
 
-#: src/wx/dcp_timeline.cc:262
+#: src/wx/dcp_timeline.cc:275
 msgid "Single reel"
 msgstr "단일 릴"
 
@@ -3259,7 +3259,7 @@ msgstr "부드럽게"
 msgid "Snap"
 msgstr "스냅"
 
-#: src/wx/dcp_timeline.cc:314
+#: src/wx/dcp_timeline.cc:327
 msgid "Snap when dragging"
 msgstr "드래그할 때 스냅 적용"
 
@@ -3308,11 +3308,11 @@ msgstr ""
 msgid "Specific"
 msgstr "특정"
 
-#: src/wx/dcp_timeline.cc:268
+#: src/wx/dcp_timeline.cc:281
 msgid "Split by maximum reel size"
 msgstr "최대 릴 크기로 나누기"
 
-#: src/wx/dcp_timeline.cc:265
+#: src/wx/dcp_timeline.cc:278
 msgid "Split by video content"
 msgstr "비디오 콘텐츠별로 나누기"
 
@@ -4188,7 +4188,7 @@ msgstr "유형"
 msgid "UTC"
 msgstr "UTC"
 
-#: src/wx/cinema_dialog.cc:54
+#: src/wx/cinema_dialog.cc:52
 msgid "UTC offset (time zone)"
 msgstr "UTC 오프셋 (시간대)"
 
@@ -4341,7 +4341,7 @@ msgstr "기본값으로 ISDCF 이름 사용"
 msgid "Use as"
 msgstr "다음으로 사용:"
 
-#: src/wx/dcp_panel.cc:871
+#: src/wx/dcp_panel.cc:875
 msgid "Use best"
 msgstr "최적값 사용"
 
@@ -4422,7 +4422,7 @@ msgstr "비디오 (MPEG, 16-235)"
 msgid "Video Waveform"
 msgstr "비디오 웨이브폼"
 
-#: src/wx/dcp_panel.cc:875
+#: src/wx/dcp_panel.cc:879
 msgid ""
 "Video bit rate\n"
 "for newly-encoded data"

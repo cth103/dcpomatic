@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-26 10:04+0200\n"
+"POT-Creation-Date: 2026-08-22 00:21+0200\n"
 "PO-Revision-Date: 2026-03-06 17:22+0900\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -148,11 +148,11 @@ msgstr "1.85 (플랫)"
 msgid "1.90 (Full frame)"
 msgstr "1.90 (풀 프레임)"
 
-#: src/lib/util.cc:622
+#: src/lib/util.cc:614
 msgid "10"
 msgstr "10"
 
-#: src/lib/util.cc:628
+#: src/lib/util.cc:620
 msgid "16"
 msgstr "16"
 
@@ -186,7 +186,7 @@ msgstr ""
 "로젝터에서 상영할 것이 확실하지 않다면, \"DCP→비디오\" 탭에서 DCP를 2K로 설정"
 "하는 것을 권장합니다."
 
-#: src/lib/util.cc:621
+#: src/lib/util.cc:613
 msgid "9"
 msgstr "9"
 
@@ -440,15 +440,15 @@ msgstr "픽셀당 비트 수"
 msgid "Bob Weaver Deinterlacing Filter"
 msgstr "Bob Weaver 디인터레이싱 필터"
 
-#: src/lib/util.cc:623
+#: src/lib/util.cc:615
 msgid "BsL"
 msgstr "BsL"
 
-#: src/lib/util.cc:624
+#: src/lib/util.cc:616
 msgid "BsR"
 msgstr "BsR"
 
-#: src/lib/util.cc:615
+#: src/lib/util.cc:607
 msgid "C"
 msgstr "C"
 
@@ -474,7 +474,7 @@ msgstr "{} 동안 픽셀 포맷 {}을 처리할 수 없습니다"
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr "프로젝트가 암호화되어 있지 않아 KDM을 만들 수 없습니다."
 
-#: src/lib/util.cc:584
+#: src/lib/util.cc:576
 #, fuzzy
 msgid "Centre"
 msgstr "중앙"
@@ -803,19 +803,19 @@ msgstr "전송을 시작할 수 없습니다"
 msgid "Could not write to remote file ({})"
 msgstr "원격 파일에 쓸 수 없습니다 ({})"
 
-#: src/lib/util.cc:594
+#: src/lib/util.cc:586
 msgid "D-BOX primary"
 msgstr "D-BOX 주"
 
-#: src/lib/util.cc:595
+#: src/lib/util.cc:587
 msgid "D-BOX secondary"
 msgstr "D-BOX 보조"
 
-#: src/lib/audio_processor.cc:144 src/lib/util.cc:625
+#: src/lib/audio_processor.cc:144 src/lib/util.cc:617
 msgid "DBP"
 msgstr "DBP"
 
-#: src/lib/audio_processor.cc:145 src/lib/util.cc:626
+#: src/lib/audio_processor.cc:145 src/lib/util.cc:618
 msgid "DBS"
 msgstr "DBS"
 
@@ -1038,7 +1038,7 @@ msgstr "서버 인증에 실패했습니다 ({})"
 msgid "Failed to encode the DCP."
 msgstr "DCP 인코딩에 실패했습니다."
 
-#: src/lib/email.cc:249
+#: src/lib/email.cc:245 src/lib/email.cc:247
 msgid "Failed to send email"
 msgstr "이메일 전송에 실패했습니다"
 
@@ -1128,11 +1128,11 @@ msgstr "감마 28 (BT470BG)"
 msgid "Gradient debander"
 msgstr "그라디언트 디밴더"
 
-#: src/lib/audio_processor.cc:142 src/lib/util.cc:619
+#: src/lib/audio_processor.cc:142 src/lib/util.cc:611
 msgid "HI"
 msgstr "HI (청각 장애용)"
 
-#: src/lib/util.cc:588
+#: src/lib/util.cc:580
 msgid "Hearing impaired"
 msgstr "청각 장애용 (Hearing impaired)"
 
@@ -1205,23 +1205,23 @@ msgid "Kernel deinterlacer"
 msgstr "커널 디인터레이서"
 
 #. TRANSLATORS: L here is an abbreviation for "left", to indicate the left-eye part of a 3D export
-#: src/lib/ffmpeg_film_encoder.cc:265 src/lib/util.cc:613
+#: src/lib/ffmpeg_film_encoder.cc:265 src/lib/util.cc:605
 msgid "L"
 msgstr "L"
 
-#: src/lib/mid_side_decoder.cc:106 src/lib/util.cc:582
+#: src/lib/mid_side_decoder.cc:106 src/lib/util.cc:574
 msgid "Left"
 msgstr "좌측"
 
-#: src/lib/util.cc:590
+#: src/lib/util.cc:582
 msgid "Left centre"
 msgstr "좌측 중앙"
 
-#: src/lib/util.cc:592
+#: src/lib/util.cc:584
 msgid "Left rear surround"
 msgstr "좌측 후방 서라운드"
 
-#: src/lib/util.cc:586
+#: src/lib/util.cc:578
 msgid "Left surround"
 msgstr "좌측 서라운드"
 
@@ -1229,11 +1229,11 @@ msgstr "좌측 서라운드"
 msgid "Length"
 msgstr "길이"
 
-#: src/lib/util.cc:616
+#: src/lib/util.cc:608
 msgid "Lfe"
 msgstr "Lfe"
 
-#: src/lib/util.cc:585
+#: src/lib/util.cc:577
 msgid "Lfe (sub)"
 msgstr "Lfe (서브우퍼)"
 
@@ -1262,7 +1262,7 @@ msgstr "로그 (316:1 범위)"
 msgid "Lost communication between main and writer processes"
 msgstr "메인 프로세스와 라이터 프로세스 간의 통신이 중단되었습니다"
 
-#: src/lib/util.cc:617
+#: src/lib/util.cc:609
 msgid "Ls"
 msgstr "Ls"
 
@@ -1314,7 +1314,7 @@ msgstr "모노 (Mono)"
 msgid "Motion compensating deinterlacer"
 msgstr "모션 보정 디인터레이서"
 
-#: src/lib/dcp_content.cc:215
+#: src/lib/dcp_content.cc:213
 msgid "No ASSETMAP or ASSETMAP.xml file found: is this a DCP?"
 msgstr "ASSETMAP 또는 ASSETMAP.xml 파일을 찾을 수 없습니다. DCP가 맞습니까?"
 
@@ -1408,7 +1408,7 @@ msgstr "P3 D65 (~6500K)"
 msgid "P3 DCI (~6300K)"
 msgstr "P3 DCI (~6300K)"
 
-#: src/lib/util.cc:1111
+#: src/lib/util.cc:1103
 #, c++-format
 msgid ""
 "Please report this problem by using Help -> Report a problem or via email to "
@@ -1443,7 +1443,7 @@ msgid "Public Service Announcement"
 msgstr "공익 광고 (PSA)"
 
 #. TRANSLATORS: R here is an abbreviation for "right", to indicate the right-eye part of a 3D export
-#: src/lib/ffmpeg_film_encoder.cc:270 src/lib/util.cc:614
+#: src/lib/ffmpeg_film_encoder.cc:270 src/lib/util.cc:606
 msgid "R"
 msgstr "R"
 
@@ -1477,19 +1477,19 @@ msgstr "Rec. 601"
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
-#: src/lib/mid_side_decoder.cc:107 src/lib/util.cc:583
+#: src/lib/mid_side_decoder.cc:107 src/lib/util.cc:575
 msgid "Right"
 msgstr "우측"
 
-#: src/lib/util.cc:591
+#: src/lib/util.cc:583
 msgid "Right centre"
 msgstr "우측 중앙"
 
-#: src/lib/util.cc:593
+#: src/lib/util.cc:585
 msgid "Right rear surround"
 msgstr "우측 후방 서라운드"
 
-#: src/lib/util.cc:587
+#: src/lib/util.cc:579
 msgid "Right surround"
 msgstr "우측 서라운드"
 
@@ -1501,7 +1501,7 @@ msgstr "시계 반대 방향으로 90도 회전"
 msgid "Rotate 90 degrees clockwise"
 msgstr "시계 방향으로 90도 회전"
 
-#: src/lib/util.cc:618
+#: src/lib/util.cc:610
 msgid "Rs"
 msgstr "Rs"
 
@@ -1595,7 +1595,7 @@ msgid "Short"
 msgstr "단편 (Short)"
 
 # 서명? 표지?
-#: src/lib/audio_processor.cc:146 src/lib/util.cc:627
+#: src/lib/audio_processor.cc:146 src/lib/util.cc:619
 #, fuzzy
 msgid "Sign"
 msgstr "사인"
@@ -1849,7 +1849,7 @@ msgstr ""
 "상적으로 높이거나 낮출 수 있습니다. 상영 시스템에서 지원한다면 DCP 프레임 레"
 "이트를 콘텐츠와 가깝게 설정하는 것이 좋습니다."
 
-#: src/lib/dcp_content.cc:771
+#: src/lib/dcp_content.cc:765
 msgid "There is no video in this DCP"
 msgstr "이 DCP에는 비디오가 없습니다"
 
@@ -1862,14 +1862,14 @@ msgstr ""
 "메모리가 부족합니다.  32비트 운영체제를 사용 중이라면 환경 설정의 '일반' 탭에"
 "서 인코딩 스레드 수를 줄여 보십시오."
 
-#: src/lib/util.cc:961
+#: src/lib/util.cc:953
 #, c++-format
 msgid "This KDM was made for {} but not for its leaf certificate."
 msgstr ""
 "이 KDM은 {}를 위해 제작되었으나 해당 단말 인증서(leaf certificate)를 위한 것"
 "이 아닙니다."
 
-#: src/lib/util.cc:959
+#: src/lib/util.cc:951
 #, c++-format
 msgid "This KDM was not made for {}'s decryption certificate."
 msgstr "이 KDM은 {}의 복호화 인증서를 위해 제작되지 않았습니다."
@@ -1994,7 +1994,7 @@ msgstr "미지정"
 msgid "Untitled"
 msgstr "제목 없음"
 
-#: src/lib/util.cc:596 src/lib/util.cc:597
+#: src/lib/util.cc:588 src/lib/util.cc:589
 msgid "Unused"
 msgstr "사용 안 함"
 
@@ -2006,7 +2006,7 @@ msgstr "업믹싱 L"
 msgid "Upmix R"
 msgstr "업믹싱 R"
 
-#: src/lib/audio_processor.cc:143 src/lib/util.cc:620
+#: src/lib/audio_processor.cc:143 src/lib/util.cc:612
 msgid "VI"
 msgstr "VI (시각 장애용)"
 
@@ -2027,7 +2027,7 @@ msgstr "상하 반전"
 msgid "Video refers to missing asset {}"
 msgstr "비디오가 누락된 에셋 {}를 참조하고 있습니다"
 
-#: src/lib/util.cc:589
+#: src/lib/util.cc:581
 msgid "Visually impaired"
 msgstr "시각 장애용 (Visually impaired)"
 
@@ -2301,16 +2301,16 @@ msgid "frames per second"
 msgstr "초당 프레임"
 
 #. TRANSLATORS: h here is an abbreviation for hours
-#: src/lib/util.cc:211
+#: src/lib/util.cc:203
 msgid "h"
 msgstr "h"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:728
+#: src/lib/dcp_content.cc:724
 msgid "it has a different frame rate to the film."
 msgstr "영화와 프레임 레이트가 다릅니다."
 
-#: src/lib/dcp_content.cc:810
+#: src/lib/dcp_content.cc:804
 #, c++-format
 msgid ""
 "it has a different number of audio channels than the project; set the "
@@ -2319,61 +2319,62 @@ msgstr ""
 "프로젝트와 오디오 채널 수가 다릅니다. 프로젝트를 {}채널로 설정하십시오."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:846
+#: src/lib/dcp_content.cc:840
 msgid ""
 "it has a start trim so its subtitles or closed captions must be re-written."
 msgstr "시작 트리밍이 있어 자막이나 폐쇄형 자막을 다시 써야 합니다."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:781
+#: src/lib/dcp_content.cc:775
 msgid "it is 2K and the film is 4K."
 msgstr "DCP는 2K이나 필름은 4K입니다."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:778
+#: src/lib/dcp_content.cc:772
 msgid "it is 4K and the film is 2K."
 msgstr "DCP는 4K이나 필름은 2K입니다."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:716
+#: src/lib/dcp_content.cc:712
 msgid "it is Interop and the film is set to SMPTE."
 msgstr "DCP는 Interop이나 필름은 SMPTE로 설정되어 있습니다."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:720
+#: src/lib/dcp_content.cc:716
 msgid "it is SMPTE and the film is set to Interop."
 msgstr "DCP는 SMPTE이나 필름은 Interop으로 설정되어 있습니다."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:821
+#: src/lib/dcp_content.cc:815
 msgid "it overlaps other audio content."
 msgstr "다른 오디오 콘텐츠와 겹칩니다."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:856
+#: src/lib/dcp_content.cc:850
 msgid "it overlaps other text content."
 msgstr "다른 텍스트 콘텐츠와 겹칩니다."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:796
+#: src/lib/dcp_content.cc:790
 msgid "it overlaps other video content."
 msgstr "다른 비디오 콘텐츠와 겹칩니다."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:751
+#: src/lib/dcp_content.cc:745
+#, fuzzy
 msgid ""
-"its reel lengths differ from those in the film; set the reel mode to 'split "
-"by video content'."
+"its reel start points are not included in the film's list; set the reel mode "
+"to 'split by video content'."
 msgstr ""
 "릴 길이가 영화와 다릅니다. 릴 모드를 '비디오 콘텐츠별로 분할'로 설정하십시오."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:786
+#: src/lib/dcp_content.cc:780
 msgid "its video frame size differs from the film's."
 msgstr "비디오 프레임 크기가 영화와 다릅니다."
 
 #. TRANSLATORS: m here is an abbreviation for minutes
-#: src/lib/util.cc:220
+#: src/lib/util.cc:212
 msgid "m"
 msgstr "m"
 
@@ -2387,7 +2388,7 @@ msgid "name"
 msgstr "이름"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:840
+#: src/lib/dcp_content.cc:834
 #, fuzzy
 msgid ""
 "one of its closed caption reels has a non-zero entry point so it must be re-"
@@ -2395,14 +2396,14 @@ msgid ""
 msgstr "폐쇄형 자막 중 하나의 엔트리 포인트가 0이 아니어서 다시 써야 합니다."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:834
+#: src/lib/dcp_content.cc:828
 msgid ""
 "one of its subtitle reels has a non-zero entry point so it must be re-"
 "written."
 msgstr "자막 릴 중 하나의 엔트리 포인트가 0이 아니어서 다시 써야 합니다."
 
 #. TRANSLATORS: s here is an abbreviation for seconds
-#: src/lib/util.cc:230
+#: src/lib/util.cc:222
 msgid "s"
 msgstr "s"
 
@@ -2433,7 +2434,7 @@ msgstr "{} ({} GB) [{}]"
 msgid "{} [Atmos]"
 msgstr "{} [애트모스]"
 
-#: src/lib/dcp_content.cc:389
+#: src/lib/dcp_content.cc:385
 #, c++-format
 msgid "{} [DCP]"
 msgstr "{} [DCP]"

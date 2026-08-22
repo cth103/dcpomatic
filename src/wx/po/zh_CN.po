@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libdcpomatic-wx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-29 23:39+0200\n"
+"POT-Creation-Date: 2026-08-15 00:57+0200\n"
 "PO-Revision-Date: 2026-05-17 10:50+0800\n"
 "Last-Translator: Dian Li <xslidian@gmail.com>\n"
 "Language-Team: Chinese Simplified (Hanyuan branch)\n"
@@ -191,11 +191,11 @@ msgstr "2D"
 msgid "2D version of 3D DCP"
 msgstr "3D DCP的2D版本"
 
-#: src/wx/dcp_panel.cc:900
+#: src/wx/dcp_panel.cc:904
 msgid "2K"
 msgstr "2K"
 
-#: src/wx/dcp_panel.cc:873 src/wx/video_panel.cc:189
+#: src/wx/dcp_panel.cc:877 src/wx/video_panel.cc:189
 msgid "3D"
 msgstr "3D"
 
@@ -223,11 +223,11 @@ msgstr "上下眼(3D)"
 msgid "4 - L/C/R/Lfe"
 msgstr "4声道—左/中/右/低音"
 
-#: src/wx/dcp_panel.cc:1006
+#: src/wx/dcp_panel.cc:1010
 msgid "48kHz"
 msgstr "48kHz"
 
-#: src/wx/dcp_panel.cc:901
+#: src/wx/dcp_panel.cc:905
 msgid "4K"
 msgstr "4K"
 
@@ -239,7 +239,7 @@ msgstr "6声道—5.1声道"
 msgid "8 - 5.1/HI/VI"
 msgstr "8声道—5.1+听力障碍声道/视力障碍声道"
 
-#: src/wx/dcp_panel.cc:1007
+#: src/wx/dcp_panel.cc:1011
 msgid "96kHz"
 msgstr "96kHz"
 
@@ -467,7 +467,7 @@ msgstr "添加/移动标记到当前位置"
 msgid "Add recipient"
 msgstr "添加接收者"
 
-#: src/wx/dcp_timeline.cc:173
+#: src/wx/dcp_timeline.cc:184
 msgid "Add reel boundary"
 msgstr "添加影片片段设置边界"
 
@@ -504,7 +504,7 @@ msgstr ""
 msgid "Additional"
 msgstr "附加内容"
 
-#: src/wx/cinema_dialog.cc:70 src/wx/extra_kdm_email_dialog.cc:47
+#: src/wx/cinema_dialog.cc:68 src/wx/extra_kdm_email_dialog.cc:47
 #: src/wx/full_config_dialog.cc:696 src/wx/kdm_email_preferences_page.cc:80
 #: src/wx/recipient_dialog.cc:84
 msgid "Address"
@@ -811,7 +811,7 @@ msgstr "链"
 msgid "Channel gain"
 msgstr "通道增益"
 
-#: src/wx/audio_dialog.cc:110 src/wx/dcp_panel.cc:975
+#: src/wx/audio_dialog.cc:110 src/wx/dcp_panel.cc:979
 msgid "Channels"
 msgstr "通道"
 
@@ -918,7 +918,7 @@ msgstr "设置|时间"
 msgid "Confirm KDM email"
 msgstr "确认接收KDM的电子邮件地址"
 
-#: src/wx/dcp_panel.cc:861
+#: src/wx/dcp_panel.cc:865
 msgid "Container"
 msgstr "封装格式"
 
@@ -1093,7 +1093,7 @@ msgstr "游标: %.1fdB 位于 %s"
 msgid "Cursor: none"
 msgstr "游标：无"
 
-#: src/wx/dcp_timeline.cc:271 src/wx/rating_dialog.cc:53
+#: src/wx/dcp_timeline.cc:284 src/wx/rating_dialog.cc:53
 #: src/wx/ratio_picker.cc:49
 msgid "Custom"
 msgstr "自定义"
@@ -1324,7 +1324,7 @@ msgid "Edit screen"
 msgstr "编辑放映厅服务器（证书）"
 
 #: src/wx/audio_mapping_view.cc:90 src/wx/content_advanced_dialog.cc:75
-#: src/wx/dcp_panel.cc:990 src/wx/language_tag_widget.cc:51
+#: src/wx/dcp_panel.cc:994 src/wx/language_tag_widget.cc:51
 #: src/wx/recipients_panel.cc:71 src/wx/region_subtag_widget.cc:52
 #: src/wx/video_panel.cc:159 src/wx/video_panel.cc:170
 #: src/wx/editable_list.h:149
@@ -1343,11 +1343,11 @@ msgstr "效果颜色"
 msgid "Email"
 msgstr "邮件"
 
-#: src/wx/email_dialog.cc:32 src/wx/email_dialog.cc:34
+#: src/wx/email_dialog.cc:33 src/wx/email_dialog.cc:35
 msgid "Email address"
 msgstr "发件人地址"
 
-#: src/wx/cinema_dialog.cc:64 src/wx/recipient_dialog.cc:78
+#: src/wx/cinema_dialog.cc:62 src/wx/recipient_dialog.cc:78
 msgid "Email addresses for KDM delivery"
 msgstr "发送KDM到邮箱"
 
@@ -1572,7 +1572,7 @@ msgstr ""
 "帧 %frame 包含一个图像组件过大（组件 %component 的大小为 %size_in_bytes 字"
 "节）"
 
-#: src/wx/dcp_panel.cc:868
+#: src/wx/dcp_panel.cc:872
 msgid "Frame Rate"
 msgstr "帧率"
 
@@ -1610,7 +1610,7 @@ msgstr "完整 (JPEG, 0-255)"
 msgid "Full length"
 msgstr "总长度"
 
-#: src/wx/dcp_timeline.cc:309
+#: src/wx/dcp_timeline.cc:322
 msgid "GB"
 msgstr "GB"
 
@@ -1920,7 +1920,7 @@ msgstr "LEQ(m) %.2fdB"
 msgid "Label"
 msgstr "标签"
 
-#: src/wx/dcp_panel.cc:988 src/wx/dcp_text_track_dialog.cc:35
+#: src/wx/dcp_panel.cc:992 src/wx/dcp_text_track_dialog.cc:35
 #: src/wx/text_panel.cc:166
 msgid "Language"
 msgstr "语言"
@@ -2143,11 +2143,11 @@ msgstr "最大MPEG2码率"
 msgid "Maximum number of frames to store per thread"
 msgstr "设置每个线程处理的最大帧数"
 
-#: src/wx/dcp_timeline.cc:303
+#: src/wx/dcp_timeline.cc:316
 msgid "Maximum reel size"
 msgstr "最大卷片大小"
 
-#: src/wx/dcp_panel.cc:877 src/wx/full_config_dialog.cc:1050
+#: src/wx/dcp_panel.cc:881 src/wx/full_config_dialog.cc:1050
 #: src/wx/full_config_dialog.cc:1059
 msgid "Mbit/s"
 msgstr "Mbit/s"
@@ -2294,7 +2294,7 @@ msgstr "需要KDM: "
 msgid "NEEDS OV: "
 msgstr "需要OV: "
 
-#: src/wx/cinema_dialog.cc:49 src/wx/dcp_panel.cc:88
+#: src/wx/cinema_dialog.cc:47 src/wx/dcp_panel.cc:88
 #: src/wx/dcp_text_track_dialog.cc:33 src/wx/recipient_dialog.cc:68
 #: src/wx/screen_dialog.cc:141 src/wx/spl_entry_dialog.cc:41
 msgid "Name"
@@ -2363,7 +2363,7 @@ msgid "Non-standard"
 msgstr "非标准设置（高级)"
 
 #: src/wx/content_advanced_dialog.cc:74 src/wx/content_advanced_dialog.cc:155
-#: src/wx/content_advanced_dialog.cc:163 src/wx/dcp_panel.cc:1093
+#: src/wx/content_advanced_dialog.cc:163 src/wx/dcp_panel.cc:1097
 #: src/wx/subtitle_appearance_dialog.cc:151
 msgid "None"
 msgstr "无"
@@ -2380,7 +2380,7 @@ msgstr "有效期至"
 msgid "Not valid before"
 msgstr "生效期为"
 
-#: src/wx/cinema_dialog.cc:59 src/wx/recipient_dialog.cc:73
+#: src/wx/cinema_dialog.cc:57 src/wx/recipient_dialog.cc:73
 #: src/wx/screen_dialog.cc:146
 msgid "Notes"
 msgstr "记录"
@@ -2606,7 +2606,7 @@ msgstr "预发布(点映版)"
 msgid "Previous"
 msgstr "上一页"
 
-#: src/wx/dcp_panel.cc:984
+#: src/wx/dcp_panel.cc:988
 msgid "Processor"
 msgstr "处理方式"
 
@@ -2665,7 +2665,7 @@ msgstr "分级"
 msgid "Ratings"
 msgstr "分级"
 
-#: src/wx/dcp_panel.cc:879
+#: src/wx/dcp_panel.cc:883
 msgid "Re-encode JPEG2000 data from input"
 msgstr "对输入内容重新进行JPEG2000编码"
 
@@ -2723,7 +2723,7 @@ msgstr "卷 %d"
 msgid "Reel %d to reel %d"
 msgstr "卷%d到卷%d"
 
-#: src/wx/dcp_timeline.cc:297
+#: src/wx/dcp_timeline.cc:310
 msgid "Reel mode"
 msgstr "卷轴模式"
 
@@ -2775,7 +2775,7 @@ msgstr "移除影院"
 msgid "Remove Screen"
 msgstr "移除放映服务器（证书）"
 
-#: src/wx/dcp_timeline.cc:175
+#: src/wx/dcp_timeline.cc:186
 msgid "Remove reel boundary"
 msgstr "移除厅放映（证书）"
 
@@ -2823,7 +2823,7 @@ msgstr "恢复到默认类别和文本"
 msgid "Reset to default text"
 msgstr "恢复到默认文本"
 
-#: src/wx/dcp_panel.cc:865
+#: src/wx/dcp_panel.cc:869
 msgid "Resolution"
 msgstr "分辨率"
 
@@ -2897,7 +2897,7 @@ msgstr "和项目相同的位置"
 msgid "Sample peak is %.2fdB at %s on %s"
 msgstr "样本峰值为 %.2fdB 位于 %s, %s"
 
-#: src/wx/dcp_panel.cc:980
+#: src/wx/dcp_panel.cc:984
 msgid "Sample rate"
 msgstr "采样率"
 
@@ -3114,7 +3114,7 @@ msgstr "显示"
 msgid "Show experimental audio processors"
 msgstr "显示实验音频配置"
 
-#: src/wx/audio_panel.cc:75 src/wx/dcp_panel.cc:992
+#: src/wx/audio_panel.cc:75 src/wx/dcp_panel.cc:996
 msgid "Show graph of audio levels..."
 msgstr "显示音频电平图…"
 
@@ -3151,7 +3151,7 @@ msgstr "简单伽马值"
 msgid "Simple gamma, linearised for small values"
 msgstr "简单伽马值，低位对齐"
 
-#: src/wx/dcp_timeline.cc:262
+#: src/wx/dcp_timeline.cc:275
 msgid "Single reel"
 msgstr "签名卷"
 
@@ -3172,7 +3172,7 @@ msgstr "平滑"
 msgid "Snap"
 msgstr "吸附"
 
-#: src/wx/dcp_timeline.cc:314
+#: src/wx/dcp_timeline.cc:327
 msgid "Snap when dragging"
 msgstr "拖动时吸附"
 
@@ -3218,11 +3218,11 @@ msgstr ""
 msgid "Specific"
 msgstr "未指定"
 
-#: src/wx/dcp_timeline.cc:268
+#: src/wx/dcp_timeline.cc:281
 msgid "Split by maximum reel size"
 msgstr "按最大卷轴尺寸分割"
 
-#: src/wx/dcp_timeline.cc:265
+#: src/wx/dcp_timeline.cc:278
 msgid "Split by video content"
 msgstr "根据视频内容进行分割"
 
@@ -4054,7 +4054,7 @@ msgstr "类型"
 msgid "UTC"
 msgstr "零时区"
 
-#: src/wx/cinema_dialog.cc:54
+#: src/wx/cinema_dialog.cc:52
 msgid "UTC offset (time zone)"
 msgstr "UTC偏差（时区）"
 
@@ -4207,7 +4207,7 @@ msgstr "默认使用ISDCF名称"
 msgid "Use as"
 msgstr "使用为"
 
-#: src/wx/dcp_panel.cc:871
+#: src/wx/dcp_panel.cc:875
 msgid "Use best"
 msgstr "使用最佳"
 
@@ -4286,7 +4286,7 @@ msgstr "视频 (MPEG, 16-235)"
 msgid "Video Waveform"
 msgstr "视频波形"
 
-#: src/wx/dcp_panel.cc:875
+#: src/wx/dcp_panel.cc:879
 msgid ""
 "Video bit rate\n"
 "for newly-encoded data"
