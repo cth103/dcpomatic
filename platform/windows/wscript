@@ -449,7 +449,7 @@ File "%binaries%/src/tools/dcpomatic2_disk_writer.exe.manifest"
 
     print("SectionEnd", file=f)
 
-    print('Section "%s desktop shortcuts" SEC_MASTER_DESKTOP' % long_name_with_debug, file=f)
+    print('Section /o "%s desktop shortcuts" SEC_MASTER_DESKTOP' % long_name_with_debug, file=f)
     print('CreateShortCut "$DESKTOP\\%s.lnk" "$INSTDIR\\bin\\dcpomatic2%s" ""' % (long_name_with_debug, suffix), file=f)
     for s, l in tools:
         print('CreateShortCut "$DESKTOP\\%s.lnk" "$INSTDIR\\bin\\dcpomatic2_%s%s" ""' % (tool_name(variant, debug, l), s, suffix), file=f)
@@ -469,7 +469,7 @@ File "%binaries%/src/tools/dcpomatic2_server.exe"
 
     print("""
 SectionEnd
-Section "Encode server desktop shortcuts" SEC_SERVER_DESKTOP
+Section /o "Encode server desktop shortcuts" SEC_SERVER_DESKTOP
 CreateShortCut "$DESKTOP\\DCP-o-matic 2 Encode Server.lnk" "$INSTDIR\\bin\\dcpomatic2_server.exe" ""
 SectionEnd
     """, file=f)
