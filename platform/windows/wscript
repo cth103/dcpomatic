@@ -97,6 +97,7 @@ def write_installer(bits, dcpomatic_version, debug, disk, variant):
 !insertmacro MUI_PAGE_WELCOME
 !insertmacro MUI_PAGE_LICENSE "../../../COPYING"
 !insertmacro MUI_PAGE_DIRECTORY
+!define MUI_COMPONENTSPAGE_NODESC
 !insertmacro MUI_PAGE_COMPONENTS
 
 Section "Common files (required)" SEC_COMMON
@@ -473,23 +474,7 @@ CreateShortCut "$DESKTOP\\DCP-o-matic 2 Encode Server.lnk" "$INSTDIR\\bin\\dcpom
 SectionEnd
     """, file=f)
 
-    if debug:
-        print('LangString DESC_SEC_MASTER ${LANG_ENGLISH} "DCP-o-matic 2 debug"', file=f)
-        print('LangString DESC_SEC_MASTER_DESKTOP ${LANG_ENGLISH} "DCP-o-matic 2 debug desktop shortcuts"', file=f)
-    else:
-        print('LangString DESC_SEC_MASTER ${LANG_ENGLISH} "DCP-o-matic 2"', file=f)
-        print('LangString DESC_SEC_MASTER_DESKTOP ${LANG_ENGLISH} "DCP-o-matic 2 desktop shortcuts"', file=f)
-        print('LangString DESC_SEC_SERVER ${LANG_ENGLISH} "DCP-o-matic 2 Encode Server"', file=f)
-        print('LangString DESC_SEC_SERVER_DESKTOP ${LANG_ENGLISH} "DCP-o-matic 2 Encode Server desktop shortcuts"', file=f)
-
     print("""
-!insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
-!insertmacro MUI_DESCRIPTION_TEXT ${SEC_MASTER} $(DESC_SEC_MASTER)
-!insertmacro MUI_DESCRIPTION_TEXT ${SEC_MASTER_DESKTOP} $(DESC_SEC_MASTER_DESKTOP)
-!insertmacro MUI_DESCRIPTION_TEXT ${SEC_SERVER} $(DESC_SEC_SERVER)
-!insertmacro MUI_DESCRIPTION_TEXT ${SEC_SERVER_DESKTOP} $(DESC_SEC_SERVER_DESKTOP)
-!insertmacro MUI_FUNCTION_DESCRIPTION_END
-
 !insertmacro MUI_PAGE_INSTFILES
 !insertmacro MUI_PAGE_FINISH
 
