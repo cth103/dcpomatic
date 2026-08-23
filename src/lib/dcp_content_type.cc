@@ -88,7 +88,7 @@ DCPContentType const *
 DCPContentType::from_libdcp_kind (dcp::ContentKind kind)
 {
 	for (auto& i: _dcp_content_types) {
-		if (i.libdcp_kind() == kind) {
+		if (i.libdcp_kind().name() == kind.name()) {
 			return &i;
 		}
 	}
