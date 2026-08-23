@@ -400,6 +400,13 @@ def write_installer(bits, dcpomatic_version, debug, disk, variant):
         print('SetOutPath "$INSTDIR"', file=f)
         print('File "%cdist_deps%/share/libdcp/ratings"', file=f)
 
+    def setup_uninstall(long_name_with_debug, debug):
+        start_menu_shortcut(f, f'Uninstall {long_name_with_debug}', 'Uninstall.exe', variant, debug=debug)
+        print('WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\%s" "DisplayName" "%s (remove only)"' % (long_name_with_debug, long_name_with_debug), file=f)
+        print('WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\%s" "DisplayVersion" "%s"' % (long_name_with_debug, dcpomatic_version), file=f)
+        print('WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\%s" "UninstallString" "$INSTDIR\\Uninstall.exe"' % long_name_with_debug, file=f)
+
+
     # --- DCP-O-MATIC ---
 
     with Section(f, long_name_with_debug):
@@ -424,10 +431,7 @@ def write_installer(bits, dcpomatic_version, debug, disk, variant):
             if s not in ('player', 'server'):
                 start_menu_shortcut(f, tool_name(variant, debug, l), 'bin\\dcpomatic2_%s%s' % (s, suffix), variant, debug=True)
 
-        start_menu_shortcut(f, 'Uninstall %s' % long_name_with_debug, 'Uninstall.exe', variant, debug=True)
-        print('WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\%s" "DisplayName" "%s (remove only)"' % (long_name_with_debug, long_name_with_debug), file=f)
-        print('WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\%s" "DisplayVersion" "%s"' % (long_name_with_debug, dcpomatic_version), file=f)
-        print('WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\%s" "UninstallString" "$INSTDIR\\Uninstall.exe"' % long_name_with_debug, file=f)
+        setup_uninstall(long_name_with_debug, debug)
 
     # --- PLAYER ---
 
@@ -436,6 +440,7 @@ def write_installer(bits, dcpomatic_version, debug, disk, variant):
         print('CreateDirectory "$SMPROGRAMS\\DCP-o-matic 2"', file=f)
         print('File "%binaries%/src/tools/dcpomatic2_player.exe"', file=f)
         start_menu_shortcut(f, 'DCP-o-matic 2 Player', 'bin\\dcpomatic2_player.exe', variant)
+        setup_uninstall(long_name_with_debug, debug)
 
     # --- ENCODE SERVER ---
 
@@ -444,8 +449,8 @@ def write_installer(bits, dcpomatic_version, debug, disk, variant):
         print('CreateDirectory "$SMPROGRAMS\\DCP-o-matic 2"', file=f)
         print('File "%binaries%/src/tools/dcpomatic2_server_cli.exe"', file=f)
         print('File "%binaries%/src/tools/dcpomatic2_server.exe"', file=f)
-
         start_menu_shortcut(f, 'DCP-o-matic 2 Encode Server', 'bin\\dcpomatic2_server.exe', variant)
+        setup_uninstall(long_name_with_debug, debug)
 
     # --- DESKTOP SHORTCUTS ---
 
