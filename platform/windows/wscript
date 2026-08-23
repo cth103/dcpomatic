@@ -219,6 +219,25 @@ def write_installer(bits, dcpomatic_version, debug, disk, variant):
         padded_value = f' {value}' if value else ''
         print(f"!define {key}{padded_value}", file=f)
 
+    class Section:
+        def __init__(self, file, name, required=False, default_on=True):
+            self._file = file
+            self._name = name
+            self._required = required
+            self._default_on = default_on
+
+        def __enter__(self):
+            flag = '/o ' if not self._default_on else ''
+            suffix = ' (required)' if self._required else ''
+            print(f'Section {flag}"{self._name}{suffix}"', file=self._file)
+            if self._required:
+                print("SectionIn RO", file=self._file)
+            return self
+
+        def __exit__(self, type, value, traceback):
+            print("SectionEnd", file=self._file)
+            return True
+
     print('!include "MUI2.nsh"', file=f)
     if bits == 64:
         print('!include "x64.nsh"', file=f)
@@ -249,184 +268,183 @@ def write_installer(bits, dcpomatic_version, debug, disk, variant):
     define("MUI_COMPONENTSPAGE_NODESC")
     macro("MUI_PAGE_COMPONENTS")
 
-    print('Section "Common files (required)"', file=f)
-    print('SectionIn RO', file=f)
+    # --- COMMON FILES ---
 
-    if bits == 64:
-        # Disable registry redirection (enable access to 64-bit portion of registry)
-        print('SetRegView 64', file=f)
+    with Section(f, "Common files", required=True):
 
-    print('SetOutPath "$INSTDIR\\bin"', file=f)
-    print('WriteUninstaller "$INSTDIR\\Uninstall.exe"', file=f)
+        if bits == 64:
+            # Disable registry redirection (enable access to 64-bit portion of registry)
+            print('SetRegView 64', file=f)
 
-    for lib in ['chrono', 'filesystem', 'system', 'thread', 'date_time', 'locale', 'regex']:
-        print('File "%%static_deps%%/bin/libboost_%s-mt-x%d.dll"' % (lib, bits), file=f)
+        print('SetOutPath "$INSTDIR\\bin"', file=f)
+        print('WriteUninstaller "$INSTDIR\\Uninstall.exe"', file=f)
 
-    for dep in static_deps:
-        print(f'File "%static_deps%/bin/{dep}"', file=f)
+        for lib in ['chrono', 'filesystem', 'system', 'thread', 'date_time', 'locale', 'regex']:
+            print('File "%%static_deps%%/bin/libboost_%s-mt-x%d.dll"' % (lib, bits), file=f)
 
-    if bits == 32:
-        print('File "%static_deps%/bin/libgcc_s_sjlj-1.dll"', file=f)
-        print('File "%static_deps%/bin/libcrypto-3.dll"', file=f)
-    else:
-        print('File "%static_deps%/bin/libgcc_s_seh-1.dll"', file=f)
-        print('File "%static_deps%/bin/libcrypto-3-x64.dll"', file=f)
+        for dep in static_deps:
+            print(f'File "%static_deps%/bin/{dep}"', file=f)
 
-    if disk:
-        print('File "%static_deps%/bin/libnanomsg.dll"', file=f)
+        if bits == 32:
+            print('File "%static_deps%/bin/libgcc_s_sjlj-1.dll"', file=f)
+            print('File "%static_deps%/bin/libcrypto-3.dll"', file=f)
+        else:
+            print('File "%static_deps%/bin/libgcc_s_seh-1.dll"', file=f)
+            print('File "%static_deps%/bin/libcrypto-3-x64.dll"', file=f)
 
-    if debug:
-        print('File "%static_deps%/bin/libtermcap.dll"', file=f)
-        print('File "%static_deps%/bin/libreadline8.dll"', file=f)
-        print('File "%static_deps%/bin/libmman.dll"', file=f)
+        if disk:
+            print('File "%static_deps%/bin/libnanomsg.dll"', file=f)
 
-    print('File /oname=dcpomatic2_verify_cli.exe "%cdist_deps%/bin/dcpverify.exe"', file=f)
-    print('File /oname=dcpomatic2_kdm_inspect.exe "%cdist_deps%/bin/dcpkdm.exe"', file=f)
-    print('File "%cdist_deps%/bin/leqm_nrt.dll"', file=f)
-    print('File "%cdist_deps%/bin/asdcp-dcpomatic.dll"', file=f)
-    print('File "%cdist_deps%/bin/kumu-dcpomatic.dll"', file=f)
+        if debug:
+            print('File "%static_deps%/bin/libtermcap.dll"', file=f)
+            print('File "%static_deps%/bin/libreadline8.dll"', file=f)
+            print('File "%static_deps%/bin/libmman.dll"', file=f)
 
-    if disk:
-        print('File "%cdist_deps%/lib/libblockdev.dll"', file=f)
-        print('File "%cdist_deps%/lib/liblwext4.dll"', file=f)
+        print('File /oname=dcpomatic2_verify_cli.exe "%cdist_deps%/bin/dcpverify.exe"', file=f)
+        print('File /oname=dcpomatic2_kdm_inspect.exe "%cdist_deps%/bin/dcpkdm.exe"', file=f)
+        print('File "%cdist_deps%/bin/leqm_nrt.dll"', file=f)
+        print('File "%cdist_deps%/bin/asdcp-dcpomatic.dll"', file=f)
+        print('File "%cdist_deps%/bin/kumu-dcpomatic.dll"', file=f)
 
-    print('File "%cdist_deps%/bin/avcodec-61.dll"', file=f)
-    print('File "%cdist_deps%/bin/avfilter-10.dll"', file=f)
-    print('File "%cdist_deps%/bin/avformat-61.dll"', file=f)
-    print('File "%cdist_deps%/bin/avutil-59.dll"', file=f)
-    print('File "%cdist_deps%/bin/avdevice-61.dll"', file=f)
-    print('File "%cdist_deps%/bin/postproc-58.dll"', file=f)
-    print('File "%cdist_deps%/bin/swresample-5.dll"', file=f)
-    print('File "%cdist_deps%/bin/swscale-8.dll"', file=f)
-    print('File "%cdist_deps%/bin/dcp-1.0.dll"', file=f)
-    print('File "%cdist_deps%/bin/cxml-0.dll"', file=f)
-    print('File "%cdist_deps%/bin/sub-1.0.dll"', file=f)
-    print('File "%cdist_deps%/bin/ttf-1.0.dll"', file=f)
-    print('File "%cdist_deps%/bin/ffprobe.exe"', file=f)
-    print('File "%cdist_deps%/src/openssl/apps/openssl.exe"', file=f)
-    print('File "%cdist_deps%/bin/libopenjp2.dll"', file=f)
+        if disk:
+            print('File "%cdist_deps%/lib/libblockdev.dll"', file=f)
+            print('File "%cdist_deps%/lib/liblwext4.dll"', file=f)
 
-    if debug:
-        print('File "%resources%/gdb_script"', file=f)
-        print('File "%resources%/dcpomatic2_debug.bat"', file=f)
-        print('File "%mingw%/bin/gdb.exe"', file=f)
+        print('File "%cdist_deps%/bin/avcodec-61.dll"', file=f)
+        print('File "%cdist_deps%/bin/avfilter-10.dll"', file=f)
+        print('File "%cdist_deps%/bin/avformat-61.dll"', file=f)
+        print('File "%cdist_deps%/bin/avutil-59.dll"', file=f)
+        print('File "%cdist_deps%/bin/avdevice-61.dll"', file=f)
+        print('File "%cdist_deps%/bin/postproc-58.dll"', file=f)
+        print('File "%cdist_deps%/bin/swresample-5.dll"', file=f)
+        print('File "%cdist_deps%/bin/swscale-8.dll"', file=f)
+        print('File "%cdist_deps%/bin/dcp-1.0.dll"', file=f)
+        print('File "%cdist_deps%/bin/cxml-0.dll"', file=f)
+        print('File "%cdist_deps%/bin/sub-1.0.dll"', file=f)
+        print('File "%cdist_deps%/bin/ttf-1.0.dll"', file=f)
+        print('File "%cdist_deps%/bin/ffprobe.exe"', file=f)
+        print('File "%cdist_deps%/src/openssl/apps/openssl.exe"', file=f)
+        print('File "%cdist_deps%/bin/libopenjp2.dll"', file=f)
+
+        if debug:
+            print('File "%resources%/gdb_script"', file=f)
+            print('File "%resources%/dcpomatic2_debug.bat"', file=f)
+            print('File "%mingw%/bin/gdb.exe"', file=f)
+            for s, l in tools:
+                print('File "%%resources%%/dcpomatic2_%s_debug.bat"' % s, file=f)
+        else:
+            print('File "%binaries%/src/wx/dcpomatic2-wx.dll"', file=f)
+            print('File "%binaries%/src/lib/dcpomatic2.dll"', file=f)
+
+        print('SetOutPath "$INSTDIR\\bin"', file=f)
+
+        def language(language, country, wx=True, full=False):
+            lc = f"{language}_{country}" if full else language
+            print(f'SetOutPath "$INSTDIR\\locale\\{lc}\\LC_MESSAGES"', file=f)
+            print(f'File "%binaries%/src/lib/mo/{language}_{country}/libdcpomatic2.mo"', file=f)
+            print(f'File "%binaries%/src/wx/mo/{language}_{country}/libdcpomatic2-wx.mo"', file=f)
+            print(f'File "%binaries%/src/tools/mo/{language}_{country}/dcpomatic2.mo"', file=f)
+            if wx:
+                print(f'File "%static_deps%/share/locale/{lc}/LC_MESSAGES/wxstd-3.1.mo"', file=f)
+
+        language('fr', 'FR')
+        language('it', 'IT')
+        language('ko', 'KR', wx=False)
+        language('es', 'ES')
+        language('sv', 'SE')
+        language('de', 'DE')
+        language('el', 'GR')
+        language('nl', 'NL')
+        language('ru', 'RU')
+        language('pl', 'PL')
+        language('da', 'DK')
+        language('pt', 'PT', wx=False, full=True)
+        language('pt', 'BR', wx=False, full=True)
+        language('sk', 'SK', wx=False)
+        language('cs', 'CZ')
+        language('uk', 'UA', wx=False)
+        language('zh', 'CN', wx=False, full=True)
+        language('tr', 'TR', wx=False, full=True)
+        language('sl', 'SI', wx=False, full=True)
+        language('hu', 'HU', wx=False, full=True)
+        language('ja', 'JP', wx=False, full=True)
+        language('fa', 'IR', wx=False, full=True)
+        print('File /oname=wxstd-3.1.mo "%binaries%/src/wx/mo/fa_IR/wxstd.mo"', file=f)
+
+        print('SetOutPath "$INSTDIR"', file=f)
+
+        for font in fonts:
+            print(f'File "%resources%/../../fonts/{font}"', file=f)
+
+        print('File /oname=fonts.conf "%resources%/../../fonts/fonts.conf.windows"', file=f)
+
+        for graphic in graphics:
+            print(f'File "%graphics%/{graphic}"', file=f)
+
+        print('SetOutPath "$INSTDIR\\web"', file=f)
+        print('File "%web%/index.html"', file=f)
+
+        print('SetOutPath "$INSTDIR\\xsd"', file=f)
+        for xsd in xsds:
+            print(f'File "%cdist_deps%/share/libdcp/xsd/{xsd}"', file=f)
+
+        print('SetOutPath "$INSTDIR\\tags"', file=f)
+        for tag in tags:
+            print(f'File "%cdist_deps%/share/libdcp/tags/{tag}"', file=f)
+
+        print('SetOutPath "$INSTDIR"', file=f)
+        print('File "%cdist_deps%/share/libdcp/ratings"', file=f)
+
+    # --- DCP-O-MATIC ---
+
+    with Section(f, long_name_with_debug):
+
+        print('SetOutPath "$INSTDIR\\bin"', file=f)
+        print("SetShellVarContext all", file=f)
+
+        print('CreateDirectory "$SMPROGRAMS\\%s"' % long_name_with_debug, file=f)
+
+        print('File "%binaries%/src/tools/dcpomatic2.exe"', file=f)
         for s, l in tools:
-            print('File "%%resources%%/dcpomatic2_%s_debug.bat"' % s, file=f)
-    else:
-        print('File "%binaries%/src/wx/dcpomatic2-wx.dll"', file=f)
-        print('File "%binaries%/src/lib/dcpomatic2.dll"', file=f)
+            print('File "%%binaries%%/src/tools/dcpomatic2_%s.exe"' % s, file=f)
 
-    print('SetOutPath "$INSTDIR\\bin"', file=f)
+        if disk:
+            print('File "%binaries%/src/tools/dcpomatic2_disk_writer.exe"', file=f)
+            print('File "%binaries%/src/tools/dcpomatic2_disk_writer.exe.manifest"', file=f)
 
-    def language(language, country, wx=True, full=False):
-        lc = f"{language}_{country}" if full else language
-        print(f'SetOutPath "$INSTDIR\\locale\\{lc}\\LC_MESSAGES"', file=f)
-        print(f'File "%binaries%/src/lib/mo/{language}_{country}/libdcpomatic2.mo"', file=f)
-        print(f'File "%binaries%/src/wx/mo/{language}_{country}/libdcpomatic2-wx.mo"', file=f)
-        print(f'File "%binaries%/src/tools/mo/{language}_{country}/dcpomatic2.mo"', file=f)
-        if wx:
-            print(f'File "%static_deps%/share/locale/{lc}/LC_MESSAGES/wxstd-3.1.mo"', file=f)
+        suffix = '_debug.bat' if debug else '.exe'
+        start_menu_shortcut(f, long_name_with_debug, 'bin\\dcpomatic2%s' % suffix, variant, debug=True)
+        for s, l in tools:
+            start_menu_shortcut(f, tool_name(variant, debug, l), 'bin\\dcpomatic2_%s%s' % (s, suffix), variant, debug=True)
+        start_menu_shortcut(f, 'Uninstall %s' % long_name_with_debug, 'Uninstall.exe', variant, debug=True)
+        print('WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\%s" "DisplayName" "%s (remove only)"' % (long_name_with_debug, long_name_with_debug), file=f)
+        print('WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\%s" "DisplayVersion" "%s"' % (long_name_with_debug, dcpomatic_version), file=f)
+        print('WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\%s" "UninstallString" "$INSTDIR\\Uninstall.exe"' % long_name_with_debug, file=f)
 
-    language('fr', 'FR')
-    language('it', 'IT')
-    language('ko', 'KR', wx=False)
-    language('es', 'ES')
-    language('sv', 'SE')
-    language('de', 'DE')
-    language('el', 'GR')
-    language('nl', 'NL')
-    language('ru', 'RU')
-    language('pl', 'PL')
-    language('da', 'DK')
-    language('pt', 'PT', wx=False, full=True)
-    language('pt', 'BR', wx=False, full=True)
-    language('sk', 'SK', wx=False)
-    language('cs', 'CZ')
-    language('uk', 'UA', wx=False)
-    language('zh', 'CN', wx=False, full=True)
-    language('tr', 'TR', wx=False, full=True)
-    language('sl', 'SI', wx=False, full=True)
-    language('hu', 'HU', wx=False, full=True)
-    language('ja', 'JP', wx=False, full=True)
-    language('fa', 'IR', wx=False, full=True)
-    print('File /oname=wxstd-3.1.mo "%binaries%/src/wx/mo/fa_IR/wxstd.mo"', file=f)
+    with Section(f, f'{long_name_with_debug} desktop shortcuts', default_on=False):
+        print('CreateShortCut "$DESKTOP\\%s.lnk" "$INSTDIR\\bin\\dcpomatic2%s" ""' % (long_name_with_debug, suffix), file=f)
+        for s, l in tools:
+            print('CreateShortCut "$DESKTOP\\%s.lnk" "$INSTDIR\\bin\\dcpomatic2_%s%s" ""' % (tool_name(variant, debug, l), s, suffix), file=f)
 
-    print('SetOutPath "$INSTDIR"', file=f)
+    # --- ENCODE SERVER ---
 
-    for font in fonts:
-        print(f'File "%resources%/../../fonts/{font}"', file=f)
+    with Section(f, "Encode server"):
+        print('SetOutPath "$INSTDIR\\bin"', file=f)
+        print('CreateDirectory "$SMPROGRAMS\\DCP-o-matic 2"', file=f)
+        print('File "%binaries%/src/tools/dcpomatic2_server_cli.exe"', file=f)
+        print('File "%binaries%/src/tools/dcpomatic2_server.exe"', file=f)
 
-    print('File /oname=fonts.conf "%resources%/../../fonts/fonts.conf.windows"', file=f)
+        start_menu_shortcut(f, 'DCP-o-matic 2 Encode Server', 'bin\\dcpomatic2_server.exe', variant)
+        start_menu_shortcut(f, 'Uninstall DCP-o-matic 2', 'Uninstall.exe', variant)
 
-    for graphic in graphics:
-        print(f'File "%graphics%/{graphic}"', file=f)
-
-    print('SetOutPath "$INSTDIR\\web"', file=f)
-    print('File "%web%/index.html"', file=f)
-
-    print('SetOutPath "$INSTDIR\\xsd"', file=f)
-    for xsd in xsds:
-        print(f'File "%cdist_deps%/share/libdcp/xsd/{xsd}"', file=f)
-
-    print('SetOutPath "$INSTDIR\\tags"', file=f)
-    for tag in tags:
-        print(f'File "%cdist_deps%/share/libdcp/tags/{tag}"', file=f)
-
-    print('SetOutPath "$INSTDIR"', file=f)
-    print('File "%cdist_deps%/share/libdcp/ratings"', file=f)
-
-    print('SectionEnd', file=f)
-
-    print('Section "%s"' % long_name_with_debug, file=f)
-
-    print('SetOutPath "$INSTDIR\\bin"', file=f)
-    print("SetShellVarContext all", file=f)
-
-    print('CreateDirectory "$SMPROGRAMS\\%s"' % long_name_with_debug, file=f)
-
-    print('File "%binaries%/src/tools/dcpomatic2.exe"', file=f)
-    for s, l in tools:
-        print('File "%%binaries%%/src/tools/dcpomatic2_%s.exe"' % s, file=f)
-
-    if disk:
-        print('File "%binaries%/src/tools/dcpomatic2_disk_writer.exe"', file=f)
-        print('File "%binaries%/src/tools/dcpomatic2_disk_writer.exe.manifest"', file=f)
-
-    suffix = '_debug.bat' if debug else '.exe'
-    start_menu_shortcut(f, long_name_with_debug, 'bin\\dcpomatic2%s' % suffix, variant, debug=True)
-    for s, l in tools:
-        start_menu_shortcut(f, tool_name(variant, debug, l), 'bin\\dcpomatic2_%s%s' % (s, suffix), variant, debug=True)
-    start_menu_shortcut(f, 'Uninstall %s' % long_name_with_debug, 'Uninstall.exe', variant, debug=True)
-    print('WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\%s" "DisplayName" "%s (remove only)"' % (long_name_with_debug, long_name_with_debug), file=f)
-    print('WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\%s" "DisplayVersion" "%s"' % (long_name_with_debug, dcpomatic_version), file=f)
-    print('WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\%s" "UninstallString" "$INSTDIR\\Uninstall.exe"' % long_name_with_debug, file=f)
-
-    print("SectionEnd", file=f)
-
-    print('Section /o "%s desktop shortcuts"' % long_name_with_debug, file=f)
-    print('CreateShortCut "$DESKTOP\\%s.lnk" "$INSTDIR\\bin\\dcpomatic2%s" ""' % (long_name_with_debug, suffix), file=f)
-    for s, l in tools:
-        print('CreateShortCut "$DESKTOP\\%s.lnk" "$INSTDIR\\bin\\dcpomatic2_%s%s" ""' % (tool_name(variant, debug, l), s, suffix), file=f)
-
-    print("SectionEnd", file=f)
-
-    print('Section "Encode server"', file=f)
-    print('SetOutPath "$INSTDIR\\bin"', file=f)
-    print('CreateDirectory "$SMPROGRAMS\\DCP-o-matic 2"', file=f)
-    print('File "%binaries%/src/tools/dcpomatic2_server_cli.exe"', file=f)
-    print('File "%binaries%/src/tools/dcpomatic2_server.exe"', file=f)
-
-    start_menu_shortcut(f, 'DCP-o-matic 2 Encode Server', 'bin\\dcpomatic2_server.exe', variant)
-    start_menu_shortcut(f, 'Uninstall DCP-o-matic 2', 'Uninstall.exe', variant)
-
-    print('SectionEnd', file=f)
-
-    print('Section /o "Encode server desktop shortcuts"', file=f)
-    print('CreateShortCut "$DESKTOP\\DCP-o-matic 2 Encode Server.lnk" "$INSTDIR\\bin\\dcpomatic2_server.exe" ""', file=f)
-    print('SectionEnd', file=f)
+    with Section(f, "Encode server desktop shortcuts", default_on=False):
+        print('CreateShortCut "$DESKTOP\\DCP-o-matic 2 Encode Server.lnk" "$INSTDIR\\bin\\dcpomatic2_server.exe" ""', file=f)
 
     macro("MUI_PAGE_INSTFILES")
     macro("MUI_PAGE_FINISH")
+
+    # --- UNINSTALL ---
+
     macro("MUI_UNPAGE_WELCOME")
     macro("MUI_UNPAGE_CONFIRM")
     macro("MUI_UNPAGE_INSTFILES")
