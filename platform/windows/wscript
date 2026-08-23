@@ -473,16 +473,14 @@ def write_installer(bits, dcpomatic_version, debug, disk, variant):
 
     with Section(f, "Uninstall"):
         print('SetShellVarContext all', file=f)
-        print('RMDir /r "$INSTDIR\\*.*"', file=f)
-        print('RMDir "$INSTDIR"', file=f)
+        print('RMDir /r "$INSTDIR"', file=f)
 
         if debug:
             print('Delete "$DESKTOP\\DCP-o-matic 2 debug.lnk"', file=f)
             for s, l in tools:
                 print('Delete "$DESKTOP\\DCP-o-matic 2 %s debug.lnk"' % l, file=f)
 
-            print('Delete "$SMPROGRAMS\\DCP-o-matic 2 debug\\*.*"', file=f)
-            print('RmDir  "$SMPROGRAMS\\DCP-o-matic 2 debug"', file=f)
+            print('RmDir /r "$SMPROGRAMS\\DCP-o-matic 2 debug"', file=f)
 
             if bits == 64:
                 print("SetRegView 64", file=f)
@@ -493,8 +491,7 @@ def write_installer(bits, dcpomatic_version, debug, disk, variant):
             for s, l in tools:
                 print('Delete "$DESKTOP\\DCP-o-matic 2 %s.lnk"' % l, file=f)
 
-            print('Delete "$SMPROGRAMS\\DCP-o-matic 2\\*.*"', file=f)
-            print('RmDir  "$SMPROGRAMS\\DCP-o-matic 2"', file=f)
+            print('RmDir /r "$SMPROGRAMS\\DCP-o-matic 2"', file=f)
 
             if bits == 64:
                 print("SetRegView 64", file=f)
