@@ -27,6 +27,86 @@ def tool_name(variant, debug, tool):
     return name
 
 
+static_deps = (
+    "libintl-8.dll",
+    "libgio-2.0-0.dll",
+    "libglib-2.0-0.dll",
+    "libgobject-2.0-0.dll",
+    "libiconv-2.dll",
+    "libjpeg-9.dll",
+    "libpng16-16.dll",
+    "libsigc-2.0-0.dll",
+    "libsndfile-1.dll",
+    "libssh.dll",
+    "libstdc++-6.dll",
+    "zlib1.dll",
+    "libjpeg-9.dll",
+    "wxbase317u_gcc_custom.dll",
+    "wxmsw317u_core_gcc_custom.dll",
+    "wxmsw317u_adv_gcc_custom.dll",
+    "wxmsw317u_richtext_gcc_custom.dll",
+    "wxmsw317u_html_gcc_custom.dll",
+    "wxmsw317u_gl_gcc_custom.dll",
+    "wxmsw317u_propgrid_gcc_custom.dll",
+    "wxbase317u_xml_gcc_custom.dll",
+    "libcairo-2.dll",
+    "libfreetype-6.dll",
+    "libgthread-2.0-0.dll",
+    "libpango-1.0-0.dll",
+    "libgmodule-2.0-0.dll",
+    "libpangocairo-1.0-0.dll",
+    "libpangowin32-1.0-0.dll",
+    "libpangoft2-1.0-0.dll",
+    "libtiff-6.dll",
+    "libglibmm-2.4-1.dll",
+    "libxml++-2.6-2.dll",
+    "libxml2-2.dll",
+    "libpixman-1-0.dll",
+    "libfontconfig-1.dll",
+    "libexpat-1.dll",
+    "libbz2.dll",
+    "libxmlsec1.dll",
+    "libxmlsec1-openssl.dll",
+    "libexslt-0.dll",
+    "libxslt-1.dll",
+    "libffi-7.dll",
+    "openssl.exe",
+    "libcurl-4.dll",
+    "libzip.dll",
+    "libcairomm-1.0-1.dll",
+    "libpangomm-1.4-1.dll",
+    "libsamplerate-0.dll",
+    "libnettle-8.dll",
+    "icuuc66.dll",
+    "icudt66.dll",
+    "icuin66.dll",
+    "liblzma-5.dll",
+    "libpcre-1.dll",
+    "libharfbuzz-0.dll",
+    "libwinpthread-1.dll",
+    "libgnutls-30.dll",
+    "libgmp-10.dll",
+    "libhogweed-6.dll",
+    "libidn2-0.dll",
+    "libunistring-2.dll",
+    "libssh2-1.dll",
+    "libgcrypt-20.dll",
+    "libgpg-error-0.dll",
+    "libx264-155.dll",
+    "libwebp-7.dll",
+    "GLEW.dll",
+    "libdav1d.dll",
+    "libbrotlidec.dll",
+    "libbrotlicommon.dll",
+    "libfribidi-0.dll",
+    "libsharpyuv-0.dll",
+    "libsqlite3-0.dll",
+    "libfmt.dll",
+    "libhpdf.dll",
+    "libltdl-7.dll",
+    "libdl.dll",
+)
+
 
 def start_menu_shortcut(file, link, target, variant, debug=False):
     folder = start_menu_shortcut_folder(variant)
@@ -124,97 +204,17 @@ WriteUninstaller "$INSTDIR\\Uninstall.exe"
     for lib in ['chrono', 'filesystem', 'system', 'thread', 'date_time', 'locale', 'regex']:
         print('File "%%static_deps%%/bin/libboost_%s-mt-x%d.dll"' % (lib, bits), file=f)
 
+    for dep in static_deps:
+        print(f'File "%static_deps%/bin/{dep}"', file=f)
+
     if bits == 32:
         print('File "%static_deps%/bin/libgcc_s_sjlj-1.dll"', file=f)
-    else:
-        print('File "%static_deps%/bin/libgcc_s_seh-1.dll"', file=f)
-
-    print("""
-File "%static_deps%/bin/libintl-8.dll"
-File "%static_deps%/bin/libgio-2.0-0.dll"
-File "%static_deps%/bin/libglib-2.0-0.dll"
-File "%static_deps%/bin/libgobject-2.0-0.dll"
-File "%static_deps%/bin/libiconv-2.dll"
-File "%static_deps%/bin/libjpeg-9.dll"
-File "%static_deps%/bin/libpng16-16.dll"
-File "%static_deps%/bin/libsigc-2.0-0.dll"
-File "%static_deps%/bin/libsndfile-1.dll"
-File "%static_deps%/bin/libssh.dll"
-File "%static_deps%/bin/libstdc++-6.dll"
-File "%static_deps%/bin/zlib1.dll"
-File "%static_deps%/bin/libjpeg-9.dll"
-File "%static_deps%/bin/wxbase317u_gcc_custom.dll"
-File "%static_deps%/bin/wxmsw317u_core_gcc_custom.dll"
-File "%static_deps%/bin/wxmsw317u_adv_gcc_custom.dll"
-File "%static_deps%/bin/wxmsw317u_richtext_gcc_custom.dll"
-File "%static_deps%/bin/wxmsw317u_html_gcc_custom.dll"
-File "%static_deps%/bin/wxmsw317u_gl_gcc_custom.dll"
-File "%static_deps%/bin/wxmsw317u_propgrid_gcc_custom.dll"
-File "%static_deps%/bin/wxbase317u_xml_gcc_custom.dll"
-File "%static_deps%/bin/libcairo-2.dll"
-File "%static_deps%/bin/libfreetype-6.dll"
-File "%static_deps%/bin/libgthread-2.0-0.dll"
-File "%static_deps%/bin/libpango-1.0-0.dll"
-File "%static_deps%/bin/libgmodule-2.0-0.dll"
-File "%static_deps%/bin/libpangocairo-1.0-0.dll"
-File "%static_deps%/bin/libpangowin32-1.0-0.dll"
-File "%static_deps%/bin/libpangoft2-1.0-0.dll"
-File "%static_deps%/bin/libtiff-6.dll"
-File "%static_deps%/bin/libglibmm-2.4-1.dll"
-File "%static_deps%/bin/libxml++-2.6-2.dll"
-File "%static_deps%/bin/libxml2-2.dll"
-File "%static_deps%/bin/libpixman-1-0.dll"
-File "%static_deps%/bin/libfontconfig-1.dll"
-File "%static_deps%/bin/libexpat-1.dll"
-File "%static_deps%/bin/libbz2.dll"
-File "%static_deps%/bin/libxmlsec1.dll"
-File "%static_deps%/bin/libxmlsec1-openssl.dll"
-File "%static_deps%/bin/libexslt-0.dll"
-File "%static_deps%/bin/libxslt-1.dll"
-File "%static_deps%/bin/libffi-7.dll"
-File "%static_deps%/bin/openssl.exe"
-File "%static_deps%/bin/libcurl-4.dll"
-File "%static_deps%/bin/libzip.dll"
-File "%static_deps%/bin/libcairomm-1.0-1.dll"
-File "%static_deps%/bin/libpangomm-1.4-1.dll"
-File "%static_deps%/bin/libsamplerate-0.dll"
-File "%static_deps%/bin/libnettle-8.dll"
-File "%static_deps%/bin/icuuc66.dll"
-File "%static_deps%/bin/icudt66.dll"
-File "%static_deps%/bin/icuin66.dll"
-File "%static_deps%/bin/liblzma-5.dll"
-File "%static_deps%/bin/libpcre-1.dll"
-File "%static_deps%/bin/libharfbuzz-0.dll"
-File "%static_deps%/bin/libwinpthread-1.dll"
-File "%static_deps%/bin/libgnutls-30.dll"
-File "%static_deps%/bin/libgmp-10.dll"
-File "%static_deps%/bin/libhogweed-6.dll"
-File "%static_deps%/bin/libidn2-0.dll"
-File "%static_deps%/bin/libunistring-2.dll"
-File "%static_deps%/bin/libssh2-1.dll"
-File "%static_deps%/bin/libgcrypt-20.dll"
-File "%static_deps%/bin/libgpg-error-0.dll"
-File "%static_deps%/bin/libx264-155.dll"
-File "%static_deps%/bin/libwebp-7.dll"
-File "%static_deps%/bin/GLEW.dll"
-File "%static_deps%/bin/libdav1d.dll"
-File "%static_deps%/bin/libbrotlidec.dll"
-File "%static_deps%/bin/libbrotlicommon.dll"
-File "%static_deps%/bin/libfribidi-0.dll"
-File "%static_deps%/bin/libsharpyuv-0.dll"
-File "%static_deps%/bin/libsqlite3-0.dll"
-File "%static_deps%/bin/libfmt.dll"
-File "%static_deps%/bin/libhpdf.dll"
-    """, file=f)
-
-    if bits == 32:
         print('File "%static_deps%/bin/libcrypto-3.dll"', file=f)
     else:
+        print('File "%static_deps%/bin/libgcc_s_seh-1.dll"', file=f)
         print('File "%static_deps%/bin/libcrypto-3-x64.dll"', file=f)
 
     print("""
-File "%static_deps%/bin/libltdl-7.dll"
-File "%static_deps%/bin/libdl.dll"
 File /oname=dcpomatic2_verify_cli.exe "%cdist_deps%/bin/dcpverify.exe"
 File /oname=dcpomatic2_kdm_inspect.exe "%cdist_deps%/bin/dcpkdm.exe"
 File "%cdist_deps%/bin/leqm_nrt.dll"
