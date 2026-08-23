@@ -170,13 +170,6 @@ tags = (
 )
 
 
-def start_menu_shortcut(file, link, target, variant, debug=False):
-    folder = start_menu_shortcut_folder(variant)
-    if debug:
-        folder += ' debug'
-    print('CreateShortCut "$SMPROGRAMS\\%s\\%s.lnk" "$INSTDIR\\%s"' % (folder, link, target), file=file)
-
-
 def write_installer(bits, dcpomatic_version, debug, disk, variant):
     long_name_with_debug = long_name(variant)
     short_name_with_debug = short_name(variant)
@@ -223,6 +216,12 @@ def write_installer(bits, dcpomatic_version, debug, disk, variant):
     def desktop_shortcut(target, source):
         print(f'IfFileExists "{source}" 0 +2', file=f)
         print(f'CreateShortCut "$DESKTOP\\{target}" "{source}" ""', file=f)
+
+    def start_menu_shortcut(link, target, variant, debug=False):
+        folder = start_menu_shortcut_folder(variant)
+        if debug:
+            folder += ' debug'
+        print('CreateShortCut "$SMPROGRAMS\\%s\\%s.lnk" "$INSTDIR\\%s"' % (folder, link, target), file=f)
 
     class Section:
         def __init__(self, file, name, required=False, default_on=True, exe=False):
@@ -407,7 +406,7 @@ def write_installer(bits, dcpomatic_version, debug, disk, variant):
 
 
     def setup_uninstall(long_name_with_debug, debug):
-        start_menu_shortcut(f, f'Uninstall {long_name_with_debug}', 'Uninstall.exe', variant, debug=debug)
+        start_menu_shortcut(f'Uninstall {long_name_with_debug}', 'Uninstall.exe', variant, debug=debug)
         print('WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\%s" "DisplayName" "%s (remove only)"' % (long_name_with_debug, long_name_with_debug), file=f)
         print('WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\%s" "DisplayVersion" "%s"' % (long_name_with_debug, dcpomatic_version), file=f)
         print('WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\%s" "UninstallString" "$INSTDIR\\Uninstall.exe"' % long_name_with_debug, file=f)
@@ -419,21 +418,21 @@ def write_installer(bits, dcpomatic_version, debug, disk, variant):
 
     with Section(f, long_name_with_debug, exe=True):
         print('File "%binaries%/src/tools/dcpomatic2.exe"', file=f)
-        start_menu_shortcut(f, long_name_with_debug, f'bin\\dcpomatic2{suffix}', variant, debug=debug)
+        start_menu_shortcut(long_name_with_debug, f'bin\\dcpomatic2{suffix}', variant, debug=debug)
         setup_uninstall(long_name_with_debug, debug)
 
     # --- PLAYER ---
 
     with Section(f, "Player", exe=True):
         print('File "%binaries%/src/tools/dcpomatic2_player.exe"', file=f)
-        start_menu_shortcut(f, tool_name(variant, debug, player_name(variant)), f'bin\\dcpomatic2_player{suffix}', variant)
+        start_menu_shortcut(tool_name(variant, debug, player_name(variant)), f'bin\\dcpomatic2_player{suffix}', variant)
         setup_uninstall(long_name_with_debug, debug)
 
     # --- VERIFIER ---
 
     with Section(f, "Verifier", exe=True):
         print('File "%binaries%/src/tools/dcpomatic2_verifier.exe"', file=f)
-        start_menu_shortcut(f, tool_name(variant, debug, verifier_name(variant)), f'bin\\dcpomatic2_verifier{suffix}', variant)
+        start_menu_shortcut(tool_name(variant, debug, verifier_name(variant)), f'bin\\dcpomatic2_verifier{suffix}', variant)
         setup_uninstall(long_name_with_debug, debug)
 
     # --- DISK WRITER ---
@@ -442,21 +441,21 @@ def write_installer(bits, dcpomatic_version, debug, disk, variant):
         with Section(f, "Disk Writer", exe=True):
             print('File "%binaries%/src/tools/dcpomatic2_disk_writer.exe"', file=f)
             print('File "%binaries%/src/tools/dcpomatic2_disk_writer.exe.manifest"', file=f)
-            start_menu_shortcut(f, tool_name(variant, debug, 'Disk Writer'), f'bin\\dcpomatic2_disk{suffix}"', variant)
+            start_menu_shortcut(tool_name(variant, debug, 'Disk Writer'), f'bin\\dcpomatic2_disk{suffix}', variant)
             setup_uninstall(long_name_with_debug, debug)
 
     # --- KDM CREATOR ---
 
     with Section(f, "KDM Creator", exe=True):
         print('File "%binaries%/src/tools/dcpomatic2_kdm.exe"', file=f)
-        start_menu_shortcut(f, tool_name(variant, debug, kdm_creator_name(variant)), f'bin\\dcpomatic2_kdm{suffix}', variant)
+        start_menu_shortcut(tool_name(variant, debug, kdm_creator_name(variant)), f'bin\\dcpomatic2_kdm{suffix}', variant)
         setup_uninstall(long_name_with_debug, debug)
 
     # --- BATCH CONVERTER ---
 
     with Section(f, "Batch Converter", exe=True):
         print('File "%binaries%/src/tools/dcpomatic2_batch.exe"', file=f)
-        start_menu_shortcut(f, tool_name(variant, debug, 'Batch Converter'), f'bin\\dcpomatic2_batch{suffix}', variant)
+        start_menu_shortcut(tool_name(variant, debug, 'Batch Converter'), f'bin\\dcpomatic2_batch{suffix}', variant)
         setup_uninstall(long_name_with_debug, debug)
 
     # --- CLI TOOLS ---
@@ -472,14 +471,14 @@ def write_installer(bits, dcpomatic_version, debug, disk, variant):
 
     with Section(f, "Encode server", exe=True):
         print('File "%binaries%/src/tools/dcpomatic2_server.exe"', file=f)
-        start_menu_shortcut(f, tool_name(variant, debug, 'Encode Server'), f'bin\\dcpomatic2_server{suffix}', variant)
+        start_menu_shortcut(tool_name(variant, debug, 'Encode Server'), f'bin\\dcpomatic2_server{suffix}', variant)
         setup_uninstall(long_name_with_debug, debug)
      
     # --- PLAYLIST EDITOR ---
 
     with Section(f, "Playlist Editor", exe=True):
         print('File "%binaries%/src/tools/dcpomatic2_playlist.exe"', file=f)
-        start_menu_shortcut(f, tool_name(variant, debug, 'Playlist Editor'), f'bin\\dcpomatic2_playlist{suffix}', variant)
+        start_menu_shortcut(tool_name(variant, debug, 'Playlist Editor'), f'bin\\dcpomatic2_playlist{suffix}', variant)
         setup_uninstall(long_name_with_debug, debug)
 
     # --- MANIPULATION TOOLS ---
@@ -488,9 +487,9 @@ def write_installer(bits, dcpomatic_version, debug, disk, variant):
         print('File "%binaries%/src/tools/dcpomatic2_combiner.exe"', file=f)
         print('File "%binaries%/src/tools/dcpomatic2_editor.exe"', file=f)
         print('File "%binaries%/src/tools/dcpomatic2_map.exe"', file=f)
-        start_menu_shortcut(f, tool_name(variant, debug, 'Combiner'), f'bin\\dcpomatic2_combiner{suffix}', variant)
-        start_menu_shortcut(f, tool_name(variant, debug, 'Editor'), f'bin\\dcpomatic2_editor{suffix}', variant)
-        start_menu_shortcut(f, tool_name(variant, debug, 'Map'), f'bin\\dcpomatic2_map{suffix}', variant)
+        start_menu_shortcut(tool_name(variant, debug, 'Combiner'), f'bin\\dcpomatic2_combiner{suffix}', variant)
+        start_menu_shortcut(tool_name(variant, debug, 'Editor'), f'bin\\dcpomatic2_editor{suffix}', variant)
+        start_menu_shortcut(tool_name(variant, debug, 'Map'), f'bin\\dcpomatic2_map{suffix}', variant)
         setup_uninstall(long_name_with_debug, debug)
 
     # --- DESKTOP SHORTCUTS ---
