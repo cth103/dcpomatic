@@ -437,6 +437,7 @@ def write_installer(bits, dcpomatic_version, debug, disk, variant):
 
     with Section(f, "Player"):
         print('SetOutPath "$INSTDIR\\bin"', file=f)
+        print("SetShellVarContext all", file=f)
         print('CreateDirectory "$SMPROGRAMS\\DCP-o-matic 2"', file=f)
         print('File "%binaries%/src/tools/dcpomatic2_player.exe"', file=f)
         start_menu_shortcut(f, 'DCP-o-matic 2 Player', 'bin\\dcpomatic2_player.exe', variant)
@@ -446,6 +447,7 @@ def write_installer(bits, dcpomatic_version, debug, disk, variant):
 
     with Section(f, "Encode server"):
         print('SetOutPath "$INSTDIR\\bin"', file=f)
+        print("SetShellVarContext all", file=f)
         print('CreateDirectory "$SMPROGRAMS\\DCP-o-matic 2"', file=f)
         print('File "%binaries%/src/tools/dcpomatic2_server_cli.exe"', file=f)
         print('File "%binaries%/src/tools/dcpomatic2_server.exe"', file=f)
@@ -455,6 +457,7 @@ def write_installer(bits, dcpomatic_version, debug, disk, variant):
     # --- DESKTOP SHORTCUTS ---
 
     with Section(f, "Desktop shortcuts", default_on=False):
+        print("SetShellVarContext all", file=f)
         suffix = '_debug.bat' if debug else '.exe'
         desktop_shortcut(f'{long_name_with_debug}.lnk', f'$INSTDIR\\bin\\dcpomatic2{suffix}')
         for s, l in tools:
