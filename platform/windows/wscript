@@ -107,6 +107,68 @@ static_deps = (
     "libdl.dll",
 )
 
+fonts = (
+    "LiberationSans-Regular.ttf",
+    "LiberationSans-Italic.ttf",
+    "LiberationSans-Bold.ttf",
+)
+
+graphics = (
+    "splash.png",
+    "zoom_white.png",
+    "zoom_black.png",
+    "zoom_all_white.png",
+    "zoom_all_black.png",
+    "select_white.png",
+    "select_black.png",
+    "snap_white.png",
+    "snap_black.png",
+    "sequence_white.png",
+    "sequence_black.png",
+    "me.jpg",
+    "link_white.png",
+    "link_black.png",
+    "add_black.png",
+    "add_white.png",
+    "pause_black.png",
+    "pause_white.png",
+)
+
+xsds = (
+    "DCDMSubtitle-2010.xsd",
+    "DCDMSubtitle-2014.xsd",
+    "DCSubtitle.v1.mattsson.xsd",
+    "Dolby-2012-AD.xsd",
+    "isdcf-mca.xsd",
+    "Main-Stereo-Picture-CPL.xsd",
+    "PROTO-ASDCP-AM-20040311.xsd",
+    "PROTO-ASDCP-CC-CPL-20070926.xsd",
+    "PROTO-ASDCP-CPL-20040511.xsd",
+    "PROTO-ASDCP-PKL-20040311.xsd",
+    "SMPTE-335-2012.xsd",
+    "SMPTE-395-2014-13-1-aaf.xsd",
+    "SMPTE-429-10-2008.xsd",
+    "SMPTE-429-12-2008.xsd",
+    "SMPTE-429-16.xsd",
+    "SMPTE-429-7-2006-CPL.xsd",
+    "SMPTE-429-8-2006-PKL.xsd",
+    "SMPTE-429-9-2007-AM.xsd",
+    "xlink.xsd",
+    "xmldsig-core-schema.xsd",
+    "XMLSchema.dtd",
+    "XMLSchema.xsd",
+    "xml.xsd",
+)
+
+tags = (
+    "extlang",
+    "language",
+    "region",
+    "script",
+    "variant",
+    "dcnc",
+)
+
 
 def start_menu_shortcut(file, link, target, variant, debug=False):
     folder = start_menu_shortcut_folder(variant)
@@ -187,19 +249,15 @@ def write_installer(bits, dcpomatic_version, debug, disk, variant):
     define("MUI_COMPONENTSPAGE_NODESC")
     macro("MUI_PAGE_COMPONENTS")
 
-    print("""
-Section "Common files (required)"
-SectionIn RO
-    """, file=f)
+    print('Section "Common files (required)"', file=f)
+    print('SectionIn RO', file=f)
 
     if bits == 64:
         # Disable registry redirection (enable access to 64-bit portion of registry)
         print('SetRegView 64', file=f)
 
-    print("""
-SetOutPath "$INSTDIR\\bin"
-WriteUninstaller "$INSTDIR\\Uninstall.exe"
-""", file=f)
+    print('SetOutPath "$INSTDIR\\bin"', file=f)
+    print('WriteUninstaller "$INSTDIR\\Uninstall.exe"', file=f)
 
     for lib in ['chrono', 'filesystem', 'system', 'thread', 'date_time', 'locale', 'regex']:
         print('File "%%static_deps%%/bin/libboost_%s-mt-x%d.dll"' % (lib, bits), file=f)
@@ -222,37 +280,31 @@ WriteUninstaller "$INSTDIR\\Uninstall.exe"
         print('File "%static_deps%/bin/libreadline8.dll"', file=f)
         print('File "%static_deps%/bin/libmman.dll"', file=f)
 
-    print("""
-File /oname=dcpomatic2_verify_cli.exe "%cdist_deps%/bin/dcpverify.exe"
-File /oname=dcpomatic2_kdm_inspect.exe "%cdist_deps%/bin/dcpkdm.exe"
-File "%cdist_deps%/bin/leqm_nrt.dll"
-File "%cdist_deps%/bin/asdcp-dcpomatic.dll"
-File "%cdist_deps%/bin/kumu-dcpomatic.dll"
-    """, file=f)
+    print('File /oname=dcpomatic2_verify_cli.exe "%cdist_deps%/bin/dcpverify.exe"', file=f)
+    print('File /oname=dcpomatic2_kdm_inspect.exe "%cdist_deps%/bin/dcpkdm.exe"', file=f)
+    print('File "%cdist_deps%/bin/leqm_nrt.dll"', file=f)
+    print('File "%cdist_deps%/bin/asdcp-dcpomatic.dll"', file=f)
+    print('File "%cdist_deps%/bin/kumu-dcpomatic.dll"', file=f)
 
     if disk:
-        print("""
-File "%cdist_deps%/lib/libblockdev.dll"
-File "%cdist_deps%/lib/liblwext4.dll"
-        """, file=f)
+        print('File "%cdist_deps%/lib/libblockdev.dll"', file=f)
+        print('File "%cdist_deps%/lib/liblwext4.dll"', file=f)
 
-    print("""
-File "%cdist_deps%/bin/avcodec-61.dll"
-File "%cdist_deps%/bin/avfilter-10.dll"
-File "%cdist_deps%/bin/avformat-61.dll"
-File "%cdist_deps%/bin/avutil-59.dll"
-File "%cdist_deps%/bin/avdevice-61.dll"
-File "%cdist_deps%/bin/postproc-58.dll"
-File "%cdist_deps%/bin/swresample-5.dll"
-File "%cdist_deps%/bin/swscale-8.dll"
-File "%cdist_deps%/bin/dcp-1.0.dll"
-File "%cdist_deps%/bin/cxml-0.dll"
-File "%cdist_deps%/bin/sub-1.0.dll"
-File "%cdist_deps%/bin/ttf-1.0.dll"
-File "%cdist_deps%/bin/ffprobe.exe"
-File "%cdist_deps%/src/openssl/apps/openssl.exe"
-File "%cdist_deps%/bin/libopenjp2.dll"
-    """, file=f)
+    print('File "%cdist_deps%/bin/avcodec-61.dll"', file=f)
+    print('File "%cdist_deps%/bin/avfilter-10.dll"', file=f)
+    print('File "%cdist_deps%/bin/avformat-61.dll"', file=f)
+    print('File "%cdist_deps%/bin/avutil-59.dll"', file=f)
+    print('File "%cdist_deps%/bin/avdevice-61.dll"', file=f)
+    print('File "%cdist_deps%/bin/postproc-58.dll"', file=f)
+    print('File "%cdist_deps%/bin/swresample-5.dll"', file=f)
+    print('File "%cdist_deps%/bin/swscale-8.dll"', file=f)
+    print('File "%cdist_deps%/bin/dcp-1.0.dll"', file=f)
+    print('File "%cdist_deps%/bin/cxml-0.dll"', file=f)
+    print('File "%cdist_deps%/bin/sub-1.0.dll"', file=f)
+    print('File "%cdist_deps%/bin/ttf-1.0.dll"', file=f)
+    print('File "%cdist_deps%/bin/ffprobe.exe"', file=f)
+    print('File "%cdist_deps%/src/openssl/apps/openssl.exe"', file=f)
+    print('File "%cdist_deps%/bin/libopenjp2.dll"', file=f)
 
     if debug:
         print('File "%resources%/gdb_script"', file=f)
@@ -299,68 +351,31 @@ File "%cdist_deps%/bin/libopenjp2.dll"
     language('fa', 'IR', wx=False, full=True)
     print('File /oname=wxstd-3.1.mo "%binaries%/src/wx/mo/fa_IR/wxstd.mo"', file=f)
 
-    print("""
-SetOutPath "$INSTDIR"
-File "%resources%/../../fonts/LiberationSans-Regular.ttf"
-File "%resources%/../../fonts/LiberationSans-Italic.ttf"
-File "%resources%/../../fonts/LiberationSans-Bold.ttf"
-File /oname=fonts.conf "%resources%/../../fonts/fonts.conf.windows"
-File "%graphics%/splash.png"
-File "%graphics%/zoom_white.png"
-File "%graphics%/zoom_black.png"
-File "%graphics%/zoom_all_white.png"
-File "%graphics%/zoom_all_black.png"
-File "%graphics%/select_white.png"
-File "%graphics%/select_black.png"
-File "%graphics%/snap_white.png"
-File "%graphics%/snap_black.png"
-File "%graphics%/sequence_white.png"
-File "%graphics%/sequence_black.png"
-File "%graphics%/me.jpg"
-File "%graphics%/link_white.png"
-File "%graphics%/link_black.png"
-File "%graphics%/add_black.png"
-File "%graphics%/add_white.png"
-File "%graphics%/pause_black.png"
-File "%graphics%/pause_white.png"
-SetOutPath "$INSTDIR\\web"
-File "%web%/index.html"
-SetOutPath "$INSTDIR\\xsd"
-File "%cdist_deps%/share/libdcp/xsd/DCDMSubtitle-2010.xsd"
-File "%cdist_deps%/share/libdcp/xsd/DCDMSubtitle-2014.xsd"
-File "%cdist_deps%/share/libdcp/xsd/DCSubtitle.v1.mattsson.xsd"
-File "%cdist_deps%/share/libdcp/xsd/Dolby-2012-AD.xsd"
-File "%cdist_deps%/share/libdcp/xsd/isdcf-mca.xsd"
-File "%cdist_deps%/share/libdcp/xsd/Main-Stereo-Picture-CPL.xsd"
-File "%cdist_deps%/share/libdcp/xsd/PROTO-ASDCP-AM-20040311.xsd"
-File "%cdist_deps%/share/libdcp/xsd/PROTO-ASDCP-CC-CPL-20070926.xsd"
-File "%cdist_deps%/share/libdcp/xsd/PROTO-ASDCP-CPL-20040511.xsd"
-File "%cdist_deps%/share/libdcp/xsd/PROTO-ASDCP-PKL-20040311.xsd"
-File "%cdist_deps%/share/libdcp/xsd/SMPTE-335-2012.xsd"
-File "%cdist_deps%/share/libdcp/xsd/SMPTE-395-2014-13-1-aaf.xsd"
-File "%cdist_deps%/share/libdcp/xsd/SMPTE-429-10-2008.xsd"
-File "%cdist_deps%/share/libdcp/xsd/SMPTE-429-12-2008.xsd"
-File "%cdist_deps%/share/libdcp/xsd/SMPTE-429-16.xsd"
-File "%cdist_deps%/share/libdcp/xsd/SMPTE-429-7-2006-CPL.xsd"
-File "%cdist_deps%/share/libdcp/xsd/SMPTE-429-8-2006-PKL.xsd"
-File "%cdist_deps%/share/libdcp/xsd/SMPTE-429-9-2007-AM.xsd"
-File "%cdist_deps%/share/libdcp/xsd/xlink.xsd"
-File "%cdist_deps%/share/libdcp/xsd/xmldsig-core-schema.xsd"
-File "%cdist_deps%/share/libdcp/xsd/XMLSchema.dtd"
-File "%cdist_deps%/share/libdcp/xsd/XMLSchema.xsd"
-File "%cdist_deps%/share/libdcp/xsd/xml.xsd"
-SetOutPath "$INSTDIR\\tags"
-File "%cdist_deps%/share/libdcp/tags/extlang"
-File "%cdist_deps%/share/libdcp/tags/language"
-File "%cdist_deps%/share/libdcp/tags/region"
-File "%cdist_deps%/share/libdcp/tags/script"
-File "%cdist_deps%/share/libdcp/tags/variant"
-File "%cdist_deps%/share/libdcp/tags/dcnc"
-SetOutPath "$INSTDIR"
-File "%cdist_deps%/share/libdcp/ratings"
+    print('SetOutPath "$INSTDIR"', file=f)
 
-SectionEnd
-    """, file=f)
+    for font in fonts:
+        print(f'File "%resources%/../../fonts/{font}"', file=f)
+
+    print('File /oname=fonts.conf "%resources%/../../fonts/fonts.conf.windows"', file=f)
+
+    for graphic in graphics:
+        print(f'File "%graphics%/{graphic}"', file=f)
+
+    print('SetOutPath "$INSTDIR\\web"', file=f)
+    print('File "%web%/index.html"', file=f)
+
+    print('SetOutPath "$INSTDIR\\xsd"', file=f)
+    for xsd in xsds:
+        print(f'File "%cdist_deps%/share/libdcp/xsd/{xsd}"', file=f)
+
+    print('SetOutPath "$INSTDIR\\tags"', file=f)
+    for tag in tags:
+        print(f'File "%cdist_deps%/share/libdcp/tags/{tag}"', file=f)
+
+    print('SetOutPath "$INSTDIR"', file=f)
+    print('File "%cdist_deps%/share/libdcp/ratings"', file=f)
+
+    print('SectionEnd', file=f)
 
     print('Section "%s"' % long_name_with_debug, file=f)
 
@@ -374,10 +389,8 @@ SectionEnd
         print('File "%%binaries%%/src/tools/dcpomatic2_%s.exe"' % s, file=f)
 
     if disk:
-        print("""
-File "%binaries%/src/tools/dcpomatic2_disk_writer.exe"
-File "%binaries%/src/tools/dcpomatic2_disk_writer.exe.manifest"
-    """, file=f)
+        print('File "%binaries%/src/tools/dcpomatic2_disk_writer.exe"', file=f)
+        print('File "%binaries%/src/tools/dcpomatic2_disk_writer.exe.manifest"', file=f)
 
     suffix = '_debug.bat' if debug else '.exe'
     start_menu_shortcut(f, long_name_with_debug, 'bin\\dcpomatic2%s' % suffix, variant, debug=True)
@@ -397,23 +410,20 @@ File "%binaries%/src/tools/dcpomatic2_disk_writer.exe.manifest"
 
     print("SectionEnd", file=f)
 
-    print("""
-Section "Encode server"
-SetOutPath "$INSTDIR\\bin"
-CreateDirectory "$SMPROGRAMS\\DCP-o-matic 2"
-File "%binaries%/src/tools/dcpomatic2_server_cli.exe"
-File "%binaries%/src/tools/dcpomatic2_server.exe"
-    """, file=f)
+    print('Section "Encode server"', file=f)
+    print('SetOutPath "$INSTDIR\\bin"', file=f)
+    print('CreateDirectory "$SMPROGRAMS\\DCP-o-matic 2"', file=f)
+    print('File "%binaries%/src/tools/dcpomatic2_server_cli.exe"', file=f)
+    print('File "%binaries%/src/tools/dcpomatic2_server.exe"', file=f)
 
     start_menu_shortcut(f, 'DCP-o-matic 2 Encode Server', 'bin\\dcpomatic2_server.exe', variant)
     start_menu_shortcut(f, 'Uninstall DCP-o-matic 2', 'Uninstall.exe', variant)
 
-    print("""
-SectionEnd
-Section /o "Encode server desktop shortcuts"
-CreateShortCut "$DESKTOP\\DCP-o-matic 2 Encode Server.lnk" "$INSTDIR\\bin\\dcpomatic2_server.exe" ""
-SectionEnd
-    """, file=f)
+    print('SectionEnd', file=f)
+
+    print('Section /o "Encode server desktop shortcuts"', file=f)
+    print('CreateShortCut "$DESKTOP\\DCP-o-matic 2 Encode Server.lnk" "$INSTDIR\\bin\\dcpomatic2_server.exe" ""', file=f)
+    print('SectionEnd', file=f)
 
     macro("MUI_PAGE_INSTFILES")
     macro("MUI_PAGE_FINISH")
@@ -423,12 +433,10 @@ SectionEnd
     macro("MUI_UNPAGE_FINISH")
     macro("MUI_LANGUAGE", '"English"')
 
-    print("""
-Section "Uninstall"
-SetShellVarContext all
-RMDir /r "$INSTDIR\\*.*"
-RMDir "$INSTDIR"
-    """, file=f)
+    print('Section "Uninstall"', file=f)
+    print('SetShellVarContext all', file=f)
+    print('RMDir /r "$INSTDIR\\*.*"', file=f)
+    print('RMDir "$INSTDIR"', file=f)
 
     if debug:
         print('Delete "$DESKTOP\\DCP-o-matic 2 debug.lnk"', file=f)
