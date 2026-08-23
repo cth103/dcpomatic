@@ -196,6 +196,7 @@ def write_installer(bits, dcpomatic_version, debug, disk, variant):
         ('combiner', 'Combiner'),
         ('editor', 'Editor'),
         ('map', 'Map'),
+        ('server', 'Encode Server'),
     ]
 
     if disk:
@@ -218,6 +219,10 @@ def write_installer(bits, dcpomatic_version, debug, disk, variant):
     def define(key, value=None):
         padded_value = f' {value}' if value else ''
         print(f"!define {key}{padded_value}", file=f)
+
+    def desktop_shortcut(target, source):
+        print(f'IfFileExists "{source}" 0 +2', file=f)
+        print(f'CreateShortCut "$DESKTOP\\{target}" "{source}" ""', file=f)
 
     class Section:
         def __init__(self, file, name, required=False, default_on=True):
@@ -406,7 +411,7 @@ def write_installer(bits, dcpomatic_version, debug, disk, variant):
 
         print('File "%binaries%/src/tools/dcpomatic2.exe"', file=f)
         for s, l in tools:
-            if s != 'player':
+            if s not in ('player', 'server'):
                 print('File "%%binaries%%/src/tools/dcpomatic2_%s.exe"' % s, file=f)
 
         if disk:
@@ -416,19 +421,13 @@ def write_installer(bits, dcpomatic_version, debug, disk, variant):
         suffix = '_debug.bat' if debug else '.exe'
         start_menu_shortcut(f, long_name_with_debug, 'bin\\dcpomatic2%s' % suffix, variant, debug=True)
         for s, l in tools:
-            if s != 'player':
+            if s not in ('player', 'server'):
                 start_menu_shortcut(f, tool_name(variant, debug, l), 'bin\\dcpomatic2_%s%s' % (s, suffix), variant, debug=True)
 
         start_menu_shortcut(f, 'Uninstall %s' % long_name_with_debug, 'Uninstall.exe', variant, debug=True)
         print('WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\%s" "DisplayName" "%s (remove only)"' % (long_name_with_debug, long_name_with_debug), file=f)
         print('WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\%s" "DisplayVersion" "%s"' % (long_name_with_debug, dcpomatic_version), file=f)
         print('WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\%s" "UninstallString" "$INSTDIR\\Uninstall.exe"' % long_name_with_debug, file=f)
-
-    with Section(f, f'{long_name_with_debug} desktop shortcuts', default_on=False):
-        print('CreateShortCut "$DESKTOP\\%s.lnk" "$INSTDIR\\bin\\dcpomatic2%s" ""' % (long_name_with_debug, suffix), file=f)
-        for s, l in tools:
-            if s not in ('player'):
-                print('CreateShortCut "$DESKTOP\\%s.lnk" "$INSTDIR\\bin\\dcpomatic2_%s%s" ""' % (tool_name(variant, debug, l), s, suffix), file=f)
 
     # --- PLAYER ---
 
@@ -437,9 +436,6 @@ def write_installer(bits, dcpomatic_version, debug, disk, variant):
         print('CreateDirectory "$SMPROGRAMS\\DCP-o-matic 2"', file=f)
         print('File "%binaries%/src/tools/dcpomatic2_player.exe"', file=f)
         start_menu_shortcut(f, 'DCP-o-matic 2 Player', 'bin\\dcpomatic2_player.exe', variant)
-
-    with Section(f, "Player desktop shortcut", default_on=False):
-        print('CreateShortCut "$DESKTOP\\DCP-o-matic 2 Encode Server.lnk" "$INSTDIR\\bin\\dcpomatic2_server.exe" ""', file=f)
 
     # --- ENCODE SERVER ---
 
@@ -451,8 +447,13 @@ def write_installer(bits, dcpomatic_version, debug, disk, variant):
 
         start_menu_shortcut(f, 'DCP-o-matic 2 Encode Server', 'bin\\dcpomatic2_server.exe', variant)
 
-    with Section(f, "Encode server desktop shortcut", default_on=False):
-        print('CreateShortCut "$DESKTOP\\DCP-o-matic 2 Encode Server.lnk" "$INSTDIR\\bin\\dcpomatic2_server.exe" ""', file=f)
+    # --- DESKTOP SHORTCUTS ---
+
+    with Section(f, "Desktop shortcuts", default_on=False):
+        suffix = '_debug.bat' if debug else '.exe'
+        desktop_shortcut(f'{long_name_with_debug}.lnk', f'$INSTDIR\\bin\\dcpomatic2{suffix}')
+        for s, l in tools:
+            desktop_shortcut(f'{tool_name(variant, debug, l)}.lnk', f'$INSTDIR\\bin\\dcpomatic2_{s}{suffix}')
 
     macro("MUI_PAGE_INSTFILES")
     macro("MUI_PAGE_FINISH")
