@@ -461,14 +461,12 @@ def write_installer(bits, dcpomatic_version, debug, disk, variant):
             desktop_shortcut(f'{tool_name(variant, debug, l)}.lnk', f'$INSTDIR\\bin\\dcpomatic2_{s}{suffix}')
 
     macro("MUI_PAGE_INSTFILES")
-    macro("MUI_PAGE_FINISH")
 
     # --- UNINSTALL ---
 
     macro("MUI_UNPAGE_WELCOME")
     macro("MUI_UNPAGE_CONFIRM")
     macro("MUI_UNPAGE_INSTFILES")
-    macro("MUI_UNPAGE_FINISH")
     macro("MUI_LANGUAGE", '"English"')
 
     with Section(f, "Uninstall"):
