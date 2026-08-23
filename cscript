@@ -508,7 +508,7 @@ def build_with_cpp17(target):
 def dependencies(target, options):
     deps = [('libdcp', 'v1.10.62', {'c++17': build_with_cpp17(target)})]
     deps.append(('libsub', 'v1.6.63'))
-    deps.append(('leqm-nrt', 'd75d0af984d9c14bfefca8f1bdbc215c3bf3a388'))
+    deps.append(('leqm-nrt', '3913040723f746c0b4a59cb55cd8a23030ea49a2'))
     deps.append(('libttf', 'v0.0.7'))
     if target.platform != 'linux' or target.distro != 'arch':
         # We get our OpenSSL libraries from the environment, but we
