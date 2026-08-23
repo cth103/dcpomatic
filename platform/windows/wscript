@@ -92,9 +92,7 @@ def write_installer(bits, dcpomatic_version, debug, disk, variant):
     define("MUI_UNICON", '"%graphics%/windows/dcpomatic2.ico"')
     define("MUI_SPECIALBITMAP", '"%graphics%/windows/dcpomatic.bmp"')
 
-    print("""
-!include "Sections.nsh"
-    """, file=f)
+    print('!include "Sections.nsh"', file=f)
 
     if bits == 64:
         program_files = "$PROGRAMFILES64"
@@ -115,16 +113,12 @@ SectionIn RO
     """, file=f)
 
     if bits == 64:
-        print("""
-; disable registry redirection (enable access to 64-bit portion of registry)
-SetRegView 64
-        """, file=f)
+        # Disable registry redirection (enable access to 64-bit portion of registry)
+        print('SetRegView 64', file=f)
 
     print("""
 SetOutPath "$INSTDIR\\bin"
 WriteUninstaller "$INSTDIR\\Uninstall.exe"
-
-File "%static_deps%/bin/libintl-8.dll"
 """, file=f)
 
     for lib in ['chrono', 'filesystem', 'system', 'thread', 'date_time', 'locale', 'regex']:
@@ -136,6 +130,7 @@ File "%static_deps%/bin/libintl-8.dll"
         print('File "%static_deps%/bin/libgcc_s_seh-1.dll"', file=f)
 
     print("""
+File "%static_deps%/bin/libintl-8.dll"
 File "%static_deps%/bin/libgio-2.0-0.dll"
 File "%static_deps%/bin/libglib-2.0-0.dll"
 File "%static_deps%/bin/libgobject-2.0-0.dll"
