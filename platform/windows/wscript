@@ -264,110 +264,42 @@ File "%cdist_deps%/bin/libopenjp2.dll"
         print('File "%binaries%/src/wx/dcpomatic2-wx.dll"', file=f)
         print('File "%binaries%/src/lib/dcpomatic2.dll"', file=f)
 
+    print('SetOutPath "$INSTDIR\\bin"', file=f)
+
+    def language(language, country, wx=True, full=False):
+        lc = f"{language}_{country}" if full else language
+        print(f'SetOutPath "$INSTDIR\\locale\\{lc}\\LC_MESSAGES"', file=f)
+        print(f'File "%binaries%/src/lib/mo/{language}_{country}/libdcpomatic2.mo"', file=f)
+        print(f'File "%binaries%/src/wx/mo/{language}_{country}/libdcpomatic2-wx.mo"', file=f)
+        print(f'File "%binaries%/src/tools/mo/{language}_{country}/dcpomatic2.mo"', file=f)
+        if wx:
+            print(f'File "%static_deps%/share/locale/{lc}/LC_MESSAGES/wxstd-3.1.mo"', file=f)
+
+    language('fr', 'FR')
+    language('it', 'IT')
+    language('ko', 'KR', wx=False)
+    language('es', 'ES')
+    language('sv', 'SE')
+    language('de', 'DE')
+    language('el', 'GR')
+    language('nl', 'NL')
+    language('ru', 'RU')
+    language('pl', 'PL')
+    language('da', 'DK')
+    language('pt', 'PT', wx=False, full=True)
+    language('pt', 'BR', wx=False, full=True)
+    language('sk', 'SK', wx=False)
+    language('cs', 'CZ')
+    language('uk', 'UA', wx=False)
+    language('zh', 'CN', wx=False, full=True)
+    language('tr', 'TR', wx=False, full=True)
+    language('sl', 'SI', wx=False, full=True)
+    language('hu', 'HU', wx=False, full=True)
+    language('ja', 'JP', wx=False, full=True)
+    language('fa', 'IR', wx=False, full=True)
+    print('File /oname=wxstd-3.1.mo "%binaries%/src/wx/mo/fa_IR/wxstd.mo"', file=f)
+
     print("""
-SetOutPath "$INSTDIR\\bin"
-
-SetOutPath "$INSTDIR\\locale\\fr\\LC_MESSAGES"
-File "%binaries%/src/lib/mo/fr_FR/libdcpomatic2.mo"
-File "%binaries%/src/wx/mo/fr_FR/libdcpomatic2-wx.mo"
-File "%binaries%/src/tools/mo/fr_FR/dcpomatic2.mo"
-File "%static_deps%/share/locale/fr/LC_MESSAGES/wxstd-3.1.mo"
-SetOutPath "$INSTDIR\\locale\\it\\LC_MESSAGES"
-File "%binaries%/src/lib/mo/it_IT/libdcpomatic2.mo"
-File "%binaries%/src/wx/mo/it_IT/libdcpomatic2-wx.mo"
-File "%binaries%/src/tools/mo/it_IT/dcpomatic2.mo"
-File "%static_deps%/share/locale/it/LC_MESSAGES/wxstd-3.1.mo"
-SetOutPath "$INSTDIR\\locale\\ko\\LC_MESSAGES"
-File "%binaries%/src/lib/mo/ko_KR/libdcpomatic2.mo"
-File "%binaries%/src/wx/mo/ko_KR/libdcpomatic2-wx.mo"
-File "%binaries%/src/tools/mo/ko_KR/dcpomatic2.mo"
-SetOutPath "$INSTDIR\\locale\\es\\LC_MESSAGES"
-File "%binaries%/src/lib/mo/es_ES/libdcpomatic2.mo"
-File "%binaries%/src/wx/mo/es_ES/libdcpomatic2-wx.mo"
-File "%binaries%/src/tools/mo/es_ES/dcpomatic2.mo"
-File "%static_deps%/share/locale/es/LC_MESSAGES/wxstd-3.1.mo"
-SetOutPath "$INSTDIR\\locale\\sv\\LC_MESSAGES"
-File "%binaries%/src/lib/mo/sv_SE/libdcpomatic2.mo"
-File "%binaries%/src/wx/mo/sv_SE/libdcpomatic2-wx.mo"
-File "%binaries%/src/tools/mo/sv_SE/dcpomatic2.mo"
-File "%static_deps%/share/locale/sv/LC_MESSAGES/wxstd-3.1.mo"
-SetOutPath "$INSTDIR\\locale\\de\\LC_MESSAGES"
-File "%binaries%/src/lib/mo/de_DE/libdcpomatic2.mo"
-File "%binaries%/src/wx/mo/de_DE/libdcpomatic2-wx.mo"
-File "%binaries%/src/tools/mo/de_DE/dcpomatic2.mo"
-File "%static_deps%/share/locale/de/LC_MESSAGES/wxstd-3.1.mo"
-SetOutPath "$INSTDIR\\locale\\el\\LC_MESSAGES"
-File "%binaries%/src/lib/mo/el_GR/libdcpomatic2.mo"
-File "%binaries%/src/wx/mo/el_GR/libdcpomatic2-wx.mo"
-File "%binaries%/src/tools/mo/el_GR/dcpomatic2.mo"
-File "%static_deps%/share/locale/el/LC_MESSAGES/wxstd-3.1.mo"
-SetOutPath "$INSTDIR\\locale\\nl\\LC_MESSAGES"
-File "%binaries%/src/lib/mo/nl_NL/libdcpomatic2.mo"
-File "%binaries%/src/wx/mo/nl_NL/libdcpomatic2-wx.mo"
-File "%binaries%/src/tools/mo/nl_NL/dcpomatic2.mo"
-File "%static_deps%/share/locale/nl/LC_MESSAGES/wxstd-3.1.mo"
-SetOutPath "$INSTDIR\\locale\\ru\\LC_MESSAGES"
-File "%binaries%/src/lib/mo/ru_RU/libdcpomatic2.mo"
-File "%binaries%/src/wx/mo/ru_RU/libdcpomatic2-wx.mo"
-File "%binaries%/src/tools/mo/ru_RU/dcpomatic2.mo"
-File "%static_deps%/share/locale/ru/LC_MESSAGES/wxstd-3.1.mo"
-SetOutPath "$INSTDIR\\locale\\pl\\LC_MESSAGES"
-File "%binaries%/src/lib/mo/pl_PL/libdcpomatic2.mo"
-File "%binaries%/src/wx/mo/pl_PL/libdcpomatic2-wx.mo"
-File "%binaries%/src/tools/mo/pl_PL/dcpomatic2.mo"
-File "%static_deps%/share/locale/pl/LC_MESSAGES/wxstd-3.1.mo"
-SetOutPath "$INSTDIR\\locale\\da\\LC_MESSAGES"
-File "%binaries%/src/lib/mo/da_DK/libdcpomatic2.mo"
-File "%binaries%/src/wx/mo/da_DK/libdcpomatic2-wx.mo"
-File "%binaries%/src/tools/mo/da_DK/dcpomatic2.mo"
-File "%static_deps%/share/locale/da/LC_MESSAGES/wxstd-3.1.mo"
-SetOutPath "$INSTDIR\\locale\\pt_PT\\LC_MESSAGES"
-File "%binaries%/src/lib/mo/pt_PT/libdcpomatic2.mo"
-File "%binaries%/src/wx/mo/pt_PT/libdcpomatic2-wx.mo"
-File "%binaries%/src/tools/mo/pt_PT/dcpomatic2.mo"
-SetOutPath "$INSTDIR\\locale\\pt_BR\\LC_MESSAGES"
-File "%binaries%/src/lib/mo/pt_BR/libdcpomatic2.mo"
-File "%binaries%/src/wx/mo/pt_BR/libdcpomatic2-wx.mo"
-File "%binaries%/src/tools/mo/pt_BR/dcpomatic2.mo"
-SetOutPath "$INSTDIR\\locale\\sk\\LC_MESSAGES"
-File "%binaries%/src/lib/mo/sk_SK/libdcpomatic2.mo"
-File "%binaries%/src/wx/mo/sk_SK/libdcpomatic2-wx.mo"
-File "%binaries%/src/tools/mo/sk_SK/dcpomatic2.mo"
-SetOutPath "$INSTDIR\\locale\\cs\\LC_MESSAGES"
-File "%binaries%/src/lib/mo/cs_CZ/libdcpomatic2.mo"
-File "%binaries%/src/wx/mo/cs_CZ/libdcpomatic2-wx.mo"
-File "%binaries%/src/tools/mo/cs_CZ/dcpomatic2.mo"
-File "%static_deps%/share/locale/cs/LC_MESSAGES/wxstd-3.1.mo"
-SetOutPath "$INSTDIR\\locale\\uk\\LC_MESSAGES"
-File "%binaries%/src/lib/mo/uk_UA/libdcpomatic2.mo"
-File "%binaries%/src/wx/mo/uk_UA/libdcpomatic2-wx.mo"
-File "%binaries%/src/tools/mo/uk_UA/dcpomatic2.mo"
-SetOutPath "$INSTDIR\\locale\\zh_cn\\LC_MESSAGES"
-File "%binaries%/src/lib/mo/zh_CN/libdcpomatic2.mo"
-File "%binaries%/src/wx/mo/zh_CN/libdcpomatic2-wx.mo"
-File "%binaries%/src/tools/mo/zh_CN/dcpomatic2.mo"
-SetOutPath "$INSTDIR\\locale\\tr_tr\\LC_MESSAGES"
-File "%binaries%/src/lib/mo/tr_TR/libdcpomatic2.mo"
-File "%binaries%/src/wx/mo/tr_TR/libdcpomatic2-wx.mo"
-File "%binaries%/src/tools/mo/tr_TR/dcpomatic2.mo"
-SetOutPath "$INSTDIR\\locale\\sl_si\\LC_MESSAGES"
-File "%binaries%/src/lib/mo/sl_SI/libdcpomatic2.mo"
-File "%binaries%/src/wx/mo/sl_SI/libdcpomatic2-wx.mo"
-File "%binaries%/src/tools/mo/sl_SI/dcpomatic2.mo"
-SetOutPath "$INSTDIR\\locale\\hu_hu\\LC_MESSAGES"
-File "%binaries%/src/lib/mo/hu_HU/libdcpomatic2.mo"
-File "%binaries%/src/wx/mo/hu_HU/libdcpomatic2-wx.mo"
-File "%binaries%/src/tools/mo/hu_HU/dcpomatic2.mo"
-SetOutPath "$INSTDIR\\locale\\ja_JP\\LC_MESSAGES"
-File "%binaries%/src/lib/mo/ja_JP/libdcpomatic2.mo"
-File "%binaries%/src/wx/mo/ja_JP/libdcpomatic2-wx.mo"
-File "%binaries%/src/tools/mo/ja_JP/dcpomatic2.mo"
-SetOutPath "$INSTDIR\\locale\\fa_IR\\LC_MESSAGES"
-File "%binaries%/src/lib/mo/fa_IR/libdcpomatic2.mo"
-File "%binaries%/src/wx/mo/fa_IR/libdcpomatic2-wx.mo"
-File "%binaries%/src/tools/mo/fa_IR/dcpomatic2.mo"
-File /oname=wxstd-3.1.mo "%binaries%/src/wx/mo/fa_IR/wxstd.mo"
-
 SetOutPath "$INSTDIR"
 File "%resources%/../../fonts/LiberationSans-Regular.ttf"
 File "%resources%/../../fonts/LiberationSans-Italic.ttf"
