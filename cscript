@@ -723,16 +723,41 @@ def build(target, options, for_package):
 def package_windows(target):
     identifier = '%d' % target.bits
     shutil.copyfile('build/platform/windows/installer.%s.nsi' % identifier, 'build/platform/windows/installer2.%s.nsi' % identifier)
-    target.command('sed -i "s~%%resources%%~%s/platform/windows~g" build/platform/windows/installer2.%s.nsi' % (os.getcwd(), identifier))
-    target.command('sed -i "s~%%graphics%%~%s/graphics~g" build/platform/windows/installer2.%s.nsi' % (os.getcwd(), identifier))
-    target.command('sed -i "s~%%web%%~%s/web~g" build/platform/windows/installer2.%s.nsi' % (os.getcwd(), identifier))
-    target.command('sed -i "s~%%static_deps%%~%s~g" build/platform/windows/installer2.%s.nsi' % (target.windows_prefix, identifier))
-    target.command('sed -i "s~%%cdist_deps%%~%s~g" build/platform/windows/installer2.%s.nsi' % (target.directory, identifier))
-    target.command('sed -i "s~%%mingw%%~%s~g" build/platform/windows/installer2.%s.nsi' % (target.environment_prefix, identifier))
-    target.command('sed -i "s~%%binaries%%~%s/build~g" build/platform/windows/installer2.%s.nsi' % (os.getcwd(), identifier))
-    target.command('sed -i "s~%%bits%%~32~g" build/platform/windows/installer2.%s.nsi' % identifier)
-    target.command('makensis build/platform/windows/installer2.%s.nsi' % identifier)
-    return os.path.abspath(glob.glob('build/platform/windows/*%s*.exe' % target.bits)[0])
+    out = 'build/platform/windows/installer'
+    os.mkdir(out)
+
+    replacements = {
+        "resources": f"{os.getcwd()}/platform/windows",
+        "graphics": f"{os.getcwd()}/graphics",
+        "static_deps": target.environment_prefix,
+        "cdist_deps": target.directory,
+        "mingw": target.environment_prefix,
+        "docs": f"{os.getcwd()}",
+        "binaries": f"{os.getcwd()}/build",
+        "web": f"{os.getcwd()}/web",
+    }
+
+    with open('build/platform/windows/installer.%s.nsi' % identifier, 'r') as in_script, open('build/platform/windows/installer/script.nsi', 'w') as out_script:
+        for line in in_script.readlines():
+            fixed = False
+            if line.startswith("File ") or line.startswith("!define") or line.startswith("!insertmacro"):
+                parts = line.strip().split(" ")
+                path = parts[-1][1:-1]
+                for key, value in replacements.items():
+                    if path.find(f"%{key}%") != -1:
+                        filename = os.path.basename(path)
+                        target.command(f'cp {path.replace(f"%{key}%", value)} {os.path.join(out, filename)}')
+                        if len(parts) == 2:
+                            print(f'{parts[0]} "{filename}"', file=out_script)
+                        else:
+                            print(f'{parts[0]} {parts[1]} "{filename}"', file=out_script)
+                        fixed = True
+            if not fixed:
+                print(line.strip(), file=out_script)
+
+    target.command('zip -9 -j -r build/platform/windows/installer.zip %s' % out)
+
+    return os.path.abspath('build/platform/windows/installer.zip')
 
 def package_debian(target, cpu, version, options):
     name = debian_name(options['variant'])
