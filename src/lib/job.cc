@@ -199,10 +199,17 @@ Job::run_wrapper()
 					)
 				);
 		} else {
-			set_error(
-				e.what(),
-				fmt::format(_("It is not known what caused this error.  {}"), report_problem())
-				);
+			if (e.path2().string().empty()) {
+				set_error(
+					fmt::format("{} (path {})", e.what(), e.path1().string()),
+					fmt::format(_("It is not known what caused this error.  {}"), report_problem())
+					);
+			} else {
+				set_error(
+					fmt::format("{} (paths {} and {})", e.what(), e.path1().string(), e.path2().string()),
+					fmt::format(_("It is not known what caused this error.  {}"), report_problem())
+					);
+			}
 		}
 
 		set_progress(1);
