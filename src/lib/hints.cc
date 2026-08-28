@@ -20,15 +20,14 @@
 
 
 #include "audio_analysis.h"
-#include "audio_content.h"
 #include "audio_processor.h"
 #include "config.h"
 #include "constants.h"
 #include "content.h"
 #include "cross.h"
 #include "dcp_content_type.h"
+#include "dcpomatic_log.h"
 #include "film.h"
-#include "font.h"
 #include "hints.h"
 #include "maths_util.h"
 #include "player.h"
