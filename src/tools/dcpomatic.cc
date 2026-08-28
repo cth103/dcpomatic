@@ -801,7 +801,7 @@ private:
 			auto const path = boost::filesystem::path(wx_to_std(dialog.GetPath()));
 			if (boost::filesystem::exists(path)) {
 				boost::system::error_code ec;
-				boost::filesystem::remove(path, ec);
+				dcp::filesystem::remove(path, ec);
 				if (ec) {
 					error_dialog(nullptr, _("Could not remove existing preferences file"), std_to_wx(path.string()));
 					return;
