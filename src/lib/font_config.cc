@@ -53,6 +53,9 @@ FontConfig::~FontConfig()
 	for (auto file: _temp_files) {
 		boost::system::error_code ec;
 		dcp::filesystem::remove(file, ec);
+		if (ec) {
+			LOG_ERROR("Could not remove temporary font file {} ({})", file.string(), ec.what());
+		}
 	}
 }
 

@@ -537,7 +537,11 @@ try
 			"The largest file is {}MB.  You should divide the DCP into shorter reels."
 		       ), *largest_sub_mxf / 1000000));
 	}
-	dcp::filesystem::remove_all(dcp_dir);
+	boost::system::error_code ec;
+	dcp::filesystem::remove_all(dcp_dir, ec);
+	if (ec) {
+		LOG_ERROR("Failed to remove hints working directory {} ({})", dcp_dir.string(), ec.what());
+	}
 
 	emit(boost::bind(boost::ref(Finished)));
 }

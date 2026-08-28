@@ -429,7 +429,11 @@ try
 					auto temp = film()->j2c_path(qi.reel, qi.frame, qi.eyes, false);
 					DCPOMATIC_ASSERT(dcp::filesystem::exists(temp));
 					qi.encoded = make_shared<ArrayData>(temp);
-					dcp::filesystem::remove(temp);
+					boost::system::error_code ec;
+					dcp::filesystem::remove(temp, ec);
+					if (ec) {
+						LOG_ERROR("Could not remove pushed frame ({})", ec.what());
+					}
 				}
 				reel.write(qi.encoded, qi.frame, qi.eyes);
 				++_full_written;
