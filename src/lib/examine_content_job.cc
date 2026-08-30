@@ -22,14 +22,12 @@
 #include "content.h"
 #include "examine_content_job.h"
 #include "film.h"
-#include "log.h"
 #include <boost/filesystem.hpp>
 #include <iostream>
 
 #include "i18n.h"
 
 
-using std::cout;
 using std::shared_ptr;
 using std::string;
 using std::vector;

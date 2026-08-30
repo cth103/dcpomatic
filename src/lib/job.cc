@@ -24,13 +24,11 @@
  */
 
 
-#include "constants.h"
 #include "cross.h"
 #include "dcpomatic_log.h"
 #include "exceptions.h"
 #include "film.h"
 #include "job.h"
-#include "log.h"
 #include "util.h"
 #include "variant.h"
 #include <dcp/exceptions.h>
@@ -39,14 +37,11 @@
 #include <boost/filesystem.hpp>
 #include <boost/thread.hpp>
 #include <time.h>
-#include <iostream>
 
 #include "i18n.h"
 
 
-using std::cout;
 using std::function;
-using std::list;
 using std::shared_ptr;
 using std::string;
 using boost::optional;
