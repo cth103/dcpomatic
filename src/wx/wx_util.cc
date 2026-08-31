@@ -24,6 +24,7 @@
  */
 
 
+#include "dir_picker_ctrl.h"
 #include "file_picker_ctrl.h"
 #include "language_tag_widget.h"
 #include "password_entry.h"
@@ -248,6 +249,21 @@ checked_set(FilePickerCtrl* widget, boost::filesystem::path value)
 
 void
 checked_set(wxDirPickerCtrl* widget, boost::filesystem::path value)
+{
+	if (widget->GetPath() != std_to_wx(value.string())) {
+		if (value.empty()) {
+			/* Hack to make wxWidgets clear the control when we are passed
+			   an empty value.
+			*/
+			value = " ";
+		}
+		widget->SetPath(std_to_wx(value.string()));
+	}
+}
+
+
+void
+checked_set(DirPickerCtrl* widget, boost::filesystem::path value)
 {
 	if (widget->GetPath() != std_to_wx(value.string())) {
 		if (value.empty()) {

@@ -81,7 +81,7 @@ class DirDialogWrapper : public wxDirDialog
 {
 public:
 	DirDialogWrapper(wxWindow* parent)
-		: wxDirDialog(parent, _("Choose a DCP folder"), {}, wxDD_DIR_MUST_EXIST)
+		: wxDirDialog(parent, _("Choose a DCP folder"), {}, wxDD_DEFAULT_STYLE)
 	{
 
 	}

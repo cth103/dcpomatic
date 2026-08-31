@@ -605,7 +605,7 @@ private:
 			this,
 			_("Select film to open"),
 			std_to_wx(Config::instance()->default_directory_or(wx_to_std(wxStandardPaths::Get().GetDocumentsDir())).string()),
-			wxDEFAULT_DIALOG_STYLE | wxDD_DIR_MUST_EXIST
+			wxDEFAULT_DIALOG_STYLE
 			);
 
 		int r;

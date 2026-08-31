@@ -80,7 +80,7 @@ KDMOutputPanel::create_destination_widgets(wxWindow* parent)
 #ifdef DCPOMATIC_USE_OWN_PICKER
 	_folder = new DirPickerCtrl(parent);
 #else
-	_folder = new wxDirPickerCtrl(parent, wxID_ANY, wxEmptyString, char_to_wx(wxDirSelectorPromptStr), wxDefaultPosition, wxSize(300, -1));
+	_folder = new wxDirPickerCtrl(parent, wxID_ANY, wxEmptyString, char_to_wx(wxDirSelectorPromptStr), wxDefaultPosition, wxSize(300, -1), wxDIRP_DEFAULT_STYLE & ~wxDIRP_DIR_MUST_EXIST);
 #endif
 
 	auto path = Config::instance()->default_kdm_directory();

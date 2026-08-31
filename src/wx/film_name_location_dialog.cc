@@ -55,7 +55,7 @@ FilmNameLocationDialog::FilmNameLocationDialog (wxWindow* parent, wxString title
 	_folder = new DirPickerCtrl (this);
 	_folder->Changed.connect (bind(&FilmNameLocationDialog::folder_changed, this));
 #else
-	_folder = new wxDirPickerCtrl(this, wxID_ANY, wxEmptyString, char_to_wx(wxDirSelectorPromptStr), wxDefaultPosition, wxSize (300, -1));
+	_folder = new wxDirPickerCtrl(this, wxID_ANY, wxEmptyString, char_to_wx(wxDirSelectorPromptStr), wxDefaultPosition, wxSize (300, -1), wxDIRP_DEFAULT_STYLE & ~wxDIRP_DIR_MUST_EXIST);
 	_folder->Bind (wxEVT_DIRPICKER_CHANGED, bind(&FilmNameLocationDialog::folder_changed, this));
 #endif
 
