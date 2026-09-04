@@ -1176,3 +1176,14 @@ email_address_basically_ok(string address)
 	return address.find_first_of("@") != std::string::npos;
 }
 
+
+string
+error_code_to_string(boost::system::error_code code)
+{
+#ifdef DCPOMATIC_HAVE_BOOST_SYSTEM_ERROR_CODE_WHAT
+	return code.what();
+#else
+	return code.message();
+#endif
+}
+

@@ -22,6 +22,7 @@
 #include "dcpomatic_assert.h"
 #include "dcpomatic_log.h"
 #include "remembered_asset.h"
+#include "util.h"
 #include <dcp/filesystem.h>
 #include <libcxml/cxml.h>
 LIBDCP_DISABLE_WARNINGS
@@ -85,7 +86,7 @@ clean_up_asset_directory(boost::filesystem::path directory)
 	boost::system::error_code ec;
 	dcp::filesystem::remove_all(directory, ec);
 	if (ec) {
-		LOG_ERROR("Failed to clean up asset directory ({})", ec.what());
+		LOG_ERROR("Failed to clean up asset directory ({})", error_code_to_string(ec));
 	}
 }
 

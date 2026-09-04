@@ -432,7 +432,7 @@ try
 					boost::system::error_code ec;
 					dcp::filesystem::remove(temp, ec);
 					if (ec) {
-						LOG_ERROR("Could not remove pushed frame ({})", ec.what());
+						LOG_ERROR("Could not remove pushed frame ({})", error_code_to_string(ec));
 					}
 				}
 				reel.write(qi.encoded, qi.frame, qi.eyes);

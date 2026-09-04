@@ -539,7 +539,7 @@ try
 	boost::system::error_code ec;
 	dcp::filesystem::remove_all(dcp_dir, ec);
 	if (ec) {
-		LOG_ERROR("Failed to remove hints working directory {} ({})", dcp_dir.string(), ec.what());
+		LOG_ERROR("Failed to remove hints working directory {} ({})", dcp_dir.string(), error_code_to_string(ec));
 	}
 
 	emit(boost::bind(boost::ref(Finished)));

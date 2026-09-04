@@ -646,7 +646,14 @@ def configure(conf):
                        msg='Checking for boost::asio::ip::basic_resolver_results',
                        define_name='DCPOMATIC_HAVE_BOOST_ASIO_IP_BASIC_RESOLVER_RESULTS',
                        mandatory=False)
-                    
+
+        conf.check_cxx(fragment="""
+                           #include <boost/system/error_code.hpp>
+                           int main() { boost::system::error_code c; c.what(); }
+                           """,
+                       msg='Checking for boost::system::error_code::what()',
+                       define_name='DCPOMATIC_HAVE_BOOST_SYSTEM_ERROR_CODE_WHAT',
+                       mandatory=False)
 
     # sqlite3: most platforms have a .pc file (but macOS not)
     if conf.check_cfg(package="sqlite3", args='--cflags --libs', uselib_store='SQLITE3', mandatory=False) is None:

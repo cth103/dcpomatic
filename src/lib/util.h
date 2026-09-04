@@ -101,6 +101,7 @@ extern std::string rfc_2822_date(time_t time);
 bool paths_exist(std::vector<boost::filesystem::path> const& paths);
 std::function<AVPixelFormat (AVPixelFormat)> force(AVPixelFormat format);
 bool text_positions_close(float a, float b);
+std::string error_code_to_string(boost::system::error_code code);
 /** @param Email address
  *  @return true if the address passes some basic checks to suggest it might be valid.
  */

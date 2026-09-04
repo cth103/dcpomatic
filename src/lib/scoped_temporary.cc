@@ -22,6 +22,7 @@
 #include "dcpomatic_log.h"
 #include "exceptions.h"
 #include "scoped_temporary.h"
+#include "util.h"
 #include <dcp/filesystem.h>
 
 
@@ -43,7 +44,7 @@ ScopedTemporary::~ScopedTemporary ()
 	boost::system::error_code ec;
 	dcp::filesystem::remove(_path, ec);
 	if (ec) {
-		LOG_ERROR("Could not delete temporary file {} ({})", _path.string(), ec.what());
+		LOG_ERROR("Could not delete temporary file {} ({})", _path.string(), error_code_to_string(ec));
 	}
 }
 
