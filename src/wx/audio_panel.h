@@ -39,27 +39,27 @@ class wxStaticText;
 class AudioPanel : public ContentSubPanel
 {
 public:
-	explicit AudioPanel (ContentPanel *);
+	explicit AudioPanel(ContentPanel *);
 
-	void create () override;
+	void create() override;
 	void film_changed(FilmProperty) override;
-	void film_content_changed (int) override;
-	void content_selection_changed () override;
-	void set_film (std::shared_ptr<Film>);
+	void film_content_changed(int) override;
+	void content_selection_changed() override;
+	void set_film(std::shared_ptr<Film>);
 
 private:
-	void show_clicked ();
-	void gain_calculate_button_clicked ();
-	void mapping_changed (AudioMapping);
-	void setup_description ();
-	void setup_peak ();
-	void active_jobs_changed (boost::optional<std::string>, boost::optional<std::string>);
-	void setup_sensitivity ();
-	void add_to_grid () override;
-	boost::optional<float> peak () const;
-	void fade_in_changed ();
-	void fade_out_changed ();
-	void use_same_fades_as_video_changed ();
+	void show_clicked();
+	void gain_calculate_button_clicked();
+	void mapping_changed(AudioMapping);
+	void setup_description();
+	void setup_peak();
+	void active_jobs_changed(boost::optional<std::string>, boost::optional<std::string>);
+	void setup_sensitivity();
+	void add_to_grid() override;
+	boost::optional<float> peak() const;
+	void fade_in_changed();
+	void fade_out_changed();
+	void use_same_fades_as_video_changed();
 
 	wxButton* _show;
 	wxStaticText* _gain_label;
