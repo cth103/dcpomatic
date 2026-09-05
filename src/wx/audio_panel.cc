@@ -467,15 +467,7 @@ AudioPanel::setup_peak()
 		}
 	}
 
-	static auto normal = _peak->GetForegroundColour();
-
-	if (peak_dB && *peak_dB > -0.5) {
-		_peak->SetForegroundColour(wxColour(255, 0, 0));
-	} else if (peak_dB && *peak_dB > -3) {
-		_peak->SetForegroundColour(wxColour(186, 120, 0));
-	} else {
-		_peak->SetForegroundColour(normal);
-	}
+	_peak->SetForegroundColour(colour_for_peak(peak_dB.get_value_or(-96)));
 }
 
 

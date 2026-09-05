@@ -407,26 +407,14 @@ AudioDialog::setup_statistics()
 			)
 		);
 
-	wxColour const peaking = *wxRED;
-	wxColour const not_peaking = gui_is_dark() ? *wxWHITE : *wxBLACK;
-
-	if (peak_dB > -3) {
-		_sample_peak->SetForegroundColour(peaking);
-	} else {
-		_sample_peak->SetForegroundColour(not_peaking);
-	}
+	_sample_peak->SetForegroundColour(colour_for_peak(peak_dB));
 
 	if (_analysis->overall_true_peak()) {
 		float const peak = _analysis->overall_true_peak().get();
 		float const peak_dB = linear_to_db(peak) + _analysis->gain_correction(_playlist);
 
 		_true_peak->SetLabel(wxString::Format(_("True peak is %.2fdB"), peak_dB));
-
-		if (peak_dB > -3) {
-			_true_peak->SetForegroundColour(peaking);
-		} else {
-			_true_peak->SetForegroundColour(not_peaking);
-		}
+		_true_peak->SetForegroundColour(colour_for_peak(peak_dB));
 	}
 
 	/* XXX: check whether it's ok to add dB gain to these quantities */

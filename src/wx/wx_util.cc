@@ -782,3 +782,16 @@ dcpomatic::wx::link_bitmap_path()
 	return bitmap_path(gui_is_dark() ? "link_white.png" : "link_black.png");
 }
 
+
+wxColour
+colour_for_peak(float peak_db)
+{
+	if (peak_db > -0.5) {
+		return wxColour(255, 0, 0);
+	} else if (peak_db > -3)  {
+		return wxColour(186, 120, 0);
+	}
+
+	return gui_is_dark() ? *wxWHITE : *wxBLACK;
+}
+
