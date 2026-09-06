@@ -33,21 +33,12 @@ extern "C" {
 #include <libavfilter/buffersink.h>
 #include <libavformat/avio.h>
 }
-#include <iostream>
-#include <memory>
 
 #include "i18n.h"
 
 
 using std::string;
-using std::list;
-using std::pair;
-using std::make_pair;
-using std::cout;
 using std::vector;
-using std::shared_ptr;
-using std::weak_ptr;
-using dcp::Size;
 
 
 void
