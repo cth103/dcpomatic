@@ -716,17 +716,27 @@ def package_windows(target):
                 path = parts[-1][1:-1]
                 for key, value in replacements.items():
                     if path.find(f"%{key}%") != -1:
-                        filename = os.path.basename(path)
-                        target.command(f'cp {path.replace(f"%{key}%", value)} {os.path.join(out, filename)}')
-                        if len(parts) == 2:
-                            print(f'{parts[0]} "{filename}"', file=out_script)
+                        if path.endswith(".mo"):
+                            # Retain the path so that we can have multiple files called
+                            # dcpomatic2.mo etc.
+                            filename = path.replace(f"%{key}%/", "")
                         else:
-                            print(f'{parts[0]} {parts[1]} "{filename}"', file=out_script)
+                            filename = os.path.basename(path)
+                        dest = os.path.join(out, filename)
+                        target.command(f'mkdir -p {os.path.dirname(dest)}')
+                        target.command(f'cp {path.replace(f"%{key}%", value)} {dest}')
+                        windows_filename = filename.replace('/', '\\')
+                        if len(parts) == 2:
+                            print(f'{parts[0]} "{windows_filename}"', file=out_script)
+                        else:
+                            print(f'{parts[0]} {parts[1]} "{windows_filename}"', file=out_script)
                         fixed = True
             if not fixed:
                 print(line.strip(), file=out_script)
 
-    target.command('zip -9 -j -r build/platform/windows/installer.zip %s' % out)
+    # Hack so that we don't have to cd to the directory before making the zip
+    target.command(f'ln -s {out} .')
+    target.command(f'zip -9 -r build/platform/windows/installer.zip installer')
 
     return os.path.abspath('build/platform/windows/installer.zip')
 
