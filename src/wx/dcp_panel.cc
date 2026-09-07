@@ -269,7 +269,7 @@ DCPPanel::add_to_grid()
 	++r;
 
 	add_label_to_sizer(_grid, _standard_label, true, wxGBPosition(r, 0));
-	_grid->Add(_standard, wxGBPosition(r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
+	_grid->Add(_standard, wxGBPosition(r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL | wxEXPAND);
 	++r;
 
 	auto extra = new wxBoxSizer(wxHORIZONTAL);
