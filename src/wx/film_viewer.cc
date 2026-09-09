@@ -34,6 +34,7 @@
 #include "simple_video_view.h"
 #include "wx_util.h"
 #include "lib/butler.h"
+#include "lib/constants.h"
 #include "lib/config.h"
 #include "lib/dcp_content.h"
 #include "lib/dcpomatic_log.h"
@@ -60,6 +61,7 @@ extern "C" {
 LIBDCP_DISABLE_WARNINGS
 #include <wx/tglbtn.h>
 LIBDCP_ENABLE_WARNINGS
+#include <algorithm>
 #include <iomanip>
 
 
@@ -243,11 +245,33 @@ FilmViewer::create_butler()
 
 	auto& audio = AudioBackend::instance()->rtaudio();
 
+	AudioMapping mapping;
+	int audio_channels;
+	_inspect_dcp_channels = 0;
+
+	if (_inspector_active.load() && _film->audio_channels() > 0 && _audio_channels > 0) {
+		auto const dcp_channels = std::min(_film->audio_channels(), MAX_DCP_AUDIO_CHANNELS);
+		_inspect_dcp_channels = dcp_channels;
+
+		AudioMapping identity(MAX_DCP_AUDIO_CHANNELS, dcp_channels);
+		identity.make_zero();
+		for (int i = 0; i < dcp_channels; ++i) {
+			identity.set(i, i, 1.0f);
+		}
+
+		mapping = identity;
+		audio_channels = dcp_channels;
+		_inspector.configure(dcp_channels, _audio_channels, _audio_block_size);
+	} else {
+		mapping = Config::instance()->audio_mapping(_audio_channels);
+		audio_channels = _audio_channels;
+	}
+
 	_butler = std::make_shared<Butler>(
 		_film,
 		*_player,
-		Config::instance()->audio_mapping(_audio_channels),
-		_audio_channels,
+		mapping,
+		audio_channels,
 		AV_PIX_FMT_RGB24,
 		VideoRange::FULL,
 		(opengl && _optimisation != Optimisation::NONE) ? Image::Alignment::COMPACT : Image::Alignment::PADDED,
@@ -258,7 +282,86 @@ FilmViewer::create_butler()
 
 	_closed_captions_dialog->set_butler(_butler);
 
+	if (_inspect_dcp_channels > 0) {
+		inspector_recompute_matrix();
+	}
+
 	resume();
+}
+
+
+void
+FilmViewer::inspector_set_active(bool active)
+{
+	if (_inspector_active.load() == active) {
+		return;
+	}
+
+	destroy_butler();
+
+	if (active) {
+		_inspector_active.store(true);
+	} else {
+		_inspector.clear();
+		_inspector_active.store(false);
+	}
+
+	if (!_film) {
+		resume();
+		return;
+	}
+
+	create_butler();
+}
+
+
+void
+FilmViewer::inspector_recompute_matrix()
+{
+	if (_inspect_dcp_channels <= 0 || _audio_channels <= 0) {
+		return;
+	}
+
+	ChannelInspector::Matrix matrix;
+	for (auto& row: matrix.gain) {
+		for (auto& value: row) {
+			value = 0.0f;
+		}
+	}
+
+	auto const mapping = Config::instance()->audio_mapping(_audio_channels);
+	auto const input_channels = std::min(_inspect_dcp_channels, mapping.input_channels());
+	auto const output_channels = std::min<int>(ChannelInspector::MAX_DEV, std::min(_audio_channels, mapping.output_channels()));
+	bool mapped[ChannelInspector::MAX_DCP] = {};
+	bool soloing = false;
+
+	for (int input = 0; input < input_channels; ++input) {
+		for (int output = 0; output < output_channels; ++output) {
+			if (mapping.get(input, output) > 0.0f) {
+				mapped[input] = true;
+				break;
+			}
+		}
+
+		if (mapped[input] && _inspector.solo(input)) {
+			soloing = true;
+		}
+	}
+
+	for (int input = 0; input < input_channels; ++input) {
+		if (!mapped[input] || (soloing && !_inspector.solo(input)) || _inspector.mute(input)) {
+			continue;
+		}
+
+		for (int output = 0; output < output_channels; ++output) {
+			auto const gain = mapping.get(input, output);
+			if (gain > 0.0f) {
+				matrix.gain[input][output] = gain;
+			}
+		}
+	}
+
+	_inspector.publish(matrix);
 }
 
 
@@ -738,13 +841,28 @@ FilmViewer::audio_callback(void* out_p, unsigned int frames)
 		_stream_time = audio.getStreamTime();
 	}
 
-	while (true) {
-		auto t = _butler->get_audio(Butler::Behaviour::NON_BLOCKING, reinterpret_cast<float*>(out_p), frames);
-		if (!t || DCPTime(uncorrected_time() - *t) < one_video_frame()) {
-			/* There was an underrun or this audio is on time; carry on */
-			break;
+	if (_inspector_active.load() && _inspector.can_process(frames)) {
+		auto mid = _inspector.mid_buffer();
+		while (true) {
+			auto t = _butler->get_audio(Butler::Behaviour::NON_BLOCKING, mid, frames);
+			if (!t || DCPTime(uncorrected_time() - *t) < one_video_frame()) {
+				break;
+			}
 		}
-		/* The audio we just got was (very) late; drop it and get some more. */
+
+		_inspector.meter(mid, frames);
+		_inspector.downmix(mid, reinterpret_cast<float*>(out_p), frames);
+	} else if (_inspector_active.load()) {
+		std::fill_n(reinterpret_cast<float*>(out_p), static_cast<std::size_t>(frames) * _audio_channels, 0.0f);
+	} else {
+		while (true) {
+			auto t = _butler->get_audio(Butler::Behaviour::NON_BLOCKING, reinterpret_cast<float*>(out_p), frames);
+			if (!t || DCPTime(uncorrected_time() - *t) < one_video_frame()) {
+				/* There was an underrun or this audio is on time; carry on */
+				break;
+			}
+			/* The audio we just got was (very) late; drop it and get some more. */
+		}
 	}
 
 	if (auto lm = boost::mutex::scoped_lock(_latency_history_mutex, boost::try_to_lock)) {

@@ -24,8 +24,13 @@
  */
 
 
+#ifndef DCPOMATIC_FILM_VIEWER_H
+#define DCPOMATIC_FILM_VIEWER_H
+
+
 #include "optimisation.h"
 #include "video_view.h"
+#include "channel_inspector.h"
 #include "lib/change_signaller.h"
 #include "lib/config.h"
 #include "lib/film_property.h"
@@ -38,6 +43,7 @@ LIBDCP_DISABLE_WARNINGS
 #include <RtAudio.h>
 #include <wx/wx.h>
 LIBDCP_ENABLE_WARNINGS
+#include <atomic>
 #include <vector>
 
 
@@ -126,6 +132,35 @@ public:
 
 	int audio_callback(void* out, unsigned int frames);
 
+	void inspector_set_active(bool active);
+	bool inspector_active() const {
+		return _inspector_active.load();
+	}
+	int inspector_dcp_channels() const {
+		return _inspect_dcp_channels;
+	}
+	void inspector_set_solo(int channel, bool active) {
+		_inspector.set_solo(channel, active);
+		inspector_recompute_matrix();
+	}
+	void inspector_set_mute(int channel, bool active) {
+		_inspector.set_mute(channel, active);
+		inspector_recompute_matrix();
+	}
+	void inspector_clear() {
+		_inspector.clear();
+		inspector_recompute_matrix();
+	}
+	bool inspector_solo(int channel) const {
+		return _inspector.solo(channel);
+	}
+	bool inspector_mute(int channel) const {
+		return _inspector.mute(channel);
+	}
+	float inspector_peak_dbfs(int channel) const {
+		return _inspector.peak_dbfs(channel);
+	}
+
 	StateTimer const & state_timer() const {
 		return _video_view->state_timer();
 	}
@@ -183,6 +218,7 @@ private:
 	void destroy_butler();
 	void create_butler();
 	void destroy_and_maybe_create_butler();
+	void inspector_recompute_matrix();
 	void config_changed(Config::Property);
 	void film_length_change();
 	void ui_finished();
@@ -200,6 +236,9 @@ private:
 	std::vector<int> _pending_player_changes;
 
 	int _audio_channels = 0;
+	ChannelInspector _inspector;
+	std::atomic<bool> _inspector_active{false};
+	int _inspect_dcp_channels = 0;
 	unsigned int _audio_block_size = 1024;
 	bool _playing = false;
 	int _suspended = 0;
@@ -242,3 +281,6 @@ private:
 
 	boost::signals2::scoped_connection _config_changed_connection;
 };
+
+
+#endif
