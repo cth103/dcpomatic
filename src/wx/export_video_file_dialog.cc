@@ -39,28 +39,28 @@ using boost::bind;
 int constexpr FORMATS = 4;
 
 
-wxString format_names[] = {
+static wxString format_names[] = {
 	_("MOV / ProRes 4444"),
 	_("MOV / ProRes HQ"),
 	_("MOV / ProRes LT"),
 	_("MP4 / H.264"),
 };
 
-wxString format_filters[] = {
+static wxString format_filters[] = {
 	_("MOV files (*.mov)|*.mov"),
 	_("MOV files (*.mov)|*.mov"),
 	_("MOV files (*.mov)|*.mov"),
 	_("MP4 files (*.mp4)|*.mp4"),
 };
 
-wxString format_extensions[] = {
+static wxString format_extensions[] = {
 	char_to_wx("mov"),
 	char_to_wx("mov"),
 	char_to_wx("mov"),
 	char_to_wx("mp4")
 };
 
-ExportFormat formats[] = {
+static ExportFormat formats[] = {
 	ExportFormat::PRORES_4444,
 	ExportFormat::PRORES_HQ,
 	ExportFormat::PRORES_LT,
