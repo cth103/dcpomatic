@@ -93,7 +93,7 @@ private:
 	AVPixelFormat _pixel_format;
 	AVSampleFormat _sample_format;
 	AVDictionary* _video_options = nullptr;
-	std::string _video_codec_name;
+	boost::optional<std::string> _video_codec_name;
 	std::string _audio_codec_name;
 	int _audio_channels;
 

@@ -271,7 +271,9 @@ FFmpegFileEncoder::FFmpegFileEncoder(
 		throw EncodeError(N_("avformat_alloc_output_context2"), "FFmpegFileEncoder::FFmpegFileEncoder", r);
 	}
 
-	setup_video();
+	if (_video_codec_name) {
+		setup_video();
+	}
 	setup_audio();
 
 	r = avio_open_boost(&_format_context->pb, _output, AVIO_FLAG_WRITE);
@@ -322,9 +324,11 @@ FFmpegFileEncoder::pixel_format(ExportFormat format)
 void
 FFmpegFileEncoder::setup_video()
 {
-	_video_codec = avcodec_find_encoder_by_name(_video_codec_name.c_str());
+	DCPOMATIC_ASSERT(_video_codec_name);
+
+	_video_codec = avcodec_find_encoder_by_name(_video_codec_name->c_str());
 	if (!_video_codec) {
-		throw EncodeError(fmt::format("avcodec_find_encoder_by_name failed for {}", _video_codec_name));
+		throw EncodeError(fmt::format("avcodec_find_encoder_by_name failed for {}", *_video_codec_name));
 	}
 
 	_video_codec_context = avcodec_alloc_context3(_video_codec);
