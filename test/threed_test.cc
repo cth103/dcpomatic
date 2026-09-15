@@ -264,7 +264,17 @@ BOOST_AUTO_TEST_CASE(threed_test_butler_overfill)
 	Player player(film, Image::Alignment::COMPACT, false);
 	int const audio_channels = 2;
 	auto butler = std::make_shared<Butler>(
-		film, player, AudioMapping(), audio_channels, AV_PIX_FMT_RGB24, VideoRange::FULL, Image::Alignment::PADDED, true, false, Butler::Audio::ENABLED
+		film,
+		player,
+		AudioMapping(),
+		audio_channels,
+		AV_PIX_FMT_RGB24,
+		VideoRange::FULL,
+		Image::Alignment::PADDED,
+		true,
+		false,
+		Butler::Video::ENABLED,
+		Butler::Audio::ENABLED
 		);
 
 	int const audio_frames = 1920;
@@ -358,7 +368,17 @@ BOOST_AUTO_TEST_CASE(threed_test_butler_not_filling_with_left_only)
 	Player player(film, Image::Alignment::COMPACT, false);
 	int const audio_channels = 2;
 	auto butler = std::make_shared<Butler>(
-		film, player, AudioMapping(), audio_channels, AV_PIX_FMT_RGB24, VideoRange::FULL, Image::Alignment::PADDED, true, false, Butler::Audio::ENABLED
+		film,
+		player,
+		AudioMapping(),
+		audio_channels,
+		AV_PIX_FMT_RGB24,
+		VideoRange::FULL,
+		Image::Alignment::PADDED,
+		true,
+		false,
+		Butler::Video::ENABLED,
+		Butler::Audio::ENABLED
 		);
 
 	int const audio_frames = 1920;

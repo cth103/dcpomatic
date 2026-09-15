@@ -219,7 +219,7 @@ BOOST_AUTO_TEST_CASE(player_seek_test)
 	player.set_play_referenced();
 
 	auto butler = std::make_shared<Butler>(
-		film, player, AudioMapping(), 2, AV_PIX_FMT_RGB24, VideoRange::FULL, Image::Alignment::PADDED, true, false, Butler::Audio::DISABLED
+		film, player, AudioMapping(), 2, AV_PIX_FMT_RGB24, VideoRange::FULL, Image::Alignment::PADDED, true, false, Butler::Video::ENABLED, Butler::Audio::DISABLED
 		);
 
 	for (int i = 0; i < 10; ++i) {
@@ -252,7 +252,7 @@ BOOST_AUTO_TEST_CASE(player_seek_test2)
 	player.set_play_referenced();
 
 	auto butler = std::make_shared<Butler>
-		(film, player, AudioMapping(), 2, AV_PIX_FMT_RGB24, VideoRange::FULL, Image::Alignment::PADDED, true, false, Butler::Audio::DISABLED
+		(film, player, AudioMapping(), 2, AV_PIX_FMT_RGB24, VideoRange::FULL, Image::Alignment::PADDED, true, false, Butler::Video::ENABLED, Butler::Audio::DISABLED
 		 );
 
 	butler->seek(DCPTime::from_seconds(5), true);
@@ -344,7 +344,7 @@ BOOST_AUTO_TEST_CASE(player_trim_crash)
 	Player player(film, Image::Alignment::COMPACT, false);
 	player.set_fast();
 	auto butler = std::make_shared<Butler>(
-		film, player, AudioMapping(), 6, AV_PIX_FMT_RGB24, VideoRange::FULL, Image::Alignment::COMPACT, true, false, Butler::Audio::ENABLED
+		film, player, AudioMapping(), 6, AV_PIX_FMT_RGB24, VideoRange::FULL, Image::Alignment::COMPACT, true, false, Butler::Video::ENABLED, Butler::Audio::ENABLED
 		);
 
 	/* Wait for the butler to fill */
@@ -477,7 +477,19 @@ BOOST_AUTO_TEST_CASE(encrypted_dcp_with_no_kdm_gives_no_butler_error)
 	auto film2 = new_test_film("encrypted_dcp_with_no_kdm_gives_no_butler_error2", { content2 });
 
 	Player player(film, Image::Alignment::COMPACT, false);
-	Butler butler(film2, player, AudioMapping(), 2, AV_PIX_FMT_RGB24, VideoRange::FULL, Image::Alignment::PADDED, true, false, Butler::Audio::ENABLED);
+	Butler butler(
+		film2,
+		player,
+		AudioMapping(),
+		2,
+		AV_PIX_FMT_RGB24,
+		VideoRange::FULL,
+		Image::Alignment::PADDED,
+		true,
+		false,
+		Butler::Video::ENABLED,
+		Butler::Audio::ENABLED
+	);
 
 	float buffer[2000 * 6];
 	for (int i = 0; i < length; ++i) {
@@ -726,7 +738,19 @@ BOOST_AUTO_TEST_CASE(unmapped_audio_does_not_raise_buffer_error)
 	content->audio->set_mapping(AudioMapping(6 * 2, MAX_DCP_AUDIO_CHANNELS));
 
 	Player player(film, Image::Alignment::COMPACT, false);
-	Butler butler(film, player, AudioMapping(), 2, AV_PIX_FMT_RGB24, VideoRange::FULL, Image::Alignment::PADDED, true, false, Butler::Audio::ENABLED);
+	Butler butler(
+		film,
+		player,
+		AudioMapping(),
+		2,
+		AV_PIX_FMT_RGB24,
+		VideoRange::FULL,
+		Image::Alignment::PADDED,
+		true,
+		false,
+		Butler::Video::ENABLED,
+		Butler::Audio::ENABLED
+	);
 
 	/* Wait for the butler thread to run for a while; in the case under test it will throw an exception because
 	 * the video buffers are filled but no audio comes.
@@ -745,7 +769,19 @@ BOOST_AUTO_TEST_CASE(frames_are_copied_correctly_for_low_frame_rates)
 	film->set_video_frame_rate(30);
 
 	Player player(film, Image::Alignment::COMPACT, false);
-	Butler butler(film, player, AudioMapping(), 2, AV_PIX_FMT_RGB24, VideoRange::FULL, Image::Alignment::PADDED, true, false, Butler::Audio::ENABLED);
+	Butler butler(
+		film,
+		player,
+		AudioMapping(),
+		2,
+		AV_PIX_FMT_RGB24,
+		VideoRange::FULL,
+		Image::Alignment::PADDED,
+		true,
+		false,
+		Butler::Video::ENABLED,
+		Butler::Audio::ENABLED
+	);
 
 	/* Check that only red frames come out - previously there would be some black ones mixed in */
 	for (auto i = 0; i < 24; ++i) {

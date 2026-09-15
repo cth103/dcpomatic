@@ -44,6 +44,12 @@ class PlayerVideo;
 class Butler : public ExceptionStore
 {
 public:
+	enum class Video
+	{
+		ENABLED,
+		DISABLED
+	};
+
 	enum class Audio
 	{
 		ENABLED,
@@ -55,11 +61,12 @@ public:
 		Player& player,
 		AudioMapping map,
 		int audio_channels,
-		AVPixelFormat pixel_format,
+		boost::optional<AVPixelFormat> pixel_format,
 		VideoRange video_range,
 		Image::Alignment alignment,
 		bool fast,
 		bool prepare_only_proxy,
+		Video video,
 		Audio audio
 		);
 
@@ -133,9 +140,10 @@ private:
 	AudioMapping _audio_mapping;
 	int _audio_channels;
 
+	bool _disable_video;
 	bool _disable_audio;
 
-	AVPixelFormat _pixel_format;
+	boost::optional<AVPixelFormat> _pixel_format;
 	VideoRange _video_range;
 	Image::Alignment _alignment;
 	bool _fast;

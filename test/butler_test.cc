@@ -63,6 +63,7 @@ BOOST_AUTO_TEST_CASE (butler_test1)
 		Image::Alignment::COMPACT,
 		false,
 		false,
+		Butler::Video::ENABLED,
 		Butler::Audio::ENABLED
 		);
 
@@ -110,6 +111,7 @@ BOOST_AUTO_TEST_CASE (butler_test2)
 		Image::Alignment::COMPACT,
 		false,
 		false,
+		Butler::Video::ENABLED,
 		Butler::Audio::ENABLED
 		);
 

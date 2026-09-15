@@ -253,6 +253,7 @@ FilmViewer::create_butler()
 		(opengl && _optimisation != Optimisation::NONE) ? Image::Alignment::COMPACT : Image::Alignment::PADDED,
 		true,
 		opengl && _optimisation == Optimisation::JPEG2000,
+		Butler::Video::ENABLED,
 		(Config::instance()->sound() && audio.isStreamOpen()) ? Butler::Audio::ENABLED : Butler::Audio::DISABLED
 		);
 

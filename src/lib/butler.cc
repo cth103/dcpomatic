@@ -63,11 +63,12 @@ Butler::Butler(
 	Player& player,
 	AudioMapping audio_mapping,
 	int audio_channels,
-	AVPixelFormat pixel_format,
+	optional<AVPixelFormat> pixel_format,
 	VideoRange video_range,
 	Image::Alignment alignment,
 	bool fast,
 	bool prepare_only_proxy,
+	Video video,
 	Audio audio
 	)
 	: _film(film)
@@ -80,6 +81,7 @@ Butler::Butler(
 	, _stop_thread(false)
 	, _audio_mapping(audio_mapping)
 	, _audio_channels(audio_channels)
+	, _disable_video(video == Video::DISABLED)
 	, _disable_audio(audio == Audio::DISABLED)
 	, _pixel_format(pixel_format)
 	, _video_range(video_range)
@@ -326,7 +328,8 @@ try
 	/* If the weak_ptr cannot be locked the video obviously no longer requires any work */
 	if (video) {
 		LOG_TIMING("start-prepare in {}", thread_id());
-		video->prepare(_pixel_format, _video_range, _alignment, _fast, _prepare_only_proxy);
+		BOOST_ASSERT(_pixel_format);
+		video->prepare(*_pixel_format, _video_range, _alignment, _fast, _prepare_only_proxy);
 		LOG_TIMING("finish-prepare in {}", thread_id());
 	}
 }
@@ -350,8 +353,8 @@ Butler::video(shared_ptr<PlayerVideo> video, DCPTime time)
 {
 	boost::mutex::scoped_lock lm(_mutex);
 
-	if (_pending_seek_position) {
-		/* Don't store any video in this case */
+	if (_pending_seek_position || _disable_video) {
+		/* Don't store any video in these cases */
 		return;
 	}
 

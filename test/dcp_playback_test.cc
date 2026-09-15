@@ -48,6 +48,7 @@ BOOST_AUTO_TEST_CASE (dcp_playback_test)
 		Image::Alignment::PADDED,
 		true,
 		false,
+		Butler::Video::ENABLED,
 		Butler::Audio::ENABLED
 		);
 

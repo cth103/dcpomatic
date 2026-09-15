@@ -75,6 +75,7 @@ FFmpegFilmEncoder::FFmpegFilmEncoder(
 		Image::Alignment::PADDED,
 		false,
 		false,
+		Butler::Video::ENABLED,
 		Butler::Audio::ENABLED
 		)
 {
