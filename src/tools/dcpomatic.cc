@@ -28,6 +28,7 @@
 #include "wx/content_panel.h"
 #include "wx/dcp_referencing_dialog.h"
 #include "wx/dkdm_dialog.h"
+#include "wx/export_audio_file_dialog.h"
 #include "wx/export_subtitles_dialog.h"
 #include "wx/export_video_file_dialog.h"
 #include "wx/film_editor.h"
@@ -240,6 +241,7 @@ enum {
 	ID_jobs_make_dkdms,
 	ID_jobs_make_self_dkdm,
 	ID_jobs_export_video_file,
+	ID_jobs_export_audio_file,
 	ID_jobs_export_subtitles,
 	ID_jobs_send_dcp_to_tms,
 	ID_jobs_show_dcp,
@@ -352,6 +354,7 @@ public:
 		Bind(wxEVT_MENU, boost::bind(&DOMFrame::jobs_make_dcp_batch, this),     ID_jobs_make_dcp_batch);
 		Bind(wxEVT_MENU, boost::bind(&DOMFrame::jobs_make_self_dkdm, this),     ID_jobs_make_self_dkdm);
 		Bind(wxEVT_MENU, boost::bind(&DOMFrame::jobs_export_video_file, this),  ID_jobs_export_video_file);
+		Bind(wxEVT_MENU, boost::bind(&DOMFrame::jobs_export_audio_file, this),  ID_jobs_export_audio_file);
 		Bind(wxEVT_MENU, boost::bind(&DOMFrame::jobs_export_subtitles, this),   ID_jobs_export_subtitles);
 		Bind(wxEVT_MENU, boost::bind(&DOMFrame::jobs_send_dcp_to_tms, this),    ID_jobs_send_dcp_to_tms);
 		Bind(wxEVT_MENU, boost::bind(&DOMFrame::jobs_show_dcp, this),           ID_jobs_show_dcp);
@@ -1062,6 +1065,33 @@ private:
 	}
 
 
+	void jobs_export_audio_file()
+	{
+		ExportAudioFileDialog dialog(this, _film->isdcf_name(true));
+		if (dialog.ShowModal() != wxID_OK) {
+			return;
+		}
+
+		if (dcp::filesystem::exists(dialog.path())) {
+			bool ok = confirm_dialog(
+					this,
+					wxString::Format(_("File %s already exists.  Do you want to overwrite it?"), std_to_wx(dialog.path().string()).data())
+					);
+
+			if (!ok) {
+				return;
+			}
+		}
+
+		auto job = make_shared<TranscodeJob>(_film, TranscodeJob::ChangedBehaviour::EXAMINE_THEN_STOP);
+		job->set_encoder(
+			make_shared<FFmpegFilmEncoder>(
+				_film, job, dialog.path(), dialog.format(), dialog.mixdown_to_stereo(), dialog.split_reels(), false, 0
+			));
+		JobManager::instance()->add(job);
+	}
+
+
 	void jobs_export_subtitles()
 	{
 		int open_subs = 0;
@@ -1445,6 +1475,7 @@ private:
 		jobs_menu->AppendSeparator();
 		/* [Shortcut] Ctrl+E:Export video file */
 		add_item(jobs_menu, _("Export video file...\tCtrl-E"), ID_jobs_export_video_file, NEEDS_FILM);
+		add_item(jobs_menu, _("Export audio file..."), ID_jobs_export_audio_file, NEEDS_FILM);
 		add_item(jobs_menu, _("Export subtitles...\tShift-Ctrl-E"), ID_jobs_export_subtitles, NEEDS_FILM);
 		jobs_menu->AppendSeparator();
 		add_item(jobs_menu, _("&Send DCP to TMS"), ID_jobs_send_dcp_to_tms, NEEDS_FILM | NOT_DURING_DCP_CREATION | NEEDS_CPL);

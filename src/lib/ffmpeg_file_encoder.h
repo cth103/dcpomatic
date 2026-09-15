@@ -50,8 +50,13 @@ enum class ExportFormat
 	PRORES_HQ,
 	PRORES_LT,
 	H264_AAC,
-	SUBTITLES_DCP
+	SUBTITLES_DCP,
+	WAV_16,
+	WAV_24
 };
+
+
+bool format_has_video(ExportFormat format);
 
 
 class FFmpegFileEncoder
@@ -76,7 +81,7 @@ public:
 
 	void flush();
 
-	static AVPixelFormat pixel_format(ExportFormat format);
+	static boost::optional<AVPixelFormat> pixel_format(ExportFormat format);
 
 private:
 	void setup_video();
@@ -90,7 +95,7 @@ private:
 	bool _audio_stream_per_channel;
 	AVFormatContext* _format_context = nullptr;
 	AVStream* _video_stream = nullptr;
-	AVPixelFormat _pixel_format;
+	boost::optional<AVPixelFormat> _pixel_format;
 	AVSampleFormat _sample_format;
 	AVDictionary* _video_options = nullptr;
 	boost::optional<std::string> _video_codec_name;
@@ -108,8 +113,7 @@ private:
 
 	ImageStore _pending_images;
 
-	static int _video_stream_index;
-	static int _audio_stream_index_base;
+	int _audio_stream_index_base;
 };
 
 #endif

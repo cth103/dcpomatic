@@ -195,6 +195,7 @@ Config::set_defaults()
 	_initial_paths["AddVerifierInputPath"] = boost::none;
 	_initial_paths["ExportSubtitlesPath"] = boost::none;
 	_initial_paths["ExportVideoPath"] = boost::none;
+	_initial_paths["ExportAudioPath"] = boost::none;
 	_initial_paths["DebugLogPath"] = boost::none;
 	_initial_paths["CinemaDatabasePath"] = boost::none;
 	_initial_paths["ConfigFilePath"] = boost::none;

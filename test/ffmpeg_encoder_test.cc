@@ -73,6 +73,8 @@ ffmpeg_content_test(int number, boost::filesystem::path content, ExportFormat fo
 		extension = "mov";
 		break;
 	case ExportFormat::SUBTITLES_DCP:
+	case ExportFormat::WAV_16:
+	case ExportFormat::WAV_24:
 		BOOST_REQUIRE(false);
 	}
 
@@ -562,4 +564,33 @@ BOOST_AUTO_TEST_CASE(test_ffmpeg_encoder_with_clipping_dcp_audio)
 
 	check_ffmpeg(out, boost::filesystem::path("test/data") / (name + ".mov"), -96);
 }
+
+/** Aurora trailer -> WAV */
+BOOST_AUTO_TEST_CASE(ffmpeg_encoder_vob_to_wav_test)
+{
+	Cleanup cl;
+
+	auto const name = fmt::format("ffmpeg_encoder_vob_to_wav_test");
+
+	auto content = make_shared<FFmpegContent>(TestPaths::private_data() / "dolby_aurora.vob");
+	auto film = new_test_film(name, {content}, &cl);
+	film->set_name(name);
+	film->set_audio_channels(6);
+	film->write_metadata();
+
+	auto make_wav = [&cl, film, name](int bits, ExportFormat format) {
+		auto job = make_shared<TranscodeJob>(film, TranscodeJob::ChangedBehaviour::IGNORE);
+		auto const file = boost::filesystem::path("build") / "test" / fmt::format("{}_{}.wav", name, bits);
+		cl.add(file);
+
+		FFmpegFilmEncoder encoder(film, job, file, format, false, false, false, 0);
+		encoder.go();
+		check_ffmpeg(file, TestPaths::private_data() / fmt::format("{}_{}.wav", name, bits), -88);
+	};
+
+	make_wav(16, ExportFormat::WAV_16);
+	make_wav(24, ExportFormat::WAV_24);
+	cl.run();
+}
+
 

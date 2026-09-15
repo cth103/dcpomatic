@@ -39,14 +39,18 @@ using std::make_shared;
 using std::shared_ptr;
 using std::string;
 using boost::bind;
+using boost::optional;
 using namespace dcpomatic;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
 
 
-int FFmpegFileEncoder::_video_stream_index = 0;
-int FFmpegFileEncoder::_audio_stream_index_base = 1;
+bool
+format_has_video(ExportFormat format)
+{
+	return format != ExportFormat::WAV_16 && format != ExportFormat::WAV_24;
+}
 
 
 class ExportAudioStream
@@ -234,6 +238,7 @@ FFmpegFileEncoder::FFmpegFileEncoder(
 	, _video_frame_size(video_frame_size)
 	, _video_frame_rate(video_frame_rate)
 	, _audio_frame_rate(audio_frame_rate)
+	, _audio_stream_index_base(format_has_video(format) ? 1 : 0)
 {
 	_pixel_format = pixel_format(format);
 
@@ -264,6 +269,14 @@ FFmpegFileEncoder::FFmpegFileEncoder(
 		_video_codec_name = "libx264";
 		_audio_codec_name = "aac";
 		av_dict_set_int(&_video_options, "crf", x264_crf, 0);
+		break;
+	case ExportFormat::WAV_16:
+		_sample_format = AV_SAMPLE_FMT_S16;
+		_audio_codec_name = "pcm_s16le";
+		break;
+	case ExportFormat::WAV_24:
+		_sample_format = AV_SAMPLE_FMT_S32;
+		_audio_codec_name = "pcm_s24le";
 		break;
 	default:
 		DCPOMATIC_ASSERT(false);
@@ -305,7 +318,7 @@ FFmpegFileEncoder::~FFmpegFileEncoder()
 }
 
 
-AVPixelFormat
+optional<AVPixelFormat>
 FFmpegFileEncoder::pixel_format(ExportFormat format)
 {
 	switch (format) {
@@ -317,10 +330,10 @@ FFmpegFileEncoder::pixel_format(ExportFormat format)
 	case ExportFormat::H264_AAC:
 		return AV_PIX_FMT_YUV420P;
 	default:
-		DCPOMATIC_ASSERT(false);
+		return {};
 	}
 
-	return AV_PIX_FMT_YUV422P10;
+	return {};
 }
 
 
@@ -344,7 +357,8 @@ FFmpegFileEncoder::setup_video()
 	_video_codec_context->width = _video_frame_size.width;
 	_video_codec_context->height = _video_frame_size.height;
 	_video_codec_context->time_base = (AVRational) { 1, _video_frame_rate };
-	_video_codec_context->pix_fmt = _pixel_format;
+	DCPOMATIC_ASSERT(_pixel_format);
+	_video_codec_context->pix_fmt = *_pixel_format;
 	_video_codec_context->flags |= AV_CODEC_FLAG_QSCALE | AV_CODEC_FLAG_GLOBAL_HEADER;
 
 	if (avcodec_open2(_video_codec_context, _video_codec, &_video_options) < 0) {
@@ -356,7 +370,7 @@ FFmpegFileEncoder::setup_video()
 		throw EncodeError(N_("avformat_new_stream"), N_("FFmpegFileEncoder::setup_video"));
 	}
 
-	_video_stream->id = _video_stream_index;
+	_video_stream->id = 0;
 	int r = avcodec_parameters_from_context(_video_stream->codecpar, _video_codec_context);
 	if (r < 0) {
 		throw EncodeError(N_("avcodec_parameters_from_context"), N_("FFmpegFileEncoder::setup_video"), r);
@@ -391,22 +405,26 @@ FFmpegFileEncoder::flush()
 	bool flushed_audio = false;
 
 	while (!flushed_video || !flushed_audio) {
-		int r = avcodec_send_frame(_video_codec_context, nullptr);
-		if (r < 0 && r != AVERROR_EOF) {
-			/* We get EOF if we've already flushed the stream once */
-			throw EncodeError(N_("avcodec_send_frame"), N_("FFmpegFileEncoder::flush"), r);
-		}
+		if (_video_codec_context) {
+			int r = avcodec_send_frame(_video_codec_context, nullptr);
+			if (r < 0 && r != AVERROR_EOF) {
+				/* We get EOF if we've already flushed the stream once */
+				throw EncodeError(N_("avcodec_send_frame"), N_("FFmpegFileEncoder::flush"), r);
+			}
 
-		ffmpeg::Packet packet;
-		r = avcodec_receive_packet(_video_codec_context, packet.get());
-		if (r == AVERROR_EOF) {
-			flushed_video = true;
-		} else if (r < 0) {
-			throw EncodeError(N_("avcodec_receive_packet"), N_("FFmpegFileEncoder::flush"), r);
+			ffmpeg::Packet packet;
+			r = avcodec_receive_packet(_video_codec_context, packet.get());
+			if (r == AVERROR_EOF) {
+				flushed_video = true;
+			} else if (r < 0) {
+				throw EncodeError(N_("avcodec_receive_packet"), N_("FFmpegFileEncoder::flush"), r);
+			} else {
+				packet->stream_index = 0;
+				packet->duration = _video_stream->time_base.den / _video_frame_rate;
+				av_interleaved_write_frame(_format_context, packet.get());
+			}
 		} else {
-			packet->stream_index = _video_stream_index;
-			packet->duration = _video_stream->time_base.den / _video_frame_rate;
-			av_interleaved_write_frame(_format_context, packet.get());
+			flushed_video = true;
 		}
 
 		flushed_audio = true;
@@ -432,7 +450,8 @@ void
 FFmpegFileEncoder::video(shared_ptr<PlayerVideo> video, DCPTime time)
 {
 	/* All our output formats are video range at the moment */
-	auto image = video->image(force(_pixel_format), VideoRange::VIDEO, false);
+	DCPOMATIC_ASSERT(_pixel_format);
+	auto image = video->image(force(*_pixel_format), VideoRange::VIDEO, false);
 
 	auto frame = av_frame_alloc();
 	DCPOMATIC_ASSERT(frame);
@@ -447,7 +466,7 @@ FFmpegFileEncoder::video(shared_ptr<PlayerVideo> video, DCPTime time)
 
 	frame->width = image->size().width;
 	frame->height = image->size().height;
-	frame->format = _pixel_format;
+	frame->format = *_pixel_format;
 	DCPOMATIC_ASSERT(_video_stream->time_base.num == 1);
 	frame->pts = time.get() * _video_stream->time_base.den / DCPTime::HZ;
 
@@ -462,7 +481,7 @@ FFmpegFileEncoder::video(shared_ptr<PlayerVideo> video, DCPTime time)
 	if (r < 0 && r != AVERROR(EAGAIN)) {
 		throw EncodeError(N_("avcodec_receive_packet"), N_("FFmpegFileEncoder::video"), r);
 	} else if (r >= 0) {
-		packet->stream_index = _video_stream_index;
+		packet->stream_index = 0;
 		packet->duration = _video_stream->time_base.den / _video_frame_rate;
 		av_interleaved_write_frame(_format_context, packet.get());
 	}

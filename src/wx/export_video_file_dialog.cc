@@ -108,7 +108,7 @@ ExportVideoFileDialog::ExportVideoFileDialog(wxWindow* parent, string name)
 		_format->Append(format_names[i]);
 	}
 	for (int i = 0; i < FORMATS; ++i) {
-		if (config.format() == formats[i]) {
+		if (config.video_format() == formats[i]) {
 			_format->SetSelection(i);
 		}
 	}
@@ -177,7 +177,7 @@ ExportVideoFileDialog::format_changed()
 		_x264_crf_label[i]->Enable(formats[selection] == ExportFormat::H264_AAC);
 	}
 
-	Config::instance()->export_config().set_format(formats[selection]);
+	Config::instance()->export_config().set_video_format(formats[selection]);
 }
 
 boost::filesystem::path

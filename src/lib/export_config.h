@@ -39,8 +39,12 @@ public:
 	void read(cxml::ConstNodePtr node);
 	void write(xmlpp::Element* element) const;
 
-	ExportFormat format() const {
-		return _format;
+	ExportFormat video_format() const {
+		return _video_format;
+	}
+
+	ExportFormat audio_format() const {
+		return _audio_format;
 	}
 
 	bool mixdown_to_stereo() const {
@@ -59,7 +63,8 @@ public:
 		return _x264_crf;
 	}
 
-	void set_format(ExportFormat format);
+	void set_video_format(ExportFormat format);
+	void set_audio_format(ExportFormat format);
 	void set_mixdown_to_stereo(bool mixdown);
 	void set_split_reels(bool split);
 	void set_split_streams(bool split);
@@ -67,7 +72,8 @@ public:
 
 private:
 	Config* _config;
-	ExportFormat _format;
+	ExportFormat _video_format;
+	ExportFormat _audio_format;
 	bool _mixdown_to_stereo;
 	bool _split_reels;
 	bool _split_streams;

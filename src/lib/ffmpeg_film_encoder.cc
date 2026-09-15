@@ -75,12 +75,15 @@ FFmpegFilmEncoder::FFmpegFilmEncoder(
 		Image::Alignment::PADDED,
 		false,
 		false,
-		Butler::Video::ENABLED,
+		format_has_video(format) ? Butler::Video::ENABLED : Butler::Video::DISABLED,
 		Butler::Audio::ENABLED
 		)
 {
 	_player.set_always_burn_open_subtitles();
 	_player.set_play_referenced();
+	if (!format_has_video(format)) {
+		_player.set_ignore_video();
+	}
 }
 
 
@@ -176,7 +179,7 @@ FFmpegFilmEncoder::go()
 	int const audio_frames = video_frame.frames_round(_film->audio_frame_rate());
 	std::vector<float> interleaved(_output_audio_channels * audio_frames);
 	auto deinterleaved = make_shared<AudioBuffers>(_output_audio_channels, audio_frames);
-	int const gets_per_frame = _film->three_d() ? 2 : 1;
+	int const gets_per_frame = format_has_video(_format) ? (_film->three_d() ? 2 : 1) : 0;
 	for (DCPTime time; time < _film->length(); time += video_frame) {
 
 		if (file_encoders.size() > 1 && !reel->contains(time)) {

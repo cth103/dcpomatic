@@ -41,7 +41,8 @@ ExportConfig::ExportConfig(Config* parent)
 void
 ExportConfig::set_defaults()
 {
-	_format = ExportFormat::PRORES_HQ;
+	_video_format = ExportFormat::PRORES_HQ;
+	_audio_format = ExportFormat::WAV_16;
 	_mixdown_to_stereo = false;
 	_split_reels = false;
 	_split_streams = false;
@@ -60,15 +61,21 @@ ExportConfig::read(cxml::ConstNodePtr node)
 	auto const format = node->string_child("Format");
 
 	if (format == "subtitles-dcp") {
-		_format = ExportFormat::SUBTITLES_DCP;
+		_video_format = ExportFormat::SUBTITLES_DCP;
 	} else if (format == "h264-aac") {
-		_format = ExportFormat::H264_AAC;
+		_video_format = ExportFormat::H264_AAC;
 	} else if (format == "prores-4444") {
-		_format = ExportFormat::PRORES_4444;
+		_video_format = ExportFormat::PRORES_4444;
 	} else if (format == "prores-lt") {
-		_format = ExportFormat::PRORES_LT;
+		_video_format = ExportFormat::PRORES_LT;
 	} else {
-		_format = ExportFormat::PRORES_HQ;
+		_video_format = ExportFormat::PRORES_HQ;
+	}
+
+	if (format == "wav-24") {
+		_audio_format = ExportFormat::WAV_24;
+	} else {
+		_audio_format = ExportFormat::WAV_16;
 	}
 
 	_mixdown_to_stereo = node->bool_child("MixdownToStereo");
@@ -81,28 +88,45 @@ ExportConfig::read(cxml::ConstNodePtr node)
 void
 ExportConfig::write(xmlpp::Element* element) const
 {
-	string name;
+	string video_name;
+	string audio_name;
 
-	switch (_format) {
+	switch (_video_format) {
 		case ExportFormat::PRORES_4444:
-			name = "prores-4444";
+			video_name = "prores-4444";
 			break;
 		case ExportFormat::PRORES_HQ:
 			/* Write this but we also accept 'prores' for backwards compatibility */
-			name = "prores-hq";
+			video_name = "prores-hq";
 			break;
 		case ExportFormat::PRORES_LT:
-			name = "prores-lt";
+			video_name = "prores-lt";
 			break;
 		case ExportFormat::H264_AAC:
-			name = "h264-aac";
+			video_name = "h264-aac";
 			break;
 		case ExportFormat::SUBTITLES_DCP:
-			name = "subtitles-dcp";
+			video_name = "subtitles-dcp";
+			break;
+		default:
+			DCPOMATIC_ASSERT(false);
 			break;
 	}
 
-	cxml::add_text_child(element, "Format", name);
+	switch (_audio_format) {
+		case ExportFormat::WAV_16:
+			audio_name = "wav-16";
+			break;
+		case ExportFormat::WAV_24:
+			audio_name = "wav-24";
+			break;
+		default:
+			DCPOMATIC_ASSERT(false);
+			break;
+	}
+
+	cxml::add_text_child(element, "Format", video_name);
+	cxml::add_text_child(element, "AudioFormat", audio_name);
 	cxml::add_text_child(element, "MixdownToStereo", _mixdown_to_stereo ? "1" : "0");
 	cxml::add_text_child(element, "SplitReels", _split_reels ? "1" : "0");
 	cxml::add_text_child(element, "SplitStreams", _split_streams ? "1" : "0");
@@ -111,9 +135,16 @@ ExportConfig::write(xmlpp::Element* element) const
 
 
 void
-ExportConfig::set_format(ExportFormat format)
+ExportConfig::set_video_format(ExportFormat format)
 {
-	_config->maybe_set(_format, format);
+	_config->maybe_set(_video_format, format);
+}
+
+
+void
+ExportConfig::set_audio_format(ExportFormat format)
+{
+	_config->maybe_set(_audio_format, format);
 }
 
 
