@@ -202,7 +202,10 @@ public:
 			throw EncodeError(N_("avcodec_receive_packet"), N_("ExportAudioStream::write"), r);
 		} else if (r >= 0) {
 			packet->stream_index = _stream_index;
-			av_interleaved_write_frame(_format_context, packet.get());
+			r = av_interleaved_write_frame(_format_context, packet.get());
+			if (r < 0) {
+				throw EncodeError(N_("av_interleaved_write_frame"), N_("ExportAudioStream::write"), r);
+			}
 		}
 	}
 
