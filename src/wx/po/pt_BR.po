@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-15 00:57+0200\n"
+"POT-Creation-Date: 2026-09-15 20:57+0200\n"
 "PO-Revision-Date: 2018-01-15 18:18-0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -164,9 +164,17 @@ msgstr ""
 msgid "12 - 7.1/HI/VI"
 msgstr "12 - 7.1/HI/VI"
 
+#: src/wx/export_audio_file_dialog.cc:43
+msgid "16-bit WAV"
+msgstr ""
+
 #: src/wx/wx_util.cc:486
 msgid "2 - stereo"
 msgstr "2 - stereo"
+
+#: src/wx/export_audio_file_dialog.cc:44
+msgid "24-bit WAV"
+msgstr ""
 
 #: src/wx/rgba_colour_picker.cc:40
 msgid "255"
@@ -662,7 +670,7 @@ msgstr ""
 msgid "Atmos"
 msgstr "Atmos"
 
-#: src/wx/audio_dialog.cc:65 src/wx/audio_panel.cc:66
+#: src/wx/audio_dialog.cc:65 src/wx/audio_panel.cc:63
 #: src/wx/content_properties_dialog.cc:95 src/wx/dcp_panel.cc:124
 #: src/wx/timeline_labels_view.cc:42 src/wx/timeline_labels_view.cc:92
 msgid "Audio"
@@ -759,7 +767,7 @@ msgstr "Nota (annottation) do CPL"
 msgid "CPL's content is not encrypted."
 msgstr "O conteúdo do CPL não está encriptado."
 
-#: src/wx/audio_panel.cc:89
+#: src/wx/audio_panel.cc:86
 msgid "Calculate..."
 msgstr "Calcular..."
 
@@ -947,7 +955,7 @@ msgstr "Confirmar Email de KDM"
 msgid "Container"
 msgstr "Container"
 
-#: src/wx/audio_panel.cc:112 src/wx/film_editor.cc:61
+#: src/wx/audio_panel.cc:109 src/wx/film_editor.cc:61
 #: src/wx/playlist_controls.cc:95
 msgid "Content"
 msgstr "Conteúdo"
@@ -1085,7 +1093,7 @@ msgstr "Não foi possível ler o arquivo de certificado."
 msgid "Could not read key file; file is too long (%s)"
 msgstr "Não foi possível ler arquivo de chave; arquivo é muito longo (%s)"
 
-#: src/wx/film_viewer.cc:641 src/wx/film_viewer.cc:683
+#: src/wx/film_viewer.cc:642 src/wx/film_viewer.cc:684
 msgid ""
 "Could not set up audio output.  There will be no audio during the preview."
 msgstr ""
@@ -1122,12 +1130,12 @@ msgstr "Saída"
 msgid "Current version"
 msgstr "Versão do conteúdo"
 
-#: src/wx/audio_dialog.cc:479
+#: src/wx/audio_dialog.cc:467
 #, c-format
 msgid "Cursor: %.1fdB at %s"
 msgstr ""
 
-#: src/wx/audio_dialog.cc:473
+#: src/wx/audio_dialog.cc:461
 msgid "Cursor: none"
 msgstr ""
 
@@ -1145,7 +1153,7 @@ msgstr ""
 msgid "DCI X'Y'Z'"
 msgstr ""
 
-#: src/wx/audio_panel.cc:112 src/wx/film_editor.cc:63
+#: src/wx/audio_panel.cc:109 src/wx/film_editor.cc:63
 #: src/wx/player_information.cc:58 src/wx/sound_preferences_page.cc:97
 msgid "DCP"
 msgstr "DCP"
@@ -1267,7 +1275,7 @@ msgstr "Padrões"
 msgid "Define font in output and export font file"
 msgstr ""
 
-#: src/wx/audio_panel.cc:91
+#: src/wx/audio_panel.cc:88
 msgid "Delay"
 msgstr "Atraso"
 
@@ -1467,6 +1475,11 @@ msgstr "Exportar certificado de decriptação de KDM..."
 msgid "Export all KDM decryption settings..."
 msgstr "Exportar todas as configurações de decriptação de KDM..."
 
+#: src/wx/export_audio_file_dialog.cc:64
+#, fuzzy
+msgid "Export audio file"
+msgstr "Exportar filme"
+
 #: src/wx/certificate_chain_editor.cc:93
 #, fuzzy
 msgid "Export certificate..."
@@ -1505,7 +1518,7 @@ msgstr "FTP (para Dolby)"
 msgid "Facility"
 msgstr ""
 
-#: src/wx/audio_panel.cc:104 src/wx/video_panel.cc:143
+#: src/wx/audio_panel.cc:101 src/wx/video_panel.cc:143
 msgid "Fade in"
 msgstr "Fade in"
 
@@ -1513,7 +1526,7 @@ msgstr "Fade in"
 msgid "Fade in time"
 msgstr "Duração de fade in"
 
-#: src/wx/audio_panel.cc:107 src/wx/video_panel.cc:146
+#: src/wx/audio_panel.cc:104 src/wx/video_panel.cc:146
 msgid "Fade out"
 msgstr "Fade out"
 
@@ -1615,7 +1628,8 @@ msgstr ""
 msgid "Forensically mark video"
 msgstr ""
 
-#: src/wx/export_subtitles_dialog.cc:45 src/wx/export_video_file_dialog.cc:76
+#: src/wx/export_audio_file_dialog.cc:69 src/wx/export_subtitles_dialog.cc:45
+#: src/wx/export_video_file_dialog.cc:76
 msgid "Format"
 msgstr "Formato"
 
@@ -1688,7 +1702,7 @@ msgstr "GB"
 msgid "GDC"
 msgstr "DCP"
 
-#: src/wx/audio_panel.cc:78
+#: src/wx/audio_panel.cc:75
 msgid "Gain"
 msgstr "Ganho"
 
@@ -1868,7 +1882,7 @@ msgstr "Potência de entrada"
 msgid "Input transfer function"
 msgstr "Função de transferência de entrada"
 
-#: src/wx/audio_dialog.cc:437
+#: src/wx/audio_dialog.cc:425
 #, c-format
 msgid "Integrated loudness %.2f LUFS"
 msgstr "Amplitude integrada %.2f LUFS"
@@ -1921,7 +1935,7 @@ msgstr "Nome comum de folha"
 msgid "Issuer organization name"
 msgstr ""
 
-#: src/wx/audio_panel.cc:332
+#: src/wx/audio_panel.cc:329
 msgid ""
 "It is not possible to adjust the content's gain for this fader change as it "
 "would cause the DCP's audio to clip.  The gain has not been changed."
@@ -1973,7 +1987,7 @@ msgstr "Manter vídeo e legendas em sequência"
 msgid "Keys"
 msgstr "Chaves"
 
-#: src/wx/audio_dialog.cc:455
+#: src/wx/audio_dialog.cc:443
 #, c-format
 msgid "LEQ(m) %.2fdB"
 msgstr ""
@@ -2095,7 +2109,7 @@ msgstr "Fazer cadeia de certificado"
 msgid "Log"
 msgstr "Log"
 
-#: src/wx/audio_dialog.cc:446
+#: src/wx/audio_dialog.cc:434
 #, c-format
 msgid "Loudness range %.2f LU"
 msgstr "Faixa de amplitude %.2f LU"
@@ -2244,7 +2258,7 @@ msgstr ""
 msgid "Metadata..."
 msgstr ""
 
-#: src/wx/export_video_file_dialog.cc:80
+#: src/wx/export_audio_file_dialog.cc:74 src/wx/export_video_file_dialog.cc:80
 msgid "Mix audio down to stereo"
 msgstr "Mixar áudio para stereo 2.0"
 
@@ -2567,7 +2581,8 @@ msgstr ""
 msgid "Output"
 msgstr "Saída"
 
-#: src/wx/export_subtitles_dialog.cc:66 src/wx/export_video_file_dialog.cc:98
+#: src/wx/export_audio_file_dialog.cc:81 src/wx/export_subtitles_dialog.cc:66
+#: src/wx/export_video_file_dialog.cc:98
 msgid "Output file"
 msgstr "Arquivo de saída"
 
@@ -2639,12 +2654,12 @@ msgstr "Pausar"
 msgid "Peak"
 msgstr "Pico"
 
-#: src/wx/audio_panel.cc:467
+#: src/wx/audio_panel.cc:464
 #, c-format
 msgid "Peak: %.2fdB"
 msgstr "Pico: %.2fdB"
 
-#: src/wx/audio_panel.cc:469
+#: src/wx/audio_panel.cc:466
 msgid "Peak: unknown"
 msgstr "Pico: desconhecido"
 
@@ -3134,7 +3149,8 @@ msgstr "Selecionar arquivo de configuração"
 msgid "Select debug log file"
 msgstr "Selecionar arquivo de saída"
 
-#: src/wx/export_subtitles_dialog.cc:67 src/wx/export_video_file_dialog.cc:104
+#: src/wx/export_audio_file_dialog.cc:87 src/wx/export_subtitles_dialog.cc:67
+#: src/wx/export_video_file_dialog.cc:104
 msgid "Select output file"
 msgstr "Selecionar arquivo de saída"
 
@@ -3238,7 +3254,7 @@ msgstr ""
 msgid "Show experimental audio processors"
 msgstr ""
 
-#: src/wx/audio_panel.cc:75 src/wx/dcp_panel.cc:996
+#: src/wx/audio_panel.cc:72 src/wx/dcp_panel.cc:996
 msgid "Show graph of audio levels..."
 msgstr "Mostrar gráfico de níveis de áudio..."
 
@@ -3961,7 +3977,7 @@ msgstr "Já existe um modelo com este nome. Deseja sobrescrevê-lo?"
 msgid "There is not enough free memory to do that."
 msgstr "Não há memória livre suficiente para fazer isso."
 
-#: src/wx/film_viewer.cc:365
+#: src/wx/film_viewer.cc:366
 msgid ""
 "There was a problem starting audio playback.  Please try another audio "
 "output device in Preferences."
@@ -4154,7 +4170,7 @@ msgstr "Cortar do começo"
 msgid "Trim up to current position"
 msgstr "Cortar até a posição atual"
 
-#: src/wx/audio_dialog.cc:423
+#: src/wx/audio_dialog.cc:416
 #, c-format
 msgid "True peak is %.2fdB"
 msgstr "Pico real é %.2fdB"
@@ -4344,7 +4360,7 @@ msgstr "Usar o melhor"
 msgid "Use preset"
 msgstr "Usar preset"
 
-#: src/wx/audio_panel.cc:110
+#: src/wx/audio_panel.cc:107
 msgid "Use same fades as video"
 msgstr ""
 
@@ -4453,6 +4469,11 @@ msgstr "Exibir..."
 msgid "WASAPI"
 msgstr ""
 
+#: src/wx/export_audio_file_dialog.cc:48 src/wx/export_audio_file_dialog.cc:49
+#, fuzzy
+msgid "WAV files (*.wav)|*.wav"
+msgstr "Arquivos MOV (*.mov)|*.mov"
+
 #: src/wx/full_config_dialog.cc:1303 src/wx/kdm_config_dialog.cc:138
 #: src/wx/player_config_dialog.cc:314 src/wx/verify_dcp_result_panel.cc:63
 msgid "Warnings"
@@ -4486,7 +4507,8 @@ msgstr "Salvar todos os KDM na mesma pasta"
 msgid "Write each audio channel to its own stream"
 msgstr ""
 
-#: src/wx/export_subtitles_dialog.cc:54 src/wx/export_video_file_dialog.cc:83
+#: src/wx/export_audio_file_dialog.cc:78 src/wx/export_subtitles_dialog.cc:54
+#: src/wx/export_video_file_dialog.cc:83
 msgid "Write reels into separate files"
 msgstr ""
 
@@ -4610,7 +4632,7 @@ msgstr "Usar legendas"
 msgid "component value"
 msgstr "Valor de componente"
 
-#: src/wx/audio_panel.cc:112
+#: src/wx/audio_panel.cc:109
 #, fuzzy
 msgid "content"
 msgstr "Conteúdo"
@@ -4623,7 +4645,7 @@ msgstr ""
 msgid "custom"
 msgstr ""
 
-#: src/wx/audio_gain_dialog.cc:37 src/wx/audio_panel.cc:88
+#: src/wx/audio_gain_dialog.cc:37 src/wx/audio_panel.cc:85
 msgid "dB"
 msgstr "dB"
 
@@ -4682,7 +4704,7 @@ msgid "months"
 msgstr ""
 
 #. TRANSLATORS: this is an abbreviation for milliseconds, the unit of time
-#: src/wx/audio_panel.cc:102 src/wx/full_config_dialog.cc:273
+#: src/wx/audio_panel.cc:99 src/wx/full_config_dialog.cc:273
 #: src/wx/sound_preferences_page.cc:91
 msgid "ms"
 msgstr "ms"

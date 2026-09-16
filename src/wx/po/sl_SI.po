@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-15 00:57+0200\n"
+"POT-Creation-Date: 2026-09-15 20:57+0200\n"
 "PO-Revision-Date: 2024-02-10 16:17+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: \n"
@@ -163,9 +163,17 @@ msgstr ""
 msgid "12 - 7.1/HI/VI"
 msgstr "12 – 7.1/HI/VI"
 
+#: src/wx/export_audio_file_dialog.cc:43
+msgid "16-bit WAV"
+msgstr ""
+
 #: src/wx/wx_util.cc:486
 msgid "2 - stereo"
 msgstr "2 – stereo"
+
+#: src/wx/export_audio_file_dialog.cc:44
+msgid "24-bit WAV"
+msgstr ""
 
 #: src/wx/rgba_colour_picker.cc:40
 msgid "255"
@@ -659,7 +667,7 @@ msgstr "Vsaj en podnaslov traja manj kot 15 sličic."
 msgid "Atmos"
 msgstr "Atmos"
 
-#: src/wx/audio_dialog.cc:65 src/wx/audio_panel.cc:66
+#: src/wx/audio_dialog.cc:65 src/wx/audio_panel.cc:63
 #: src/wx/content_properties_dialog.cc:95 src/wx/dcp_panel.cc:124
 #: src/wx/timeline_labels_view.cc:42 src/wx/timeline_labels_view.cc:92
 msgid "Audio"
@@ -751,7 +759,7 @@ msgstr "Besedilo pripombe CPL"
 msgid "CPL's content is not encrypted."
 msgstr "Vsebina CPL ni šifrirana."
 
-#: src/wx/audio_panel.cc:89
+#: src/wx/audio_panel.cc:86
 msgid "Calculate..."
 msgstr "Izračunaj …"
 
@@ -935,7 +943,7 @@ msgstr "Potrdite e-sporočilo za KDM"
 msgid "Container"
 msgstr "Vsebnik"
 
-#: src/wx/audio_panel.cc:112 src/wx/film_editor.cc:61
+#: src/wx/audio_panel.cc:109 src/wx/film_editor.cc:61
 #: src/wx/playlist_controls.cc:95
 msgid "Content"
 msgstr "Vsebina"
@@ -1066,7 +1074,7 @@ msgstr "Potrdil s strežnika Qube ni mogoče prebrati."
 msgid "Could not read key file; file is too long (%s)"
 msgstr "Datoteke ključev ni mogoče prebrati; datoteka je predolga (%s)"
 
-#: src/wx/film_viewer.cc:641 src/wx/film_viewer.cc:683
+#: src/wx/film_viewer.cc:642 src/wx/film_viewer.cc:684
 msgid ""
 "Could not set up audio output.  There will be no audio during the preview."
 msgstr "Zvočnega izhoda ni mogoče nastaviti.  Med predogledom ne bo zvoka."
@@ -1101,12 +1109,12 @@ msgstr "izhod"
 msgid "Current version"
 msgstr "Različica vsebine"
 
-#: src/wx/audio_dialog.cc:479
+#: src/wx/audio_dialog.cc:467
 #, c-format
 msgid "Cursor: %.1fdB at %s"
 msgstr "Kazalec: %.1f dB na %s"
 
-#: src/wx/audio_dialog.cc:473
+#: src/wx/audio_dialog.cc:461
 msgid "Cursor: none"
 msgstr "Kazalec: brez"
 
@@ -1123,7 +1131,7 @@ msgstr "Merilo po meri"
 msgid "DCI X'Y'Z'"
 msgstr ""
 
-#: src/wx/audio_panel.cc:112 src/wx/film_editor.cc:63
+#: src/wx/audio_panel.cc:109 src/wx/film_editor.cc:63
 #: src/wx/player_information.cc:58 src/wx/sound_preferences_page.cc:97
 msgid "DCP"
 msgstr "DCP"
@@ -1235,7 +1243,7 @@ msgstr "Privzete vrednosti"
 msgid "Define font in output and export font file"
 msgstr "Določi pisavo v izhodu in izvozi datoteko pisave"
 
-#: src/wx/audio_panel.cc:91
+#: src/wx/audio_panel.cc:88
 msgid "Delay"
 msgstr "Zakasnitev"
 
@@ -1431,6 +1439,11 @@ msgstr "Izvozi potrdilo lista za dešifriranje KDM ..."
 msgid "Export all KDM decryption settings..."
 msgstr "Izvozite vse nastavitve dešifriranja KDM ..."
 
+#: src/wx/export_audio_file_dialog.cc:64
+#, fuzzy
+msgid "Export audio file"
+msgstr "Izvozi videodatoteko"
+
 #: src/wx/certificate_chain_editor.cc:93
 msgid "Export certificate..."
 msgstr "Izvozi potrdilo ..."
@@ -1464,7 +1477,7 @@ msgstr "FTP (za Dolby)"
 msgid "Facility"
 msgstr "Obrat"
 
-#: src/wx/audio_panel.cc:104 src/wx/video_panel.cc:143
+#: src/wx/audio_panel.cc:101 src/wx/video_panel.cc:143
 msgid "Fade in"
 msgstr "Odtemnitev"
 
@@ -1472,7 +1485,7 @@ msgstr "Odtemnitev"
 msgid "Fade in time"
 msgstr "Čas odtemnitve"
 
-#: src/wx/audio_panel.cc:107 src/wx/video_panel.cc:146
+#: src/wx/audio_panel.cc:104 src/wx/video_panel.cc:146
 msgid "Fade out"
 msgstr "Zatemnitev"
 
@@ -1578,7 +1591,8 @@ msgstr "Forenzično označi zvok"
 msgid "Forensically mark video"
 msgstr "Forenzično označi video"
 
-#: src/wx/export_subtitles_dialog.cc:45 src/wx/export_video_file_dialog.cc:76
+#: src/wx/export_audio_file_dialog.cc:69 src/wx/export_subtitles_dialog.cc:45
+#: src/wx/export_video_file_dialog.cc:76
 msgid "Format"
 msgstr "Oblika"
 
@@ -1651,7 +1665,7 @@ msgstr "GB"
 msgid "GDC"
 msgstr "GDC"
 
-#: src/wx/audio_panel.cc:78
+#: src/wx/audio_panel.cc:75
 msgid "Gain"
 msgstr "Ojačitev"
 
@@ -1849,7 +1863,7 @@ msgstr "Vhodna moč"
 msgid "Input transfer function"
 msgstr "Funkcija prenosa vhoda"
 
-#: src/wx/audio_dialog.cc:437
+#: src/wx/audio_dialog.cc:425
 #, c-format
 msgid "Integrated loudness %.2f LUFS"
 msgstr "Integrirana glasnost %.2f LUFS"
@@ -1899,7 +1913,7 @@ msgstr "Splošno ime izdajatelja"
 msgid "Issuer organization name"
 msgstr "Ime organizacije izdajatelja"
 
-#: src/wx/audio_panel.cc:332
+#: src/wx/audio_panel.cc:329
 msgid ""
 "It is not possible to adjust the content's gain for this fader change as it "
 "would cause the DCP's audio to clip.  The gain has not been changed."
@@ -1952,7 +1966,7 @@ msgstr "Ohranite video in podnaslove v zaporedju"
 msgid "Keys"
 msgstr "Ključi"
 
-#: src/wx/audio_dialog.cc:455
+#: src/wx/audio_dialog.cc:443
 #, c-format
 msgid "LEQ(m) %.2fdB"
 msgstr "LEQ(m) %.2f dB"
@@ -2076,7 +2090,7 @@ msgstr "Lokacije"
 msgid "Log"
 msgstr "Zapisnik"
 
-#: src/wx/audio_dialog.cc:446
+#: src/wx/audio_dialog.cc:434
 #, c-format
 msgid "Loudness range %.2f LU"
 msgstr "Razpon glasnosti %.2f LU"
@@ -2218,7 +2232,7 @@ msgstr "Metapodatki"
 msgid "Metadata..."
 msgstr "Metapodatki ..."
 
-#: src/wx/export_video_file_dialog.cc:80
+#: src/wx/export_audio_file_dialog.cc:74 src/wx/export_video_file_dialog.cc:80
 msgid "Mix audio down to stereo"
 msgstr "Zmešaj zvok na manj kanalov v stereo"
 
@@ -2547,7 +2561,8 @@ msgstr ""
 msgid "Output"
 msgstr "Izhod"
 
-#: src/wx/export_subtitles_dialog.cc:66 src/wx/export_video_file_dialog.cc:98
+#: src/wx/export_audio_file_dialog.cc:81 src/wx/export_subtitles_dialog.cc:66
+#: src/wx/export_video_file_dialog.cc:98
 msgid "Output file"
 msgstr "Izhodna datoteka"
 
@@ -2617,12 +2632,12 @@ msgstr "Premor"
 msgid "Peak"
 msgstr "Vrh"
 
-#: src/wx/audio_panel.cc:467
+#: src/wx/audio_panel.cc:464
 #, c-format
 msgid "Peak: %.2fdB"
 msgstr "Vrh: %.2f dB"
 
-#: src/wx/audio_panel.cc:469
+#: src/wx/audio_panel.cc:466
 msgid "Peak: unknown"
 msgstr "Vrh: neznan"
 
@@ -3095,7 +3110,8 @@ msgstr "Izberite prilagoditveno datoteko"
 msgid "Select debug log file"
 msgstr "Izberite datoteko dnevnika odpravljanja napak"
 
-#: src/wx/export_subtitles_dialog.cc:67 src/wx/export_video_file_dialog.cc:104
+#: src/wx/export_audio_file_dialog.cc:87 src/wx/export_subtitles_dialog.cc:67
+#: src/wx/export_video_file_dialog.cc:104
 msgid "Select output file"
 msgstr "Izberite izhodno datoteko"
 
@@ -3196,7 +3212,7 @@ msgstr "Pokaži"
 msgid "Show experimental audio processors"
 msgstr "Pokaži poskusne zvočne procesorje"
 
-#: src/wx/audio_panel.cc:75 src/wx/dcp_panel.cc:996
+#: src/wx/audio_panel.cc:72 src/wx/dcp_panel.cc:996
 msgid "Show graph of audio levels..."
 msgstr "Pokaži grafikon ravni zvoka ..."
 
@@ -3966,7 +3982,7 @@ msgstr "Predloga s tem imenom že obstaja.  Ali jo želite prepisati?"
 msgid "There is not enough free memory to do that."
 msgstr "Za to dejanje ni dovolj prostega pomnilnika."
 
-#: src/wx/film_viewer.cc:365
+#: src/wx/film_viewer.cc:366
 msgid ""
 "There was a problem starting audio playback.  Please try another audio "
 "output device in Preferences."
@@ -4177,7 +4193,7 @@ msgstr "Odreži od začetka"
 msgid "Trim up to current position"
 msgstr "Odreži do trenutnega položaja"
 
-#: src/wx/audio_dialog.cc:423
+#: src/wx/audio_dialog.cc:416
 #, c-format
 msgid "True peak is %.2fdB"
 msgstr "Pravi vrh je %.2f dB"
@@ -4362,7 +4378,7 @@ msgstr "Uporabi najboljše"
 msgid "Use preset"
 msgstr "Uporabi prednastavitev"
 
-#: src/wx/audio_panel.cc:110
+#: src/wx/audio_panel.cc:107
 msgid "Use same fades as video"
 msgstr "Uporabi enake odtemnitve/zatemnitve kot video"
 
@@ -4469,6 +4485,11 @@ msgstr "Pogled …"
 msgid "WASAPI"
 msgstr "WASAPI"
 
+#: src/wx/export_audio_file_dialog.cc:48 src/wx/export_audio_file_dialog.cc:49
+#, fuzzy
+msgid "WAV files (*.wav)|*.wav"
+msgstr "Datoteke MOV (*.mov)|*.mov"
+
 #: src/wx/full_config_dialog.cc:1303 src/wx/kdm_config_dialog.cc:138
 #: src/wx/player_config_dialog.cc:314 src/wx/verify_dcp_result_panel.cc:63
 msgid "Warnings"
@@ -4502,7 +4523,8 @@ msgstr "Zapiši vse KDM-je v isto mapo"
 msgid "Write each audio channel to its own stream"
 msgstr "Zapiši vsak zvočni kanal v lasten tok"
 
-#: src/wx/export_subtitles_dialog.cc:54 src/wx/export_video_file_dialog.cc:83
+#: src/wx/export_audio_file_dialog.cc:78 src/wx/export_subtitles_dialog.cc:54
+#: src/wx/export_video_file_dialog.cc:83
 msgid "Write reels into separate files"
 msgstr "Zapiši kolute v ločene datoteke"
 
@@ -4626,7 +4648,7 @@ msgstr "odprti podnaslovi"
 msgid "component value"
 msgstr "vrednost komponente"
 
-#: src/wx/audio_panel.cc:112
+#: src/wx/audio_panel.cc:109
 msgid "content"
 msgstr "vsebina"
 
@@ -4638,7 +4660,7 @@ msgstr "ime datoteke vsebine"
 msgid "custom"
 msgstr "po meri"
 
-#: src/wx/audio_gain_dialog.cc:37 src/wx/audio_panel.cc:88
+#: src/wx/audio_gain_dialog.cc:37 src/wx/audio_panel.cc:85
 msgid "dB"
 msgstr "dB"
 
@@ -4695,7 +4717,7 @@ msgid "months"
 msgstr "mesecev"
 
 #. TRANSLATORS: this is an abbreviation for milliseconds, the unit of time
-#: src/wx/audio_panel.cc:102 src/wx/full_config_dialog.cc:273
+#: src/wx/audio_panel.cc:99 src/wx/full_config_dialog.cc:273
 #: src/wx/sound_preferences_page.cc:91
 msgid "ms"
 msgstr "ms"

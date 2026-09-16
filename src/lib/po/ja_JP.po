@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-22 00:21+0200\n"
+"POT-Creation-Date: 2026-09-15 20:57+0200\n"
 "PO-Revision-Date: 2026-06-05 20:21+0900\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -70,12 +70,12 @@ msgstr " (%.2f:1)"
 
 #. TRANSLATORS: the {} in this string will be filled in with a day of the week
 #. to say what day a job will finish.
-#: src/lib/job.cc:641
+#: src/lib/job.cc:643
 #, c++-format
 msgid " on {}"
 msgstr "{}"
 
-#: src/lib/config.cc:1262
+#: src/lib/config.cc:1263
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -99,7 +99,7 @@ msgstr ""
 "長さ: $LENGTH\n"
 "サイズ: $SIZE\n"
 
-#: src/lib/config.cc:1240
+#: src/lib/config.cc:1241
 msgid "$JOB_NAME: $JOB_STATUS"
 msgstr "$処理名: $処理状況"
 
@@ -176,7 +176,7 @@ msgstr "2.39 (Scope)"
 msgid "3D denoiser"
 msgstr "3Dノイズ除去"
 
-#: src/lib/hints.cc:222
+#: src/lib/hints.cc:221
 msgid ""
 "4K 3D is only supported by a very limited number of projectors.  Unless you "
 "know that you will play this DCP back on a capable projector, it is "
@@ -196,7 +196,7 @@ msgstr "9"
 msgid "; {} fps"
 msgstr "; {} fps"
 
-#: src/lib/job.cc:646
+#: src/lib/job.cc:648
 #, c++-format
 msgid "; {} remaining; finishing at {}{}"
 msgstr "; 残り時間 {} ; 終了予定 {}{}"
@@ -228,14 +228,14 @@ msgstr ""
 "donate_amount?amount=10\">Paypal で €10 を寄付</a></ul><p>ありがとうございま"
 "す。</font>"
 
-#: src/lib/job.cc:294
+#: src/lib/job.cc:296
 msgid ""
 "A bitmap (PNG) subtitle or font could not be written as its asset became "
 "full.  Split the project up into more reels, or set the subtitles to be "
 "'burnt in', and try again."
 msgstr ""
 
-#: src/lib/hints.cc:179
+#: src/lib/hints.cc:178
 msgid ""
 "A few projectors have problems playing back very high bit-rate DCPs.  It is "
 "a good idea to drop the video bit rate down to about 200Mbit/s; this is "
@@ -263,7 +263,7 @@ msgstr "ARIB STD-B67（ハイブリッドログガンマ/HLG）"
 msgid "Advertisement"
 msgstr "広告（ADV）"
 
-#: src/lib/hints.cc:156
+#: src/lib/hints.cc:155
 msgid ""
 "All of your content is in Scope (2.39:1) but your DCP's container is Flat "
 "(1.85:1).  This will letter-box your content inside a Flat (1.85:1) frame.  "
@@ -275,7 +275,7 @@ msgstr ""
 "レターボックス表示されます。「DCP」タブで、DCPのコンテナをスコープ（2.39:1）"
 "に設定することをお勧めします。"
 
-#: src/lib/hints.cc:160
+#: src/lib/hints.cc:159
 msgid ""
 "All of your content narrower than 1.90:1 but your DCP's container is Scope "
 "(2.39:1).  This will pillar-box your content.  You may prefer to set your "
@@ -285,7 +285,7 @@ msgstr ""
 "(2.39:1) です。 これにより、コンテンツがピラーボックス化されます。 DCPのアス"
 "ペクト比をコンテンツと同じ比率に設定することをお勧めします。"
 
-#: src/lib/job.cc:115
+#: src/lib/job.cc:110
 #, c++-format
 msgid "An error occurred whilst handling the file {}."
 msgstr "ファイル {} の処理中にエラーが発生しました。"
@@ -298,28 +298,28 @@ msgstr "音声解析中"
 msgid "Analysing subtitles"
 msgstr "字幕解析中"
 
-#: src/lib/hints.cc:379
+#: src/lib/hints.cc:378
 #, fuzzy
 msgid ""
 "At least one marker comes after the end of the project and will be ignored."
 msgstr "最低1つのマーカーがプロジェクトの終了後に出現しますが、無視されます。"
 
-#: src/lib/hints.cc:530
+#: src/lib/hints.cc:529
 msgid "At least one of your closed caption files is larger than "
 msgstr "最低1つの「クローズドキャプション」ファイルが次のサイズより大きいです"
 
-#: src/lib/hints.cc:524
+#: src/lib/hints.cc:523
 #, fuzzy
 msgid "At least one of your closed caption files' XML part is larger than "
 msgstr ""
 "最低１つの「クローズドキャプション」ファイルのXML部分が次のサイズより大きいで"
 "す"
 
-#: src/lib/hints.cc:536
+#: src/lib/hints.cc:535
 msgid "At least one of your subtitle files is larger than "
 msgstr "最低1つの字幕はサイズが大きいです"
 
-#: src/lib/hints.cc:494
+#: src/lib/hints.cc:493
 msgid ""
 "At least one of your subtitle lines has more than 52 characters.  It is "
 "recommended to make each line 52 characters at most in length."
@@ -327,7 +327,7 @@ msgstr ""
 "最低1つの字幕は1行が52文字を超えています。各行の長さは52文字以下にすることを"
 "お勧めします。"
 
-#: src/lib/hints.cc:496
+#: src/lib/hints.cc:495
 msgid ""
 "At least one of your subtitle lines has more than 79 characters.  You should "
 "make each line 79 characters at most in length."
@@ -335,13 +335,13 @@ msgstr ""
 "最低1つの字幕は1行が79文字を超えています。各行の長さを79文字以下にしてくださ"
 "い。"
 
-#: src/lib/hints.cc:689
+#: src/lib/hints.cc:692
 msgid ""
 "At least one of your subtitles has more than 3 lines.  It is advisable to "
 "use no more than 3 lines."
 msgstr "最低1つの字幕は3行を超えています。3行以内に収めることをお勧めします。"
 
-#: src/lib/hints.cc:656
+#: src/lib/hints.cc:659
 msgid ""
 "At least one of your subtitles lasts less than 15 frames.  It is advisable "
 "to make each subtitle at least 15 frames long."
@@ -349,7 +349,7 @@ msgstr ""
 "最低1つの字幕は15フレーム未満です。各字幕は最低15フレーム以上にすることをお勧"
 "めします。"
 
-#: src/lib/hints.cc:661
+#: src/lib/hints.cc:664
 msgid ""
 "At least one of your subtitles starts less than 2 frames after the previous "
 "one.  It is advisable to make the gap between subtitles at least 2 frames."
@@ -357,7 +357,7 @@ msgstr ""
 "最低1つの字幕は少なくとも前の字幕から2フレーム以内に始まります。字幕の間隔を2"
 "フレーム以上あけることをお勧めします。"
 
-#: src/lib/hints.cc:732
+#: src/lib/hints.cc:735
 msgid ""
 "At least one piece of subtitle content has no specified language.  It is "
 "advisable to set the language for each piece of subtitle content in the "
@@ -367,7 +367,7 @@ msgstr ""
 "スト」または「コンテンツ→Open subtitles」タブで、字幕コンテンツごとに言語を設"
 "定することをお勧めします。"
 
-#: src/lib/hints.cc:451
+#: src/lib/hints.cc:450
 msgid ""
 "At least one reel contains too may image (PNG) subtitles, and making a DCP "
 "will fail.  You need to split the DCP into more reels."
@@ -457,7 +457,7 @@ msgstr "C"
 msgid "CPL {} not found"
 msgstr "CPL {} が見つかりません"
 
-#: src/lib/job.cc:670
+#: src/lib/job.cc:672
 msgid "Cancelled"
 msgstr "キャンセル済"
 
@@ -482,7 +482,7 @@ msgstr "Centre"
 msgid "Channels"
 msgstr "チャンネル"
 
-#: src/lib/job.cc:283
+#: src/lib/job.cc:285
 msgid ""
 "Check the server settings in the TMS tab of preferences, or un-tick \"Upload "
 "DCP to TMS after creation\" if you do not want to upload your DCP."
@@ -557,7 +557,7 @@ msgstr "カラースペース"
 msgid "Combine DCPs"
 msgstr "複数のDCPを結合"
 
-#: src/lib/writer.cc:515
+#: src/lib/writer.cc:519
 msgid "Computing digests"
 msgstr "処理進捗"
 
@@ -784,16 +784,16 @@ msgstr "ダウンロードしたZIPファイルを開けませんでした"
 msgid "Could not open downloaded ZIP file ({}:{}: {})"
 msgstr "ダウンロードしたZIPファイルを開けませんでした ({}:{}: {})"
 
-#: src/lib/config.cc:1164
+#: src/lib/config.cc:1165
 msgid "Could not open file for writing"
 msgstr "書き込み用のファイルを開けませんでした"
 
-#: src/lib/ffmpeg_file_encoder.cc:282
+#: src/lib/ffmpeg_file_encoder.cc:297
 #, c++-format
 msgid "Could not open output file {} ({})"
 msgstr "出力ファイル{}を開けませんでした（{}）"
 
-#: src/lib/job.cc:179 src/lib/job.cc:194
+#: src/lib/job.cc:174 src/lib/job.cc:189
 #, c++-format
 msgid "Could not open {}"
 msgstr "{} を開けませんでした"
@@ -909,7 +909,7 @@ msgstr "Datasat AP20 or AP25"
 msgid "De-interlacing"
 msgstr "インターレース解除"
 
-#: src/lib/config.cc:1225
+#: src/lib/config.cc:1226
 #, c++-format
 msgid ""
 "Dear Projectionist\n"
@@ -941,7 +941,7 @@ msgstr ""
 msgid "Disk full when writing {}"
 msgstr "書込みディスクが一杯です {}"
 
-#: src/lib/job.cc:268
+#: src/lib/job.cc:270
 #, c++-format
 msgid "Disk full while writing {}"
 msgstr "書込み中のディスクが一杯です {}"
@@ -993,7 +993,7 @@ msgstr "問題レポートをEmailで報告"
 msgid "Email problem report for {}"
 msgstr "{} の問題レポートをメールで送信"
 
-#: src/lib/dcp_film_encoder.cc:114 src/lib/ffmpeg_film_encoder.cc:134
+#: src/lib/dcp_film_encoder.cc:114 src/lib/ffmpeg_film_encoder.cc:138
 msgid "Encoding"
 msgstr "エンコード進捗"
 
@@ -1006,7 +1006,7 @@ msgstr "エピソード・物語（EPS）"
 msgid "Error in subtitle file: saw {} while expecting {}"
 msgstr "字幕ファイルエラー：saw {} while expecting {}"
 
-#: src/lib/job.cc:668
+#: src/lib/job.cc:670
 #, c++-format
 msgid "Error: {}"
 msgstr "エラー: {}"
@@ -1015,15 +1015,15 @@ msgstr "エラー: {}"
 msgid "Event"
 msgstr "イベント・行事（EVT）"
 
-#: src/lib/hints.cc:410
+#: src/lib/hints.cc:409
 msgid "Examining audio"
 msgstr "音声の検査"
 
-#: src/lib/hints.cc:412
+#: src/lib/hints.cc:411
 msgid "Examining audio, subtitles and closed captions"
 msgstr "音声、字幕、クローズドキャプションの検査"
 
-#: src/lib/examine_content_job.cc:56
+#: src/lib/examine_content_job.cc:54
 msgid "Examining content"
 msgstr "コンテンツの検査"
 
@@ -1031,7 +1031,7 @@ msgstr "コンテンツの検査"
 msgid "Examining subtitles"
 msgstr "字幕の検査"
 
-#: src/lib/hints.cc:408
+#: src/lib/hints.cc:407
 msgid "Examining subtitles and closed captions"
 msgstr "字幕とクローズドキャプションの検査"
 
@@ -1052,7 +1052,7 @@ msgstr "FCP XML字幕"
 msgid "Failed to authenticate with server ({})"
 msgstr "サーバーとの認証に失敗しました（{}）"
 
-#: src/lib/job.cc:139 src/lib/job.cc:153
+#: src/lib/job.cc:134 src/lib/job.cc:148
 msgid "Failed to encode the DCP."
 msgstr "DCP のエンコードに失敗しました。"
 
@@ -1093,7 +1093,7 @@ msgstr "ドライブをフォーマット"
 msgid "Frame rate"
 msgstr "フレームレート"
 
-#: src/lib/job.cc:612
+#: src/lib/job.cc:614
 msgid "Friday"
 msgstr "金曜日"
 
@@ -1187,11 +1187,11 @@ msgstr "IEC61966-2-4"
 msgid "IN"
 msgstr ""
 
-#: src/lib/hints.cc:198
+#: src/lib/hints.cc:197
 msgid "If you do use 25fps you should change your DCP standard to SMPTE."
 msgstr "25fpsを使用する場合、DCP規格をSMPTEに変更する必要があります。"
 
-#: src/lib/hints.cc:261
+#: src/lib/hints.cc:260
 msgid ""
 "In general it is now advisable to make SMPTE DCPs unless you have a "
 "particular reason to use Interop.  It is advisable to set your DCP to use "
@@ -1201,7 +1201,7 @@ msgstr ""
 "勧めします。「DCP」タブで、SMPTE規格を使用するようにDCPを設定することをお勧め"
 "します。"
 
-#: src/lib/hints.cc:649
+#: src/lib/hints.cc:652
 msgid ""
 "It is advisable to put your first subtitle at least 4 seconds after the "
 "start of the DCP to make sure it is seen."
@@ -1209,7 +1209,8 @@ msgstr ""
 "最初の字幕が確実に表示されるようにするには、DCPの開始から最短4秒後以降に配置"
 "することをお勧めします。"
 
-#: src/lib/job.cc:169 src/lib/job.cc:204 src/lib/job.cc:308 src/lib/job.cc:318
+#: src/lib/job.cc:164 src/lib/job.cc:200 src/lib/job.cc:205 src/lib/job.cc:310
+#: src/lib/job.cc:320
 #, c++-format
 msgid "It is not known what caused this error.  {}"
 msgstr "このエラーの原因は不明です。{}"
@@ -1218,7 +1219,7 @@ msgstr "このエラーの原因は不明です。{}"
 msgid "JEDEC P22"
 msgstr "JEDEC P22"
 
-#: src/lib/config.cc:414 src/lib/config.cc:1222
+#: src/lib/config.cc:415 src/lib/config.cc:1223
 msgid "KDM delivery: $CPL_NAME"
 msgstr "KDM配信: $CPL_NAME"
 
@@ -1228,7 +1229,7 @@ msgid "Kernel deinterlacer"
 msgstr "カーネルデインターレース"
 
 #. TRANSLATORS: L here is an abbreviation for "left", to indicate the left-eye part of a 3D export
-#: src/lib/ffmpeg_film_encoder.cc:265 src/lib/util.cc:605
+#: src/lib/ffmpeg_film_encoder.cc:269 src/lib/util.cc:605
 msgid "L"
 msgstr "L"
 
@@ -1331,7 +1332,7 @@ msgstr "DCP のビデオ サイズの不一致"
 msgid "Missing required setting {}"
 msgstr "必要な設定 {} がありません"
 
-#: src/lib/job.cc:604
+#: src/lib/job.cc:606
 msgid "Monday"
 msgstr "月曜日"
 
@@ -1378,16 +1379,16 @@ msgstr "ノイズ除去"
 msgid "None"
 msgstr "なし"
 
-#: src/lib/job.cc:660
+#: src/lib/job.cc:662
 msgid "OK"
 msgstr "OK"
 
-#: src/lib/job.cc:665
+#: src/lib/job.cc:667
 #, c++-format
 msgid "OK (ran for {} from {} to {})"
 msgstr "OK ( 処理時間 {} 、 開始時刻 {} 、 終了時刻 {} )"
 
-#: src/lib/job.cc:663
+#: src/lib/job.cc:665
 #, c++-format
 msgid "OK (ran for {})"
 msgstr ""
@@ -1422,7 +1423,7 @@ msgstr ""
 msgid "Orientation"
 msgstr "向き"
 
-#: src/lib/job.cc:226
+#: src/lib/job.cc:228
 msgid "Out of memory"
 msgstr "メモリ不足"
 
@@ -1479,7 +1480,7 @@ msgid "Public Service Announcement"
 msgstr "公共広告（PSA）"
 
 #. TRANSLATORS: R here is an abbreviation for "right", to indicate the right-eye part of a 3D export
-#: src/lib/ffmpeg_film_encoder.cc:270 src/lib/util.cc:606
+#: src/lib/ffmpeg_film_encoder.cc:274 src/lib/util.cc:606
 msgid "R"
 msgstr "R"
 
@@ -1562,7 +1563,7 @@ msgstr "SMPTE 2085, Y'D'zD'x"
 msgid "SMPTE 240M"
 msgstr "SMPTE 240M"
 
-#: src/lib/hints.cc:714
+#: src/lib/hints.cc:717
 msgid ""
 "SMPTE DCPs with the type FTR (feature) should have markers for the first "
 "frame of end credits (FFEC) and the first frame of moving credits (FFMC).  "
@@ -1596,7 +1597,7 @@ msgstr "SMPTE ST 431-2 (2011)"
 msgid "SMPTE ST 432-1 D65 (2010)"
 msgstr "SMPTE ST 432-1 D65 (2010)"
 
-#: src/lib/job.cc:297
+#: src/lib/job.cc:299
 msgid ""
 "SMPTE text assets have a limit of 4096 'resources', which include PNG "
 "subtitles and fonts. The limit is less likely to be hit if you use more "
@@ -1614,7 +1615,7 @@ msgstr "SSH エラー [{}]"
 msgid "SSH error [{}] ({})"
 msgstr "SSH エラー [{}] ({})"
 
-#: src/lib/job.cc:614
+#: src/lib/job.cc:616
 msgid "Saturday"
 msgstr "土曜日"
 
@@ -1679,14 +1680,14 @@ msgstr ""
 "DCP-o-maticのバグ修正により、一部のファイルの再調査が必要です。設定の確認が必"
 "要になる場合があります。"
 
-#: src/lib/hints.cc:630
+#: src/lib/hints.cc:633
 #, c++-format
 msgid ""
 "Some of your closed captions span more than {} lines, so they will be "
 "truncated."
 msgstr "字幕の中には{}行を超えるものがある為、途中が途切れて表示されます。"
 
-#: src/lib/hints.cc:752
+#: src/lib/hints.cc:755
 msgid ""
 "Some of your content has audio but you have not set the audio language.  It "
 "is advisable to set the audio language in the \"DCP\" tab unless your audio "
@@ -1696,7 +1697,7 @@ msgstr ""
 "ナレーションが含まれていない場合を除き「DCP」タブで音声言語を設定することをお"
 "勧めします。"
 
-#: src/lib/hints.cc:823
+#: src/lib/hints.cc:826
 msgid ""
 "Some of your content is encrypted, and some not.  Though some distributors "
 "(e.g. Netflix) require subtitles not to be encrypted (even if picture and "
@@ -1722,7 +1723,7 @@ msgstr "コンテンツの一部にはKDMが必要です"
 msgid "Some of your content needs an OV"
 msgstr "コンテンツの一部にはOVが必要です"
 
-#: src/lib/hints.cc:806
+#: src/lib/hints.cc:809
 #, c++-format
 msgid ""
 "Some of your video content contains an alpha channel, and {} cannot be "
@@ -1751,7 +1752,7 @@ msgstr "ステレオから5.1ch アップミキサーA"
 msgid "Stereo to 5.1 up-mixer B"
 msgstr "ステレオから5.1ch アップミキサーB"
 
-#: src/lib/job.cc:602
+#: src/lib/job.cc:604
 msgid "Sunday"
 msgstr "日曜日"
 
@@ -1790,7 +1791,7 @@ msgstr "署名用の証明書チェーンが無効です"
 msgid "The certificate chain for signing is invalid ({})"
 msgstr "署名用の証明書チェーンが無効です ({})"
 
-#: src/lib/hints.cc:769
+#: src/lib/hints.cc:772
 #, c++-format
 msgid ""
 "The certificate chain that {} uses for signing DCPs and KDMs contains a "
@@ -1804,7 +1805,7 @@ msgstr ""
 "「秘密鍵」ページで「証明書と秘密鍵を再作成する」ボタンをクリックして、署名証"
 "明書チェーンを再作成することをお勧めします。"
 
-#: src/lib/hints.cc:777
+#: src/lib/hints.cc:780
 #, c++-format
 msgid ""
 "The certificate chain that {} uses for signing DCPs and KDMs has a validity "
@@ -1829,7 +1830,7 @@ msgstr ""
 "す。2Dに設定してください。DCPタブ内の動画タブで「3D」にチェックを入れること"
 "で、このコンテンツから3D DCPを作成することは可能です。"
 
-#: src/lib/job.cc:121
+#: src/lib/job.cc:116
 msgid ""
 "The drive that the film is stored on is low in disc space.  Free some more "
 "space and try again."
@@ -1857,7 +1858,7 @@ msgstr "{}は{}ms短縮されました。"
 msgid "The file {} has been trimmed by {} milliseconds more."
 msgstr "{}はさらにに{}ms短縮されました。"
 
-#: src/lib/hints.cc:270
+#: src/lib/hints.cc:269
 msgid ""
 "The vast majority of cinemas in Europe, Australasia and North America expect "
 "DCPs encoded with JPEG2000 rather than MPEG2.  Make sure that your cinema "
@@ -1878,7 +1879,7 @@ msgstr ""
 "うになりました。プロジェクト内の字幕が意図した位置に配置されているか、必ず確"
 "認してください。"
 
-#: src/lib/hints.cc:251
+#: src/lib/hints.cc:250
 msgid ""
 "There is a large difference between the frame rate of your DCP and that of "
 "some of your content.  This will cause your audio to play back at a much "
@@ -1895,7 +1896,7 @@ msgstr ""
 msgid "There is no video in this DCP"
 msgstr "このDCPには動画が含まれていません"
 
-#: src/lib/job.cc:226
+#: src/lib/job.cc:228
 msgid ""
 "There was not enough memory to do this.  If you are running a 32-bit "
 "operating system try reducing the number of encoding threads in the General "
@@ -1916,7 +1917,7 @@ msgstr ""
 msgid "This KDM was not made for {}'s decryption certificate."
 msgstr "このKDMは{}の復号のために作成された証明書ではありません。"
 
-#: src/lib/job.cc:141
+#: src/lib/job.cc:136
 #, c++-format
 msgid ""
 "This error has probably occurred because you are running the 32-bit version "
@@ -1928,7 +1929,7 @@ msgstr ""
 "ことが原因でと思われます。環境設定の「一般」タブで「{}が使用するスレッド数」"
 "を減らして、もう一度お試しください。"
 
-#: src/lib/job.cc:155
+#: src/lib/job.cc:150
 #, c++-format
 msgid ""
 "This error has probably occurred because you are running the 32-bit version "
@@ -1965,7 +1966,7 @@ msgstr ""
 "ことができません。新しいプロジェクトを作成しコンテンツを追加して再度設定する"
 "必要があります。"
 
-#: src/lib/job.cc:610
+#: src/lib/job.cc:612
 msgid "Thursday"
 msgstr "木曜日"
 
@@ -1973,7 +1974,7 @@ msgstr "木曜日"
 msgid "Timed text"
 msgstr "タイムドテキスト"
 
-#: src/lib/job.cc:274
+#: src/lib/job.cc:276
 #, fuzzy
 msgid "Too many open files"
 msgstr "開いているファイルが多すぎます"
@@ -1991,7 +1992,7 @@ msgstr "トランスコーディング {}"
 msgid "Transitional"
 msgstr "トランジショナル（XSN）"
 
-#: src/lib/job.cc:606
+#: src/lib/job.cc:608
 msgid "Tuesday"
 msgstr "火曜日"
 
@@ -2012,7 +2013,7 @@ msgstr "サーバーが予期しない画像タイプを受信しました"
 msgid "Unknown"
 msgstr "不明"
 
-#: src/lib/job.cc:317
+#: src/lib/job.cc:319
 msgid "Unknown error"
 msgstr "不明なエラー"
 
@@ -2084,7 +2085,7 @@ msgstr "しばらくお待ちください"
 msgid "Weave filter"
 msgstr "ウィーブフィルター"
 
-#: src/lib/job.cc:608
+#: src/lib/job.cc:610
 msgid "Wednesday"
 msgstr "水曜日"
 
@@ -2104,7 +2105,7 @@ msgstr "YCgCo-R, 奇数追加"
 msgid "Yet Another Deinterlacing Filter"
 msgstr ""
 
-#: src/lib/hints.cc:211
+#: src/lib/hints.cc:210
 #, c++-format
 msgid ""
 "You are set up for a DCP at a frame rate of {} fps.  This frame rate is not "
@@ -2115,7 +2116,7 @@ msgstr ""
 "ロジェクターで対応している訳ではりません。DCPのフレームレートを{} fpsに変更す"
 "ることをお勧めします。"
 
-#: src/lib/hints.cc:195
+#: src/lib/hints.cc:194
 #, c++-format
 msgid ""
 "You are set up for a DCP at a frame rate of {} fps.  This frame rate is not "
@@ -2126,7 +2127,7 @@ msgstr ""
 "ロジェクターで対応している訳ではりません。DCPのフレームレートを{} fpsに変更す"
 "ることをお勧めします。"
 
-#: src/lib/hints.cc:205
+#: src/lib/hints.cc:204
 msgid ""
 "You are set up for a DCP frame rate of 30fps, which is not supported by all "
 "projectors.  Be aware that you may have compatibility problems."
@@ -2135,7 +2136,7 @@ msgstr ""
 "トされているわけではありません。互換性の問題が発生する可能性がありますのでご"
 "注意ください。"
 
-#: src/lib/hints.cc:325
+#: src/lib/hints.cc:324
 msgid ""
 "You are using 3D content but your DCP is set to 2D.  Set the DCP to 3D if "
 "you want to play it back on a 3D system (e.g. Real-D, MasterImage etc.)"
@@ -2143,7 +2144,7 @@ msgstr ""
 "3Dコンテンツを使用していますがDCP設定が2Dになっています。RealD・MasterImageな"
 "どの3Dシステムで再生する場合はDCP設定を3Dに設定してください。"
 
-#: src/lib/hints.cc:128
+#: src/lib/hints.cc:127
 #, c++-format
 msgid ""
 "You are using {}'s stereo-to-5.1 upmixer.  This is experimental and may "
@@ -2163,7 +2164,7 @@ msgstr ""
 "Atmosコンテンツが複数存在し、それらのフレームレートが異なっています。Atmosコ"
 "ンテンツの一部を削除する必要があります。"
 
-#: src/lib/hints.cc:637
+#: src/lib/hints.cc:640
 msgid ""
 "You have overlapping closed captions, which are not allowed in Interop "
 "DCPs.  Change your DCP standard to SMPTE."
@@ -2171,7 +2172,7 @@ msgstr ""
 "字幕が重複していますが、これはInterop DCPでは許可されていません。DCP規格を"
 "SMPTEに変更してください。"
 
-#: src/lib/hints.cc:293
+#: src/lib/hints.cc:292
 msgid ""
 "You have specified a font file which is larger than 640kB.  This is very "
 "likely to cause problems on playback."
@@ -2179,7 +2180,7 @@ msgstr ""
 "640KBを超えるフォントファイルが指定されました。再生時に問題が発生する可能性が"
 "高くなります。"
 
-#: src/lib/hints.cc:309
+#: src/lib/hints.cc:308
 #, fuzzy, c++-format
 msgid ""
 "You have {} files that look like they are VOB files from DVD. You should "
@@ -2192,7 +2193,7 @@ msgstr ""
 msgid "You must add some content to the DCP before creating it"
 msgstr "DCPを作成する前にコンテンツを追加する必要があります"
 
-#: src/lib/hints.cc:113
+#: src/lib/hints.cc:112
 #, c++-format
 msgid ""
 "Your DCP has fewer than 6 audio channels.  This may cause problems on some "
@@ -2204,7 +2205,7 @@ msgstr ""
 "があります。DCP音声を6チャンネルに設定することをおすすめします。コンテンツの"
 "音声チャンネル数は6未満でも問題ありませんが{}は余分な部分を無音で埋めます。"
 
-#: src/lib/hints.cc:795
+#: src/lib/hints.cc:798
 #, c++-format
 msgid ""
 "Your DCP has {} audio channels, rather than 8 or 16.  This may cause some "
@@ -2215,7 +2216,7 @@ msgstr ""
 "給会社がDCPチェック時に品質エラーを報告する可能性があります。これを回避するに"
 "は、DCPの音声チャンネルを8chまたは16chに設定してください。"
 
-#: src/lib/hints.cc:170
+#: src/lib/hints.cc:169
 msgid ""
 "Your DCP uses an unusual container ratio.  This may cause problems on some "
 "projectors.  If possible, use Flat or Scope for the DCP container ratio."
@@ -2224,7 +2225,7 @@ msgstr ""
 "性があります。可能であれば、DCPのコンテナ比率をフラットまたはスコープに設定し"
 "てください。"
 
-#: src/lib/hints.cc:359
+#: src/lib/hints.cc:358
 #, c++-format
 msgid ""
 "Your audio level is very high (on {}).  You should reduce the gain of your "
@@ -2263,7 +2264,7 @@ msgstr ""
 
 #. TRANSLATORS: _reel{} here is to be added to an export filename to indicate
 #. which reel it is.  Preserve the {}; it will be replaced with the reel number.
-#: src/lib/ffmpeg_film_encoder.cc:151
+#: src/lib/ffmpeg_film_encoder.cc:155
 #, fuzzy, c++-format
 msgid "_reel{}"
 msgstr "_リール{}"
@@ -2516,7 +2517,7 @@ msgstr "{} [ムービー]"
 msgid "{} [video]"
 msgstr "{} [ビデオ]"
 
-#: src/lib/job.cc:180 src/lib/job.cc:195
+#: src/lib/job.cc:175 src/lib/job.cc:190
 #, c++-format
 msgid ""
 "{} could not open the file {} ({}).  Perhaps it does not exist or is in an "
@@ -2566,7 +2567,7 @@ msgstr ""
 msgid "{} no longer supports the `{}' filter, so it has been turned off."
 msgstr "{} は `{}' フィルターをサポートしなくなったため、オフになりました。"
 
-#: src/lib/config.cc:424 src/lib/config.cc:1237
+#: src/lib/config.cc:425 src/lib/config.cc:1238
 #, c++-format
 msgid "{} notification"
 msgstr "{} 通知"

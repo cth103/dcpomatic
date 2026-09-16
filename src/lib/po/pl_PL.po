@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-22 00:21+0200\n"
+"POT-Creation-Date: 2026-09-15 20:57+0200\n"
 "PO-Revision-Date: 2022-05-10 16:47+0200\n"
 "Last-Translator: Michał Tomaszewski <goku1933@gmail.com>\n"
 "Language-Team: Polish <http://translations.dcpomatic.com/projects/dcpomatic/"
@@ -72,12 +72,12 @@ msgstr " (%.2f:1)"
 
 #. TRANSLATORS: the {} in this string will be filled in with a day of the week
 #. to say what day a job will finish.
-#: src/lib/job.cc:641
+#: src/lib/job.cc:643
 #, c++-format
 msgid " on {}"
 msgstr " w {}"
 
-#: src/lib/config.cc:1262
+#: src/lib/config.cc:1263
 #, fuzzy
 msgid ""
 "$CPL_NAME\n"
@@ -101,7 +101,7 @@ msgstr ""
 "Długość: $LENGTH\n"
 "Rozmiar: $SIZE\n"
 
-#: src/lib/config.cc:1240
+#: src/lib/config.cc:1241
 msgid "$JOB_NAME: $JOB_STATUS"
 msgstr "$JOB_NAME: $JOB_STATUS"
 
@@ -179,7 +179,7 @@ msgstr "2.39 (Scope)"
 msgid "3D denoiser"
 msgstr "Odszumianie 3D"
 
-#: src/lib/hints.cc:222
+#: src/lib/hints.cc:221
 msgid ""
 "4K 3D is only supported by a very limited number of projectors.  Unless you "
 "know that you will play this DCP back on a capable projector, it is "
@@ -199,7 +199,7 @@ msgstr ""
 msgid "; {} fps"
 msgstr "; {} kl/s"
 
-#: src/lib/job.cc:646
+#: src/lib/job.cc:648
 #, c++-format
 msgid "; {} remaining; finishing at {}{}"
 msgstr "; {} pozostało; koniec o {}{}"
@@ -232,14 +232,14 @@ msgstr ""
 "dcpomatic.com/donate_mount?amount=10\">Przejdź do PayPal i wpłać 10 EUR</a></"
 "ul><p>Dziękuję!"
 
-#: src/lib/job.cc:294
+#: src/lib/job.cc:296
 msgid ""
 "A bitmap (PNG) subtitle or font could not be written as its asset became "
 "full.  Split the project up into more reels, or set the subtitles to be "
 "'burnt in', and try again."
 msgstr ""
 
-#: src/lib/hints.cc:179
+#: src/lib/hints.cc:178
 #, fuzzy
 msgid ""
 "A few projectors have problems playing back very high bit-rate DCPs.  It is "
@@ -269,7 +269,7 @@ msgstr "ARIB STD-B67 ('Hybrydowa log-gamma')"
 msgid "Advertisement"
 msgstr "Reklama"
 
-#: src/lib/hints.cc:156
+#: src/lib/hints.cc:155
 msgid ""
 "All of your content is in Scope (2.39:1) but your DCP's container is Flat "
 "(1.85:1).  This will letter-box your content inside a Flat (1.85:1) frame.  "
@@ -281,7 +281,7 @@ msgstr ""
 "skompensować różnice formatów.  Być może lepiej ustawić kontener DCP na "
 "Scope (2.39:1) w zakładce \"DCP\"."
 
-#: src/lib/hints.cc:160
+#: src/lib/hints.cc:159
 msgid ""
 "All of your content narrower than 1.90:1 but your DCP's container is Scope "
 "(2.39:1).  This will pillar-box your content.  You may prefer to set your "
@@ -292,7 +292,7 @@ msgstr ""
 "pionowych pasów, by skompensować różnice formatów.  Być może lepiej ustawić "
 "kontener DCP na Flat (1.85:1) w zakładce \"DCP\"."
 
-#: src/lib/job.cc:115
+#: src/lib/job.cc:110
 #, c++-format
 msgid "An error occurred whilst handling the file {}."
 msgstr "Wystąpił błąd podczas przetwarzania pliku {}."
@@ -305,27 +305,27 @@ msgstr "Analizuję dźwięk"
 msgid "Analysing subtitles"
 msgstr "Analizuję napisy"
 
-#: src/lib/hints.cc:379
+#: src/lib/hints.cc:378
 msgid ""
 "At least one marker comes after the end of the project and will be ignored."
 msgstr ""
 "Znaczniki, które pojawiają się za czasem końcowym Projektu zostaną "
 "zignorowane."
 
-#: src/lib/hints.cc:530
+#: src/lib/hints.cc:529
 msgid "At least one of your closed caption files is larger than "
 msgstr "Co najmniej jeden z plików napisów kodowanych jest większy niż "
 
-#: src/lib/hints.cc:524
+#: src/lib/hints.cc:523
 msgid "At least one of your closed caption files' XML part is larger than "
 msgstr ""
 "Co najmniej jedna część pliku XML z napisami kodowanymi jest większa niż "
 
-#: src/lib/hints.cc:536
+#: src/lib/hints.cc:535
 msgid "At least one of your subtitle files is larger than "
 msgstr "Co najmniej jeden z plików z napisami jest większy niż "
 
-#: src/lib/hints.cc:494
+#: src/lib/hints.cc:493
 msgid ""
 "At least one of your subtitle lines has more than 52 characters.  It is "
 "recommended to make each line 52 characters at most in length."
@@ -333,7 +333,7 @@ msgstr ""
 "W napisach znajdują się linie, które mają powyżej 52 znaków.  Zaleca się, "
 "aby żadna z linii nie przekraczała 52 znaków."
 
-#: src/lib/hints.cc:496
+#: src/lib/hints.cc:495
 msgid ""
 "At least one of your subtitle lines has more than 79 characters.  You should "
 "make each line 79 characters at most in length."
@@ -341,7 +341,7 @@ msgstr ""
 "W napisach znajdują się linie, które mają powyżej 79 znaków.  Żadna linia "
 "nie powinna przekraczać 79 znaków."
 
-#: src/lib/hints.cc:689
+#: src/lib/hints.cc:692
 msgid ""
 "At least one of your subtitles has more than 3 lines.  It is advisable to "
 "use no more than 3 lines."
@@ -349,7 +349,7 @@ msgstr ""
 "W pliku znajdują się napisy, które mają ponad 3 linie.  Zaleca się użycie "
 "maksymalnie 3 linii."
 
-#: src/lib/hints.cc:656
+#: src/lib/hints.cc:659
 msgid ""
 "At least one of your subtitles lasts less than 15 frames.  It is advisable "
 "to make each subtitle at least 15 frames long."
@@ -358,7 +358,7 @@ msgstr ""
 "obrazu.  Zaleca się, aby każdy napis był widoczny co najmniej przez 15 "
 "klatek obrazu."
 
-#: src/lib/hints.cc:661
+#: src/lib/hints.cc:664
 msgid ""
 "At least one of your subtitles starts less than 2 frames after the previous "
 "one.  It is advisable to make the gap between subtitles at least 2 frames."
@@ -366,7 +366,7 @@ msgstr ""
 "Niektóre napisy w pliku mają odstęp czasowy poniżej 2 klatek obrazu.  Zaleca "
 "się, aby odstęp między napisami wynosił co najmniej 2 klatki obrazu."
 
-#: src/lib/hints.cc:732
+#: src/lib/hints.cc:735
 #, fuzzy
 msgid ""
 "At least one piece of subtitle content has no specified language.  It is "
@@ -378,7 +378,7 @@ msgstr ""
 "napisów zamkniętych w menu „Zawartość→Tekst z kodami czasowymi”, "
 "„Zawartość→Plik z napisami” albo „Zawartość→Napisy kodowane”."
 
-#: src/lib/hints.cc:451
+#: src/lib/hints.cc:450
 msgid ""
 "At least one reel contains too may image (PNG) subtitles, and making a DCP "
 "will fail.  You need to split the DCP into more reels."
@@ -468,7 +468,7 @@ msgstr "C"
 msgid "CPL {} not found"
 msgstr ""
 
-#: src/lib/job.cc:670
+#: src/lib/job.cc:672
 msgid "Cancelled"
 msgstr "Anulowane"
 
@@ -493,7 +493,7 @@ msgstr "Centralny"
 msgid "Channels"
 msgstr "Kanały dźwiękowe"
 
-#: src/lib/job.cc:283
+#: src/lib/job.cc:285
 msgid ""
 "Check the server settings in the TMS tab of preferences, or un-tick \"Upload "
 "DCP to TMS after creation\" if you do not want to upload your DCP."
@@ -565,7 +565,7 @@ msgstr "Przestrzeń kolorów"
 msgid "Combine DCPs"
 msgstr "Połącz paczki DCP"
 
-#: src/lib/writer.cc:515
+#: src/lib/writer.cc:519
 msgid "Computing digests"
 msgstr "Obliczanie danych"
 
@@ -785,16 +785,16 @@ msgstr "Nie udało się otworzyć pobranego archiwum ZIP"
 msgid "Could not open downloaded ZIP file ({}:{}: {})"
 msgstr "Nie udało się otworzyć pobranego archiwum ZIP ({}:{}: {})"
 
-#: src/lib/config.cc:1164
+#: src/lib/config.cc:1165
 msgid "Could not open file for writing"
 msgstr "Nie udało się otworzyć pliku do zapisu"
 
-#: src/lib/ffmpeg_file_encoder.cc:282
+#: src/lib/ffmpeg_file_encoder.cc:297
 #, c++-format
 msgid "Could not open output file {} ({})"
 msgstr "Nie udało się otworzyć pliku wyjściowego {} ({})"
 
-#: src/lib/job.cc:179 src/lib/job.cc:194
+#: src/lib/job.cc:174 src/lib/job.cc:189
 #, c++-format
 msgid "Could not open {}"
 msgstr "Nie udało się otworzyć {}"
@@ -901,7 +901,7 @@ msgstr "Datasat AP20 lub AP25"
 msgid "De-interlacing"
 msgstr "Usuwanie przeplotu"
 
-#: src/lib/config.cc:1225
+#: src/lib/config.cc:1226
 #, fuzzy, c++-format
 msgid ""
 "Dear Projectionist\n"
@@ -933,7 +933,7 @@ msgstr ""
 msgid "Disk full when writing {}"
 msgstr ""
 
-#: src/lib/job.cc:268
+#: src/lib/job.cc:270
 #, c++-format
 msgid "Disk full while writing {}"
 msgstr ""
@@ -985,7 +985,7 @@ msgstr "Wyślij raport błędu"
 msgid "Email problem report for {}"
 msgstr "Wyślij raport błędu do {}"
 
-#: src/lib/dcp_film_encoder.cc:114 src/lib/ffmpeg_film_encoder.cc:134
+#: src/lib/dcp_film_encoder.cc:114 src/lib/ffmpeg_film_encoder.cc:138
 msgid "Encoding"
 msgstr "Kodowanie"
 
@@ -998,7 +998,7 @@ msgstr "Odcinek"
 msgid "Error in subtitle file: saw {} while expecting {}"
 msgstr "Błąd w pliku napisów: jest {}, powinno być {}"
 
-#: src/lib/job.cc:668
+#: src/lib/job.cc:670
 #, c++-format
 msgid "Error: {}"
 msgstr "Błąd: {}"
@@ -1007,16 +1007,16 @@ msgstr "Błąd: {}"
 msgid "Event"
 msgstr ""
 
-#: src/lib/hints.cc:410
+#: src/lib/hints.cc:409
 #, fuzzy
 msgid "Examining audio"
 msgstr "Analizowanie napisów"
 
-#: src/lib/hints.cc:412
+#: src/lib/hints.cc:411
 msgid "Examining audio, subtitles and closed captions"
 msgstr "Sprawdzam audio, napisy i napisy kodowane"
 
-#: src/lib/examine_content_job.cc:56
+#: src/lib/examine_content_job.cc:54
 msgid "Examining content"
 msgstr "Analizowanie materiału"
 
@@ -1024,7 +1024,7 @@ msgstr "Analizowanie materiału"
 msgid "Examining subtitles"
 msgstr "Analizowanie napisów"
 
-#: src/lib/hints.cc:408
+#: src/lib/hints.cc:407
 msgid "Examining subtitles and closed captions"
 msgstr "Analizowanie napisów i napisów kodowanych"
 
@@ -1046,7 +1046,7 @@ msgstr "Napisy DCP XML"
 msgid "Failed to authenticate with server ({})"
 msgstr "Błąd uwierzytelniania na serwerze ({})"
 
-#: src/lib/job.cc:139 src/lib/job.cc:153
+#: src/lib/job.cc:134 src/lib/job.cc:148
 msgid "Failed to encode the DCP."
 msgstr "Nie udało się przygotować DCP."
 
@@ -1088,7 +1088,7 @@ msgstr "Obliczanie danych"
 msgid "Frame rate"
 msgstr "Liczba kl/s"
 
-#: src/lib/job.cc:612
+#: src/lib/job.cc:614
 msgid "Friday"
 msgstr "Piątek"
 
@@ -1179,11 +1179,11 @@ msgstr "IEC61966-2-4"
 msgid "IN"
 msgstr ""
 
-#: src/lib/hints.cc:198
+#: src/lib/hints.cc:197
 msgid "If you do use 25fps you should change your DCP standard to SMPTE."
 msgstr "Przy 25 FPS powinieneś zmienić standard paczki DCP na SMPTE."
 
-#: src/lib/hints.cc:261
+#: src/lib/hints.cc:260
 #, fuzzy
 msgid ""
 "In general it is now advisable to make SMPTE DCPs unless you have a "
@@ -1194,7 +1194,7 @@ msgstr ""
 "użycie standardu Interlop jest uzasadnione.  Zaleca się wybranie standardu "
 "SMPTE z zakładki „DCP” dla tego Projektu."
 
-#: src/lib/hints.cc:649
+#: src/lib/hints.cc:652
 msgid ""
 "It is advisable to put your first subtitle at least 4 seconds after the "
 "start of the DCP to make sure it is seen."
@@ -1202,7 +1202,8 @@ msgstr ""
 "Zaleca się, aby pierwszy napis pojawił się co najmniej 4 sekundy przed "
 "czasem początkowym paczki DCP, by ten był widoczny."
 
-#: src/lib/job.cc:169 src/lib/job.cc:204 src/lib/job.cc:308 src/lib/job.cc:318
+#: src/lib/job.cc:164 src/lib/job.cc:200 src/lib/job.cc:205 src/lib/job.cc:310
+#: src/lib/job.cc:320
 #, fuzzy, c++-format
 msgid "It is not known what caused this error.  {}"
 msgstr "Wystąpił nieznany błąd."
@@ -1211,7 +1212,7 @@ msgstr "Wystąpił nieznany błąd."
 msgid "JEDEC P22"
 msgstr "JEDEC P22"
 
-#: src/lib/config.cc:414 src/lib/config.cc:1222
+#: src/lib/config.cc:415 src/lib/config.cc:1223
 msgid "KDM delivery: $CPL_NAME"
 msgstr "Wysyłanie klucza: $CPL_NAME"
 
@@ -1220,7 +1221,7 @@ msgid "Kernel deinterlacer"
 msgstr "Usuwanie przeplotu metodą Kernel"
 
 #. TRANSLATORS: L here is an abbreviation for "left", to indicate the left-eye part of a 3D export
-#: src/lib/ffmpeg_film_encoder.cc:265 src/lib/util.cc:605
+#: src/lib/ffmpeg_film_encoder.cc:269 src/lib/util.cc:605
 msgid "L"
 msgstr "L"
 
@@ -1318,7 +1319,7 @@ msgstr "Nieprawidłowe rozmiary plików obrazu w DCP"
 msgid "Missing required setting {}"
 msgstr "Brakuje wymaganych ustawień {}"
 
-#: src/lib/job.cc:604
+#: src/lib/job.cc:606
 msgid "Monday"
 msgstr "Poniedziałek"
 
@@ -1366,16 +1367,16 @@ msgstr "Redukcja szumu"
 msgid "None"
 msgstr "Brak"
 
-#: src/lib/job.cc:660
+#: src/lib/job.cc:662
 msgid "OK"
 msgstr ""
 
-#: src/lib/job.cc:665
+#: src/lib/job.cc:667
 #, fuzzy, c++-format
 msgid "OK (ran for {} from {} to {})"
 msgstr "OK (czas trwania {})"
 
-#: src/lib/job.cc:663
+#: src/lib/job.cc:665
 #, c++-format
 msgid "OK (ran for {})"
 msgstr "OK (czas trwania {})"
@@ -1410,7 +1411,7 @@ msgstr ""
 msgid "Orientation"
 msgstr "Orientacja"
 
-#: src/lib/job.cc:226
+#: src/lib/job.cc:228
 msgid "Out of memory"
 msgstr "Zabrakło pamięci RAM"
 
@@ -1465,7 +1466,7 @@ msgid "Public Service Announcement"
 msgstr "Komunikat publiczny"
 
 #. TRANSLATORS: R here is an abbreviation for "right", to indicate the right-eye part of a 3D export
-#: src/lib/ffmpeg_film_encoder.cc:270 src/lib/util.cc:606
+#: src/lib/ffmpeg_film_encoder.cc:274 src/lib/util.cc:606
 msgid "R"
 msgstr "R"
 
@@ -1549,7 +1550,7 @@ msgstr "SMPTE 2085, Y'D'zD'x"
 msgid "SMPTE 240M"
 msgstr "SMPTE 240M"
 
-#: src/lib/hints.cc:714
+#: src/lib/hints.cc:717
 msgid ""
 "SMPTE DCPs with the type FTR (feature) should have markers for the first "
 "frame of end credits (FFEC) and the first frame of moving credits (FFMC).  "
@@ -1585,7 +1586,7 @@ msgstr "SMPTE ST 431-2 (2011)"
 msgid "SMPTE ST 432-1 D65 (2010)"
 msgstr "SMPTE ST 432-1 D65 (2010)"
 
-#: src/lib/job.cc:297
+#: src/lib/job.cc:299
 msgid ""
 "SMPTE text assets have a limit of 4096 'resources', which include PNG "
 "subtitles and fonts. The limit is less likely to be hit if you use more "
@@ -1603,7 +1604,7 @@ msgstr "Błąd SSH [{}]"
 msgid "SSH error [{}] ({})"
 msgstr "Błąd SSH [{}] ({})"
 
-#: src/lib/job.cc:614
+#: src/lib/job.cc:616
 msgid "Saturday"
 msgstr "Sobota"
 
@@ -1667,7 +1668,7 @@ msgstr ""
 "\n"
 "Pliki te zostaną ponownie zbadane, sprawdź ustawienia."
 
-#: src/lib/hints.cc:630
+#: src/lib/hints.cc:633
 #, c++-format
 msgid ""
 "Some of your closed captions span more than {} lines, so they will be "
@@ -1676,7 +1677,7 @@ msgstr ""
 "Niektóre z napisów dzielą się na więcej niż {} linii, dlatego zostaną "
 "przycięte."
 
-#: src/lib/hints.cc:752
+#: src/lib/hints.cc:755
 msgid ""
 "Some of your content has audio but you have not set the audio language.  It "
 "is advisable to set the audio language in the \"DCP\" tab unless your audio "
@@ -1686,7 +1687,7 @@ msgstr ""
 "języka.  Zaleca się, aby określić język dźwięku w zakładce „DCP”, chyba że "
 "materiał nie posiada dialogów."
 
-#: src/lib/hints.cc:823
+#: src/lib/hints.cc:826
 msgid ""
 "Some of your content is encrypted, and some not.  Though some distributors "
 "(e.g. Netflix) require subtitles not to be encrypted (even if picture and "
@@ -1708,7 +1709,7 @@ msgstr "Część twoich materiałów wymaga klucza KDM"
 msgid "Some of your content needs an OV"
 msgstr "Część twoich materiałów wymaga wersji OV paczki DCP"
 
-#: src/lib/hints.cc:806
+#: src/lib/hints.cc:809
 #, c++-format
 msgid ""
 "Some of your video content contains an alpha channel, and {} cannot be "
@@ -1734,7 +1735,7 @@ msgstr "Miksuj 2.0 do 5.1 wersja A"
 msgid "Stereo to 5.1 up-mixer B"
 msgstr "Miksuj 2.0 do 5.1 wersja B"
 
-#: src/lib/job.cc:602
+#: src/lib/job.cc:604
 msgid "Sunday"
 msgstr "Niedziela"
 
@@ -1776,7 +1777,7 @@ msgstr "Certyfikat jest nieprawidłowy"
 msgid "The certificate chain for signing is invalid ({})"
 msgstr "Certyfikat jest nieprawidłowy ({})"
 
-#: src/lib/hints.cc:769
+#: src/lib/hints.cc:772
 #, c++-format
 msgid ""
 "The certificate chain that {} uses for signing DCPs and KDMs contains a "
@@ -1786,7 +1787,7 @@ msgid ""
 "Preferences."
 msgstr ""
 
-#: src/lib/hints.cc:777
+#: src/lib/hints.cc:780
 #, c++-format
 msgid ""
 "The certificate chain that {} uses for signing DCPs and KDMs has a validity "
@@ -1807,7 +1808,7 @@ msgstr ""
 "3D.  Ustaw rodzaj wideo na 2D.  Możesz stworzyć paczkę DCP 3D zawierającą "
 "ten materiał zaznaczając opcję 3D w zakładce „DCP”."
 
-#: src/lib/job.cc:121
+#: src/lib/job.cc:116
 msgid ""
 "The drive that the film is stored on is low in disc space.  Free some more "
 "space and try again."
@@ -1835,7 +1836,7 @@ msgstr "Długość pliku {} została skrócona o {} milisekund."
 msgid "The file {} has been trimmed by {} milliseconds more."
 msgstr "Długość pliku {} została wydłużona o {} milisekund."
 
-#: src/lib/hints.cc:270
+#: src/lib/hints.cc:269
 msgid ""
 "The vast majority of cinemas in Europe, Australasia and North America expect "
 "DCPs encoded with JPEG2000 rather than MPEG2.  Make sure that your cinema "
@@ -1849,7 +1850,7 @@ msgid ""
 "project to make sure that they are placed where you want them."
 msgstr ""
 
-#: src/lib/hints.cc:251
+#: src/lib/hints.cc:250
 #, fuzzy
 msgid ""
 "There is a large difference between the frame rate of your DCP and that of "
@@ -1868,7 +1869,7 @@ msgstr ""
 msgid "There is no video in this DCP"
 msgstr "Paczka DCP nie zawiera wideo"
 
-#: src/lib/job.cc:226
+#: src/lib/job.cc:228
 msgid ""
 "There was not enough memory to do this.  If you are running a 32-bit "
 "operating system try reducing the number of encoding threads in the General "
@@ -1891,7 +1892,7 @@ msgstr ""
 "Ten klucz KDM jest niekompatybilny z certyfikatem deszyfrującym programu DCP-"
 "o-matic."
 
-#: src/lib/job.cc:141
+#: src/lib/job.cc:136
 #, fuzzy, c++-format
 msgid ""
 "This error has probably occurred because you are running the 32-bit version "
@@ -1904,7 +1905,7 @@ msgstr ""
 "wątków używanych przez DCP-o-matic' w zakładce „Ogólne” Preferencji i "
 "spróbuj ponownie."
 
-#: src/lib/job.cc:155
+#: src/lib/job.cc:150
 #, fuzzy, c++-format
 msgid ""
 "This error has probably occurred because you are running the 32-bit version "
@@ -1942,7 +1943,7 @@ msgstr ""
 "być otwarty w tej wersji. Musisz stworzyć nowy Projekt i ponownie dodać "
 "materiały i ustawienia. Przepraszamy!"
 
-#: src/lib/job.cc:610
+#: src/lib/job.cc:612
 msgid "Thursday"
 msgstr "Czwartek"
 
@@ -1950,7 +1951,7 @@ msgstr "Czwartek"
 msgid "Timed text"
 msgstr "Tekst z kodami czasowymi"
 
-#: src/lib/job.cc:274
+#: src/lib/job.cc:276
 #, fuzzy
 msgid "Too many open files"
 msgstr "nie udało się otworzyć pliku ({})"
@@ -1968,7 +1969,7 @@ msgstr "Transkodowanie {}"
 msgid "Transitional"
 msgstr "Przejście"
 
-#: src/lib/job.cc:606
+#: src/lib/job.cc:608
 msgid "Tuesday"
 msgstr "Wtorek"
 
@@ -1989,7 +1990,7 @@ msgstr "Serwer otrzymał nieobsługiwany typ obrazu"
 msgid "Unknown"
 msgstr "Nieznany"
 
-#: src/lib/job.cc:317
+#: src/lib/job.cc:319
 msgid "Unknown error"
 msgstr "Nieznany błąd"
 
@@ -2059,7 +2060,7 @@ msgstr "Czekam"
 msgid "Weave filter"
 msgstr "Filtr Telecine"
 
-#: src/lib/job.cc:608
+#: src/lib/job.cc:610
 msgid "Wednesday"
 msgstr "Środa"
 
@@ -2079,7 +2080,7 @@ msgstr ""
 msgid "Yet Another Deinterlacing Filter"
 msgstr "I jeszcze jeden filtr usuwania przeplotu"
 
-#: src/lib/hints.cc:211
+#: src/lib/hints.cc:210
 #, fuzzy, c++-format
 msgid ""
 "You are set up for a DCP at a frame rate of {} fps.  This frame rate is not "
@@ -2090,7 +2091,7 @@ msgstr ""
 "obsługiwana przez wszystkie projektory.  Zaleca się zmianę liczby klatek/s "
 "na wartość {} FPS."
 
-#: src/lib/hints.cc:195
+#: src/lib/hints.cc:194
 #, c++-format
 msgid ""
 "You are set up for a DCP at a frame rate of {} fps.  This frame rate is not "
@@ -2101,7 +2102,7 @@ msgstr ""
 "obsługiwana przez wszystkie projektory.  Rozważ zmianę liczby klatek/s na "
 "wartość {} FPS."
 
-#: src/lib/hints.cc:205
+#: src/lib/hints.cc:204
 msgid ""
 "You are set up for a DCP frame rate of 30fps, which is not supported by all "
 "projectors.  Be aware that you may have compatibility problems."
@@ -2110,7 +2111,7 @@ msgstr ""
 "przez wszystkie projektory.  Paczka może nie być kompatybilna ze wszystkimi "
 "systemami."
 
-#: src/lib/hints.cc:325
+#: src/lib/hints.cc:324
 msgid ""
 "You are using 3D content but your DCP is set to 2D.  Set the DCP to 3D if "
 "you want to play it back on a 3D system (e.g. Real-D, MasterImage etc.)"
@@ -2119,7 +2120,7 @@ msgstr ""
 "opcje DCP na 3D, jeśli chcesz odtwarzać go na systemach 3D (jak Real-D, "
 "MasterImage itd.)"
 
-#: src/lib/hints.cc:128
+#: src/lib/hints.cc:127
 #, fuzzy, c++-format
 msgid ""
 "You are using {}'s stereo-to-5.1 upmixer.  This is experimental and may "
@@ -2139,7 +2140,7 @@ msgstr ""
 "Co najmniej jeden z twoich materiałów zawiera dźwięk Atmos, a materiały mają "
 "różne wartości klatek/s.  Musisz usunąć materiał z dźwiękiem Atmos."
 
-#: src/lib/hints.cc:637
+#: src/lib/hints.cc:640
 msgid ""
 "You have overlapping closed captions, which are not allowed in Interop "
 "DCPs.  Change your DCP standard to SMPTE."
@@ -2147,7 +2148,7 @@ msgstr ""
 "Projekt zawiera nakładające się napisy, które nie są dozwolone w standardzie "
 "Interlop.  Zmień standard paczki na SMPTE."
 
-#: src/lib/hints.cc:293
+#: src/lib/hints.cc:292
 msgid ""
 "You have specified a font file which is larger than 640kB.  This is very "
 "likely to cause problems on playback."
@@ -2155,7 +2156,7 @@ msgstr ""
 "Wskazana przez ciebie czcionka ma rozmiar większy niż 640kB. "
 "Najprawdopodobniej spowoduje to problemy podczas odtwarzania."
 
-#: src/lib/hints.cc:309
+#: src/lib/hints.cc:308
 #, c++-format
 msgid ""
 "You have {} files that look like they are VOB files from DVD. You should "
@@ -2168,7 +2169,7 @@ msgstr ""
 msgid "You must add some content to the DCP before creating it"
 msgstr "Musisz najpierw dodać materiały zanim utworzysz DCP"
 
-#: src/lib/hints.cc:113
+#: src/lib/hints.cc:112
 #, fuzzy, c++-format
 msgid ""
 "Your DCP has fewer than 6 audio channels.  This may cause problems on some "
@@ -2181,7 +2182,7 @@ msgstr ""
 "kanałów dźwiękowych.  Dodane materiały mogą mieć mniej kanałów dźwiękowych, "
 "DCP-o-matic wypełni nieużywane kanały ciszą."
 
-#: src/lib/hints.cc:795
+#: src/lib/hints.cc:798
 #, c++-format
 msgid ""
 "Your DCP has {} audio channels, rather than 8 or 16.  This may cause some "
@@ -2189,7 +2190,7 @@ msgid ""
 "set the DCP audio channels to 8 or 16."
 msgstr ""
 
-#: src/lib/hints.cc:170
+#: src/lib/hints.cc:169
 msgid ""
 "Your DCP uses an unusual container ratio.  This may cause problems on some "
 "projectors.  If possible, use Flat or Scope for the DCP container ratio."
@@ -2198,7 +2199,7 @@ msgstr ""
 "problemy z odtwarzaniem na niektórych serwerach. Jeśli to możliwe, ustaw "
 "kontener DCP na Flat lub Scope."
 
-#: src/lib/hints.cc:359
+#: src/lib/hints.cc:358
 #, c++-format
 msgid ""
 "Your audio level is very high (on {}).  You should reduce the gain of your "
@@ -2237,7 +2238,7 @@ msgstr "[napisy]"
 
 #. TRANSLATORS: _reel{} here is to be added to an export filename to indicate
 #. which reel it is.  Preserve the {}; it will be replaced with the reel number.
-#: src/lib/ffmpeg_film_encoder.cc:151
+#: src/lib/ffmpeg_film_encoder.cc:155
 #, c++-format
 msgid "_reel{}"
 msgstr "_rolka{}"
@@ -2487,7 +2488,7 @@ msgstr "{} [film]"
 msgid "{} [video]"
 msgstr "{} [obraz]"
 
-#: src/lib/job.cc:180 src/lib/job.cc:195
+#: src/lib/job.cc:175 src/lib/job.cc:190
 #, fuzzy, c++-format
 msgid ""
 "{} could not open the file {} ({}).  Perhaps it does not exist or is in an "
@@ -2534,7 +2535,7 @@ msgstr ""
 msgid "{} no longer supports the `{}' filter, so it has been turned off."
 msgstr "DCP-o-matic nie wspiera już filtru `{}', więc został on wyłączony."
 
-#: src/lib/config.cc:424 src/lib/config.cc:1237
+#: src/lib/config.cc:425 src/lib/config.cc:1238
 #, fuzzy, c++-format
 msgid "{} notification"
 msgstr "Powiadomienie email"
