@@ -476,12 +476,12 @@ add_volume_mount_points(wchar_t* volume, MountPoints& mount_points)
 	LOG_DISK("Looking at {}", wchar_to_utf8(volume));
 
 	wchar_t volume_path_names[512];
-	vector<boost::filesystem::path> mp;
+	vector<boost::filesystem::path> volume_mount_points;
 	DWORD returned;
 	if (GetVolumePathNamesForVolumeNameW(volume, volume_path_names, sizeof(volume_path_names) / sizeof(wchar_t), &returned)) {
 		wchar_t* p = volume_path_names;
 		while (*p != L'\0') {
-			mp.push_back(wchar_to_utf8(p));
+			volume_mount_points.push_back(wchar_to_utf8(p));
 			LOG_DISK("Found mount point {}", wchar_to_utf8(p));
 			p += wcslen(p) + 1;
 		}
@@ -509,7 +509,7 @@ add_volume_mount_points(wchar_t* volume, MountPoints& mount_points)
 	}
 	DCPOMATIC_ASSERT(extents.NumberOfDiskExtents == 1);
 
-	mount_points[extents.Extents[0].DiskNumber] = mp;
+	mount_points[extents.Extents[0].DiskNumber] = volume_mount_points;
 }
 
 
