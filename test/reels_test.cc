@@ -677,3 +677,23 @@ BOOST_AUTO_TEST_CASE(reel_assets_same_length_with_atmos)
 	make_and_verify_dcp(film, { dcp::VerificationNote::Code::MISSING_CPL_METADATA });
 }
 
+
+/** Error on making a VF with subtitles slightly longer than the OV.  The user must be told
+ *  to split by video content.
+ */
+BOOST_AUTO_TEST_CASE(reel_assets_error_with_long_subtitles)
+{
+	auto image = content_factory("test/data/flat_red.png")[0];
+	auto ov = new_test_film("reel_assets_error_with_long_subtitles_ov", { image });
+	ov->set_video_frame_rate(30);
+	image->video->set_length(1228);
+	make_and_verify_dcp(ov, { dcp::VerificationNote::Code::INVALID_PICTURE_FRAME_RATE_FOR_2K });
+
+	auto ov_dcp = std::make_shared<DCPContent>(ov->dir(ov->dcp_name()));
+	auto subs = content_factory("test/data/subrip6.srt")[0];
+	auto vf = new_test_film("reel_assets_error_with_long_subtitles_vf", { ov_dcp, subs });
+
+	string why_not;
+	BOOST_CHECK(!ov_dcp->can_reference_anything(vf, why_not));
+}
+

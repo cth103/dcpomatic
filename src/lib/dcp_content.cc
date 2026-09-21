@@ -740,9 +740,11 @@ DCPContent::can_reference_anything(shared_ptr<const Film> film, string& why_not)
 
 	/* fr must contain the reel start points in reel_list */
 	for (auto i: reel_list) {
-		if (find_if(fr.begin(), fr.end(), [&i](DCPTimePeriod period) { return period.from == i.from; }) == fr.end()) {
+		auto const got_start = find_if(fr.begin(), fr.end(), [&i](DCPTimePeriod period) { return period.from == i.from; }) != fr.end();
+		auto const got_end = find_if(fr.begin(), fr.end(), [&i](DCPTimePeriod period) { return period.to == i.to; }) != fr.end();
+		if (!got_start || !got_end) {
 			/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
-			why_not = _("its reel start points are not included in the film's list; set the reel mode to 'split by video content'.");
+			why_not = _("its reel start and end points are not included in the film's list; set the reel mode to 'split by video content'.");
 			return false;
 		}
 	}
