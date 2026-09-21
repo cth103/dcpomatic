@@ -439,7 +439,7 @@ def dependencies(target, options):
         # the appropriate place later
         deps.append(('openssl', '54298369cacfe0ae01c5aa42ace8a463fd2e7a2e'))
         deps.append(('rtaudio', 'f619b76'))
-    deps.append(('lwext4', '5755f8f25aadf18ec49e0350b6daaab3a648b9d7'))
+    deps.append(('lwext4', '5eb5608487fa0884822bb4805da32ba11d2a86f6'))
     if build_tests(target):
         deps.append(('ffcmp', '26f17612f391'))
 
