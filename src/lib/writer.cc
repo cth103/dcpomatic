@@ -80,8 +80,10 @@ Writer::Writer(weak_ptr<const Film> weak_film, weak_ptr<Job> weak_job, boost::fi
 
 	int reel_index = 0;
 	auto const reels = film()->reels();
+	LOG_GENERAL("Reels to make:")
 	for (auto p: reels) {
 		_reels.emplace_back(weak_film, p, job, reel_index++, reels.size(), text_only, _output_dir);
+		LOG_GENERAL("  {} --> {}", to_string(p.from), to_string(p.to));
 	}
 
 	_last_written.resize(reels.size());
