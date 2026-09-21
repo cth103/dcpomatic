@@ -487,6 +487,8 @@ add_volume_mount_points(wchar_t* volume, MountPoints& mount_points)
 		}
 	}
 
+	LOG_DISK("Found {} mount points for {}", volume_mount_points.size(), wchar_to_utf8(volume));
+
 	/* Strip trailing \ */
 	size_t const len = wcslen(volume);
 	DCPOMATIC_ASSERT(len > 0);
@@ -505,6 +507,7 @@ add_volume_mount_points(wchar_t* volume, MountPoints& mount_points)
 	BOOL r = DeviceIoControl(handle, IOCTL_VOLUME_GET_VOLUME_DISK_EXTENTS, 0, 0, &extents, sizeof(extents), &size, 0);
 	CloseHandle(handle);
 	if (!r) {
+		LOG_DISK("DeviceIoControl returned {}.", r);
 		return;
 	}
 	DCPOMATIC_ASSERT(extents.NumberOfDiskExtents == 1);
@@ -543,6 +546,12 @@ Drive::get()
 	vector<Drive> drives;
 
 	auto mount_points = find_mount_points();
+	for (auto const& mp: mount_points) {
+		LOG_DISK("Mount point: {} has {}", mp.first, mp.second.size());
+		for (auto const& p: mp.second) {
+			LOG_DISK("  {}", p.string());
+		}
+	}
 
 	/* Get a `device information set' containing information about all disks */
 	auto device_info = SetupDiGetClassDevsA(&GUID_DEVICE_INTERFACE_DISK, 0, 0, DIGCF_PRESENT | DIGCF_DEVICEINTERFACE);
