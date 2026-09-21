@@ -130,7 +130,7 @@ Drive::log_summary() const
 #endif
 
 	return fmt::format(
-		"Device {} mounted on {} size {} vendor {} model {}",
+		"Device {} {} size {} vendor {} model {}",
 		_device, mp, _size, _vendor.get_value_or("[none]"), _model.get_value_or("[none]")
 			);
 }
