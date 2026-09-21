@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-15 20:57+0200\n"
+"POT-Creation-Date: 2026-09-21 23:29+0200\n"
 "PO-Revision-Date: 2026-04-22 00:09+0200\n"
 "Last-Translator: Dan Cohen <thedan.cohen@protonmail.com>\n"
 "Language-Team: \n"
@@ -557,7 +557,7 @@ msgstr "Espace de couleur"
 msgid "Combine DCPs"
 msgstr "Combiner les DCPs"
 
-#: src/lib/writer.cc:519
+#: src/lib/writer.cc:521
 msgid "Computing digests"
 msgstr "Calcul des rapports en cours"
 
@@ -1886,7 +1886,7 @@ msgstr ""
 "vous assurant que vos systèmes de projection supportent la cadence DCP "
 "choisie."
 
-#: src/lib/dcp_content.cc:765
+#: src/lib/dcp_content.cc:767
 msgid "There is no video in this DCP"
 msgstr "Il n'y a aucune vidéo dans ce DCP"
 
@@ -2359,7 +2359,7 @@ msgstr "h"
 msgid "it has a different frame rate to the film."
 msgstr "sa cadence d'images est différente de celle du projet."
 
-#: src/lib/dcp_content.cc:804
+#: src/lib/dcp_content.cc:806
 #, c++-format
 msgid ""
 "it has a different number of audio channels than the project; set the "
@@ -2369,7 +2369,7 @@ msgstr ""
 "sur {} canaux."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:840
+#: src/lib/dcp_content.cc:842
 msgid ""
 "it has a start trim so its subtitles or closed captions must be re-written."
 msgstr ""
@@ -2377,12 +2377,12 @@ msgstr ""
 "donc être réécrits."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:775
+#: src/lib/dcp_content.cc:777
 msgid "it is 2K and the film is 4K."
 msgstr "il est en 2K mais le projet est en 4K."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:772
+#: src/lib/dcp_content.cc:774
 msgid "it is 4K and the film is 2K."
 msgstr "il est en 4K mais le projet est en 2K."
 
@@ -2397,32 +2397,32 @@ msgid "it is SMPTE and the film is set to Interop."
 msgstr "il est en SMPTE alors que le projet est réglé sur Interop."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:815
+#: src/lib/dcp_content.cc:817
 msgid "it overlaps other audio content."
 msgstr "il se superpose à d'autres contenus audio."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:850
+#: src/lib/dcp_content.cc:852
 msgid "it overlaps other text content."
 msgstr "il se superpose à d'autres contenus texte."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:790
+#: src/lib/dcp_content.cc:792
 msgid "it overlaps other video content."
 msgstr "il se superpose à d'autres contenus vidéo."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:745
+#: src/lib/dcp_content.cc:747
 #, fuzzy
 msgid ""
-"its reel start points are not included in the film's list; set the reel mode "
-"to 'split by video content'."
+"its reel start and end points are not included in the film's list; set the "
+"reel mode to 'split by video content'."
 msgstr ""
 "les durées de ses bobines diffèrent de celles du projet ; choisissez le mode "
 "'découper par contenu vidéo'."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:780
+#: src/lib/dcp_content.cc:782
 msgid "its video frame size differs from the film's."
 msgstr "ses dimensions vidéo diffèrent de celles du projet."
 
@@ -2440,7 +2440,7 @@ msgid "name"
 msgstr "nom"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:834
+#: src/lib/dcp_content.cc:836
 msgid ""
 "one of its closed caption reels has a non-zero entry point so it must be re-"
 "written."
@@ -2449,7 +2449,7 @@ msgstr ""
 "réécrite."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:828
+#: src/lib/dcp_content.cc:830
 msgid ""
 "one of its subtitle reels has a non-zero entry point so it must be re-"
 "written."

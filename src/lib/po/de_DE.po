@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-15 20:57+0200\n"
+"POT-Creation-Date: 2026-09-21 23:29+0200\n"
 "PO-Revision-Date: 2026-07-29 00:05+0200\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
@@ -563,7 +563,7 @@ msgstr "Farbraum"
 msgid "Combine DCPs"
 msgstr "Kombiniere DCPs"
 
-#: src/lib/writer.cc:519
+#: src/lib/writer.cc:521
 msgid "Computing digests"
 msgstr "Zusammenfassung ('Hashes') berechnen"
 
@@ -1881,7 +1881,7 @@ msgstr ""
 "berücksichtigt dass das Ziel Abspielsystem ihre gewählte DCP Bildrate "
 "unterstützt."
 
-#: src/lib/dcp_content.cc:765
+#: src/lib/dcp_content.cc:767
 msgid "There is no video in this DCP"
 msgstr "Dieses DCP enthält kein Bild"
 
@@ -2361,7 +2361,7 @@ msgstr "h"
 msgid "it has a different frame rate to the film."
 msgstr "Dieses Projekt verwendet eine andere Bildrate als dieses DCP."
 
-#: src/lib/dcp_content.cc:804
+#: src/lib/dcp_content.cc:806
 #, c++-format
 msgid ""
 "it has a different number of audio channels than the project; set the "
@@ -2369,7 +2369,7 @@ msgid ""
 msgstr ""
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:840
+#: src/lib/dcp_content.cc:842
 msgid ""
 "it has a start trim so its subtitles or closed captions must be re-written."
 msgstr ""
@@ -2377,12 +2377,12 @@ msgstr ""
 "Captions (CCAP) neu geschrieben werden."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:775
+#: src/lib/dcp_content.cc:777
 msgid "it is 2K and the film is 4K."
 msgstr "Es ist in 2K, das gegenwärtige Projekt jedoch 4K."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:772
+#: src/lib/dcp_content.cc:774
 msgid "it is 4K and the film is 2K."
 msgstr "Es ist in 4K, das gegenwärtige Projekt jedoch 2K."
 
@@ -2401,32 +2401,32 @@ msgstr ""
 "DCP ist jedoch in ‚SMPTE‘."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:815
+#: src/lib/dcp_content.cc:817
 msgid "it overlaps other audio content."
 msgstr "es überlappt mit anderem Ton."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:850
+#: src/lib/dcp_content.cc:852
 msgid "it overlaps other text content."
 msgstr "es überlappt mit anderm Text."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:790
+#: src/lib/dcp_content.cc:792
 msgid "it overlaps other video content."
 msgstr "es überlappt mit anderem Video Inhalt."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:745
+#: src/lib/dcp_content.cc:747
 #, fuzzy
 msgid ""
-"its reel start points are not included in the film's list; set the reel mode "
-"to 'split by video content'."
+"its reel start and end points are not included in the film's list; set the "
+"reel mode to 'split by video content'."
 msgstr ""
 "Aktlängen im aktuellen Projekt unterscheiden sich von DCP; Aktaufteilung "
 "unter 'DCP' muss auf 'An Inhaltsgrenzen aufteilen' gesetzt werden."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:780
+#: src/lib/dcp_content.cc:782
 msgid "its video frame size differs from the film's."
 msgstr "Dieses Projekt verwendet eine andere Bildauflösung als dieses DCP."
 
@@ -2445,7 +2445,7 @@ msgstr "Name"
 
 # typo in original language? "one if its" -> "one of its"
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:834
+#: src/lib/dcp_content.cc:836
 msgid ""
 "one of its closed caption reels has a non-zero entry point so it must be re-"
 "written."
@@ -2455,7 +2455,7 @@ msgstr ""
 
 # typo in original language? "one if its" -> "one of its"
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:828
+#: src/lib/dcp_content.cc:830
 msgid ""
 "one of its subtitle reels has a non-zero entry point so it must be re-"
 "written."

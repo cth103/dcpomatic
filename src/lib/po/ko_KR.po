@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-15 20:57+0200\n"
+"POT-Creation-Date: 2026-09-21 23:29+0200\n"
 "PO-Revision-Date: 2026-03-06 17:22+0900\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -555,7 +555,7 @@ msgstr "컬러스페이스"
 msgid "Combine DCPs"
 msgstr "DCP 결합"
 
-#: src/lib/writer.cc:519
+#: src/lib/writer.cc:521
 msgid "Computing digests"
 msgstr "다이제스트 생성 중"
 
@@ -1850,7 +1850,7 @@ msgstr ""
 "상적으로 높이거나 낮출 수 있습니다. 상영 시스템에서 지원한다면 DCP 프레임 레"
 "이트를 콘텐츠와 가깝게 설정하는 것이 좋습니다."
 
-#: src/lib/dcp_content.cc:765
+#: src/lib/dcp_content.cc:767
 msgid "There is no video in this DCP"
 msgstr "이 DCP에는 비디오가 없습니다"
 
@@ -2311,7 +2311,7 @@ msgstr "h"
 msgid "it has a different frame rate to the film."
 msgstr "영화와 프레임 레이트가 다릅니다."
 
-#: src/lib/dcp_content.cc:804
+#: src/lib/dcp_content.cc:806
 #, c++-format
 msgid ""
 "it has a different number of audio channels than the project; set the "
@@ -2320,18 +2320,18 @@ msgstr ""
 "프로젝트와 오디오 채널 수가 다릅니다. 프로젝트를 {}채널로 설정하십시오."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:840
+#: src/lib/dcp_content.cc:842
 msgid ""
 "it has a start trim so its subtitles or closed captions must be re-written."
 msgstr "시작 트리밍이 있어 자막이나 폐쇄형 자막을 다시 써야 합니다."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:775
+#: src/lib/dcp_content.cc:777
 msgid "it is 2K and the film is 4K."
 msgstr "DCP는 2K이나 필름은 4K입니다."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:772
+#: src/lib/dcp_content.cc:774
 msgid "it is 4K and the film is 2K."
 msgstr "DCP는 4K이나 필름은 2K입니다."
 
@@ -2346,31 +2346,31 @@ msgid "it is SMPTE and the film is set to Interop."
 msgstr "DCP는 SMPTE이나 필름은 Interop으로 설정되어 있습니다."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:815
+#: src/lib/dcp_content.cc:817
 msgid "it overlaps other audio content."
 msgstr "다른 오디오 콘텐츠와 겹칩니다."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:850
+#: src/lib/dcp_content.cc:852
 msgid "it overlaps other text content."
 msgstr "다른 텍스트 콘텐츠와 겹칩니다."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:790
+#: src/lib/dcp_content.cc:792
 msgid "it overlaps other video content."
 msgstr "다른 비디오 콘텐츠와 겹칩니다."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:745
+#: src/lib/dcp_content.cc:747
 #, fuzzy
 msgid ""
-"its reel start points are not included in the film's list; set the reel mode "
-"to 'split by video content'."
+"its reel start and end points are not included in the film's list; set the "
+"reel mode to 'split by video content'."
 msgstr ""
 "릴 길이가 영화와 다릅니다. 릴 모드를 '비디오 콘텐츠별로 분할'로 설정하십시오."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:780
+#: src/lib/dcp_content.cc:782
 msgid "its video frame size differs from the film's."
 msgstr "비디오 프레임 크기가 영화와 다릅니다."
 
@@ -2389,7 +2389,7 @@ msgid "name"
 msgstr "이름"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:834
+#: src/lib/dcp_content.cc:836
 #, fuzzy
 msgid ""
 "one of its closed caption reels has a non-zero entry point so it must be re-"
@@ -2397,7 +2397,7 @@ msgid ""
 msgstr "폐쇄형 자막 중 하나의 엔트리 포인트가 0이 아니어서 다시 써야 합니다."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:828
+#: src/lib/dcp_content.cc:830
 msgid ""
 "one of its subtitle reels has a non-zero entry point so it must be re-"
 "written."

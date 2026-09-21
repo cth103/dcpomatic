@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-15 20:57+0200\n"
+"POT-Creation-Date: 2026-09-21 23:29+0200\n"
 "PO-Revision-Date: 2026-06-18 02:36+0300\n"
 "Last-Translator: Mikhail Epshteyn <virus-2006@yandex.ru>\n"
 "Language-Team: Mikhail Epshteyn\n"
@@ -556,7 +556,7 @@ msgstr "Цветовое пространство"
 msgid "Combine DCPs"
 msgstr "Объединить DCP"
 
-#: src/lib/writer.cc:519
+#: src/lib/writer.cc:521
 msgid "Computing digests"
 msgstr "Проверка целостности"
 
@@ -1885,7 +1885,7 @@ msgstr ""
 "вашему контенту, при условии, что ваша проекционная система поддерживает "
 "выбранную вами частоту кадров DCP."
 
-#: src/lib/dcp_content.cc:765
+#: src/lib/dcp_content.cc:767
 msgid "There is no video in this DCP"
 msgstr "В данном DCP нет видео"
 
@@ -2356,7 +2356,7 @@ msgstr "ч"
 msgid "it has a different frame rate to the film."
 msgstr "частота кадров проекта отличается от частоты кадров DCP."
 
-#: src/lib/dcp_content.cc:804
+#: src/lib/dcp_content.cc:806
 #, c++-format
 msgid ""
 "it has a different number of audio channels than the project; set the "
@@ -2366,18 +2366,18 @@ msgstr ""
 "проекте; установите для проекта значение {} каналов."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:840
+#: src/lib/dcp_content.cc:842
 msgid ""
 "it has a start trim so its subtitles or closed captions must be re-written."
 msgstr "имеется обрезка с начала, поэтому субтитры должны быть перезаписаны."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:775
+#: src/lib/dcp_content.cc:777
 msgid "it is 2K and the film is 4K."
 msgstr "является 2K, а проект - 4K."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:772
+#: src/lib/dcp_content.cc:774
 msgid "it is 4K and the film is 2K."
 msgstr "является 4K, а проект - 2K."
 
@@ -2392,32 +2392,32 @@ msgid "it is SMPTE and the film is set to Interop."
 msgstr "является SMPTE, а проект настроен как Interop."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:815
+#: src/lib/dcp_content.cc:817
 msgid "it overlaps other audio content."
 msgstr "перекрывает другой аудиоконтент."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:850
+#: src/lib/dcp_content.cc:852
 msgid "it overlaps other text content."
 msgstr "перекрывает другой аудиоконтент."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:790
+#: src/lib/dcp_content.cc:792
 msgid "it overlaps other video content."
 msgstr "перекрывает другой видеоконтент."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:745
+#: src/lib/dcp_content.cc:747
 #, fuzzy
 msgid ""
-"its reel start points are not included in the film's list; set the reel mode "
-"to 'split by video content'."
+"its reel start and end points are not included in the film's list; set the "
+"reel mode to 'split by video content'."
 msgstr ""
 "длительность частей фильма в проекте отличаются от таковых в DCP; установите "
 "режим частей фильма \"Разделять по видеоконтенту\"."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:780
+#: src/lib/dcp_content.cc:782
 msgid "its video frame size differs from the film's."
 msgstr "размер кадра видео в проекте отличается от размера видео DCP."
 
@@ -2435,7 +2435,7 @@ msgid "name"
 msgstr "название"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:834
+#: src/lib/dcp_content.cc:836
 msgid ""
 "one of its closed caption reels has a non-zero entry point so it must be re-"
 "written."
@@ -2444,7 +2444,7 @@ msgstr ""
 "он должен быть перезаписан."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:828
+#: src/lib/dcp_content.cc:830
 msgid ""
 "one of its subtitle reels has a non-zero entry point so it must be re-"
 "written."

@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LIBDCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-15 20:57+0200\n"
+"POT-Creation-Date: 2026-09-21 23:29+0200\n"
 "PO-Revision-Date: 2026-05-17 10:45+0800\n"
 "Last-Translator: Dian Li <xslidian@gmail.com>\n"
 "Language-Team: Chinese Simplified (Hanyuan branch)\n"
@@ -541,7 +541,7 @@ msgstr "色彩空间"
 msgid "Combine DCPs"
 msgstr "合并 DCP"
 
-#: src/lib/writer.cc:519
+#: src/lib/writer.cc:521
 msgid "Computing digests"
 msgstr "计算Hash值中"
 
@@ -1812,7 +1812,7 @@ msgstr ""
 "调低得多或高得多的音调播放。建议将DCP帧速率设置为更接近您的内容，前提是您的目"
 "标投影系统支持您选择的DCP速率。"
 
-#: src/lib/dcp_content.cc:765
+#: src/lib/dcp_content.cc:767
 msgid "There is no video in this DCP"
 msgstr "DCP中不包含视频画面"
 
@@ -2254,7 +2254,7 @@ msgstr "小时"
 msgid "it has a different frame rate to the film."
 msgstr "它的帧率与影片不一致。"
 
-#: src/lib/dcp_content.cc:804
+#: src/lib/dcp_content.cc:806
 #, c++-format
 msgid ""
 "it has a different number of audio channels than the project; set the "
@@ -2262,18 +2262,18 @@ msgid ""
 msgstr "它的音频通道数量与项目不同；将项目设置为具有 {} 个通道。"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:840
+#: src/lib/dcp_content.cc:842
 msgid ""
 "it has a start trim so its subtitles or closed captions must be re-written."
 msgstr "当前内容有修剪，所以字幕或隐藏字幕必须重写。"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:775
+#: src/lib/dcp_content.cc:777
 msgid "it is 2K and the film is 4K."
 msgstr "它是 2K 分辨率，而影片是 4K。"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:772
+#: src/lib/dcp_content.cc:774
 msgid "it is 4K and the film is 2K."
 msgstr "它是 4K 分辨率，而影片是 2K。"
 
@@ -2288,31 +2288,31 @@ msgid "it is SMPTE and the film is set to Interop."
 msgstr "它是SMPTE类型，而实际打包类型是 Interop。"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:815
+#: src/lib/dcp_content.cc:817
 msgid "it overlaps other audio content."
 msgstr "与其他音频内容重叠。"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:850
+#: src/lib/dcp_content.cc:852
 msgid "it overlaps other text content."
 msgstr "与其他文本内容重叠。"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:790
+#: src/lib/dcp_content.cc:792
 msgid "it overlaps other video content."
 msgstr "与其他视频内容重叠。"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:745
+#: src/lib/dcp_content.cc:747
 #, fuzzy
 msgid ""
-"its reel start points are not included in the film's list; set the reel mode "
-"to 'split by video content'."
+"its reel start and end points are not included in the film's list; set the "
+"reel mode to 'split by video content'."
 msgstr ""
 "其分卷时长与影片中的不一致；请设置 【 分卷模式 】 为【 按视频内容分割 】。"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:780
+#: src/lib/dcp_content.cc:782
 msgid "its video frame size differs from the film's."
 msgstr "视频帧大小与影片不一致。"
 
@@ -2330,14 +2330,14 @@ msgid "name"
 msgstr "名字"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:834
+#: src/lib/dcp_content.cc:836
 msgid ""
 "one of its closed caption reels has a non-zero entry point so it must be re-"
 "written."
 msgstr "它的一个隐藏字幕卷有一个非零的起始点，因此必须重写。"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:828
+#: src/lib/dcp_content.cc:830
 msgid ""
 "one of its subtitle reels has a non-zero entry point so it must be re-"
 "written."

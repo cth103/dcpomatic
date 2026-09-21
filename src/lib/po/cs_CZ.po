@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-15 20:57+0200\n"
+"POT-Creation-Date: 2026-09-21 23:29+0200\n"
 "PO-Revision-Date: 2025-06-10 15:13+0200\n"
 "Last-Translator: Tomáš Begeni <begeni@razdva.cz>\n"
 "Language-Team: \n"
@@ -549,7 +549,7 @@ msgstr "Barevný prostor"
 msgid "Combine DCPs"
 msgstr "Kombinovat DCPs"
 
-#: src/lib/writer.cc:519
+#: src/lib/writer.cc:521
 msgid "Computing digests"
 msgstr "Výpočet digests"
 
@@ -1866,7 +1866,7 @@ msgstr ""
 "která je blíže vašemu obsahu, za předpokladu, že vaše cílové projekční "
 "systémy podporují vámi zvolenou rychlost DCP."
 
-#: src/lib/dcp_content.cc:765
+#: src/lib/dcp_content.cc:767
 msgid "There is no video in this DCP"
 msgstr "V tomto DCP není video"
 
@@ -2330,7 +2330,7 @@ msgstr "h"
 msgid "it has a different frame rate to the film."
 msgstr "má jinou snímkovou frekvenci za sekundu pro film."
 
-#: src/lib/dcp_content.cc:804
+#: src/lib/dcp_content.cc:806
 #, c++-format
 msgid ""
 "it has a different number of audio channels than the project; set the "
@@ -2339,7 +2339,7 @@ msgstr ""
 "má jiný počet zvukových kanálů než projekt; nastavte projekt na {} kanálů."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:840
+#: src/lib/dcp_content.cc:842
 msgid ""
 "it has a start trim so its subtitles or closed captions must be re-written."
 msgstr ""
@@ -2347,12 +2347,12 @@ msgstr ""
 "titulky."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:775
+#: src/lib/dcp_content.cc:777
 msgid "it is 2K and the film is 4K."
 msgstr "je 2K a film je 4K."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:772
+#: src/lib/dcp_content.cc:774
 msgid "it is 4K and the film is 2K."
 msgstr "je 4K a film je 2K."
 
@@ -2367,32 +2367,32 @@ msgid "it is SMPTE and the film is set to Interop."
 msgstr "to je SMPTE a film je Interop."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:815
+#: src/lib/dcp_content.cc:817
 msgid "it overlaps other audio content."
 msgstr "překrývá jiný zvukový obsah."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:850
+#: src/lib/dcp_content.cc:852
 msgid "it overlaps other text content."
 msgstr "překrývá jiný textový obsah."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:790
+#: src/lib/dcp_content.cc:792
 msgid "it overlaps other video content."
 msgstr "překrývá jiný obsah videa."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:745
+#: src/lib/dcp_content.cc:747
 #, fuzzy
 msgid ""
-"its reel start points are not included in the film's list; set the reel mode "
-"to 'split by video content'."
+"its reel start and end points are not included in the film's list; set the "
+"reel mode to 'split by video content'."
 msgstr ""
 "délka reelu se liší od délky filmu; nastavte reel mod na 'rozdělit podle "
 "obsahu videa’."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:780
+#: src/lib/dcp_content.cc:782
 msgid "its video frame size differs from the film's."
 msgstr "velikost video rámečku se liší od filmu."
 
@@ -2410,7 +2410,7 @@ msgid "name"
 msgstr "jméno"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:834
+#: src/lib/dcp_content.cc:836
 #, fuzzy
 msgid ""
 "one of its closed caption reels has a non-zero entry point so it must be re-"
@@ -2419,7 +2419,7 @@ msgstr ""
 "jeden ze skrytých titulků má nenulový vstupní bod, takže musí být přepsán."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:828
+#: src/lib/dcp_content.cc:830
 msgid ""
 "one of its subtitle reels has a non-zero entry point so it must be re-"
 "written."

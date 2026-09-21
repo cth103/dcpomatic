@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-15 20:57+0200\n"
+"POT-Creation-Date: 2026-09-21 23:29+0200\n"
 "PO-Revision-Date: 2021-12-28 14:46+0100\n"
 "Last-Translator: Mattias Mattsson <vitplister@gmail.com>\n"
 "Language-Team: \n"
@@ -558,7 +558,7 @@ msgstr "Färgrymd"
 msgid "Combine DCPs"
 msgstr "Kombinera DCP:er"
 
-#: src/lib/writer.cc:519
+#: src/lib/writer.cc:521
 msgid "Computing digests"
 msgstr "Beräknar hashsummor"
 
@@ -1881,7 +1881,7 @@ msgstr ""
 "att ange DCP:ns bildhastighet närmare källmaterialets, förutsatt att den "
 "tänkta utrustningen för uppspelning klarar den angivna bildhastigheten."
 
-#: src/lib/dcp_content.cc:765
+#: src/lib/dcp_content.cc:767
 msgid "There is no video in this DCP"
 msgstr "Det finns inget bildspår i denna DCP"
 
@@ -2345,7 +2345,7 @@ msgstr "tim"
 msgid "it has a different frame rate to the film."
 msgstr "den har en annan bildhastighet än filmen."
 
-#: src/lib/dcp_content.cc:804
+#: src/lib/dcp_content.cc:806
 #, c++-format
 msgid ""
 "it has a different number of audio channels than the project; set the "
@@ -2353,18 +2353,18 @@ msgid ""
 msgstr ""
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:840
+#: src/lib/dcp_content.cc:842
 msgid ""
 "it has a start trim so its subtitles or closed captions must be re-written."
 msgstr "den har en beskärning i början så dess undertitlar måste skrivas om."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:775
+#: src/lib/dcp_content.cc:777
 msgid "it is 2K and the film is 4K."
 msgstr "den är i 2K men filmen är i 4K."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:772
+#: src/lib/dcp_content.cc:774
 msgid "it is 4K and the film is 2K."
 msgstr "den är i 4K men filmen är i 2K."
 
@@ -2379,35 +2379,35 @@ msgid "it is SMPTE and the film is set to Interop."
 msgstr "den är i SMPTE men filmen är inställd att vara i Interop."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:815
+#: src/lib/dcp_content.cc:817
 #, fuzzy
 msgid "it overlaps other audio content."
 msgstr "den överlappar med annat ljud-källmaterial; ta bort detta."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:850
+#: src/lib/dcp_content.cc:852
 #, fuzzy
 msgid "it overlaps other text content."
 msgstr "den överlappar med annat ljud-källmaterial; ta bort detta."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:790
+#: src/lib/dcp_content.cc:792
 #, fuzzy
 msgid "it overlaps other video content."
 msgstr "den överlappar med annat video-källmaterial; ta bort detta."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:745
+#: src/lib/dcp_content.cc:747
 #, fuzzy
 msgid ""
-"its reel start points are not included in the film's list; set the reel mode "
-"to 'split by video content'."
+"its reel start and end points are not included in the film's list; set the "
+"reel mode to 'split by video content'."
 msgstr ""
 "dess aktlängder skiljer sig from de i filmen; ställ aktinställningen till "
 "'dela upp enligt källmaterial'."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:780
+#: src/lib/dcp_content.cc:782
 msgid "its video frame size differs from the film's."
 msgstr "bildrutornas storlek skiljer sig från filmens."
 
@@ -2426,7 +2426,7 @@ msgid "name"
 msgstr "namn"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:834
+#: src/lib/dcp_content.cc:836
 #, fuzzy
 msgid ""
 "one of its closed caption reels has a non-zero entry point so it must be re-"
@@ -2435,7 +2435,7 @@ msgstr ""
 "en av dess undertitlar har en icke-noll början så den måste skrivas om."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:828
+#: src/lib/dcp_content.cc:830
 msgid ""
 "one of its subtitle reels has a non-zero entry point so it must be re-"
 "written."
