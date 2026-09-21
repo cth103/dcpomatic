@@ -50,6 +50,7 @@ extern "C" {
 #include <shlobj.h>
 #include <shlwapi.h>
 #include <fcntl.h>
+#include <algorithm>
 #include <fstream>
 #include <map>
 
@@ -481,8 +482,9 @@ add_volume_mount_points(wchar_t* volume, MountPoints& mount_points)
 	if (GetVolumePathNamesForVolumeNameW(volume, volume_path_names, sizeof(volume_path_names) / sizeof(wchar_t), &returned)) {
 		wchar_t* p = volume_path_names;
 		while (*p != L'\0') {
-			volume_mount_points.push_back(wchar_to_utf8(p));
-			LOG_DISK("Found mount point {}", wchar_to_utf8(p));
+			auto const p_utf8 = wchar_to_utf8(p);
+			volume_mount_points.push_back(p_utf8);
+			LOG_DISK("Found mount point {}", p_utf8);
 			p += wcslen(p) + 1;
 		}
 	}
@@ -512,7 +514,13 @@ add_volume_mount_points(wchar_t* volume, MountPoints& mount_points)
 	}
 	DCPOMATIC_ASSERT(extents.NumberOfDiskExtents == 1);
 
-	mount_points[extents.Extents[0].DiskNumber] = volume_mount_points;
+	auto iter = mount_points.find(extents.Extents[0].DiskNumber);
+	if (iter == mount_points.end()) {
+		mount_points[extents.Extents[0].DiskNumber] = volume_mount_points;
+	} else {
+		auto& mp = mount_points[extents.Extents[0].DiskNumber];
+		mp.insert(mp.end(), volume_mount_points.begin(), volume_mount_points.end());
+	}
 }
 
 
@@ -535,6 +543,12 @@ find_mount_points()
 		add_volume_mount_points(volume_name, mount_points);
 	}
 	FindVolumeClose(volume);
+
+	for (auto& mp: mount_points) {
+		std::sort(mp.second.begin(), mp.second.end());
+		auto iter = std::unique(mp.second.begin(), mp.second.end());
+		mp.second.erase(iter, mp.second.end());
+	}
 
 	return mount_points;
 }
