@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-09-15 20:57+0200\n"
-"PO-Revision-Date: 2026-07-01 02:06+0200\n"
+"PO-Revision-Date: 2026-09-19 20:32+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -166,7 +166,7 @@ msgstr "12 - 7.1/HI/VI"
 
 #: src/wx/export_audio_file_dialog.cc:43
 msgid "16-bit WAV"
-msgstr ""
+msgstr "16-bit WAV"
 
 #: src/wx/wx_util.cc:486
 msgid "2 - stereo"
@@ -174,7 +174,7 @@ msgstr "2 - Stereo"
 
 #: src/wx/export_audio_file_dialog.cc:44
 msgid "24-bit WAV"
-msgstr ""
+msgstr "24-bit WAV"
 
 #: src/wx/rgba_colour_picker.cc:40
 msgid "255"
@@ -443,8 +443,8 @@ msgid ""
 "Add a folder of image files (which will be used as a moving image sequence) "
 "or a folder of sound files."
 msgstr ""
-"Voeg een map met beeldbestanden (die als sequentie van bewegende beelden "
-"gebruikt worden) of een map met audiobestanden toe."
+"Voeg een map met beeld-bestanden (die als sequentie van bewegende beelden "
+"gebruikt worden) of een map met audio-bestanden toe."
 
 #: src/wx/full_language_tag_dialog.cc:69
 msgid "Add extended"
@@ -497,7 +497,8 @@ msgstr "Voeg variant toe"
 #: src/wx/content_panel.cc:273
 msgid "Add video, image, sound or subtitle files to the film (Ctrl+A)."
 msgstr ""
-"Voeg video-, beeld-, audio-, of ondertitelbestanden aan de film toe (Ctrl+A)."
+"Voeg video-, beeld-, audio-, of ondertitel-bestanden aan de film toe "
+"(Ctrl+A)."
 
 #: src/wx/certificate_chain_editor.cc:89 src/wx/recipients_panel.cc:69
 #: src/wx/editable_list.h:145
@@ -929,7 +930,7 @@ msgstr "Component"
 
 #: src/wx/general_preferences_page.cc:121
 msgid "Configuration file"
-msgstr "Configuratiebestand"
+msgstr "Configuratie-bestand"
 
 #. TRANSLATORS: translate the word "Timing" here; do not include the "Config|" prefix
 #: src/wx/full_config_dialog.cc:1308 src/wx/player_config_dialog.cc:319
@@ -1154,7 +1155,7 @@ msgstr "DCP metadata bestandsnaam-formaat"
 
 #: src/wx/kdm_config_dialog.cc:63 src/wx/player_config_dialog.cc:142
 msgid "Debug log file"
-msgstr "Debug-logbestand"
+msgstr "Debug-log-bestand"
 
 #: src/wx/full_config_dialog.cc:1310
 msgid "Debug: 3D"
@@ -1431,9 +1432,8 @@ msgid "Export all KDM decryption settings..."
 msgstr "Exporteer alle KDM-ontsleutelings-instellingen..."
 
 #: src/wx/export_audio_file_dialog.cc:64
-#, fuzzy
 msgid "Export audio file"
-msgstr "Exporteer video-bestand"
+msgstr "Exporteer audio-bestand"
 
 #: src/wx/certificate_chain_editor.cc:93
 msgid "Export certificate..."
@@ -3072,11 +3072,11 @@ msgstr "Selecteer bioscoop- en scherm-database-bestand"
 
 #: src/wx/general_preferences_page.cc:122
 msgid "Select configuration file"
-msgstr "Selecteer configuratiebestand"
+msgstr "Selecteer configuratie-bestand"
 
 #: src/wx/kdm_config_dialog.cc:64 src/wx/player_config_dialog.cc:143
 msgid "Select debug log file"
-msgstr "Selecteer debug-logbestand"
+msgstr "Selecteer debug-log-bestand"
 
 #: src/wx/export_audio_file_dialog.cc:87 src/wx/export_subtitles_dialog.cc:67
 #: src/wx/export_video_file_dialog.cc:104
@@ -3363,15 +3363,15 @@ msgstr "Subtitle asset %asset_id heeft een <EntryPoint> dat niet nul is."
 
 #: src/wx/export_subtitles_dialog.cc:110
 msgid "Subtitle files (.mxf)|*.mxf"
-msgstr "Ondertitelbestanden (.mxf)|*.mxf"
+msgstr "Ondertitel-bestanden (.mxf)|*.mxf"
 
 #: src/wx/export_subtitles_dialog.cc:113
 msgid "Subtitle files (.srt)|*.srt"
-msgstr "Ondertitelbestanden (.srt)|*.srt"
+msgstr "Ondertitel-bestanden (.srt)|*.srt"
 
 #: src/wx/export_subtitles_dialog.cc:107
 msgid "Subtitle files (.xml)|*.xml"
-msgstr "Ondertitelbestanden (.xml)|*.xml"
+msgstr "Ondertitel-bestanden (.xml)|*.xml"
 
 #: src/wx/dcp_referencing_dialog.cc:115
 msgid "Subtitles"
@@ -4463,9 +4463,8 @@ msgid "WASAPI"
 msgstr "WASAPI"
 
 #: src/wx/export_audio_file_dialog.cc:48 src/wx/export_audio_file_dialog.cc:49
-#, fuzzy
 msgid "WAV files (*.wav)|*.wav"
-msgstr "MOV-bestanden (*.mov)|*.mov"
+msgstr "WAV-bestanden (*.wav)|*.wav"
 
 #: src/wx/full_config_dialog.cc:1303 src/wx/kdm_config_dialog.cc:138
 #: src/wx/player_config_dialog.cc:314 src/wx/verify_dcp_result_panel.cc:63

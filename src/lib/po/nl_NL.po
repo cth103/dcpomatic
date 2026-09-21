@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-09-15 20:57+0200\n"
-"PO-Revision-Date: 2026-08-22 15:25+0200\n"
+"PO-Revision-Date: 2026-09-19 20:11+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -211,8 +211,8 @@ msgid ""
 "software.<p>If you find {} useful, please consider a donation to the "
 "project. Financial support will help me to spend more time developing {} and "
 "making it better!<p><ul><li><a href=\"https://dcpomatic.com/donate_amount?"
-"amount=40\">Go to Paypal to donate €40</a><li><a href=\"https://"
-"dcpomatic.com/donate_amount?amount=20\">Go to Paypal to donate €20</a><li><a "
+"amount=40\">Go to Paypal to donate €40</a><li><a href=\"https://dcpomatic."
+"com/donate_amount?amount=20\">Go to Paypal to donate €20</a><li><a "
 "href=\"https://dcpomatic.com/donate_amount?amount=10\">Go to Paypal to "
 "donate €10</a></ul><p>Thank you!</font>"
 msgstr ""
@@ -321,7 +321,7 @@ msgstr ""
 
 #: src/lib/hints.cc:535
 msgid "At least one of your subtitle files is larger than "
-msgstr "Ten minste één van uw ondertitelbestanden is groter dan "
+msgstr "Ten minste één van uw ondertitel-bestanden is groter dan "
 
 #: src/lib/hints.cc:493
 msgid ""
@@ -1015,7 +1015,7 @@ msgstr "Episode"
 #: src/lib/exceptions.cc:85
 #, c++-format
 msgid "Error in subtitle file: saw {} while expecting {}"
-msgstr "Fout in ondertitelbestand: {} gelezen terwijl {} verwacht werd"
+msgstr "Fout in ondertitel-bestand: {} gelezen terwijl {} verwacht werd"
 
 #: src/lib/job.cc:670
 #, c++-format
@@ -1374,7 +1374,7 @@ msgstr ""
 
 #: src/lib/image_content.cc:131
 msgid "No valid image files were found in the folder."
-msgstr "Geen geldige beeldbestanden gevonden in de map."
+msgstr "Geen geldige beeld-bestanden gevonden in de map."
 
 #: src/lib/filter.cc:103 src/lib/filter.cc:104 src/lib/filter.cc:106
 msgid "Noise reduction"
@@ -1632,7 +1632,7 @@ msgstr "zaterdag"
 
 #: src/lib/image_content.cc:117
 msgid "Scanning image files"
-msgstr "Scannen beeldbestanden"
+msgstr "Scannen beeld-bestanden"
 
 #: src/lib/send_problem_report_job.cc:85
 msgid "Sending email"
@@ -1944,9 +1944,9 @@ msgid ""
 "again."
 msgstr ""
 "Deze fout is waarschijnlijk opgetreden omdat u de 32-bits versie van {} "
-"gebruikt en probeert te veel encoderings-threads te gebruiken.  Verminder "
-"a.u.b. het 'Aantal threads dat {} moet gebruiken' in het \"Algemeen\"-"
-"tabblad bij Voorkeuren en probeer het opnieuw."
+"gebruikt en probeert te veel encoderings-threads te gebruiken.  Verminder a."
+"u.b. het 'Aantal threads dat {} moet gebruiken' in het \"Algemeen\"-tabblad "
+"bij Voorkeuren en probeer het opnieuw."
 
 #: src/lib/job.cc:150
 #, c++-format
