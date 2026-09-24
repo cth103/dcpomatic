@@ -40,7 +40,6 @@
 #include "kdm_email_preferences_page.h"
 #include "keys_preferences_page.h"
 #include "language_tag_widget.h"
-#include "make_chain_dialog.h"
 #include "metal_gpu_page.h"
 #include "nag_dialog.h"
 #include "name_format_editor.h"
@@ -57,13 +56,7 @@
 #include "wx_util.h"
 #include "wx_variant.h"
 #include "lib/config.h"
-#include "lib/cross.h"
 #include "lib/email.h"
-#include "lib/exceptions.h"
-#include "lib/filter.h"
-#include "lib/log.h"
-#include "lib/ratio.h"
-#include "lib/util.h"
 #include <dcp/certificate_chain.h>
 #include <dcp/exceptions.h>
 #include <dcp/filesystem.h>
