@@ -465,7 +465,7 @@ def build_with_cpp17(target):
 
 
 def dependencies(target, options):
-    deps = [('libdcp', '485c0c7f357ed388ab3061bdea44aa95bcf4f491', {'c++17': build_with_cpp17(target)})]
+    deps = [('libdcp', '17b836bf4666a508a8e044c0a7e724b780bffe04', {'c++17': build_with_cpp17(target)})]
     deps.append(('libsub', 'v1.6.63'))
     deps.append(('leqm-nrt', 'd75d0af984d9c14bfefca8f1bdbc215c3bf3a388'))
     deps.append(('libttf', 'v0.0.7'))

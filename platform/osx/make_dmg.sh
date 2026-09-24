@@ -264,6 +264,7 @@ function copy_resources {
     cp $source/graphics/osx/preferences/advanced*.png "$dest"
     cp $source/graphics/osx/preferences/locations*.png "$dest"
     cp $source/graphics/osx/preferences/non_standard*.png "$dest"
+    cp $source/graphics/osx/preferences/gpu*.png "$dest"
     cp $source/fonts/LiberationSans-Regular.ttf "$dest"
     cp $source/fonts/LiberationSans-Italic.ttf "$dest"
     cp $source/fonts/LiberationSans-Bold.ttf "$dest"

@@ -41,6 +41,7 @@
 #include "keys_preferences_page.h"
 #include "language_tag_widget.h"
 #include "make_chain_dialog.h"
+#include "metal_gpu_page.h"
 #include "nag_dialog.h"
 #include "name_format_editor.h"
 #include "password_entry.h"
@@ -1521,6 +1522,8 @@ create_full_config_dialog()
 	e->AddPage(new EncodingServersPage(ps, border));
 #ifdef DCPOMATIC_GROK
 	e->AddPage(new GPUPage(ps, border));
+#elif DCPOMATIC_OSX
+	e->AddPage(new MetalGPUPage(ps, border));
 #endif
 	e->AddPage(new preferences::KeysPage(ps, border));
 	e->AddPage(new TMSPage(ps, border));

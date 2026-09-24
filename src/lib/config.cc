@@ -217,6 +217,7 @@ Config::set_defaults()
 	_player_http_server_port = 8080;
 	_relative_paths = false;
 	_layout_for_short_screen = false;
+	_enable_metal = false;
 
 	_allowed_dcp_frame_rates.clear();
 	_allowed_dcp_frame_rates.push_back(24);
@@ -666,6 +667,7 @@ try
 	_player_http_server_port = f.optional_number_child<int>("PlayerHTTPServerPort").get_value_or(8080);
 	_relative_paths = f.optional_bool_child("RelativePaths").get_value_or(false);
 	_layout_for_short_screen = f.optional_bool_child("LayoutForShortScreen").get_value_or(false);
+	_enable_metal = f.optional_bool_child("EnableMetal").get_value_or(false);
 
 #ifdef DCPOMATIC_GROK
 	if (auto grok = f.optional_node_child("Grok")) {
@@ -1155,6 +1157,8 @@ Config::write_config() const
 	cxml::add_text_child(root, "RelativePaths", _relative_paths ? "1" : "0");
 	/* [XML] LayoutForShortScreen 1 to set up DCP-o-matic as if the screen were less than 800 pixels high */
 	cxml::add_text_child(root, "LayoutForShortScreen", _layout_for_short_screen ? "1" : "0");
+	/* [XML] EnableMetal 1 to use Metal GPU acceleration on macOS where available, 0 to never use it */
+	cxml::add_text_child(root, "EnableMetal", _enable_metal ? "1" : "0");
 
 #ifdef DCPOMATIC_GROK
 	_grok.as_xml(cxml::add_child(root, "Grok"));

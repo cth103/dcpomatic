@@ -127,6 +127,7 @@ sources = """
           markers_panel.cc
           message_dialog.cc
           metadata_dialog.cc
+          metal_gpu_page.cc
           move_to_dialog.cc
           nag_dialog.cc
           name_format_editor.cc

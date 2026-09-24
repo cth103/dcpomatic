@@ -688,8 +688,12 @@ public:
 		return _relative_paths;
 	}
 
-	bool layout_for_short_screen() {
+	bool layout_for_short_screen() const {
 		return _layout_for_short_screen;
+	}
+
+	bool enable_metal() const {
+		return _enable_metal;
 	}
 
 	/* SET (mostly) */
@@ -1264,6 +1268,10 @@ public:
 		maybe_set(_layout_for_short_screen, layout);
 	}
 
+	void set_enable_metal(bool metal) {
+		maybe_set(_enable_metal, metal);
+	}
+
 
 	void changed(Property p = OTHER);
 	boost::signals2::signal<void (Property)> Changed;
@@ -1511,6 +1519,7 @@ private:
 	int _player_http_server_port;
 	bool _relative_paths;
 	bool _layout_for_short_screen;
+	bool _enable_metal;
 
 #ifdef DCPOMATIC_GROK
 	Grok _grok;

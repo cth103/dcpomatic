@@ -187,7 +187,8 @@ DCPVideo::encode_locally() const
 			_frames_per_second,
 			_frame->eyes() == Eyes::LEFT || _frame->eyes() == Eyes::RIGHT,
 			_resolution == Resolution::FOUR_K,
-			comment.empty() ? "libdcp" : comment
+			comment.empty() ? "libdcp" : comment,
+			Config::instance()->enable_metal()
 		);
 
 		if (enc.size() >= minimum_size) {
