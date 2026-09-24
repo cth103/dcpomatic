@@ -26,6 +26,9 @@
 #include <wx/filepicker.h>
 
 
+namespace grok {
+
+
 class GpuList : public wxPanel
 {
 public:
@@ -192,3 +195,6 @@ private:
 	wxTextCtrl* _server = nullptr;
 	PasswordEntry* _licence = nullptr;
 };
+
+}
+

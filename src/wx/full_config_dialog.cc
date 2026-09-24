@@ -1521,7 +1521,7 @@ create_full_config_dialog()
 	e->AddPage(new DefaultsPage(ps, border));
 	e->AddPage(new EncodingServersPage(ps, border));
 #ifdef DCPOMATIC_GROK
-	e->AddPage(new GPUPage(ps, border));
+	e->AddPage(new grok::GPUPage(ps, border));
 #elif DCPOMATIC_OSX
 	e->AddPage(new MetalGPUPage(ps, border));
 #endif
