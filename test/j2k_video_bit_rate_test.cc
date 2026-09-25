@@ -67,8 +67,8 @@ check(int target_bits_per_second)
 	double actual_bits_per_second = boost::filesystem::file_size(test) * 8.0 / duration;
 
 	/* Check that we're within 85% to 115% of target on average */
-	BOOST_CHECK((actual_bits_per_second / target_bits_per_second) > 0.85);
-	BOOST_CHECK((actual_bits_per_second / target_bits_per_second) < 1.15);
+	BOOST_CHECK_MESSAGE((actual_bits_per_second / target_bits_per_second) > 0.85, "Target was " << target_bits_per_second << " achieved " << actual_bits_per_second);
+	BOOST_CHECK_MESSAGE((actual_bits_per_second / target_bits_per_second) < 1.15, "Target was " << target_bits_per_second << " achieved " << actual_bits_per_second);
 
 	cl.run();
 }
