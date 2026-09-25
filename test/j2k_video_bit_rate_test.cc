@@ -39,7 +39,7 @@ using std::string;
 
 
 static void
-check (int target_bits_per_second)
+check(int target_bits_per_second)
 {
 	Cleanup cl;
 
@@ -49,8 +49,8 @@ check (int target_bits_per_second)
 	auto content = make_shared<ImageContent>(TestPaths::private_data() / "prophet_frame.tiff");
 	auto film = new_test_film(name, { content }, &cl);
 	film->set_video_bit_rate(VideoEncoding::JPEG2000, target_bits_per_second);
-	content->video->set_length (24 * duration);
-	make_and_verify_dcp (
+	content->video->set_length(24 * duration);
+	make_and_verify_dcp(
 		film,
 		{
 			dcp::VerificationNote::Code::MISSING_FFMC_IN_FEATURE,
@@ -67,23 +67,23 @@ check (int target_bits_per_second)
 	double actual_bits_per_second = boost::filesystem::file_size(test) * 8.0 / duration;
 
 	/* Check that we're within 85% to 115% of target on average */
-	BOOST_CHECK ((actual_bits_per_second / target_bits_per_second) > 0.85);
-	BOOST_CHECK ((actual_bits_per_second / target_bits_per_second) < 1.15);
+	BOOST_CHECK((actual_bits_per_second / target_bits_per_second) > 0.85);
+	BOOST_CHECK((actual_bits_per_second / target_bits_per_second) < 1.15);
 
 	cl.run();
 }
 
 
-BOOST_AUTO_TEST_CASE (bandwidth_test)
+BOOST_AUTO_TEST_CASE(bandwidth_test)
 {
-	check (50000000);
-	check (100000000);
-	check (150000000);
-	check (200000000);
-	check (250000000);
-	check (300000000);
-	check (350000000);
-	check (400000000);
-	check (450000000);
-	check (500000000);
+	check(50000000);
+	check(100000000);
+	check(150000000);
+	check(200000000);
+	check(250000000);
+	check(300000000);
+	check(350000000);
+	check(400000000);
+	check(450000000);
+	check(500000000);
 }
