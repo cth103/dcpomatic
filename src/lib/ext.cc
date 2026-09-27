@@ -311,6 +311,7 @@ try
 #ifdef DCPOMATIC_WINDOWS
 	file_windows_name_set(device.c_str());
 	struct ext4_blockdev* bd = file_windows_dev_get();
+	file_windows_partition_set(0, 0);
 #else
 	file_dev_name_set(device.c_str());
 	struct ext4_blockdev* bd = file_dev_get();
