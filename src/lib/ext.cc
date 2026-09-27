@@ -308,7 +308,7 @@ try
 	info.journal = false;
 	info.label = nullptr;
 
-#ifdef WIN32
+#ifdef DCPOMATIC_WINDOWS
 	file_windows_name_set(device.c_str());
 	struct ext4_blockdev* bd = file_windows_dev_get();
 #else
