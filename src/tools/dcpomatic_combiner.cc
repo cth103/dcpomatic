@@ -65,7 +65,7 @@ class DirDialogWrapper : public DirDialog
 {
 public:
 	DirDialogWrapper (wxWindow* parent)
-		: DirDialog (parent, _("Choose a DCP folder"), wxDD_DIR_MUST_EXIST, "AddCombinerInputPath")
+		: DirDialog (parent, _("Choose a DCP folder"), wxDD_DEFAULT_STYLE, "AddCombinerInputPath")
 	{
 
 	}

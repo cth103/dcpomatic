@@ -261,7 +261,7 @@ private:
 #ifdef DCPOMATIC_USE_OWN_PICKER
 		_directory = new DirPickerCtrl(_panel);
 #else
-		_directory = new wxDirPickerCtrl(_panel, wxDD_DIR_MUST_EXIST);
+		_directory = new wxDirPickerCtrl(_panel, wxID_ANY, wxEmptyString, char_to_wx(wxDirSelectorPromptStr), wxDefaultPosition, wxDefaultSize, wxDIRP_DEFAULT_STYLE & ~wxDIRP_DIR_MUST_EXIST);
 #endif
 		table->Add(_directory, 1, wxEXPAND);
 
@@ -283,7 +283,7 @@ private:
 #ifdef DCPOMATIC_USE_OWN_PICKER
 		_kdm_directory = new DirPickerCtrl(_panel);
 #else
-		_kdm_directory = new wxDirPickerCtrl(_panel, wxDD_DIR_MUST_EXIST);
+		_kdm_directory = new wxDirPickerCtrl(_panel, wxID_ANY, wxEmptyString, char_to_wx(wxDirSelectorPromptStr), wxDefaultPosition, wxDefaultSize, wxDIRP_DEFAULT_STYLE & ~wxDIRP_DIR_MUST_EXIST);
 #endif
 		table->Add(_kdm_directory, 1, wxEXPAND);
 
