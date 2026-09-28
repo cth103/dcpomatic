@@ -62,7 +62,6 @@ def build(bld):
                  audio_ring_buffers_test.cc
                  burnt_subtitle_test.cc
                  butler_test.cc
-                 bv20_test.cc
                  cinema_list_test.cc
                  cinema_sound_processor_test.cc
                  client_server_test.cc
@@ -148,6 +147,7 @@ def build(bld):
                  pixel_formats_test.cc
                  player_test.cc
                  playlist_test.cc
+                 profile_test.cc
                  pulldown_detect_test.cc
                  ratio_test.cc
                  relative_paths_test.cc
