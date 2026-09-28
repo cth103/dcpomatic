@@ -118,7 +118,7 @@ public:
 		SHOW_EXPERIMENTAL_AUDIO_PROCESSORS,
 		AUDIO_MAPPING,
 		AUTO_CROP_THRESHOLD,
-		ALLOW_SMPTE_BV20,
+		ALLOW_ALL_SMPTE_PROFILES,
 		ISDCF_NAME_PART_LENGTH,
 		ADD_MULTIPLE_OPEN_TEXT_LANGUAGES_TO_ISDCF_NAME,
 		ALLOW_ANY_CONTAINER,
@@ -644,8 +644,8 @@ public:
 		return _default_add_file_location;
 	}
 
-	bool allow_smpte_bv20() const {
-		return _allow_smpte_bv20;
+	bool allow_all_smpte_profiles() const {
+		return _allow_all_smpte_profiles;
 	}
 
 	bool allow_mpeg2() const {
@@ -1241,12 +1241,12 @@ public:
 		maybe_set(_default_add_file_location, location);
 	}
 
-	void set_allow_smpte_bv20(bool allow) {
-		maybe_set(_allow_smpte_bv20, allow, ALLOW_SMPTE_BV20);
+	void set_allow_all_smpte_profiles(bool allow) {
+		maybe_set(_allow_all_smpte_profiles, allow, ALLOW_ALL_SMPTE_PROFILES);
 	}
 
 	void set_allow_mpeg2(bool allow) {
-		maybe_set(_allow_mpeg2, allow, ALLOW_SMPTE_BV20);
+		maybe_set(_allow_mpeg2, allow, ALLOW_ALL_SMPTE_PROFILES);
 	}
 
 #ifdef DCPOMATIC_GROK
@@ -1521,7 +1521,7 @@ private:
 	boost::optional<int> _main_divider_sash_position;
 	boost::optional<int> _main_content_divider_sash_position;
 	DefaultAddFileLocation _default_add_file_location;
-	bool _allow_smpte_bv20;
+	bool _allow_all_smpte_profiles;
 	bool _allow_mpeg2;
 	int _isdcf_name_part_length;
 	bool _add_multiple_open_text_languages_to_isdcf_name;
