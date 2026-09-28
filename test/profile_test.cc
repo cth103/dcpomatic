@@ -36,10 +36,10 @@ using std::string;
 
 
 bool
-has_cpl_mca_subdescriptors(shared_ptr<const Film> film)
+has_cpl_text(shared_ptr<const Film> film, string const& text)
 {
 	auto cpl = dcp::file_to_string(find_file(film->dir(film->dcp_name()), "cpl_"));
-	return cpl.find("MCASubDescriptors") != std::string::npos;
+	return cpl.find(text) != std::string::npos;
 }
 
 
@@ -123,12 +123,46 @@ constraints_profile(shared_ptr<const Film> film)
 	return {};
 }
 
+bool
+has_cpl_mca_subdescriptors(shared_ptr<const Film> film)
+{
+       return has_cpl_text(film, "MCASubDescriptors");
+}
 
-BOOST_AUTO_TEST_CASE(bv21_extensions_used_when_not_limited)
+
+bool
+has_rating_list(shared_ptr<const Film> film)
+{
+       return has_cpl_text(film, "RatingList");
+}
+
+
+bool
+has_cpl_metadata(shared_ptr<const Film> film)
+{
+       return has_cpl_text(film, "CompositionMetadataAsset");
+}
+
+
+bool
+has_markers(shared_ptr<const Film> film)
+{
+       return has_cpl_text(film, "MainMarkers");
+}
+
+
+bool
+has_bv21_profile(shared_ptr<const Film> film)
+{
+       return has_cpl_text(film, "SMPTE-RDD-52:2020-Bv2.1");
+}
+
+
+BOOST_AUTO_TEST_CASE(bv21_done_right)
 {
 	auto picture = content_factory("test/data/flat_red.png");
 	auto sound = content_factory("test/data/sine_440.wav");
-	auto film = new_test_film("bv21_extensions_used_when_not_limited", { picture.front(), sound.front() });
+	auto film = new_test_film("bv21_done_right", { picture.front(), sound.front() });
 
 	make_and_verify_dcp(film);
 
@@ -139,11 +173,11 @@ BOOST_AUTO_TEST_CASE(bv21_extensions_used_when_not_limited)
 }
 
 
-BOOST_AUTO_TEST_CASE(bv21_extensions_not_used_when_limited)
+BOOST_AUTO_TEST_CASE(bv20_done_right)
 {
 	auto picture = content_factory("test/data/flat_red.png");
 	auto sound = content_factory("test/data/sine_440.wav");
-	auto film = new_test_film("bv21_extensions_not_used_when_limited", { picture.front(), sound.front () });
+	auto film = new_test_film("bv20_done_right", { picture.front(), sound.front () });
 	film->set_smpte_profile(dcp::Profile::SMPTE_BV20);
 
 	make_and_verify_dcp(film);
@@ -153,3 +187,25 @@ BOOST_AUTO_TEST_CASE(bv21_extensions_not_used_when_limited)
 	BOOST_CHECK(constraints_profile(film) == "SMPTE-RDD-52:2020-Bv2.0");
 }
 
+
+BOOST_AUTO_TEST_CASE(a_done_right)
+{
+       auto picture = content_factory("test/data/flat_red.png");
+       auto sound = content_factory("test/data/sine_440.wav");
+       auto film = new_test_film("a_done_right", { picture.front(), sound.front () });
+       film->set_smpte_profile(dcp::Profile::SMPTE_A);
+
+       make_and_verify_dcp(
+               film,
+               {
+                       dcp::VerificationNote::Code::MISSING_FFOC,
+                       dcp::VerificationNote::Code::MISSING_LFOC,
+                       dcp::VerificationNote::Code::MISSING_CPL_METADATA,
+               });
+
+       BOOST_CHECK(!has_cpl_mca_subdescriptors(film));
+       BOOST_CHECK(!has_mxf_mca_subdescriptors(film));
+       BOOST_CHECK(!has_bv21_profile(film));
+       BOOST_CHECK(!has_cpl_metadata(film));
+       BOOST_CHECK(!has_markers(film));
+}

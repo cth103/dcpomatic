@@ -792,7 +792,7 @@ ReelWriter::create_reel(
 		auto reel_picture_asset = create_reel_picture(reel, refs);
 		duration = reel_picture_asset->actual_duration();
 		create_reel_sound(reel, refs);
-		if (!film()->interop()) {
+		if (!film()->interop() && film()->smpte_profile() != dcp::Profile::SMPTE_A) {
 			create_reel_markers(reel);
 		}
 	}
