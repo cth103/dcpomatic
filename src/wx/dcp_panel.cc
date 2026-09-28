@@ -157,7 +157,7 @@ DCPPanel::update_standards()
 
 	if (!ref || !interop) {
 		_standard->add_entry(_("SMPTE"), string{"smpte"});
-		if (Config::instance()->allow_all_smpte_profiles() || (_film && _film->limit_to_smpte_bv20())) {
+		if (Config::instance()->allow_all_smpte_profiles() || (_film && _film->smpte_profile() != dcp::Profile::SMPTE_BV21)) {
 			_standard->add_entry(_("SMPTE (Bv2.0 only)"), string{"smpte-bv20"});
 		}
 	}
@@ -191,7 +191,7 @@ DCPPanel::set_standard()
 			checked_set(_standard, "mpeg2-interop");
 		}
 	} else {
-		checked_set(_standard, _film->limit_to_smpte_bv20() ? "smpte-bv20" : "smpte");
+		checked_set(_standard, _film->smpte_profile() == dcp::Profile::SMPTE_BV20 ? "smpte-bv20" : "smpte");
 	}
 }
 
@@ -210,15 +210,14 @@ DCPPanel::standard_changed()
 
 	if (*data == "interop") {
 		_film->set_interop(true);
-		_film->set_limit_to_smpte_bv20(false);
 		_film->set_video_encoding(VideoEncoding::JPEG2000);
 	} else if (*data == "smpte") {
 		_film->set_interop(false);
-		_film->set_limit_to_smpte_bv20(false);
+		_film->set_smpte_profile(dcp::Profile::SMPTE_BV21);
 		_film->set_video_encoding(VideoEncoding::JPEG2000);
 	} else if (*data == "smpte-bv20") {
 		_film->set_interop(false);
-		_film->set_limit_to_smpte_bv20(true);
+		_film->set_smpte_profile(dcp::Profile::SMPTE_BV20);
 		_film->set_video_encoding(VideoEncoding::JPEG2000);
 	} else if (*data == "mpeg2-interop") {
 		_film->set_interop(true);
@@ -494,7 +493,7 @@ DCPPanel::film_changed(FilmProperty p)
 		setup_sensitivity();
 		film_changed(FilmProperty::VIDEO_BIT_RATE);
 		break;
-	case FilmProperty::LIMIT_TO_SMPTE_BV20:
+	case FilmProperty::SMPTE_PROFILE:
 		update_standards();
 		set_standard();
 		break;
@@ -678,7 +677,7 @@ DCPPanel::set_film(shared_ptr<Film> film)
 	film_changed(FilmProperty::REUSE_BEHAVIOUR);
 	film_changed(FilmProperty::AUDIO_LANGUAGE);
 	film_changed(FilmProperty::AUDIO_FRAME_RATE);
-	film_changed(FilmProperty::LIMIT_TO_SMPTE_BV20);
+	film_changed(FilmProperty::SMPTE_PROFILE);
 
 	set_general_sensitivity(static_cast<bool>(_film));
 }
@@ -823,7 +822,7 @@ DCPPanel::config_changed(Config::Property p)
 		update_standards();
 		if (_film) {
 			film_changed(FilmProperty::INTEROP);
-			film_changed(FilmProperty::LIMIT_TO_SMPTE_BV20);
+			film_changed(FilmProperty::SMPTE_PROFILE);
 		}
 	} else if (p == Config::ISDCF_NAME_PART_LENGTH) {
 		setup_dcp_name();

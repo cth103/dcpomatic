@@ -50,6 +50,7 @@
 #include <dcp/file.h>
 #include <dcp/key.h>
 #include <dcp/language_tag.h>
+#include <dcp/profile.h>
 #include <dcp/rating.h>
 #include <dcp/types.h>
 #include <boost/filesystem.hpp>
@@ -277,8 +278,8 @@ public:
 		return _video_encoding;
 	}
 
-	bool limit_to_smpte_bv20() const {
-		return _limit_to_smpte_bv20;
+	dcp::Profile smpte_profile() const {
+		return _smpte_profile;
 	}
 
 	AudioProcessor const * audio_processor() const {
@@ -420,7 +421,7 @@ public:
 	void set_sequence(bool);
 	void set_interop(bool interop, bool user_explicit = true);
 	void set_video_encoding(VideoEncoding encoding);
-	void set_limit_to_smpte_bv20(bool);
+	void set_smpte_profile(dcp::Profile profile);
 	void set_audio_processor(AudioProcessor const * processor);
 	void set_reel_type(ReelType);
 	void set_reel_length(int64_t);
@@ -559,7 +560,7 @@ private:
 	bool _sequence;
 	bool _interop;
 	VideoEncoding _video_encoding;
-	bool _limit_to_smpte_bv20;
+	dcp::Profile _smpte_profile;
 	AudioProcessor const * _audio_processor;
 	ReelType _reel_type;
 	/** Desired reel length in bytes, if _reel_type == BY_LENGTH */

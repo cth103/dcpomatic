@@ -594,7 +594,7 @@ Writer::finish()
 		film()->dcp_name(),
 		film()->dcp_content_type()->libdcp_kind(),
 		film()->interop() ? dcp::Standard::INTEROP : dcp::Standard::SMPTE,
-		film()->limit_to_smpte_bv20() ? dcp::Profile::SMPTE_BV20 : dcp::Profile::SMPTE_BV21
+		film()->smpte_profile()
 		);
 
 	dcp.add(cpl);

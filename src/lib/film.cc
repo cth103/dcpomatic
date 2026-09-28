@@ -181,7 +181,7 @@ Film::Film(optional<boost::filesystem::path> dir)
 	, _sequence(true)
 	, _interop(Config::instance()->default_interop())
 	, _video_encoding(VideoEncoding::JPEG2000)
-	, _limit_to_smpte_bv20(false)
+	, _smpte_profile(dcp::Profile::SMPTE_BV21)
 	, _audio_processor(0)
 	, _reel_type(ReelType::SINGLE)
 	, _reel_length(2000000000)
@@ -269,10 +269,13 @@ Film::video_identifier() const
 		}
 	} else {
 		s += "_S";
-		if (_limit_to_smpte_bv20) {
+		switch (_smpte_profile) {
+		case dcp::Profile::SMPTE_BV20:
 			s += "_L20";
-		} else {
+			break;
+		case dcp::Profile::SMPTE_BV21:
 			s += "_L21";
+			break;
 		}
 	}
 
@@ -427,7 +430,7 @@ Film::metadata(bool with_content_paths) const
 	cxml::add_text_child(root, "Sequence", _sequence ? "1" : "0");
 	cxml::add_text_child(root, "Interop", _interop ? "1" : "0");
 	cxml::add_text_child(root, "VideoEncoding", video_encoding_to_string(_video_encoding));
-	cxml::add_text_child(root, "LimitToSMPTEBv20", _limit_to_smpte_bv20 ? "1" : "0");
+	cxml::add_text_child(root, "SMPTEProfile", dcp::profile_to_string(_smpte_profile));
 	/* We don't need this any more, but writing it makes the metadata backwards compatible */
 	cxml::add_text_child(root, "Encrypted", encrypted() ? "1" : "0");
 	cxml::add_text_child(root, "EncryptPicture", _encrypt_picture ? "1" : "0");
@@ -635,7 +638,12 @@ Film::read_metadata(optional<boost::filesystem::path> path)
 	if (auto encoding = f.optional_string_child("VideoEncoding")) {
 		_video_encoding = string_to_video_encoding(*encoding);
 	}
-	_limit_to_smpte_bv20 = f.optional_bool_child("LimitToSMPTEBv20").get_value_or(false);
+	if (f.optional_bool_child("LimitToSMPTEBv20").get_value_or(false)) {
+		_smpte_profile = dcp::Profile::SMPTE_BV20;
+	}
+	if (auto profile = f.optional_string_child("SMPTEProfile")) {
+		_smpte_profile = dcp::string_to_profile(*profile);
+	}
 	_key = dcp::Key(f.string_child("Key"));
 	_context_id = f.optional_string_child("ContextID").get_value_or(dcp::make_uuid());
 
@@ -1317,10 +1325,10 @@ Film::set_video_encoding(VideoEncoding encoding)
 
 
 void
-Film::set_limit_to_smpte_bv20(bool limit)
+Film::set_smpte_profile(dcp::Profile profile)
 {
-	FilmChangeSignaller ch(this, FilmProperty::LIMIT_TO_SMPTE_BV20);
-	_limit_to_smpte_bv20 = limit;
+	FilmChangeSignaller ch(this, FilmProperty::SMPTE_PROFILE);
+	_smpte_profile = profile;
 }
 
 
