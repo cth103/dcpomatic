@@ -210,7 +210,7 @@ Config::set_defaults()
 	_default_kdm_duration = RoughDuration(1, RoughDuration::Unit::WEEKS);
 	_auto_crop_threshold = 0.1;
 	_last_release_notes_version = boost::none;
-	_allow_smpte_bv20 = false;
+	_allow_all_smpte_profiles = false;
 	_allow_mpeg2 = false;
 	_isdcf_name_part_length = 14;
 	_enable_player_http_server = false;
@@ -660,7 +660,10 @@ try
 		}
 	}
 
-	_allow_smpte_bv20 = f.optional_bool_child("AllowSMPTEBv20").get_value_or(false);
+	_allow_all_smpte_profiles = f.optional_bool_child("AllowSMPTEBv20").get_value_or(false);
+	if (auto allow = f.optional_bool_child("AllowAllSMPTEProfiles")) {
+		_allow_all_smpte_profiles = *allow;
+	}
 	_allow_mpeg2 = f.optional_bool_child("AllowMPEG2").get_value_or(false);
 	_isdcf_name_part_length = f.optional_number_child<int>("ISDCFNamePartLength").get_value_or(14);
 	_enable_player_http_server = f.optional_bool_child("EnablePlayerHTTPServer").get_value_or(false);
@@ -1143,8 +1146,8 @@ Config::write_config() const
 		_default_add_file_location == DefaultAddFileLocation::SAME_AS_LAST_TIME ? "last" : "project"
 		);
 
-	/* [XML] AllowSMPTEBv20 1 to allow the user to choose SMPTE (Bv2.0 only) as a standard, otherwise 0 */
-	cxml::add_text_child(root, "AllowSMPTEBv20", _allow_smpte_bv20 ? "1" : "0");
+	/* [XML] AllowAllSMPTEProfiles 1 to allow the user to choose SMPTE (A only) and SMPTE (Bv2.0 only) as a standard, otherwise 0 */
+	cxml::add_text_child(root, "AllowAllSMPTEProfiles", _allow_all_smpte_profiles ? "1" : "0");
 	/* [XML] AllowMPEG2 1 to allow the user to choose MPEG2 Interop as a standard, otherwise 0 */
 	cxml::add_text_child(root, "AllowMPEG2", _allow_mpeg2 ? "1" : "0");
 	/* [XML] ISDCFNamePartLength Maximum length of the "name" part of an ISDCF name, which should be 14 according to the standard */
@@ -1693,7 +1696,7 @@ Config::load_from_zip(boost::filesystem::path zip_file, CinemasAction action)
 	changed(Property::SHOW_EXPERIMENTAL_AUDIO_PROCESSORS);
 	changed(Property::AUDIO_MAPPING);
 	changed(Property::AUTO_CROP_THRESHOLD);
-	changed(Property::ALLOW_SMPTE_BV20);
+	changed(Property::ALLOW_ALL_SMPTE_PROFILES);
 	changed(Property::ISDCF_NAME_PART_LENGTH);
 	changed(Property::CINEMAS_FILE);
 	changed(Property::OTHER);

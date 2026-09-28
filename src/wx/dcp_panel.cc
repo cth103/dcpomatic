@@ -157,7 +157,7 @@ DCPPanel::update_standards()
 
 	if (!ref || !interop) {
 		_standard->add_entry(_("SMPTE"), string{"smpte"});
-		if (Config::instance()->allow_smpte_bv20() || (_film && _film->limit_to_smpte_bv20())) {
+		if (Config::instance()->allow_all_smpte_profiles() || (_film && _film->limit_to_smpte_bv20())) {
 			_standard->add_entry(_("SMPTE (Bv2.0 only)"), string{"smpte-bv20"});
 		}
 	}
@@ -819,7 +819,7 @@ DCPPanel::config_changed(Config::Property p)
 		if (_film) {
 			film_changed(FilmProperty::AUDIO_PROCESSOR);
 		}
-	} else if (p == Config::ALLOW_SMPTE_BV20) {
+	} else if (p == Config::ALLOW_ALL_SMPTE_PROFILES) {
 		update_standards();
 		if (_film) {
 			film_changed(FilmProperty::INTEROP);

@@ -1068,7 +1068,7 @@ private:
 
 		checkbox(_("Allow creation of DCPs with 96kHz audio"), _allow_96khz_audio);
 		checkbox(_("Allow mapping to all audio channels"), _use_all_audio_channels);
-		checkbox(_("Allow use of SMPTE Bv2.0"), _allow_smpte_bv20);
+		checkbox(_("Allow limiting DCPs to SMPTE A or Bv2.0"), _allow_all_smpte_profiles);
 #if !defined(DCPOMATIC_VARIANT_POST)
 		checkbox(_("Allow use of MPEG2 Interop"), _allow_mpeg2);
 #endif
@@ -1089,7 +1089,7 @@ private:
 		_allow_any_container->bind(&NonStandardPage::allow_any_container_changed, this);
 		_allow_96khz_audio->bind(&NonStandardPage::allow_96khz_audio_changed, this);
 		_use_all_audio_channels->bind(&NonStandardPage::use_all_channels_changed, this);
-		_allow_smpte_bv20->bind(&NonStandardPage::allow_smpte_bv20_changed, this);
+		_allow_all_smpte_profiles->bind(&NonStandardPage::allow_all_smpte_profiles_changed, this);
 #if !defined(DCPOMATIC_VARIANT_POST)
 		_allow_mpeg2->bind(&NonStandardPage::allow_mpeg2_changed, this);
 #endif
@@ -1107,7 +1107,7 @@ private:
 		checked_set(_allow_any_container, config->allow_any_container());
 		checked_set(_allow_96khz_audio, config->allow_96khz_audio());
 		checked_set(_use_all_audio_channels, config->use_all_audio_channels());
-		checked_set(_allow_smpte_bv20, config->allow_smpte_bv20());
+		checked_set(_allow_all_smpte_profiles, config->allow_all_smpte_profiles());
 #if !defined(DCPOMATIC_VARIANT_POST)
 		checked_set(_allow_mpeg2, config->allow_mpeg2());
 #endif
@@ -1144,9 +1144,9 @@ private:
 		Config::instance()->set_use_all_audio_channels(_use_all_audio_channels->GetValue());
 	}
 
-	void allow_smpte_bv20_changed()
+	void allow_all_smpte_profiles_changed()
 	{
-		Config::instance()->set_allow_smpte_bv20(_allow_smpte_bv20->GetValue());
+		Config::instance()->set_allow_all_smpte_profiles(_allow_all_smpte_profiles->GetValue());
 	}
 
 #if !defined(DCPOMATIC_VARIANT_POST)
@@ -1167,7 +1167,7 @@ private:
 	CheckBox* _allow_any_container = nullptr;
 	CheckBox* _allow_96khz_audio = nullptr;
 	CheckBox* _use_all_audio_channels = nullptr;
-	CheckBox* _allow_smpte_bv20 = nullptr;
+	CheckBox* _allow_all_smpte_profiles = nullptr;
 	CheckBox* _allow_mpeg2 = nullptr;
 	wxSpinCtrl* _isdcf_name_part_length = nullptr;
 };
