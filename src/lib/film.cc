@@ -270,6 +270,9 @@ Film::video_identifier() const
 	} else {
 		s += "_S";
 		switch (_smpte_profile) {
+		case dcp::Profile::SMPTE_A:
+			s += "_LA";
+			break;
 		case dcp::Profile::SMPTE_BV20:
 			s += "_L20";
 			break;

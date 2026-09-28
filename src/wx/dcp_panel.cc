@@ -159,6 +159,7 @@ DCPPanel::update_standards()
 		_standard->add_entry(_("SMPTE"), string{"smpte"});
 		if (Config::instance()->allow_all_smpte_profiles() || (_film && _film->smpte_profile() != dcp::Profile::SMPTE_BV21)) {
 			_standard->add_entry(_("SMPTE (Bv2.0 only)"), string{"smpte-bv20"});
+			_standard->add_entry(_("SMPTE (A only)"), string{"smpte-a"});
 		}
 	}
 
@@ -191,7 +192,17 @@ DCPPanel::set_standard()
 			checked_set(_standard, "mpeg2-interop");
 		}
 	} else {
-		checked_set(_standard, _film->smpte_profile() == dcp::Profile::SMPTE_BV20 ? "smpte-bv20" : "smpte");
+		switch (_film->smpte_profile()) {
+		case dcp::Profile::SMPTE_BV21:
+			checked_set(_standard, "smpte");
+			break;
+		case dcp::Profile::SMPTE_BV20:
+			checked_set(_standard, "smpte-bv20");
+			break;
+		case dcp::Profile::SMPTE_A:
+			checked_set(_standard, "smpte-a");
+			break;
+		}
 	}
 }
 
@@ -218,6 +229,10 @@ DCPPanel::standard_changed()
 	} else if (*data == "smpte-bv20") {
 		_film->set_interop(false);
 		_film->set_smpte_profile(dcp::Profile::SMPTE_BV20);
+		_film->set_video_encoding(VideoEncoding::JPEG2000);
+	} else if (*data == "smpte-a") {
+		_film->set_interop(false);
+		_film->set_smpte_profile(dcp::Profile::SMPTE_A);
 		_film->set_video_encoding(VideoEncoding::JPEG2000);
 	} else if (*data == "mpeg2-interop") {
 		_film->set_interop(true);
@@ -485,7 +500,7 @@ DCPPanel::film_changed(FilmProperty p)
 		update_standards();
 		set_standard();
 		setup_dcp_name();
-		_markers->Enable(!_film->interop());
+		setup_sensitivity();
 		break;
 	case FilmProperty::VIDEO_ENCODING:
 		set_standard();
@@ -496,6 +511,7 @@ DCPPanel::film_changed(FilmProperty p)
 	case FilmProperty::SMPTE_PROFILE:
 		update_standards();
 		set_standard();
+		setup_sensitivity();
 		break;
 	case FilmProperty::AUDIO_PROCESSOR:
 		if (_film->audio_processor()) {
@@ -705,7 +721,7 @@ DCPPanel::setup_sensitivity()
 	_edit_audio_language->Enable   (_enable_audio_language->GetValue());
 	_encrypted->Enable             (_generally_sensitive);
 	_encryption_settings->Enable   (_generally_sensitive && _encrypted->GetValue());
-	_markers->Enable               (_generally_sensitive && _film && !_film->interop());
+	_markers->Enable               (_generally_sensitive && _film && !_film->interop() && _film->smpte_profile() != dcp::Profile::SMPTE_A);
 	_metadata->Enable              (_generally_sensitive);
 	_reels->Enable                 (_generally_sensitive && _film);
 	_frame_rate_choice->Enable     (_generally_sensitive && _film && !_film->references_dcp_video() && !_film->contains_atmos_content());
