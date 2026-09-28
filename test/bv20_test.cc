@@ -144,7 +144,7 @@ BOOST_AUTO_TEST_CASE(bv21_extensions_not_used_when_limited)
 	auto picture = content_factory("test/data/flat_red.png");
 	auto sound = content_factory("test/data/sine_440.wav");
 	auto film = new_test_film("bv21_extensions_not_used_when_limited", { picture.front(), sound.front () });
-	film->set_limit_to_smpte_bv20(true);
+	film->set_smpte_profile(dcp::Profile::SMPTE_BV20);
 
 	make_and_verify_dcp(film);
 
