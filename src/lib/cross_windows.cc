@@ -474,7 +474,7 @@ typedef map<int, vector<boost::filesystem::path>> MountPoints;
 static void
 add_volume_mount_points(wchar_t* volume, MountPoints& mount_points)
 {
-	LOG_DISK("Looking at {}", wchar_to_utf8(volume));
+	LOG_DISK("add_volume_mount_points for {}", wchar_to_utf8(volume));
 
 	wchar_t volume_path_names[512];
 	vector<boost::filesystem::path> volume_mount_points;
