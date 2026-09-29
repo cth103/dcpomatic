@@ -625,7 +625,7 @@ Drive::get()
 		if (r) {
 			uint64_t const disk_size = geom.Cylinders.QuadPart * geom.TracksPerCylinder * geom.SectorsPerTrack * geom.BytesPerSector;
 			drives.push_back(Drive(physical_drive, locked ? vector<boost::filesystem::path>() : mount_points[*device_number], disk_size, friendly_name, optional<string>()));
-			LOG_DISK("Added drive {}{}", drives.back().log_summary(), locked ? "(locked by us)" : "");
+			LOG_DISK("Added drive {}{}", drives.back().log_summary(), locked ? " (locked by us)" : "");
 		}
 
 		CloseHandle(device);
