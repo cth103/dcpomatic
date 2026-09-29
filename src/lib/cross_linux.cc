@@ -311,6 +311,14 @@ Drive::unmount ()
 }
 
 
+bool
+Drive::eject()
+{
+	/* XXX */
+	return true;
+}
+
+
 boost::filesystem::path
 config_path (optional<string> version)
 {

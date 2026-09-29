@@ -95,6 +95,18 @@ class Nanomsg;
 // DISK_WRITER_ERROR
 
 
+/* REQUEST TO EJECT A DRIVE */
+
+// Front-end sends
+#define DISK_WRITER_EJECT "J"
+// XML representation of Drive object to eject
+
+// Back-end responds:
+// DISK_WRITER_OK
+// or
+// DISK_WRITER_ERROR
+
+
 class DiskWriterBackEndResponse
 {
 public:

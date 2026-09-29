@@ -662,6 +662,26 @@ Drive::unmount()
 }
 
 
+bool
+Drive::eject()
+{
+	LOG_DISK("Ejecting {} with {} mount points", _device, _mount_points.size());
+	HANDLE device = CreateFileA(_device.c_str(), (GENERIC_READ | GENERIC_WRITE), FILE_SHARE_READ | FILE_SHARE_WRITE, 0, OPEN_EXISTING, 0, 0);
+	if (device == INVALID_HANDLE_VALUE) {
+		LOG_DISK("Could not open {} for unmount ({})", _device, GetLastError());
+		return false;
+	}
+	BOOL r = DeviceIoControl(device, IOCTL_STORAGE_EJECT_MEDIA, NULL, 0, NULL, 0, NULL, NULL);
+	if (!r) {
+		LOG_DISK("Eject of {} failed ({})", _device, GetLastError());
+		return false;
+	}
+
+	LOG_DISK("Eject of {} succeeded", _device);
+	return true;
+}
+
+
 boost::filesystem::path
 config_path(optional<string> version)
 {

@@ -164,32 +164,38 @@ try
 		exit (EXIT_SUCCESS);
 	} else if (*s == DISK_WRITER_PING) {
 		DiskWriterBackEndResponse::pong().write_to_nanomsg(*nanomsg, LONG_TIMEOUT);
-	} else if (*s == DISK_WRITER_UNMOUNT) {
+	} else if (*s == DISK_WRITER_UNMOUNT || *s == DISK_WRITER_EJECT) {
 		auto xml_head = nanomsg->receive (LONG_TIMEOUT);
 		auto xml_body = nanomsg->receive (LONG_TIMEOUT);
+		auto const name = *s == DISK_WRITER_UNMOUNT ? string{"unmount"} : string{"eject"};
 		if (!xml_head || !xml_body) {
-			LOG_DISK("Failed to receive unmount request");
+			LOG_DISK("Failed to receive {} request", name);
 			throw CommunicationFailedError ();
 		}
 		auto xml = *xml_head + *xml_body;
 		request_privileges (
 			"com.dcpomatic.write-drive",
-			[xml]() {
-				bool const success = Drive(xml).unmount();
+			[xml, s, name]() {
+				bool success;
+				if (*s == DISK_WRITER_UNMOUNT) {
+					success = Drive(xml).unmount();
+				} else {
+					success = Drive(xml).eject();
+				}
 				bool sent_reply = false;
 				if (success) {
 					sent_reply = DiskWriterBackEndResponse::ok().write_to_nanomsg(*nanomsg, LONG_TIMEOUT);
 				} else {
-					sent_reply = DiskWriterBackEndResponse::error("Could not unmount drive", 1, 0).write_to_nanomsg(*nanomsg, LONG_TIMEOUT);
+					sent_reply = DiskWriterBackEndResponse::error(fmt::format("Could not {} drive", name), 1, 0).write_to_nanomsg(*nanomsg, LONG_TIMEOUT);
 				}
 				if (!sent_reply) {
-					LOG_DISK("CommunicationFailedError in unmount_finished");
+					LOG_DISK("CommunicationFailedError in {}_finished", name);
 					throw CommunicationFailedError ();
 				}
 			},
-			[]() {
-				if (!DiskWriterBackEndResponse::error("Could not get permission to unmount drive", 1, 0).write_to_nanomsg(*nanomsg, LONG_TIMEOUT)) {
-					LOG_DISK("CommunicationFailedError in unmount_finished");
+			[name]() {
+				if (!DiskWriterBackEndResponse::error(fmt::format("Could not get permission to {} drive", name), 1, 0).write_to_nanomsg(*nanomsg, LONG_TIMEOUT)) {
+					LOG_DISK("CommunicationFailedError in {}_finished", name);
 					throw CommunicationFailedError ();
 				}
 			});
@@ -282,6 +288,11 @@ try
 #elif defined(DCPOMATIC_WINDOWS)
 				dcpomatic::write (dcp_paths, device, "", nanomsg);
 #endif
+				for (auto& i: Drive::get()) {
+					if (i.device() == device) {
+						i.eject();
+					}
+				}
 			},
 			[]() {
 				if (nanomsg) {

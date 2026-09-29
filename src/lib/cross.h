@@ -148,6 +148,11 @@ public:
 	 */
 	bool unmount();
 
+	/** "Eject" the drive, i.e. completely disconnect it.
+	 *  @return true on success, false on failure.
+	 */
+	bool eject();
+
 #ifdef DCPOMATIC_OSX
 	void set_mounted() {
 		_mounted = true;

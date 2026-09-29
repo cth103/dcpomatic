@@ -477,6 +477,14 @@ Drive::unmount()
 }
 
 
+bool
+Drive::eject()
+{
+	/* XXX */
+	return true;
+}
+
+
 void
 disk_write_finished()
 {
