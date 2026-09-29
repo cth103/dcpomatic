@@ -142,7 +142,7 @@ write(boost::filesystem::path from, boost::filesystem::path to, uint64_t& total_
 		r = ext4_fwrite(&out, buffer.data(), this_time, &written);
 		if (r != EOK) {
 			ext4_fclose(&out);
-			throw CopyError("Write failed", r, ext4_blockdev_errno);
+			throw CopyError(fmt::format("Write failed with {} remaining", remaining), r, ext4_blockdev_errno);
 		}
 		if (written != this_time) {
 			ext4_fclose(&out);
