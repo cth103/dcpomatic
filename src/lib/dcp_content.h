@@ -36,6 +36,7 @@
 #include <dcp/content_kind.h>
 #include <dcp/encrypted_kdm.h>
 #include <dcp/language_tag.h>
+#include <dcp/main_sound_configuration.h>
 #include <dcp/rating.h>
 
 
@@ -190,6 +191,11 @@ public:
 		return _standard.get();
 	}
 
+	boost::optional<dcp::MainSoundConfiguration> main_sound_configuration() const {
+		boost::mutex::scoped_lock lm(_mutex);
+		return _main_sound_configuration;
+	}
+
 	boost::optional<VideoEncoding> video_encoding() const {
 		boost::mutex::scoped_lock lm(_mutex);
 		return _video_encoding;
@@ -282,6 +288,7 @@ private:
 	EnumIndexedVector<bool, TextType> _reference_text;
 
 	boost::optional<dcp::Standard> _standard;
+	boost::optional<dcp::MainSoundConfiguration> _main_sound_configuration;
 	boost::optional<VideoEncoding> _video_encoding;
 	boost::optional<dcp::ContentKind> _content_kind;
 	bool _three_d;

@@ -33,6 +33,7 @@
 #include "video_examiner.h"
 #include <dcp/content_kind.h>
 #include <dcp/dcp_time.h>
+#include <dcp/main_sound_configuration.h>
 #include <dcp/rating.h>
 
 
@@ -154,6 +155,10 @@ public:
 		return _standard;
 	}
 
+	boost::optional<dcp::MainSoundConfiguration> main_sound_configuration() const {
+		return _main_sound_configuration;
+	}
+
 	boost::optional<VideoEncoding> video_encoding() const {
 		return _video_encoding;
 	}
@@ -260,6 +265,7 @@ private:
 	bool _needs_assets = false;
 	bool _kdm_valid = false;
 	boost::optional<dcp::Standard> _standard;
+	boost::optional<dcp::MainSoundConfiguration> _main_sound_configuration;
 	boost::optional<VideoEncoding> _video_encoding;
 	bool _three_d = false;
 	boost::optional<dcp::ContentKind> _content_kind;

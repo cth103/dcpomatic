@@ -128,6 +128,9 @@ DCPContent::DCPContent(cxml::ConstNodePtr node, boost::optional<boost::filesyste
 			DCPOMATIC_ASSERT(false);
 		}
 	}
+	if (auto msc = node->optional_string_child("MainSoundConfiguration")) {
+		_main_sound_configuration = dcp::MainSoundConfiguration(*msc);
+	}
 
 	if (auto encoding = node->optional_string_child("VideoEncoding")) {
 		_video_encoding = string_to_video_encoding(*encoding);
@@ -343,6 +346,7 @@ DCPContent::examine(shared_ptr<const Film> film, shared_ptr<Job> job, bool toler
 		_needs_assets = examiner->needs_assets();
 		_kdm_valid = examiner->kdm_valid();
 		_standard = examiner->standard();
+		_main_sound_configuration = examiner->main_sound_configuration();
 		_video_encoding = examiner->video_encoding();
 		_three_d = examiner->three_d();
 		_content_kind = examiner->content_kind();
