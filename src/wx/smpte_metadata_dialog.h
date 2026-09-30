@@ -62,6 +62,9 @@ private:
 	void status_changed();
 	void distributor_changed();
 	void enable_distributor_changed();
+	void set_full_content_title_text_hint();
+	void full_content_title_text_changed();
+	void set_name_language_tooltip();
 
 	LanguageTagWidget* _name_language;
 	wxSpinCtrl* _version_number;
@@ -69,6 +72,7 @@ private:
 	CheckBox* _enable_distributor;
 	wxTextCtrl* _distributor;
 	EditableList<std::string>* _content_versions;
+	wxTextCtrl* _full_content_title_text;
 };
 
 

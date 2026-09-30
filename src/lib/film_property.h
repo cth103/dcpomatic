@@ -75,6 +75,7 @@ enum class FilmProperty {
 	TWO_D_VERSION_OF_THREE_D,
 	LUMINANCE,
 	TERRITORY_TYPE,
+	FULL_CONTENT_TITLE_TEXT,
 };
 
 

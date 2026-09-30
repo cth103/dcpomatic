@@ -639,7 +639,7 @@ Writer::finish()
 	}
 	cpl->set_content_versions(cv);
 
-	cpl->set_full_content_title_text(film()->name());
+	cpl->set_full_content_title_text(film()->full_content_title_text().get_value_or(film()->name()));
 	cpl->set_full_content_title_text_language(film()->name_language());
 	if (film()->release_territory()) {
 		cpl->set_release_territory(*film()->release_territory());

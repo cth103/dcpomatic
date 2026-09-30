@@ -471,6 +471,9 @@ Film::metadata(bool with_content_paths) const
 	if (_studio) {
 		cxml::add_text_child(root, "Studio", *_studio);
 	}
+	if (_full_content_title_text) {
+		cxml::add_text_child(root, "FullContentTitleText", *_full_content_title_text);
+	}
 	cxml::add_text_child(root, "TempVersion", _temp_version ? "1" : "0");
 	cxml::add_text_child(root, "PreRelease", _pre_release ? "1" : "0");
 	cxml::add_text_child(root, "RedBand", _red_band ? "1" : "0");
@@ -702,6 +705,7 @@ Film::read_metadata(optional<boost::filesystem::path> path)
 	_pre_release = f.optional_bool_child("PreRelease").get_value_or(false);
 	_red_band = f.optional_bool_child("RedBand").get_value_or(false);
 	_two_d_version_of_three_d = f.optional_bool_child("TwoDVersionOfThreeD").get_value_or(false);
+	_full_content_title_text = f.optional_string_child("FullContentTitleText");
 
 	auto value = f.optional_number_child<float>("LuminanceValue");
 	auto unit = f.optional_string_child("LuminanceUnit");
@@ -2419,6 +2423,14 @@ Film::set_distributor(optional<string> d)
 {
 	FilmChangeSignaller ch(this, FilmProperty::DISTRIBUTOR);
 	_distributor = d;
+}
+
+
+void
+Film::set_full_content_title_text(optional<string> t)
+{
+	FilmChangeSignaller ch(this, FilmProperty::FULL_CONTENT_TITLE_TEXT);
+	_full_content_title_text = t;
 }
 
 

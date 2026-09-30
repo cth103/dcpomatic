@@ -52,6 +52,8 @@ public:
 	void set(boost::optional<dcp::LanguageTag> tag);
 	void enable(bool e);
 
+	void set_tooltip(wxString tooltip);
+
 	boost::signals2::signal<void(dcp::LanguageTag)> Changed;
 
 private:

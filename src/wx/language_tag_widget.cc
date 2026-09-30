@@ -37,7 +37,7 @@ LanguageTagWidget::LanguageTagWidget(wxWindow* parent, wxString tooltip, optiona
 	, _sizer(new wxBoxSizer(wxHORIZONTAL))
 {
 	_language = new wxStaticText(parent, wxID_ANY, {}, wxDefaultPosition, wxDefaultSize, wxST_ELLIPSIZE_END);
-	_language->SetToolTip(tooltip);
+	set_tooltip(tooltip);
 	set(tag);
 
 	if (size_to_fit) {
@@ -91,3 +91,11 @@ LanguageTagWidget::enable(bool e)
 	_language->Enable(e);
 	_edit->Enable(e);
 }
+
+
+void
+LanguageTagWidget::set_tooltip(wxString tooltip)
+{
+	_language->SetToolTip(tooltip);
+}
+

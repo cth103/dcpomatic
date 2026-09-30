@@ -383,6 +383,13 @@ public:
 		return _luminance;
 	}
 
+	/* @return FullContentTitleText that the user explicitly requested
+	 * in the metadata configuration.
+	 */
+	boost::optional<std::string> full_content_title_text() const {
+		return _full_content_title_text;
+	}
+
 	boost::gregorian::date isdcf_date() const {
 		return _isdcf_date;
 	}
@@ -443,6 +450,7 @@ public:
 	void set_two_d_version_of_three_d(bool t);
 	void set_distributor(boost::optional<std::string> d = boost::none);
 	void set_luminance(boost::optional<dcp::Luminance> l = boost::none);
+	void set_full_content_title_text(boost::optional<std::string> t = boost::none);
 	void set_audio_language(boost::optional<dcp::LanguageTag> language);
 	void set_audio_frame_rate(int rate);
 
@@ -578,6 +586,7 @@ private:
 	dcp::Status _status;
 	boost::optional<std::string> _chain;
 	boost::optional<std::string> _distributor;
+	boost::optional<std::string> _full_content_title_text;
 	boost::optional<std::string> _facility;
 	boost::optional<std::string> _studio;
 	bool _temp_version = false;
