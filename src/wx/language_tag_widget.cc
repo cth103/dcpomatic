@@ -32,26 +32,26 @@ LIBDCP_ENABLE_WARNINGS
 using boost::optional;
 
 
-LanguageTagWidget::LanguageTagWidget (wxWindow* parent, wxString tooltip, optional<dcp::LanguageTag> tag, optional<wxString> size_to_fit)
-	: _parent (parent)
-	, _sizer (new wxBoxSizer(wxHORIZONTAL))
+LanguageTagWidget::LanguageTagWidget(wxWindow* parent, wxString tooltip, optional<dcp::LanguageTag> tag, optional<wxString> size_to_fit)
+	: _parent(parent)
+	, _sizer(new wxBoxSizer(wxHORIZONTAL))
 {
 	_language = new wxStaticText(parent, wxID_ANY, {}, wxDefaultPosition, wxDefaultSize, wxST_ELLIPSIZE_END);
-	_language->SetToolTip (tooltip);
-	set (tag);
+	_language->SetToolTip(tooltip);
+	set(tag);
 
 	if (size_to_fit) {
 		int w;
 		int h;
-		_language->GetTextExtent (*size_to_fit, &w, &h);
-		_language->SetMinSize (wxSize(w, -1));
+		_language->GetTextExtent(*size_to_fit, &w, &h);
+		_language->SetMinSize(wxSize(w, -1));
 	}
 
-	_sizer->Add (_language, 1, wxLEFT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP);
-	_edit = new Button (parent, _("Edit..."));
-	_sizer->Add (_edit, 0, wxLEFT, DCPOMATIC_SIZER_GAP);
+	_sizer->Add(_language, 1, wxLEFT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP);
+	_edit = new Button(parent, _("Edit..."));
+	_sizer->Add(_edit, 0, wxLEFT, DCPOMATIC_SIZER_GAP);
 
-	_edit->Bind (wxEVT_BUTTON, boost::bind(&LanguageTagWidget::edit, this));
+	_edit->Bind(wxEVT_BUTTON, boost::bind(&LanguageTagWidget::edit, this));
 }
 
 
@@ -63,7 +63,7 @@ LanguageTagWidget::~LanguageTagWidget()
 
 
 void
-LanguageTagWidget::edit ()
+LanguageTagWidget::edit()
 {
 	LanguageTagDialog dialog(_parent, _tag.get_value_or(dcp::LanguageTag("en")));
 	if (dialog.ShowModal() == wxID_OK) {
@@ -74,7 +74,7 @@ LanguageTagWidget::edit ()
 
 
 void
-LanguageTagWidget::set (optional<dcp::LanguageTag> tag)
+LanguageTagWidget::set(optional<dcp::LanguageTag> tag)
 {
 	_tag = tag;
 	if (tag) {
@@ -86,8 +86,8 @@ LanguageTagWidget::set (optional<dcp::LanguageTag> tag)
 
 
 void
-LanguageTagWidget::enable (bool e)
+LanguageTagWidget::enable(bool e)
 {
-	_language->Enable (e);
-	_edit->Enable (e);
+	_language->Enable(e);
+	_edit->Enable(e);
 }

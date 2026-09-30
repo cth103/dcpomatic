@@ -36,26 +36,26 @@ class wxWindow;
 class LanguageTagWidget
 {
 public:
-	LanguageTagWidget (wxWindow* parent, wxString tooltip, boost::optional<dcp::LanguageTag> tag, boost::optional<wxString> size_to_fit = boost::none);
+	LanguageTagWidget(wxWindow* parent, wxString tooltip, boost::optional<dcp::LanguageTag> tag, boost::optional<wxString> size_to_fit = boost::none);
 	~LanguageTagWidget();
 
-	LanguageTagWidget (LanguageTagWidget const&) = delete;
-	LanguageTagWidget& operator= (LanguageTagWidget const&) = delete;
+	LanguageTagWidget(LanguageTagWidget const&) = delete;
+	LanguageTagWidget& operator=(LanguageTagWidget const&) = delete;
 
-	wxSizer* sizer () const {
+	wxSizer* sizer() const {
 		return _sizer;
 	}
 
-	boost::optional<dcp::LanguageTag> get () const {
+	boost::optional<dcp::LanguageTag> get() const {
 		return _tag;
 	}
-	void set (boost::optional<dcp::LanguageTag> tag);
-	void enable (bool e);
+	void set(boost::optional<dcp::LanguageTag> tag);
+	void enable(bool e);
 
-	boost::signals2::signal<void (dcp::LanguageTag)> Changed;
+	boost::signals2::signal<void(dcp::LanguageTag)> Changed;
 
 private:
-	void edit ();
+	void edit();
 
 	wxStaticText* _language;
 	wxButton* _edit;
