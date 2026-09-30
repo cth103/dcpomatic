@@ -2282,30 +2282,31 @@ Film::copy_from(shared_ptr<const Film> film, std::function<void (float)> set_pro
 }
 
 
-bool
-Film::references_dcp_video() const
+vector<shared_ptr<DCPContent>>
+Film::dcp_video_references() const
 {
-	for (auto i: _playlist->content()) {
-		auto d = dynamic_pointer_cast<DCPContent>(i);
-		if (d && d->reference_video()) {
-			return true;
+	vector<shared_ptr<DCPContent>> references;
+	for (auto content: _playlist->content()) {
+		auto dcp = dynamic_pointer_cast<DCPContent>(content);
+		if (dcp && dcp->reference_video()) {
+			references.push_back(dcp);
 		}
 	}
-
-	return false;
+	return references;
 }
 
-bool
-Film::references_dcp_audio() const
+
+vector<shared_ptr<DCPContent>>
+Film::dcp_audio_references() const
 {
-	for (auto i: _playlist->content()) {
-		auto d = dynamic_pointer_cast<DCPContent>(i);
-		if (d && d->reference_audio()) {
-			return true;
+	vector<shared_ptr<DCPContent>> references;
+	for (auto content: _playlist->content()) {
+		auto dcp = dynamic_pointer_cast<DCPContent>(content);
+		if (dcp && dcp->reference_audio()) {
+			references.push_back(dcp);
 		}
 	}
-
-	return false;
+	return references;
 }
 
 

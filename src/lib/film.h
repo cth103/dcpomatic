@@ -72,6 +72,7 @@ namespace dcpomatic {
 class AudioContent;
 class AudioProcessor;
 class Content;
+class DCPContent;
 class DCPContentType;
 class Film;
 class Job;
@@ -195,8 +196,10 @@ public:
 
 	std::string content_summary(dcpomatic::DCPTimePeriod period) const;
 
-	bool references_dcp_video() const;
-	bool references_dcp_audio() const;
+	/** @return Content whose video this film is referring to */
+	std::vector<std::shared_ptr<DCPContent>> dcp_video_references() const;
+	/** @return Content whose audio this film is referring to */
+	std::vector<std::shared_ptr<DCPContent>> dcp_audio_references() const;
 	bool contains_atmos_content() const;
 
 	bool last_written_by_git() const;
