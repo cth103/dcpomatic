@@ -23,6 +23,7 @@
 #include "config.h"
 #include "cover_sheet.h"
 #include "cross.h"
+#include "dcp_content.h"
 #include "dcp_content_type.h"
 #include "dcpomatic_log.h"
 #include "film.h"
@@ -668,15 +669,21 @@ Writer::finish()
 		field = dcp::MCASoundField::FIVE_POINT_ONE;
 	}
 
-	auto const audio_channels = film()->audio_channels();
-	dcp::MainSoundConfiguration msc(field, audio_channels);
-	for (auto i: film()->mapped_audio_channels()) {
-		if (i < audio_channels) {
-			msc.set_mapping(i, static_cast<dcp::Channel>(i));
+	auto audio_references = film()->dcp_audio_references();
+	/* It's not clear what we should do here if there's more than 1 reference and they disagree */
+	if (!audio_references.empty() && audio_references[0]->main_sound_configuration()) {
+		cpl->set_main_sound_configuration(*audio_references[0]->main_sound_configuration());
+	} else {
+		auto const audio_channels = film()->audio_channels();
+		dcp::MainSoundConfiguration msc(field, audio_channels);
+		for (auto i: film()->mapped_audio_channels()) {
+			if (i < audio_channels) {
+				msc.set_mapping(i, static_cast<dcp::Channel>(i));
+			}
 		}
+		cpl->set_main_sound_configuration(msc);
 	}
 
-	cpl->set_main_sound_configuration(msc);
 	cpl->set_main_sound_sample_rate(film()->audio_frame_rate());
 	cpl->set_main_picture_stored_area(film()->frame_size());
 
