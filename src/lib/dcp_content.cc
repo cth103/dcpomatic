@@ -119,11 +119,10 @@ DCPContent::DCPContent(cxml::ConstNodePtr node, boost::optional<boost::filesyste
 		_reference_text[TextType::OPEN_SUBTITLE] = node->optional_bool_child("ReferenceSubtitle").get_value_or(false);
 		_reference_text[TextType::CLOSED_CAPTION] = false;
 	}
-	if (node->optional_string_child("Standard")) {
-		auto const s = node->optional_string_child("Standard").get();
-		if (s == "Interop") {
+	if (auto standard = node->optional_string_child("Standard")) {
+		if (*standard == "Interop") {
 			_standard = dcp::Standard::INTEROP;
-		} else if (s == "SMPTE") {
+		} else if (*standard == "SMPTE") {
 			_standard = dcp::Standard::SMPTE;
 		} else {
 			DCPOMATIC_ASSERT(false);
