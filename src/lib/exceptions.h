@@ -49,24 +49,24 @@ class SQLiteDatabase;
 class DecodeError : public std::runtime_error
 {
 public:
-	explicit DecodeError (std::string s)
-		: std::runtime_error (s)
+	explicit DecodeError(std::string s)
+		: std::runtime_error(s)
 	{}
 
-	DecodeError (std::string function, std::string caller)
-		: std::runtime_error (fmt::format("{} failed [{}]", function, caller))
+	DecodeError(std::string function, std::string caller)
+		: std::runtime_error(fmt::format("{} failed [{}]", function, caller))
 	{}
 
-	DecodeError (std::string function, std::string caller, int error)
-		: std::runtime_error (fmt::format("{} failed [{}] ({})", function, caller, error))
+	DecodeError(std::string function, std::string caller, int error)
+		: std::runtime_error(fmt::format("{} failed [{}] ({})", function, caller, error))
 	{}
 
-	DecodeError (std::string function, std::string caller, boost::filesystem::path file)
-		: std::runtime_error (fmt::format("{} failed [{}] ({})", function, caller, file.string()))
+	DecodeError(std::string function, std::string caller, boost::filesystem::path file)
+		: std::runtime_error(fmt::format("{} failed [{}] ({})", function, caller, file.string()))
 	{}
 
-	DecodeError (std::string function, std::string caller, int error, boost::filesystem::path file)
-		: std::runtime_error (fmt::format("{} failed [{}] ({}) ({})", function, caller, error, file.string()))
+	DecodeError(std::string function, std::string caller, int error, boost::filesystem::path file)
+		: std::runtime_error(fmt::format("{} failed [{}] ({}) ({})", function, caller, error, file.string()))
 	{}
 };
 
@@ -74,8 +74,8 @@ public:
 class CryptoError : public std::runtime_error
 {
 public:
-	explicit CryptoError (std::string s)
-		: std::runtime_error (s)
+	explicit CryptoError(std::string s)
+		: std::runtime_error(s)
 	{}
 };
 
@@ -86,16 +86,16 @@ public:
 class EncodeError : public std::runtime_error
 {
 public:
-	explicit EncodeError (std::string s)
-		: std::runtime_error (s)
+	explicit EncodeError(std::string s)
+		: std::runtime_error(s)
 	{}
 
-	explicit EncodeError (std::string function, std::string caller)
-		: std::runtime_error (fmt::format("{} failed [{}]", function, caller))
+	explicit EncodeError(std::string function, std::string caller)
+		: std::runtime_error(fmt::format("{} failed [{}]", function, caller))
 	{}
 
-	explicit EncodeError (std::string function, std::string caller, int error)
-		: std::runtime_error (fmt::format("{} failed [{}] ({})", function, caller, error))
+	explicit EncodeError(std::string function, std::string caller, int error)
+		: std::runtime_error(fmt::format("{} failed [{}] ({})", function, caller, error))
 	{}
 };
 
@@ -109,15 +109,15 @@ public:
 	/** @param m Error message.
 	 *  @param f Name of the file that this exception concerns.
 	 */
-	FileError (std::string m, boost::filesystem::path f)
-		: std::runtime_error (fmt::format("{} with {}", m, f.string()))
-		, _file (f)
+	FileError(std::string m, boost::filesystem::path f)
+		: std::runtime_error(fmt::format("{} with {}", m, f.string()))
+		, _file(f)
 	{}
 
-	virtual ~FileError () throw () {}
+	virtual ~FileError() throw () {}
 
 	/** @return name of the file that this exception concerns */
-	boost::filesystem::path file () const {
+	boost::filesystem::path file() const {
 		return _file;
 	}
 
@@ -130,8 +130,8 @@ private:
 class JoinError : public std::runtime_error
 {
 public:
-	explicit JoinError (std::string s)
-		: std::runtime_error (s)
+	explicit JoinError(std::string s)
+		: std::runtime_error(s)
 	{}
 };
 
@@ -152,18 +152,18 @@ public:
 	 *  @param error Code of error that occurred.
 	 *  @param mode Mode that we tried to open the file in.
 	 */
-	OpenFileError (boost::filesystem::path f, int error, Mode mode);
+	OpenFileError(boost::filesystem::path f, int error, Mode mode);
 };
 
 
 class FileNotFoundError : public std::runtime_error
 {
 public:
-	FileNotFoundError (boost::filesystem::path f);
-	virtual ~FileNotFoundError () throw () {}
+	FileNotFoundError(boost::filesystem::path f);
+	virtual ~FileNotFoundError() throw () {}
 
 	/** @return name of the file that this exception concerns */
-	boost::filesystem::path file () const {
+	boost::filesystem::path file() const {
 		return _file;
 	}
 
@@ -182,7 +182,7 @@ public:
 	/** @param f File that we were trying to read from.
 	 *  @param e errno value, or 0.
 	 */
-	ReadFileError (boost::filesystem::path f, int e = 0);
+	ReadFileError(boost::filesystem::path f, int e = 0);
 };
 
 
@@ -195,7 +195,7 @@ public:
 	/** @param f File that we were trying to write to.
 	 *  @param e errno value, or 0.
 	 */
-	WriteFileError (boost::filesystem::path f, int e);
+	WriteFileError(boost::filesystem::path f, int e);
 };
 
 
@@ -208,15 +208,15 @@ public:
 	/** @param s Name of setting that was required.
 	 *  @param m Message.
 	 */
-	SettingError (std::string s, std::string m)
-		: std::runtime_error (m)
-		, _setting (s)
+	SettingError(std::string s, std::string m)
+		: std::runtime_error(m)
+		, _setting(s)
 	{}
 
-	virtual ~SettingError () throw () {}
+	virtual ~SettingError() throw () {}
 
 	/** @return name of setting in question */
-	std::string setting () const {
+	std::string setting() const {
 		return _setting;
 	}
 
@@ -232,7 +232,7 @@ class MissingSettingError : public SettingError
 {
 public:
 	/** @param s Name of setting that was required */
-	explicit MissingSettingError (std::string s);
+	explicit MissingSettingError(std::string s);
 };
 
 
@@ -245,8 +245,8 @@ public:
 	/** @param s Name of setting that is bad.
 	 *  @param m Error message.
 	 */
-	BadSettingError (std::string s, std::string m)
-		: SettingError (s, m)
+	BadSettingError(std::string s, std::string m)
+		: SettingError(s, m)
 	{}
 };
 
@@ -257,13 +257,13 @@ public:
 class NetworkError : public std::runtime_error
 {
 public:
-	explicit NetworkError (std::string s, boost::optional<std::string> d = boost::optional<std::string>());
+	explicit NetworkError(std::string s, boost::optional<std::string> d = boost::optional<std::string>());
 
-	std::string summary () const {
+	std::string summary() const {
 		return _summary;
 	}
 
-	boost::optional<std::string> detail () const {
+	boost::optional<std::string> detail() const {
 		return _detail;
 	}
 
@@ -279,14 +279,14 @@ private:
 class KDMError : public std::runtime_error
 {
 public:
-	KDMError (std::string s, std::string d);
-	~KDMError () throw() {}
+	KDMError(std::string s, std::string d);
+	~KDMError() throw() {}
 
-	std::string summary () const {
+	std::string summary() const {
 		return _summary;
 	}
 
-	std::string detail () const {
+	std::string detail() const {
 		return _detail;
 	}
 
@@ -302,7 +302,7 @@ private:
 class PixelFormatError : public std::runtime_error
 {
 public:
-	PixelFormatError (std::string o, AVPixelFormat f);
+	PixelFormatError(std::string o, AVPixelFormat f);
 };
 
 
@@ -312,15 +312,15 @@ public:
 class TextSubtitleError : public FileError
 {
 public:
-	TextSubtitleError (std::string, std::string, boost::filesystem::path);
+	TextSubtitleError(std::string, std::string, boost::filesystem::path);
 };
 
 
 class DCPError : public std::runtime_error
 {
 public:
-	explicit DCPError (std::string s)
-		: std::runtime_error (s)
+	explicit DCPError(std::string s)
+		: std::runtime_error(s)
 	{}
 };
 
@@ -333,8 +333,8 @@ class ProjectFolderError : public DCPError
 {
 public:
 	/* Code which catches this exception will provide their own message */
-	ProjectFolderError ()
-		: DCPError ("dummy")
+	ProjectFolderError()
+		: DCPError("dummy")
 	{}
 };
 
@@ -349,23 +349,23 @@ public:
 class InvalidSignerError : public std::runtime_error
 {
 public:
-	InvalidSignerError ();
-	explicit InvalidSignerError (std::string reason);
+	InvalidSignerError();
+	explicit InvalidSignerError(std::string reason);
 };
 
 
 class ProgrammingError : public std::runtime_error
 {
 public:
-	ProgrammingError (std::string file, int line, std::string message = "");
+	ProgrammingError(std::string file, int line, std::string message = "");
 };
 
 
 class TextEncodingError : public std::runtime_error
 {
 public:
-	explicit TextEncodingError (std::string s)
-		: std::runtime_error (s)
+	explicit TextEncodingError(std::string s)
+		: std::runtime_error(s)
 	{}
 };
 
@@ -373,8 +373,8 @@ public:
 class MetadataError : public std::runtime_error
 {
 public:
-	explicit MetadataError (std::string s)
-		: std::runtime_error (s)
+	explicit MetadataError(std::string s)
+		: std::runtime_error(s)
 	{}
 };
 
@@ -382,8 +382,8 @@ public:
 class OldFormatError : public std::runtime_error
 {
 public:
-	explicit OldFormatError (std::string s)
-		: std::runtime_error (s)
+	explicit OldFormatError(std::string s)
+		: std::runtime_error(s)
 	{}
 };
 
@@ -391,15 +391,15 @@ public:
 class KDMAsContentError : public std::runtime_error
 {
 public:
-	KDMAsContentError ();
+	KDMAsContentError();
 };
 
 
 class GLError : public std::runtime_error
 {
 public:
-	GLError (char const* last, int e);
-	GLError (char const* message);
+	GLError(char const* last, int e);
+	GLError(char const* message);
 };
 
 
@@ -409,10 +409,10 @@ public:
 class CopyError : public std::runtime_error
 {
 public:
-	CopyError (std::string s, boost::optional<int> ext4_error = boost::optional<int>(), boost::optional<int> platform_error = boost::optional<int>());
-	virtual ~CopyError () throw () {}
+	CopyError(std::string s, boost::optional<int> ext4_error = boost::optional<int>(), boost::optional<int> platform_error = boost::optional<int>());
+	virtual ~CopyError() throw () {}
 
-	std::string message () const {
+	std::string message() const {
 		return _message;
 	}
 
@@ -437,7 +437,7 @@ private:
 class CommunicationFailedError : public CopyError
 {
 public:
-	CommunicationFailedError ();
+	CommunicationFailedError();
 };
 
 
@@ -447,14 +447,14 @@ public:
 class VerifyError : public std::runtime_error
 {
 public:
-	VerifyError (std::string s, int n);
-	virtual ~VerifyError () throw () {}
+	VerifyError(std::string s, int n);
+	virtual ~VerifyError() throw () {}
 
-	std::string message () const {
+	std::string message() const {
 		return _message;
 	}
 
-	int number () const {
+	int number() const {
 		return _number;
 	}
 
@@ -467,8 +467,8 @@ private:
 class PrivilegeError : public std::runtime_error
 {
 public:
-	explicit PrivilegeError (std::string s)
-		: std::runtime_error (s)
+	explicit PrivilegeError(std::string s)
+		: std::runtime_error(s)
 	{}
 };
 
