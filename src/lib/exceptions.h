@@ -409,7 +409,12 @@ public:
 class CopyError : public std::runtime_error
 {
 public:
-	CopyError(std::string s, boost::optional<int> ext4_error = boost::optional<int>(), boost::optional<int> platform_error = boost::optional<int>());
+	CopyError(
+		std::string s,
+		boost::optional<int> ext4_error = boost::optional<int>(),
+		boost::optional<int> platform_error = boost::optional<int>(),
+		char const* ext4_function = nullptr
+	);
 	virtual ~CopyError() throw () {}
 
 	std::string message() const {

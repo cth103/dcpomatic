@@ -113,7 +113,7 @@ write(boost::filesystem::path from, boost::filesystem::path to, uint64_t& total_
 	ext4_file out;
 	int r = ext4_fopen(&out, to.generic_string().c_str(), "wb");
 	if (r != EOK) {
-		throw CopyError(fmt::format("Failed to open file {}", to.generic_string()), r, ext4_blockdev_errno);
+		throw CopyError(fmt::format("Failed to open file {}", to.generic_string()), r, ext4_blockdev_errno, ext4_blockdev_errno_function);
 	}
 
 	dcp::File in(from, "rb");
@@ -133,7 +133,7 @@ write(boost::filesystem::path from, boost::filesystem::path to, uint64_t& total_
 		size_t read = in.read(buffer.data(), 1, this_time);
 		if (read != this_time) {
 			ext4_fclose(&out);
-			throw CopyError(fmt::format("Short read; expected {} but read {}", this_time, read), 0, ext4_blockdev_errno);
+			throw CopyError(fmt::format("Short read; expected {} but read {}", this_time, read), 0, ext4_blockdev_errno, ext4_blockdev_errno_function);
 		}
 
 		digester.add(buffer.data(), this_time);
@@ -142,11 +142,11 @@ write(boost::filesystem::path from, boost::filesystem::path to, uint64_t& total_
 		r = ext4_fwrite(&out, buffer.data(), this_time, &written);
 		if (r != EOK) {
 			ext4_fclose(&out);
-			throw CopyError(fmt::format("Write failed with {} remaining", remaining), r, ext4_blockdev_errno);
+			throw CopyError(fmt::format("Write failed with {} remaining", remaining), r, ext4_blockdev_errno, ext4_blockdev_errno_function);
 		}
 		if (written != this_time) {
 			ext4_fclose(&out);
-			throw CopyError(fmt::format("Short write; expected {} but wrote {}", this_time, written), 0, ext4_blockdev_errno);
+			throw CopyError(fmt::format("Short write; expected {} but wrote {}", this_time, written), 0, ext4_blockdev_errno, ext4_blockdev_errno_function);
 		}
 		remaining -= this_time;
 		total_remaining -= this_time;
@@ -237,7 +237,7 @@ copy(boost::filesystem::path from, boost::filesystem::path to, uint64_t& total_r
 	if (is_directory(from)) {
 		int r = ext4_dir_mk(cr.generic_string().c_str());
 		if (r != EOK) {
-			throw CopyError(fmt::format("Failed to create directory {}", cr.generic_string()), r, ext4_blockdev_errno);
+			throw CopyError(fmt::format("Failed to create directory {}", cr.generic_string()), r, ext4_blockdev_errno, ext4_blockdev_errno_function);
 		}
 		set_timestamps_to_now(cr);
 
@@ -318,7 +318,7 @@ try
 #endif
 
 	if (!bd) {
-		throw CopyError("Failed to open drive", 0, ext4_blockdev_errno);
+		throw CopyError("Failed to open drive", 0, ext4_blockdev_errno, ext4_blockdev_errno_function);
 	}
 	LOG_DISK("Opened drive");
 
@@ -331,14 +331,14 @@ try
 	/* XXX: not sure if disk_id matters */
 	int r = ext4_mbr_write(bd, &parts, 0);
 	if (r) {
-		throw CopyError("Failed to write MBR", r, ext4_blockdev_errno);
+		throw CopyError("Failed to write MBR", r, ext4_blockdev_errno, ext4_blockdev_errno_function);
 	}
 	LOG_DISK("Wrote MBR");
 
 	struct ext4_mbr_bdevs bdevs;
 	r = ext4_mbr_scan(bd, &bdevs);
 	if (r != EOK) {
-		throw CopyError("Failed to read MBR", r, ext4_blockdev_errno);
+		throw CopyError("Failed to read MBR", r, ext4_blockdev_errno, ext4_blockdev_errno_function);
 	}
 
 #ifdef DCPOMATIC_LINUX
@@ -370,25 +370,25 @@ try
 #endif
 
 	if (!bd) {
-		throw CopyError("Failed to open partition", 0, ext4_blockdev_errno);
+		throw CopyError("Failed to open partition", 0, ext4_blockdev_errno, ext4_blockdev_errno_function);
 	}
 	LOG_DISK("Opened partition");
 
 	r = ext4_mkfs(&fs, bd, &info, F_SET_EXT2, format_progress, nanomsg);
 	if (r != EOK) {
-		throw CopyError("Failed to make filesystem", r, ext4_blockdev_errno);
+		throw CopyError("Failed to make filesystem", r, ext4_blockdev_errno, ext4_blockdev_errno_function);
 	}
 	LOG_DISK("Made filesystem");
 
 	r = ext4_device_register(bd, "ext4_fs");
 	if (r != EOK) {
-		throw CopyError("Failed to register device", r, ext4_blockdev_errno);
+		throw CopyError("Failed to register device", r, ext4_blockdev_errno, ext4_blockdev_errno_function);
 	}
 	LOG_DISK("Registered device");
 
 	r = ext4_mount("ext4_fs", "/mp/", false);
 	if (r != EOK) {
-		throw CopyError("Failed to mount device", r, ext4_blockdev_errno);
+		throw CopyError("Failed to mount device", r, ext4_blockdev_errno, ext4_blockdev_errno_function);
 	}
 	LOG_DISK("Mounted device");
 
@@ -404,11 +404,11 @@ try
 	/* Unmount and re-mount to make sure the write has finished */
 	r = ext4_umount("/mp/");
 	if (r != EOK) {
-		throw CopyError("Failed to unmount device", r, ext4_blockdev_errno);
+		throw CopyError("Failed to unmount device", r, ext4_blockdev_errno, ext4_blockdev_errno_function);
 	}
 	r = ext4_mount("ext4_fs", "/mp/", false);
 	if (r != EOK) {
-		throw CopyError("Failed to mount device", r, ext4_blockdev_errno);
+		throw CopyError("Failed to mount device", r, ext4_blockdev_errno, ext4_blockdev_errno_function);
 	}
 	LOG_DISK("Re-mounted device");
 
@@ -416,7 +416,7 @@ try
 
 	r = ext4_umount("/mp/");
 	if (r != EOK) {
-		throw CopyError("Failed to unmount device", r, ext4_blockdev_errno);
+		throw CopyError("Failed to unmount device", r, ext4_blockdev_errno, ext4_blockdev_errno_function);
 	}
 
 	ext4_device_unregister("ext4_fs");

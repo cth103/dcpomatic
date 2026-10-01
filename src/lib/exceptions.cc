@@ -148,8 +148,13 @@ GLError::GLError(char const* message)
 }
 
 
-CopyError::CopyError(string m, optional<int> ext4, optional<int> platform)
-	: runtime_error(fmt::format("{}{}{}", m, ext4 ? fmt::format(" ({})", *ext4) : "", platform ? fmt::format(" ({})", *platform) : ""))
+CopyError::CopyError(
+	string m,
+	optional<int> ext4,
+	optional<int> platform,
+	char const* function
+	)
+	: runtime_error(fmt::format("{}{}{}{}", m, ext4 ? fmt::format(" ({})", *ext4) : "", platform ? fmt::format(" ({})", *platform) : "", function ? fmt::format(" ({})", function) : ""))
 	, _message(m)
 	, _ext4_number(ext4)
 	, _platform_number(platform)
