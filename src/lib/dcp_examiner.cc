@@ -357,6 +357,7 @@ DCPExaminer::DCPExaminer(shared_ptr<const DCPContent> content, bool tolerant)
 	}
 	_standard = selected_cpl->standard();
 	_main_sound_configuration = selected_cpl->main_sound_configuration();
+	_main_picture_active_area = selected_cpl->main_picture_active_area();
 	if (!selected_cpl->reels().empty()) {
 		auto first_reel = selected_cpl->reels()[0];
 		_three_d = first_reel->main_picture() && first_reel->main_picture()->asset_ref().resolved() && dynamic_pointer_cast<dcp::StereoJ2KPictureAsset>(first_reel->main_picture()->asset());

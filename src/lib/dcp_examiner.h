@@ -159,6 +159,10 @@ public:
 		return _main_sound_configuration;
 	}
 
+	boost::optional<dcp::Size> main_picture_active_area() const {
+		return _main_picture_active_area;
+	}
+
 	boost::optional<VideoEncoding> video_encoding() const {
 		return _video_encoding;
 	}
@@ -266,6 +270,7 @@ private:
 	bool _kdm_valid = false;
 	boost::optional<dcp::Standard> _standard;
 	boost::optional<dcp::MainSoundConfiguration> _main_sound_configuration;
+	boost::optional<dcp::Size> _main_picture_active_area;
 	boost::optional<VideoEncoding> _video_encoding;
 	bool _three_d = false;
 	boost::optional<dcp::ContentKind> _content_kind;

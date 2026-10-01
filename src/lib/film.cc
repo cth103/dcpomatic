@@ -1922,7 +1922,12 @@ Film::active_area() const
 	dcp::Size active;
 
 	for (auto i: content()) {
-		if (i->video) {
+		auto dcp = dynamic_pointer_cast<DCPContent>(i);
+		if (dcp && dcp->main_picture_active_area()) {
+			auto area = dcp->main_picture_active_area();
+			active.width = max(active.width, area->width);
+			active.height = max(active.height, area->height);
+		} else if (i->video) {
 			if (auto s = i->video->scaled_size(frame)) {
 				active.width = max(active.width, s->width);
 				active.height = max(active.height, s->height);

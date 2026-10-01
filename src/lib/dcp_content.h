@@ -196,6 +196,11 @@ public:
 		return _main_sound_configuration;
 	}
 
+	boost::optional<dcp::Size> main_picture_active_area() const {
+		boost::mutex::scoped_lock lm(_mutex);
+		return _main_picture_active_area;
+	}
+
 	boost::optional<VideoEncoding> video_encoding() const {
 		boost::mutex::scoped_lock lm(_mutex);
 		return _video_encoding;
@@ -289,6 +294,7 @@ private:
 
 	boost::optional<dcp::Standard> _standard;
 	boost::optional<dcp::MainSoundConfiguration> _main_sound_configuration;
+	boost::optional<dcp::Size> _main_picture_active_area;
 	boost::optional<VideoEncoding> _video_encoding;
 	boost::optional<dcp::ContentKind> _content_kind;
 	bool _three_d;

@@ -128,8 +128,15 @@ DCPContent::DCPContent(cxml::ConstNodePtr node, boost::optional<boost::filesyste
 			DCPOMATIC_ASSERT(false);
 		}
 	}
+
 	if (auto msc = node->optional_string_child("MainSoundConfiguration")) {
 		_main_sound_configuration = dcp::MainSoundConfiguration(*msc);
+	}
+
+	if (auto mpaa_width = node->optional_number_child<int>("MainPictureActiveAreaWidth")) {
+		if (auto mpaa_height = node->optional_number_child<int>("MainPictureActiveAreaHeight")) {
+			_main_picture_active_area = dcp::Size(*mpaa_width, *mpaa_height);
+		}
 	}
 
 	if (auto encoding = node->optional_string_child("VideoEncoding")) {
@@ -347,6 +354,7 @@ DCPContent::examine(shared_ptr<const Film> film, shared_ptr<Job> job, bool toler
 		_kdm_valid = examiner->kdm_valid();
 		_standard = examiner->standard();
 		_main_sound_configuration = examiner->main_sound_configuration();
+		_main_picture_active_area = examiner->main_picture_active_area();
 		_video_encoding = examiner->video_encoding();
 		_three_d = examiner->three_d();
 		_content_kind = examiner->content_kind();
