@@ -1087,6 +1087,8 @@ private:
 			table->Add(s, 1);
 		}
 
+		checkbox(_("Add multiple subtitle languages to ISDCF name"), _add_multiple_open_text_languages_to_isdcf_name);
+
 		_maximum_j2k_video_bit_rate->SetRange(250, 1000);
 		_maximum_j2k_video_bit_rate->Bind(wxEVT_SPINCTRL, boost::bind(&NonStandardPage::maximum_j2k_video_bit_rate_changed, this));
 		_maximum_mpeg2_video_bit_rate->SetRange(50, 100);
@@ -1101,6 +1103,7 @@ private:
 #endif
 		_isdcf_name_part_length->SetRange(1, 256);
 		_isdcf_name_part_length->Bind(wxEVT_SPINCTRL, boost::bind(&NonStandardPage::isdcf_name_part_length_changed, this));
+		_add_multiple_open_text_languages_to_isdcf_name->bind(&NonStandardPage::add_multiple_open_text_languages_to_isdcf_name_changed, this);
 	}
 
 	void config_changed() override
@@ -1118,6 +1121,7 @@ private:
 		checked_set(_allow_mpeg2, config->allow_mpeg2());
 #endif
 		checked_set(_isdcf_name_part_length, config->isdcf_name_part_length());
+		checked_set(_add_multiple_open_text_languages_to_isdcf_name, config->add_multiple_open_text_languages_to_isdcf_name());
 	}
 
 	void maximum_j2k_video_bit_rate_changed()
@@ -1167,6 +1171,11 @@ private:
 		Config::instance()->set_isdcf_name_part_length(_isdcf_name_part_length->GetValue());
 	}
 
+	void add_multiple_open_text_languages_to_isdcf_name_changed()
+	{
+		Config::instance()->set_add_multiple_open_text_languages_to_isdcf_name(_add_multiple_open_text_languages_to_isdcf_name->GetValue());
+	}
+
 	wxSpinCtrl* _maximum_j2k_video_bit_rate = nullptr;
 	wxSpinCtrl* _maximum_mpeg2_video_bit_rate = nullptr;
 	CheckBox* _allow_any_dcp_frame_rate = nullptr;
@@ -1176,6 +1185,7 @@ private:
 	CheckBox* _allow_smpte_bv20 = nullptr;
 	CheckBox* _allow_mpeg2 = nullptr;
 	wxSpinCtrl* _isdcf_name_part_length = nullptr;
+	CheckBox* _add_multiple_open_text_languages_to_isdcf_name = nullptr;
 };
 
 

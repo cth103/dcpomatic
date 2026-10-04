@@ -539,7 +539,7 @@ BOOST_AUTO_TEST_CASE(ov_subs_in_vf_name)
 	ov_dcp->set_reference_text(TextType::OPEN_SUBTITLE, true);
 	vf->set_isdcf_date(boost::gregorian::date(2023, boost::gregorian::Jan, 18));
 
-	BOOST_CHECK_EQUAL(vf->isdcf_name(false), "Foo_TST-1_F_XX-DE_51-HI-VI_2K_20230118_SMPTE_VF");
+	BOOST_CHECK_EQUAL(vf->isdcf_name(false, false), "Foo_TST-1_F_XX-DE_51-HI-VI_2K_20230118_SMPTE_VF");
 }
 
 

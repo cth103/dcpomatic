@@ -125,8 +125,8 @@ public:
 
 	void copy_from(std::shared_ptr<const Film> film, std::function<void (float)> set_progress);
 
-	std::string isdcf_name(bool if_created_now) const;
-	std::string dcp_name(bool if_created_now = false) const;
+	std::string isdcf_name(bool if_created_now, bool multiple_open_text_languages) const;
+	std::string dcp_name(bool if_created_now = false, bool multiple_open_text_languages = false) const;
 
 	/** @return true if our state has changed since we last saved it */
 	bool dirty() const {

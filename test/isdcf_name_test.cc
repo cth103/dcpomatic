@@ -40,7 +40,6 @@
 
 
 using std::make_shared;
-using std::shared_ptr;
 using std::string;
 
 
@@ -62,11 +61,11 @@ BOOST_AUTO_TEST_CASE(isdcf_name_test)
 	film->set_studio(string("ST"));
 	film->set_facility(string("FAC"));
 	film->set_interop(true);
-	BOOST_CHECK_EQUAL(film->isdcf_name(false), "MyNiceFilm_FTR-1_F_EN-XX_GB-PG_10_2K_ST_20140704_FAC_IOP_OV");
+	BOOST_CHECK_EQUAL(film->isdcf_name(false, false), "MyNiceFilm_FTR-1_F_EN-XX_GB-PG_10_2K_ST_20140704_FAC_IOP_OV");
 
 	/* Check that specifying no audio language writes XX */
 	film->set_audio_language(boost::none);
-	BOOST_CHECK_EQUAL(film->isdcf_name(false), "MyNiceFilm_FTR-1_F_XX-XX_GB-PG_10_2K_ST_20140704_FAC_IOP_OV");
+	BOOST_CHECK_EQUAL(film->isdcf_name(false, false), "MyNiceFilm_FTR-1_F_XX-XX_GB-PG_10_2K_ST_20140704_FAC_IOP_OV");
 
 	/* Test a long name and some different data */
 
@@ -92,16 +91,16 @@ BOOST_AUTO_TEST_CASE(isdcf_name_test)
 	BOOST_REQUIRE(!wait_for_jobs());
 	film->set_audio_language(dcp::LanguageTag("de-DE"));
 	film->set_interop(false);
-	BOOST_CHECK_EQUAL(film->isdcf_name(false), "MyNiceFilmWith_TLR-2_S_DE-fr_US-R_MOS_4K_DI_20140704_PPF_SMPTE_OV");
+	BOOST_CHECK_EQUAL(film->isdcf_name(false, false), "MyNiceFilmWith_TLR-2_S_DE-fr_US-R_MOS_4K_DI_20140704_PPF_SMPTE_OV");
 
 	/* Test the subs being marked as open captions */
 	text->text[0]->set_type(TextType::OPEN_CAPTION);
-	BOOST_CHECK_EQUAL(film->isdcf_name(false), "MyNiceFilmWith_TLR-2_S_DE-fr-OCAP_US-R_MOS_4K_DI_20140704_PPF_SMPTE_OV");
+	BOOST_CHECK_EQUAL(film->isdcf_name(false, false), "MyNiceFilmWith_TLR-2_S_DE-fr-OCAP_US-R_MOS_4K_DI_20140704_PPF_SMPTE_OV");
 	text->text[0]->set_type(TextType::OPEN_SUBTITLE);
 
 	/* Test to see that RU ratings like 6+ are stripped of their + */
 	film->set_ratings({dcp::Rating("RARS", "6+")});
-	BOOST_CHECK_EQUAL(film->dcp_name(false), "MyNiceFilmWith_TLR-2_S_DE-fr_US-6_MOS_4K_DI_20140704_PPF_SMPTE_OV");
+	BOOST_CHECK_EQUAL(film->dcp_name(false, false), "MyNiceFilmWith_TLR-2_S_DE-fr_US-6_MOS_4K_DI_20140704_PPF_SMPTE_OV");
 	film->set_ratings({dcp::Rating("MPA", "R")});
 
 	/* Test interior aspect ratio: shouldn't be shown with trailers */
@@ -111,33 +110,33 @@ BOOST_AUTO_TEST_CASE(isdcf_name_test)
 	BOOST_REQUIRE(!wait_for_jobs());
 	content->video->set_custom_ratio(1.33);
 	film->set_container(Ratio::from_id("185"));
-	BOOST_CHECK_EQUAL(film->isdcf_name(false), "MyNiceFilmWith_TLR-2_F_DE-fr_US-R_MOS_4K_DI_20140704_PPF_SMPTE_OV");
+	BOOST_CHECK_EQUAL(film->isdcf_name(false, false), "MyNiceFilmWith_TLR-2_F_DE-fr_US-R_MOS_4K_DI_20140704_PPF_SMPTE_OV");
 
 	/* But should be shown for anything else */
 
 	film->set_dcp_content_type(DCPContentType::from_isdcf_name("XSN"));
-	BOOST_CHECK_EQUAL(film->isdcf_name(false), "MyNiceFilmWith_XSN-2_F-133_DE-fr_US-R_MOS_4K_DI_20140704_PPF_SMPTE_OV");
+	BOOST_CHECK_EQUAL(film->isdcf_name(false, false), "MyNiceFilmWith_XSN-2_F-133_DE-fr_US-R_MOS_4K_DI_20140704_PPF_SMPTE_OV");
 
 	/* And it should always be numeric */
 
 	content->video->set_custom_ratio(2.39);
-	BOOST_CHECK_EQUAL(film->isdcf_name(false), "MyNiceFilmWith_XSN-2_F-239_DE-fr_US-R_MOS_4K_DI_20140704_PPF_SMPTE_OV");
+	BOOST_CHECK_EQUAL(film->isdcf_name(false, false), "MyNiceFilmWith_XSN-2_F-239_DE-fr_US-R_MOS_4K_DI_20140704_PPF_SMPTE_OV");
 
 	content->video->set_custom_ratio(1.9);
-	BOOST_CHECK_EQUAL(film->isdcf_name(false), "MyNiceFilmWith_XSN-2_F-190_DE-fr_US-R_MOS_4K_DI_20140704_PPF_SMPTE_OV");
+	BOOST_CHECK_EQUAL(film->isdcf_name(false, false), "MyNiceFilmWith_XSN-2_F-190_DE-fr_US-R_MOS_4K_DI_20140704_PPF_SMPTE_OV");
 
 	/* And it should be possible to set any 'strange' ratio, not just the ones we know about */
 	content->video->set_custom_ratio(2.2);
-	BOOST_CHECK_EQUAL(film->isdcf_name(false), "MyNiceFilmWith_XSN-2_F-220_DE-fr_US-R_MOS_4K_DI_20140704_PPF_SMPTE_OV");
+	BOOST_CHECK_EQUAL(film->isdcf_name(false, false), "MyNiceFilmWith_XSN-2_F-220_DE-fr_US-R_MOS_4K_DI_20140704_PPF_SMPTE_OV");
 	content->video->set_custom_ratio(1.95);
-	BOOST_CHECK_EQUAL(film->isdcf_name(false), "MyNiceFilmWith_XSN-2_F-195_DE-fr_US-R_MOS_4K_DI_20140704_PPF_SMPTE_OV");
+	BOOST_CHECK_EQUAL(film->isdcf_name(false, false), "MyNiceFilmWith_XSN-2_F-195_DE-fr_US-R_MOS_4K_DI_20140704_PPF_SMPTE_OV");
 
 	content->video->set_custom_ratio(1.33);
 
 	/* Test 3D */
 
 	film->set_three_d(true);
-	BOOST_CHECK_EQUAL(film->isdcf_name(false), "MyNiceFilmWith_XSN-2-3D_F-133_DE-fr_US-R_MOS_4K_DI_20140704_PPF_SMPTE-3D_OV");
+	BOOST_CHECK_EQUAL(film->isdcf_name(false, false), "MyNiceFilmWith_XSN-2-3D_F-133_DE-fr_US-R_MOS_4K_DI_20140704_PPF_SMPTE-3D_OV");
 
 	/* Test content type modifiers */
 
@@ -149,7 +148,7 @@ BOOST_AUTO_TEST_CASE(isdcf_name_test)
 	film->set_chain(string("MyChain"));
 	film->set_luminance(dcp::Luminance(4.5, dcp::Luminance::Unit::FOOT_LAMBERT));
 	film->set_video_frame_rate(48);
-	BOOST_CHECK_EQUAL(film->isdcf_name(false), "MyNiceFilmWith_XSN-2-Temp-Pre-RedBand-MyChain-2D-45fl-48_F-133_DE-fr_US-R_MOS_4K_DI_20140704_PPF_SMPTE_OV");
+	BOOST_CHECK_EQUAL(film->isdcf_name(false, false), "MyNiceFilmWith_XSN-2-Temp-Pre-RedBand-MyChain-2D-45fl-48_F-133_DE-fr_US-R_MOS_4K_DI_20140704_PPF_SMPTE_OV");
 
 	/* Test a name which is already in camelCase */
 
@@ -162,22 +161,22 @@ BOOST_AUTO_TEST_CASE(isdcf_name_test)
 	film->set_luminance(boost::none);
 	film->set_video_frame_rate(24);
 	film->set_name("IKnowCamels");
-	BOOST_CHECK_EQUAL(film->isdcf_name(false), "IKnowCamels_XSN-2_F-133_DE-fr_US-R_MOS_4K_DI_20140704_PPF_SMPTE_OV");
+	BOOST_CHECK_EQUAL(film->isdcf_name(false, false), "IKnowCamels_XSN-2_F-133_DE-fr_US-R_MOS_4K_DI_20140704_PPF_SMPTE_OV");
 
 	/* And one in capitals */
 
 	film->set_name("LIKE SHOUTING");
-	BOOST_CHECK_EQUAL(film->isdcf_name(false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_MOS_4K_DI_20140704_PPF_SMPTE_OV");
+	BOOST_CHECK_EQUAL(film->isdcf_name(false, false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_MOS_4K_DI_20140704_PPF_SMPTE_OV");
 
 	/* And one with underscores */
 
 	film->set_name("LIKE_SHOUTING");
-	BOOST_CHECK_EQUAL(film->isdcf_name(false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_MOS_4K_DI_20140704_PPF_SMPTE_OV");
+	BOOST_CHECK_EQUAL(film->isdcf_name(false, false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_MOS_4K_DI_20140704_PPF_SMPTE_OV");
 
 	/* And one with hyphens */
 
 	film->set_name("LIKE-SHOUTING");
-	BOOST_CHECK_EQUAL(film->isdcf_name(false), "LIKE-SHOUTING_XSN-2_F-133_DE-fr_US-R_MOS_4K_DI_20140704_PPF_SMPTE_OV");
+	BOOST_CHECK_EQUAL(film->isdcf_name(false, false), "LIKE-SHOUTING_XSN-2_F-133_DE-fr_US-R_MOS_4K_DI_20140704_PPF_SMPTE_OV");
 
 	film->set_name("LIKE_SHOUTING");
 
@@ -187,48 +186,48 @@ BOOST_AUTO_TEST_CASE(isdcf_name_test)
 	auto sound = make_shared<FFmpegContent>("test/data/sine_440.wav");
 	film->examine_and_add_content({sound});
 	BOOST_REQUIRE(!wait_for_jobs());
-	BOOST_CHECK_EQUAL(film->isdcf_name(false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_10_4K_DI_20140704_PPF_SMPTE_OV");
+	BOOST_CHECK_EQUAL(film->isdcf_name(false, false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_10_4K_DI_20140704_PPF_SMPTE_OV");
 
 	AudioMapping mapping = sound->audio->mapping();
 
 	mapping.set(0, dcp::Channel::LEFT, 1.0);
 	sound->audio->set_mapping(mapping);
-	BOOST_CHECK_EQUAL(film->isdcf_name(false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_20_4K_DI_20140704_PPF_SMPTE_OV");
+	BOOST_CHECK_EQUAL(film->isdcf_name(false, false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_20_4K_DI_20140704_PPF_SMPTE_OV");
 	mapping.set(0, dcp::Channel::RIGHT, 1.0);
 	sound->audio->set_mapping(mapping);
-	BOOST_CHECK_EQUAL(film->isdcf_name(false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_30_4K_DI_20140704_PPF_SMPTE_OV");
+	BOOST_CHECK_EQUAL(film->isdcf_name(false, false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_30_4K_DI_20140704_PPF_SMPTE_OV");
 	mapping.set(0, dcp::Channel::LFE, 1.0);
 	sound->audio->set_mapping(mapping);
-	BOOST_CHECK_EQUAL(film->isdcf_name(false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_31_4K_DI_20140704_PPF_SMPTE_OV");
+	BOOST_CHECK_EQUAL(film->isdcf_name(false, false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_31_4K_DI_20140704_PPF_SMPTE_OV");
 	mapping.set(0, dcp::Channel::LS, 1.0);
 	sound->audio->set_mapping(mapping);
-	BOOST_CHECK_EQUAL(film->isdcf_name(false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_41_4K_DI_20140704_PPF_SMPTE_OV");
+	BOOST_CHECK_EQUAL(film->isdcf_name(false, false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_41_4K_DI_20140704_PPF_SMPTE_OV");
 	mapping.set(0, dcp::Channel::RS, 1.0);
 	sound->audio->set_mapping(mapping);
-	BOOST_CHECK_EQUAL(film->isdcf_name(false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_51_4K_DI_20140704_PPF_SMPTE_OV");
+	BOOST_CHECK_EQUAL(film->isdcf_name(false, false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_51_4K_DI_20140704_PPF_SMPTE_OV");
 	mapping.set(0, dcp::Channel::HI, 1.0);
 	sound->audio->set_mapping(mapping);
-	BOOST_CHECK_EQUAL(film->isdcf_name(false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_51_4K_DI_20140704_PPF_SMPTE_OV");
+	BOOST_CHECK_EQUAL(film->isdcf_name(false, false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_51_4K_DI_20140704_PPF_SMPTE_OV");
 
 	film->set_audio_channels(8);
 	mapping.set(0, dcp::Channel::HI, 1.0);
 	sound->audio->set_mapping(mapping);
-	BOOST_CHECK_EQUAL(film->isdcf_name(false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_51-HI_4K_DI_20140704_PPF_SMPTE_OV");
+	BOOST_CHECK_EQUAL(film->isdcf_name(false, false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_51-HI_4K_DI_20140704_PPF_SMPTE_OV");
 	mapping.set(0, dcp::Channel::VI, 1.0);
 	sound->audio->set_mapping(mapping);
-	BOOST_CHECK_EQUAL(film->isdcf_name(false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_51-HI-VI_4K_DI_20140704_PPF_SMPTE_OV");
+	BOOST_CHECK_EQUAL(film->isdcf_name(false, false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_51-HI-VI_4K_DI_20140704_PPF_SMPTE_OV");
 
 	film->set_audio_channels(10);
 	mapping.set(0, dcp::Channel::HI, 0.0);
 	mapping.set(0, dcp::Channel::VI, 0.0);
 	sound->audio->set_mapping(mapping);
-	BOOST_CHECK_EQUAL(film->isdcf_name(false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_51_4K_DI_20140704_PPF_SMPTE_OV");
+	BOOST_CHECK_EQUAL(film->isdcf_name(false, false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_51_4K_DI_20140704_PPF_SMPTE_OV");
 	mapping.set(0, dcp::Channel::HI, 1.0);
 	sound->audio->set_mapping(mapping);
-	BOOST_CHECK_EQUAL(film->isdcf_name(false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_51-HI_4K_DI_20140704_PPF_SMPTE_OV");
+	BOOST_CHECK_EQUAL(film->isdcf_name(false, false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_51-HI_4K_DI_20140704_PPF_SMPTE_OV");
 	mapping.set(0, dcp::Channel::VI, 1.0);
 	sound->audio->set_mapping(mapping);
-	BOOST_CHECK_EQUAL(film->isdcf_name(false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_51-HI-VI_4K_DI_20140704_PPF_SMPTE_OV");
+	BOOST_CHECK_EQUAL(film->isdcf_name(false, false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_51-HI-VI_4K_DI_20140704_PPF_SMPTE_OV");
 
 	film->set_audio_channels(12);
 	mapping.set(0, dcp::Channel::BSL, 1.0);
@@ -236,21 +235,21 @@ BOOST_AUTO_TEST_CASE(isdcf_name_test)
 	mapping.set(0, dcp::Channel::HI, 0.0);
 	mapping.set(0, dcp::Channel::VI, 0.0);
 	sound->audio->set_mapping(mapping);
-	BOOST_CHECK_EQUAL(film->isdcf_name(false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_71_4K_DI_20140704_PPF_SMPTE_OV");
+	BOOST_CHECK_EQUAL(film->isdcf_name(false, false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_71_4K_DI_20140704_PPF_SMPTE_OV");
 	mapping.set(0, dcp::Channel::HI, 1.0);
 	sound->audio->set_mapping(mapping);
-	BOOST_CHECK_EQUAL(film->isdcf_name(false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_71-HI_4K_DI_20140704_PPF_SMPTE_OV");
+	BOOST_CHECK_EQUAL(film->isdcf_name(false, false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_71-HI_4K_DI_20140704_PPF_SMPTE_OV");
 	mapping.set(0, dcp::Channel::VI, 1.0);
 	sound->audio->set_mapping(mapping);
-	BOOST_CHECK_EQUAL(film->isdcf_name(false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_71-HI-VI_4K_DI_20140704_PPF_SMPTE_OV");
+	BOOST_CHECK_EQUAL(film->isdcf_name(false, false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_71-HI-VI_4K_DI_20140704_PPF_SMPTE_OV");
 
 	/* Check that the proper codes are used, not just part of the language code; in this case, QBP instead of PT(#2235) */
 	film->set_audio_language(dcp::LanguageTag("pt-BR"));
-	BOOST_CHECK_EQUAL(film->isdcf_name(false), "LikeShouting_XSN-2_F-133_QBP-fr_US-R_71-HI-VI_4K_DI_20140704_PPF_SMPTE_OV");
+	BOOST_CHECK_EQUAL(film->isdcf_name(false, false), "LikeShouting_XSN-2_F-133_QBP-fr_US-R_71-HI-VI_4K_DI_20140704_PPF_SMPTE_OV");
 
 	/* Check that nothing is added for non-existent ratings */
 	film->set_ratings({});
-	BOOST_CHECK_EQUAL(film->isdcf_name(false), "LikeShouting_XSN-2_F-133_QBP-fr_US_71-HI-VI_4K_DI_20140704_PPF_SMPTE_OV");
+	BOOST_CHECK_EQUAL(film->isdcf_name(false, false), "LikeShouting_XSN-2_F-133_QBP-fr_US_71-HI-VI_4K_DI_20140704_PPF_SMPTE_OV");
 }
 
 
@@ -261,7 +260,7 @@ BOOST_AUTO_TEST_CASE(isdcf_name_with_atmos)
 	film->set_isdcf_date(boost::gregorian::date(2023, boost::gregorian::Jan, 18));
 	film->set_name("Hello");
 
-	BOOST_CHECK_EQUAL(film->isdcf_name(false), "Hello_TST-1_F_XX-XX_MOS-IAB_2K_20230118_SMPTE_OV");
+	BOOST_CHECK_EQUAL(film->isdcf_name(false, false), "Hello_TST-1_F_XX-XX_MOS-IAB_2K_20230118_SMPTE_OV");
 }
 
 
@@ -275,7 +274,7 @@ BOOST_AUTO_TEST_CASE(isdcf_name_with_ccap)
 	film->set_isdcf_date(boost::gregorian::date(2023, boost::gregorian::Jan, 18));
 	film->set_name("Hello");
 
-	BOOST_CHECK_EQUAL(film->isdcf_name(false), "Hello_TST-1_F_XX-DE-CCAP_MOS_2K_20230118_SMPTE_OV");
+	BOOST_CHECK_EQUAL(film->isdcf_name(false, false), "Hello_TST-1_F_XX-DE-CCAP_MOS_2K_20230118_SMPTE_OV");
 }
 
 
@@ -289,7 +288,7 @@ BOOST_AUTO_TEST_CASE(isdcf_name_with_closed_subtitles)
 	film->set_isdcf_date(boost::gregorian::date(2023, boost::gregorian::Jan, 18));
 	film->set_name("Hello");
 
-	BOOST_CHECK_EQUAL(film->isdcf_name(false), "Hello_TST-1_F_XX-DE_MOS_2K_20230118_SMPTE_OV");
+	BOOST_CHECK_EQUAL(film->isdcf_name(false, false), "Hello_TST-1_F_XX-DE_MOS_2K_20230118_SMPTE_OV");
 }
 
 
@@ -298,6 +297,24 @@ BOOST_AUTO_TEST_CASE(isdcf_name_with_accent)
 	auto film = new_test_film("isdcf_name_test_with_accent");
 	film->set_isdcf_date(boost::gregorian::date(2023, boost::gregorian::Jan, 18));
 	film->set_name("BezüglichMeineKatze");
-	BOOST_CHECK_EQUAL(film->isdcf_name(false), "BezuglichMeine_TST-1_F_XX-XX_MOS_2K_20230118_SMPTE_OV");
+	BOOST_CHECK_EQUAL(film->isdcf_name(false, false), "BezuglichMeine_TST-1_F_XX-XX_MOS_2K_20230118_SMPTE_OV");
+}
+
+
+BOOST_AUTO_TEST_CASE(isdcf_name_with_non_standard_multiple_languages)
+{
+	auto content1 = content_factory("test/data/short.srt")[0];
+	auto content2 = content_factory("test/data/short.srt")[0];
+	auto film = new_test_film("isdcf_name_with_non_standard_multiple_languages", { content1, content2 });
+	content1->text[0]->set_use(true);
+	content1->text[0]->set_type(TextType::OPEN_SUBTITLE);
+	content1->text[0]->set_language(dcp::LanguageTag("fr-FR"));
+	content2->text[0]->set_use(true);
+	content2->text[0]->set_type(TextType::OPEN_SUBTITLE);
+	content2->text[0]->set_language(dcp::LanguageTag("de-DE"));
+	content2->text[0]->set_language_is_additional(true);
+	film->set_isdcf_date(boost::gregorian::date(2023, boost::gregorian::Jan, 18));
+	film->set_name("Hello World");
+	BOOST_CHECK_EQUAL(film->isdcf_name(false, true), "HelloWorld_TST-1_F_XX-FR-DE_MOS_2K_20230118_SMPTE_OV");
 }
 

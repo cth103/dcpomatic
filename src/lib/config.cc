@@ -212,6 +212,7 @@ Config::set_defaults()
 	_allow_smpte_bv20 = false;
 	_allow_mpeg2 = false;
 	_isdcf_name_part_length = 14;
+	_add_multiple_open_text_languages_to_isdcf_name = false;
 	_enable_player_http_server = false;
 	_player_http_server_port = 8080;
 	_relative_paths = false;
@@ -653,6 +654,7 @@ try
 	_allow_smpte_bv20 = f.optional_bool_child("AllowSMPTEBv20").get_value_or(false);
 	_allow_mpeg2 = f.optional_bool_child("AllowMPEG2").get_value_or(false);
 	_isdcf_name_part_length = f.optional_number_child<int>("ISDCFNamePartLength").get_value_or(14);
+	_add_multiple_open_text_languages_to_isdcf_name = f.optional_bool_child("AddMultipleOpenTextLanguagesToISDCFName").get_value_or(false);
 	_enable_player_http_server = f.optional_bool_child("EnablePlayerHTTPServer").get_value_or(false);
 	_player_http_server_port = f.optional_number_child<int>("PlayerHTTPServerPort").get_value_or(8080);
 	_relative_paths = f.optional_bool_child("RelativePaths").get_value_or(false);
@@ -1140,6 +1142,8 @@ Config::write_config() const
 	cxml::add_text_child(root, "AllowMPEG2", _allow_mpeg2 ? "1" : "0");
 	/* [XML] ISDCFNamePartLength Maximum length of the "name" part of an ISDCF name, which should be 14 according to the standard */
 	cxml::add_text_child(root, "ISDCFNamePartLength", fmt::to_string(_isdcf_name_part_length));
+	/* [XML] AddMultipleOpenTextLanguagesToISDCFName 1 to write all subtitle languages to the ISDCF name rather than just the main one */
+	cxml::add_text_child(root, "AddMultipleOpenTextLanguagesToISDCFName", _add_multiple_open_text_languages_to_isdcf_name ? "1" : "0");
 	/* [XML] EnablePlayerHTTPServer 1 to enable a HTTP server to control the player, otherwise 0 */
 	cxml::add_text_child(root, "EnablePlayerHTTPServer", _enable_player_http_server ? "1" : "0");
 	/* [XML] PlayerHTTPServerPort Port to use for player HTTP server (if enabled) */

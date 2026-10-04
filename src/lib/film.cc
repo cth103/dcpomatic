@@ -935,7 +935,7 @@ Film::closed_text_languages(bool* caption) const
 
 /** @return a ISDCF-compliant name for a DCP of this film */
 string
-Film::isdcf_name(bool if_created_now) const
+Film::isdcf_name(bool if_created_now, bool multiple_open_text_languages) const
 {
 	string isdcf_name;
 
@@ -1073,15 +1073,25 @@ Film::isdcf_name(bool if_created_now) const
 	bool closed_caption = false;
 	auto const closed_langs = closed_text_languages(&closed_caption);
 
-	if (open_langs.first && open_langs.first->language()) {
-		auto lang = entry_for_language(*open_langs.first);
+	auto entry_for_open_language = [&entry_for_language, &to_upper](dcp::LanguageTag const& tag, bool burnt_in) {
+		auto lang = entry_for_language(tag);
 		if (burnt_in) {
 			transform(lang.begin(), lang.end(), lang.begin(), ::tolower);
 		} else {
 			lang = to_upper(lang);
 		}
+		return lang;
+	};
 
-		isdcf_name += "-" + lang;
+	if (open_langs.first && open_langs.first->language()) {
+		isdcf_name += "-" + entry_for_open_language(*open_langs.first, burnt_in);
+		if (multiple_open_text_languages) {
+			for (auto const& lang: open_langs.second) {
+				if (lang.language()) {
+					isdcf_name += "-" + entry_for_open_language(lang, burnt_in);
+				}
+			}
+		}
 		if (open_caption) {
 			isdcf_name += "-OCAP";
 		}
@@ -1169,11 +1179,11 @@ Film::isdcf_name(bool if_created_now) const
 
 /** @return name to give the DCP */
 string
-Film::dcp_name(bool if_created_now) const
+Film::dcp_name(bool if_created_now, bool multiple_open_text_languages) const
 {
 	string unfiltered;
 	if (use_isdcf_name()) {
-		return careful_string_filter(isdcf_name(if_created_now));
+		return careful_string_filter(isdcf_name(if_created_now, multiple_open_text_languages));
 	}
 
 	return careful_string_filter(name());

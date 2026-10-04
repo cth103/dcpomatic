@@ -117,6 +117,7 @@ public:
 		AUTO_CROP_THRESHOLD,
 		ALLOW_SMPTE_BV20,
 		ISDCF_NAME_PART_LENGTH,
+		ADD_MULTIPLE_OPEN_TEXT_LANGUAGES_TO_ISDCF_NAME,
 		ALLOW_ANY_CONTAINER,
 #ifdef DCPOMATIC_GROK
 		GROK,
@@ -671,6 +672,10 @@ public:
 
 	int isdcf_name_part_length() const {
 		return _isdcf_name_part_length;
+	}
+
+	bool add_multiple_open_text_languages_to_isdcf_name() const {
+		return _add_multiple_open_text_languages_to_isdcf_name;
 	}
 
 	bool enable_player_http_server() const {
@@ -1253,6 +1258,10 @@ public:
 		maybe_set(_isdcf_name_part_length, length, ISDCF_NAME_PART_LENGTH);
 	}
 
+	void set_add_multiple_open_text_languages_to_isdcf_name(bool add) {
+		maybe_set(_add_multiple_open_text_languages_to_isdcf_name, add, ADD_MULTIPLE_OPEN_TEXT_LANGUAGES_TO_ISDCF_NAME);
+	}
+
 	void set_enable_player_http_server(bool enable) {
 		maybe_set(_enable_player_http_server, enable);
 	}
@@ -1512,6 +1521,7 @@ private:
 	bool _allow_smpte_bv20;
 	bool _allow_mpeg2;
 	int _isdcf_name_part_length;
+	bool _add_multiple_open_text_languages_to_isdcf_name;
 	bool _enable_player_http_server;
 	int _player_http_server_port;
 	bool _relative_paths;

@@ -1040,7 +1040,7 @@ private:
 
 	void jobs_export_video_file()
 	{
-		ExportVideoFileDialog dialog(this, _film->isdcf_name(true));
+		ExportVideoFileDialog dialog(this, _film->isdcf_name(true, Config::instance()->add_multiple_open_text_languages_to_isdcf_name()));
 		if (dialog.ShowModal() != wxID_OK) {
 			return;
 		}
@@ -1067,7 +1067,7 @@ private:
 
 	void jobs_export_audio_file()
 	{
-		ExportAudioFileDialog dialog(this, _film->isdcf_name(true));
+		ExportAudioFileDialog dialog(this, _film->isdcf_name(true, Config::instance()->add_multiple_open_text_languages_to_isdcf_name()));
 		if (dialog.ShowModal() != wxID_OK) {
 			return;
 		}
@@ -1127,7 +1127,7 @@ private:
 				_film,
 				job,
 				dialog.path(),
-				_film->isdcf_name(true),
+				_film->isdcf_name(true, Config::instance()->add_multiple_open_text_languages_to_isdcf_name()),
 				dialog.split_reels(),
 				dialog.include_font(),
 				dialog.format()

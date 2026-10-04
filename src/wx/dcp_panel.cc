@@ -774,8 +774,9 @@ DCPPanel::setup_dcp_name()
 		return;
 	}
 
-	_dcp_name->SetLabel(std_to_wx(_film->dcp_name(true)));
-	_dcp_name->SetToolTip(std_to_wx(_film->dcp_name(true)));
+	auto const name = std_to_wx(_film->dcp_name(true, Config::instance()->add_multiple_open_text_languages_to_isdcf_name()));
+	_dcp_name->SetLabel(name);
+	_dcp_name->SetToolTip(name);
 }
 
 
@@ -831,7 +832,7 @@ DCPPanel::config_changed(Config::Property p)
 			film_changed(FilmProperty::INTEROP);
 			film_changed(FilmProperty::LIMIT_TO_SMPTE_BV20);
 		}
-	} else if (p == Config::ISDCF_NAME_PART_LENGTH) {
+	} else if (p == Config::ISDCF_NAME_PART_LENGTH || p == Config::ADD_MULTIPLE_OPEN_TEXT_LANGUAGES_TO_ISDCF_NAME) {
 		setup_dcp_name();
 	} else if (p == Config::ALLOW_ANY_CONTAINER) {
 		setup_container();
@@ -1061,7 +1062,7 @@ DCPPanel::copy_isdcf_name_button_clicked()
 		 */
 		_film->set_name(name.substr(0, name.find("_")));
 	}
-	_film->set_name(_film->isdcf_name(true));
+	_film->set_name(_film->isdcf_name(true, Config::instance()->add_multiple_open_text_languages_to_isdcf_name()));
 	_film->set_use_isdcf_name(false);
 }
 
