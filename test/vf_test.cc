@@ -700,7 +700,7 @@ BOOST_AUTO_TEST_CASE(vf_gets_main_sound_configuration_from_ov)
 	auto ov_dcp = make_shared<DCPContent>(ov->dir(ov->dcp_name()));
 	auto vf = new_test_film("vf_gets_main_sound_configuration_from_ov_vf", { ov_dcp });
 	ov_dcp->set_reference_audio(true);
-	make_and_verify_dcp(vf, { dcp::VerificationNote::Code::EXTERNAL_ASSET });
+	make_and_verify_dcp(vf, { dcp::VerificationNote::Code::EXTERNAL_ASSET }, false);
 
 	dcp::DCP check(vf->dir(vf->dcp_name()));
 	check.read();
@@ -724,7 +724,7 @@ BOOST_AUTO_TEST_CASE(vf_gets_main_picture_active_area_from_ov)
 	auto ov_dcp = make_shared<DCPContent>(ov->dir(ov->dcp_name()));
 	auto vf = new_test_film("vf_gets_main_sound_configuration_from_ov_vf", { ov_dcp });
 	ov_dcp->set_reference_video(true);
-	make_and_verify_dcp(vf, { dcp::VerificationNote::Code::EXTERNAL_ASSET });
+	make_and_verify_dcp(vf, { dcp::VerificationNote::Code::EXTERNAL_ASSET }, false);
 
 	dcp::DCP check(vf->dir(vf->dcp_name()));
 	check.read();
