@@ -360,7 +360,9 @@ function make_dmg {
     local full_name="$3"
     local exes="$4"
 	tmp_dmg=dcpomatic_tmp.dmg
-	if [ "$ARCH2" == "" ]; then
+	if [[ "$ARCH1" == "arm64/11.0" && "$ARCH2" == "" ]]; then
+		dmg="$full_name $version macOS11.0+.dmg"
+	elif [[ "$ARCH1" == "x86_64/10.8" && "$ARCH2" == "" ]]; then
 		dmg="$full_name $version macOS10.8+.dmg"
 	else
 		dmg="$full_name $version macOS10.10+.dmg"
