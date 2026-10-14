@@ -178,7 +178,11 @@ MarkersPanel::mouse_moved(wxMouseEvent& ev)
 				auto rect = wxRect(mouse.x, mouse.y, 8 * factor, panel_height * factor);
 				auto hmsf = marker.t1.split(film->video_frame_rate());
 				auto const tip_text = fmt::format("{} {:02d}:{:02d}:{:02d}:{:02d}", dcp::marker_to_string(*marker.marker), hmsf.h, hmsf.m, hmsf.s, hmsf.f);
+#if wxCHECK_VERSION(3, 3, 2)
+				_tip = wxTipWindow::New(this, std_to_wx(tip_text), 100, &rect);
+#else
 				_tip = new wxTipWindow(this, std_to_wx(tip_text), 100, &_tip, &rect);
+#endif
 			}
 #endif
 		}

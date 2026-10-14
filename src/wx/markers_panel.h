@@ -24,12 +24,10 @@
 #include "lib/layout_markers.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
+#include <wx/tipwin.h>
 #include <wx/wx.h>
 LIBDCP_ENABLE_WARNINGS
 #include <map>
-
-
-class wxTipWindow;
 
 
 class MarkersPanel : public wxPanel
@@ -51,7 +49,11 @@ private:
 	void film_changed(ChangeType type, FilmProperty property);
 	void layout();
 
+#if wxCHECK_VERSION(3, 3, 2)
+	wxTipWindow::Ref _tip;
+#else
 	wxTipWindow* _tip = nullptr;
+#endif
 
 	std::weak_ptr<Film> _film;
 	std::vector<MarkerLayoutComponent> _components;
