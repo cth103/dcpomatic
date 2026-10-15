@@ -90,6 +90,15 @@ dcpomatic::wx::setup_i18n()
 	wxTranslations::Set(translations);
 
 	dcpomatic::setup_i18n(config_lang.get_value_or(""));
+
+	if (__builtin_available(macOS 27.2, *)) {
+	} else if (__builtin_available(macOS 27.0, *)) {
+		/* Work around bug in NSAlert (fixed in 27.2). See
+		 * https://developer.apple.com/forums/thread/844971
+		 * https://github.com/wxWidgets/wxWidgets/issues/26977
+		 */
+		wxSetlocale(LC_NUMERIC, "C");
+	}
 }
 
 
