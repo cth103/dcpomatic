@@ -34,10 +34,6 @@ LIBDCP_ENABLE_WARNINGS
 #include <boost/version.hpp>
 
 
-using std::make_pair;
-using std::pair;
-using std::shared_ptr;
-using std::vector;
 using std::weak_ptr;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
