@@ -15,6 +15,7 @@ supported_by.Add (wxT ("100films"));
 supported_by.Add (wxT ("Zone 33"));
 supported_by.Add (wxT ("Red Star 3D"));
 supported_by.Add (wxT ("@diz_qo"));
+supported_by.Add (wxT ("Aimee A."));
 supported_by.Add (wxT ("Studio Korsholm AB"));
 supported_by.Add (wxT ("Yellow Tone AB"));
 supported_by.Add (wxT ("Louise Abbott"));
