@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-10-16 00:11+0200\n"
-"PO-Revision-Date: 2026-09-19 20:32+0200\n"
+"PO-Revision-Date: 2026-10-16 21:40+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -467,9 +467,8 @@ msgid "Add language..."
 msgstr "Voeg taal toe..."
 
 #: src/wx/full_config_dialog.cc:1090
-#, fuzzy
 msgid "Add multiple subtitle languages to ISDCF name"
-msgstr "Extra ondertitelingstalen"
+msgstr "Voeg meerdere ondertitelings-talen aan de ISDCF-naam toe"
 
 #: src/wx/text_panel.cc:360
 msgid "Add new..."
@@ -1649,15 +1648,16 @@ msgid "Full (JPEG, 0-255)"
 msgstr "Full (JPEG, 0-255)"
 
 #: src/wx/smpte_metadata_dialog.cc:60
-#, fuzzy
 msgid "Full content title text"
-msgstr "Meedere content geselecteerd"
+msgstr "Full content title text"
 
 #: src/wx/smpte_metadata_dialog.cc:62
 msgid ""
 "Full human-readable title, appropriate for the release territory and without "
 "technical or versioning information.  A display hint to the user."
 msgstr ""
+"Volledige, voor mensen leesbare titel, passend bij het releasegebied en "
+"zonder technische of versie-informatie.  Een weergave-hint voor de gebruiker."
 
 #: src/wx/timing_panel.cc:104
 msgid "Full length"
