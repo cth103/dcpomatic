@@ -20,6 +20,7 @@
 
 #include "wx/about_dialog.h"
 #include "wx/audio_dialog.h"
+#include "wx/channel_inspector_dialog.h"
 #include "wx/file_dialog.h"
 #include "wx/film_viewer.h"
 #include "wx/i18n_setup.h"
@@ -143,6 +144,7 @@ enum {
 	ID_tools_check_for_updates,
 	ID_tools_timing,
 	ID_tools_system_information,
+	ID_tools_channel_inspector,
 	/* IDs for shortcuts (with no associated menu item) */
 	ID_start_stop,
 	ID_go_back_frame,
@@ -253,6 +255,7 @@ public:
 		Bind(wxEVT_MENU, boost::bind(&DOMFrame::tools_check_for_updates, this), ID_tools_check_for_updates);
 		Bind(wxEVT_MENU, boost::bind(&DOMFrame::tools_timing, this), ID_tools_timing);
 		Bind(wxEVT_MENU, boost::bind(&DOMFrame::tools_system_information, this), ID_tools_system_information);
+		Bind(wxEVT_MENU, boost::bind(&DOMFrame::tools_channel_inspector, this), ID_tools_channel_inspector);
 
 		Bind(wxEVT_CLOSE_WINDOW, boost::bind(&DOMFrame::close, this, _1));
 
@@ -737,6 +740,7 @@ private:
 		tools->Append(ID_tools_check_for_updates, _("Check for updates"));
 		tools->Append(ID_tools_timing, _("Timing..."));
 		tools->Append(ID_tools_system_information, _("System information..."));
+		tools->Append(ID_tools_channel_inspector, _("Channel inspector..."));
 
 		auto help = new wxMenu;
 #ifdef __WXOSX__
@@ -1079,6 +1083,15 @@ private:
 		_system_information_dialog->Show();
 	}
 
+	void tools_channel_inspector()
+	{
+		if (!_channel_inspector_dialog) {
+			_channel_inspector_dialog.reset(this, _viewer);
+		}
+
+		_channel_inspector_dialog->open();
+	}
+
 	void help_about()
 	{
 		AboutDialog dialog(this);
@@ -1301,6 +1314,7 @@ private:
 	FilmViewer _viewer;
 	Controls* _controls;
 	wx_ptr<SystemInformationDialog> _system_information_dialog;
+	wx_ptr<ChannelInspectorDialog> _channel_inspector_dialog;
 	std::shared_ptr<Film> _film;
 	boost::signals2::scoped_connection _config_changed_connection;
 	boost::signals2::scoped_connection _examine_job_connection;
