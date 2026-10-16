@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-18 13:39+0200\n"
+"POT-Creation-Date: 2026-10-16 00:11+0200\n"
 "PO-Revision-Date: 2026-03-10 20:52+0900\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -119,7 +119,7 @@ msgstr ""
 "(C) 2012-2026 Carl Hetherington, Terrence Meiczinger\n"
 "Aaron Boxer"
 
-#: src/wx/full_config_dialog.cc:1227 src/wx/player_config_dialog.cc:131
+#: src/wx/full_config_dialog.cc:1237 src/wx/player_config_dialog.cc:131
 #, c-format
 msgid "(restart %s to change display mode)"
 msgstr "(디스플레이 모드를 변경하려면 %s을(를) 재시작하세요)"
@@ -187,11 +187,11 @@ msgstr "2D"
 msgid "2D version of 3D DCP"
 msgstr "3D DCP의 2D 버전"
 
-#: src/wx/dcp_panel.cc:904
+#: src/wx/dcp_panel.cc:905
 msgid "2K"
 msgstr "2K"
 
-#: src/wx/dcp_panel.cc:877 src/wx/video_panel.cc:189
+#: src/wx/dcp_panel.cc:878 src/wx/video_panel.cc:189
 msgid "3D"
 msgstr "3D"
 
@@ -220,11 +220,11 @@ msgstr "3D 위/아래"
 msgid "4 - L/C/R/Lfe"
 msgstr "4 - L/C/R/Lfe"
 
-#: src/wx/dcp_panel.cc:1010
+#: src/wx/dcp_panel.cc:1011
 msgid "48kHz"
 msgstr "48kHz"
 
-#: src/wx/dcp_panel.cc:905
+#: src/wx/dcp_panel.cc:906
 msgid "4K"
 msgstr "4K"
 
@@ -236,7 +236,7 @@ msgstr "6 - 5.1"
 msgid "8 - 5.1/HI/VI"
 msgstr "8 - 5.1/HI/VI"
 
-#: src/wx/dcp_panel.cc:1011
+#: src/wx/dcp_panel.cc:1012
 msgid "96kHz"
 msgstr "96kHz"
 
@@ -463,6 +463,10 @@ msgstr "이미지 시퀀스 추가"
 msgid "Add language..."
 msgstr "언어 추가…"
 
+#: src/wx/full_config_dialog.cc:1090
+msgid "Add multiple subtitle languages to ISDCF name"
+msgstr ""
+
 #: src/wx/text_panel.cc:360
 #, fuzzy
 msgid "Add new..."
@@ -527,7 +531,7 @@ msgstr "주소"
 msgid "Adjust white point to"
 msgstr "화이트 포인트를 다음으로 조정:"
 
-#: src/wx/full_config_dialog.cc:1195 src/wx/kdm_config_dialog.cc:105
+#: src/wx/full_config_dialog.cc:1205 src/wx/kdm_config_dialog.cc:105
 #: src/wx/metadata_dialog.cc:79 src/wx/player_config_dialog.cc:277
 msgid "Advanced"
 msgstr "고급"
@@ -830,7 +834,7 @@ msgstr "체인"
 msgid "Channel gain"
 msgstr "채널 게인"
 
-#: src/wx/audio_dialog.cc:110 src/wx/dcp_panel.cc:979
+#: src/wx/audio_dialog.cc:110 src/wx/dcp_panel.cc:980
 #, fuzzy
 msgid "Channels"
 msgstr "채널"
@@ -933,7 +937,7 @@ msgid "Configuration file"
 msgstr "설정 파일"
 
 #. TRANSLATORS: translate the word "Timing" here; do not include the "Config|" prefix
-#: src/wx/full_config_dialog.cc:1308 src/wx/player_config_dialog.cc:319
+#: src/wx/full_config_dialog.cc:1318 src/wx/player_config_dialog.cc:319
 msgid "Config|Timing"
 msgstr "타이밍"
 
@@ -941,7 +945,7 @@ msgstr "타이밍"
 msgid "Confirm KDM email"
 msgstr "KDM 이메일 확인"
 
-#: src/wx/dcp_panel.cc:865
+#: src/wx/dcp_panel.cc:866
 msgid "Container"
 msgstr "컨테이너"
 
@@ -967,7 +971,7 @@ msgstr "콘텐츠 디렉터리"
 msgid "Content version"
 msgstr "콘텐츠 버전"
 
-#: src/wx/smpte_metadata_dialog.cc:107
+#: src/wx/smpte_metadata_dialog.cc:109
 #, fuzzy
 msgid "Content versions"
 msgstr "콘텐츠 버전들"
@@ -1142,7 +1146,7 @@ msgstr "DCP"
 msgid "DCP Text Track"
 msgstr "DCP 텍스트 트랙"
 
-#: src/wx/full_config_dialog.cc:1274
+#: src/wx/full_config_dialog.cc:1284
 msgid "DCP asset filename format"
 msgstr "DCP 에셋 파일명 형식"
 
@@ -1150,7 +1154,7 @@ msgstr "DCP 에셋 파일명 형식"
 msgid "DCP directory"
 msgstr "DCP 디렉터리"
 
-#: src/wx/full_config_dialog.cc:1255
+#: src/wx/full_config_dialog.cc:1265
 msgid "DCP metadata filename format"
 msgstr "DCP 메타데이터 파일명 형식"
 
@@ -1158,31 +1162,31 @@ msgstr "DCP 메타데이터 파일명 형식"
 msgid "Debug log file"
 msgstr "디버그 로그 파일"
 
-#: src/wx/full_config_dialog.cc:1310
+#: src/wx/full_config_dialog.cc:1320
 msgid "Debug: 3D"
 msgstr "디버그: 3D"
 
-#: src/wx/full_config_dialog.cc:1320
+#: src/wx/full_config_dialog.cc:1330
 msgid "Debug: audio analysis"
 msgstr "디버그: 오디오 분석"
 
-#: src/wx/full_config_dialog.cc:1322
+#: src/wx/full_config_dialog.cc:1332
 msgid "Debug: butler"
 msgstr "디버그: 버틀러"
 
-#: src/wx/full_config_dialog.cc:1314 src/wx/kdm_config_dialog.cc:142
+#: src/wx/full_config_dialog.cc:1324 src/wx/kdm_config_dialog.cc:142
 msgid "Debug: email sending"
 msgstr "디버그: 이메일 전송"
 
-#: src/wx/full_config_dialog.cc:1312
+#: src/wx/full_config_dialog.cc:1322
 msgid "Debug: encode"
 msgstr "디버그: 인코딩"
 
-#: src/wx/full_config_dialog.cc:1318 src/wx/player_config_dialog.cc:323
+#: src/wx/full_config_dialog.cc:1328 src/wx/player_config_dialog.cc:323
 msgid "Debug: player"
 msgstr "디버그: 플레이어"
 
-#: src/wx/full_config_dialog.cc:1316 src/wx/player_config_dialog.cc:321
+#: src/wx/full_config_dialog.cc:1326 src/wx/player_config_dialog.cc:321
 msgid "Debug: video view"
 msgstr "디버그: 비디오 뷰"
 
@@ -1270,7 +1274,7 @@ msgstr "상세 내용…"
 msgid "Direct Sound"
 msgstr "다이렉트 사운드"
 
-#: src/wx/smpte_metadata_dialog.cc:97
+#: src/wx/smpte_metadata_dialog.cc:99
 msgid "Distributor"
 msgstr "배급사"
 
@@ -1353,7 +1357,7 @@ msgid "Edit screen"
 msgstr "스크린 편집"
 
 #: src/wx/audio_mapping_view.cc:90 src/wx/content_advanced_dialog.cc:75
-#: src/wx/dcp_panel.cc:994 src/wx/language_tag_widget.cc:51
+#: src/wx/dcp_panel.cc:995 src/wx/language_tag_widget.cc:51
 #: src/wx/recipients_panel.cc:71 src/wx/region_subtag_widget.cc:52
 #: src/wx/video_panel.cc:159 src/wx/video_panel.cc:170
 #: src/wx/editable_list.h:149
@@ -1423,7 +1427,7 @@ msgstr "종료"
 msgid "Enter your email address for the contact, not %s"
 msgstr "연락을 위한 이메일 주소를 입력하세요. (%s 아님)"
 
-#: src/wx/full_config_dialog.cc:1305 src/wx/kdm_config_dialog.cc:140
+#: src/wx/full_config_dialog.cc:1315 src/wx/kdm_config_dialog.cc:140
 #: src/wx/player_config_dialog.cc:316 src/wx/verify_dcp_result_panel.cc:61
 msgid "Errors"
 msgstr "오류"
@@ -1522,7 +1526,7 @@ msgstr "설정을 복사해올 필름"
 msgid "Filters"
 msgstr "필터"
 
-#: src/wx/smpte_metadata_dialog.cc:142
+#: src/wx/smpte_metadata_dialog.cc:144
 #, fuzzy
 msgid "Final"
 msgstr "최종본"
@@ -1616,7 +1620,7 @@ msgstr ""
 "프레임 %frame의 이미지 컴포넌트 크기가 너무 큽니다. (컴포넌트 %component의 크"
 "기가 %size_in_bytes 바이트임)"
 
-#: src/wx/dcp_panel.cc:872
+#: src/wx/dcp_panel.cc:873
 msgid "Frame Rate"
 msgstr "프레임 레이트"
 
@@ -1652,6 +1656,17 @@ msgstr "템플릿에서"
 msgid "Full (JPEG, 0-255)"
 msgstr "풀 (JPEG, 0-255)"
 
+#: src/wx/smpte_metadata_dialog.cc:60
+#, fuzzy
+msgid "Full content title text"
+msgstr "여러 콘텐츠가 선택됨"
+
+#: src/wx/smpte_metadata_dialog.cc:62
+msgid ""
+"Full human-readable title, appropriate for the release territory and without "
+"technical or versioning information.  A display hint to the user."
+msgstr ""
+
 #: src/wx/timing_panel.cc:104
 msgid "Full length"
 msgstr "전체 길이"
@@ -1677,7 +1692,7 @@ msgstr "게인 계산기"
 msgid "Gain for content channel %d in DCP channel %d"
 msgstr "DCP 채널 %d에서 콘텐츠 채널 %d에 대한 게인"
 
-#: src/wx/content_properties_dialog.cc:89 src/wx/full_config_dialog.cc:1301
+#: src/wx/content_properties_dialog.cc:89 src/wx/full_config_dialog.cc:1311
 #: src/wx/general_preferences_page.cc:66 src/wx/kdm_config_dialog.cc:136
 #: src/wx/player_config_dialog.cc:312
 msgid "General"
@@ -1970,7 +1985,7 @@ msgstr "LEQ(m) %.2fdB"
 msgid "Label"
 msgstr "라벨"
 
-#: src/wx/dcp_panel.cc:992 src/wx/dcp_text_track_dialog.cc:35
+#: src/wx/dcp_panel.cc:993 src/wx/dcp_text_track_dialog.cc:35
 #: src/wx/text_panel.cc:166
 msgid "Language"
 msgstr "언어"
@@ -2015,7 +2030,7 @@ msgstr "타이틀 크레딧의 마지막 프레임 (LFTC)"
 msgid "Later"
 msgstr "뒤로"
 
-#: src/wx/full_config_dialog.cc:1242
+#: src/wx/full_config_dialog.cc:1252
 msgid "Layout for short screen"
 msgstr "작은 화면용 레이아웃"
 
@@ -2072,7 +2087,7 @@ msgstr "플레이리스트 및 KDM 불러오기"
 msgid "Locations"
 msgstr "위치"
 
-#: src/wx/full_config_dialog.cc:1299 src/wx/kdm_config_dialog.cc:134
+#: src/wx/full_config_dialog.cc:1309 src/wx/kdm_config_dialog.cc:134
 #: src/wx/player_config_dialog.cc:310
 msgid "Log"
 msgstr "로그"
@@ -2189,7 +2204,7 @@ msgstr "최대 JPEG2000 비트레이트"
 msgid "Maximum MPEG2 bit rate"
 msgstr "최대 MPEG2 비트레이트"
 
-#: src/wx/full_config_dialog.cc:1247
+#: src/wx/full_config_dialog.cc:1257
 msgid "Maximum number of frames to store per thread"
 msgstr "스레드당 저장할 최대 프레임 수"
 
@@ -2197,7 +2212,7 @@ msgstr "스레드당 저장할 최대 프레임 수"
 msgid "Maximum reel size"
 msgstr "최대 릴 크기"
 
-#: src/wx/dcp_panel.cc:881 src/wx/full_config_dialog.cc:1050
+#: src/wx/dcp_panel.cc:882 src/wx/full_config_dialog.cc:1050
 #: src/wx/full_config_dialog.cc:1059
 msgid "Mbit/s"
 msgstr "Mbit/s"
@@ -2458,7 +2473,7 @@ msgid "Non-standard"
 msgstr "비표준"
 
 #: src/wx/content_advanced_dialog.cc:74 src/wx/content_advanced_dialog.cc:155
-#: src/wx/content_advanced_dialog.cc:163 src/wx/dcp_panel.cc:1097
+#: src/wx/content_advanced_dialog.cc:163 src/wx/dcp_panel.cc:1098
 #: src/wx/subtitle_appearance_dialog.cc:151
 msgid "None"
 msgstr "없음"
@@ -2510,11 +2525,11 @@ msgstr "꺼짐"
 msgid "Offset"
 msgstr "오프셋"
 
-#: src/wx/full_config_dialog.cc:1238
+#: src/wx/full_config_dialog.cc:1248
 msgid "Only servers encode"
 msgstr "서버에서만 인코딩"
 
-#: src/wx/full_config_dialog.cc:1328 src/wx/player_config_dialog.cc:329
+#: src/wx/full_config_dialog.cc:1338 src/wx/player_config_dialog.cc:329
 msgid "Open console window"
 msgstr "콘솔 창 열기"
 
@@ -2522,7 +2537,7 @@ msgstr "콘솔 창 열기"
 msgid "Open the timeline for the film (Ctrl+T)."
 msgstr "필름의 타임라인을 엽니다 (Ctrl+T)"
 
-#: src/wx/full_config_dialog.cc:1335 src/wx/player_config_dialog.cc:127
+#: src/wx/full_config_dialog.cc:1345 src/wx/player_config_dialog.cc:127
 msgid "OpenGL (faster)"
 msgstr "OpenGL (빠름)"
 
@@ -2697,7 +2712,7 @@ msgstr "잠시만 기다려 주세요. 오디오를 분석 중입니다..."
 msgid "Position"
 msgstr "위치"
 
-#: src/wx/metadata_dialog.cc:308 src/wx/smpte_metadata_dialog.cc:141
+#: src/wx/metadata_dialog.cc:308 src/wx/smpte_metadata_dialog.cc:143
 msgid "Pre-release"
 msgstr "프리 릴리즈"
 
@@ -2705,7 +2720,7 @@ msgstr "프리 릴리즈"
 msgid "Previous"
 msgstr "이전"
 
-#: src/wx/dcp_panel.cc:988
+#: src/wx/dcp_panel.cc:989
 msgid "Processor"
 msgstr "프로세서"
 
@@ -2762,11 +2777,11 @@ msgstr "등급"
 #. TRANSLATORS: this is a button which opens a dialog box in which you can
 #. edit the project's ratings (i.e. the legal/advisory limits on what age
 #. groups can watch the film).
-#: src/wx/interop_metadata_dialog.cc:61 src/wx/smpte_metadata_dialog.cc:76
+#: src/wx/interop_metadata_dialog.cc:61 src/wx/smpte_metadata_dialog.cc:78
 msgid "Ratings"
 msgstr "등급"
 
-#: src/wx/dcp_panel.cc:883
+#: src/wx/dcp_panel.cc:884
 msgid "Re-encode JPEG2000 data from input"
 msgstr "입력 데이터로부터 JPEG2000 다시 인코딩"
 
@@ -2924,7 +2939,7 @@ msgstr "기본 제목 및 본문으로 초기화"
 msgid "Reset to default text"
 msgstr "기본 텍스트로 초기화"
 
-#: src/wx/dcp_panel.cc:869
+#: src/wx/dcp_panel.cc:870
 msgid "Resolution"
 msgstr "해상도"
 
@@ -2998,7 +3013,7 @@ msgstr "프로젝트와 같은 위치"
 msgid "Sample peak is %.2fdB at %s on %s"
 msgstr "샘플 피크는 %s %s에서 %.2fdB입니다"
 
-#: src/wx/dcp_panel.cc:984
+#: src/wx/dcp_panel.cc:985
 msgid "Sample rate"
 msgstr "샘플 레이트"
 
@@ -3212,11 +3227,11 @@ msgstr "그림자"
 msgid "Show"
 msgstr "표시"
 
-#: src/wx/full_config_dialog.cc:1234
+#: src/wx/full_config_dialog.cc:1244
 msgid "Show experimental audio processors"
 msgstr "실험적 오디오 프로세서 표시"
 
-#: src/wx/audio_panel.cc:72 src/wx/dcp_panel.cc:996
+#: src/wx/audio_panel.cc:72 src/wx/dcp_panel.cc:997
 msgid "Show graph of audio levels..."
 msgstr "오디오 레벨 그래프 표시…"
 
@@ -3241,7 +3256,7 @@ msgstr "수어 비디오 언어"
 msgid "Signing DCPs and KDMs"
 msgstr "DCP와 KDM 서명"
 
-#: src/wx/full_config_dialog.cc:1333 src/wx/player_config_dialog.cc:126
+#: src/wx/full_config_dialog.cc:1343 src/wx/player_config_dialog.cc:126
 msgid "Simple (safer)"
 msgstr "단순 (안전)"
 
@@ -3354,7 +3369,7 @@ msgstr "릴의 시작"
 msgid "Start player as"
 msgstr "플레이어 시작 모드:"
 
-#: src/wx/smpte_metadata_dialog.cc:93
+#: src/wx/smpte_metadata_dialog.cc:95
 msgid "Status"
 msgstr "상태"
 
@@ -3453,7 +3468,7 @@ msgstr "템플릿 이름은 비워둘 수 없습니다."
 msgid "Templates"
 msgstr "템플릿"
 
-#: src/wx/smpte_metadata_dialog.cc:140
+#: src/wx/smpte_metadata_dialog.cc:142
 msgid "Temporary"
 msgstr "임시"
 
@@ -3827,7 +3842,7 @@ msgstr ""
 msgid "The invalid language tag %language is used."
 msgstr "유효하지 않은 언어 태그 %language이(가) 사용되었습니다."
 
-#: src/wx/smpte_metadata_dialog.cc:63
+#: src/wx/smpte_metadata_dialog.cc:302
 #, c-format
 msgid "The language that the film's title (\"%s\") is in"
 msgstr "필름 제목(\\\"%s\\\")에 사용된 언어"
@@ -4146,7 +4161,7 @@ msgstr "타이밍"
 msgid "Timing|Timing"
 msgstr "타이밍"
 
-#: src/wx/smpte_metadata_dialog.cc:60
+#: src/wx/smpte_metadata_dialog.cc:65
 msgid "Title language"
 msgstr "타이틀 언어"
 
@@ -4357,7 +4372,7 @@ msgstr "기본값으로 ISDCF 이름 사용"
 msgid "Use as"
 msgstr "다음으로 사용:"
 
-#: src/wx/dcp_panel.cc:875
+#: src/wx/dcp_panel.cc:876
 msgid "Use best"
 msgstr "최적값 사용"
 
@@ -4412,7 +4427,7 @@ msgstr "영상 에셋 상세 정보 검증"
 msgid "Verify..."
 msgstr "검증"
 
-#: src/wx/smpte_metadata_dialog.cc:112 src/wx/system_information_dialog.cc:65
+#: src/wx/smpte_metadata_dialog.cc:114 src/wx/system_information_dialog.cc:65
 msgid "Version"
 msgstr "버전"
 
@@ -4420,7 +4435,7 @@ msgstr "버전"
 msgid "Version file (VF) setup"
 msgstr "버전 파일(VF) 설정"
 
-#: src/wx/smpte_metadata_dialog.cc:89
+#: src/wx/smpte_metadata_dialog.cc:91
 msgid "Version number"
 msgstr "버전 번호"
 
@@ -4438,7 +4453,7 @@ msgstr "비디오 (MPEG, 16-235)"
 msgid "Video Waveform"
 msgstr "비디오 웨이브폼"
 
-#: src/wx/dcp_panel.cc:879
+#: src/wx/dcp_panel.cc:880
 msgid ""
 "Video bit rate\n"
 "for newly-encoded data"
@@ -4446,7 +4461,7 @@ msgstr ""
 "새로 인코딩될 데이터의\n"
 "비디오 비트레이트"
 
-#: src/wx/full_config_dialog.cc:1223 src/wx/player_config_dialog.cc:124
+#: src/wx/full_config_dialog.cc:1233 src/wx/player_config_dialog.cc:124
 msgid "Video display mode"
 msgstr "비디오 디스플레이 모드"
 
@@ -4477,7 +4492,7 @@ msgstr "WASAPI"
 msgid "WAV files (*.wav)|*.wav"
 msgstr "MOV 파일 (*.mov)|*.mov"
 
-#: src/wx/full_config_dialog.cc:1303 src/wx/kdm_config_dialog.cc:138
+#: src/wx/full_config_dialog.cc:1313 src/wx/kdm_config_dialog.cc:138
 #: src/wx/player_config_dialog.cc:314 src/wx/verify_dcp_result_panel.cc:63
 msgid "Warnings"
 msgstr "경고"
@@ -4631,7 +4646,7 @@ msgstr "컴포넌트 값"
 msgid "content"
 msgstr "콘텐츠"
 
-#: src/wx/full_config_dialog.cc:1286
+#: src/wx/full_config_dialog.cc:1296
 msgid "content filename"
 msgstr "콘텐츠 파일명"
 
@@ -4705,7 +4720,7 @@ msgstr "ms"
 msgid "not enabled"
 msgstr "비활성화됨"
 
-#: src/wx/full_config_dialog.cc:1285
+#: src/wx/full_config_dialog.cc:1295
 msgid "number of reels"
 msgstr "릴 수"
 
@@ -4733,7 +4748,7 @@ msgstr "프로토콜"
 msgid "recipient name"
 msgstr "수신자 이름"
 
-#: src/wx/full_config_dialog.cc:1284
+#: src/wx/full_config_dialog.cc:1294
 msgid "reel number"
 msgstr "릴 번호"
 
@@ -4762,11 +4777,11 @@ msgstr "종료 날짜/시간"
 msgid "to fit DCP"
 msgstr "DCP에 맞춤"
 
-#: src/wx/full_config_dialog.cc:1283
+#: src/wx/full_config_dialog.cc:1293
 msgid "type (j2c/pcm/sub)"
 msgstr "유형 (j2c/pcm/sub)"
 
-#: src/wx/full_config_dialog.cc:1264
+#: src/wx/full_config_dialog.cc:1274
 msgid "type(cpl/pkl)"
 msgstr "유형(cpl/pkl)"
 

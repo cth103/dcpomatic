@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-21 23:29+0200\n"
+"POT-Creation-Date: 2026-10-16 00:26+0200\n"
 "PO-Revision-Date: 2026-06-05 20:21+0900\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -75,7 +75,7 @@ msgstr " (%.2f:1)"
 msgid " on {}"
 msgstr "{}"
 
-#: src/lib/config.cc:1263
+#: src/lib/config.cc:1267
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -99,7 +99,7 @@ msgstr ""
 "長さ: $LENGTH\n"
 "サイズ: $SIZE\n"
 
-#: src/lib/config.cc:1241
+#: src/lib/config.cc:1245
 msgid "$JOB_NAME: $JOB_STATUS"
 msgstr "$処理名: $処理状況"
 
@@ -452,7 +452,7 @@ msgstr "BsR"
 msgid "C"
 msgstr "C"
 
-#: src/lib/exceptions.cc:196
+#: src/lib/exceptions.cc:201
 #, c++-format
 msgid "CPL {} not found"
 msgstr "CPL {} が見つかりません"
@@ -470,7 +470,7 @@ msgstr "スラッシュを含めることはできません"
 msgid "Cannot handle pixel format {} during {}"
 msgstr "{} 中にピクセル形式 {} を処理できません"
 
-#: src/lib/film.cc:1941
+#: src/lib/film.cc:1960
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr "このプロジェクトは暗号化されていない為、KDM を作成できません。"
 
@@ -557,7 +557,7 @@ msgstr "カラースペース"
 msgid "Combine DCPs"
 msgstr "複数のDCPを結合"
 
-#: src/lib/writer.cc:521
+#: src/lib/writer.cc:522
 msgid "Computing digests"
 msgstr "処理進捗"
 
@@ -784,7 +784,7 @@ msgstr "ダウンロードしたZIPファイルを開けませんでした"
 msgid "Could not open downloaded ZIP file ({}:{}: {})"
 msgstr "ダウンロードしたZIPファイルを開けませんでした ({}:{}: {})"
 
-#: src/lib/config.cc:1165
+#: src/lib/config.cc:1169
 msgid "Could not open file for writing"
 msgstr "書き込み用のファイルを開けませんでした"
 
@@ -841,11 +841,11 @@ msgstr "DCI Flat"
 msgid "DCI Scope"
 msgstr "DCI Scope"
 
-#: src/lib/film.cc:2049
+#: src/lib/film.cc:2068
 msgid "DCP"
 msgstr "DCP"
 
-#: src/lib/film.cc:2046
+#: src/lib/film.cc:2065
 #, c++-format
 msgid "DCP (via {})"
 msgstr "DCP （{}経由）"
@@ -874,7 +874,7 @@ msgstr ""
 msgid "DCP will use every other frame of the content.\n"
 msgstr "DCP はコンテンツのフレームを 1 つおきに使用します。\n"
 
-#: src/lib/film.cc:1858
+#: src/lib/film.cc:1872
 msgid ""
 "DCP-o-matic had to set your container to 1920x1080 as it's the only one that "
 "can be used with MPEG2 encoding."
@@ -882,7 +882,7 @@ msgstr ""
 "DCP-o-matic では MPEG2 エンコーディングに使用できるのは 1920x1080 のみです。"
 "その為アスペクト比と解像度を 1920x1080 に変更しましした。"
 
-#: src/lib/film.cc:1862
+#: src/lib/film.cc:1876
 #, fuzzy
 msgid ""
 "DCP-o-matic had to set your film to 2D as 3D is not yet supported with MPEG2 "
@@ -891,7 +891,7 @@ msgstr ""
 "DCP-o-matic では、MPEG2 エンコーディングではまだ 3D がサポートされていないた"
 "め、プロジェクトを 2D に設定する必要がありました。"
 
-#: src/lib/film.cc:1866
+#: src/lib/film.cc:1880
 msgid ""
 "DCP-o-matic set your container to DCI Flat as it was previously 1920x1080 "
 "and that is not a standard ratio with JPEG2000 encoding."
@@ -909,7 +909,7 @@ msgstr "Datasat AP20 or AP25"
 msgid "De-interlacing"
 msgstr "インターレース解除"
 
-#: src/lib/config.cc:1226
+#: src/lib/config.cc:1230
 #, c++-format
 msgid ""
 "Dear Projectionist\n"
@@ -936,7 +936,7 @@ msgstr ""
 "宜しくお願いいたします。\n"
 "{}"
 
-#: src/lib/exceptions.cc:178
+#: src/lib/exceptions.cc:183
 #, c++-format
 msgid "Disk full when writing {}"
 msgstr "書込みディスクが一杯です {}"
@@ -1219,7 +1219,7 @@ msgstr "このエラーの原因は不明です。{}"
 msgid "JEDEC P22"
 msgstr "JEDEC P22"
 
-#: src/lib/config.cc:415 src/lib/config.cc:1223
+#: src/lib/config.cc:416 src/lib/config.cc:1227
 msgid "KDM delivery: $CPL_NAME"
 msgstr "KDM配信: $CPL_NAME"
 
@@ -1284,7 +1284,7 @@ msgstr "対数 (100:1 range)"
 msgid "Logarithmic (316:1 range)"
 msgstr "対数(316:1 range)"
 
-#: src/lib/exceptions.cc:162
+#: src/lib/exceptions.cc:167
 #, fuzzy
 msgid "Lost communication between main and writer processes"
 msgstr "メインプロセスとライタープロセス間の通信が失われました"
@@ -1345,7 +1345,7 @@ msgstr "Mono"
 msgid "Motion compensating deinterlacer"
 msgstr "動き保障インターレース解除"
 
-#: src/lib/dcp_content.cc:213
+#: src/lib/dcp_content.cc:222
 msgid "No ASSETMAP or ASSETMAP.xml file found: is this a DCP?"
 msgstr ""
 "ASSETMAP または ASSETMAP.xml ファイルが見つかりません。これは DCP ですか?"
@@ -1892,7 +1892,7 @@ msgstr ""
 "対象の投影システムが選択したDCPレートをサポートしている場合は、DCPのフレーム"
 "レートをコンテンツに近い値に設定することをお勧めします。"
 
-#: src/lib/dcp_content.cc:767
+#: src/lib/dcp_content.cc:778
 msgid "There is no video in this DCP"
 msgstr "このDCPには動画が含まれていません"
 
@@ -1946,7 +1946,7 @@ msgstr ""
 "このファイルはKDMです。KDMをDCPコンテンツに追加するにはコンテンツを右クリック"
 "して「KDMを追加」を選択してください。"
 
-#: src/lib/film.cc:557
+#: src/lib/film.cc:560
 #, c++-format
 msgid ""
 "This film was created with a newer version of {}, and it cannot be loaded "
@@ -1955,7 +1955,7 @@ msgstr ""
 "この動画は{}の新しいバージョンで作成された為、このバージョンでは読み込むこと"
 "ができません。"
 
-#: src/lib/film.cc:538
+#: src/lib/film.cc:541
 #, c++-format
 msgid ""
 "This film was created with an older version of {}, and unfortunately it "
@@ -2155,7 +2155,7 @@ msgstr ""
 "的な機能であり音質が低下する可能性があります。続行する場合、生成されたDCPを映"
 "画館で試聴して音質が良好であることを確認してください。"
 
-#: src/lib/film.cc:1795
+#: src/lib/film.cc:1809
 #, fuzzy
 msgid ""
 "You have more than one piece of Atmos content, and they do not have the same "
@@ -2362,12 +2362,12 @@ msgid "h"
 msgstr "h"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:724
+#: src/lib/dcp_content.cc:735
 #, fuzzy
 msgid "it has a different frame rate to the film."
 msgstr "filmとはフレームレートが異なります。"
 
-#: src/lib/dcp_content.cc:806
+#: src/lib/dcp_content.cc:817
 #, c++-format
 msgid ""
 "it has a different number of audio channels than the project; set the "
@@ -2377,7 +2377,7 @@ msgstr ""
 "チャンネル数を{}に設定してください。"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:842
+#: src/lib/dcp_content.cc:853
 msgid ""
 "it has a start trim so its subtitles or closed captions must be re-written."
 msgstr ""
@@ -2385,42 +2385,42 @@ msgstr ""
 "があります。"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:777
+#: src/lib/dcp_content.cc:788
 msgid "it is 2K and the film is 4K."
 msgstr "これは2Kですが、実際は4Kです。"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:774
+#: src/lib/dcp_content.cc:785
 msgid "it is 4K and the film is 2K."
 msgstr "これは4Kですが、実際は2Kです。"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:712
+#: src/lib/dcp_content.cc:723
 msgid "it is Interop and the film is set to SMPTE."
 msgstr "これはInteropですが、実際はSMPTEです。"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:716
+#: src/lib/dcp_content.cc:727
 msgid "it is SMPTE and the film is set to Interop."
 msgstr "これはSMPTE ですが、実際はInteropです。"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:817
+#: src/lib/dcp_content.cc:828
 msgid "it overlaps other audio content."
 msgstr "他の音声コンテンツと重複します。"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:852
+#: src/lib/dcp_content.cc:863
 msgid "it overlaps other text content."
 msgstr "他のテキストコンテンツと重複します。"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:792
+#: src/lib/dcp_content.cc:803
 msgid "it overlaps other video content."
 msgstr "他の動画コンテンツと重複します。"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:747
+#: src/lib/dcp_content.cc:758
 #, fuzzy
 msgid ""
 "its reel start and end points are not included in the film's list; set the "
@@ -2430,7 +2430,7 @@ msgstr ""
 "設定してください。"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:782
+#: src/lib/dcp_content.cc:793
 msgid "its video frame size differs from the film's."
 msgstr "その動画フレームサイズは動画本体のサイズと異なります。"
 
@@ -2449,7 +2449,7 @@ msgid "name"
 msgstr "名前"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:836
+#: src/lib/dcp_content.cc:847
 msgid ""
 "one of its closed caption reels has a non-zero entry point so it must be re-"
 "written."
@@ -2458,7 +2458,7 @@ msgstr ""
 "め、書き直す必要があります。"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:830
+#: src/lib/dcp_content.cc:841
 msgid ""
 "one of its subtitle reels has a non-zero entry point so it must be re-"
 "written."
@@ -2497,7 +2497,7 @@ msgstr "{} ({} GB) [{}]"
 msgid "{} [Atmos]"
 msgstr "{} [Atmos]"
 
-#: src/lib/dcp_content.cc:385
+#: src/lib/dcp_content.cc:396
 #, c++-format
 msgid "{} [DCP]"
 msgstr "{} [DCP]"
@@ -2526,7 +2526,7 @@ msgstr ""
 "{} はファイル {} ({}) を開けませんでした。ファイルが存在しないか、予期しない"
 "形式の可能性があります。"
 
-#: src/lib/film.cc:1832
+#: src/lib/film.cc:1846
 #, c++-format
 msgid ""
 "{} had to change your settings for referring to DCPs as OV.  Please review "
@@ -2535,7 +2535,7 @@ msgstr ""
 "{}はDCPをOVとして参照するために設定を変更する必要がありました。設定を確認し、"
 "正しいことを確認してください。"
 
-#: src/lib/film.cc:1798
+#: src/lib/film.cc:1812
 #, fuzzy, c++-format
 msgid ""
 "{} had to change your settings so that the film's frame rate is the same as "
@@ -2544,7 +2544,7 @@ msgstr ""
 "{} は、映画のフレームレートが Atmos コンテンツのフレームレートと同じになるよ"
 "うに設定を変更する必要がありました。"
 
-#: src/lib/film.cc:1845
+#: src/lib/film.cc:1859
 #, fuzzy, c++-format
 msgid ""
 "{} had to remove one of your custom reel boundaries as it no longer lies "
@@ -2553,7 +2553,7 @@ msgstr ""
 "{} は、カスタム リール境界の 1 つがフィルム内に収まらなくなったため、削除する"
 "必要がありました。"
 
-#: src/lib/film.cc:1843
+#: src/lib/film.cc:1857
 #, fuzzy, c++-format
 msgid ""
 "{} had to remove some of your custom reel boundaries as they no longer lie "
@@ -2567,7 +2567,7 @@ msgstr ""
 msgid "{} no longer supports the `{}' filter, so it has been turned off."
 msgstr "{} は `{}' フィルターをサポートしなくなったため、オフになりました。"
 
-#: src/lib/config.cc:425 src/lib/config.cc:1238
+#: src/lib/config.cc:426 src/lib/config.cc:1242
 #, c++-format
 msgid "{} notification"
 msgstr "{} 通知"

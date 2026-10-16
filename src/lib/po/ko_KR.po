@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-21 23:29+0200\n"
+"POT-Creation-Date: 2026-10-16 00:26+0200\n"
 "PO-Revision-Date: 2026-03-06 17:22+0900\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -75,7 +75,7 @@ msgstr " (%.2f:1)"
 msgid " on {}"
 msgstr " ({})에"
 
-#: src/lib/config.cc:1263
+#: src/lib/config.cc:1267
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -99,7 +99,7 @@ msgstr ""
 "길이: $LENGTH\n"
 "크기: $SIZE\n"
 
-#: src/lib/config.cc:1241
+#: src/lib/config.cc:1245
 msgid "$JOB_NAME: $JOB_STATUS"
 msgstr "$JOB_NAME: $JOB_STATUS"
 
@@ -452,7 +452,7 @@ msgstr "BsR"
 msgid "C"
 msgstr "C"
 
-#: src/lib/exceptions.cc:196
+#: src/lib/exceptions.cc:201
 #, c++-format
 msgid "CPL {} not found"
 msgstr "CPL {}을 찾을 수 없습니다"
@@ -470,7 +470,7 @@ msgstr "슬래시(/)를 포함할 수 없습니다"
 msgid "Cannot handle pixel format {} during {}"
 msgstr "{} 동안 픽셀 포맷 {}을 처리할 수 없습니다"
 
-#: src/lib/film.cc:1941
+#: src/lib/film.cc:1960
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr "프로젝트가 암호화되어 있지 않아 KDM을 만들 수 없습니다."
 
@@ -555,7 +555,7 @@ msgstr "컬러스페이스"
 msgid "Combine DCPs"
 msgstr "DCP 결합"
 
-#: src/lib/writer.cc:521
+#: src/lib/writer.cc:522
 msgid "Computing digests"
 msgstr "다이제스트 생성 중"
 
@@ -770,7 +770,7 @@ msgstr "다운로드한 ZIP 파일을 열 수 없습니다"
 msgid "Could not open downloaded ZIP file ({}:{}: {})"
 msgstr "다운로드한 ZIP 파일을 열 수 없습니다 ({}:{}: {})"
 
-#: src/lib/config.cc:1165
+#: src/lib/config.cc:1169
 msgid "Could not open file for writing"
 msgstr "쓰기 위해 파일을 열 수 없습니다"
 
@@ -827,11 +827,11 @@ msgstr "DCI 플랫"
 msgid "DCI Scope"
 msgstr "DCI 스코프"
 
-#: src/lib/film.cc:2049
+#: src/lib/film.cc:2068
 msgid "DCP"
 msgstr "DCP"
 
-#: src/lib/film.cc:2046
+#: src/lib/film.cc:2065
 #, c++-format
 msgid "DCP (via {})"
 msgstr "DCP ({} 경유)"
@@ -858,7 +858,7 @@ msgstr "DCP가 콘텐츠 속도의 %.1f%%로 재생됩니다.\n"
 msgid "DCP will use every other frame of the content.\n"
 msgstr "DCP에서 콘텐츠의 매 두 번째 프레임을 사용합니다.\n"
 
-#: src/lib/film.cc:1858
+#: src/lib/film.cc:1872
 #, fuzzy
 msgid ""
 "DCP-o-matic had to set your container to 1920x1080 as it's the only one that "
@@ -867,7 +867,7 @@ msgstr ""
 "DCP-o-matic에서 MPEG2 인코딩에 사용할 수 있는 유일한 규격인 1920x1080으로 컨"
 "테이너를 설정했습니다."
 
-#: src/lib/film.cc:1862
+#: src/lib/film.cc:1876
 msgid ""
 "DCP-o-matic had to set your film to 2D as 3D is not yet supported with MPEG2 "
 "encoding."
@@ -875,7 +875,7 @@ msgstr ""
 "MPEG2 인코딩은 아직 3D를 지원하지 않으므로 DCP-o-matic에서 프로젝트를 2D로 설"
 "정했습니다."
 
-#: src/lib/film.cc:1866
+#: src/lib/film.cc:1880
 msgid ""
 "DCP-o-matic set your container to DCI Flat as it was previously 1920x1080 "
 "and that is not a standard ratio with JPEG2000 encoding."
@@ -892,7 +892,7 @@ msgstr "Datasat AP20 또는 AP25"
 msgid "De-interlacing"
 msgstr "디인터레이싱"
 
-#: src/lib/config.cc:1226
+#: src/lib/config.cc:1230
 #, c++-format
 msgid ""
 "Dear Projectionist\n"
@@ -919,7 +919,7 @@ msgstr ""
 "감사합니다.\n"
 "{}"
 
-#: src/lib/exceptions.cc:178
+#: src/lib/exceptions.cc:183
 #, c++-format
 msgid "Disk full when writing {}"
 msgstr "{}를 쓰는 동안 디스크 용량이 가득 찼습니다"
@@ -1197,7 +1197,7 @@ msgstr "이 오류의 원인을 알 수 없습니다. {}"
 msgid "JEDEC P22"
 msgstr "JEDEC P22"
 
-#: src/lib/config.cc:415 src/lib/config.cc:1223
+#: src/lib/config.cc:416 src/lib/config.cc:1227
 msgid "KDM delivery: $CPL_NAME"
 msgstr "KDM 전달: $CPL_NAME"
 
@@ -1259,7 +1259,7 @@ msgstr "로그 (100:1 범위)"
 msgid "Logarithmic (316:1 range)"
 msgstr "로그 (316:1 범위)"
 
-#: src/lib/exceptions.cc:162
+#: src/lib/exceptions.cc:167
 msgid "Lost communication between main and writer processes"
 msgstr "메인 프로세스와 라이터 프로세스 간의 통신이 중단되었습니다"
 
@@ -1315,7 +1315,7 @@ msgstr "모노 (Mono)"
 msgid "Motion compensating deinterlacer"
 msgstr "모션 보정 디인터레이서"
 
-#: src/lib/dcp_content.cc:213
+#: src/lib/dcp_content.cc:222
 msgid "No ASSETMAP or ASSETMAP.xml file found: is this a DCP?"
 msgstr "ASSETMAP 또는 ASSETMAP.xml 파일을 찾을 수 없습니다. DCP가 맞습니까?"
 
@@ -1850,7 +1850,7 @@ msgstr ""
 "상적으로 높이거나 낮출 수 있습니다. 상영 시스템에서 지원한다면 DCP 프레임 레"
 "이트를 콘텐츠와 가깝게 설정하는 것이 좋습니다."
 
-#: src/lib/dcp_content.cc:767
+#: src/lib/dcp_content.cc:778
 msgid "There is no video in this DCP"
 msgstr "이 DCP에는 비디오가 없습니다"
 
@@ -1904,7 +1904,7 @@ msgstr ""
 "이 파일은 KDM입니다. KDM은 DCP 콘텐츠를 우클릭한 후 \"KDM 추가\"를 선택하여 "
 "추가해야 합니다."
 
-#: src/lib/film.cc:557
+#: src/lib/film.cc:560
 #, c++-format
 msgid ""
 "This film was created with a newer version of {}, and it cannot be loaded "
@@ -1913,7 +1913,7 @@ msgstr ""
 "이 프로젝트는 더 최신 버전의 {}로 생성되어 현재 버전에서는 열 수 없습니다.  "
 "죄송합니다!"
 
-#: src/lib/film.cc:538
+#: src/lib/film.cc:541
 #, c++-format
 msgid ""
 "This film was created with an older version of {}, and unfortunately it "
@@ -2107,7 +2107,7 @@ msgstr ""
 "이 저하될 수 있습니다.  계속 진행하시려면 제작된 DCP를 극장에서 직접 청음하"
 "여 음질을 확인하십시오."
 
-#: src/lib/film.cc:1795
+#: src/lib/film.cc:1809
 msgid ""
 "You have more than one piece of Atmos content, and they do not have the same "
 "frame rate.  You must remove some Atmos content."
@@ -2307,11 +2307,11 @@ msgid "h"
 msgstr "h"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:724
+#: src/lib/dcp_content.cc:735
 msgid "it has a different frame rate to the film."
 msgstr "영화와 프레임 레이트가 다릅니다."
 
-#: src/lib/dcp_content.cc:806
+#: src/lib/dcp_content.cc:817
 #, c++-format
 msgid ""
 "it has a different number of audio channels than the project; set the "
@@ -2320,48 +2320,48 @@ msgstr ""
 "프로젝트와 오디오 채널 수가 다릅니다. 프로젝트를 {}채널로 설정하십시오."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:842
+#: src/lib/dcp_content.cc:853
 msgid ""
 "it has a start trim so its subtitles or closed captions must be re-written."
 msgstr "시작 트리밍이 있어 자막이나 폐쇄형 자막을 다시 써야 합니다."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:777
+#: src/lib/dcp_content.cc:788
 msgid "it is 2K and the film is 4K."
 msgstr "DCP는 2K이나 필름은 4K입니다."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:774
+#: src/lib/dcp_content.cc:785
 msgid "it is 4K and the film is 2K."
 msgstr "DCP는 4K이나 필름은 2K입니다."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:712
+#: src/lib/dcp_content.cc:723
 msgid "it is Interop and the film is set to SMPTE."
 msgstr "DCP는 Interop이나 필름은 SMPTE로 설정되어 있습니다."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:716
+#: src/lib/dcp_content.cc:727
 msgid "it is SMPTE and the film is set to Interop."
 msgstr "DCP는 SMPTE이나 필름은 Interop으로 설정되어 있습니다."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:817
+#: src/lib/dcp_content.cc:828
 msgid "it overlaps other audio content."
 msgstr "다른 오디오 콘텐츠와 겹칩니다."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:852
+#: src/lib/dcp_content.cc:863
 msgid "it overlaps other text content."
 msgstr "다른 텍스트 콘텐츠와 겹칩니다."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:792
+#: src/lib/dcp_content.cc:803
 msgid "it overlaps other video content."
 msgstr "다른 비디오 콘텐츠와 겹칩니다."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:747
+#: src/lib/dcp_content.cc:758
 #, fuzzy
 msgid ""
 "its reel start and end points are not included in the film's list; set the "
@@ -2370,7 +2370,7 @@ msgstr ""
 "릴 길이가 영화와 다릅니다. 릴 모드를 '비디오 콘텐츠별로 분할'로 설정하십시오."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:782
+#: src/lib/dcp_content.cc:793
 msgid "its video frame size differs from the film's."
 msgstr "비디오 프레임 크기가 영화와 다릅니다."
 
@@ -2389,7 +2389,7 @@ msgid "name"
 msgstr "이름"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:836
+#: src/lib/dcp_content.cc:847
 #, fuzzy
 msgid ""
 "one of its closed caption reels has a non-zero entry point so it must be re-"
@@ -2397,7 +2397,7 @@ msgid ""
 msgstr "폐쇄형 자막 중 하나의 엔트리 포인트가 0이 아니어서 다시 써야 합니다."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:830
+#: src/lib/dcp_content.cc:841
 msgid ""
 "one of its subtitle reels has a non-zero entry point so it must be re-"
 "written."
@@ -2435,7 +2435,7 @@ msgstr "{} ({} GB) [{}]"
 msgid "{} [Atmos]"
 msgstr "{} [애트모스]"
 
-#: src/lib/dcp_content.cc:385
+#: src/lib/dcp_content.cc:396
 #, c++-format
 msgid "{} [DCP]"
 msgstr "{} [DCP]"
@@ -2464,7 +2464,7 @@ msgstr ""
 "{}이(가) 파일 {}을 열 수 없습니다 ({}). 파일이 존재하지 않거나 지원하지 않는 "
 "포맷일 수 있습니다."
 
-#: src/lib/film.cc:1832
+#: src/lib/film.cc:1846
 #, c++-format
 msgid ""
 "{} had to change your settings for referring to DCPs as OV.  Please review "
@@ -2473,21 +2473,21 @@ msgstr ""
 "{}이(가) DCP를 OV(Original Version)로 참조하기 위한 설정을 변경했습니다. 설"
 "정 내용을 확인해 주십시오."
 
-#: src/lib/film.cc:1798
+#: src/lib/film.cc:1812
 #, c++-format
 msgid ""
 "{} had to change your settings so that the film's frame rate is the same as "
 "that of your Atmos content."
 msgstr "{}이(가) 영화의 프레임 레이트를 Atmos 콘텐츠와 동일하게 변경했습니다."
 
-#: src/lib/film.cc:1845
+#: src/lib/film.cc:1859
 #, c++-format
 msgid ""
 "{} had to remove one of your custom reel boundaries as it no longer lies "
 "within the film."
 msgstr "{}이(가) 영화 범위를 벗어난 사용자 지정 릴 경계 하나를 제거했습니다."
 
-#: src/lib/film.cc:1843
+#: src/lib/film.cc:1857
 #, c++-format
 msgid ""
 "{} had to remove some of your custom reel boundaries as they no longer lie "
@@ -2499,7 +2499,7 @@ msgstr "{}이(가) 영화 범위를 벗어난 여러 사용자 지정 릴 경계
 msgid "{} no longer supports the `{}' filter, so it has been turned off."
 msgstr "{}이(가) 더 이상 `{}' 필터를 지원하지 않아 비활성화되었습니다."
 
-#: src/lib/config.cc:425 src/lib/config.cc:1238
+#: src/lib/config.cc:426 src/lib/config.cc:1242
 #, c++-format
 msgid "{} notification"
 msgstr "{} 알림"

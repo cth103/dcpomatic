@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libdcpomatic-wx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-18 13:39+0200\n"
+"POT-Creation-Date: 2026-10-16 00:11+0200\n"
 "PO-Revision-Date: 2026-05-17 10:50+0800\n"
 "Last-Translator: Dian Li <xslidian@gmail.com>\n"
 "Language-Team: Chinese Simplified (Hanyuan branch)\n"
@@ -131,7 +131,7 @@ msgstr ""
 "(C) 2012-2026 Carl Hetherington, Terrence Meiczinger\n"
 "Aaron Boxer"
 
-#: src/wx/full_config_dialog.cc:1227 src/wx/player_config_dialog.cc:131
+#: src/wx/full_config_dialog.cc:1237 src/wx/player_config_dialog.cc:131
 #, c-format
 msgid "(restart %s to change display mode)"
 msgstr "(重启 %s可更改显示模式)"
@@ -199,11 +199,11 @@ msgstr "2D"
 msgid "2D version of 3D DCP"
 msgstr "3D DCP的2D版本"
 
-#: src/wx/dcp_panel.cc:904
+#: src/wx/dcp_panel.cc:905
 msgid "2K"
 msgstr "2K"
 
-#: src/wx/dcp_panel.cc:877 src/wx/video_panel.cc:189
+#: src/wx/dcp_panel.cc:878 src/wx/video_panel.cc:189
 msgid "3D"
 msgstr "3D"
 
@@ -231,11 +231,11 @@ msgstr "上下眼(3D)"
 msgid "4 - L/C/R/Lfe"
 msgstr "4声道—左/中/右/低音"
 
-#: src/wx/dcp_panel.cc:1010
+#: src/wx/dcp_panel.cc:1011
 msgid "48kHz"
 msgstr "48kHz"
 
-#: src/wx/dcp_panel.cc:905
+#: src/wx/dcp_panel.cc:906
 msgid "4K"
 msgstr "4K"
 
@@ -247,7 +247,7 @@ msgstr "6声道—5.1声道"
 msgid "8 - 5.1/HI/VI"
 msgstr "8声道—5.1+听力障碍声道/视力障碍声道"
 
-#: src/wx/dcp_panel.cc:1011
+#: src/wx/dcp_panel.cc:1012
 msgid "96kHz"
 msgstr "96kHz"
 
@@ -463,6 +463,10 @@ msgstr "添加图像序列"
 msgid "Add language..."
 msgstr "添加语言..."
 
+#: src/wx/full_config_dialog.cc:1090
+msgid "Add multiple subtitle languages to ISDCF name"
+msgstr ""
+
 #: src/wx/text_panel.cc:360
 msgid "Add new..."
 msgstr "添加新的..."
@@ -522,7 +526,7 @@ msgstr "地址"
 msgid "Adjust white point to"
 msgstr "调整白点到"
 
-#: src/wx/full_config_dialog.cc:1195 src/wx/kdm_config_dialog.cc:105
+#: src/wx/full_config_dialog.cc:1205 src/wx/kdm_config_dialog.cc:105
 #: src/wx/metadata_dialog.cc:79 src/wx/player_config_dialog.cc:277
 msgid "Advanced"
 msgstr "高级"
@@ -819,7 +823,7 @@ msgstr "链"
 msgid "Channel gain"
 msgstr "通道增益"
 
-#: src/wx/audio_dialog.cc:110 src/wx/dcp_panel.cc:979
+#: src/wx/audio_dialog.cc:110 src/wx/dcp_panel.cc:980
 msgid "Channels"
 msgstr "通道"
 
@@ -918,7 +922,7 @@ msgid "Configuration file"
 msgstr "配置文件"
 
 #. TRANSLATORS: translate the word "Timing" here; do not include the "Config|" prefix
-#: src/wx/full_config_dialog.cc:1308 src/wx/player_config_dialog.cc:319
+#: src/wx/full_config_dialog.cc:1318 src/wx/player_config_dialog.cc:319
 msgid "Config|Timing"
 msgstr "设置|时间"
 
@@ -926,7 +930,7 @@ msgstr "设置|时间"
 msgid "Confirm KDM email"
 msgstr "确认接收KDM的电子邮件地址"
 
-#: src/wx/dcp_panel.cc:865
+#: src/wx/dcp_panel.cc:866
 msgid "Container"
 msgstr "封装格式"
 
@@ -952,7 +956,7 @@ msgstr "内容目录"
 msgid "Content version"
 msgstr "内容版本"
 
-#: src/wx/smpte_metadata_dialog.cc:107
+#: src/wx/smpte_metadata_dialog.cc:109
 msgid "Content versions"
 msgstr "内容版本"
 
@@ -1123,7 +1127,7 @@ msgstr "DCP"
 msgid "DCP Text Track"
 msgstr "DCP文字轨道"
 
-#: src/wx/full_config_dialog.cc:1274
+#: src/wx/full_config_dialog.cc:1284
 msgid "DCP asset filename format"
 msgstr "DCP资产的文件名格式"
 
@@ -1131,7 +1135,7 @@ msgstr "DCP资产的文件名格式"
 msgid "DCP directory"
 msgstr "DCP目录"
 
-#: src/wx/full_config_dialog.cc:1255
+#: src/wx/full_config_dialog.cc:1265
 msgid "DCP metadata filename format"
 msgstr "DCP元数据的文件名格式"
 
@@ -1139,31 +1143,31 @@ msgstr "DCP元数据的文件名格式"
 msgid "Debug log file"
 msgstr "Debug日志文件"
 
-#: src/wx/full_config_dialog.cc:1310
+#: src/wx/full_config_dialog.cc:1320
 msgid "Debug: 3D"
 msgstr "调试: 3D"
 
-#: src/wx/full_config_dialog.cc:1320
+#: src/wx/full_config_dialog.cc:1330
 msgid "Debug: audio analysis"
 msgstr "调试: 音频分析"
 
-#: src/wx/full_config_dialog.cc:1322
+#: src/wx/full_config_dialog.cc:1332
 msgid "Debug: butler"
 msgstr "调试: 管家(butler)"
 
-#: src/wx/full_config_dialog.cc:1314 src/wx/kdm_config_dialog.cc:142
+#: src/wx/full_config_dialog.cc:1324 src/wx/kdm_config_dialog.cc:142
 msgid "Debug: email sending"
 msgstr "调试: 发送到邮箱"
 
-#: src/wx/full_config_dialog.cc:1312
+#: src/wx/full_config_dialog.cc:1322
 msgid "Debug: encode"
 msgstr "调试: 编码"
 
-#: src/wx/full_config_dialog.cc:1318 src/wx/player_config_dialog.cc:323
+#: src/wx/full_config_dialog.cc:1328 src/wx/player_config_dialog.cc:323
 msgid "Debug: player"
 msgstr "调试: 播放器"
 
-#: src/wx/full_config_dialog.cc:1316 src/wx/player_config_dialog.cc:321
+#: src/wx/full_config_dialog.cc:1326 src/wx/player_config_dialog.cc:321
 msgid "Debug: video view"
 msgstr "调试: 视频视图"
 
@@ -1250,7 +1254,7 @@ msgstr "详情..."
 msgid "Direct Sound"
 msgstr "直通声音"
 
-#: src/wx/smpte_metadata_dialog.cc:97
+#: src/wx/smpte_metadata_dialog.cc:99
 msgid "Distributor"
 msgstr "经销商"
 
@@ -1332,7 +1336,7 @@ msgid "Edit screen"
 msgstr "编辑放映厅服务器（证书）"
 
 #: src/wx/audio_mapping_view.cc:90 src/wx/content_advanced_dialog.cc:75
-#: src/wx/dcp_panel.cc:994 src/wx/language_tag_widget.cc:51
+#: src/wx/dcp_panel.cc:995 src/wx/language_tag_widget.cc:51
 #: src/wx/recipients_panel.cc:71 src/wx/region_subtag_widget.cc:52
 #: src/wx/video_panel.cc:159 src/wx/video_panel.cc:170
 #: src/wx/editable_list.h:149
@@ -1400,7 +1404,7 @@ msgstr "结束"
 msgid "Enter your email address for the contact, not %s"
 msgstr "请输入您的电子邮件地址，而不是 %s"
 
-#: src/wx/full_config_dialog.cc:1305 src/wx/kdm_config_dialog.cc:140
+#: src/wx/full_config_dialog.cc:1315 src/wx/kdm_config_dialog.cc:140
 #: src/wx/player_config_dialog.cc:316 src/wx/verify_dcp_result_panel.cc:61
 msgid "Errors"
 msgstr "错误"
@@ -1497,7 +1501,7 @@ msgstr "从影片复制设置"
 msgid "Filters"
 msgstr "过滤器"
 
-#: src/wx/smpte_metadata_dialog.cc:142
+#: src/wx/smpte_metadata_dialog.cc:144
 msgid "Final"
 msgstr "最终版"
 
@@ -1586,7 +1590,7 @@ msgstr ""
 "帧 %frame 包含一个图像组件过大（组件 %component 的大小为 %size_in_bytes 字"
 "节）"
 
-#: src/wx/dcp_panel.cc:872
+#: src/wx/dcp_panel.cc:873
 msgid "Frame Rate"
 msgstr "帧率"
 
@@ -1620,6 +1624,17 @@ msgstr "从模板"
 msgid "Full (JPEG, 0-255)"
 msgstr "完整 (JPEG, 0-255)"
 
+#: src/wx/smpte_metadata_dialog.cc:60
+#, fuzzy
+msgid "Full content title text"
+msgstr "已选择多个文件"
+
+#: src/wx/smpte_metadata_dialog.cc:62
+msgid ""
+"Full human-readable title, appropriate for the release territory and without "
+"technical or versioning information.  A display hint to the user."
+msgstr ""
+
 #: src/wx/timing_panel.cc:104
 msgid "Full length"
 msgstr "总长度"
@@ -1645,7 +1660,7 @@ msgstr "增益计算"
 msgid "Gain for content channel %d in DCP channel %d"
 msgstr "从内容通道  %d 到DCP %d 通道进行增益调整"
 
-#: src/wx/content_properties_dialog.cc:89 src/wx/full_config_dialog.cc:1301
+#: src/wx/content_properties_dialog.cc:89 src/wx/full_config_dialog.cc:1311
 #: src/wx/general_preferences_page.cc:66 src/wx/kdm_config_dialog.cc:136
 #: src/wx/player_config_dialog.cc:312
 msgid "General"
@@ -1934,7 +1949,7 @@ msgstr "LEQ(m) %.2fdB"
 msgid "Label"
 msgstr "标签"
 
-#: src/wx/dcp_panel.cc:992 src/wx/dcp_text_track_dialog.cc:35
+#: src/wx/dcp_panel.cc:993 src/wx/dcp_text_track_dialog.cc:35
 #: src/wx/text_panel.cc:166
 msgid "Language"
 msgstr "语言"
@@ -1979,7 +1994,7 @@ msgstr "标题字幕的最后一帧(LFTC)"
 msgid "Later"
 msgstr "下移"
 
-#: src/wx/full_config_dialog.cc:1242
+#: src/wx/full_config_dialog.cc:1252
 msgid "Layout for short screen"
 msgstr "短屏幕布局"
 
@@ -2036,7 +2051,7 @@ msgstr "加载播放列表和 KDMs"
 msgid "Locations"
 msgstr "位置"
 
-#: src/wx/full_config_dialog.cc:1299 src/wx/kdm_config_dialog.cc:134
+#: src/wx/full_config_dialog.cc:1309 src/wx/kdm_config_dialog.cc:134
 #: src/wx/player_config_dialog.cc:310
 msgid "Log"
 msgstr "日志"
@@ -2153,7 +2168,7 @@ msgstr "最大 JPEG2000 码率"
 msgid "Maximum MPEG2 bit rate"
 msgstr "最大MPEG2码率"
 
-#: src/wx/full_config_dialog.cc:1247
+#: src/wx/full_config_dialog.cc:1257
 msgid "Maximum number of frames to store per thread"
 msgstr "设置每个线程处理的最大帧数"
 
@@ -2161,7 +2176,7 @@ msgstr "设置每个线程处理的最大帧数"
 msgid "Maximum reel size"
 msgstr "最大卷片大小"
 
-#: src/wx/dcp_panel.cc:881 src/wx/full_config_dialog.cc:1050
+#: src/wx/dcp_panel.cc:882 src/wx/full_config_dialog.cc:1050
 #: src/wx/full_config_dialog.cc:1059
 msgid "Mbit/s"
 msgstr "Mbit/s"
@@ -2377,7 +2392,7 @@ msgid "Non-standard"
 msgstr "非标准设置（高级)"
 
 #: src/wx/content_advanced_dialog.cc:74 src/wx/content_advanced_dialog.cc:155
-#: src/wx/content_advanced_dialog.cc:163 src/wx/dcp_panel.cc:1097
+#: src/wx/content_advanced_dialog.cc:163 src/wx/dcp_panel.cc:1098
 #: src/wx/subtitle_appearance_dialog.cc:151
 msgid "None"
 msgstr "无"
@@ -2428,11 +2443,11 @@ msgstr "关闭"
 msgid "Offset"
 msgstr "偏移"
 
-#: src/wx/full_config_dialog.cc:1238
+#: src/wx/full_config_dialog.cc:1248
 msgid "Only servers encode"
 msgstr "仅在编码服务器编码"
 
-#: src/wx/full_config_dialog.cc:1328 src/wx/player_config_dialog.cc:329
+#: src/wx/full_config_dialog.cc:1338 src/wx/player_config_dialog.cc:329
 msgid "Open console window"
 msgstr "打开控制台窗口"
 
@@ -2440,7 +2455,7 @@ msgstr "打开控制台窗口"
 msgid "Open the timeline for the film (Ctrl+T)."
 msgstr "打开影片时间线(Ctrl+T)。"
 
-#: src/wx/full_config_dialog.cc:1335 src/wx/player_config_dialog.cc:127
+#: src/wx/full_config_dialog.cc:1345 src/wx/player_config_dialog.cc:127
 msgid "OpenGL (faster)"
 msgstr "OpenGL (更快)"
 
@@ -2613,7 +2628,7 @@ msgstr "请稍等，正在解析音频..."
 msgid "Position"
 msgstr "位置"
 
-#: src/wx/metadata_dialog.cc:308 src/wx/smpte_metadata_dialog.cc:141
+#: src/wx/metadata_dialog.cc:308 src/wx/smpte_metadata_dialog.cc:143
 msgid "Pre-release"
 msgstr "预发布(点映版)"
 
@@ -2621,7 +2636,7 @@ msgstr "预发布(点映版)"
 msgid "Previous"
 msgstr "上一页"
 
-#: src/wx/dcp_panel.cc:988
+#: src/wx/dcp_panel.cc:989
 msgid "Processor"
 msgstr "处理方式"
 
@@ -2676,11 +2691,11 @@ msgstr "分级"
 #. TRANSLATORS: this is a button which opens a dialog box in which you can
 #. edit the project's ratings (i.e. the legal/advisory limits on what age
 #. groups can watch the film).
-#: src/wx/interop_metadata_dialog.cc:61 src/wx/smpte_metadata_dialog.cc:76
+#: src/wx/interop_metadata_dialog.cc:61 src/wx/smpte_metadata_dialog.cc:78
 msgid "Ratings"
 msgstr "分级"
 
-#: src/wx/dcp_panel.cc:883
+#: src/wx/dcp_panel.cc:884
 msgid "Re-encode JPEG2000 data from input"
 msgstr "对输入内容重新进行JPEG2000编码"
 
@@ -2838,7 +2853,7 @@ msgstr "恢复到默认类别和文本"
 msgid "Reset to default text"
 msgstr "恢复到默认文本"
 
-#: src/wx/dcp_panel.cc:869
+#: src/wx/dcp_panel.cc:870
 msgid "Resolution"
 msgstr "分辨率"
 
@@ -2912,7 +2927,7 @@ msgstr "和项目相同的位置"
 msgid "Sample peak is %.2fdB at %s on %s"
 msgstr "样本峰值为 %.2fdB 位于 %s, %s"
 
-#: src/wx/dcp_panel.cc:984
+#: src/wx/dcp_panel.cc:985
 msgid "Sample rate"
 msgstr "采样率"
 
@@ -3126,11 +3141,11 @@ msgstr "字幕阴影"
 msgid "Show"
 msgstr "显示"
 
-#: src/wx/full_config_dialog.cc:1234
+#: src/wx/full_config_dialog.cc:1244
 msgid "Show experimental audio processors"
 msgstr "显示实验音频配置"
 
-#: src/wx/audio_panel.cc:72 src/wx/dcp_panel.cc:996
+#: src/wx/audio_panel.cc:72 src/wx/dcp_panel.cc:997
 msgid "Show graph of audio levels..."
 msgstr "显示音频电平图…"
 
@@ -3155,7 +3170,7 @@ msgstr "手语视频语言"
 msgid "Signing DCPs and KDMs"
 msgstr "签名DCP和KDM"
 
-#: src/wx/full_config_dialog.cc:1333 src/wx/player_config_dialog.cc:126
+#: src/wx/full_config_dialog.cc:1343 src/wx/player_config_dialog.cc:126
 msgid "Simple (safer)"
 msgstr "简单模式 (更安全)"
 
@@ -3263,7 +3278,7 @@ msgstr "分卷起点"
 msgid "Start player as"
 msgstr "启动播放器为"
 
-#: src/wx/smpte_metadata_dialog.cc:93
+#: src/wx/smpte_metadata_dialog.cc:95
 msgid "Status"
 msgstr "状态"
 
@@ -3362,7 +3377,7 @@ msgstr "模板名称不能为空。"
 msgid "Templates"
 msgstr "模板"
 
-#: src/wx/smpte_metadata_dialog.cc:140
+#: src/wx/smpte_metadata_dialog.cc:142
 msgid "Temporary"
 msgstr "临时"
 
@@ -3707,7 +3722,7 @@ msgstr "PKL中CPL哈希值与CPL文件的哈希值不一致。可能CPL文件已
 msgid "The invalid language tag %language is used."
 msgstr "使用了无效的语言标记%language。"
 
-#: src/wx/smpte_metadata_dialog.cc:63
+#: src/wx/smpte_metadata_dialog.cc:302
 #, c-format
 msgid "The language that the film's title (\"%s\") is in"
 msgstr "电影标题(“%s”)使用的语言"
@@ -4012,7 +4027,7 @@ msgstr "计时"
 msgid "Timing|Timing"
 msgstr "计时器|计时器"
 
-#: src/wx/smpte_metadata_dialog.cc:60
+#: src/wx/smpte_metadata_dialog.cc:65
 msgid "Title language"
 msgstr "标题语言"
 
@@ -4223,7 +4238,7 @@ msgstr "默认使用ISDCF名称"
 msgid "Use as"
 msgstr "使用为"
 
-#: src/wx/dcp_panel.cc:875
+#: src/wx/dcp_panel.cc:876
 msgid "Use best"
 msgstr "使用最佳"
 
@@ -4276,7 +4291,7 @@ msgstr "验证图像资产详细信息"
 msgid "Verify..."
 msgstr "验证..."
 
-#: src/wx/smpte_metadata_dialog.cc:112 src/wx/system_information_dialog.cc:65
+#: src/wx/smpte_metadata_dialog.cc:114 src/wx/system_information_dialog.cc:65
 msgid "Version"
 msgstr "版本"
 
@@ -4284,7 +4299,7 @@ msgstr "版本"
 msgid "Version file (VF) setup"
 msgstr "版本文件（VF）设置"
 
-#: src/wx/smpte_metadata_dialog.cc:89
+#: src/wx/smpte_metadata_dialog.cc:91
 msgid "Version number"
 msgstr "版本号"
 
@@ -4302,7 +4317,7 @@ msgstr "视频 (MPEG, 16-235)"
 msgid "Video Waveform"
 msgstr "视频波形"
 
-#: src/wx/dcp_panel.cc:879
+#: src/wx/dcp_panel.cc:880
 msgid ""
 "Video bit rate\n"
 "for newly-encoded data"
@@ -4310,7 +4325,7 @@ msgstr ""
 "视频码率 \n"
 "用于新编码数据"
 
-#: src/wx/full_config_dialog.cc:1223 src/wx/player_config_dialog.cc:124
+#: src/wx/full_config_dialog.cc:1233 src/wx/player_config_dialog.cc:124
 msgid "Video display mode"
 msgstr "视频显示模式"
 
@@ -4341,7 +4356,7 @@ msgstr "WASAPI"
 msgid "WAV files (*.wav)|*.wav"
 msgstr "MOV 文件 (*.mov)|*.mov"
 
-#: src/wx/full_config_dialog.cc:1303 src/wx/kdm_config_dialog.cc:138
+#: src/wx/full_config_dialog.cc:1313 src/wx/kdm_config_dialog.cc:138
 #: src/wx/player_config_dialog.cc:314 src/wx/verify_dcp_result_panel.cc:63
 msgid "Warnings"
 msgstr "警告"
@@ -4492,7 +4507,7 @@ msgstr "结构"
 msgid "content"
 msgstr "内容"
 
-#: src/wx/full_config_dialog.cc:1286
+#: src/wx/full_config_dialog.cc:1296
 msgid "content filename"
 msgstr "内容文件名"
 
@@ -4566,7 +4581,7 @@ msgstr "毫秒"
 msgid "not enabled"
 msgstr "未启用"
 
-#: src/wx/full_config_dialog.cc:1285
+#: src/wx/full_config_dialog.cc:1295
 msgid "number of reels"
 msgstr "分卷数量"
 
@@ -4594,7 +4609,7 @@ msgstr "协议"
 msgid "recipient name"
 msgstr "接受者名称"
 
-#: src/wx/full_config_dialog.cc:1284
+#: src/wx/full_config_dialog.cc:1294
 msgid "reel number"
 msgstr "卷号"
 
@@ -4623,11 +4638,11 @@ msgstr "到 日期/时间"
 msgid "to fit DCP"
 msgstr "适合 DCP"
 
-#: src/wx/full_config_dialog.cc:1283
+#: src/wx/full_config_dialog.cc:1293
 msgid "type (j2c/pcm/sub)"
 msgstr "类型（j2c/pcm/sub）"
 
-#: src/wx/full_config_dialog.cc:1264
+#: src/wx/full_config_dialog.cc:1274
 msgid "type(cpl/pkl)"
 msgstr "类型（cpl/pkl）"
 

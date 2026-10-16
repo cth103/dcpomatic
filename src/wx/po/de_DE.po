@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-18 13:39+0200\n"
+"POT-Creation-Date: 2026-10-16 00:11+0200\n"
 "PO-Revision-Date: 2026-07-29 00:04+0200\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
@@ -119,7 +119,7 @@ msgstr ""
 "(C) 2012-2026 Carl Hetherington, Terrence Meiczinger\n"
 "Aaron Boxer"
 
-#: src/wx/full_config_dialog.cc:1227 src/wx/player_config_dialog.cc:131
+#: src/wx/full_config_dialog.cc:1237 src/wx/player_config_dialog.cc:131
 #, c-format
 msgid "(restart %s to change display mode)"
 msgstr "(Programm %s muss zum ändern des Display Modus neu gestartet werden.)"
@@ -187,11 +187,11 @@ msgstr "2D"
 msgid "2D version of 3D DCP"
 msgstr "2D Version eines 3D DCP"
 
-#: src/wx/dcp_panel.cc:904
+#: src/wx/dcp_panel.cc:905
 msgid "2K"
 msgstr "2K"
 
-#: src/wx/dcp_panel.cc:877 src/wx/video_panel.cc:189
+#: src/wx/dcp_panel.cc:878 src/wx/video_panel.cc:189
 msgid "3D"
 msgstr "3D DCP"
 
@@ -219,11 +219,11 @@ msgstr "3D Oben/Unten (OU)"
 msgid "4 - L/C/R/Lfe"
 msgstr "4 - L/C/R/SUB"
 
-#: src/wx/dcp_panel.cc:1010
+#: src/wx/dcp_panel.cc:1011
 msgid "48kHz"
 msgstr ""
 
-#: src/wx/dcp_panel.cc:905
+#: src/wx/dcp_panel.cc:906
 msgid "4K"
 msgstr "4K"
 
@@ -235,7 +235,7 @@ msgstr "6 - 5.1"
 msgid "8 - 5.1/HI/VI"
 msgstr "8 - 5.1/HI/VI-N"
 
-#: src/wx/dcp_panel.cc:1011
+#: src/wx/dcp_panel.cc:1012
 msgid "96kHz"
 msgstr ""
 
@@ -471,6 +471,10 @@ msgstr "Einzelbildsequenz hinzufügen"
 msgid "Add language..."
 msgstr "Sprache hinzufügen…"
 
+#: src/wx/full_config_dialog.cc:1090
+msgid "Add multiple subtitle languages to ISDCF name"
+msgstr ""
+
 #: src/wx/text_panel.cc:360
 msgid "Add new..."
 msgstr "Einstellen..."
@@ -533,7 +537,7 @@ msgstr "Adresse"
 msgid "Adjust white point to"
 msgstr "Weisspunkt anpassen auf"
 
-#: src/wx/full_config_dialog.cc:1195 src/wx/kdm_config_dialog.cc:105
+#: src/wx/full_config_dialog.cc:1205 src/wx/kdm_config_dialog.cc:105
 #: src/wx/metadata_dialog.cc:79 src/wx/player_config_dialog.cc:277
 msgid "Advanced"
 msgstr "Erweitert"
@@ -840,7 +844,7 @@ msgstr "Kinokette"
 msgid "Channel gain"
 msgstr "Kanal Verstärkung (+/-)"
 
-#: src/wx/audio_dialog.cc:110 src/wx/dcp_panel.cc:979
+#: src/wx/audio_dialog.cc:110 src/wx/dcp_panel.cc:980
 msgid "Channels"
 msgstr "Kanäle"
 
@@ -941,7 +945,7 @@ msgid "Configuration file"
 msgstr "Konfigurationsdatei"
 
 #. TRANSLATORS: translate the word "Timing" here; do not include the "Config|" prefix
-#: src/wx/full_config_dialog.cc:1308 src/wx/player_config_dialog.cc:319
+#: src/wx/full_config_dialog.cc:1318 src/wx/player_config_dialog.cc:319
 msgid "Config|Timing"
 msgstr "Timing"
 
@@ -949,7 +953,7 @@ msgstr "Timing"
 msgid "Confirm KDM email"
 msgstr "KDM Emailversand bestätigen"
 
-#: src/wx/dcp_panel.cc:865
+#: src/wx/dcp_panel.cc:866
 msgid "Container"
 msgstr "DCI Containertyp"
 
@@ -975,7 +979,7 @@ msgstr "Verzeichnis"
 msgid "Content version"
 msgstr "Inhalt Version"
 
-#: src/wx/smpte_metadata_dialog.cc:107
+#: src/wx/smpte_metadata_dialog.cc:109
 msgid "Content versions"
 msgstr "Inhalt Versionen"
 
@@ -1148,7 +1152,7 @@ msgstr "DCP"
 msgid "DCP Text Track"
 msgstr "DCP Textspur"
 
-#: src/wx/full_config_dialog.cc:1274
+#: src/wx/full_config_dialog.cc:1284
 msgid "DCP asset filename format"
 msgstr "Dateinamenformatierung der DCP Medien ('Assets')"
 
@@ -1156,7 +1160,7 @@ msgstr "Dateinamenformatierung der DCP Medien ('Assets')"
 msgid "DCP directory"
 msgstr "DCP Verzeichnis"
 
-#: src/wx/full_config_dialog.cc:1255
+#: src/wx/full_config_dialog.cc:1265
 msgid "DCP metadata filename format"
 msgstr "Dateinamenformatierung der DCP Metadaten (CPL und PKL)"
 
@@ -1164,31 +1168,31 @@ msgstr "Dateinamenformatierung der DCP Metadaten (CPL und PKL)"
 msgid "Debug log file"
 msgstr "Debug-Logdatei wählen"
 
-#: src/wx/full_config_dialog.cc:1310
+#: src/wx/full_config_dialog.cc:1320
 msgid "Debug: 3D"
 msgstr "Debug: 3D"
 
-#: src/wx/full_config_dialog.cc:1320
+#: src/wx/full_config_dialog.cc:1330
 msgid "Debug: audio analysis"
 msgstr "Debug: Audioanalyse"
 
-#: src/wx/full_config_dialog.cc:1322
+#: src/wx/full_config_dialog.cc:1332
 msgid "Debug: butler"
 msgstr "Debug: Butler"
 
-#: src/wx/full_config_dialog.cc:1314 src/wx/kdm_config_dialog.cc:142
+#: src/wx/full_config_dialog.cc:1324 src/wx/kdm_config_dialog.cc:142
 msgid "Debug: email sending"
 msgstr "Debug: Emailversand"
 
-#: src/wx/full_config_dialog.cc:1312
+#: src/wx/full_config_dialog.cc:1322
 msgid "Debug: encode"
 msgstr "Debug: encode"
 
-#: src/wx/full_config_dialog.cc:1318 src/wx/player_config_dialog.cc:323
+#: src/wx/full_config_dialog.cc:1328 src/wx/player_config_dialog.cc:323
 msgid "Debug: player"
 msgstr "Debug: Player"
 
-#: src/wx/full_config_dialog.cc:1316 src/wx/player_config_dialog.cc:321
+#: src/wx/full_config_dialog.cc:1326 src/wx/player_config_dialog.cc:321
 msgid "Debug: video view"
 msgstr "Debug: Video Ansicht"
 
@@ -1277,7 +1281,7 @@ msgstr "Details..."
 msgid "Direct Sound"
 msgstr "Direct Sound"
 
-#: src/wx/smpte_metadata_dialog.cc:97
+#: src/wx/smpte_metadata_dialog.cc:99
 msgid "Distributor"
 msgstr "Vetriebsunternehmen"
 
@@ -1359,7 +1363,7 @@ msgid "Edit screen"
 msgstr "Leinwandstammdaten bearbeiten"
 
 #: src/wx/audio_mapping_view.cc:90 src/wx/content_advanced_dialog.cc:75
-#: src/wx/dcp_panel.cc:994 src/wx/language_tag_widget.cc:51
+#: src/wx/dcp_panel.cc:995 src/wx/language_tag_widget.cc:51
 #: src/wx/recipients_panel.cc:71 src/wx/region_subtag_widget.cc:52
 #: src/wx/video_panel.cc:159 src/wx/video_panel.cc:170
 #: src/wx/editable_list.h:149
@@ -1427,7 +1431,7 @@ msgstr "Ende"
 msgid "Enter your email address for the contact, not %s"
 msgstr "Geben Sie ihre Emailadresse an, nicht %s"
 
-#: src/wx/full_config_dialog.cc:1305 src/wx/kdm_config_dialog.cc:140
+#: src/wx/full_config_dialog.cc:1315 src/wx/kdm_config_dialog.cc:140
 #: src/wx/player_config_dialog.cc:316 src/wx/verify_dcp_result_panel.cc:61
 msgid "Errors"
 msgstr "Fehler"
@@ -1524,7 +1528,7 @@ msgstr ""
 msgid "Filters"
 msgstr "Filter (Video)"
 
-#: src/wx/smpte_metadata_dialog.cc:142
+#: src/wx/smpte_metadata_dialog.cc:144
 msgid "Final"
 msgstr ""
 
@@ -1616,7 +1620,7 @@ msgid ""
 "is %size_in_bytes bytes in size)."
 msgstr ""
 
-#: src/wx/dcp_panel.cc:872
+#: src/wx/dcp_panel.cc:873
 msgid "Frame Rate"
 msgstr "DCP Bildrate"
 
@@ -1652,6 +1656,17 @@ msgstr "Aus Projektvorlage"
 msgid "Full (JPEG, 0-255)"
 msgstr "Full (JPEG, 0-255)"
 
+#: src/wx/smpte_metadata_dialog.cc:60
+#, fuzzy
+msgid "Full content title text"
+msgstr "Mehrere Inhalte ausgewählt"
+
+#: src/wx/smpte_metadata_dialog.cc:62
+msgid ""
+"Full human-readable title, appropriate for the release territory and without "
+"technical or versioning information.  A display hint to the user."
+msgstr ""
+
 #: src/wx/timing_panel.cc:104
 msgid "Full length"
 msgstr "Gesamtlänge"
@@ -1677,7 +1692,7 @@ msgstr "Fader Rechner ('Dolby Fader Level')"
 msgid "Gain for content channel %d in DCP channel %d"
 msgstr "Abschwächung des Kanals %d im DCP Kanal %d"
 
-#: src/wx/content_properties_dialog.cc:89 src/wx/full_config_dialog.cc:1301
+#: src/wx/content_properties_dialog.cc:89 src/wx/full_config_dialog.cc:1311
 #: src/wx/general_preferences_page.cc:66 src/wx/kdm_config_dialog.cc:136
 #: src/wx/player_config_dialog.cc:312
 msgid "General"
@@ -1978,7 +1993,7 @@ msgstr "LEQ(m) %.2fdB"
 msgid "Label"
 msgstr "Bezeichner"
 
-#: src/wx/dcp_panel.cc:992 src/wx/dcp_text_track_dialog.cc:35
+#: src/wx/dcp_panel.cc:993 src/wx/dcp_text_track_dialog.cc:35
 #: src/wx/text_panel.cc:166
 msgid "Language"
 msgstr "Sprache"
@@ -2025,7 +2040,7 @@ msgstr "Letzters Bild des Vorspanns (LFTC)"
 msgid "Later"
 msgstr "Nach unten/später"
 
-#: src/wx/full_config_dialog.cc:1242
+#: src/wx/full_config_dialog.cc:1252
 msgid "Layout for short screen"
 msgstr ""
 
@@ -2084,7 +2099,7 @@ msgstr "Playlists und KDMs laden"
 msgid "Locations"
 msgstr "Orte"
 
-#: src/wx/full_config_dialog.cc:1299 src/wx/kdm_config_dialog.cc:134
+#: src/wx/full_config_dialog.cc:1309 src/wx/kdm_config_dialog.cc:134
 #: src/wx/player_config_dialog.cc:310
 msgid "Log"
 msgstr "Log"
@@ -2201,7 +2216,7 @@ msgstr "Maximale JPEG2000 Datenrate"
 msgid "Maximum MPEG2 bit rate"
 msgstr "Maximale MPEG2 Datenrate"
 
-#: src/wx/full_config_dialog.cc:1247
+#: src/wx/full_config_dialog.cc:1257
 msgid "Maximum number of frames to store per thread"
 msgstr "Bildzwischenspeicher pro Thread"
 
@@ -2209,7 +2224,7 @@ msgstr "Bildzwischenspeicher pro Thread"
 msgid "Maximum reel size"
 msgstr "Maximale Reel Grösse"
 
-#: src/wx/dcp_panel.cc:881 src/wx/full_config_dialog.cc:1050
+#: src/wx/dcp_panel.cc:882 src/wx/full_config_dialog.cc:1050
 #: src/wx/full_config_dialog.cc:1059
 msgid "Mbit/s"
 msgstr "Mbit/s"
@@ -2447,7 +2462,7 @@ msgid "Non-standard"
 msgstr "Nicht Standard konform"
 
 #: src/wx/content_advanced_dialog.cc:74 src/wx/content_advanced_dialog.cc:155
-#: src/wx/content_advanced_dialog.cc:163 src/wx/dcp_panel.cc:1097
+#: src/wx/content_advanced_dialog.cc:163 src/wx/dcp_panel.cc:1098
 #: src/wx/subtitle_appearance_dialog.cc:151
 msgid "None"
 msgstr "Ohne"
@@ -2500,11 +2515,11 @@ msgstr "Aus"
 msgid "Offset"
 msgstr "Verschiebung"
 
-#: src/wx/full_config_dialog.cc:1238
+#: src/wx/full_config_dialog.cc:1248
 msgid "Only servers encode"
 msgstr "Nur Server verschlüsseln"
 
-#: src/wx/full_config_dialog.cc:1328 src/wx/player_config_dialog.cc:329
+#: src/wx/full_config_dialog.cc:1338 src/wx/player_config_dialog.cc:329
 msgid "Open console window"
 msgstr "Konsolenfenster öffnen"
 
@@ -2512,7 +2527,7 @@ msgstr "Konsolenfenster öffnen"
 msgid "Open the timeline for the film (Ctrl+T)."
 msgstr "Öffnen Sie die Zeitleiste für den Film (Strg+T)."
 
-#: src/wx/full_config_dialog.cc:1335 src/wx/player_config_dialog.cc:127
+#: src/wx/full_config_dialog.cc:1345 src/wx/player_config_dialog.cc:127
 msgid "OpenGL (faster)"
 msgstr "OpenGL (schneller)"
 
@@ -2688,7 +2703,7 @@ msgstr "Bitte warten; Ton wird analysiert..."
 msgid "Position"
 msgstr "Startposition im DCP"
 
-#: src/wx/metadata_dialog.cc:308 src/wx/smpte_metadata_dialog.cc:141
+#: src/wx/metadata_dialog.cc:308 src/wx/smpte_metadata_dialog.cc:143
 msgid "Pre-release"
 msgstr "Vorabversion"
 
@@ -2696,7 +2711,7 @@ msgstr "Vorabversion"
 msgid "Previous"
 msgstr ""
 
-#: src/wx/dcp_panel.cc:988
+#: src/wx/dcp_panel.cc:989
 msgid "Processor"
 msgstr "Prozessor"
 
@@ -2752,12 +2767,12 @@ msgstr "Altersfreigabe"
 #. TRANSLATORS: this is a button which opens a dialog box in which you can
 #. edit the project's ratings (i.e. the legal/advisory limits on what age
 #. groups can watch the film).
-#: src/wx/interop_metadata_dialog.cc:61 src/wx/smpte_metadata_dialog.cc:76
+#: src/wx/interop_metadata_dialog.cc:61 src/wx/smpte_metadata_dialog.cc:78
 #, fuzzy
 msgid "Ratings"
 msgstr "Altersfreigaben"
 
-#: src/wx/dcp_panel.cc:883
+#: src/wx/dcp_panel.cc:884
 msgid "Re-encode JPEG2000 data from input"
 msgstr "Alle Inhalte vollständig/erneut J2C komprimieren"
 
@@ -2915,7 +2930,7 @@ msgstr "Auf Standardtext und Subjekt zurücksetzen"
 msgid "Reset to default text"
 msgstr "Auf Standardtext zurücksetzen"
 
-#: src/wx/dcp_panel.cc:869
+#: src/wx/dcp_panel.cc:870
 msgid "Resolution"
 msgstr "Auflösung"
 
@@ -2989,7 +3004,7 @@ msgstr ""
 msgid "Sample peak is %.2fdB at %s on %s"
 msgstr "Spitzenwert (Sample peak): %.2fdB bei %s in Kanal %s"
 
-#: src/wx/dcp_panel.cc:984
+#: src/wx/dcp_panel.cc:985
 msgid "Sample rate"
 msgstr "Abtastrate"
 
@@ -3203,11 +3218,11 @@ msgstr "Schattendarstellung"
 msgid "Show"
 msgstr ""
 
-#: src/wx/full_config_dialog.cc:1234
+#: src/wx/full_config_dialog.cc:1244
 msgid "Show experimental audio processors"
 msgstr ""
 
-#: src/wx/audio_panel.cc:72 src/wx/dcp_panel.cc:996
+#: src/wx/audio_panel.cc:72 src/wx/dcp_panel.cc:997
 msgid "Show graph of audio levels..."
 msgstr "Audiopegel anzeigen..."
 
@@ -3232,7 +3247,7 @@ msgstr ""
 msgid "Signing DCPs and KDMs"
 msgstr "DCPs und KDMs signieren"
 
-#: src/wx/full_config_dialog.cc:1333 src/wx/player_config_dialog.cc:126
+#: src/wx/full_config_dialog.cc:1343 src/wx/player_config_dialog.cc:126
 msgid "Simple (safer)"
 msgstr "Einfach (sicherer)"
 
@@ -3337,7 +3352,7 @@ msgstr "Aktanfang"
 msgid "Start player as"
 msgstr "Starte Player in"
 
-#: src/wx/smpte_metadata_dialog.cc:93
+#: src/wx/smpte_metadata_dialog.cc:95
 msgid "Status"
 msgstr "Status"
 
@@ -3435,7 +3450,7 @@ msgstr "Name der Projektvorlage darf nicht leer sein."
 msgid "Templates"
 msgstr "Projektvorlagen"
 
-#: src/wx/smpte_metadata_dialog.cc:140
+#: src/wx/smpte_metadata_dialog.cc:142
 msgid "Temporary"
 msgstr "Temporär"
 
@@ -3793,7 +3808,7 @@ msgstr ""
 msgid "The invalid language tag %language is used."
 msgstr ""
 
-#: src/wx/smpte_metadata_dialog.cc:63
+#: src/wx/smpte_metadata_dialog.cc:302
 #, c-format
 msgid "The language that the film's title (\"%s\") is in"
 msgstr ""
@@ -4082,7 +4097,7 @@ msgstr "Timing/Trimmen"
 msgid "Timing|Timing"
 msgstr "Timing/Trimmen"
 
-#: src/wx/smpte_metadata_dialog.cc:60
+#: src/wx/smpte_metadata_dialog.cc:65
 msgid "Title language"
 msgstr "Titel Sprache"
 
@@ -4293,7 +4308,7 @@ msgstr "ISDCF Name standardmässig verwenden"
 msgid "Use as"
 msgstr "Verwenden als"
 
-#: src/wx/dcp_panel.cc:875
+#: src/wx/dcp_panel.cc:876
 msgid "Use best"
 msgstr "Beste wählen"
 
@@ -4346,7 +4361,7 @@ msgstr ""
 msgid "Verify..."
 msgstr ""
 
-#: src/wx/smpte_metadata_dialog.cc:112 src/wx/system_information_dialog.cc:65
+#: src/wx/smpte_metadata_dialog.cc:114 src/wx/system_information_dialog.cc:65
 msgid "Version"
 msgstr "Version"
 
@@ -4354,7 +4369,7 @@ msgstr "Version"
 msgid "Version file (VF) setup"
 msgstr ""
 
-#: src/wx/smpte_metadata_dialog.cc:89
+#: src/wx/smpte_metadata_dialog.cc:91
 msgid "Version number"
 msgstr "Versionsnummer"
 
@@ -4372,7 +4387,7 @@ msgstr ""
 msgid "Video Waveform"
 msgstr "Video Waveform"
 
-#: src/wx/dcp_panel.cc:879
+#: src/wx/dcp_panel.cc:880
 msgid ""
 "Video bit rate\n"
 "for newly-encoded data"
@@ -4380,7 +4395,7 @@ msgstr ""
 "Video Datenrate\n"
 "für neue kodierte Daten"
 
-#: src/wx/full_config_dialog.cc:1223 src/wx/player_config_dialog.cc:124
+#: src/wx/full_config_dialog.cc:1233 src/wx/player_config_dialog.cc:124
 msgid "Video display mode"
 msgstr ""
 
@@ -4411,7 +4426,7 @@ msgstr "WASAPI"
 msgid "WAV files (*.wav)|*.wav"
 msgstr "MOV Dateien (*.mov)|*.mov"
 
-#: src/wx/full_config_dialog.cc:1303 src/wx/kdm_config_dialog.cc:138
+#: src/wx/full_config_dialog.cc:1313 src/wx/kdm_config_dialog.cc:138
 #: src/wx/player_config_dialog.cc:314 src/wx/verify_dcp_result_panel.cc:63
 msgid "Warnings"
 msgstr "Warnungen"
@@ -4571,7 +4586,7 @@ msgstr "Komponentenwert"
 msgid "content"
 msgstr "Inhalt(e)"
 
-#: src/wx/full_config_dialog.cc:1286
+#: src/wx/full_config_dialog.cc:1296
 msgid "content filename"
 msgstr "Name Inhaltsdatei"
 
@@ -4645,7 +4660,7 @@ msgstr "ms"
 msgid "not enabled"
 msgstr ""
 
-#: src/wx/full_config_dialog.cc:1285
+#: src/wx/full_config_dialog.cc:1295
 msgid "number of reels"
 msgstr "Anzahl Akte ('Reels')"
 
@@ -4673,7 +4688,7 @@ msgstr "Protokoll"
 msgid "recipient name"
 msgstr "Name des Empfängers"
 
-#: src/wx/full_config_dialog.cc:1284
+#: src/wx/full_config_dialog.cc:1294
 msgid "reel number"
 msgstr "Aktnummer ('Reel')"
 
@@ -4702,11 +4717,11 @@ msgstr "bis Datum/Uhrzeit"
 msgid "to fit DCP"
 msgstr ""
 
-#: src/wx/full_config_dialog.cc:1283
+#: src/wx/full_config_dialog.cc:1293
 msgid "type (j2c/pcm/sub)"
 msgstr "Inhaltstyp (J2C/PCM/SUB)"
 
-#: src/wx/full_config_dialog.cc:1264
+#: src/wx/full_config_dialog.cc:1274
 msgid "type(cpl/pkl)"
 msgstr "metadatentyp (CPL/PKL)"
 
