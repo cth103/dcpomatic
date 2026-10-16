@@ -21,7 +21,11 @@
 
 #include "locations_preferences_page.h"
 #include "wx_util.h"
+#ifdef DCPOMATIC_USE_OWN_PICKER
+#include "dir_picker_ctrl.h"
+#else
 #include <wx/filepicker.h>
+#endif
 #include <wx/gbsizer.h>
 #include <wx/wx.h>
 
@@ -64,23 +68,41 @@ LocationsPage::setup()
 	_panel->GetSizer()->Add(table, 1, wxALL | wxEXPAND, _border);
 
 	add_label_to_sizer(table, _panel, _("Content directory"), true, wxGBPosition(r, 0));
-	_content_directory = new wxDirPickerCtrl(_panel, wxID_ANY, wxEmptyString, char_to_wx(wxDirSelectorPromptStr), wxDefaultPosition, wxSize(300, -1));
+#ifdef DCPOMATIC_USE_OWN_PICKER
+	_content_directory = new DirPickerCtrl(_panel);
+#else
+	_content_directory = new wxDirPickerCtrl(_panel, wxID_ANY, wxEmptyString, char_to_wx(wxDirSelectorPromptStr), wxDefaultPosition, wxSize(300, -1), wxDIRP_DEFAULT_STYLE & ~wxDIRP_DIR_MUST_EXIST);
+#endif
 	table->Add(_content_directory, wxGBPosition(r, 1));
 	++r;
 
 	add_label_to_sizer(table, _panel, _("Playlist directory"), true, wxGBPosition(r, 0));
-	_playlist_directory = new wxDirPickerCtrl(_panel, wxID_ANY, wxEmptyString, char_to_wx(wxDirSelectorPromptStr), wxDefaultPosition, wxSize(300, -1));
+#ifdef DCPOMATIC_USE_OWN_PICKER
+	_playlist_directory = new DirPickerCtrl(_panel);
+#else
+	_playlist_directory = new wxDirPickerCtrl(_panel, wxID_ANY, wxEmptyString, char_to_wx(wxDirSelectorPromptStr), wxDefaultPosition, wxSize(300, -1), wxDIRP_DEFAULT_STYLE & ~wxDIRP_DIR_MUST_EXIST);
+#endif
 	table->Add(_playlist_directory, wxGBPosition(r, 1));
 	++r;
 
 	add_label_to_sizer(table, _panel, _("KDM directory"), true, wxGBPosition(r, 0));
-	_kdm_directory = new wxDirPickerCtrl(_panel, wxID_ANY, wxEmptyString, char_to_wx(wxDirSelectorPromptStr), wxDefaultPosition, wxSize(300, -1));
+#ifdef DCPOMATIC_USE_OWN_PICKER
+	_kdm_directory = new DirPickerCtrl(_panel);
+#else
+	_kdm_directory = new wxDirPickerCtrl(_panel, wxID_ANY, wxEmptyString, char_to_wx(wxDirSelectorPromptStr), wxDefaultPosition, wxSize(300, -1), wxDIRP_DEFAULT_STYLE & ~wxDIRP_DIR_MUST_EXIST);
+#endif
 	table->Add(_kdm_directory, wxGBPosition(r, 1));
 	++r;
 
+#ifdef DCPOMATIC_USE_OWN_PICKER
+	_content_directory->Changed.connect(bind(&LocationsPage::content_directory_changed, this));
+	_playlist_directory->Changed.connect(bind(&LocationsPage::playlist_directory_changed, this));
+	_kdm_directory->Changed.connect(bind(&LocationsPage::kdm_directory_changed, this));
+#else
 	_content_directory->Bind(wxEVT_DIRPICKER_CHANGED, bind(&LocationsPage::content_directory_changed, this));
 	_playlist_directory->Bind(wxEVT_DIRPICKER_CHANGED, bind(&LocationsPage::playlist_directory_changed, this));
 	_kdm_directory->Bind(wxEVT_DIRPICKER_CHANGED, bind(&LocationsPage::kdm_directory_changed, this));
+#endif
 }
 
 void

@@ -20,8 +20,10 @@
 
 
 #include "preferences_page.h"
+#include "wx_util.h"
 
 
+class DirPickerCtrl;
 class wxDirPickerCtrl;
 
 
@@ -47,9 +49,15 @@ private:
 	void playlist_directory_changed();
 	void kdm_directory_changed();
 
+#ifdef DCPOMATIC_USE_OWN_PICKER
+	DirPickerCtrl* _content_directory;
+	DirPickerCtrl* _playlist_directory;
+	DirPickerCtrl* _kdm_directory;
+#else
 	wxDirPickerCtrl* _content_directory;
 	wxDirPickerCtrl* _playlist_directory;
 	wxDirPickerCtrl* _kdm_directory;
+#endif
 };
 
 

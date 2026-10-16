@@ -331,7 +331,7 @@ private:
 
 	void add_film ()
 	{
-		wxDirDialog dialog(this, _("Select film to open"), wxStandardPaths::Get().GetDocumentsDir(), wxDEFAULT_DIALOG_STYLE | wxDD_DIR_MUST_EXIST);
+		wxDirDialog dialog(this, _("Select film to open"), wxStandardPaths::Get().GetDocumentsDir(), wxDEFAULT_DIALOG_STYLE);
 		if (_last_parent) {
 			dialog.SetPath(std_to_wx(_last_parent.get().string()));
 		}

@@ -766,7 +766,7 @@ private:
 			d = std_to_wx(Config::instance()->last_player_load_directory()->string());
 		}
 
-		wxDirDialog dialog(this, _("Select DCP to open"), d, wxDEFAULT_DIALOG_STYLE | wxDD_DIR_MUST_EXIST);
+		wxDirDialog dialog(this, _("Select DCP to open"), d, wxDEFAULT_DIALOG_STYLE);
 
 		int r;
 		while (true) {
@@ -796,7 +796,7 @@ private:
 			this,
 			_("Select DCP to open as OV"),
 			initial_dir,
-			wxDEFAULT_DIALOG_STYLE | wxDD_DIR_MUST_EXIST
+			wxDEFAULT_DIALOG_STYLE
 			);
 
 		int r;

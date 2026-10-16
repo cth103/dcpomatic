@@ -379,7 +379,7 @@ ContentMenu::find_missing()
 	boost::filesystem::path path;
 
 	if ((ic && !ic->still()) || dc) {
-		wxDirDialog dialog(nullptr, _("Choose a folder"), {}, wxDD_DIR_MUST_EXIST);
+		wxDirDialog dialog(nullptr, _("Choose a folder"), {}, wxDD_DEFAULT_STYLE);
 		r = dialog.ShowModal();
 		path = wx_to_std(dialog.GetPath());
 	} else {
@@ -487,7 +487,7 @@ ContentMenu::ov()
 
 	auto film = _film.lock();
 	DCPOMATIC_ASSERT(film);
-	DirDialog dialog(_parent, _("Select OV"), wxDD_DIR_MUST_EXIST, "AddFilesPath", dcpomatic::film::add_files_override_path(film));
+	DirDialog dialog(_parent, _("Select OV"), wxDD_DEFAULT_STYLE, "AddFilesPath", dcpomatic::film::add_files_override_path(film));
 
 	if (dialog.show()) {
 		dcp->add_ov(dialog.path());
@@ -649,7 +649,7 @@ ContentMenu::copy_settings()
 	auto film = _film.lock();
 	DCPOMATIC_ASSERT(film);
 
-	DirDialog dialog(_parent, _("Film to copy settings from"), wxDD_DIR_MUST_EXIST, "CopySettingsPath", dcpomatic::film::add_files_override_path(film));
+	DirDialog dialog(_parent, _("Film to copy settings from"), wxDD_DEFAULT_STYLE, "CopySettingsPath", dcpomatic::film::add_files_override_path(film));
 
 	if (!dialog.show()) {
 		return;
