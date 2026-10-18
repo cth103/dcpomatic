@@ -282,12 +282,70 @@ private:
 };
 
 
+class PKLAssetEditor : public wxDialog
+{
+public:
+	PKLAssetEditor(wxWindow* parent)
+		: wxDialog(parent, wxID_ANY, _("Edit asset"))
+	{
+		_sizer = new wxBoxSizer(wxVERTICAL);
+
+		_grid = new wxGridBagSizer(DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+		int r = 0;
+
+		add_label_to_sizer(_grid, this, _("ID"), true, wxGBPosition(r, 0));
+		_id = add_label_to_sizer(_grid, this, wxString{}, false, wxGBPosition(r, 1));
+		++r;
+
+		add_label_to_sizer(_grid, this, _("Annotation text"), true, wxGBPosition(r, 0));
+		_annotation_text = new wxTextCtrl(this, wxID_ANY, wxString{}, wxDefaultPosition, wxSize(600, -1));
+		_grid->Add(_annotation_text, wxGBPosition(r, 1), wxDefaultSpan, wxEXPAND);
+		++r;
+
+		_sizer->Add(_grid, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
+		SetSizerAndFit(_sizer);
+		_sizer->SetSizeHints(this);
+
+		_annotation_text->Bind(wxEVT_TEXT, boost::bind(&PKLAssetEditor::annotation_text_changed, this));
+	}
+
+	vector<shared_ptr<dcp::PKL::Asset>> get() {
+		return { _asset };
+	}
+
+	void set(shared_ptr<dcp::PKL::Asset> asset)
+	{
+		_asset = asset;
+
+		_id->SetLabel(std_to_wx(_asset->id()));
+		_annotation_text->SetValue(std_to_wx(asset->annotation_text().get_value_or("")));
+
+		_grid->Layout();
+		_sizer->Layout();
+		_sizer->SetSizeHints(this);
+	}
+
+private:
+	void annotation_text_changed()
+	{
+		_asset->set_annotation_text(wx_to_std(_annotation_text->GetValue()));
+	}
+
+	wxSizer* _sizer = nullptr;
+	wxGridBagSizer* _grid = nullptr;
+	shared_ptr<dcp::PKL::Asset> _asset;
+	wxStaticText* _id;
+	wxTextCtrl* _annotation_text;
+};
+
+
 class PKLPanel : public wxPanel
 {
 public:
-	PKLPanel(wxWindow* parent, shared_ptr<dcp::PKL> pkl)
+	PKLPanel(wxWindow* parent, shared_ptr<dcp::PKL> pkl, vector<shared_ptr<dcp::CPL>> cpls)
 		: wxPanel(parent, wxID_ANY)
 		, _pkl(pkl)
+		, _cpls(cpls)
 	{
 		auto sizer = new wxGridBagSizer(DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 
@@ -312,6 +370,56 @@ public:
 		space->Add(sizer, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 		SetSizerAndFit(space);
 
+		add_label_to_sizer(sizer, this, _("Assets"), true, wxGBPosition(r, 0));
+		_assets = new EditableList<shared_ptr<dcp::PKL::Asset>>(
+			this,
+			{ EditableListColumn(_("ID"), 600, true) },
+			[this]() { return _pkl->assets(); },
+			[](vector<shared_ptr<dcp::PKL::Asset>>) {},
+			EditableList<shared_ptr<dcp::PKL::Asset>>::add_with_dialog<PKLAssetEditor>,
+			EditableList<shared_ptr<dcp::PKL::Asset>>::edit_with_dialog<PKLAssetEditor>,
+			[this](shared_ptr<dcp::PKL::Asset> asset, int) {
+				wxString use;
+				for (auto cpl: _cpls) {
+					if (cpl->id() == asset->id()) {
+						use = _("CPL");
+					}
+					int index = 1;
+					for (auto reel: cpl->reels()) {
+						if (reel->main_picture() && reel->main_picture()->id() == asset->id()) {
+							use = wxString::Format(_("Reel %d picture"), index);
+						} else if (reel->main_sound() && reel->main_sound()->id() == asset->id()) {
+							use = wxString::Format(_("Reel %d sound"), index);
+						} else if (reel->main_subtitle() && reel->main_subtitle()->id() == asset->id()) {
+							use = wxString::Format(_("Reel %d subtitle"), index);
+						} else if (reel->main_caption() && reel->main_caption()->id() == asset->id()) {
+							use = wxString::Format(_("Reel %d caption"), index);
+						} else {
+							for (auto sub: reel->closed_subtitles()) {
+								if (sub->id() == asset->id()) {
+									use = wxString::Format(_("Reel %d closed subtitle"), index);
+								}
+							}
+							for (auto sub: reel->closed_captions()) {
+								if (sub->id() == asset->id()) {
+									use = wxString::Format(_("Reel %d closed caption"), index);
+								}
+							}
+						}
+						++index;
+					}
+				}
+				if (!use.IsEmpty()) {
+					return fmt::format("{} ({})", asset->id(), wx_to_std(use));
+				} else {
+					return asset->id();
+				}
+			},
+			EditableListTitle::INVISIBLE,
+			EditableListButton::EDIT
+		);
+		sizer->Add(_assets, wxGBPosition(r, 1), wxDefaultSpan, wxEXPAND);
+
 		_annotation_text->Bind(wxEVT_TEXT, boost::bind(&PKLPanel::annotation_text_changed, this));
 		_issuer->Bind(wxEVT_TEXT, boost::bind(&PKLPanel::issuer_changed, this));
 		_creator->Bind(wxEVT_TEXT, boost::bind(&PKLPanel::creator_changed, this));
@@ -334,9 +442,11 @@ private:
 	}
 
 	shared_ptr<dcp::PKL> _pkl;
+	vector<shared_ptr<dcp::CPL>> _cpls;
 	wxTextCtrl* _annotation_text = nullptr;
 	wxTextCtrl* _issuer = nullptr;
 	wxTextCtrl* _creator = nullptr;
+	EditableList<shared_ptr<dcp::PKL::Asset>>* _assets;
 };
 
 
@@ -416,7 +526,10 @@ public:
 			);
 		}
 		for (auto pkl: _dcp->pkls()) {
-			_notebook->AddPage(new PKLPanel(_notebook, pkl), wxString::Format(_("PKL: %s"), std_to_wx(pkl->annotation_text().get_value_or(pkl->id()))));
+			_notebook->AddPage(
+				new PKLPanel(_notebook, pkl, _dcp->cpls()),
+				wxString::Format(_("PKL: %s"), std_to_wx(pkl->annotation_text().get_value_or(pkl->id())))
+			);
 		}
 	}
 
