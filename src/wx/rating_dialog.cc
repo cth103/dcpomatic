@@ -57,8 +57,7 @@ RatingDialog::RatingDialog (wxWindow* parent)
 	auto overall_sizer = new wxBoxSizer (wxVERTICAL);
 	overall_sizer->Add (_notebook, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 
-	auto buttons = CreateSeparatedButtonSizer (wxOK | wxCANCEL);
-	if (buttons) {
+	if (auto buttons = CreateSeparatedButtonSizer(wxOK | wxCANCEL)) {
 		overall_sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
 	}
 
