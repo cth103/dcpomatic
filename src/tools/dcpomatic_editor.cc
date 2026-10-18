@@ -398,7 +398,7 @@ public:
 		_overall_panel->SetSizerAndFit(sizer);
 	}
 
-	void load_dcp (boost::filesystem::path path)
+	void load_dcp(boost::filesystem::path path)
 	{
 		try {
 			_dcp = dcp::DCP(path);
@@ -410,7 +410,10 @@ public:
 
 		_notebook->DeleteAllPages();
 		for (auto cpl: _dcp->cpls()) {
-			_notebook->AddPage(new CPLPanel(_notebook, cpl), wxString::Format(_("CPL: %s"), std_to_wx(cpl->annotation_text().get_value_or(cpl->id()))));
+			_notebook->AddPage(
+				new CPLPanel(_notebook, cpl),
+				wxString::Format(_("CPL: %s"), std_to_wx(cpl->annotation_text().get_value_or(cpl->id())))
+			);
 		}
 		for (auto pkl: _dcp->pkls()) {
 			_notebook->AddPage(new PKLPanel(_notebook, pkl), wxString::Format(_("PKL: %s"), std_to_wx(pkl->annotation_text().get_value_or(pkl->id()))));
