@@ -52,7 +52,6 @@ LIBDCP_ENABLE_WARNINGS
 #ifdef __WXGTK__
 #include <X11/Xlib.h>
 #endif
-#include <iostream>
 
 
 using std::exception;
