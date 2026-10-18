@@ -159,7 +159,7 @@ public:
 	{
 		_sizer = new wxBoxSizer(wxVERTICAL);
 		_notebook = new wxNotebook(this, wxID_ANY);
-		_sizer->Add(_notebook, wxEXPAND | wxALL, 1, DCPOMATIC_DIALOG_BORDER);
+		_sizer->Add(_notebook, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 		SetSizerAndFit(_sizer);
 	}
 
