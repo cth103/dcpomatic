@@ -82,6 +82,10 @@ public:
 
 		int r = 0;
 
+		add_label_to_sizer(sizer, this, _("ID"), true, wxGBPosition(r, 0));
+		add_label_to_sizer(sizer, this, std_to_wx(asset->id()), false, wxGBPosition(r, 1));
+		++r;
+
 		add_label_to_sizer(sizer, this, _("Annotation text"), true, wxGBPosition(r, 0));
 		_annotation_text = new wxTextCtrl(this, wxID_ANY, std_to_wx(asset->annotation_text().get_value_or("")), wxDefaultPosition, wxSize(600, -1));
 		sizer->Add(_annotation_text, wxGBPosition(r, 1), wxDefaultSpan, wxEXPAND);
