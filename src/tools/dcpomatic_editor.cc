@@ -70,6 +70,9 @@ enum {
 };
 
 
+static boost::signals2::signal<void ()> Changed;
+
+
 class AssetPanel : public wxPanel
 {
 public:
@@ -126,6 +129,7 @@ private:
 	void annotation_text_changed()
 	{
 		_asset->set_annotation_text(wx_to_std(_annotation_text->GetValue()));
+		Changed();
 	}
 
 	void entry_point_changed()
@@ -137,6 +141,7 @@ private:
 		);
 		_duration->SetValue(fixed_duration);
 		_asset->set_duration(fixed_duration);
+		Changed();
 	}
 
 	void duration_changed()
@@ -148,6 +153,7 @@ private:
 		);
 		_entry_point->SetValue(fixed_entry_point);
 		_asset->set_entry_point(fixed_entry_point);
+		Changed();
 	}
 
 	wxTextCtrl* _annotation_text = nullptr;
@@ -262,21 +268,25 @@ private:
 	void annotation_text_changed()
 	{
 		_cpl->set_annotation_text(wx_to_std(_annotation_text->GetValue()));
+		Changed();
 	}
 
 	void issuer_changed()
 	{
 		_cpl->set_issuer(wx_to_std(_issuer->GetValue()));
+		Changed();
 	}
 
 	void creator_changed()
 	{
 		_cpl->set_creator(wx_to_std(_creator->GetValue()));
+		Changed();
 	}
 
 	void content_title_text_changed()
 	{
 		_cpl->set_content_title_text(wx_to_std(_content_title_text->GetValue()));
+		Changed();
 	}
 
 	std::shared_ptr<dcp::CPL> _cpl;
@@ -334,7 +344,11 @@ public:
 private:
 	void annotation_text_changed()
 	{
-		_asset->set_annotation_text(wx_to_std(_annotation_text->GetValue()));
+		auto const new_text = wx_to_std(_annotation_text->GetValue());
+		if (new_text != _asset->annotation_text()) {
+			_asset->set_annotation_text(new_text);
+			Changed();
+		}
 	}
 
 	wxSizer* _sizer = nullptr;
@@ -435,16 +449,19 @@ private:
 	void annotation_text_changed()
 	{
 		_pkl->set_annotation_text(wx_to_std(_annotation_text->GetValue()));
+		Changed();
 	}
 
 	void issuer_changed()
 	{
 		_pkl->set_issuer(wx_to_std(_issuer->GetValue()));
+		Changed();
 	}
 
 	void creator_changed()
 	{
 		_pkl->set_creator(wx_to_std(_creator->GetValue()));
+		Changed();
 	}
 
 	shared_ptr<dcp::PKL> _pkl;
@@ -512,6 +529,8 @@ public:
 
 		sizer->Add(_notebook, 1, wxEXPAND);
 		_overall_panel->SetSizerAndFit(sizer);
+
+		Changed.connect(boost::bind(&DOMFrame::changed, this));
 	}
 
 	void load_dcp(boost::filesystem::path path)
@@ -538,6 +557,7 @@ public:
 			);
 		}
 
+		_changed = false;
 		set_title();
 	}
 
@@ -595,6 +615,8 @@ private:
 	void file_save ()
 	{
 		_dcp->write_xml(Config::instance()->signer_chain(), dcp::Filenames::ORIGINAL);
+		_changed = false;
+		set_title();
 	}
 
 	void file_exit ()
@@ -614,8 +636,17 @@ private:
 		if (_dcp) {
 			s += char_to_wx(" - ") + std_to_wx(_dcp->directory().string());
 		}
+		if (_changed) {
+			s += char_to_wx(" *");
+		}
 
 		SetTitle(s);
+	}
+
+	void changed()
+	{
+		_changed = true;
+		set_title();
 	}
 
 	wxPanel* _overall_panel = nullptr;
@@ -623,6 +654,7 @@ private:
 	wxSizer* _main_sizer = nullptr;
 	wxNotebook* _notebook = nullptr;
 	optional<dcp::DCP> _dcp;
+	bool _changed = false;
 };
 
 
