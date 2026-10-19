@@ -131,7 +131,10 @@ private:
 	void entry_point_changed()
 	{
 		_asset->set_entry_point(_entry_point->GetValue());
-		auto const fixed_duration = std::min(_asset->intrinsic_duration() - _asset->entry_point().get_value_or(0LL), _asset->duration().get_value_or(_asset->intrinsic_duration()));
+		auto const fixed_duration = std::min(
+			_asset->intrinsic_duration() - _asset->entry_point().get_value_or(0LL),
+			_asset->duration().get_value_or(_asset->intrinsic_duration())
+		);
 		_duration->SetValue(fixed_duration);
 		_asset->set_duration(fixed_duration);
 	}
@@ -139,7 +142,10 @@ private:
 	void duration_changed()
 	{
 		_asset->set_duration(_duration->GetValue());
-		auto const fixed_entry_point = std::min(_asset->intrinsic_duration() - _asset->duration().get_value_or(_asset->intrinsic_duration()), _asset->entry_point().get_value_or(0LL));
+		auto const fixed_entry_point = std::min(
+			_asset->intrinsic_duration() - _asset->duration().get_value_or(_asset->intrinsic_duration()),
+			_asset->entry_point().get_value_or(0LL)
+		);
 		_entry_point->SetValue(fixed_entry_point);
 		_asset->set_entry_point(fixed_entry_point);
 	}
@@ -468,7 +474,7 @@ public:
 class DOMFrame : public wxFrame
 {
 public:
-	DOMFrame ()
+	DOMFrame()
 		: wxFrame(nullptr, -1, variant::wx::dcpomatic_editor())
 		, _main_sizer(new wxBoxSizer(wxVERTICAL))
 	{
