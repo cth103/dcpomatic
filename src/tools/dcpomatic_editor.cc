@@ -531,6 +531,8 @@ public:
 				wxString::Format(_("PKL: %s"), std_to_wx(pkl->annotation_text().get_value_or(pkl->id())))
 			);
 		}
+
+		set_title();
 	}
 
 private:
@@ -598,6 +600,16 @@ private:
 	{
 		AboutDialog dialog(this);
 		dialog.ShowModal();
+	}
+
+	void set_title()
+	{
+		auto s = variant::wx::dcpomatic_editor();
+		if (_dcp) {
+			s += char_to_wx(" - ") + std_to_wx(_dcp->directory().string());
+		}
+
+		SetTitle(s);
 	}
 
 	wxPanel* _overall_panel = nullptr;
