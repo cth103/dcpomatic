@@ -31,6 +31,7 @@
 #include "test.h"
 #include <dcp/types.h>
 #include <boost/test/unit_test.hpp>
+#include <set>
 
 
 using std::make_shared;
@@ -90,6 +91,15 @@ BOOST_AUTO_TEST_CASE(dcp_default_mapping_hi_vi_test)
 		BOOST_CHECK_EQUAL(mapped(dcp::Channel::HI), hi);
 		BOOST_CHECK_EQUAL(mapped(dcp::Channel::VI), vi);
 
+		/* Exactly the channels that the DCP has are mapped: 5.1 and any extras */
+		std::set<int> expected = { 0, 1, 2, 3, 4, 5 };
+		for (auto channel: extra) {
+			expected.insert(static_cast<int>(channel));
+		}
+		for (int channel = 0; channel < MAX_DCP_AUDIO_CHANNELS; ++channel) {
+			BOOST_CHECK_MESSAGE(mapped(static_cast<dcp::Channel>(channel)) == (expected.find(channel) != expected.end()), "channel " << channel);
+		}
+
 		/* ... and so the automatic ISDCF name of the copy only has -HI and -VI if the original did */
 		copy->set_audio_channels(16);
 		auto const isdcf_name = copy->isdcf_name(false, false);
@@ -103,4 +113,5 @@ BOOST_AUTO_TEST_CASE(dcp_default_mapping_hi_vi_test)
 	check("dcp_default_mapping_hi", { dcp::Channel::HI }, true, false);
 	check("dcp_default_mapping_vi", { dcp::Channel::VI }, false, true);
 	check("dcp_default_mapping_both", { dcp::Channel::HI, dcp::Channel::VI }, true, true);
+	check("dcp_default_mapping_rear", { dcp::Channel::BSL, dcp::Channel::BSR }, false, false);
 }
