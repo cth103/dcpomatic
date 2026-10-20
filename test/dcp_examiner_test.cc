@@ -89,6 +89,12 @@ BOOST_AUTO_TEST_CASE(dcp_default_mapping_hi_vi_test)
 
 		BOOST_CHECK_EQUAL(mapped(dcp::Channel::HI), hi);
 		BOOST_CHECK_EQUAL(mapped(dcp::Channel::VI), vi);
+
+		/* ... and so the automatic ISDCF name of the copy only has -HI and -VI if the original did */
+		copy->set_audio_channels(16);
+		auto const isdcf_name = copy->isdcf_name(false, false);
+		BOOST_CHECK_EQUAL(isdcf_name.find("-HI") != string::npos, hi);
+		BOOST_CHECK_EQUAL(isdcf_name.find("-VI") != string::npos, vi);
 		/* The basic channels are always mapped */
 		BOOST_CHECK(mapped(dcp::Channel::CENTRE));
 	};
