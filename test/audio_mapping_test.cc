@@ -25,10 +25,16 @@
  */
 
 
+#include "lib/audio_content.h"
 #include "lib/audio_mapping.h"
 #include "lib/constants.h"
+#include "lib/content_factory.h"
+#include "lib/film.h"
+#include "test.h"
 #include <boost/test/unit_test.hpp>
+#include <dcp/types.h>
 #include <fmt/format.h>
+#include <algorithm>
 
 
 using std::list;
@@ -147,4 +153,45 @@ BOOST_AUTO_TEST_CASE(audio_mapping_take_from_smaller)
 	BOOST_CHECK_CLOSE(A.get(1, 1), 6, 0.01);
 	BOOST_CHECK_CLOSE(A.get(0, 2), 1, 0.01);
 	BOOST_CHECK_CLOSE(A.get(1, 2), 9, 0.01);
+}
+
+
+/** Changing a content's audio mapping is signalled, and mapped_audio_channels() follows it, which is what
+ *  the View > Audio menu's HI and VI choices depend on.
+ */
+BOOST_AUTO_TEST_CASE(audio_mapping_change_signalled_test)
+{
+	auto content = content_factory("test/data/L.wav")[0];
+	auto film = new_test_film("audio_mapping_change_signalled_test", { content });
+	film->set_audio_channels(16);
+
+	int signalled = 0;
+	film->ContentChange.connect([&signalled](ChangeType type, int property, bool) {
+		if (type == ChangeType::DONE && property == AudioContentProperty::STREAMS) {
+			++signalled;
+		}
+	});
+
+	auto has = [film](dcp::Channel channel) {
+		auto const mapped = film->mapped_audio_channels();
+		return std::find(mapped.begin(), mapped.end(), static_cast<int>(channel)) != mapped.end();
+	};
+
+	AudioMapping map(1, MAX_DCP_AUDIO_CHANNELS);
+	map.make_zero();
+	map.set(0, dcp::Channel::CENTRE, 1);
+	content->audio->set_mapping(map);
+	BOOST_CHECK_EQUAL(signalled, 1);
+	BOOST_CHECK(!has(dcp::Channel::HI));
+
+	map.set(0, dcp::Channel::HI, 1);
+	content->audio->set_mapping(map);
+	BOOST_CHECK_EQUAL(signalled, 2);
+	BOOST_CHECK(has(dcp::Channel::HI));
+	BOOST_CHECK(!has(dcp::Channel::VI));
+
+	map.set(0, dcp::Channel::HI, 0);
+	content->audio->set_mapping(map);
+	BOOST_CHECK_EQUAL(signalled, 3);
+	BOOST_CHECK(!has(dcp::Channel::HI));
 }
