@@ -35,6 +35,8 @@
 #include "wx_util.h"
 #include "lib/butler.h"
 #include "lib/config.h"
+#include "lib/constants.h"
+#include "lib/film_util.h"
 #include "lib/dcp_content.h"
 #include "lib/dcpomatic_log.h"
 #include "lib/examine_content_job.h"
@@ -157,6 +159,9 @@ FilmViewer::set_film(shared_ptr<Film> film)
 		return;
 	}
 
+	/* A new film starts with the normal mix */
+	_listen_to = boost::none;
+
 	_film = film;
 
 	_video_view->clear();
@@ -207,6 +212,45 @@ FilmViewer::set_film(shared_ptr<Film> film)
 }
 
 
+/** @return a mapping which sends one DCP channel to the speakers: both of a stereo pair, otherwise the centre */
+static AudioMapping
+listen_to_mapping(dcp::Channel channel, int output_channels)
+{
+	AudioMapping mapping(MAX_DCP_AUDIO_CHANNELS, output_channels);
+	mapping.make_zero();
+
+	if (output_channels == 2) {
+		mapping.set(channel, 0, 1);
+		mapping.set(channel, 1, 1);
+	} else if (output_channels > static_cast<int>(dcp::Channel::CENTRE)) {
+		mapping.set(channel, static_cast<int>(dcp::Channel::CENTRE), 1);
+	} else {
+		mapping.set(channel, 0, 1);
+	}
+
+	return mapping;
+}
+
+
+void
+FilmViewer::set_listen_to(boost::optional<dcp::Channel> channel)
+{
+	if (channel == _listen_to) {
+		return;
+	}
+
+	_listen_to = channel;
+	destroy_and_maybe_create_butler();
+}
+
+
+bool
+FilmViewer::can_listen_to(dcp::Channel channel) const
+{
+	return _film && dcpomatic::film::channel_is_mapped(_film, channel);
+}
+
+
 void
 FilmViewer::destroy_butler()
 {
@@ -246,7 +290,7 @@ FilmViewer::create_butler()
 	_butler = std::make_shared<Butler>(
 		_film,
 		*_player,
-		Config::instance()->audio_mapping(_audio_channels),
+		_listen_to ? listen_to_mapping(*_listen_to, _audio_channels) : Config::instance()->audio_mapping(_audio_channels),
 		_audio_channels,
 		AV_PIX_FMT_RGB24,
 		VideoRange::FULL,
