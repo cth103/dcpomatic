@@ -19,16 +19,22 @@
 */
 
 
+#include "lib/audio_content.h"
+#include "lib/audio_mapping.h"
 #include "lib/content_factory.h"
 #include "lib/dcp_content.h"
 #include "lib/dcp_examiner.h"
 #include "lib/film.h"
+#include "lib/ffmpeg_content.h"
 #include "lib/ratio.h"
 #include "test.h"
+#include <dcp/types.h>
 #include <boost/test/unit_test.hpp>
 
 
 using std::make_shared;
+using std::string;
+using std::vector;
 
 
 BOOST_AUTO_TEST_CASE(check_examine_vfs)
@@ -50,3 +56,44 @@ BOOST_AUTO_TEST_CASE(check_examine_vfs)
 	DCPExaminer examiner(vf_dcp, false);
 }
 
+
+
+/** HI and VI are mapped by default for an imported DCP only if the DCP has those channels */
+BOOST_AUTO_TEST_CASE(dcp_default_mapping_hi_vi_test)
+{
+	auto check = [](string name, vector<dcp::Channel> extra, bool hi, bool vi) {
+		auto source = make_shared<FFmpegContent>("test/data/L.wav");
+		auto ov = new_test_film(name + "_ov", { source });
+		ov->set_audio_channels(16);
+		AudioMapping mapping(1, MAX_DCP_AUDIO_CHANNELS);
+		mapping.set(0, dcp::Channel::CENTRE, 1);
+		for (auto channel: extra) {
+			mapping.set(0, channel, 1);
+		}
+		source->audio->set_mapping(mapping);
+		make_and_verify_dcp(ov, { dcp::VerificationNote::Code::MISSING_CPL_METADATA });
+
+		auto dcp = make_shared<DCPContent>(ov->dir(ov->dcp_name()));
+		auto copy = new_test_film(name + "_copy", { dcp });
+
+		auto mapped = [dcp](dcp::Channel channel) {
+			auto const map = dcp->audio->stream()->mapping();
+			for (int output = 0; output < map.output_channels(); ++output) {
+				if (map.get(static_cast<int>(channel), output) > 0) {
+					return true;
+				}
+			}
+			return false;
+		};
+
+		BOOST_CHECK_EQUAL(mapped(dcp::Channel::HI), hi);
+		BOOST_CHECK_EQUAL(mapped(dcp::Channel::VI), vi);
+		/* The basic channels are always mapped */
+		BOOST_CHECK(mapped(dcp::Channel::CENTRE));
+	};
+
+	check("dcp_default_mapping_none", {}, false, false);
+	check("dcp_default_mapping_hi", { dcp::Channel::HI }, true, false);
+	check("dcp_default_mapping_vi", { dcp::Channel::VI }, false, true);
+	check("dcp_default_mapping_both", { dcp::Channel::HI, dcp::Channel::VI }, true, true);
+}
