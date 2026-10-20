@@ -830,7 +830,7 @@ void
 check_ffmpeg(boost::filesystem::path ref, boost::filesystem::path check, float audio_tolerance)
 {
 	int const r = system (fmt::format("ffcmp -t {} {} {}", audio_tolerance, ref.string(), check.string()).c_str());
-	BOOST_REQUIRE_EQUAL (WEXITSTATUS(r), 0);
+	BOOST_REQUIRE_MESSAGE(WEXITSTATUS(r) == 0, ref.string() << " did not match " << check.string());
 }
 
 
