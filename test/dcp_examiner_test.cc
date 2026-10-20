@@ -21,6 +21,7 @@
 
 #include "lib/audio_content.h"
 #include "lib/audio_mapping.h"
+#include "lib/constants.h"
 #include "lib/content_factory.h"
 #include "lib/dcp_content.h"
 #include "lib/dcp_examiner.h"
