@@ -35,6 +35,8 @@
 #include <dcp/dcp_time.h>
 #include <dcp/main_sound_configuration.h>
 #include <dcp/rating.h>
+#include <boost/optional.hpp>
+#include <set>
 
 
 class DCPContent;
@@ -107,6 +109,13 @@ public:
 
 	int active_audio_channels() const {
 		return _active_audio_channels.get_value_or(0);
+	}
+
+	/** @return the channels (0-based) that the sound assets say are in use, from their MCA channel labels,
+	 *  or none if any sound asset has no such labels.
+	 */
+	boost::optional<std::set<int>> active_audio_channel_list() const {
+		return _active_audio_channel_list_known ? _active_audio_channel_list : boost::optional<std::set<int>>();
 	}
 
 	Frame audio_length() const override {
@@ -245,6 +254,9 @@ private:
 	Frame _video_length = 0;
 	boost::optional<int> _audio_channels;
 	boost::optional<int> _active_audio_channels;
+	boost::optional<std::set<int>> _active_audio_channel_list;
+	/** false if one of the sound assets has no MCA channel labels, so _active_audio_channel_list is unknown */
+	bool _active_audio_channel_list_known = true;
 	boost::optional<int> _audio_frame_rate;
 	Frame _audio_length = 0;
 	std::string _name;
