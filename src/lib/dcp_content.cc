@@ -292,16 +292,16 @@ DCPContent::examine(shared_ptr<const Film> film, shared_ptr<Job> job, bool toler
 		audio->set_stream(as);
 		auto m = as->mapping();
 		m.make_default(film ? film->audio_processor() : 0);
-		/* HI and VI are only mapped if the DCP says it has them; otherwise a copy of this DCP would
-		 * get them (and "-HI" / "-VI" in its name) just because the sound asset has 16 channels.
+		/* A DCP's sound asset usually has 16 channels, but only some of them are in use.  Map only the
+		 * ones that the DCP says it has (so a copy does not get HI and VI, or "-HI" and "-VI" in its name,
+		 * just because the asset is 16 channels wide).  If the project has Atmos, the sync signal in
+		 * channel 14 is written afresh whatever is mapped to it.
 		 */
-		if (auto active = examiner->active_audio_channel_list()) {
-			for (auto channel: { dcp::Channel::HI, dcp::Channel::VI }) {
-				auto const input = static_cast<int>(channel);
-				if (active->find(input) == active->end() && input < m.input_channels()) {
-					for (int output = 0; output < m.output_channels(); ++output) {
-						m.set(input, output, 0);
-					}
+		auto const active = examiner->active_audio_channel_list();
+		for (int input = 0; input < m.input_channels(); ++input) {
+			if (active && active->find(input) == active->end()) {
+				for (int output = 0; output < m.output_channels(); ++output) {
+					m.set(input, output, 0);
 				}
 			}
 		}
