@@ -585,7 +585,7 @@ BOOST_AUTO_TEST_CASE(ffmpeg_encoder_vob_to_wav_test)
 
 		FFmpegFilmEncoder encoder(film, job, file, format, false, false, false, 0);
 		encoder.go();
-		check_ffmpeg(file, TestPaths::private_data() / fmt::format("{}_{}.wav", name, bits), -88);
+		check_ffmpeg(file, TestPaths::private_data() / fmt::format("{}_{}-v2.20.x.wav", name, bits), -88);
 	};
 
 	make_wav(16, ExportFormat::WAV_16);
