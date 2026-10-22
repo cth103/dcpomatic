@@ -90,14 +90,14 @@ using namespace boost::placeholders;
 
 
 boost::filesystem::path
-TestPaths::TestPaths::private_data ()
+TestPaths::TestPaths::private_data()
 {
 	char* env = getenv("DCPOMATIC_TEST_PRIVATE");
 	if (env) {
 		return boost::filesystem::path(env);
 	}
 
-	auto relative = boost::filesystem::path ("..") / boost::filesystem::path ("dcpomatic-test-private");
+	auto relative = boost::filesystem::path("..") / boost::filesystem::path("dcpomatic-test-private");
 	if (!boost::filesystem::exists(relative)) {
 		std::cerr << "No private test data found! Tests may fail.\n";
 		return relative;
@@ -107,34 +107,34 @@ TestPaths::TestPaths::private_data ()
 }
 
 
-boost::filesystem::path TestPaths::xsd ()
+boost::filesystem::path TestPaths::xsd()
 {
 	return boost::filesystem::current_path().parent_path() / "libdcp" / "xsd";
 }
 
 
 static void
-setup_test_config ()
+setup_test_config()
 {
 	Config::instance()->set_master_encoding_threads(boost::thread::hardware_concurrency());
-	Config::instance()->set_server_encoding_threads (1);
-	Config::instance()->set_server_port_base (61921);
-	Config::instance()->set_default_audio_delay (0);
-	Config::instance()->set_default_still_length (10);
-	Config::instance()->set_log_types (
+	Config::instance()->set_server_encoding_threads(1);
+	Config::instance()->set_server_port_base(61921);
+	Config::instance()->set_default_audio_delay(0);
+	Config::instance()->set_default_still_length(10);
+	Config::instance()->set_log_types(
 		LogEntry::TYPE_GENERAL | LogEntry::TYPE_WARNING |
 		LogEntry::TYPE_ERROR | LogEntry::TYPE_DISK
 		);
-	Config::instance()->set_automatic_audio_analysis (false);
+	Config::instance()->set_automatic_audio_analysis(false);
 #ifdef DCPOMATIC_GROK
 	Config::instance()->set_grok(Config::Grok{});
 #endif
 	auto signer = make_shared<dcp::CertificateChain>(dcp::file_to_string("test/data/signer_chain"));
 	signer->set_key(dcp::file_to_string("test/data/signer_key"));
-	Config::instance()->set_signer_chain (signer);
+	Config::instance()->set_signer_chain(signer);
 	auto decryption = make_shared<dcp::CertificateChain>(dcp::file_to_string("test/data/decryption_chain"));
 	decryption->set_key(dcp::file_to_string("test/data/decryption_key"));
-	Config::instance()->set_decryption_chain (decryption);
+	Config::instance()->set_decryption_chain(decryption);
 	Config::instance()->set_dcp_asset_filename_format(dcp::NameFormat("%t"));
 	Config::instance()->set_cinemas_file(boost::filesystem::current_path() / "build/test/cinemas.sqlite3");
 	Config::instance()->set_dkdm_recipients_file("build/test/dkdm_recipients.sqlite3");
@@ -145,7 +145,7 @@ class TestSignalManager : public SignalManager
 {
 public:
 	/* No wakes in tests: we call ui_idle ourselves */
-	void wake_ui () override
+	void wake_ui() override
 	{
 
 	}
@@ -153,22 +153,22 @@ public:
 
 struct TestConfig
 {
-	TestConfig ()
+	TestConfig()
 	{
 		running_tests = true;
 		State::override_path = "build/test/state";
-		boost::filesystem::remove_all (*State::override_path);
+		boost::filesystem::remove_all(*State::override_path);
 
-		dcpomatic_setup ();
-		setup_test_config ();
+		dcpomatic_setup();
+		setup_test_config();
 		capture_ffmpeg_logs();
 		dcpomatic_setup_path_encoding();
 
 		EncodeServerFinder::drop();
 
-		signal_manager = new TestSignalManager ();
+		signal_manager = new TestSignalManager();
 
-		dcpomatic_log.reset (new FileLog("build/test/log"));
+		dcpomatic_log.reset(new FileLog("build/test/log"));
 
 		auto const& suite = boost::unit_test::framework::master_test_suite();
 		int types = LogEntry::TYPE_GENERAL | LogEntry::TYPE_WARNING | LogEntry::TYPE_ERROR;
@@ -181,18 +181,18 @@ struct TestConfig
 		dcpomatic_log->set_types(types);
 	}
 
-	~TestConfig ()
+	~TestConfig()
 	{
-		JobManager::drop ();
+		JobManager::drop();
 	}
 };
 
 
-BOOST_GLOBAL_FIXTURE (TestConfig);
+BOOST_GLOBAL_FIXTURE(TestConfig);
 
 
 boost::filesystem::path
-test_film_dir (string name)
+test_film_dir(string name)
 {
 	boost::filesystem::path p;
 	p /= "build";
@@ -205,19 +205,19 @@ test_film_dir (string name)
 shared_ptr<Film>
 new_test_film(string name, vector<shared_ptr<Content>> content, Cleanup* cleanup)
 {
-	auto p = test_film_dir (name);
-	if (boost::filesystem::exists (p)) {
-		boost::filesystem::remove_all (p);
+	auto p = test_film_dir(name);
+	if (boost::filesystem::exists(p)) {
+		boost::filesystem::remove_all(p);
 	}
 	if (cleanup) {
-		cleanup->add (p);
+		cleanup->add(p);
 	}
 
 	auto film = make_shared<Film>(p);
 	film->use_template({});
-	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
-	film->set_container (Ratio::from_id ("185"));
-	film->write_metadata ();
+	film->set_dcp_content_type(DCPContentType::from_isdcf_name("TST"));
+	film->set_container(Ratio::from_id("185"));
+	film->write_metadata();
 
 	film->examine_and_add_content(content);
 	BOOST_REQUIRE(!wait_for_jobs());
@@ -227,39 +227,39 @@ new_test_film(string name, vector<shared_ptr<Content>> content, Cleanup* cleanup
 
 
 void
-check_wav_file (boost::filesystem::path ref, boost::filesystem::path check)
+check_wav_file(boost::filesystem::path ref, boost::filesystem::path check)
 {
 	SF_INFO ref_info;
 	ref_info.format = 0;
-	auto ref_file = sf_open (ref.string().c_str(), SFM_READ, &ref_info);
-	BOOST_CHECK (ref_file);
+	auto ref_file = sf_open(ref.string().c_str(), SFM_READ, &ref_info);
+	BOOST_CHECK(ref_file);
 
 	SF_INFO check_info;
 	check_info.format = 0;
-	auto check_file = sf_open (check.string().c_str(), SFM_READ, &check_info);
-	BOOST_CHECK (check_file);
+	auto check_file = sf_open(check.string().c_str(), SFM_READ, &check_info);
+	BOOST_CHECK(check_file);
 
-	BOOST_CHECK_EQUAL (ref_info.frames, check_info.frames);
-	BOOST_CHECK_EQUAL (ref_info.samplerate, check_info.samplerate);
-	BOOST_CHECK_EQUAL (ref_info.channels, check_info.channels);
-	BOOST_CHECK_EQUAL (ref_info.format, check_info.format);
+	BOOST_CHECK_EQUAL(ref_info.frames, check_info.frames);
+	BOOST_CHECK_EQUAL(ref_info.samplerate, check_info.samplerate);
+	BOOST_CHECK_EQUAL(ref_info.channels, check_info.channels);
+	BOOST_CHECK_EQUAL(ref_info.format, check_info.format);
 
 	/* buffer_size is in frames */
 	sf_count_t const buffer_size = 65536 * ref_info.channels;
-	scoped_array<int32_t> ref_buffer (new int32_t[buffer_size]);
-	scoped_array<int32_t> check_buffer (new int32_t[buffer_size]);
+	scoped_array<int32_t> ref_buffer(new int32_t[buffer_size]);
+	scoped_array<int32_t> check_buffer(new int32_t[buffer_size]);
 
 	sf_count_t N = ref_info.frames;
 	while (N) {
-		sf_count_t this_time = min (buffer_size, N);
-		sf_count_t r = sf_readf_int (ref_file, ref_buffer.get(), this_time);
-		BOOST_CHECK_EQUAL (r, this_time);
-		r = sf_readf_int (check_file, check_buffer.get(), this_time);
-		BOOST_CHECK_EQUAL (r, this_time);
+		sf_count_t this_time = min(buffer_size, N);
+		sf_count_t r = sf_readf_int(ref_file, ref_buffer.get(), this_time);
+		BOOST_CHECK_EQUAL(r, this_time);
+		r = sf_readf_int(check_file, check_buffer.get(), this_time);
+		BOOST_CHECK_EQUAL(r, this_time);
 
 		for (sf_count_t i = 0; i < this_time; ++i) {
-			BOOST_REQUIRE_MESSAGE (
-				abs (ref_buffer[i] - check_buffer[i]) <= 65536,
+			BOOST_REQUIRE_MESSAGE(
+				abs(ref_buffer[i] - check_buffer[i]) <= 65536,
 				ref << " differs from " << check << " at " << (ref_info.frames - N + i) << " of " << ref_info.frames
 				<< "(" << ref_buffer[i] << " vs " << check_buffer[i] << ")"
 				);
@@ -271,29 +271,29 @@ check_wav_file (boost::filesystem::path ref, boost::filesystem::path check)
 
 
 void
-check_mxf_audio_file (boost::filesystem::path ref, boost::filesystem::path check)
+check_mxf_audio_file(boost::filesystem::path ref, boost::filesystem::path check)
 {
 	Kumu::FileReaderFactory factory;
 	ASDCP::PCM::MXFReader ref_reader(factory);
-	BOOST_REQUIRE (!ASDCP_FAILURE (ref_reader.OpenRead (ref.string().c_str())));
+	BOOST_REQUIRE(!ASDCP_FAILURE(ref_reader.OpenRead(ref.string().c_str())));
 
 	ASDCP::PCM::AudioDescriptor ref_desc;
-	BOOST_REQUIRE (!ASDCP_FAILURE (ref_reader.FillAudioDescriptor (ref_desc)));
+	BOOST_REQUIRE(!ASDCP_FAILURE(ref_reader.FillAudioDescriptor(ref_desc)));
 
 	ASDCP::PCM::MXFReader check_reader(factory);
-	BOOST_REQUIRE (!ASDCP_FAILURE (check_reader.OpenRead (check.string().c_str())));
+	BOOST_REQUIRE(!ASDCP_FAILURE(check_reader.OpenRead(check.string().c_str())));
 
 	ASDCP::PCM::AudioDescriptor check_desc;
-	BOOST_REQUIRE (!ASDCP_FAILURE (check_reader.FillAudioDescriptor (check_desc)));
+	BOOST_REQUIRE(!ASDCP_FAILURE(check_reader.FillAudioDescriptor(check_desc)));
 
-	BOOST_REQUIRE_EQUAL (ref_desc.ContainerDuration, check_desc.ContainerDuration);
+	BOOST_REQUIRE_EQUAL(ref_desc.ContainerDuration, check_desc.ContainerDuration);
 	BOOST_REQUIRE_MESSAGE(ref_desc.ChannelCount, check_desc.ChannelCount);
 
-	ASDCP::PCM::FrameBuffer ref_buffer (Kumu::Megabyte);
-	ASDCP::PCM::FrameBuffer check_buffer (Kumu::Megabyte);
+	ASDCP::PCM::FrameBuffer ref_buffer(Kumu::Megabyte);
+	ASDCP::PCM::FrameBuffer check_buffer(Kumu::Megabyte);
 	for (size_t i = 0; i < ref_desc.ContainerDuration; ++i) {
-		ref_reader.ReadFrame (i, ref_buffer, 0);
-		check_reader.ReadFrame (i, check_buffer, 0);
+		ref_reader.ReadFrame(i, ref_buffer, 0);
+		check_reader.ReadFrame(i, check_buffer, 0);
 		BOOST_REQUIRE_MESSAGE(memcmp(ref_buffer.RoData(), check_buffer.RoData(), ref_buffer.Size()) == 0, "Audio MXF differs in frame " << i);
 	}
 }
@@ -301,20 +301,20 @@ check_mxf_audio_file (boost::filesystem::path ref, boost::filesystem::path check
 
 /** @return true if the files are the same, otherwise false */
 bool
-mxf_atmos_files_same (boost::filesystem::path ref, boost::filesystem::path check, bool verbose)
+mxf_atmos_files_same(boost::filesystem::path ref, boost::filesystem::path check, bool verbose)
 {
 	Kumu::FileReaderFactory factory;
 	ASDCP::ATMOS::MXFReader ref_reader(factory);
-	BOOST_REQUIRE (!ASDCP_FAILURE(ref_reader.OpenRead(ref.string().c_str())));
+	BOOST_REQUIRE(!ASDCP_FAILURE(ref_reader.OpenRead(ref.string().c_str())));
 
 	ASDCP::ATMOS::AtmosDescriptor ref_desc;
-	BOOST_REQUIRE (!ASDCP_FAILURE(ref_reader.FillAtmosDescriptor(ref_desc)));
+	BOOST_REQUIRE(!ASDCP_FAILURE(ref_reader.FillAtmosDescriptor(ref_desc)));
 
 	ASDCP::ATMOS::MXFReader check_reader(factory);
-	BOOST_REQUIRE (!ASDCP_FAILURE(check_reader.OpenRead(check.string().c_str())));
+	BOOST_REQUIRE(!ASDCP_FAILURE(check_reader.OpenRead(check.string().c_str())));
 
 	ASDCP::ATMOS::AtmosDescriptor check_desc;
-	BOOST_REQUIRE (!ASDCP_FAILURE(check_reader.FillAtmosDescriptor(check_desc)));
+	BOOST_REQUIRE(!ASDCP_FAILURE(check_reader.FillAtmosDescriptor(check_desc)));
 
 	if (ref_desc.EditRate.Numerator != check_desc.EditRate.Numerator) {
 		if (verbose) {
@@ -359,11 +359,11 @@ mxf_atmos_files_same (boost::filesystem::path ref, boost::filesystem::path check
 		return false;
 	}
 
-	ASDCP::DCData::FrameBuffer ref_buffer (Kumu::Megabyte);
-	ASDCP::DCData::FrameBuffer check_buffer (Kumu::Megabyte);
+	ASDCP::DCData::FrameBuffer ref_buffer(Kumu::Megabyte);
+	ASDCP::DCData::FrameBuffer check_buffer(Kumu::Megabyte);
 	for (size_t i = 0; i < ref_desc.ContainerDuration; ++i) {
-		ref_reader.ReadFrame (i, ref_buffer, 0);
-		check_reader.ReadFrame (i, check_buffer, 0);
+		ref_reader.ReadFrame(i, ref_buffer, 0);
+		check_reader.ReadFrame(i, check_buffer, 0);
 		if (memcmp(ref_buffer.RoData(), check_buffer.RoData(), ref_buffer.Size())) {
 			if (verbose) {
 				std::cout << "data differs.\n";
@@ -378,19 +378,19 @@ mxf_atmos_files_same (boost::filesystem::path ref, boost::filesystem::path check
 
 static
 double
-rms_error (boost::filesystem::path ref, boost::filesystem::path check)
+rms_error(boost::filesystem::path ref, boost::filesystem::path check)
 {
-	FFmpegImageProxy ref_proxy (ref);
+	FFmpegImageProxy ref_proxy(ref);
 	auto ref_image = ref_proxy.image(Image::Alignment::COMPACT).image;
-	FFmpegImageProxy check_proxy (check);
+	FFmpegImageProxy check_proxy(check);
 	auto check_image = check_proxy.image(Image::Alignment::COMPACT).image;
 
-	BOOST_REQUIRE_EQUAL (ref_image->planes(), check_image->planes());
+	BOOST_REQUIRE_EQUAL(ref_image->planes(), check_image->planes());
 
-	BOOST_REQUIRE_EQUAL (ref_image->pixel_format(), check_image->pixel_format());
+	BOOST_REQUIRE_EQUAL(ref_image->pixel_format(), check_image->pixel_format());
 	auto const format = ref_image->pixel_format();
 
-	BOOST_REQUIRE (ref_image->size() == check_image->size());
+	BOOST_REQUIRE(ref_image->size() == check_image->size());
 	int const width = ref_image->size().width;
 	int const height = ref_image->size().height;
 
@@ -449,27 +449,27 @@ rms_error (boost::filesystem::path ref, boost::filesystem::path check)
 			break;
 		}
 		default:
-			BOOST_REQUIRE_MESSAGE (false, "unrecognised pixel format " << format);
+			BOOST_REQUIRE_MESSAGE(false, "unrecognised pixel format " << format);
 	}
 
 	return sqrt(sum_square / (height * width));
 }
 
 
-BOOST_AUTO_TEST_CASE (rms_error_test)
+BOOST_AUTO_TEST_CASE(rms_error_test)
 {
-	BOOST_CHECK_CLOSE (rms_error("test/data/check_image0.png", "test/data/check_image0.png"), 0, 0.001);
-	BOOST_CHECK_CLOSE (rms_error("test/data/check_image0.png", "test/data/check_image1.png"), 2.2778, 0.001);
-	BOOST_CHECK_CLOSE (rms_error("test/data/check_image0.png", "test/data/check_image2.png"), 59.8896, 0.001);
-	BOOST_CHECK_CLOSE (rms_error("test/data/check_image0.png", "test/data/check_image3.png"), 0.89164, 0.001);
+	BOOST_CHECK_CLOSE(rms_error("test/data/check_image0.png", "test/data/check_image0.png"), 0, 0.001);
+	BOOST_CHECK_CLOSE(rms_error("test/data/check_image0.png", "test/data/check_image1.png"), 2.2778, 0.001);
+	BOOST_CHECK_CLOSE(rms_error("test/data/check_image0.png", "test/data/check_image2.png"), 59.8896, 0.001);
+	BOOST_CHECK_CLOSE(rms_error("test/data/check_image0.png", "test/data/check_image3.png"), 0.89164, 0.001);
 }
 
 
 void
-check_image (boost::filesystem::path ref, boost::filesystem::path check, double threshold)
+check_image(boost::filesystem::path ref, boost::filesystem::path check, double threshold)
 {
-	double const e = rms_error (ref, check);
-	BOOST_CHECK_MESSAGE (e < threshold, ref << " differs from " << check << " " << e);
+	double const e = rms_error(ref, check);
+	BOOST_CHECK_MESSAGE(e < threshold, ref << " differs from " << check << " " << e);
 }
 
 
@@ -481,14 +481,14 @@ check_image_and_report(boost::filesystem::path ref, boost::filesystem::path chec
 
 
 void
-check_file (boost::filesystem::path ref, boost::filesystem::path check)
+check_file(boost::filesystem::path ref, boost::filesystem::path check)
 {
-	auto N = boost::filesystem::file_size (ref);
-	BOOST_CHECK_EQUAL (N, boost::filesystem::file_size (check));
+	auto N = boost::filesystem::file_size(ref);
+	BOOST_CHECK_EQUAL(N, boost::filesystem::file_size(check));
 	dcp::File ref_file(ref, "rb");
-	BOOST_CHECK (ref_file);
+	BOOST_CHECK(ref_file);
 	dcp::File check_file(check, "rb");
-	BOOST_CHECK (check_file);
+	BOOST_CHECK(check_file);
 
 	int const buffer_size = 65536;
 	std::vector<uint8_t> ref_buffer(buffer_size);
@@ -497,14 +497,14 @@ check_file (boost::filesystem::path ref, boost::filesystem::path check)
 	string error = "File " + check.string() + " differs from reference " + ref.string();
 
 	while (N) {
-		uintmax_t this_time = min (uintmax_t (buffer_size), N);
-		size_t r = ref_file.read (ref_buffer.data(), 1, this_time);
-		BOOST_CHECK_EQUAL (r, this_time);
+		uintmax_t this_time = min(uintmax_t(buffer_size), N);
+		size_t r = ref_file.read(ref_buffer.data(), 1, this_time);
+		BOOST_CHECK_EQUAL(r, this_time);
 		r = check_file.read(check_buffer.data(), 1, this_time);
-		BOOST_CHECK_EQUAL (r, this_time);
+		BOOST_CHECK_EQUAL(r, this_time);
 
-		BOOST_CHECK_MESSAGE (memcmp (ref_buffer.data(), check_buffer.data(), this_time) == 0, error);
-		if (memcmp (ref_buffer.data(), check_buffer.data(), this_time)) {
+		BOOST_CHECK_MESSAGE(memcmp(ref_buffer.data(), check_buffer.data(), this_time) == 0, error);
+		if (memcmp(ref_buffer.data(), check_buffer.data(), this_time)) {
 			break;
 		}
 
@@ -514,25 +514,25 @@ check_file (boost::filesystem::path ref, boost::filesystem::path check)
 
 
 void
-check_text_file (boost::filesystem::path ref, boost::filesystem::path check)
+check_text_file(boost::filesystem::path ref, boost::filesystem::path check)
 {
 	dcp::File ref_file(ref, "r");
-	BOOST_CHECK (ref_file);
+	BOOST_CHECK(ref_file);
 	dcp::File check_file(check, "r");
-	BOOST_CHECK (check_file);
+	BOOST_CHECK(check_file);
 
 	int const buffer_size = std::max(
 		boost::filesystem::file_size(ref),
 		boost::filesystem::file_size(check)
 		);
 
-	DCPOMATIC_ASSERT (buffer_size < 1024 * 1024);
+	DCPOMATIC_ASSERT(buffer_size < 1024 * 1024);
 
 	std::vector<uint8_t> ref_buffer(buffer_size);
 	auto ref_read = ref_file.read(ref_buffer.data(), 1, buffer_size);
 	std::vector<uint8_t> check_buffer(buffer_size);
 	auto check_read = check_file.read(check_buffer.data(), 1, buffer_size);
-	BOOST_CHECK_EQUAL (ref_read, check_read);
+	BOOST_CHECK_EQUAL(ref_read, check_read);
 
 	string const error = "File " + check.string() + " differs from reference " + ref.string();
 	BOOST_CHECK_MESSAGE(memcmp(ref_buffer.data(), check_buffer.data(), ref_read) == 0, error);
@@ -540,7 +540,7 @@ check_text_file (boost::filesystem::path ref, boost::filesystem::path check)
 
 
 static void
-note (dcp::NoteType t, string n)
+note(dcp::NoteType t, string n)
 {
 	if (t == dcp::NoteType::ERROR) {
 		cerr << n << "\n";
@@ -549,19 +549,19 @@ note (dcp::NoteType t, string n)
 
 
 void
-check_dcp (boost::filesystem::path ref, shared_ptr<const Film> film)
+check_dcp(boost::filesystem::path ref, shared_ptr<const Film> film)
 {
-	check_dcp (ref, film->dir(film->dcp_name()));
+	check_dcp(ref, film->dir(film->dcp_name()));
 }
 
 
 void
 check_dcp(boost::filesystem::path ref, boost::filesystem::path check, bool sound_can_differ)
 {
-	dcp::DCP ref_dcp (ref);
-	ref_dcp.read ();
-	dcp::DCP check_dcp (check);
-	check_dcp.read ();
+	dcp::DCP ref_dcp(ref);
+	ref_dcp.read();
+	dcp::DCP check_dcp(check);
+	check_dcp.read();
 
 	dcp::EqualityOptions options;
 	options.max_mean_pixel_error = 8;
@@ -575,7 +575,7 @@ check_dcp(boost::filesystem::path ref, boost::filesystem::path check, bool sound
 	options.max_text_vertical_position_error = 0.001;
 	options.sound_assets_can_differ = sound_can_differ;
 
-	BOOST_CHECK_MESSAGE(ref_dcp.equals(check_dcp, options, boost::bind (note, _1, _2)), check << " does not match " << ref);
+	BOOST_CHECK_MESSAGE(ref_dcp.equals(check_dcp, options, boost::bind(note, _1, _2)), check << " does not match " << ref);
 }
 
 void
@@ -587,40 +587,40 @@ check_xml(
 	optional<boost::filesystem::path> test_file
 	)
 {
-	BOOST_CHECK_EQUAL (ref->get_name (), test->get_name ());
-	BOOST_CHECK_EQUAL (ref->get_namespace_prefix (), test->get_namespace_prefix ());
+	BOOST_CHECK_EQUAL(ref->get_name(), test->get_name());
+	BOOST_CHECK_EQUAL(ref->get_namespace_prefix(), test->get_namespace_prefix());
 
-	if (find (ignore.begin(), ignore.end(), ref->get_name()) != ignore.end ()) {
+	if (find(ignore.begin(), ignore.end(), ref->get_name()) != ignore.end()) {
 		return;
 	}
 
-	auto ref_children = ref->get_children ();
-	auto test_children = test->get_children ();
+	auto ref_children = ref->get_children();
+	auto test_children = test->get_children();
 	string context;
 	if (ref_file && test_file) {
 		context = fmt::format(" comparing {} and {}", ref_file->string(), test_file->string());
 	}
-	BOOST_REQUIRE_MESSAGE (
+	BOOST_REQUIRE_MESSAGE(
 		ref_children.size() == test_children.size(),
 		ref->get_name() << " has " << ref_children.size() << " or " << test_children.size() << " children" << context
 		);
 
-	auto k = ref_children.begin ();
-	auto l = test_children.begin ();
-	while (k != ref_children.end ()) {
+	auto k = ref_children.begin();
+	auto l = test_children.begin();
+	while (k != ref_children.end()) {
 
 		/* XXX: should be doing xmlpp::EntityReference, xmlpp::XIncludeEnd, xmlpp::XIncludeStart */
 
 		auto ref_el = dynamic_cast<xmlpp::Element*>(*k);
 		auto test_el = dynamic_cast<xmlpp::Element*>(*l);
-		BOOST_CHECK ((ref_el && test_el) || (!ref_el && !test_el));
+		BOOST_CHECK((ref_el && test_el) || (!ref_el && !test_el));
 		if (ref_el && test_el) {
 			check_xml(ref_el, test_el, ignore, ref_file, test_file);
 		}
 
 		auto ref_cn = dynamic_cast<xmlpp::ContentNode*>(*k);
 		auto test_cn = dynamic_cast<xmlpp::ContentNode*>(*l);
-		BOOST_CHECK ((ref_cn && test_cn) || (!ref_cn && !test_cn));
+		BOOST_CHECK((ref_cn && test_cn) || (!ref_cn && !test_cn));
 		if (ref_cn && test_cn) {
 			BOOST_CHECK_MESSAGE(
 				ref_cn->get_content() == test_cn->get_content(),
@@ -632,15 +632,15 @@ check_xml(
 		++l;
 	}
 
-	auto ref_attributes = ref->get_attributes ();
-	auto test_attributes = test->get_attributes ();
-	BOOST_CHECK_EQUAL (ref_attributes.size(), test_attributes.size ());
+	auto ref_attributes = ref->get_attributes();
+	auto test_attributes = test->get_attributes();
+	BOOST_CHECK_EQUAL(ref_attributes.size(), test_attributes.size());
 
 	auto m = ref_attributes.begin();
 	auto n = test_attributes.begin();
-	while (m != ref_attributes.end ()) {
-		BOOST_CHECK_EQUAL ((*m)->get_name(), (*n)->get_name());
-		BOOST_CHECK_EQUAL ((*m)->get_value(), (*n)->get_value());
+	while (m != ref_attributes.end()) {
+		BOOST_CHECK_EQUAL((*m)->get_name(), (*n)->get_name());
+		BOOST_CHECK_EQUAL((*m)->get_value(), (*n)->get_value());
 
 		++m;
 		++n;
@@ -659,15 +659,15 @@ check_xml(boost::filesystem::path ref, boost::filesystem::path test, list<Glib::
 }
 
 bool
-wait_for_jobs ()
+wait_for_jobs()
 {
-	auto jm = JobManager::instance ();
+	auto jm = JobManager::instance();
 	while (jm->work_to_do()) {
 		while (signal_manager->ui_idle()) {}
-		dcpomatic_sleep_seconds (1);
+		dcpomatic_sleep_seconds(1);
 	}
 
-	if (jm->errors ()) {
+	if (jm->errors()) {
 		int N = 0;
 		for (auto i: jm->_jobs) {
 			if (i->finished_in_error()) {
@@ -685,10 +685,10 @@ wait_for_jobs ()
 		}
 	}
 
-	while (signal_manager->ui_idle ()) {}
+	while (signal_manager->ui_idle()) {}
 
-	if (jm->errors ()) {
-		JobManager::drop ();
+	if (jm->errors()) {
+		JobManager::drop();
 		return true;
 	}
 
@@ -699,15 +699,15 @@ wait_for_jobs ()
 class Memory
 {
 public:
-	Memory () {}
+	Memory() {}
 
-	~Memory ()
+	~Memory()
 	{
-		free (data);
+		free(data);
 	}
 
-	Memory (Memory const&) = delete;
-	Memory& operator= (Memory const&) = delete;
+	Memory(Memory const&) = delete;
+	Memory& operator=(Memory const&) = delete;
 
 	uint8_t* data = nullptr;
 	size_t size = 0;
@@ -715,7 +715,7 @@ public:
 
 
 static void
-png_write_data (png_structp png_ptr, png_bytep data, png_size_t length)
+png_write_data(png_structp png_ptr, png_bytep data, png_size_t length)
 {
 	auto mem = reinterpret_cast<Memory*>(png_get_io_ptr(png_ptr));
 	size_t size = mem->size + length;
@@ -726,29 +726,29 @@ png_write_data (png_structp png_ptr, png_bytep data, png_size_t length)
 		mem->data = reinterpret_cast<uint8_t*>(malloc(size));
 	}
 
-	BOOST_REQUIRE (mem->data);
+	BOOST_REQUIRE(mem->data);
 
-	memcpy (mem->data + mem->size, data, length);
+	memcpy(mem->data + mem->size, data, length);
 	mem->size += length;
 }
 
 
 static void
-png_flush (png_structp)
+png_flush(png_structp)
 {
 
 }
 
 
 static void
-png_error_fn (png_structp, char const * message)
+png_error_fn(png_structp, char const * message)
 {
-	throw EncodeError (fmt::format("Error during PNG write: {}", message));
+	throw EncodeError(fmt::format("Error during PNG write: {}", message));
 }
 
 
 void
-write_image (shared_ptr<const Image> image, boost::filesystem::path file)
+write_image(shared_ptr<const Image> image, boost::filesystem::path file)
 {
 	int png_color_type = PNG_COLOR_TYPE_RGB;
 	int bits_per_pixel = 0;
@@ -760,21 +760,21 @@ write_image (shared_ptr<const Image> image, boost::filesystem::path file)
 		bits_per_pixel = 16;
 		break;
 	default:
-		BOOST_REQUIRE_MESSAGE (false, "unexpected pixel format " << image->pixel_format());
+		BOOST_REQUIRE_MESSAGE(false, "unexpected pixel format " << image->pixel_format());
 	}
 
 	/* error handling? */
 	png_structp png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, reinterpret_cast<void*>(const_cast<Image*>(image.get())), png_error_fn, 0);
-	BOOST_REQUIRE (png_ptr);
+	BOOST_REQUIRE(png_ptr);
 
 	Memory state;
 
-	png_set_write_fn (png_ptr, &state, png_write_data, png_flush);
+	png_set_write_fn(png_ptr, &state, png_write_data, png_flush);
 
 	png_infop info_ptr = png_create_info_struct(png_ptr);
-	BOOST_REQUIRE (info_ptr);
+	BOOST_REQUIRE(info_ptr);
 
-	png_set_IHDR (png_ptr, info_ptr, image->size().width, image->size().height, bits_per_pixel, png_color_type, PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);
+	png_set_IHDR(png_ptr, info_ptr, image->size().width, image->size().height, bits_per_pixel, png_color_type, PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);
 
 	auto const width = image->size().width;
 	auto const height = image->size().height;
@@ -812,12 +812,12 @@ write_image (shared_ptr<const Image> image, boost::filesystem::path file)
 		row_pointers[y] = reinterpret_cast<png_byte*>(data_to_write[y].data());
 	}
 
-	png_write_info (png_ptr, info_ptr);
-	png_write_image (png_ptr, row_pointers);
-	png_write_end (png_ptr, info_ptr);
+	png_write_info(png_ptr, info_ptr);
+	png_write_image(png_ptr, row_pointers);
+	png_write_end(png_ptr, info_ptr);
 
-	png_destroy_write_struct (&png_ptr, &info_ptr);
-	png_free (png_ptr, row_pointers);
+	png_destroy_write_struct(&png_ptr, &info_ptr);
+	png_free(png_ptr, row_pointers);
 
 	dcp::ArrayData(state.data, state.size).write(file);
 }
@@ -826,8 +826,8 @@ write_image (shared_ptr<const Image> image, boost::filesystem::path file)
 void
 check_ffmpeg(boost::filesystem::path ref, boost::filesystem::path check, float audio_tolerance)
 {
-	int const r = system (fmt::format("ffcmp -t {} {} {}", audio_tolerance, ref.string(), check.string()).c_str());
-	BOOST_REQUIRE_EQUAL (WEXITSTATUS(r), 0);
+	int const r = system(fmt::format("ffcmp -t {} {} {}", audio_tolerance, ref.string(), check.string()).c_str());
+	BOOST_REQUIRE_EQUAL(WEXITSTATUS(r), 0);
 }
 
 
@@ -898,7 +898,7 @@ check_one_frame_against_dcp(boost::filesystem::path test, int64_t test_index, bo
 
 
 boost::filesystem::path
-dcp_file (shared_ptr<const Film> film, string prefix)
+dcp_file(shared_ptr<const Film> film, string prefix)
 {
 	using namespace boost::filesystem;
 
@@ -912,7 +912,7 @@ dcp_file (shared_ptr<const Film> film, string prefix)
 }
 
 boost::filesystem::path
-subtitle_file (shared_ptr<Film> film)
+subtitle_file(shared_ptr<Film> film)
 {
 	for (auto i: boost::filesystem::recursive_directory_iterator(film->directory().get() / film->dcp_name(false))) {
 		if (boost::algorithm::starts_with(i.path().filename().string(), "sub_")) {
@@ -920,17 +920,17 @@ subtitle_file (shared_ptr<Film> film)
 		}
 	}
 
-	BOOST_REQUIRE (false);
+	BOOST_REQUIRE(false);
 	/* Remove warning */
 	return boost::filesystem::path("/");
 }
 
 
 void
-make_random_file (boost::filesystem::path path, size_t size)
+make_random_file(boost::filesystem::path path, size_t size)
 {
 	dcp::File random_file(path, "wb");
-	BOOST_REQUIRE (random_file);
+	BOOST_REQUIRE(random_file);
 
 	boost::random::mt19937 rng(1);
 	boost::random::uniform_int_distribution<uint64_t> dist(0);
@@ -944,27 +944,27 @@ make_random_file (boost::filesystem::path path, size_t size)
 }
 
 
-LogSwitcher::LogSwitcher (shared_ptr<Log> log)
-	: _old (dcpomatic_log)
+LogSwitcher::LogSwitcher(shared_ptr<Log> log)
+	: _old(dcpomatic_log)
 {
 	dcpomatic_log = log;
 }
 
 
-LogSwitcher::~LogSwitcher ()
+LogSwitcher::~LogSwitcher()
 {
 	dcpomatic_log = _old;
 }
 
 std::ostream&
-dcp::operator<< (std::ostream& s, dcp::Size i)
+dcp::operator<<(std::ostream& s, dcp::Size i)
 {
 	s << i.width << "x" << i.height;
 	return s;
 }
 
 std::ostream&
-dcp::operator<< (std::ostream& s, dcp::Standard t)
+dcp::operator<<(std::ostream& s, dcp::Standard t)
 {
 	switch (t) {
 	case Standard::INTEROP:
@@ -978,7 +978,7 @@ dcp::operator<< (std::ostream& s, dcp::Standard t)
 }
 
 std::ostream&
-operator<< (std::ostream&s, VideoFrameType f)
+operator<<(std::ostream&s, VideoFrameType f)
 {
 	s << video_frame_type_to_string(f);
 	return s;
@@ -986,24 +986,24 @@ operator<< (std::ostream&s, VideoFrameType f)
 
 
 void
-Cleanup::add (boost::filesystem::path path)
+Cleanup::add(boost::filesystem::path path)
 {
-	_paths.push_back (path);
+	_paths.push_back(path);
 }
 
 
 void
-Cleanup::run ()
+Cleanup::run()
 {
 	boost::system::error_code ec;
 	for (auto i: _paths) {
-		boost::filesystem::remove_all (i, ec);
+		boost::filesystem::remove_all(i, ec);
 	}
 }
 
 
-void stage (string, boost::optional<boost::filesystem::path>) {}
-void progress (float) {}
+void stage(string, boost::optional<boost::filesystem::path>) {}
+void progress(float) {}
 
 
 void
@@ -1028,9 +1028,9 @@ make_and_verify_dcp(shared_ptr<Film> film, vector<dcp::VerificationNote::Code> i
 make_and_verify_dcp(shared_ptr<Film> film, vector<dcp::VerificationNote::Code> ignore, bool, bool)
 #endif
 {
-	film->write_metadata ();
-	make_dcp (film, TranscodeJob::ChangedBehaviour::IGNORE);
-	BOOST_REQUIRE (!wait_for_jobs());
+	film->write_metadata();
+	make_dcp(film, TranscodeJob::ChangedBehaviour::IGNORE);
+	BOOST_REQUIRE(!wait_for_jobs());
 	verify_dcp({film->dir(film->dcp_name())}, ignore);
 
 #ifdef DCPOMATIC_LINUX
@@ -1072,17 +1072,17 @@ make_and_verify_dcp(shared_ptr<Film> film, vector<dcp::VerificationNote::Code> i
 
 
 void
-check_int_close (int a, int b, int d)
+check_int_close(int a, int b, int d)
 {
-	BOOST_CHECK_MESSAGE (std::abs(a - b) < d, a << " differs from " << b << " by more than " << d);
+	BOOST_CHECK_MESSAGE(std::abs(a - b) < d, a << " differs from " << b << " by more than " << d);
 }
 
 
 void
-check_int_close (std::pair<int, int> a, std::pair<int, int> b, int d)
+check_int_close(std::pair<int, int> a, std::pair<int, int> b, int d)
 {
-	check_int_close (a.first, b.first, d);
-	check_int_close (a.second, b.second, d);
+	check_int_close(a.first, b.first, d);
+	check_int_close(a.second, b.second, d);
 }
 
 
@@ -1101,7 +1101,7 @@ ConfigRestorer::~ConfigRestorer()
 
 
 boost::filesystem::path
-find_file (boost::filesystem::path dir, string filename_part)
+find_file(boost::filesystem::path dir, string filename_part)
 {
 	boost::optional<boost::filesystem::path> found;
 	for (auto i: boost::filesystem::directory_iterator(dir)) {

@@ -44,51 +44,51 @@ public:
 class Cleanup
 {
 public:
-	void add (boost::filesystem::path path);
+	void add(boost::filesystem::path path);
 
 	/* Remove everything passed to add().  We don't do this
 	 * in a destructor so that results of failed tests aren't
 	 * deleted.
 	 */
-	void run ();
+	void run();
 
 private:
 	std::vector<boost::filesystem::path> _paths;
 };
 
 
-extern bool wait_for_jobs ();
+extern bool wait_for_jobs();
 extern std::shared_ptr<Film> new_test_film(std::string, std::vector<std::shared_ptr<Content>> content = {}, Cleanup* cleanup = nullptr);
 extern void check_dcp(boost::filesystem::path, boost::filesystem::path, bool sound_can_differ = false);
-extern void check_dcp (boost::filesystem::path, std::shared_ptr<const Film>);
-extern void check_file (boost::filesystem::path ref, boost::filesystem::path check);
-extern void check_text_file (boost::filesystem::path ref, boost::filesystem::path check);
-extern void check_wav_file (boost::filesystem::path ref, boost::filesystem::path check);
-extern void check_mxf_audio_file (boost::filesystem::path ref, boost::filesystem::path check);
-extern bool mxf_atmos_files_same (boost::filesystem::path ref, boost::filesystem::path check, bool verbose = false);
+extern void check_dcp(boost::filesystem::path, std::shared_ptr<const Film>);
+extern void check_file(boost::filesystem::path ref, boost::filesystem::path check);
+extern void check_text_file(boost::filesystem::path ref, boost::filesystem::path check);
+extern void check_wav_file(boost::filesystem::path ref, boost::filesystem::path check);
+extern void check_mxf_audio_file(boost::filesystem::path ref, boost::filesystem::path check);
+extern bool mxf_atmos_files_same(boost::filesystem::path ref, boost::filesystem::path check, bool verbose = false);
 extern void check_xml(boost::filesystem::path, boost::filesystem::path, std::list<Glib::ustring>);
 extern void check_ffmpeg(boost::filesystem::path, boost::filesystem::path, float audio_tolerance);
 extern void check_image(boost::filesystem::path ref, boost::filesystem::path check, double threshold = 4);
 extern bool check_image_and_report(boost::filesystem::path ref, boost::filesystem::path check, double threshold = 4);
-extern boost::filesystem::path test_film_dir (std::string);
-extern void write_image (std::shared_ptr<const Image> image, boost::filesystem::path file);
-boost::filesystem::path dcp_file (std::shared_ptr<const Film> film, std::string prefix);
+extern boost::filesystem::path test_film_dir(std::string);
+extern void write_image(std::shared_ptr<const Image> image, boost::filesystem::path file);
+boost::filesystem::path dcp_file(std::shared_ptr<const Film> film, std::string prefix);
 void check_one_frame_against_j2c(boost::filesystem::path test, int64_t test_index, boost::filesystem::path ref, int tolerance = 0);
 void check_one_frame_against_dcp(boost::filesystem::path test, int64_t test_index, boost::filesystem::path ref, int64_t ref_index, int tolerance = 0);
-extern boost::filesystem::path subtitle_file (std::shared_ptr<Film> film);
-extern void make_random_file (boost::filesystem::path path, size_t size);
+extern boost::filesystem::path subtitle_file(std::shared_ptr<Film> film);
+extern void make_random_file(boost::filesystem::path path, size_t size);
 extern void verify_dcp(boost::filesystem::path dir, std::vector<dcp::VerificationNote::Code> ignore);
 extern void make_and_verify_dcp(std::shared_ptr<Film> film, std::vector<dcp::VerificationNote::Code> ignore = {}, bool dcp_inspect = true, bool clairmeta = true);
-extern void check_int_close (int a, int b, int d);
-extern void check_int_close (std::pair<int, int>, std::pair<int, int>, int d);
-extern boost::filesystem::path find_file (boost::filesystem::path dir, std::string filename_part);
+extern void check_int_close(int a, int b, int d);
+extern void check_int_close(std::pair<int, int>, std::pair<int, int>, int d);
+extern boost::filesystem::path find_file(boost::filesystem::path dir, std::string filename_part);
 
 
 class LogSwitcher
 {
 public:
-	LogSwitcher (std::shared_ptr<Log> log);
-	~LogSwitcher ();
+	LogSwitcher(std::shared_ptr<Log> log);
+	~LogSwitcher();
 
 private:
 	std::shared_ptr<Log> _old;
@@ -125,9 +125,9 @@ private:
 
 namespace dcp {
 
-std::ostream& operator<< (std::ostream& s, dcp::Size i);
-std::ostream& operator<< (std::ostream& s, dcp::Standard t);
+std::ostream& operator<<(std::ostream& s, dcp::Size i);
+std::ostream& operator<<(std::ostream& s, dcp::Standard t);
 
 }
 
-std::ostream& operator<< (std::ostream& s, VideoFrameType f);
+std::ostream& operator<<(std::ostream& s, VideoFrameType f);
