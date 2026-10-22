@@ -89,5 +89,7 @@ private:
 
 	std::shared_ptr<Socket> _accept_socket;
 
+	boost::signals2::scoped_connection _config_changed_connection;
+
 	static EncodeServerFinder* _instance;
 };
