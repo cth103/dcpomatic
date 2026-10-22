@@ -1095,7 +1095,8 @@ ConfigRestorer::ConfigRestorer(boost::filesystem::path override_path)
 
 ConfigRestorer::~ConfigRestorer()
 {
-	Config::override_path = boost::none;
+	/* Back to the tests' own state directory, as set up by TestConfig, rather than $HOME */
+	Config::override_path = "build/test/state";
 	setup_test_config();
 }
 
