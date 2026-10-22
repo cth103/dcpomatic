@@ -57,7 +57,7 @@ EncodeServerFinder* EncodeServerFinder::_instance = 0;
 EncodeServerFinder::EncodeServerFinder()
 	: _stop(false)
 {
-	Config::instance()->Changed.connect(boost::bind(&EncodeServerFinder::config_changed, this, _1));
+	_config_changed_connection = Config::instance()->Changed.connect(boost::bind(&EncodeServerFinder::config_changed, this, _1));
 }
 
 

@@ -341,3 +341,16 @@ BOOST_AUTO_TEST_CASE(real_encode_with_server)
 	cl.run();
 }
 
+
+/** A configuration change after the finder has been dropped must not reach the deleted finder */
+BOOST_AUTO_TEST_CASE(encode_server_finder_dropped_before_config_change)
+{
+	auto const servers = Config::instance()->servers();
+
+	EncodeServerFinder::instance();
+	EncodeServerFinder::drop();
+
+	Config::instance()->set_servers({"127.0.0.1"});
+	Config::instance()->set_servers(servers);
+}
+

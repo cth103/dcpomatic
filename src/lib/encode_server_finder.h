@@ -89,5 +89,8 @@ private:
 
 	std::shared_ptr<Socket> _accept_socket;
 
+	/** Last, so that it is disconnected before anything else is destroyed */
+	boost::signals2::scoped_connection _config_changed_connection;
+
 	static EncodeServerFinder* _instance;
 };
