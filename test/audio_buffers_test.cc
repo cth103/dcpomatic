@@ -34,7 +34,7 @@ static float tolerance = 1e-3;
 static float
 random_float ()
 {
-	return float (rand ()) / RAND_MAX;
+	return float (rand ()) / static_cast<float>(RAND_MAX);
 }
 
 static void

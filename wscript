@@ -137,6 +137,10 @@ def configure(conf):
                                        '-D_FILE_OFFSET_BITS=64',
                                        '-std=c++' + cpp_std])
 
+    # ICU 74's headers have virtual methods in final classes, which clang 20 (Xcode 26) warns about
+    if conf.check_cxx(cxxflags=['-Wunnecessary-virtual-specifier', '-Werror'], msg='Checking for -Wunnecessary-virtual-specifier', mandatory=False):
+        conf.env.append_value('CXXFLAGS', ['-Wno-unnecessary-virtual-specifier'])
+
     if conf.options.warnings_are_errors:
         conf.env.append_value('CXXFLAGS', '-Werror')
 

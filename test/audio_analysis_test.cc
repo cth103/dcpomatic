@@ -56,7 +56,7 @@ BOOST_AUTO_TEST_CASE(audio_analysis_serialisation_test)
 	int const points = 4096;
 
 	auto random_float = []() {
-		return (float(rand()) / RAND_MAX) * 2 - 1;
+		return (float(rand()) / static_cast<float>(RAND_MAX)) * 2 - 1;
 	};
 
 	AudioAnalysis a(3);
