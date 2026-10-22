@@ -325,6 +325,14 @@ BOOST_AUTO_TEST_CASE(real_encode_with_server)
 	auto film = new_test_film("real_encode_with_server", content, &cl);
 	film->set_interop(false);
 
+	/* Ask the server on this machine directly rather than broadcasting, as a broadcast may not
+	 * be allowed (e.g. in a sandbox or on a machine without a network).
+	 */
+	auto const use_any_servers = Config::instance()->use_any_servers();
+	auto const servers = Config::instance()->servers();
+	Config::instance()->set_use_any_servers(false);
+	Config::instance()->set_servers({"127.0.0.1"});
+
 	EncodeServerFinder::instance();
 
 	EncodeServer server(true, 4);
@@ -336,6 +344,10 @@ BOOST_AUTO_TEST_CASE(real_encode_with_server)
 	server_thread.join();
 
 	BOOST_CHECK(server.frames_encoded() > 0);
+
+	Config::instance()->set_use_any_servers(use_any_servers);
+	Config::instance()->set_servers(servers);
+
 	EncodeServerFinder::drop();
 
 	cl.run();
