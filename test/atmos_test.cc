@@ -181,3 +181,40 @@ BOOST_AUTO_TEST_CASE(atmos_multi_reel_test)
 	}
 }
 
+
+/** Three reels, with Atmos only in the first and the last: the middle reel has none, so the
+ *  Atmos frames of the last reel must not be written into the first.
+ */
+BOOST_AUTO_TEST_CASE(atmos_multi_reel_gap_test)
+{
+	auto picture_0 = content_factory("test/data/flat_red.png")[0];
+	auto picture_1 = content_factory("test/data/flat_red.png")[0];
+	auto picture_2 = content_factory("test/data/flat_red.png")[0];
+	auto atmos_0 = content_factory("test/data/atmos_0.mxf")[0];
+	auto atmos_2 = content_factory("test/data/atmos_0.mxf")[0];
+
+	auto film = new_test_film("atmos_multi_reel_gap_test", { picture_0, picture_1, picture_2, atmos_0, atmos_2 });
+	picture_0->set_position(film, dcpomatic::DCPTime::from_seconds(0));
+	picture_1->set_position(film, dcpomatic::DCPTime::from_seconds(10));
+	picture_2->set_position(film, dcpomatic::DCPTime::from_seconds(20));
+	atmos_0->set_position(film, dcpomatic::DCPTime::from_seconds(0));
+	atmos_2->set_position(film, dcpomatic::DCPTime::from_seconds(20));
+
+	make_and_verify_dcp(film);
+
+	dcp::DCP dcp(film->dir(film->dcp_name()));
+	dcp.read();
+	auto cpls = dcp.cpls();
+	BOOST_REQUIRE_EQUAL(cpls.size(), 1U);
+	auto reels = cpls[0]->reels();
+	BOOST_REQUIRE_EQUAL(reels.size(), 3U);
+
+	BOOST_REQUIRE(reels[0]->atmos());
+	BOOST_CHECK(!reels[1]->atmos());
+	BOOST_REQUIRE(reels[2]->atmos());
+
+	/* Each Atmos asset is one reel long: 10 s at 24 fps */
+	BOOST_CHECK_EQUAL(reels[0]->atmos()->actual_duration(), 240);
+	BOOST_CHECK_EQUAL(reels[2]->atmos()->actual_duration(), 240);
+}
+
