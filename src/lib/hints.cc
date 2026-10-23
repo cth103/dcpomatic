@@ -486,6 +486,7 @@ try
 	check_8_or_16_audio_channels();
 	check_video_alpha();
 	check_encryption();
+	check_atmos_in_some_reels();
 
 	scan_content(film);
 
@@ -828,6 +829,32 @@ Hints::check_encryption()
 		       "errors with the DCP made from this project.  If in doubt, set everything (picture, sound "
 		       "and text) to be either encrypted or not."));
 
+	}
+}
+
+
+void
+Hints::check_atmos_in_some_reels()
+{
+	auto const content = film()->content();
+
+	int with_atmos = 0;
+	int without_atmos = 0;
+	for (auto reel: film()->reels()) {
+		auto const atmos = std::any_of(content.begin(), content.end(), [this, reel](shared_ptr<const Content> c) {
+			return c->atmos && DCPTimePeriod(c->position(), c->end(film())).overlap(reel);
+		});
+		if (atmos) {
+			++with_atmos;
+		} else {
+			++without_atmos;
+		}
+	}
+
+	if (with_atmos > 0 && without_atmos > 0) {
+		hint(_("Some of the reels in your DCP have Atmos and some do not.  Some cinema sound processors will not "
+		       "play the Atmos (and will fall back to the normal sound) when a reel is missing it.  If possible, "
+		       "make sure that every reel has Atmos."));
 	}
 }
 
