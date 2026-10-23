@@ -111,6 +111,7 @@ private:
 
 	std::shared_ptr<dcp::ReelPictureAsset> create_reel_picture(std::shared_ptr<dcp::Reel> reel, std::list<ReferencedReelAsset> const & refs) const;
 	void create_reel_sound(std::shared_ptr<dcp::Reel> reel, std::list<ReferencedReelAsset> const & refs) const;
+	void create_reel_atmos(std::shared_ptr<dcp::Reel> reel, std::list<ReferencedReelAsset> const & refs) const;
 	void create_reel_text(
 		std::shared_ptr<dcp::Reel> reel,
 		std::list<ReferencedReelAsset> const & refs,

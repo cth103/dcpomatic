@@ -51,6 +51,7 @@ public:
 	static int constexpr NAME = 605;
 	static int constexpr TEXTS = 606;
 	static int constexpr CPL = 607;
+	static int constexpr REFERENCE_ATMOS = 608;
 };
 
 
@@ -160,6 +161,15 @@ public:
 	}
 
 	bool can_reference_text(std::shared_ptr<const Film> film, TextType type, std::string &) const;
+
+	void set_reference_atmos(bool r);
+
+	bool reference_atmos() const {
+		boost::mutex::scoped_lock lm(_mutex);
+		return _reference_atmos;
+	}
+
+	bool can_reference_atmos(std::shared_ptr<const Film> film, std::string &) const;
 
 	bool reference_anything() const;
 
@@ -291,6 +301,10 @@ private:
 	 *  not what they are being used for.
 	 */
 	EnumIndexedVector<bool, TextType> _reference_text;
+	/** true if the Atmos track in this DCP should be included in the output by reference
+	 *  rather than by rewrapping.
+	 */
+	bool _reference_atmos;
 
 	boost::optional<dcp::Standard> _standard;
 	boost::optional<dcp::MainSoundConfiguration> _main_sound_configuration;

@@ -255,6 +255,7 @@ DCPTimeline::film_content_changed(ChangeType type, int property)
 		property == DCPContentProperty::NEEDS_ASSETS ||
 		property == DCPContentProperty::REFERENCE_VIDEO ||
 		property == DCPContentProperty::REFERENCE_AUDIO ||
+		property == DCPContentProperty::REFERENCE_ATMOS ||
 		property == DCPContentProperty::REFERENCE_TEXT) {
 		setup_reel_types();
 		setup_sensitivity();

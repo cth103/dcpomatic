@@ -69,6 +69,7 @@ DCPContent::DCPContent(boost::filesystem::path p)
 	, _kdm_valid(false)
 	, _reference_video(false)
 	, _reference_audio(false)
+	, _reference_atmos(false)
 	, _three_d(false)
 {
 	LOG_GENERAL("Creating DCP content from {}", p.string());
@@ -112,6 +113,7 @@ DCPContent::DCPContent(cxml::ConstNodePtr node, boost::optional<boost::filesyste
 	_kdm_valid = node->bool_child("KDMValid");
 	_reference_video = node->optional_bool_child("ReferenceVideo").get_value_or(false);
 	_reference_audio = node->optional_bool_child("ReferenceAudio").get_value_or(false);
+	_reference_atmos = node->optional_bool_child("ReferenceAtmos").get_value_or(false);
 	if (version >= 37) {
 		_reference_text[TextType::OPEN_SUBTITLE] = node->optional_bool_child("ReferenceOpenSubtitle").get_value_or(false);
 		_reference_text[TextType::CLOSED_CAPTION] = node->optional_bool_child("ReferenceClosedCaption").get_value_or(false);
@@ -450,6 +452,7 @@ DCPContent::as_xml(xmlpp::Element* element, bool with_paths, PathBehaviour path_
 	cxml::add_text_child(element, "KDMValid", _kdm_valid ? "1" : "0");
 	cxml::add_text_child(element, "ReferenceVideo", _reference_video ? "1" : "0");
 	cxml::add_text_child(element, "ReferenceAudio", _reference_audio ? "1" : "0");
+	cxml::add_text_child(element, "ReferenceAtmos", _reference_atmos ? "1" : "0");
 	cxml::add_text_child(element, "ReferenceOpenSubtitle", _reference_text[TextType::OPEN_SUBTITLE] ? "1" : "0");
 	cxml::add_text_child(element, "ReferenceClosedCaption", _reference_text[TextType::CLOSED_CAPTION] ? "1" : "0");
 	if (_standard) {
@@ -662,6 +665,17 @@ DCPContent::set_reference_audio(bool r)
 }
 
 void
+DCPContent::set_reference_atmos(bool r)
+{
+	ContentChangeSignaller cc(this, DCPContentProperty::REFERENCE_ATMOS);
+
+	{
+		boost::mutex::scoped_lock lm(_mutex);
+		_reference_atmos = r;
+	}
+}
+
+void
 DCPContent::set_reference_text(TextType type, bool r)
 {
 	ContentChangeSignaller cc(this, DCPContentProperty::REFERENCE_TEXT);
@@ -843,6 +857,29 @@ DCPContent::can_reference_audio(shared_ptr<const Film> film, string& why_not) co
 
 
 bool
+DCPContent::can_reference_atmos(shared_ptr<const Film> film, string& why_not) const
+{
+	if (!atmos) {
+		/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
+		why_not = _("it has no Atmos track.");
+		return false;
+	}
+
+	auto part = [](shared_ptr<const Content> c) {
+		return static_cast<bool>(c->atmos);
+	};
+
+	if (overlaps(film, part)) {
+		/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
+		why_not = _("it overlaps other Atmos content.");
+		return false;
+	}
+
+	return can_reference_anything(film, why_not);
+}
+
+
+bool
 DCPContent::can_reference_text(shared_ptr<const Film> film, TextType type, string& why_not) const
 {
 	if (_has_non_zero_entry_point[TextType::OPEN_SUBTITLE]) {
@@ -893,6 +930,7 @@ DCPContent::take_settings_from(shared_ptr<const Content> c)
 
 	_reference_video = dc->_reference_video;
 	_reference_audio = dc->_reference_audio;
+	_reference_atmos = dc->_reference_atmos;
 	_reference_text = dc->_reference_text;
 }
 
@@ -960,7 +998,7 @@ DCPContent::active_audio_channels() const
 bool
 DCPContent::reference_anything() const
 {
-	if (reference_video() || reference_audio()) {
+	if (reference_video() || reference_audio() || reference_atmos()) {
 		return true;
 	}
 
