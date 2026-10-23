@@ -443,7 +443,7 @@ DCPDecoder::get_readers()
 		_sound_reader->set_check_hmac(false);
 	}
 
-	if ((*_reel)->atmos()) {
+	if ((*_reel)->atmos() && (_decode_referenced || !_dcp_content->reference_atmos())) {
 		auto asset = (*_reel)->atmos()->asset();
 		_atmos_reader = asset->start_read();
 		_atmos_reader->set_check_hmac(false);

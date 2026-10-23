@@ -65,7 +65,7 @@ dcpomatic::film::is_vf(shared_ptr<const Film> film)
 				any_text = true;
 			}
 		}
-		if (dcp->reference_video() || dcp->reference_audio() || any_text) {
+		if (dcp->reference_video() || dcp->reference_audio() || dcp->reference_atmos() || any_text) {
 			return true;
 		}
 	}
