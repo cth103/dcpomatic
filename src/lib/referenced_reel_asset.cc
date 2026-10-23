@@ -32,6 +32,7 @@
 #include <dcp/mono_j2k_picture_asset.h>
 #include <dcp/reel.h>
 #include <dcp/reel_asset.h>
+#include <dcp/reel_atmos_asset.h>
 #include <dcp/reel_mono_picture_asset.h>
 #include <dcp/reel_picture_asset.h>
 #include <dcp/reel_sound_asset.h>
@@ -146,7 +147,7 @@ get_referenced_reel_assets(shared_ptr<const Film> film, shared_ptr<const Playlis
 			continue;
 		}
 
-		if (!dcp->reference_video() && !dcp->reference_audio() && !dcp->reference_text(TextType::OPEN_SUBTITLE) && !dcp->reference_text(TextType::CLOSED_CAPTION)) {
+		if (!dcp->reference_video() && !dcp->reference_audio() && !dcp->reference_atmos() && !dcp->reference_text(TextType::OPEN_SUBTITLE) && !dcp->reference_text(TextType::CLOSED_CAPTION)) {
 			continue;
 		}
 
@@ -190,6 +191,10 @@ get_referenced_reel_assets(shared_ptr<const Film> film, shared_ptr<const Playlis
 
 			if (dcp->reference_audio()) {
 				maybe_add_asset(reel_assets, reel->main_sound(), reel_trim_start, reel_trim_end, from, frame_rate);
+			}
+
+			if (dcp->reference_atmos() && reel->atmos()) {
+				maybe_add_asset(reel_assets, reel->atmos(), reel_trim_start, reel_trim_end, from, frame_rate);
 			}
 
 			if (dcp->reference_text(TextType::OPEN_SUBTITLE) && reel->main_subtitle()) {

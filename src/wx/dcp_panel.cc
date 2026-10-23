@@ -575,6 +575,7 @@ DCPPanel::film_content_changed(int property)
 	case VideoContentProperty::CROP:
 	case DCPContentProperty::REFERENCE_VIDEO:
 	case DCPContentProperty::REFERENCE_AUDIO:
+	case DCPContentProperty::REFERENCE_ATMOS:
 	case DCPContentProperty::REFERENCE_TEXT:
 		setup_dcp_name();
 		update_standards();

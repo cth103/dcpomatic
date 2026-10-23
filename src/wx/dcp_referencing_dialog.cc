@@ -91,6 +91,7 @@ DCPReferencingDialog::film_content_changed(ChangeType type, int property)
 	if (
 		property != DCPContentProperty::REFERENCE_VIDEO &&
 		property != DCPContentProperty::REFERENCE_AUDIO &&
+		property != DCPContentProperty::REFERENCE_ATMOS &&
 		property != DCPContentProperty::REFERENCE_TEXT) {
 		setup();
 	}
@@ -108,11 +109,11 @@ DCPReferencingDialog::setup()
 	wxFont font(*wxNORMAL_FONT);
 	font.SetWeight(wxFONTWEIGHT_BOLD);
 	text->SetFont(font);
-	_dcp_grid->Add(text, wxGBPosition(row, 1), wxGBSpan(1, 4), wxALIGN_CENTER);
+	_dcp_grid->Add(text, wxGBPosition(row, 1), wxGBSpan(1, 5), wxALIGN_CENTER);
 	++row;
 
 	int column = 0;
-	for (auto const& sub_heading: { _("OV DCP"), _("Picture"), _("Sound"), _("Subtitles"), _("Closed captions") }) {
+	for (auto const& sub_heading: { _("OV DCP"), _("Picture"), _("Sound"), _("Atmos"), _("Subtitles"), _("Closed captions") }) {
 		auto text = new StaticText(this, sub_heading);
 		wxFont font(*wxNORMAL_FONT);
 		font.SetWeight(wxFONTWEIGHT_BOLD);
@@ -122,7 +123,7 @@ DCPReferencingDialog::setup()
 	}
 	++row;
 
-	auto const all_parts = { Part::VIDEO, Part::AUDIO, Part::SUBTITLES, Part::CLOSED_CAPTIONS };
+	auto const all_parts = { Part::VIDEO, Part::AUDIO, Part::ATMOS, Part::SUBTITLES, Part::CLOSED_CAPTIONS };
 
 	for (auto& content: _film->content()) {
 		auto dcp_content = dynamic_pointer_cast<DCPContent>(content);
@@ -143,6 +144,9 @@ DCPReferencingDialog::setup()
 			case Part::AUDIO:
 				record.check_box[part]->set(dcp_content->reference_audio());
 				break;
+			case Part::ATMOS:
+				record.check_box[part]->set(dcp_content->reference_atmos());
+				break;
 			case Part::SUBTITLES:
 				record.check_box[part]->set(dcp_content->reference_text(TextType::OPEN_SUBTITLE));
 				break;
@@ -162,7 +166,7 @@ DCPReferencingDialog::setup()
 			wxFont font(*wxNORMAL_FONT);
 			font.SetStyle(wxFONTSTYLE_ITALIC);
 			reason->SetFont(font);
-			_dcp_grid->Add(reason, wxGBPosition(row, 0), wxGBSpan(1, 5), wxLEFT, DCPOMATIC_SIZER_X_GAP * 4);
+			_dcp_grid->Add(reason, wxGBPosition(row, 0), wxGBSpan(1, 6), wxLEFT, DCPOMATIC_SIZER_X_GAP * 4);
 			++row;
 		};
 
@@ -185,6 +189,13 @@ DCPReferencingDialog::setup()
 				record.check_box[Part::AUDIO]->Enable(false);
 				if (dcp_content->audio) {
 					add_problem(_("Cannot reference this DCP's audio"), why_not);
+				}
+			}
+
+			if (!dcp_content->can_reference_atmos(_film, why_not)) {
+				record.check_box[Part::ATMOS]->Enable(false);
+				if (dcp_content->atmos) {
+					add_problem(_("Cannot reference this DCP's Atmos"), why_not);
 				}
 			}
 
@@ -226,6 +237,9 @@ DCPReferencingDialog::checkbox_changed(weak_ptr<DCPContent> weak_content, CheckB
 		break;
 	case Part::AUDIO:
 		content->set_reference_audio(check_box->get());
+		break;
+	case Part::ATMOS:
+		content->set_reference_atmos(check_box->get());
 		break;
 	case Part::SUBTITLES:
 		content->set_reference_text(TextType::OPEN_SUBTITLE, check_box->get());
