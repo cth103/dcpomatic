@@ -268,6 +268,8 @@ public:
 		_creator->Bind(wxEVT_TEXT, boost::bind(&CPLPanel::creator_changed, this));
 		_content_title_text->Bind(wxEVT_TEXT, boost::bind(&CPLPanel::content_title_text_changed, this));
 		_copy_annotation_texts_to_pkls->bind(&CPLPanel::copy_annotation_texts_to_pkls_clicked, this);
+
+		Changed.connect(boost::bind(&CPLPanel::dcp_changed, this));
 	}
 
 private:
@@ -309,6 +311,11 @@ private:
 				}
 			}
 		}
+	}
+
+	void dcp_changed()
+	{
+		checked_set(_annotation_text, _cpl->annotation_text().get_value_or(""));
 	}
 
 	std::shared_ptr<dcp::CPL> _cpl;
@@ -463,10 +470,15 @@ public:
 			EditableListButton::EDIT
 		);
 		sizer->Add(_assets, wxGBPosition(r, 1), wxDefaultSpan, wxEXPAND);
+		++r;
+
+		_copy_annotation_texts_to_cpls = new Button(this, _("Copy annotation texts to CPLs"));
+		sizer->Add(_copy_annotation_texts_to_cpls, wxGBPosition(r, 1));
 
 		_annotation_text->Bind(wxEVT_TEXT, boost::bind(&PKLPanel::annotation_text_changed, this));
 		_issuer->Bind(wxEVT_TEXT, boost::bind(&PKLPanel::issuer_changed, this));
 		_creator->Bind(wxEVT_TEXT, boost::bind(&PKLPanel::creator_changed, this));
+		_copy_annotation_texts_to_cpls->bind(&PKLPanel::copy_annotation_texts_to_cpls_clicked, this);
 	}
 
 private:
@@ -488,12 +500,31 @@ private:
 		Changed();
 	}
 
+	void copy_annotation_texts_to_cpls_clicked()
+	{
+		for (auto pkl_asset: _pkl->assets()) {
+			for (auto cpl: _cpls) {
+				auto cpl_assets = cpl->reel_file_assets();
+				auto cpl_asset = find_if(cpl_assets.begin(), cpl_assets.end(), [pkl_asset](shared_ptr<dcp::ReelFileAsset> asset) {
+					return asset->id() == pkl_asset->id();
+				});
+				if (cpl_asset != cpl_assets.end()) {
+					(*cpl_asset)->set_annotation_text(pkl_asset->annotation_text());
+					Changed();
+				} else if (cpl->id() == pkl_asset->id()) {
+					cpl->set_annotation_text(pkl_asset->annotation_text());
+				}
+			}
+		}
+	}
+
 	shared_ptr<dcp::PKL> _pkl;
 	vector<shared_ptr<dcp::CPL>> _cpls;
 	wxTextCtrl* _annotation_text = nullptr;
 	wxTextCtrl* _issuer = nullptr;
 	wxTextCtrl* _creator = nullptr;
 	EditableList<shared_ptr<dcp::PKL::Asset>>* _assets;
+	Button* _copy_annotation_texts_to_cpls;
 };
 
 
