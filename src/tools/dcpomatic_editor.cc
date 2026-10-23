@@ -208,9 +208,10 @@ private:
 class CPLPanel : public wxPanel
 {
 public:
-	CPLPanel(wxWindow* parent, shared_ptr<dcp::CPL> cpl)
+	CPLPanel(wxWindow* parent, shared_ptr<dcp::CPL> cpl, vector<shared_ptr<dcp::PKL>> pkls)
 		: wxPanel(parent, wxID_ANY)
 		, _cpl(cpl)
+		, _pkls(pkls)
 	{
 		auto sizer = new wxGridBagSizer(DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 
@@ -253,6 +254,10 @@ public:
 			EditableListButton::EDIT
 		);
 		sizer->Add(_reels, wxGBPosition(r, 1), wxDefaultSpan, wxEXPAND);
+		++r;
+
+		_copy_annotation_texts_to_pkls = new Button(this, _("Copy annotation texts to PKLs"));
+		sizer->Add(_copy_annotation_texts_to_pkls, wxGBPosition(r, 1));
 
 		auto space = new wxBoxSizer(wxVERTICAL);
 		space->Add(sizer, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
@@ -262,6 +267,7 @@ public:
 		_issuer->Bind(wxEVT_TEXT, boost::bind(&CPLPanel::issuer_changed, this));
 		_creator->Bind(wxEVT_TEXT, boost::bind(&CPLPanel::creator_changed, this));
 		_content_title_text->Bind(wxEVT_TEXT, boost::bind(&CPLPanel::content_title_text_changed, this));
+		_copy_annotation_texts_to_pkls->bind(&CPLPanel::copy_annotation_texts_to_pkls_clicked, this);
 	}
 
 private:
@@ -289,12 +295,30 @@ private:
 		Changed();
 	}
 
+	void copy_annotation_texts_to_pkls_clicked()
+	{
+		for (auto cpl_asset: _cpl->reel_file_assets()) {
+			for (auto pkl: _pkls) {
+				auto pkl_assets = pkl->assets();
+				auto pkl_asset = find_if(pkl_assets.begin(), pkl_assets.end(), [cpl_asset](shared_ptr<dcp::PKL::Asset> asset) {
+					return asset->id() == cpl_asset->id();
+				});
+				if (pkl_asset != pkl_assets.end()) {
+					(*pkl_asset)->set_annotation_text(cpl_asset->annotation_text());
+					Changed();
+				}
+			}
+		}
+	}
+
 	std::shared_ptr<dcp::CPL> _cpl;
+	vector<shared_ptr<dcp::PKL>> _pkls;
 	wxTextCtrl* _annotation_text = nullptr;
 	wxTextCtrl* _issuer = nullptr;
 	wxTextCtrl* _creator = nullptr;
 	wxTextCtrl* _content_title_text = nullptr;
 	EditableList<shared_ptr<dcp::Reel>>* _reels;
+	Button* _copy_annotation_texts_to_pkls = nullptr;
 };
 
 
@@ -546,7 +570,7 @@ public:
 		_notebook->DeleteAllPages();
 		for (auto cpl: _dcp->cpls()) {
 			_notebook->AddPage(
-				new CPLPanel(_notebook, cpl),
+				new CPLPanel(_notebook, cpl, _dcp->pkls()),
 				wxString::Format(_("CPL: %s"), std_to_wx(cpl->annotation_text().get_value_or(cpl->id())))
 			);
 		}
