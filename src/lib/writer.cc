@@ -79,11 +79,19 @@ Writer::Writer(weak_ptr<const Film> weak_film, weak_ptr<Job> weak_job, boost::fi
 {
 	auto job = _job.lock();
 
+	bool all_burnt_in = false;
+	auto const text_languages = film()->open_text_languages(&all_burnt_in);
+	auto open_text_language = text_languages.first;
+	if (all_burnt_in) {
+		/* All subtitle reels will be filler, with no text */
+		open_text_language = no_linguistic_content();
+	}
+
 	int reel_index = 0;
 	auto const reels = film()->reels();
 	LOG_GENERAL("Reels to make:")
 	for (auto p: reels) {
-		_reels.emplace_back(weak_film, p, job, reel_index++, reels.size(), text_only, _output_dir);
+		_reels.emplace_back(weak_film, p, job, reel_index++, reels.size(), text_only, _output_dir, open_text_language);
 		LOG_GENERAL("  {} --> {}", to_string(p.from), to_string(p.to));
 	}
 
@@ -607,8 +615,12 @@ Writer::finish()
 
 	/* Add reels */
 
+	/* Some servers show closed captions on screen when there is no open subtitle track,
+	 * so make sure that there is one (empty if need be) whenever there are closed captions.
+	 */
+	auto const ensure_subtitles = _have_subtitles || !_have_closed_captions.empty();
 	for (auto& i: _reels) {
-		cpl->add(i.create_reel(_reel_assets, _output_dir, _have_subtitles, _have_closed_captions));
+		cpl->add(i.create_reel(_reel_assets, _output_dir, ensure_subtitles, _have_closed_captions));
 	}
 
 	/* Add metadata */

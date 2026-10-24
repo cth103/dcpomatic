@@ -65,7 +65,7 @@ BOOST_AUTO_TEST_CASE (write_frame_info_test)
 	J2KFrameInfo info4(55512494, 123599157123, "ABCDEFGyabc12356ffsfdsf4563395ZZ");
 
 	{
-		ReelWriter writer(film, period, shared_ptr<Job>(), 0, 1, false, "foo");
+		ReelWriter writer(film, period, shared_ptr<Job>(), 0, 1, false, "foo", dcp::LanguageTag("en-US"));
 		info1.write(writer._info_file, 0, Eyes::LEFT);
 		info2.write(writer._info_file, 5, Eyes::RIGHT);
 		info3.write(writer._info_file, 10, Eyes::LEFT);
@@ -80,7 +80,7 @@ BOOST_AUTO_TEST_CASE (write_frame_info_test)
 	BOOST_CHECK(equal(info3, file1, 10, Eyes::LEFT));
 
 	{
-		ReelWriter writer(film, period, shared_ptr<Job>(), 0, 1, false, "foo");
+		ReelWriter writer(film, period, shared_ptr<Job>(), 0, 1, false, "foo", dcp::LanguageTag("en-US"));
 
 		/* Overwrite one */
 		info4.write(writer._info_file, 5, Eyes::RIGHT);

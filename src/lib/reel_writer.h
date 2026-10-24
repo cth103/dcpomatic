@@ -71,7 +71,8 @@ public:
 		int reel_index,
 		int reel_count,
 		bool text_only,
-		boost::filesystem::path output_dir
+		boost::filesystem::path output_dir,
+		boost::optional<dcp::LanguageTag> open_text_language
 		);
 
 	void write(std::shared_ptr<const dcp::Data> encoded, Frame frame, Eyes eyes);
@@ -136,6 +137,7 @@ private:
 	boost::optional<std::string> _content_summary;
 	std::weak_ptr<Job> _job;
 	bool _text_only;
+	boost::optional<dcp::LanguageTag> _open_text_language;
 
 	dcp::ArrayData _default_font;
 
