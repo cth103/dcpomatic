@@ -72,7 +72,9 @@ ExportConfig::read(cxml::ConstNodePtr node)
 		_video_format = ExportFormat::PRORES_HQ;
 	}
 
-	if (format == "wav-24") {
+	auto audio_format = node->optional_string_child("AudioFormat");
+
+	if (audio_format && *audio_format == "wav-24") {
 		_audio_format = ExportFormat::WAV_24;
 	} else {
 		_audio_format = ExportFormat::WAV_16;
