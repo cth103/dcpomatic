@@ -148,8 +148,11 @@ static constexpr char info_dir[] = "info";
  * Fade{In,Out} -> VideoFade{In,Out}
  * 39 -> 40
  * ReencodeJ2K -> ReuseBehaviour
+ *
+ * Bumped to 64 for 2.20.x branch
+ * ReelType is now a string, not a number.
  */
-int const Film::current_state_version = 40;
+int const Film::current_state_version = 64;
 
 
 /** Construct a Film object in a given directory.
@@ -444,7 +447,7 @@ Film::metadata(bool with_content_paths) const
 	if (_audio_processor) {
 		cxml::add_text_child(root, "AudioProcessor", _audio_processor->id());
 	}
-	cxml::add_text_child(root, "ReelType", fmt::to_string(static_cast<int>(_reel_type)));
+	cxml::add_text_child(root, "ReelType", reel_type_to_string(_reel_type));
 	cxml::add_text_child(root, "ReelLength", fmt::to_string(_reel_length));
 	for (auto boundary: _custom_reel_boundaries) {
 		cxml::add_text_child(root, "CustomReelBoundary", fmt::to_string(boundary.get()));
@@ -666,7 +669,12 @@ Film::read_metadata(optional<boost::filesystem::path> path)
 		}
 	}
 
-	_reel_type = static_cast<ReelType>(f.optional_number_child<int>("ReelType").get_value_or(static_cast<int>(ReelType::SINGLE)));
+	if (_state_version >= 64) {
+		_reel_type = string_to_reel_type(f.string_child("ReelType"));
+	} else {
+		_reel_type = static_cast<ReelType>(f.optional_number_child<int>("ReelType").get_value_or(static_cast<int>(ReelType::SINGLE)));
+	}
+
 	_reel_length = f.optional_number_child<int64_t>("ReelLength").get_value_or(2000000000);
 	for (auto boundary: f.node_children("CustomReelBoundary")) {
 		_custom_reel_boundaries.push_back(DCPTime(raw_convert<int64_t>(boundary->content())));
