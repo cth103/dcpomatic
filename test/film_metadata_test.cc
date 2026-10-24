@@ -261,3 +261,15 @@ BOOST_AUTO_TEST_CASE(can_load_film_with_now_invalid_stream_ids)
 	BOOST_CHECK(!wait_for_jobs());
 }
 
+
+BOOST_AUTO_TEST_CASE(metadata_from_218_loads_in_220)
+{
+	auto const name = std::string{"metadata_from_218_loads_in_220"};
+	auto film = new_test_film(name);
+	boost::filesystem::remove(film->file("metadata.xml"));
+	boost::filesystem::copy_file(boost::filesystem::path("test/data") / (name + ".xml"), film->file("metadata.xml"));
+	film->read_metadata();
+
+	BOOST_CHECK(film->reel_type() == ReelType::BY_LENGTH);
+}
+
