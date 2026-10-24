@@ -58,15 +58,18 @@ ExportConfig::read(cxml::ConstNodePtr node)
 		return;
 	}
 
-	auto const format = node->string_child("Format");
+	auto video_format = node->optional_string_child("VideoFormat");
+	if (!video_format) {
+		video_format = node->string_child("Format");
+	}
 
-	if (format == "subtitles-dcp") {
+	if (*video_format == "subtitles-dcp") {
 		_video_format = ExportFormat::SUBTITLES_DCP;
-	} else if (format == "h264-aac") {
+	} else if (*video_format == "h264-aac") {
 		_video_format = ExportFormat::H264_AAC;
-	} else if (format == "prores-4444") {
+	} else if (*video_format == "prores-4444") {
 		_video_format = ExportFormat::PRORES_4444;
-	} else if (format == "prores-lt") {
+	} else if (*video_format == "prores-lt") {
 		_video_format = ExportFormat::PRORES_LT;
 	} else {
 		_video_format = ExportFormat::PRORES_HQ;
@@ -127,7 +130,7 @@ ExportConfig::write(xmlpp::Element* element) const
 			break;
 	}
 
-	cxml::add_text_child(element, "Format", video_name);
+	cxml::add_text_child(element, "VideoFormat", video_name);
 	cxml::add_text_child(element, "AudioFormat", audio_name);
 	cxml::add_text_child(element, "MixdownToStereo", _mixdown_to_stereo ? "1" : "0");
 	cxml::add_text_child(element, "SplitReels", _split_reels ? "1" : "0");
