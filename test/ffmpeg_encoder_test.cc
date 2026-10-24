@@ -28,10 +28,14 @@
 #include "lib/dcpomatic_log.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/ffmpeg_examiner.h"
+#include "lib/ffmpeg_file_encoder.h"
 #include "lib/ffmpeg_film_encoder.h"
+#include "lib/ffmpeg_wrapper.h"
 #include "lib/film.h"
+#include "lib/image.h"
 #include "lib/image_content.h"
 #include "lib/ratio.h"
+#include "lib/raw_image_proxy.h"
 #include "lib/string_text_file_content.h"
 #include "lib/text_content.h"
 #include "lib/transcode_job.h"
@@ -40,12 +44,133 @@
 #include <dcp/file.h>
 #include <dcp/raw_convert.h>
 #include <boost/test/unit_test.hpp>
+#include <numeric>
 
 
 using std::make_shared;
 using std::string;
 using std::vector;
 using namespace dcpomatic;
+
+
+/** Export must make the same rate-control decisions as x264 fed consecutive frame timestamps.
+ *  Checking playback timestamps alone does not catch encoder timestamps expressed in muxer units.
+ */
+BOOST_AUTO_TEST_CASE(ffmpeg_encoder_h264_time_base)
+{
+	for (auto const frame_rate: {24, 25}) {
+		auto const size = dcp::Size(320, 180);
+		int const frames = 96;
+		auto const path = fmt::format("build/test/ffmpeg_encoder_h264_time_base_{}.mp4", frame_rate);
+		Cleanup cleanup;
+		cleanup.add(path);
+		boost::filesystem::create_directories("build/test");
+
+		auto codec = avcodec_find_encoder_by_name("libx264");
+		BOOST_REQUIRE(codec);
+		auto free_context = [](AVCodecContext* context) { avcodec_free_context(&context); };
+		std::unique_ptr<AVCodecContext, decltype(free_context)> reference(avcodec_alloc_context3(codec), free_context);
+		BOOST_REQUIRE(reference);
+		reference->width = size.width;
+		reference->height = size.height;
+		reference->pix_fmt = AV_PIX_FMT_YUV420P;
+		reference->time_base = AVRational{1, frame_rate};
+		reference->flags |= AV_CODEC_FLAG_QSCALE | AV_CODEC_FLAG_GLOBAL_HEADER;
+		AVDictionary* options = nullptr;
+		av_dict_set(&options, "crf", "18", 0);
+		auto const opened = avcodec_open2(reference.get(), codec, &options);
+		av_dict_free(&options);
+		BOOST_REQUIRE_EQUAL(opened, 0);
+
+		vector<int> reference_sizes;
+		auto receive_reference = [&]() {
+			ffmpeg::Packet packet;
+			int result;
+			while ((result = avcodec_receive_packet(reference.get(), packet.get())) == 0) {
+				reference_sizes.push_back(packet->size);
+				av_packet_unref(packet.get());
+			}
+			BOOST_REQUIRE(result == AVERROR(EAGAIN) || result == AVERROR_EOF);
+		};
+
+		auto free_frame = [](AVFrame* frame) { av_frame_free(&frame); };
+		std::unique_ptr<AVFrame, decltype(free_frame)> frame(av_frame_alloc(), free_frame);
+		BOOST_REQUIRE(frame);
+		frame->format = AV_PIX_FMT_YUV420P;
+		frame->width = size.width;
+		frame->height = size.height;
+		BOOST_REQUIRE_EQUAL(av_frame_get_buffer(frame.get(), 32), 0);
+		{
+			FFmpegFileEncoder encoder(size, frame_rate, 48000, 2, ExportFormat::H264_AAC, false, 18, path);
+			for (int n = 0; n < frames; ++n) {
+				auto image = make_shared<Image>(AV_PIX_FMT_YUV420P, size, Image::Alignment::PADDED);
+				BOOST_REQUIRE_EQUAL(av_frame_make_writable(frame.get()), 0);
+				for (int plane = 0; plane < 3; ++plane) {
+					int const width = plane ? size.width / 2 : size.width;
+					int const height = plane ? size.height / 2 : size.height;
+					for (int y = 0; y < height; ++y) {
+						for (int x = 0; x < width; ++x) {
+							auto const value = plane ? 128 : 16 + ((x + n) * 13 + y * 7 + (x + n) * y) % 220;
+							image->data()[plane][y * image->stride()[plane] + x] = value;
+							frame->data[plane][y * frame->linesize[plane] + x] = value;
+						}
+					}
+				}
+				auto video = make_shared<PlayerVideo>(
+					make_shared<RawImageProxy>(image), Crop(), boost::optional<double>(), size, size,
+					Eyes::BOTH, Part::WHOLE, boost::optional<ColourConversion>(), VideoRange::VIDEO,
+					std::weak_ptr<Content>(), boost::optional<ContentTime>(), false
+					);
+				encoder.video(video, DCPTime::from_frames(n, frame_rate));
+				frame->pts = n;
+				BOOST_REQUIRE_EQUAL(avcodec_send_frame(reference.get(), frame.get()), 0);
+				receive_reference();
+			}
+			encoder.flush();
+		}
+		BOOST_REQUIRE_EQUAL(avcodec_send_frame(reference.get(), nullptr), 0);
+		receive_reference();
+
+		AVFormatContext* input = nullptr;
+		BOOST_REQUIRE_EQUAL(avformat_open_input(&input, path.c_str(), nullptr, nullptr), 0);
+		auto close_input = [](AVFormatContext* context) { avformat_close_input(&context); };
+		std::unique_ptr<AVFormatContext, decltype(close_input)> input_owner(input, close_input);
+		BOOST_REQUIRE_EQUAL(avformat_find_stream_info(input, nullptr), 0);
+		auto const stream = av_find_best_stream(input, AVMEDIA_TYPE_VIDEO, -1, -1, nullptr, 0);
+		BOOST_REQUIRE(stream >= 0);
+		auto const time_base = input->streams[stream]->time_base;
+		vector<int> exported_sizes;
+		vector<bool> seen(frames, false);
+		int64_t previous_dts = AV_NOPTS_VALUE;
+		ffmpeg::Packet packet;
+		int result;
+		while ((result = av_read_frame(input, packet.get())) == 0) {
+			if (packet->stream_index == stream) {
+				exported_sizes.push_back(packet->size);
+				BOOST_REQUIRE(packet->pts != AV_NOPTS_VALUE);
+				BOOST_REQUIRE(packet->dts != AV_NOPTS_VALUE);
+				auto const n = av_rescale_q(packet->pts, time_base, AVRational{1, frame_rate});
+				BOOST_REQUIRE(n >= 0 && n < frames);
+				BOOST_CHECK(!seen[n]);
+				seen[n] = true;
+				BOOST_CHECK_EQUAL(packet->pts, av_rescale_q(n, AVRational{1, frame_rate}, time_base));
+				BOOST_CHECK_EQUAL(packet->duration, av_rescale_q(1, AVRational{1, frame_rate}, time_base));
+				BOOST_CHECK(previous_dts == AV_NOPTS_VALUE || packet->dts > previous_dts);
+				previous_dts = packet->dts;
+			}
+			av_packet_unref(packet.get());
+		}
+		BOOST_CHECK_EQUAL(result, AVERROR_EOF);
+		BOOST_REQUIRE_EQUAL(reference_sizes.size(), frames);
+		BOOST_REQUIRE_EQUAL(exported_sizes.size(), frames);
+		/* MP4 replaces Annex B start codes with NAL lengths, so allow a small framing overhead. */
+		auto const reference_bytes = std::accumulate(reference_sizes.begin(), reference_sizes.end(), int64_t{0});
+		auto const exported_bytes = std::accumulate(exported_sizes.begin(), exported_sizes.end(), int64_t{0});
+		BOOST_CHECK_CLOSE_FRACTION(double(exported_bytes), double(reference_bytes), 0.01);
+		input_owner.reset();
+		cleanup.run();
+	}
+}
 
 
 static void
