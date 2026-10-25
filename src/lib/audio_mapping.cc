@@ -315,3 +315,21 @@ AudioMapping::take_from(AudioMapping const& other)
 	}
 }
 
+
+AudioMapping
+listen_to_mapping(dcp::Channel channel, int output_channels)
+{
+	AudioMapping mapping(MAX_DCP_AUDIO_CHANNELS, output_channels);
+	mapping.make_zero();
+
+	if (output_channels == 2) {
+		mapping.set(channel, 0, 1);
+		mapping.set(channel, 1, 1);
+	} else if (output_channels > static_cast<int>(dcp::Channel::CENTRE)) {
+		mapping.set(channel, static_cast<int>(dcp::Channel::CENTRE), 1);
+	} else {
+		mapping.set(channel, 0, 1);
+	}
+
+	return mapping;
+}

@@ -87,4 +87,8 @@ private:
 };
 
 
+/** @return a mapping which sends one DCP channel to the speakers: both of a stereo pair, otherwise the centre */
+AudioMapping listen_to_mapping(dcp::Channel channel, int output_channels);
+
+
 #endif
