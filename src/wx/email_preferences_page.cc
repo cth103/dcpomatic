@@ -25,6 +25,7 @@
 #include "send_test_email_dialog.h"
 #include "wx_util.h"
 #include "wx_variant.h"
+#include "lib/dcpomatic_log.h"
 #include "lib/email.h"
 #include "lib/variant.h"
 #include <wx/spinctrl.h>
@@ -194,15 +195,15 @@ EmailPage::send_test_email_clicked()
 	auto config = Config::instance();
 	try {
 		email.send(config->mail_server(), config->mail_port(), config->mail_protocol(), config->mail_user(), config->mail_password());
+		message_dialog(_panel, _("Test email sent."));
 	} catch (NetworkError& e) {
 		error_dialog(_panel, std_to_wx(e.summary()), std_to_wx(e.detail().get_value_or("")));
-		return;
 	} catch (std::exception& e) {
 		error_dialog(_panel, _("Test email sending failed."), std_to_wx(e.what()));
-		return;
 	} catch (...) {
 		error_dialog(_panel, _("Test email sending failed."));
-		return;
 	}
-	message_dialog(_panel, _("Test email sent."));
+
+	dcpomatic_log->log("Email session follows", LogEntry::TYPE_DEBUG_EMAIL);
+	dcpomatic_log->log(email.notes(), LogEntry::TYPE_DEBUG_EMAIL);
 }
