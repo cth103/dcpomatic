@@ -27,6 +27,8 @@
 #include "cross.h"
 #include "dcp_content_type.h"
 #include "dcpomatic_log.h"
+#include "ffmpeg_audio_stream.h"
+#include "ffmpeg_content.h"
 #include "film.h"
 #include "hints.h"
 #include "maths_util.h"
@@ -49,6 +51,7 @@
 
 
 using std::cout;
+using std::dynamic_pointer_cast;
 using std::make_shared;
 using std::map;
 using std::max;
@@ -114,6 +117,37 @@ Hints::check_few_audio_channels()
 				  "fewer channels, as {} will fill the extras with silence.")
 				)
 		    );
+	}
+}
+
+
+/** A 6 channel file whose mask names anything but L, R, C, LFE and two surrounds (5.1 or 5.1(side)), and an
+ *  8 channel one whose mask names anything but the 7.1 used in cinemas (e.g. 7.1(wide), 7.1(wide-side) or 5.1.2),
+ *  do not match the channels of a cinema, so they can not be put in the right places by themselves.
+ */
+void
+Hints::check_non_cinema_layouts()
+{
+	for (auto content: film()->content()) {
+		auto ffmpeg = dynamic_pointer_cast<const FFmpegContent>(content);
+		if (!ffmpeg) {
+			continue;
+		}
+		for (auto stream: ffmpeg->ffmpeg_audio_streams()) {
+			if (!stream->channel_layout) {
+				continue;
+			}
+			auto const& layout = *stream->channel_layout;
+			bool const six = stream->channels() == 6 && layout != "5.1" && layout != "5.1(side)";
+			bool const eight = stream->channels() == 8 && layout != "7.1";
+			if (six || eight) {
+				hint(fmt::format(
+					_("The audio of {} says that its channels are {}, which is not 5.1 or 7.1 as used in cinemas, so they have been mapped one to one.  "
+					  "Check where they go in the \"Audio\" tab."),
+					content->path(0).filename().string(), layout
+					));
+			}
+		}
 	}
 }
 
@@ -485,6 +519,7 @@ try
 	check_closed_text_languages();
 	check_audio_language();
 	check_8_or_16_audio_channels();
+	check_non_cinema_layouts();
 	check_video_alpha();
 	check_encryption();
 
