@@ -180,6 +180,9 @@ public:
 		return _three_d;
 	}
 
+	/** @return true if, of the DCP's reels that are left after trimming, some have Atmos and some do not */
+	bool atmos_in_some_used_reels(std::shared_ptr<const Film> film) const;
+
 	boost::optional<dcp::ContentKind> content_kind() const {
 		boost::mutex::scoped_lock lm(_mutex);
 		return _content_kind;
@@ -308,6 +311,8 @@ private:
 	std::vector<dcp::Rating> _ratings;
 	std::vector<std::string> _content_versions;
 	EnumIndexedVector<bool, TextType> _has_non_zero_entry_point;
+	/** For each reel, in the order of _reel_lengths, whether it has Atmos; empty unless some reels have it and some do not */
+	std::vector<bool> _reels_with_atmos;
 
 	boost::optional<int> _active_audio_channels;
 	boost::optional<dcp::LanguageTag> _audio_language;

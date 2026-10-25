@@ -25,6 +25,7 @@
 #include "lib/content.h"
 #include "lib/content_factory.h"
 #include "lib/cross.h"
+#include "lib/dcp_content.h"
 #include "lib/film.h"
 #include "lib/font.h"
 #include "lib/hints.h"
@@ -425,4 +426,58 @@ BOOST_AUTO_TEST_CASE(hints_atmos_in_all_or_no_reels)
 
 	auto none = three_reels_with_atmos("hints_atmos_in_no_reels", {});
 	BOOST_CHECK(!has_atmos_in_some_reels_hint(get_hints(none)));
+}
+
+
+/** A DCP added as content whose own reels have Atmos in some but not others gets the hint too, though it is
+ *  one piece of content over all of them; a DCP with Atmos in every reel does not.
+ */
+BOOST_AUTO_TEST_CASE(hints_atmos_in_some_reels_of_a_dcp)
+{
+	auto some = three_reels_with_atmos("hints_atmos_in_some_reels_of_a_dcp_ov", { 0, 20 });
+	make_and_verify_dcp(some);
+	auto some_dcp = make_shared<DCPContent>(some->dir(some->dcp_name()));
+	auto film = new_test_film("hints_atmos_in_some_reels_of_a_dcp", { some_dcp });
+	BOOST_CHECK(has_atmos_in_some_reels_hint(get_hints(film)));
+
+	auto all = three_reels_with_atmos("hints_atmos_in_all_reels_of_a_dcp_ov", { 0, 10, 20 });
+	make_and_verify_dcp(all);
+	auto all_dcp = make_shared<DCPContent>(all->dir(all->dcp_name()));
+	auto all_film = new_test_film("hints_atmos_in_all_reels_of_a_dcp", { all_dcp });
+	BOOST_CHECK(!has_atmos_in_some_reels_hint(get_hints(all_film)));
+	/* and its metadata is as it was before this was kept */
+	all_film->write_metadata();
+	BOOST_CHECK(dcp::file_to_string(all_film->file("metadata.xml")).find("ReelAtmos") == string::npos);
+
+	/* Which reels have Atmos is kept in the metadata */
+	film->write_metadata();
+	auto reloaded = make_shared<Film>(film->directory().get());
+	reloaded->read_metadata();
+	BOOST_CHECK(has_atmos_in_some_reels_hint(get_hints(reloaded)));
+
+	/* Only the reels that are left after trimming count.  The DCP's reels are 0-10 s (Atmos), 10-20 s (none)
+	 * and 20-30 s (Atmos).
+	 */
+	auto check_trim = [&film, &some_dcp](int start, int end, bool hint) {
+		some_dcp->set_trim_start(film, dcpomatic::ContentTime::from_seconds(start));
+		some_dcp->set_trim_end(dcpomatic::ContentTime::from_seconds(end));
+		BOOST_CHECK_MESSAGE(has_atmos_in_some_reels_hint(get_hints(film)) == hint, "trim " << start << " " << end);
+	};
+	check_trim(0, 20, false);   /* only the first reel, with Atmos */
+	check_trim(10, 10, false);  /* only the middle reel, with none */
+	check_trim(10, 0, true);    /* the last two reels, one with and one without */
+	check_trim(0, 0, true);     /* all of them again */
+}
+
+
+/** The Jasmine & Jambo demo DCP (private test data), whose first reel has no Atmos, added as content */
+BOOST_AUTO_TEST_CASE(hints_atmos_in_some_reels_of_the_jasmine_demo)
+{
+	auto dcp = make_shared<DCPContent>(TestPaths::private_data() / "jasmine_jambo_demo" / "JasmineJamboDe_TST-1_F_CA-XX_71-HI-VI-IAB_2K_20261025_SMPTE_OV");
+	auto film = new_test_film("hints_atmos_in_some_reels_of_the_jasmine_demo", { dcp });
+	BOOST_CHECK(has_atmos_in_some_reels_hint(get_hints(film)));
+
+	/* Without its first reel (48 frames, 2 s) every reel left has Atmos */
+	dcp->set_trim_start(film, dcpomatic::ContentTime::from_frames(48, 24));
+	BOOST_CHECK(!has_atmos_in_some_reels_hint(get_hints(film)));
 }

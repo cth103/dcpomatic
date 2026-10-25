@@ -313,6 +313,7 @@ DCPExaminer::DCPExaminer(shared_ptr<const DCPContent> content, bool tolerant)
 		}
 
 		_reel_lengths.push_back(asset_determining_length->actual_duration());
+		_reels_with_atmos.push_back(static_cast<bool>(reel->atmos()));
 
 		reel_time += dcpomatic::ContentTime::from_frames(asset_determining_length->actual_duration(), asset_determining_length->edit_rate().numerator);
 		++reel_index;
