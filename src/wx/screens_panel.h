@@ -62,7 +62,7 @@ public:
 private:
 	void add_cinemas();
 	boost::optional<wxTreeListItem> add_cinema(CinemaID cinema_id, Cinema const& cinema, wxTreeListItem previous);
-	boost::optional<wxTreeListItem> add_screen(CinemaID cinema_id, ScreenID screen_id, dcpomatic::Screen const& screen);
+	boost::optional<wxTreeListItem> add_screen(CinemaID cinema_id, ScreenID screen_id, dcpomatic::Screen const& screen, wxTreeListItem previous);
 	void add_cinema_clicked();
 	void edit_cinema_clicked();
 	void edit_cinema(CinemaID cinema_id);

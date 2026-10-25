@@ -246,14 +246,14 @@ ScreensPanel::add_cinema(CinemaID cinema_id, Cinema const& cinema, wxTreeListIte
 
 /** Add an existing screen to the GUI */
 optional<wxTreeListItem>
-ScreensPanel::add_screen(CinemaID cinema_id, ScreenID screen_id, Screen const& screen)
+ScreensPanel::add_screen(CinemaID cinema_id, ScreenID screen_id, Screen const& screen, wxTreeListItem previous)
 {
 	auto item = cinema_to_item(cinema_id);
 	if (!item) {
 		return {};
 	}
 
-	auto id = _targets->AppendItem(*item, std_to_wx(screen.name));
+	auto id = _targets->InsertItem(*item, previous, std_to_wx(screen.name));
 
 	_item_to_screen.emplace(make_pair(id, make_pair(cinema_id, screen_id)));
 	_screen_to_item[screen_id] = id;
@@ -392,8 +392,16 @@ ScreensPanel::add_screen_clicked()
 		return;
 	}
 
-	for (auto screen: _cinema_list->screens(*cinema_id)) {
-		if (screen.second.name == dialog.name()) {
+
+	wxTreeListItem previous = wxTLI_FIRST;
+	bool found = false;
+	for (auto existing_screen: _cinema_list->screens(*cinema_id)) {
+		if (_collator.compare(dialog.name(), existing_screen.second.name) < 0) {
+			/* existing_screen should be after the one we're inserting */
+			found = true;
+			break;
+		}
+		if (existing_screen.second.name == dialog.name()) {
 			error_dialog(
 				GetParent(),
 				wxString::Format(
@@ -403,12 +411,15 @@ ScreensPanel::add_screen_clicked()
 				);
 			return;
 		}
+		auto item = screen_to_item(existing_screen.first);
+		DCPOMATIC_ASSERT(item);
+		previous = *item;
 	}
 
 	auto const screen = Screen(dialog.name(), dialog.notes(), dialog.recipient(), dialog.recipient_file(), dialog.trusted_devices());
 	auto const screen_id = _cinema_list->add_screen(*cinema_id, screen);
 
-	auto const id = add_screen(*cinema_id, screen_id, screen);
+	auto const id = add_screen(*cinema_id, screen_id, screen, found ? previous : wxTLI_LAST);
 	if (id) {
 		_targets->Expand(id.get());
 	}
@@ -552,7 +563,7 @@ ScreensPanel::add_cinemas()
 	}
 
 	_cinema_list->screens([this](CinemaID cinema_id, ScreenID screen_id, Screen const& screen) {
-		add_screen(cinema_id, screen_id, screen);
+		add_screen(cinema_id, screen_id, screen, wxTLI_LAST);
 	}, false);
 }
 

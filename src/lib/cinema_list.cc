@@ -354,7 +354,7 @@ CinemaList::screens_from_result(SQLiteStatement& statement) const
 vector<pair<ScreenID, dcpomatic::Screen>>
 CinemaList::screens(CinemaID cinema_id) const
 {
-	SQLiteStatement statement(_db, _screens.select("WHERE cinema=?"));
+	SQLiteStatement statement(_db, _screens.select("WHERE cinema=? ORDER BY name COLLATE unicode ASC"));
 	statement.bind_int64(1, cinema_id.get());
 	return screens_from_result(statement);
 }
@@ -449,7 +449,7 @@ CinemaList::unique_utc_offset(std::set<CinemaID> const& cinemas_to_check)
 void
 CinemaList::screens(function<void (CinemaID, ScreenID, dcpomatic::Screen const& screen)> callback, bool with_trusted_devices) const
 {
-	SQLiteStatement statement(_db, _screens.select(""));
+	SQLiteStatement statement(_db, _screens.select("ORDER BY name COLLATE unicode ASC"));
 	statement.execute([this, &callback, with_trusted_devices](SQLiteStatement& statement) {
 		auto const screen_id = statement.column_int64(0);
 		callback(statement.column_int64(1), screen_id, screen_from_result(statement, screen_id, with_trusted_devices));
