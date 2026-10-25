@@ -105,8 +105,9 @@ check (TextType type, string name, optional<string> expected_hint = optional<str
  */
 BOOST_AUTO_TEST_CASE(hint_closed_caption_without_language)
 {
-	auto const message = string("At least one piece of closed caption content has no language in its DCP track");
-	auto has_hint = [&message](vector<string> const& hints) {
+	auto const no_track = string("At least one piece of closed caption content has no DCP track");
+	auto const no_language = string("At least one DCP track of closed caption content has no language");
+	auto has_hint = [](vector<string> const& hints, string const& message) {
 		return std::any_of(hints.begin(), hints.end(), [&message](string const& hint) {
 			return hint.find(message) != string::npos;
 		});
@@ -132,9 +133,36 @@ BOOST_AUTO_TEST_CASE(hint_closed_caption_without_language)
 			}
 			film->examine_and_add_content({content});
 			BOOST_REQUIRE(!wait_for_jobs());
-			BOOST_CHECK_MESSAGE(has_hint(get_hints(film)) == (track_kind != 2), name);
+			auto const hints = get_hints(film);
+			BOOST_CHECK_MESSAGE(has_hint(hints, no_track) == (track_kind == 0), name << " no track");
+			BOOST_CHECK_MESSAGE(has_hint(hints, no_language) == (track_kind == 1), name << " no language");
 		}
 	}
+
+	/* The closed captions of the Jasmine & Jambo demo DCP (private test data), added as files and made closed
+	 * captions, as a user would: reel 1 with no track chosen gives the hint about the track, and reel 3 with a
+	 * track that has no language gives the hint about the language.
+	 */
+	auto const demo_dcp = TestPaths::private_data() / "jasmine_jambo_demo" / "JasmineJamboDe_TST-1_F_CA-XX_71-HI-VI-IAB_2K_20261025_SMPTE_OV";
+
+	auto reel_1 = new_test_film("hint_closed_caption_demo_reel_1");
+	auto ccap_1 = content_factory(demo_dcp / "sub_efa7b218-84de-46a2-b47b-59699a7f53a0.mxf")[0];
+	ccap_1->text.front()->set_type(TextType::CLOSED_CAPTION);
+	reel_1->examine_and_add_content({ccap_1});
+	BOOST_REQUIRE(!wait_for_jobs());
+	auto const reel_1_hints = get_hints(reel_1);
+	BOOST_CHECK(has_hint(reel_1_hints, no_track));
+	BOOST_CHECK(!has_hint(reel_1_hints, no_language));
+
+	auto reel_3 = new_test_film("hint_closed_caption_demo_reel_3");
+	auto ccap_3 = content_factory(demo_dcp / "sub_59443fd6-b322-42d3-93a5-575768990f3b.mxf")[0];
+	ccap_3->text.front()->set_type(TextType::CLOSED_CAPTION);
+	ccap_3->text.front()->set_dcp_track(DCPTextTrack("Catalan", boost::none));
+	reel_3->examine_and_add_content({ccap_3});
+	BOOST_REQUIRE(!wait_for_jobs());
+	auto const reel_3_hints = get_hints(reel_3);
+	BOOST_CHECK(!has_hint(reel_3_hints, no_track));
+	BOOST_CHECK(has_hint(reel_3_hints, no_language));
 
 	/* Open subtitles do not use a track, so they never give this hint */
 	auto film = new_test_film("hint_closed_caption_without_language_open");
@@ -143,7 +171,29 @@ BOOST_AUTO_TEST_CASE(hint_closed_caption_without_language)
 	content->text.front()->set_language(dcp::LanguageTag("en-US"));
 	film->examine_and_add_content({content});
 	BOOST_REQUIRE(!wait_for_jobs());
-	BOOST_CHECK(!has_hint(get_hints(film)));
+	auto const hints = get_hints(film);
+	BOOST_CHECK(!has_hint(hints, no_track));
+	BOOST_CHECK(!has_hint(hints, no_language));
+
+	/* A project with no closed captions at all gives neither hint */
+	auto none = new_test_film("hint_closed_caption_without_language_none");
+	none->examine_and_add_content({content_factory("test/data/flat_red.png")[0]});
+	BOOST_REQUIRE(!wait_for_jobs());
+	auto const none_hints = get_hints(none);
+	BOOST_CHECK(!has_hint(none_hints, no_track));
+	BOOST_CHECK(!has_hint(none_hints, no_language));
+
+	/* Closed captions that are not used in the DCP do not count */
+	auto unused = new_test_film("hint_closed_caption_without_language_unused");
+	auto unused_content = content_factory("test/data/short.srt")[0];
+	unused_content->text.front()->set_type(TextType::CLOSED_CAPTION);
+	unused->examine_and_add_content({unused_content});
+	BOOST_REQUIRE(!wait_for_jobs());
+	/* Examining the content sets it to be used, so only now can it be turned off */
+	unused_content->text.front()->set_use(false);
+	auto const unused_hints = get_hints(unused);
+	BOOST_CHECK(!has_hint(unused_hints, no_track));
+	BOOST_CHECK(!has_hint(unused_hints, no_language));
 }
 
 

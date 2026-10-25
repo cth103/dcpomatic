@@ -749,15 +749,28 @@ Hints::check_subtitle_languages()
 void
 Hints::check_closed_text_languages()
 {
+	bool no_track = false;
+	bool no_language = false;
 	for (auto i: film()->content()) {
 		for (auto j: i->text) {
-			if (j->use() && is_closed(j->type()) && !(j->dcp_track() && j->dcp_track()->language)) {
-				hint(_("At least one piece of closed caption content has no language in its DCP track, so the closed caption "
-					"file in your DCP will have no language.  Choose or create a DCP track with a language for each "
-					"piece of closed caption content."));
-				return;
+			if (!j->use() || !is_closed(j->type())) {
+				continue;
+			}
+			if (!j->dcp_track()) {
+				no_track = true;
+			} else if (!j->dcp_track()->language) {
+				no_language = true;
 			}
 		}
+	}
+
+	if (no_track) {
+		hint(_("At least one piece of closed caption content has no DCP track, so the closed caption file in your DCP "
+			"will have no language.  Choose or create a DCP track for each piece of closed caption content."));
+	}
+	if (no_language) {
+		hint(_("At least one DCP track of closed caption content has no language, so the closed caption file in your "
+			"DCP will have no language.  Set a language for each DCP track of closed caption content."));
 	}
 }
 
