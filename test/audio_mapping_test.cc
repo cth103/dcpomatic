@@ -195,3 +195,26 @@ BOOST_AUTO_TEST_CASE(audio_mapping_change_signalled_test)
 	BOOST_CHECK_EQUAL(signalled, 3);
 	BOOST_CHECK(!has(dcp::Channel::HI));
 }
+
+
+/** Listening to one channel sends only that channel: to both speakers in stereo, to the centre otherwise */
+BOOST_AUTO_TEST_CASE(audio_mapping_listen_to_test)
+{
+	auto check = [](AudioMapping const& mapping, dcp::Channel channel, std::vector<int> outputs) {
+		for (int input = 0; input < mapping.input_channels(); ++input) {
+			for (int output = 0; output < mapping.output_channels(); ++output) {
+				auto const expected = input == static_cast<int>(channel) && std::find(outputs.begin(), outputs.end(), output) != outputs.end();
+				BOOST_CHECK_MESSAGE(mapping.get(input, output) == (expected ? 1 : 0), "input " << input << " output " << output);
+			}
+		}
+	};
+
+	auto stereo = listen_to_mapping(dcp::Channel::HI, 2);
+	BOOST_CHECK_EQUAL(stereo.input_channels(), MAX_DCP_AUDIO_CHANNELS);
+	BOOST_CHECK_EQUAL(stereo.output_channels(), 2);
+	check(stereo, dcp::Channel::HI, { 0, 1 });
+
+	check(listen_to_mapping(dcp::Channel::VI, 6), dcp::Channel::VI, { static_cast<int>(dcp::Channel::CENTRE) });
+	check(listen_to_mapping(dcp::Channel::HI, 16), dcp::Channel::HI, { static_cast<int>(dcp::Channel::CENTRE) });
+	check(listen_to_mapping(dcp::Channel::VI, 1), dcp::Channel::VI, { 0 });
+}
