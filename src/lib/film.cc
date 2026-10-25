@@ -1572,6 +1572,7 @@ void
 Film::add_content(vector<shared_ptr<Content>> const& content)
 {
 	bool any_atmos = false;
+	bool any_rear_surround = false;
 
 	for (auto c: content) {
 		if (_template_film) {
@@ -1584,11 +1585,30 @@ Film::add_content(vector<shared_ptr<Content>> const& content)
 		if (c->atmos) {
 			any_atmos = true;
 		}
+
+		if (c->audio) {
+			/* Look for a channel mapped to Lrs or Rrs other than the 11th and 12th of a file, which is where the
+			 * plain 1:1 mapping puts them: that is not a change from what the file would do anyway.
+			 */
+			auto const mapping = c->audio->mapping();
+			for (int input = 0; input < mapping.input_channels(); ++input) {
+				for (auto output: { static_cast<int>(dcp::Channel::BSL), static_cast<int>(dcp::Channel::BSR) }) {
+					if (output < mapping.output_channels() && input != output && mapping.get(input, output) > 0) {
+						any_rear_surround = true;
+					}
+				}
+			}
+		}
 	}
 
 	_playlist->add_at_end(shared_from_this(), content);
 	maybe_set_container_and_resolution();
 	maybe_set_interop();
+
+	/* Content mapped to Lrs or Rrs (e.g. a 7.1 file) would not be heard with fewer than 12 channels */
+	if (any_rear_surround && _audio_channels < 12) {
+		set_audio_channels(12);
+	}
 
 	if (any_atmos) {
 		if (_audio_channels < 14) {

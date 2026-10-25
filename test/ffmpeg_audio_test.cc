@@ -25,6 +25,7 @@
  */
 
 
+#include "lib/audio_content.h"
 #include "lib/constants.h"
 #include "lib/content_factory.h"
 #include "lib/dcp_content_type.h"
@@ -42,7 +43,10 @@
 #include <dcp/reel_sound_asset.h>
 #include <dcp/sound_asset_reader.h>
 #include <dcp/reel.h>
+#include <fmt/format.h>
 #include <boost/test/unit_test.hpp>
+#include <fstream>
+#include <map>
 
 
 using std::make_shared;
@@ -144,3 +148,165 @@ BOOST_AUTO_TEST_CASE(no_audio_length_in_header)
 	auto film = new_test_film("no_audio_length_in_header", content);
 	BOOST_CHECK(content[0]->full_length(film) == dcpomatic::DCPTime::from_seconds(10));
 }
+
+
+/** Write one second of 48kHz, 16-bit WAV, in which channel n (from 1) holds the constant n * 1000;
+ *  if extensible is true it has a channel mask: the one for 7.1 for 8 channels, otherwise one that names that
+ *  many channels in the order of the bits
+ */
+static void
+write_wav(boost::filesystem::path path, bool extensible, int channels = 8)
+{
+	int const rate = 48000;
+	int const data_size = rate * channels * 2;
+	int const fmt_size = extensible ? 40 : 16;
+
+	std::ofstream file(path.string(), std::ios::binary);
+	auto u16 = [&file](uint16_t v) { file.put(v & 0xff); file.put(v >> 8); };
+	auto u32 = [&u16](uint32_t v) { u16(v & 0xffff); u16(v >> 16); };
+
+	file.write("RIFF", 4);
+	u32(4 + 8 + fmt_size + 8 + data_size);
+	file.write("WAVEfmt ", 8);
+	u32(fmt_size);
+	u16(extensible ? 0xfffe : 1);
+	u16(channels);
+	u32(rate);
+	u32(rate * channels * 2);
+	u16(channels * 2);
+	u16(16);
+	if (extensible) {
+		u16(22);
+		u16(16);
+		/* FL FR FC LFE BL BR SL SR for 8 channels */
+		u32(channels == 8 ? 0x63f : (1U << channels) - 1);
+		/* KSDATAFORMAT_SUBTYPE_PCM */
+		u32(1);
+		u32(0x00100000);
+		u32(0xaa000080);
+		u32(0x719b3800);
+	}
+	file.write("data", 4);
+	u32(data_size);
+	for (int i = 0; i < rate; ++i) {
+		for (int channel = 0; channel < channels; ++channel) {
+			u16((channel + 1) * 1000);
+		}
+	}
+}
+
+
+/** An 8-channel file that says it is 7.1 is in the order of its mask: L, R, C, LFE, back pair, side pair.
+ *  The back pair is mapped to the rear surrounds (Lrs and Rrs) and the side pair to Lss and Rss,
+ *  rather than the last two channels going to HI and VI.
+ */
+BOOST_AUTO_TEST_CASE(ffmpeg_audio_7_1_default_mapping)
+{
+	auto mapped = [](boost::filesystem::path path, string name, int film_channels) {
+		auto content = content_factory(path)[0];
+		auto film = new_test_film(name, { content });
+		/* A new film has 6 channels; it needs 12 for the rear surrounds */
+		BOOST_CHECK_EQUAL(film->audio_channels(), film_channels);
+		auto const mapping = content->audio->mapping();
+		std::vector<int> outputs;
+		for (int input = 0; input < mapping.input_channels(); ++input) {
+			int output = -1;
+			for (int o = 0; o < mapping.output_channels(); ++o) {
+				if (mapping.get(input, o) > 0) {
+					output = o;
+				}
+			}
+			outputs.push_back(output);
+		}
+		return outputs;
+	};
+
+	boost::filesystem::create_directories("build/test");
+
+	auto const seven_one = boost::filesystem::path("build/test/ffmpeg_audio_7_1_default_mapping.wav");
+	write_wav(seven_one, true);
+	std::vector<int> const cinema = {
+		static_cast<int>(dcp::Channel::LEFT),
+		static_cast<int>(dcp::Channel::RIGHT),
+		static_cast<int>(dcp::Channel::CENTRE),
+		static_cast<int>(dcp::Channel::LFE),
+		static_cast<int>(dcp::Channel::BSL),
+		static_cast<int>(dcp::Channel::BSR),
+		static_cast<int>(dcp::Channel::LS),
+		static_cast<int>(dcp::Channel::RS)
+	};
+	auto const result = mapped(seven_one, "ffmpeg_audio_7_1_default_mapping", 12);
+	BOOST_CHECK_EQUAL_COLLECTIONS(result.begin(), result.end(), cinema.begin(), cinema.end());
+
+	/* Without the mask we do not know what the channels are, so the mapping is still 1:1 */
+	auto const unknown = boost::filesystem::path("build/test/ffmpeg_audio_7_1_default_mapping_no_mask.wav");
+	write_wav(unknown, false);
+	std::vector<int> const one_to_one = { 0, 1, 2, 3, 4, 5, 6, 7 };
+	auto const plain = mapped(unknown, "ffmpeg_audio_7_1_default_mapping_no_mask", 6);
+	BOOST_CHECK_EQUAL_COLLECTIONS(plain.begin(), plain.end(), one_to_one.begin(), one_to_one.end());
+}
+
+
+/** A file with 12 or more channels is mapped 1:1, which already reaches Lrs and Rrs on its 11th and 12th
+ *  channels, so adding it does not change the number of channels of the film.
+ */
+BOOST_AUTO_TEST_CASE(ffmpeg_audio_many_channels_keep_film_channels)
+{
+	boost::filesystem::create_directories("build/test");
+
+	for (auto channels: { 12, 16 }) {
+		auto const name = fmt::format("ffmpeg_audio_many_channels_{}", channels);
+		auto const path = boost::filesystem::path("build/test/" + name + ".wav");
+		write_wav(path, true, channels);
+		auto content = content_factory(path)[0];
+		auto film = new_test_film(name, { content });
+		BOOST_CHECK_EQUAL(film->audio_channels(), 6);
+		auto const mapping = content->audio->mapping();
+		BOOST_REQUIRE_EQUAL(mapping.input_channels(), channels);
+		for (int input = 0; input < channels; ++input) {
+			BOOST_CHECK_MESSAGE(mapping.get(input, input) > 0, "channel " << input << " of " << channels << " is not mapped 1:1");
+		}
+	}
+}
+
+
+/** Every channel of a 7.1 file ends up in the DCP channel that its mask names: the content of each file channel
+ *  is a different constant, so a mixed up pair would show.
+ */
+BOOST_AUTO_TEST_CASE(ffmpeg_audio_7_1_channels_in_dcp)
+{
+	boost::filesystem::create_directories("build/test");
+	auto const path = boost::filesystem::path("build/test/ffmpeg_audio_7_1_channels_in_dcp.wav");
+	write_wav(path, true);
+
+	auto picture = content_factory("test/data/flat_red.png")[0];
+	auto sound = content_factory(path)[0];
+	auto film = new_test_film("ffmpeg_audio_7_1_channels_in_dcp", { picture, sound });
+	make_and_verify_dcp(film, { dcp::VerificationNote::Code::MISSING_CPL_METADATA });
+
+	dcp::DCP dcp(film->dir(film->dcp_name()));
+	dcp.read();
+	auto asset = dcp.cpls()[0]->reels()[0]->main_sound()->asset();
+	BOOST_REQUIRE_EQUAL(asset->channels(), 12);
+
+	/* The file channel (from 1) that each DCP channel should carry, or 0 for none */
+	std::map<dcp::Channel, int> const expected = {
+		{ dcp::Channel::LEFT, 1 },
+		{ dcp::Channel::RIGHT, 2 },
+		{ dcp::Channel::CENTRE, 3 },
+		{ dcp::Channel::LFE, 4 },
+		{ dcp::Channel::LS, 7 },
+		{ dcp::Channel::RS, 8 },
+		{ dcp::Channel::HI, 0 },
+		{ dcp::Channel::VI, 0 },
+		{ dcp::Channel::BSL, 5 },
+		{ dcp::Channel::BSR, 6 }
+	};
+
+	auto data = asset->start_read()->get_frame(0);
+	for (auto const& channel: expected) {
+		/* A 16-bit sample is 8 bits down on the 24 bits of the DCP */
+		BOOST_CHECK_EQUAL(data->get(static_cast<int>(channel.first), 1000), channel.second * 1000 * 256);
+	}
+}
+

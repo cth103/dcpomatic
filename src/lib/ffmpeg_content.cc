@@ -305,9 +305,24 @@ FFmpegContent::examine(shared_ptr<const Film> film, shared_ptr<Job> job, bool to
 				audio->add_stream(i);
 			}
 
-			auto as = audio->streams().front();
+			auto as = examiner->audio_streams().front();
 			auto m = as->mapping();
-			m.make_default(film ? film->audio_processor() : 0, first_path);
+			auto const processor = film ? film->audio_processor() : nullptr;
+			m.make_default(processor, first_path);
+			if (as->seven_one && !processor && m.output_channels() > static_cast<int>(dcp::Channel::BSR)) {
+				/* A 7.1 file has its channels in the order of the bits of its mask: the back pair on 5 and 6
+				 * and the side pair on 7 and 8.  The rear surrounds are the backs, not HI and VI.
+				 */
+				for (auto input: { 4, 5, 6, 7 }) {
+					for (int output = 0; output < m.output_channels(); ++output) {
+						m.set(input, output, 0);
+					}
+				}
+				m.set(4, dcp::Channel::BSL, 1);
+				m.set(5, dcp::Channel::BSR, 1);
+				m.set(6, dcp::Channel::LS, 1);
+				m.set(7, dcp::Channel::RS, 1);
+			}
 			as->set_mapping(m);
 		}
 
