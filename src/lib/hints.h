@@ -84,6 +84,7 @@ private:
 	void check_ffec_and_ffmc_in_smpte_feature();
 	void check_out_of_range_markers();
 	void check_subtitle_languages();
+	void check_closed_text_languages();
 	void check_audio_language();
 	void check_8_or_16_audio_channels();
 	void check_video_alpha();

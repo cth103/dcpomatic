@@ -25,12 +25,15 @@
 #include "lib/content.h"
 #include "lib/content_factory.h"
 #include "lib/cross.h"
+#include "lib/dcp_text_track.h"
 #include "lib/film.h"
 #include "lib/font.h"
 #include "lib/hints.h"
 #include "lib/text_content.h"
+#include "lib/text_type.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
+#include <algorithm>
 
 
 using std::make_shared;
@@ -76,6 +79,9 @@ check (TextType type, string name, optional<string> expected_hint = optional<str
 	auto content = content_factory("test/data/" + name + ".srt")[0];
 	content->text.front()->set_type (type);
 	content->text.front()->set_language (dcp::LanguageTag("en-US"));
+	if (is_closed(type)) {
+		content->text.front()->set_dcp_track(DCPTextTrack("English", dcp::LanguageTag("en-US")));
+	}
 	film->examine_and_add_content({content});
 	film->set_audio_channels(8);
 	BOOST_REQUIRE (!wait_for_jobs());
@@ -91,6 +97,53 @@ check (TextType type, string name, optional<string> expected_hint = optional<str
 		}
 		BOOST_CHECK_MESSAGE(hints.empty(), "Found: " << message);
 	}
+}
+
+
+/** A closed caption asset takes its language from the DCP track, so a track without one, or no track at all,
+ *  gives a hint; a track with a language does not.
+ */
+BOOST_AUTO_TEST_CASE(hint_closed_caption_without_language)
+{
+	auto const message = string("At least one piece of closed caption content has no language in its DCP track");
+	auto has_hint = [&message](vector<string> const& hints) {
+		return std::any_of(hints.begin(), hints.end(), [&message](string const& hint) {
+			return hint.find(message) != string::npos;
+		});
+	};
+
+	for (auto type: { TextType::CLOSED_CAPTION, TextType::CLOSED_SUBTITLE }) {
+		for (int track_kind = 0; track_kind < 3; ++track_kind) {
+			auto const name = fmt::format("hint_closed_caption_without_language_{}_{}", text_type_to_string(type), track_kind);
+			auto film = new_test_film(name);
+			auto content = content_factory("test/data/short.srt")[0];
+			content->text.front()->set_type(type);
+			content->text.front()->set_language(dcp::LanguageTag("en-US"));
+			switch (track_kind) {
+			case 0:
+				/* no track at all */
+				break;
+			case 1:
+				content->text.front()->set_dcp_track(DCPTextTrack("English", boost::none));
+				break;
+			case 2:
+				content->text.front()->set_dcp_track(DCPTextTrack("English", dcp::LanguageTag("en-US")));
+				break;
+			}
+			film->examine_and_add_content({content});
+			BOOST_REQUIRE(!wait_for_jobs());
+			BOOST_CHECK_MESSAGE(has_hint(get_hints(film)) == (track_kind != 2), name);
+		}
+	}
+
+	/* Open subtitles do not use a track, so they never give this hint */
+	auto film = new_test_film("hint_closed_caption_without_language_open");
+	auto content = content_factory("test/data/short.srt")[0];
+	content->text.front()->set_type(TextType::OPEN_SUBTITLE);
+	content->text.front()->set_language(dcp::LanguageTag("en-US"));
+	film->examine_and_add_content({content});
+	BOOST_REQUIRE(!wait_for_jobs());
+	BOOST_CHECK(!has_hint(get_hints(film)));
 }
 
 
@@ -237,6 +290,7 @@ BOOST_AUTO_TEST_CASE (hint_closed_caption_xml_too_big)
 	auto content = content_factory("build/test/" + name + ".srt")[0];
 	content->text.front()->set_type (TextType::CLOSED_CAPTION);
 	content->text.front()->set_language (dcp::LanguageTag("en-US"));
+	content->text.front()->set_dcp_track(DCPTextTrack("English", dcp::LanguageTag("en-US")));
 	film->examine_and_add_content({content});
 	BOOST_REQUIRE (!wait_for_jobs());
 	auto hints = get_hints (film);

@@ -482,6 +482,7 @@ try
 	check_ffec_and_ffmc_in_smpte_feature();
 	check_out_of_range_markers();
 	check_subtitle_languages();
+	check_closed_text_languages();
 	check_audio_language();
 	check_8_or_16_audio_channels();
 	check_video_alpha();
@@ -735,6 +736,25 @@ Hints::check_subtitle_languages()
 				hint(_("At least one piece of subtitle content has no specified language.  "
 					"It is advisable to set the language for each piece of subtitle content "
 					"in the \"Content→Timed text\" or \"Content→Open subtitles\" tab."));
+				return;
+			}
+		}
+	}
+}
+
+
+/** A closed caption asset takes its language from its DCP track, so a track without one gives an asset with
+ *  no <Language> tag, which the verifier reports as an error.
+ */
+void
+Hints::check_closed_text_languages()
+{
+	for (auto i: film()->content()) {
+		for (auto j: i->text) {
+			if (j->use() && is_closed(j->type()) && !(j->dcp_track() && j->dcp_track()->language)) {
+				hint(_("At least one piece of closed caption content has no language in its DCP track, so the closed caption "
+					"file in your DCP will have no language.  Choose or create a DCP track with a language for each "
+					"piece of closed caption content."));
 				return;
 			}
 		}
