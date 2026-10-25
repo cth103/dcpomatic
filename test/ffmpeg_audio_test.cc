@@ -32,8 +32,10 @@
 #include "lib/ffmpeg_content.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/film.h"
+#include "lib/hints.h"
 #include "lib/player.h"
 #include "lib/ratio.h"
+#include "lib/signal_manager.h"
 #include "lib/video_content.h"
 #include "test.h"
 #include <dcp/cpl.h>
@@ -45,6 +47,7 @@
 #include <dcp/reel.h>
 #include <fmt/format.h>
 #include <boost/test/unit_test.hpp>
+#include <algorithm>
 #include <fstream>
 #include <map>
 
@@ -155,7 +158,7 @@ BOOST_AUTO_TEST_CASE(no_audio_length_in_header)
  *  many channels in the order of the bits
  */
 static void
-write_wav(boost::filesystem::path path, bool extensible, int channels = 8)
+write_wav(boost::filesystem::path path, bool extensible, int channels = 8, uint32_t mask = 0)
 {
 	int const rate = 48000;
 	int const data_size = rate * channels * 2;
@@ -179,7 +182,7 @@ write_wav(boost::filesystem::path path, bool extensible, int channels = 8)
 		u16(22);
 		u16(16);
 		/* FL FR FC LFE BL BR SL SR for 8 channels */
-		u32(channels == 8 ? 0x63f : (1U << channels) - 1);
+		u32(mask ? mask : (channels == 8 ? 0x63f : (1U << channels) - 1));
 		/* KSDATAFORMAT_SUBTYPE_PCM */
 		u32(1);
 		u32(0x00100000);
@@ -244,6 +247,21 @@ BOOST_AUTO_TEST_CASE(ffmpeg_audio_7_1_default_mapping)
 	std::vector<int> const one_to_one = { 0, 1, 2, 3, 4, 5, 6, 7 };
 	auto const plain = mapped(unknown, "ffmpeg_audio_7_1_default_mapping_no_mask", 6);
 	BOOST_CHECK_EQUAL_COLLECTIONS(plain.begin(), plain.end(), one_to_one.begin(), one_to_one.end());
+
+	/* A 5.1 file with its channel mask names L, R, C, LFE and the back pair, which is where 1:1 puts them */
+	auto const five_one = boost::filesystem::path("build/test/ffmpeg_audio_7_1_default_mapping_5_1.wav");
+	write_wav(five_one, true, 6);
+	std::vector<int> const five_one_outputs = { 0, 1, 2, 3, 4, 5 };
+	auto const five_one_result = mapped(five_one, "ffmpeg_audio_7_1_default_mapping_5_1", 6);
+	BOOST_CHECK_EQUAL_COLLECTIONS(five_one_result.begin(), five_one_result.end(), five_one_outputs.begin(), five_one_outputs.end());
+
+	/* A mask that names fewer channels than the file has (here 5 of 8) can not be trusted to say which is which,
+	 * so the mapping stays 1:1
+	 */
+	auto const inconsistent = boost::filesystem::path("build/test/ffmpeg_audio_7_1_default_mapping_inconsistent.wav");
+	write_wav(inconsistent, true, 8, 0x1f);
+	auto const inconsistent_result = mapped(inconsistent, "ffmpeg_audio_7_1_default_mapping_inconsistent", 6);
+	BOOST_CHECK_EQUAL_COLLECTIONS(inconsistent_result.begin(), inconsistent_result.end(), one_to_one.begin(), one_to_one.end());
 }
 
 
@@ -254,7 +272,7 @@ BOOST_AUTO_TEST_CASE(ffmpeg_audio_many_channels_keep_film_channels)
 {
 	boost::filesystem::create_directories("build/test");
 
-	for (auto channels: { 12, 16 }) {
+	for (auto channels: { 12, 13, 14, 15, 16 }) {
 		auto const name = fmt::format("ffmpeg_audio_many_channels_{}", channels);
 		auto const path = boost::filesystem::path("build/test/" + name + ".wav");
 		write_wav(path, true, channels);
@@ -267,6 +285,117 @@ BOOST_AUTO_TEST_CASE(ffmpeg_audio_many_channels_keep_film_channels)
 			BOOST_CHECK_MESSAGE(mapping.get(input, input) > 0, "channel " << input << " of " << channels << " is not mapped 1:1");
 		}
 	}
+}
+
+
+static
+std::vector<string>
+hints_for(std::shared_ptr<Film> film)
+{
+	std::vector<string> hints;
+	Hints checker(film);
+	/* None of these tests need the audio analysis, and it is slow */
+	checker.disable_audio_analysis();
+	checker.Hint.connect([&hints](string hint) { hints.push_back(hint); });
+	checker.start();
+	checker.join();
+	while (signal_manager->ui_idle()) {}
+	checker.rethrow();
+	return hints;
+}
+
+
+/** @return true if one of hints is the one about a channel layout that does not match a cinema's */
+static
+bool
+has_layout_hint(std::vector<string> const& hints)
+{
+	return std::find_if(hints.begin(), hints.end(), [](string const& hint) {
+		return hint.find("which is not 5.1 or 7.1 as used in cinemas") != string::npos;
+	}) != hints.end();
+}
+
+
+/** 8 channel layouts other than the cinema 7.1 (7.1(wide), 7.1(wide-side), 5.1.2, octagonal, cube) are mapped 1:1,
+ *  with a hint to check the mapping; the layout is kept in the metadata, so the hint is still given after the project
+ *  has been read back.  The cinema 7.1 gives no hint.
+ */
+BOOST_AUTO_TEST_CASE(ffmpeg_audio_non_cinema_7_1_hint)
+{
+	boost::filesystem::create_directories("build/test");
+
+	for (auto mask: { 0xffU, 0x6cfU, 0x503fU, 0x737U, 0x2d033U }) {
+		auto const name = fmt::format("ffmpeg_audio_non_cinema_7_1_hint_{:x}", mask);
+		auto const path = boost::filesystem::path("build/test/" + name + ".wav");
+		write_wav(path, true, 8, mask);
+		auto content = content_factory(path)[0];
+		auto film = new_test_film(name, { content });
+		BOOST_CHECK_EQUAL(film->audio_channels(), 6);
+		auto const mapping = content->audio->mapping();
+		for (int input = 0; input < 8; ++input) {
+			BOOST_CHECK_MESSAGE(mapping.get(input, input) > 0, "channel " << input << " is not mapped 1:1");
+		}
+		BOOST_CHECK_MESSAGE(has_layout_hint(hints_for(film)), "no hint for mask " << std::hex << mask);
+
+		film->write_metadata();
+		auto reloaded = std::make_shared<Film>(film->directory().get());
+		reloaded->read_metadata();
+		BOOST_CHECK_MESSAGE(has_layout_hint(hints_for(reloaded)), "no hint after reading back for mask " << std::hex << mask);
+	}
+
+	auto const cinema = boost::filesystem::path("build/test/ffmpeg_audio_non_cinema_7_1_hint_cinema.wav");
+	write_wav(cinema, true);
+	auto film = new_test_film("ffmpeg_audio_non_cinema_7_1_hint_cinema", { content_factory(cinema)[0] });
+	BOOST_CHECK(!has_layout_hint(hints_for(film)));
+}
+
+
+/** A 6 channel file whose mask is 5.1 or 5.1(side), i.e. L, R, C, LFE and two surrounds, is mapped by its mask,
+ *  which is 1:1, with no hint.  Any other 6 channel mask (6.0, 6.0(front), 3.1.2, hexagonal) is mapped 1:1 too,
+ *  with a hint to check the mapping.
+ */
+BOOST_AUTO_TEST_CASE(ffmpeg_audio_six_channel_layouts)
+{
+	boost::filesystem::create_directories("build/test");
+
+	struct Case {
+		uint32_t mask;
+		bool hint;
+	};
+
+	for (auto c: { Case{0x3f, false}, Case{0x60f, false}, Case{0x707, true}, Case{0x6c3, true}, Case{0x500f, true}, Case{0x137, true} }) {
+		auto const name = fmt::format("ffmpeg_audio_six_channel_layouts_{:x}", c.mask);
+		auto const path = boost::filesystem::path("build/test/" + name + ".wav");
+		write_wav(path, true, 6, c.mask);
+		auto content = content_factory(path)[0];
+		auto film = new_test_film(name, { content });
+		BOOST_CHECK_EQUAL(film->audio_channels(), 6);
+		auto const mapping = content->audio->mapping();
+		for (int input = 0; input < 6; ++input) {
+			BOOST_CHECK_MESSAGE(mapping.get(input, input) > 0, "channel " << input << " of mask " << std::hex << c.mask << " is not mapped 1:1");
+		}
+		BOOST_CHECK_MESSAGE(has_layout_hint(hints_for(film)) == c.hint, "wrong hint for mask " << std::hex << c.mask);
+	}
+}
+
+
+/** Atmos content makes a film have 14 channels, and a 7.1 file added with it, which raises a film with fewer than
+ *  12 channels to 12, does not take them away.
+ */
+BOOST_AUTO_TEST_CASE(ffmpeg_audio_7_1_does_not_lower_atmos_channels)
+{
+	boost::filesystem::create_directories("build/test");
+	auto const path = boost::filesystem::path("build/test/ffmpeg_audio_7_1_does_not_lower_atmos_channels.wav");
+	write_wav(path, true);
+
+	auto atmos_only = new_test_film("ffmpeg_audio_7_1_atmos_only", { content_factory("test/data/flat_red.png")[0], content_factory("test/data/atmos_0.mxf")[0] });
+	BOOST_CHECK_EQUAL(atmos_only->audio_channels(), 14);
+
+	auto atmos_and_seven_one = new_test_film(
+		"ffmpeg_audio_7_1_atmos_and_7_1",
+		{ content_factory("test/data/flat_red.png")[0], content_factory("test/data/atmos_0.mxf")[0], content_factory(path)[0] }
+		);
+	BOOST_CHECK_EQUAL(atmos_and_seven_one->audio_channels(), 14);
 }
 
 

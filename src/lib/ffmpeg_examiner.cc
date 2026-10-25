@@ -85,6 +85,12 @@ FFmpegExaminer::FFmpegExaminer(shared_ptr<const FFmpegContent> c, shared_ptr<Job
 				);
 			AVChannelLayout const seven_one = AV_CHANNEL_LAYOUT_7POINT1;
 			stream->seven_one = av_channel_layout_compare(&s->codecpar->ch_layout, &seven_one) == 0;
+			if (s->codecpar->ch_layout.order != AV_CHANNEL_ORDER_UNSPEC) {
+				char layout[256];
+				if (av_channel_layout_describe(&s->codecpar->ch_layout, layout, sizeof(layout)) > 0) {
+					stream->channel_layout = string(layout);
+				}
+			}
 			_audio_streams.push_back(stream);
 
 		} else if (s->codecpar->codec_type == AVMEDIA_TYPE_SUBTITLE) {
