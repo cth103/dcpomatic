@@ -331,6 +331,7 @@ public:
 #endif
 
 		_config_changed_connection = Config::instance()->Changed.connect(boost::bind(&DOMFrame::config_changed, this, _1));
+		_dkdms_changed_connection = Config::instance()->DKDMsChangedByOtherProgram.connect(boost::bind(&DOMFrame::dkdms_changed_by_other_program, this));
 		config_changed(Config::OTHER);
 
 		_analytics_message_connection = Analytics::instance()->Message.connect(boost::bind(&DOMFrame::analytics_message, this, _1, _2));
@@ -1281,6 +1282,7 @@ private:
 		   now (without, as far as I can see, any way for us to find out).
 		*/
 		_config_changed_connection.disconnect();
+		_dkdms_changed_connection.disconnect();
 
 		/* Also stop hearing about analytics-related stuff */
 		_analytics_message_connection.disconnect();
@@ -1526,6 +1528,15 @@ private:
 		m->Append(help, _("&Help"));
 	}
 
+	void dkdms_changed_by_other_program()
+	{
+		message_dialog(
+			this,
+			_("Another DCP-o-matic program has added or removed DKDMs since this one last looked at them.  "
+			  "The list of DKDMs will be updated to include those changes before it is saved.")
+			);
+	}
+
 	void config_changed(Config::Property what)
 	{
 		/* Instantly save any config changes when using the DCP-o-matic GUI */
@@ -1676,6 +1687,7 @@ private:
 	int _history_position = 0;
 	wxMenuItem* _history_separator = nullptr;
 	boost::signals2::scoped_connection _config_changed_connection;
+	boost::signals2::scoped_connection _dkdms_changed_connection;
 	boost::signals2::scoped_connection _analytics_message_connection;
 	bool _update_news_requested = false;
 	shared_ptr<Content> _clipboard;
