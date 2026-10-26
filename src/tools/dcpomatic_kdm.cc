@@ -244,6 +244,7 @@ public:
 
 		/* Instantly save any config changes when using a DCP-o-matic GUI */
 		Config::instance()->Changed.connect(boost::bind(&DOMFrame::config_changed, this, _1));
+		Config::instance()->DKDMsChangedByOtherProgram.connect(boost::bind(&DOMFrame::dkdms_changed_by_other_program, this));
 		setup_log();
 
 		_screens->ScreensChanged.connect(boost::bind(&DOMFrame::screens_changed, this));
@@ -265,10 +266,25 @@ public:
 	}
 
 private:
+	void dkdms_changed_by_other_program()
+	{
+		message_dialog(
+			this,
+			_("Another DCP-o-matic program has added or removed DKDMs since this one last looked at them.  "
+			  "The list of DKDMs will be updated to include those changes before it is saved.")
+			);
+		_dkdms_changed_by_other_program = true;
+	}
+
 	void config_changed(Config::Property what)
 	{
 		/* Instantly save any config changes when using a DCP-o-matic GUI */
 		Config::instance()->write();
+
+		if (_dkdms_changed_by_other_program) {
+			_dkdms_changed_by_other_program = false;
+			update_dkdm_view();
+		}
 
 		switch (what) {
 		case Config::CINEMAS_FILE:
@@ -857,6 +873,7 @@ private:
 	wxButton* _add_dkdm;
 	wxButton* _add_dkdm_folder;
 	wxButton* _remove_dkdm;
+	bool _dkdms_changed_by_other_program = false;
 	wxButton* _export_dkdm;
 	wxButton* _create;
 	KDMOutputPanel* _output = nullptr;

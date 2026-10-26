@@ -108,6 +108,9 @@ public:
 
 	bool contains(std::string dkdm_id) const;
 
+	/** @return the DKDM with the given ID, in this group or any group in it, or nullptr if there is none */
+	std::shared_ptr<DKDM> find_dkdm(std::string dkdm_id) const;
+
 private:
 	std::string _name;
 	std::list<std::shared_ptr<DKDMBase>> _children;

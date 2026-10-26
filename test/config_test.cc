@@ -24,15 +24,22 @@
 #include "lib/config.h"
 #include "lib/dkdm_recipient.h"
 #include "lib/dkdm_recipient_list.h"
+#include "lib/dkdm_wrapper.h"
 #include "lib/unzipper.h"
 #include "lib/zipper.h"
 #include "test.h"
+#include <dcp/encrypted_kdm.h>
+#include <libcxml/cxml.h>
+#include <libxml++/libxml++.h>
+#include <boost/algorithm/string.hpp>
 #include <boost/test/unit_test.hpp>
 #include <fstream>
+#include <functional>
 
 
 using std::make_shared;
 using std::ofstream;
+using std::shared_ptr;
 using std::string;
 using std::vector;
 using boost::optional;
@@ -576,6 +583,123 @@ BOOST_AUTO_TEST_CASE(use_sqlite_if_present)
 			BOOST_CHECK(Config::instance()->dkdm_recipients_file() == boost::filesystem::canonical(dir / (file + ".sqlite3")));
 		}
 	}
+}
+
+
+/** @return a DKDM like test/data/dkdm.xml but with its own ID, so we can have several */
+static shared_ptr<DKDM>
+dkdm_with_id_ending(char end)
+{
+	auto xml = dcp::file_to_string("test/data/dkdm.xml");
+	auto const id = dcp::EncryptedKDM(xml).id();
+	boost::algorithm::replace_all(xml, id, id.substr(0, id.size() - 1) + end);
+	return make_shared<DKDM>(dcp::EncryptedKDM(xml));
+}
+
+
+/** Change the DKDMs in the config file, as another DCP-o-matic program would */
+static void
+edit_dkdms_in_config_file(std::function<void (xmlpp::Element*)> edit)
+{
+	auto const file = Config::config_write_file();
+	xmlpp::DomParser parser(file.string());
+	auto group = dynamic_cast<xmlpp::Element*>(parser.get_document()->get_root_node()->get_first_child("DKDMGroup"));
+	BOOST_REQUIRE(group);
+	edit(group);
+	parser.get_document()->write_to_file(file.string(), "UTF-8");
+}
+
+
+static void
+remove_dkdm_from_config_file(string id)
+{
+	edit_dkdms_in_config_file([id](xmlpp::Element* group) {
+		for (auto node: group->get_children("DKDM")) {
+			auto text = dynamic_cast<xmlpp::Element*>(node)->get_first_child_text();
+			if (text && boost::algorithm::contains(text->get_content().raw(), id)) {
+				group->remove_node(node);
+				return;
+			}
+		}
+		BOOST_REQUIRE(false);
+	});
+}
+
+
+static void
+add_dkdm_to_config_file(shared_ptr<DKDM> dkdm)
+{
+	edit_dkdms_in_config_file([dkdm](xmlpp::Element* group) {
+		cxml::add_text_child(group, "DKDM", dkdm->dkdm().as_xml());
+	});
+}
+
+
+/** A DKDM that another program (the KDM manager, say) has removed from the config file must not come
+ *  back when we write our own list, which we do when we add a DKDM ourselves.
+ */
+BOOST_AUTO_TEST_CASE(config_dkdm_removed_by_other_program_stays_removed)
+{
+	boost::filesystem::path const dir = "build/test/config_dkdm_removed_by_other_program_stays_removed";
+	boost::filesystem::remove_all(dir);
+	ConfigRestorer cr(dir);
+
+	auto a = dkdm_with_id_ending('a');
+	auto b = dkdm_with_id_ending('b');
+	auto c = dkdm_with_id_ending('c');
+
+	int warnings = 0;
+	Config::instance()->DKDMsChangedByOtherProgram.connect([&warnings]() { ++warnings; });
+
+	auto dkdms = Config::instance()->dkdms();
+	dkdms->add(a);
+	dkdms->add(b);
+	Config::instance()->write_config();
+	BOOST_CHECK_EQUAL(warnings, 0);
+
+	remove_dkdm_from_config_file(a->dkdm().id());
+
+	dkdms->add(c);
+	Config::instance()->write_config();
+	BOOST_CHECK_EQUAL(warnings, 1);
+
+	BOOST_CHECK(!dkdms->contains(a->dkdm().id()));
+	BOOST_CHECK(dkdms->contains(b->dkdm().id()));
+	BOOST_CHECK(dkdms->contains(c->dkdm().id()));
+
+	Config::drop();
+	dkdms = Config::instance()->dkdms();
+	BOOST_CHECK_EQUAL(dkdms->all_dkdms().size(), 2U);
+	BOOST_CHECK(!dkdms->contains(a->dkdm().id()));
+	BOOST_CHECK(dkdms->contains(b->dkdm().id()));
+	BOOST_CHECK(dkdms->contains(c->dkdm().id()));
+}
+
+
+/** A DKDM that another program has added to the config file must not be lost when we write our own list */
+BOOST_AUTO_TEST_CASE(config_dkdm_added_by_other_program_is_kept)
+{
+	boost::filesystem::path const dir = "build/test/config_dkdm_added_by_other_program_is_kept";
+	boost::filesystem::remove_all(dir);
+	ConfigRestorer cr(dir);
+
+	auto a = dkdm_with_id_ending('a');
+	auto b = dkdm_with_id_ending('b');
+
+	Config::instance()->dkdms()->add(a);
+	Config::instance()->write_config();
+
+	add_dkdm_to_config_file(b);
+
+	Config::instance()->write_config();
+
+	BOOST_CHECK(Config::instance()->dkdms()->contains(b->dkdm().id()));
+
+	Config::drop();
+	auto dkdms = Config::instance()->dkdms();
+	BOOST_CHECK_EQUAL(dkdms->all_dkdms().size(), 2U);
+	BOOST_CHECK(dkdms->contains(a->dkdm().id()));
+	BOOST_CHECK(dkdms->contains(b->dkdm().id()));
 }
 
 

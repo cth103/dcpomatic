@@ -298,6 +298,90 @@ Config::backup()
 	copy_adding_number(_dkdm_recipients_file);
 }
 
+static
+shared_ptr<DKDMGroup>
+read_dkdms(cxml::Document const& f)
+{
+	if (f.optional_node_child("DKDMGroup")) {
+		/* New-style: all DKDMs in a group */
+		return dynamic_pointer_cast<DKDMGroup>(DKDMBase::read(f.node_child("DKDMGroup")));
+	}
+
+	/* Old-style: one or more DKDM nodes */
+	auto dkdms = make_shared<DKDMGroup>("root");
+	for (auto i: f.node_children("DKDM")) {
+		dkdms->add(DKDMBase::read(i));
+	}
+	return dkdms;
+}
+
+
+static
+std::set<string>
+dkdm_ids(shared_ptr<DKDMGroup> group)
+{
+	std::set<string> ids;
+	for (auto const& dkdm: group->all_dkdms()) {
+		ids.insert(dkdm.id());
+	}
+	return ids;
+}
+
+
+/** Another DCP-o-matic program (the KDM manager, for example) may have added or removed DKDMs in our config
+ *  file since we last read or wrote it.  If we wrote our own list back as it is, we would undo that: a DKDM
+ *  that was deleted in the other program would come back.  So take its additions and removals into our list
+ *  first.  Only DKDMs are merged, not the groups they are in.
+ */
+void
+Config::merge_dkdms_from_file() const
+try
+{
+	auto const file = config_write_file();
+	if (!dcp::filesystem::exists(file)) {
+		return;
+	}
+
+	cxml::Document f("Config");
+	f.read_file(dcp::filesystem::fix_long_path(file));
+	auto const in_file = read_dkdms(f);
+	auto const ids_in_file = dkdm_ids(in_file);
+
+	std::vector<string> removed_by_other;
+	for (auto const& id: _dkdm_ids_in_file) {
+		if (ids_in_file.find(id) == ids_in_file.end()) {
+			removed_by_other.push_back(id);
+		}
+	}
+
+	auto const ours = dkdm_ids(_dkdms);
+	std::vector<string> added_by_other;
+	for (auto const& id: ids_in_file) {
+		if (_dkdm_ids_in_file.find(id) == _dkdm_ids_in_file.end() && ours.find(id) == ours.end()) {
+			added_by_other.push_back(id);
+		}
+	}
+
+	if (removed_by_other.empty() && added_by_other.empty()) {
+		return;
+	}
+
+	DKDMsChangedByOtherProgram();
+
+	for (auto const& id: removed_by_other) {
+		if (auto dkdm = _dkdms->find_dkdm(id)) {
+			_dkdms->remove(dkdm);
+		}
+	}
+
+	for (auto const& id: added_by_other) {
+		_dkdms->add(in_file->find_dkdm(id));
+	}
+} catch (std::exception&) {
+	/* We could not read the file (perhaps another program is part-way through writing it), so write ours as it is */
+}
+
+
 void
 Config::read()
 try
@@ -518,16 +602,8 @@ try
 		}
 	}
 
-	if (f.optional_node_child("DKDMGroup")) {
-		/* New-style: all DKDMs in a group */
-		_dkdms = dynamic_pointer_cast<DKDMGroup>(DKDMBase::read(f.node_child("DKDMGroup")));
-	} else {
-		/* Old-style: one or more DKDM nodes */
-		_dkdms = make_shared<DKDMGroup>("root");
-		for (auto i: f.node_children("DKDM")) {
-			_dkdms->add(DKDMBase::read(i));
-		}
-	}
+	_dkdms = read_dkdms(f);
+	_dkdm_ids_in_file = dkdm_ids(_dkdms);
 	_cinemas_file = f.optional_string_child("CinemasFile").get_value_or(read_path("cinemas.sqlite3").string());
 	_dkdm_recipients_file = f.optional_string_child("DKDMRecipientsFile").get_value_or(read_path("dkdm_recipients.sqlite3").string());
 	_show_hints_before_make_dcp = f.optional_bool_child("ShowHintsBeforeMakeDCP").get_value_or(true);
@@ -731,6 +807,8 @@ Config::write() const
 void
 Config::write_config() const
 {
+	merge_dkdms_from_file();
+
 	xmlpp::Document doc;
 	auto root = doc.create_root_node("Config");
 
@@ -1172,6 +1250,7 @@ Config::write_config() const
 		f.close();
 		dcp::filesystem::remove(target);
 		dcp::filesystem::rename(tmp, target);
+		_dkdm_ids_in_file = dkdm_ids(_dkdms);
 	} catch (xmlpp::exception& e) {
 		string s = e.what();
 		trim(s);
