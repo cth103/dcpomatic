@@ -697,3 +697,30 @@ BOOST_AUTO_TEST_CASE(reel_assets_error_with_long_subtitles)
 	BOOST_CHECK(!ov_dcp->can_reference_anything(vf, why_not));
 }
 
+
+/** A custom reel boundary at the same point as a reel start that a referenced DCP needs must not make an empty reel */
+BOOST_AUTO_TEST_CASE(reels_custom_boundary_also_required)
+{
+	auto red = content_factory("test/data/flat_red.png")[0];
+	auto green = content_factory("test/data/flat_green.png")[0];
+	auto ov = new_test_film("reels_custom_boundary_also_required_ov", { red, green });
+	ov->set_reel_type(ReelType::BY_VIDEO_CONTENT);
+	red->video->set_length(48);
+	green->video->set_length(48);
+	make_and_verify_dcp(ov);
+
+	auto ov_dcp = make_shared<DCPContent>(ov->dir(ov->dcp_name()));
+	auto vf = new_test_film("reels_custom_boundary_also_required_vf", { ov_dcp });
+	/* The reels must match the OV's before the video can be referenced */
+	vf->set_reel_type(ReelType::CUSTOM);
+	vf->set_custom_reel_boundaries({ DCPTime::from_seconds(2) });
+	ov_dcp->set_reference_video(true);
+	BOOST_REQUIRE(ov_dcp->reference_video());
+	BOOST_REQUIRE_EQUAL(ov_dcp->reel_split_points(vf).size(), 2U);
+
+	auto const reels = vf->reels();
+	BOOST_REQUIRE_EQUAL(reels.size(), 2U);
+	BOOST_CHECK(reels[0] == DCPTimePeriod({}, DCPTime::from_seconds(2)));
+	BOOST_CHECK(reels[1] == DCPTimePeriod(DCPTime::from_seconds(2), DCPTime::from_seconds(4)));
+}
+
