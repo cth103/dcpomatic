@@ -610,18 +610,35 @@ edit_dkdms_in_config_file(std::function<void (xmlpp::Element*)> edit)
 }
 
 
+static bool
+remove_dkdm_from_group(xmlpp::Element* group, string id)
+{
+	for (auto node: group->get_children()) {
+		auto element = dynamic_cast<xmlpp::Element*>(node);
+		if (!element) {
+			continue;
+		}
+		if (element->get_name() == "DKDMGroup") {
+			if (remove_dkdm_from_group(element, id)) {
+				return true;
+			}
+		} else if (element->get_name() == "DKDM") {
+			auto text = element->get_first_child_text();
+			if (text && boost::algorithm::contains(text->get_content().raw(), id)) {
+				group->remove_node(node);
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+
 static void
 remove_dkdm_from_config_file(string id)
 {
 	edit_dkdms_in_config_file([id](xmlpp::Element* group) {
-		for (auto node: group->get_children("DKDM")) {
-			auto text = dynamic_cast<xmlpp::Element*>(node)->get_first_child_text();
-			if (text && boost::algorithm::contains(text->get_content().raw(), id)) {
-				group->remove_node(node);
-				return;
-			}
-		}
-		BOOST_REQUIRE(false);
+		BOOST_REQUIRE(remove_dkdm_from_group(group, id));
 	});
 }
 
@@ -657,6 +674,10 @@ BOOST_AUTO_TEST_CASE(config_dkdm_removed_by_other_program_stays_removed)
 	Config::instance()->write_config();
 	BOOST_CHECK_EQUAL(warnings, 0);
 
+	/* Nothing has changed in the file, so there is nothing to tell the user */
+	Config::instance()->write_config();
+	BOOST_CHECK_EQUAL(warnings, 0);
+
 	remove_dkdm_from_config_file(a->dkdm().id());
 
 	dkdms->add(c);
@@ -666,6 +687,41 @@ BOOST_AUTO_TEST_CASE(config_dkdm_removed_by_other_program_stays_removed)
 	BOOST_CHECK(!dkdms->contains(a->dkdm().id()));
 	BOOST_CHECK(dkdms->contains(b->dkdm().id()));
 	BOOST_CHECK(dkdms->contains(c->dkdm().id()));
+
+	Config::drop();
+	dkdms = Config::instance()->dkdms();
+	BOOST_CHECK_EQUAL(dkdms->all_dkdms().size(), 2U);
+	BOOST_CHECK(!dkdms->contains(a->dkdm().id()));
+	BOOST_CHECK(dkdms->contains(b->dkdm().id()));
+	BOOST_CHECK(dkdms->contains(c->dkdm().id()));
+}
+
+
+/** As config_dkdm_removed_by_other_program_stays_removed, but with the DKDMs that we start with read from
+ *  the file, as in a program that has just been started.
+ */
+BOOST_AUTO_TEST_CASE(config_dkdm_removed_by_other_program_after_read_stays_removed)
+{
+	boost::filesystem::path const dir = "build/test/config_dkdm_removed_by_other_program_after_read_stays_removed";
+	boost::filesystem::remove_all(dir);
+	ConfigRestorer cr(dir);
+
+	auto a = dkdm_with_id_ending('a');
+	auto b = dkdm_with_id_ending('b');
+	auto c = dkdm_with_id_ending('c');
+
+	Config::instance()->dkdms()->add(a);
+	Config::instance()->dkdms()->add(b);
+	Config::instance()->write_config();
+
+	Config::drop();
+	auto dkdms = Config::instance()->dkdms();
+	BOOST_REQUIRE_EQUAL(dkdms->all_dkdms().size(), 2U);
+
+	remove_dkdm_from_config_file(a->dkdm().id());
+
+	dkdms->add(c);
+	Config::instance()->write_config();
 
 	Config::drop();
 	dkdms = Config::instance()->dkdms();
@@ -699,6 +755,115 @@ BOOST_AUTO_TEST_CASE(config_dkdm_added_by_other_program_is_kept)
 	auto dkdms = Config::instance()->dkdms();
 	BOOST_CHECK_EQUAL(dkdms->all_dkdms().size(), 2U);
 	BOOST_CHECK(dkdms->contains(a->dkdm().id()));
+	BOOST_CHECK(dkdms->contains(b->dkdm().id()));
+}
+
+
+/** If we and another program have both added the same DKDM we should end up with one copy of it */
+BOOST_AUTO_TEST_CASE(config_dkdm_added_by_both_programs_is_not_duplicated)
+{
+	boost::filesystem::path const dir = "build/test/config_dkdm_added_by_both_programs_is_not_duplicated";
+	boost::filesystem::remove_all(dir);
+	ConfigRestorer cr(dir);
+
+	auto a = dkdm_with_id_ending('a');
+	auto b = dkdm_with_id_ending('b');
+
+	Config::instance()->dkdms()->add(a);
+	Config::instance()->write_config();
+
+	Config::instance()->dkdms()->add(b);
+	add_dkdm_to_config_file(b);
+	Config::instance()->write_config();
+
+	BOOST_CHECK_EQUAL(Config::instance()->dkdms()->all_dkdms().size(), 2U);
+
+	Config::drop();
+	BOOST_CHECK_EQUAL(Config::instance()->dkdms()->all_dkdms().size(), 2U);
+}
+
+
+/** If we cannot read the config file (another program may be part-way through writing it) we should
+ *  still write ours.
+ */
+BOOST_AUTO_TEST_CASE(config_dkdm_unreadable_file_is_overwritten)
+{
+	boost::filesystem::path const dir = "build/test/config_dkdm_unreadable_file_is_overwritten";
+	boost::filesystem::remove_all(dir);
+	ConfigRestorer cr(dir);
+
+	auto a = dkdm_with_id_ending('a');
+	auto b = dkdm_with_id_ending('b');
+
+	Config::instance()->dkdms()->add(a);
+	Config::instance()->write_config();
+
+	{
+		ofstream file(Config::config_write_file().string());
+		file << "this is not XML";
+	}
+
+	Config::instance()->dkdms()->add(b);
+	BOOST_CHECK_NO_THROW(Config::instance()->write_config());
+
+	Config::drop();
+	auto dkdms = Config::instance()->dkdms();
+	BOOST_CHECK_EQUAL(dkdms->all_dkdms().size(), 2U);
+	BOOST_CHECK(dkdms->contains(a->dkdm().id()));
+	BOOST_CHECK(dkdms->contains(b->dkdm().id()));
+}
+
+
+/** A DKDM that another program has removed from a group in the config file must not come back */
+BOOST_AUTO_TEST_CASE(config_dkdm_removed_by_other_program_from_group_stays_removed)
+{
+	boost::filesystem::path const dir = "build/test/config_dkdm_removed_by_other_program_from_group_stays_removed";
+	boost::filesystem::remove_all(dir);
+	ConfigRestorer cr(dir);
+
+	auto a = dkdm_with_id_ending('a');
+	auto b = dkdm_with_id_ending('b');
+	auto c = dkdm_with_id_ending('c');
+
+	auto group = make_shared<DKDMGroup>("group");
+	group->add(a);
+	Config::instance()->dkdms()->add(group);
+	Config::instance()->dkdms()->add(b);
+	Config::instance()->write_config();
+
+	remove_dkdm_from_config_file(a->dkdm().id());
+
+	Config::instance()->dkdms()->add(c);
+	Config::instance()->write_config();
+
+	auto dkdms = Config::instance()->dkdms();
+	BOOST_CHECK(!dkdms->contains(a->dkdm().id()));
+	BOOST_CHECK(dkdms->contains(b->dkdm().id()));
+	BOOST_CHECK(dkdms->contains(c->dkdm().id()));
+}
+
+
+/** A DKDM that we delete ourselves, as the KDM manager does, must not come back from the file when we write */
+BOOST_AUTO_TEST_CASE(config_dkdm_removed_by_us_stays_removed)
+{
+	boost::filesystem::path const dir = "build/test/config_dkdm_removed_by_us_stays_removed";
+	boost::filesystem::remove_all(dir);
+	ConfigRestorer cr(dir);
+
+	auto a = dkdm_with_id_ending('a');
+	auto b = dkdm_with_id_ending('b');
+
+	Config::instance()->dkdms()->add(a);
+	Config::instance()->dkdms()->add(b);
+	Config::instance()->write_config();
+
+	Config::instance()->dkdms()->remove(a);
+	Config::instance()->write_config();
+
+	Config::drop();
+	auto dkdms = Config::instance()->dkdms();
+	BOOST_CHECK_EQUAL(dkdms->all_dkdms().size(), 1U);
+	BOOST_CHECK(!dkdms->contains(a->dkdm().id()));
 	BOOST_CHECK(dkdms->contains(b->dkdm().id()));
 }
 
