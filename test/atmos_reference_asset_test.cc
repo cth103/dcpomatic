@@ -300,3 +300,68 @@ BOOST_AUTO_TEST_CASE(atmos_reference_audio_test)
 		}
 	}
 }
+
+
+/** Make and verify an OV of test/data/atmos_0.mxf with two reels, split at 2s */
+static
+shared_ptr<Film>
+make_two_reel_atmos_ov(string name)
+{
+	auto ov = new_test_film(name, content_factory("test/data/atmos_0.mxf"));
+	ov->set_reel_type(ReelType::CUSTOM);
+	ov->set_custom_reel_boundaries({ dcpomatic::DCPTime::from_seconds(2) });
+	make_and_verify_dcp(ov, { dcp::VerificationNote::Code::MISSING_CPL_METADATA });
+	return ov;
+}
+
+
+/** A VF whose reels do not start where the referenced Atmos reels start: each Atmos reel of the VF
+ *  starts at the right point inside the referenced Atmos asset.
+ */
+BOOST_AUTO_TEST_CASE(atmos_reference_reel_offset_test)
+{
+	auto ov = make_two_reel_atmos_ov("atmos_reference_reel_offset_test_ov");
+
+	auto content = dcp_content_of(ov);
+	auto vf = new_test_film("atmos_reference_reel_offset_test_vf", { content });
+	/* The VF's reels do not match the OV's, so its picture and sound are written again; only the Atmos is referenced */
+	content->set_reference_video(false);
+	content->set_reference_audio(false);
+	/* The VF's third reel starts at 3s, which is 1s into the OV's second reel */
+	vf->set_reel_type(ReelType::CUSTOM);
+	vf->set_custom_reel_boundaries({ dcpomatic::DCPTime::from_seconds(2), dcpomatic::DCPTime::from_seconds(3) });
+	string why_not;
+	BOOST_REQUIRE_MESSAGE(content->can_reference_atmos(vf, why_not), why_not);
+	content->set_reference_atmos(true);
+	make_and_verify_dcp(vf, { dcp::VerificationNote::Code::MISSING_CPL_METADATA, dcp::VerificationNote::Code::EXTERNAL_ASSET }, false);
+
+	dcp::DCP dcp(vf->dir(vf->dcp_name()));
+	dcp.read();
+	BOOST_REQUIRE_EQUAL(dcp.cpls().size(), 1U);
+	auto const reels = dcp.cpls()[0]->reels();
+	BOOST_REQUIRE_EQUAL(reels.size(), 3U);
+	BOOST_REQUIRE(reels[2]->atmos());
+	BOOST_CHECK_EQUAL(reels[2]->atmos()->entry_point().get_value_or(0), 24);
+}
+
+
+/** A custom reel boundary at the same point as a reel start of the referenced Atmos must not make an empty reel */
+BOOST_AUTO_TEST_CASE(atmos_reference_reel_boundaries_test)
+{
+	auto ov = make_two_reel_atmos_ov("atmos_reference_reel_boundaries_test_ov");
+
+	auto content = dcp_content_of(ov);
+	auto vf = new_test_film("atmos_reference_reel_boundaries_test_vf", { content });
+	content->set_reference_video(false);
+	content->set_reference_audio(false);
+	vf->set_reel_type(ReelType::CUSTOM);
+	vf->set_custom_reel_boundaries({ dcpomatic::DCPTime::from_seconds(2), dcpomatic::DCPTime::from_seconds(3) });
+	content->set_reference_atmos(true);
+	BOOST_REQUIRE(content->reference_atmos());
+
+	auto const reels = vf->reels();
+	BOOST_REQUIRE_EQUAL(reels.size(), 3U);
+	for (auto const& reel: reels) {
+		BOOST_CHECK(reel.to > reel.from);
+	}
+}
