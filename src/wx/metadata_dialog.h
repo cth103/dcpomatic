@@ -47,37 +47,37 @@ class wxSpinCtrlDouble;
 class MetadataDialog : public wxDialog, public WeakFilm
 {
 public:
-	MetadataDialog (wxWindow* parent, std::weak_ptr<Film> film);
+	MetadataDialog(wxWindow* parent, std::weak_ptr<Film> film);
 
-	virtual void setup ();
+	virtual void setup();
 
 protected:
-	virtual void setup_standard (wxPanel*, wxSizer*);
-	virtual void setup_advanced (wxPanel*, wxSizer*);
+	virtual void setup_standard(wxPanel*, wxSizer*);
+	virtual void setup_advanced(wxPanel*, wxSizer*);
 	virtual void film_changed(ChangeType type, FilmProperty property);
-	virtual void setup_sensitivity ();
+	virtual void setup_sensitivity();
 
 	EditableList<dcp::Rating>* _ratings;
 	std::unordered_map<std::string, std::string> _rating_system_agency_to_name;
 
 private:
-	void sign_language_video_language_changed ();
+	void sign_language_video_language_changed();
 	void release_territory_changed(boost::optional<dcp::LanguageTag::RegionSubtag> tag);
-	void enable_release_territory_changed ();
-	void facility_changed ();
-	void enable_facility_changed ();
-	void studio_changed ();
-	void enable_studio_changed ();
-	void temp_version_changed ();
-	void pre_release_changed ();
-	void red_band_changed ();
-	void two_d_version_of_three_d_changed ();
-	void chain_changed ();
-	void enable_chain_changed ();
-	void enable_luminance_changed ();
-	void luminance_changed ();
-	std::vector<dcp::Rating> ratings () const;
-	void set_ratings (std::vector<dcp::Rating> r);
+	void enable_release_territory_changed();
+	void facility_changed();
+	void enable_facility_changed();
+	void studio_changed();
+	void enable_studio_changed();
+	void temp_version_changed();
+	void pre_release_changed();
+	void red_band_changed();
+	void two_d_version_of_three_d_changed();
+	void chain_changed();
+	void enable_chain_changed();
+	void enable_luminance_changed();
+	void luminance_changed();
+	std::vector<dcp::Rating> ratings() const;
+	void set_ratings(std::vector<dcp::Rating> r);
 	void territory_type_changed();
 
 	CheckBox* _enable_release_territory;
