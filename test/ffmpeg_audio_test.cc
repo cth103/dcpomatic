@@ -26,6 +26,7 @@
 
 
 #include "lib/audio_content.h"
+#include "lib/audio_processor.h"
 #include "lib/constants.h"
 #include "lib/content_factory.h"
 #include "lib/dcp_content_type.h"
@@ -341,6 +342,10 @@ BOOST_AUTO_TEST_CASE(ffmpeg_audio_non_cinema_7_1_hint)
 		auto reloaded = std::make_shared<Film>(film->directory().get());
 		reloaded->read_metadata();
 		BOOST_CHECK_MESSAGE(has_layout_hint(hints_for(reloaded)), "no hint after reading back for mask " << std::hex << mask);
+
+		/* An audio processor does its own mapping, so there is nothing to check */
+		film->set_audio_processor(AudioProcessor::from_id("mid-side-decoder"));
+		BOOST_CHECK_MESSAGE(!has_layout_hint(hints_for(film)), "hint with an audio processor for mask " << std::hex << mask);
 	}
 
 	auto const cinema = boost::filesystem::path("build/test/ffmpeg_audio_non_cinema_7_1_hint_cinema.wav");
@@ -379,23 +384,22 @@ BOOST_AUTO_TEST_CASE(ffmpeg_audio_six_channel_layouts)
 }
 
 
-/** Atmos content makes a film have 14 channels, and a 7.1 file added with it, which raises a film with fewer than
- *  12 channels to 12, does not take them away.
+/** A 7.1 file raises a film with fewer than 12 channels to 12, but does not take channels away from a film that
+ *  already has 12 or more.
  */
-BOOST_AUTO_TEST_CASE(ffmpeg_audio_7_1_does_not_lower_atmos_channels)
+BOOST_AUTO_TEST_CASE(ffmpeg_audio_7_1_does_not_lower_channels)
 {
 	boost::filesystem::create_directories("build/test");
-	auto const path = boost::filesystem::path("build/test/ffmpeg_audio_7_1_does_not_lower_atmos_channels.wav");
+	auto const path = boost::filesystem::path("build/test/ffmpeg_audio_7_1_does_not_lower_channels.wav");
 	write_wav(path, true);
 
-	auto atmos_only = new_test_film("ffmpeg_audio_7_1_atmos_only", { content_factory("test/data/flat_red.png")[0], content_factory("test/data/atmos_0.mxf")[0] });
-	BOOST_CHECK_EQUAL(atmos_only->audio_channels(), 14);
-
-	auto atmos_and_seven_one = new_test_film(
-		"ffmpeg_audio_7_1_atmos_and_7_1",
-		{ content_factory("test/data/flat_red.png")[0], content_factory("test/data/atmos_0.mxf")[0], content_factory(path)[0] }
-		);
-	BOOST_CHECK_EQUAL(atmos_and_seven_one->audio_channels(), 14);
+	for (auto channels: { 12, 14, 16 }) {
+		auto film = new_test_film(fmt::format("ffmpeg_audio_7_1_does_not_lower_channels_{}", channels));
+		film->set_audio_channels(channels);
+		film->examine_and_add_content(content_factory(path));
+		BOOST_REQUIRE(!wait_for_jobs());
+		BOOST_CHECK_EQUAL(film->audio_channels(), channels);
+	}
 }
 
 
@@ -446,8 +450,15 @@ BOOST_AUTO_TEST_CASE(ffmpeg_audio_7_1_channels_in_dcp)
 BOOST_AUTO_TEST_CASE(ffmpeg_audio_7_1_rear_surrounds_in_dcp)
 {
 	/* 240 frames of the film Jasmine & Jambo: its picture, and a cut of its 7.1 mix */
-	auto picture = content_factory(TestPaths::private_data() / "jasmine_jambo_picture.mp4")[0];
-	auto sound = content_factory(TestPaths::private_data() / "jasmine_jambo_7_1.wav")[0];
+	auto const picture_path = TestPaths::private_data() / "jasmine_jambo_picture.mp4";
+	auto const sound_path = TestPaths::private_data() / "jasmine_jambo_7_1.wav";
+	if (!boost::filesystem::exists(picture_path) || !boost::filesystem::exists(sound_path)) {
+		/* These files are not part of the standard private test data */
+		return;
+	}
+
+	auto picture = content_factory(picture_path)[0];
+	auto sound = content_factory(sound_path)[0];
 	auto film = new_test_film("ffmpeg_audio_7_1_rear_surrounds_in_dcp", { picture, sound });
 	make_and_verify_dcp(film, { dcp::VerificationNote::Code::MISSING_CPL_METADATA });
 
