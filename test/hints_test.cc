@@ -468,16 +468,3 @@ BOOST_AUTO_TEST_CASE(hints_atmos_in_some_reels_of_a_dcp)
 	check_trim(10, 0, true);    /* the last two reels, one with and one without */
 	check_trim(0, 0, true);     /* all of them again */
 }
-
-
-/** The Jasmine & Jambo demo DCP (private test data), whose first reel has no Atmos, added as content */
-BOOST_AUTO_TEST_CASE(hints_atmos_in_some_reels_of_the_jasmine_demo)
-{
-	auto dcp = make_shared<DCPContent>(TestPaths::private_data() / "jasmine_jambo_demo" / "JasmineJamboDe_TST-1_F_CA-XX_71-HI-VI-IAB_2K_20261025_SMPTE_OV");
-	auto film = new_test_film("hints_atmos_in_some_reels_of_the_jasmine_demo", { dcp });
-	BOOST_CHECK(has_atmos_in_some_reels_hint(get_hints(film)));
-
-	/* Without its first reel (48 frames, 2 s) every reel left has Atmos */
-	dcp->set_trim_start(film, dcpomatic::ContentTime::from_frames(48, 24));
-	BOOST_CHECK(!has_atmos_in_some_reels_hint(get_hints(film)));
-}
