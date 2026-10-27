@@ -124,29 +124,33 @@ Hints::check_few_audio_channels()
 /** A 6 channel file whose mask names anything but L, R, C, LFE and two surrounds (5.1 or 5.1(side)), and an
  *  8 channel one whose mask names anything but the 7.1 used in cinemas (e.g. 7.1(wide), 7.1(wide-side) or 5.1.2),
  *  do not match the channels of a cinema, so they can not be put in the right places by themselves.
+ *  Only the first audio stream of a file is mapped, and an audio processor does its own mapping.
  */
 void
 Hints::check_non_cinema_layouts()
 {
+	if (film()->audio_processor()) {
+		return;
+	}
+
 	for (auto content: film()->content()) {
 		auto ffmpeg = dynamic_pointer_cast<const FFmpegContent>(content);
-		if (!ffmpeg) {
+		if (!ffmpeg || ffmpeg->ffmpeg_audio_streams().empty()) {
 			continue;
 		}
-		for (auto stream: ffmpeg->ffmpeg_audio_streams()) {
-			if (!stream->channel_layout) {
-				continue;
-			}
-			auto const& layout = *stream->channel_layout;
-			bool const six = stream->channels() == 6 && layout != "5.1" && layout != "5.1(side)";
-			bool const eight = stream->channels() == 8 && layout != "7.1";
-			if (six || eight) {
-				hint(fmt::format(
-					_("The audio of {} says that its channels are {}, which is not 5.1 or 7.1 as used in cinemas, so they have been mapped one to one.  "
-					  "Check where they go in the \"Audio\" tab."),
-					content->path(0).filename().string(), layout
-					));
-			}
+		auto stream = ffmpeg->ffmpeg_audio_streams().front();
+		if (!stream->channel_layout) {
+			continue;
+		}
+		auto const& layout = *stream->channel_layout;
+		bool const six = stream->channels() == 6 && layout != "5.1" && layout != "5.1(side)";
+		bool const eight = stream->channels() == 8 && layout != "7.1";
+		if (six || eight) {
+			hint(fmt::format(
+				_("The audio of {} says that its channels are {}, which is not 5.1 or 7.1 as used in cinemas, so it is not certain where they should go.  "
+				  "Check where they go in the \"Audio\" tab."),
+				content->path(0).filename().string(), layout
+				));
 		}
 	}
 }
