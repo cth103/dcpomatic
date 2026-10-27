@@ -46,6 +46,7 @@ using std::dynamic_pointer_cast;
 using std::make_shared;
 using std::shared_ptr;
 using std::string;
+using std::vector;
 
 
 /** Make and verify an OV containing the Atmos track test/data/atmos_0.mxf */
@@ -189,6 +190,36 @@ BOOST_AUTO_TEST_CASE(atmos_reference_unavailable_test)
 	why_not.clear();
 	BOOST_CHECK(!ov_content->can_reference_atmos(vf, why_not));
 	BOOST_CHECK_EQUAL(why_not, "it overlaps other Atmos content.");
+}
+
+
+/** A DCP with Atmos in only some of its reels cannot have its Atmos referenced, as the VF would then have Atmos in
+ *  those reels only.
+ */
+BOOST_AUTO_TEST_CASE(atmos_reference_partial_atmos_test)
+{
+	/* Three 10 s reels, with the Atmos (10 s) in the first only */
+	vector<shared_ptr<Content>> content;
+	for (int i = 0; i < 3; ++i) {
+		content.push_back(content_factory("test/data/flat_red.png")[0]);
+	}
+	content.push_back(content_factory("test/data/atmos_0.mxf")[0]);
+	auto ov = new_test_film("atmos_reference_partial_atmos_test_ov", content);
+	for (int i = 0; i < 3; ++i) {
+		content[i]->set_position(ov, dcpomatic::DCPTime::from_seconds(i * 10));
+	}
+	make_and_verify_dcp(ov, { dcp::VerificationNote::Code::MISSING_CPL_METADATA });
+
+	auto ov_content = dcp_content_of(ov);
+	auto vf = new_test_film("atmos_reference_partial_atmos_test_vf", { ov_content });
+	/* The film's reels must match the DCP's before anything of it can be referenced */
+	vf->set_reel_type(ReelType::CUSTOM);
+	vf->set_custom_reel_boundaries({ dcpomatic::DCPTime::from_seconds(10), dcpomatic::DCPTime::from_seconds(20) });
+	ov_content->set_reference_video(true);
+	BOOST_REQUIRE(ov_content->reference_video());
+	string why_not;
+	BOOST_CHECK(!ov_content->can_reference_atmos(vf, why_not));
+	BOOST_CHECK_EQUAL(why_not, "its Atmos track does not cover all of its reels.");
 }
 
 

@@ -865,6 +865,20 @@ DCPContent::can_reference_atmos(shared_ptr<const Film> film, string& why_not) co
 		return false;
 	}
 
+	/* A VF takes the Atmos of each reel from the Atmos of the same reel here, so the Atmos must be as long as the
+	 * picture: if it is not, some reel has less Atmos than picture, or none.
+	 */
+	auto const rate = video_frame_rate();
+	auto const edit_rate = atmos->edit_rate();
+	if (video && rate && edit_rate.numerator != 0) {
+		auto const atmos_in_picture_frames = llrint(atmos->length() * *rate * edit_rate.denominator / edit_rate.numerator);
+		if (atmos_in_picture_frames != video->length()) {
+			/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
+			why_not = _("its Atmos track does not cover all of its reels.");
+			return false;
+		}
+	}
+
 	auto part = [](shared_ptr<const Content> c) {
 		return static_cast<bool>(c->atmos);
 	};
