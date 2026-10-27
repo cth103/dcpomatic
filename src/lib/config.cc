@@ -346,15 +346,16 @@ try
 	f.read_file(dcp::filesystem::fix_long_path(file));
 	auto const in_file = read_dkdms(f);
 	auto const ids_in_file = dkdm_ids(in_file);
+	auto const ours = dkdm_ids(_dkdms);
 
 	std::vector<string> removed_by_other;
 	for (auto const& id: _dkdm_ids_in_file) {
-		if (ids_in_file.find(id) == ids_in_file.end()) {
+		/* If we have already removed it ourselves there is nothing to change */
+		if (ids_in_file.find(id) == ids_in_file.end() && ours.find(id) != ours.end()) {
 			removed_by_other.push_back(id);
 		}
 	}
 
-	auto const ours = dkdm_ids(_dkdms);
 	std::vector<string> added_by_other;
 	for (auto const& id: ids_in_file) {
 		if (_dkdm_ids_in_file.find(id) == _dkdm_ids_in_file.end() && ours.find(id) == ours.end()) {
@@ -362,14 +363,18 @@ try
 		}
 	}
 
+	/* What is in the file now is what we have taken account of, so that a write that happens while we tell the
+	 * user, or that fails, does not do this again.
+	 */
+	_dkdm_ids_in_file = ids_in_file;
+
 	if (removed_by_other.empty() && added_by_other.empty()) {
 		return;
 	}
 
-	DKDMsChangedByOtherProgram();
-
 	for (auto const& id: removed_by_other) {
-		if (auto dkdm = _dkdms->find_dkdm(id)) {
+		/* There may be more than one copy of a DKDM, if it was added without checking that we had it */
+		while (auto dkdm = _dkdms->find_dkdm(id)) {
 			_dkdms->remove(dkdm);
 		}
 	}
@@ -377,8 +382,10 @@ try
 	for (auto const& id: added_by_other) {
 		_dkdms->add(in_file->find_dkdm(id));
 	}
+
+	DKDMsChangedByOtherProgram();
 } catch (std::exception&) {
-	/* We could not read the file (perhaps another program is part-way through writing it), so write ours as it is */
+	/* We could not read the file, so write ours as it is */
 }
 
 

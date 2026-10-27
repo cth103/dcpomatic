@@ -268,12 +268,15 @@ public:
 private:
 	void dkdms_changed_by_other_program()
 	{
-		message_dialog(
-			this,
-			_("Another DCP-o-matic program has added or removed DKDMs since this one last looked at them.  "
-			  "The list of DKDMs will be updated to include those changes before it is saved.")
-			);
 		_dkdms_changed_by_other_program = true;
+		/* This is signalled from whichever thread is writing the config */
+		signal_manager->when_idle([this]() {
+			message_dialog(
+				this,
+				_("Another DCP-o-matic program has added or removed DKDMs since this one last looked at them.  "
+				  "The list of DKDMs has been updated to include those changes.")
+				);
+		});
 	}
 
 	void config_changed(Config::Property what)
