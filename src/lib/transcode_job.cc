@@ -43,13 +43,9 @@
 #include "i18n.h"
 
 
-using std::cout;
-using std::fixed;
 using std::make_shared;
-using std::setprecision;
 using std::shared_ptr;
 using std::string;
-using boost::optional;
 using std::dynamic_pointer_cast;
 
 
