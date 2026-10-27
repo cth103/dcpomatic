@@ -139,31 +139,6 @@ BOOST_AUTO_TEST_CASE(hint_closed_caption_without_language)
 		}
 	}
 
-	/* The closed captions of the Jasmine & Jambo demo DCP (private test data), added as files and made closed
-	 * captions, as a user would: reel 1 with no track chosen gives the hint about the track, and reel 3 with a
-	 * track that has no language gives the hint about the language.
-	 */
-	auto const demo_dcp = TestPaths::private_data() / "jasmine_jambo_demo" / "JasmineJamboDe_TST-1_F_CA-XX_71-HI-VI-IAB_2K_20261025_SMPTE_OV";
-
-	auto reel_1 = new_test_film("hint_closed_caption_demo_reel_1");
-	auto ccap_1 = content_factory(demo_dcp / "sub_efa7b218-84de-46a2-b47b-59699a7f53a0.mxf")[0];
-	ccap_1->text.front()->set_type(TextType::CLOSED_CAPTION);
-	reel_1->examine_and_add_content({ccap_1});
-	BOOST_REQUIRE(!wait_for_jobs());
-	auto const reel_1_hints = get_hints(reel_1);
-	BOOST_CHECK(has_hint(reel_1_hints, no_track));
-	BOOST_CHECK(!has_hint(reel_1_hints, no_language));
-
-	auto reel_3 = new_test_film("hint_closed_caption_demo_reel_3");
-	auto ccap_3 = content_factory(demo_dcp / "sub_59443fd6-b322-42d3-93a5-575768990f3b.mxf")[0];
-	ccap_3->text.front()->set_type(TextType::CLOSED_CAPTION);
-	ccap_3->text.front()->set_dcp_track(DCPTextTrack("Catalan", boost::none));
-	reel_3->examine_and_add_content({ccap_3});
-	BOOST_REQUIRE(!wait_for_jobs());
-	auto const reel_3_hints = get_hints(reel_3);
-	BOOST_CHECK(!has_hint(reel_3_hints, no_track));
-	BOOST_CHECK(has_hint(reel_3_hints, no_language));
-
 	/* Open subtitles do not use a track, so they never give this hint */
 	auto film = new_test_film("hint_closed_caption_without_language_open");
 	auto content = content_factory("test/data/short.srt")[0];
@@ -194,6 +169,37 @@ BOOST_AUTO_TEST_CASE(hint_closed_caption_without_language)
 	auto const unused_hints = get_hints(unused);
 	BOOST_CHECK(!has_hint(unused_hints, no_track));
 	BOOST_CHECK(!has_hint(unused_hints, no_language));
+
+	/* Closed captions that give no asset in the DCP do not count either: those that are burnt in, and
+	 * those that are trimmed away completely
+	 */
+	for (int kind = 0; kind < 2; ++kind) {
+		auto const name = fmt::format("hint_closed_caption_without_language_not_in_dcp_{}", kind);
+		auto film = new_test_film(name);
+		auto content = content_factory("test/data/short.srt")[0];
+		content->text.front()->set_type(TextType::CLOSED_CAPTION);
+		film->examine_and_add_content({content});
+		BOOST_REQUIRE(!wait_for_jobs());
+		if (kind == 0) {
+			content->text.front()->set_burn(true);
+		} else {
+			content->set_trim_start(film, dcpomatic::ContentTime::from_seconds(content->full_length(film).seconds()));
+		}
+		auto const hints = get_hints(film);
+		BOOST_CHECK_MESSAGE(!has_hint(hints, no_track), name << " no track");
+		BOOST_CHECK_MESSAGE(!has_hint(hints, no_language), name << " no language");
+	}
+
+	/* Interop assets have no language, so there is nothing to warn about */
+	auto interop = new_test_film("hint_closed_caption_without_language_interop");
+	auto interop_content = content_factory("test/data/short.srt")[0];
+	interop_content->text.front()->set_type(TextType::CLOSED_CAPTION);
+	interop->examine_and_add_content({interop_content});
+	BOOST_REQUIRE(!wait_for_jobs());
+	interop->set_interop(true);
+	auto const interop_hints = get_hints(interop);
+	BOOST_CHECK(!has_hint(interop_hints, no_track));
+	BOOST_CHECK(!has_hint(interop_hints, no_language));
 }
 
 

@@ -744,16 +744,24 @@ Hints::check_subtitle_languages()
 
 
 /** A closed caption asset takes its language from its DCP track, so a track without one gives an asset with
- *  no <Language> tag, which the verifier reports as an error.
+ *  no <Language> tag, which the verifier reports as an error.  Interop assets have no language, and closed
+ *  text that is burnt in or has been trimmed away gives no asset.
  */
 void
 Hints::check_closed_text_languages()
 {
+	if (film()->interop()) {
+		return;
+	}
+
 	bool no_track = false;
 	bool no_language = false;
 	for (auto i: film()->content()) {
+		if (i->end(film()) == i->position()) {
+			continue;
+		}
 		for (auto j: i->text) {
-			if (!j->use() || !is_closed(j->type())) {
+			if (!j->use() || j->burn() || !is_closed(j->type())) {
 				continue;
 			}
 			if (!j->dcp_track()) {
