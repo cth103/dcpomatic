@@ -251,6 +251,27 @@ BOOST_AUTO_TEST_CASE(atmos_reference_not_decoded_test)
 }
 
 
+/** A player that plays referenced assets does decode a referenced Atmos track, from its first reel */
+BOOST_AUTO_TEST_CASE(atmos_reference_play_referenced_test)
+{
+	auto ov = make_atmos_ov("atmos_reference_play_referenced_test_ov");
+
+	auto content = dcp_content_of(ov);
+	auto film = new_test_film("atmos_reference_play_referenced_test", { content });
+	content->set_reference_video(true);
+	content->set_reference_atmos(true);
+
+	auto player = make_shared<Player>(film, Image::Alignment::COMPACT, false);
+	player->set_play_referenced();
+	int frames = 0;
+	player->Atmos.connect([&frames](shared_ptr<const dcp::AtmosFrame>, dcpomatic::DCPTime, AtmosMetadata) {
+		++frames;
+	});
+	while (!player->pass()) {}
+	BOOST_CHECK(frames > 0);
+}
+
+
 /** Which of the OV's sound and Atmos assets does the VF point at, for each combination of referencing them?
  *  The two are independent: each is the OV's if and only if it is referenced.
  */
