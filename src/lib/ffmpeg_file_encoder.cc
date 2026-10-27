@@ -420,7 +420,8 @@ FFmpegFileEncoder::flush()
 				throw EncodeError(N_("avcodec_receive_packet"), N_("FFmpegFileEncoder::flush"), r);
 			} else {
 				packet->stream_index = 0;
-				packet->duration = _video_stream->time_base.den / _video_frame_rate;
+				packet->duration = 1;
+				av_packet_rescale_ts(packet.get(), _video_codec_context->time_base, _video_stream->time_base);
 				av_interleaved_write_frame(_format_context, packet.get());
 			}
 		} else {
@@ -467,8 +468,8 @@ FFmpegFileEncoder::video(shared_ptr<PlayerVideo> video, DCPTime time)
 	frame->width = image->size().width;
 	frame->height = image->size().height;
 	frame->format = *_pixel_format;
-	DCPOMATIC_ASSERT(_video_stream->time_base.num == 1);
-	frame->pts = time.get() * _video_stream->time_base.den / DCPTime::HZ;
+	/* The encoder needs timestamps in its own time base, not the muxer's. */
+	frame->pts = av_rescale_q(time.get(), AVRational{1, DCPTime::HZ}, _video_codec_context->time_base);
 
 	int r = avcodec_send_frame(_video_codec_context, frame);
 	av_frame_free(&frame);
@@ -482,7 +483,8 @@ FFmpegFileEncoder::video(shared_ptr<PlayerVideo> video, DCPTime time)
 		throw EncodeError(N_("avcodec_receive_packet"), N_("FFmpegFileEncoder::video"), r);
 	} else if (r >= 0) {
 		packet->stream_index = 0;
-		packet->duration = _video_stream->time_base.den / _video_frame_rate;
+		packet->duration = 1;
+		av_packet_rescale_ts(packet.get(), _video_codec_context->time_base, _video_stream->time_base);
 		av_interleaved_write_frame(_format_context, packet.get());
 	}
 }
