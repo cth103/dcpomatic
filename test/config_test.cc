@@ -868,4 +868,102 @@ BOOST_AUTO_TEST_CASE(config_dkdm_removed_by_us_stays_removed)
 }
 
 
+/** If we and another program have both deleted a DKDM there is nothing to change, so the user is not told that
+ *  it has been changed.
+ */
+BOOST_AUTO_TEST_CASE(config_dkdm_removed_by_both_programs_gives_no_message)
+{
+	boost::filesystem::path const dir = "build/test/config_dkdm_removed_by_both_programs_gives_no_message";
+	boost::filesystem::remove_all(dir);
+	ConfigRestorer cr(dir);
+
+	auto a = dkdm_with_id_ending('a');
+	auto b = dkdm_with_id_ending('b');
+
+	int warnings = 0;
+	Config::instance()->DKDMsChangedByOtherProgram.connect([&warnings]() { ++warnings; });
+
+	auto dkdms = Config::instance()->dkdms();
+	dkdms->add(a);
+	dkdms->add(b);
+	Config::instance()->write_config();
+
+	remove_dkdm_from_config_file(a->dkdm().id());
+	dkdms->remove(a);
+	Config::instance()->write_config();
+
+	BOOST_CHECK_EQUAL(warnings, 0);
+	BOOST_CHECK_EQUAL(dkdms->all_dkdms().size(), 1U);
+	BOOST_CHECK(dkdms->contains(b->dkdm().id()));
+}
+
+
+/** If we have more than one copy of a DKDM, as kdm_cli used to allow, and another program deletes it from the
+ *  file, none of the copies must come back.
+ */
+BOOST_AUTO_TEST_CASE(config_dkdm_copies_removed_by_other_program_stay_removed)
+{
+	boost::filesystem::path const dir = "build/test/config_dkdm_copies_removed_by_other_program_stay_removed";
+	boost::filesystem::remove_all(dir);
+	ConfigRestorer cr(dir);
+
+	auto a = dkdm_with_id_ending('a');
+	auto b = dkdm_with_id_ending('b');
+	auto c = dkdm_with_id_ending('c');
+
+	auto dkdms = Config::instance()->dkdms();
+	dkdms->add(a);
+	dkdms->add(dkdm_with_id_ending('a'));
+	dkdms->add(b);
+	Config::instance()->write_config();
+
+	remove_dkdm_from_config_file(a->dkdm().id());
+	remove_dkdm_from_config_file(a->dkdm().id());
+
+	dkdms->add(c);
+	Config::instance()->write_config();
+
+	BOOST_CHECK(!dkdms->contains(a->dkdm().id()));
+	BOOST_CHECK_EQUAL(dkdms->all_dkdms().size(), 2U);
+
+	Config::drop();
+	dkdms = Config::instance()->dkdms();
+	BOOST_CHECK(!dkdms->contains(a->dkdm().id()));
+	BOOST_CHECK_EQUAL(dkdms->all_dkdms().size(), 2U);
+}
+
+
+/** The user is told once the list has been changed, as what is done on being told may need the new list */
+BOOST_AUTO_TEST_CASE(config_dkdm_message_comes_after_the_merge)
+{
+	boost::filesystem::path const dir = "build/test/config_dkdm_message_comes_after_the_merge";
+	boost::filesystem::remove_all(dir);
+	ConfigRestorer cr(dir);
+
+	auto a = dkdm_with_id_ending('a');
+	auto b = dkdm_with_id_ending('b');
+
+	auto dkdms = Config::instance()->dkdms();
+	dkdms->add(a);
+	Config::instance()->write_config();
+
+	remove_dkdm_from_config_file(a->dkdm().id());
+	add_dkdm_to_config_file(b);
+
+	optional<bool> had_a;
+	optional<bool> had_b;
+	Config::instance()->DKDMsChangedByOtherProgram.connect([&had_a, &had_b, dkdms, a, b]() {
+		had_a = dkdms->contains(a->dkdm().id());
+		had_b = dkdms->contains(b->dkdm().id());
+	});
+
+	Config::instance()->write_config();
+
+	BOOST_REQUIRE(had_a);
+	BOOST_CHECK(!*had_a);
+	BOOST_REQUIRE(had_b);
+	BOOST_CHECK(*had_b);
+}
+
+
 
