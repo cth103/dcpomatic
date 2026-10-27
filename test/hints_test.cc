@@ -468,3 +468,18 @@ BOOST_AUTO_TEST_CASE(hints_atmos_in_some_reels_of_a_dcp)
 	check_trim(10, 0, true);    /* the last two reels, one with and one without */
 	check_trim(0, 0, true);     /* all of them again */
 }
+
+
+/** A real DCP, of the film Jasmine & Jambo, with two reels and Atmos in only one of them */
+BOOST_AUTO_TEST_CASE(hints_atmos_in_some_reels_of_a_real_dcp)
+{
+	auto const path = TestPaths::private_data() / "jasmine_jambo_two_reels_atmos";
+	if (!boost::filesystem::exists(path)) {
+		/* This DCP is not part of the standard private test data */
+		return;
+	}
+
+	auto dcp = make_shared<DCPContent>(path);
+	auto film = new_test_film("hints_atmos_in_some_reels_of_a_real_dcp", { dcp });
+	BOOST_CHECK(has_atmos_in_some_reels_hint(get_hints(film)));
+}
