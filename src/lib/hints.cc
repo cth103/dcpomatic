@@ -482,6 +482,7 @@ try
 	check_ffec_and_ffmc_in_smpte_feature();
 	check_out_of_range_markers();
 	check_subtitle_languages();
+	check_closed_text_languages();
 	check_audio_language();
 	check_8_or_16_audio_channels();
 	check_video_alpha();
@@ -738,6 +739,46 @@ Hints::check_subtitle_languages()
 				return;
 			}
 		}
+	}
+}
+
+
+/** A closed caption asset takes its language from its DCP track, so a track without one gives an asset with
+ *  no <Language> tag, which the verifier reports as an error.  Interop assets have no language, and closed
+ *  text that is burnt in or has been trimmed away gives no asset.
+ */
+void
+Hints::check_closed_text_languages()
+{
+	if (film()->interop()) {
+		return;
+	}
+
+	bool no_track = false;
+	bool no_language = false;
+	for (auto i: film()->content()) {
+		if (i->end(film()) == i->position()) {
+			continue;
+		}
+		for (auto j: i->text) {
+			if (!j->use() || j->burn() || !is_closed(j->type())) {
+				continue;
+			}
+			if (!j->dcp_track()) {
+				no_track = true;
+			} else if (!j->dcp_track()->language) {
+				no_language = true;
+			}
+		}
+	}
+
+	if (no_track) {
+		hint(_("At least one piece of closed caption content has no DCP track, so the closed caption file in your DCP "
+			"will have no language.  Choose or create a DCP track for each piece of closed caption content."));
+	}
+	if (no_language) {
+		hint(_("At least one DCP track of closed caption content has no language, so the closed caption file in your "
+			"DCP will have no language.  Set a language for each DCP track of closed caption content."));
 	}
 }
 
