@@ -60,6 +60,35 @@ BOOST_AUTO_TEST_CASE(check_examine_vfs)
 
 
 
+/** Unlabelled HI is mapped for an imported DCP of 8 or fewer channels, as before, but not for one of more */
+BOOST_AUTO_TEST_CASE(dcp_default_mapping_channel_count_test)
+{
+	auto check = [](string name, int channels, bool hi) {
+		auto source = make_shared<FFmpegContent>("test/data/L.wav");
+		auto ov = new_test_film(name + "_ov", { source });
+		ov->set_audio_channels(channels);
+		AudioMapping mapping(1, MAX_DCP_AUDIO_CHANNELS);
+		mapping.set(0, dcp::Channel::CENTRE, 1);
+		source->audio->set_mapping(mapping);
+		make_and_verify_dcp(ov, { dcp::VerificationNote::Code::MISSING_CPL_METADATA });
+
+		auto dcp = make_shared<DCPContent>(ov->dir(ov->dcp_name()));
+		auto copy = new_test_film(name + "_copy", { dcp });
+		auto const map = dcp->audio->stream()->mapping();
+		bool mapped = false;
+		for (int output = 0; output < map.output_channels(); ++output) {
+			if (map.get(static_cast<int>(dcp::Channel::HI), output) > 0) {
+				mapped = true;
+			}
+		}
+		BOOST_CHECK_EQUAL(mapped, hi);
+	};
+
+	check("dcp_default_mapping_8_channels", 8, true);
+	check("dcp_default_mapping_12_channels", 12, false);
+}
+
+
 /** HI and VI are mapped by default for an imported DCP only if the DCP has those channels */
 BOOST_AUTO_TEST_CASE(dcp_default_mapping_hi_vi_test)
 {
