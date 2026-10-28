@@ -311,7 +311,8 @@ Writer::write (shared_ptr<const AudioBuffers> audio, DCPTime const time)
 void
 Writer::write(shared_ptr<const dcp::AtmosFrame> atmos, DCPTime time, AtmosMetadata metadata)
 {
-	if (_atmos_reel->period().to == time) {
+	/* Skip any reels which have no Atmos before this frame, as well as the one that has just finished */
+	while (_atmos_reel->period().to <= time) {
 		++_atmos_reel;
 		DCPOMATIC_ASSERT(_atmos_reel != _reels.end());
 	}

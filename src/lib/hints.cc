@@ -25,6 +25,7 @@
 #include "constants.h"
 #include "content.h"
 #include "cross.h"
+#include "dcp_content.h"
 #include "dcp_content_type.h"
 #include "dcpomatic_log.h"
 #include "film.h"
@@ -49,6 +50,7 @@
 
 
 using std::cout;
+using std::dynamic_pointer_cast;
 using std::make_shared;
 using std::map;
 using std::max;
@@ -486,6 +488,7 @@ try
 	check_8_or_16_audio_channels();
 	check_video_alpha();
 	check_encryption();
+	check_atmos_in_some_reels();
 
 	scan_content(film);
 
@@ -828,6 +831,40 @@ Hints::check_encryption()
 		       "errors with the DCP made from this project.  If in doubt, set everything (picture, sound "
 		       "and text) to be either encrypted or not."));
 
+	}
+}
+
+
+void
+Hints::check_atmos_in_some_reels()
+{
+	auto const content = film()->content();
+
+	int with_atmos = 0;
+	int without_atmos = 0;
+	for (auto reel: film()->reels()) {
+		auto const atmos = std::any_of(content.begin(), content.end(), [this, reel](shared_ptr<const Content> c) {
+			return c->atmos && DCPTimePeriod(c->position(), c->end(film())).overlap(reel);
+		});
+		if (atmos) {
+			++with_atmos;
+		} else {
+			++without_atmos;
+		}
+	}
+
+	/* A DCP added as content counts as one piece over all its reels, so it says itself whether the reels of it that
+	 * are still used after trimming are mixed.
+	 */
+	auto const dcp_with_mixed_reels = std::any_of(content.begin(), content.end(), [this](shared_ptr<const Content> c) {
+		auto dcp = dynamic_pointer_cast<const DCPContent>(c);
+		return dcp && dcp->atmos_in_some_used_reels(film());
+	});
+
+	if ((with_atmos > 0 && without_atmos > 0) || dcp_with_mixed_reels) {
+		hint(_("Some of the reels in your DCP have Atmos and some do not.  Some cinema sound processors will not "
+		       "play the Atmos (and will fall back to the normal sound) when a reel is missing it.  If possible, "
+		       "make sure that every reel has Atmos."));
 	}
 }
 

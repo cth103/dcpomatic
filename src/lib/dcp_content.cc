@@ -41,6 +41,7 @@
 #include <dcp/types.h>
 #include <libxml++/libxml++.h>
 #include <fmt/format.h>
+#include <algorithm>
 
 #include "i18n.h"
 
@@ -176,6 +177,10 @@ DCPContent::DCPContent(cxml::ConstNodePtr node, boost::optional<boost::filesyste
 			auto type = string_to_text_type(non_zero->string_attribute("type"));
 			_has_non_zero_entry_point[type] = non_zero->content() == "1";
 		} catch (MetadataError&) {}
+	}
+
+	for (auto i: node->node_children("ReelAtmos")) {
+		_reels_with_atmos.push_back(i->content() == "1");
 	}
 
 	if (auto chain = node->optional_string_child("Chain")) {
@@ -364,6 +369,11 @@ DCPContent::examine(shared_ptr<const Film> film, shared_ptr<Job> job, bool toler
 		_ratings = examiner->ratings();
 		_content_versions = examiner->content_versions();
 		_has_non_zero_entry_point = examiner->has_non_zero_entry_point();
+		/* Only kept when the reels are mixed, which is the only case anything needs it for */
+		auto const reels_with_atmos = examiner->reels_with_atmos();
+		auto const any = std::find(reels_with_atmos.begin(), reels_with_atmos.end(), true) != reels_with_atmos.end();
+		auto const all = std::find(reels_with_atmos.begin(), reels_with_atmos.end(), false) == reels_with_atmos.end();
+		_reels_with_atmos = any && !all ? reels_with_atmos : vector<bool>();
 		_chain = examiner->chain();
 		_distributor = examiner->distributor();
 		_facility = examiner->facility();
@@ -507,6 +517,11 @@ DCPContent::as_xml(xmlpp::Element* element, bool with_paths, PathBehaviour path_
 			has->add_child_text("1");
 			has->set_attribute("type", text_type_to_string(static_cast<TextType>(i)));
 		}
+	}
+
+	/* Only there when the reels are mixed, so that the metadata of other DCPs is unchanged */
+	for (auto atmos: _reels_with_atmos) {
+		cxml::add_text_child(element, "ReelAtmos", atmos ? "1" : "0");
 	}
 
 	if (_chain) {
@@ -701,6 +716,43 @@ DCPContent::reels(shared_ptr<const Film> film) const
 
 	return p;
 }
+
+bool
+DCPContent::atmos_in_some_used_reels(shared_ptr<const Film> film) const
+{
+	vector<bool> reels_with_atmos;
+	list<int64_t> reel_lengths;
+	{
+		boost::mutex::scoped_lock lm(_mutex);
+		reels_with_atmos = _reels_with_atmos;
+		reel_lengths = _reel_lengths;
+	}
+
+	if (reels_with_atmos.size() != reel_lengths.size()) {
+		return false;
+	}
+
+	/* Same walk over the reels as reels(), but keeping the ones that are still on the timeline after trimming */
+	bool with = false;
+	bool without = false;
+	auto pos = position() - DCPTime(trim_start().get());
+	auto atmos = reels_with_atmos.begin();
+	for (auto length: reel_lengths) {
+		auto const to = pos + DCPTime::from_frames(length, film->video_frame_rate());
+		if (to > position() && pos < end(film)) {
+			if (*atmos) {
+				with = true;
+			} else {
+				without = true;
+			}
+		}
+		pos = to;
+		++atmos;
+	}
+
+	return with && without;
+}
+
 
 list<DCPTime>
 DCPContent::reel_split_points(shared_ptr<const Film> film) const
