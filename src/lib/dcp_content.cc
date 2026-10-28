@@ -292,14 +292,14 @@ DCPContent::examine(shared_ptr<const Film> film, shared_ptr<Job> job, bool toler
 		audio->set_stream(as);
 		auto m = as->mapping();
 		m.make_default(film ? film->audio_processor() : 0);
-		/* A DCP's sound asset usually has 16 channels, but only some of them are in use.  Map only the
-		 * ones that the DCP says it has (so a copy does not get HI and VI, or "-HI" and "-VI" in its name,
-		 * just because the asset is 16 channels wide).  If the project has Atmos, the sync signal in
-		 * channel 14 is written afresh whatever is mapped to it.
+		/* A DCP's sound asset with more than 8 channels usually has only some of them in use, and its unlabelled ones are
+		 * silent.  Do not map them, so a copy does not get HI and VI (or "-HI" and "-VI" in its name) just because the
+		 * asset has more channels than that.  A DCP with 8 or fewer channels is mapped as before: DCP-o-matic writes no
+		 * label for its silent HI and VI.  If the project has Atmos, the sync signal in channel 14 is written afresh whatever is mapped to it.
 		 */
 		auto const active = examiner->active_audio_channel_list();
 		for (int input = 0; input < m.input_channels(); ++input) {
-			if (active && active->find(input) == active->end()) {
+			if (examiner->audio_channels() > 8 && active && active->find(input) == active->end()) {
 				for (int output = 0; output < m.output_channels(); ++output) {
 					m.set(input, output, 0);
 				}
