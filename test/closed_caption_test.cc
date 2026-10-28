@@ -21,7 +21,9 @@
 
 #include "lib/content_factory.h"
 #include "lib/film.h"
+#include "lib/hints.h"
 #include "lib/layout_closed_captions.h"
+#include "lib/signal_manager.h"
 #include "lib/string_text.h"
 #include "lib/string_text_file_content.h"
 #include "lib/text_content.h"
@@ -185,12 +187,24 @@ BOOST_AUTO_TEST_CASE(closed_captions_get_empty_open_subtitles)
 		film,
 		{
 			dcp::VerificationNote::Code::INVALID_CLOSED_CAPTION_LINE_LENGTH,
-			dcp::VerificationNote::Code::INVALID_SUBTITLE_FIRST_TEXT_TIME,
 			dcp::VerificationNote::Code::MISSING_CPL_METADATA
 		});
 
 	/* The ISDCF name does not change: it still says there are no subtitles */
 	BOOST_CHECK_EQUAL(film->isdcf_name(false, false), name);
+
+	/* The empty open subtitle track has no language that the user could set, so there is nothing to be warned about */
+	std::vector<std::string> hints;
+	Hints checker(film);
+	checker.disable_audio_analysis();
+	checker.Hint.connect([&hints](std::string hint) { hints.push_back(hint); });
+	checker.start();
+	checker.join();
+	while (signal_manager->ui_idle()) {}
+	checker.rethrow();
+	for (auto const& hint: hints) {
+		BOOST_CHECK_MESSAGE(hint.find("language") == std::string::npos, hint);
+	}
 
 	dcp::DCP check(film->dir(film->dcp_name()));
 	check.read();
@@ -230,7 +244,6 @@ BOOST_AUTO_TEST_CASE(closed_captions_empty_open_subtitles_start_after_4s)
 		film,
 		{
 			dcp::VerificationNote::Code::INVALID_CLOSED_CAPTION_LINE_LENGTH,
-			dcp::VerificationNote::Code::INVALID_SUBTITLE_FIRST_TEXT_TIME,
 			dcp::VerificationNote::Code::MISSING_CPL_METADATA
 		});
 
