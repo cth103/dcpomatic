@@ -681,7 +681,10 @@ try
 
 	if (command == "add-dkdm") {
 		auto dkdms = Config::instance()->dkdms();
-		dkdms->add(make_shared<DKDM>(dcp::EncryptedKDM(dcp::file_to_string(argv[optind]))));
+		auto dkdm = make_shared<DKDM>(dcp::EncryptedKDM(dcp::file_to_string(argv[optind])));
+		if (!dkdms->contains(dkdm->dkdm().id())) {
+			dkdms->add(dkdm);
+		}
 		Config::instance()->write_config();
 		return {};
 	}

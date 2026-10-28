@@ -136,6 +136,25 @@ DKDMGroup::contains(string dkdm_id) const
 }
 
 
+shared_ptr<DKDM>
+DKDMGroup::find_dkdm(string dkdm_id) const
+{
+	for (auto child: _children) {
+		if (auto child_group = dynamic_pointer_cast<DKDMGroup>(child)) {
+			if (auto found = child_group->find_dkdm(dkdm_id)) {
+				return found;
+			}
+		} else if (auto child_dkdm = dynamic_pointer_cast<DKDM>(child)) {
+			if (child_dkdm->dkdm().id() == dkdm_id) {
+				return child_dkdm;
+			}
+		}
+	}
+
+	return {};
+}
+
+
 bool
 DKDMGroup::contains_dkdm() const
 {
