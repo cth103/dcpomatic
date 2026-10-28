@@ -1832,6 +1832,10 @@ Film::check_settings_consistency()
 			d->set_reference_audio(false);
 			change_made = true;
 		}
+		if (d->reference_atmos() && !d->can_reference_atmos(shared_from_this(), why_not)) {
+			d->set_reference_atmos(false);
+			change_made = true;
+		}
 		if (d->reference_text(TextType::OPEN_SUBTITLE) && !d->can_reference_text(shared_from_this(), TextType::OPEN_SUBTITLE, why_not)) {
 			d->set_reference_text(TextType::OPEN_SUBTITLE, false);
 			change_made = true;
@@ -2207,6 +2211,10 @@ Film::reels() const
 			} else {
 				boundary = *j;
 				++j;
+			}
+			if (boundary == current.from) {
+				/* A custom boundary that is also a required one: don't make an empty reel */
+				continue;
 			}
 			current.to = boundary;
 			periods.push_back(current);

@@ -42,6 +42,7 @@ private:
 	enum class Part {
 		VIDEO,
 		AUDIO,
+		ATMOS,
 		SUBTITLES,
 		CLOSED_CAPTIONS,
 		COUNT

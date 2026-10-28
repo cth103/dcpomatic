@@ -265,7 +265,7 @@ DCPDecoder::pass()
 		audio->emit(film(), _dcp_content->audio->stream(), data, ContentTime::from_frames(_offset, vfr) + _next);
 	}
 
-	if (_atmos_reader) {
+	if (_atmos_reader && (_decode_referenced || !_dcp_content->reference_atmos())) {
 		DCPOMATIC_ASSERT(_atmos_metadata);
 		auto const entry_point = (*_reel)->atmos()->entry_point().get_value_or(0);
 		atmos->emit(film(), _atmos_reader->get_frame(entry_point + frame), _offset + frame, *_atmos_metadata);

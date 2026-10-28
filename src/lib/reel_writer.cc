@@ -602,6 +602,36 @@ ReelWriter::create_reel_sound(shared_ptr<dcp::Reel> reel, list<ReferencedReelAss
 }
 
 
+void
+ReelWriter::create_reel_atmos(shared_ptr<dcp::Reel> reel, list<ReferencedReelAsset> const & refs) const
+{
+	if (_atmos_asset) {
+		/* We have made an Atmos asset of our own.  Put it into the reel */
+		reel->add(make_shared<dcp::ReelAtmosAsset>(_atmos_asset, 0));
+		return;
+	}
+
+	/* We don't have an Atmos asset of our own; use one that we reference, if there is one */
+	for (auto ref: refs) {
+		if (auto atmos = dynamic_pointer_cast<dcp::ReelAtmosAsset>(ref.asset)) {
+			if (ref.period.contains(_period)) {
+				auto const vfr = film()->video_frame_rate();
+				auto reel_asset = make_shared<dcp::ReelAtmosAsset>(*atmos);
+				reel_asset->set_entry_point(
+					reel_asset->entry_point().get_value_or(0) + dcpomatic::DCPTime(_period.from - ref.period.from).frames_round(vfr)
+				);
+				reel_asset->set_duration(_period.duration().frames_round(vfr));
+				/* If we have a hash for this asset in the CPL, assume that it is correct */
+				if (atmos->hash()) {
+					atmos->asset_ref()->set_hash(atmos->hash().get());
+				}
+				reel->add(reel_asset);
+			}
+		}
+	}
+}
+
+
 /** @param ensure_closed_captions List of DCPTextTracks that we need to make sure exist in this reel */
 void
 ReelWriter::create_reel_text(
@@ -748,9 +778,7 @@ ReelWriter::create_reel(
 
 	create_reel_text(reel, refs, duration, output_dcp, ensure_subtitles, ensure_closed_captions);
 
-	if (_atmos_asset) {
-		reel->add(make_shared<dcp::ReelAtmosAsset>(_atmos_asset, 0));
-	}
+	create_reel_atmos(reel, refs);
 
 	return reel;
 }
