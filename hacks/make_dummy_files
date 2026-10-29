@@ -142,7 +142,9 @@ for c in root.find('Playlist').findall('Content'):
         width = int(c.find('VideoWidth').text)
         height = int(c.find('VideoHeight').text)
         path = os.path.join(sys.argv[1], 'dummy', ntpath.basename(c.find('Path').text))
-        os.system('convert -size %dx%d xc:black "%s"' % (width, height, path))
+        os.system('magick -size %dx%d xc:black "%s"' % (width, height, path))
+        c.find('Path').text = path
+        c.find('Digest').text = digest_head_tail(path)
     else:
         print('Skipped %s' % type)
 
