@@ -527,6 +527,15 @@ DCPContent::as_xml(xmlpp::Element* element, bool with_paths, PathBehaviour path_
 
 	cxml::add_text_child(element, "OpenSubtitleHasBitmaps", _open_subtitle_has_bitmaps ? "1" : "0");
 	cxml::add_text_child(element, "OpenCaptionHasBitmaps", _open_caption_has_bitmaps ? "1" : "0");
+
+	if (_main_sound_configuration) {
+		cxml::add_text_child(element, "MainSoundConfiguration", _main_sound_configuration->as_string());
+	}
+
+	if (_main_picture_active_area) {
+		cxml::add_text_child(element, "MainPictureActiveAreaWidth", fmt::to_string(_main_picture_active_area->width));
+		cxml::add_text_child(element, "MainPictureActiveAreaHeight", fmt::to_string(_main_picture_active_area->height));
+	}
 }
 
 
