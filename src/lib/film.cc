@@ -1041,12 +1041,21 @@ Film::isdcf_name(bool if_created_now, bool multiple_open_text_languages) const
 	if (dcp_content_type() && dcp_content_type()->libdcp_kind() != dcp::ContentKind::TRAILER) {
 		auto first_video = std::find_if(content_list.begin(), content_list.end(), [](shared_ptr<Content> c) { return static_cast<bool>(c->video); });
 		if (first_video != content_list.end()) {
-			if (auto scaled_size = (*first_video)->video->scaled_size(frame_size())) {
-				auto first_ratio = lrintf(scaled_size->ratio() * 100);
-				auto container_ratio = lrintf(container().ratio() * 100);
-				if (first_ratio != container_ratio) {
-					isdcf_name += "-" + fmt::to_string(first_ratio);
+			optional<float> first_ratio;
+			/* If it's a DCP, try to use its MainPictureActiveArea */
+			if (auto dcp = dynamic_pointer_cast<DCPContent>(*first_video)) {
+				if (auto mpaa = dcp->main_picture_active_area()) {
+					first_ratio = lrintf(mpaa->ratio() * 100);
 				}
+			}
+			/* If that didn't work, just try to use the video size */
+			auto scaled_size = (*first_video)->video->scaled_size(frame_size());
+			if (!first_ratio && scaled_size) {
+				first_ratio = lrintf(scaled_size->ratio() * 100);
+			}
+			/* Add it to the name if we found a ratio and it's different to the container */
+			if (first_ratio && *first_ratio != lrintf(container().ratio() * 100)) {
+				isdcf_name += "-" + fmt::to_string(*first_ratio);
 			}
 		}
 	}

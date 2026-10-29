@@ -28,6 +28,7 @@
 #include "lib/audio_content.h"
 #include "lib/audio_mapping.h"
 #include "lib/content_factory.h"
+#include "lib/dcp_content.h"
 #include "lib/dcp_content_type.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/film.h"
@@ -318,3 +319,20 @@ BOOST_AUTO_TEST_CASE(isdcf_name_with_non_standard_multiple_languages)
 	BOOST_CHECK_EQUAL(film->isdcf_name(false, true), "HelloWorld_TST-1_F_XX-FR-DE_MOS_2K_20230118_SMPTE_OV");
 }
 
+
+BOOST_AUTO_TEST_CASE(isdcf_name_with_pillarboxed_ov)
+{
+	auto flat = content_factory("test/data/flat_red.png")[0];
+	auto ov = new_test_film("isdcf_name_with_pillarboxed_ov_ov", { flat });
+	flat->video->set_crop(Crop(39, 39, 0, 0));
+	make_and_verify_dcp(ov);
+
+	auto ov_dcp = make_shared<DCPContent>(ov->dir(ov->dcp_name()));
+	auto vf = new_test_film("isdcf_name_with_pillarboxed_ov_vf", { ov_dcp });
+	vf->set_isdcf_date(boost::gregorian::date(2023, boost::gregorian::Jan, 18));
+	vf->set_name("Hello World");
+	ov_dcp->set_reference_video(true);
+	vf->write_metadata();
+
+	BOOST_CHECK_EQUAL(vf->isdcf_name(false, true), "HelloWorld_TST-1_F-178_XX-XX_51_2K_20230118_SMPTE_VF");
+}
