@@ -280,6 +280,8 @@ private:
 
 	bool OnInit() override
 	{
+		respect_dark_mode(this);
+
 		if (!wxApp::OnInit()) {
 			return false;
 		}

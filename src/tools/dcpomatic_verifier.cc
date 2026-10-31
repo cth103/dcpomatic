@@ -422,6 +422,7 @@ private:
 	bool OnInit() override
 	{
 		try {
+			respect_dark_mode(this);
 			SetAppName(variant::wx::dcpomatic_verifier());
 
 			if (!wxApp::OnInit()) {

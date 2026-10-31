@@ -127,6 +127,7 @@ extern void report_config_load_failure(wxWindow* parent, Config::LoadFailure wha
 extern bool layout_for_short_screen(wxWindow* reference);
 extern wxColour colour_for_peak(float peak_db);
 extern void update_content_store();
+extern void respect_dark_mode(wxApp* app);
 
 
 struct Offset
