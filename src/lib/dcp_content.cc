@@ -50,6 +50,7 @@ using std::exception;
 using std::function;
 using std::list;
 using std::make_shared;
+using std::set;
 using std::shared_ptr;
 using std::string;
 using std::vector;
@@ -59,6 +60,35 @@ using namespace boost::placeholders;
 #endif
 using dcp::raw_convert;
 using namespace dcpomatic;
+
+
+/** Unmap the channels of a DCP's sound asset that the DCP does not use.
+ *
+ *  A sound asset with more than 8 channels usually has only some of them in use, and its unlabelled ones are
+ *  silent.  Do not map them, so a copy does not get HI and VI (or "-HI" and "-VI" in its name) just because the
+ *  asset has more channels than that.  A DCP with 8 or fewer channels is mapped as before: DCP-o-matic writes no
+ *  label for its silent HI and VI.  If the project has Atmos, the sync signal in channel 14 is written afresh
+ *  whatever is mapped to it.
+ *
+ *  @param channels Number of channels in the sound asset.
+ *  @param labelled Channels (0-based) with an MCA label, or none if a sound asset has no labels.
+ */
+static
+void
+unmap_unlabelled_channels(AudioMapping& mapping, int channels, optional<set<int>> const& labelled)
+{
+	if (channels <= 8 || !labelled) {
+		return;
+	}
+
+	for (int input = 0; input < channels && input < mapping.input_channels(); ++input) {
+		if (labelled->find(input) == labelled->end()) {
+			for (int output = 0; output < mapping.output_channels(); ++output) {
+				mapping.set(input, output, 0);
+			}
+		}
+	}
+}
 
 
 DCPContent::DCPContent(boost::filesystem::path p)
@@ -292,6 +322,7 @@ DCPContent::examine(shared_ptr<const Film> film, shared_ptr<Job> job, bool toler
 		audio->set_stream(as);
 		auto m = as->mapping();
 		m.make_default(film ? film->audio_processor() : 0);
+		unmap_unlabelled_channels(m, examiner->audio_channels(), examiner->active_audio_channel_list());
 		as->set_mapping(m);
 
 		{

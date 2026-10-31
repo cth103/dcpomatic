@@ -50,6 +50,11 @@
 #include <dcp/stereo_j2k_picture_frame.h>
 #include <dcp/text_asset.h>
 #include <dcp/text_image.h>
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
+#include <asdcp/AS_DCP.h>
+#include <asdcp/Metadata.h>
+LIBDCP_ENABLE_WARNINGS
 #include <iostream>
 
 #include "i18n.h"
@@ -62,6 +67,47 @@ using std::shared_ptr;
 using std::string;
 using std::vector;
 using boost::optional;
+
+
+/** @return the channels (0-based) which have an MCA audio channel label in a sound asset, or none
+ *  if it has no such labels (or we cannot read them).
+ */
+static boost::optional<std::set<int>>
+labelled_channels(shared_ptr<const dcp::SoundAsset> asset)
+{
+	if (!asset->file()) {
+		return {};
+	}
+
+	Kumu::FileReaderFactory factory;
+	ASDCP::PCM::MXFReader reader(factory);
+	if (ASDCP_FAILURE(reader.OpenRead(asset->file()->string().c_str()))) {
+		return {};
+	}
+
+	std::list<ASDCP::MXF::InterchangeObject*> labels;
+	auto const r = reader.OP1aHeader().GetMDObjectsByType(
+		ASDCP::DefaultSMPTEDict().ul(ASDCP::MDD_AudioChannelLabelSubDescriptor), labels
+		);
+	if (KM_FAILURE(r) || labels.empty()) {
+		return {};
+	}
+
+	std::set<int> channels;
+	for (auto label: labels) {
+		auto channel_label = dynamic_cast<ASDCP::MXF::AudioChannelLabelSubDescriptor*>(label);
+		if (channel_label && !channel_label->MCAChannelID.empty()) {
+			/* MCAChannelID counts from 1 */
+			channels.insert(static_cast<int>(channel_label->MCAChannelID.get()) - 1);
+		}
+	}
+
+	if (channels.empty()) {
+		return {};
+	}
+
+	return channels;
+}
 
 
 DCPExaminer::DCPExaminer(shared_ptr<const DCPContent> content, bool tolerant)
@@ -197,6 +243,15 @@ DCPExaminer::DCPExaminer(shared_ptr<const DCPContent> content, bool tolerant)
 				}
 
 				_active_audio_channels = std::max(_active_audio_channels.get_value_or(0), asset->active_channels());
+
+				if (auto labelled = labelled_channels(asset)) {
+					if (!_active_audio_channel_list) {
+						_active_audio_channel_list = std::set<int>();
+					}
+					_active_audio_channel_list->insert(labelled->begin(), labelled->end());
+				} else {
+					_active_audio_channel_list_known = false;
+				}
 
 				if (!_audio_frame_rate) {
 					_audio_frame_rate = asset->sampling_rate();
