@@ -44,7 +44,8 @@ using std::string;
 static string
 openssl_hash (boost::filesystem::path file)
 {
-	auto pipe = popen (fmt::format("openssl sha1 -binary {} | openssl base64 -e", file.string()).c_str (), "r");
+	/* The path is quoted: the build folder can be under a directory with spaces in its name */
+	auto pipe = popen (fmt::format("openssl sha1 -binary \"{}\" | openssl base64 -e", file.string()).c_str (), "r");
 	BOOST_REQUIRE (pipe);
 	char buffer[128];
 	string output;

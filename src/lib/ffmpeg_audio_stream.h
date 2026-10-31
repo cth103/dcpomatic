@@ -54,6 +54,12 @@ public:
 
 	boost::optional<dcpomatic::ContentTime> first_audio;
 	boost::optional<std::string> codec_name;
+	/** true if the file says that this stream is 7.1 (e.g. a WAV with that channel mask); only known
+	 *  after examining the file, as it is used just to set up the default mapping.
+	 */
+	bool seven_one = false;
+	/** FFmpeg's name for the channel layout that the file says this stream has (e.g. "7.1(wide)"), if it says one */
+	boost::optional<std::string> channel_layout;
 
 private:
 	friend struct ffmpeg_pts_offset_test;

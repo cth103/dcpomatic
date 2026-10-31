@@ -73,18 +73,25 @@ FFmpegExaminer::FFmpegExaminer(shared_ptr<const FFmpegContent> c, shared_ptr<Job
 
 			DCPOMATIC_ASSERT(codec->name);
 
-			_audio_streams.push_back(
-				make_shared<FFmpegAudioStream>(
-					stream_name(s),
-					codec->name,
-					s->id,
-					i,
-					s->codecpar->sample_rate,
-					_need_length ? 0 : rint((double(_format_context->duration) / AV_TIME_BASE) * s->codecpar->sample_rate),
-					s->codecpar->ch_layout.nb_channels,
-					s->codecpar->bits_per_raw_sample ? s->codecpar->bits_per_raw_sample : s->codecpar->bits_per_coded_sample
-					)
+			auto stream = make_shared<FFmpegAudioStream>(
+				stream_name(s),
+				codec->name,
+				s->id,
+				i,
+				s->codecpar->sample_rate,
+				_need_length ? 0 : rint((double(_format_context->duration) / AV_TIME_BASE) * s->codecpar->sample_rate),
+				s->codecpar->ch_layout.nb_channels,
+				s->codecpar->bits_per_raw_sample ? s->codecpar->bits_per_raw_sample : s->codecpar->bits_per_coded_sample
 				);
+			AVChannelLayout const seven_one = AV_CHANNEL_LAYOUT_7POINT1;
+			stream->seven_one = av_channel_layout_compare(&s->codecpar->ch_layout, &seven_one) == 0;
+			if (s->codecpar->ch_layout.order != AV_CHANNEL_ORDER_UNSPEC) {
+				char layout[256];
+				if (av_channel_layout_describe(&s->codecpar->ch_layout, layout, sizeof(layout)) > 0) {
+					stream->channel_layout = string(layout);
+				}
+			}
+			_audio_streams.push_back(stream);
 
 		} else if (s->codecpar->codec_type == AVMEDIA_TYPE_SUBTITLE) {
 			_subtitle_streams.push_back(make_shared<FFmpegSubtitleStream>(subtitle_stream_name(s), s->id, i));
