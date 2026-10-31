@@ -515,6 +515,7 @@ private:
 	{
 		wxSplashScreen* splash;
 		try {
+			respect_dark_mode(this);
 			wxInitAllImageHandlers ();
 
 			splash = maybe_show_splash ();

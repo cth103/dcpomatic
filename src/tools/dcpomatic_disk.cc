@@ -462,6 +462,8 @@ public:
 	bool OnInit() override
 	{
 		try {
+			respect_dark_mode(this);
+
 			Config::FailedToLoad.connect(boost::bind(&App::config_failed_to_load, this));
 			Config::Warning.connect(boost::bind(&App::config_warning, this, _1));
 

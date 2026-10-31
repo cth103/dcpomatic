@@ -610,6 +610,7 @@ private:
 	bool OnInit() override
 	try
 	{
+		respect_dark_mode(this);
 		wxInitAllImageHandlers();
 		SetAppName(variant::wx::dcpomatic_playlist_editor());
 

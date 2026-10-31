@@ -418,6 +418,7 @@ class App : public wxApp
 {
 	bool OnInit () override
 	{
+		respect_dark_mode(this);
 		wxInitAllImageHandlers ();
 
 		SetAppName(variant::wx::dcpomatic_batch_converter());

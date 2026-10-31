@@ -678,10 +678,6 @@ small_button_size(wxWindow* parent, wxString text)
 bool
 gui_is_dark()
 {
-#ifdef DCPOMATIC_WINDOWS
-	/* Dark mode doesn't really work at all on Windows at the moment, so just don't use it */
-	return false;
-#endif
 #if wxCHECK_VERSION(3, 1, 0)
 	auto appearance = wxSystemSettings::GetAppearance();
 	return appearance.IsDark();
@@ -823,3 +819,23 @@ update_content_store()
 		error_dialog(nullptr, std_to_wx(error.first), std_to_wx(error.second));
 	}
 }
+
+
+#ifdef DCPOMATIC_WINDOWS
+void
+respect_dark_mode(wxApp* app)
+{
+	/* This is only necessary on Windows (on macOS/Linux wxWidgets respects the system
+	 * light/dark theme automatically) so just do it where we know we have a new-enough
+	 * wxWidgets version.
+	 */
+	app->SetAppearance(wxApp::Appearance::System);
+}
+#else
+void
+respect_dark_mode(wxApp*)
+{
+
+}
+#endif
+

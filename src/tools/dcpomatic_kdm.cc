@@ -883,6 +883,7 @@ private:
 		wxSplashScreen* splash;
 
 		try {
+			respect_dark_mode(this);
 			wxInitAllImageHandlers ();
 
 			Config::FailedToLoad.connect(boost::bind(&App::config_failed_to_load, this, _1));
