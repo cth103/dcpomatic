@@ -117,7 +117,14 @@ JobView::maybe_pulse()
 void
 JobView::progress()
 {
+#ifdef DCPOMATIC_WINDOWS
+	/* SetLabelMarkup() does not support multiple lines on Windows, so we
+	 * have to use no markup and SetLabel().
+	 */
+	string whole = _job->name() + "\n";
+#else
 	string whole = "<b>" + _job->name() + "</b>\n";
+#endif
 	if (!_job->sub_name().empty()) {
 		whole += _job->sub_name() + " ";
 	}
@@ -130,7 +137,11 @@ JobView::progress()
 #endif
 	whole += s;
 	if (whole != _last_message) {
+#ifdef DCPOMATIC_WINDOWS
+		_message->SetLabel(std_to_wx(whole));
+#else
 		_message->SetLabelMarkup(std_to_wx(whole));
+#endif
 		/* This hack fixes the size of _message on OS X */
 		_message->InvalidateBestSize();
 		_message->SetSize(_message->GetBestSize());
