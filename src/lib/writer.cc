@@ -93,8 +93,9 @@ Writer::Writer(weak_ptr<const Film> weak_film, weak_ptr<Job> weak_job, boost::fi
 
 	/* A sound MXF or WAV that starts or ends a reel, with no other sound over it, keeps the part of its file that the
 	 * trim cuts off, so that the sync pips at its head and tail stay in the DCP's sound asset; the CPL plays only the
-	 * part inside the trim.  With Atmos the sync signal must start with the reel, and an audio processor would not
-	 * process a head or tail, so then nothing is kept.
+	 * part inside the trim.  WAVs that play together with the same position and trims (one for each channel, say) count
+	 * as one.  With Atmos the sync signal must start with the reel, and an audio processor would not process a head or
+	 * tail, so then nothing is kept.
 	 */
 	auto const has_audio = [](shared_ptr<const Content> c) { return static_cast<bool>(c->audio); };
 	auto const keep_ends = !text_only && !film()->contains_atmos_content() && !film()->audio_processor();
@@ -103,20 +104,24 @@ Writer::Writer(weak_ptr<const Film> weak_film, weak_ptr<Job> weak_job, boost::fi
 			break;
 		}
 		for (auto content: film()->content()) {
-			if (!content->audio || dcpomatic::overlaps(film(), film()->content(), has_audio, content->position(), content->end(film())).size() != 1) {
+			if (!content->audio) {
 				continue;
 			}
-			if (wav_keeps_whole_length(film(), content)) {
-				if (content->position() == reel.period().from) {
-					if (auto head = wav_head_audio(film(), content)) {
+			auto const wavs = wav_group(film(), content);
+			if (!wavs.empty()) {
+				if (wavs.front() == content && content->position() == reel.period().from) {
+					if (auto head = wav_head_audio(film(), wavs)) {
 						reel.set_sound_head(head, wav_head_frames(film(), content));
 					}
 				}
-				if (content->end(film()) == reel.period().to) {
-					if (auto tail = wav_tail_audio(film(), content)) {
+				if (wavs.front() == content && content->end(film()) == reel.period().to) {
+					if (auto tail = wav_tail_audio(film(), wavs)) {
 						reel.set_sound_tail(tail);
 					}
 				}
+				continue;
+			}
+			if (dcpomatic::overlaps(film(), film()->content(), has_audio, content->position(), content->end(film())).size() != 1) {
 				continue;
 			}
 			auto sound_mxf = dynamic_pointer_cast<SoundMXFContent>(content);

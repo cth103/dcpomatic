@@ -518,6 +518,41 @@ BOOST_AUTO_TEST_CASE(wav_part_frame_trim_is_cut_test)
 }
 
 
+/** WAVs for different channels, with the same trims, keep their whole length together */
+BOOST_AUTO_TEST_CASE(wavs_for_channels_keep_whole_length_test)
+{
+	auto left = content_factory("test/data/sine_16_48_220_10.wav")[0];
+	auto right = content_factory("test/data/sine_16_48_440_10.wav")[0];
+	auto film = new_test_film("wavs_for_channels_keep_whole_length_test", { left, right });
+	film->set_sequence(false);
+	right->set_position(film, dcpomatic::DCPTime());
+	BOOST_REQUIRE(left->end(film) == right->end(film));
+	for (auto content: { left, right }) {
+		content->set_trim_start(film, dcpomatic::ContentTime::from_frames(6, 24));
+		content->set_trim_end(dcpomatic::ContentTime::from_frames(12, 24));
+	}
+	auto const length = (left->full_length(film)).frames_round(24);
+	auto const sound = make_and_find_sound(film);
+	BOOST_CHECK_EQUAL(sound->entry_point().get_value_or(0), 6);
+	BOOST_CHECK_EQUAL(sound->actual_duration(), length - 18);
+	BOOST_CHECK_EQUAL(sound->intrinsic_duration(), length);
+}
+
+
+/** WAVs with different trims do not line up, so they keep nothing */
+BOOST_AUTO_TEST_CASE(wavs_with_different_trims_are_cut_test)
+{
+	auto left = content_factory("test/data/sine_16_48_220_10.wav")[0];
+	auto right = content_factory("test/data/sine_16_48_440_10.wav")[0];
+	auto film = new_test_film("wavs_with_different_trims_are_cut_test", { left, right });
+	film->set_sequence(false);
+	right->set_position(film, dcpomatic::DCPTime());
+	left->set_trim_start(film, dcpomatic::ContentTime::from_frames(6, 24));
+	auto const sound = make_and_find_sound(film);
+	BOOST_CHECK_EQUAL(sound->entry_point().get_value_or(0), 0);
+}
+
+
 /** A WAV with other sound over it keeps nothing, as its ends would not be the film's sound */
 BOOST_AUTO_TEST_CASE(wav_with_other_sound_is_cut_test)
 {

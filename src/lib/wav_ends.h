@@ -21,6 +21,7 @@
 
 #include "types.h"
 #include <memory>
+#include <vector>
 
 
 class AudioBuffers;
@@ -38,13 +39,18 @@ bool wav_keeps_whole_length(std::shared_ptr<const Film> film, std::shared_ptr<co
  */
 std::shared_ptr<const Content> wav_shared_source(std::shared_ptr<const Film> film, std::shared_ptr<const Content> content);
 
-/** @return the part of a WAV that its start trim cuts off, ready for the film's sound asset (mapped, at the film's
- *  sampling rate and with the content's gain), or nothing if there is no start trim.
+/** @return all the sound over @param content if every piece of it is a WAV that keeps its whole length, at the same
+ *  position and with the same length and trims (for example one WAV for each channel), or nothing if not.
  */
-std::shared_ptr<const AudioBuffers> wav_head_audio(std::shared_ptr<const Film> film, std::shared_ptr<const Content> content);
+std::vector<std::shared_ptr<const Content>> wav_group(std::shared_ptr<const Film> film, std::shared_ptr<const Content> content);
+
+/** @return the part of some WAVs from wav_group() that their start trim cuts off, ready for the film's sound asset
+ *  (mixed, mapped, at the film's sampling rate and with each one's gain), or nothing if there is no start trim.
+ */
+std::shared_ptr<const AudioBuffers> wav_head_audio(std::shared_ptr<const Film> film, std::vector<std::shared_ptr<const Content>> const& wavs);
 
 /** @return the length of wav_head_audio() in frames of the film */
 Frame wav_head_frames(std::shared_ptr<const Film> film, std::shared_ptr<const Content> content);
 
-/** @return the part of a WAV that its end trim cuts off, as wav_head_audio() */
-std::shared_ptr<const AudioBuffers> wav_tail_audio(std::shared_ptr<const Film> film, std::shared_ptr<const Content> content);
+/** @return the part of some WAVs from wav_group() that their end trim cuts off, as wav_head_audio() */
+std::shared_ptr<const AudioBuffers> wav_tail_audio(std::shared_ptr<const Film> film, std::vector<std::shared_ptr<const Content>> const& wavs);

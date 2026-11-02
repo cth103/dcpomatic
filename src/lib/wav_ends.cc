@@ -160,25 +160,62 @@ wav_head_frames(shared_ptr<const Film> film, shared_ptr<const Content> content)
 }
 
 
-shared_ptr<const AudioBuffers>
-wav_head_audio(shared_ptr<const Film> film, shared_ptr<const Content> content)
+std::vector<shared_ptr<const Content>>
+wav_group(shared_ptr<const Film> film, shared_ptr<const Content> content)
 {
-	auto const head = wav_head_frames(film, content) * film->audio_frame_rate() / film->video_frame_rate();
-	if (head == 0) {
-		return {};
+	auto has_audio = [](shared_ptr<const Content> c) { return static_cast<bool>(c->audio); };
+
+	std::vector<shared_ptr<const Content>> group;
+	for (auto other: dcpomatic::overlaps(film, film->content(), has_audio, content->position(), content->end(film))) {
+		if (
+			!wav_keeps_whole_length(film, other) ||
+			other->position() != content->position() ||
+			other->end(film) != content->end(film) ||
+			other->trim_start() != content->trim_start() ||
+			other->trim_end() != content->trim_end()
+		   ) {
+			return {};
+		}
+		group.push_back(other);
 	}
-	return samples(film, content, 0, head);
+	return group;
+}
+
+
+/** @return the buffers from @param get for each of @param wavs, mixed */
+static shared_ptr<const AudioBuffers>
+mix(std::vector<shared_ptr<const Content>> const& wavs, std::function<shared_ptr<const AudioBuffers> (shared_ptr<const Content>)> get)
+{
+	auto mixed = make_shared<AudioBuffers>(get(wavs.front()));
+	for (size_t i = 1; i < wavs.size(); ++i) {
+		auto const other = get(wavs[i]);
+		mixed->accumulate_frames(other.get(), min(mixed->frames(), other->frames()), 0, 0);
+	}
+	return mixed;
 }
 
 
 shared_ptr<const AudioBuffers>
-wav_tail_audio(shared_ptr<const Film> film, shared_ptr<const Content> content)
+wav_head_audio(shared_ptr<const Film> film, std::vector<shared_ptr<const Content>> const& wavs)
 {
-	auto const tail = content->trim_end().frames_round(film->audio_frame_rate());
+	auto const head = wav_head_frames(film, wavs.front()) * film->audio_frame_rate() / film->video_frame_rate();
+	if (head == 0) {
+		return {};
+	}
+	return mix(wavs, [film, head](shared_ptr<const Content> content) { return samples(film, content, 0, head); });
+}
+
+
+shared_ptr<const AudioBuffers>
+wav_tail_audio(shared_ptr<const Film> film, std::vector<shared_ptr<const Content>> const& wavs)
+{
+	auto const tail = wavs.front()->trim_end().frames_round(film->audio_frame_rate());
 	if (tail == 0) {
 		return {};
 	}
-	auto const stream = content->audio->stream();
-	auto const length = stream->length() * content->audio->resampled_frame_rate(film) / stream->frame_rate();
-	return samples(film, content, length - tail, boost::none);
+	return mix(wavs, [film, tail](shared_ptr<const Content> content) {
+		auto const stream = content->audio->stream();
+		auto const length = stream->length() * content->audio->resampled_frame_rate(film) / stream->frame_rate();
+		return samples(film, content, length - tail, boost::none);
+	});
 }
