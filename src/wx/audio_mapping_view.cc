@@ -330,6 +330,7 @@ void
 AudioMappingView::paint()
 {
 	wxPaintDC dc(this);
+	dc.SetPen(*wxBLACK_PEN);
 
 	paint_static(dc);
 
