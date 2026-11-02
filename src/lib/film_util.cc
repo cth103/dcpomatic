@@ -73,3 +73,16 @@ dcpomatic::film::is_vf(shared_ptr<const Film> film)
 	return false;
 }
 
+
+bool
+dcpomatic::film::reels_fit_inside(shared_ptr<const Film> film, DCPTimePeriod period)
+{
+	for (auto reel: film->reels()) {
+		if (reel.overlap(period) && !period.contains(reel)) {
+			return false;
+		}
+	}
+
+	return true;
+}
+

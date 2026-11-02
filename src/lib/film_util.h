@@ -19,6 +19,7 @@
 */
 
 
+#include "dcpomatic_time.h"
 #include <dcp/types.h>
 
 
@@ -34,6 +35,8 @@ namespace film
 bool channel_is_mapped(std::shared_ptr<const Film> film, dcp::Channel channel);
 boost::optional<boost::filesystem::path> add_files_override_path(std::shared_ptr<const Film> film);
 bool is_vf(std::shared_ptr<const Film> film);
+/** @return true if every reel of the film that overlaps @param period is entirely inside it */
+bool reels_fit_inside(std::shared_ptr<const Film> film, dcpomatic::DCPTimePeriod period);
 
 
 }

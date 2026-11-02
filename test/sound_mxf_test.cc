@@ -434,6 +434,32 @@ BOOST_AUTO_TEST_CASE(sound_mxf_atmos_is_rewritten_test)
 }
 
 
+/** The picture's reels stay as they are: a sound MXF over two of them is one file, cut for each reel in the CPL */
+BOOST_AUTO_TEST_CASE(sound_mxf_over_two_reels_test)
+{
+	auto const mxf = make_sound_mxf("sound_mxf_over_two_reels_test_source");
+	dcp::SoundAsset const source(mxf);
+
+	auto content = content_factory(mxf)[0];
+	auto film = new_test_film("sound_mxf_over_two_reels_test", { content });
+	film->set_reel_type(ReelType::CUSTOM);
+	film->set_custom_reel_boundaries({ dcpomatic::DCPTime::from_frames(48, film->video_frame_rate()) });
+	make_and_verify_dcp(film, { dcp::VerificationNote::Code::MISSING_CPL_METADATA });
+
+	dcp::DCP dcp(film->dir(film->dcp_name()));
+	dcp.read();
+	BOOST_REQUIRE_EQUAL(dcp.cpls().size(), 1U);
+	auto const reels = dcp.cpls()[0]->reels();
+	BOOST_REQUIRE_EQUAL(reels.size(), 2U);
+	BOOST_CHECK_EQUAL(reels[0]->main_sound()->asset_ref().id(), source.id());
+	BOOST_CHECK_EQUAL(reels[1]->main_sound()->asset_ref().id(), source.id());
+	BOOST_CHECK_EQUAL(reels[0]->main_sound()->entry_point().get_value_or(0), 0);
+	BOOST_CHECK_EQUAL(reels[0]->main_sound()->actual_duration(), 48);
+	BOOST_CHECK_EQUAL(reels[1]->main_sound()->entry_point().get_value_or(0), 48);
+	BOOST_CHECK_EQUAL(reels[1]->main_sound()->actual_duration(), source.intrinsic_duration() - 48);
+}
+
+
 /** Other sound over the same time means the file is not the film's sound: written again */
 BOOST_AUTO_TEST_CASE(sound_mxf_overlap_is_rewritten_test)
 {

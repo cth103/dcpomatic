@@ -23,6 +23,7 @@
 #include "audio_content.h"
 #include "audio_stream.h"
 #include "film.h"
+#include "film_util.h"
 #include "frame_rate_change.h"
 #include "job.h"
 #include "overlaps.h"
@@ -312,10 +313,11 @@ SoundMXFContent::can_reference_audio(shared_ptr<const Film> film, string& why_no
 		return false;
 	}
 
-	/* The film's reels must start and end where this content does, so that the file is one whole reel */
-	auto const reels = film->reels();
-	if (std::find(reels.begin(), reels.end(), DCPTimePeriod(position(), end(film))) == reels.end()) {
-		why_not = "the film's reels are not the length of the content";
+	/* The film's reels are never changed for a file: it can be in one or several of them, each with its own entry point
+	 * and duration in the CPL, but it must fill every reel that it is in.
+	 */
+	if (!dcpomatic::film::reels_fit_inside(film, DCPTimePeriod(position(), end(film)))) {
+		why_not = "it does not fill the film's reels that it is in";
 		return false;
 	}
 
