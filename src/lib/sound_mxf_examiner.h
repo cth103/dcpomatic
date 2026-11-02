@@ -20,6 +20,7 @@
 
 
 #include "audio_examiner.h"
+#include <dcp/types.h>
 #include <memory>
 #include <vector>
 
@@ -54,6 +55,9 @@ public:
 	std::vector<bool> channels_with_sound() const {
 		return _channels_with_sound;
 	}
+
+	/** @return the edit rate of the asset, in frames per second as a fraction */
+	dcp::Fraction edit_rate() const;
 
 private:
 	std::shared_ptr<dcp::SoundAsset> _asset;

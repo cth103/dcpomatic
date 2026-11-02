@@ -21,6 +21,7 @@
 
 #include "content.h"
 #include "types.h"
+#include <dcp/types.h>
 
 
 class AudioBuffers;
@@ -73,8 +74,16 @@ public:
 		return _channels_with_sound;
 	}
 
+	/** @return true if the sound that the film would write for this content is exactly the sound of the file,
+	 *  so that the file can be used in the DCP as it is.  If not, @param why_not says why.
+	 */
+	bool can_reference_audio(std::shared_ptr<const Film> film, std::string& why_not) const;
+
 	static bool valid_mxf(boost::filesystem::path path);
 
 private:
 	std::vector<bool> _channels_with_sound;
+	/** Edit rate of the file as a fraction */
+	dcp::Fraction _edit_rate = dcp::Fraction(24, 1);
+	dcp::Standard _standard = dcp::Standard::SMPTE;
 };

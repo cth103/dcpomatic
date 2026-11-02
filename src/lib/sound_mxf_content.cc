@@ -25,6 +25,7 @@
 #include "film.h"
 #include "frame_rate_change.h"
 #include "job.h"
+#include "overlaps.h"
 #include "sound_mxf_content.h"
 #include "sound_mxf_examiner.h"
 #include <asdcp/KM_log.h>
@@ -33,7 +34,9 @@
 #include <dcp/sound_asset_reader.h>
 #include <dcp/sound_frame.h>
 #include <libxml++/libxml++.h>
+#include <algorithm>
 #include <climits>
+#include <cmath>
 
 #include "i18n.h"
 
@@ -70,6 +73,9 @@ SoundMXFContent::SoundMXFContent(cxml::ConstNodePtr node, boost::optional<boost:
 	for (auto c: node->string_child("ChannelsWithSound")) {
 		_channels_with_sound.push_back(c == '1');
 	}
+
+	_edit_rate = dcp::Fraction(node->number_child<int>("EditRateNumerator"), node->number_child<int>("EditRateDenominator"));
+	_standard = node->string_child("Standard") == "Interop" ? dcp::Standard::INTEROP : dcp::Standard::SMPTE;
 }
 
 
@@ -117,6 +123,8 @@ SoundMXFContent::examine(shared_ptr<const Film> film, shared_ptr<Job> job, bool 
 	{
 		boost::mutex::scoped_lock lm(_mutex);
 		_channels_with_sound = with_sound;
+		_edit_rate = examiner.edit_rate();
+		_standard = asset.standard();
 	}
 
 	auto stream = make_shared<AudioStream>(examiner.audio_frame_rate(), examiner.audio_length(), examiner.audio_channels(), 24);
@@ -164,6 +172,11 @@ SoundMXFContent::as_xml(xmlpp::Element* element, bool with_paths, PathBehaviour 
 		with_sound += c ? '1' : '0';
 	}
 	cxml::add_text_child(element, "ChannelsWithSound", with_sound);
+
+	boost::mutex::scoped_lock lm(_mutex);
+	cxml::add_text_child(element, "EditRateNumerator", fmt::to_string(_edit_rate.numerator));
+	cxml::add_text_child(element, "EditRateDenominator", fmt::to_string(_edit_rate.denominator));
+	cxml::add_text_child(element, "Standard", _standard == dcp::Standard::INTEROP ? "Interop" : "SMPTE");
 }
 
 
@@ -180,6 +193,127 @@ DCPTime
 SoundMXFContent::approximate_length() const
 {
 	return DCPTime::from_frames(audio->stream()->length(), audio->stream()->frame_rate());
+}
+
+
+bool
+SoundMXFContent::can_reference_audio(shared_ptr<const Film> film, string& why_not) const
+{
+	if (!audio || !audio->stream()) {
+		why_not = "it has no audio";
+		return false;
+	}
+
+	auto const stream = audio->stream();
+
+	dcp::Fraction edit_rate;
+	vector<bool> with_sound;
+	dcp::Standard standard;
+	{
+		boost::mutex::scoped_lock lm(_mutex);
+		edit_rate = _edit_rate;
+		with_sound = _channels_with_sound;
+		standard = _standard;
+	}
+
+	if (edit_rate.denominator != 1 || edit_rate.numerator != film->video_frame_rate()) {
+		why_not = "its edit rate is not the film's frame rate";
+		return false;
+	}
+
+	if (FrameRateChange(film, shared_from_this()).change_speed()) {
+		why_not = "the picture it plays with changes its speed";
+		return false;
+	}
+
+	/* A trim of audio can be any number of samples, but an entry point and a duration are whole frames */
+	auto const rate = static_cast<double>(edit_rate.numerator);
+	if (trim_start() != trim_start().round(rate) || trim_end() != trim_end().round(rate)) {
+		why_not = "its trims are not whole frames";
+		return false;
+	}
+
+	if (film->limit_to_smpte_bv20()) {
+		/* Bv2.0 forbids the MCA sub-descriptors that the file may have */
+		why_not = "the film is limited to SMPTE Bv2.0";
+		return false;
+	}
+
+	if ((standard == dcp::Standard::INTEROP) != film->interop()) {
+		why_not = standard == dcp::Standard::INTEROP ? "it is Interop and the film is SMPTE" : "it is SMPTE and the film is Interop";
+		return false;
+	}
+
+	if (film->encrypt_sound()) {
+		why_not = "the film encrypts its sound";
+		return false;
+	}
+
+	if (stream->frame_rate() != film->audio_frame_rate()) {
+		why_not = "its sampling rate is not the film's";
+		return false;
+	}
+
+	if (stream->channels() != film->audio_channels()) {
+		why_not = "its number of channels is not the film's";
+		return false;
+	}
+
+	if (film->audio_processor()) {
+		why_not = "the film has an audio processor";
+		return false;
+	}
+
+	if (film->contains_atmos_content()) {
+		/* The sound of a film with Atmos has the Atmos sync signal in channel 14, so it is written afresh */
+		why_not = "the film has Atmos";
+		return false;
+	}
+
+	if (audio->gain() != 0 || audio->delay() != 0 || audio->fade_in() != ContentTime() || audio->fade_out() != ContentTime()) {
+		why_not = "its gain, delay or fades are set";
+		return false;
+	}
+
+	/* The channels that have sound must go one to one to the DCP; the others must be silent either way */
+	auto const mapping = stream->mapping();
+	for (int input = 0; input < stream->channels(); ++input) {
+		auto const has_sound = static_cast<size_t>(input) >= with_sound.size() || with_sound[input];
+		bool one_to_one = true;
+		bool none = true;
+		for (int output = 0; output < mapping.output_channels(); ++output) {
+			auto const gain = mapping.get(input, output);
+			if (std::abs(gain - (input == output ? 1.0F : 0.0F)) > 1e-6) {
+				one_to_one = false;
+			}
+			if (std::abs(gain) > 1e-6) {
+				none = false;
+			}
+		}
+		if (!one_to_one && (has_sound || !none)) {
+			why_not = "its mapping is not one to one";
+			return false;
+		}
+	}
+
+	auto part = [](shared_ptr<const Content> c) {
+		return static_cast<bool>(c->audio);
+	};
+
+	auto const others = dcpomatic::overlaps(film, film->content(), part, position(), end(film));
+	if (others.size() != 1 || others.front().get() != this) {
+		why_not = "other audio overlaps it";
+		return false;
+	}
+
+	/* The film's reels must start and end where this content does, so that the file is one whole reel */
+	auto const reels = film->reels();
+	if (std::find(reels.begin(), reels.end(), DCPTimePeriod(position(), end(film))) == reels.end()) {
+		why_not = "the film's reels are not the length of the content";
+		return false;
+	}
+
+	return true;
 }
 
 

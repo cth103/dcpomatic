@@ -67,6 +67,7 @@ DCPFilmEncoder::DCPFilmEncoder(shared_ptr<const Film> film, weak_ptr<Job> job)
 	_player_audio_connection = _player.Audio.connect(bind(&DCPFilmEncoder::audio, this, _1, _2));
 	_player_text_connection = _player.Text.connect(bind(&DCPFilmEncoder::text, this, _1, _2, _3, _4));
 	_player_atmos_connection = _player.Atmos.connect(bind(&DCPFilmEncoder::atmos, this, _1, _2, _3));
+	_player.set_making_dcp();
 
 	for (auto c: film->content()) {
 		for (auto i: c->text) {

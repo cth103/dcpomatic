@@ -105,6 +105,7 @@ public:
 	void set_always_burn_open_subtitles();
 	void set_fast();
 	void set_play_referenced();
+	void set_making_dcp();
 	void set_dcp_decode_reduction(boost::optional<int> reduction);
 	void set_disable_audio_processor();
 
@@ -216,6 +217,8 @@ private:
 	bool _tolerant;
 	/** true if we should `play' (i.e output) referenced DCP data (e.g. for preview) */
 	std::atomic<bool> _play_referenced;
+	/** true if our output goes to the DCP writer, so a sound MXF that goes into the DCP as it is need not be decoded */
+	std::atomic<bool> _making_dcp;
 
 	/** Time of the next video that we will emit, or the time of the last accurate seek */
 	boost::optional<dcpomatic::DCPTime> _next_video_time;

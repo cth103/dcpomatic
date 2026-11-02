@@ -26,13 +26,19 @@
 
 
 #include "lib/audio_analysis.h"
+#include "lib/audio_buffers.h"
 #include "lib/audio_content.h"
 #include "lib/content_factory.h"
+#include "lib/examine_content_job.h"
 #include "lib/film.h"
+#include "lib/frame_rate_change.h"
 #include "lib/hints.h"
 #include "lib/job_manager.h"
+#include "lib/make_dcp.h"
 #include "lib/signal_manager.h"
+#include "lib/player.h"
 #include "lib/sound_mxf_content.h"
+#include "lib/transcode_job.h"
 #include "test.h"
 #include <dcp/cpl.h>
 #include <dcp/dcp.h>
@@ -239,6 +245,344 @@ BOOST_AUTO_TEST_CASE(sound_mxf_xml_roundtrip_test)
 }
 
 
+/** Make the DCP of a film and @return the sound asset of its first (and only) reel */
+static std::shared_ptr<dcp::ReelSoundAsset>
+make_and_find_sound(std::shared_ptr<Film> film)
+{
+	make_and_verify_dcp(film, { dcp::VerificationNote::Code::MISSING_CPL_METADATA });
+
+	dcp::DCP dcp(film->dir(film->dcp_name()));
+	dcp.read();
+	BOOST_REQUIRE_EQUAL(dcp.cpls().size(), 1U);
+	auto const reels = dcp.cpls()[0]->reels();
+	BOOST_REQUIRE_EQUAL(reels.size(), 1U);
+	BOOST_REQUIRE(reels[0]->main_sound());
+	return reels[0]->main_sound();
+}
+
+
+/** @return the sound asset that a reel's sound refers to (the DCP has been read, so it is resolved) */
+static std::shared_ptr<dcp::SoundAsset>
+sound_asset_of(std::shared_ptr<dcp::ReelSoundAsset> reel_asset)
+{
+	auto asset = dynamic_pointer_cast<dcp::SoundAsset>(reel_asset->asset_ref().asset());
+	BOOST_REQUIRE(asset);
+	return asset;
+}
+
+
+/** @return the 24 bit samples (as integers) of one channel of one frame of a sound asset */
+static std::vector<int>
+samples_of(std::shared_ptr<dcp::SoundAsset> asset, int64_t frame, int channel)
+{
+	auto reader = asset->start_read();
+	reader->set_check_hmac(false);
+	auto sound_frame = reader->get_frame(frame);
+	auto from = sound_frame->data();
+	int const channels = asset->channels();
+	int const samples = sound_frame->size() / (3 * channels);
+	std::vector<int> result;
+	for (int i = 0; i < samples; ++i) {
+		auto const p = from + (i * channels + channel) * 3;
+		result.push_back((static_cast<int>((p[0] << 8) | (p[1] << 16) | (p[2] << 24))) >> 8);
+	}
+	return result;
+}
+
+
+static int
+peak_of(std::vector<int> const& samples)
+{
+	int peak = 0;
+	for (auto s: samples) {
+		peak = std::max(peak, std::abs(s));
+	}
+	return peak;
+}
+
+
+/** The file is used as it is when nothing changes it: the CPL points at its ID */
+BOOST_AUTO_TEST_CASE(sound_mxf_is_reused_test)
+{
+	auto const mxf = make_sound_mxf("sound_mxf_is_reused_test_source");
+	dcp::SoundAsset const source(mxf);
+
+	auto content = content_factory(mxf);
+	auto film = new_test_film("sound_mxf_is_reused_test", content);
+	string why_not;
+	BOOST_CHECK_MESSAGE(dynamic_pointer_cast<SoundMXFContent>(content[0])->can_reference_audio(film, why_not), why_not);
+	auto sound = make_and_find_sound(film);
+	BOOST_CHECK_EQUAL(sound->asset_ref().id(), source.id());
+}
+
+
+/** A trim at the start and the end changes the entry point and duration in the CPL, not the file */
+BOOST_AUTO_TEST_CASE(sound_mxf_trim_test)
+{
+	auto const mxf = make_sound_mxf("sound_mxf_trim_test_source");
+	dcp::SoundAsset const source(mxf);
+
+	auto content = content_factory(mxf);
+	auto film = new_test_film("sound_mxf_trim_test", content);
+	content[0]->set_trim_start(film, dcpomatic::ContentTime::from_seconds(1));
+	content[0]->set_trim_end(dcpomatic::ContentTime::from_seconds(2));
+	auto sound = make_and_find_sound(film);
+	BOOST_CHECK_EQUAL(sound->asset_ref().id(), source.id());
+	BOOST_CHECK_EQUAL(sound->entry_point().get_value_or(0), 24);
+	BOOST_CHECK_EQUAL(sound->actual_duration(), source.intrinsic_duration() - 3 * 24);
+}
+
+
+/** A gain means that the sound is not the file's, so it is written again with a new ID */
+BOOST_AUTO_TEST_CASE(sound_mxf_gain_is_rewritten_test)
+{
+	auto const mxf = make_sound_mxf("sound_mxf_gain_is_rewritten_test_source");
+	dcp::SoundAsset const source(mxf);
+
+	auto content = content_factory(mxf);
+	auto film = new_test_film("sound_mxf_gain_is_rewritten_test", content);
+	content[0]->audio->set_gain(3);
+	auto sound = make_and_find_sound(film);
+	BOOST_CHECK(sound->asset_ref().id() != source.id());
+}
+
+
+/** A mapping that is not one to one means that the sound is not the file's, so it is written again */
+BOOST_AUTO_TEST_CASE(sound_mxf_mapping_is_rewritten_test)
+{
+	auto const mxf = make_sound_mxf("sound_mxf_mapping_is_rewritten_test_source");
+	dcp::SoundAsset const source(mxf);
+
+	auto content = content_factory(mxf);
+	auto film = new_test_film("sound_mxf_mapping_is_rewritten_test", content);
+	auto stream = content[0]->audio->stream();
+	auto mapping = stream->mapping();
+	mapping.set(0, 0, 0);
+	mapping.set(0, 1, 1);
+	stream->set_mapping(mapping);
+	auto sound = make_and_find_sound(film);
+	BOOST_CHECK(sound->asset_ref().id() != source.id());
+}
+
+
+/** A channel with sound that the user does not map means that the sound is not the file's: written again */
+BOOST_AUTO_TEST_CASE(sound_mxf_unmapped_sound_is_rewritten_test)
+{
+	auto const mxf = make_sound_mxf("sound_mxf_unmapped_sound_is_rewritten_test_source");
+	dcp::SoundAsset const source(mxf);
+
+	auto content = content_factory(mxf);
+	auto film = new_test_film("sound_mxf_unmapped_sound_is_rewritten_test", content);
+	auto stream = content[0]->audio->stream();
+	auto mapping = stream->mapping();
+	mapping.set(0, 0, 0);
+	stream->set_mapping(mapping);
+	auto sound = make_and_find_sound(film);
+	BOOST_CHECK(sound->asset_ref().id() != source.id());
+}
+
+
+/** A film with more channels than the file: written again */
+BOOST_AUTO_TEST_CASE(sound_mxf_channels_differ_test)
+{
+	auto const mxf = make_sound_mxf("sound_mxf_channels_differ_test_source");
+	dcp::SoundAsset const source(mxf);
+
+	auto film = new_test_film("sound_mxf_channels_differ_test");
+	film->set_audio_channels(8);
+	film->examine_and_add_content(content_factory(mxf));
+	BOOST_REQUIRE(!wait_for_jobs());
+	auto sound = make_and_find_sound(film);
+	BOOST_CHECK(sound->asset_ref().id() != source.id());
+	BOOST_CHECK_EQUAL(sound->intrinsic_duration(), source.intrinsic_duration());
+	BOOST_CHECK_EQUAL(sound_asset_of(sound)->channels(), 8);
+}
+
+
+/** A file at 96kHz in a 48kHz film is resampled, so written again, with the file's duration */
+BOOST_AUTO_TEST_CASE(sound_mxf_sample_rate_differs_test)
+{
+	auto const mxf = write_sound_mxf("sound_mxf_sample_rate_differs_test_source", 6, true, {}, 96000);
+	dcp::SoundAsset const source(mxf);
+
+	auto film = new_test_film("sound_mxf_sample_rate_differs_test", content_factory(mxf));
+	auto sound = make_and_find_sound(film);
+	BOOST_CHECK(sound->asset_ref().id() != source.id());
+	BOOST_CHECK_EQUAL(sound->actual_duration(), source.intrinsic_duration());
+	BOOST_CHECK_EQUAL(sound->intrinsic_duration(), source.intrinsic_duration());
+	BOOST_CHECK_EQUAL(sound_asset_of(sound)->sampling_rate(), 48000);
+}
+
+
+/** Atmos in the film means the sound has the Atmos sync signal, so the file cannot be used: written again */
+BOOST_AUTO_TEST_CASE(sound_mxf_atmos_is_rewritten_test)
+{
+	auto const mxf = write_sound_mxf("sound_mxf_atmos_is_rewritten_test_source", 16, true, {});
+	dcp::SoundAsset const source(mxf);
+
+	auto film = new_test_film("sound_mxf_atmos_is_rewritten_test");
+	film->set_audio_channels(16);
+	auto content = content_factory(mxf);
+	content.push_back(content_factory("test/data/atmos_0.mxf")[0]);
+	film->examine_and_add_content(content);
+	BOOST_REQUIRE(!wait_for_jobs());
+	auto sound = make_and_find_sound(film);
+	BOOST_CHECK(sound->asset_ref().id() != source.id());
+}
+
+
+/** Other sound over the same time means the file is not the film's sound: written again */
+BOOST_AUTO_TEST_CASE(sound_mxf_overlap_is_rewritten_test)
+{
+	auto const mxf = make_sound_mxf("sound_mxf_overlap_is_rewritten_test_source");
+	dcp::SoundAsset const source(mxf);
+
+	auto content = content_factory(mxf);
+	content.push_back(content_factory("test/data/sine_16_48_220_10.wav")[0]);
+	auto film = new_test_film("sound_mxf_overlap_is_rewritten_test", content);
+	auto sound = make_and_find_sound(film);
+	BOOST_CHECK(sound->asset_ref().id() != source.id());
+}
+
+
+/** Two sound MXFs one after the other in a one-reel film: neither is the whole reel, so the sound is written again */
+BOOST_AUTO_TEST_CASE(sound_mxf_two_in_a_row_test)
+{
+	auto const first = make_sound_mxf("sound_mxf_two_in_a_row_test_source_1");
+	auto const second = make_sound_mxf("sound_mxf_two_in_a_row_test_source_2");
+	dcp::SoundAsset const source_1(first);
+	dcp::SoundAsset const source_2(second);
+
+	auto content = content_factory(first);
+	auto film = new_test_film("sound_mxf_two_in_a_row_test", content);
+	auto content_2 = content_factory(second);
+	film->examine_and_add_content(content_2);
+	BOOST_REQUIRE(!wait_for_jobs());
+	content_2[0]->set_position(film, content[0]->end(film));
+	auto sound = make_and_find_sound(film);
+	BOOST_CHECK(sound->asset_ref().id() != source_1.id());
+	BOOST_CHECK(sound->asset_ref().id() != source_2.id());
+	BOOST_CHECK_EQUAL(sound->actual_duration(), source_1.intrinsic_duration() + source_2.intrinsic_duration());
+}
+
+
+/** Making the DCP twice: the file that is in the DCP folder from the first time is replaced, with no error */
+BOOST_AUTO_TEST_CASE(sound_mxf_remake_test)
+{
+	auto const mxf = make_sound_mxf("sound_mxf_remake_test_source");
+	dcp::SoundAsset const source(mxf);
+
+	auto film = new_test_film("sound_mxf_remake_test", content_factory(mxf));
+	BOOST_CHECK_EQUAL(make_and_find_sound(film)->asset_ref().id(), source.id());
+	BOOST_CHECK_EQUAL(make_and_find_sound(film)->asset_ref().id(), source.id());
+}
+
+
+/** A film that is saved and read again still uses the file as it is */
+BOOST_AUTO_TEST_CASE(sound_mxf_reopened_film_is_reused_test)
+{
+	auto const mxf = make_sound_mxf("sound_mxf_reopened_film_is_reused_test_source");
+	dcp::SoundAsset const source(mxf);
+
+	auto film = new_test_film("sound_mxf_reopened_film_is_reused_test", content_factory(mxf));
+	film->write_metadata();
+
+	auto film2 = std::make_shared<Film>(film->directory().get());
+	film2->read_metadata();
+	BOOST_CHECK_EQUAL(make_and_find_sound(film2)->asset_ref().id(), source.id());
+}
+
+
+/** A delay or a gain is applied within the length of the file: the sound written again has the file's length */
+BOOST_AUTO_TEST_CASE(sound_mxf_delay_keeps_length_test)
+{
+	auto const mxf = make_sound_mxf("sound_mxf_delay_keeps_length_test_source");
+	dcp::SoundAsset const source(mxf);
+
+	auto content = content_factory(mxf);
+	auto film = new_test_film("sound_mxf_delay_keeps_length_test", content);
+	content[0]->audio->set_delay(500);
+	auto sound = make_and_find_sound(film);
+	BOOST_CHECK(sound->asset_ref().id() != source.id());
+	BOOST_CHECK_EQUAL(sound->actual_duration(), source.intrinsic_duration());
+}
+
+
+/** A gain of -6dB halves the samples of the whole file */
+BOOST_AUTO_TEST_CASE(sound_mxf_gain_value_test)
+{
+	auto const mxf = write_sound_mxf("sound_mxf_gain_value_test_source", 6, true, {});
+	dcp::SoundAsset const source(mxf);
+
+	auto content = content_factory(mxf);
+	auto film = new_test_film("sound_mxf_gain_value_test", content);
+	content[0]->audio->set_gain(-6);
+	auto sound = make_and_find_sound(film);
+
+	auto const expected = static_cast<double>(peak_of(samples_of(std::make_shared<dcp::SoundAsset>(mxf), 10, 2))) * pow(10, -6.0 / 20);
+	auto const got = peak_of(samples_of(sound_asset_of(sound), 10, 2));
+	BOOST_CHECK_MESSAGE(std::abs(got - expected) < 64, "expected " << expected << " got " << got);
+	BOOST_CHECK_EQUAL(sound->intrinsic_duration(), source.intrinsic_duration());
+}
+
+
+/** A delay moves the sound later inside the same length: the start is silent */
+BOOST_AUTO_TEST_CASE(sound_mxf_delay_moves_sound_test)
+{
+	auto const mxf = write_sound_mxf("sound_mxf_delay_moves_sound_test_source", 6, true, {});
+	dcp::SoundAsset const source(mxf);
+
+	auto content = content_factory(mxf);
+	auto film = new_test_film("sound_mxf_delay_moves_sound_test", content);
+	content[0]->audio->set_delay(500);
+	auto sound = make_and_find_sound(film);
+	auto asset = sound_asset_of(sound);
+
+	BOOST_CHECK_EQUAL(sound->intrinsic_duration(), source.intrinsic_duration());
+	for (int frame = 0; frame < 12; ++frame) {
+		BOOST_CHECK_MESSAGE(peak_of(samples_of(asset, frame, 0)) < 64, "frame " << frame);
+	}
+	BOOST_CHECK(peak_of(samples_of(asset, 14, 0)) > 1000000);
+}
+
+
+/** A speed change (the picture playing with the file is at another rate than the film) means the sound is
+ *  not the file's: written again.
+ */
+BOOST_AUTO_TEST_CASE(sound_mxf_speed_change_is_rewritten_test)
+{
+	auto const mxf = write_sound_mxf("sound_mxf_speed_change_is_rewritten_test_source", 6, true, {}, 48000, 25);
+	dcp::SoundAsset const source(mxf);
+
+	auto content = content_factory(mxf);
+	content.push_back(content_factory("test/data/red_30.mp4")[0]);
+	auto film = new_test_film("sound_mxf_speed_change_is_rewritten_test", content);
+	film->set_video_frame_rate(25);
+	auto sound = dynamic_pointer_cast<SoundMXFContent>(content[0]);
+	BOOST_REQUIRE(FrameRateChange(film, sound).change_speed());
+
+	string why_not;
+	BOOST_CHECK(!sound->can_reference_audio(film, why_not));
+	BOOST_CHECK_MESSAGE(why_not.find("speed") != string::npos, why_not);
+}
+
+
+/** An SMPTE file in an Interop film cannot be used as it is */
+BOOST_AUTO_TEST_CASE(sound_mxf_interop_film_is_rewritten_test)
+{
+	auto const mxf = make_sound_mxf("sound_mxf_interop_film_is_rewritten_test_source");
+	dcp::SoundAsset const source(mxf);
+
+	auto content = content_factory(mxf);
+	auto film = new_test_film("sound_mxf_interop_film_is_rewritten_test", content);
+	film->set_interop(true);
+
+	string why_not;
+	BOOST_CHECK(!dynamic_pointer_cast<SoundMXFContent>(content[0])->can_reference_audio(film, why_not));
+	BOOST_CHECK_MESSAGE(why_not.find("Interop") != string::npos, why_not);
+}
+
+
 /** An encrypted source file is refused when it is examined, with a clear error */
 BOOST_AUTO_TEST_CASE(sound_mxf_encrypted_source_is_refused_test)
 {
@@ -247,6 +591,95 @@ BOOST_AUTO_TEST_CASE(sound_mxf_encrypted_source_is_refused_test)
 	auto film = new_test_film("sound_mxf_encrypted_source_is_refused_test");
 	film->examine_and_add_content(content_factory(mxf));
 	BOOST_CHECK(wait_for_jobs());
+}
+
+
+/** Two different files with the same name, each a whole reel, both go into the DCP as they are */
+BOOST_AUTO_TEST_CASE(sound_mxf_same_name_sources_test)
+{
+	auto const first = make_sound_mxf("sound_mxf_same_name_sources_test_source_1");
+	auto const second = make_sound_mxf("sound_mxf_same_name_sources_test_source_2");
+	auto const dir_a = boost::filesystem::path("build") / "test" / "sound_mxf_same_name_sources_test_a";
+	auto const dir_b = boost::filesystem::path("build") / "test" / "sound_mxf_same_name_sources_test_b";
+	boost::filesystem::remove_all(dir_a);
+	boost::filesystem::remove_all(dir_b);
+	boost::filesystem::create_directories(dir_a);
+	boost::filesystem::create_directories(dir_b);
+	boost::filesystem::copy_file(first, dir_a / "sound.mxf");
+	boost::filesystem::copy_file(second, dir_b / "sound.mxf");
+	dcp::SoundAsset const source_a(dir_a / "sound.mxf");
+	dcp::SoundAsset const source_b(dir_b / "sound.mxf");
+	BOOST_REQUIRE(source_a.id() != source_b.id());
+
+	auto content_a = content_factory(dir_a / "sound.mxf");
+	auto film = new_test_film("sound_mxf_same_name_sources_test", content_a);
+	auto content_b = content_factory(dir_b / "sound.mxf");
+	film->examine_and_add_content(content_b);
+	BOOST_REQUIRE(!wait_for_jobs());
+	content_b[0]->set_position(film, content_a[0]->end(film));
+	film->set_reel_type(ReelType::CUSTOM);
+	film->set_custom_reel_boundaries({ content_a[0]->end(film) });
+	string why_not;
+	BOOST_CHECK_MESSAGE(dynamic_pointer_cast<SoundMXFContent>(content_a[0])->can_reference_audio(film, why_not), "a: " << why_not);
+	BOOST_CHECK_MESSAGE(dynamic_pointer_cast<SoundMXFContent>(content_b[0])->can_reference_audio(film, why_not), "b: " << why_not);
+	make_and_verify_dcp(film, { dcp::VerificationNote::Code::MISSING_CPL_METADATA });
+
+	dcp::DCP dcp(film->dir(film->dcp_name()));
+	dcp.read();
+	BOOST_REQUIRE_EQUAL(dcp.cpls().size(), 1U);
+	auto const reels = dcp.cpls()[0]->reels();
+	BOOST_REQUIRE_EQUAL(reels.size(), 2U);
+	BOOST_REQUIRE(reels[0]->main_sound());
+	BOOST_REQUIRE(reels[1]->main_sound());
+	BOOST_CHECK_EQUAL(reels[0]->main_sound()->asset_ref().id(), source_a.id());
+	BOOST_CHECK_EQUAL(reels[1]->main_sound()->asset_ref().id(), source_b.id());
+	BOOST_CHECK_EQUAL(sound_asset_of(reels[0]->main_sound())->id(), source_a.id());
+	BOOST_CHECK_EQUAL(sound_asset_of(reels[1]->main_sound())->id(), source_b.id());
+}
+
+
+/** A source that is the file already in the DCP folder (from an earlier DCP of this film) is kept, not deleted */
+BOOST_AUTO_TEST_CASE(sound_mxf_source_in_dcp_folder_test)
+{
+	auto const mxf = make_sound_mxf("sound_mxf_source_in_dcp_folder_test_source");
+	dcp::SoundAsset const source(mxf);
+
+	auto film = new_test_film("sound_mxf_source_in_dcp_folder_test", content_factory(mxf));
+	BOOST_CHECK_EQUAL(make_and_find_sound(film)->asset_ref().id(), source.id());
+
+	auto const in_dcp = find_file(film->dir(film->dcp_name()), "pcm_");
+	film->remove_content(film->content());
+	auto content = content_factory(in_dcp);
+	film->examine_and_add_content(content);
+	BOOST_REQUIRE(!wait_for_jobs());
+	string why_not;
+	BOOST_CHECK_MESSAGE(dynamic_pointer_cast<SoundMXFContent>(content[0])->can_reference_audio(film, why_not), why_not);
+	BOOST_CHECK_EQUAL(make_and_find_sound(film)->asset_ref().id(), source.id());
+	BOOST_CHECK(boost::filesystem::exists(in_dcp));
+}
+
+
+/** A Player decodes the sound of a reusable file unless it is told that it feeds the DCP writer, so that
+ *  the hints and the audio analysis see the sound.
+ */
+BOOST_AUTO_TEST_CASE(sound_mxf_player_decodes_unless_making_dcp_test)
+{
+	auto const mxf = make_sound_mxf("sound_mxf_player_decodes_unless_making_dcp_test_source");
+	auto film = new_test_film("sound_mxf_player_decodes_unless_making_dcp_test", content_factory(mxf));
+
+	auto frames_from = [film](bool making_dcp) {
+		Player player(film, Image::Alignment::COMPACT, false);
+		if (making_dcp) {
+			player.set_making_dcp();
+		}
+		Frame frames = 0;
+		player.Audio.connect([&frames](std::shared_ptr<AudioBuffers> audio, dcpomatic::DCPTime, int) { frames += audio->frames(); });
+		while (!player.pass()) {}
+		return frames;
+	};
+
+	BOOST_CHECK(frames_from(false) > 0);
+	BOOST_CHECK_EQUAL(frames_from(true), 0);
 }
 
 
@@ -262,6 +695,41 @@ film_for_public_mxf(string name, boost::filesystem::path path)
 	film->examine_and_add_content(content_factory(path));
 	BOOST_REQUIRE(!wait_for_jobs());
 	return film;
+}
+
+
+/** Real sound MXFs from the public test data, SMPTE and Interop, go into a DCP as they are */
+BOOST_AUTO_TEST_CASE(sound_mxf_public_files_are_reused_test)
+{
+	int n = 0;
+	for (string file: {
+		"test/data/scope_dcp/pcm_6278cd90-54f6-4426-b17e-8dc491cf1d14.mxf",
+		"test/data/audio_processor_test/pcm_908ca457-a5cd-472e-9d7d-1341917bd7d2.mxf",
+		"test/data/repeat_frame_test/pcm_b6c2832f-b53d-4d33-8521-30ba43f81809.mxf",
+		"test/data/Iopsubs_FTR-1_F_XX-XX_MOS_2K_20220710_IOP_OV/pcm_1_1_short.srt_7d643095-1d23-4ea9-b3f2-25f2c233629f.mxf"
+	}) {
+		dcp::SoundAsset const source(file);
+		auto film = film_for_public_mxf(fmt::format("sound_mxf_public_files_are_reused_test{}", n++), file);
+		BOOST_REQUIRE_EQUAL(film->content().size(), 1U);
+		auto sound_mxf = dynamic_pointer_cast<SoundMXFContent>(film->content()[0]);
+		BOOST_REQUIRE_MESSAGE(sound_mxf, file);
+
+		string why_not;
+		BOOST_CHECK_MESSAGE(sound_mxf->can_reference_audio(film, why_not), file << ": " << why_not);
+
+		film->write_metadata();
+		make_dcp(film, TranscodeJob::ChangedBehaviour::IGNORE);
+		BOOST_REQUIRE(!wait_for_jobs());
+
+		dcp::DCP dcp(film->dir(film->dcp_name()));
+		dcp.read();
+		BOOST_REQUIRE_EQUAL(dcp.cpls().size(), 1U);
+		auto const reels = dcp.cpls()[0]->reels();
+		BOOST_REQUIRE(!reels.empty());
+		BOOST_REQUIRE(reels[0]->main_sound());
+		BOOST_CHECK_EQUAL(reels[0]->main_sound()->asset_ref().id(), source.id());
+		BOOST_CHECK_EQUAL(sound_asset_of(reels[0]->main_sound())->hash(), dcp::SoundAsset(file).hash());
+	}
 }
 
 
@@ -310,3 +778,91 @@ BOOST_AUTO_TEST_CASE(sound_mxf_properties_test)
 }
 
 
+/** The content menu's Re-examine leaves a sound MXF as it was, and still usable as it is */
+BOOST_AUTO_TEST_CASE(sound_mxf_re_examine_test)
+{
+	auto film = film_for_public_mxf(
+		"sound_mxf_re_examine_test", "test/data/audio_processor_test/pcm_908ca457-a5cd-472e-9d7d-1341917bd7d2.mxf"
+		);
+	auto sound_mxf = dynamic_pointer_cast<SoundMXFContent>(film->content()[0]);
+	BOOST_REQUIRE(sound_mxf);
+	auto const with_sound = sound_mxf->channels_with_sound();
+
+	JobManager::instance()->add(std::make_shared<ExamineContentJob>(film, std::vector<std::shared_ptr<Content>>{sound_mxf}, false));
+	BOOST_REQUIRE(!wait_for_jobs());
+
+	BOOST_CHECK(sound_mxf->channels_with_sound() == with_sound);
+	string why_not;
+	BOOST_CHECK_MESSAGE(sound_mxf->can_reference_audio(film, why_not), why_not);
+}
+
+
+/** The Calculate... button sets a gain, and the gain is what the sound gets */
+BOOST_AUTO_TEST_CASE(sound_mxf_gain_control_test)
+{
+	auto film = film_for_public_mxf(
+		"sound_mxf_gain_control_test", "test/data/audio_processor_test/pcm_908ca457-a5cd-472e-9d7d-1341917bd7d2.mxf"
+		);
+	auto sound_mxf = dynamic_pointer_cast<SoundMXFContent>(film->content()[0]);
+	BOOST_REQUIRE(sound_mxf);
+
+	string why_not;
+	BOOST_CHECK(sound_mxf->can_reference_audio(film, why_not));
+	sound_mxf->audio->set_gain(1);
+	BOOST_CHECK(!sound_mxf->can_reference_audio(film, why_not));
+	sound_mxf->audio->set_gain(0);
+	BOOST_CHECK(sound_mxf->can_reference_audio(film, why_not));
+}
+
+
+/** A trim that is not a whole number of frames cannot be an entry point: the sound is written again */
+BOOST_AUTO_TEST_CASE(sound_mxf_part_frame_trim_test)
+{
+	auto film = film_for_public_mxf(
+		"sound_mxf_part_frame_trim_test", "test/data/audio_processor_test/pcm_908ca457-a5cd-472e-9d7d-1341917bd7d2.mxf"
+		);
+	auto sound_mxf = dynamic_pointer_cast<SoundMXFContent>(film->content()[0]);
+	BOOST_REQUIRE(sound_mxf);
+	sound_mxf->set_trim_start(film, dcpomatic::ContentTime::from_seconds(0.01));
+
+	string why_not;
+	BOOST_CHECK(!sound_mxf->can_reference_audio(film, why_not));
+	BOOST_CHECK_MESSAGE(why_not.find("whole frames") != string::npos, why_not);
+}
+
+
+/** In a film that encrypts its sound the file cannot be used: the sound is written encrypted */
+BOOST_AUTO_TEST_CASE(sound_mxf_encrypted_film_is_rewritten_test)
+{
+	auto const mxf = make_sound_mxf("sound_mxf_encrypted_film_is_rewritten_test_source");
+	dcp::SoundAsset const source(mxf);
+
+	auto film = new_test_film("sound_mxf_encrypted_film_is_rewritten_test", content_factory(mxf));
+	film->set_encrypt_sound(true);
+	/* Not verified: an encrypted DCP cannot be verified without its KDM */
+	film->write_metadata();
+	make_dcp(film, TranscodeJob::ChangedBehaviour::IGNORE);
+	BOOST_REQUIRE(!wait_for_jobs());
+
+	dcp::DCP dcp(film->dir(film->dcp_name()));
+	dcp.read();
+	BOOST_REQUIRE_EQUAL(dcp.cpls().size(), 1U);
+	auto const reels = dcp.cpls()[0]->reels();
+	BOOST_REQUIRE_EQUAL(reels.size(), 1U);
+	BOOST_REQUIRE(reels[0]->main_sound());
+	BOOST_CHECK(reels[0]->main_sound()->asset_ref().id() != source.id());
+	BOOST_CHECK(reels[0]->main_sound()->key_id());
+}
+
+
+BOOST_AUTO_TEST_CASE(sound_mxf_gain_keeps_length_test)
+{
+	auto const mxf = make_sound_mxf("sound_mxf_gain_keeps_length_test_source");
+	dcp::SoundAsset const source(mxf);
+
+	auto content = content_factory(mxf);
+	auto film = new_test_film("sound_mxf_gain_keeps_length_test", content);
+	content[0]->audio->set_gain(-6);
+	auto sound = make_and_find_sound(film);
+	BOOST_CHECK_EQUAL(sound->actual_duration(), source.intrinsic_duration());
+}

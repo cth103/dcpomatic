@@ -164,3 +164,8 @@ SoundMXFExaminer::audio_frame_rate() const
 }
 
 
+dcp::Fraction
+SoundMXFExaminer::edit_rate() const
+{
+	return _asset->edit_rate();
+}

@@ -46,6 +46,7 @@
 #include "raw_image_proxy.h"
 #include "render_text.h"
 #include "shuffler.h"
+#include "sound_mxf_content.h"
 #include "text_content.h"
 #include "text_decoder.h"
 #include "video_decoder.h"
@@ -91,6 +92,7 @@ Player::Player(shared_ptr<const Film> film, Image::Alignment subtitle_alignment,
 	, _fast(false)
 	, _tolerant(tolerant)
 	, _play_referenced(false)
+	, _making_dcp(false)
 	, _audio_merger(film->audio_frame_rate())
 	, _playback_length(dcpomatic::DCPTime{})
 	, _subtitle_alignment(subtitle_alignment)
@@ -111,6 +113,7 @@ Player::Player(shared_ptr<const Film> film, shared_ptr<const Playlist> playlist_
 	, _fast(false)
 	, _tolerant(tolerant)
 	, _play_referenced(false)
+	, _making_dcp(false)
 	, _audio_merger(film->audio_frame_rate())
 	, _playback_length(dcpomatic::DCPTime{})
 {
@@ -163,6 +166,7 @@ Player::Player(Player&& other)
 	, _fast(other._fast.load())
 	, _tolerant(other._tolerant)
 	, _play_referenced(other._play_referenced.load())
+	, _making_dcp(other._making_dcp.load())
 	, _next_video_time(other._next_video_time)
 	, _next_audio_time(other._next_audio_time)
 	, _dcp_decode_reduction(other._dcp_decode_reduction)
@@ -203,6 +207,7 @@ Player::operator=(Player&& other)
 	_fast = other._fast.load();
 	_tolerant = other._tolerant;
 	_play_referenced = other._play_referenced.load();
+	_making_dcp = other._making_dcp.load();
 	_next_video_time = other._next_video_time;
 	_next_audio_time = other._next_audio_time;
 	_dcp_decode_reduction = other._dcp_decode_reduction;
@@ -311,6 +316,14 @@ Player::setup_pieces()
 			dcp->set_decode_referenced(_play_referenced);
 			if (_play_referenced) {
 				dcp->set_forced_reduction(_dcp_decode_reduction);
+			}
+		}
+
+		if (auto sound_mxf = dynamic_pointer_cast<const SoundMXFContent>(content)) {
+			std::string why_not;
+			if (decoder->audio && _making_dcp && sound_mxf->can_reference_audio(film, why_not)) {
+				/* The file goes into the DCP as it is, so we do not decode it */
+				decoder->audio->set_ignore(true);
 			}
 		}
 
@@ -675,6 +688,16 @@ Player::set_play_referenced()
 }
 
 
+void
+Player::set_making_dcp()
+{
+	_making_dcp = true;
+	/* As in the constructor: the pieces are made again, then we start from the beginning */
+	setup_pieces();
+	seek(DCPTime(), true);
+}
+
+
 pair<shared_ptr<Piece>, optional<DCPTime>>
 Player::earliest_piece_and_time() const
 {
@@ -771,6 +794,12 @@ Player::pass()
 				   we need to behave as though it was).
 				*/
 				_next_audio_time = dcp->end(film);
+			}
+		}
+		if (auto sound_mxf = dynamic_pointer_cast<SoundMXFContent>(earliest_content->content)) {
+			if (_making_dcp && earliest_content->decoder->audio && earliest_content->decoder->audio->ignore() && !_ignore_audio) {
+				/* As for a referenced DCP: hide the fact that no audio was emitted during this content */
+				_next_audio_time = sound_mxf->end(film);
 			}
 		}
 		break;
