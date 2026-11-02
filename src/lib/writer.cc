@@ -33,6 +33,7 @@
 #include "reel_writer.h"
 #include "overlaps.h"
 #include "sound_mxf_content.h"
+#include "wav_ends.h"
 #include "text_content.h"
 #include "util.h"
 #include "version.h"
@@ -89,10 +90,10 @@ Writer::Writer(weak_ptr<const Film> weak_film, weak_ptr<Job> weak_job, boost::fi
 		LOG_GENERAL("  {} --> {}", to_string(p.from), to_string(p.to));
 	}
 
-	/* A sound MXF that starts or ends a reel, with no other sound over it, keeps the part of its file that the trim cuts
-	 * off, so that the sync pips at its head and tail stay in the DCP's sound asset; the CPL plays only the part inside
-	 * the trim.  With Atmos the sync signal must start with the reel, and an audio processor would not process a head
-	 * or tail, so then nothing is kept.
+	/* A sound MXF or WAV that starts or ends a reel, with no other sound over it, keeps the part of its file that the
+	 * trim cuts off, so that the sync pips at its head and tail stay in the DCP's sound asset; the CPL plays only the
+	 * part inside the trim.  With Atmos the sync signal must start with the reel, and an audio processor would not
+	 * process a head or tail, so then nothing is kept.
 	 */
 	auto const has_audio = [](shared_ptr<const Content> c) { return static_cast<bool>(c->audio); };
 	auto const keep_ends = !text_only && !film()->contains_atmos_content() && !film()->audio_processor();
@@ -101,11 +102,24 @@ Writer::Writer(weak_ptr<const Film> weak_film, weak_ptr<Job> weak_job, boost::fi
 			break;
 		}
 		for (auto content: film()->content()) {
-			auto sound_mxf = dynamic_pointer_cast<SoundMXFContent>(content);
-			if (!sound_mxf || !sound_mxf->frames_align_with(film())) {
+			if (!content->audio || dcpomatic::overlaps(film(), film()->content(), has_audio, content->position(), content->end(film())).size() != 1) {
 				continue;
 			}
-			if (dcpomatic::overlaps(film(), film()->content(), has_audio, content->position(), content->end(film())).size() != 1) {
+			if (wav_keeps_whole_length(film(), content)) {
+				if (content->position() == reel.period().from) {
+					if (auto head = wav_head_audio(film(), content)) {
+						reel.set_sound_head(head, wav_head_frames(film(), content));
+					}
+				}
+				if (content->end(film()) == reel.period().to) {
+					if (auto tail = wav_tail_audio(film(), content)) {
+						reel.set_sound_tail(tail);
+					}
+				}
+				continue;
+			}
+			auto sound_mxf = dynamic_pointer_cast<SoundMXFContent>(content);
+			if (!sound_mxf || !sound_mxf->frames_align_with(film())) {
 				continue;
 			}
 			if (sound_mxf->position() == reel.period().from) {

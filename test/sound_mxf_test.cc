@@ -460,6 +460,73 @@ BOOST_AUTO_TEST_CASE(sound_mxf_over_two_reels_test)
 }
 
 
+/** Make a DCP of a WAV with @param trim seconds cut from each end, and @return its only reel's sound */
+static std::shared_ptr<dcp::ReelSoundAsset>
+trimmed_wav_sound(string name, double trim, std::function<void (std::shared_ptr<Film>, std::shared_ptr<Content>)> change)
+{
+	auto content = content_factory("test/data/sine_16_48_220_10.wav")[0];
+	auto film = new_test_film(name, { content });
+	content->set_trim_start(film, dcpomatic::ContentTime::from_seconds(trim));
+	content->set_trim_end(dcpomatic::ContentTime::from_seconds(trim));
+	change(film, content);
+	return make_and_find_sound(film);
+}
+
+
+/** A trimmed WAV keeps its whole length in the sound asset, and the trims are in the CPL */
+BOOST_AUTO_TEST_CASE(wav_keeps_whole_length_test)
+{
+	auto const sound = trimmed_wav_sound(
+		"wav_keeps_whole_length_test", 1, [](std::shared_ptr<Film>, std::shared_ptr<Content>) {}
+		);
+	BOOST_CHECK_EQUAL(sound->entry_point().get_value_or(0), 24);
+	BOOST_CHECK_EQUAL(sound->actual_duration(), 192);
+	BOOST_CHECK_EQUAL(sound->intrinsic_duration(), 240);
+}
+
+
+/** A gain is applied to the whole of the WAV, including the parts that the trims cut off */
+BOOST_AUTO_TEST_CASE(wav_gain_reaches_the_ends_test)
+{
+	auto const plain = trimmed_wav_sound(
+		"wav_gain_reaches_the_ends_test_plain", 1, [](std::shared_ptr<Film>, std::shared_ptr<Content>) {}
+		);
+	auto const quiet = trimmed_wav_sound(
+		"wav_gain_reaches_the_ends_test_quiet", 1,
+		[](std::shared_ptr<Film>, std::shared_ptr<Content> content) { content->audio->set_gain(-6); }
+		);
+
+	auto const plain_peak = peak_of(samples_of(sound_asset_of(plain), 0, 2));
+	auto const quiet_peak = peak_of(samples_of(sound_asset_of(quiet), 0, 2));
+	BOOST_REQUIRE(plain_peak > 0);
+	BOOST_CHECK_CLOSE(static_cast<double>(quiet_peak) / plain_peak, 0.5012, 2);
+}
+
+
+/** A trim that is not a whole number of frames cannot be an entry point: the WAV is cut as it always was */
+BOOST_AUTO_TEST_CASE(wav_part_frame_trim_is_cut_test)
+{
+	auto const sound = trimmed_wav_sound(
+		"wav_part_frame_trim_is_cut_test", 1.01, [](std::shared_ptr<Film>, std::shared_ptr<Content>) {}
+		);
+	BOOST_CHECK_EQUAL(sound->entry_point().get_value_or(0), 0);
+}
+
+
+/** A WAV with other sound over it keeps nothing, as its ends would not be the film's sound */
+BOOST_AUTO_TEST_CASE(wav_with_other_sound_is_cut_test)
+{
+	auto content = content_factory("test/data/sine_16_48_220_10.wav")[0];
+	auto other = content_factory("test/data/sine_16_48_440_10.wav")[0];
+	auto film = new_test_film("wav_with_other_sound_is_cut_test", { content, other });
+	film->set_sequence(false);
+	content->set_trim_start(film, dcpomatic::ContentTime::from_seconds(1));
+	other->set_position(film, dcpomatic::DCPTime());
+	auto const sound = make_and_find_sound(film);
+	BOOST_CHECK_EQUAL(sound->entry_point().get_value_or(0), 0);
+}
+
+
 /** Other sound over the same time means the file is not the film's sound: written again */
 BOOST_AUTO_TEST_CASE(sound_mxf_overlap_is_rewritten_test)
 {
