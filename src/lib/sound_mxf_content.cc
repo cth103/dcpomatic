@@ -42,6 +42,7 @@ using std::list;
 using std::make_shared;
 using std::shared_ptr;
 using std::string;
+using std::vector;
 using boost::optional;
 using namespace dcpomatic;
 
@@ -65,6 +66,10 @@ SoundMXFContent::SoundMXFContent(cxml::ConstNodePtr node, boost::optional<boost:
 			24
 			)
 		);
+
+	for (auto c: node->string_child("ChannelsWithSound")) {
+		_channels_with_sound.push_back(c == '1');
+	}
 }
 
 
@@ -101,17 +106,31 @@ SoundMXFContent::examine(shared_ptr<const Film> film, shared_ptr<Job> job, bool 
 		throw DecodeError(_("This sound MXF is encrypted; an encrypted sound MXF cannot be added on its own."));
 	}
 
-	SoundMXFExaminer examiner(shared_from_this());
+	SoundMXFExaminer examiner(shared_from_this(), job);
 
 	{
 		boost::mutex::scoped_lock lm(_mutex);
 		audio = make_shared<AudioContent>(this);
 	}
 
+	auto const with_sound = examiner.channels_with_sound();
+	{
+		boost::mutex::scoped_lock lm(_mutex);
+		_channels_with_sound = with_sound;
+	}
+
 	auto stream = make_shared<AudioStream>(examiner.audio_frame_rate(), examiner.audio_length(), examiner.audio_channels(), 24);
 	audio->set_stream(stream);
 	auto mapping = stream->mapping();
 	mapping.make_default(film ? film->audio_processor() : nullptr);
+	/* Channels with no sound are left unmapped */
+	for (size_t input = 0; input < with_sound.size(); ++input) {
+		if (!with_sound[input]) {
+			for (int output = 0; output < mapping.output_channels(); ++output) {
+				mapping.set(input, output, 0);
+			}
+		}
+	}
 	stream->set_mapping(mapping);
 }
 
@@ -139,6 +158,12 @@ SoundMXFContent::as_xml(xmlpp::Element* element, bool with_paths, PathBehaviour 
 	cxml::add_text_child(element, "AudioFrameRate", fmt::to_string(audio->stream()->frame_rate()));
 	cxml::add_text_child(element, "AudioLength", fmt::to_string(audio->stream()->length()));
 	audio->stream()->mapping().as_xml(cxml::add_child(element, "AudioMapping"));
+
+	string with_sound;
+	for (auto c: channels_with_sound()) {
+		with_sound += c ? '1' : '0';
+	}
+	cxml::add_text_child(element, "ChannelsWithSound", with_sound);
 }
 
 

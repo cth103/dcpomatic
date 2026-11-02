@@ -155,7 +155,73 @@ add_sound_mxf(std::shared_ptr<Film> film, boost::filesystem::path path)
 }
 
 
-/** A sound MXF comes back when the film is saved and read again */
+/** @return true if input channel @param input is mapped to some output channel */
+static bool
+is_mapped(std::shared_ptr<SoundMXFContent> content, int input)
+{
+	auto const mapping = content->audio->stream()->mapping();
+	for (int output = 0; output < mapping.output_channels(); ++output) {
+		if (mapping.get(input, output) > 0) {
+			return true;
+		}
+	}
+	return false;
+}
+
+
+/** A labelled file: the channels that carry a label have sound; those without a label and with silence do not */
+BOOST_AUTO_TEST_CASE(sound_mxf_labelled_channels_test)
+{
+	auto film = new_test_film("sound_mxf_labelled_channels_test");
+	auto sound = add_sound_mxf(film, write_sound_mxf("sound_mxf_labelled_channels_test_source", 8, true, { 6, 7 }));
+
+	BOOST_CHECK((sound->channels_with_sound() == std::vector<bool>{ true, true, true, true, true, true, false, false }));
+	for (int i = 0; i < 6; ++i) {
+		BOOST_CHECK_MESSAGE(is_mapped(sound, i), "channel " << i);
+	}
+	BOOST_CHECK(!is_mapped(sound, 6));
+	BOOST_CHECK(!is_mapped(sound, 7));
+	BOOST_CHECK_EQUAL(sound->audio->stream()->mapping().get(2, 2), 1.0F);
+}
+
+
+/** A file without labels: the channels with silence are not mapped */
+BOOST_AUTO_TEST_CASE(sound_mxf_unlabelled_silence_test)
+{
+	auto film = new_test_film("sound_mxf_unlabelled_silence_test");
+	auto sound = add_sound_mxf(film, write_sound_mxf("sound_mxf_unlabelled_silence_test_source", 8, false, { 3 }));
+
+	BOOST_CHECK((sound->channels_with_sound() == std::vector<bool>{ true, true, true, false, true, true, true, true }));
+	BOOST_CHECK(!is_mapped(sound, 3));
+	BOOST_CHECK(is_mapped(sound, 4));
+}
+
+
+/** A channel with no label but with sound counts as having sound, so it is mapped */
+BOOST_AUTO_TEST_CASE(sound_mxf_unlabelled_sound_test)
+{
+	auto film = new_test_film("sound_mxf_unlabelled_sound_test");
+	auto sound = add_sound_mxf(film, write_sound_mxf("sound_mxf_unlabelled_sound_test_source", 8, true, { 6 }));
+
+	BOOST_CHECK((sound->channels_with_sound() == std::vector<bool>{ true, true, true, true, true, true, false, true }));
+	BOOST_CHECK(is_mapped(sound, 7));
+	BOOST_CHECK(!is_mapped(sound, 6));
+}
+
+
+/** A file where every channel is silent is mapped one to one, so a wrong guess does not lose a channel */
+BOOST_AUTO_TEST_CASE(sound_mxf_all_silent_test)
+{
+	auto film = new_test_film("sound_mxf_all_silent_test");
+	auto sound = add_sound_mxf(film, write_sound_mxf("sound_mxf_all_silent_test_source", 6, false, { 0, 1, 2, 3, 4, 5 }));
+
+	for (int i = 0; i < 6; ++i) {
+		BOOST_CHECK_MESSAGE(is_mapped(sound, i), "channel " << i);
+	}
+}
+
+
+/** The channel information comes back when the film is saved and read again */
 BOOST_AUTO_TEST_CASE(sound_mxf_xml_roundtrip_test)
 {
 	auto film = new_test_film("sound_mxf_xml_roundtrip_test");
@@ -167,8 +233,9 @@ BOOST_AUTO_TEST_CASE(sound_mxf_xml_roundtrip_test)
 	BOOST_REQUIRE_EQUAL(film2->content().size(), 1U);
 	auto sound2 = dynamic_pointer_cast<SoundMXFContent>(film2->content()[0]);
 	BOOST_REQUIRE(sound2);
-	BOOST_CHECK_EQUAL(sound2->audio->stream()->channels(), sound->audio->stream()->channels());
-	BOOST_CHECK_EQUAL(sound2->audio->stream()->length(), sound->audio->stream()->length());
+	BOOST_CHECK(sound2->channels_with_sound() == sound->channels_with_sound());
+	BOOST_CHECK(!is_mapped(sound2, 3));
+	BOOST_CHECK(is_mapped(sound2, 0));
 }
 
 

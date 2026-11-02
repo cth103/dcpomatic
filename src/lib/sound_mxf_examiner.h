@@ -21,8 +21,10 @@
 
 #include "audio_examiner.h"
 #include <memory>
+#include <vector>
 
 
+class Job;
 class SoundMXFContent;
 
 
@@ -34,7 +36,8 @@ namespace dcp {
 class SoundMXFExaminer : public AudioExaminer
 {
 public:
-	explicit SoundMXFExaminer(std::shared_ptr<const SoundMXFContent>);
+	/** @param job Job to report progress to, or 0 */
+	SoundMXFExaminer(std::shared_ptr<const SoundMXFContent>, std::shared_ptr<Job> job);
 
 	bool has_audio() const override {
 		return true;
@@ -44,6 +47,15 @@ public:
 	Frame audio_length() const override;
 	int audio_frame_rate() const override;
 
+	/** @return one entry for each channel of the file: true if the channel has sound.  A channel has sound if
+	 *  the file labels it (MCA audio channel label) or if any of its samples is not silent.  If no channel has
+	 *  sound at all (or the file is empty) every entry is true, so that nothing is left out by guesswork.
+	 */
+	std::vector<bool> channels_with_sound() const {
+		return _channels_with_sound;
+	}
+
 private:
 	std::shared_ptr<dcp::SoundAsset> _asset;
+	std::vector<bool> _channels_with_sound;
 };
