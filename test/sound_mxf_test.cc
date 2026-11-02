@@ -740,6 +740,81 @@ BOOST_AUTO_TEST_CASE(picture_mxf_changed_with_other_video_is_cut_test)
 }
 
 
+/** Make a DCP with the picture MXF @param mxf as @param count whole reels, each changed by @param change.  @return its reels */
+static std::vector<std::shared_ptr<dcp::Reel>>
+repeated_picture_reels(string name, boost::filesystem::path mxf, int count, std::function<void (std::shared_ptr<Film>, std::shared_ptr<Content>, int)> change)
+{
+	auto film = new_test_film(name);
+	std::vector<dcpomatic::DCPTime> boundaries;
+	std::shared_ptr<Content> previous;
+	for (int i = 0; i < count; ++i) {
+		auto content = content_factory(mxf);
+		film->examine_and_add_content(content);
+		BOOST_REQUIRE(!wait_for_jobs());
+		change(film, content[0], i);
+		if (previous) {
+			content[0]->set_position(film, previous->end(film));
+			boundaries.push_back(previous->end(film));
+		}
+		previous = content[0];
+	}
+	film->set_reel_type(ReelType::CUSTOM);
+	film->set_custom_reel_boundaries(boundaries);
+	auto const reels = make_and_find_reels(film);
+	BOOST_REQUIRE_EQUAL(reels.size(), static_cast<size_t>(count));
+	return reels;
+}
+
+
+/** @return the number of picture MXFs in the DCP of the test film @param name */
+static int
+picture_files_in(string name)
+{
+	int count = 0;
+	for (auto const& entry: boost::filesystem::recursive_directory_iterator(boost::filesystem::path("build/test") / name)) {
+		auto const filename = entry.path().filename().string();
+		if (boost::starts_with(filename, "j2c_") && entry.path().extension() == ".mxf" && entry.path().parent_path().parent_path().filename() == name) {
+			++count;
+		}
+	}
+	return count;
+}
+
+
+/** The same file as three whole reels, cropped and trimmed the same: one asset of the whole length, used by every reel */
+BOOST_AUTO_TEST_CASE(picture_mxf_repeated_changed_is_one_asset_test)
+{
+	string const name = "picture_mxf_repeated_changed_is_one_asset_test";
+	auto const mxf = make_picture_mxf(name + "_source", 72);
+	auto const reels = repeated_picture_reels(name, mxf, 3, [](std::shared_ptr<Film> film, std::shared_ptr<Content> content, int) {
+		content->video->set_left_crop(8);
+		content->set_trim_start(film, dcpomatic::ContentTime::from_frames(6, 24));
+		content->set_trim_end(dcpomatic::ContentTime::from_frames(6, 24));
+	});
+	for (auto reel: reels) {
+		BOOST_CHECK_EQUAL(reel->main_picture()->asset_ref().id(), reels[0]->main_picture()->asset_ref().id());
+		BOOST_CHECK_EQUAL(reel->main_picture()->entry_point().get_value_or(0), 6);
+		BOOST_CHECK_EQUAL(reel->main_picture()->actual_duration(), 60);
+		BOOST_CHECK_EQUAL(reel->main_picture()->intrinsic_duration(), 72);
+	}
+	BOOST_CHECK_EQUAL(picture_files_in(name), 1);
+}
+
+
+/** Different changes are different assets */
+BOOST_AUTO_TEST_CASE(picture_mxf_repeated_different_changes_test)
+{
+	string const name = "picture_mxf_repeated_different_changes_test";
+	auto const mxf = make_picture_mxf(name + "_source", 48);
+	auto const reels = repeated_picture_reels(name, mxf, 3, [](std::shared_ptr<Film>, std::shared_ptr<Content> content, int index) {
+		content->video->set_left_crop(index == 2 ? 16 : 8);
+	});
+	BOOST_CHECK_EQUAL(reels[0]->main_picture()->asset_ref().id(), reels[1]->main_picture()->asset_ref().id());
+	BOOST_CHECK(reels[0]->main_picture()->asset_ref().id() != reels[2]->main_picture()->asset_ref().id());
+	BOOST_CHECK_EQUAL(picture_files_in(name), 2);
+}
+
+
 /** Other sound over the same time means the file is not the film's sound: written again */
 BOOST_AUTO_TEST_CASE(sound_mxf_overlap_is_rewritten_test)
 {

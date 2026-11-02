@@ -378,14 +378,16 @@ ReelWriter::write_picture_end(Frame from, Frame to, shared_ptr<const VideoMXFCon
 void
 ReelWriter::write_picture_head()
 {
-	if (!_j2k_picture_asset_writer) {
+	if (!_j2k_picture_asset_writer && !_shared_picture) {
 		return;
 	}
 
 	if (auto content = find_picture_with_end(film(), _period, true)) {
 		_picture_has_ends = true;
 		_picture_head_frames = content->trim_start().frames_round(film()->video_frame_rate());
-		write_picture_end(0, _picture_head_frames, content);
+		if (!_shared_picture) {
+			write_picture_end(0, _picture_head_frames, content);
+		}
 	}
 }
 
@@ -393,15 +395,27 @@ ReelWriter::write_picture_head()
 void
 ReelWriter::write_picture_tail()
 {
-	if (!_j2k_picture_asset_writer) {
+	if (!_j2k_picture_asset_writer && !_shared_picture) {
 		return;
 	}
 
 	if (auto content = find_picture_with_end(film(), _period, false)) {
 		_picture_has_ends = true;
-		auto const length = content->whole_length();
-		write_picture_end(length - content->trim_end().frames_round(film()->video_frame_rate()), length, content);
+		if (!_shared_picture) {
+			auto const length = content->whole_length();
+			write_picture_end(length - content->trim_end().frames_round(film()->video_frame_rate()), length, content);
+		}
 	}
+}
+
+
+void
+ReelWriter::set_shared_picture(shared_ptr<dcp::J2KPictureAsset> asset)
+{
+	/* Our own picture writer was started in the constructor; nothing will be written to it, so drop it */
+	_j2k_picture_asset_writer.reset();
+	_j2k_picture_asset.reset();
+	_shared_picture = asset;
 }
 
 
@@ -573,13 +587,14 @@ ReelWriter::create_reel_picture(shared_ptr<dcp::Reel> reel, list<ReferencedReelA
 {
 	shared_ptr<dcp::ReelPictureAsset> reel_asset;
 
-	if (_j2k_picture_asset) {
-		/* We have made a picture asset of our own.  Put it into the reel */
-		if (auto mono = dynamic_pointer_cast<dcp::MonoJ2KPictureAsset>(_j2k_picture_asset)) {
+	auto const own_or_shared = _j2k_picture_asset ? _j2k_picture_asset : _shared_picture;
+	if (own_or_shared) {
+		/* We have a picture asset of our own or from another reel.  Put it into the reel */
+		if (auto mono = dynamic_pointer_cast<dcp::MonoJ2KPictureAsset>(own_or_shared)) {
 			reel_asset = make_shared<dcp::ReelMonoPictureAsset>(mono, 0);
 		}
 
-		if (auto stereo = dynamic_pointer_cast<dcp::StereoJ2KPictureAsset>(_j2k_picture_asset)) {
+		if (auto stereo = dynamic_pointer_cast<dcp::StereoJ2KPictureAsset>(own_or_shared)) {
 			reel_asset = make_shared<dcp::ReelStereoPictureAsset>(stereo, 0);
 		}
 	} else if (_mpeg2_picture_asset) {

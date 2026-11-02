@@ -336,6 +336,9 @@ Player::setup_pieces()
 			if (decoder->video && _making_dcp && video_mxf->can_reference_video(film, why_not)) {
 				/* The file goes into the DCP as it is, so we do not decode it */
 				decoder->video->set_ignore(true);
+			} else if (decoder->video && _making_dcp && video_mxf->shared_picture_source(film)) {
+				/* Another reel of the DCP writes this same image, so it need not be decoded again */
+				decoder->video->set_ignore(true);
 			}
 		}
 

@@ -33,6 +33,7 @@
 #include "reel_writer.h"
 #include "overlaps.h"
 #include "sound_mxf_content.h"
+#include "video_mxf_content.h"
 #include "wav_ends.h"
 #include "text_content.h"
 #include "util.h"
@@ -152,6 +153,26 @@ Writer::Writer(weak_ptr<const Film> weak_film, weak_ptr<Job> weak_job, boost::fi
 				for (auto& other: _reels) {
 					if (other.period() == DCPTimePeriod(source->position(), source->end(film())) && other.sound_asset()) {
 						reel.set_shared_sound(other.sound_asset());
+					}
+				}
+			}
+		}
+
+		/* The same for a picture MXF: the first reel writes it and the others refer to it */
+		for (auto& reel: _reels) {
+			for (auto content: film()->content()) {
+				auto video_mxf = dynamic_pointer_cast<VideoMXFContent>(content);
+				if (!video_mxf || video_mxf->position() != reel.period().from || video_mxf->end(film()) != reel.period().to) {
+					continue;
+				}
+				auto const source = video_mxf->shared_picture_source(film());
+				if (!source) {
+					continue;
+				}
+				for (auto& other: _reels) {
+					if (other.period() == DCPTimePeriod(source->position(), source->end(film()))) {
+						DCPOMATIC_ASSERT(other.picture_asset());
+						reel.set_shared_picture(other.picture_asset());
 					}
 				}
 			}

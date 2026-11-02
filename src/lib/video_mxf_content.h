@@ -66,6 +66,11 @@ public:
 	 */
 	bool keeps_whole_length(std::shared_ptr<const Film> film) const;
 
+	/** @return an earlier whole-reel content of the film whose written image is the same as ours, so that this reel can
+	 *  refer to that asset instead of writing it again.  Null if there is none, or if our own image is not written alone.
+	 */
+	std::shared_ptr<const VideoMXFContent> shared_picture_source(std::shared_ptr<const Film> film) const;
+
 	/** @return the length of the file in frames, ignoring any trims */
 	Frame whole_length() const;
 
@@ -77,6 +82,11 @@ public:
 	static bool valid_mxf(boost::filesystem::path path);
 
 private:
+	/** @return true if the film writes this content's image again, as the only video in its time */
+	bool written_alone(std::shared_ptr<const Film> film) const;
+	/** @return a digest of everything that decides the image written for this content.  Equal digests mean equal assets */
+	std::string picture_digest(std::shared_ptr<const Film> film) const;
+
 	/** Standard of the file, if it is 2D; a 3D file is not used as it is */
 	boost::optional<dcp::Standard> _mono_standard;
 };

@@ -190,6 +190,13 @@ VideoMXFContent::keeps_whole_length(shared_ptr<const Film> film) const
 		return false;
 	}
 
+	return written_alone(film);
+}
+
+
+bool
+VideoMXFContent::written_alone(shared_ptr<const Film> film) const
+{
 	string why_not;
 	if (!video || !video->use() || can_reference_video(film, why_not)) {
 		return false;
@@ -213,6 +220,55 @@ VideoMXFContent::keeps_whole_length(shared_ptr<const Film> film) const
 		&& !frc.change_speed() && !frc.skip() && frc.repeat() == 1
 		&& trim_start() == trim_start().round(rate) && trim_end() == trim_end().round(rate)
 		&& others.size() == 1 && others.front().get() == this;
+}
+
+
+string
+VideoMXFContent::picture_digest(shared_ptr<const Film> film) const
+{
+	return fmt::format(
+		"{}|{}|{}|{}|{}|{}",
+		digest(),
+		trim_start().get(),
+		trim_end().get(),
+		video->identifier(),
+		film->video_frame_rate(),
+		film->video_bit_rate(VideoEncoding::JPEG2000)
+		);
+}
+
+
+shared_ptr<const VideoMXFContent>
+VideoMXFContent::shared_picture_source(shared_ptr<const Film> film) const
+{
+	auto const shareable = [film](VideoMXFContent const& content) {
+		auto burnt = [](shared_ptr<const Content> c) {
+			return std::any_of(c->text.begin(), c->text.end(), [](shared_ptr<TextContent> t) { return t->use() && t->burn(); });
+		};
+		auto const period = DCPTimePeriod(content.position(), content.end(film));
+		auto const reels = film->reels();
+		return content.written_alone(film)
+			&& std::find(reels.begin(), reels.end(), period) != reels.end()
+			&& dcpomatic::overlaps(film, film->content(), burnt, period.from, period.to).empty();
+	};
+
+	if (!shareable(*this)) {
+		return {};
+	}
+
+	auto const digest = picture_digest(film);
+	shared_ptr<const VideoMXFContent> found;
+	for (auto content: film->content()) {
+		auto other = std::dynamic_pointer_cast<const VideoMXFContent>(content);
+		if (!other || other.get() == this || other->position() >= position() || !shareable(*other)) {
+			continue;
+		}
+		if (other->picture_digest(film) == digest && (!found || other->position() < found->position())) {
+			found = other;
+		}
+	}
+
+	return found;
 }
 
 

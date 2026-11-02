@@ -90,6 +90,12 @@ public:
 	}
 	/** Use the sound asset that another reel of the same DCP has written, instead of writing our own sound */
 	void set_shared_sound(std::shared_ptr<dcp::SoundAsset> asset);
+	/** The J2K picture asset of this reel, or null if it has none */
+	std::shared_ptr<dcp::J2KPictureAsset> picture_asset() const {
+		return _j2k_picture_asset;
+	}
+	/** Use the picture asset that another reel of the same DCP has written, instead of writing our own picture */
+	void set_shared_picture(std::shared_ptr<dcp::J2KPictureAsset> asset);
 	/** Write the frames of a picture MXF that its start trim cuts off, if it starts this reel; call before any other picture */
 	void write_picture_head();
 	/** Write the frames of a picture MXF that its end trim cuts off, if it ends this reel; call after all other picture */
@@ -175,6 +181,8 @@ private:
 	bool _sound_written = false;
 	/** a sound asset written by another reel of this DCP, which this reel refers to, or null */
 	std::shared_ptr<dcp::SoundAsset> _shared_sound;
+	/** picture asset written by another reel, which this reel refers to */
+	std::shared_ptr<dcp::J2KPictureAsset> _shared_picture;
 	std::shared_ptr<dcp::TextAsset> _subtitle_asset;
 	std::map<DCPTextTrack, std::shared_ptr<dcp::TextAsset>> _closed_caption_assets;
 	std::shared_ptr<dcp::AtmosAsset> _atmos_asset;
