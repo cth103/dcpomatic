@@ -288,6 +288,17 @@ Content::clone() const
 }
 
 
+shared_ptr<Content>
+Content::untrimmed_clone() const
+{
+	auto copy = clone();
+	copy->_position = DCPTime();
+	copy->_trim_start = ContentTime();
+	copy->_trim_end = ContentTime();
+	return copy;
+}
+
+
 string
 Content::technical_summary() const
 {
