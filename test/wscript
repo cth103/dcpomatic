@@ -83,6 +83,9 @@ def build(bld):
                  dcp_examiner_test.cc
                  dcp_metadata_test.cc
                  dcp_playback_test.cc
+                 dcdm_film_encoder_test.cc
+                 dcdm_formats_test.cc
+                 dcdm_round_trip_test.cc
                  dcp_subtitle_test.cc
                  digest_test.cc
                  dkdm_recipient_list_test.cc
