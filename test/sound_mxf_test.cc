@@ -39,6 +39,7 @@
 #include "lib/signal_manager.h"
 #include "lib/player.h"
 #include "lib/sound_mxf_content.h"
+#include "lib/wav_ends.h"
 #include "lib/text_content.h"
 #include "lib/transcode_job.h"
 #include "lib/video_content.h"
@@ -1380,6 +1381,52 @@ repeated_reels(string name, boost::filesystem::path mxf, int count, std::functio
 	BOOST_REQUIRE_EQUAL(reels.size(), static_cast<size_t>(count));
 	BOOST_CHECK_EQUAL(pcm_files_in(film->dir(film->dcp_name())), 1);
 	return reels;
+}
+
+
+/** The same WAV as three whole reels: one sound asset, used by every reel */
+BOOST_AUTO_TEST_CASE(wav_repeated_reels_same_id_test)
+{
+	auto const reels = repeated_reels(
+		"wav_repeated_reels_same_id_test", "test/data/sine_16_48_220_10.wav", 3, [](std::shared_ptr<Content>, int) {}
+		);
+	BOOST_REQUIRE(reels[0]->main_sound());
+	for (auto reel: reels) {
+		BOOST_CHECK_EQUAL(reel->main_sound()->asset_ref().id(), reels[0]->main_sound()->asset_ref().id());
+	}
+}
+
+
+/** The same WAV with a different gain is different sound: another asset */
+BOOST_AUTO_TEST_CASE(wav_repeated_reels_different_gain_test)
+{
+	auto first = content_factory("test/data/sine_16_48_220_10.wav");
+	auto second = content_factory("test/data/sine_16_48_220_10.wav");
+	first.push_back(second[0]);
+	auto film = new_test_film("wav_repeated_reels_different_gain_test", first);
+	second[0]->set_position(film, first[0]->end(film));
+	second[0]->audio->set_gain(-6);
+	film->set_reel_type(ReelType::CUSTOM);
+	film->set_custom_reel_boundaries({ first[0]->end(film) });
+	make_and_verify_dcp(film, { dcp::VerificationNote::Code::MISSING_CPL_METADATA });
+	BOOST_CHECK_EQUAL(pcm_files_in(film->dir(film->dcp_name())), 2);
+}
+
+
+/** The same WAV with a delay is not shared, as the delay moves sound across the reels */
+BOOST_AUTO_TEST_CASE(wav_repeated_reels_with_delay_are_not_shared_test)
+{
+	auto first = content_factory("test/data/sine_16_48_220_10.wav");
+	auto second = content_factory("test/data/sine_16_48_220_10.wav");
+	first.push_back(second[0]);
+	auto film = new_test_film("wav_repeated_reels_with_delay_are_not_shared_test", first);
+	second[0]->set_position(film, first[0]->end(film));
+	film->set_reel_type(ReelType::CUSTOM);
+	film->set_custom_reel_boundaries({ first[0]->end(film) });
+	BOOST_REQUIRE(wav_shared_source(film, second[0]));
+	first[0]->audio->set_delay(100);
+	second[0]->audio->set_delay(100);
+	BOOST_CHECK(!wav_shared_source(film, second[0]));
 }
 
 

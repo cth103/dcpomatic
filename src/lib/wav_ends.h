@@ -33,6 +33,11 @@ class Film;
  */
 bool wav_keeps_whole_length(std::shared_ptr<const Film> film, std::shared_ptr<const Content> content);
 
+/** @return an earlier WAV of the film that is a whole reel with exactly the sound of @param content, also a whole reel, so
+ *  that the reel of @param content can refer to that sound instead of writing it again; or null if there is none.
+ */
+std::shared_ptr<const Content> wav_shared_source(std::shared_ptr<const Film> film, std::shared_ptr<const Content> content);
+
 /** @return the part of a WAV that its start trim cuts off, ready for the film's sound asset (mapped, at the film's
  *  sampling rate and with the content's gain), or nothing if there is no start trim.
  */

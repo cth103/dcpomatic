@@ -158,6 +158,24 @@ Writer::Writer(weak_ptr<const Film> weak_film, weak_ptr<Job> weak_job, boost::fi
 			}
 		}
 
+		/* The same for a WAV */
+		for (auto& reel: _reels) {
+			for (auto content: film()->content()) {
+				if (content->position() != reel.period().from || content->end(film()) != reel.period().to) {
+					continue;
+				}
+				auto const source = wav_shared_source(film(), content);
+				if (!source) {
+					continue;
+				}
+				for (auto& other: _reels) {
+					if (other.period() == DCPTimePeriod(source->position(), source->end(film())) && other.sound_asset()) {
+						reel.set_shared_sound(other.sound_asset());
+					}
+				}
+			}
+		}
+
 		/* The same for a picture MXF: the first reel writes it and the others refer to it */
 		for (auto& reel: _reels) {
 			for (auto content: film()->content()) {

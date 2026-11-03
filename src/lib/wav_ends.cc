@@ -28,9 +28,11 @@
 #include "ffmpeg_content.h"
 #include "film.h"
 #include "frame_rate_change.h"
+#include "overlaps.h"
 #include "util.h"
 #include "wav_ends.h"
 #include <boost/algorithm/string.hpp>
+#include <algorithm>
 
 
 using std::dynamic_pointer_cast;
@@ -85,6 +87,69 @@ wav_keeps_whole_length(shared_ptr<const Film> film, shared_ptr<const Content> co
 
 	auto const rate = static_cast<double>(film->video_frame_rate());
 	return content->trim_start() == content->trim_start().round(rate) && content->trim_end() == content->trim_end().round(rate);
+}
+
+
+/** @return true if @param content is a WAV that is the only sound in a reel of its own */
+static bool
+wav_is_whole_reel(shared_ptr<const Film> film, shared_ptr<const Content> content)
+{
+	if (!wav_keeps_whole_length(film, content)) {
+		return false;
+	}
+
+	auto const period = dcpomatic::DCPTimePeriod(content->position(), content->end(film));
+	auto const reels = film->reels();
+	auto has_audio = [](shared_ptr<const Content> c) { return static_cast<bool>(c->audio); };
+	return std::find(reels.begin(), reels.end(), period) != reels.end()
+		&& dcpomatic::overlaps(film, film->content(), has_audio, period.from, period.to).size() == 1;
+}
+
+
+/** @return a digest of everything that decides the sound written for a WAV.  Equal digests mean equal sound */
+static std::string
+wav_digest(shared_ptr<const Content> content)
+{
+	auto const audio = content->audio;
+	return fmt::format(
+		"{}|{}|{}|{}|{}|{}|{}|{}",
+		content->digest(),
+		content->trim_start().get(),
+		content->trim_end().get(),
+		audio->gain(),
+		audio->delay(),
+		audio->fade_in().get(),
+		audio->fade_out().get(),
+		audio->stream()->mapping().digest()
+		);
+}
+
+
+shared_ptr<const Content>
+wav_shared_source(shared_ptr<const Film> film, shared_ptr<const Content> content)
+{
+	/* The Atmos sync signal changes from frame to frame, and an audio processor has state, so those reels differ */
+	if (film->contains_atmos_content() || film->audio_processor() || !wav_is_whole_reel(film, content)) {
+		return {};
+	}
+
+	/* A delay moves sound across the reel's boundaries */
+	if (content->audio->delay() != 0) {
+		return {};
+	}
+
+	auto const digest = wav_digest(content);
+	shared_ptr<const Content> found;
+	for (auto other: film->content()) {
+		if (other == content || other->position() >= content->position() || !wav_is_whole_reel(film, other)) {
+			continue;
+		}
+		if (wav_digest(other) == digest && (!found || other->position() < found->position())) {
+			found = other;
+		}
+	}
+
+	return found;
 }
 
 

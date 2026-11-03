@@ -48,6 +48,7 @@
 #include "shuffler.h"
 #include "sound_mxf_content.h"
 #include "video_mxf_content.h"
+#include "wav_ends.h"
 #include "text_content.h"
 #include "text_decoder.h"
 #include "video_decoder.h"
@@ -329,6 +330,11 @@ Player::setup_pieces()
 				/* Another reel of the DCP writes this same sound, so the sound need not be decoded again */
 				decoder->audio->set_ignore(true);
 			}
+		}
+
+		if (decoder->audio && _making_dcp && wav_shared_source(film, content)) {
+			/* Another reel of the DCP writes this same sound, so the sound need not be decoded again */
+			decoder->audio->set_ignore(true);
 		}
 
 		if (auto video_mxf = dynamic_pointer_cast<const VideoMXFContent>(content)) {
@@ -815,10 +821,10 @@ Player::pass()
 			/* As for a referenced DCP: hide the fact that no video was emitted during this content */
 			_next_video_time = earliest_content->content->end(film);
 		}
-		if (auto sound_mxf = dynamic_pointer_cast<SoundMXFContent>(earliest_content->content)) {
-			if (_making_dcp && earliest_content->decoder->audio && earliest_content->decoder->audio->ignore() && !_ignore_audio) {
+		if (_making_dcp && earliest_content->decoder->audio && earliest_content->decoder->audio->ignore() && !_ignore_audio) {
+			if (dynamic_pointer_cast<SoundMXFContent>(earliest_content->content) || wav_keeps_whole_length(film, earliest_content->content)) {
 				/* As for a referenced DCP: hide the fact that no audio was emitted during this content */
-				_next_audio_time = sound_mxf->end(film);
+				_next_audio_time = earliest_content->content->end(film);
 			}
 		}
 		break;
