@@ -531,13 +531,13 @@ BOOST_AUTO_TEST_CASE(wav_with_other_sound_is_cut_test)
 }
 
 
-/** Make a picture MXF of 2 seconds, from a DCP.  @return its path */
+/** Make a picture MXF of 2 seconds or @param length frames, from a DCP.  @return its path */
 static boost::filesystem::path
-make_picture_mxf(string name)
+make_picture_mxf(string name, int length = 48)
 {
 	auto image = content_factory("test/data/flat_red.png")[0];
 	auto film = new_test_film(name, { image });
-	image->video->set_length(48);
+	image->video->set_length(length);
 	make_and_verify_dcp(film, { dcp::VerificationNote::Code::MISSING_CPL_METADATA });
 	return dcp_file(film, "j2c_");
 }
@@ -663,6 +663,80 @@ BOOST_AUTO_TEST_CASE(picture_mxf_changed_is_rewritten_test)
 		BOOST_REQUIRE(!reels.empty());
 		BOOST_CHECK_MESSAGE(reels[0]->main_picture()->asset_ref().id() != source.id(), change.first);
 	}
+}
+
+
+/** A changed picture MXF is written again at the file's whole length, and the trims stay in the CPL */
+BOOST_AUTO_TEST_CASE(picture_mxf_changed_keeps_whole_length_test)
+{
+	auto const mxf = make_picture_mxf("picture_mxf_changed_keeps_whole_length_test_source");
+	dcp::MonoJ2KPictureAsset const source(mxf);
+	auto content = content_factory(mxf)[0];
+	auto film = new_test_film("picture_mxf_changed_keeps_whole_length_test", { content });
+	content->video->set_left_crop(8);
+	content->set_trim_start(film, dcpomatic::ContentTime::from_frames(6, 24));
+	content->set_trim_end(dcpomatic::ContentTime::from_frames(12, 24));
+	auto const reels = make_and_find_reels(film);
+	BOOST_REQUIRE_EQUAL(reels.size(), 1U);
+	auto const picture = reels[0]->main_picture();
+	BOOST_CHECK(picture->asset_ref().id() != source.id());
+	BOOST_CHECK_EQUAL(picture->entry_point().get_value_or(0), 6);
+	BOOST_CHECK_EQUAL(picture->actual_duration(), 30);
+	BOOST_CHECK_EQUAL(picture->intrinsic_duration(), 48);
+}
+
+
+/** The same with the film only re-encoding: the file's frames are written again too */
+BOOST_AUTO_TEST_CASE(picture_mxf_reencoded_keeps_whole_length_test)
+{
+	auto const mxf = make_picture_mxf("picture_mxf_reencoded_keeps_whole_length_test_source");
+	auto content = content_factory(mxf)[0];
+	auto film = new_test_film("picture_mxf_reencoded_keeps_whole_length_test", { content });
+	film->set_reencode_j2k(true);
+	content->set_trim_start(film, dcpomatic::ContentTime::from_frames(12, 24));
+	auto const reels = make_and_find_reels(film);
+	BOOST_REQUIRE_EQUAL(reels.size(), 1U);
+	BOOST_CHECK_EQUAL(reels[0]->main_picture()->entry_point().get_value_or(0), 12);
+	BOOST_CHECK_EQUAL(reels[0]->main_picture()->intrinsic_duration(), 48);
+}
+
+
+/** Over two reels of the film, the head goes with the first and the tail with the last */
+BOOST_AUTO_TEST_CASE(picture_mxf_changed_over_two_reels_test)
+{
+	auto const mxf = make_picture_mxf("picture_mxf_changed_over_two_reels_test_source", 96);
+	auto content = content_factory(mxf)[0];
+	auto film = new_test_film("picture_mxf_changed_over_two_reels_test", { content });
+	content->video->set_left_crop(8);
+	content->set_trim_start(film, dcpomatic::ContentTime::from_frames(6, 24));
+	content->set_trim_end(dcpomatic::ContentTime::from_frames(6, 24));
+	film->set_reel_type(ReelType::CUSTOM);
+	film->set_custom_reel_boundaries({ dcpomatic::DCPTime::from_frames(42, 24) });
+	auto const reels = make_and_find_reels(film);
+	BOOST_REQUIRE_EQUAL(reels.size(), 2U);
+	BOOST_CHECK_EQUAL(reels[0]->main_picture()->entry_point().get_value_or(0), 6);
+	BOOST_CHECK_EQUAL(reels[0]->main_picture()->actual_duration(), 42);
+	BOOST_CHECK_EQUAL(reels[0]->main_picture()->intrinsic_duration(), 48);
+	BOOST_CHECK_EQUAL(reels[1]->main_picture()->entry_point().get_value_or(0), 0);
+	BOOST_CHECK_EQUAL(reels[1]->main_picture()->actual_duration(), 42);
+	BOOST_CHECK_EQUAL(reels[1]->main_picture()->intrinsic_duration(), 48);
+}
+
+
+/** With other video over it, the file is cut as it always was */
+BOOST_AUTO_TEST_CASE(picture_mxf_changed_with_other_video_is_cut_test)
+{
+	auto const mxf = make_picture_mxf("picture_mxf_changed_with_other_video_is_cut_test_source");
+	auto content = content_factory(mxf)[0];
+	auto other = content_factory("test/data/flat_red.png")[0];
+	auto film = new_test_film("picture_mxf_changed_with_other_video_is_cut_test", { content, other });
+	film->set_sequence(false);
+	other->set_position(film, dcpomatic::DCPTime());
+	other->video->set_length(48);
+	content->set_trim_start(film, dcpomatic::ContentTime::from_frames(6, 24));
+	auto const reels = make_and_find_reels(film);
+	BOOST_REQUIRE(!reels.empty());
+	BOOST_CHECK_EQUAL(reels[0]->main_picture()->entry_point().get_value_or(0), 0);
 }
 
 

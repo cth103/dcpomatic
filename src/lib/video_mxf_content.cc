@@ -19,11 +19,16 @@
 */
 
 
+#include "dcp_video.h"
+#include "dcpomatic_assert.h"
 #include "film.h"
 #include "film_util.h"
 #include "frame_rate_change.h"
 #include "job.h"
 #include "overlaps.h"
+#include "player.h"
+#include "player_video.h"
+#include "playlist.h"
 #include "text_content.h"
 #include "video_content.h"
 #include "video_mxf_content.h"
@@ -175,6 +180,85 @@ VideoMXFContent::add_properties(shared_ptr<const Film> film, list<UserProperty>&
 {
 	Content::add_properties(film, p);
 	video->add_properties(p);
+}
+
+
+bool
+VideoMXFContent::keeps_whole_length(shared_ptr<const Film> film) const
+{
+	if (trim_start() == ContentTime() && trim_end() == ContentTime()) {
+		return false;
+	}
+
+	string why_not;
+	if (!video || !video->use() || can_reference_video(film, why_not)) {
+		return false;
+	}
+
+	optional<dcp::Standard> standard;
+	{
+		boost::mutex::scoped_lock lm(_mutex);
+		standard = _mono_standard;
+	}
+
+	FrameRateChange const frc(film, shared_from_this());
+	auto const rate = static_cast<double>(film->video_frame_rate());
+
+	auto part = [](shared_ptr<const Content> c) {
+		return static_cast<bool>(c->video) && c->video->use();
+	};
+	auto const others = dcpomatic::overlaps(film, film->content(), part, position(), end(film));
+
+	return standard && !film->three_d() && film->video_encoding() == VideoEncoding::JPEG2000
+		&& !frc.change_speed() && !frc.skip() && frc.repeat() == 1
+		&& trim_start() == trim_start().round(rate) && trim_end() == trim_end().round(rate)
+		&& others.size() == 1 && others.front().get() == this;
+}
+
+
+Frame
+VideoMXFContent::whole_length() const
+{
+	return video->length_after_3d_combine();
+}
+
+
+void
+VideoMXFContent::encode_frames(
+	shared_ptr<const Film> film, Frame from, Frame to, std::function<void (shared_ptr<const dcp::Data>)> write
+	) const
+{
+	/* A copy with no trims, on its own, gives the frames that the film's own Player skips */
+	auto playlist = make_shared<Playlist>();
+	playlist->add(film, untrimmed_clone());
+
+	Player player(film, playlist, false);
+	player.set_ignore_audio();
+	player.set_ignore_text();
+
+	auto const rate = film->video_frame_rate();
+	auto const bit_rate = film->video_bit_rate(VideoEncoding::JPEG2000);
+	auto const resolution = film->resolution();
+	auto const keep_j2k = !film->reencode_j2k();
+
+	Frame next = from;
+	player.Video.connect([&](shared_ptr<PlayerVideo> frame, DCPTime time) {
+		auto const index = time.frames_round(rate);
+		if (index < from || index >= to) {
+			return;
+		}
+		/* shortcut: encoded one at a time on this thread, which is slow for a long trim; send them to the J2KEncoder if that matters */
+		if (keep_j2k && frame->has_j2k()) {
+			write(frame->j2k());
+		} else {
+			write(make_shared<dcp::ArrayData>(DCPVideo(frame, index, rate, bit_rate, resolution).encode_locally()));
+		}
+		next = index + 1;
+	});
+
+	player.seek(DCPTime::from_frames(from, rate), true);
+	while (next < to && !player.pass()) {}
+	DCPOMATIC_ASSERT(next == to);
 }
 
 

@@ -90,6 +90,10 @@ public:
 	}
 	/** Use the sound asset that another reel of the same DCP has written, instead of writing our own sound */
 	void set_shared_sound(std::shared_ptr<dcp::SoundAsset> asset);
+	/** Write the frames of a picture MXF that its start trim cuts off, if it starts this reel; call before any other picture */
+	void write_picture_head();
+	/** Write the frames of a picture MXF that its end trim cuts off, if it ends this reel; call after all other picture */
+	void write_picture_tail();
 
 	void finish(boost::filesystem::path output_dcp);
 	std::shared_ptr<dcp::Reel> create_reel(
@@ -130,11 +134,16 @@ private:
 		) const;
 	void create_reel_markers(std::shared_ptr<dcp::Reel> reel) const;
 	float convert_vertical_position(StringText const& subtitle, dcp::SubtitleStandard to) const;
+	void write_picture_end(Frame from, Frame to, std::shared_ptr<const class VideoMXFContent> content);
 
 	boost::filesystem::path _output_dir;
 	dcpomatic::DCPTimePeriod _period;
 	/** the first picture frame index that does not already exist in our MXF */
 	int _first_nonexistent_frame = 0;
+	/** frames of the picture asset before the frame that starts this reel */
+	Frame _picture_head_frames = 0;
+	/** true if the picture asset has frames beyond this reel, so the CPL must say which of them to play */
+	bool _picture_has_ends = false;
 	/** the data of the last written frame, if there is one */
 	EnumIndexedVector<std::shared_ptr<const dcp::Data>, Eyes> _last_written;
 	/** index of this reel within the DCP (starting from 0) */
