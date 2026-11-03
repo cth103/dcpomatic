@@ -432,6 +432,27 @@ FFmpegExaminer::bits_per_pixel() const
 }
 
 
+AVCodecID
+FFmpegExaminer::video_codec_id() const
+{
+	return video_codec_context()->codec_id;
+}
+
+
+int
+FFmpegExaminer::video_profile() const
+{
+	return video_codec_context()->profile;
+}
+
+
+AVPixelFormat
+FFmpegExaminer::video_pixel_format() const
+{
+	return video_codec_context()->pix_fmt;
+}
+
+
 bool
 FFmpegExaminer::has_alpha() const
 {

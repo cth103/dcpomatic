@@ -168,6 +168,7 @@ def build(bld):
                  shuffler_test.cc
                  skip_frame_test.cc
                  socket_test.cc
+                 source_metadata_test.cc
                  smtp_server.cc
                  srt_subtitle_test.cc
                  ssa_subtitle_test.cc
