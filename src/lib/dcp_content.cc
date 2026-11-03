@@ -166,7 +166,6 @@ DCPContent::DCPContent(cxml::ConstNodePtr node, boost::optional<boost::filesyste
 		_content_versions.push_back(i->content());
 	}
 
-	_active_audio_channels = node->optional_number_child<int>("ActiveAudioChannels");
 	if (auto lang = node->optional_string_child("AudioLanguage")) {
 		_audio_language = dcp::LanguageTag(*lang);
 	}
@@ -493,10 +492,6 @@ DCPContent::as_xml(xmlpp::Element* element, bool with_paths, PathBehaviour path_
 		cxml::add_text_child(element, "ContentVersion", i);
 	}
 
-	if (_active_audio_channels) {
-		cxml::add_text_child(element, "ActiveAudioChannels", fmt::to_string(*_active_audio_channels));
-	}
-
 	if (_audio_language) {
 		cxml::add_text_child(element, "AudioLanguage", _audio_language->as_string());
 	}
@@ -536,6 +531,10 @@ DCPContent::as_xml(xmlpp::Element* element, bool with_paths, PathBehaviour path_
 		cxml::add_text_child(element, "MainPictureActiveAreaWidth", fmt::to_string(_main_picture_active_area->width));
 		cxml::add_text_child(element, "MainPictureActiveAreaHeight", fmt::to_string(_main_picture_active_area->height));
 	}
+
+	/* We don't save _active_audio_channels as only the player needs it, and that always examines
+	 * the content.
+	 */
 }
 
 
