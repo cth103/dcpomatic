@@ -27,9 +27,7 @@
 
 
 #include "lib/content_factory.h"
-#include "lib/dcp_content_type.h"
 #include "lib/film.h"
-#include "lib/ratio.h"
 #include "lib/video_mxf_content.h"
 #include "test.h"
 #include <dcp/equality_options.h>
