@@ -28,6 +28,7 @@
 #include "atmos_content.h"
 #include "audio_content.h"
 #include "audio_processor.h"
+#include "audio_util.h"
 #include "change_signaller.h"
 #include "cinema.h"
 #include "config.h"
@@ -41,6 +42,7 @@
 #include "environment_info.h"
 #include "examine_content_job.h"
 #include "exceptions.h"
+#include "ffmpeg_audio_stream.h"
 #include "ffmpeg_content.h"
 #include "ffmpeg_subtitle_stream.h"
 #include "file_log.h"
@@ -1581,6 +1583,7 @@ void
 Film::add_content(vector<shared_ptr<Content>> const& content)
 {
 	bool any_atmos = false;
+	bool mapped_to_seven_one = false;
 
 	for (auto c: content) {
 		if (_template_film) {
@@ -1593,11 +1596,28 @@ Film::add_content(vector<shared_ptr<Content>> const& content)
 		if (c->atmos) {
 			any_atmos = true;
 		}
+
+		if (c->audio) {
+			for (auto stream: c->audio->streams()) {
+				if (auto ffmpeg_stream = dynamic_pointer_cast<FFmpegAudioStream>(stream)) {
+					if (channel_layout_equals(ffmpeg_stream->channel_layout, AV_CHANNEL_LAYOUT_7POINT1)) {
+						/* We deliberately treated this file as 7.1 so make sure we have enough
+						 * film channels so we can see the result of the mapping.
+						 */
+						mapped_to_seven_one = true;
+					}
+				}
+			}
+		}
 	}
 
 	_playlist->add_at_end(shared_from_this(), content);
 	maybe_set_container_and_resolution();
 	maybe_set_interop();
+
+	if (mapped_to_seven_one && _audio_channels < 12) {
+		set_audio_channels(12);
+	}
 
 	if (any_atmos) {
 		if (_audio_channels < 14) {

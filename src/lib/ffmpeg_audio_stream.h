@@ -42,6 +42,7 @@ public:
 			codecpar->bits_per_raw_sample ? codecpar->bits_per_raw_sample : codecpar->bits_per_coded_sample
 		)
 		, codec_name(codec_name_)
+		, channel_layout(codecpar->ch_layout)
 	{}
 
 	FFmpegAudioStream(std::string name, int id, int index, int frame_rate, Frame length, AudioMapping mapping, int bit_depth)
@@ -57,6 +58,8 @@ public:
 
 	boost::optional<dcpomatic::ContentTime> first_audio;
 	boost::optional<std::string> codec_name;
+	/* Not serialized to XML */
+	AVChannelLayout channel_layout;
 
 private:
 	friend struct ffmpeg_pts_offset_test;

@@ -20,6 +20,7 @@
 */
 
 #include "audio_content.h"
+#include "audio_util.h"
 #include "config.h"
 #include "constants.h"
 #include "exceptions.h"
@@ -309,6 +310,12 @@ FFmpegContent::examine(shared_ptr<const Film> film, shared_ptr<Job> job, bool to
 			auto mapping = audio_stream->mapping();
 			auto const processor = film ? film->audio_processor() : nullptr;
 			mapping.make_default(processor, first_path);
+			if (channel_layout_equals(audio_stream->channel_layout, AV_CHANNEL_LAYOUT_7POINT1) && !processor && mapping.output_channels() >= static_cast<int>(dcp::Channel::BSR)) {
+				mapping.map_to_single_output(4, dcp::Channel::BSL, 1);
+				mapping.map_to_single_output(5, dcp::Channel::BSR, 1);
+				mapping.map_to_single_output(6, dcp::Channel::LS, 1);
+				mapping.map_to_single_output(7, dcp::Channel::RS, 1);
+			}
 			audio_stream->set_mapping(mapping);
 		}
 
