@@ -69,6 +69,7 @@ sources = """
           cross_common.cc
           curl_uploader.cc
           datasat_ap2x.cc
+          dcdm_audio_layout.cc
           dcp_content.cc
           dcp_content_type.cc
           dcdm_quality.cc
