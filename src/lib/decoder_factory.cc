@@ -21,6 +21,8 @@
 
 #include "atmos_mxf_content.h"
 #include "atmos_mxf_decoder.h"
+#include "audio_mxf_content.h"
+#include "audio_mxf_decoder.h"
 #include "dcp_content.h"
 #include "dcp_decoder.h"
 #include "dcp_subtitle_content.h"
@@ -92,6 +94,10 @@ decoder_factory (shared_ptr<const Film> film, shared_ptr<const Content> content,
 
 	if (auto amc = dynamic_pointer_cast<const AtmosMXFContent>(content)) {
 		return make_shared<AtmosMXFDecoder>(film, amc);
+	}
+
+	if (auto amc = dynamic_pointer_cast<const AudioMXFContent>(content)) {
+		return make_shared<AudioMXFDecoder>(film, amc, fast);
 	}
 
 	if (auto c = dynamic_pointer_cast<const FCPXMLContent>(content)) {

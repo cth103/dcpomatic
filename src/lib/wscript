@@ -40,6 +40,8 @@ sources = """
           audio_filter_graph.cc
           audio_mapping.cc
           audio_merger.cc
+          audio_mxf_content.cc
+          audio_mxf_decoder.cc
           audio_point.cc
           audio_processor.cc
           audio_ring_buffers.cc

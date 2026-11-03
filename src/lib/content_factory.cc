@@ -26,6 +26,7 @@
 
 #include "atmos_mxf_content.h"
 #include "audio_content.h"
+#include "audio_mxf_content.h"
 #include "dcp_content.h"
 #include "dcp_subtitle_content.h"
 #include "dcpomatic_log.h"
@@ -97,6 +98,8 @@ content_factory(cxml::ConstNodePtr node, boost::optional<boost::filesystem::path
 		content = std::make_shared<VideoMXFContent>(node, film_directory, version);
 	} else if (type == "AtmosMXF") {
 		content = std::make_shared<AtmosMXFContent>(node, film_directory, version);
+	} else if (type == "AudioMXF") {
+		content = std::make_shared<AudioMXFContent>(node, film_directory, version);
 	} else if (type == "FCPXML") {
 		content = std::make_shared<FCPXMLContent>(node, film_directory, version, notes);
 	}
@@ -188,6 +191,8 @@ content_factory (boost::filesystem::path path)
 			single = std::make_shared<VideoMXFContent>(path);
 		} else if (ext == ".mxf" && AtmosMXFContent::valid_mxf(path)) {
 			single = std::make_shared<AtmosMXFContent>(path);
+		} else if (ext == ".mxf" && AudioMXFContent::valid_mxf(path)) {
+			single = std::make_shared<AudioMXFContent>(path);
 		}
 
 		if (!single) {
