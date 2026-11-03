@@ -309,7 +309,7 @@ private:
 	std::vector<std::string> _content_versions;
 	EnumIndexedVector<bool, TextType> _has_non_zero_entry_point;
 
-	boost::optional<int> _active_audio_channels;
+	std::set<int> _labelled_audio_channels;
 	boost::optional<dcp::LanguageTag> _audio_language;
 
 	boost::optional<std::string> _chain;

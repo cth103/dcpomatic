@@ -196,7 +196,8 @@ DCPExaminer::DCPExaminer(shared_ptr<const DCPContent> content, bool tolerant)
 					throw DCPError(_("Mismatched audio channel counts in DCP"));
 				}
 
-				_active_audio_channels = std::max(_active_audio_channels.get_value_or(0), asset->active_channels());
+				auto asset_labels = asset->labelled_channels();
+				_labelled_audio_channels.insert(asset_labels.begin(), asset_labels.end());
 
 				if (!_audio_frame_rate) {
 					_audio_frame_rate = asset->sampling_rate();

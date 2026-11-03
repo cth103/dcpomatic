@@ -295,7 +295,7 @@ DCPContent::examine(shared_ptr<const Film> film, shared_ptr<Job> job, bool toler
 
 		{
 			boost::mutex::scoped_lock lm(_mutex);
-			_active_audio_channels = examiner->active_audio_channels();
+			_labelled_audio_channels = examiner->labelled_audio_channels();
 			_audio_language = examiner->audio_language();
 		}
 	}
@@ -532,7 +532,7 @@ DCPContent::as_xml(xmlpp::Element* element, bool with_paths, PathBehaviour path_
 		cxml::add_text_child(element, "MainPictureActiveAreaHeight", fmt::to_string(_main_picture_active_area->height));
 	}
 
-	/* We don't save _active_audio_channels as only the player needs it, and that always examines
+	/* We don't save _labelled_audio_channels as only the player needs it, and that always examines
 	 * the content.
 	 */
 }
@@ -950,9 +950,11 @@ DCPContent::check_font_ids()
 int
 DCPContent::active_audio_channels() const
 {
-	return _active_audio_channels.get_value_or(
-		(audio && audio->stream()) ? audio->stream()->channels() : 0
-		);
+	if (!_labelled_audio_channels.empty()) {
+		return _labelled_audio_channels.size();
+	}
+
+	return (audio && audio->stream()) ? audio->stream()->channels() : 0;
 }
 
 
