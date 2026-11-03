@@ -289,9 +289,24 @@ DCPContent::examine(shared_ptr<const Film> film, shared_ptr<Job> job, bool toler
 		}
 		auto as = make_shared<AudioStream>(examiner->audio_frame_rate(), examiner->audio_length(), examiner->audio_channels(), 24);
 		audio->set_stream(as);
-		auto m = as->mapping();
-		m.make_default(film ? film->audio_processor() : 0);
-		as->set_mapping(m);
+		auto mapping = as->mapping();
+		mapping.make_default(film ? film->audio_processor() : 0);
+
+		/* An ATMOS DCP probably has its channels labelled, so we know whether or not it has
+		 * HI/VI.  To take advantage of this (and prevent ATMOS DCPs always getting labelled
+		 * HI-VI) we look at > 8 channel DCPs and unmap any unlabelled channels (if there
+		 * are any labels at all).
+		 */
+		auto const labelled = examiner->labelled_audio_channels();
+		if (examiner->audio_channels() > 8 && !labelled.empty()) {
+			for (int input = 0; input < mapping.input_channels(); ++input) {
+				if (labelled.find(input) == labelled.end()) {
+					mapping.unmap_input(input);
+				}
+			}
+		}
+
+		as->set_mapping(mapping);
 
 		{
 			boost::mutex::scoped_lock lm(_mutex);
