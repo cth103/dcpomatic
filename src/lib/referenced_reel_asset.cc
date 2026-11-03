@@ -66,13 +66,20 @@ maybe_add_asset(list<ReferencedReelAsset>& a, shared_ptr<dcp::ReelAsset> r, Fram
 
 /** Put a file that is not in another DCP into this one, as @param in_dcp, a name made from its ID so that two files
  *  with the same name do not collide: linked, or copied if it cannot be linked.  The source may already be the file in
- *  the DCP folder (from an earlier DCP of this film); then there is nothing to do.
+ *  the DCP folder, or a copy of it (from an earlier DCP of this film, or another content using the same file); then
+ *  there is nothing to do.  A file there with the same name, which holds the asset's ID, and the same size is taken
+ *  to be such a copy.
  */
 static void
 put_in_dcp(boost::filesystem::path source, boost::filesystem::path in_dcp)
 {
 	boost::system::error_code ec;
-	if (!(dcp::filesystem::exists(in_dcp, ec) && boost::filesystem::equivalent(source, in_dcp, ec))) {
+	auto const there = dcp::filesystem::exists(in_dcp, ec);
+	auto const same = there && (
+		boost::filesystem::equivalent(source, in_dcp, ec) ||
+		boost::filesystem::file_size(source, ec) == boost::filesystem::file_size(in_dcp, ec)
+		);
+	if (!same) {
 		dcp::filesystem::remove(in_dcp, ec);
 		dcp::filesystem::create_hard_link(source, in_dcp, ec);
 		if (ec) {

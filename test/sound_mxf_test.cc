@@ -913,6 +913,28 @@ BOOST_AUTO_TEST_CASE(sound_mxf_reopened_film_is_reused_test)
 }
 
 
+/** A copy of the file that is already in the DCP folder (made when a link could not be) is not copied again */
+BOOST_AUTO_TEST_CASE(sound_mxf_copy_is_not_made_again_test)
+{
+	auto const mxf = make_sound_mxf("sound_mxf_copy_is_not_made_again_test_source");
+	dcp::SoundAsset const source(mxf);
+
+	auto film = new_test_film("sound_mxf_copy_is_not_made_again_test", content_factory(mxf));
+	BOOST_REQUIRE_EQUAL(make_and_find_sound(film)->asset_ref().id(), source.id());
+
+	auto const in_dcp = film->dir(film->dcp_name()) / ("pcm_" + source.id() + ".mxf");
+	BOOST_REQUIRE(boost::filesystem::exists(in_dcp));
+	boost::filesystem::remove(in_dcp);
+	boost::filesystem::copy_file(mxf, in_dcp);
+	auto const old_time = std::time(nullptr) - 3600;
+	boost::filesystem::last_write_time(in_dcp, old_time);
+
+	BOOST_REQUIRE_EQUAL(make_and_find_sound(film)->asset_ref().id(), source.id());
+	BOOST_CHECK(!boost::filesystem::equivalent(mxf, in_dcp));
+	BOOST_CHECK_EQUAL(boost::filesystem::last_write_time(in_dcp), old_time);
+}
+
+
 /** A delay or a gain is applied within the length of the file: the sound written again has the file's length */
 BOOST_AUTO_TEST_CASE(sound_mxf_delay_keeps_length_test)
 {
