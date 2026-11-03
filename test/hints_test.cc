@@ -503,5 +503,60 @@ BOOST_AUTO_TEST_CASE(hints_many_png_subs)
 }
 
 
-BOOST_AUTO_TEST_SUITE_END();
+/** Make a film of three 10s reels with Atmos at each of the given positions (in seconds) */
+static
+shared_ptr<Film>
+three_reels_with_atmos(string name, vector<int> atmos_positions)
+{
+	vector<shared_ptr<Content>> content;
+	for (int i = 0; i < 3; ++i) {
+		content.push_back(content_factory("test/data/flat_red.png")[0]);
+	}
+	for (size_t i = 0; i < atmos_positions.size(); ++i) {
+		content.push_back(content_factory("test/data/atmos_0.mxf")[0]);
+	}
 
+	auto film = new_test_film(name, content);
+	for (int i = 0; i < 3; ++i) {
+		content[i]->set_position(film, dcpomatic::DCPTime::from_seconds(i * 10));
+	}
+	for (size_t i = 0; i < atmos_positions.size(); ++i) {
+		content[3 + i]->set_position(film, dcpomatic::DCPTime::from_seconds(atmos_positions[i]));
+	}
+
+	return film;
+}
+
+
+static
+bool
+has_atmos_in_some_reels_hint(vector<string> const& hints)
+{
+	return std::any_of(hints.begin(), hints.end(), [](string const& hint) {
+		return hint.find("Some of the reels in your DCP have Atmos and some do not.") != std::string::npos;
+	});
+}
+
+
+/** A DCP with Atmos in some reels but not others gets a hint */
+BOOST_AUTO_TEST_CASE(hints_atmos_in_some_reels)
+{
+	auto film = three_reels_with_atmos("hints_atmos_in_some_reels", { 0, 20 });
+	BOOST_REQUIRE_EQUAL(film->reels().size(), 3U);
+	BOOST_CHECK(has_atmos_in_some_reels_hint(get_hints(film)));
+}
+
+
+/** A DCP with Atmos in every reel, or in none, does not */
+BOOST_AUTO_TEST_CASE(hints_atmos_in_all_or_no_reels)
+{
+	auto all = three_reels_with_atmos("hints_atmos_in_all_reels", { 0, 10, 20 });
+	BOOST_REQUIRE_EQUAL(all->reels().size(), 3U);
+	BOOST_CHECK(!has_atmos_in_some_reels_hint(get_hints(all)));
+
+	auto none = three_reels_with_atmos("hints_atmos_in_no_reels", {});
+	BOOST_CHECK(!has_atmos_in_some_reels_hint(get_hints(none)));
+}
+
+
+BOOST_AUTO_TEST_SUITE_END();
