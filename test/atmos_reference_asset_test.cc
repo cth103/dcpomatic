@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2026 Jaume Puig <james.puig@elcine.com>
+    Copyright (C) 2026 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
