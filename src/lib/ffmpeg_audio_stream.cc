@@ -26,11 +26,30 @@ LIBDCP_DISABLE_WARNINGS
 LIBDCP_ENABLE_WARNINGS
 #include <libcxml/cxml.h>
 #include <fmt/format.h>
+extern "C" {
+#include <libavutil/channel_layout.h>
+}
 
 
 using std::string;
 using boost::optional;
 using namespace dcpomatic;
+
+
+optional<string>
+FFmpegAudioStream::describe(AVChannelLayout const& layout)
+{
+	if (layout.order == AV_CHANNEL_ORDER_UNSPEC) {
+		return {};
+	}
+
+	char name[256];
+	if (av_channel_layout_describe(&layout, name, sizeof(name)) <= 0) {
+		return {};
+	}
+
+	return string(name);
+}
 
 
 FFmpegAudioStream::FFmpegAudioStream (cxml::ConstNodePtr node, int version)
@@ -46,6 +65,7 @@ FFmpegAudioStream::FFmpegAudioStream (cxml::ConstNodePtr node, int version)
 		first_audio = ContentTime(f.get());
 	}
 	codec_name = node->optional_string_child("CodecName");
+	channel_layout_name = node->optional_string_child("ChannelLayout");
 }
 
 
@@ -64,5 +84,8 @@ FFmpegAudioStream::as_xml(xmlpp::Element* root) const
 	}
 	if (bit_depth()) {
 		cxml::add_text_child(root, "BitDepth", fmt::to_string(bit_depth().get()));
+	}
+	if (channel_layout_name) {
+		cxml::add_text_child(root, "ChannelLayout", channel_layout_name.get());
 	}
 }
