@@ -26,12 +26,14 @@
 
 
 
+#include "lib/atmos_mxf_content.h"
 #include "lib/content_factory.h"
 #include "lib/dcp_content_type.h"
 #include "lib/film.h"
 #include "lib/ratio.h"
 #include "lib/video_mxf_content.h"
 #include "test.h"
+#include <asdcp/KM_log.h>
 #include <dcp/equality_options.h>
 #include <dcp/mono_j2k_picture_asset.h>
 #include <boost/test/unit_test.hpp>
@@ -67,4 +69,19 @@ BOOST_AUTO_TEST_CASE (video_mxf_content_test)
 	auto comp = make_shared<dcp::MonoJ2KPictureAsset>(comp_mxf);
 	dcp::EqualityOptions op;
 	BOOST_CHECK (ref->equals (comp, op, note));
+}
+
+
+/** Checking whether a file is a picture or Atmos MXF must leave asdcplib's logging as it was, even when it is one */
+BOOST_AUTO_TEST_CASE(valid_mxf_restores_logging_test)
+{
+	auto const picture = find_file("test/data/scaling_test_185_185", "j2c");
+
+	Kumu::DefaultLogSink().SetFilterFlag(Kumu::LOG_ALLOW_ALL);
+	BOOST_REQUIRE(VideoMXFContent::valid_mxf(picture));
+	BOOST_CHECK(Kumu::DefaultLogSink().TestFilterFlag(Kumu::LOG_ALLOW_ALL));
+
+	Kumu::DefaultLogSink().SetFilterFlag(Kumu::LOG_ALLOW_ALL);
+	BOOST_REQUIRE(AtmosMXFContent::valid_mxf("test/data/atmos_0.mxf"));
+	BOOST_CHECK(Kumu::DefaultLogSink().TestFilterFlag(Kumu::LOG_ALLOW_ALL));
 }

@@ -60,6 +60,7 @@ AtmosMXFContent::valid_mxf (boost::filesystem::path path)
 
 	try {
 		dcp::AtmosAsset a (path);
+		Kumu::DefaultLogSink().SetFilterFlag(Kumu::LOG_ALLOW_ALL);
 		return true;
 	} catch (dcp::MXFFileError& e) {
 

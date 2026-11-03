@@ -62,6 +62,7 @@ VideoMXFContent::valid_mxf(boost::filesystem::path path)
 
 	try {
 		dcp::MonoJ2KPictureAsset mp(path);
+		Kumu::DefaultLogSink().SetFilterFlag(Kumu::LOG_ALLOW_ALL);
 		return true;
 	} catch (dcp::MXFFileError& e) {
 
@@ -72,6 +73,7 @@ VideoMXFContent::valid_mxf(boost::filesystem::path path)
 	try {
 		Kumu::DefaultLogSink().SetFilterFlag(0);
 		dcp::StereoJ2KPictureAsset sp(path);
+		Kumu::DefaultLogSink().SetFilterFlag(Kumu::LOG_ALLOW_ALL);
 		return true;
 	} catch (dcp::MXFFileError& e) {
 
