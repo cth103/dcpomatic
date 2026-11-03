@@ -66,3 +66,14 @@ BOOST_AUTO_TEST_CASE (video_mxf_content_test)
 	dcp::EqualityOptions op;
 	BOOST_CHECK (ref->equals (comp, op, note));
 }
+
+
+/** Checking whether a file is a picture or Atmos MXF must leave asdcplib's logging as it was, even when it is one */
+BOOST_AUTO_TEST_CASE(valid_video_mxf_restores_logging_test)
+{
+	auto const picture = find_file("test/data/scaling_test_185_185", "j2c");
+
+	Kumu::DefaultLogSink().SetFilterFlag(Kumu::LOG_ALLOW_ALL);
+	BOOST_REQUIRE(VideoMXFContent::valid_mxf(picture));
+	BOOST_CHECK(Kumu::DefaultLogSink().TestFilterFlag(Kumu::LOG_ALLOW_ALL));
+}

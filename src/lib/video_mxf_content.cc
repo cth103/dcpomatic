@@ -27,6 +27,7 @@
 #include <asdcp/KM_log.h>
 #include <dcp/exceptions.h>
 #include <dcp/mono_j2k_picture_asset.h>
+#include <dcp/scope_guard.h>
 #include <dcp/stereo_j2k_picture_asset.h>
 #include <libxml++/libxml++.h>
 
@@ -59,6 +60,9 @@ bool
 VideoMXFContent::valid_mxf(boost::filesystem::path path)
 {
 	Kumu::DefaultLogSink().UnsetFilterFlag(Kumu::LOG_ALLOW_ALL);
+	dcp::ScopeGuard sg = []() {
+		Kumu::DefaultLogSink().SetFilterFlag(Kumu::LOG_ALLOW_ALL);
+	};
 
 	try {
 		dcp::MonoJ2KPictureAsset mp(path);
@@ -78,8 +82,6 @@ VideoMXFContent::valid_mxf(boost::filesystem::path path)
 	} catch (dcp::ReadError& e) {
 
 	}
-
-	Kumu::DefaultLogSink().SetFilterFlag(Kumu::LOG_ALLOW_ALL);
 
 	return false;
 }

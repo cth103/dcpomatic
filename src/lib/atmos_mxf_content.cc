@@ -26,6 +26,7 @@
 #include <asdcp/KM_log.h>
 #include <dcp/atmos_asset.h>
 #include <dcp/exceptions.h>
+#include <dcp/scope_guard.h>
 #include <libxml++/libxml++.h>
 
 #include "i18n.h"
@@ -57,6 +58,9 @@ bool
 AtmosMXFContent::valid_mxf (boost::filesystem::path path)
 {
 	Kumu::DefaultLogSink().UnsetFilterFlag(Kumu::LOG_ALLOW_ALL);
+	dcp::ScopeGuard sg = []() {
+		Kumu::DefaultLogSink().SetFilterFlag(Kumu::LOG_ALLOW_ALL);
+	};
 
 	try {
 		dcp::AtmosAsset a (path);
@@ -66,8 +70,6 @@ AtmosMXFContent::valid_mxf (boost::filesystem::path path)
 	} catch (dcp::ReadError& e) {
 
 	}
-
-	Kumu::DefaultLogSink().SetFilterFlag(Kumu::LOG_ALLOW_ALL);
 
 	return false;
 }
