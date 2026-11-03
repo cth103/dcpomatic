@@ -201,6 +201,11 @@ public:
 		return _has_atmos;
 	}
 
+	/** @return for each reel of the DCP, in the same order as reel_lengths(), whether it has Atmos */
+	std::vector<bool> reels_with_atmos() const {
+		return _reels_with_atmos;
+	}
+
 	Frame atmos_length() const {
 		return _atmos_length;
 	}
@@ -280,6 +285,7 @@ private:
 	std::vector<dcp::Rating> _ratings;
 	std::vector<std::string> _content_versions;
 	bool _has_atmos = false;
+	std::vector<bool> _reels_with_atmos;
 	Frame _atmos_length = 0;
 	dcp::Fraction _atmos_edit_rate;
 	EnumIndexedVector<bool, TextType> _has_non_zero_entry_point;
