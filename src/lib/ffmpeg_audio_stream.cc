@@ -46,6 +46,7 @@ FFmpegAudioStream::FFmpegAudioStream (cxml::ConstNodePtr node, int version)
 		first_audio = ContentTime(f.get());
 	}
 	codec_name = node->optional_string_child("CodecName");
+	channel_layout = node->optional_string_child("ChannelLayout");
 }
 
 
@@ -64,5 +65,8 @@ FFmpegAudioStream::as_xml(xmlpp::Element* root) const
 	}
 	if (bit_depth()) {
 		cxml::add_text_child(root, "BitDepth", fmt::to_string(bit_depth().get()));
+	}
+	if (channel_layout) {
+		cxml::add_text_child(root, "ChannelLayout", channel_layout.get());
 	}
 }
