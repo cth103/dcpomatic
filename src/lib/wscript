@@ -71,6 +71,7 @@ sources = """
           datasat_ap2x.cc
           dcp_content.cc
           dcp_content_type.cc
+          dcdm_quality.cc
           dcp_decoder.cc
           dcp_examiner.cc
           dcp_digest_file.cc
