@@ -75,6 +75,7 @@ public:
 
 	std::list<int> mapped_output_channels() const;
 	void unmap_all();
+	void unmap_input(int input_channel);
 
 	void take_from(AudioMapping const& other);
 

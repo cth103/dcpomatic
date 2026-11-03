@@ -293,6 +293,16 @@ AudioMapping::unmap_all()
 
 
 void
+AudioMapping::unmap_input(int input_channel)
+{
+	DCPOMATIC_ASSERT(input_channel < input_channels());
+	for (auto output = 0; output < output_channels(); ++output) {
+		set(input_channel, output, 0);
+	}
+}
+
+
+void
 AudioMapping::take_from(AudioMapping const& other)
 {
 	auto input = std::min(input_channels(), other.input_channels());
