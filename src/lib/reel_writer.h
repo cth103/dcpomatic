@@ -81,6 +81,15 @@ public:
 	void write(PlayerText text, TextType type, boost::optional<DCPTextTrack> track, dcpomatic::DCPTimePeriod period, FontIdMap const& fonts, std::shared_ptr<dcpomatic::Font> chosen_interop_font);
 	void write(std::shared_ptr<const dcp::AtmosFrame> atmos, AtmosMetadata metadata);
 	void write(std::shared_ptr<dcp::MonoMPEG2PictureFrame> image);
+	/** @param frames length of head in video frames */
+	void set_sound_head(std::shared_ptr<const AudioBuffers> head, Frame frames);
+	void set_sound_tail(std::shared_ptr<const AudioBuffers> tail);
+	/** The sound asset that this reel writes, or null if it writes none (text only, or it refers to another reel's sound) */
+	std::shared_ptr<dcp::SoundAsset> sound_asset() const {
+		return _sound_asset;
+	}
+	/** Use the sound asset that another reel of the same DCP has written, instead of writing our own sound */
+	void set_shared_sound(std::shared_ptr<dcp::SoundAsset> asset);
 
 	void finish(boost::filesystem::path output_dcp);
 	std::shared_ptr<dcp::Reel> create_reel(
@@ -147,6 +156,16 @@ private:
 	std::shared_ptr<dcp::MPEG2PictureAssetWriter> _mpeg2_picture_asset_writer;
 	std::shared_ptr<dcp::SoundAsset> _sound_asset;
 	std::shared_ptr<dcp::SoundAssetWriter> _sound_asset_writer;
+	/** sound to write before the reel's own sound (the head of a sound MXF before its trim), if any */
+	std::shared_ptr<const AudioBuffers> _sound_head;
+	/** length of _sound_head in video frames; the entry point of the reel's sound asset */
+	Frame _sound_head_frames = 0;
+	/** sound to write after the reel's own sound (the tail of a sound MXF after its trim), if any */
+	std::shared_ptr<const AudioBuffers> _sound_tail;
+	/** true once some of the reel's own sound has been written */
+	bool _sound_written = false;
+	/** a sound asset written by another reel of this DCP, which this reel refers to, or null */
+	std::shared_ptr<dcp::SoundAsset> _shared_sound;
 	std::shared_ptr<dcp::TextAsset> _subtitle_asset;
 	std::map<DCPTextTrack, std::shared_ptr<dcp::TextAsset>> _closed_caption_assets;
 	std::shared_ptr<dcp::AtmosAsset> _atmos_asset;

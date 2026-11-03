@@ -28,6 +28,7 @@
 #include "overlaps.h"
 #include "sound_mxf_content.h"
 #include "sound_mxf_examiner.h"
+#include "util.h"
 #include <asdcp/KM_log.h>
 #include <dcp/exceptions.h>
 #include <dcp/sound_asset.h>
@@ -76,6 +77,7 @@ SoundMXFContent::SoundMXFContent(cxml::ConstNodePtr node, boost::optional<boost:
 
 	_edit_rate = dcp::Fraction(node->number_child<int>("EditRateNumerator"), node->number_child<int>("EditRateDenominator"));
 	_standard = node->string_child("Standard") == "Interop" ? dcp::Standard::INTEROP : dcp::Standard::SMPTE;
+	_asset_id = node->optional_string_child("AssetId");
 }
 
 
@@ -125,6 +127,7 @@ SoundMXFContent::examine(shared_ptr<const Film> film, shared_ptr<Job> job, bool 
 		_channels_with_sound = with_sound;
 		_edit_rate = examiner.edit_rate();
 		_standard = asset.standard();
+		_asset_id = asset.id();
 	}
 
 	auto stream = make_shared<AudioStream>(examiner.audio_frame_rate(), examiner.audio_length(), examiner.audio_channels(), 24);
@@ -177,6 +180,9 @@ SoundMXFContent::as_xml(xmlpp::Element* element, bool with_paths, PathBehaviour 
 	cxml::add_text_child(element, "EditRateNumerator", fmt::to_string(_edit_rate.numerator));
 	cxml::add_text_child(element, "EditRateDenominator", fmt::to_string(_edit_rate.denominator));
 	cxml::add_text_child(element, "Standard", _standard == dcp::Standard::INTEROP ? "Interop" : "SMPTE");
+	if (_asset_id) {
+		cxml::add_text_child(element, "AssetId", *_asset_id);
+	}
 }
 
 
@@ -345,6 +351,158 @@ sound_mxf_frame_audio(shared_ptr<const dcp::SoundFrame> sound_frame, int channel
 	}
 
 	return data;
+}
+
+
+string
+SoundMXFContent::sound_digest(shared_ptr<const Film> film) const
+{
+	dcp::Fraction edit_rate;
+	optional<string> asset_id;
+	{
+		boost::mutex::scoped_lock lm(_mutex);
+		edit_rate = _edit_rate;
+		asset_id = _asset_id;
+	}
+
+	return fmt::format(
+		"{}|{}/{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}",
+		asset_id ? *asset_id : dcp::SoundAsset(path(0)).id(),
+		edit_rate.numerator,
+		edit_rate.denominator,
+		trim_start().get(),
+		trim_end().get(),
+		audio->gain(),
+		audio->delay(),
+		audio->fade_in().get(),
+		audio->fade_out().get(),
+		audio->stream()->mapping().digest(),
+		film->audio_channels(),
+		film->audio_frame_rate(),
+		film->video_frame_rate(),
+		film->interop(),
+		film->encrypt_sound() ? 1 : 0
+		);
+}
+
+
+bool
+SoundMXFContent::is_whole_reel(shared_ptr<const Film> film) const
+{
+	auto const period = DCPTimePeriod(position(), end(film));
+	auto const reels = film->reels();
+	auto has_audio = [](shared_ptr<const Content> c) { return static_cast<bool>(c->audio); };
+	return std::find(reels.begin(), reels.end(), period) != reels.end()
+		&& dcpomatic::overlaps(film, film->content(), has_audio, period.from, period.to).size() == 1;
+}
+
+
+shared_ptr<const SoundMXFContent>
+SoundMXFContent::shared_sound_source(shared_ptr<const Film> film) const
+{
+	/* The Atmos sync signal changes from frame to frame, and an audio processor has state, so those reels differ */
+	if (film->contains_atmos_content() || film->audio_processor()) {
+		return {};
+	}
+
+	/* A delay moves sound across the reel's boundaries, and a speed change makes other sound of another length */
+	if (audio->delay() != 0 || !frames_align_with(film)) {
+		return {};
+	}
+
+	string why_not;
+	if (!is_whole_reel(film) || can_reference_audio(film, why_not)) {
+		return {};
+	}
+
+	auto const digest = sound_digest(film);
+	shared_ptr<const SoundMXFContent> found;
+	for (auto content: film->content()) {
+		auto other = std::dynamic_pointer_cast<const SoundMXFContent>(content);
+		if (!other || other.get() == this || !other->is_whole_reel(film)) {
+			continue;
+		}
+		if (other->position() >= position() || other->can_reference_audio(film, why_not)) {
+			continue;
+		}
+		if (other->sound_digest(film) == digest && (!found || other->position() < found->position())) {
+			found = other;
+		}
+	}
+
+	return found;
+}
+
+
+bool
+SoundMXFContent::frames_align_with(shared_ptr<const Film> film) const
+{
+	dcp::Fraction edit_rate;
+	{
+		boost::mutex::scoped_lock lm(_mutex);
+		edit_rate = _edit_rate;
+	}
+
+	return edit_rate.denominator == 1 && edit_rate.numerator == film->video_frame_rate() && !FrameRateChange(film, shared_from_this()).change_speed();
+}
+
+
+Frame
+SoundMXFContent::head_frames() const
+{
+	dcp::Fraction edit_rate;
+	{
+		boost::mutex::scoped_lock lm(_mutex);
+		edit_rate = _edit_rate;
+	}
+	return trim_start().frames_round(static_cast<double>(edit_rate.numerator) / edit_rate.denominator);
+}
+
+
+shared_ptr<const AudioBuffers>
+SoundMXFContent::head_audio(shared_ptr<const Film> film) const
+{
+	auto const frames = head_frames();
+	if (frames == 0 || audio->stream()->frame_rate() != film->audio_frame_rate()) {
+		return {};
+	}
+	return frames_audio(film, 0, frames);
+}
+
+
+shared_ptr<const AudioBuffers>
+SoundMXFContent::tail_audio(shared_ptr<const Film> film) const
+{
+	dcp::Fraction edit_rate;
+	{
+		boost::mutex::scoped_lock lm(_mutex);
+		edit_rate = _edit_rate;
+	}
+	auto const frames = trim_end().frames_round(static_cast<double>(edit_rate.numerator) / edit_rate.denominator);
+	if (frames == 0 || audio->stream()->frame_rate() != film->audio_frame_rate()) {
+		return {};
+	}
+	dcp::SoundAsset asset(path(0));
+	return frames_audio(film, asset.intrinsic_duration() - frames, asset.intrinsic_duration());
+}
+
+
+shared_ptr<const AudioBuffers>
+SoundMXFContent::frames_audio(shared_ptr<const Film> film, Frame from, Frame to) const
+{
+	dcp::SoundAsset asset(path(0));
+	auto reader = asset.start_read();
+	reader->set_check_hmac(false);
+
+	auto const mapping = audio->stream()->mapping();
+	auto result = make_shared<AudioBuffers>(film->audio_channels(), 0);
+	for (auto frame = from; frame < to; ++frame) {
+		result->append(remap(sound_mxf_frame_audio(reader->get_frame(frame), asset.channels()), film->audio_channels(), mapping));
+	}
+
+	/* A change is made on the whole of the file, so the gain goes on these frames too */
+	result->apply_gain(audio->gain());
+	return result;
 }
 
 

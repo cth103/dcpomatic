@@ -28,6 +28,7 @@
 #include "lib/audio_analysis.h"
 #include "lib/audio_buffers.h"
 #include "lib/audio_content.h"
+#include "lib/audio_processor.h"
 #include "lib/content_factory.h"
 #include "lib/examine_content_job.h"
 #include "lib/film.h"
@@ -47,9 +48,11 @@
 #include <dcp/reel_sound_asset.h>
 #include <dcp/sound_asset.h>
 #include <dcp/sound_asset_writer.h>
+#include <boost/algorithm/string.hpp>
 #include <boost/test/unit_test.hpp>
 #include <algorithm>
 #include <cmath>
+#include <functional>
 
 
 using std::dynamic_pointer_cast;
@@ -508,6 +511,25 @@ BOOST_AUTO_TEST_CASE(sound_mxf_delay_keeps_length_test)
 }
 
 
+/** A gain and a trim together: the new sound is the file's whole length and the trim is the entry point and duration */
+BOOST_AUTO_TEST_CASE(sound_mxf_gain_with_trim_keeps_length_test)
+{
+	auto const mxf = make_sound_mxf("sound_mxf_gain_with_trim_keeps_length_test_source");
+	dcp::SoundAsset const source(mxf);
+
+	auto content = content_factory(mxf);
+	auto film = new_test_film("sound_mxf_gain_with_trim_keeps_length_test", content);
+	content[0]->set_trim_start(film, dcpomatic::ContentTime::from_seconds(1));
+	content[0]->set_trim_end(dcpomatic::ContentTime::from_seconds(2));
+	content[0]->audio->set_gain(3);
+	auto sound = make_and_find_sound(film);
+	BOOST_CHECK(sound->asset_ref().id() != source.id());
+	BOOST_CHECK_EQUAL(sound->entry_point().get_value_or(0), 24);
+	BOOST_CHECK_EQUAL(sound->actual_duration(), source.intrinsic_duration() - 3 * 24);
+	BOOST_CHECK_EQUAL(sound->intrinsic_duration(), source.intrinsic_duration());
+}
+
+
 /** A gain of -6dB halves the samples of the whole file */
 BOOST_AUTO_TEST_CASE(sound_mxf_gain_value_test)
 {
@@ -543,6 +565,32 @@ BOOST_AUTO_TEST_CASE(sound_mxf_delay_moves_sound_test)
 		BOOST_CHECK_MESSAGE(peak_of(samples_of(asset, frame, 0)) < 64, "frame " << frame);
 	}
 	BOOST_CHECK(peak_of(samples_of(asset, 14, 0)) > 1000000);
+}
+
+
+/** A fade in after a start trim rises from silence at the trim, in the file's own frames */
+BOOST_AUTO_TEST_CASE(sound_mxf_fade_with_trim_test)
+{
+	auto const mxf = write_sound_mxf("sound_mxf_fade_with_trim_test_source", 6, true, {});
+	dcp::SoundAsset const source(mxf);
+
+	auto content = content_factory(mxf);
+	auto film = new_test_film("sound_mxf_fade_with_trim_test", content);
+	content[0]->set_trim_start(film, dcpomatic::ContentTime::from_seconds(1));
+	content[0]->audio->set_fade_in(dcpomatic::ContentTime::from_seconds(0.5));
+	auto sound = make_and_find_sound(film);
+	auto asset = sound_asset_of(sound);
+
+	/* The file is 48 frames: the head (0-23) is kept as it is, the fade runs over frames 24-35 */
+	BOOST_CHECK_EQUAL(sound->entry_point().get_value_or(0), 24);
+	BOOST_CHECK_EQUAL(sound->intrinsic_duration(), 48);
+	auto const head = peak_of(samples_of(asset, 5, 0));
+	auto const start = peak_of(samples_of(asset, 24, 0));
+	auto const end = peak_of(samples_of(asset, 35, 0));
+	auto const after = peak_of(samples_of(asset, 44, 0));
+	BOOST_CHECK_MESSAGE(head > after * 0.8, "head " << head << " after " << after);
+	BOOST_CHECK_MESSAGE(start < end / 3, "start " << start << " end " << end);
+	BOOST_CHECK_MESSAGE(end > after * 0.8, "end " << end << " after " << after);
 }
 
 
@@ -680,6 +728,81 @@ BOOST_AUTO_TEST_CASE(sound_mxf_player_decodes_unless_making_dcp_test)
 
 	BOOST_CHECK(frames_from(false) > 0);
 	BOOST_CHECK_EQUAL(frames_from(true), 0);
+}
+
+
+/** A sound MXF with a start trim at the start of a reel, followed by other sound: the reel's sound asset keeps the
+ *  head of the file before the trim, and the CPL's entry point skips it.
+ */
+BOOST_AUTO_TEST_CASE(sound_mxf_head_kept_test)
+{
+	auto const mxf = write_sound_mxf("sound_mxf_head_kept_test_source", 6, true, {});
+
+	auto content = content_factory(mxf);
+	auto film = new_test_film("sound_mxf_head_kept_test", content);
+	content[0]->set_trim_start(film, dcpomatic::ContentTime::from_seconds(1));
+	auto wav = content_factory("test/data/sine_16_48_220_10.wav");
+	film->examine_and_add_content(wav);
+	BOOST_REQUIRE(!wait_for_jobs());
+	wav[0]->set_position(film, content[0]->end(film));
+
+	auto sound = make_and_find_sound(film);
+	auto const reel_frames = film->length().frames_round(24);
+	BOOST_CHECK_EQUAL(sound->entry_point().get_value_or(0), 24);
+	BOOST_CHECK_EQUAL(sound->actual_duration(), reel_frames);
+	BOOST_CHECK_EQUAL(sound->intrinsic_duration(), reel_frames + 24);
+	auto asset = sound_asset_of(sound);
+	BOOST_CHECK(peak_of(samples_of(asset, 0, 0)) > 1000000);
+	BOOST_CHECK(peak_of(samples_of(asset, 30, 0)) > 1000000);
+}
+
+
+/** A sound MXF with an end trim at the end of a reel, after other sound: the reel's sound asset keeps the tail of
+ *  the file after the trim, and the CPL's duration stops before it.
+ */
+BOOST_AUTO_TEST_CASE(sound_mxf_tail_kept_test)
+{
+	auto const mxf = write_sound_mxf("sound_mxf_tail_kept_test_source", 6, true, {});
+
+	auto wav = content_factory("test/data/sine_16_48_220_10.wav");
+	auto film = new_test_film("sound_mxf_tail_kept_test", wav);
+	auto content = content_factory(mxf);
+	film->examine_and_add_content(content);
+	BOOST_REQUIRE(!wait_for_jobs());
+	content[0]->set_position(film, wav[0]->end(film));
+	content[0]->set_trim_end(dcpomatic::ContentTime::from_seconds(1));
+
+	auto sound = make_and_find_sound(film);
+	auto const reel_frames = film->length().frames_round(24);
+	BOOST_CHECK_EQUAL(sound->entry_point().get_value_or(0), 0);
+	BOOST_CHECK_EQUAL(sound->actual_duration(), reel_frames);
+	BOOST_CHECK_EQUAL(sound->intrinsic_duration(), reel_frames + 24);
+	auto asset = sound_asset_of(sound);
+	BOOST_CHECK(peak_of(samples_of(asset, reel_frames + 12, 0)) > 1000000);
+}
+
+
+/** A sound MXF in the middle of a reel keeps nothing of what its trims cut off */
+BOOST_AUTO_TEST_CASE(sound_mxf_middle_keeps_nothing_test)
+{
+	auto const mxf = write_sound_mxf("sound_mxf_middle_keeps_nothing_test_source", 6, true, {});
+
+	auto first = content_factory("test/data/sine_16_48_220_10.wav");
+	auto film = new_test_film("sound_mxf_middle_keeps_nothing_test", first);
+	auto content = content_factory(mxf);
+	auto last = content_factory("test/data/sine_16_48_220_10.wav");
+	film->examine_and_add_content(content);
+	film->examine_and_add_content(last);
+	BOOST_REQUIRE(!wait_for_jobs());
+	content[0]->set_position(film, first[0]->end(film));
+	content[0]->set_trim_start(film, dcpomatic::ContentTime::from_seconds(0.5));
+	content[0]->set_trim_end(dcpomatic::ContentTime::from_seconds(0.5));
+	last[0]->set_position(film, content[0]->end(film));
+
+	auto sound = make_and_find_sound(film);
+	auto const reel_frames = film->length().frames_round(24);
+	BOOST_CHECK_EQUAL(sound->entry_point().get_value_or(0), 0);
+	BOOST_CHECK_EQUAL(sound->intrinsic_duration(), reel_frames);
 }
 
 
@@ -828,6 +951,217 @@ BOOST_AUTO_TEST_CASE(sound_mxf_part_frame_trim_test)
 	string why_not;
 	BOOST_CHECK(!sound_mxf->can_reference_audio(film, why_not));
 	BOOST_CHECK_MESSAGE(why_not.find("whole frames") != string::npos, why_not);
+}
+
+
+/** @return the number of PCM sound MXFs in a DCP's folder */
+static int
+pcm_files_in(boost::filesystem::path dcp)
+{
+	int n = 0;
+	for (auto i: boost::filesystem::directory_iterator(dcp)) {
+		if (boost::starts_with(i.path().filename().string(), "pcm_")) {
+			++n;
+		}
+	}
+	return n;
+}
+
+
+/** Make a film of @param count reels, each the same sound MXF, and @return the DCP's reels after @param change
+ *  has been applied to each content.
+ */
+static std::vector<std::shared_ptr<dcp::Reel>>
+repeated_reels(string name, boost::filesystem::path mxf, int count, std::function<void (std::shared_ptr<Content>, int)> change)
+{
+	auto film = new_test_film(name);
+	std::vector<dcpomatic::DCPTime> boundaries;
+	std::shared_ptr<Content> previous;
+	for (int i = 0; i < count; ++i) {
+		auto content = content_factory(mxf);
+		film->examine_and_add_content(content);
+		BOOST_REQUIRE(!wait_for_jobs());
+		if (previous) {
+			content[0]->set_position(film, previous->end(film));
+			boundaries.push_back(previous->end(film));
+		}
+		change(content[0], i);
+		previous = content[0];
+	}
+	film->set_reel_type(ReelType::CUSTOM);
+	film->set_custom_reel_boundaries(boundaries);
+	make_and_verify_dcp(film, { dcp::VerificationNote::Code::MISSING_CPL_METADATA });
+
+	dcp::DCP dcp(film->dir(film->dcp_name()));
+	dcp.read();
+	BOOST_REQUIRE_EQUAL(dcp.cpls().size(), 1U);
+	auto const reels = dcp.cpls()[0]->reels();
+	BOOST_REQUIRE_EQUAL(reels.size(), static_cast<size_t>(count));
+	BOOST_CHECK_EQUAL(pcm_files_in(film->dir(film->dcp_name())), 1);
+	return reels;
+}
+
+
+/** The same file as five whole reels, unchanged: one asset, referenced by every reel */
+BOOST_AUTO_TEST_CASE(sound_mxf_repeated_reels_same_id_test)
+{
+	auto const mxf = make_sound_mxf("sound_mxf_repeated_reels_same_id_test_source");
+	dcp::SoundAsset const source(mxf);
+
+	auto const reels = repeated_reels("sound_mxf_repeated_reels_same_id_test", mxf, 5, [](std::shared_ptr<Content>, int) {});
+	for (auto reel: reels) {
+		BOOST_REQUIRE(reel->main_sound());
+		BOOST_CHECK_EQUAL(reel->main_sound()->asset_ref().id(), source.id());
+	}
+}
+
+
+/** The same file as five whole reels with the same gain: one new asset, referenced by every reel */
+BOOST_AUTO_TEST_CASE(sound_mxf_repeated_reels_changed_same_id_test)
+{
+	auto const mxf = make_sound_mxf("sound_mxf_repeated_reels_changed_same_id_test_source");
+	dcp::SoundAsset const source(mxf);
+
+	auto const reels = repeated_reels(
+		"sound_mxf_repeated_reels_changed_same_id_test", mxf, 5, [](std::shared_ptr<Content> content, int) { content->audio->set_gain(3); }
+		);
+	BOOST_REQUIRE(reels[0]->main_sound());
+	auto const id = reels[0]->main_sound()->asset_ref().id();
+	BOOST_CHECK(id != source.id());
+	for (auto reel: reels) {
+		BOOST_REQUIRE(reel->main_sound());
+		BOOST_CHECK_EQUAL(reel->main_sound()->asset_ref().id(), id);
+	}
+}
+
+
+/** Two reels with the same sound MXF, gain 3 dB, for the sharing tests below */
+static std::pair<std::shared_ptr<Film>, std::shared_ptr<SoundMXFContent>>
+two_gained_reels(string name, std::vector<std::shared_ptr<Content>> extra = {})
+{
+	auto const mxf = make_sound_mxf(name + "_source");
+	auto first = content_factory(mxf);
+	auto second = content_factory(mxf);
+	auto film = new_test_film(name, first);
+	film->examine_and_add_content(second);
+	if (!extra.empty()) {
+		film->examine_and_add_content(extra);
+	}
+	BOOST_REQUIRE(!wait_for_jobs());
+	film->set_sequence(false);
+	second[0]->set_position(film, first[0]->end(film));
+	film->set_reel_type(ReelType::CUSTOM);
+	film->set_custom_reel_boundaries({ first[0]->end(film) });
+	first[0]->audio->set_gain(3);
+	second[0]->audio->set_gain(3);
+	auto sound = std::dynamic_pointer_cast<SoundMXFContent>(second[0]);
+	BOOST_REQUIRE(sound);
+	return { film, sound };
+}
+
+
+/** A reel with other sound over its sound MXF does not have the same sound as one without, so it is not shared */
+BOOST_AUTO_TEST_CASE(sound_mxf_repeated_reels_with_other_sound_are_not_shared_test)
+{
+	auto music = content_factory("test/data/sine_16_48_440_10.wav")[0];
+	auto const setup = two_gained_reels("sound_mxf_repeated_reels_with_other_sound_are_not_shared_test", { music });
+	auto film = setup.first;
+	music->set_position(film, setup.second->position());
+	music->set_trim_end(dcpomatic::ContentTime(music->full_length(film).get() - setup.second->full_length(film).get()));
+	BOOST_CHECK(!setup.second->shared_sound_source(film));
+}
+
+
+/** An audio processor has state, a delay moves sound across reels and a speed change makes sound of another length:
+ *  none of these is shared
+ */
+BOOST_AUTO_TEST_CASE(sound_mxf_repeated_reels_that_differ_are_not_shared_test)
+{
+	auto const setup = two_gained_reels("sound_mxf_repeated_reels_that_differ_are_not_shared_test");
+	auto film = setup.first;
+	auto sound = setup.second;
+	auto first = film->content().front();
+	BOOST_REQUIRE(sound->shared_sound_source(film));
+
+	film->set_audio_processor(AudioProcessor::from_id("mid-side-decoder"));
+	BOOST_CHECK(!sound->shared_sound_source(film));
+	film->set_audio_processor(nullptr);
+	BOOST_REQUIRE(sound->shared_sound_source(film));
+
+	first->audio->set_delay(100);
+	sound->audio->set_delay(100);
+	BOOST_CHECK(!sound->shared_sound_source(film));
+	first->audio->set_delay(0);
+	sound->audio->set_delay(0);
+
+	sound->set_video_frame_rate(film, 25);
+	BOOST_CHECK(!sound->shared_sound_source(film));
+}
+
+
+/** In a film with Atmos the sound is written with the Atmos sync signal, which must start with the reel: no head */
+BOOST_AUTO_TEST_CASE(sound_mxf_with_atmos_keeps_no_head_test)
+{
+	auto const mxf = write_sound_mxf("sound_mxf_with_atmos_keeps_no_head_test_source", 16, true, {});
+	auto film = new_test_film("sound_mxf_with_atmos_keeps_no_head_test");
+	film->set_audio_channels(16);
+	auto content = content_factory(mxf);
+	content.push_back(content_factory("test/data/atmos_0.mxf")[0]);
+	film->examine_and_add_content(content);
+	BOOST_REQUIRE(!wait_for_jobs());
+	content[0]->set_trim_start(film, dcpomatic::ContentTime::from_frames(12, 24));
+	make_and_verify_dcp(film, { dcp::VerificationNote::Code::MISSING_CPL_METADATA });
+
+	dcp::DCP dcp(film->dir(film->dcp_name()));
+	dcp.read();
+	BOOST_REQUIRE_EQUAL(dcp.cpls().size(), 1U);
+	auto const reels = dcp.cpls()[0]->reels();
+	BOOST_REQUIRE(!reels.empty());
+	BOOST_REQUIRE(reels[0]->main_sound());
+	BOOST_CHECK_EQUAL(reels[0]->main_sound()->entry_point().get_value_or(0), 0);
+}
+
+
+/** The gain of a sound MXF goes on the frames that its trim cuts off too */
+BOOST_AUTO_TEST_CASE(sound_mxf_gain_reaches_the_head_test)
+{
+	auto const mxf = make_sound_mxf("sound_mxf_gain_reaches_the_head_test_source");
+	auto content = content_factory(mxf)[0];
+	auto film = new_test_film("sound_mxf_gain_reaches_the_head_test", { content });
+	content->set_trim_start(film, dcpomatic::ContentTime::from_frames(12, 24));
+	content->audio->set_gain(-6);
+	auto const sound = make_and_find_sound(film);
+	BOOST_REQUIRE_EQUAL(sound->entry_point().get_value_or(0), 12);
+	auto const plain = peak_of(samples_of(std::make_shared<dcp::SoundAsset>(mxf), 0, 2));
+	auto const quiet = peak_of(samples_of(sound_asset_of(sound), 0, 2));
+	BOOST_REQUIRE(plain > 0);
+	BOOST_CHECK_CLOSE(static_cast<double>(quiet) / plain, 0.5012, 2);
+}
+
+
+/** The same file as two whole reels with different gains: two assets */
+BOOST_AUTO_TEST_CASE(sound_mxf_repeated_reels_different_settings_test)
+{
+	auto const mxf = make_sound_mxf("sound_mxf_repeated_reels_different_settings_test_source");
+
+	auto film = new_test_film("sound_mxf_repeated_reels_different_settings_test");
+	auto first = content_factory(mxf);
+	auto second = content_factory(mxf);
+	film->examine_and_add_content(first);
+	film->examine_and_add_content(second);
+	BOOST_REQUIRE(!wait_for_jobs());
+	second[0]->set_position(film, first[0]->end(film));
+	second[0]->audio->set_gain(3);
+	film->set_reel_type(ReelType::CUSTOM);
+	film->set_custom_reel_boundaries({ first[0]->end(film) });
+	make_and_verify_dcp(film, { dcp::VerificationNote::Code::MISSING_CPL_METADATA });
+
+	dcp::DCP dcp(film->dir(film->dcp_name()));
+	dcp.read();
+	auto const reels = dcp.cpls()[0]->reels();
+	BOOST_REQUIRE_EQUAL(reels.size(), 2U);
+	BOOST_CHECK(reels[0]->main_sound()->asset_ref().id() != reels[1]->main_sound()->asset_ref().id());
+	BOOST_CHECK_EQUAL(pcm_files_in(film->dir(film->dcp_name())), 2);
 }
 
 

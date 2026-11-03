@@ -367,6 +367,11 @@ ReelWriter::finish(boost::filesystem::path output_dcp)
 		_mpeg2_picture_asset.reset();
 	}
 
+	if (_sound_asset_writer && _sound_written && _sound_tail) {
+		/* The tail of a sound MXF that ends this reel goes after the reel's sound; the CPL's duration stops before it */
+		_sound_asset_writer->write(_sound_tail->data(), _sound_tail->channels(), _sound_tail->frames());
+	}
+
 	if (_sound_asset_writer && !_sound_asset_writer->finalize()) {
 		/* Nothing was written to the sound asset */
 		_sound_asset.reset();
@@ -556,9 +561,17 @@ ReelWriter::create_reel_sound(shared_ptr<dcp::Reel> reel, list<ReferencedReelAss
 {
 	shared_ptr<dcp::ReelSoundAsset> reel_asset;
 
-	if (_sound_asset) {
-		/* We have made a sound asset of our own.  Put it into the reel */
-		reel_asset = make_shared<dcp::ReelSoundAsset>(_sound_asset, 0);
+	auto const own_or_shared = _sound_asset ? _sound_asset : _shared_sound;
+	if (own_or_shared) {
+		/* We have made a sound asset of our own (or another reel of this DCP has, and we refer to it).  Put it into
+		 * the reel, skipping any head and tail of a sound MXF that it was written with.
+		 */
+		reel_asset = make_shared<dcp::ReelSoundAsset>(own_or_shared, _sound_head_frames);
+		if (_sound_head || _sound_tail || _shared_sound) {
+			/* The asset is longer than the reel; otherwise its length must be the reel's, as checked below */
+			reel_asset->set_duration(_period.duration().frames_round(film()->video_frame_rate()));
+			DCPOMATIC_ASSERT(reel_asset->entry_point().get_value_or(0) + reel_asset->actual_duration() <= reel_asset->intrinsic_duration());
+		}
 		if (auto lang = film()->audio_language()) {
 			reel_asset->set_language(*lang);
 		}
@@ -813,7 +826,39 @@ ReelWriter::write(shared_ptr<const AudioBuffers> audio)
 	}
 
 	DCPOMATIC_ASSERT(audio);
+
+	if (!_sound_written && _sound_head) {
+		/* The head of a sound MXF that starts this reel goes before the reel's sound; the CPL's entry point skips it */
+		_sound_asset_writer->write(_sound_head->data(), _sound_head->channels(), _sound_head->frames());
+	}
+	_sound_written = true;
+
 	_sound_asset_writer->write(audio->data(), audio->channels(), audio->frames());
+}
+
+
+void
+ReelWriter::set_shared_sound(shared_ptr<dcp::SoundAsset> asset)
+{
+	/* Our own sound writer was started in the constructor; nothing will be written to it, so drop it */
+	_sound_asset_writer.reset();
+	_sound_asset.reset();
+	_shared_sound = asset;
+}
+
+
+void
+ReelWriter::set_sound_head(shared_ptr<const AudioBuffers> head, Frame frames)
+{
+	_sound_head = head;
+	_sound_head_frames = frames;
+}
+
+
+void
+ReelWriter::set_sound_tail(shared_ptr<const AudioBuffers> tail)
+{
+	_sound_tail = tail;
 }
 
 

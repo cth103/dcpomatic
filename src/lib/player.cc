@@ -324,6 +324,9 @@ Player::setup_pieces()
 			if (decoder->audio && _making_dcp && sound_mxf->can_reference_audio(film, why_not)) {
 				/* The file goes into the DCP as it is, so we do not decode it */
 				decoder->audio->set_ignore(true);
+			} else if (decoder->audio && _making_dcp && sound_mxf->shared_sound_source(film)) {
+				/* Another reel of the DCP writes this same sound, so the sound need not be decoded again */
+				decoder->audio->set_ignore(true);
 			}
 		}
 
