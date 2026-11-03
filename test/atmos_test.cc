@@ -19,10 +19,14 @@
 */
 
 
+#include "lib/atmos_decoder.h"
 #include "lib/config.h"
 #include "lib/content.h"
+#include "lib/content_atmos.h"
 #include "lib/content_factory.h"
 #include "lib/dcp_content.h"
+#include "lib/decoder.h"
+#include "lib/decoder_factory.h"
 #include "lib/film.h"
 #include "test.h"
 #include <dcp/atmos_asset.h>
@@ -39,6 +43,22 @@ using std::shared_ptr;
 using std::string;
 using std::vector;
 using boost::optional;
+
+
+/** An Atmos decoder that is told to ignore its data emits none */
+BOOST_AUTO_TEST_CASE(atmos_decoder_ignore_test)
+{
+	auto content = content_factory("test/data/atmos_0.mxf");
+	auto film = new_test_film("atmos_decoder_ignore_test", content);
+	auto decoder = decoder_factory(film, content[0], false, false, {});
+	BOOST_REQUIRE(decoder->atmos);
+	decoder->atmos->set_ignore(true);
+
+	int emitted = 0;
+	decoder->atmos->Data.connect([&emitted](ContentAtmos) { ++emitted; });
+	for (int i = 0; i < 24 && !decoder->pass(); ++i) {}
+	BOOST_CHECK_EQUAL(emitted, 0);
+}
 
 
 BOOST_AUTO_TEST_CASE(atmos_passthrough_test)
