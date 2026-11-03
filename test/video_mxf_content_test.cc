@@ -27,7 +27,12 @@
 
 
 #include "lib/content_factory.h"
+#include "lib/dcp_content_type.h"
+#include "lib/decoder.h"
+#include "lib/decoder_factory.h"
 #include "lib/film.h"
+#include "lib/ratio.h"
+#include "lib/video_decoder.h"
 #include "lib/video_mxf_content.h"
 #include "test.h"
 #include <dcp/equality_options.h>
@@ -76,4 +81,16 @@ BOOST_AUTO_TEST_CASE(valid_video_mxf_restores_logging_test)
 	Kumu::DefaultLogSink().SetFilterFlag(Kumu::LOG_ALLOW_ALL);
 	BOOST_REQUIRE(VideoMXFContent::valid_mxf(picture));
 	BOOST_CHECK(Kumu::DefaultLogSink().TestFilterFlag(Kumu::LOG_ALLOW_ALL));
+}
+
+
+/** A picture MXF decoder whose video is ignored reads no frames: it says at once that it has finished */
+BOOST_AUTO_TEST_CASE(video_mxf_decoder_ignore_test)
+{
+	auto content = content_factory(find_file("test/data/scaling_test_185_185", "j2c"));
+	auto film = new_test_film("video_mxf_decoder_ignore_test", content);
+	auto decoder = decoder_factory(film, content[0], false, false, {});
+	BOOST_REQUIRE(decoder->video);
+	decoder->video->set_ignore(true);
+	BOOST_CHECK(decoder->pass());
 }
