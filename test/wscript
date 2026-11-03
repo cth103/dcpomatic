@@ -86,6 +86,7 @@ def build(bld):
                  dcp_metadata_test.cc
                  dcp_playback_test.cc
                  dcp_subtitle_test.cc
+                 dpx_writer_test.cc
                  digest_test.cc
                  dkdm_recipient_list_test.cc
                  email_test.cc
