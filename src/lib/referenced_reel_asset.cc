@@ -27,9 +27,12 @@
 #include "playlist.h"
 #include "referenced_reel_asset.h"
 #include "sound_mxf_content.h"
+#include "video_mxf_content.h"
 #include <dcp/filesystem.h>
+#include <dcp/mono_j2k_picture_asset.h>
 #include <dcp/reel.h>
 #include <dcp/reel_asset.h>
+#include <dcp/reel_mono_picture_asset.h>
 #include <dcp/reel_picture_asset.h>
 #include <dcp/reel_sound_asset.h>
 #include <dcp/reel_text_asset.h>
@@ -61,6 +64,24 @@ maybe_add_asset(list<ReferencedReelAsset>& a, shared_ptr<dcp::ReelAsset> r, Fram
 
 
 
+/** Put a file that is not in another DCP into this one, as @param in_dcp, a name made from its ID so that two files
+ *  with the same name do not collide: linked, or copied if it cannot be linked.  The source may already be the file in
+ *  the DCP folder (from an earlier DCP of this film); then there is nothing to do.
+ */
+static void
+put_in_dcp(boost::filesystem::path source, boost::filesystem::path in_dcp)
+{
+	boost::system::error_code ec;
+	if (!(dcp::filesystem::exists(in_dcp, ec) && boost::filesystem::equivalent(source, in_dcp, ec))) {
+		dcp::filesystem::remove(in_dcp, ec);
+		dcp::filesystem::create_hard_link(source, in_dcp, ec);
+		if (ec) {
+			dcp::filesystem::copy_file(source, in_dcp);
+		}
+	}
+}
+
+
 /** @return Details of all the DCP assets in a playlist that are marked to refer to */
 list<ReferencedReelAsset>
 get_referenced_reel_assets(shared_ptr<const Film> film, shared_ptr<const Playlist> playlist)
@@ -73,20 +94,9 @@ get_referenced_reel_assets(shared_ptr<const Film> film, shared_ptr<const Playlis
 			if (sound_mxf->can_reference_audio(film, why_not)) {
 				auto const frame_rate = film->video_frame_rate();
 
-				/* The file is not in another DCP, so it goes into this one, named after its ID so that two files with the
-				 * same name do not collide: linked, or copied if it cannot be linked.  The source may already be the file in
-				 * the DCP folder (from an earlier DCP of this film); then there is nothing to do.
-				 */
 				auto const source = sound_mxf->path(0);
 				auto const in_dcp = film->dir(film->dcp_name()) / ("pcm_" + dcp::SoundAsset(source).id() + ".mxf");
-				boost::system::error_code ec;
-				if (!(dcp::filesystem::exists(in_dcp, ec) && boost::filesystem::equivalent(source, in_dcp, ec))) {
-					dcp::filesystem::remove(in_dcp, ec);
-					dcp::filesystem::create_hard_link(source, in_dcp, ec);
-					if (ec) {
-						dcp::filesystem::copy_file(source, in_dcp);
-					}
-				}
+				put_in_dcp(source, in_dcp);
 
 				maybe_add_asset(
 					reel_assets,
@@ -98,6 +108,28 @@ get_referenced_reel_assets(shared_ptr<const Film> film, shared_ptr<const Playlis
 					);
 			} else {
 				LOG_GENERAL("Not using {} as it is: {}", sound_mxf->path(0).string(), why_not);
+			}
+			continue;
+		}
+
+		if (auto video_mxf = dynamic_pointer_cast<VideoMXFContent>(content)) {
+			std::string why_not;
+			if (video_mxf->can_reference_video(film, why_not)) {
+				auto const frame_rate = film->video_frame_rate();
+				auto const source = video_mxf->path(0);
+				auto const in_dcp = film->dir(film->dcp_name()) / ("j2c_" + dcp::MonoJ2KPictureAsset(source).id() + ".mxf");
+				put_in_dcp(source, in_dcp);
+
+				maybe_add_asset(
+					reel_assets,
+					std::make_shared<dcp::ReelMonoPictureAsset>(std::make_shared<dcp::MonoJ2KPictureAsset>(in_dcp), 0),
+					video_mxf->trim_start().frames_round(frame_rate),
+					video_mxf->trim_end().frames_round(frame_rate),
+					video_mxf->position(),
+					frame_rate
+					);
+			} else {
+				LOG_GENERAL("Not using {} as it is: {}", video_mxf->path(0).string(), why_not);
 			}
 			continue;
 		}

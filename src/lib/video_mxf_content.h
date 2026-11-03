@@ -20,6 +20,7 @@
 
 
 #include "content.h"
+#include <dcp/types.h>
 
 
 class VideoMXFContent : public Content
@@ -52,5 +53,14 @@ public:
 	dcpomatic::DCPTime approximate_length() const override;
 	void add_properties(std::shared_ptr<const Film> film, std::list<UserProperty>& p) const override;
 
+	/** @return true if the image the film would write for this content is exactly the image of the file, so that the
+	 *  file can be used in the DCP as it is, with any trims in the CPL.  If not, @param why_not says why.
+	 */
+	bool can_reference_video(std::shared_ptr<const Film> film, std::string& why_not) const;
+
 	static bool valid_mxf(boost::filesystem::path path);
+
+private:
+	/** Standard of the file, if it is 2D; a 3D file is not used as it is */
+	boost::optional<dcp::Standard> _mono_standard;
 };

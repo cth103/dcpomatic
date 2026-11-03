@@ -47,6 +47,7 @@
 #include "render_text.h"
 #include "shuffler.h"
 #include "sound_mxf_content.h"
+#include "video_mxf_content.h"
 #include "text_content.h"
 #include "text_decoder.h"
 #include "video_decoder.h"
@@ -327,6 +328,14 @@ Player::setup_pieces()
 			} else if (decoder->audio && _making_dcp && sound_mxf->shared_sound_source(film)) {
 				/* Another reel of the DCP writes this same sound, so the sound need not be decoded again */
 				decoder->audio->set_ignore(true);
+			}
+		}
+
+		if (auto video_mxf = dynamic_pointer_cast<const VideoMXFContent>(content)) {
+			std::string why_not;
+			if (decoder->video && _making_dcp && video_mxf->can_reference_video(film, why_not)) {
+				/* The file goes into the DCP as it is, so we do not decode it */
+				decoder->video->set_ignore(true);
 			}
 		}
 
@@ -798,6 +807,10 @@ Player::pass()
 				*/
 				_next_audio_time = dcp->end(film);
 			}
+		}
+		if (dynamic_pointer_cast<VideoMXFContent>(earliest_content->content) && _making_dcp && earliest_content->decoder->video && earliest_content->decoder->video->ignore()) {
+			/* As for a referenced DCP: hide the fact that no video was emitted during this content */
+			_next_video_time = earliest_content->content->end(film);
 		}
 		if (auto sound_mxf = dynamic_pointer_cast<SoundMXFContent>(earliest_content->content)) {
 			if (_making_dcp && earliest_content->decoder->audio && earliest_content->decoder->audio->ignore() && !_ignore_audio) {

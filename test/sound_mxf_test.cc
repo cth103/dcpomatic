@@ -39,12 +39,16 @@
 #include "lib/signal_manager.h"
 #include "lib/player.h"
 #include "lib/sound_mxf_content.h"
+#include "lib/text_content.h"
 #include "lib/transcode_job.h"
+#include "lib/video_content.h"
 #include "test.h"
 #include <dcp/cpl.h>
 #include <dcp/dcp.h>
 #include <dcp/language_tag.h>
+#include <dcp/mono_j2k_picture_asset.h>
 #include <dcp/reel.h>
+#include <dcp/reel_picture_asset.h>
 #include <dcp/reel_sound_asset.h>
 #include <dcp/sound_asset.h>
 #include <dcp/sound_asset_writer.h>
@@ -524,6 +528,141 @@ BOOST_AUTO_TEST_CASE(wav_with_other_sound_is_cut_test)
 	other->set_position(film, dcpomatic::DCPTime());
 	auto const sound = make_and_find_sound(film);
 	BOOST_CHECK_EQUAL(sound->entry_point().get_value_or(0), 0);
+}
+
+
+/** Make a picture MXF of 2 seconds, from a DCP.  @return its path */
+static boost::filesystem::path
+make_picture_mxf(string name)
+{
+	auto image = content_factory("test/data/flat_red.png")[0];
+	auto film = new_test_film(name, { image });
+	image->video->set_length(48);
+	make_and_verify_dcp(film, { dcp::VerificationNote::Code::MISSING_CPL_METADATA });
+	return dcp_file(film, "j2c_");
+}
+
+
+/** Make the DCP of a film and @return the reels of its CPL */
+static std::vector<std::shared_ptr<dcp::Reel>>
+make_and_find_reels(std::shared_ptr<Film> film)
+{
+	make_and_verify_dcp(film, { dcp::VerificationNote::Code::MISSING_CPL_METADATA });
+	dcp::DCP dcp(film->dir(film->dcp_name()));
+	dcp.read();
+	BOOST_REQUIRE_EQUAL(dcp.cpls().size(), 1U);
+	return dcp.cpls()[0]->reels();
+}
+
+
+/** A picture MXF goes into the DCP as it is */
+BOOST_AUTO_TEST_CASE(picture_mxf_is_reused_test)
+{
+	auto const mxf = make_picture_mxf("picture_mxf_is_reused_test_source");
+	dcp::MonoJ2KPictureAsset const source(mxf);
+	auto const reels = make_and_find_reels(new_test_film("picture_mxf_is_reused_test", content_factory(mxf)));
+	BOOST_REQUIRE_EQUAL(reels.size(), 1U);
+	BOOST_CHECK_EQUAL(reels[0]->main_picture()->asset_ref().id(), source.id());
+}
+
+
+/** A trim of a picture MXF is in the CPL, and the file is the same */
+BOOST_AUTO_TEST_CASE(picture_mxf_trim_test)
+{
+	auto const mxf = make_picture_mxf("picture_mxf_trim_test_source");
+	dcp::MonoJ2KPictureAsset const source(mxf);
+	auto content = content_factory(mxf)[0];
+	auto film = new_test_film("picture_mxf_trim_test", { content });
+	content->set_trim_start(film, dcpomatic::ContentTime::from_frames(6, 24));
+	content->set_trim_end(dcpomatic::ContentTime::from_frames(12, 24));
+	auto const reels = make_and_find_reels(film);
+	BOOST_REQUIRE_EQUAL(reels.size(), 1U);
+	auto const picture = reels[0]->main_picture();
+	BOOST_CHECK_EQUAL(picture->asset_ref().id(), source.id());
+	BOOST_CHECK_EQUAL(picture->entry_point().get_value_or(0), 6);
+	BOOST_CHECK_EQUAL(picture->actual_duration(), 30);
+	BOOST_CHECK_EQUAL(picture->intrinsic_duration(), 48);
+}
+
+
+/** Two picture MXFs in reels of their own, as the film's reel type makes them, are each used as they are */
+BOOST_AUTO_TEST_CASE(picture_mxf_two_in_a_row_test)
+{
+	auto const mxf1 = make_picture_mxf("picture_mxf_two_in_a_row_test_source1");
+	auto const mxf2 = make_picture_mxf("picture_mxf_two_in_a_row_test_source2");
+	dcp::MonoJ2KPictureAsset const source1(mxf1);
+	dcp::MonoJ2KPictureAsset const source2(mxf2);
+	auto content = content_factory(mxf1);
+	content.push_back(content_factory(mxf2)[0]);
+	auto film = new_test_film("picture_mxf_two_in_a_row_test", content);
+	film->set_reel_type(ReelType::BY_VIDEO_CONTENT);
+	auto const reels = make_and_find_reels(film);
+	BOOST_REQUIRE_EQUAL(reels.size(), 2U);
+	BOOST_CHECK_EQUAL(reels[0]->main_picture()->asset_ref().id(), source1.id());
+	BOOST_CHECK_EQUAL(reels[1]->main_picture()->asset_ref().id(), source2.id());
+}
+
+
+/** A picture MXF never adds a reel: two of them in a one-reel film stay in one reel, which is written */
+BOOST_AUTO_TEST_CASE(picture_mxf_keeps_the_film_reels_test)
+{
+	auto const mxf1 = make_picture_mxf("picture_mxf_keeps_the_film_reels_test_source1");
+	auto const mxf2 = make_picture_mxf("picture_mxf_keeps_the_film_reels_test_source2");
+	dcp::MonoJ2KPictureAsset const source1(mxf1);
+	auto content = content_factory(mxf1);
+	content.push_back(content_factory(mxf2)[0]);
+	auto const reels = make_and_find_reels(new_test_film("picture_mxf_keeps_the_film_reels_test", content));
+	BOOST_REQUIRE_EQUAL(reels.size(), 1U);
+	BOOST_CHECK(reels[0]->main_picture()->asset_ref().id() != source1.id());
+	BOOST_CHECK_EQUAL(reels[0]->main_picture()->actual_duration(), 96);
+}
+
+
+/** A picture MXF over two of the film's reels is one file, cut for each reel in the CPL */
+BOOST_AUTO_TEST_CASE(picture_mxf_over_two_reels_test)
+{
+	auto const mxf = make_picture_mxf("picture_mxf_over_two_reels_test_source");
+	dcp::MonoJ2KPictureAsset const source(mxf);
+	auto film = new_test_film("picture_mxf_over_two_reels_test", content_factory(mxf));
+	film->set_reel_type(ReelType::CUSTOM);
+	film->set_custom_reel_boundaries({ dcpomatic::DCPTime::from_frames(24, film->video_frame_rate()) });
+	auto const reels = make_and_find_reels(film);
+	BOOST_REQUIRE_EQUAL(reels.size(), 2U);
+	BOOST_CHECK_EQUAL(reels[0]->main_picture()->asset_ref().id(), source.id());
+	BOOST_CHECK_EQUAL(reels[1]->main_picture()->asset_ref().id(), source.id());
+	BOOST_CHECK_EQUAL(reels[1]->main_picture()->entry_point().get_value_or(0), 24);
+	BOOST_CHECK_EQUAL(reels[1]->main_picture()->actual_duration(), 24);
+}
+
+
+/** Anything that changes the image means the file cannot be used: written again */
+BOOST_AUTO_TEST_CASE(picture_mxf_changed_is_rewritten_test)
+{
+	auto const mxf = make_picture_mxf("picture_mxf_changed_is_rewritten_test_source");
+	dcp::MonoJ2KPictureAsset const source(mxf);
+
+	std::vector<std::pair<string, std::function<void (std::shared_ptr<Film>, std::shared_ptr<Content>)>>> const changes = {
+		{ "crop", [](std::shared_ptr<Film>, std::shared_ptr<Content> c) { c->video->set_left_crop(8); } },
+		{ "fade", [](std::shared_ptr<Film>, std::shared_ptr<Content> c) { c->video->set_fade_in(4); } },
+		{ "reencode", [](std::shared_ptr<Film> f, std::shared_ptr<Content>) { f->set_reencode_j2k(true); } },
+		{ "subtitle", [](std::shared_ptr<Film> f, std::shared_ptr<Content>) {
+			auto text = content_factory("test/data/subrip4.srt")[0];
+			f->examine_and_add_content({ text });
+			BOOST_REQUIRE(!wait_for_jobs());
+			text->only_text()->set_use(true);
+			text->only_text()->set_burn(true);
+			text->set_position(f, dcpomatic::DCPTime());
+		} }
+	};
+
+	for (auto const& change: changes) {
+		auto content = content_factory(mxf)[0];
+		auto film = new_test_film("picture_mxf_changed_is_rewritten_test_" + change.first, { content });
+		change.second(film, content);
+		auto const reels = make_and_find_reels(film);
+		BOOST_REQUIRE(!reels.empty());
+		BOOST_CHECK_MESSAGE(reels[0]->main_picture()->asset_ref().id() != source.id(), change.first);
+	}
 }
 
 
