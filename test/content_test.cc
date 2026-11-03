@@ -180,3 +180,20 @@ BOOST_AUTO_TEST_CASE(wav_with_markers_zero_channels_test)
 
 	cl.run();
 }
+
+
+/** An untrimmed clone is at the start with no trims, and the original keeps its own */
+BOOST_AUTO_TEST_CASE(content_untrimmed_clone_test)
+{
+	auto content = content_factory("test/data/sine_16_48_220_10.wav")[0];
+	auto film = new_test_film("content_untrimmed_clone_test", { content });
+	content->set_position(film, dcpomatic::DCPTime::from_seconds(1));
+	content->set_trim_start(film, dcpomatic::ContentTime::from_seconds(2));
+	content->set_trim_end(dcpomatic::ContentTime::from_seconds(3));
+
+	auto copy = content->untrimmed_clone();
+	BOOST_CHECK(copy->position() == dcpomatic::DCPTime());
+	BOOST_CHECK(copy->trim_start() == dcpomatic::ContentTime());
+	BOOST_CHECK(copy->trim_end() == dcpomatic::ContentTime());
+	BOOST_CHECK(content->trim_start() == dcpomatic::ContentTime::from_seconds(2));
+}

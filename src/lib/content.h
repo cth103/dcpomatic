@@ -119,6 +119,10 @@ public:
 	virtual std::list<dcpomatic::DCPTime> reel_split_points(std::shared_ptr<const Film>) const;
 
 	std::shared_ptr<Content> clone() const;
+	/** @return a clone at position 0 with no trims.  Setting those through the setters would queue change signals for the
+	 *  UI thread, which could then reach a Player using the clone on another thread.
+	 */
+	std::shared_ptr<Content> untrimmed_clone() const;
 
 	void set_paths(std::vector<boost::filesystem::path> paths);
 
