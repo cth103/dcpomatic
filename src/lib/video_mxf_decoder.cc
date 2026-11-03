@@ -68,7 +68,7 @@ VideoMXFDecoder::pass ()
 	auto const vfr = _content->active_video_frame_rate (film());
 	auto const frame = _next.frames_round (vfr);
 
-	if (frame >= _content->video->length()) {
+	if (frame >= _content->video->length() || video->ignore()) {
 		return true;
 	}
 
