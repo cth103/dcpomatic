@@ -393,7 +393,9 @@ BOOST_AUTO_TEST_CASE(atmos_reference_reel_offset_test)
 	auto const reels = dcp.cpls()[0]->reels();
 	BOOST_REQUIRE_EQUAL(reels.size(), 3U);
 	BOOST_REQUIRE(reels[2]->atmos());
-	BOOST_CHECK_EQUAL(reels[2]->atmos()->entry_point().get_value_or(0), 24);
+	/* The OV has the one file over its two reels, so 3s into the film is 3s into the file */
+	BOOST_CHECK_EQUAL(reels[2]->atmos()->asset_ref().id(), dcp::AtmosAsset("test/data/atmos_0.mxf").id());
+	BOOST_CHECK_EQUAL(reels[2]->atmos()->entry_point().get_value_or(0), 72);
 }
 
 

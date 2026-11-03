@@ -50,5 +50,8 @@ public:
 	dcpomatic::DCPTime full_length (std::shared_ptr<const Film> film) const override;
 	dcpomatic::DCPTime approximate_length () const override;
 
+	/** @return true if the file can go into the DCP as it is, with any trims in the CPL.  If not, @param why_not says why */
+	bool can_reference_atmos(std::shared_ptr<const Film> film, std::string& why_not) const;
+
 	static bool valid_mxf (boost::filesystem::path path);
 };

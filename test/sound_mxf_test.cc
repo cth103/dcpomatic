@@ -44,11 +44,13 @@
 #include "lib/transcode_job.h"
 #include "lib/video_content.h"
 #include "test.h"
+#include <dcp/atmos_asset.h>
 #include <dcp/cpl.h>
 #include <dcp/dcp.h>
 #include <dcp/language_tag.h>
 #include <dcp/mono_j2k_picture_asset.h>
 #include <dcp/reel.h>
+#include <dcp/reel_atmos_asset.h>
 #include <dcp/reel_picture_asset.h>
 #include <dcp/reel_sound_asset.h>
 #include <dcp/sound_asset.h>
@@ -848,6 +850,44 @@ BOOST_AUTO_TEST_CASE(picture_mxf_repeated_different_changes_test)
 	BOOST_CHECK_EQUAL(reels[0]->main_picture()->asset_ref().id(), reels[1]->main_picture()->asset_ref().id());
 	BOOST_CHECK(reels[0]->main_picture()->asset_ref().id() != reels[2]->main_picture()->asset_ref().id());
 	BOOST_CHECK_EQUAL(picture_files_in(name), 2);
+}
+
+
+/** An Atmos MXF goes into the DCP as it is, with a trim in the CPL */
+BOOST_AUTO_TEST_CASE(atmos_mxf_trim_test)
+{
+	dcp::AtmosAsset const source("test/data/atmos_0.mxf");
+	auto content = content_factory("test/data/atmos_0.mxf")[0];
+	auto film = new_test_film("atmos_mxf_trim_test", { content });
+	auto const rate = film->video_frame_rate();
+	content->set_trim_start(film, dcpomatic::ContentTime::from_frames(rate, rate));
+	make_and_verify_dcp(film, { dcp::VerificationNote::Code::MISSING_CPL_METADATA });
+
+	dcp::DCP dcp(film->dir(film->dcp_name()));
+	dcp.read();
+	auto const atmos = dcp.cpls()[0]->reels()[0]->atmos();
+	BOOST_REQUIRE(atmos);
+	BOOST_CHECK_EQUAL(atmos->asset_ref().id(), source.id());
+	BOOST_CHECK_EQUAL(atmos->entry_point().get_value_or(0), rate);
+}
+
+
+/** An Atmos MXF over two of the film's reels is one file, cut for each reel in the CPL */
+BOOST_AUTO_TEST_CASE(atmos_mxf_over_two_reels_test)
+{
+	dcp::AtmosAsset const source("test/data/atmos_0.mxf");
+	auto film = new_test_film("atmos_mxf_over_two_reels_test", content_factory("test/data/atmos_0.mxf"));
+	auto const rate = film->video_frame_rate();
+	film->set_reel_type(ReelType::CUSTOM);
+	film->set_custom_reel_boundaries({ dcpomatic::DCPTime::from_frames(rate, rate) });
+	make_and_verify_dcp(film, { dcp::VerificationNote::Code::MISSING_CPL_METADATA });
+
+	dcp::DCP dcp(film->dir(film->dcp_name()));
+	dcp.read();
+	auto const reels = dcp.cpls()[0]->reels();
+	BOOST_REQUIRE_EQUAL(reels.size(), 2U);
+	BOOST_CHECK_EQUAL(reels[1]->atmos()->asset_ref().id(), source.id());
+	BOOST_CHECK_EQUAL(reels[1]->atmos()->entry_point().get_value_or(0), rate);
 }
 
 

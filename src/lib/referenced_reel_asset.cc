@@ -19,6 +19,7 @@
 */
 
 
+#include "atmos_mxf_content.h"
 #include "dcp_content.h"
 #include "dcp_decoder.h"
 #include "dcpomatic_assert.h"
@@ -28,6 +29,7 @@
 #include "referenced_reel_asset.h"
 #include "sound_mxf_content.h"
 #include "video_mxf_content.h"
+#include <dcp/atmos_asset.h>
 #include <dcp/filesystem.h>
 #include <dcp/mono_j2k_picture_asset.h>
 #include <dcp/reel.h>
@@ -116,6 +118,28 @@ get_referenced_reel_assets(shared_ptr<const Film> film, shared_ptr<const Playlis
 					);
 			} else {
 				LOG_GENERAL("Not using {} as it is: {}", sound_mxf->path(0).string(), why_not);
+			}
+			continue;
+		}
+
+		if (auto atmos_mxf = dynamic_pointer_cast<AtmosMXFContent>(content)) {
+			std::string why_not;
+			if (atmos_mxf->can_reference_atmos(film, why_not)) {
+				auto const frame_rate = film->video_frame_rate();
+				auto const source = atmos_mxf->path(0);
+				auto const in_dcp = film->dir(film->dcp_name()) / ("atmos_" + dcp::AtmosAsset(source).id() + ".mxf");
+				put_in_dcp(source, in_dcp);
+
+				maybe_add_asset(
+					reel_assets,
+					std::make_shared<dcp::ReelAtmosAsset>(std::make_shared<dcp::AtmosAsset>(in_dcp), 0),
+					atmos_mxf->trim_start().frames_round(frame_rate),
+					atmos_mxf->trim_end().frames_round(frame_rate),
+					atmos_mxf->position(),
+					frame_rate
+					);
+			} else {
+				LOG_GENERAL("Not using {} as it is: {}", atmos_mxf->path(0).string(), why_not);
 			}
 			continue;
 		}

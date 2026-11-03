@@ -20,6 +20,7 @@
 
 
 #include "atmos_decoder.h"
+#include "atmos_mxf_content.h"
 #include "audio_buffers.h"
 #include "audio_content.h"
 #include "audio_decoder.h"
@@ -335,6 +336,14 @@ Player::setup_pieces()
 		if (decoder->audio && _making_dcp && wav_shared_source(film, content)) {
 			/* Another reel of the DCP writes this same sound, so the sound need not be decoded again */
 			decoder->audio->set_ignore(true);
+		}
+
+		if (auto atmos_mxf = dynamic_pointer_cast<const AtmosMXFContent>(content)) {
+			std::string why_not;
+			if (decoder->atmos && _making_dcp && atmos_mxf->can_reference_atmos(film, why_not)) {
+				/* The file goes into the DCP as it is, so we do not decode it */
+				decoder->atmos->set_ignore(true);
+			}
 		}
 
 		if (auto video_mxf = dynamic_pointer_cast<const VideoMXFContent>(content)) {

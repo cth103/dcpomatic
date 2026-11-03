@@ -22,7 +22,9 @@
 #include "atmos_content.h"
 #include "atmos_mxf_content.h"
 #include "film.h"
+#include "film_util.h"
 #include "job.h"
+#include "overlaps.h"
 #include <asdcp/KM_log.h>
 #include <dcp/atmos_asset.h>
 #include <dcp/exceptions.h>
@@ -119,4 +121,56 @@ DCPTime
 AtmosMXFContent::approximate_length () const
 {
 	return DCPTime::from_frames (atmos->length(), 24);
+}
+
+
+bool
+AtmosMXFContent::can_reference_atmos(shared_ptr<const Film> film, string& why_not) const
+{
+	if (!atmos) {
+		why_not = "it has no Atmos";
+		return false;
+	}
+
+	auto const edit_rate = atmos->edit_rate();
+	if (edit_rate.denominator != 1 || edit_rate.numerator != film->video_frame_rate()) {
+		why_not = "its edit rate is not the film's frame rate";
+		return false;
+	}
+
+	auto const rate = static_cast<double>(edit_rate.numerator);
+	if (trim_start() != trim_start().round(rate) || trim_end() != trim_end().round(rate)) {
+		why_not = "its trims are not whole frames";
+		return false;
+	}
+
+	if (film->interop()) {
+		why_not = "the film is Interop";
+		return false;
+	}
+
+	if (film->encrypted()) {
+		why_not = "the film is encrypted";
+		return false;
+	}
+
+	auto part = [](shared_ptr<const Content> c) {
+		return static_cast<bool>(c->atmos);
+	};
+
+	auto const others = dcpomatic::overlaps(film, film->content(), part, position(), end(film));
+	if (others.size() != 1 || others.front().get() != this) {
+		why_not = "other Atmos overlaps it";
+		return false;
+	}
+
+	/* The film's reels are never changed for a file: it can be in one or several of them, each with its own entry point
+	 * and duration in the CPL, but it must fill every reel that it is in.
+	 */
+	if (!dcpomatic::film::reels_fit_inside(film, DCPTimePeriod(position(), end(film)))) {
+		why_not = "it does not fill the film's reels that it is in";
+		return false;
+	}
+
+	return true;
 }
