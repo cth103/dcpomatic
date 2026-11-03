@@ -72,6 +72,11 @@ VideoMXFDecoder::pass ()
 		return true;
 	}
 
+	if (video->ignore()) {
+		/* Nothing would be emitted, so there is no point reading the frames */
+		return true;
+	}
+
 	if (_mono_reader) {
 		video->emit (
 			film(),
