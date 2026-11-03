@@ -26,6 +26,12 @@
 #include "audio_stream.h"
 #include "content.h"
 #include "filter.h"
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
+extern "C" {
+#include <libavcodec/avcodec.h>
+}
+LIBDCP_ENABLE_WARNINGS
 
 
 struct AVFormatContext;
@@ -111,6 +117,24 @@ public:
 		return _first_video;
 	}
 
+	/** @return video codec found when the content was examined, if known (not set for old projects) */
+	boost::optional<AVCodecID> video_codec_id() const {
+		boost::mutex::scoped_lock lm(_mutex);
+		return _video_codec_id;
+	}
+
+	/** @return video codec profile (FF_PROFILE_*) found when the content was examined, if known */
+	boost::optional<int> video_profile() const {
+		boost::mutex::scoped_lock lm(_mutex);
+		return _video_profile;
+	}
+
+	/** @return video pixel format found when the content was examined, if known */
+	boost::optional<AVPixelFormat> video_pixel_format() const {
+		boost::mutex::scoped_lock lm(_mutex);
+		return _video_pixel_format;
+	}
+
 	void signal_subtitle_stream_changed();
 
 	/** Remove all IDs from any streams we have.  This is only for working around changes
@@ -135,6 +159,9 @@ private:
 	boost::optional<AVColorTransferCharacteristic> _color_trc;
 	boost::optional<AVColorSpace> _colorspace;
 	boost::optional<int> _bits_per_pixel;
+	boost::optional<AVCodecID> _video_codec_id;
+	boost::optional<int> _video_profile;
+	boost::optional<AVPixelFormat> _video_pixel_format;
 };
 
 #endif

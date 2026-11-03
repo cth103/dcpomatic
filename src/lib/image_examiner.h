@@ -47,10 +47,16 @@ public:
 		return _has_alpha;
 	}
 
+	/** @return pixel format of the decoded image (AV_PIX_FMT_XYZ12LE for JPEG2000 files) */
+	AVPixelFormat pixel_format() const {
+		return _pixel_format;
+	}
+
 private:
 	std::weak_ptr<const Film> _film;
 	std::shared_ptr<const ImageContent> _image_content;
 	boost::optional<dcp::Size> _video_size;
 	Frame _video_length;
 	bool _has_alpha = false;
+	AVPixelFormat _pixel_format = AV_PIX_FMT_NONE;
 };
