@@ -28,6 +28,7 @@
 #include "j2k_encoder.h"
 #include "util.h"
 #include <dcp/scope_guard.h>
+#include <boost/date_time/posix_time/posix_time.hpp>
 
 #include "i18n.h"
 
@@ -51,6 +52,12 @@ try
 {
 	while (true)
 	{
+		if (_context->recompress_failed()) {
+			/* Job already failed; wait here until stop(). */
+			boost::this_thread::sleep(boost::posix_time::seconds(1));
+			continue;
+		}
+
 		LOG_TIMING("encoder-sleep thread={}", thread_id());
 		auto frame = _encoder.pop();
 
@@ -65,6 +72,8 @@ try
 		auto grok = Config::instance()->grok();
 
 		if (_context->launch(frame, grok.selected) && _context->scheduleCompress(frame)) {
+			frame_guard.cancel();
+		} else if (_context->recompress_failed()) {
 			frame_guard.cancel();
 		}
 

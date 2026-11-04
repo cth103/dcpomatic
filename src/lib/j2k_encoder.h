@@ -100,6 +100,9 @@ private:
 	void servers_list_changed();
 	void remake_threads(int cpu, int gpu, std::list<EncodeServerDescription> servers);
 	void terminate_threads();
+#ifdef DCPOMATIC_GROK
+	void grok_encode_failed(boost::exception_ptr exception);
+#endif
 
 	boost::mutex _threads_mutex;
 	std::vector<std::shared_ptr<J2KEncoderThread>> _threads;
