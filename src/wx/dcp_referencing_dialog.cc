@@ -52,8 +52,7 @@ DCPReferencingDialog::DCPReferencingDialog(wxWindow* parent, shared_ptr<const Fi
 	_overall_sizer->Add(_dcp_grid, 1, wxALL, DCPOMATIC_DIALOG_BORDER);
 	SetSizer(_overall_sizer);
 
-	auto buttons = CreateSeparatedButtonSizer(wxOK);
-	if (buttons) {
+	if (auto buttons = CreateSeparatedButtonSizer(wxOK)) {
 		_overall_sizer->Add(buttons, wxSizerFlags().Expand().DoubleBorder());
 	}
 
