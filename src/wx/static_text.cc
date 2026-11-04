@@ -20,20 +20,20 @@
 
 #include "static_text.h"
 
-StaticText::StaticText (wxWindow* parent, wxString label, wxPoint pos, wxSize size, long style)
-	: wxStaticText (parent, wxID_ANY, label, pos, size, style)
+StaticText::StaticText(wxWindow* parent, wxString label, wxPoint pos, wxSize size, long style)
+	: wxStaticText(parent, wxID_ANY, label, pos, size, style)
 {
 
 }
 
 void
-StaticText::set_text (wxString text)
+StaticText::set_text(wxString text)
 {
-	SetLabel (text);
+	SetLabel(text);
 }
 
 wxString
-StaticText::get_text () const
+StaticText::get_text() const
 {
-	return GetLabel ();
+	return GetLabel();
 }
