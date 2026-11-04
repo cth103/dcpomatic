@@ -166,6 +166,7 @@ DCPReferencingDialog::setup()
 			font.SetStyle(wxFONTSTYLE_ITALIC);
 			reason->SetFont(font);
 			_dcp_grid->Add(reason, wxGBPosition(row, 0), wxGBSpan(1, 6), wxLEFT, DCPOMATIC_SIZER_X_GAP * 4);
+			reason->Wrap(400);
 			++row;
 		};
 
