@@ -123,6 +123,9 @@ ReelWriter::reuse_existing_asset(DCPAsset const& existing_asset, shared_ptr<Job>
 	case DCPAsset::Type::AUDIO:
 		_sound_asset = make_shared<dcp::SoundAsset>(new_asset_filename);
 		break;
+	case DCPAsset::Type::ATMOS:
+		_atmos_asset = make_shared<dcp::AtmosAsset>(new_asset_filename);
+		break;
 	default:
 		break;
 	}
@@ -258,6 +261,19 @@ ReelWriter::setup_audio(vector<DCPAsset> const& reusable_assets, shared_ptr<Job>
 }
 
 
+void
+ReelWriter::setup_atmos(vector<DCPAsset> const& reusable_assets, shared_ptr<Job> job, dcpomatic::DCPTimePeriod period)
+{
+	auto reusable_iter = std::find_if(reusable_assets.begin(), reusable_assets.end(), [period](DCPAsset const& asset) {
+		return asset.period() == period && asset.type() == DCPAsset::Type::ATMOS;
+	});
+
+	if (reusable_iter != reusable_assets.end()) {
+		reuse_existing_asset(*reusable_iter, job);
+	}
+}
+
+
 /** @param job Related job, or 0.
  *  @param text_only true to enable a special mode where the writer will expect only subtitles and closed captions to be written
  *  (no picture nor sound) and not give errors in that case.  This is used by the hints system to check the potential sizes of
@@ -293,6 +309,7 @@ ReelWriter::ReelWriter(
 	auto reusable_assets = film()->reusable_dcp_assets();
 	setup_video(reusable_assets, job, period, standard);
 	setup_audio(reusable_assets, job, period, standard);
+	setup_atmos(reusable_assets, job, period);
 }
 
 
@@ -358,6 +375,11 @@ ReelWriter::write(shared_ptr<const Data> encoded, Frame frame, Eyes eyes)
 void
 ReelWriter::write(shared_ptr<const dcp::AtmosFrame> atmos, AtmosMetadata metadata)
 {
+	if (_atmos_asset && !_atmos_asset_writer) {
+		/* We're re-using an existing Atmos asset, so we're not writing any data */
+		return;
+	}
+
 	if (!_atmos_asset) {
 		_atmos_asset = metadata.create(dcp::Fraction(film()->video_frame_rate(), 1));
 		if (film()->encrypt_sound()) {
@@ -440,7 +462,7 @@ ReelWriter::finish(boost::filesystem::path output_dcp)
 		_sound_asset->set_file(audio_to);
 	}
 
-	if (_atmos_asset) {
+	if (_atmos_asset && _atmos_asset_writer) {
 		_atmos_asset_writer->finalize();
 		boost::filesystem::path atmos_to = output_dcp;
 		auto const aaf = atmos_asset_filename(_atmos_asset, _reel_index, _reel_count, _content_summary);
