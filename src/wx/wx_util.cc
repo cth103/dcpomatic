@@ -604,6 +604,7 @@ get_offsets(vector<Offset>& offsets)
 	offsets.push_back({_("UTC+1"),   dcp::UTCOffset(  1,   0)});
 	offsets.push_back({_("UTC+2"),   dcp::UTCOffset(  2,   0)});
 	offsets.push_back({_("UTC+3"),   dcp::UTCOffset(  3,   0)});
+	offsets.push_back({_("UTC+3:30"),dcp::UTCOffset(  3,  30)});
 	offsets.push_back({_("UTC+4"),   dcp::UTCOffset(  4,   0)});
 	offsets.push_back({_("UTC+5"),   dcp::UTCOffset(  5,   0)});
 	offsets.push_back({_("UTC+5:30"),dcp::UTCOffset(  5,  30)});
