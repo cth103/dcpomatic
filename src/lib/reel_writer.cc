@@ -268,9 +268,19 @@ ReelWriter::setup_atmos(vector<DCPAsset> const& reusable_assets, shared_ptr<Job>
 		return asset.period() == period && asset.type() == DCPAsset::Type::ATMOS;
 	});
 
-	if (reusable_iter != reusable_assets.end()) {
-		reuse_existing_asset(*reusable_iter, job);
+	if (reusable_iter == reusable_assets.end()) {
+		return;
 	}
+
+	/* Unlike for picture and sound, nothing checks later that the whole of an Atmos asset is the length
+	 * of the reel, and its sync would be out of step if it were not (the DCP is trimmed, for example).
+	 */
+	if (dcp::AtmosAsset(reusable_iter->file()).intrinsic_duration() != period.duration().frames_round(film()->video_frame_rate())) {
+		LOG_GENERAL("Not re-using Atmos asset {}: its length is not that of the reel", reusable_iter->file().string());
+		return;
+	}
+
+	reuse_existing_asset(*reusable_iter, job);
 }
 
 

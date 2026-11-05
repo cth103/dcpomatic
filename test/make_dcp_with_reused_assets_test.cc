@@ -290,3 +290,27 @@ BOOST_AUTO_TEST_CASE(reuse_dcp_asset_atmos_test5)
 	BOOST_CHECK(atmos_asset_id(film, 1).empty());
 	BOOST_CHECK(atmos_asset_id(film, 2).empty());
 }
+
+
+/** No Atmos pass-through when the DCP is trimmed: the whole asset would be out of sync with the reel.
+ *  A burnt-in subtitle and other sound stop the picture and the sound from being passed through, as
+ *  those two fail with an error when they are trimmed; the Atmos has no such check.
+ */
+BOOST_AUTO_TEST_CASE(reuse_dcp_asset_atmos_test6)
+{
+	auto input = make_atmos_dcp("reuse_dcp_asset_atmos_test6_input");
+
+	auto content = std::make_shared<DCPContent>(input->dir(input->dcp_name()));
+	auto subs = content_factory("test/data/15s.srt")[0];
+	auto sound = content_factory("test/data/white.wav")[0];
+	auto film = new_test_film("reuse_dcp_asset_atmos_test6", { content, subs, sound });
+	subs->text[0]->set_burn(true);
+	film->set_reuse_behaviour(Film::ReuseBehaviour::COPY);
+	film->set_interop(false);
+	content->set_trim_start(dcpomatic::ContentTime::from_seconds(1));
+	sound->set_position(film, dcpomatic::DCPTime());
+	make_and_verify_dcp(film, { dcp::VerificationNote::Code::MISSING_CPL_METADATA, dcp::VerificationNote::Code::MISSING_SUBTITLE_LANGUAGE, dcp::VerificationNote::Code::INVALID_SUBTITLE_FIRST_TEXT_TIME });
+
+	BOOST_REQUIRE(!atmos_asset_id(film).empty());
+	BOOST_CHECK(atmos_asset_id(film) != atmos_asset_id(input));
+}
