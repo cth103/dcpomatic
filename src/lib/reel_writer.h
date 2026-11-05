@@ -107,6 +107,7 @@ private:
 
 	Frame check_existing_picture_asset(boost::filesystem::path asset);
 	bool existing_picture_frame_ok(dcp::File& asset_file, Frame frame);
+	boost::optional<dcp::LanguageTag> open_subtitle_language() const;
 	std::shared_ptr<dcp::TextAsset> empty_text_asset(TextType type, boost::optional<DCPTextTrack> track, bool with_dummy) const;
 
 	std::shared_ptr<dcp::ReelPictureAsset> create_reel_picture(std::shared_ptr<dcp::Reel> reel, std::list<ReferencedReelAsset> const & refs) const;

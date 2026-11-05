@@ -667,7 +667,7 @@ ReelWriter::create_reel_text(
 
 	if (subtitle) {
 		/* We have a subtitle asset that we either made or are referencing */
-		if (auto main_language = film()->open_text_languages().first) {
+		if (auto main_language = open_subtitle_language()) {
 			subtitle->set_language(*main_language);
 		}
 	}
@@ -845,6 +845,22 @@ ReelWriter::write(shared_ptr<const AudioBuffers> audio)
 }
 
 
+/** @return the language of our open subtitles: the film's, or "no linguistic content" (BCP 47) if the film's
+ *  open text is all burnt in or it has none (for example a film with only closed captions), so that an empty
+ *  open subtitle asset still has a language.
+ */
+optional<dcp::LanguageTag>
+ReelWriter::open_subtitle_language() const
+{
+	bool no_open_text = false;
+	auto lang = film()->open_text_languages(&no_open_text).first;
+	if (!lang && no_open_text) {
+		lang = dcp::LanguageTag("zxx");
+	}
+	return lang;
+}
+
+
 shared_ptr<dcp::TextAsset>
 ReelWriter::empty_text_asset(TextType type, optional<DCPTextTrack> track, bool with_dummy) const
 {
@@ -852,6 +868,7 @@ ReelWriter::empty_text_asset(TextType type, optional<DCPTextTrack> track, bool w
 	optional<string> font;
 
 	auto lang = film()->open_text_languages();
+	lang.first = open_subtitle_language();
 	if (film()->interop()) {
 		auto s = make_shared<dcp::InteropTextAsset>();
 		s->set_movie_title(film()->name());
@@ -882,6 +899,8 @@ ReelWriter::empty_text_asset(TextType type, optional<DCPTextTrack> track, bool w
 	}
 
 	if (with_dummy) {
+		/* Bv2.1 7.2.4 asks for nothing before 4s into the first reel */
+		auto const start = (_reel_index == 0 && _period.duration() >= dcpomatic::DCPTime::from_seconds(5)) ? 4 : 0;
 		asset->add(
 			std::make_shared<dcp::TextString>(
 				font,
@@ -891,8 +910,8 @@ ReelWriter::empty_text_asset(TextType type, optional<DCPTextTrack> track, bool w
 				dcp::Colour(),
 				42,
 				1.0,
-				dcp::Time(0, 0, 0, 0, 24),
-				dcp::Time(0, 0, 1, 0, 24),
+				dcp::Time(0, 0, start, 0, 24),
+				dcp::Time(0, 0, start + 1, 0, 24),
 				0.5,
 				dcp::HAlign::CENTER,
 				0.5,
