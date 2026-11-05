@@ -419,7 +419,12 @@ check_atmos_matches_dcp(shared_ptr<Film> film, boost::filesystem::path out)
 		}
 		BOOST_REQUIRE_MESSAGE(dcp::filesystem::exists(path), path.string());
 		auto const dcdm = atmos_frames(make_shared<dcp::AtmosAsset>(path));
-		auto const dcp = atmos_frames(dcp_atmos->asset());
+		/* The DCP may reference the whole Atmos file and cut it with the CPL's entry point and duration */
+		auto const all = atmos_frames(dcp_atmos->asset());
+		auto const first = static_cast<size_t>(dcp_atmos->entry_point().get_value_or(0));
+		auto const length = static_cast<size_t>(dcp_atmos->duration().get_value_or(dcp_atmos->actual_duration()));
+		BOOST_REQUIRE_LE(first + length, all.size());
+		vector<vector<uint8_t>> const dcp(all.begin() + first, all.begin() + first + length);
 		BOOST_CHECK_EQUAL(dcdm.size(), dcp.size());
 		BOOST_CHECK_MESSAGE(dcdm == dcp, "Atmos frames differ in reel " << r);
 	}
