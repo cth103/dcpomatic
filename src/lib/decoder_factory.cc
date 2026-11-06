@@ -31,6 +31,8 @@
 #include "ffmpeg_decoder.h"
 #include "image_content.h"
 #include "image_decoder.h"
+#include "sound_mxf_content.h"
+#include "sound_mxf_decoder.h"
 #include "string_text_file_content.h"
 #include "string_text_file_decoder.h"
 #include "timer.h"
@@ -92,6 +94,10 @@ decoder_factory (shared_ptr<const Film> film, shared_ptr<const Content> content,
 
 	if (auto amc = dynamic_pointer_cast<const AtmosMXFContent>(content)) {
 		return make_shared<AtmosMXFDecoder>(film, amc);
+	}
+
+	if (auto smc = dynamic_pointer_cast<const SoundMXFContent>(content)) {
+		return make_shared<SoundMXFDecoder>(film, smc, fast);
 	}
 
 	if (auto c = dynamic_pointer_cast<const FCPXMLContent>(content)) {
