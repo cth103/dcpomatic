@@ -76,6 +76,7 @@ def build(bld):
                  copy_dcp_details_to_film_test.cc
                  cover_sheet_test.cc
                  cpl_hash_test.cc
+                 dcdm_quality_test.cc
                  cpl_metadata_test.cc
                  create_cli_test.cc
                  dcpomatic_time_test.cc
