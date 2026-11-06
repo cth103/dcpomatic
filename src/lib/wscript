@@ -204,6 +204,9 @@ sources = """
           sqlite_statement.cc
           sqlite_table.cc
           sqlite_transaction.cc
+          sound_mxf_content.cc
+          sound_mxf_decoder.cc
+          sound_mxf_examiner.cc
           string_log_entry.cc
           string_text_file.cc
           string_text_file_content.cc
