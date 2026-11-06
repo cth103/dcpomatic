@@ -22,6 +22,7 @@
 #include "atmos_decoder.h"
 #include "audio_content.h"
 #include "audio_decoder.h"
+#include "audio_util.h"
 #include "config.h"
 #include "constants.h"
 #include "dcp_content.h"
@@ -231,37 +232,7 @@ DCPDecoder::pass()
 
 	if (_sound_reader && (_decode_referenced || !_dcp_content->reference_audio())) {
 		auto const entry_point = (*_reel)->main_sound()->entry_point().get_value_or(0);
-		auto sf = _sound_reader->get_frame(entry_point + frame);
-		auto from = sf->data();
-
-		int const channels = _dcp_content->audio->stream()->channels();
-		int const frames = sf->size() / (sf->bits() * channels / 8);
-		auto data = make_shared<AudioBuffers>(channels, frames);
-		auto data_data = data->data();
-
-		switch (sf->bits()) {
-		case 24:
-		{
-			for (int i = 0; i < frames; ++i) {
-				for (int j = 0; j < channels; ++j) {
-					data_data[j][i] = static_cast<int>((from[0] << 8) | (from[1] << 16) | (from[2] << 24)) / static_cast<float>(INT_MAX - 256);
-					from += 3;
-				}
-			}
-			break;
-		}
-		case 16:
-		{
-			for (int i = 0; i < frames; ++i) {
-				for (int j = 0; j < channels; ++j) {
-					data_data[j][i] = static_cast<int>(from[0] << 16 | (from[1] << 24)) / static_cast<float>(INT_MAX - 256);
-					from += 2;
-				}
-			}
-			break;
-		}
-		}
-
+		auto data = deinterleave_sound_frame(_sound_reader->get_frame(entry_point + frame), _dcp_content->audio->stream()->channels());
 		audio->emit(film(), _dcp_content->audio->stream(), data, ContentTime::from_frames(_offset, vfr) + _next);
 	}
 
