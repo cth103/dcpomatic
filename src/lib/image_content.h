@@ -57,10 +57,17 @@ public:
 
 	bool still() const;
 
+	/** @return pixel format of the images found when the content was examined, if known (not set for old projects) */
+	boost::optional<AVPixelFormat> pixel_format() const {
+		boost::mutex::scoped_lock lm(_mutex);
+		return _pixel_format;
+	}
+
 private:
 	void add_properties(std::shared_ptr<const Film> film, std::list<UserProperty>& p) const override;
 
 	boost::optional<boost::filesystem::path> _path_to_scan;
+	boost::optional<AVPixelFormat> _pixel_format;
 };
 
 #endif
