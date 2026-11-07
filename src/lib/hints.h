@@ -87,6 +87,7 @@ private:
 	void check_closed_text_languages();
 	void check_audio_language();
 	void check_8_or_16_audio_channels();
+	void check_non_cinema_layouts();
 	void check_video_alpha();
 	void check_encryption();
 
