@@ -1183,7 +1183,11 @@ Config::write_config() const
 		if (!f) {
 			throw FileError(_("Could not open file for writing"), tmp);
 		}
+#ifdef DCPOMATIC_XMLPP_5
+		f.checked_write(s.c_str(), s.length());
+#else
 		f.checked_write(s.c_str(), s.bytes());
+#endif
 		f.close();
 		dcp::filesystem::remove(target);
 		dcp::filesystem::rename(tmp, target);

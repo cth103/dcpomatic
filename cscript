@@ -410,6 +410,7 @@ def make_spec(filename, version, target, options, requires=None):
 def build_with_cpp17(target):
     return (
         target.platform.startswith('osx') or
+        target.platform.startswith('windows') or
         (target.platform == 'linux' and target.distro == 'debian' and target.version == 'unstable') or
         (target.platform == 'linux' and target.distro == 'rocky' and target.version == '10')
     )

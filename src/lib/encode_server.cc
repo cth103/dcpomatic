@@ -310,8 +310,13 @@ EncodeServer::broadcast_received ()
 		try {
 			auto socket = make_shared<Socket>();
 			socket->connect(_broadcast.send_endpoint.address(), MAIN_SERVER_PRESENCE_PORT);
+#ifdef DCPOMATIC_XMLPP_5
+			socket->write(xml.length() + 1);
+			socket->write((uint8_t *) xml.c_str(), xml.length() + 1);
+#else
 			socket->write (xml.bytes() + 1);
 			socket->write ((uint8_t *) xml.c_str(), xml.bytes() + 1);
+#endif
 		} catch (...) {
 
 		}
@@ -319,8 +324,13 @@ EncodeServer::broadcast_received ()
 		try {
 			auto socket = make_shared<Socket>();
 			socket->connect(_broadcast.send_endpoint.address(), BATCH_SERVER_PRESENCE_PORT);
+#ifdef DCPOMATIC_XMLPP_5
+			socket->write(xml.length() + 1);
+			socket->write((uint8_t *) xml.c_str(), xml.length() + 1);
+#else
 			socket->write (xml.bytes() + 1);
 			socket->write ((uint8_t *) xml.c_str(), xml.bytes() + 1);
+#endif
 		} catch (...) {
 
 		}
