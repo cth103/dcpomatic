@@ -58,7 +58,7 @@ static_deps = (
     "libpangoft2-1.0-0.dll",
     "libtiff-6.dll",
     "libglibmm-2.4-1.dll",
-    "libxml++-2.6-2.dll",
+    "libxml++-5.0-1.dll",
     "libxml2-16.dll",
     "libpixman-1-0.dll",
     "libfontconfig-1.dll",
@@ -75,11 +75,11 @@ static_deps = (
     "libcairomm-1.0-1.dll",
     "libpangomm-1.4-1.dll",
     "libsamplerate-0.dll",
-    "libnettle-8.dll",
-    "icuuc74.dll",
-    "icudt74.dll",
-    "icuin74.dll",
-    "liblzma-5.dll",
+    "libnettle-9.dll",
+    "icuuc78.dll",
+    "icudt78.dll",
+    "icuin78.dll",
+    "liblzma.dll",
     "libpcre2-16-0.dll",
     "libpcre2-8-0.dll",
     "libpcre2-posix-3.dll",
@@ -87,7 +87,7 @@ static_deps = (
     "libwinpthread-1.dll",
     "libgnutls-30.dll",
     "libgmp-10.dll",
-    "libhogweed-6.dll",
+    "libhogweed-7.dll",
     "libidn2-0.dll",
     "libunistring-5.dll",
     "libssh2-1.dll",
@@ -110,6 +110,8 @@ static_deps = (
     "libnghttp2-14.dll",
     "libpsl-5.dll",
     "libzstd.dll",
+    "libssp-0.dll",
+    "libdeflate.dll"
 )
 
 fonts = (
@@ -301,10 +303,10 @@ def write_installer(bits, dcpomatic_version, debug, disk, variant):
 
         if bits == 32:
             print('File "%static_deps%/bin/libgcc_s_sjlj-1.dll"', file=f)
-            print('File "%static_deps%/bin/libcrypto-3.dll"', file=f)
+            print('File "%static_deps%/bin/libcrypto-4.dll"', file=f)
         else:
             print('File "%static_deps%/bin/libgcc_s_seh-1.dll"', file=f)
-            print('File "%static_deps%/bin/libcrypto-3-x64.dll"', file=f)
+            print('File "%static_deps%/bin/libcrypto-4-x64.dll"', file=f)
 
         if disk:
             print('File "%static_deps%/bin/libnanomsg.dll"', file=f)

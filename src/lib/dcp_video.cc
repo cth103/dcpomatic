@@ -268,8 +268,13 @@ DCPVideo::encode_remotely(EncodeServerDescription serv, int timeout) const
 
 		/* Send XML metadata */
 		auto xml = doc.write_to_string("UTF-8");
+#ifdef DCPOMATIC_XMLPP_5
+		socket->write(xml.length() + 1);
+		socket->write((uint8_t *) xml.c_str(), xml.length() + 1);
+#else
 		socket->write(xml.bytes() + 1);
 		socket->write((uint8_t *) xml.c_str(), xml.bytes() + 1);
+#endif
 
 		/* Send binary data */
 		LOG_TIMING("start-remote-send thread={}", thread_id());

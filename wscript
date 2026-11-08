@@ -90,16 +90,10 @@ def configure(conf):
 
     if vars(conf.options)['c++17']:
         cpp_std = '17'
-        conf.env.XMLPP_API = '4.0'
-        conf.env.PANGOMM_API = '2.48'
-        conf.env.CAIROMM_API = '1.16'
-        conf.env.GLIBMM_API = '2.68'
+        try_xmlpp_api = ['5.0', '4.0']
     else:
         cpp_std = '11'
-        conf.env.XMLPP_API = '2.6'
-        conf.env.PANGOMM_API = '1.4'
-        conf.env.CAIROMM_API = '1.0'
-        conf.env.GLIBMM_API = '2.4'
+        try_xmlpp_api = ['2.6']
 
     # Save conf.options that we need elsewhere in conf.env
     conf.env.DISABLE_GUI = conf.options.disable_gui
@@ -353,8 +347,10 @@ def configure(conf):
                    )
 
     conf.check_cfg(package='fontconfig', args='--cflags --libs', uselib_store='FONTCONFIG', mandatory=True)
-    conf.check_cfg(package='pangomm-' + conf.env.PANGOMM_API, args='--cflags --libs', uselib_store='PANGOMM', mandatory=True)
-    conf.check_cfg(package='cairomm-' + conf.env.CAIROMM_API, args='--cflags --libs', uselib_store='CAIROMM', mandatory=True)
+    for api in ('2.48', '1.4'):
+        conf.check_cfg(package='pangomm-' + api, args='--cflags --libs', uselib_store='PANGOMM', mandatory=api == '1.4')
+    for api in ('1.16', '1.0'):
+        conf.check_cfg(package='cairomm-' + api, args='--cflags --libs', uselib_store='CAIROMM', mandatory=api == '1.0')
     conf.check_cfg(package='leqm_nrt', args='--cflags --libs', uselib_store='LEQM_NRT', mandatory=True)
     conf.check_cfg(package='libttf-1.0', args='--cflags --libs', uselib_store='TTF', mandatory=True)
 
@@ -399,10 +395,25 @@ def configure(conf):
         conf.env.DEFINES_SUB = [f.replace('\\', '') for f in conf.env.DEFINES_SUB]
 
     if conf.options.static_xmlpp:
+        for api in try_xmlpp_api:
+            if conf.check_cfg(package='libxml++' + api):
+                conf.env.XMLPP_API = api
+                break
         conf.env.STLIB_XMLPP = ['xml++-' + conf.env.XMLPP_API]
         conf.env.LIB_XMLPP = ['xml2']
     else:
-        conf.check_cfg(package='libxml++-' + conf.env.XMLPP_API, args='--cflags --libs', uselib_store='XMLPP', mandatory=True)
+        for api in try_xmlpp_api:
+            if conf.check_cfg(package='libxml++-' + api, args='--cflags --libs', uselib_store='XMLPP', mandatory=api == try_xmlpp_api[-1]):
+                conf.env.XMLPP_API = api
+                break
+
+    if conf.env.XMLPP_API == '5.0':
+        conf.env.append_value('CXXFLAGS', ['-DDCPOMATIC_XMLPP_5'])
+
+    for api in ('2.68', '2.4'):
+        if conf.check_cfg(package='glibmm-' + api, mandatory=api == '2.4'):
+            conf.env.GLIBMM_API = api
+            break
 
     if conf.options.static_xmlsec:
         if conf.check_cxx(lib='xmlsec1-openssl', mandatory=False):

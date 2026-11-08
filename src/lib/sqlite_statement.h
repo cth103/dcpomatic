@@ -20,6 +20,7 @@
 
 
 #include <sqlite3.h>
+#include <cstdint>
 #include <functional>
 #include <string>
 
