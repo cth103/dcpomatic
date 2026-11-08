@@ -410,13 +410,14 @@ def make_spec(filename, version, target, options, requires=None):
 def build_with_cpp17(target):
     return (
         target.platform.startswith('osx') or
+        target.platform.startswith('windows') or
         (target.platform == 'linux' and target.distro == 'debian' and target.version == 'unstable') or
         (target.platform == 'linux' and target.distro == 'rocky' and target.version == '10')
     )
 
 
 def dependencies(target, options):
-    deps = [('libdcp', 'v1.11.0', {'c++17': build_with_cpp17(target)})]
+    deps = [('libdcp', 'v1.11.1', {'c++17': build_with_cpp17(target)})]
     deps.append(('libsub', 'v1.6.65'))
     deps.append(('leqm-nrt', '3913040723f746c0b4a59cb55cd8a23030ea49a2'))
     deps.append(('libttf', 'v0.0.7'))

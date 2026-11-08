@@ -34,6 +34,7 @@
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>
 #include <boost/bind/placeholders.hpp>
+#include <cfloat>
 #include <iostream>
 
 #include "i18n.h"
