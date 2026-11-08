@@ -89,6 +89,7 @@ sources = """
           dkdm_recipient_list.cc
           dkdm_wrapper.cc
           dolby_cp750.cc
+          dpx_writer.cc
           email.cc
           empty.cc
           encode_cli.cc
