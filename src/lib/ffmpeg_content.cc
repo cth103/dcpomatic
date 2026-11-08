@@ -123,6 +123,9 @@ FFmpegContent::FFmpegContent(cxml::ConstNodePtr node, boost::optional<boost::fil
 	_color_trc = get_optional_enum<AVColorTransferCharacteristic>(node, "ColorTransferCharacteristic");
 	_colorspace = get_optional_enum<AVColorSpace>(node, "Colorspace");
 	_bits_per_pixel = node->optional_number_child<int>("BitsPerPixel");
+	_video_codec_id = get_optional_enum<AVCodecID>(node, "VideoCodecId");
+	_video_profile = node->optional_number_child<int>("VideoProfile");
+	_video_pixel_format = get_optional_enum<AVPixelFormat>(node, "VideoPixelFormat");
 }
 
 
@@ -185,6 +188,9 @@ FFmpegContent::FFmpegContent(vector<shared_ptr<Content>> c)
 	_color_trc = ref->_color_trc;
 	_colorspace = ref->_colorspace;
 	_bits_per_pixel = ref->_bits_per_pixel;
+	_video_codec_id = ref->_video_codec_id;
+	_video_profile = ref->_video_profile;
+	_video_pixel_format = ref->_video_pixel_format;
 }
 
 
@@ -245,6 +251,15 @@ FFmpegContent::as_xml(xmlpp::Element* element, bool with_paths, PathBehaviour pa
 	if (_bits_per_pixel) {
 		cxml::add_text_child(element, "BitsPerPixel", fmt::to_string(*_bits_per_pixel));
 	}
+	if (_video_codec_id) {
+		cxml::add_text_child(element, "VideoCodecId", fmt::to_string(static_cast<int>(*_video_codec_id)));
+	}
+	if (_video_profile) {
+		cxml::add_text_child(element, "VideoProfile", fmt::to_string(*_video_profile));
+	}
+	if (_video_pixel_format) {
+		cxml::add_text_child(element, "VideoPixelFormat", fmt::to_string(static_cast<int>(*_video_pixel_format)));
+	}
 }
 
 
@@ -279,6 +294,9 @@ FFmpegContent::examine(shared_ptr<const Film> film, shared_ptr<Job> job, bool to
 			_color_trc = examiner->color_trc();
 			_colorspace = examiner->colorspace();
 			_bits_per_pixel = examiner->bits_per_pixel();
+			_video_codec_id = examiner->video_codec_id();
+			_video_profile = examiner->video_profile();
+			_video_pixel_format = examiner->video_pixel_format();
 
 			if (examiner->rotation()) {
 				auto rot = *examiner->rotation();
