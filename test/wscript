@@ -202,6 +202,7 @@ def build(bld):
                  vf_kdm_test.cc
                  writer_test.cc
                  video_trim_test.cc
+                 wav_writer_test.cc
                  zipper_test.cc
                  """
 
