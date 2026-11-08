@@ -412,6 +412,9 @@ def configure(conf):
 
     conf.check_cfg(package="nettle", args='--cflags --libs', uselib_store='NETTLE', mandatory=True)
     conf.check_cfg(package='libpng', args='--cflags --libs', uselib_store='PNG', mandatory=True)
+    # For writing lossless JPEG 2000 DCDM images (libdcp only encodes DCI-profile lossy J2K)
+    # 2.5.0 is needed for the TLM option of opj_encoder_set_extra_options
+    conf.check_cfg(package='libopenjp2', args='libopenjp2 >= 2.5.0 --cflags --libs', uselib_store='OPENJPEG', mandatory=True, msg='Checking for libopenjp2 >= 2.5.0')
     conf.check_cxx(fragment="""
                             #include <cstddef>
                             #include <cstdio>
