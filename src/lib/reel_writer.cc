@@ -476,7 +476,7 @@ maybe_add_text(
 		/* We don't have a subtitle asset of our own; hopefully we have one to reference */
 		for (auto ref: refs) {
 			if (auto text = dynamic_pointer_cast<Result>(ref.asset)) {
-				if (ref.period.contains(period)) {
+				if (ref.period.contains(period) && text->type() == type) {
 					auto const vfr = film->video_frame_rate();
 					reel_asset = text->clone();
 					reel_asset->set_entry_point(
