@@ -172,3 +172,44 @@ BOOST_AUTO_TEST_CASE(mca_subdescriptors_written_correctly_71_with_hi_vi)
 		"sg71"
 		);
 }
+
+
+/* A mapped sign language video channel gets its SLVS label (SMPTE RDD 52 table 4) */
+BOOST_AUTO_TEST_CASE(mca_subdescriptors_written_correctly_51_with_sign_language)
+{
+	test_descriptors(16,
+		{
+			dcp::Channel::LEFT,
+			dcp::Channel::RIGHT,
+			dcp::Channel::CENTRE,
+			dcp::Channel::LFE,
+			dcp::Channel::LS,
+			dcp::Channel::RS,
+			dcp::Channel::SIGN_LANGUAGE,
+		},
+		{ "chL", "chR", "chC", "chLFE", "chLs", "chRs", "SLVS" },
+		"sg51"
+		);
+}
+
+
+BOOST_AUTO_TEST_CASE(mca_subdescriptors_written_correctly_71_with_hi_vi_sign_language)
+{
+	test_descriptors(16,
+		{
+			dcp::Channel::LEFT,
+			dcp::Channel::RIGHT,
+			dcp::Channel::CENTRE,
+			dcp::Channel::LFE,
+			dcp::Channel::LS,
+			dcp::Channel::RS,
+			dcp::Channel::HI,
+			dcp::Channel::VI,
+			dcp::Channel::BSL,
+			dcp::Channel::BSR,
+			dcp::Channel::SIGN_LANGUAGE,
+		},
+		{ "chL", "chR", "chC", "chLFE", "chLss", "chRss", "chHI", "chVIN", "chLrs", "chRrs", "SLVS" },
+		"sg71"
+		);
+}
