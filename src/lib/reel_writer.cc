@@ -224,7 +224,8 @@ ReelWriter::ReelWriter(
 		DCPOMATIC_ASSERT(film()->directory());
 
 		std::vector<dcp::Channel> extra_active_channels;
-		for (auto channel: std::vector<dcp::Channel>{dcp::Channel::HI, dcp::Channel::VI, dcp::Channel::BSL, dcp::Channel::BSR}) {
+		/* The sign language video channel gets its own label (SLVS) as SMPTE RDD 52 asks */
+		for (auto channel: std::vector<dcp::Channel>{dcp::Channel::HI, dcp::Channel::VI, dcp::Channel::BSL, dcp::Channel::BSR, dcp::Channel::SIGN_LANGUAGE}) {
 			if (dcpomatic::film::channel_is_mapped(film(), channel)) {
 				extra_active_channels.push_back(channel);
 			}
