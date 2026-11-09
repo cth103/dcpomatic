@@ -59,3 +59,9 @@ deinterleave_sound_frame(shared_ptr<const dcp::SoundFrame> sound_frame, int chan
 }
 
 
+bool
+channel_layout_equals(AVChannelLayout a, AVChannelLayout b)
+{
+	return av_channel_layout_compare(&a, &b) == 0;
+}
+
