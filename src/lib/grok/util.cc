@@ -81,6 +81,7 @@ get_gpu_names()
 
 		vector<string> lines;
 		boost::algorithm::split(lines, output, boost::is_any_of("\n"));
+		lines.erase(std::remove_if(lines.begin(), lines.end(), [](string const& s) { return s.empty(); }), lines.end());
 		return lines;
 	} catch (std::exception& e) {
 		LOG_ERROR("Could not fetch GPU names: {}", e.what());
