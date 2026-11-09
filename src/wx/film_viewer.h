@@ -82,6 +82,8 @@ public:
 	}
 	/** @return true if the film has some Atmos, which might carry a reference signal */
 	bool can_listen_to_atmos_reference() const;
+	/** @return true if all the film's immersive audio is known to be Dolby Atmos (see immersive_audio_origin()), false if some is IAB */
+	bool immersive_audio_is_dolby() const;
 
 	void set_film(std::shared_ptr<Film>);
 	std::shared_ptr<Film> film() const {

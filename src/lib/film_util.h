@@ -34,6 +34,8 @@ namespace film
 bool channel_is_mapped(std::shared_ptr<const Film> film, dcp::Channel channel);
 boost::optional<boost::filesystem::path> add_files_override_path(std::shared_ptr<const Film> film);
 bool is_vf(std::shared_ptr<const Film> film);
+/** @return true if all the film's immersive audio is known to be Dolby Atmos (see immersive_audio_origin()), as the ISDCF name has it */
+bool immersive_audio_is_dolby(std::shared_ptr<const Film> film);
 
 
 }

@@ -19,11 +19,13 @@
 */
 
 
+#include "atmos_content.h"
 #include "config.h"
 #include "content.h"
 #include "dcp_content.h"
 #include "film.h"
 #include "film_util.h"
+#include <algorithm>
 
 
 using std::dynamic_pointer_cast;
@@ -71,5 +73,13 @@ dcpomatic::film::is_vf(shared_ptr<const Film> film)
 	}
 
 	return false;
+}
+
+
+bool
+dcpomatic::film::immersive_audio_is_dolby(shared_ptr<const Film> film)
+{
+	auto const content = film->content();
+	return std::all_of(content.begin(), content.end(), [](shared_ptr<const Content> c) { return !c->atmos || c->atmos->dolby(); });
 }
 

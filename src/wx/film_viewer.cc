@@ -42,6 +42,7 @@
 #include "lib/examine_content_job.h"
 #include "lib/exceptions.h"
 #include "lib/film.h"
+#include "lib/film_util.h"
 #include "lib/filter.h"
 #include "lib/image.h"
 #include "lib/job_manager.h"
@@ -256,6 +257,17 @@ FilmViewer::can_listen_to_atmos_reference() const
 
 	auto const content = _film->content();
 	return std::any_of(content.begin(), content.end(), [](shared_ptr<const Content> c) { return static_cast<bool>(c->atmos); });
+}
+
+
+bool
+FilmViewer::immersive_audio_is_dolby() const
+{
+	if (!_film) {
+		return false;
+	}
+
+	return dcpomatic::film::immersive_audio_is_dolby(_film);
 }
 
 

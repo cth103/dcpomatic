@@ -1056,6 +1056,8 @@ private:
 
 		auto const atmos_reference = _viewer.can_listen_to_atmos_reference();
 		_view_audio_atmos_reference->Enable(atmos_reference);
+		/* Named after who made the immersive audio, as the ISDCF name is */
+		_view_audio_atmos_reference->SetItemLabel(_viewer.immersive_audio_is_dolby() ? _("Atmos") : _("IAB"));
 
 		if (_viewer.listening_to_atmos_reference() && !atmos_reference) {
 			_viewer.set_listen_to_atmos_reference(false);

@@ -24,6 +24,7 @@
 #include "lib/content_factory.h"
 #include "lib/dcp_content.h"
 #include "lib/film.h"
+#include "lib/film_util.h"
 #include "lib/player.h"
 #include "lib/video_content.h"
 #include "test.h"
@@ -300,6 +301,33 @@ BOOST_AUTO_TEST_CASE(atmos_reference_signal_stereo_film_test)
 	BOOST_REQUIRE_GE(reference->frames(), 48000);
 	BOOST_CHECK_CLOSE(reference->data(0)[24000], level(4000), 1e-3);
 	BOOST_CHECK_EQUAL(reference->data(1)[24000], 0);
+}
+
+
+/** The choice is named Atmos when all the film's immersive audio is Dolby's, as the ISDCF name has it, and IAB otherwise */
+BOOST_AUTO_TEST_CASE(atmos_reference_signal_name_test)
+{
+	using dcpomatic::film::immersive_audio_is_dolby;
+
+	auto const iab_path = boost::filesystem::path("build/test/atmos_reference_signal_name_iab.mxf");
+	boost::filesystem::remove(iab_path);
+	dcp::AtmosAsset asset({24, 1}, 0, 16, 128, 0);
+	asset.set_metadata(dcp::MXFMetadata("Another encoder", "test", "1"));
+	auto writer = asset.start_write(iab_path);
+	vector<uint8_t> const frame = { 0x01, 0x00, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x04, 0x08, 0x02, 0x01, 0x00 };
+	for (int i = 0; i < 24; ++i) {
+		writer->write(frame.data(), frame.size());
+	}
+	writer->finalize();
+
+	auto dolby = content_factory(write_atmos("atmos_reference_signal_name_dolby", 24, [](int) { return static_cast<int16_t>(100); }))[0];
+	auto iab = content_factory(iab_path)[0];
+
+	BOOST_CHECK(immersive_audio_is_dolby(new_test_film("atmos_reference_signal_name_dolby", { dolby })));
+	BOOST_CHECK(!immersive_audio_is_dolby(new_test_film("atmos_reference_signal_name_iab", { iab })));
+	auto both = new_test_film("atmos_reference_signal_name_both", { content_factory(write_atmos("atmos_reference_signal_name_both_dolby", 24, [](int) { return static_cast<int16_t>(100); }))[0], content_factory(iab_path)[0] });
+	BOOST_CHECK(!immersive_audio_is_dolby(both));
+	BOOST_CHECK(immersive_audio_is_dolby(new_test_film("atmos_reference_signal_name_none", { content_factory("test/data/flat_red.png")[0] })));
 }
 
 

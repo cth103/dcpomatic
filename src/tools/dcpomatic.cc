@@ -60,6 +60,7 @@
 #include "wx/wx_util.h"
 #include "wx/wx_variant.h"
 #include "lib/analytics.h"
+#include "lib/atmos_content.h"
 #include "lib/audio_content.h"
 #include "lib/check_content_job.h"
 #include "lib/cinema.h"
@@ -537,6 +538,7 @@ public:
 		}
 		if (_film) {
 			_film->Change.connect(boost::bind(&DOMFrame::film_change, this, _1));
+			_film->ContentChange.connect(boost::bind(&DOMFrame::film_content_change, this, _1, _2));
 			_film->Message.connect(boost::bind(&DOMFrame::film_message, this, _1));
 			_film->DirtyChange.connect(boost::bind(&DOMFrame::set_title, this));
 			dcpomatic_log = _film->log();
@@ -1157,6 +1159,13 @@ private:
 		}
 	}
 
+	void film_content_change(ChangeType type, int property)
+	{
+		if (type == ChangeType::DONE && property == AtmosContentProperty::ORIGIN) {
+			update_view_audio_menu();
+		}
+	}
+
 	void view_audio_changed()
 	{
 		_film_viewer.set_listen_to_atmos_reference(_view_audio_atmos_reference->IsChecked());
@@ -1171,6 +1180,8 @@ private:
 
 		auto const atmos_reference = _film_viewer.can_listen_to_atmos_reference();
 		_view_audio_atmos_reference->Enable(atmos_reference);
+		/* Named after who made the immersive audio, as the ISDCF name is */
+		_view_audio_atmos_reference->SetItemLabel(_film_viewer.immersive_audio_is_dolby() ? _("Atmos") : _("IAB"));
 
 		if (_film_viewer.listening_to_atmos_reference() && !atmos_reference) {
 			_film_viewer.set_listen_to_atmos_reference(false);
