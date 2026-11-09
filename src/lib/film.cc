@@ -2564,7 +2564,8 @@ Film::set_audio_frame_rate(int rate)
 bool
 Film::has_sign_language_video_channel() const
 {
-	return _audio_channels >= static_cast<int>(dcp::Channel::SIGN_LANGUAGE);
+	/* SIGN_LANGUAGE is a 0-based channel index, so the film needs one more channel than that */
+	return _audio_channels > static_cast<int>(dcp::Channel::SIGN_LANGUAGE);
 }
 
 

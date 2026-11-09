@@ -164,3 +164,20 @@ BOOST_AUTO_TEST_CASE(film_reels_test)
 	BOOST_CHECK(test_film->reels()[4] == dcpomatic::DCPTimePeriod(dcpomatic::DCPTime(16000000), dcpomatic::DCPTime(17280000)));
 }
 
+
+/** The sign language video is channel 15 (index 14), so a film only has a channel for it with 15 or more channels */
+BOOST_AUTO_TEST_CASE(film_has_sign_language_video_channel_test)
+{
+	auto film = new_test_film("film_has_sign_language_video_channel_test");
+
+	for (auto channels: { 2, 6, 8, 12, 14 }) {
+		film->set_audio_channels(channels);
+		BOOST_CHECK_MESSAGE(!film->has_sign_language_video_channel(), channels << " channels");
+	}
+
+	for (auto channels: { 15, 16 }) {
+		film->set_audio_channels(channels);
+		BOOST_CHECK_MESSAGE(film->has_sign_language_video_channel(), channels << " channels");
+	}
+}
+
