@@ -33,7 +33,7 @@ of ST 2098-2 that Dolby Atmos processors can play.
 | Channel decorrelation | Allowed | Not allowed (B6) | Not allowed |
 | Objects | No fixed limit | At most 118, MetaID at most 118, no sub-elements (O1, O7) | At most 118, sequential MetaIDs |
 | MaxRendered | Any | At most 128 (8.1.5) | 128 |
-| Object gain | Unity, silence or a gain | Prefix 0 (unity) only, no ObjectGain (O5) | The DbyCinema set allows unity only, but Dolby's files code an inactive object with the **silence** prefix (0x1) |
+| Object gain | Unity, silence or a gain | Prefix 0 (unity) only, no ObjectGain (O5) | The DbyCinema set allows unity only, but Dolby's files are said to code an inactive object with the **silence** prefix (0x1); none of the 239 files measured does, in the first pan sub-block |
 | 9-zone gains | Any gain per zone | 0 or 1 per zone, and only the 11 sets #1a to #6 of 8.5 (O4) | Silence or unity, and the same 11 presets |
 | 19-zone definition | Allowed | Not allowed (O3) | Not allowed |
 | Object spread | 1D low resolution, 1D, 3D (X, Y, Z) | 1D only, no X, Y or Z (O6) | 1D high resolution only |
@@ -42,7 +42,7 @@ of ST 2098-2 that Dolby Atmos processors can play.
 | Conditional objects | Any use case | UseCase 0xFF only (O9) | "Always use" only |
 | AuthoringToolInfo | Allowed | Not allowed (IM2) | Not allowed |
 | UserData, unknown data | Allowed, or skipped | Not allowed (IM1, IM3) | Not allowed (ST 429-18 7.2.5 bans UserData too) |
-| DLC coding | Any valid coding | Any valid coding | One prediction region, order at most 16, ShiftBits 8 (up to 12 in older encoders), Rice coding in every sub-block with signal, PCM only for all-zero sub-blocks, RiceRemBits at most 20 |
+| DLC coding | Any valid coding | Any valid coding | One prediction region, order at most 16, ShiftBits 8 (up to 12 in older encoders), Rice coding in every sub-block with signal, PCM only for all-zero sub-blocks; RiceRemBits up to 22 measured |
 | MXF Immersive Audio sub-descriptor | - | All items optional (ST 429-18) | Present (`DolbyAtmosSubDescriptor` in asdcplib), with AtmosID and AtmosVersion |
 | MXF Identification set | - | The encoder's own | CompanyName "Dolby Laboratories", Dolby's ProductName and ProductUID |
 | CPL title (ISDCF Audio Type) | - | "IAB" (7.1) | "ATMOS", which ISDCF has deprecated in favour of "IAB" |
@@ -77,9 +77,17 @@ from the configuration either.
    IAB files without the Dolby Atmos sub-descriptor, which `dcp::AtmosAsset` cannot open. Encrypted files and files
    whose first frame cannot be read are refused.
 2. A file is Dolby Atmos when its frames start with Dolby's preamble (PreambleTag `0x01`, the 32-bit length, then
-   `11 01 0E`, or `11 01 02` from Dolby's older encoders) and also either its CompanyName starts with "Dolby", or an object of its frames has the silence
-   gain prefix (looked for in the first sub-block of every ObjectDefinition, in up to 1000 frames). The second case
-   keeps a Dolby Atmos file wrapped again by another program, DCP-o-matic included, as Dolby Atmos.
+   `11 01 0E`, or `11 01 02` from Dolby's older encoders) and also either its CompanyName starts with "Dolby", or an
+   object of its frames has the silence gain prefix (looked for in the first sub-block of every ObjectDefinition),
+   or its audio is coded within what Dolby's encoders use (below), both in up to 1000 frames. The last two keep a
+   Dolby Atmos file wrapped again by another program, DCP-o-matic included, as Dolby Atmos.
+
+   Dolby's DLC coding, as measured in 239 unencrypted track files (Dolby's encoders from 2012 to 2026, and files
+   wrapped again by Doremi, Qube, easyDCP, Clipster and libdcp): DLCSampleRate 48 kHz, ShiftBits 8, 9 or 12, at most
+   one predictor region of order at most 16, and PCM sub-blocks only with BitDepth 0 (all zero). RiceRemBits is not
+   limited: Dolby's files reach 22. Every AudioDataDLC element read must be within this, and at least one must be
+   read. In those 239 files, no object ever has the silence gain prefix, so in practice it is this test that keeps
+   such a file Dolby Atmos. It is no proof either: any encoder can code within the same limits.
 3. Anything else is IAB, which is also what is assumed when the origin cannot be seen.
 
 Atmos content remembers the result (`AtmosContent::origin()`, saved as `ImmersiveAudioOrigin` in the metadata).

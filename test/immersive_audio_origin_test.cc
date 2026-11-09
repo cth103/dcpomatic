@@ -46,6 +46,7 @@ LIBDCP_ENABLE_WARNINGS
 #include "test.h"
 #include <boost/test/unit_test.hpp>
 #include <cstring>
+#include <functional>
 #include <vector>
 
 
@@ -147,6 +148,102 @@ frame_with_object(vector<uint8_t> preamble, uint8_t gain_prefix)
 
 
 static vector<uint8_t> const dolby_preamble_value = { 0x11, 0x01, 0x0e, 0x00, 0x00, 0x00 };
+
+
+/** Writes bit fields most significant bit first */
+class BitWriter
+{
+public:
+	void put(uint32_t value, int bits)
+	{
+		for (int i = bits - 1; i >= 0; --i) {
+			if (_bits % 8 == 0) {
+				_data.push_back(0);
+			}
+			if ((value >> i) & 1) {
+				_data.back() |= 0x80 >> (_bits % 8);
+			}
+			++_bits;
+		}
+	}
+
+	vector<uint8_t> const& data() const
+	{
+		return _data;
+	}
+
+private:
+	vector<uint8_t> _data;
+	int _bits = 0;
+};
+
+
+/** How one AudioDataDLC element is coded */
+struct DLC
+{
+	int sample_rate = 0;
+	int shift_bits = 8;
+	/** The order of each predictor region */
+	vector<int> orders = { 16 };
+	/** The BitDepth of the PCM sub-blocks, or -1 for Rice/Golomb sub-blocks of RiceRemBits 4 */
+	int pcm_bit_depth = -1;
+	/** Sub-blocks to write, fewer than the frame has to cut the element short */
+	int sub_blocks = 10;
+	/** Give the Rice/Golomb sub-blocks residuals other than zero: 16 (a quotient and no remainder), -5 and 0 in turn */
+	bool residuals = false;
+};
+
+
+/** @return an AudioDataDLC element (ST 2098-2 9.6) of a 24fps 48kHz frame (10 sub-blocks of 200 samples) */
+static vector<uint8_t>
+dlc(DLC const& d)
+{
+	BitWriter bits;
+	bits.put(d.sample_rate, 2);
+	bits.put(d.shift_bits, 5);
+	bits.put(d.orders.size(), 2);
+	for (auto order: d.orders) {
+		bits.put(10, 4);     // RegionLength: every sub-block
+		bits.put(order, 5);
+		for (int i = 0; i < order; ++i) {
+			bits.put(512, 10);   // KCoeff of 0
+		}
+	}
+	for (int block = 0; block < d.sub_blocks; ++block) {
+		if (d.pcm_bit_depth >= 0) {
+			bits.put(0, 1);
+			bits.put(d.pcm_bit_depth, 5);
+			for (int sample = 0; sample < 200; ++sample) {
+				bits.put(0, d.pcm_bit_depth);
+			}
+		} else {
+			bits.put(1, 1);
+			bits.put(4, 5);
+			for (int sample = 0; sample < 200; ++sample) {
+				if (!d.residuals || sample % 3 == 2) {
+					/* Quotient 0 (a single 0), then four bits of remainder 0 and no sign */
+					bits.put(0, 5);
+				} else if (sample % 3 == 0) {
+					/* 16: quotient 1 (1 then 0), remainder 0, sign + */
+					bits.put(0b10, 2);
+					bits.put(0, 4);
+					bits.put(0, 1);
+				} else {
+					/* -5: quotient 0, remainder 5, sign - */
+					bits.put(0, 1);
+					bits.put(5, 4);
+					bits.put(1, 1);
+				}
+			}
+		}
+	}
+
+	/* AudioDataID 1, DLCSize, then the coded audio */
+	vector<uint8_t> body = { 0x01, static_cast<uint8_t>(bits.data().size() >> 8), static_cast<uint8_t>(bits.data().size() & 0xff) };
+	body.insert(body.end(), bits.data().begin(), bits.data().end());
+	return element(0x200, body);
+}
+
 static vector<uint8_t> const other_preamble_value = { 0x22, 0x02, 0x0f, 0x00, 0x00, 0x00 };
 static vector<uint8_t> const other_frame = frame_with_preamble({ 0x22, 0x02, 0x0f, 0x00, 0x00, 0x00 });
 
@@ -438,4 +535,106 @@ BOOST_AUTO_TEST_CASE(immersive_audio_origin_silent_object_parse_test)
 	auto preamble = dolby_preamble_value;
 	preamble.resize(1603, 0x42);
 	check("full_preamble", frame_with_object(preamble, 1), ImmersiveAudioOrigin::DOLBY);
+}
+
+
+/** Dolby's preamble with another CompanyName is Dolby if its audio is coded within what Dolby's encoders use, and IAB if
+ *  any element is coded otherwise
+ */
+BOOST_AUTO_TEST_CASE(immersive_audio_origin_dlc_test)
+{
+	auto check = [](string name, vector<uint8_t> preamble, vector<DLC> elements, ImmersiveAudioOrigin expected) {
+		vector<vector<uint8_t>> coded;
+		for (auto const& e: elements) {
+			coded.push_back(dlc(e));
+		}
+		auto const frame = frame_with_elements(preamble, coded);
+		BOOST_CHECK_MESSAGE(immersive_audio_origin(write_atmos("immersive_audio_origin_dlc_" + name, "DCP-o-matic", frame)) == expected, name);
+	};
+
+	DLC const dolby;
+	check("dolby", dolby_preamble_value, { dolby }, ImmersiveAudioOrigin::DOLBY);
+	check("dolby_old_preamble", { 0x11, 0x01, 0x02, 0x00, 0x00, 0x00 }, { dolby }, ImmersiveAudioOrigin::DOLBY);
+	check("dolby_two_elements", dolby_preamble_value, { dolby, dolby }, ImmersiveAudioOrigin::DOLBY);
+	/* Residuals other than zero are walked over, with their quotients and signs, to the next sub-block */
+	DLC with_residuals;
+	with_residuals.residuals = true;
+	check("residuals", dolby_preamble_value, { with_residuals }, ImmersiveAudioOrigin::DOLBY);
+	DLC with_residuals_17;
+	with_residuals_17.residuals = true;
+	with_residuals_17.orders = { 17 };
+	check("residuals_then_other", dolby_preamble_value, { with_residuals, with_residuals_17 }, ImmersiveAudioOrigin::IAB);
+	/* Without Dolby's preamble the coding is not enough */
+	check("other_preamble", other_preamble_value, { dolby }, ImmersiveAudioOrigin::IAB);
+
+	/* The edges of what Dolby's encoders use */
+	auto with = [](std::function<void (DLC&)> change) {
+		DLC d;
+		change(d);
+		return d;
+	};
+	check("shift_8", dolby_preamble_value, { with([](DLC& d) { d.shift_bits = 8; }) }, ImmersiveAudioOrigin::DOLBY);
+	check("shift_12", dolby_preamble_value, { with([](DLC& d) { d.shift_bits = 12; }) }, ImmersiveAudioOrigin::DOLBY);
+	check("shift_7", dolby_preamble_value, { with([](DLC& d) { d.shift_bits = 7; }) }, ImmersiveAudioOrigin::IAB);
+	check("shift_13", dolby_preamble_value, { with([](DLC& d) { d.shift_bits = 13; }) }, ImmersiveAudioOrigin::IAB);
+	check("no_region", dolby_preamble_value, { with([](DLC& d) { d.orders = {}; }) }, ImmersiveAudioOrigin::DOLBY);
+	check("two_regions", dolby_preamble_value, { with([](DLC& d) { d.orders = { 4, 4 }; }) }, ImmersiveAudioOrigin::IAB);
+	check("order_17", dolby_preamble_value, { with([](DLC& d) { d.orders = { 17 }; }) }, ImmersiveAudioOrigin::IAB);
+	check("order_0", dolby_preamble_value, { with([](DLC& d) { d.orders = { 0 }; }) }, ImmersiveAudioOrigin::DOLBY);
+	check("pcm_0", dolby_preamble_value, { with([](DLC& d) { d.pcm_bit_depth = 0; }) }, ImmersiveAudioOrigin::DOLBY);
+	check("pcm_1", dolby_preamble_value, { with([](DLC& d) { d.pcm_bit_depth = 1; }) }, ImmersiveAudioOrigin::IAB);
+	check("pcm_24", dolby_preamble_value, { with([](DLC& d) { d.pcm_bit_depth = 24; }) }, ImmersiveAudioOrigin::IAB);
+	check("sample_rate_96k", dolby_preamble_value, { with([](DLC& d) { d.sample_rate = 1; }) }, ImmersiveAudioOrigin::IAB);
+	/* One element coded otherwise is enough */
+	check("second_element", dolby_preamble_value, { dolby, with([](DLC& d) { d.orders = { 17 }; }) }, ImmersiveAudioOrigin::IAB);
+	/* An element cut short says nothing, so nothing is seen of the coding */
+	check("cut_short", dolby_preamble_value, { with([](DLC& d) { d.sub_blocks = 3; }) }, ImmersiveAudioOrigin::IAB);
+	/* Nor does a frame with no AudioDataDLC */
+	check("none", dolby_preamble_value, {}, ImmersiveAudioOrigin::IAB);
+}
+
+
+/** The coding is looked at in the first 1000 frames, and one frame coded otherwise among them makes the file IAB */
+BOOST_AUTO_TEST_CASE(immersive_audio_origin_dlc_frames_test)
+{
+	auto const like = frame_with_elements(dolby_preamble_value, { dlc(DLC()) });
+	DLC other_coding;
+	other_coding.orders = { 17 };
+	auto const other = frame_with_elements(dolby_preamble_value, { dlc(other_coding) });
+	auto const none = frame_with_elements(dolby_preamble_value, {});
+
+	vector<vector<uint8_t>> frames(1100, like);
+	BOOST_CHECK(immersive_audio_origin(write_atmos_frames("immersive_audio_origin_dlc_frames_like", "DCP-o-matic", frames)) == ImmersiveAudioOrigin::DOLBY);
+
+	frames[999] = other;
+	BOOST_CHECK(immersive_audio_origin(write_atmos_frames("immersive_audio_origin_dlc_frames_999", "DCP-o-matic", frames)) == ImmersiveAudioOrigin::IAB);
+
+	frames[999] = like;
+	frames[1000] = other;
+	BOOST_CHECK(immersive_audio_origin(write_atmos_frames("immersive_audio_origin_dlc_frames_1000", "DCP-o-matic", frames)) == ImmersiveAudioOrigin::DOLBY);
+
+	/* Frames without DLC around one with it */
+	vector<vector<uint8_t>> sparse(1100, none);
+	sparse[999] = like;
+	BOOST_CHECK(immersive_audio_origin(write_atmos_frames("immersive_audio_origin_dlc_frames_sparse", "DCP-o-matic", sparse)) == ImmersiveAudioOrigin::DOLBY);
+	sparse[999] = none;
+	sparse[1000] = like;
+	BOOST_CHECK(immersive_audio_origin(write_atmos_frames("immersive_audio_origin_dlc_frames_sparse_1000", "DCP-o-matic", sparse)) == ImmersiveAudioOrigin::IAB);
+}
+
+
+/** A DCP that DCP-o-matic makes from Dolby Atmos frames coded as Dolby's encoders do stays Dolby Atmos */
+BOOST_AUTO_TEST_CASE(immersive_audio_origin_dlc_dcp_test)
+{
+	auto picture = content_factory("test/data/flat_red.png")[0];
+	auto atmos = content_factory(write_atmos("immersive_audio_origin_dlc_dcp_source", "Dolby Laboratories", frame_with_elements(dolby_preamble_value, { dlc(DLC()) })))[0];
+	auto film = new_test_film("immersive_audio_origin_dlc_dcp", { picture, atmos });
+	picture->video->set_length(24);
+	make_and_verify_dcp(film, {}, false, false);
+
+	auto dcp = std::make_shared<DCPContent>(film->dir(film->dcp_name()));
+	auto from_dcp = new_test_film("immersive_audio_origin_dlc_dcp_reread", { dcp });
+	BOOST_REQUIRE(dcp->atmos);
+	BOOST_CHECK(dcp->atmos->origin() == ImmersiveAudioOrigin::DOLBY);
+	BOOST_CHECK_MESSAGE(from_dcp->isdcf_name(false, false).find("-ATMOS_") != string::npos, from_dcp->isdcf_name(false, false));
 }

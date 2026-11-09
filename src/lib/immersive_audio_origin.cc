@@ -40,8 +40,8 @@ using std::string;
 
 namespace {
 
-/** How many frames are looked at, at most, for an object with the silence gain prefix */
-int constexpr max_frames_for_silence = 1000;
+/** How many frames are looked at, at most, for an object with the silence gain prefix and for how the audio is coded */
+int constexpr max_frames_looked_at = 1000;
 
 
 /** @return true if @p frame starts with Dolby's preamble: PreambleTag 0x01, a 32-bit PreambleLength, then 11 01 0E,
@@ -180,12 +180,168 @@ silent_object(uint8_t const* frame, ui32_t size)
 }
 
 
+/** How the AudioDataDLC elements of a frame are coded, compared with what Dolby's encoders use */
+enum class DLCCoding
+{
+	/** The frame has no AudioDataDLC element, or it cannot be read */
+	NONE,
+	/** Every element is coded within what Dolby's encoders use */
+	LIKE_DOLBY,
+	/** An element uses something Dolby's encoders do not */
+	NOT_LIKE_DOLBY
+};
+
+
+/** Samples of a 48kHz frame for each IAFrame FrameRate code (ST 2098-2 table 18) */
+uint32_t const frame_samples_48k[] = { 2000, 1920, 1600, 1000, 960, 800, 500, 480, 400, 2002 };
+
+
+/** @return the number of sub-blocks of a 48kHz frame of @p samples samples and the samples in each (ST 2098-2 table 30),
+ *  or { 0, 0 } if there is no such layout
+ */
+std::pair<uint32_t, uint32_t>
+sub_block_layout(uint32_t samples)
+{
+	std::pair<uint32_t, uint32_t> const layouts[] = {
+		{ 10, 200 }, { 10, 192 }, { 8, 200 }, { 5, 200 }, { 5, 192 }, { 4, 200 }, { 5, 100 }, { 4, 120 }, { 4, 100 }
+	};
+	for (auto const& layout: layouts) {
+		if (layout.first * layout.second == samples) {
+			return layout;
+		}
+	}
+	return { 0, 0 };
+}
+
+
+/** @return true if the coded audio of one AudioDataDLC element (ST 2098-2 9.6, from DLCSampleRate on) is coded within
+ *  what Dolby's encoders use, as measured in their track files from 2012 to 2026: DLCSampleRate 48kHz, ShiftBits 8
+ *  to 12, at most one predictor region of order at most 16, and PCM sub-blocks only with BitDepth 0 (all zero).
+ *  Throws std::out_of_range if the element is cut short.
+ */
+bool
+dlc_element_like_dolby(BitReader& reader, std::pair<uint32_t, uint32_t> layout)
+{
+	if (reader.bits(2) != 0) {
+		/* DLCSampleRate other than 48kHz */
+		return false;
+	}
+	auto const shift_bits = reader.bits(5);
+	if (shift_bits < 8 || shift_bits > 12) {
+		return false;
+	}
+	auto const regions = reader.bits(2);
+	if (regions > 1) {
+		return false;
+	}
+	for (uint32_t i = 0; i < regions; ++i) {
+		reader.bits(4);   // RegionLength
+		auto const order = reader.bits(5);
+		if (order > 16) {
+			return false;
+		}
+		for (uint32_t j = 0; j < order; ++j) {
+			reader.bits(10);   // KCoeff
+		}
+	}
+
+	for (uint32_t block = 0; block < layout.first; ++block) {
+		auto const rice = reader.bits(1);
+		auto const bits = reader.bits(5);   // RiceRemBits, or the PCM BitDepth
+		if (!rice) {
+			if (bits != 0) {
+				return false;
+			}
+			/* PCM of BitDepth 0: every residual is 0, with no bits and no sign */
+			continue;
+		}
+		for (uint32_t sample = 0; sample < layout.second; ++sample) {
+			uint32_t magnitude = 0;
+			while (reader.bits(1)) {
+				/* The unary quotient */
+				magnitude = 1;
+			}
+			if (bits > 0 && reader.bits(bits)) {
+				magnitude = 1;
+			}
+			if (magnitude) {
+				reader.bits(1);   // Sign
+			}
+		}
+	}
+
+	return true;
+}
+
+
+/** @return how the AudioDataDLC elements of this IABitstream frame are coded */
+DLCCoding
+dlc_coding(uint8_t const* frame, ui32_t size)
+{
+	if (size < 5 || frame[0] != 0x01) {
+		return DLCCoding::NONE;
+	}
+	size_t const ia_tag = 5 + size_t{big_endian_32(frame + 1)};
+	if (ia_tag + 5 > size || frame[ia_tag] != 0x02) {
+		return DLCCoding::NONE;
+	}
+	size_t const ia_start = ia_tag + 5;
+	size_t const ia_size = std::min(size_t{big_endian_32(frame + ia_tag + 1)}, size - ia_start);
+	auto const ia = frame + ia_start;
+
+	bool any = false;
+	try {
+		BitReader reader(ia, ia_size);
+		if (reader.plex(8) != 0x08) {
+			return DLCCoding::NONE;
+		}
+		reader.plex(8);   // ElementSize
+		reader.bits(8);   // Version
+		reader.bits(2);   // SampleRate
+		reader.bits(2);   // BitDepth
+		auto const frame_rate = reader.bits(4);
+		reader.plex(8);   // MaxRendered
+		reader.align();
+		if (frame_rate >= sizeof(frame_samples_48k) / sizeof(frame_samples_48k[0])) {
+			return DLCCoding::NONE;
+		}
+		auto const layout = sub_block_layout(frame_samples_48k[frame_rate]);
+		if (layout.first == 0) {
+			return DLCCoding::NONE;
+		}
+		auto const sub_elements = reader.plex(8);
+		for (uint32_t i = 0; i < sub_elements; ++i) {
+			auto const id = reader.plex(8);
+			auto const element_size = reader.plex(8);
+			auto const body = reader.byte_position();
+			if (id == 0x200) {
+				/* AudioDataDLC */
+				BitReader element(ia + body, std::min(size_t{element_size}, ia_size - body));
+				element.plex(8);     // AudioDataID
+				element.bits(16);    // DLCSize
+				if (!dlc_element_like_dolby(element, layout)) {
+					return DLCCoding::NOT_LIKE_DOLBY;
+				}
+				any = true;
+			}
+			reader.skip_bytes(element_size);
+		}
+	} catch (std::out_of_range&) {
+		return DLCCoding::NONE;
+	}
+
+	return any ? DLCCoding::LIKE_DOLBY : DLCCoding::NONE;
+}
+
+
 /** What we need to see of a track file */
 struct Start
 {
 	ASDCP::WriterInfo writer;
 	bool dolby_preamble = false;
 	bool silent_object = false;
+	/** At least one frame has AudioDataDLC elements, and every one read is coded as Dolby's encoders do */
+	bool dlc_like_dolby = false;
 };
 
 
@@ -218,9 +374,11 @@ read_start(boost::filesystem::path mxf, Start& start)
 	}
 
 	/* Dolby's preamble but another CompanyName: Dolby's frames wrapped again, if an object is coded as Dolby's
-	 * encoders do and IAB Profile 1 does not allow.
+	 * encoders do and IAB Profile 1 does not allow, or if the audio is coded within what Dolby's encoders use.
 	 */
-	for (int i = 0; i < max_frames_for_silence; ++i) {
+	bool dlc_seen = false;
+	bool dlc_other = false;
+	for (int i = 0; i < max_frames_looked_at; ++i) {
 		if (i > 0 && ASDCP_FAILURE(reader.ReadFrame(i, buffer))) {
 			break;
 		}
@@ -228,7 +386,20 @@ read_start(boost::filesystem::path mxf, Start& start)
 			start.silent_object = true;
 			break;
 		}
+		if (!dlc_other) {
+			switch (dlc_coding(buffer.RoData(), buffer.Size())) {
+			case DLCCoding::NONE:
+				break;
+			case DLCCoding::LIKE_DOLBY:
+				dlc_seen = true;
+				break;
+			case DLCCoding::NOT_LIKE_DOLBY:
+				dlc_other = true;
+				break;
+			}
+		}
 	}
+	start.dlc_like_dolby = dlc_seen && !dlc_other;
 
 	return true;
 }
@@ -251,5 +422,5 @@ immersive_audio_origin(boost::filesystem::path mxf)
 	}
 
 	bool const company = start.writer.CompanyName.compare(0, 5, "Dolby") == 0;
-	return start.dolby_preamble && (company || start.silent_object) ? ImmersiveAudioOrigin::DOLBY : ImmersiveAudioOrigin::IAB;
+	return start.dolby_preamble && (company || start.silent_object || start.dlc_like_dolby) ? ImmersiveAudioOrigin::DOLBY : ImmersiveAudioOrigin::IAB;
 }

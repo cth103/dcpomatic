@@ -261,7 +261,10 @@ BOOST_AUTO_TEST_CASE(isdcf_name_with_atmos)
 	film->set_isdcf_date(boost::gregorian::date(2023, boost::gregorian::Jan, 18));
 	film->set_name("Hello");
 
-	BOOST_CHECK_EQUAL(film->isdcf_name(false, false), "Hello_TST-1_F_XX-XX_MOS-IAB_2K_20230118_SMPTE_OV");
+	/* atmos_asset.mxf was wrapped by asdcp-wrap ("WidgetCo"), but its frames have Dolby's preamble and their audio is
+	 * coded as Dolby's encoders do, so it is taken for Dolby Atmos (see doc/immersive_audio.md)
+	 */
+	BOOST_CHECK_EQUAL(film->isdcf_name(false, false), "Hello_TST-1_F_XX-XX_MOS-ATMOS_2K_20230118_SMPTE_OV");
 }
 
 
