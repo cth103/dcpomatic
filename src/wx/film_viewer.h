@@ -75,6 +75,14 @@ public:
 
 	void show_closed_captions();
 
+	/** Listen to the reference signal of the film's Dolby Atmos frames (see atmos_reference_signal()) in place of the normal mix */
+	void set_listen_to_atmos_reference(bool listen);
+	bool listening_to_atmos_reference() const {
+		return _listen_to_atmos_reference;
+	}
+	/** @return true if the film has some Atmos, which might carry a reference signal */
+	bool can_listen_to_atmos_reference() const;
+
 	void set_film(std::shared_ptr<Film>);
 	std::shared_ptr<Film> film() const {
 		return _film;
@@ -200,6 +208,7 @@ private:
 	std::vector<int> _pending_player_changes;
 
 	int _audio_channels = 0;
+	bool _listen_to_atmos_reference = false;
 	unsigned int _audio_block_size = 1024;
 	bool _playing = false;
 	int _suspended = 0;

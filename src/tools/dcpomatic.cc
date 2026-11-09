@@ -247,6 +247,9 @@ enum {
 	ID_jobs_show_dcp,
 	ID_jobs_open_dcp_in_player,
 	ID_view_closed_captions,
+	ID_view_audio,
+	ID_view_audio_main,
+	ID_view_audio_atmos_reference,
 	ID_view_video_waveform,
 	ID_tools_version_file,
 	ID_tools_hints,
@@ -360,6 +363,8 @@ public:
 		Bind(wxEVT_MENU, boost::bind(&DOMFrame::jobs_show_dcp, this),           ID_jobs_show_dcp);
 		Bind(wxEVT_MENU, boost::bind(&DOMFrame::jobs_open_dcp_in_player, this), ID_jobs_open_dcp_in_player);
 		Bind(wxEVT_MENU, boost::bind(&DOMFrame::view_closed_captions, this),    ID_view_closed_captions);
+		Bind(wxEVT_MENU, boost::bind(&DOMFrame::view_audio_changed, this),      ID_view_audio_main);
+		Bind(wxEVT_MENU, boost::bind(&DOMFrame::view_audio_changed, this),      ID_view_audio_atmos_reference);
 		Bind(wxEVT_MENU, boost::bind(&DOMFrame::view_video_waveform, this),     ID_view_video_waveform);
 		Bind(wxEVT_MENU, boost::bind(&DOMFrame::tools_version_file, this),      ID_tools_version_file);
 		Bind(wxEVT_MENU, boost::bind(&DOMFrame::tools_hints, this),             ID_tools_hints);
@@ -522,6 +527,7 @@ public:
 	{
 		_film = film;
 		_film_viewer.set_film(_film);
+		update_view_audio_menu();
 		_film_editor->set_film(_film);
 		_controls->set_film(_film);
 		_video_waveform_dialog.reset();
@@ -564,6 +570,7 @@ private:
 	{
 		if (type == ChangeType::DONE) {
 			set_menu_sensitivity();
+			update_view_audio_menu();
 		}
 	}
 
@@ -1150,6 +1157,32 @@ private:
 		}
 	}
 
+	void view_audio_changed()
+	{
+		_film_viewer.set_listen_to_atmos_reference(_view_audio_atmos_reference->IsChecked());
+	}
+
+	/** Enable the Atmos reference choice only if the film has some Atmos; fall back to the main mix if it has gone */
+	void update_view_audio_menu()
+	{
+		if (!_view_audio_atmos_reference) {
+			return;
+		}
+
+		auto const atmos_reference = _film_viewer.can_listen_to_atmos_reference();
+		_view_audio_atmos_reference->Enable(atmos_reference);
+
+		if (_film_viewer.listening_to_atmos_reference() && !atmos_reference) {
+			_film_viewer.set_listen_to_atmos_reference(false);
+		}
+
+		if (_film_viewer.listening_to_atmos_reference()) {
+			_view_audio_atmos_reference->Check(true);
+		} else {
+			_view_audio_main->Check(true);
+		}
+	}
+
 	void view_closed_captions()
 	{
 		_film_viewer.show_closed_captions();
@@ -1492,6 +1525,10 @@ private:
 
 		auto view = new wxMenu;
 		add_item(view, _("Closed captions..."), ID_view_closed_captions, NEEDS_FILM);
+		auto audio_menu = new wxMenu;
+		_view_audio_main = audio_menu->AppendRadioItem(ID_view_audio_main, _("PCM"));
+		_view_audio_atmos_reference = audio_menu->AppendRadioItem(ID_view_audio_atmos_reference, _("Atmos"));
+		view->Append(ID_view_audio, _("Audio"), audio_menu);
 		add_item(view, _("Video waveform..."), ID_view_video_waveform, NEEDS_FILM);
 
 		auto tools = new wxMenu;
@@ -1675,6 +1712,8 @@ private:
 	int _history_items = 0;
 	int _history_position = 0;
 	wxMenuItem* _history_separator = nullptr;
+	wxMenuItem* _view_audio_main = nullptr;
+	wxMenuItem* _view_audio_atmos_reference = nullptr;
 	boost::signals2::scoped_connection _config_changed_connection;
 	boost::signals2::scoped_connection _analytics_message_connection;
 	bool _update_news_requested = false;

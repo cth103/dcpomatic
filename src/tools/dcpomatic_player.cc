@@ -130,6 +130,9 @@ enum {
 	ID_view_full_screen = DCPOMATIC_MAIN_MENU + 200,
 	ID_view_dual_screen,
 	ID_view_closed_captions,
+	ID_view_audio,
+	ID_view_audio_main,
+	ID_view_audio_atmos_reference,
 	ID_view_eye,
 	ID_view_eye_left,
 	ID_view_eye_right,
@@ -240,6 +243,8 @@ public:
 		Bind(wxEVT_MENU, boost::bind(&DOMFrame::view_full_screen, this), ID_view_full_screen);
 		Bind(wxEVT_MENU, boost::bind(&DOMFrame::view_dual_screen, this), ID_view_dual_screen);
 		Bind(wxEVT_MENU, boost::bind(&DOMFrame::view_closed_captions, this), ID_view_closed_captions);
+		Bind(wxEVT_MENU, boost::bind(&DOMFrame::view_audio_changed, this), ID_view_audio_main);
+		Bind(wxEVT_MENU, boost::bind(&DOMFrame::view_audio_changed, this), ID_view_audio_atmos_reference);
 		Bind(wxEVT_MENU, boost::bind(&DOMFrame::view_cpl, this, _1), ID_view_cpl, ID_view_cpl + MAX_CPLS);
 		Bind(wxEVT_MENU, boost::bind(&DOMFrame::view_eye_changed, this, _1), ID_view_eye_left);
 		Bind(wxEVT_MENU, boost::bind(&DOMFrame::view_eye_changed, this, _1), ID_view_eye_right);
@@ -580,6 +585,7 @@ public:
 		}
 
 		_viewer.set_film(_film);
+		update_view_audio_menu();
 		_viewer.seek(DCPTime(), true);
 		_viewer.set_eyes(_view_eye_left->IsChecked() ? Eyes::LEFT : Eyes::RIGHT);
 		_info->triggered_update();
@@ -720,6 +726,10 @@ private:
 		setup_menu();
 		view->AppendSeparator();
 		view->Append(ID_view_closed_captions, _("Closed captions..."));
+		auto audio_menu = new wxMenu;
+		_view_audio_main = audio_menu->AppendRadioItem(ID_view_audio_main, _("PCM"));
+		_view_audio_atmos_reference = audio_menu->AppendRadioItem(ID_view_audio_atmos_reference, _("Atmos"));
+		view->Append(ID_view_audio, _("Audio"), audio_menu);
 		_view_eye_menu = new wxMenu;
 		_view_eye_left = _view_eye_menu->AppendRadioItem(ID_view_eye_left, _("Left"));
 		_view_eye_menu->AppendRadioItem(ID_view_eye_right, _("Right"));
@@ -1032,6 +1042,32 @@ private:
 		}
 	}
 
+	void view_audio_changed()
+	{
+		_viewer.set_listen_to_atmos_reference(_view_audio_atmos_reference->IsChecked());
+	}
+
+	/** Enable the Atmos reference choice only if the film has some Atmos; fall back to the main mix if it has gone */
+	void update_view_audio_menu()
+	{
+		if (!_view_audio_atmos_reference) {
+			return;
+		}
+
+		auto const atmos_reference = _viewer.can_listen_to_atmos_reference();
+		_view_audio_atmos_reference->Enable(atmos_reference);
+
+		if (_viewer.listening_to_atmos_reference() && !atmos_reference) {
+			_viewer.set_listen_to_atmos_reference(false);
+		}
+
+		if (_viewer.listening_to_atmos_reference()) {
+			_view_audio_atmos_reference->Check(true);
+		} else {
+			_view_audio_main->Check(true);
+		}
+	}
+
 	void view_closed_captions()
 	{
 		_viewer.show_closed_captions();
@@ -1292,6 +1328,8 @@ private:
 	wxMenu* _file_menu = nullptr;
 	wxMenuItem* _view_cpl = nullptr;
 	wxMenu* _cpl_menu = nullptr;
+	wxMenuItem* _view_audio_main = nullptr;
+	wxMenuItem* _view_audio_atmos_reference = nullptr;
 	wxMenuItem* _view_eye = nullptr;
 	wxMenuItem* _view_eye_left = nullptr;
 	wxMenu* _view_eye_menu = nullptr;

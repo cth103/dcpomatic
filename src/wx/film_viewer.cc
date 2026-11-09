@@ -33,8 +33,10 @@
 #include "playhead_to_timecode_dialog.h"
 #include "simple_video_view.h"
 #include "wx_util.h"
+#include "lib/atmos_reference_signal.h"
 #include "lib/butler.h"
 #include "lib/config.h"
+#include "lib/content.h"
 #include "lib/dcp_content.h"
 #include "lib/dcpomatic_log.h"
 #include "lib/examine_content_job.h"
@@ -60,6 +62,7 @@ extern "C" {
 LIBDCP_DISABLE_WARNINGS
 #include <wx/tglbtn.h>
 LIBDCP_ENABLE_WARNINGS
+#include <algorithm>
 #include <iomanip>
 
 
@@ -159,6 +162,9 @@ FilmViewer::set_film(shared_ptr<Film> film)
 
 	_film = film;
 
+	/* A new film starts with the normal mix */
+	_listen_to_atmos_reference = false;
+
 	_video_view->clear();
 	_closed_captions_dialog->clear();
 
@@ -230,6 +236,30 @@ FilmViewer::destroy_and_maybe_create_butler()
 
 
 void
+FilmViewer::set_listen_to_atmos_reference(bool listen)
+{
+	if (listen == _listen_to_atmos_reference) {
+		return;
+	}
+
+	_listen_to_atmos_reference = listen;
+	destroy_and_maybe_create_butler();
+}
+
+
+bool
+FilmViewer::can_listen_to_atmos_reference() const
+{
+	if (!_film) {
+		return false;
+	}
+
+	auto const content = _film->content();
+	return std::any_of(content.begin(), content.end(), [](shared_ptr<const Content> c) { return static_cast<bool>(c->atmos); });
+}
+
+
+void
 FilmViewer::create_butler()
 {
 #if wxCHECK_VERSION(3, 1, 0)
@@ -239,14 +269,18 @@ FilmViewer::create_butler()
 #endif
 
 	DCPOMATIC_ASSERT(_player);
+	_player->set_atmos_reference_only(_listen_to_atmos_reference);
 	_player->seek(_video_view->position(), true);
 
 	auto& audio = AudioBackend::instance()->rtaudio();
 
+	/* The Player puts the Atmos reference signal in the film's centre channel, if it has one */
+	auto const reference_in_centre = _listen_to_atmos_reference && _film->audio_channels() > static_cast<int>(dcp::Channel::CENTRE);
+
 	_butler = std::make_shared<Butler>(
 		_film,
 		*_player,
-		Config::instance()->audio_mapping(_audio_channels),
+		reference_in_centre ? atmos_reference_output_mapping(_audio_channels) : Config::instance()->audio_mapping(_audio_channels),
 		_audio_channels,
 		AV_PIX_FMT_RGB24,
 		VideoRange::FULL,
