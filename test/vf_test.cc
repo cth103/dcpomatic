@@ -689,6 +689,95 @@ BOOST_AUTO_TEST_CASE(ccaps_can_be_referred_and_filled_test)
 }
 
 
+/** Check that a VF which refers to an OV's closed captions, and has no open subtitles, does not take
+ *  the referenced closed captions for its open subtitles (and so write them twice).
+ */
+BOOST_AUTO_TEST_CASE(vf_referring_to_ov_ccap_without_subtitles_test)
+{
+	auto picture = content_factory("test/data/flat_red.png")[0];
+	auto ccap = content_factory("test/data/short.srt")[0];
+	auto ov = new_test_film("vf_referring_to_ov_ccap_without_subtitles_test_ov", { picture, ccap });
+	ccap->only_text()->set_use(true);
+	ccap->only_text()->set_type(TextType::CLOSED_CAPTION);
+	ccap->only_text()->set_dcp_track(DCPTextTrack("First track", dcp::LanguageTag("fr")));
+	make_and_verify_dcp(ov, { dcp::VerificationNote::Code::INVALID_SUBTITLE_FIRST_TEXT_TIME });
+
+	auto ov_dcp = make_shared<DCPContent>(ov->dir(ov->dcp_name()));
+	auto vf = new_test_film("vf_referring_to_ov_ccap_without_subtitles_test_vf", { ov_dcp });
+	ov_dcp->set_reference_video(true);
+	ov_dcp->set_reference_audio(true);
+	ov_dcp->set_reference_text(TextType::CLOSED_CAPTION, true);
+	vf->write_metadata();
+	make_dcp(vf, TranscodeJob::ChangedBehaviour::IGNORE);
+	BOOST_REQUIRE(!wait_for_jobs());
+
+	dcp::DCP ov_check(ov->dir(ov->dcp_name()));
+	ov_check.read();
+	dcp::DCP vf_check(vf->dir(vf->dcp_name()));
+	vf_check.read();
+
+	BOOST_REQUIRE_EQUAL(vf_check.cpls().size(), 1U);
+	BOOST_REQUIRE_EQUAL(vf_check.cpls()[0]->reels().size(), 1U);
+	auto vf_reel = vf_check.cpls()[0]->reels()[0];
+	BOOST_REQUIRE_EQUAL(vf_reel->closed_captions().size(), 1U);
+	BOOST_CHECK_EQUAL(vf_reel->closed_captions()[0]->id(), ov_check.cpls()[0]->reels()[0]->closed_captions()[0]->id());
+	BOOST_CHECK(!vf_reel->main_subtitle());
+}
+
+
+/** Check that a VF which refers to both the open subtitles and the closed captions of an OV
+ *  gets each of them in the right place.
+ */
+BOOST_AUTO_TEST_CASE(vf_referring_to_ov_subtitles_and_ccap_test)
+{
+	auto picture = content_factory("test/data/flat_red.png")[0];
+	auto subs = content_factory("test/data/short.srt")[0];
+	auto ccap = content_factory("test/data/subrip.srt")[0];
+	auto ov = new_test_film("vf_referring_to_ov_subtitles_and_ccap_test_ov", { picture, subs, ccap });
+	subs->only_text()->set_use(true);
+	subs->only_text()->set_type(TextType::OPEN_SUBTITLE);
+	subs->only_text()->set_language(dcp::LanguageTag("fr"));
+	ccap->only_text()->set_use(true);
+	ccap->only_text()->set_type(TextType::CLOSED_CAPTION);
+	ccap->only_text()->set_dcp_track(DCPTextTrack("First track", dcp::LanguageTag("fr")));
+	make_and_verify_dcp(
+		ov,
+		{
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_FIRST_TEXT_TIME,
+			dcp::VerificationNote::Code::INVALID_CLOSED_CAPTION_LINE_LENGTH,
+		});
+
+	auto ov_dcp = make_shared<DCPContent>(ov->dir(ov->dcp_name()));
+	auto vf = new_test_film("vf_referring_to_ov_subtitles_and_ccap_test_vf", { ov_dcp });
+	ov_dcp->set_reference_video(true);
+	ov_dcp->set_reference_audio(true);
+	ov_dcp->set_reference_text(TextType::OPEN_SUBTITLE, true);
+	ov_dcp->set_reference_text(TextType::CLOSED_CAPTION, true);
+	vf->write_metadata();
+	make_dcp(vf, TranscodeJob::ChangedBehaviour::IGNORE);
+	BOOST_REQUIRE(!wait_for_jobs());
+
+	dcp::DCP ov_check(ov->dir(ov->dcp_name()));
+	ov_check.read();
+	dcp::DCP vf_check(vf->dir(vf->dcp_name()));
+	vf_check.read();
+
+	BOOST_REQUIRE_EQUAL(ov_check.cpls().size(), 1U);
+	BOOST_REQUIRE_EQUAL(ov_check.cpls()[0]->reels().size(), 1U);
+	auto ov_reel = ov_check.cpls()[0]->reels()[0];
+	BOOST_REQUIRE(ov_reel->main_subtitle());
+	BOOST_REQUIRE_EQUAL(ov_reel->closed_captions().size(), 1U);
+
+	BOOST_REQUIRE_EQUAL(vf_check.cpls().size(), 1U);
+	BOOST_REQUIRE_EQUAL(vf_check.cpls()[0]->reels().size(), 1U);
+	auto vf_reel = vf_check.cpls()[0]->reels()[0];
+	BOOST_REQUIRE(vf_reel->main_subtitle());
+	BOOST_CHECK_EQUAL(vf_reel->main_subtitle()->id(), ov_reel->main_subtitle()->id());
+	BOOST_REQUIRE_EQUAL(vf_reel->closed_captions().size(), 1U);
+	BOOST_CHECK_EQUAL(vf_reel->closed_captions()[0]->id(), ov_reel->closed_captions()[0]->id());
+}
+
+
 /** Check that a VF takes on the MainSoundConfiguration of its OV */
 BOOST_AUTO_TEST_CASE(vf_gets_main_sound_configuration_from_ov)
 {
