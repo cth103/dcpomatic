@@ -21,6 +21,7 @@
 
 #include "atmos_content.h"
 #include "atmos_mxf_content.h"
+#include "exceptions.h"
 #include "film.h"
 #include "job.h"
 #include <asdcp/KM_log.h>
@@ -82,11 +83,19 @@ AtmosMXFContent::examine(shared_ptr<const Film> film, shared_ptr<Job> job, bool 
 	Content::examine(film, job, tolerant);
 	auto a = make_shared<dcp::AtmosAsset>(path(0));
 
+	optional<ImmersiveAudioOrigin> origin;
+	try {
+		origin = immersive_audio_origin(path(0));
+	} catch (FileError&) {
+		/* Encrypted, for example: we cannot see who made it */
+	}
+
 	{
 		boost::mutex::scoped_lock lm (_mutex);
 		atmos = make_shared<AtmosContent>(this);
 		atmos->set_length (a->intrinsic_duration());
 		atmos->set_edit_rate (a->edit_rate());
+		atmos->set_origin(origin);
 	}
 }
 
@@ -94,7 +103,7 @@ AtmosMXFContent::examine(shared_ptr<const Film> film, shared_ptr<Job> job, bool 
 string
 AtmosMXFContent::summary () const
 {
-	return fmt::format(_("{} [Atmos]"), path_summary());
+	return fmt::format(atmos && !atmos->dolby() ? _("{} [IAB]") : _("{} [Atmos]"), path_summary());
 }
 
 

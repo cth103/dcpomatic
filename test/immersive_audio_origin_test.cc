@@ -25,7 +25,12 @@
  */
 
 
+#include "lib/atmos_content.h"
+#include "lib/content_factory.h"
+#include "lib/dcp_content.h"
 #include "lib/exceptions.h"
+#include "lib/film.h"
+#include "lib/video_content.h"
 #include "lib/immersive_audio_origin.h"
 #include <dcp/atmos_asset.h>
 #include <dcp/atmos_asset_writer.h>
@@ -38,6 +43,7 @@ LIBDCP_DISABLE_WARNINGS
 #include <asdcp/KM_fileio.h>
 #include <asdcp/KM_prng.h>
 LIBDCP_ENABLE_WARNINGS
+#include "test.h"
 #include <boost/test/unit_test.hpp>
 #include <cstring>
 #include <vector>
@@ -192,4 +198,61 @@ BOOST_AUTO_TEST_CASE(immersive_audio_origin_unreadable_frame_test)
 	auto big = dolby_frame;
 	big.resize(5 * 1024 * 1024, 0);
 	BOOST_CHECK_THROW(immersive_audio_origin(write_dcdata("immersive_audio_origin_unreadable_frame", "Dolby Laboratories", big, 1)), FileError);
+}
+
+
+/** An Atmos MXF remembers who made it: its summary and the film's ISDCF name say Atmos or IAB, also after a reload */
+BOOST_AUTO_TEST_CASE(immersive_audio_origin_content_test)
+{
+	struct Case {
+		string name;
+		string company;
+		ImmersiveAudioOrigin origin;
+		string summary;
+		string isdcf;
+	};
+
+	for (auto const& c: vector<Case>{
+		{ "dolby", "Dolby Laboratories", ImmersiveAudioOrigin::DOLBY, "[Atmos]", "-ATMOS_" },
+		{ "iab", "DCP-o-matic", ImmersiveAudioOrigin::IAB, "[IAB]", "-IAB_" },
+	}) {
+		auto const mxf = write_atmos("immersive_audio_origin_content_" + c.name + "_source", c.company, dolby_frame);
+		auto content = content_factory(mxf)[0];
+		auto film = new_test_film("immersive_audio_origin_content_" + c.name, { content });
+		BOOST_REQUIRE(content->atmos);
+		BOOST_CHECK(content->atmos->origin() == c.origin);
+		BOOST_CHECK_MESSAGE(content->summary().find(c.summary) != string::npos, content->summary());
+		BOOST_CHECK_MESSAGE(film->isdcf_name(false, false).find(c.isdcf) != string::npos, film->isdcf_name(false, false));
+
+		film->write_metadata();
+		auto reloaded = std::make_shared<Film>(film->directory().get());
+		reloaded->read_metadata();
+		BOOST_REQUIRE_EQUAL(reloaded->content().size(), 1U);
+		BOOST_REQUIRE(reloaded->content()[0]->atmos);
+		BOOST_CHECK(reloaded->content()[0]->atmos->origin() == c.origin);
+		BOOST_CHECK_MESSAGE(reloaded->isdcf_name(false, false).find(c.isdcf) != string::npos, reloaded->isdcf_name(false, false));
+	}
+}
+
+
+/** With Dolby and IAB content together the film is IAB; and a DCP's Atmos track is looked at when the DCP is examined */
+BOOST_AUTO_TEST_CASE(immersive_audio_origin_film_test)
+{
+	auto dolby = content_factory(write_atmos("immersive_audio_origin_film_dolby", "Dolby Laboratories", dolby_frame))[0];
+	auto iab = content_factory(write_atmos("immersive_audio_origin_film_iab", "Another encoder", other_frame))[0];
+	auto picture = content_factory("test/data/flat_red.png")[0];
+	auto film = new_test_film("immersive_audio_origin_film", { picture, dolby, iab });
+	picture->video->set_length(48);
+	dolby->set_position(film, dcpomatic::DCPTime());
+	iab->set_position(film, dcpomatic::DCPTime::from_seconds(1));
+	BOOST_CHECK_MESSAGE(film->isdcf_name(false, false).find("-IAB_") != string::npos, film->isdcf_name(false, false));
+
+	/* A DCP that DCP-o-matic makes from Dolby's frames is written by libdcp, so it is not Dolby's any more */
+	auto only_dolby = new_test_film("immersive_audio_origin_film_dcp", { content_factory("test/data/flat_red.png")[0], content_factory(write_atmos("immersive_audio_origin_film_dcp_source", "Dolby Laboratories", dolby_frame))[0] });
+	only_dolby->content()[0]->video->set_length(24);
+	make_and_verify_dcp(only_dolby, {}, false, false);
+	auto dcp = std::make_shared<DCPContent>(only_dolby->dir(only_dolby->dcp_name()));
+	auto from_dcp = new_test_film("immersive_audio_origin_film_dcp_reread", { dcp });
+	BOOST_REQUIRE(dcp->atmos);
+	BOOST_CHECK(dcp->atmos->origin() == ImmersiveAudioOrigin::IAB);
 }

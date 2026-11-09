@@ -1147,8 +1147,11 @@ Film::isdcf_name(bool if_created_now, bool multiple_open_text_languages) const
 		isdcf_name += "-VI";
 	}
 
-	if (find_if(content_list.begin(), content_list.end(), [](shared_ptr<Content> c) { return static_cast<bool>(c->atmos); }) != content_list.end()) {
-		isdcf_name += "-IAB";
+	/* Dolby Atmos if every piece of immersive audio is known to be Dolby's (see immersive_audio_origin()), otherwise IAB */
+	auto const has_atmos = [](shared_ptr<Content> c) { return static_cast<bool>(c->atmos); };
+	if (find_if(content_list.begin(), content_list.end(), has_atmos) != content_list.end()) {
+		auto const all_dolby = std::all_of(content_list.begin(), content_list.end(), [](shared_ptr<Content> c) { return !c->atmos || c->atmos->dolby(); });
+		isdcf_name += all_dolby ? "-ATMOS" : "-IAB";
 	}
 
 	isdcf_name += "_" + resolution_to_string(_resolution);

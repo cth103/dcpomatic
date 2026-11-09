@@ -20,8 +20,10 @@
 
 
 #include "content_part.h"
+#include "immersive_audio_origin.h"
 #include "types.h"
 #include <dcp/types.h>
+#include <boost/optional.hpp>
 
 
 class Content;
@@ -31,6 +33,7 @@ class AtmosContentProperty
 {
 public:
 	static int constexpr EDIT_RATE = 700;
+	static int constexpr ORIGIN = 701;
 };
 
 
@@ -56,8 +59,19 @@ public:
 		return _edit_rate;
 	}
 
+	void set_origin(boost::optional<ImmersiveAudioOrigin> origin);
+	/** @return who made the track file, if it could be seen (see immersive_audio_origin()) */
+	boost::optional<ImmersiveAudioOrigin> origin() const {
+		return _origin;
+	}
+	/** @return true if the track file is known to be Dolby Atmos; otherwise it is called IAB */
+	bool dolby() const {
+		return _origin == ImmersiveAudioOrigin::DOLBY;
+	}
+
 private:
 	Frame _length;
 	dcp::Fraction _edit_rate;
+	boost::optional<ImmersiveAudioOrigin> _origin;
 };
 

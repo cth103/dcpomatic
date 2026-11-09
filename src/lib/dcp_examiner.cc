@@ -293,6 +293,13 @@ DCPExaminer::DCPExaminer(shared_ptr<const DCPContent> content, bool tolerant)
 				DCPOMATIC_ASSERT(reel->atmos()->edit_rate() == _atmos_edit_rate);
 			}
 			_atmos_edit_rate = reel->atmos()->edit_rate();
+			if (!_atmos_origin && reel->atmos()->asset_ref().resolved() && reel->atmos()->asset()->file()) {
+				try {
+					_atmos_origin = immersive_audio_origin(*reel->atmos()->asset()->file());
+				} catch (FileError&) {
+					/* Encrypted, for example: we cannot see who made it */
+				}
+			}
 		}
 
 		shared_ptr<dcp::ReelAsset> asset_determining_length;

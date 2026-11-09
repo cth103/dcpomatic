@@ -45,6 +45,13 @@ AtmosContent::AtmosContent (Content* parent, cxml::ConstNodePtr node)
 {
 	_length = node->number_child<Frame>("AtmosLength");
 	_edit_rate = dcp::Fraction (node->string_child("AtmosEditRate"));
+	if (auto origin = node->optional_string_child("ImmersiveAudioOrigin")) {
+		if (*origin == "Dolby") {
+			_origin = ImmersiveAudioOrigin::DOLBY;
+		} else if (*origin == "IAB") {
+			_origin = ImmersiveAudioOrigin::IAB;
+		}
+	}
 }
 
 
@@ -64,6 +71,9 @@ AtmosContent::as_xml(xmlpp::Element* element) const
 {
 	cxml::add_text_child(element, "AtmosLength", fmt::to_string(_length));
 	cxml::add_text_child(element, "AtmosEditRate", _edit_rate.as_string());
+	if (_origin) {
+		cxml::add_text_child(element, "ImmersiveAudioOrigin", *_origin == ImmersiveAudioOrigin::DOLBY ? "Dolby" : "IAB");
+	}
 }
 
 
@@ -80,3 +90,9 @@ AtmosContent::set_edit_rate (dcp::Fraction rate)
 	maybe_set (_edit_rate, rate, AtmosContentProperty::EDIT_RATE);
 }
 
+
+void
+AtmosContent::set_origin(boost::optional<ImmersiveAudioOrigin> origin)
+{
+	maybe_set(_origin, origin, AtmosContentProperty::ORIGIN);
+}
