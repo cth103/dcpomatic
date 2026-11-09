@@ -70,9 +70,7 @@ FFmpegExaminer::FFmpegExaminer(shared_ptr<const FFmpegContent> c, shared_ptr<Job
 		auto s = _format_context->streams[i];
 		auto codec = _codec_context[i] ? _codec_context[i]->codec : nullptr;
 		if (s->codecpar->codec_type == AVMEDIA_TYPE_AUDIO && codec) {
-
 			DCPOMATIC_ASSERT(codec->name);
-
 			_audio_streams.push_back(
 				make_shared<FFmpegAudioStream>(
 					stream_name(s),
@@ -83,7 +81,6 @@ FFmpegExaminer::FFmpegExaminer(shared_ptr<const FFmpegContent> c, shared_ptr<Job
 					s->codecpar
 					)
 				);
-
 		} else if (s->codecpar->codec_type == AVMEDIA_TYPE_SUBTITLE) {
 			_subtitle_streams.push_back(make_shared<FFmpegSubtitleStream>(subtitle_stream_name(s), s->id, i));
 		}
