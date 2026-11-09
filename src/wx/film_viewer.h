@@ -33,6 +33,7 @@
 #include "lib/player_text.h"
 #include "lib/signaller.h"
 #include "lib/timer.h"
+#include <dcp/types.h>
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <RtAudio.h>
@@ -74,6 +75,18 @@ public:
 	}
 
 	void show_closed_captions();
+
+	/** Listen to one DCP channel (for example HI or VI) on its own, in place of the normal mix.
+	 *  @param channel Channel to listen to, or none for the normal mix.
+	 */
+	void set_listen_to(boost::optional<dcp::Channel> channel);
+
+	boost::optional<dcp::Channel> listen_to() const {
+		return _listen_to;
+	}
+
+	/** @return true if the film has some content mapped to this channel, so that there is something to hear */
+	bool can_listen_to(dcp::Channel channel) const;
 
 	void set_film(std::shared_ptr<Film>);
 	std::shared_ptr<Film> film() const {
@@ -200,6 +213,7 @@ private:
 	std::vector<int> _pending_player_changes;
 
 	int _audio_channels = 0;
+	boost::optional<dcp::Channel> _listen_to;
 	unsigned int _audio_block_size = 1024;
 	bool _playing = false;
 	int _suspended = 0;

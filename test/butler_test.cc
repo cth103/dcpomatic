@@ -22,13 +22,17 @@
 #include "lib/audio_content.h"
 #include "lib/audio_mapping.h"
 #include "lib/butler.h"
+#include "lib/constants.h"
 #include "lib/content_factory.h"
 #include "lib/dcp_content_type.h"
 #include "lib/film.h"
 #include "lib/player.h"
 #include "lib/ratio.h"
+#include "lib/video_content.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
+#include <cmath>
+#include <vector>
 
 
 using std::make_shared;
@@ -132,3 +136,81 @@ BOOST_AUTO_TEST_CASE (butler_test2)
 	butler.rethrow();
 }
 
+
+/** @return the sum of the magnitudes of the samples of each butler output channel over 1 second of a film */
+static std::vector<float>
+butler_output_levels(std::shared_ptr<Film> film, AudioMapping map, int outputs)
+{
+	Player player(film, Image::Alignment::COMPACT, false);
+	Butler butler(film, player, map, outputs, AV_PIX_FMT_RGB24, VideoRange::FULL, Image::Alignment::COMPACT, false, false, Butler::Video::ENABLED, Butler::Audio::ENABLED);
+
+	int const frames_per_video_frame = film->audio_frame_rate() / film->video_frame_rate();
+	std::vector<float> buffer(frames_per_video_frame * outputs);
+	std::vector<float> levels(outputs, 0);
+	for (int i = 0; i < film->video_frame_rate(); ++i) {
+		butler.get_video(Butler::Behaviour::BLOCKING, 0);
+		butler.get_audio(Butler::Behaviour::BLOCKING, buffer.data(), frames_per_video_frame);
+		for (int frame = 0; frame < frames_per_video_frame; ++frame) {
+			for (int channel = 0; channel < outputs; ++channel) {
+				levels[channel] += std::abs(buffer[frame * outputs + channel]);
+			}
+		}
+	}
+	butler.rethrow();
+	return levels;
+}
+
+
+/** Listening to HI or VI plays only that channel, and the main sound stops */
+BOOST_AUTO_TEST_CASE(butler_listen_to_test)
+{
+	/* L.wav goes to L and C.wav to HI; nothing goes to the centre or to VI */
+	auto picture = content_factory("test/data/flat_red.png")[0];
+	auto left = content_factory("test/data/L.wav")[0];
+	auto hi = content_factory("test/data/C.wav")[0];
+	auto film = new_test_film("butler_listen_to_test", { picture, left, hi });
+	film->set_audio_channels(16);
+	picture->video->set_length(24 * 5);
+
+	auto left_mapping = left->audio->mapping();
+	left_mapping.make_zero();
+	left_mapping.set(0, dcp::Channel::LEFT, 1);
+	left->audio->set_mapping(left_mapping);
+
+	auto hi_mapping = hi->audio->mapping();
+	hi_mapping.make_zero();
+	hi_mapping.set(0, dcp::Channel::HI, 1);
+	hi->audio->set_mapping(hi_mapping);
+
+	auto const sound = [](float level) { return level > 100; };
+	auto const silent = [](float level) { return level == 0; };
+
+	/* The main mix to 5.1: only L has sound */
+	AudioMapping main(MAX_DCP_AUDIO_CHANNELS, 6);
+	main.make_zero();
+	for (int i = 0; i < 6; ++i) {
+		main.set(i, i, 1);
+	}
+	auto levels = butler_output_levels(film, main, 6);
+	BOOST_CHECK(sound(levels[0]));
+	for (int i = 1; i < 6; ++i) {
+		BOOST_CHECK_MESSAGE(silent(levels[i]), "main mix output " << i << " " << levels[i]);
+	}
+
+	/* HI to 5.1: only the centre has sound, and L is silent */
+	levels = butler_output_levels(film, listen_to_mapping(dcp::Channel::HI, 6), 6);
+	for (int i = 0; i < 6; ++i) {
+		BOOST_CHECK_MESSAGE(i == static_cast<int>(dcp::Channel::CENTRE) ? sound(levels[i]) : silent(levels[i]), "HI output " << i << " " << levels[i]);
+	}
+
+	/* HI to stereo: both outputs have sound */
+	levels = butler_output_levels(film, listen_to_mapping(dcp::Channel::HI, 2), 2);
+	BOOST_CHECK(sound(levels[0]));
+	BOOST_CHECK(sound(levels[1]));
+
+	/* VI, which has nothing mapped to it: silence */
+	levels = butler_output_levels(film, listen_to_mapping(dcp::Channel::VI, 6), 6);
+	for (int i = 0; i < 6; ++i) {
+		BOOST_CHECK_MESSAGE(silent(levels[i]), "VI output " << i << " " << levels[i]);
+	}
+}
