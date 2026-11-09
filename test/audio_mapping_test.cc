@@ -30,6 +30,9 @@
 #include "lib/constants.h"
 #include "lib/content_factory.h"
 #include "lib/film.h"
+#include "lib/video_content.h"
+#include "lib/film_util.h"
+#include "lib/dcp_content.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
 #include <dcp/types.h>
@@ -217,4 +220,60 @@ BOOST_AUTO_TEST_CASE(audio_mapping_listen_to_test)
 	check(listen_to_mapping(dcp::Channel::VI, 6), dcp::Channel::VI, { static_cast<int>(dcp::Channel::CENTRE) });
 	check(listen_to_mapping(dcp::Channel::HI, 16), dcp::Channel::HI, { static_cast<int>(dcp::Channel::CENTRE) });
 	check(listen_to_mapping(dcp::Channel::VI, 1), dcp::Channel::VI, { 0 });
+}
+
+
+/** Make a 16-channel film whose one sound file is mapped to L, R, C and to each of @param extra */
+static std::shared_ptr<Film>
+film_with_channels(std::string name, std::vector<dcp::Channel> extra)
+{
+	auto picture = content_factory("test/data/flat_red.png")[0];
+	auto sound = content_factory("test/data/C.wav")[0];
+	auto film = new_test_film(name, { picture, sound });
+	film->set_audio_channels(MAX_DCP_AUDIO_CHANNELS);
+	picture->video->set_length(24);
+	auto mapping = sound->audio->mapping();
+	mapping.make_zero();
+	for (auto channel: { dcp::Channel::LEFT, dcp::Channel::RIGHT, dcp::Channel::CENTRE }) {
+		mapping.set(0, channel, 1);
+	}
+	for (auto channel: extra) {
+		mapping.set(0, channel, 1);
+	}
+	sound->audio->set_mapping(mapping);
+	return film;
+}
+
+
+/** HI and VI can each be listened to only when the film, or a DCP made from it, really has that channel */
+BOOST_AUTO_TEST_CASE(listen_to_only_mapped_channels_test)
+{
+	using namespace dcpomatic::film;
+
+	struct Case {
+		std::string name;
+		std::vector<dcp::Channel> extra;
+		bool hi;
+		bool vi;
+	};
+
+	for (auto const& c: std::vector<Case>{
+		{ "none", {}, false, false },
+		{ "hi", { dcp::Channel::HI }, true, false },
+		{ "vi", { dcp::Channel::VI }, false, true },
+		{ "both", { dcp::Channel::HI, dcp::Channel::VI }, true, true },
+	}) {
+		/* The main window looks at the film */
+		auto film = film_with_channels("listen_to_only_mapped_channels_test_" + c.name, c.extra);
+		BOOST_CHECK_MESSAGE(channel_is_mapped(film, dcp::Channel::HI) == c.hi, c.name << " film HI");
+		BOOST_CHECK_MESSAGE(channel_is_mapped(film, dcp::Channel::VI) == c.vi, c.name << " film VI");
+
+		/* The player looks at a film with the DCP in it, with MAX_DCP_AUDIO_CHANNELS channels */
+		make_and_verify_dcp(film, {}, false, false);
+		auto dcp = std::make_shared<DCPContent>(film->dir(film->dcp_name()));
+		auto player_film = new_test_film("listen_to_only_mapped_channels_test_" + c.name + "_player", { dcp });
+		player_film->set_audio_channels(MAX_DCP_AUDIO_CHANNELS);
+		BOOST_CHECK_MESSAGE(channel_is_mapped(player_film, dcp::Channel::HI) == c.hi, c.name << " DCP HI");
+		BOOST_CHECK_MESSAGE(channel_is_mapped(player_film, dcp::Channel::VI) == c.vi, c.name << " DCP VI");
+	}
 }
