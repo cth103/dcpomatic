@@ -305,10 +305,11 @@ FFmpegContent::examine(shared_ptr<const Film> film, shared_ptr<Job> job, bool to
 				audio->add_stream(i);
 			}
 
-			auto as = audio->streams().front();
-			auto m = as->mapping();
-			m.make_default(film ? film->audio_processor() : 0, first_path);
-			as->set_mapping(m);
+			auto audio_stream = examiner->audio_streams().front();
+			auto mapping = audio_stream->mapping();
+			auto const processor = film ? film->audio_processor() : nullptr;
+			mapping.make_default(processor, first_path);
+			audio_stream->set_mapping(mapping);
 		}
 
 		_subtitle_streams = examiner->subtitle_streams();
