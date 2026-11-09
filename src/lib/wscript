@@ -148,6 +148,7 @@ sources = """
           image_png.cc
           image_proxy.cc
           image_store.cc
+          immersive_audio_origin.cc
           internal_player_server.cc
           io_context.cc
           j2k_image_proxy.cc

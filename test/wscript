@@ -124,6 +124,7 @@ def build(bld):
                  image_content_fade_test.cc
                  image_filename_sorter_test.cc
                  image_test.cc
+                 immersive_audio_origin_test.cc
                  image_proxy_test.cc
                  import_dcp_test.cc
                  interrupt_encoder_test.cc
