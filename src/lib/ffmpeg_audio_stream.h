@@ -30,11 +30,6 @@ struct ffmpeg_pts_offset_test;
 class FFmpegAudioStream : public FFmpegStream, public AudioStream
 {
 public:
-	FFmpegAudioStream(std::string name, int id, int index, int frame_rate, Frame length, int channels, int bit_depth)
-		: FFmpegStream(name, id, index)
-		, AudioStream(frame_rate, length, channels, bit_depth)
-	{}
-
 	FFmpegAudioStream(std::string name, std::string codec_name_, int id, int index, int frame_rate, Frame length, int channels, int bit_depth)
 		: FFmpegStream(name, id, index)
 		, AudioStream(frame_rate, length, channels, bit_depth)
