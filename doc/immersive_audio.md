@@ -6,7 +6,8 @@ with them, and how `immersive_audio_origin()` (`src/lib/immersive_audio_origin.h
 Sources: SMPTE ST 2098-2:2022 (the IAB bitstream), SMPTE RDD 57:2021 (IAB Application Profile 1, the profile for
 DCPs), SMPTE ST 429-18:2019 (the immersive audio track file), SMPTE RDD 29 (the Dolby Atmos bitstream), the
 `DbyCinema` constraint set of DTS's open-source IAB library (IABLib / iab-validator, `IABConstants.h` and
-`IABElements.cpp`), and measurements of Dolby-written track files from 2012 to 2026.
+`IABElements.cpp`), and a survey of 263 immersive audio track files (239 unencrypted) from 2012 to 2026, written by
+Dolby's encoders or wrapped again by Doremi, Qube, easyDCP, Clipster and libdcp.
 
 
 ## One file format, two names
@@ -22,10 +23,10 @@ of ST 2098-2 that Dolby Atmos processors can play.
 
 | Feature | IAB, ST 2098-2 (general) | IAB Profile 1, RDD 57 (DCP) | Dolby Atmos (DbyCinema / Dolby files) |
 |---|---|---|---|
-| Frame preamble | Tag `0x01` + 32-bit length; the length may be 0; the content is out of scope (8.1.3) | No constraint | Always present: `11 01 0E` (`11 01 02` from the older encoders, with IAFrame version 0) + a 19.2 kHz mono 16-bit reference signal; length 3 + 38400 / fps (1603 at 24 fps) |
+| Frame preamble | Tag `0x01` + 32-bit length; the length may be 0; the content is out of scope (8.1.3) | No constraint | Always present: `11 01 0E`, or `11 01 02` from the older encoders (Dolby Atmos Encoder 1.0.0.2, Atmos Encoder 1.9.45), + a 19.2 kHz mono 16-bit reference signal; length 3 + 38400 / fps (1603 at 24 fps and 1539 at 25 fps, both measured) |
 | Sample rate | 48 or 96 kHz | 48 kHz only (8.1.1) | 48 kHz only |
 | Frame rates | Any defined, including 23.976, 96, 100 and 120 | 24, 25, 30, 48, 50, 60 only (8.1.2) | Those, and also 96, 100, 120 (ST 429-18 Table 1) |
-| IAFrame Version | Current | Current | 1; 0 in the oldest encoders (2012 to 2013) |
+| IAFrame Version | Current | Current | 1; 0 in the older encoders (the same files as the `11 01 02` preamble) |
 | Beds | Several, simultaneous or conditional, with sub-elements | One bed, 7.1 DS or 9.1OH (6.2, 8.1.6, B1, B7); conditional only with UseCase 0xFF (B4) | One bed, always used, at most 10 channels, the same for the whole programme |
 | Bed channels | The whole ChannelID table | L, C, R, Lss, Lrs, Rrs, Rss, Lts, Rts, LFE, at most 10 (B2) | The same 9.1OH set |
 | Channel gain | Any prefix and gain | Prefix 0, no ChannelGain (B3) | Unity only |
@@ -33,7 +34,7 @@ of ST 2098-2 that Dolby Atmos processors can play.
 | Channel decorrelation | Allowed | Not allowed (B6) | Not allowed |
 | Objects | No fixed limit | At most 118, MetaID at most 118, no sub-elements (O1, O7) | At most 118, sequential MetaIDs |
 | MaxRendered | Any | At most 128 (8.1.5) | 128 |
-| Object gain | Unity, silence or a gain | Prefix 0 (unity) only, no ObjectGain (O5) | The DbyCinema set allows unity only, but Dolby's files are said to code an inactive object with the **silence** prefix (0x1); none of the 239 files measured does, in the first pan sub-block |
+| Object gain | Unity, silence or a gain | Prefix 0 (unity) only, no ObjectGain (O5) | The DbyCinema set allows unity only. Dolby's files were said to code an inactive object with the silence prefix (0x1), but none of the 239 files measured does: about 26 million objects read over whole Dolby files, all with prefix 0 |
 | 9-zone gains | Any gain per zone | 0 or 1 per zone, and only the 11 sets #1a to #6 of 8.5 (O4) | Silence or unity, and the same 11 presets |
 | 19-zone definition | Allowed | Not allowed (O3) | Not allowed |
 | Object spread | 1D low resolution, 1D, 3D (X, Y, Z) | 1D only, no X, Y or Z (O6) | 1D high resolution only |
@@ -42,7 +43,7 @@ of ST 2098-2 that Dolby Atmos processors can play.
 | Conditional objects | Any use case | UseCase 0xFF only (O9) | "Always use" only |
 | AuthoringToolInfo | Allowed | Not allowed (IM2) | Not allowed |
 | UserData, unknown data | Allowed, or skipped | Not allowed (IM1, IM3) | Not allowed (ST 429-18 7.2.5 bans UserData too) |
-| DLC coding | Any valid coding | Any valid coding | One prediction region, order at most 16, ShiftBits 8 (up to 12 in older encoders), Rice coding in every sub-block with signal, PCM only for all-zero sub-blocks; RiceRemBits up to 22 measured |
+| DLC coding | Any valid coding | Any valid coding | Measured in every file: DLCSampleRate 48 kHz, one predictor region, order at most 16, ShiftBits 8 (9 and 12 also in Dolby Atmos Encoder 1.0.0.2 and 1.0.0.5 files), PCM sub-blocks only with BitDepth 0 (all zero); RiceRemBits up to 22 |
 | MXF Immersive Audio sub-descriptor | - | All items optional (ST 429-18) | Present (`DolbyAtmosSubDescriptor` in asdcplib), with AtmosID and AtmosVersion |
 | MXF Identification set | - | The encoder's own | CompanyName "Dolby Laboratories", Dolby's ProductName and ProductUID |
 | CPL title (ISDCF Audio Type) | - | "IAB" (7.1) | "ATMOS", which ISDCF has deprecated in favour of "IAB" |
@@ -50,8 +51,8 @@ of ST 2098-2 that Dolby Atmos processors can play.
 
 So in a DCP the bitstream features that would make IAB different from Dolby Atmos (19 zones, free zone gains, 3D
 spread, several beds, 96 kHz) are not allowed. What is left that differs inside the frames is small: Dolby's
-preamble, the silence prefix on inactive objects, the 96, 100 and 120 fps rates and version 0 frames, all of which
-are outside RDD 57.
+preamble, the 96, 100 and 120 fps rates and version 0 frames, all of which are outside RDD 57. In the files
+surveyed, every unencrypted one has Dolby's preamble and DLC coding within Dolby's limits, whoever wrapped it.
 
 
 ## What says who made a file
