@@ -44,12 +44,14 @@ namespace {
 int constexpr max_frames_for_silence = 1000;
 
 
-/** @return true if @p frame starts with Dolby's preamble: PreambleTag 0x01, a 32-bit PreambleLength, then 11 01 0E */
+/** @return true if @p frame starts with Dolby's preamble: PreambleTag 0x01, a 32-bit PreambleLength, then 11 01 0E,
+ *  or 11 01 02 as Dolby's older encoders (Dolby Atmos Encoder 1.0.0.2, Atmos Encoder 1.9.45) write it, with IAFrame
+ *  version 0.
+ */
 bool
 dolby_preamble(uint8_t const* frame, ui32_t size)
 {
-	uint8_t const constant[] = { 0x11, 0x01, 0x0e };
-	return size >= 8 && frame[0] == 0x01 && memcmp(frame + 5, constant, sizeof(constant)) == 0;
+	return size >= 8 && frame[0] == 0x01 && frame[5] == 0x11 && frame[6] == 0x01 && (frame[7] == 0x0e || frame[7] == 0x02);
 }
 
 

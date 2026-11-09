@@ -283,6 +283,23 @@ BOOST_AUTO_TEST_CASE(immersive_audio_origin_exact_test)
 
 	/* Only the last of Dolby's three bytes differs */
 	BOOST_CHECK(immersive_audio_origin(write_atmos("immersive_audio_origin_exact_third_byte", "Dolby Laboratories", frame_with_preamble({ 0x11, 0x01, 0x0f, 0x00, 0x00, 0x00 }))) == ImmersiveAudioOrigin::IAB);
+	BOOST_CHECK(immersive_audio_origin(write_atmos("immersive_audio_origin_exact_third_byte_03", "Dolby Laboratories", frame_with_preamble({ 0x11, 0x01, 0x03, 0x00, 0x00, 0x00 }))) == ImmersiveAudioOrigin::IAB);
+	/* The first or second byte differs from the older preamble */
+	BOOST_CHECK(immersive_audio_origin(write_atmos("immersive_audio_origin_exact_old_first_byte", "Dolby Laboratories", frame_with_preamble({ 0x12, 0x01, 0x02, 0x00, 0x00, 0x00 }))) == ImmersiveAudioOrigin::IAB);
+	BOOST_CHECK(immersive_audio_origin(write_atmos("immersive_audio_origin_exact_old_second_byte", "Dolby Laboratories", frame_with_preamble({ 0x11, 0x00, 0x02, 0x00, 0x00, 0x00 }))) == ImmersiveAudioOrigin::IAB);
+}
+
+
+/** The preamble of Dolby's older encoders, 11 01 02, is Dolby's too: with a Dolby name, and wrapped again by another
+ *  program only if an object has the silence gain prefix
+ */
+BOOST_AUTO_TEST_CASE(immersive_audio_origin_old_dolby_preamble_test)
+{
+	vector<uint8_t> const old_preamble = { 0x11, 0x01, 0x02, 0x00, 0x00, 0x00 };
+	BOOST_CHECK(immersive_audio_origin(write_atmos("immersive_audio_origin_old_dolby", "Dolby Laboratories", frame_with_preamble(old_preamble))) == ImmersiveAudioOrigin::DOLBY);
+	BOOST_CHECK(immersive_audio_origin(write_atmos("immersive_audio_origin_old_rewrapped", "DCP-o-matic", frame_with_preamble(old_preamble))) == ImmersiveAudioOrigin::IAB);
+	BOOST_CHECK(immersive_audio_origin(write_atmos("immersive_audio_origin_old_rewrapped_silent", "DCP-o-matic", frame_with_object(old_preamble, 0x1))) == ImmersiveAudioOrigin::DOLBY);
+	BOOST_CHECK(immersive_audio_origin(write_dcdata("immersive_audio_origin_old_dolby_dcdata", "Dolby Laboratories", frame_with_preamble(old_preamble))) == ImmersiveAudioOrigin::DOLBY);
 }
 
 

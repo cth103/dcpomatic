@@ -22,7 +22,7 @@ of ST 2098-2 that Dolby Atmos processors can play.
 
 | Feature | IAB, ST 2098-2 (general) | IAB Profile 1, RDD 57 (DCP) | Dolby Atmos (DbyCinema / Dolby files) |
 |---|---|---|---|
-| Frame preamble | Tag `0x01` + 32-bit length; the length may be 0; the content is out of scope (8.1.3) | No constraint | Always present: `11 01 0E` + a 19.2 kHz mono 16-bit reference signal; length 3 + 38400 / fps (1603 at 24 fps) |
+| Frame preamble | Tag `0x01` + 32-bit length; the length may be 0; the content is out of scope (8.1.3) | No constraint | Always present: `11 01 0E` (`11 01 02` from the older encoders, with IAFrame version 0) + a 19.2 kHz mono 16-bit reference signal; length 3 + 38400 / fps (1603 at 24 fps) |
 | Sample rate | 48 or 96 kHz | 48 kHz only (8.1.1) | 48 kHz only |
 | Frame rates | Any defined, including 23.976, 96, 100 and 120 | 24, 25, 30, 48, 50, 60 only (8.1.2) | Those, and also 96, 100, 120 (ST 429-18 Table 1) |
 | IAFrame Version | Current | Current | 1; 0 in the oldest encoders (2012 to 2013) |
@@ -77,7 +77,7 @@ from the configuration either.
    IAB files without the Dolby Atmos sub-descriptor, which `dcp::AtmosAsset` cannot open. Encrypted files and files
    whose first frame cannot be read are refused.
 2. A file is Dolby Atmos when its frames start with Dolby's preamble (PreambleTag `0x01`, the 32-bit length, then
-   `11 01 0E`) and also either its CompanyName starts with "Dolby", or an object of its frames has the silence
+   `11 01 0E`, or `11 01 02` from Dolby's older encoders) and also either its CompanyName starts with "Dolby", or an object of its frames has the silence
    gain prefix (looked for in the first sub-block of every ObjectDefinition, in up to 1000 frames). The second case
    keeps a Dolby Atmos file wrapped again by another program, DCP-o-matic included, as Dolby Atmos.
 3. Anything else is IAB, which is also what is assumed when the origin cannot be seen.

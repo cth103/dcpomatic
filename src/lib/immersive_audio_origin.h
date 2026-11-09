@@ -29,7 +29,7 @@
 /** Who made an immersive audio track file (ST 429-18), as far as it can be seen (see doc/immersive_audio.md) */
 enum class ImmersiveAudioOrigin
 {
-	/** Dolby Atmos: the frames start with Dolby's preamble, and the file's CompanyName starts with "Dolby" or an
+	/** Dolby Atmos: the frames start with Dolby's preamble (11 01 0E, or 11 01 02 from its older encoders), and the file's CompanyName starts with "Dolby" or an
 	 *  object of its frames is coded with the silence gain prefix, which IAB Profile 1 does not allow
 	 */
 	DOLBY,
