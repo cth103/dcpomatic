@@ -282,6 +282,15 @@ AudioMapping::mapped_output_channels() const
 
 
 void
+AudioMapping::map_to_single_output(int input_channel, dcp::Channel output_channel, float gain)
+{
+	for (int output = 0; output < output_channels(); ++output) {
+		set(input_channel, output, output == static_cast<int>(output_channel) ? gain : 0.0);
+	}
+}
+
+
+void
 AudioMapping::unmap_all()
 {
 	for (auto& i: _gain) {

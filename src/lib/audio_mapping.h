@@ -74,6 +74,8 @@ public:
 	std::string digest() const;
 
 	std::list<int> mapped_output_channels() const;
+
+	void map_to_single_output(int input_channel, dcp::Channel output_channel, float gain);
 	void unmap_all();
 	void unmap_input(int input_channel);
 
