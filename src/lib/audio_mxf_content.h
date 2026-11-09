@@ -21,6 +21,7 @@
 
 #include "content.h"
 #include "types.h"
+#include <vector>
 
 
 class AudioBuffers;
@@ -63,5 +64,16 @@ public:
 	dcpomatic::DCPTime approximate_length() const override;
 	void add_properties(std::shared_ptr<const Film> film, std::list<UserProperty>& p) const override;
 
+	/** @return one entry for each channel of the file: true if the channel has sound, i.e. it has an MCA
+	 *  audio channel label or some of its samples are not silent.
+	 */
+	std::vector<bool> channels_with_sound() const {
+		boost::mutex::scoped_lock lm(_mutex);
+		return _channels_with_sound;
+	}
+
 	static bool valid_mxf(boost::filesystem::path path);
+
+private:
+	std::vector<bool> _channels_with_sound;
 };
