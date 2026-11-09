@@ -107,6 +107,8 @@ public:
 	void set_play_referenced();
 	void set_dcp_decode_reduction(boost::optional<int> reduction);
 	void set_disable_audio_processor();
+	/** @param only true to play nothing but the reference signal of the Dolby Atmos frames, in the centre */
+	void set_atmos_reference_only(bool only);
 
 	boost::optional<dcpomatic::DCPTime> content_time_to_dcp(std::shared_ptr<const Content> content, dcpomatic::ContentTime t) const;
 	boost::optional<dcpomatic::ContentTime> dcp_to_content_time(std::shared_ptr<const Content> content, dcpomatic::DCPTime t) const;
@@ -216,6 +218,8 @@ private:
 	bool _tolerant;
 	/** true if we should `play' (i.e output) referenced DCP data (e.g. for preview) */
 	std::atomic<bool> _play_referenced;
+	/** true to replace the audio by the reference signal of the Dolby Atmos frames (see atmos_reference_signal()) */
+	std::atomic<bool> _atmos_reference_only{false};
 
 	/** Time of the next video that we will emit, or the time of the last accurate seek */
 	boost::optional<dcpomatic::DCPTime> _next_video_time;

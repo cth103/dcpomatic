@@ -51,6 +51,7 @@ def build(bld):
                  analytics_test.cc
                  atmos_mxf_content_test.cc
                  atmos_reference_asset_test.cc
+                 atmos_reference_signal_test.cc
                  atmos_test.cc
                  audio_analysis_test.cc
                  audio_buffers_test.cc
