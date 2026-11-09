@@ -79,10 +79,8 @@ FFmpegExaminer::FFmpegExaminer(shared_ptr<const FFmpegContent> c, shared_ptr<Job
 					codec->name,
 					s->id,
 					i,
-					s->codecpar->sample_rate,
 					_need_length ? 0 : rint((double(_format_context->duration) / AV_TIME_BASE) * s->codecpar->sample_rate),
-					s->codecpar->ch_layout.nb_channels,
-					s->codecpar->bits_per_raw_sample ? s->codecpar->bits_per_raw_sample : s->codecpar->bits_per_coded_sample
+					s->codecpar
 					)
 				);
 
