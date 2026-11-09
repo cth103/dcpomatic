@@ -26,19 +26,23 @@
 #include <boost/filesystem.hpp>
 
 
-/** Who made an immersive audio track file (ST 429-18), as far as its metadata says */
+/** Who made an immersive audio track file (ST 429-18), as far as it can be seen (see doc/immersive_audio.md) */
 enum class ImmersiveAudioOrigin
 {
-	/** Dolby Atmos: the first frame starts with Dolby's preamble and the file's CompanyName starts with "Dolby" */
+	/** Dolby Atmos: the frames start with Dolby's preamble, and the file's CompanyName starts with "Dolby" or an
+	 *  object of its frames is coded with the silence gain prefix, which IAB Profile 1 does not allow
+	 */
 	DOLBY,
-	/** Anything else: IAB from another encoder, or Dolby frames wrapped again by another program */
+	/** Anything else */
 	IAB
 };
 
 
 /** Read as little as possible of an immersive audio track file to see who made it: the MXF Identification set and
- *  the start of the first frame.  This also reads IAB files that have no Dolby Atmos sub-descriptor, which
- *  dcp::AtmosAsset cannot open.  Both things it looks at are metadata, so they can be forged.
+ *  the start of the first frame, and, when the frames have Dolby's preamble but the CompanyName is another one (a
+ *  Dolby Atmos file wrapped again, by DCP-o-matic for example), the objects of up to 1000 frames.  This also reads
+ *  IAB files that have no Dolby Atmos sub-descriptor, which dcp::AtmosAsset cannot open.  None of this is proof:
+ *  any encoder can write the same bytes.
  *
  *  Throws FileError if the file cannot be read as a DCP data track file, or is encrypted.
  */

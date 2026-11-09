@@ -65,12 +65,106 @@ frame_with_preamble(vector<uint8_t> payload)
 
 
 static vector<uint8_t> const dolby_frame = frame_with_preamble({ 0x11, 0x01, 0x0e, 0x00, 0x00, 0x00 });
+
+
+/** @return @param value as a Plex(8) field of ST 2098-2 (5.2) */
+static vector<uint8_t>
+plex8(uint32_t value)
+{
+	if (value < 0xff) {
+		return { static_cast<uint8_t>(value) };
+	}
+	return { 0xff, static_cast<uint8_t>(value >> 8), static_cast<uint8_t>(value & 0xff) };
+}
+
+
+/** @return an IAElement: ElementID and ElementSize as Plex(8), then @param body */
+static vector<uint8_t>
+element(uint32_t id, vector<uint8_t> body)
+{
+	auto out = plex8(id);
+	auto const size = plex8(body.size());
+	out.insert(out.end(), size.begin(), size.end());
+	out.insert(out.end(), body.begin(), body.end());
+	return out;
+}
+
+
+/** @return an ObjectDefinition element whose first sub-block has the ObjectGainPrefix @param gain_prefix
+ *  (0 unity, 1 silence, 2 gain in the stream)
+ */
+static vector<uint8_t>
+object(uint8_t gain_prefix, bool conditional = false)
+{
+	/* MetaID 1, AudioDataID 0 */
+	vector<uint8_t> body = { 0x01, 0x00 };
+	if (conditional) {
+		/* ConditionalObject 1, Reserved 1, ObjectUseCase 0xff (6 bits here and 2 in the next byte), Reserved 0,
+		 * ObjectGainPrefix, then padding
+		 */
+		body.insert(body.end(), { 0xff, static_cast<uint8_t>(0xc0 | (gain_prefix << 3)) });
+	} else {
+		/* ConditionalObject 0, Reserved 0, ObjectGainPrefix, then padding */
+		body.push_back(static_cast<uint8_t>(gain_prefix << 4));
+	}
+	body.resize(body.size() + 6, 0);
+	return element(0x40, body);
+}
+
+
+/** @return a frame with a preamble of @param preamble then an IAFrame (ST 2098-2) with @param elements */
+static vector<uint8_t>
+frame_with_elements(vector<uint8_t> preamble, vector<vector<uint8_t>> elements)
+{
+	/* Version 1, SampleRate 48kHz, BitDepth 0, FrameRate 24, MaxRendered, SubElementCount */
+	vector<uint8_t> body = { 0x01, 0x00, 0x76 };
+	auto const count = plex8(elements.size());
+	body.insert(body.end(), count.begin(), count.end());
+	for (auto const& e: elements) {
+		body.insert(body.end(), e.begin(), e.end());
+	}
+	auto const ia = element(0x08, body);
+
+	auto big_endian = [](vector<uint8_t>& out, uint32_t value) {
+		out.insert(out.end(), { static_cast<uint8_t>(value >> 24), static_cast<uint8_t>(value >> 16), static_cast<uint8_t>(value >> 8), static_cast<uint8_t>(value) });
+	};
+
+	vector<uint8_t> frame = { 0x01 };
+	big_endian(frame, preamble.size());
+	frame.insert(frame.end(), preamble.begin(), preamble.end());
+	frame.push_back(0x02);
+	big_endian(frame, ia.size());
+	frame.insert(frame.end(), ia.begin(), ia.end());
+	return frame;
+}
+
+
+static vector<uint8_t>
+frame_with_object(vector<uint8_t> preamble, uint8_t gain_prefix)
+{
+	return frame_with_elements(preamble, { object(gain_prefix) });
+}
+
+
+static vector<uint8_t> const dolby_preamble_value = { 0x11, 0x01, 0x0e, 0x00, 0x00, 0x00 };
+static vector<uint8_t> const other_preamble_value = { 0x22, 0x02, 0x0f, 0x00, 0x00, 0x00 };
 static vector<uint8_t> const other_frame = frame_with_preamble({ 0x22, 0x02, 0x0f, 0x00, 0x00, 0x00 });
 
 
-/** Write a track file as libdcp does, with the Dolby Atmos sub-descriptor */
+static boost::filesystem::path
+write_atmos_frames(string name, string company, vector<vector<uint8_t>> frames, bool encrypted = false);
+
+
 static boost::filesystem::path
 write_atmos(string name, string company, vector<uint8_t> frame, bool encrypted = false)
+{
+	return write_atmos_frames(name, company, vector<vector<uint8_t>>(24, frame), encrypted);
+}
+
+
+/** Write a track file as libdcp does, with the Dolby Atmos sub-descriptor, one frame of @param frames after another */
+static boost::filesystem::path
+write_atmos_frames(string name, string company, vector<vector<uint8_t>> frames, bool encrypted)
 {
 	auto const path = boost::filesystem::path("build/test") / (name + ".mxf");
 	boost::filesystem::remove(path);
@@ -80,7 +174,7 @@ write_atmos(string name, string company, vector<uint8_t> frame, bool encrypted =
 		asset.set_key(dcp::Key());
 	}
 	auto writer = asset.start_write(path);
-	for (int i = 0; i < 24; ++i) {
+	for (auto const& frame: frames) {
 		writer->write(frame.data(), frame.size());
 	}
 	writer->finalize();
@@ -255,4 +349,76 @@ BOOST_AUTO_TEST_CASE(immersive_audio_origin_film_test)
 	auto from_dcp = new_test_film("immersive_audio_origin_film_dcp_reread", { dcp });
 	BOOST_REQUIRE(dcp->atmos);
 	BOOST_CHECK(dcp->atmos->origin() == ImmersiveAudioOrigin::IAB);
+}
+
+
+/** Dolby's preamble with another CompanyName (Dolby's frames wrapped again) is Dolby if an object has the silence
+ *  gain prefix, which IAB Profile 1 does not allow, and IAB if not
+ */
+BOOST_AUTO_TEST_CASE(immersive_audio_origin_silent_object_test)
+{
+	auto const silent = frame_with_object(dolby_preamble_value, 1);
+	auto const unity = frame_with_object(dolby_preamble_value, 0);
+
+	BOOST_CHECK(immersive_audio_origin(write_atmos("immersive_audio_origin_silent_object", "DCP-o-matic", silent)) == ImmersiveAudioOrigin::DOLBY);
+	BOOST_CHECK(immersive_audio_origin(write_atmos("immersive_audio_origin_unity_object", "DCP-o-matic", unity)) == ImmersiveAudioOrigin::IAB);
+	/* Without Dolby's preamble the silence prefix is not enough */
+	BOOST_CHECK(immersive_audio_origin(write_atmos("immersive_audio_origin_silent_object_other_preamble", "DCP-o-matic", frame_with_object(other_preamble_value, 1))) == ImmersiveAudioOrigin::IAB);
+	/* Also in a file without the Dolby Atmos sub-descriptor */
+	BOOST_CHECK(immersive_audio_origin(write_dcdata("immersive_audio_origin_silent_object_dcdata", "Another encoder", silent)) == ImmersiveAudioOrigin::DOLBY);
+}
+
+
+/** The silence prefix is looked for in the first 1000 frames */
+BOOST_AUTO_TEST_CASE(immersive_audio_origin_silent_object_late_test)
+{
+	auto const silent = frame_with_object(dolby_preamble_value, 1);
+	auto const unity = frame_with_object(dolby_preamble_value, 0);
+
+	vector<vector<uint8_t>> frames(1100, unity);
+	frames[999] = silent;
+	BOOST_CHECK(immersive_audio_origin(write_atmos_frames("immersive_audio_origin_silent_object_999", "DCP-o-matic", frames)) == ImmersiveAudioOrigin::DOLBY);
+
+	frames[999] = unity;
+	frames[1000] = silent;
+	BOOST_CHECK(immersive_audio_origin(write_atmos_frames("immersive_audio_origin_silent_object_1000", "DCP-o-matic", frames)) == ImmersiveAudioOrigin::IAB);
+}
+
+
+/** A DCP that DCP-o-matic makes from Dolby Atmos with an inactive object stays Dolby Atmos, though libdcp writes its own CompanyName */
+BOOST_AUTO_TEST_CASE(immersive_audio_origin_silent_object_dcp_test)
+{
+	auto picture = content_factory("test/data/flat_red.png")[0];
+	auto atmos = content_factory(write_atmos("immersive_audio_origin_silent_object_dcp_source", "Dolby Laboratories", frame_with_object(dolby_preamble_value, 1)))[0];
+	auto film = new_test_film("immersive_audio_origin_silent_object_dcp", { picture, atmos });
+	picture->video->set_length(24);
+	make_and_verify_dcp(film, {}, false, false);
+
+	auto dcp = std::make_shared<DCPContent>(film->dir(film->dcp_name()));
+	auto from_dcp = new_test_film("immersive_audio_origin_silent_object_dcp_reread", { dcp });
+	BOOST_REQUIRE(dcp->atmos);
+	BOOST_CHECK(dcp->atmos->origin() == ImmersiveAudioOrigin::DOLBY);
+	BOOST_CHECK_MESSAGE(from_dcp->isdcf_name(false, false).find("-ATMOS_") != string::npos, from_dcp->isdcf_name(false, false));
+}
+
+
+/** Only the silence prefix counts, wherever the object is in the frame and however the frame is laid out */
+BOOST_AUTO_TEST_CASE(immersive_audio_origin_silent_object_parse_test)
+{
+	auto check = [](string name, vector<uint8_t> frame, ImmersiveAudioOrigin expected) {
+		BOOST_CHECK_MESSAGE(immersive_audio_origin(write_atmos("immersive_audio_origin_parse_" + name, "DCP-o-matic", frame)) == expected, name);
+	};
+
+	/* A gain in the stream (prefix 2) is not silence */
+	check("gain_in_stream", frame_with_object(dolby_preamble_value, 2), ImmersiveAudioOrigin::IAB);
+	/* A conditional object has two more fields before its gain prefix */
+	check("conditional", frame_with_elements(dolby_preamble_value, { object(1, true) }), ImmersiveAudioOrigin::DOLBY);
+	check("conditional_unity", frame_with_elements(dolby_preamble_value, { object(0, true) }), ImmersiveAudioOrigin::IAB);
+	/* The silent object after other elements, one of them longer than 254 bytes (a Plex(8) size with its escape code) */
+	check("after_elements", frame_with_elements(dolby_preamble_value, { element(0x10, vector<uint8_t>(300, 0x01)), object(0), object(1) }), ImmersiveAudioOrigin::DOLBY);
+	check("after_elements_unity", frame_with_elements(dolby_preamble_value, { element(0x10, vector<uint8_t>(300, 0x01)), object(0), object(0) }), ImmersiveAudioOrigin::IAB);
+	/* A preamble as long as Dolby's at 24fps: 11 01 0e then 1600 bytes of reference signal */
+	auto preamble = dolby_preamble_value;
+	preamble.resize(1603, 0x42);
+	check("full_preamble", frame_with_object(preamble, 1), ImmersiveAudioOrigin::DOLBY);
 }
