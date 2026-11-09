@@ -84,7 +84,7 @@ write_atmos(string name, string company, vector<uint8_t> frame, bool encrypted =
 
 /** Write a track file with asdcplib's DCData writer, so without the Dolby Atmos sub-descriptor, as other IAB encoders do */
 static boost::filesystem::path
-write_dcdata(string name, string company, vector<uint8_t> frame)
+write_dcdata(string name, string company, vector<uint8_t> frame, int frames = 24)
 {
 	auto const path = boost::filesystem::path("build/test") / (name + ".mxf");
 	boost::filesystem::remove(path);
@@ -98,7 +98,7 @@ write_dcdata(string name, string company, vector<uint8_t> frame)
 
 	ASDCP::DCData::DCDataDescriptor descriptor;
 	descriptor.EditRate = ASDCP::Rational(24, 1);
-	descriptor.ContainerDuration = 24;
+	descriptor.ContainerDuration = frames;
 	/* The immersive audio Data Essence Coding of ST 429-18 */
 	uint8_t const coding[16] = { 0x06, 0x0e, 0x2b, 0x34, 0x04, 0x01, 0x01, 0x05, 0x0e, 0x09, 0x06, 0x04, 0x00, 0x00, 0x00, 0x00 };
 	memcpy(descriptor.DataEssenceCoding, coding, 16);
@@ -108,7 +108,7 @@ write_dcdata(string name, string company, vector<uint8_t> frame)
 	ASDCP::DCData::FrameBuffer buffer(frame.size());
 	memcpy(buffer.Data(), frame.data(), frame.size());
 	buffer.Size(frame.size());
-	for (int i = 0; i < 24; ++i) {
+	for (int i = 0; i < frames; ++i) {
 		BOOST_REQUIRE(ASDCP_SUCCESS(writer.WriteFrame(buffer)));
 	}
 	BOOST_REQUIRE(ASDCP_SUCCESS(writer.Finalize()));
@@ -164,4 +164,32 @@ BOOST_AUTO_TEST_CASE(immersive_audio_origin_refused_test)
 	BOOST_CHECK_THROW(immersive_audio_origin("test/data/flat_red.png"), FileError);
 	BOOST_CHECK_THROW(immersive_audio_origin("build/test/does_not_exist.mxf"), FileError);
 	BOOST_CHECK_THROW(immersive_audio_origin(write_atmos("immersive_audio_origin_encrypted", "Dolby Laboratories", dolby_frame, true)), FileError);
+}
+
+
+/** Every byte of the preamble and the whole of "Dolby" count */
+BOOST_AUTO_TEST_CASE(immersive_audio_origin_exact_test)
+{
+	/* The name may be just "Dolby", or longer, as "Dolby Laboratories Inc." */
+	BOOST_CHECK(immersive_audio_origin(write_atmos("immersive_audio_origin_exact_dolby", "Dolby", dolby_frame)) == ImmersiveAudioOrigin::DOLBY);
+	BOOST_CHECK(immersive_audio_origin(write_atmos("immersive_audio_origin_exact_dolby_inc", "Dolby Laboratories Inc.", dolby_frame)) == ImmersiveAudioOrigin::DOLBY);
+	/* A name that only starts like it */
+	BOOST_CHECK(immersive_audio_origin(write_atmos("immersive_audio_origin_exact_dolb", "Dolbo Systems", dolby_frame)) == ImmersiveAudioOrigin::IAB);
+
+	/* Dolby's three bytes, but not after the PreambleTag 0x01 */
+	auto tag = dolby_frame;
+	tag[0] = 0x02;
+	BOOST_CHECK(immersive_audio_origin(write_atmos("immersive_audio_origin_exact_tag", "Dolby Laboratories", tag)) == ImmersiveAudioOrigin::IAB);
+
+	/* Only the last of Dolby's three bytes differs */
+	BOOST_CHECK(immersive_audio_origin(write_atmos("immersive_audio_origin_exact_third_byte", "Dolby Laboratories", frame_with_preamble({ 0x11, 0x01, 0x0f, 0x00, 0x00, 0x00 }))) == ImmersiveAudioOrigin::IAB);
+}
+
+
+/** A first frame that cannot be read (here, larger than the 4MB that is read) is an error, not IAB */
+BOOST_AUTO_TEST_CASE(immersive_audio_origin_unreadable_frame_test)
+{
+	auto big = dolby_frame;
+	big.resize(5 * 1024 * 1024, 0);
+	BOOST_CHECK_THROW(immersive_audio_origin(write_dcdata("immersive_audio_origin_unreadable_frame", "Dolby Laboratories", big, 1)), FileError);
 }
