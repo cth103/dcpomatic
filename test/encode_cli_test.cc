@@ -20,9 +20,13 @@
 
 
 #include "lib/content_factory.h"
+#include "lib/dpx_writer.h"
 #include "lib/encode_cli.h"
 #include "lib/film.h"
+#include "lib/image.h"
 #include "test.h"
+#include <dcp/filesystem.h>
+#include <fmt/format.h>
 #include <boost/optional.hpp>
 #include <boost/test/unit_test.hpp>
 #include <iostream>
@@ -161,3 +165,76 @@ BOOST_AUTO_TEST_CASE(encode_cli_set_grok_binary_location)
 }
 #endif
 
+
+
+static
+void
+make_dcdm_source_film(string name)
+{
+	auto const src = boost::filesystem::path("build/test") / (name + "_src");
+	dcp::filesystem::remove_all(src);
+	dcp::filesystem::create_directories(src);
+	auto image = std::make_shared<Image>(AV_PIX_FMT_XYZ12LE, dcp::Size(64, 48), Image::Alignment::COMPACT);
+	memset(image->data()[0], 0x20, 48 * image->stride()[0]);
+	for (int i = 0; i < 4; ++i) {
+		write_dpx(src / fmt::format("src_{:04d}.dpx", i), image);
+	}
+	auto film = new_test_film(name, content_factory(src));
+	film->write_metadata();
+}
+
+
+BOOST_AUTO_TEST_CASE(encode_cli_export_dcdm_test)
+{
+	make_dcdm_source_film("encode_cli_export_dcdm_test");
+	boost::filesystem::path const out = "build/test/encode_cli_export_dcdm_test_out";
+	dcp::filesystem::remove_all(out);
+
+	vector<string> output;
+	auto error = run({ "cli", "--export-format", "dcdm", "--export-filename", out.string(), "build/test/encode_cli_export_dcdm_test" }, output);
+	BOOST_REQUIRE(!error);
+
+	/* Lossless JPEG 2000 is the default */
+	BOOST_CHECK(dcp::filesystem::exists(out / "picture" / "00000000.pdc.j2c"));
+	BOOST_CHECK(dcp::filesystem::exists(out / "picture" / "00000023.pdc.j2c"));
+	BOOST_CHECK(!dcp::filesystem::exists(out / "frame_00000000.dpx"));
+	for (auto label: { "L", "R", "C", "LFE", "Ls", "Rs" }) {
+		BOOST_CHECK(dcp::filesystem::exists(out / "audio" / (string(label) + ".wav")));
+	}
+
+	dcp::filesystem::remove_all(out);
+}
+
+
+BOOST_AUTO_TEST_CASE(encode_cli_export_dcdm_dpx_test)
+{
+	make_dcdm_source_film("encode_cli_export_dcdm_dpx_test");
+	boost::filesystem::path const out = "build/test/encode_cli_export_dcdm_dpx_test_out";
+	dcp::filesystem::remove_all(out);
+
+	vector<string> output;
+	auto error = run({ "cli", "--export-format", "dcdm-dpx", "--export-filename", out.string(), "build/test/encode_cli_export_dcdm_dpx_test" }, output);
+	BOOST_REQUIRE(!error);
+
+	BOOST_CHECK(dcp::filesystem::exists(out / "frame_00000000.dpx"));
+	BOOST_CHECK(dcp::filesystem::exists(out / "frame_00000023.dpx"));
+	BOOST_CHECK(!dcp::filesystem::exists(out / "picture"));
+
+	dcp::filesystem::remove_all(out);
+}
+
+
+BOOST_AUTO_TEST_CASE(encode_cli_export_dcdm_low_quality_test)
+{
+	auto film = new_test_film("encode_cli_export_dcdm_low_quality_test", content_factory("test/data/10bit_video_422.mp4"));
+	film->write_metadata();
+	boost::filesystem::path const out = "build/test/encode_cli_export_dcdm_low_quality_test_out";
+	dcp::filesystem::remove_all(out);
+
+	vector<string> output;
+	auto error = run({ "cli", "--export-format", "dcdm", "--export-filename", out.string(), "build/test/encode_cli_export_dcdm_low_quality_test" }, output);
+	BOOST_REQUIRE(error);
+	BOOST_CHECK_MESSAGE(error->find("10bit_video_422.mp4") != string::npos, *error);
+	BOOST_CHECK_MESSAGE(error->find("quality") != string::npos, *error);
+	BOOST_CHECK(!dcp::filesystem::exists(out));
+}

@@ -60,6 +60,7 @@ ImageExaminer::ImageExaminer(shared_ptr<const Film> film, shared_ptr<const Image
 		f.close();
 		try {
 			_video_size = dcp::decompress_j2k(buffer.data(), size, 0)->size();
+			_pixel_format = AV_PIX_FMT_XYZ12LE;
 		} catch (dcp::ReadError& e) {
 			throw DecodeError(fmt::format(_("Could not decode JPEG2000 file {} ({})"), path.string(), e.what()));
 		}
@@ -68,6 +69,7 @@ ImageExaminer::ImageExaminer(shared_ptr<const Film> film, shared_ptr<const Image
 		auto image = proxy.image(Image::Alignment::COMPACT);
 		_video_size = image.image->size();
 		_has_alpha = image.image->has_alpha();
+		_pixel_format = image.image->pixel_format();
 	}
 
 	if (content->still()) {

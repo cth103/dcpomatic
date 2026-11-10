@@ -77,15 +77,22 @@ def build(bld):
                  copy_dcp_details_to_film_test.cc
                  cover_sheet_test.cc
                  cpl_hash_test.cc
+                 dcdm_quality_test.cc
                  cpl_metadata_test.cc
                  create_cli_test.cc
+                 dcdm_audio_layout_test.cc
                  dcpomatic_time_test.cc
                  dcp_decoder_test.cc
                  dcp_digest_file_test.cc
+                 dcdm_j2k_writer_test.cc
                  dcp_examiner_test.cc
                  dcp_metadata_test.cc
                  dcp_playback_test.cc
+                 dcdm_film_encoder_test.cc
+                 dcdm_formats_test.cc
+                 dcdm_round_trip_test.cc
                  dcp_subtitle_test.cc
+                 dpx_writer_test.cc
                  digest_test.cc
                  dkdm_recipient_list_test.cc
                  email_test.cc
@@ -170,6 +177,7 @@ def build(bld):
                  shuffler_test.cc
                  skip_frame_test.cc
                  socket_test.cc
+                 source_metadata_test.cc
                  smtp_server.cc
                  srt_subtitle_test.cc
                  ssa_subtitle_test.cc
@@ -203,6 +211,7 @@ def build(bld):
                  vf_kdm_test.cc
                  writer_test.cc
                  video_trim_test.cc
+                 wav_writer_test.cc
                  zipper_test.cc
                  """
 

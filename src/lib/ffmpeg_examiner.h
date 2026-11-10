@@ -79,6 +79,13 @@ public:
 
 	boost::optional<int> bits_per_pixel() const;
 
+	/** @return the video codec; only valid if has_video() is true */
+	AVCodecID video_codec_id() const;
+	/** @return the video codec profile (FF_PROFILE_*); only valid if has_video() is true */
+	int video_profile() const;
+	/** @return the video pixel format; only valid if has_video() is true */
+	AVPixelFormat video_pixel_format() const;
+
 
 	boost::optional<double> rotation() const {
 		return _rotation;
