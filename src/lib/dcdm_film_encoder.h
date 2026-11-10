@@ -127,7 +127,8 @@ private:
 	/** What write_text() actually wrote, for DCDM_INFO.txt */
 	bool _open_subtitles_written = false;
 	bool _atmos_finished = false;
-	std::vector<std::string> _caption_tracks_written;
+	/** File name (e.g. 01_Catalan_CCAP.xml) and track name of each caption track */
+	std::vector<std::pair<std::string, std::string>> _caption_tracks_written;
 
 	Butler _butler;
 };

@@ -729,8 +729,9 @@ DCDMFilmEncoder::write_text()
 		}
 
 		if (track) {
-			if (std::find(_caption_tracks_written.begin(), _caption_tracks_written.end(), track->name) == _caption_tracks_written.end()) {
-				_caption_tracks_written.push_back(track->name);
+			pair<string, string> const written(name.string(), track->name);
+			if (std::find(_caption_tracks_written.begin(), _caption_tracks_written.end(), written) == _caption_tracks_written.end()) {
+				_caption_tracks_written.push_back(written);
 			}
 		} else {
 			_open_subtitles_written = true;
@@ -791,14 +792,15 @@ DCDMFilmEncoder::write_info() const
 		line("        code-blocks 128x32, precincts 256x256 (128x128 at the lowest resolution), tile-parts by resolution, TLM");
 		line("        COM marker: SMPTE DCDM X'Y'Z' image as defined in SMPTE ST 428-1");
 		line("        The High-Throughput (HT) block coder recommended by ST 428-24 is not used (encoder limitation).");
-		line("Import:  to make a DCP from these files in DCP-o-matic, turn on \"Re-encode JPEG2000 data\" in the DCP");
-		line("         settings; otherwise the lossless codestreams would be copied into the DCP unchanged.");
+		line("Import:  add this folder with \"Add folder...\" in DCP-o-matic to make a DCP from it; this turns on");
+		line("         \"Re-encode JPEG2000 data\", without which the lossless codestreams would be copied into the DCP unchanged.");
 	} else {
 		line("Format: Uncompressed DPX, one file per frame: frame_NNNNNNNN.dpx");
 		line("Coding: 3 components, 12 bits each, in big-endian 16-bit words, left-justified (packing method A).");
 		line("        DPX has no X'Y'Z' colorimetric code: components are X', Y', Z' by convention (descriptor 50).");
-		line("Import:  to make a DCP from these files in DCP-o-matic, set the colour conversion of the picture");
-		line("         content to None; the default conversion would convert X'Y'Z' to XYZ a second time.");
+		line("Import:  add this folder with \"Add folder...\" in DCP-o-matic to make a DCP from it; this sets the");
+		line("         colour conversion of the pictures to None, as the default conversion would convert X'Y'Z' to XYZ");
+		line("         a second time.");
 	}
 	line(fmt::format("Size: {}x{}", size.width, size.height));
 	line("Colour: X'Y'Z', 12 bits per component, as SMPTE ST 428-1 (converted exactly as for the DCP)");
@@ -820,6 +822,10 @@ DCDMFilmEncoder::write_info() const
 	line("TEXT");
 	line(fmt::format("Open subtitles: {}", open_subtitles ? "yes (subtitles/subtitles.xml)" : "no"));
 	line(fmt::format("Closed captions: {}", caption_tracks.empty() ? string("no") : fmt::format("{} track(s) in captions/", caption_tracks.size())));
+	/* The file names cannot hold every character of a track name, so give the names here */
+	for (auto const& track: caption_tracks) {
+		line(fmt::format("  Track: {} = {}", track.first, track.second));
+	}
 	line(fmt::format("Text format: {} XML, timed relative to each reel, fonts alongside", _film->interop() ? "Interop" : "SMPTE"));
 	line("");
 	line("STANDARDS");

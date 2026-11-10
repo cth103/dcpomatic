@@ -31,6 +31,7 @@
 #include "lib/content.h"
 #include "lib/content_factory.h"
 #include "lib/dcdm_film_encoder.h"
+#include "lib/dcdm_import.h"
 #include "lib/dcp_text_track.h"
 #include "lib/dpx_writer.h"
 #include "lib/film.h"
@@ -45,6 +46,7 @@
 #include <dcp/atmos_frame.h>
 #include <dcp/cpl.h>
 #include <dcp/dcp.h>
+#include <dcp/file.h>
 #include <dcp/filesystem.h>
 #include <dcp/mono_j2k_picture_asset.h>
 #include <dcp/mono_j2k_picture_asset_reader.h>
@@ -135,67 +137,15 @@ ignore()
 }
 
 
-/** Make the film that re-imports a DCDM: same settings as @param original, one image content
- *  per reel with no colour conversion (the DPX is already XYZ), and each WAV mapped to its channel.
- */
+/** Make the film that re-imports a DCDM with DCDMImport, as adding its folder does in the program */
 static
 shared_ptr<Film>
-reimport(string name, shared_ptr<Film> original, boost::filesystem::path dcdm)
+reimport(string name, boost::filesystem::path dcdm)
 {
 	auto film = new_test_film(name);
-	film->set_sequence(false);
-	film->set_container(original->container());
-	film->set_resolution(original->resolution());
-	film->set_video_frame_rate(original->video_frame_rate());
-	film->set_audio_channels(original->audio_channels());
-	film->set_interop(original->interop());
-	/* Lossless JPEG 2000 DCDM pictures must be re-encoded, not copied into the DCP as they are */
-	film->set_reencode_j2k(true);
-
-	auto const reels = original->reels();
-	for (size_t r = 0; r < reels.size(); ++r) {
-		auto const dir = reels.size() == 1 ? dcdm : dcdm / fmt::format("reel_{:02d}", r + 1);
-		auto const start = reels[r].from;
-
-		/* Lossless JPEG 2000 pictures are in picture/, DPX in the reel folder itself */
-		auto const picture_dir = dcp::filesystem::is_directory(dir / "picture") ? dir / "picture" : dir;
-		auto picture = add(film, picture_dir, start);
-		picture->video->unset_colour_conversion();
-		picture->set_video_frame_rate(film, original->video_frame_rate());
-
-		vector<std::pair<string, dcp::Channel>> const channels = {
-			{ "L", dcp::Channel::LEFT }, { "R", dcp::Channel::RIGHT }, { "C", dcp::Channel::CENTRE },
-			{ "LFE", dcp::Channel::LFE }, { "Ls", dcp::Channel::LS }, { "Rs", dcp::Channel::RS },
-			{ "Lrs", dcp::Channel::BSL }, { "Rrs", dcp::Channel::BSR }
-		};
-		for (auto const& channel: channels) {
-			auto const wav = dir / "audio" / (channel.first + ".wav");
-			if (!dcp::filesystem::exists(wav)) {
-				continue;
-			}
-			auto sound = add(film, wav, start);
-			auto mapping = sound->audio->mapping();
-			mapping.make_zero();
-			mapping.set(0, channel.second, 1);
-			sound->audio->set_mapping(mapping);
-		}
-
-		if (dcp::filesystem::exists(dir / "atmos.mxf")) {
-			auto atmos = add(film, dir / "atmos.mxf", start);
-			/* Atmos covering only part of the reel starts where the DCP's did */
-			(void) atmos;
-		}
-
-		if (dcp::filesystem::exists(dir / "subtitles" / "subtitles.xml")) {
-			auto subs = add(film, dir / "subtitles" / "subtitles.xml", start);
-			subs->only_text()->set_use(true);
-			subs->only_text()->set_burn(false);
-		}
-	}
-
-	if (reels.size() > 1) {
-		film->set_reel_type(ReelType::BY_VIDEO_CONTENT);
-	}
+	BOOST_REQUIRE(DCDMImport::valid(dcdm));
+	DCDMImport(dcdm).examine_and_add(film);
+	BOOST_REQUIRE(!wait_for_jobs());
 	return film;
 }
 
@@ -290,11 +240,11 @@ check_same_dcp(shared_ptr<Film> a_film, shared_ptr<Film> b_film)
 			}
 		}
 
-		/* Subtitles: same non-blank text and times */
-		auto texts = [](shared_ptr<dcp::Reel> reel) {
+		/* Subtitles and closed captions: same non-blank text and times */
+		auto texts = [](shared_ptr<dcp::ReelTextAsset> text) {
 			vector<string> out;
-			if (auto sub = reel->main_subtitle()) {
-				for (auto t: sub->asset()->texts()) {
+			if (text) {
+				for (auto t: text->asset()->texts()) {
 					auto s = dynamic_pointer_cast<const dcp::TextString>(t);
 					if (s && s->text().find_first_not_of(" \t") != string::npos) {
 						out.push_back(fmt::format("{} {} {}", s->text(), s->in().as_string(dcp::Standard::SMPTE), s->out().as_string(dcp::Standard::SMPTE)));
@@ -303,9 +253,18 @@ check_same_dcp(shared_ptr<Film> a_film, shared_ptr<Film> b_film)
 			}
 			return out;
 		};
-		auto const ta = texts(ra);
-		auto const tb = texts(rb);
+		auto const ta = texts(ra->main_subtitle());
+		auto const tb = texts(rb->main_subtitle());
 		BOOST_CHECK_EQUAL_COLLECTIONS(ta.begin(), ta.end(), tb.begin(), tb.end());
+
+		BOOST_REQUIRE_EQUAL(ra->closed_captions().size(), rb->closed_captions().size());
+		for (size_t c = 0; c < ra->closed_captions().size(); ++c) {
+			BOOST_CHECK_EQUAL(ra->closed_captions()[c]->annotation_text().get_value_or(""), rb->closed_captions()[c]->annotation_text().get_value_or(""));
+			BOOST_CHECK_EQUAL(ra->closed_captions()[c]->language().get_value_or(""), rb->closed_captions()[c]->language().get_value_or(""));
+			auto const ca = texts(ra->closed_captions()[c]);
+			auto const cb = texts(rb->closed_captions()[c]);
+			BOOST_CHECK_EQUAL_COLLECTIONS(ca.begin(), ca.end(), cb.begin(), cb.end());
+		}
 	}
 }
 
@@ -322,7 +281,7 @@ BOOST_AUTO_TEST_CASE(dcdm_round_trip_picture_audio_test)
 	auto const out = boost::filesystem::path("build/test/dcdm_round_trip_picture_audio_test_dcdm");
 	export_dcdm(a, out);
 
-	auto b = reimport("dcdm_round_trip_picture_audio_test_b", a, out);
+	auto b = reimport("dcdm_round_trip_picture_audio_test_b", out);
 	make_and_verify_dcp(b, ignore());
 	check_same_dcp(a, b);
 
@@ -346,7 +305,7 @@ BOOST_AUTO_TEST_CASE(dcdm_round_trip_71_test)
 	export_dcdm(a, out);
 	BOOST_REQUIRE(dcp::filesystem::exists(out / "audio" / "Lrs.wav"));
 
-	auto b = reimport("dcdm_round_trip_71_test_b", a, out);
+	auto b = reimport("dcdm_round_trip_71_test_b", out);
 	make_and_verify_dcp(b, ignore());
 	check_same_dcp(a, b);
 
@@ -368,7 +327,7 @@ BOOST_AUTO_TEST_CASE(dcdm_round_trip_reels_test)
 	auto const out = boost::filesystem::path("build/test/dcdm_round_trip_reels_test_dcdm");
 	export_dcdm(a, out);
 
-	auto b = reimport("dcdm_round_trip_reels_test_b", a, out);
+	auto b = reimport("dcdm_round_trip_reels_test_b", out);
 	BOOST_REQUIRE_EQUAL(b->reels().size(), 2U);
 	make_and_verify_dcp(b, ignore());
 	check_same_dcp(a, b);
@@ -392,7 +351,7 @@ BOOST_AUTO_TEST_CASE(dcdm_round_trip_atmos_subtitles_test)
 	auto const out = boost::filesystem::path("build/test/dcdm_round_trip_atmos_subtitles_test_dcdm");
 	export_dcdm(a, out);
 
-	auto b = reimport("dcdm_round_trip_atmos_subtitles_test_b", a, out);
+	auto b = reimport("dcdm_round_trip_atmos_subtitles_test_b", out);
 	make_and_verify_dcp(b, ignore());
 	check_same_dcp(a, b);
 
@@ -416,10 +375,162 @@ BOOST_AUTO_TEST_CASE(dcdm_round_trip_j2k_test)
 	export_dcdm(a, out, DCDMPictureFormat::J2K_LOSSLESS);
 	BOOST_REQUIRE(dcp::filesystem::exists(out / "reel_01" / "picture" / "00000000.pdc.j2c"));
 
-	auto b = reimport("dcdm_round_trip_j2k_test_b", a, out);
+	auto b = reimport("dcdm_round_trip_j2k_test_b", out);
 	BOOST_REQUIRE_EQUAL(b->reels().size(), 2U);
 	make_and_verify_dcp(b, ignore());
 	check_same_dcp(a, b);
 
 	dcp::filesystem::remove_all(out);
+}
+
+
+/** HI, VI and a closed caption track come back as they were, and so does the track's name, from DCDM_INFO.txt
+ *  or, for a DCDM written before it gave the names, from the file name.
+ */
+BOOST_AUTO_TEST_CASE(dcdm_round_trip_hi_vi_captions_test)
+{
+	auto a = new_test_film("dcdm_round_trip_hi_vi_captions_test_a");
+	a->set_sequence(false);
+	a->set_audio_channels(8);
+	add(a, make_dpx_sequence("build/test/dcdm_round_trip_hi_vi_captions_test_src", 48), DCPTime());
+	for (auto channel: { dcp::Channel::LEFT, dcp::Channel::HI, dcp::Channel::VI }) {
+		auto sound = add(a, "test/data/L.wav", DCPTime());
+		auto mapping = sound->audio->mapping();
+		mapping.make_zero();
+		mapping.set(0, channel, 1);
+		sound->audio->set_mapping(mapping);
+	}
+	auto caption = add(a, "test/data/dcp_sub3.xml", DCPTime());
+	caption->set_trim_end(ContentTime::from_seconds(caption->full_length(a).seconds() - 2));
+	caption->only_text()->set_type(TextType::CLOSED_CAPTION);
+	caption->only_text()->set_dcp_track(DCPTextTrack("Catalan CCAP", dcp::LanguageTag("ca")));
+	caption->only_text()->set_use(true);
+	make_and_verify_dcp(a, ignore());
+
+	auto const out = boost::filesystem::path("build/test/dcdm_round_trip_hi_vi_captions_test_dcdm");
+	export_dcdm(a, out);
+	BOOST_REQUIRE(dcp::filesystem::exists(out / "audio" / "HI.wav"));
+	BOOST_REQUIRE(dcp::filesystem::exists(out / "audio" / "VI.wav"));
+	BOOST_REQUIRE(dcp::filesystem::exists(out / "captions" / "01_Catalan_CCAP.xml"));
+
+	auto b = reimport("dcdm_round_trip_hi_vi_captions_test_b", out);
+	BOOST_CHECK_EQUAL(b->closed_text_tracks().size(), 1U);
+	make_and_verify_dcp(b, ignore());
+	check_same_dcp(a, b);
+
+	/* Without the track names in DCDM_INFO.txt the name comes from the file name, with spaces for _ */
+	auto info = dcp::file_to_string(out / "DCDM_INFO.txt");
+	auto const track = info.find("  Track: ");
+	BOOST_REQUIRE(track != string::npos);
+	info.erase(track, info.find('\n', track) + 1 - track);
+	dcp::File(out / "DCDM_INFO.txt", "w").checked_write(info.c_str(), info.size());
+	auto c = reimport("dcdm_round_trip_hi_vi_captions_test_c", out);
+	make_and_verify_dcp(c, ignore());
+	check_same_dcp(a, c);
+
+	dcp::filesystem::remove_all(out);
+}
+
+
+/** Each part of each reel is placed at the start of its reel and set up to make the DCP */
+BOOST_AUTO_TEST_CASE(dcdm_import_set_up_test)
+{
+	auto a = new_test_film("dcdm_import_set_up_test_a");
+	a->set_sequence(false);
+	add(a, make_dpx_sequence("build/test/dcdm_import_set_up_test_src_a", 24), DCPTime());
+	add(a, make_dpx_sequence("build/test/dcdm_import_set_up_test_src_b", 30), DCPTime::from_frames(24, 24));
+	add(a, "test/data/L.wav", DCPTime());
+	add(a, "test/data/atmos_0.mxf", DCPTime());
+	a->set_reel_type(ReelType::BY_VIDEO_CONTENT);
+
+	auto const out = boost::filesystem::path("build/test/dcdm_import_set_up_test_dcdm");
+	export_dcdm(a, out, DCDMPictureFormat::J2K_LOSSLESS);
+
+	auto b = reimport("dcdm_import_set_up_test_b", out);
+	BOOST_CHECK(b->reencode_j2k());
+	BOOST_CHECK(b->reel_type() == ReelType::BY_VIDEO_CONTENT);
+	BOOST_CHECK(!b->sequence());
+	BOOST_CHECK_EQUAL(b->video_frame_rate(), 24);
+	auto const reels = a->reels();
+	BOOST_REQUIRE(reels.size() > 1);
+	BOOST_REQUIRE_EQUAL(b->reels().size(), reels.size());
+
+	int pictures = 0;
+	for (auto content: b->content()) {
+		/* Everything in reel_NN starts where reel NN of the original film started */
+		auto const path = content->path(0).string();
+		auto const folder = path.find("/reel_");
+		BOOST_REQUIRE(folder != string::npos);
+		auto const reel = std::stoi(path.substr(folder + 6, 2)) - 1;
+		BOOST_CHECK_MESSAGE(content->position() == reels[reel].from, path << " is at " << content->position().get());
+		if (content->video) {
+			++pictures;
+			BOOST_CHECK(!content->video->colour_conversion());
+		}
+		if (content->audio) {
+			/* Each file goes to the channel that it is named after */
+			auto const mapping = content->audio->mapping();
+			int mapped = 0;
+			for (int output = 0; output < mapping.output_channels(); ++output) {
+				if (mapping.get(0, output) != 0) {
+					++mapped;
+				}
+			}
+			BOOST_CHECK_EQUAL(mapped, 1);
+			auto const name = content->path(0).filename().string();
+			if (name == "L.wav") {
+				BOOST_CHECK_EQUAL(mapping.get(0, dcp::Channel::LEFT), 1);
+			} else if (name == "Rs.wav") {
+				BOOST_CHECK_EQUAL(mapping.get(0, dcp::Channel::RS), 1);
+			}
+		}
+	}
+	BOOST_CHECK_EQUAL(pictures, static_cast<int>(reels.size()));
+
+	dcp::filesystem::remove_all(out);
+}
+
+
+/** A 3D DCDM gives left and right eye content at the start of each reel */
+BOOST_AUTO_TEST_CASE(dcdm_import_3d_test)
+{
+	auto a = new_test_film("dcdm_import_3d_test_a");
+	auto source = add(a, make_dpx_sequence("build/test/dcdm_import_3d_test_src", 12), DCPTime());
+	source->video->set_frame_type(VideoFrameType::THREE_D_ALTERNATE);
+	a->set_three_d(true);
+
+	auto const out = boost::filesystem::path("build/test/dcdm_import_3d_test_dcdm");
+	export_dcdm(a, out);
+
+	auto b = reimport("dcdm_import_3d_test_b", out);
+	BOOST_CHECK(b->three_d());
+	int left = 0;
+	int right = 0;
+	for (auto content: b->content()) {
+		if (content->video) {
+			BOOST_CHECK(content->position() == DCPTime());
+			left += content->video->frame_type() == VideoFrameType::THREE_D_LEFT ? 1 : 0;
+			right += content->video->frame_type() == VideoFrameType::THREE_D_RIGHT ? 1 : 0;
+		}
+	}
+	BOOST_CHECK_EQUAL(left, 1);
+	BOOST_CHECK_EQUAL(right, 1);
+	make_and_verify_dcp(b, ignore());
+
+	dcp::filesystem::remove_all(out);
+}
+
+
+BOOST_AUTO_TEST_CASE(dcdm_import_valid_test)
+{
+	auto const dir = boost::filesystem::path("build/test/dcdm_import_valid_test");
+	dcp::filesystem::remove_all(dir);
+	dcp::filesystem::create_directories(dir);
+	BOOST_CHECK(!DCDMImport::valid(dir));
+	BOOST_CHECK_THROW(DCDMImport{dir}, std::runtime_error);
+
+	dcp::File(dir / "DCDM_INFO.txt", "w").checked_write("Frame rate: 25 fps\n", 19);
+	BOOST_CHECK(DCDMImport::valid(dir));
+	BOOST_CHECK_EQUAL(DCDMImport(dir).frame_rate().get_value_or(0), 25);
+	BOOST_CHECK_EQUAL(DCDMImport(dir).reels(), 1);
 }
