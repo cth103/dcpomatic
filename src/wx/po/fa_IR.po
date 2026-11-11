@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-16 00:11+0200\n"
+"POT-Creation-Date: 2026-11-05 22:19+0100\n"
 "PO-Revision-Date: 2026-07-28 15:54+0330\n"
 "Last-Translator: Soleyman Rahmani Aghdam <Soleyman.rahmani@gmail.com>\n"
 "Language-Team: \n"
@@ -108,7 +108,7 @@ msgstr "صدای %s"
 msgid "%s audio - %s"
 msgstr "%s صدا - %s"
 
-#: src/wx/email_preferences_page.cc:191
+#: src/wx/email_preferences_page.cc:192
 #, c-format
 msgid "%s test email"
 msgstr "ایمیل تست %s"
@@ -185,15 +185,15 @@ msgstr "255"
 msgid "2D"
 msgstr "دو بعدی"
 
-#: src/wx/metadata_dialog.cc:316
+#: src/wx/metadata_dialog.cc:314
 msgid "2D version of 3D DCP"
 msgstr "نسخه دو بعدی از دی سی پی سه بعدی"
 
-#: src/wx/dcp_panel.cc:905
+#: src/wx/dcp_panel.cc:906
 msgid "2K"
 msgstr "2k"
 
-#: src/wx/dcp_panel.cc:878 src/wx/video_panel.cc:189
+#: src/wx/dcp_panel.cc:879 src/wx/video_panel.cc:189
 msgid "3D"
 msgstr "سه بعدی"
 
@@ -221,11 +221,11 @@ msgstr "بالا/پایین سه بعدی"
 msgid "4 - L/C/R/Lfe"
 msgstr "4 - L/C/R/Lfe"
 
-#: src/wx/dcp_panel.cc:1011
+#: src/wx/dcp_panel.cc:1012
 msgid "48kHz"
 msgstr "48 هزار هرتز"
 
-#: src/wx/dcp_panel.cc:906
+#: src/wx/dcp_panel.cc:907
 msgid "4K"
 msgstr "4K"
 
@@ -237,7 +237,7 @@ msgstr "6 - 5.1"
 msgid "8 - 5.1/HI/VI"
 msgstr "8 - 5.1/HI/VI"
 
-#: src/wx/dcp_panel.cc:1012
+#: src/wx/dcp_panel.cc:1013
 msgid "96kHz"
 msgstr "96 هزار هرتز"
 
@@ -524,7 +524,7 @@ msgid "Adjust white point to"
 msgstr "تنظیم نقطه سفید به"
 
 #: src/wx/full_config_dialog.cc:1205 src/wx/kdm_config_dialog.cc:105
-#: src/wx/metadata_dialog.cc:79 src/wx/player_config_dialog.cc:277
+#: src/wx/metadata_dialog.cc:77 src/wx/player_config_dialog.cc:277
 msgid "Advanced"
 msgstr "پیشرفته"
 
@@ -545,8 +545,8 @@ msgstr "تنظیمات پیشرفته..."
 msgid "Advanced..."
 msgstr "پیشرفته..."
 
-#: src/wx/metadata_dialog.cc:217 src/wx/rating_dialog.cc:138
-#: src/wx/rating_dialog.cc:296
+#: src/wx/metadata_dialog.cc:215 src/wx/rating_dialog.cc:137
+#: src/wx/rating_dialog.cc:295
 msgid "Agency"
 msgstr "آژانس"
 
@@ -582,7 +582,7 @@ msgstr "اجازه استفاده از SMPTE Bv2.0"
 msgid "Alpha   0"
 msgstr "آلفا   0"
 
-#: src/wx/about_dialog.cc:186
+#: src/wx/about_dialog.cc:187
 msgid "Also supported by"
 msgstr "همچنین پشتیبانی شده توسط"
 
@@ -616,7 +616,7 @@ msgstr "آیا از لغو این کار اطمینان دارید؟"
 msgid "Are you sure you want to remove %d cinemas?"
 msgstr "آیا از حذف سینماهای %d اطمینان دارید؟"
 
-#: src/wx/screens_panel.cc:482
+#: src/wx/screens_panel.cc:493
 #, c-format
 msgid "Are you sure you want to remove %d screens?"
 msgstr "آیا از حذف سالنهای %d اطمینان دارید؟"
@@ -626,7 +626,7 @@ msgstr "آیا از حذف سالنهای %d اطمینان دارید؟"
 msgid "Are you sure you want to remove the cinema '%s'?"
 msgstr "آیا از حذف این سینما اطمینان دارید '%s' ؟"
 
-#: src/wx/screens_panel.cc:478
+#: src/wx/screens_panel.cc:489
 #, c-format
 msgid "Are you sure you want to remove the screen '%s'?"
 msgstr "آیا از حذف این سالن سینما اطمینان دارید '%s' ؟"
@@ -660,7 +660,8 @@ msgstr "حداقل یک زیرنویس با مدت زمان صفر و یا من�
 msgid "At least one subtitle lasts less than 15 frames."
 msgstr "حداقل یک زیرنویس با زمان کمتر از 15 فریم است."
 
-#: src/wx/timeline_labels_view.cc:44 src/wx/timeline_labels_view.cc:86
+#: src/wx/dcp_referencing_dialog.cc:115 src/wx/timeline_labels_view.cc:44
+#: src/wx/timeline_labels_view.cc:86
 msgid "Atmos"
 msgstr "دالبی اتمز"
 
@@ -686,7 +687,7 @@ msgid ""
 "Audio will be passed from %s channel %s to %s channel %s with gain %.1fdB."
 msgstr "صدا از %s کانال %s به  %s کانال %s با گین %.1f دسیبل جابجا میشود."
 
-#: src/wx/email_preferences_page.cc:78
+#: src/wx/email_preferences_page.cc:79
 msgid "Auto"
 msgstr "خودکار"
 
@@ -765,23 +766,28 @@ msgstr "محاسبه..."
 msgid "Cancel"
 msgstr "انصراف"
 
-#: src/wx/dcp_referencing_dialog.cc:175
+#: src/wx/dcp_referencing_dialog.cc:179
 msgid "Cannot reference this DCP"
 msgstr "نمیتوان این دی سی پی را مرجع گذاشت"
 
-#: src/wx/dcp_referencing_dialog.cc:187
+#: src/wx/dcp_referencing_dialog.cc:198
+#, fuzzy
+msgid "Cannot reference this DCP's Atmos"
+msgstr "نمیتوان صدای این دی سی پی را مرجع گذاشت"
+
+#: src/wx/dcp_referencing_dialog.cc:191
 msgid "Cannot reference this DCP's audio"
 msgstr "نمیتوان صدای این دی سی پی را مرجع گذاشت"
 
-#: src/wx/dcp_referencing_dialog.cc:201
+#: src/wx/dcp_referencing_dialog.cc:212
 msgid "Cannot reference this DCP's closed captions"
 msgstr "نمیتوان زیرنویس این دی سی پی را مرجع گذاشت"
 
-#: src/wx/dcp_referencing_dialog.cc:194
+#: src/wx/dcp_referencing_dialog.cc:205
 msgid "Cannot reference this DCP's subtitles"
 msgstr "نمیتوان زیرنویس این دی سی پی را مرجع گذاشت"
 
-#: src/wx/dcp_referencing_dialog.cc:180
+#: src/wx/dcp_referencing_dialog.cc:184
 msgid "Cannot reference this DCP's video"
 msgstr "نمیتوان ویدیوی این دی سی پی را مرجع گذاشت"
 
@@ -812,7 +818,7 @@ msgstr "پایان گواهینامه"
 msgid "Certificate start"
 msgstr "شروع گواهینامه"
 
-#: src/wx/metadata_dialog.cc:299
+#: src/wx/metadata_dialog.cc:297
 msgid "Chain"
 msgstr "زنجیره"
 
@@ -820,7 +826,7 @@ msgstr "زنجیره"
 msgid "Channel gain"
 msgstr "گین کانال"
 
-#: src/wx/audio_dialog.cc:110 src/wx/dcp_panel.cc:980
+#: src/wx/audio_dialog.cc:110 src/wx/dcp_panel.cc:981
 msgid "Channels"
 msgstr "کانالها"
 
@@ -927,7 +933,7 @@ msgstr "پیکربندی|زمانبندی"
 msgid "Confirm KDM email"
 msgstr "تایید ایمیل کلید"
 
-#: src/wx/dcp_panel.cc:866
+#: src/wx/dcp_panel.cc:867
 msgid "Container"
 msgstr "ظرف"
 
@@ -1102,7 +1108,7 @@ msgstr "کرسر: %.1fدسیبل در %s"
 msgid "Cursor: none"
 msgstr "کرسر: هیچکدام"
 
-#: src/wx/dcp_timeline.cc:284 src/wx/rating_dialog.cc:53
+#: src/wx/dcp_timeline.cc:285 src/wx/rating_dialog.cc:53
 #: src/wx/ratio_picker.cc:49
 msgid "Custom"
 msgstr "دلخواه"
@@ -1328,12 +1334,12 @@ msgstr "ویرایش سینما"
 msgid "Edit recipient"
 msgstr "ویرایش گیرنده"
 
-#: src/wx/screens_panel.cc:434
+#: src/wx/screens_panel.cc:445
 msgid "Edit screen"
 msgstr "ویرایش سالن سینما"
 
 #: src/wx/audio_mapping_view.cc:90 src/wx/content_advanced_dialog.cc:75
-#: src/wx/dcp_panel.cc:995 src/wx/language_tag_widget.cc:51
+#: src/wx/dcp_panel.cc:996 src/wx/language_tag_widget.cc:51
 #: src/wx/recipients_panel.cc:71 src/wx/region_subtag_widget.cc:52
 #: src/wx/video_panel.cc:159 src/wx/video_panel.cc:170
 #: src/wx/editable_list.h:149
@@ -1348,7 +1354,7 @@ msgstr "افکت"
 msgid "Effect colour"
 msgstr "رنگ افکت"
 
-#: src/wx/email_preferences_page.cc:46 src/wx/full_config_dialog.cc:679
+#: src/wx/email_preferences_page.cc:47 src/wx/full_config_dialog.cc:679
 msgid "Email"
 msgstr "ایمیل"
 
@@ -1448,7 +1454,7 @@ msgstr "آدرس‌های دیگر برای تحویل کلید"
 msgid "FTP (for Dolby)"
 msgstr "FTP (برای دالبی)"
 
-#: src/wx/metadata_dialog.cc:289
+#: src/wx/metadata_dialog.cc:287
 msgid "Facility"
 msgstr "دستگاه / سیستم"
 
@@ -1590,7 +1596,7 @@ msgid ""
 "is %size_in_bytes bytes in size)."
 msgstr "اجزا تصویری فریم %f بسیار بزرگ است(اندازه جز%c برابر %s بایت است)."
 
-#: src/wx/dcp_panel.cc:873
+#: src/wx/dcp_panel.cc:874
 msgid "Frame Rate"
 msgstr "نرخ فریم"
 
@@ -1639,7 +1645,7 @@ msgstr ""
 msgid "Full length"
 msgstr "نسخه کامل"
 
-#: src/wx/dcp_timeline.cc:322
+#: src/wx/dcp_timeline.cc:323
 msgid "GB"
 msgstr "گیگابایت"
 
@@ -1856,11 +1862,11 @@ msgstr "میانه"
 msgid "Intermediate common name"
 msgstr "اسم متداول میانه"
 
-#: src/wx/metadata_dialog.cc:207
+#: src/wx/metadata_dialog.cc:205
 msgid "International texted"
 msgstr "با یادداشت بین المللی"
 
-#: src/wx/metadata_dialog.cc:208
+#: src/wx/metadata_dialog.cc:206
 msgid "International textless"
 msgstr "بدون یادداشت بین المللی"
 
@@ -1951,11 +1957,11 @@ msgstr "کلیدها"
 msgid "LEQ(m) %.2fdB"
 msgstr "LEQ(m) %.2fdB"
 
-#: src/wx/metadata_dialog.cc:218
+#: src/wx/metadata_dialog.cc:216
 msgid "Label"
 msgstr "برچسب"
 
-#: src/wx/dcp_panel.cc:993 src/wx/dcp_text_track_dialog.cc:35
+#: src/wx/dcp_panel.cc:994 src/wx/dcp_text_track_dialog.cc:35
 #: src/wx/text_panel.cc:166
 msgid "Language"
 msgstr "زبان"
@@ -1972,7 +1978,7 @@ msgstr "زبان زیرنویس حک شده در این محتوا"
 msgid "Language of these subtitles"
 msgstr "زبان این زیرنویسها"
 
-#: src/wx/metadata_dialog.cc:286
+#: src/wx/metadata_dialog.cc:284
 msgid "Language used for any sign language video track"
 msgstr "زبان استفاده شده برای هر ترک ویدیوی زبان اشاره"
 
@@ -2071,7 +2077,7 @@ msgstr "محدوده بلندی %.2f برحسب LU"
 msgid "Lower priority"
 msgstr "اولویت پایین تر"
 
-#: src/wx/metadata_dialog.cc:320
+#: src/wx/metadata_dialog.cc:318
 msgid "Luminance"
 msgstr "روشنایی"
 
@@ -2178,11 +2184,11 @@ msgstr "حداکثر نرخ بیت MPEG2"
 msgid "Maximum number of frames to store per thread"
 msgstr "حداکثر تعداد فریم برای ذخیره برهر رشته سی پی یو"
 
-#: src/wx/dcp_timeline.cc:316
+#: src/wx/dcp_timeline.cc:317
 msgid "Maximum reel size"
 msgstr "حداکثراندازه ریل"
 
-#: src/wx/dcp_panel.cc:882 src/wx/full_config_dialog.cc:1050
+#: src/wx/dcp_panel.cc:883 src/wx/full_config_dialog.cc:1050
 #: src/wx/full_config_dialog.cc:1059
 msgid "Mbit/s"
 msgstr "مگابیت بر ثانیه"
@@ -2191,7 +2197,7 @@ msgstr "مگابیت بر ثانیه"
 msgid "Message box"
 msgstr "صندوق پیام"
 
-#: src/wx/metadata_dialog.cc:53
+#: src/wx/metadata_dialog.cc:51
 msgid "Metadata"
 msgstr "متا دیتا"
 
@@ -2329,7 +2335,7 @@ msgstr "انتقال بخش انتخاب شده به بعدتر در فیلم."
 msgid "Move to start of reel"
 msgstr "انتقال به شروع حلقه"
 
-#: src/wx/video_panel.cc:483
+#: src/wx/video_panel.cc:484
 msgid "Multiple content selected"
 msgstr "چندین محتوا انتخاب شده است"
 
@@ -2422,7 +2428,7 @@ msgid "Non-standard"
 msgstr "غیر استاندارد"
 
 #: src/wx/content_advanced_dialog.cc:74 src/wx/content_advanced_dialog.cc:155
-#: src/wx/content_advanced_dialog.cc:163 src/wx/dcp_panel.cc:1098
+#: src/wx/content_advanced_dialog.cc:163 src/wx/dcp_panel.cc:1099
 #: src/wx/subtitle_appearance_dialog.cc:151
 msgid "None"
 msgstr "هیچکدام"
@@ -2511,7 +2517,7 @@ msgstr "واحد سازمانی"
 msgid "Other trusted devices"
 msgstr "سایر دستگاه های قابل اعتماد"
 
-#: src/wx/email_preferences_page.cc:66
+#: src/wx/email_preferences_page.cc:67
 msgid "Outgoing mail server"
 msgstr "سرور ایمیل خروجی"
 
@@ -2574,7 +2580,7 @@ msgid "Passive mode"
 msgstr "حالت غیر فعال"
 
 #: src/wx/credentials_download_certificate_panel.cc:54
-#: src/wx/email_preferences_page.cc:90 src/wx/full_config_dialog.cc:567
+#: src/wx/email_preferences_page.cc:91 src/wx/full_config_dialog.cc:567
 msgid "Password"
 msgstr "کلمه عبور"
 
@@ -2594,7 +2600,7 @@ msgstr "چسباندن تنظیمات زیرنویس(ها)"
 msgid "Paste video settings"
 msgstr "چسباندن تنظیمات ویدیو"
 
-#: src/wx/about_dialog.cc:178
+#: src/wx/about_dialog.cc:179
 msgid "Patrons"
 msgstr "حامیان"
 
@@ -2624,7 +2630,7 @@ msgstr "کارایی"
 msgid "Picture"
 msgstr "عکس"
 
-#: src/wx/email_preferences_page.cc:79
+#: src/wx/email_preferences_page.cc:80
 msgid "Plain"
 msgstr "تخت"
 
@@ -2660,7 +2666,7 @@ msgstr "لطفا صبر کنید، صدا در حال آنالیز شدن است
 msgid "Position"
 msgstr "موقعیت"
 
-#: src/wx/metadata_dialog.cc:308 src/wx/smpte_metadata_dialog.cc:143
+#: src/wx/metadata_dialog.cc:306 src/wx/smpte_metadata_dialog.cc:143
 msgid "Pre-release"
 msgstr "پیش از انتشار"
 
@@ -2668,7 +2674,7 @@ msgstr "پیش از انتشار"
 msgid "Previous"
 msgstr "قبلی"
 
-#: src/wx/dcp_panel.cc:989
+#: src/wx/dcp_panel.cc:990
 msgid "Processor"
 msgstr "پردازشگر"
 
@@ -2715,8 +2721,8 @@ msgstr "محدوده"
 
 #. TRANSLATORS: this refers to the project's ratings, (i.e. the legal/
 #. advisory limits on what age groups can watch the film).
-#: src/wx/rating_dialog.cc:45 src/wx/rating_dialog.cc:146
-#: src/wx/rating_dialog.cc:300
+#: src/wx/rating_dialog.cc:45 src/wx/rating_dialog.cc:145
+#: src/wx/rating_dialog.cc:299
 msgid "Rating"
 msgstr "رتبه بندی"
 
@@ -2727,7 +2733,7 @@ msgstr "رتبه بندی"
 msgid "Ratings"
 msgstr "رتبه بندی"
 
-#: src/wx/dcp_panel.cc:884
+#: src/wx/dcp_panel.cc:885
 msgid "Re-encode JPEG2000 data from input"
 msgstr "رمزگذاری مجدد داده های JPEG2000 از ورودی"
 
@@ -2767,7 +2773,7 @@ msgstr "گواهی نامه گیرنده"
 msgid "Recipients"
 msgstr "گیرندگان"
 
-#: src/wx/metadata_dialog.cc:312
+#: src/wx/metadata_dialog.cc:310
 msgid "Red band"
 msgstr "نوار قرمز"
 
@@ -2785,7 +2791,7 @@ msgstr "حلقه %d"
 msgid "Reel %d to reel %d"
 msgstr "حلقه %d به حلقه %d"
 
-#: src/wx/dcp_timeline.cc:310
+#: src/wx/dcp_timeline.cc:311
 msgid "Reel mode"
 msgstr "مد حلقه"
 
@@ -2809,11 +2815,11 @@ msgstr "تازه کردن"
 msgid "Region"
 msgstr "ناحیه"
 
-#: src/wx/metadata_dialog.cc:211
+#: src/wx/metadata_dialog.cc:209
 msgid "Release territory"
 msgstr "قلمرو انتشار"
 
-#: src/wx/metadata_dialog.cc:213
+#: src/wx/metadata_dialog.cc:211
 msgid "Release territory for this DCP"
 msgstr "قلمرو انتشار برای این دی سی پی"
 
@@ -2885,7 +2891,7 @@ msgstr "تنظیم مجدد به عنوان و متن پیش فرض"
 msgid "Reset to default text"
 msgstr "تنظیم مجدد به متن پیش فرض"
 
-#: src/wx/dcp_panel.cc:870
+#: src/wx/dcp_panel.cc:871
 msgid "Resolution"
 msgstr "رزولوشن"
 
@@ -2938,11 +2944,11 @@ msgstr "SMPTE (Bv2.0 only)"
 msgid "SMPTE Bv2.1 errors"
 msgstr "خطاهای SMPTE Bv2.1"
 
-#: src/wx/email_preferences_page.cc:81
+#: src/wx/email_preferences_page.cc:82
 msgid "SSL"
 msgstr "SSL"
 
-#: src/wx/email_preferences_page.cc:80
+#: src/wx/email_preferences_page.cc:81
 msgid "STARTTLS"
 msgstr "STARTTLS"
 
@@ -2959,7 +2965,7 @@ msgstr "همان محل پروژه"
 msgid "Sample peak is %.2fdB at %s on %s"
 msgstr "قله نمونه صدا %.2f دسیبل است در %s روی %s"
 
-#: src/wx/dcp_panel.cc:985
+#: src/wx/dcp_panel.cc:986
 msgid "Sample rate"
 msgstr "نرخ نمونه"
 
@@ -3101,7 +3107,7 @@ msgstr "ارسال فایل گزارش"
 msgid "Send test email"
 msgstr "ارسال ایمیل تست"
 
-#: src/wx/email_preferences_page.cc:95
+#: src/wx/email_preferences_page.cc:96
 msgid "Send test email..."
 msgstr "ارسال ایمیل تست..."
 
@@ -3177,16 +3183,16 @@ msgstr "نمایش دادن"
 msgid "Show experimental audio processors"
 msgstr "نمایش پردازنده های صوتی آزمایشی"
 
-#: src/wx/audio_panel.cc:72 src/wx/dcp_panel.cc:997
+#: src/wx/audio_panel.cc:72 src/wx/dcp_panel.cc:998
 msgid "Show graph of audio levels..."
 msgstr "نمایش گرافیکی لول های صدا..."
 
-#: src/wx/screens_panel.cc:740
+#: src/wx/screens_panel.cc:751
 #, c-format
 msgid "Show only %d checked"
 msgstr "فقط %d انتخاب شده را نمایش بده"
 
-#: src/wx/screens_panel.cc:66 src/wx/screens_panel.cc:738
+#: src/wx/screens_panel.cc:66 src/wx/screens_panel.cc:749
 msgid "Show only checked"
 msgstr "فقط انتخاب شده ها را نمایش بده"
 
@@ -3194,7 +3200,7 @@ msgstr "فقط انتخاب شده ها را نمایش بده"
 msgid "Show subtitle area"
 msgstr "نمایش محدوده زیرنویس"
 
-#: src/wx/metadata_dialog.cc:285
+#: src/wx/metadata_dialog.cc:283
 msgid "Sign language video language"
 msgstr "زبان اشاره زبان ویدیو"
 
@@ -3214,7 +3220,7 @@ msgstr "گامای ساده"
 msgid "Simple gamma, linearised for small values"
 msgstr "گامای ساده، خطی شده برای مقادیر کوچک"
 
-#: src/wx/dcp_timeline.cc:275
+#: src/wx/dcp_timeline.cc:276
 msgid "Single reel"
 msgstr "تک حلقه"
 
@@ -3235,7 +3241,7 @@ msgstr "نرم سازی"
 msgid "Snap"
 msgstr "چفت"
 
-#: src/wx/dcp_timeline.cc:327
+#: src/wx/dcp_timeline.cc:328
 msgid "Snap when dragging"
 msgstr "جفت شدن هنگام کشیدن"
 
@@ -3279,15 +3285,15 @@ msgstr ""
 "منبع\n"
 "فضای رنگ"
 
-#: src/wx/metadata_dialog.cc:206
+#: src/wx/metadata_dialog.cc:204
 msgid "Specific"
 msgstr "معین"
 
-#: src/wx/dcp_timeline.cc:281
+#: src/wx/dcp_timeline.cc:282
 msgid "Split by maximum reel size"
 msgstr "تقسیم با حداکثر اندازه حلقه"
 
-#: src/wx/dcp_timeline.cc:278
+#: src/wx/dcp_timeline.cc:279
 msgid "Split by video content"
 msgstr "تقسیم بر اساس محتوای ویدیو"
 
@@ -3295,7 +3301,7 @@ msgstr "تقسیم بر اساس محتوای ویدیو"
 msgid "Stable version"
 msgstr "نسخه پایدار"
 
-#: src/wx/dcp_panel.cc:113 src/wx/metadata_dialog.cc:78
+#: src/wx/dcp_panel.cc:113 src/wx/metadata_dialog.cc:76
 #: src/wx/rating_dialog.cc:52
 msgid "Standard"
 msgstr "استاندارد"
@@ -3324,7 +3330,7 @@ msgstr "توقف"
 msgid "Stream"
 msgstr "جریان"
 
-#: src/wx/metadata_dialog.cc:294
+#: src/wx/metadata_dialog.cc:292
 msgid "Studio"
 msgstr "استودیو"
 
@@ -3344,7 +3350,7 @@ msgstr "نام متداول دارنده گواهی"
 msgid "Subject organization name"
 msgstr "نام سازمان دارنده گواهی"
 
-#: src/wx/about_dialog.cc:182
+#: src/wx/about_dialog.cc:183
 msgid "Subscribers"
 msgstr "مشترکین"
 
@@ -3415,19 +3421,19 @@ msgstr "قالبها"
 msgid "Temporary"
 msgstr "موقت"
 
-#: src/wx/metadata_dialog.cc:304
+#: src/wx/metadata_dialog.cc:302
 msgid "Temporary version"
 msgstr "نسخه موقت"
 
-#: src/wx/metadata_dialog.cc:204
+#: src/wx/metadata_dialog.cc:202
 msgid "Territory type"
 msgstr "نوع سرزمین"
 
-#: src/wx/email_preferences_page.cc:201 src/wx/email_preferences_page.cc:204
+#: src/wx/email_preferences_page.cc:202 src/wx/email_preferences_page.cc:204
 msgid "Test email sending failed."
 msgstr "خطا در ارسال ایمیل آزمایشی."
 
-#: src/wx/email_preferences_page.cc:207
+#: src/wx/email_preferences_page.cc:198
 msgid "Test email sent."
 msgstr "ایمیل آزمایشی ارسال شد."
 
@@ -3435,7 +3441,7 @@ msgstr "ایمیل آزمایشی ارسال شد."
 msgid "Test version"
 msgstr "نسخه آزمایشی"
 
-#: src/wx/about_dialog.cc:253
+#: src/wx/about_dialog.cc:254
 msgid "Tested by"
 msgstr "آزمایش شده توسط"
 
@@ -3724,7 +3730,7 @@ msgstr ""
 "\n"
 "آیا دی سی پی-او-ماتیک باید اکنون آن را جدا کند؟"
 
-#: src/wx/wx_util.cc:717
+#: src/wx/wx_util.cc:718
 msgid ""
 "The existing configuration failed to load.  Default values will be used "
 "instead.  These may take a short time to create."
@@ -3985,7 +3991,7 @@ msgstr ""
 "در این فایل گواهینامه (یا داده) دیگری بعد از گواهینامه اول آمده است. فقط "
 "گواهینامه اولی استفاده میشود."
 
-#: src/wx/email_preferences_page.cc:192
+#: src/wx/email_preferences_page.cc:193
 #, c-format
 msgid "This is a test email from %s."
 msgstr "این یک ایمیل آزمایشی از طرف %s است."
@@ -4133,7 +4139,7 @@ msgstr "بالا"
 msgid "Track"
 msgstr "ترک"
 
-#: src/wx/about_dialog.cc:174
+#: src/wx/about_dialog.cc:175
 msgid "Translated by"
 msgstr "مترجمین"
 
@@ -4183,15 +4189,15 @@ msgstr "موقعیت زمانی بر اساس زمان هماهنگ جهانی (
 msgid "UTC+1"
 msgstr "UTC+1"
 
-#: src/wx/wx_util.cc:617
+#: src/wx/wx_util.cc:618
 msgid "UTC+10"
 msgstr "UTC+10"
 
-#: src/wx/wx_util.cc:618
+#: src/wx/wx_util.cc:619
 msgid "UTC+11"
 msgstr "UTC+11"
 
-#: src/wx/wx_util.cc:619
+#: src/wx/wx_util.cc:620
 msgid "UTC+12"
 msgstr "UTC+12"
 
@@ -4204,38 +4210,43 @@ msgid "UTC+3"
 msgstr "UTC+3"
 
 #: src/wx/wx_util.cc:607
+#, fuzzy
+msgid "UTC+3:30"
+msgstr "UTC+5:30"
+
+#: src/wx/wx_util.cc:608
 msgid "UTC+4"
 msgstr "UTC+4"
 
-#: src/wx/wx_util.cc:608
+#: src/wx/wx_util.cc:609
 msgid "UTC+5"
 msgstr "UTC+5"
 
-#: src/wx/wx_util.cc:609
+#: src/wx/wx_util.cc:610
 msgid "UTC+5:30"
 msgstr "UTC+5:30"
 
-#: src/wx/wx_util.cc:611
+#: src/wx/wx_util.cc:612
 msgid "UTC+5:45"
 msgstr "UTC+5:45"
 
-#: src/wx/wx_util.cc:612
+#: src/wx/wx_util.cc:613
 msgid "UTC+6"
 msgstr "UTC+6"
 
-#: src/wx/wx_util.cc:613
+#: src/wx/wx_util.cc:614
 msgid "UTC+7"
 msgstr "UTC+7"
 
-#: src/wx/wx_util.cc:614
+#: src/wx/wx_util.cc:615
 msgid "UTC+8"
 msgstr "UTC+8"
 
-#: src/wx/wx_util.cc:615
+#: src/wx/wx_util.cc:616
 msgid "UTC+9"
 msgstr "UTC+9"
 
-#: src/wx/wx_util.cc:616
+#: src/wx/wx_util.cc:617
 msgid "UTC+9:30"
 msgstr "UTC+9:30"
 
@@ -4328,7 +4339,7 @@ msgstr "از نام گذاری ISDCF به صورت پیش فرض استفاده 
 msgid "Use as"
 msgstr "استفاده کنید به عنوان"
 
-#: src/wx/dcp_panel.cc:876
+#: src/wx/dcp_panel.cc:877
 msgid "Use best"
 msgstr "از بهترین استفاده کنید"
 
@@ -4345,7 +4356,7 @@ msgid "Use this file as new configuration"
 msgstr "استفاده از این فایل به عنوان پیکربندی جدید"
 
 #: src/wx/credentials_download_certificate_panel.cc:50
-#: src/wx/email_preferences_page.cc:86 src/wx/full_config_dialog.cc:563
+#: src/wx/email_preferences_page.cc:87 src/wx/full_config_dialog.cc:563
 msgid "User name"
 msgstr "نام کاربری"
 
@@ -4407,7 +4418,7 @@ msgstr "ویدیو (MPEG, 16-235)"
 msgid "Video Waveform"
 msgstr "شکل موج ویدیو"
 
-#: src/wx/dcp_panel.cc:880
+#: src/wx/dcp_panel.cc:881
 msgid ""
 "Video bit rate\n"
 "for newly-encoded data"
@@ -4459,7 +4470,7 @@ msgstr "نقطه سفید"
 msgid "White point adjustment"
 msgstr "تنظیم نقطه سفید"
 
-#: src/wx/about_dialog.cc:118
+#: src/wx/about_dialog.cc:119
 msgid "With help from"
 msgstr "با کمک ازطرف"
 
@@ -4493,7 +4504,7 @@ msgstr "نوشتن مسیر محتوای مرتبط"
 msgid "Write to"
 msgstr "مسیرنوشتن"
 
-#: src/wx/about_dialog.cc:109
+#: src/wx/about_dialog.cc:110
 msgid "Written by"
 msgstr "نوشته شده توسط"
 
@@ -4521,7 +4532,7 @@ msgstr "ماتریس وای یو وی به آر جی بی"
 msgid "Yes"
 msgstr "بله"
 
-#: src/wx/screens_panel.cc:400
+#: src/wx/screens_panel.cc:408
 #, c-format
 msgid ""
 "You cannot add a screen called '%s' as the cinema already has a screen with "
@@ -4530,7 +4541,7 @@ msgstr ""
 "شما نمیتوانید یک سالن بنام '%s' اضافه کنید چون سینما یک سالن با همین نام "
 "دارد."
 
-#: src/wx/screens_panel.cc:451
+#: src/wx/screens_panel.cc:462
 #, c-format
 msgid ""
 "You cannot change this screen's name to '%s' as the cinema already has a "
@@ -4639,7 +4650,7 @@ msgstr "فریم"
 msgid "film name"
 msgstr "نام فایل"
 
-#: src/wx/metadata_dialog.cc:335
+#: src/wx/metadata_dialog.cc:333
 msgid "foot lambert"
 msgstr "واحد اندازه‌گیری روشنایی روی پرده نمایش ft"
 
@@ -4695,11 +4706,11 @@ msgstr "زیرنویس فیلم"
 msgid "output"
 msgstr "خروجی"
 
-#: src/wx/email_preferences_page.cc:71
+#: src/wx/email_preferences_page.cc:72
 msgid "port"
 msgstr "پورت"
 
-#: src/wx/email_preferences_page.cc:75
+#: src/wx/email_preferences_page.cc:76
 msgid "protocol"
 msgstr "پروتکل"
 

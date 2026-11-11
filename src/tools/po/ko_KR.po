@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-05 00:23+0200\n"
+"POT-Creation-Date: 2026-10-24 20:36+0200\n"
 "PO-Revision-Date: 2026-03-06 17:25+0900\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -49,7 +49,7 @@ msgstr "%s이(가) %s을(를) 시작할 수 없습니다"
 msgid "%s could not start (%s)"
 msgstr "%s을(를) 시작할 수 없습니다 (%s)."
 
-#: src/tools/dcpomatic.cc:1848 src/tools/dcpomatic_editor.cc:573
+#: src/tools/dcpomatic.cc:1848 src/tools/dcpomatic_editor.cc:797
 #, c-format
 msgid "%s could not start."
 msgstr "%s을(를) 시작할 수 없습니다."
@@ -77,20 +77,20 @@ msgid "&Edit"
 msgstr "&편집"
 
 #: src/tools/dcpomatic_batch.cc:90 src/tools/dcpomatic.cc:1442
-#: src/tools/dcpomatic_editor.cc:433 src/tools/dcpomatic_player.cc:698
+#: src/tools/dcpomatic_editor.cc:635 src/tools/dcpomatic_player.cc:698
 #: src/tools/dcpomatic_playlist.cc:609 src/tools/dcpomatic_verifier.cc:248
 msgid "&Exit"
 msgstr "&종료"
 
 #: src/tools/dcpomatic_batch.cc:108 src/tools/dcpomatic.cc:1521
-#: src/tools/dcpomatic_editor.cc:445 src/tools/dcpomatic_kdm.cc:346
+#: src/tools/dcpomatic_editor.cc:647 src/tools/dcpomatic_kdm.cc:346
 #: src/tools/dcpomatic_player.cc:751 src/tools/dcpomatic_playlist.cc:623
 #: src/tools/dcpomatic_verifier.cc:253
 msgid "&File"
 msgstr "&파일"
 
 #: src/tools/dcpomatic_batch.cc:113 src/tools/dcpomatic.cc:1526
-#: src/tools/dcpomatic_editor.cc:446 src/tools/dcpomatic_kdm.cc:349
+#: src/tools/dcpomatic_editor.cc:648 src/tools/dcpomatic_kdm.cc:349
 #: src/tools/dcpomatic_player.cc:758 src/tools/dcpomatic_playlist.cc:612
 #: src/tools/dcpomatic_playlist.cc:626 src/tools/dcpomatic_verifier.cc:257
 msgid "&Help"
@@ -104,7 +104,7 @@ msgstr "&작업"
 msgid "&Make DCP\tCtrl-M"
 msgstr "&DCP 만들기\tCtrl-M"
 
-#: src/tools/dcpomatic.cc:1422 src/tools/dcpomatic_editor.cc:428
+#: src/tools/dcpomatic.cc:1422 src/tools/dcpomatic_editor.cc:630
 #: src/tools/dcpomatic_player.cc:685
 msgid "&Open...\tCtrl-O"
 msgstr "&열기...\tCtrl-O"
@@ -122,13 +122,13 @@ msgid "&Preferences...\tCtrl-P"
 msgstr "&환경 설정...\tCtrl-P"
 
 #: src/tools/dcpomatic_batch.cc:92 src/tools/dcpomatic.cc:1444
-#: src/tools/dcpomatic_editor.cc:435 src/tools/dcpomatic_kdm.cc:326
+#: src/tools/dcpomatic_editor.cc:637 src/tools/dcpomatic_kdm.cc:326
 #: src/tools/dcpomatic_player.cc:700 src/tools/dcpomatic_playlist.cc:615
 #: src/tools/dcpomatic_verifier.cc:252
 msgid "&Quit"
 msgstr "&종료"
 
-#: src/tools/dcpomatic.cc:1425 src/tools/dcpomatic_editor.cc:430
+#: src/tools/dcpomatic.cc:1425 src/tools/dcpomatic_editor.cc:632
 msgid "&Save\tCtrl-S"
 msgstr "&저장\tCtrl-S"
 
@@ -166,13 +166,13 @@ msgid "<b>Playlists</b>"
 msgstr "<b>플레이리스트</b>"
 
 #: src/tools/dcpomatic_batch.cc:106 src/tools/dcpomatic.cc:1514
-#: src/tools/dcpomatic_editor.cc:442 src/tools/dcpomatic_kdm.cc:339
+#: src/tools/dcpomatic_editor.cc:644 src/tools/dcpomatic_kdm.cc:339
 #: src/tools/dcpomatic_player.cc:745 src/tools/dcpomatic_playlist.cc:621
 #: src/tools/dcpomatic_verifier.cc:255
 msgid "About"
 msgstr "정보"
 
-#: src/tools/dcpomatic.cc:1512 src/tools/dcpomatic_editor.cc:440
+#: src/tools/dcpomatic.cc:1512 src/tools/dcpomatic_editor.cc:642
 #: src/tools/dcpomatic_kdm.cc:337 src/tools/dcpomatic_player.cc:743
 #: src/tools/dcpomatic_playlist.cc:610 src/tools/dcpomatic_verifier.cc:249
 #, c-format
@@ -211,7 +211,7 @@ msgstr "폴더 추가..."
 msgid "Add..."
 msgstr "추가..."
 
-#: src/tools/dcpomatic_combiner.cc:313 src/tools/dcpomatic_editor.cc:612
+#: src/tools/dcpomatic_combiner.cc:313 src/tools/dcpomatic_editor.cc:836
 #: src/tools/dcpomatic_player.cc:1508 src/tools/dcpomatic_playlist.cc:740
 #, c-format
 msgid ""
@@ -224,7 +224,7 @@ msgstr ""
 "%s"
 
 #: src/tools/dcpomatic.cc:1901 src/tools/dcpomatic_combiner.cc:303
-#: src/tools/dcpomatic_disk.cc:565 src/tools/dcpomatic_editor.cc:602
+#: src/tools/dcpomatic_disk.cc:565 src/tools/dcpomatic_editor.cc:826
 #: src/tools/dcpomatic_kdm.cc:959 src/tools/dcpomatic_player.cc:1498
 #: src/tools/dcpomatic_playlist.cc:730 src/tools/dcpomatic_verifier.cc:482
 #, c-format
@@ -270,7 +270,7 @@ msgid "An unknown exception occurred."
 msgstr "알 수 없는 예외가 발생했습니다."
 
 #: src/tools/dcpomatic.cc:1928 src/tools/dcpomatic_combiner.cc:319
-#: src/tools/dcpomatic_disk.cc:581 src/tools/dcpomatic_editor.cc:618
+#: src/tools/dcpomatic_disk.cc:581 src/tools/dcpomatic_editor.cc:842
 #: src/tools/dcpomatic_kdm.cc:975 src/tools/dcpomatic_kdm.cc:984
 #: src/tools/dcpomatic_player.cc:1514 src/tools/dcpomatic_playlist.cc:746
 #: src/tools/dcpomatic_playlist.cc:755 src/tools/dcpomatic_verifier.cc:509
@@ -278,8 +278,9 @@ msgstr "알 수 없는 예외가 발생했습니다."
 msgid "An unknown exception occurred. %s"
 msgstr "알 수 없는 예외가 발생했습니다. %s"
 
-#: src/tools/dcpomatic_combiner.cc:122 src/tools/dcpomatic_editor.cc:85
-#: src/tools/dcpomatic_editor.cc:204 src/tools/dcpomatic_editor.cc:293
+#: src/tools/dcpomatic_combiner.cc:122 src/tools/dcpomatic_editor.cc:91
+#: src/tools/dcpomatic_editor.cc:220 src/tools/dcpomatic_editor.cc:347
+#: src/tools/dcpomatic_editor.cc:405
 msgid "Annotation text"
 msgstr "주석 텍스트"
 
@@ -290,6 +291,10 @@ msgid ""
 msgstr ""
 "환경 설정을 초기 상태로 복원하시겠습니까? 이 작업은 되돌릴 수 없습니다."
 
+#: src/tools/dcpomatic_editor.cc:424
+msgid "Assets"
+msgstr ""
+
 #: src/tools/dcpomatic_player.cc:735
 msgid "Audio graph..."
 msgstr "오디오 그래프..."
@@ -299,8 +304,8 @@ msgstr "오디오 그래프..."
 msgid "Bad setting for %s."
 msgstr "%s의 설정이 잘못되었습니다."
 
-#: src/tools/dcpomatic_editor.cc:392 src/tools/dcpomatic_player.cc:716
-#: src/tools/dcpomatic_playlist.cc:339
+#: src/tools/dcpomatic_editor.cc:436 src/tools/dcpomatic_editor.cc:583
+#: src/tools/dcpomatic_player.cc:716 src/tools/dcpomatic_playlist.cc:339
 msgid "CPL"
 msgstr "CPL"
 
@@ -308,7 +313,7 @@ msgstr "CPL"
 msgid "CPL's content is not encrypted."
 msgstr "CPL의 콘텐츠가 암호화되어 있지 않습니다."
 
-#: src/tools/dcpomatic_editor.cc:410
+#: src/tools/dcpomatic_editor.cc:605
 #, c-format
 msgid "CPL: %s"
 msgstr "CPL: %s"
@@ -351,13 +356,23 @@ msgstr "결합"
 msgid "Combining DCPs"
 msgstr "DCP 결합"
 
-#: src/tools/dcpomatic_editor.cc:219
+#: src/tools/dcpomatic_editor.cc:235
 msgid "Content title text"
 msgstr "콘텐츠 제목 텍스트"
 
 #: src/tools/dcpomatic_disk.cc:166
 msgid "Copy DCPs"
 msgstr "DCP 복사"
+
+#: src/tools/dcpomatic_editor.cc:475
+#, fuzzy
+msgid "Copy annotation texts to CPLs"
+msgstr "주석 텍스트"
+
+#: src/tools/dcpomatic_editor.cc:259
+#, fuzzy
+msgid "Copy annotation texts to PKLs"
+msgstr "주석 텍스트"
 
 #: src/tools/dcpomatic.cc:1449
 msgid "Copy settings\tCtrl-C"
@@ -395,7 +410,7 @@ msgstr ""
 "새 배치 작업을 대기할 수 없습니다. 이미 %s의 다른 인스턴스가 실행 중일 수 있"
 "습니다."
 
-#: src/tools/dcpomatic_editor.cc:404
+#: src/tools/dcpomatic_editor.cc:597
 msgid "Could not load DCP"
 msgstr "DCP를 불러올 수 없습니다"
 
@@ -522,7 +537,7 @@ msgstr "설정 파일에 쓸 수 없습니다. 변경 사항이 저장되지 않
 msgid "Create KDMs"
 msgstr "KDM 만들기"
 
-#: src/tools/dcpomatic_editor.cc:214 src/tools/dcpomatic_editor.cc:303
+#: src/tools/dcpomatic_editor.cc:230 src/tools/dcpomatic_editor.cc:415
 #, fuzzy
 msgid "Creator"
 msgstr "작성자"
@@ -644,11 +659,16 @@ msgstr "복제..."
 msgid "Duplicating film"
 msgstr "필름 복제"
 
-#: src/tools/dcpomatic_editor.cc:95
+#: src/tools/dcpomatic_editor.cc:101
 msgid "Duration"
 msgstr "길이"
 
-#: src/tools/dcpomatic_editor.cc:155
+#: src/tools/dcpomatic_editor.cc:336
+#, fuzzy
+msgid "Edit asset"
+msgstr "릴 편집"
+
+#: src/tools/dcpomatic_editor.cc:170
 msgid "Edit reel"
 msgstr "릴 편집"
 
@@ -664,7 +684,7 @@ msgstr "인코딩 서버..."
 msgid "Encrypted"
 msgstr "암호화됨"
 
-#: src/tools/dcpomatic_editor.cc:90
+#: src/tools/dcpomatic_editor.cc:96
 #, fuzzy
 msgid "Entry point"
 msgstr "시작점"
@@ -733,6 +753,11 @@ msgstr "전체 화면\tF11"
 msgid "Hints..."
 msgstr "힌트..."
 
+#: src/tools/dcpomatic_editor.cc:87 src/tools/dcpomatic_editor.cc:343
+#: src/tools/dcpomatic_editor.cc:427
+msgid "ID"
+msgstr ""
+
 #: src/tools/dcpomatic.cc:1508
 msgid "Import preferences..."
 msgstr "환경 설정 가져오기..."
@@ -741,11 +766,11 @@ msgstr "환경 설정 가져오기..."
 msgid "Input DCP"
 msgstr "입력 DCP"
 
-#: src/tools/dcpomatic_editor.cc:100
+#: src/tools/dcpomatic_editor.cc:106
 msgid "Intrinsic duration"
 msgstr "고유 길이"
 
-#: src/tools/dcpomatic_editor.cc:209 src/tools/dcpomatic_editor.cc:298
+#: src/tools/dcpomatic_editor.cc:225 src/tools/dcpomatic_editor.cc:410
 msgid "Issuer"
 msgstr "발행자"
 
@@ -799,7 +824,7 @@ msgstr "%s용 DKDM 만들기..."
 msgid "Manage templates..."
 msgstr "템플릿 관리..."
 
-#: src/tools/dcpomatic_editor.cc:227 src/tools/dcpomatic_playlist.cc:139
+#: src/tools/dcpomatic_editor.cc:243 src/tools/dcpomatic_playlist.cc:139
 #: src/tools/dcpomatic_playlist.cc:338
 msgid "Name"
 msgstr "이름"
@@ -838,7 +863,7 @@ msgstr ""
 msgid "Open DCP in &player"
 msgstr "플레이어에서 DCP 열기(&P)"
 
-#: src/tools/dcpomatic_editor.cc:347
+#: src/tools/dcpomatic_editor.cc:538
 msgid "Open a DCP using File -> Open"
 msgstr "[파일 -> 열기]를 사용하여 DCP 열기"
 
@@ -850,7 +875,7 @@ msgstr "출력"
 msgid "Output DCP folder"
 msgstr "출력 DCP 폴더"
 
-#: src/tools/dcpomatic_editor.cc:413
+#: src/tools/dcpomatic_editor.cc:611
 #, c-format
 msgid "PKL: %s"
 msgstr "PKL: %s"
@@ -867,7 +892,7 @@ msgstr "변환 일시 중지 또는 재개"
 msgid "Pause/resume"
 msgstr "일시 중지/재개"
 
-#: src/tools/dcpomatic_editor.cc:173
+#: src/tools/dcpomatic_editor.cc:188
 msgid "Picture"
 msgstr "그림"
 
@@ -902,7 +927,37 @@ msgstr "KDM 해독 체인 재생성"
 msgid "Recreate signing certificates"
 msgstr "서명 인증서 재생성"
 
-#: src/tools/dcpomatic_editor.cc:224
+#: src/tools/dcpomatic_editor.cc:447
+#, fuzzy, c-format
+msgid "Reel %d caption"
+msgstr "클로즈드 캡션..."
+
+#: src/tools/dcpomatic_editor.cc:456
+#, fuzzy, c-format
+msgid "Reel %d closed caption"
+msgstr "클로즈드 캡션..."
+
+#: src/tools/dcpomatic_editor.cc:451
+#, c-format
+msgid "Reel %d closed subtitle"
+msgstr ""
+
+#: src/tools/dcpomatic_editor.cc:441
+#, c-format
+msgid "Reel %d picture"
+msgstr ""
+
+#: src/tools/dcpomatic_editor.cc:443
+#, c-format
+msgid "Reel %d sound"
+msgstr ""
+
+#: src/tools/dcpomatic_editor.cc:445
+#, c-format
+msgid "Reel %d subtitle"
+msgstr ""
+
+#: src/tools/dcpomatic_editor.cc:240
 msgid "Reels"
 msgstr "릴"
 
@@ -977,7 +1032,7 @@ msgstr "프레임을 파일로 저장"
 msgid "Screens"
 msgstr "스크린"
 
-#: src/tools/dcpomatic_editor.cc:451 src/tools/dcpomatic_player.cc:769
+#: src/tools/dcpomatic_editor.cc:653 src/tools/dcpomatic_player.cc:769
 msgid "Select DCP to open"
 msgstr "열려는 DCP 선택"
 
@@ -1018,7 +1073,7 @@ msgstr "KDM 이메일 전송"
 msgid "Set decode resolution to match display"
 msgstr "디스플레이에 맞춰 디코드 해상도 설정"
 
-#: src/tools/dcpomatic_editor.cc:176
+#: src/tools/dcpomatic_editor.cc:191
 msgid "Sound"
 msgstr "사운드"
 
@@ -1030,7 +1085,7 @@ msgstr "ZIP 파일 지정"
 msgid "Status..."
 msgstr "상태..."
 
-#: src/tools/dcpomatic_editor.cc:179
+#: src/tools/dcpomatic_editor.cc:194
 msgid "Subtitle"
 msgstr "자막"
 
@@ -1351,7 +1406,7 @@ msgstr ""
 "요."
 
 #: src/tools/dcpomatic_batch.cc:343 src/tools/dcpomatic.cc:618
-#: src/tools/dcpomatic_editor.cc:457 src/tools/dcpomatic_player.cc:775
+#: src/tools/dcpomatic_editor.cc:659 src/tools/dcpomatic_player.cc:775
 #: src/tools/dcpomatic_player.cc:806
 msgid ""
 "You did not select a folder.  Make sure that you select a folder before "
