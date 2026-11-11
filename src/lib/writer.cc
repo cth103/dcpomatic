@@ -607,8 +607,12 @@ Writer::finish()
 
 	/* Add reels */
 
+	/* Some servers show closed captions on screen when there is no open subtitle track,
+	 * so make sure that there is one (empty if need be) whenever there are closed captions.
+	 */
+	auto const ensure_subtitles = _have_subtitles || !_have_closed_captions.empty();
 	for (auto& i: _reels) {
-		cpl->add(i.create_reel(_reel_assets, _output_dir, _have_subtitles, _have_closed_captions));
+		cpl->add(i.create_reel(_reel_assets, _output_dir, ensure_subtitles, _have_closed_captions));
 	}
 
 	/* Add metadata */
