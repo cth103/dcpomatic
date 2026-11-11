@@ -956,7 +956,7 @@ Film::isdcf_name(bool if_created_now, bool multiple_open_text_languages) const
 
 	/* Add each word to fixed_name */
 	for (auto i: words) {
-		string w = i;
+		string w = careful_string_filter(i, L"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-");
 
 		/* First letter is always capitalised */
 		w[0] = toupper(w[0]);
@@ -983,7 +983,7 @@ Film::isdcf_name(bool if_created_now, bool multiple_open_text_languages) const
 		}
 	}
 
-	isdcf_name += careful_string_filter(fixed_name, L"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-").substr(0, Config::instance()->isdcf_name_part_length());
+	isdcf_name += fixed_name.substr(0, Config::instance()->isdcf_name_part_length());
 
 	if (dcp_content_type()) {
 		isdcf_name += "_" + dcp_content_type()->isdcf_name();
