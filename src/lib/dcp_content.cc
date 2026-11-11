@@ -35,6 +35,7 @@
 #include <dcp/dcp.h>
 #include <dcp/raw_convert.h>
 #include <dcp/exceptions.h>
+#include <dcp/reel_atmos_asset.h>
 #include <dcp/reel_picture_asset.h>
 #include <dcp/reel_sound_asset.h>
 #include <dcp/reel_text_asset.h>
@@ -1042,6 +1043,8 @@ DCPContent::assets(shared_ptr<const Film> film) const
 						assets.push_back({DCPAsset::Type::AUDIO, *file, *reel_periods_iter});
 					} else if (dynamic_pointer_cast<dcp::ReelTextAsset>(reel_asset)) {
 						assets.push_back({DCPAsset::Type::TEXT, *file, *reel_periods_iter});
+					} else if (dynamic_pointer_cast<dcp::ReelAtmosAsset>(reel_asset)) {
+						assets.push_back({DCPAsset::Type::ATMOS, *file, *reel_periods_iter});
 					}
 				}
 			}
