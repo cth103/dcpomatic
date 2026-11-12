@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-16 00:11+0200\n"
+"POT-Creation-Date: 2026-11-05 22:19+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -105,7 +105,7 @@ msgstr ""
 msgid "%s audio - %s"
 msgstr ""
 
-#: src/wx/email_preferences_page.cc:191
+#: src/wx/email_preferences_page.cc:192
 #, c-format
 msgid "%s test email"
 msgstr ""
@@ -180,15 +180,15 @@ msgstr ""
 msgid "2D"
 msgstr ""
 
-#: src/wx/metadata_dialog.cc:316
+#: src/wx/metadata_dialog.cc:314
 msgid "2D version of 3D DCP"
 msgstr ""
 
-#: src/wx/dcp_panel.cc:905
+#: src/wx/dcp_panel.cc:906
 msgid "2K"
 msgstr ""
 
-#: src/wx/dcp_panel.cc:878 src/wx/video_panel.cc:189
+#: src/wx/dcp_panel.cc:879 src/wx/video_panel.cc:189
 msgid "3D"
 msgstr ""
 
@@ -216,11 +216,11 @@ msgstr ""
 msgid "4 - L/C/R/Lfe"
 msgstr ""
 
-#: src/wx/dcp_panel.cc:1011
+#: src/wx/dcp_panel.cc:1012
 msgid "48kHz"
 msgstr ""
 
-#: src/wx/dcp_panel.cc:906
+#: src/wx/dcp_panel.cc:907
 msgid "4K"
 msgstr ""
 
@@ -232,7 +232,7 @@ msgstr ""
 msgid "8 - 5.1/HI/VI"
 msgstr ""
 
-#: src/wx/dcp_panel.cc:1012
+#: src/wx/dcp_panel.cc:1013
 msgid "96kHz"
 msgstr ""
 
@@ -508,7 +508,7 @@ msgid "Adjust white point to"
 msgstr ""
 
 #: src/wx/full_config_dialog.cc:1205 src/wx/kdm_config_dialog.cc:105
-#: src/wx/metadata_dialog.cc:79 src/wx/player_config_dialog.cc:277
+#: src/wx/metadata_dialog.cc:77 src/wx/player_config_dialog.cc:277
 msgid "Advanced"
 msgstr ""
 
@@ -529,8 +529,8 @@ msgstr ""
 msgid "Advanced..."
 msgstr ""
 
-#: src/wx/metadata_dialog.cc:217 src/wx/rating_dialog.cc:138
-#: src/wx/rating_dialog.cc:296
+#: src/wx/metadata_dialog.cc:215 src/wx/rating_dialog.cc:137
+#: src/wx/rating_dialog.cc:295
 msgid "Agency"
 msgstr ""
 
@@ -566,7 +566,7 @@ msgstr ""
 msgid "Alpha   0"
 msgstr ""
 
-#: src/wx/about_dialog.cc:186
+#: src/wx/about_dialog.cc:187
 msgid "Also supported by"
 msgstr ""
 
@@ -600,7 +600,7 @@ msgstr ""
 msgid "Are you sure you want to remove %d cinemas?"
 msgstr ""
 
-#: src/wx/screens_panel.cc:482
+#: src/wx/screens_panel.cc:493
 #, c-format
 msgid "Are you sure you want to remove %d screens?"
 msgstr ""
@@ -610,7 +610,7 @@ msgstr ""
 msgid "Are you sure you want to remove the cinema '%s'?"
 msgstr ""
 
-#: src/wx/screens_panel.cc:478
+#: src/wx/screens_panel.cc:489
 #, c-format
 msgid "Are you sure you want to remove the screen '%s'?"
 msgstr ""
@@ -642,7 +642,8 @@ msgstr ""
 msgid "At least one subtitle lasts less than 15 frames."
 msgstr ""
 
-#: src/wx/timeline_labels_view.cc:44 src/wx/timeline_labels_view.cc:86
+#: src/wx/dcp_referencing_dialog.cc:115 src/wx/timeline_labels_view.cc:44
+#: src/wx/timeline_labels_view.cc:86
 msgid "Atmos"
 msgstr ""
 
@@ -668,7 +669,7 @@ msgid ""
 "Audio will be passed from %s channel %s to %s channel %s with gain %.1fdB."
 msgstr ""
 
-#: src/wx/email_preferences_page.cc:78
+#: src/wx/email_preferences_page.cc:79
 msgid "Auto"
 msgstr ""
 
@@ -747,23 +748,27 @@ msgstr "Számítás..."
 msgid "Cancel"
 msgstr ""
 
-#: src/wx/dcp_referencing_dialog.cc:175
+#: src/wx/dcp_referencing_dialog.cc:179
 msgid "Cannot reference this DCP"
 msgstr ""
 
-#: src/wx/dcp_referencing_dialog.cc:187
+#: src/wx/dcp_referencing_dialog.cc:198
+msgid "Cannot reference this DCP's Atmos"
+msgstr ""
+
+#: src/wx/dcp_referencing_dialog.cc:191
 msgid "Cannot reference this DCP's audio"
 msgstr ""
 
-#: src/wx/dcp_referencing_dialog.cc:201
+#: src/wx/dcp_referencing_dialog.cc:212
 msgid "Cannot reference this DCP's closed captions"
 msgstr ""
 
-#: src/wx/dcp_referencing_dialog.cc:194
+#: src/wx/dcp_referencing_dialog.cc:205
 msgid "Cannot reference this DCP's subtitles"
 msgstr ""
 
-#: src/wx/dcp_referencing_dialog.cc:180
+#: src/wx/dcp_referencing_dialog.cc:184
 msgid "Cannot reference this DCP's video"
 msgstr ""
 
@@ -794,7 +799,7 @@ msgstr ""
 msgid "Certificate start"
 msgstr ""
 
-#: src/wx/metadata_dialog.cc:299
+#: src/wx/metadata_dialog.cc:297
 msgid "Chain"
 msgstr ""
 
@@ -802,7 +807,7 @@ msgstr ""
 msgid "Channel gain"
 msgstr ""
 
-#: src/wx/audio_dialog.cc:110 src/wx/dcp_panel.cc:980
+#: src/wx/audio_dialog.cc:110 src/wx/dcp_panel.cc:981
 msgid "Channels"
 msgstr ""
 
@@ -910,7 +915,7 @@ msgstr ""
 msgid "Confirm KDM email"
 msgstr ""
 
-#: src/wx/dcp_panel.cc:866
+#: src/wx/dcp_panel.cc:867
 msgid "Container"
 msgstr "Konténer"
 
@@ -1085,7 +1090,7 @@ msgstr ""
 msgid "Cursor: none"
 msgstr "Kurzor: nincs"
 
-#: src/wx/dcp_timeline.cc:284 src/wx/rating_dialog.cc:53
+#: src/wx/dcp_timeline.cc:285 src/wx/rating_dialog.cc:53
 #: src/wx/ratio_picker.cc:49
 msgid "Custom"
 msgstr ""
@@ -1312,12 +1317,12 @@ msgstr ""
 msgid "Edit recipient"
 msgstr ""
 
-#: src/wx/screens_panel.cc:434
+#: src/wx/screens_panel.cc:445
 msgid "Edit screen"
 msgstr ""
 
 #: src/wx/audio_mapping_view.cc:90 src/wx/content_advanced_dialog.cc:75
-#: src/wx/dcp_panel.cc:995 src/wx/language_tag_widget.cc:51
+#: src/wx/dcp_panel.cc:996 src/wx/language_tag_widget.cc:51
 #: src/wx/recipients_panel.cc:71 src/wx/region_subtag_widget.cc:52
 #: src/wx/video_panel.cc:159 src/wx/video_panel.cc:170
 #: src/wx/editable_list.h:149
@@ -1332,7 +1337,7 @@ msgstr ""
 msgid "Effect colour"
 msgstr ""
 
-#: src/wx/email_preferences_page.cc:46 src/wx/full_config_dialog.cc:679
+#: src/wx/email_preferences_page.cc:47 src/wx/full_config_dialog.cc:679
 msgid "Email"
 msgstr ""
 
@@ -1434,7 +1439,7 @@ msgstr ""
 msgid "FTP (for Dolby)"
 msgstr ""
 
-#: src/wx/metadata_dialog.cc:289
+#: src/wx/metadata_dialog.cc:287
 msgid "Facility"
 msgstr ""
 
@@ -1571,7 +1576,7 @@ msgid ""
 "is %size_in_bytes bytes in size)."
 msgstr ""
 
-#: src/wx/dcp_panel.cc:873
+#: src/wx/dcp_panel.cc:874
 msgid "Frame Rate"
 msgstr "Képkockaszám"
 
@@ -1619,7 +1624,7 @@ msgstr ""
 msgid "Full length"
 msgstr "Teljes hossz"
 
-#: src/wx/dcp_timeline.cc:322
+#: src/wx/dcp_timeline.cc:323
 msgid "GB"
 msgstr ""
 
@@ -1811,11 +1816,11 @@ msgstr ""
 msgid "Intermediate common name"
 msgstr ""
 
-#: src/wx/metadata_dialog.cc:207
+#: src/wx/metadata_dialog.cc:205
 msgid "International texted"
 msgstr ""
 
-#: src/wx/metadata_dialog.cc:208
+#: src/wx/metadata_dialog.cc:206
 msgid "International textless"
 msgstr ""
 
@@ -1904,11 +1909,11 @@ msgstr ""
 msgid "LEQ(m) %.2fdB"
 msgstr ""
 
-#: src/wx/metadata_dialog.cc:218
+#: src/wx/metadata_dialog.cc:216
 msgid "Label"
 msgstr ""
 
-#: src/wx/dcp_panel.cc:993 src/wx/dcp_text_track_dialog.cc:35
+#: src/wx/dcp_panel.cc:994 src/wx/dcp_text_track_dialog.cc:35
 #: src/wx/text_panel.cc:166
 msgid "Language"
 msgstr ""
@@ -1925,7 +1930,7 @@ msgstr ""
 msgid "Language of these subtitles"
 msgstr ""
 
-#: src/wx/metadata_dialog.cc:286
+#: src/wx/metadata_dialog.cc:284
 msgid "Language used for any sign language video track"
 msgstr ""
 
@@ -2024,7 +2029,7 @@ msgstr ""
 msgid "Lower priority"
 msgstr ""
 
-#: src/wx/metadata_dialog.cc:320
+#: src/wx/metadata_dialog.cc:318
 msgid "Luminance"
 msgstr ""
 
@@ -2131,11 +2136,11 @@ msgstr ""
 msgid "Maximum number of frames to store per thread"
 msgstr ""
 
-#: src/wx/dcp_timeline.cc:316
+#: src/wx/dcp_timeline.cc:317
 msgid "Maximum reel size"
 msgstr ""
 
-#: src/wx/dcp_panel.cc:882 src/wx/full_config_dialog.cc:1050
+#: src/wx/dcp_panel.cc:883 src/wx/full_config_dialog.cc:1050
 #: src/wx/full_config_dialog.cc:1059
 msgid "Mbit/s"
 msgstr ""
@@ -2144,7 +2149,7 @@ msgstr ""
 msgid "Message box"
 msgstr ""
 
-#: src/wx/metadata_dialog.cc:53
+#: src/wx/metadata_dialog.cc:51
 msgid "Metadata"
 msgstr "Metaadatok"
 
@@ -2258,7 +2263,7 @@ msgstr ""
 msgid "Move to start of reel"
 msgstr ""
 
-#: src/wx/video_panel.cc:483
+#: src/wx/video_panel.cc:484
 msgid "Multiple content selected"
 msgstr ""
 
@@ -2352,7 +2357,7 @@ msgid "Non-standard"
 msgstr ""
 
 #: src/wx/content_advanced_dialog.cc:74 src/wx/content_advanced_dialog.cc:155
-#: src/wx/content_advanced_dialog.cc:163 src/wx/dcp_panel.cc:1098
+#: src/wx/content_advanced_dialog.cc:163 src/wx/dcp_panel.cc:1099
 #: src/wx/subtitle_appearance_dialog.cc:151
 msgid "None"
 msgstr ""
@@ -2441,7 +2446,7 @@ msgstr ""
 msgid "Other trusted devices"
 msgstr ""
 
-#: src/wx/email_preferences_page.cc:66
+#: src/wx/email_preferences_page.cc:67
 msgid "Outgoing mail server"
 msgstr ""
 
@@ -2502,7 +2507,7 @@ msgid "Passive mode"
 msgstr ""
 
 #: src/wx/credentials_download_certificate_panel.cc:54
-#: src/wx/email_preferences_page.cc:90 src/wx/full_config_dialog.cc:567
+#: src/wx/email_preferences_page.cc:91 src/wx/full_config_dialog.cc:567
 msgid "Password"
 msgstr ""
 
@@ -2522,7 +2527,7 @@ msgstr ""
 msgid "Paste video settings"
 msgstr ""
 
-#: src/wx/about_dialog.cc:178
+#: src/wx/about_dialog.cc:179
 msgid "Patrons"
 msgstr ""
 
@@ -2552,7 +2557,7 @@ msgstr ""
 msgid "Picture"
 msgstr ""
 
-#: src/wx/email_preferences_page.cc:79
+#: src/wx/email_preferences_page.cc:80
 msgid "Plain"
 msgstr ""
 
@@ -2588,7 +2593,7 @@ msgstr ""
 msgid "Position"
 msgstr "Pozíció"
 
-#: src/wx/metadata_dialog.cc:308 src/wx/smpte_metadata_dialog.cc:143
+#: src/wx/metadata_dialog.cc:306 src/wx/smpte_metadata_dialog.cc:143
 msgid "Pre-release"
 msgstr ""
 
@@ -2596,7 +2601,7 @@ msgstr ""
 msgid "Previous"
 msgstr ""
 
-#: src/wx/dcp_panel.cc:989
+#: src/wx/dcp_panel.cc:990
 msgid "Processor"
 msgstr "Hangprocesszor"
 
@@ -2643,8 +2648,8 @@ msgstr "Tartomány"
 
 #. TRANSLATORS: this refers to the project's ratings, (i.e. the legal/
 #. advisory limits on what age groups can watch the film).
-#: src/wx/rating_dialog.cc:45 src/wx/rating_dialog.cc:146
-#: src/wx/rating_dialog.cc:300
+#: src/wx/rating_dialog.cc:45 src/wx/rating_dialog.cc:145
+#: src/wx/rating_dialog.cc:299
 msgid "Rating"
 msgstr ""
 
@@ -2655,7 +2660,7 @@ msgstr ""
 msgid "Ratings"
 msgstr ""
 
-#: src/wx/dcp_panel.cc:884
+#: src/wx/dcp_panel.cc:885
 msgid "Re-encode JPEG2000 data from input"
 msgstr ""
 
@@ -2695,7 +2700,7 @@ msgstr ""
 msgid "Recipients"
 msgstr ""
 
-#: src/wx/metadata_dialog.cc:312
+#: src/wx/metadata_dialog.cc:310
 msgid "Red band"
 msgstr ""
 
@@ -2713,7 +2718,7 @@ msgstr ""
 msgid "Reel %d to reel %d"
 msgstr ""
 
-#: src/wx/dcp_timeline.cc:310
+#: src/wx/dcp_timeline.cc:311
 msgid "Reel mode"
 msgstr ""
 
@@ -2737,11 +2742,11 @@ msgstr ""
 msgid "Region"
 msgstr ""
 
-#: src/wx/metadata_dialog.cc:211
+#: src/wx/metadata_dialog.cc:209
 msgid "Release territory"
 msgstr ""
 
-#: src/wx/metadata_dialog.cc:213
+#: src/wx/metadata_dialog.cc:211
 msgid "Release territory for this DCP"
 msgstr ""
 
@@ -2813,7 +2818,7 @@ msgstr ""
 msgid "Reset to default text"
 msgstr ""
 
-#: src/wx/dcp_panel.cc:870
+#: src/wx/dcp_panel.cc:871
 msgid "Resolution"
 msgstr "Felbontás"
 
@@ -2866,11 +2871,11 @@ msgstr ""
 msgid "SMPTE Bv2.1 errors"
 msgstr ""
 
-#: src/wx/email_preferences_page.cc:81
+#: src/wx/email_preferences_page.cc:82
 msgid "SSL"
 msgstr ""
 
-#: src/wx/email_preferences_page.cc:80
+#: src/wx/email_preferences_page.cc:81
 msgid "STARTTLS"
 msgstr ""
 
@@ -2887,7 +2892,7 @@ msgstr ""
 msgid "Sample peak is %.2fdB at %s on %s"
 msgstr ""
 
-#: src/wx/dcp_panel.cc:985
+#: src/wx/dcp_panel.cc:986
 msgid "Sample rate"
 msgstr ""
 
@@ -3029,7 +3034,7 @@ msgstr ""
 msgid "Send test email"
 msgstr ""
 
-#: src/wx/email_preferences_page.cc:95
+#: src/wx/email_preferences_page.cc:96
 msgid "Send test email..."
 msgstr ""
 
@@ -3105,16 +3110,16 @@ msgstr ""
 msgid "Show experimental audio processors"
 msgstr ""
 
-#: src/wx/audio_panel.cc:72 src/wx/dcp_panel.cc:997
+#: src/wx/audio_panel.cc:72 src/wx/dcp_panel.cc:998
 msgid "Show graph of audio levels..."
 msgstr "Grafikon mutatása a hangszintekről"
 
-#: src/wx/screens_panel.cc:740
+#: src/wx/screens_panel.cc:751
 #, c-format
 msgid "Show only %d checked"
 msgstr ""
 
-#: src/wx/screens_panel.cc:66 src/wx/screens_panel.cc:738
+#: src/wx/screens_panel.cc:66 src/wx/screens_panel.cc:749
 msgid "Show only checked"
 msgstr ""
 
@@ -3122,7 +3127,7 @@ msgstr ""
 msgid "Show subtitle area"
 msgstr ""
 
-#: src/wx/metadata_dialog.cc:285
+#: src/wx/metadata_dialog.cc:283
 msgid "Sign language video language"
 msgstr ""
 
@@ -3142,7 +3147,7 @@ msgstr ""
 msgid "Simple gamma, linearised for small values"
 msgstr ""
 
-#: src/wx/dcp_timeline.cc:275
+#: src/wx/dcp_timeline.cc:276
 msgid "Single reel"
 msgstr ""
 
@@ -3163,7 +3168,7 @@ msgstr ""
 msgid "Snap"
 msgstr ""
 
-#: src/wx/dcp_timeline.cc:327
+#: src/wx/dcp_timeline.cc:328
 msgid "Snap when dragging"
 msgstr ""
 
@@ -3202,15 +3207,15 @@ msgid ""
 "colourspace"
 msgstr ""
 
-#: src/wx/metadata_dialog.cc:206
+#: src/wx/metadata_dialog.cc:204
 msgid "Specific"
 msgstr ""
 
-#: src/wx/dcp_timeline.cc:281
+#: src/wx/dcp_timeline.cc:282
 msgid "Split by maximum reel size"
 msgstr ""
 
-#: src/wx/dcp_timeline.cc:278
+#: src/wx/dcp_timeline.cc:279
 msgid "Split by video content"
 msgstr ""
 
@@ -3218,7 +3223,7 @@ msgstr ""
 msgid "Stable version"
 msgstr ""
 
-#: src/wx/dcp_panel.cc:113 src/wx/metadata_dialog.cc:78
+#: src/wx/dcp_panel.cc:113 src/wx/metadata_dialog.cc:76
 #: src/wx/rating_dialog.cc:52
 msgid "Standard"
 msgstr ""
@@ -3247,7 +3252,7 @@ msgstr ""
 msgid "Stream"
 msgstr ""
 
-#: src/wx/metadata_dialog.cc:294
+#: src/wx/metadata_dialog.cc:292
 msgid "Studio"
 msgstr ""
 
@@ -3267,7 +3272,7 @@ msgstr ""
 msgid "Subject organization name"
 msgstr ""
 
-#: src/wx/about_dialog.cc:182
+#: src/wx/about_dialog.cc:183
 msgid "Subscribers"
 msgstr ""
 
@@ -3337,19 +3342,19 @@ msgstr ""
 msgid "Temporary"
 msgstr ""
 
-#: src/wx/metadata_dialog.cc:304
+#: src/wx/metadata_dialog.cc:302
 msgid "Temporary version"
 msgstr ""
 
-#: src/wx/metadata_dialog.cc:204
+#: src/wx/metadata_dialog.cc:202
 msgid "Territory type"
 msgstr ""
 
-#: src/wx/email_preferences_page.cc:201 src/wx/email_preferences_page.cc:204
+#: src/wx/email_preferences_page.cc:202 src/wx/email_preferences_page.cc:204
 msgid "Test email sending failed."
 msgstr ""
 
-#: src/wx/email_preferences_page.cc:207
+#: src/wx/email_preferences_page.cc:198
 msgid "Test email sent."
 msgstr ""
 
@@ -3357,7 +3362,7 @@ msgstr ""
 msgid "Test version"
 msgstr ""
 
-#: src/wx/about_dialog.cc:253
+#: src/wx/about_dialog.cc:254
 msgid "Tested by"
 msgstr ""
 
@@ -3614,7 +3619,7 @@ msgid ""
 "Should DCP-o-matic try to unmount it now?"
 msgstr ""
 
-#: src/wx/wx_util.cc:717
+#: src/wx/wx_util.cc:718
 msgid ""
 "The existing configuration failed to load.  Default values will be used "
 "instead.  These may take a short time to create."
@@ -3841,7 +3846,7 @@ msgid ""
 "certificate. Only the first certificate will be used."
 msgstr ""
 
-#: src/wx/email_preferences_page.cc:192
+#: src/wx/email_preferences_page.cc:193
 #, c-format
 msgid "This is a test email from %s."
 msgstr ""
@@ -3968,7 +3973,7 @@ msgstr "Felső"
 msgid "Track"
 msgstr ""
 
-#: src/wx/about_dialog.cc:174
+#: src/wx/about_dialog.cc:175
 msgid "Translated by"
 msgstr ""
 
@@ -4018,15 +4023,15 @@ msgstr ""
 msgid "UTC+1"
 msgstr ""
 
-#: src/wx/wx_util.cc:617
+#: src/wx/wx_util.cc:618
 msgid "UTC+10"
 msgstr ""
 
-#: src/wx/wx_util.cc:618
+#: src/wx/wx_util.cc:619
 msgid "UTC+11"
 msgstr ""
 
-#: src/wx/wx_util.cc:619
+#: src/wx/wx_util.cc:620
 msgid "UTC+12"
 msgstr ""
 
@@ -4039,38 +4044,42 @@ msgid "UTC+3"
 msgstr ""
 
 #: src/wx/wx_util.cc:607
-msgid "UTC+4"
+msgid "UTC+3:30"
 msgstr ""
 
 #: src/wx/wx_util.cc:608
-msgid "UTC+5"
+msgid "UTC+4"
 msgstr ""
 
 #: src/wx/wx_util.cc:609
+msgid "UTC+5"
+msgstr ""
+
+#: src/wx/wx_util.cc:610
 msgid "UTC+5:30"
 msgstr ""
 
-#: src/wx/wx_util.cc:611
+#: src/wx/wx_util.cc:612
 msgid "UTC+5:45"
 msgstr ""
 
-#: src/wx/wx_util.cc:612
+#: src/wx/wx_util.cc:613
 msgid "UTC+6"
 msgstr ""
 
-#: src/wx/wx_util.cc:613
+#: src/wx/wx_util.cc:614
 msgid "UTC+7"
 msgstr ""
 
-#: src/wx/wx_util.cc:614
+#: src/wx/wx_util.cc:615
 msgid "UTC+8"
 msgstr ""
 
-#: src/wx/wx_util.cc:615
+#: src/wx/wx_util.cc:616
 msgid "UTC+9"
 msgstr ""
 
-#: src/wx/wx_util.cc:616
+#: src/wx/wx_util.cc:617
 msgid "UTC+9:30"
 msgstr ""
 
@@ -4163,7 +4172,7 @@ msgstr ""
 msgid "Use as"
 msgstr ""
 
-#: src/wx/dcp_panel.cc:876
+#: src/wx/dcp_panel.cc:877
 msgid "Use best"
 msgstr ""
 
@@ -4180,7 +4189,7 @@ msgid "Use this file as new configuration"
 msgstr ""
 
 #: src/wx/credentials_download_certificate_panel.cc:50
-#: src/wx/email_preferences_page.cc:86 src/wx/full_config_dialog.cc:563
+#: src/wx/email_preferences_page.cc:87 src/wx/full_config_dialog.cc:563
 msgid "User name"
 msgstr ""
 
@@ -4242,7 +4251,7 @@ msgstr ""
 msgid "Video Waveform"
 msgstr ""
 
-#: src/wx/dcp_panel.cc:880
+#: src/wx/dcp_panel.cc:881
 msgid ""
 "Video bit rate\n"
 "for newly-encoded data"
@@ -4291,7 +4300,7 @@ msgstr ""
 msgid "White point adjustment"
 msgstr ""
 
-#: src/wx/about_dialog.cc:118
+#: src/wx/about_dialog.cc:119
 msgid "With help from"
 msgstr ""
 
@@ -4325,7 +4334,7 @@ msgstr ""
 msgid "Write to"
 msgstr ""
 
-#: src/wx/about_dialog.cc:109
+#: src/wx/about_dialog.cc:110
 msgid "Written by"
 msgstr ""
 
@@ -4353,14 +4362,14 @@ msgstr ""
 msgid "Yes"
 msgstr ""
 
-#: src/wx/screens_panel.cc:400
+#: src/wx/screens_panel.cc:408
 #, c-format
 msgid ""
 "You cannot add a screen called '%s' as the cinema already has a screen with "
 "this name."
 msgstr ""
 
-#: src/wx/screens_panel.cc:451
+#: src/wx/screens_panel.cc:462
 #, c-format
 msgid ""
 "You cannot change this screen's name to '%s' as the cinema already has a "
@@ -4463,7 +4472,7 @@ msgstr ""
 msgid "film name"
 msgstr ""
 
-#: src/wx/metadata_dialog.cc:335
+#: src/wx/metadata_dialog.cc:333
 msgid "foot lambert"
 msgstr ""
 
@@ -4519,11 +4528,11 @@ msgstr ""
 msgid "output"
 msgstr ""
 
-#: src/wx/email_preferences_page.cc:71
+#: src/wx/email_preferences_page.cc:72
 msgid "port"
 msgstr ""
 
-#: src/wx/email_preferences_page.cc:75
+#: src/wx/email_preferences_page.cc:76
 msgid "protocol"
 msgstr ""
 

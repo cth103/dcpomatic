@@ -19,6 +19,9 @@
 */
 
 #include <memory>
+extern "C" {
+#include <libavutil/channel_layout.h>
+}
 
 class AudioBuffers;
 
@@ -28,4 +31,5 @@ namespace dcp {
 
 
 std::shared_ptr<AudioBuffers> deinterleave_sound_frame(std::shared_ptr<const dcp::SoundFrame> frame, int channels);
+bool channel_layout_equals(AVChannelLayout a, AVChannelLayout b);
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-16 00:11+0200\n"
+"POT-Creation-Date: 2026-11-05 22:19+0100\n"
 "PO-Revision-Date: 2026-03-10 20:52+0900\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -106,7 +106,7 @@ msgstr "%s 오디오"
 msgid "%s audio - %s"
 msgstr "%s 오디오 - %s"
 
-#: src/wx/email_preferences_page.cc:191
+#: src/wx/email_preferences_page.cc:192
 #, c-format
 msgid "%s test email"
 msgstr "%s 테스트 이메일"
@@ -183,15 +183,15 @@ msgstr "255"
 msgid "2D"
 msgstr "2D"
 
-#: src/wx/metadata_dialog.cc:316
+#: src/wx/metadata_dialog.cc:314
 msgid "2D version of 3D DCP"
 msgstr "3D DCP의 2D 버전"
 
-#: src/wx/dcp_panel.cc:905
+#: src/wx/dcp_panel.cc:906
 msgid "2K"
 msgstr "2K"
 
-#: src/wx/dcp_panel.cc:878 src/wx/video_panel.cc:189
+#: src/wx/dcp_panel.cc:879 src/wx/video_panel.cc:189
 msgid "3D"
 msgstr "3D"
 
@@ -220,11 +220,11 @@ msgstr "3D 위/아래"
 msgid "4 - L/C/R/Lfe"
 msgstr "4 - L/C/R/Lfe"
 
-#: src/wx/dcp_panel.cc:1011
+#: src/wx/dcp_panel.cc:1012
 msgid "48kHz"
 msgstr "48kHz"
 
-#: src/wx/dcp_panel.cc:906
+#: src/wx/dcp_panel.cc:907
 msgid "4K"
 msgstr "4K"
 
@@ -236,7 +236,7 @@ msgstr "6 - 5.1"
 msgid "8 - 5.1/HI/VI"
 msgstr "8 - 5.1/HI/VI"
 
-#: src/wx/dcp_panel.cc:1012
+#: src/wx/dcp_panel.cc:1013
 msgid "96kHz"
 msgstr "96kHz"
 
@@ -532,7 +532,7 @@ msgid "Adjust white point to"
 msgstr "화이트 포인트를 다음으로 조정:"
 
 #: src/wx/full_config_dialog.cc:1205 src/wx/kdm_config_dialog.cc:105
-#: src/wx/metadata_dialog.cc:79 src/wx/player_config_dialog.cc:277
+#: src/wx/metadata_dialog.cc:77 src/wx/player_config_dialog.cc:277
 msgid "Advanced"
 msgstr "고급"
 
@@ -554,8 +554,8 @@ msgstr "고급 설정…"
 msgid "Advanced..."
 msgstr "고급…"
 
-#: src/wx/metadata_dialog.cc:217 src/wx/rating_dialog.cc:138
-#: src/wx/rating_dialog.cc:296
+#: src/wx/metadata_dialog.cc:215 src/wx/rating_dialog.cc:137
+#: src/wx/rating_dialog.cc:295
 msgid "Agency"
 msgstr "에이전시"
 
@@ -592,7 +592,7 @@ msgstr "MPTE Bv2.0 사용 허용"
 msgid "Alpha   0"
 msgstr "알파   0"
 
-#: src/wx/about_dialog.cc:186
+#: src/wx/about_dialog.cc:187
 msgid "Also supported by"
 msgstr "도움 주신 분들"
 
@@ -627,7 +627,7 @@ msgstr "이 작업을 취소하시겠습니까?"
 msgid "Are you sure you want to remove %d cinemas?"
 msgstr "%d개의 영화관을 삭제하시겠습니까?"
 
-#: src/wx/screens_panel.cc:482
+#: src/wx/screens_panel.cc:493
 #, c-format
 msgid "Are you sure you want to remove %d screens?"
 msgstr "%d개의 스크린을 삭제하시겠습니까?"
@@ -637,7 +637,7 @@ msgstr "%d개의 스크린을 삭제하시겠습니까?"
 msgid "Are you sure you want to remove the cinema '%s'?"
 msgstr "영화관 '%s'을(를) 삭제하시겠습니까?"
 
-#: src/wx/screens_panel.cc:478
+#: src/wx/screens_panel.cc:489
 #, c-format
 msgid "Are you sure you want to remove the screen '%s'?"
 msgstr "스크린 '%s'을(를) 삭제하시겠습니까?"
@@ -672,7 +672,8 @@ msgstr "하나 이상의 자막 재생 시간이 0이거나 음수입니다."
 msgid "At least one subtitle lasts less than 15 frames."
 msgstr "하나 이상의 자막이 15프레임 미만으로 지속됩니다."
 
-#: src/wx/timeline_labels_view.cc:44 src/wx/timeline_labels_view.cc:86
+#: src/wx/dcp_referencing_dialog.cc:115 src/wx/timeline_labels_view.cc:44
+#: src/wx/timeline_labels_view.cc:86
 msgid "Atmos"
 msgstr "Atmos"
 
@@ -699,7 +700,7 @@ msgid ""
 msgstr ""
 "오디오가 %s 채널 %s에서 %s 채널 %s(으)로 %.1fdB 게인과 함께 전달됩니다."
 
-#: src/wx/email_preferences_page.cc:78
+#: src/wx/email_preferences_page.cc:79
 msgid "Auto"
 msgstr "자동"
 
@@ -779,23 +780,28 @@ msgstr "계산…"
 msgid "Cancel"
 msgstr "취소"
 
-#: src/wx/dcp_referencing_dialog.cc:175
+#: src/wx/dcp_referencing_dialog.cc:179
 msgid "Cannot reference this DCP"
 msgstr "이 DCP를 참조할 수 없습니다"
 
-#: src/wx/dcp_referencing_dialog.cc:187
+#: src/wx/dcp_referencing_dialog.cc:198
+#, fuzzy
+msgid "Cannot reference this DCP's Atmos"
+msgstr "이 DCP의 오디오를 참조할 수 없습니다"
+
+#: src/wx/dcp_referencing_dialog.cc:191
 msgid "Cannot reference this DCP's audio"
 msgstr "이 DCP의 오디오를 참조할 수 없습니다"
 
-#: src/wx/dcp_referencing_dialog.cc:201
+#: src/wx/dcp_referencing_dialog.cc:212
 msgid "Cannot reference this DCP's closed captions"
 msgstr "이 DCP의 캡션(CC)을 참조할 수 없습니다"
 
-#: src/wx/dcp_referencing_dialog.cc:194
+#: src/wx/dcp_referencing_dialog.cc:205
 msgid "Cannot reference this DCP's subtitles"
 msgstr "이 DCP의 자막을 참조할 수 없습니다"
 
-#: src/wx/dcp_referencing_dialog.cc:180
+#: src/wx/dcp_referencing_dialog.cc:184
 msgid "Cannot reference this DCP's video"
 msgstr "이 DCP의 비디오를 참조할 수 없습니다"
 
@@ -826,7 +832,7 @@ msgstr "인증서 만료"
 msgid "Certificate start"
 msgstr "인증서 시작"
 
-#: src/wx/metadata_dialog.cc:299
+#: src/wx/metadata_dialog.cc:297
 msgid "Chain"
 msgstr "체인"
 
@@ -834,7 +840,7 @@ msgstr "체인"
 msgid "Channel gain"
 msgstr "채널 게인"
 
-#: src/wx/audio_dialog.cc:110 src/wx/dcp_panel.cc:980
+#: src/wx/audio_dialog.cc:110 src/wx/dcp_panel.cc:981
 #, fuzzy
 msgid "Channels"
 msgstr "채널"
@@ -945,7 +951,7 @@ msgstr "타이밍"
 msgid "Confirm KDM email"
 msgstr "KDM 이메일 확인"
 
-#: src/wx/dcp_panel.cc:866
+#: src/wx/dcp_panel.cc:867
 msgid "Container"
 msgstr "컨테이너"
 
@@ -1123,7 +1129,7 @@ msgstr "커서: %s에서 %.1fdB"
 msgid "Cursor: none"
 msgstr "커서: 없음"
 
-#: src/wx/dcp_timeline.cc:284 src/wx/rating_dialog.cc:53
+#: src/wx/dcp_timeline.cc:285 src/wx/rating_dialog.cc:53
 #: src/wx/ratio_picker.cc:49
 msgid "Custom"
 msgstr "사용자 정의"
@@ -1352,12 +1358,12 @@ msgstr "영화관 편집"
 msgid "Edit recipient"
 msgstr "수신자 편집"
 
-#: src/wx/screens_panel.cc:434
+#: src/wx/screens_panel.cc:445
 msgid "Edit screen"
 msgstr "스크린 편집"
 
 #: src/wx/audio_mapping_view.cc:90 src/wx/content_advanced_dialog.cc:75
-#: src/wx/dcp_panel.cc:995 src/wx/language_tag_widget.cc:51
+#: src/wx/dcp_panel.cc:996 src/wx/language_tag_widget.cc:51
 #: src/wx/recipients_panel.cc:71 src/wx/region_subtag_widget.cc:52
 #: src/wx/video_panel.cc:159 src/wx/video_panel.cc:170
 #: src/wx/editable_list.h:149
@@ -1373,7 +1379,7 @@ msgstr "효과"
 msgid "Effect colour"
 msgstr "효과 색상"
 
-#: src/wx/email_preferences_page.cc:46 src/wx/full_config_dialog.cc:679
+#: src/wx/email_preferences_page.cc:47 src/wx/full_config_dialog.cc:679
 msgid "Email"
 msgstr "이메일"
 
@@ -1474,7 +1480,7 @@ msgstr "추가 KDM 이메일 주소"
 msgid "FTP (for Dolby)"
 msgstr "FTP (Dolby용)"
 
-#: src/wx/metadata_dialog.cc:289
+#: src/wx/metadata_dialog.cc:287
 #, fuzzy
 msgid "Facility"
 msgstr "시설"
@@ -1620,7 +1626,7 @@ msgstr ""
 "프레임 %frame의 이미지 컴포넌트 크기가 너무 큽니다. (컴포넌트 %component의 크"
 "기가 %size_in_bytes 바이트임)"
 
-#: src/wx/dcp_panel.cc:873
+#: src/wx/dcp_panel.cc:874
 msgid "Frame Rate"
 msgstr "프레임 레이트"
 
@@ -1671,7 +1677,7 @@ msgstr ""
 msgid "Full length"
 msgstr "전체 길이"
 
-#: src/wx/dcp_timeline.cc:322
+#: src/wx/dcp_timeline.cc:323
 msgid "GB"
 msgstr "GB"
 
@@ -1884,12 +1890,12 @@ msgstr "중간(Intermediate)"
 msgid "Intermediate common name"
 msgstr "중간(Intermediate) 공통 이름"
 
-#: src/wx/metadata_dialog.cc:207
+#: src/wx/metadata_dialog.cc:205
 #, fuzzy
 msgid "International texted"
 msgstr "국제판(텍스트 있음)"
 
-#: src/wx/metadata_dialog.cc:208
+#: src/wx/metadata_dialog.cc:206
 #, fuzzy
 msgid "International textless"
 msgstr "국제판(텍스트 없음)"
@@ -1981,11 +1987,11 @@ msgstr "키"
 msgid "LEQ(m) %.2fdB"
 msgstr "LEQ(m) %.2fdB"
 
-#: src/wx/metadata_dialog.cc:218
+#: src/wx/metadata_dialog.cc:216
 msgid "Label"
 msgstr "라벨"
 
-#: src/wx/dcp_panel.cc:993 src/wx/dcp_text_track_dialog.cc:35
+#: src/wx/dcp_panel.cc:994 src/wx/dcp_text_track_dialog.cc:35
 #: src/wx/text_panel.cc:166
 msgid "Language"
 msgstr "언어"
@@ -2002,7 +2008,7 @@ msgstr "이 콘텐츠에 포함된 번 인 자막의 언어"
 msgid "Language of these subtitles"
 msgstr "이 자막의 언어"
 
-#: src/wx/metadata_dialog.cc:286
+#: src/wx/metadata_dialog.cc:284
 msgid "Language used for any sign language video track"
 msgstr "수어 비디오 트랙에 사용된 언어"
 
@@ -2101,7 +2107,7 @@ msgstr "라우드니스 레인지 %.2f LU"
 msgid "Lower priority"
 msgstr "낮은 우선순위"
 
-#: src/wx/metadata_dialog.cc:320
+#: src/wx/metadata_dialog.cc:318
 msgid "Luminance"
 msgstr "휘도"
 
@@ -2208,11 +2214,11 @@ msgstr "최대 MPEG2 비트레이트"
 msgid "Maximum number of frames to store per thread"
 msgstr "스레드당 저장할 최대 프레임 수"
 
-#: src/wx/dcp_timeline.cc:316
+#: src/wx/dcp_timeline.cc:317
 msgid "Maximum reel size"
 msgstr "최대 릴 크기"
 
-#: src/wx/dcp_panel.cc:882 src/wx/full_config_dialog.cc:1050
+#: src/wx/dcp_panel.cc:883 src/wx/full_config_dialog.cc:1050
 #: src/wx/full_config_dialog.cc:1059
 msgid "Mbit/s"
 msgstr "Mbit/s"
@@ -2221,7 +2227,7 @@ msgstr "Mbit/s"
 msgid "Message box"
 msgstr "메시지 박스"
 
-#: src/wx/metadata_dialog.cc:53
+#: src/wx/metadata_dialog.cc:51
 msgid "Metadata"
 msgstr "메타데이터"
 
@@ -2380,7 +2386,7 @@ msgstr "선택한 콘텐츠를 필름의 뒤쪽으로 이동합니다."
 msgid "Move to start of reel"
 msgstr "릴의 시작 지점으로 이동"
 
-#: src/wx/video_panel.cc:483
+#: src/wx/video_panel.cc:484
 msgid "Multiple content selected"
 msgstr "여러 콘텐츠가 선택됨"
 
@@ -2473,7 +2479,7 @@ msgid "Non-standard"
 msgstr "비표준"
 
 #: src/wx/content_advanced_dialog.cc:74 src/wx/content_advanced_dialog.cc:155
-#: src/wx/content_advanced_dialog.cc:163 src/wx/dcp_panel.cc:1098
+#: src/wx/content_advanced_dialog.cc:163 src/wx/dcp_panel.cc:1099
 #: src/wx/subtitle_appearance_dialog.cc:151
 msgid "None"
 msgstr "없음"
@@ -2563,7 +2569,7 @@ msgstr "부서"
 msgid "Other trusted devices"
 msgstr "다른 신뢰할 수 있는 장치"
 
-#: src/wx/email_preferences_page.cc:66
+#: src/wx/email_preferences_page.cc:67
 msgid "Outgoing mail server"
 msgstr "보내는 메일 서버"
 
@@ -2626,7 +2632,7 @@ msgid "Passive mode"
 msgstr "패시브 모드"
 
 #: src/wx/credentials_download_certificate_panel.cc:54
-#: src/wx/email_preferences_page.cc:90 src/wx/full_config_dialog.cc:567
+#: src/wx/email_preferences_page.cc:91 src/wx/full_config_dialog.cc:567
 msgid "Password"
 msgstr "패스워드"
 
@@ -2646,7 +2652,7 @@ msgstr "자막 및 캡션 설정 붙여넣기"
 msgid "Paste video settings"
 msgstr "비디오 설정 붙여넣기"
 
-#: src/wx/about_dialog.cc:178
+#: src/wx/about_dialog.cc:179
 msgid "Patrons"
 msgstr "후원자"
 
@@ -2676,7 +2682,7 @@ msgstr "성능"
 msgid "Picture"
 msgstr "영상"
 
-#: src/wx/email_preferences_page.cc:79
+#: src/wx/email_preferences_page.cc:80
 msgid "Plain"
 msgstr "평문"
 
@@ -2712,7 +2718,7 @@ msgstr "잠시만 기다려 주세요. 오디오를 분석 중입니다..."
 msgid "Position"
 msgstr "위치"
 
-#: src/wx/metadata_dialog.cc:308 src/wx/smpte_metadata_dialog.cc:143
+#: src/wx/metadata_dialog.cc:306 src/wx/smpte_metadata_dialog.cc:143
 msgid "Pre-release"
 msgstr "프리 릴리즈"
 
@@ -2720,7 +2726,7 @@ msgstr "프리 릴리즈"
 msgid "Previous"
 msgstr "이전"
 
-#: src/wx/dcp_panel.cc:989
+#: src/wx/dcp_panel.cc:990
 msgid "Processor"
 msgstr "프로세서"
 
@@ -2769,8 +2775,8 @@ msgstr "범위"
 
 #. TRANSLATORS: this refers to the project's ratings, (i.e. the legal/
 #. advisory limits on what age groups can watch the film).
-#: src/wx/rating_dialog.cc:45 src/wx/rating_dialog.cc:146
-#: src/wx/rating_dialog.cc:300
+#: src/wx/rating_dialog.cc:45 src/wx/rating_dialog.cc:145
+#: src/wx/rating_dialog.cc:299
 msgid "Rating"
 msgstr "등급"
 
@@ -2781,7 +2787,7 @@ msgstr "등급"
 msgid "Ratings"
 msgstr "등급"
 
-#: src/wx/dcp_panel.cc:884
+#: src/wx/dcp_panel.cc:885
 msgid "Re-encode JPEG2000 data from input"
 msgstr "입력 데이터로부터 JPEG2000 다시 인코딩"
 
@@ -2821,7 +2827,7 @@ msgstr "수신자 인증서"
 msgid "Recipients"
 msgstr "수신자들"
 
-#: src/wx/metadata_dialog.cc:312
+#: src/wx/metadata_dialog.cc:310
 msgid "Red band"
 msgstr "레드 밴드"
 
@@ -2839,7 +2845,7 @@ msgstr "릴 %d"
 msgid "Reel %d to reel %d"
 msgstr "릴 %d 에서 릴 %d"
 
-#: src/wx/dcp_timeline.cc:310
+#: src/wx/dcp_timeline.cc:311
 msgid "Reel mode"
 msgstr "릴 모드"
 
@@ -2863,11 +2869,11 @@ msgstr "새로고침"
 msgid "Region"
 msgstr "지역"
 
-#: src/wx/metadata_dialog.cc:211
+#: src/wx/metadata_dialog.cc:209
 msgid "Release territory"
 msgstr "개봉 지역"
 
-#: src/wx/metadata_dialog.cc:213
+#: src/wx/metadata_dialog.cc:211
 msgid "Release territory for this DCP"
 msgstr "이 DCP의 개봉 지역"
 
@@ -2939,7 +2945,7 @@ msgstr "기본 제목 및 본문으로 초기화"
 msgid "Reset to default text"
 msgstr "기본 텍스트로 초기화"
 
-#: src/wx/dcp_panel.cc:870
+#: src/wx/dcp_panel.cc:871
 msgid "Resolution"
 msgstr "해상도"
 
@@ -2992,11 +2998,11 @@ msgstr "SMPTE (Bv2.0만)"
 msgid "SMPTE Bv2.1 errors"
 msgstr "SMPTE Bv2.1 오류"
 
-#: src/wx/email_preferences_page.cc:81
+#: src/wx/email_preferences_page.cc:82
 msgid "SSL"
 msgstr "SSL"
 
-#: src/wx/email_preferences_page.cc:80
+#: src/wx/email_preferences_page.cc:81
 msgid "STARTTLS"
 msgstr "STARTTLS"
 
@@ -3013,7 +3019,7 @@ msgstr "프로젝트와 같은 위치"
 msgid "Sample peak is %.2fdB at %s on %s"
 msgstr "샘플 피크는 %s %s에서 %.2fdB입니다"
 
-#: src/wx/dcp_panel.cc:985
+#: src/wx/dcp_panel.cc:986
 msgid "Sample rate"
 msgstr "샘플 레이트"
 
@@ -3155,7 +3161,7 @@ msgstr "로그 전송"
 msgid "Send test email"
 msgstr "테스트 이메일 보내기"
 
-#: src/wx/email_preferences_page.cc:95
+#: src/wx/email_preferences_page.cc:96
 msgid "Send test email..."
 msgstr "테스트 이메일 보내기…"
 
@@ -3231,16 +3237,16 @@ msgstr "표시"
 msgid "Show experimental audio processors"
 msgstr "실험적 오디오 프로세서 표시"
 
-#: src/wx/audio_panel.cc:72 src/wx/dcp_panel.cc:997
+#: src/wx/audio_panel.cc:72 src/wx/dcp_panel.cc:998
 msgid "Show graph of audio levels..."
 msgstr "오디오 레벨 그래프 표시…"
 
-#: src/wx/screens_panel.cc:740
+#: src/wx/screens_panel.cc:751
 #, c-format
 msgid "Show only %d checked"
 msgstr "체크된 %d개만 표시"
 
-#: src/wx/screens_panel.cc:66 src/wx/screens_panel.cc:738
+#: src/wx/screens_panel.cc:66 src/wx/screens_panel.cc:749
 msgid "Show only checked"
 msgstr "체크된 항목만 표시"
 
@@ -3248,7 +3254,7 @@ msgstr "체크된 항목만 표시"
 msgid "Show subtitle area"
 msgstr "자막 영역 표시"
 
-#: src/wx/metadata_dialog.cc:285
+#: src/wx/metadata_dialog.cc:283
 msgid "Sign language video language"
 msgstr "수어 비디오 언어"
 
@@ -3268,7 +3274,7 @@ msgstr "단순 감마"
 msgid "Simple gamma, linearised for small values"
 msgstr "단순 감마, 낮은 값에 대해 선형화됨"
 
-#: src/wx/dcp_timeline.cc:275
+#: src/wx/dcp_timeline.cc:276
 msgid "Single reel"
 msgstr "단일 릴"
 
@@ -3290,7 +3296,7 @@ msgstr "부드럽게"
 msgid "Snap"
 msgstr "스냅"
 
-#: src/wx/dcp_timeline.cc:327
+#: src/wx/dcp_timeline.cc:328
 msgid "Snap when dragging"
 msgstr "드래그할 때 스냅 적용"
 
@@ -3335,15 +3341,15 @@ msgstr ""
 "소스\n"
 "색공간"
 
-#: src/wx/metadata_dialog.cc:206
+#: src/wx/metadata_dialog.cc:204
 msgid "Specific"
 msgstr "특정"
 
-#: src/wx/dcp_timeline.cc:281
+#: src/wx/dcp_timeline.cc:282
 msgid "Split by maximum reel size"
 msgstr "최대 릴 크기로 나누기"
 
-#: src/wx/dcp_timeline.cc:278
+#: src/wx/dcp_timeline.cc:279
 msgid "Split by video content"
 msgstr "비디오 콘텐츠별로 나누기"
 
@@ -3351,7 +3357,7 @@ msgstr "비디오 콘텐츠별로 나누기"
 msgid "Stable version"
 msgstr "안정 버전"
 
-#: src/wx/dcp_panel.cc:113 src/wx/metadata_dialog.cc:78
+#: src/wx/dcp_panel.cc:113 src/wx/metadata_dialog.cc:76
 #: src/wx/rating_dialog.cc:52
 msgid "Standard"
 msgstr "표준"
@@ -3381,7 +3387,7 @@ msgstr "정지"
 msgid "Stream"
 msgstr "스트림"
 
-#: src/wx/metadata_dialog.cc:294
+#: src/wx/metadata_dialog.cc:292
 msgid "Studio"
 msgstr "스튜디오"
 
@@ -3401,7 +3407,7 @@ msgstr "주체 공통 이름"
 msgid "Subject organization name"
 msgstr "주체 기관명"
 
-#: src/wx/about_dialog.cc:182
+#: src/wx/about_dialog.cc:183
 msgid "Subscribers"
 msgstr "구독자"
 
@@ -3472,19 +3478,19 @@ msgstr "템플릿"
 msgid "Temporary"
 msgstr "임시"
 
-#: src/wx/metadata_dialog.cc:304
+#: src/wx/metadata_dialog.cc:302
 msgid "Temporary version"
 msgstr "임시 버전"
 
-#: src/wx/metadata_dialog.cc:204
+#: src/wx/metadata_dialog.cc:202
 msgid "Territory type"
 msgstr "지역 유형"
 
-#: src/wx/email_preferences_page.cc:201 src/wx/email_preferences_page.cc:204
+#: src/wx/email_preferences_page.cc:202 src/wx/email_preferences_page.cc:204
 msgid "Test email sending failed."
 msgstr "테스트 이메일 전송에 실패했습니다."
 
-#: src/wx/email_preferences_page.cc:207
+#: src/wx/email_preferences_page.cc:198
 msgid "Test email sent."
 msgstr "테스트 이메일을 보냈습니다."
 
@@ -3492,7 +3498,7 @@ msgstr "테스트 이메일을 보냈습니다."
 msgid "Test version"
 msgstr "테스트 버전"
 
-#: src/wx/about_dialog.cc:253
+#: src/wx/about_dialog.cc:254
 msgid "Tested by"
 msgstr "테스트한 사람 "
 
@@ -3771,7 +3777,7 @@ msgstr ""
 "\n"
 "지금 DCP-o-matic이 마운트 해제를 시도할까요?"
 
-#: src/wx/wx_util.cc:717
+#: src/wx/wx_util.cc:718
 msgid ""
 "The existing configuration failed to load.  Default values will be used "
 "instead.  These may take a short time to create."
@@ -4034,7 +4040,7 @@ msgstr ""
 "이 파일의 첫 번째 인증서 뒤에 다른 인증서(또는 다른 데이터)가 포함되어 있습니"
 "다.  첫 번째 인증서만 사용됩니다."
 
-#: src/wx/email_preferences_page.cc:192
+#: src/wx/email_preferences_page.cc:193
 #, c-format
 msgid "This is a test email from %s."
 msgstr "이것은 %s에서 보낸 테스트 이메일입니다."
@@ -4177,7 +4183,7 @@ msgstr "위"
 msgid "Track"
 msgstr "트랙"
 
-#: src/wx/about_dialog.cc:174
+#: src/wx/about_dialog.cc:175
 msgid "Translated by"
 msgstr "번역"
 
@@ -4227,15 +4233,15 @@ msgstr "UTC 오프셋 (시간대)"
 msgid "UTC+1"
 msgstr "UTC+1"
 
-#: src/wx/wx_util.cc:617
+#: src/wx/wx_util.cc:618
 msgid "UTC+10"
 msgstr "UTC+10"
 
-#: src/wx/wx_util.cc:618
+#: src/wx/wx_util.cc:619
 msgid "UTC+11"
 msgstr "UTC+11"
 
-#: src/wx/wx_util.cc:619
+#: src/wx/wx_util.cc:620
 msgid "UTC+12"
 msgstr "UTC+12"
 
@@ -4248,38 +4254,43 @@ msgid "UTC+3"
 msgstr "UTC+3"
 
 #: src/wx/wx_util.cc:607
+#, fuzzy
+msgid "UTC+3:30"
+msgstr "UTC+5:30"
+
+#: src/wx/wx_util.cc:608
 msgid "UTC+4"
 msgstr "UTC+4"
 
-#: src/wx/wx_util.cc:608
+#: src/wx/wx_util.cc:609
 msgid "UTC+5"
 msgstr "UTC+5"
 
-#: src/wx/wx_util.cc:609
+#: src/wx/wx_util.cc:610
 msgid "UTC+5:30"
 msgstr "UTC+5:30"
 
-#: src/wx/wx_util.cc:611
+#: src/wx/wx_util.cc:612
 msgid "UTC+5:45"
 msgstr "UTC+5:45"
 
-#: src/wx/wx_util.cc:612
+#: src/wx/wx_util.cc:613
 msgid "UTC+6"
 msgstr "UTC+6"
 
-#: src/wx/wx_util.cc:613
+#: src/wx/wx_util.cc:614
 msgid "UTC+7"
 msgstr "UTC+7"
 
-#: src/wx/wx_util.cc:614
+#: src/wx/wx_util.cc:615
 msgid "UTC+8"
 msgstr "UTC+8"
 
-#: src/wx/wx_util.cc:615
+#: src/wx/wx_util.cc:616
 msgid "UTC+9"
 msgstr "UTC+9"
 
-#: src/wx/wx_util.cc:616
+#: src/wx/wx_util.cc:617
 msgid "UTC+9:30"
 msgstr "UTC+9:30"
 
@@ -4372,7 +4383,7 @@ msgstr "기본값으로 ISDCF 이름 사용"
 msgid "Use as"
 msgstr "다음으로 사용:"
 
-#: src/wx/dcp_panel.cc:876
+#: src/wx/dcp_panel.cc:877
 msgid "Use best"
 msgstr "최적값 사용"
 
@@ -4389,7 +4400,7 @@ msgid "Use this file as new configuration"
 msgstr "이 파일을 새 설정으로 사용"
 
 #: src/wx/credentials_download_certificate_panel.cc:50
-#: src/wx/email_preferences_page.cc:86 src/wx/full_config_dialog.cc:563
+#: src/wx/email_preferences_page.cc:87 src/wx/full_config_dialog.cc:563
 msgid "User name"
 msgstr "사용자 이름"
 
@@ -4453,7 +4464,7 @@ msgstr "비디오 (MPEG, 16-235)"
 msgid "Video Waveform"
 msgstr "비디오 웨이브폼"
 
-#: src/wx/dcp_panel.cc:880
+#: src/wx/dcp_panel.cc:881
 msgid ""
 "Video bit rate\n"
 "for newly-encoded data"
@@ -4505,7 +4516,7 @@ msgstr "화이트 포인트"
 msgid "White point adjustment"
 msgstr "화이트 포인트 조정"
 
-#: src/wx/about_dialog.cc:118
+#: src/wx/about_dialog.cc:119
 msgid "With help from"
 msgstr "도움 주신 분들"
 
@@ -4539,7 +4550,7 @@ msgstr "콘텐츠 경로를 상대 경로로 저장"
 msgid "Write to"
 msgstr "저장 위치:"
 
-#: src/wx/about_dialog.cc:109
+#: src/wx/about_dialog.cc:110
 msgid "Written by"
 msgstr "작성자"
 
@@ -4567,7 +4578,7 @@ msgstr "YUV에서 RGB로의 매트릭스"
 msgid "Yes"
 msgstr "예"
 
-#: src/wx/screens_panel.cc:400
+#: src/wx/screens_panel.cc:408
 #, c-format
 msgid ""
 "You cannot add a screen called '%s' as the cinema already has a screen with "
@@ -4575,7 +4586,7 @@ msgid ""
 msgstr ""
 "영화관에 이미 같은 이름의 스크린이 있어 '%s' 스크린을 추가할 수 없습니다."
 
-#: src/wx/screens_panel.cc:451
+#: src/wx/screens_panel.cc:462
 #, c-format
 msgid ""
 "You cannot change this screen's name to '%s' as the cinema already has a "
@@ -4680,7 +4691,7 @@ msgstr "f"
 msgid "film name"
 msgstr "필름 이름"
 
-#: src/wx/metadata_dialog.cc:335
+#: src/wx/metadata_dialog.cc:333
 msgid "foot lambert"
 msgstr "풋 램버트 (ft-L)"
 
@@ -4736,11 +4747,11 @@ msgstr "오픈 자막"
 msgid "output"
 msgstr "출력"
 
-#: src/wx/email_preferences_page.cc:71
+#: src/wx/email_preferences_page.cc:72
 msgid "port"
 msgstr "포트"
 
-#: src/wx/email_preferences_page.cc:75
+#: src/wx/email_preferences_page.cc:76
 msgid "protocol"
 msgstr "프로토콜"
 
