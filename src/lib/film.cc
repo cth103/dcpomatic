@@ -2836,6 +2836,16 @@ Film::reusable_dcp_assets() const
 		});
 	};
 
+	auto atmos_is_reusable = [this](shared_ptr<const DCPContent> dcp, vector<shared_ptr<const Content>> const& overlaps) {
+		/* The key of an Atmos asset that we would reuse is not the key that we would make for this film */
+		if (encrypt_sound()) {
+			return false;
+		}
+		return std::none_of(overlaps.begin(), overlaps.end(), [dcp](shared_ptr<const Content> c) {
+			return c != dcp && c->atmos;
+		});
+	};
+
 	for (auto i: content()) {
 		if (auto dcp = dynamic_pointer_cast<DCPContent>(i)) {
 			if ((dcp->standard() == dcp::Standard::INTEROP) != interop()) {
@@ -2858,7 +2868,12 @@ Film::reusable_dcp_assets() const
 						reusable.push_back(asset);
 					}
 					break;
-				case DCPAsset::Type::TEXT:
+				case DCPAsset::Type::ATMOS:
+						if (atmos_is_reusable(dcp, overlaps)) {
+							reusable.push_back(asset);
+						}
+						break;
+					case DCPAsset::Type::TEXT:
 					if (text_is_reusable(dcp, overlaps)) {
 						reusable.push_back(asset);
 					}

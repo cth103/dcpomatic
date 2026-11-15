@@ -124,6 +124,7 @@ private:
 	boost::filesystem::path reuse_existing_asset(DCPAsset const& existing_asset, std::shared_ptr<Job> job);
 	void setup_video(std::vector<DCPAsset> const& reusable_assets, std::shared_ptr<Job> job, dcpomatic::DCPTimePeriod period, dcp::Standard standard);
 	void setup_audio(std::vector<DCPAsset> const& reusable_assets, std::shared_ptr<Job> job, dcpomatic::DCPTimePeriod period, dcp::Standard standard);
+	void setup_atmos(std::vector<DCPAsset> const& reusable_assets, std::shared_ptr<Job> job, dcpomatic::DCPTimePeriod period);
 
 	boost::filesystem::path _output_dir;
 	dcpomatic::DCPTimePeriod _period;

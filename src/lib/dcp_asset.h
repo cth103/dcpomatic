@@ -29,7 +29,8 @@ public:
 	enum class Type {
 		VIDEO,
 		AUDIO,
-		TEXT
+		TEXT,
+		ATMOS
 	};
 
 	DCPAsset(Type type, boost::filesystem::path file, dcpomatic::DCPTimePeriod period)
