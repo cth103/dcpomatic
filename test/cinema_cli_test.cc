@@ -123,3 +123,35 @@ BOOST_AUTO_TEST_CASE(kdm_cli_add_screen_test)
 	CinemaList list(file);
 	BOOST_CHECK_EQUAL(list.screens(list.cinemas()[0].first).size(), 1U);
 }
+
+
+BOOST_AUTO_TEST_CASE(kdm_cli_list_screens_test)
+{
+	auto const file = fresh_cinemas_file("kdm_cli_list_screens_test");
+	vector<string> output;
+	auto const cert = string("test/data/cert.pem");
+
+	BOOST_REQUIRE(!run_cli({"kdm_cli", "--cinemas-file", file.string(), "-c", "Fred's Cinema", "add-cinema"}, output));
+	BOOST_REQUIRE(!run_cli({"kdm_cli", "--cinemas-file", file.string(), "-c", "Other", "add-cinema"}, output));
+	BOOST_REQUIRE(!run_cli({"kdm_cli", "--cinemas-file", file.string(), "-c", "Fred's Cinema", "-S", "Screen 1", "-C", cert, "--notes", "GDC SR1000", "add-screen"}, output));
+	BOOST_REQUIRE(!run_cli({"kdm_cli", "--cinemas-file", file.string(), "-c", "Fred's Cinema", "-S", "Screen 2", "-C", cert, "add-screen"}, output));
+	BOOST_REQUIRE(!run_cli({"kdm_cli", "--cinemas-file", file.string(), "-c", "Other", "-S", "Elsewhere", "-C", cert, "add-screen"}, output));
+
+	output.clear();
+	BOOST_CHECK(!run_cli({"kdm_cli", "--cinemas-file", file.string(), "-c", "Fred's Cinema", "list-screens"}, output));
+	/* Only the screens of that cinema, with the common name of the certificate and the notes */
+	BOOST_REQUIRE_EQUAL(output.size(), 2U);
+	BOOST_CHECK(output[0].find("Screen 1: ") == 0);
+	BOOST_CHECK(output[0].find(" [GDC SR1000]") != string::npos);
+	BOOST_CHECK(output[1].find("Screen 2: ") == 0);
+	BOOST_CHECK(output[1].find("[") == string::npos);
+
+	output.clear();
+	BOOST_CHECK(!run_cli({"kdm_cli", "--cinemas-file", file.string(), "--verbose", "-c", "Fred's Cinema", "list-screens"}, output));
+	BOOST_REQUIRE_EQUAL(output.size(), 2U);
+	BOOST_CHECK(output[0].find(" (valid ") != string::npos);
+
+	/* A cinema is needed and it must exist */
+	BOOST_CHECK(run_cli({"kdm_cli", "--cinemas-file", file.string(), "list-screens"}, output));
+	BOOST_CHECK(run_cli({"kdm_cli", "--cinemas-file", file.string(), "-c", "Nowhere", "list-screens"}, output));
+}

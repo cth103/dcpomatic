@@ -71,6 +71,7 @@ help(std::function<void (string)> out)
 	out("");
 	                          out("    create                       create KDMs; default if no other command is specified");
 	out(variant::insert_dcpomatic("    list-cinemas                 list known cinemas from {} settings (with --verbose, also their screens)"));
+	out("    list-screens                 list the screens of a cinema: list-screens -c <cinema> (with --verbose, also the validity of their certificates)");
 	out("    add-cinema                   add a cinema: add-cinema -c <name> [--emails <a,b>] [--notes <text>] [--utc-offset <+HH[:MM]>]");
 	out("    add-screen                   add a screen to a cinema: add-screen -c <cinema> -S <name> (-C <file> | --certificate-from <MAKER>:<SERIAL>) [--notes <text>]");
 	out(variant::insert_dcpomatic("    list-dkdm-cpls               list CPLs for which {} has DKDMs"));
@@ -701,6 +702,7 @@ try
 	vector<string> commands = {
 		"create",
 		"list-cinemas",
+		"list-screens",
 		"list-dkdm-cpls",
 		"add-dkdm",
 		"dump-decryption-certificate",
@@ -747,6 +749,36 @@ try
 					out(fmt::format("    {}{}", screen.second.name, screen.second.recipient() ? "" : " (no certificate)"));
 				}
 			}
+		}
+		return {};
+	}
+
+	if (command == "list-screens") {
+		if (!cinema_name) {
+			throw KDMCLIError("list-screens needs a cinema (-c)");
+		}
+		CinemaList cinemas;
+		auto cinema = cinema_with_name(cinemas, *cinema_name);
+		if (!cinema) {
+			cinema = cinemas.cinema_by_name_or_email(*cinema_name);
+		}
+		if (!cinema) {
+			throw KDMCLIError(fmt::format("there is no cinema called {}", *cinema_name));
+		}
+		for (auto const& screen: cinemas.screens(cinema->first)) {
+			auto line = screen.second.name;
+			if (auto certificate = screen.second.recipient()) {
+				line += ": " + certificate->subject_common_name();
+				if (verbose) {
+					line += fmt::format(" (valid {} to {})", certificate->not_before().as_string(), certificate->not_after().as_string());
+				}
+			} else {
+				line += ": no certificate";
+			}
+			if (!screen.second.notes.empty()) {
+				line += fmt::format(" [{}]", screen.second.notes);
+			}
+			out(line);
 		}
 		return {};
 	}
