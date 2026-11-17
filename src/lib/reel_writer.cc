@@ -882,6 +882,8 @@ ReelWriter::empty_text_asset(TextType type, optional<DCPTextTrack> track, bool w
 	}
 
 	if (with_dummy) {
+		/* Bv2.1 7.2.4 asks for nothing before 4s into the first reel */
+		auto const start = (_reel_index == 0 && _period.duration() >= dcpomatic::DCPTime::from_seconds(5)) ? 4 : 0;
 		asset->add(
 			std::make_shared<dcp::TextString>(
 				font,
@@ -891,8 +893,8 @@ ReelWriter::empty_text_asset(TextType type, optional<DCPTextTrack> track, bool w
 				dcp::Colour(),
 				42,
 				1.0,
-				dcp::Time(0, 0, 0, 0, 24),
-				dcp::Time(0, 0, 1, 0, 24),
+				dcp::Time(0, 0, start, 0, 24),
+				dcp::Time(0, 0, start + 1, 0, 24),
 				0.5,
 				dcp::HAlign::CENTER,
 				0.5,
