@@ -690,7 +690,8 @@ BOOST_AUTO_TEST_CASE(ccaps_can_be_referred_and_filled_test)
 
 
 /** Check that a VF which refers to an OV's closed captions, and has no open subtitles, does not take
- *  the referenced closed captions for its open subtitles (and so write them twice).
+ *  the referenced closed captions for its open subtitles (and so write them twice).  Closed captions
+ *  always come with an (empty) open subtitle track, so there is one, but it is not the closed caption.
  */
 BOOST_AUTO_TEST_CASE(vf_referring_to_ov_ccap_without_subtitles_test)
 {
@@ -721,7 +722,8 @@ BOOST_AUTO_TEST_CASE(vf_referring_to_ov_ccap_without_subtitles_test)
 	auto vf_reel = vf_check.cpls()[0]->reels()[0];
 	BOOST_REQUIRE_EQUAL(vf_reel->closed_captions().size(), 1U);
 	BOOST_CHECK_EQUAL(vf_reel->closed_captions()[0]->id(), ov_check.cpls()[0]->reels()[0]->closed_captions()[0]->id());
-	BOOST_CHECK(!vf_reel->main_subtitle());
+	BOOST_REQUIRE(vf_reel->main_subtitle());
+	BOOST_CHECK(vf_reel->main_subtitle()->id() != vf_reel->closed_captions()[0]->id());
 }
 
 
