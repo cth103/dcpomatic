@@ -139,6 +139,7 @@ sources = """
           http_server.cc
           id.cc
           internet.cc
+          certificate_download.cc
           image.cc
           image_content.cc
           image_decoder.cc

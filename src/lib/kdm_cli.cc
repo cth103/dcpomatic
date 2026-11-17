@@ -25,6 +25,7 @@
 
 
 #include "cinema.h"
+#include "certificate_download.h"
 #include "cinema_list.h"
 #include "cross.h"
 #include "config.h"
@@ -71,6 +72,7 @@ help(std::function<void (string)> out)
 	out(variant::insert_dcpomatic("    list-dkdm-cpls               list CPLs for which {} has DKDMs"));
 	out(variant::insert_dcpomatic("    add-dkdm                     add DKDM to {}'s list"));
 	out(variant::insert_dcpomatic("    dump-decryption-certificate  write the {} KDM decryption certificate to the console"));
+	out("    download-certificate         download the certificate of a device (GDC, Barco, Christie, Qube, Dolby, Doremi): download-certificate <MAKER> <SERIAL>");
 	out("");
 	out("Parameters:");
 	out("");
@@ -625,7 +627,8 @@ try
 		"list-cinemas",
 		"list-dkdm-cpls",
 		"add-dkdm",
-		"dump-decryption-certificate"
+		"dump-decryption-certificate",
+		"download-certificate"
 	};
 
 	if (optind < argc - 1) {
@@ -672,6 +675,24 @@ try
 
 	if (command == "dump-decryption-certificate") {
 		dump_decryption_certificate(out);
+		return {};
+	}
+
+	if (command == "download-certificate") {
+		if (optind + 1 >= argc) {
+			throw KDMCLIError("download-certificate needs a manufacturer (GDC, Barco, Christie, Qube, Dolby or Doremi) and a serial number");
+		}
+		string const maker = argv[optind];
+		string const serial = argv[optind + 1];
+		/* -o is the file to write, or a directory to write <maker>_<serial>.pem in */
+		auto file = output;
+		if (dcp::filesystem::is_directory(file)) {
+			file /= fmt::format("{}_{}.pem", maker, serial);
+		}
+		if (auto error = download_certificate(maker, serial, file)) {
+			throw KDMCLIError(*error);
+		}
+		out(fmt::format("Wrote {}", file.string()));
 		return {};
 	}
 
