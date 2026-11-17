@@ -1187,3 +1187,10 @@ error_code_to_string(boost::system::error_code code)
 #endif
 }
 
+
+dcp::LanguageTag
+no_linguistic_content()
+{
+	return dcp::LanguageTag("zxx");
+}
+

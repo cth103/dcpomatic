@@ -35,6 +35,7 @@
 #include <libcxml/cxml.h>
 #include <dcp/atmos_asset.h>
 #include <dcp/decrypted_kdm.h>
+#include <dcp/language_tag.h>
 #include <dcp/util.h>
 #include <dcp/text_image.h>
 #include <boost/optional.hpp>
@@ -106,6 +107,7 @@ std::string error_code_to_string(boost::system::error_code code);
  *  @return true if the address passes some basic checks to suggest it might be valid.
  */
 bool email_address_basically_ok(std::string address);
+dcp::LanguageTag no_linguistic_content();
 
 /** @param path Some path.
  *  @param base Some base path.
