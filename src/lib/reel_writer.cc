@@ -97,7 +97,13 @@ mxf_metadata()
  *  subtitle / closed caption files.
  */
 ReelWriter::ReelWriter(
-	weak_ptr<const Film> weak_film, DCPTimePeriod period, shared_ptr<Job> job, int reel_index, int reel_count, bool text_only, boost::filesystem::path output_dir
+	weak_ptr<const Film> weak_film,
+	DCPTimePeriod period,
+	shared_ptr<Job> job,
+	int reel_index,
+	int reel_count,
+	bool text_only,
+	boost::filesystem::path output_dir
 	)
 	: WeakConstFilm(weak_film)
 	, _output_dir(std::move(output_dir))
@@ -644,7 +650,18 @@ ReelWriter::create_reel_text(
 	) const
 {
 	auto subtitle = maybe_add_text<dcp::ReelInteropTextAsset, dcp::ReelSMPTETextAsset, dcp::ReelTextAsset>(
-		_subtitle_asset, dcp::TextType::OPEN_SUBTITLE, duration, reel, _reel_index, _reel_count, _content_summary, refs, film(), _period, output_dcp, _text_only
+		_subtitle_asset,
+		dcp::TextType::OPEN_SUBTITLE,
+		duration,
+		reel,
+		_reel_index,
+		_reel_count,
+		_content_summary,
+		refs,
+		film(),
+		_period,
+		output_dcp,
+		_text_only
 		);
 
 	if (!subtitle && ensure_subtitles) {
@@ -679,7 +696,17 @@ ReelWriter::create_reel_text(
 		/* Try to make a reel asset out of either written_asset or one of the referenced assets */
 		auto asset = maybe_add_text<dcp::ReelInteropTextAsset, dcp::ReelSMPTETextAsset, dcp::ReelTextAsset>(
 			written_asset == _closed_caption_assets.end() ? shared_ptr<dcp::TextAsset>() : written_asset->second,
-			dcp::TextType::CLOSED_CAPTION, duration, reel, _reel_index, _reel_count, _content_summary, refs, film(), _period, output_dcp, _text_only
+			dcp::TextType::CLOSED_CAPTION,
+			duration,
+			reel,
+			_reel_index,
+			_reel_count,
+			_content_summary,
+			refs,
+			film(),
+			_period,
+			output_dcp,
+			_text_only
 			);
 
 		/* Fill in some details for the reel asset if we know them */
