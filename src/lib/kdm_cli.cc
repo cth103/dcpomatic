@@ -37,10 +37,12 @@
 #include "screen.h"
 #include "variant.h"
 #include <dcp/certificate.h>
+#include <dcp/certificate_chain.h>
 #include <dcp/decrypted_kdm.h>
 #include <dcp/encrypted_kdm.h>
 #include <dcp/filesystem.h>
 #include <boost/algorithm/string.hpp>
+#include <algorithm>
 #include <getopt.h>
 
 
@@ -68,7 +70,9 @@ help(std::function<void (string)> out)
 	out("Commands:");
 	out("");
 	                          out("    create                       create KDMs; default if no other command is specified");
-	out(variant::insert_dcpomatic("    list-cinemas                 list known cinemas from {} settings"));
+	out(variant::insert_dcpomatic("    list-cinemas                 list known cinemas from {} settings (with --verbose, also their screens)"));
+	out("    add-cinema                   add a cinema: add-cinema -c <name> [--emails <a,b>] [--notes <text>] [--utc-offset <+HH[:MM]>]");
+	out("    add-screen                   add a screen to a cinema: add-screen -c <cinema> -S <name> (-C <file> | --certificate-from <MAKER>:<SERIAL>) [--notes <text>]");
 	out(variant::insert_dcpomatic("    list-dkdm-cpls               list CPLs for which {} has DKDMs"));
 	out(variant::insert_dcpomatic("    add-dkdm                     add DKDM to {}'s list"));
 	out(variant::insert_dcpomatic("    dump-decryption-certificate  write the {} KDM decryption certificate to the console"));
@@ -102,6 +106,10 @@ help(std::function<void (string)> out)
 	out("      --decryption-key <file>              file containing the private key which can decrypt the given DKDM");
 	out(variant::insert_dcpomatic("                                           ({}'s configured private key will be used otherwise)"));
 	out("      --cinemas-file <file>                use the given file as a list of cinemas instead of the current configuration");
+	out("      --emails <a,b>                       email addresses of a cinema to add");
+	out("      --notes <text>                       notes of a cinema or screen to add");
+	out("      --utc-offset <+HH[:MM]>              UTC offset of a cinema to add (e.g. +1, -5:30) [default +0]");
+	out("      --certificate-from <MAKER>:<SERIAL>  download the certificate of a screen to add (see download-certificate)");
 	out("");
 	out(variant::insert_dcpomatic("CPL-ID must be the ID of a CPL that is mentioned in {}'s DKDM list."));
 	out("");
@@ -462,6 +470,54 @@ dump_dkdm_group(shared_ptr<DKDMGroup> group, int indent, std::function<void (str
 }
 
 
+static
+dcp::UTCOffset
+utc_offset_from_string(string text)
+{
+	auto const bad = KDMCLIError("UTC offset must look like +1, -5 or +5:30");
+	int sign = 1;
+	if (!text.empty() && (text[0] == '+' || text[0] == '-')) {
+		sign = text[0] == '-' ? -1 : 1;
+		text = text.substr(1);
+	}
+
+	string hour_text = text;
+	string minute_text = "0";
+	auto const colon = text.find(':');
+	if (colon != string::npos) {
+		hour_text = text.substr(0, colon);
+		minute_text = text.substr(colon + 1);
+	}
+
+	auto is_number = [](string t, size_t max_length) {
+		return !t.empty() && t.length() <= max_length && std::all_of(t.begin(), t.end(), [](char c) { return isdigit(c); });
+	};
+	if (!is_number(hour_text, 2) || !is_number(minute_text, 2)) {
+		throw bad;
+	}
+
+	int const hour = std::stoi(hour_text);
+	int const minute = std::stoi(minute_text);
+	if (hour > 14 || minute > 59) {
+		throw KDMCLIError("UTC offset out of range");
+	}
+	return dcp::UTCOffset(sign * hour, sign * minute);
+}
+
+
+static
+optional<std::pair<CinemaID, Cinema>>
+cinema_with_name(CinemaList& list, string name)
+{
+	for (auto const& cinema: list.cinemas()) {
+		if (cinema.second.name == name) {
+			return cinema;
+		}
+	}
+	return {};
+}
+
+
 void
 dump_decryption_certificate(std::function<void (string)> out)
 {
@@ -502,6 +558,10 @@ try
 	optional<int> disable_forensic_marking_audio;
 	bool email = false;
 	optional<boost::filesystem::path> cinemas_file;
+	string cinema_emails;
+	string cinema_notes;
+	string cinema_utc_offset = "+0";
+	optional<string> certificate_from;
 
 	program_name = argv[0];
 
@@ -531,10 +591,14 @@ try
 			{ "trusted-device-chain", required_argument, 0, 'H' },
 			{ "decryption-key", required_argument, 0, 'G' },
 			{ "cinemas-file", required_argument, 0, 'E' },
+			{ "emails", required_argument, 0, 'M' },
+			{ "notes", required_argument, 0, 'N' },
+			{ "utc-offset", required_argument, 0, 'U' },
+			{ "certificate-from", required_argument, 0, 'R' },
 			{ 0, 0, 0, 0 }
 		};
 
-		int c = getopt_long(argc, argv, "ho:K:Z:f:t:d:F:pae::zvc:S:C:T:E:G:H", long_options, &option_index);
+		int c = getopt_long(argc, argv, "ho:K:Z:f:t:d:F:pae::zvc:S:C:T:E:G:HM:N:U:R:", long_options, &option_index);
 
 		if (c == -1) {
 			break;
@@ -619,6 +683,18 @@ try
 		case 'E':
 			cinemas_file = optarg;
 			break;
+		case 'M':
+			cinema_emails = optarg;
+			break;
+		case 'N':
+			cinema_notes = optarg;
+			break;
+		case 'U':
+			cinema_utc_offset = optarg;
+			break;
+		case 'R':
+			certificate_from = optarg;
+			break;
 		}
 	}
 
@@ -628,7 +704,9 @@ try
 		"list-dkdm-cpls",
 		"add-dkdm",
 		"dump-decryption-certificate",
-		"download-certificate"
+		"download-certificate",
+		"add-cinema",
+		"add-screen"
 	};
 
 	if (optind < argc - 1) {
@@ -664,6 +742,11 @@ try
 		CinemaList cinemas;
 		for (auto const& cinema: cinemas.cinemas()) {
 			out(fmt::format("{} ({})", cinema.second.name, Email::address_list(cinema.second.emails)));
+			if (verbose) {
+				for (auto const& screen: cinemas.screens(cinema.first)) {
+					out(fmt::format("    {}{}", screen.second.name, screen.second.recipient() ? "" : " (no certificate)"));
+				}
+			}
 		}
 		return {};
 	}
@@ -675,6 +758,64 @@ try
 
 	if (command == "dump-decryption-certificate") {
 		dump_decryption_certificate(out);
+		return {};
+	}
+
+	if (command == "add-cinema") {
+		if (!cinema_name) {
+			throw KDMCLIError("add-cinema needs a cinema name (-c)");
+		}
+		CinemaList cinemas;
+		if (cinema_with_name(cinemas, *cinema_name)) {
+			throw KDMCLIError(fmt::format("there is already a cinema called {}", *cinema_name));
+		}
+		vector<string> emails;
+		if (!cinema_emails.empty()) {
+			boost::split(emails, cinema_emails, boost::is_any_of(","));
+		}
+		cinemas.add_cinema(Cinema(*cinema_name, emails, cinema_notes, utc_offset_from_string(cinema_utc_offset)));
+		out(fmt::format("Added cinema {}", *cinema_name));
+		return {};
+	}
+
+	if (command == "add-screen") {
+		if (!cinema_name || !screen_name) {
+			throw KDMCLIError("add-screen needs a cinema (-c) and a screen name (-S)");
+		}
+		if (!projector_certificate && !certificate_from) {
+			throw KDMCLIError("add-screen needs a certificate: --projector-certificate <file> or --certificate-from <MAKER>:<SERIAL>");
+		}
+		if (projector_certificate && certificate_from) {
+			throw KDMCLIError("give either --projector-certificate or --certificate-from, not both");
+		}
+		CinemaList cinemas;
+		auto cinema = cinema_with_name(cinemas, *cinema_name);
+		if (!cinema) {
+			throw KDMCLIError(fmt::format("there is no cinema called {} (add it with add-cinema)", *cinema_name));
+		}
+		if (!cinemas.screens_by_cinema_and_name(cinema->first, *screen_name).empty()) {
+			throw KDMCLIError(fmt::format("{} already has a screen called {}", *cinema_name, *screen_name));
+		}
+		auto certificate_file = projector_certificate;
+		optional<boost::filesystem::path> downloaded;
+		if (certificate_from) {
+			auto const colon = certificate_from->find(':');
+			if (colon == string::npos || colon == 0 || colon + 1 == certificate_from->size()) {
+				throw KDMCLIError("--certificate-from must look like GDC:A123456");
+			}
+			downloaded = boost::filesystem::temp_directory_path() / boost::filesystem::unique_path("dcpomatic_certificate_%%%%%%%%.pem");
+			if (auto error = download_certificate(certificate_from->substr(0, colon), certificate_from->substr(colon + 1), *downloaded)) {
+				throw KDMCLIError(*error);
+			}
+			certificate_file = downloaded;
+		}
+		dcp::CertificateChain chain(dcp::file_to_string(*certificate_file));
+		if (downloaded) {
+			boost::system::error_code ec;
+			boost::filesystem::remove(*downloaded, ec);
+		}
+		cinemas.add_screen(cinema->first, dcpomatic::Screen(*screen_name, cinema_notes, chain.leaf(), boost::none, trusted_devices));
+		out(fmt::format("Added screen {} to {}", *screen_name, *cinema_name));
 		return {};
 	}
 
