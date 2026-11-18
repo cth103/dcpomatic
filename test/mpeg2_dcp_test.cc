@@ -22,8 +22,11 @@
 #include "test.h"
 #include "lib/content_factory.h"
 #include "lib/dcp_content.h"
+#include "lib/dcp_film_encoder.h"
 #include "lib/film.h"
+#include "lib/mpeg2_encoder.h"
 #include "lib/video_encoding.h"
+#include "lib/writer.h"
 #ifdef DCPOMATIC_LINUX
 #include <boost/process.hpp>
 #endif
@@ -160,3 +163,17 @@ BOOST_AUTO_TEST_CASE(mpeg2_video_bitrate2)
 	BOOST_CHECK_EQUAL(bitrate_in_header(film), "5 000 kb/s");
 #endif
 }
+
+
+BOOST_AUTO_TEST_CASE(mpeg2_video_progress)
+{
+	auto content = content_factory("test/data/flat_red.png");
+	auto film = new_test_film("mpeg2_video_progress", { content });
+	film->set_interop(true);
+	film->set_video_encoding(VideoEncoding::MPEG2);
+	auto job = std::make_shared<TranscodeJob>(film, TranscodeJob::ChangedBehaviour::IGNORE);
+	DCPFilmEncoder encoder(film, job);
+	encoder.go();
+	BOOST_CHECK_EQUAL(encoder.frames_done(), 240);
+}
+

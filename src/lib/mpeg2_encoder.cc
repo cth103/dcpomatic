@@ -60,6 +60,7 @@ MPEG2Encoder::encode(shared_ptr<PlayerVideo> pv, dcpomatic::DCPTime time)
 
 	if (auto compressed = _transcoder.compress_frame(std::move(ffmpeg_image))) {
 		_writer.write(compressed->first, compressed->second);
+		_history.event();
 	}
 }
 
@@ -69,6 +70,7 @@ MPEG2Encoder::end()
 {
 	if (auto compressed = _transcoder.flush()) {
 		_writer.write(compressed->first, compressed->second);
+		_history.event();
 	}
 }
 
