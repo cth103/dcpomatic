@@ -100,6 +100,9 @@ J2KEncoder::J2KEncoder(shared_ptr<const Film> film, Writer& writer)
 #ifdef DCPOMATIC_GROK
 	auto grok = Config::instance()->grok();
 	_dcpomatic_context = new grk_plugin::DcpomaticContext(film, writer, _history, grok.binary_location);
+	_dcpomatic_context->encode_error = [this](boost::exception_ptr exception) {
+		grok_encode_failed(exception);
+	};
 	if (grok.enable) {
 		_context = new grk_plugin::GrokContext(_dcpomatic_context);
 	}
@@ -229,7 +232,9 @@ J2KEncoder::end()
 		if (Config::instance()->grok().enable) {
 			if (!_context->scheduleCompress(i)){
 				LOG_GENERAL(N_("[{}] J2KEncoder thread pushes frame {} back onto queue after failure"), thread_id(), i.index());
-				// handle error
+				if (_context->recompress_failed()) {
+					break;
+				}
 			}
 		} else {
 #else
@@ -252,8 +257,23 @@ J2KEncoder::end()
 #ifdef DCPOMATIC_GROK
 	delete _context;
 	_context = nullptr;
+	/* A re-encode can fail while the context drains. */
+	rethrow();
 #endif
 }
+
+
+#ifdef DCPOMATIC_GROK
+void
+J2KEncoder::grok_encode_failed(boost::exception_ptr exception)
+{
+	store_exception(exception);
+
+	boost::mutex::scoped_lock lock(_queue_mutex);
+	_full_condition.notify_all();
+	_empty_condition.notify_all();
+}
+#endif
 
 
 /** Should be called when a frame has been encoded successfully */
@@ -297,6 +317,8 @@ J2KEncoder::encode(shared_ptr<PlayerVideo> pv, DCPTime time)
 	   when there are no threads.
 	*/
 	while (_queue.size() >= (threads * 2) + 1) {
+		/* A re-encode can fail while this wait is blocked. */
+		rethrow();
 		LOG_TIMING("decoder-sleep queue={} threads={}", _queue.size(), threads);
 		_full_condition.wait(queue_lock);
 		LOG_TIMING("decoder-wake queue={} threads={}", _queue.size(), threads);

@@ -23,13 +23,23 @@
 
 #include "../config.h"
 #include "../dcp_video.h"
+#include "../dcpomatic_log.h"
+#include "../exceptions.h"
 #include "../film.h"
 #include "../log.h"
-#include "../dcpomatic_log.h"
+#include "../util.h"
 #include "../writer.h"
 #include "messenger.h"
 #include <dcp/array_data.h>
+#include <boost/bind.hpp>
+#include <boost/exception/all.hpp>
 #include <boost/filesystem.hpp>
+#include <boost/optional.hpp>
+#include <boost/thread.hpp>
+#include <boost/thread/condition.hpp>
+#include <boost/thread/mutex.hpp>
+#include <libintl.h>
+#include <list>
 
 
 static std::mutex launchMutex;
@@ -90,6 +100,7 @@ struct DcpomaticContext
 	boost::filesystem::path location;
 	uint32_t width = 0;
 	uint32_t height = 0;
+	std::function<void (boost::exception_ptr)> encode_error;
 };
 
 
@@ -118,6 +129,8 @@ public:
 				Msg msg(str);
 				auto tag = msg.next();
 				if (tag == GRK_MSGR_BATCH_SUBMIT_COMPRESSED) {
+					RecompressCallbackGuard callback_guard(this);
+
 					auto clientFrameId = msg.nextUint();
 					msg.nextUint(); // compressed frame ID
 					auto compressedFrameLength = msg.nextUint();
@@ -130,17 +143,22 @@ public:
 					int const minimum_size = 16384;
 
 					bool needsRecompression = compressedFrameLength < minimum_size;
+					/* Return the buffer before the CPU re-encode blocks this thread. */
 					_messenger->processCompressed(str, processor, needsRecompression);
 
 					if (needsRecompression) {
 						auto vf = _messenger->retrieve(clientFrameId);
 						if (!vf) {
+							report_error(fmt::format(dgettext("libdcpomatic2", "Lost JPEG2000 frame {} after GPU compression"), clientFrameId));
 							return;
 						}
 
-						auto encoded = std::make_shared<dcp::ArrayData>(vf->encode_locally());
-						_dcpomatic_context->writer.write(encoded, vf->index(), vf->eyes());
-						frame_done ();
+						LOG_GENERAL("Frame {} from grok was small ({} bytes); re-encoding on the CPU", clientFrameId, compressedFrameLength);
+						bool encode_here = false;
+						queue_recompress(*vf, encode_here);
+						if (encode_here) {
+							encode_one(*vf);
+						}
 					}
 				}
 			} catch (std::exception& ex) {
@@ -164,21 +182,19 @@ public:
 
 	~GrokContext()
 	{
-		if (!_messenger) {
-			return;
+		{
+			std::unique_lock<std::mutex> lk_global(launchMutex);
+			if (_messenger && _launched) {
+				_messenger->shutdown();
+			}
 		}
+
+		/* Join outside launchMutex; another launch waits on it. */
+		stop_recompress();
 
 		std::unique_lock<std::mutex> lk_global(launchMutex);
-
-		if (!_messenger) {
-			return;
-		}
-
-		if (_launched) {
-			_messenger->shutdown();
-		}
-
 		delete _messenger;
+		_messenger = nullptr;
 	}
 
 	bool launch(DCPVideo dcpv, int device)
@@ -247,6 +263,20 @@ public:
 			return false;
 		}
 
+		{
+			boost::mutex::scoped_lock lock(_recompress_mutex);
+			while (
+				_recompress_outstanding >= maximum_recompress_frames &&
+				!_recompress_failed &&
+				!_recompress_stop
+				) {
+				_recompress_condition.wait(lock);
+			}
+			if (_recompress_failed || _recompress_stop) {
+				return false;
+			}
+		}
+
 		auto cvt = [this, &vf](BufferSrc src) {
 			vf.convert_to_xyz((uint16_t*)src.framePtr_);
 		};
@@ -254,16 +284,173 @@ public:
 		return _messenger->scheduleCompress(vf, cvt);
 	}
 
+	bool recompress_failed() const
+	{
+		boost::mutex::scoped_lock lock(_recompress_mutex);
+		return _recompress_failed;
+	}
+
 private:
+	static int const maximum_recompress_frames = 2;
+
 	void frame_done()
 	{
 		_dcpomatic_context->history.event();
 	}
 
+	void report_error(std::string message)
+	{
+		LOG_ERROR_NC(message);
+		if (!_dcpomatic_context || !_dcpomatic_context->encode_error) {
+			return;
+		}
+
+		try {
+			throw EncodeError(message);
+		} catch (...) {
+			_dcpomatic_context->encode_error(boost::current_exception());
+		}
+	}
+
+	void queue_recompress(DCPVideo frame, bool& encode_here)
+	{
+		boost::mutex::scoped_lock lock(_recompress_mutex);
+		encode_here = false;
+		if (_recompress_failed) {
+			return;
+		}
+		if (_recompress_closed) {
+			encode_here = true;
+			return;
+		}
+
+		if (!_recompress_started) {
+			_recompress_thread = boost::thread(boost::bind(&GrokContext::recompress, this));
+			_recompress_started = true;
+		}
+
+		_recompress_queue.push_back(frame);
+		++_recompress_outstanding;
+		_recompress_condition.notify_all();
+	}
+
+	void recompress_callback_enter()
+	{
+		boost::mutex::scoped_lock lock(_recompress_mutex);
+		++_recompress_callbacks;
+	}
+
+	void recompress_callback_leave()
+	{
+		boost::mutex::scoped_lock lock(_recompress_mutex);
+		--_recompress_callbacks;
+		_recompress_condition.notify_all();
+	}
+
+	void recompress()
+	{
+		start_of_thread("grok-recompress");
+
+		while (true) {
+			boost::optional<DCPVideo> frame;
+			{
+				boost::mutex::scoped_lock lock(_recompress_mutex);
+				while (_recompress_queue.empty() && !_recompress_closed) {
+					_recompress_condition.wait(lock);
+				}
+				if (_recompress_queue.empty()) {
+					return;
+				}
+				frame = _recompress_queue.front();
+				_recompress_queue.pop_front();
+			}
+
+			if (encode_one(*frame)) {
+				boost::mutex::scoped_lock lock(_recompress_mutex);
+				if (!_recompress_failed) {
+					--_recompress_outstanding;
+				}
+				_recompress_condition.notify_all();
+			}
+		}
+	}
+
+	bool encode_one(DCPVideo const& frame)
+	{
+		try {
+			auto encoded = std::make_shared<dcp::ArrayData>(frame.encode_locally());
+			_dcpomatic_context->writer.write(encoded, frame.index(), frame.eyes());
+			frame_done();
+			return true;
+		} catch (std::exception& e) {
+			LOG_ERROR("Re-encode of frame {} failed ({})", frame.index(), e.what());
+			fail_recompress();
+			report_error(fmt::format(dgettext("libdcpomatic2", "JPEG2000 frame {} was too small to use and re-encoding it failed ({})"), frame.index(), e.what()));
+		} catch (...) {
+			fail_recompress();
+			report_error(dgettext("libdcpomatic2", "JPEG2000 re-encode failed"));
+		}
+		return false;
+	}
+
+	void fail_recompress()
+	{
+		boost::mutex::scoped_lock lock(_recompress_mutex);
+		_recompress_failed = true;
+		_recompress_outstanding = 0;
+		_recompress_queue.clear();
+		_recompress_condition.notify_all();
+	}
+
+	void stop_recompress()
+	{
+		{
+			boost::mutex::scoped_lock lock(_recompress_mutex);
+			_recompress_stop = true;
+			_recompress_closed = true;
+			_recompress_condition.notify_all();
+			while (_recompress_callbacks > 0) {
+				_recompress_condition.wait(lock);
+			}
+		}
+		if (_recompress_thread.joinable()) {
+			_recompress_thread.join();
+		}
+	}
+
+	struct RecompressCallbackGuard {
+		explicit RecompressCallbackGuard(GrokContext* self)
+			: _self(self)
+		{
+			_self->recompress_callback_enter();
+		}
+
+		~RecompressCallbackGuard()
+		{
+			_self->recompress_callback_leave();
+		}
+
+		RecompressCallbackGuard(RecompressCallbackGuard const&) = delete;
+		RecompressCallbackGuard& operator=(RecompressCallbackGuard const&) = delete;
+
+		GrokContext* _self;
+	};
+
 	DcpomaticContext* _dcpomatic_context;
 	ScheduledMessenger<DCPVideo>* _messenger = nullptr;
 	bool _launched = false;
 	bool _launch_failed = false;
+
+	mutable boost::mutex _recompress_mutex;
+	boost::condition _recompress_condition;
+	std::list<DCPVideo> _recompress_queue;
+	int _recompress_outstanding = 0;
+	int _recompress_callbacks = 0;
+	bool _recompress_failed = false;
+	bool _recompress_stop = false;
+	bool _recompress_closed = false;
+	bool _recompress_started = false;
+	boost::thread _recompress_thread;
 };
 
 }

@@ -62,6 +62,13 @@ protected:
 		_exception = boost::current_exception ();
 	}
 
+	void store_exception (boost::exception_ptr exception) {
+		boost::mutex::scoped_lock lm (_exception_mutex);
+		if (!_exception) {
+			_exception = exception;
+		}
+	}
+
 private:
 	boost::exception_ptr _exception;
 	mutable boost::mutex _exception_mutex;
