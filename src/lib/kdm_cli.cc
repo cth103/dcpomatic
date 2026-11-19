@@ -25,6 +25,7 @@
 
 
 #include "cinema.h"
+#include "certificate_download.h"
 #include "cinema_list.h"
 #include "cross.h"
 #include "config.h"
@@ -36,10 +37,12 @@
 #include "screen.h"
 #include "variant.h"
 #include <dcp/certificate.h>
+#include <dcp/certificate_chain.h>
 #include <dcp/decrypted_kdm.h>
 #include <dcp/encrypted_kdm.h>
 #include <dcp/filesystem.h>
 #include <boost/algorithm/string.hpp>
+#include <algorithm>
 #include <getopt.h>
 
 
@@ -67,10 +70,18 @@ help(std::function<void (string)> out)
 	out("Commands:");
 	out("");
 	                          out("    create                       create KDMs; default if no other command is specified");
-	out(variant::insert_dcpomatic("    list-cinemas                 list known cinemas from {} settings"));
+	out(variant::insert_dcpomatic("    list-cinemas                 list known cinemas from {} settings (with --verbose, also their screens)"));
+	out("    list-screens                 list the screens of a cinema: list-screens -c <cinema> (with --verbose, also the validity of their certificates)");
+	out("    add-cinema                   add a cinema: add-cinema -c <name> [--emails <a,b>] [--notes <text>] [--utc-offset <+HH[:MM]>]");
+	out("    add-screen                   add a screen to a cinema: add-screen -c <cinema> -S <name> (-C <file> | --certificate-from <MAKER>:<SERIAL>) [--notes <text>]");
+	out("    edit-cinema                  change a cinema: edit-cinema -c <name> [--new-name <name>] [--emails <a,b>] [--notes <text>] [--utc-offset <+HH[:MM]>] (only what is given changes)");
+	out("    edit-screen                  change a screen: edit-screen -c <cinema> -S <name> [--new-name <name>] [--notes <text>] [-C <file> | --certificate-from <MAKER>:<SERIAL>]");
+	out("    remove-cinema                remove a cinema: remove-cinema -c <name> [--with-screens] (refused if it has screens, unless --with-screens)");
+	out("    remove-screen                remove a screen: remove-screen -c <cinema> -S <name>");
 	out(variant::insert_dcpomatic("    list-dkdm-cpls               list CPLs for which {} has DKDMs"));
 	out(variant::insert_dcpomatic("    add-dkdm                     add DKDM to {}'s list"));
 	out(variant::insert_dcpomatic("    dump-decryption-certificate  write the {} KDM decryption certificate to the console"));
+	out("    download-certificate         download the certificate of a device (GDC, Barco, Christie, Qube, Dolby, Doremi): download-certificate <MAKER> <SERIAL>");
 	out("");
 	out("Parameters:");
 	out("");
@@ -100,6 +111,12 @@ help(std::function<void (string)> out)
 	out("      --decryption-key <file>              file containing the private key which can decrypt the given DKDM");
 	out(variant::insert_dcpomatic("                                           ({}'s configured private key will be used otherwise)"));
 	out("      --cinemas-file <file>                use the given file as a list of cinemas instead of the current configuration");
+	out("      --emails <a,b>                       email addresses of a cinema to add");
+	out("      --notes <text>                       notes of a cinema or screen to add (or to set, with edit-cinema and edit-screen)");
+	out("      --new-name <name>                    new name of a cinema or screen to edit");
+	out("      --with-screens                       let remove-cinema remove the screens of the cinema too");
+	out("      --utc-offset <+HH[:MM]>              UTC offset of a cinema to add (e.g. +1, -5:30) [default +0]");
+	out("      --certificate-from <MAKER>:<SERIAL>  download the certificate of a screen to add (see download-certificate)");
 	out("");
 	out(variant::insert_dcpomatic("CPL-ID must be the ID of a CPL that is mentioned in {}'s DKDM list."));
 	out("");
@@ -460,6 +477,82 @@ dump_dkdm_group(shared_ptr<DKDMGroup> group, int indent, std::function<void (str
 }
 
 
+static
+dcp::UTCOffset
+utc_offset_from_string(string text)
+{
+	auto const bad = KDMCLIError("UTC offset must look like +1, -5 or +5:30");
+	int sign = 1;
+	if (!text.empty() && (text[0] == '+' || text[0] == '-')) {
+		sign = text[0] == '-' ? -1 : 1;
+		text = text.substr(1);
+	}
+
+	string hour_text = text;
+	string minute_text = "0";
+	auto const colon = text.find(':');
+	if (colon != string::npos) {
+		hour_text = text.substr(0, colon);
+		minute_text = text.substr(colon + 1);
+	}
+
+	auto is_number = [](string t, size_t max_length) {
+		return !t.empty() && t.length() <= max_length && std::all_of(t.begin(), t.end(), [](char c) { return isdigit(c); });
+	};
+	if (!is_number(hour_text, 2) || !is_number(minute_text, 2)) {
+		throw bad;
+	}
+
+	int const hour = std::stoi(hour_text);
+	int const minute = std::stoi(minute_text);
+	if (hour > 14 || minute > 59) {
+		throw KDMCLIError("UTC offset out of range");
+	}
+	return dcp::UTCOffset(sign * hour, sign * minute);
+}
+
+
+static
+optional<std::pair<CinemaID, Cinema>>
+cinema_with_name(CinemaList& list, string name)
+{
+	for (auto const& cinema: list.cinemas()) {
+		if (cinema.second.name == name) {
+			return cinema;
+		}
+	}
+	return {};
+}
+
+
+/** @return the certificate of a screen, from a file (a certificate or a chain, the leaf is taken) or downloaded
+ *  from the manufacturer's server (`MAKER:SERIAL`)
+ */
+static
+dcp::Certificate
+screen_certificate(optional<boost::filesystem::path> file, optional<string> from)
+{
+	optional<boost::filesystem::path> downloaded;
+	if (from) {
+		auto const colon = from->find(':');
+		if (colon == string::npos || colon == 0 || colon + 1 == from->size()) {
+			throw KDMCLIError("--certificate-from must look like GDC:A123456");
+		}
+		downloaded = boost::filesystem::temp_directory_path() / boost::filesystem::unique_path("dcpomatic_certificate_%%%%%%%%.pem");
+		if (auto error = download_certificate(from->substr(0, colon), from->substr(colon + 1), *downloaded)) {
+			throw KDMCLIError(*error);
+		}
+		file = downloaded;
+	}
+	dcp::CertificateChain chain(dcp::file_to_string(*file));
+	if (downloaded) {
+		boost::system::error_code ec;
+		boost::filesystem::remove(*downloaded, ec);
+	}
+	return chain.leaf();
+}
+
+
 void
 dump_decryption_certificate(std::function<void (string)> out)
 {
@@ -500,6 +593,15 @@ try
 	optional<int> disable_forensic_marking_audio;
 	bool email = false;
 	optional<boost::filesystem::path> cinemas_file;
+	string cinema_emails;
+	string cinema_notes;
+	string cinema_utc_offset = "+0";
+	optional<string> certificate_from;
+	bool emails_given = false;
+	bool notes_given = false;
+	bool utc_offset_given = false;
+	optional<string> new_name;
+	bool with_screens = false;
 
 	program_name = argv[0];
 
@@ -529,10 +631,16 @@ try
 			{ "trusted-device-chain", required_argument, 0, 'H' },
 			{ "decryption-key", required_argument, 0, 'G' },
 			{ "cinemas-file", required_argument, 0, 'E' },
+			{ "emails", required_argument, 0, 'M' },
+			{ "notes", required_argument, 0, 'N' },
+			{ "utc-offset", required_argument, 0, 'U' },
+			{ "certificate-from", required_argument, 0, 'R' },
+			{ "new-name", required_argument, 0, 'W' },
+			{ "with-screens", no_argument, 0, 'X' },
 			{ 0, 0, 0, 0 }
 		};
 
-		int c = getopt_long(argc, argv, "ho:K:Z:f:t:d:F:pae::zvc:S:C:T:E:G:H", long_options, &option_index);
+		int c = getopt_long(argc, argv, "ho:K:Z:f:t:d:F:pae::zvc:S:C:T:E:G:HM:N:U:R:W:X", long_options, &option_index);
 
 		if (c == -1) {
 			break;
@@ -617,15 +725,44 @@ try
 		case 'E':
 			cinemas_file = optarg;
 			break;
+		case 'M':
+			cinema_emails = optarg;
+			emails_given = true;
+			break;
+		case 'N':
+			cinema_notes = optarg;
+			notes_given = true;
+			break;
+		case 'U':
+			cinema_utc_offset = optarg;
+			utc_offset_given = true;
+			break;
+		case 'R':
+			certificate_from = optarg;
+			break;
+		case 'W':
+			new_name = optarg;
+			break;
+		case 'X':
+			with_screens = true;
+			break;
 		}
 	}
 
 	vector<string> commands = {
 		"create",
 		"list-cinemas",
+		"list-screens",
 		"list-dkdm-cpls",
 		"add-dkdm",
-		"dump-decryption-certificate"
+		"dump-decryption-certificate",
+		"download-certificate",
+		"add-cinema",
+		"add-screen",
+		"edit-cinema",
+		"edit-screen",
+		"remove-cinema",
+		"remove-screen"
 	};
 
 	if (optind < argc - 1) {
@@ -661,6 +798,41 @@ try
 		CinemaList cinemas;
 		for (auto const& cinema: cinemas.cinemas()) {
 			out(fmt::format("{} ({})", cinema.second.name, Email::address_list(cinema.second.emails)));
+			if (verbose) {
+				for (auto const& screen: cinemas.screens(cinema.first)) {
+					out(fmt::format("    {}{}", screen.second.name, screen.second.recipient() ? "" : " (no certificate)"));
+				}
+			}
+		}
+		return {};
+	}
+
+	if (command == "list-screens") {
+		if (!cinema_name) {
+			throw KDMCLIError("list-screens needs a cinema (-c)");
+		}
+		CinemaList cinemas;
+		auto cinema = cinema_with_name(cinemas, *cinema_name);
+		if (!cinema) {
+			cinema = cinemas.cinema_by_name_or_email(*cinema_name);
+		}
+		if (!cinema) {
+			throw KDMCLIError(fmt::format("there is no cinema called {}", *cinema_name));
+		}
+		for (auto const& screen: cinemas.screens(cinema->first)) {
+			auto line = screen.second.name;
+			if (auto certificate = screen.second.recipient()) {
+				line += ": " + certificate->subject_common_name();
+				if (verbose) {
+					line += fmt::format(" (valid {} to {})", certificate->not_before().as_string(), certificate->not_after().as_string());
+				}
+			} else {
+				line += ": no certificate";
+			}
+			if (!screen.second.notes.empty()) {
+				line += fmt::format(" [{}]", screen.second.notes);
+			}
+			out(line);
 		}
 		return {};
 	}
@@ -672,6 +844,187 @@ try
 
 	if (command == "dump-decryption-certificate") {
 		dump_decryption_certificate(out);
+		return {};
+	}
+
+	if (command == "add-cinema") {
+		if (!cinema_name) {
+			throw KDMCLIError("add-cinema needs a cinema name (-c)");
+		}
+		CinemaList cinemas;
+		if (cinema_with_name(cinemas, *cinema_name)) {
+			throw KDMCLIError(fmt::format("there is already a cinema called {}", *cinema_name));
+		}
+		vector<string> emails;
+		if (!cinema_emails.empty()) {
+			boost::split(emails, cinema_emails, boost::is_any_of(","));
+		}
+		cinemas.add_cinema(Cinema(*cinema_name, emails, cinema_notes, utc_offset_from_string(cinema_utc_offset)));
+		out(fmt::format("Added cinema {}", *cinema_name));
+		return {};
+	}
+
+	if (command == "add-screen") {
+		if (!cinema_name || !screen_name) {
+			throw KDMCLIError("add-screen needs a cinema (-c) and a screen name (-S)");
+		}
+		if (!projector_certificate && !certificate_from) {
+			throw KDMCLIError("add-screen needs a certificate: --projector-certificate <file> or --certificate-from <MAKER>:<SERIAL>");
+		}
+		if (projector_certificate && certificate_from) {
+			throw KDMCLIError("give either --projector-certificate or --certificate-from, not both");
+		}
+		CinemaList cinemas;
+		auto cinema = cinema_with_name(cinemas, *cinema_name);
+		if (!cinema) {
+			throw KDMCLIError(fmt::format("there is no cinema called {} (add it with add-cinema)", *cinema_name));
+		}
+		if (!cinemas.screens_by_cinema_and_name(cinema->first, *screen_name).empty()) {
+			throw KDMCLIError(fmt::format("{} already has a screen called {}", *cinema_name, *screen_name));
+		}
+		auto const certificate = screen_certificate(projector_certificate, certificate_from);
+		cinemas.add_screen(cinema->first, dcpomatic::Screen(*screen_name, cinema_notes, certificate, boost::none, trusted_devices));
+		out(fmt::format("Added screen {} to {}", *screen_name, *cinema_name));
+		return {};
+	}
+
+	if (command == "edit-cinema") {
+		if (!cinema_name) {
+			throw KDMCLIError("edit-cinema needs a cinema (-c)");
+		}
+		if (!new_name && !emails_given && !notes_given && !utc_offset_given) {
+			throw KDMCLIError("edit-cinema needs something to change: --new-name, --emails, --notes or --utc-offset");
+		}
+		CinemaList cinemas;
+		auto cinema = cinema_with_name(cinemas, *cinema_name);
+		if (!cinema) {
+			throw KDMCLIError(fmt::format("there is no cinema called {}", *cinema_name));
+		}
+		auto changed = cinema->second;
+		if (new_name) {
+			if (new_name->empty()) {
+				throw KDMCLIError("the new name of a cinema cannot be empty");
+			}
+			if (*new_name != cinema->second.name && cinema_with_name(cinemas, *new_name)) {
+				throw KDMCLIError(fmt::format("there is already a cinema called {}", *new_name));
+			}
+			changed.name = *new_name;
+		}
+		if (emails_given) {
+			changed.emails.clear();
+			if (!cinema_emails.empty()) {
+				boost::split(changed.emails, cinema_emails, boost::is_any_of(","));
+			}
+		}
+		if (notes_given) {
+			changed.notes = cinema_notes;
+		}
+		if (utc_offset_given) {
+			changed.utc_offset = utc_offset_from_string(cinema_utc_offset);
+		}
+		cinemas.update_cinema(cinema->first, changed);
+		out(fmt::format("Changed cinema {}", *cinema_name));
+		return {};
+	}
+
+	if (command == "edit-screen") {
+		if (!cinema_name || !screen_name) {
+			throw KDMCLIError("edit-screen needs a cinema (-c) and a screen (-S)");
+		}
+		if (projector_certificate && certificate_from) {
+			throw KDMCLIError("give either --projector-certificate or --certificate-from, not both");
+		}
+		if (!new_name && !notes_given && !projector_certificate && !certificate_from) {
+			throw KDMCLIError("edit-screen needs something to change: --new-name, --notes, --projector-certificate or --certificate-from");
+		}
+		CinemaList cinemas;
+		auto cinema = cinema_with_name(cinemas, *cinema_name);
+		if (!cinema) {
+			throw KDMCLIError(fmt::format("there is no cinema called {}", *cinema_name));
+		}
+		auto found = cinemas.screens_by_cinema_and_name(cinema->first, *screen_name);
+		if (found.empty()) {
+			throw KDMCLIError(fmt::format("{} has no screen called {}", *cinema_name, *screen_name));
+		}
+		auto screen = found[0];
+		auto changed = screen.second;
+		if (new_name) {
+			if (new_name->empty()) {
+				throw KDMCLIError("the new name of a screen cannot be empty");
+			}
+			if (*new_name != screen.second.name && !cinemas.screens_by_cinema_and_name(cinema->first, *new_name).empty()) {
+				throw KDMCLIError(fmt::format("{} already has a screen called {}", *cinema_name, *new_name));
+			}
+			changed.name = *new_name;
+		}
+		if (notes_given) {
+			changed.notes = cinema_notes;
+		}
+		if (projector_certificate || certificate_from) {
+			changed.set_recipient(screen_certificate(projector_certificate, certificate_from));
+			changed.recipient_file = projector_certificate ? optional<string>(projector_certificate->string()) : optional<string>();
+		} else if (!changed.recipient()) {
+			throw KDMCLIError(fmt::format("{} has no certificate: give one with --projector-certificate or --certificate-from", *screen_name));
+		}
+		cinemas.update_screen(cinema->first, screen.first, changed);
+		out(fmt::format("Changed screen {} of {}", *screen_name, *cinema_name));
+		return {};
+	}
+
+	if (command == "remove-cinema") {
+		if (!cinema_name) {
+			throw KDMCLIError("remove-cinema needs a cinema (-c)");
+		}
+		CinemaList cinemas;
+		auto cinema = cinema_with_name(cinemas, *cinema_name);
+		if (!cinema) {
+			throw KDMCLIError(fmt::format("there is no cinema called {}", *cinema_name));
+		}
+		auto const screens = cinemas.screens(cinema->first);
+		if (!screens.empty() && !with_screens) {
+			throw KDMCLIError(fmt::format("{} has {} screen(s); remove them first or add --with-screens to remove them too", *cinema_name, screens.size()));
+		}
+		for (auto const& screen: screens) {
+			cinemas.remove_screen(screen.first);
+		}
+		cinemas.remove_cinema(cinema->first);
+		out(fmt::format("Removed cinema {} and {} screen(s)", *cinema_name, screens.size()));
+		return {};
+	}
+
+	if (command == "remove-screen") {
+		if (!cinema_name || !screen_name) {
+			throw KDMCLIError("remove-screen needs a cinema (-c) and a screen (-S)");
+		}
+		CinemaList cinemas;
+		auto cinema = cinema_with_name(cinemas, *cinema_name);
+		if (!cinema) {
+			throw KDMCLIError(fmt::format("there is no cinema called {}", *cinema_name));
+		}
+		auto found = cinemas.screens_by_cinema_and_name(cinema->first, *screen_name);
+		if (found.empty()) {
+			throw KDMCLIError(fmt::format("{} has no screen called {}", *cinema_name, *screen_name));
+		}
+		cinemas.remove_screen(found[0].first);
+		out(fmt::format("Removed screen {} of {}", *screen_name, *cinema_name));
+		return {};
+	}
+
+	if (command == "download-certificate") {
+		if (optind + 1 >= argc) {
+			throw KDMCLIError("download-certificate needs a manufacturer (GDC, Barco, Christie, Qube, Dolby or Doremi) and a serial number");
+		}
+		string const maker = argv[optind];
+		string const serial = argv[optind + 1];
+		/* -o is the file to write, or a directory to write <maker>_<serial>.pem in */
+		auto file = output;
+		if (dcp::filesystem::is_directory(file)) {
+			file /= fmt::format("{}_{}.pem", maker, serial);
+		}
+		if (auto error = download_certificate(maker, serial, file)) {
+			throw KDMCLIError(*error);
+		}
+		out(fmt::format("Wrote {}", file.string()));
 		return {};
 	}
 
