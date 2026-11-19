@@ -43,6 +43,7 @@ public:
 		)
 		, codec_name(codec_name_)
 		, channel_layout(codecpar->ch_layout)
+		, channel_layout_name(describe(codecpar->ch_layout))
 	{}
 
 	FFmpegAudioStream(std::string name, int id, int index, int frame_rate, Frame length, AudioMapping mapping, int bit_depth)
@@ -60,9 +61,13 @@ public:
 	boost::optional<std::string> codec_name;
 	/* Not serialized to XML */
 	AVChannelLayout channel_layout;
+	/** FFmpeg's name for the channel layout that the file says this stream has (e.g. "7.1(wide)"), if it says one */
+	boost::optional<std::string> channel_layout_name;
 
 private:
 	friend struct ffmpeg_pts_offset_test;
+
+	static boost::optional<std::string> describe(AVChannelLayout const& layout);
 
 	/* Constructor for tests */
 	FFmpegAudioStream()

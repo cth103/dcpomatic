@@ -26,14 +26,17 @@
 
 
 #include "lib/audio_content.h"
+#include "lib/audio_processor.h"
 #include "lib/constants.h"
 #include "lib/content_factory.h"
 #include "lib/dcp_content_type.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/film.h"
+#include "lib/hints.h"
 #include "lib/player.h"
 #include "lib/ratio.h"
+#include "lib/signal_manager.h"
 #include "lib/video_content.h"
 #include "test.h"
 #include <dcp/cpl.h>
@@ -45,6 +48,7 @@
 #include <dcp/reel.h>
 #include <fmt/format.h>
 #include <boost/test/unit_test.hpp>
+#include <algorithm>
 #include <fstream>
 #include <map>
 
@@ -281,6 +285,101 @@ BOOST_AUTO_TEST_CASE(ffmpeg_audio_many_channels_keep_film_channels)
 		for (int input = 0; input < channels; ++input) {
 			BOOST_CHECK_MESSAGE(mapping.get(input, input) > 0, "channel " << input << " of " << channels << " is not mapped 1:1");
 		}
+	}
+}
+
+
+static
+std::vector<string>
+hints_for(std::shared_ptr<Film> film)
+{
+	std::vector<string> hints;
+	Hints checker(film);
+	/* None of these tests need the audio analysis, and it is slow */
+	checker.disable_audio_analysis();
+	checker.Hint.connect([&hints](string hint) { hints.push_back(hint); });
+	checker.start();
+	checker.join();
+	while (signal_manager->ui_idle()) {}
+	checker.rethrow();
+	return hints;
+}
+
+
+/** @return true if one of hints is the one about a channel layout that does not match a cinema's */
+static
+bool
+has_layout_hint(std::vector<string> const& hints)
+{
+	return std::find_if(hints.begin(), hints.end(), [](string const& hint) {
+		return hint.find("which is not 5.1 or 7.1 as used in cinemas") != string::npos;
+	}) != hints.end();
+}
+
+
+/** 8 channel layouts other than the cinema 7.1 (7.1(wide), 7.1(wide-side), 5.1.2, octagonal, cube) are mapped 1:1,
+ *  with a hint to check the mapping; the layout is kept in the metadata, so the hint is still given after the project
+ *  has been read back.  The cinema 7.1 gives no hint.
+ */
+BOOST_AUTO_TEST_CASE(ffmpeg_audio_non_cinema_7_1_hint)
+{
+	boost::filesystem::create_directories("build/test");
+
+	for (auto mask: { 0xffU, 0x6cfU, 0x503fU, 0x737U, 0x2d033U }) {
+		auto const name = fmt::format("ffmpeg_audio_non_cinema_7_1_hint_{:x}", mask);
+		auto const path = boost::filesystem::path("build/test/" + name + ".wav");
+		write_wav(path, true, 8, mask);
+		auto content = content_factory(path)[0];
+		auto film = new_test_film(name, { content });
+		BOOST_CHECK_EQUAL(film->audio_channels(), 6);
+		auto const mapping = content->audio->mapping();
+		for (int input = 0; input < 8; ++input) {
+			BOOST_CHECK_MESSAGE(mapping.get(input, input) > 0, "channel " << input << " is not mapped 1:1");
+		}
+		BOOST_CHECK_MESSAGE(has_layout_hint(hints_for(film)), "no hint for mask " << std::hex << mask);
+
+		film->write_metadata();
+		auto reloaded = std::make_shared<Film>(film->directory().get());
+		reloaded->read_metadata();
+		BOOST_CHECK_MESSAGE(has_layout_hint(hints_for(reloaded)), "no hint after reading back for mask " << std::hex << mask);
+
+		/* An audio processor does its own mapping, so there is nothing to check */
+		film->set_audio_processor(AudioProcessor::from_id("mid-side-decoder"));
+		BOOST_CHECK_MESSAGE(!has_layout_hint(hints_for(film)), "hint with an audio processor for mask " << std::hex << mask);
+	}
+
+	auto const cinema = boost::filesystem::path("build/test/ffmpeg_audio_non_cinema_7_1_hint_cinema.wav");
+	write_wav(cinema, true);
+	auto film = new_test_film("ffmpeg_audio_non_cinema_7_1_hint_cinema", { content_factory(cinema)[0] });
+	BOOST_CHECK(!has_layout_hint(hints_for(film)));
+}
+
+
+/** A 6 channel file whose mask is 5.1 or 5.1(side), i.e. L, R, C, LFE and two surrounds, is mapped by its mask,
+ *  which is 1:1, with no hint.  Any other 6 channel mask (6.0, 6.0(front), 3.1.2, hexagonal) is mapped 1:1 too,
+ *  with a hint to check the mapping.
+ */
+BOOST_AUTO_TEST_CASE(ffmpeg_audio_six_channel_layouts)
+{
+	boost::filesystem::create_directories("build/test");
+
+	struct Case {
+		uint32_t mask;
+		bool hint;
+	};
+
+	for (auto c: { Case{0x3f, false}, Case{0x60f, false}, Case{0x707, true}, Case{0x6c3, true}, Case{0x500f, true}, Case{0x137, true} }) {
+		auto const name = fmt::format("ffmpeg_audio_six_channel_layouts_{:x}", c.mask);
+		auto const path = boost::filesystem::path("build/test/" + name + ".wav");
+		write_wav(path, true, 6, c.mask);
+		auto content = content_factory(path)[0];
+		auto film = new_test_film(name, { content });
+		BOOST_CHECK_EQUAL(film->audio_channels(), 6);
+		auto const mapping = content->audio->mapping();
+		for (int input = 0; input < 6; ++input) {
+			BOOST_CHECK_MESSAGE(mapping.get(input, input) > 0, "channel " << input << " of mask " << std::hex << c.mask << " is not mapped 1:1");
+		}
+		BOOST_CHECK_MESSAGE(has_layout_hint(hints_for(film)) == c.hint, "wrong hint for mask " << std::hex << c.mask);
 	}
 }
 
