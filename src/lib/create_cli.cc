@@ -24,6 +24,7 @@
 #include "content_factory.h"
 #include "create_cli.h"
 #include "cross.h"
+#include "dcdm_import.h"
 #include "dcp_content.h"
 #include "dcp_content_type.h"
 #include "dcpomatic_log.h"
@@ -511,8 +512,12 @@ CreateCLI::make_film(function<void (string)> error) const
 	for (auto cli_content: content) {
 		auto const can = dcp::filesystem::canonical(cli_content.path);
 		vector<shared_ptr<::Content>> film_content_list;
+		shared_ptr<DCDMImport> dcdm;
 
-		if (dcp::filesystem::exists(can / "ASSETMAP") || (dcp::filesystem::exists(can / "ASSETMAP.xml"))) {
+		if (DCDMImport::valid(can)) {
+			dcdm = make_shared<DCDMImport>(can);
+			film_content_list = dcdm->content();
+		} else if (dcp::filesystem::exists(can / "ASSETMAP") || (dcp::filesystem::exists(can / "ASSETMAP.xml"))) {
 			auto dcp = make_shared<DCPContent>(can);
 			film_content_list.push_back(dcp);
 			if (cli_content.kdm) {
@@ -526,7 +531,11 @@ CreateCLI::make_film(function<void (string)> error) const
 			film_content_list = content_factory(can);
 		}
 
-		film->examine_and_add_content(film_content_list);
+		if (dcdm) {
+			dcdm->examine_and_add(film);
+		} else {
+			film->examine_and_add_content(film_content_list);
+		}
 
 		while (jm->work_to_do()) {
 			dcpomatic_sleep_seconds(1);

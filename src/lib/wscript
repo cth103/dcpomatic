@@ -69,16 +69,21 @@ sources = """
           cross_common.cc
           curl_uploader.cc
           datasat_ap2x.cc
+          dcdm_audio_layout.cc
           dcp_content.cc
           dcp_content_type.cc
+          dcdm_quality.cc
           dcp_decoder.cc
           dcp_examiner.cc
           dcp_digest_file.cc
           dcp_film_encoder.cc
+          dcdm_film_encoder.cc
+          dcdm_import.cc
           dcp_subtitle.cc
           dcp_subtitle_content.cc
           dcp_subtitle_decoder.cc
           dcp_text_track.cc
+          dcdm_j2k_writer.cc
           dcp_transcode_job.cc
           dcp_video.cc
           dcpomatic_log.cc
@@ -92,6 +97,7 @@ sources = """
           dkdm_recipient_list.cc
           dkdm_wrapper.cc
           dolby_cp750.cc
+          dpx_writer.cc
           email.cc
           empty.cc
           encode_cli.cc
@@ -246,6 +252,7 @@ sources = """
           video_mxf_examiner.cc
           video_range.cc
           video_ring_buffers.cc
+          wav_writer.cc
           writer.cc
           zipper.cc
           """
@@ -263,7 +270,7 @@ def build(bld):
                  BOOST_FILESYSTEM BOOST_THREAD BOOST_DATETIME BOOST_SIGNALS2 BOOST_REGEX BOOST_PROCESS
                  SAMPLERATE POSTPROC TIFF SSH DCP CXML GLIB LZMA XMLPP
                  CURL ZIP BZ2 FONTCONFIG PANGOMM CAIROMM XMLSEC SUB ICU NETTLE PNG JPEG LEQM_NRT
-                 LIBZ SQLITE3 TTF
+                 LIBZ SQLITE3 TTF OPENJPEG
                  """
 
     if bld.env.TARGET_OSX:

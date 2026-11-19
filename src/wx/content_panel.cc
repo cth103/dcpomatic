@@ -37,6 +37,7 @@
 #include "lib/config.h"
 #include "lib/content_factory.h"
 #include "lib/cross.h"
+#include "lib/dcdm_import.h"
 #include "lib/dcp_content.h"
 #include "lib/dcp_subtitle_content.h"
 #include "lib/dcp_subtitle_decoder.h"
@@ -274,7 +275,7 @@ ContentPanel::ContentPanel(wxNotebook* n, shared_ptr<Film> film, FilmViewer& vie
 		b->Add(_add_file, 0, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
 
 		_add_folder = new Button(_top_panel, _("Add folder..."));
-		_add_folder->SetToolTip(_("Add a folder of image files (which will be used as a moving image sequence) or a folder of sound files."));
+		_add_folder->SetToolTip(_("Add a folder of image files (which will be used as a moving image sequence), a folder of sound files or a DCDM that DCP-o-matic exported."));
 		b->Add(_add_folder, 0, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
 
 		_add_dcp = new Button(_top_panel, _("Add DCP..."));
@@ -641,6 +642,16 @@ ContentPanel::add_folder_clicked()
 void
 ContentPanel::add_folder(boost::filesystem::path folder)
 {
+	if (DCDMImport::valid(folder)) {
+		/* A DCDM that DCP-o-matic wrote: add every part of every reel, set up to make a DCP of it */
+		try {
+			DCDMImport(folder).examine_and_add(_film);
+		} catch (exception& e) {
+			error_dialog(_parent, std_to_wx(e.what()));
+		}
+		return;
+	}
+
 	vector<shared_ptr<Content>> content;
 
 	try {
