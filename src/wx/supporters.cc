@@ -366,6 +366,7 @@ supported_by.Add (wxT ("Dizale"));
 supported_by.Add (wxT ("Hadzi-Aleksandar Djurovic"));
 supported_by.Add (wxT ("Mariusz Dmochowski"));
 supported_by.Add (wxT ("Faris Dobrača"));
+supported_by.Add (wxT ("Olivier Dock"));
 supported_by.Add (wxT ("Roland Doerffer"));
 supported_by.Add (wxT ("Digital Domain"));
 supported_by.Add (wxT ("William Donaruma"));
