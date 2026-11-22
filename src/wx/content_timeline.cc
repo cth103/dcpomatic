@@ -114,6 +114,7 @@ ContentTimeline::ContentTimeline(wxWindow* parent, shared_ptr<Film> film, FilmVi
 	_main_canvas->Bind(wxEVT_SCROLLWIN_PAGEUP,     boost::bind(&ContentTimeline::scrolled,     this, _1));
 	_main_canvas->Bind(wxEVT_SCROLLWIN_PAGEDOWN,   boost::bind(&ContentTimeline::scrolled,     this, _1));
 	_main_canvas->Bind(wxEVT_SCROLLWIN_THUMBTRACK, boost::bind(&ContentTimeline::scrolled,     this, _1));
+	_main_canvas->Bind(wxEVT_LEAVE_WINDOW,         boost::bind(&ContentTimeline::mouse_leave,  this, _1));
 
 	film_change(ChangeType::DONE, FilmProperty::CONTENT);
 
@@ -966,6 +967,15 @@ ContentTimeline::scrolled(wxScrollWinEvent& ev)
 		_labels_canvas->Scroll(0, y);
 	}
 	ev.Skip();
+}
+
+
+void
+ContentTimeline::mouse_leave(wxMouseEvent& ev)
+{
+	if (_left_down) {
+		left_up(ev);
+	}
 }
 
 

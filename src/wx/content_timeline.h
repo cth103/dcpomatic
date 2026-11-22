@@ -111,6 +111,7 @@ private:
 	void update_playhead();
 	void mouse_wheel_turned(wxMouseEvent& event);
 	int playhead_position() const;
+	void mouse_leave(wxMouseEvent& ev);
 
 	std::shared_ptr<ContentTimelineView> event_to_view(wxMouseEvent &);
 	TimelineContentViewList selected_views() const;
