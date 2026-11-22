@@ -25,6 +25,7 @@
 #include "lib/dcp_film_encoder.h"
 #include "lib/film.h"
 #include "lib/mpeg2_encoder.h"
+#include "lib/transcode_job.h"
 #include "lib/video_encoding.h"
 #include "lib/writer.h"
 #ifdef DCPOMATIC_LINUX
