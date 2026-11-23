@@ -181,7 +181,7 @@ BOOST_AUTO_TEST_CASE(closed_captions_get_empty_open_subtitles)
 	film->set_name("Captions");
 	content->only_text()->set_type(TextType::CLOSED_CAPTION);
 	content->only_text()->set_dcp_track(DCPTextTrack("Captions", dcp::LanguageTag("en")));
-	auto const name = film->isdcf_name(false, false);
+	auto const name = film->isdcf_name(false);
 
 	make_and_verify_dcp(
 		film,
@@ -191,7 +191,7 @@ BOOST_AUTO_TEST_CASE(closed_captions_get_empty_open_subtitles)
 		});
 
 	/* The ISDCF name does not change: it still says there are no subtitles */
-	BOOST_CHECK_EQUAL(film->isdcf_name(false, false), name);
+	BOOST_CHECK_EQUAL(film->isdcf_name(false), name);
 
 	/* The empty open subtitle track has no language that the user could set, so there is nothing to be warned about */
 	std::vector<std::string> hints;

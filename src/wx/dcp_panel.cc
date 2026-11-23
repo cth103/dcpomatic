@@ -775,7 +775,7 @@ DCPPanel::setup_dcp_name()
 		return;
 	}
 
-	auto const name = std_to_wx(_film->dcp_name(true, Config::instance()->add_multiple_open_text_languages_to_isdcf_name()));
+	auto const name = std_to_wx(_film->dcp_name(true));
 	_dcp_name->SetLabel(name);
 	_dcp_name->SetToolTip(name);
 }
@@ -1063,7 +1063,7 @@ DCPPanel::copy_isdcf_name_button_clicked()
 		 */
 		_film->set_name(name.substr(0, name.find("_")));
 	}
-	_film->set_name(_film->isdcf_name(true, Config::instance()->add_multiple_open_text_languages_to_isdcf_name()));
+	_film->set_name(_film->isdcf_name(true));
 	_film->set_use_isdcf_name(false);
 }
 
