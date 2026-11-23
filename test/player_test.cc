@@ -265,7 +265,11 @@ BOOST_AUTO_TEST_CASE(player_seek_test2)
 		write_image(
 			video.first->image(force(AV_PIX_FMT_RGB24), VideoRange::FULL, true), fmt::format("build/test/player_seek_test2_{}.png", i)
 			);
+#ifdef DCPOMATIC_WINDOWS
+		check_image(TestPaths::private_data() / "windows" / fmt::format("player_seek_test2_{}.png", i), fmt::format("build/test/player_seek_test2_{}.png", i), 14.08);
+#else
 		check_image(TestPaths::private_data() / fmt::format("player_seek_test2_{}.png", i), fmt::format("build/test/player_seek_test2_{}.png", i), 14.08);
+#endif
 	}
 }
 
